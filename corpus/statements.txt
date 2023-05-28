@@ -40,11 +40,10 @@ for _, v {.tag.} in c.pairs:
   (for
     left: (symbol_declaration_list
       (tuple_deconstruct_declaration
-        (symbol_declaration_list
-          (symbol_declaration
-            name: (identifier))
-          (symbol_declaration
-            name: (identifier))))
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier)))
       (symbol_declaration
         name: (identifier))
       (symbol_declaration
@@ -63,7 +62,7 @@ for _, v {.tag.} in c.pairs:
   (for
     left: (symbol_declaration_list
       (symbol_declaration
-        name: (identifier))
+        name: (blank_identifier))
       (symbol_declaration
         name: (identifier)
         (pragma_list
@@ -172,7 +171,7 @@ from X/Y import Y
   (import_from_statement
     module: (infix_expression
       left: (identifier)
-      operator: (infix_operator)
+      operator: (operator)
       right: (identifier))
     (expression_list
       (identifier))))

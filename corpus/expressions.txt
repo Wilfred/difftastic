@@ -57,26 +57,26 @@ echo $a
 
 (source_file
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (identifier))
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (identifier))
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (identifier))
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (dot_expression
       left: (identifier)
       right: (identifier)))
   (dot_expression
     left: (prefix_expression
-      operator: (prefix_operator)
+      operator: (operator)
       (identifier))
     right: (identifier))
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (parenthesized
       (dot_expression
         left: (identifier)
@@ -86,7 +86,7 @@ echo $a
       left: (identifier)
       right: (identifier)))
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (dot_expression
       left: (identifier)
       right: (identifier))
@@ -96,7 +96,7 @@ echo $a
     function: (identifier)
     (argument_list
       (prefix_expression
-        operator: (prefix_operator)
+        operator: (operator)
         (identifier)))))
 
 ================================================================================
@@ -141,7 +141,7 @@ else: 4
 (source_file
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (integer_literal))
   (infix_expression
     left: (identifier)
@@ -149,93 +149,93 @@ else: 4
   (infix_expression
     left: (infix_expression
       left: (integer_literal)
-      operator: (infix_operator)
+      operator: (operator)
       right: (integer_literal))
-    operator: (infix_operator)
+    operator: (operator)
     right: (infix_expression
       left: (integer_literal)
-      operator: (infix_operator)
+      operator: (operator)
       right: (integer_literal)))
   (infix_expression
     left: (identifier)
-    operator: (infix_operator)
+    operator: (operator)
     right: (identifier))
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (infix_expression
       left: (integer_literal)
-      operator: (infix_operator)
+      operator: (operator)
       right: (integer_literal)))
   (infix_expression
     left: (identifier)
-    operator: (infix_operator)
+    operator: (operator)
     right: (infix_expression
       left: (identifier)
-      operator: (infix_operator)
+      operator: (operator)
       right: (identifier)))
   (infix_expression
     left: (infix_expression
       left: (identifier)
-      operator: (infix_operator)
+      operator: (operator)
       right: (infix_expression
         left: (identifier)
-        operator: (infix_operator)
+        operator: (operator)
         right: (identifier)))
-    operator: (infix_operator)
+    operator: (operator)
     right: (identifier))
   (infix_expression
     left: (prefix_expression
-      operator: (prefix_operator)
+      operator: (operator)
       (identifier))
-    operator: (infix_operator)
+    operator: (operator)
     right: (identifier))
   (infix_expression
     left: (infix_expression
       left: (infix_expression
         left: (integer_literal)
-        operator: (infix_operator)
+        operator: (operator)
         right: (integer_literal))
       right: (infix_expression
         left: (integer_literal)
-        operator: (infix_operator)
+        operator: (operator)
         right: (integer_literal)))
     right: (identifier))
   (infix_expression
     left: (parenthesized
       (infix_expression
         left: (integer_literal)
-        operator: (infix_operator)
+        operator: (operator)
         right: (integer_literal)))
-    operator: (infix_operator)
+    operator: (operator)
     right: (parenthesized
       (infix_expression
         left: (integer_literal)
-        operator: (infix_operator)
+        operator: (operator)
         right: (integer_literal))))
   (infix_expression
     left: (identifier)
-    operator: (infix_operator)
+    operator: (operator)
     right: (infix_expression
       left: (identifier)
-      operator: (infix_operator)
+      operator: (operator)
       right: (identifier)))
   (infix_expression
     left: (identifier)
     right: (identifier))
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (call
       function: (identifier)
       (argument_list
         (infix_expression
           left: (integer_literal)
-          operator: (infix_operator)
+          operator: (operator)
           right: (identifier)))))
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (integer_literal)
     (statement_list
       (integer_literal))
@@ -244,11 +244,11 @@ else: 4
         (integer_literal))))
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (integer_literal))
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (integer_literal)))
 
 ================================================================================
@@ -273,7 +273,7 @@ a(
 (source_file
   (infix_expression
     left: (identifier)
-    operator: (infix_operator)
+    operator: (operator)
     right: (dot_expression
       left: (identifier)
       right: (identifier)))
@@ -281,12 +281,12 @@ a(
     left: (dot_expression
       left: (identifier)
       right: (identifier))
-    operator: (infix_operator)
+    operator: (operator)
     right: (dot_expression
       left: (identifier)
       right: (identifier)))
   (prefix_expression
-    operator: (prefix_operator)
+    operator: (operator)
     (dot_expression
       left: (identifier)
       right: (identifier)))
@@ -327,7 +327,7 @@ a.b[c]
       (identifier)))
   (infix_expression
     left: (integer_literal)
-    operator: (infix_operator)
+    operator: (operator)
     right: (bracket_expression
       left: (identifier)
       right: (argument_list
@@ -352,7 +352,7 @@ a + 2{c}[a]
       (identifier)))
   (infix_expression
     left: (identifier)
-    operator: (infix_operator)
+    operator: (operator)
     right: (bracket_expression
       left: (curly_expression
         left: (integer_literal)
@@ -472,7 +472,7 @@ collect(for x in s:
       (statement_list
         (infix_expression
           left: (integer_literal)
-          operator: (infix_operator)
+          operator: (operator)
           right: (integer_literal))
         (identifier))
       (else_branch
@@ -512,7 +512,7 @@ collect(for x in s:
         body: (statement_list
           (infix_expression
             left: (identifier)
-            operator: (infix_operator)
+            operator: (operator)
             right: (identifier))))))
   (call
     function: (identifier)
@@ -530,7 +530,7 @@ collect(for x in s:
         body: (statement_list
           (infix_expression
             left: (identifier)
-            operator: (infix_operator)
+            operator: (operator)
             right: (identifier))))))
   (call
     function: (identifier)
@@ -728,7 +728,7 @@ foo {x}
     (argument_list
       (infix_expression
         left: (integer_literal)
-        operator: (infix_operator)
+        operator: (operator)
         right: (call
           function: (identifier)
           (argument_list)))
@@ -1354,23 +1354,17 @@ ptr ptr char
 --------------------------------------------------------------------------------
 
 (source_file
-  (modified_type
-    (ref_type)
+  (ref_type
     (identifier))
-  (modified_type
-    (distinct_type)
+  (distinct_type
     (identifier))
-  (modified_type
-    (pointer_type)
-    (modified_type
-      (pointer_type)
+  (pointer_type
+    (pointer_type
       (identifier)))
   (tuple_construction
-    (modified_type
-      (var_type)
+    (var_type
       (identifier))
-    (modified_type
-      (var_type)
+    (var_type
       (identifier))))
 
 ================================================================================
@@ -1416,7 +1410,7 @@ iterator: T
     body: (statement_list
       (infix_expression
         left: (identifier)
-        operator: (infix_operator)
+        operator: (operator)
         right: (integer_literal))))
   (iterator_expression
     parameters: (parameter_declaration_list

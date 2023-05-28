@@ -31,6 +31,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -151,10 +155,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -243,6 +243,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -343,10 +347,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -459,6 +459,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -527,10 +531,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -594,6 +594,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -686,10 +690,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -798,6 +798,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -829,6 +833,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -893,10 +901,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -979,6 +983,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -1074,10 +1082,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -1161,6 +1165,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -1222,10 +1230,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -1295,6 +1299,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -1356,10 +1364,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -1455,6 +1459,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -1544,10 +1552,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -1661,6 +1665,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -1726,10 +1734,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -1804,6 +1808,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -1900,10 +1908,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -2006,6 +2010,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -2074,10 +2082,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -2141,6 +2145,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -2233,10 +2241,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -2374,6 +2378,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -2463,10 +2471,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -2579,6 +2583,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -2668,10 +2676,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -2778,6 +2782,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -2821,6 +2829,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -2889,10 +2901,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -2975,6 +2983,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -3078,10 +3090,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -3165,6 +3173,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -3226,10 +3238,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -3331,6 +3339,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -3423,10 +3435,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -3496,7 +3504,157 @@
   {
     "type": "distinct_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "concept_declaration",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "do_block",
@@ -3546,6 +3704,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -3614,10 +3776,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -3693,6 +3851,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -3754,10 +3916,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -3823,6 +3981,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -3844,6 +4006,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -3911,10 +4077,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -3977,6 +4139,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -4018,6 +4184,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -4110,10 +4280,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -4249,6 +4415,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -4338,10 +4508,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -4444,6 +4610,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -4512,10 +4682,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -4579,6 +4745,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -4671,10 +4841,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -4803,6 +4969,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -4903,10 +5073,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -4986,6 +5152,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -5006,6 +5176,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -5101,10 +5275,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -5192,6 +5362,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -5257,10 +5431,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -5331,6 +5501,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -5423,10 +5597,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -5590,6 +5760,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -5679,10 +5853,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -5790,6 +5960,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -5833,6 +6007,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -5901,10 +6079,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -6024,6 +6198,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -6089,10 +6267,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -6191,6 +6365,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -6280,10 +6458,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -6399,6 +6573,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -6488,10 +6666,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -6589,6 +6763,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -6678,10 +6856,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -6776,6 +6950,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -6879,10 +7057,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -6981,6 +7155,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -7046,10 +7224,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7131,10 +7305,6 @@
             "named": false
           },
           {
-            "type": "infix_operator",
-            "named": true
-          },
-          {
             "type": "is",
             "named": false
           },
@@ -7153,6 +7323,10 @@
           {
             "type": "of",
             "named": false
+          },
+          {
+            "type": "operator",
+            "named": true
           },
           {
             "type": "or",
@@ -7182,6 +7356,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -7250,10 +7428,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7383,6 +7557,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -7426,6 +7604,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -7494,10 +7676,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7617,6 +7795,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -7682,10 +7864,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7785,6 +7963,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -7850,10 +8032,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7964,6 +8142,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -8007,6 +8189,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -8075,10 +8261,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -8184,6 +8366,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -8227,6 +8413,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -8295,10 +8485,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -8383,188 +8569,6 @@
     }
   },
   {
-    "type": "modified_type",
-    "named": true,
-    "fields": {
-      "modifier": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "distinct_type",
-            "named": true
-          },
-          {
-            "type": "out_type",
-            "named": true
-          },
-          {
-            "type": "pointer_type",
-            "named": true
-          },
-          {
-            "type": "ref_type",
-            "named": true
-          },
-          {
-            "type": "var_type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "accent_quoted",
-          "named": true
-        },
-        {
-          "type": "array_construction",
-          "named": true
-        },
-        {
-          "type": "bracket_expression",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "cast",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "concept_declaration",
-          "named": true
-        },
-        {
-          "type": "curly_construction",
-          "named": true
-        },
-        {
-          "type": "curly_expression",
-          "named": true
-        },
-        {
-          "type": "custom_numeric_literal",
-          "named": true
-        },
-        {
-          "type": "distinct_type",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "dot_generic_call",
-          "named": true
-        },
-        {
-          "type": "enum_declaration",
-          "named": true
-        },
-        {
-          "type": "enum_type",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "generalized_string",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "infix_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
-          "named": true
-        },
-        {
-          "type": "nil_literal",
-          "named": true
-        },
-        {
-          "type": "object_declaration",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "out_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized",
-          "named": true
-        },
-        {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
-          "type": "pragma_expression",
-          "named": true
-        },
-        {
-          "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "proc_type",
-          "named": true
-        },
-        {
-          "type": "ref_type",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "tuple_construction",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "var_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "nil_literal",
     "named": true,
     "fields": {}
@@ -8583,6 +8587,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -8651,10 +8659,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -8771,7 +8775,145 @@
   {
     "type": "out_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "parameter_declaration",
@@ -8791,6 +8933,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -8862,10 +9008,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -8933,6 +9075,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -9025,10 +9171,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -9137,6 +9279,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -9189,6 +9335,10 @@
         },
         {
           "type": "bind_statement",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -9348,10 +9498,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -9471,6 +9617,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -9480,7 +9630,157 @@
   {
     "type": "pointer_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "concept_declaration",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "pragma_expression",
@@ -9496,6 +9796,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -9560,10 +9864,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -9646,6 +9946,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -9746,10 +10050,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -9898,12 +10198,12 @@
             "named": false
           },
           {
-            "type": "or",
-            "named": false
+            "type": "operator",
+            "named": true
           },
           {
-            "type": "prefix_operator",
-            "named": true
+            "type": "or",
+            "named": false
           },
           {
             "type": "shl",
@@ -9930,6 +10230,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -10018,10 +10322,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -10124,6 +10424,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -10167,6 +10471,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -10235,10 +10543,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -10358,6 +10662,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -10423,10 +10731,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -10526,6 +10830,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -10591,10 +10899,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -10667,6 +10971,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -10759,10 +11067,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -10845,6 +11149,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -10854,7 +11162,157 @@
   {
     "type": "ref_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "concept_declaration",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "refinement_list",
@@ -10870,6 +11328,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -10941,10 +11403,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -11013,6 +11471,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -11105,10 +11567,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -11204,6 +11662,10 @@
         },
         {
           "type": "bind_statement",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -11360,10 +11822,6 @@
         },
         {
           "type": "mixin_statement",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -11502,6 +11960,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -11655,10 +12117,6 @@
         },
         {
           "type": "mixin_statement",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -11781,6 +12239,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -11828,6 +12290,10 @@
         "types": [
           {
             "type": "accent_quoted",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -11908,6 +12374,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "exported_symbol",
             "named": true
           },
@@ -11951,6 +12421,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -12019,10 +12493,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -12117,6 +12587,10 @@
         },
         {
           "type": "bind_statement",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -12273,10 +12747,6 @@
         },
         {
           "type": "mixin_statement",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -12433,6 +12903,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -12533,10 +13007,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -12608,11 +13078,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "symbol_declaration_list",
+          "type": "symbol_declaration",
+          "named": true
+        },
+        {
+          "type": "tuple_deconstruct_declaration",
           "named": true
         }
       ]
@@ -12651,6 +13125,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -12730,10 +13208,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -12809,6 +13283,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -12840,6 +13318,10 @@
         "types": [
           {
             "type": "accent_quoted",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -12887,6 +13369,10 @@
           "named": true
         },
         {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -12911,7 +13397,145 @@
   {
     "type": "var_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "variable_declaration",
@@ -12931,6 +13555,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -13002,10 +13630,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -13073,6 +13697,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -13165,10 +13793,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13293,6 +13917,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -13358,10 +13986,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13432,6 +14056,10 @@
           },
           {
             "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "blank_identifier",
             "named": true
           },
           {
@@ -13524,10 +14152,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13639,6 +14263,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -13728,10 +14356,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13839,6 +14463,10 @@
             "named": true
           },
           {
+            "type": "blank_identifier",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
@@ -13904,10 +14532,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13980,6 +14604,10 @@
         },
         {
           "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "blank_identifier",
           "named": true
         },
         {
@@ -14072,10 +14700,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -14246,6 +14870,10 @@
     "named": false
   },
   {
+    "type": "blank_identifier",
+    "named": true
+  },
+  {
     "type": "block",
     "named": false
   },
@@ -14374,10 +15002,6 @@
     "named": false
   },
   {
-    "type": "infix_operator",
-    "named": true
-  },
-  {
     "type": "integer_literal",
     "named": true
   },
@@ -14434,16 +15058,16 @@
     "named": false
   },
   {
+    "type": "operator",
+    "named": true
+  },
+  {
     "type": "or",
     "named": false
   },
   {
     "type": "out",
     "named": false
-  },
-  {
-    "type": "prefix_operator",
-    "named": true
   },
   {
     "type": "proc",

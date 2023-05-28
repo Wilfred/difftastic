@@ -58,11 +58,10 @@ const Test* {.importc: "TEST".}: int
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal))))
@@ -75,13 +74,12 @@ const Test* {.importc: "TEST".}: int
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal)
@@ -90,12 +88,11 @@ const Test* {.importc: "TEST".}: int
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (exported_symbol
-                (identifier))))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (exported_symbol
+              (identifier)))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal))))
@@ -171,11 +168,10 @@ l_e_t
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal)))))
@@ -245,11 +241,10 @@ var (x, ) = (1, )
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal))))
@@ -257,9 +252,8 @@ var (x, ) = (1, )
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)))))
 
@@ -284,8 +278,7 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (modified_type
-        modifier: (distinct_type)
+      (distinct_type
         (identifier)))
     (type_declaration
       (type_symbol_declaration
@@ -295,8 +288,7 @@ type
             (symbol_declaration_list
               (symbol_declaration
                 name: (identifier))))))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (identifier)))))
 
 ================================================================================
@@ -400,7 +392,7 @@ type
               values: (expression_list
                 (infix_expression
                   left: (identifier)
-                  operator: (infix_operator)
+                  operator: (operator)
                   right: (identifier)))
               (field_declaration_list
                 (field_declaration
@@ -412,7 +404,7 @@ type
               values: (expression_list
                 (infix_expression
                   left: (identifier)
-                  operator: (infix_operator)
+                  operator: (operator)
                   right: (identifier)))
               (field_declaration_list
                 (field_declaration
@@ -424,7 +416,7 @@ type
               values: (expression_list
                 (infix_expression
                   left: (identifier)
-                  operator: (infix_operator)
+                  operator: (operator)
                   right: (identifier))
                 (identifier)
                 (identifier)
@@ -471,8 +463,7 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (object_declaration
           (field_declaration_list
             (field_declaration
@@ -504,8 +495,7 @@ type
           (colon_expression
             left: (identifier)
             right: (string_literal))))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (object_declaration
           inherits: (identifier)
           (field_declaration_list
@@ -538,8 +528,7 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (object_declaration)))
     (type_declaration
       (type_symbol_declaration
@@ -667,7 +656,7 @@ type
           (infix_expression
             left: (infix_expression
               left: (identifier)
-              operator: (infix_operator)
+              operator: (operator)
               right: (identifier))
             right: (identifier))
           (infix_expression
@@ -817,7 +806,7 @@ proc foo =
     body: (statement_list
       (infix_expression
         left: (identifier)
-        operator: (infix_operator)
+        operator: (operator)
         right: (identifier))))
   (macro_declaration
     name: (identifier)
