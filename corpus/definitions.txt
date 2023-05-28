@@ -852,6 +852,7 @@ Value definitions
 class A {
   val b = 1
   val c : String = "d"
+  val a1, a2 = pair
 }
 
 --------------------------------------------------------------------------------
@@ -866,7 +867,12 @@ class A {
       (val_definition
         (identifier)
         (type_identifier)
-        (string)))))
+        (string))
+      (val_definition
+        (identifiers
+          (identifier)
+          (identifier))
+        (identifier)))))
 
 ================================================================================
 Variable declarations

@@ -417,7 +417,10 @@ module.exports = grammar({
 
     val_definition: $ => prec(PREC.binding_def, seq(
       $._start_val,
-      field('pattern', $._pattern),
+      field('pattern', choice(
+        $._pattern,
+        $.identifiers
+      )),
       optional(seq(':', field('type', $._type))),
       '=',
       field('value', $._indentable_expression)
@@ -1292,6 +1295,12 @@ module.exports = grammar({
     _backquoted_id: $=> /`[^\n`]+`/,
 
     _identifier: $ => choice($.identifier, $.operator_identifier),
+
+    identifiers: $ => prec.left(-1, seq(
+      $.identifier,
+      ',',
+      commaSep1($.identifier)
+    )),
 
     wildcard: $ => '_',
 
