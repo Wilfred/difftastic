@@ -7305,10 +7305,6 @@
             "named": false
           },
           {
-            "type": "infix_operator",
-            "named": true
-          },
-          {
             "type": "is",
             "named": false
           },
@@ -7327,6 +7323,10 @@
           {
             "type": "of",
             "named": false
+          },
+          {
+            "type": "operator",
+            "named": true
           },
           {
             "type": "or",
@@ -10198,12 +10198,12 @@
             "named": false
           },
           {
-            "type": "or",
-            "named": false
+            "type": "operator",
+            "named": true
           },
           {
-            "type": "prefix_operator",
-            "named": true
+            "type": "or",
+            "named": false
           },
           {
             "type": "shl",
@@ -15002,10 +15002,6 @@
     "named": false
   },
   {
-    "type": "infix_operator",
-    "named": true
-  },
-  {
     "type": "integer_literal",
     "named": true
   },
@@ -15062,16 +15058,16 @@
     "named": false
   },
   {
+    "type": "operator",
+    "named": true
+  },
+  {
     "type": "or",
     "named": false
   },
   {
     "type": "out",
     "named": false
-  },
-  {
-    "type": "prefix_operator",
-    "named": true
   },
   {
     "type": "proc",

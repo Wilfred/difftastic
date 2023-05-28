@@ -5706,7 +5706,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_1": {
       "type": "ALIAS",
@@ -5783,7 +5783,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_10r": {
       "type": "ALIAS",
@@ -5884,7 +5884,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_10l": {
       "type": "ALIAS",
@@ -5985,7 +5985,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_9": {
       "type": "ALIAS",
@@ -6103,7 +6103,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_8": {
       "type": "ALIAS",
@@ -6221,7 +6221,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_7": {
       "type": "ALIAS",
@@ -6322,7 +6322,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_6": {
       "type": "ALIAS",
@@ -6423,7 +6423,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_5": {
       "type": "ALIAS",
@@ -6635,7 +6635,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_infix_operator_2": {
       "type": "ALIAS",
@@ -6843,7 +6843,7 @@
         }
       },
       "named": true,
-      "value": "infix_operator"
+      "value": "operator"
     },
     "_prefix_extended": {
       "type": "PREC",
@@ -7134,8 +7134,13 @@
                 "type": "FIELD",
                 "name": "operator",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "prefix_operator"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_prefix_operator"
+                  },
+                  "named": true,
+                  "value": "operator"
                 }
               },
               {
@@ -7194,7 +7199,7 @@
                     "name": "_sigil_operator"
                   },
                   "named": true,
-                  "value": "prefix_operator"
+                  "value": "operator"
                 }
               },
               {
@@ -7222,7 +7227,7 @@
                 "name": "_sigil_operator"
               },
               "named": true,
-              "value": "prefix_operator"
+              "value": "operator"
             }
           },
           {
@@ -7328,7 +7333,7 @@
         ]
       }
     },
-    "prefix_operator": {
+    "_prefix_operator": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
@@ -10898,7 +10903,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "prefix_operator"
+      "name": "_prefix_operator"
     },
     {
       "type": "SYMBOL",

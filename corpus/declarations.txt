@@ -392,7 +392,7 @@ type
               values: (expression_list
                 (infix_expression
                   left: (identifier)
-                  operator: (infix_operator)
+                  operator: (operator)
                   right: (identifier)))
               (field_declaration_list
                 (field_declaration
@@ -404,7 +404,7 @@ type
               values: (expression_list
                 (infix_expression
                   left: (identifier)
-                  operator: (infix_operator)
+                  operator: (operator)
                   right: (identifier)))
               (field_declaration_list
                 (field_declaration
@@ -416,7 +416,7 @@ type
               values: (expression_list
                 (infix_expression
                   left: (identifier)
-                  operator: (infix_operator)
+                  operator: (operator)
                   right: (identifier))
                 (identifier)
                 (identifier)
@@ -656,7 +656,7 @@ type
           (infix_expression
             left: (infix_expression
               left: (identifier)
-              operator: (infix_operator)
+              operator: (operator)
               right: (identifier))
             right: (identifier))
           (infix_expression
@@ -806,7 +806,7 @@ proc foo =
     body: (statement_list
       (infix_expression
         left: (identifier)
-        operator: (infix_operator)
+        operator: (operator)
         right: (identifier))))
   (macro_declaration
     name: (identifier)

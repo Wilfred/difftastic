@@ -207,7 +207,7 @@ module.exports = grammar({
     $._synchronize,
     $._invalid_layout,
     $._sigil_operator,
-    $.prefix_operator,
+    $._prefix_operator,
     $._case_of,
   ],
 
@@ -1080,16 +1080,16 @@ module.exports = grammar({
           )
         )
       ),
-    _infix_operator_0: $ => alias(InfixOperators.L0, $.infix_operator),
-    _infix_operator_1: $ => alias(InfixOperators.L1, $.infix_operator),
-    _infix_operator_10r: $ => alias(InfixOperators.R10, $.infix_operator),
-    _infix_operator_10l: $ => alias(InfixOperators.L10, $.infix_operator),
-    _infix_operator_9: $ => alias(InfixOperators.L9, $.infix_operator),
-    _infix_operator_8: $ => alias(InfixOperators.L8, $.infix_operator),
-    _infix_operator_7: $ => alias(InfixOperators.L7, $.infix_operator),
-    _infix_operator_6: $ => alias(InfixOperators.L6, $.infix_operator),
-    _infix_operator_5: $ => alias(InfixOperators.L5, $.infix_operator),
-    _infix_operator_2: $ => alias(InfixOperators.L2, $.infix_operator),
+    _infix_operator_0: $ => alias(InfixOperators.L0, $.operator),
+    _infix_operator_1: $ => alias(InfixOperators.L1, $.operator),
+    _infix_operator_10r: $ => alias(InfixOperators.R10, $.operator),
+    _infix_operator_10l: $ => alias(InfixOperators.L10, $.operator),
+    _infix_operator_9: $ => alias(InfixOperators.L9, $.operator),
+    _infix_operator_8: $ => alias(InfixOperators.L8, $.operator),
+    _infix_operator_7: $ => alias(InfixOperators.L7, $.operator),
+    _infix_operator_6: $ => alias(InfixOperators.L6, $.operator),
+    _infix_operator_5: $ => alias(InfixOperators.L5, $.operator),
+    _infix_operator_2: $ => alias(InfixOperators.L2, $.operator),
 
     _prefix_extended: $ =>
       prec("post_expr", seq($._prefix_expression, $._post_expression_block)),
@@ -1114,9 +1114,9 @@ module.exports = grammar({
     _prefix_expression_command_start: $ =>
       choice(
         .../** @type {[Rule, string][]} */ ([
-          [$.prefix_operator, "unary"],
+          [alias($._prefix_operator, $.operator), "unary"],
           [keyword("not"), "unary"],
-          [alias($._sigil_operator, $.prefix_operator), "sigil"],
+          [alias($._sigil_operator, $.operator), "sigil"],
         ]).map(([operator, precedence]) =>
           prec.left(
             precedence,
@@ -1128,7 +1128,7 @@ module.exports = grammar({
       prec.left(
         "sigil",
         seq(
-          field("operator", alias($._sigil_operator, $.prefix_operator)),
+          field("operator", alias($._sigil_operator, $.operator)),
           $._basic_expression
         )
       ),
@@ -1141,7 +1141,7 @@ module.exports = grammar({
     //   foo+bar as infix
     //   foo +bar as (command (prefix))
     _sigil_operator: () => token(seq("@", repeat(choice(...Operators)))),
-    prefix_operator: () =>
+    _prefix_operator: () =>
       token(prec(-1, choice(...Object.values(InfixOperators)))),
 
     /* Primitive expressions */
