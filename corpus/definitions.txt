@@ -1362,9 +1362,10 @@ def mkLines(header: String, indented: Boolean = false, repeated: Long = 0L): Str
 Enums (Scala 3)
 ================================================================================
 
+@A
 enum Hello[Y] extends java.Enumeration derives Codec, Eq {
-  case World, You
-  case Test[A](bla: Int, yo: String) extends Hello[A]
+  @A("") @B case World, You
+  @A case Test[A](bla: Int, yo: String) extends Hello[A]
   case T extends Hello[String](25)
 }
 
@@ -1372,6 +1373,8 @@ enum Hello[Y] extends java.Enumeration derives Codec, Eq {
 
 (compilation_unit
   (enum_definition
+    (annotation
+      (type_identifier))
     (identifier)
     (type_parameters
       (identifier))
@@ -1384,11 +1387,19 @@ enum Hello[Y] extends java.Enumeration derives Codec, Eq {
       (type_identifier))
     (enum_body
       (enum_case_definitions
+        (annotation
+          (type_identifier)
+          (arguments
+            (string)))
+        (annotation
+          (type_identifier))
         (simple_enum_case
           (identifier))
         (simple_enum_case
           (identifier)))
       (enum_case_definitions
+        (annotation
+          (type_identifier))
         (full_enum_case
           (identifier)
           (type_parameters
