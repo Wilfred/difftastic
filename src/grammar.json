@@ -1523,6 +1523,10 @@
                 "value": ":"
               },
               {
+                "type": "SYMBOL",
+                "name": "_indent"
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {
@@ -1533,10 +1537,6 @@
                     "type": "BLANK"
                   }
                 ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_indent"
               },
               {
                 "type": "SYMBOL",
@@ -1744,8 +1744,8 @@
       }
     },
     "self_type": {
-      "type": "PREC",
-      "value": 4,
+      "type": "PREC_DYNAMIC",
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1831,8 +1831,17 @@
             "type": "FIELD",
             "name": "pattern",
             "content": {
-              "type": "SYMBOL",
-              "name": "_pattern"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_pattern"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifiers"
+                }
+              ]
             }
           },
           {
@@ -5933,6 +5942,48 @@
         }
       ]
     },
+    "identifiers": {
+      "type": "PREC_LEFT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "STRING",
+            "value": ","
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
     "wildcard": {
       "type": "STRING",
       "value": "_"
@@ -7024,6 +7075,14 @@
     ],
     [
       "_simple_expression",
+      "lambda_expression"
+    ],
+    [
+      "self_type",
+      "_simple_expression"
+    ],
+    [
+      "self_type",
       "lambda_expression"
     ]
   ],
