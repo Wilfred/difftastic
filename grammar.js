@@ -80,6 +80,10 @@ module.exports = grammar({
     // In case of: 'extension'  _indent  '{'  'case'  operator_identifier  'if'  operator_identifier  •  '=>'  …
     // we treat `operator_identifier` as `simple_expression`
     [$._simple_expression, $.lambda_expression],
+    // 'package'  package_identifier  '{'  operator_identifier  •  ':'  …
+    [$.self_type, $._simple_expression],
+    // 'package'  package_identifier  '{'  operator_identifier  '=>'  •  'enum'  …
+    [$.self_type, $.lambda_expression],
   ],
 
   word: $ => $._alpha_identifier,
@@ -350,8 +354,8 @@ module.exports = grammar({
     template_body: $ => choice(
       prec.left(PREC.control, seq(
         ':',
-        optional($.self_type),
         $._indent,
+        optional($.self_type),
         $._block,
         $._outdent,
       )),
@@ -403,7 +407,8 @@ module.exports = grammar({
       ),
     )),
 
-    self_type: $ => prec(4, seq(
+    // Dynamic precedences added here to win over $.call_expression
+    self_type: $ => prec.dynamic(1, seq(
       $._identifier, optional($._self_type_ascription), '=>'
     )),
 

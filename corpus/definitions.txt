@@ -1584,10 +1584,11 @@ end Test
         (integer_literal)))))
 
 ================================================================================
-Transparent traits (Scala 3)
+Traits (Scala 3)
 ================================================================================
 
 transparent trait Kind:
+  this: A =>
   def test = 1
 
 --------------------------------------------------------------------------------
@@ -1598,6 +1599,9 @@ transparent trait Kind:
       (transparent_modifier))
     (identifier)
     (template_body
+      (self_type
+        (identifier)
+        (type_identifier))
       (function_definition
         (identifier)
         (integer_literal)))))
