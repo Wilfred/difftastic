@@ -4,10 +4,10 @@
 
 use std::{
     cell::Cell,
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env, fmt,
     hash::Hash,
-    num::NonZeroU32
+    num::NonZeroU32,
 };
 use typed_arena::Arena;
 
@@ -720,21 +720,17 @@ fn split_string_words(
     let mut opposite_offset = 0;
 
     let mut res = vec![];
+    let mut changed_lines = HashSet::new();
     for diff_res in myers_diff::slice_by_hash(&content_parts, &other_parts) {
         match diff_res {
             myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
+                let word_pos =
+                    content_newlines.from_offsets_relative_to(pos, offset, offset + word.len())[0];
+
                 if !is_all_whitespace(word) {
-                    res.push(MatchedPos {
-                        kind: MatchKind::NovelWord {
-                            highlight: TokenKind::Atom(kind),
-                        },
-                        pos: content_newlines.from_offsets_relative_to(
-                            pos,
-                            offset,
-                            offset + word.len(),
-                        )[0],
-                    });
+                    changed_lines.insert(word_pos.line);
+                    res.push((word_pos, None));
                 }
                 offset += word.len();
             }
@@ -748,25 +744,44 @@ fn split_string_words(
                     opposite_offset + opposite_word.len(),
                 );
 
-                res.push(MatchedPos {
-                    kind: MatchKind::NovelLinePart {
-                        highlight: TokenKind::Atom(kind),
-                        self_pos: word_pos,
-                        opposite_pos: opposite_word_pos,
-                    },
-                    pos: word_pos,
-                });
+                res.push((word_pos, Some(opposite_word_pos)));
                 offset += word.len();
                 opposite_offset += opposite_word.len();
             }
             myers_diff::DiffResult::Right(opposite_word) => {
                 // Only exists on other side, nothing to do on this side.
+                let word_pos = content_newlines.from_offsets_relative_to(pos, offset, offset)[0];
+                changed_lines.insert(word_pos.line);
                 opposite_offset += opposite_word.len();
             }
         }
     }
 
-    res
+    res.into_iter()
+        .map(|(word_pos, opposite_word_pos)| MatchedPos {
+            pos: word_pos,
+            kind: match opposite_word_pos {
+                None => MatchKind::NovelWord {
+                    highlight: TokenKind::Atom(kind),
+                },
+                Some(opposite_word_pos) => {
+                    if changed_lines.contains(&word_pos.line) {
+                        MatchKind::NovelLinePart {
+                            highlight: TokenKind::Atom(kind),
+                            self_pos: word_pos,
+                            opposite_pos: opposite_word_pos,
+                        }
+                    } else {
+                        MatchKind::UnchangedToken {
+                            highlight: TokenKind::Atom(kind),
+                            self_pos: vec![word_pos],
+                            opposite_pos: opposite_word_pos,
+                        }
+                    }
+                }
+            },
+        })
+        .collect()
 }
 
 impl MatchedPos {
