@@ -1,5 +1,11 @@
 ## 0.48 (unreleased)
 
+### Diffing
+
+Difftastic now prints more granular diffs for strings comments.
+Changed words in strings are underlined, and highlighting of
+multiline strings and comments are limited to changed lines.
+
 ### Internals
 
 Difftastic's logging is now configured with the environment variable
