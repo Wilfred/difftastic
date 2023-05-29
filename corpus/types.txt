@@ -194,6 +194,10 @@ def cloneAndReset(obj: Cloneable with Resetable): Cloneable = {
 
 class F extends Cloneable with Resetable with Serializable {}
 
+type G = H[A1] {
+  def foo[A2 <: Stepper[_]]: A2
+}
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -213,7 +217,25 @@ class F extends Cloneable with Resetable with Serializable {}
       (type_identifier)
       (type_identifier)
       (type_identifier))
-    (template_body)))
+    (template_body))
+  (type_definition
+    (type_identifier)
+    (compound_type
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier)))
+      (refinement
+        (function_declaration
+          (identifier)
+          (type_parameters
+            (identifier)
+            (upper_bound
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (wildcard)))))
+          (type_identifier))))))
 
 ================================================================================
 Infix types

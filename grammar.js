@@ -682,14 +682,14 @@ module.exports = grammar({
     * DefParam          ::=  {Annotation} [‘inline’] Param
     * Param             ::=  id ‘:’ ParamType [‘=’ Expr]
     */
-    parameter: $ => seq(
+    parameter: $ => prec.left(PREC.control, seq(
       repeat($.annotation),
       optional($.inline_modifier),
       field('name', $._identifier),
       ':',
       field('type', $._param_type),
       optional(seq('=', field('default_value', $.expression)))
-    ),
+    )),
 
     _block: $ => prec.left(seq(
       sep1($._semicolon, choice(
@@ -760,11 +760,25 @@ module.exports = grammar({
       $.wildcard,
     ),
 
-    compound_type: $ => prec(PREC.compound, seq(
-      field('base', $._annotated_type),
-      repeat1(seq('with', field('extra', $._annotated_type))),
-      // TODO: Refinement.
-    )),
+    compound_type: $ => choice(
+      prec.left(PREC.compound, seq(
+        field('base', $._annotated_type),
+        repeat1(seq('with', field('extra', $._annotated_type))),
+      )),
+      prec.left(-1, seq(
+        field('base', $._annotated_type),
+        $._refinement,
+      )),
+      prec.left(-1, seq(
+        prec.left(PREC.compound, seq(
+          field('base', $._annotated_type),
+          repeat1(seq('with', field('extra', $._annotated_type))),
+        )),
+        $._refinement,
+      )),
+    ),
+
+    _refinement: $ => alias($.template_body, $.refinement),
 
     // This does not include _simple_type since _annotated_type covers it.
     _infix_type_choice: $ => prec.left(PREC.infix, choice(
