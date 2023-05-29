@@ -8,6 +8,7 @@ use crate::parse::syntax::{Syntax, SyntaxId};
 pub enum ChangeKind<'a> {
     Unchanged(&'a Syntax<'a>),
     ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
+    ReplacedString(&'a Syntax<'a>, &'a Syntax<'a>),
     Novel,
 }
 

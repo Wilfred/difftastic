@@ -2,7 +2,13 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use std::{cell::Cell, collections::HashMap, env, fmt, hash::Hash, num::NonZeroU32};
+use std::{
+    cell::Cell,
+    collections::HashMap,
+    env, fmt,
+    hash::Hash,
+    num::NonZeroU32
+};
 use typed_arena::Arena;
 
 use crate::{
@@ -21,9 +27,16 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             Unchanged(node) => format!("Unchanged(ID: {})", node.id()),
-            ReplacedComment(lhs_node, rhs_node) => {
+            ReplacedComment(lhs_node, rhs_node) | ReplacedString(lhs_node, rhs_node) => {
+                let change_kind = if let ReplacedComment(_, _) = self {
+                    "ReplacedComment"
+                } else {
+                    "ReplacedString"
+                };
+
                 format!(
-                    "ReplacedComment(lhs ID: {}, rhs ID: {})",
+                    "{}(lhs ID: {}, rhs ID: {})",
+                    change_kind,
                     lhs_node.id(),
                     rhs_node.id()
                 )
@@ -686,13 +699,16 @@ pub fn split_words(s: &str) -> Vec<&str> {
     res
 }
 
-fn split_comment_words(
+fn split_string_words(
     content: &str,
     pos: SingleLineSpan,
     opposite_content: &str,
     opposite_pos: SingleLineSpan,
+    kind: AtomKind,
 ) -> Vec<MatchedPos> {
-    // TODO: merge adjacent single-line comments unless there are
+    assert!(kind == AtomKind::Comment || kind == AtomKind::String);
+
+    // TODO: merge adjacent single-line strings unless there are
     // blank lines between them.
     let content_parts = split_words(content);
     let other_parts = split_words(opposite_content);
@@ -711,7 +727,7 @@ fn split_comment_words(
                 if !is_all_whitespace(word) {
                     res.push(MatchedPos {
                         kind: MatchKind::NovelWord {
-                            highlight: TokenKind::Atom(AtomKind::Comment),
+                            highlight: TokenKind::Atom(kind),
                         },
                         pos: content_newlines.from_offsets_relative_to(
                             pos,
@@ -734,7 +750,7 @@ fn split_comment_words(
 
                 res.push(MatchedPos {
                     kind: MatchKind::NovelLinePart {
-                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        highlight: TokenKind::Atom(kind),
                         self_pos: word_pos,
                         opposite_pos: opposite_word_pos,
                     },
@@ -761,7 +777,7 @@ impl MatchedPos {
         is_close: bool,
     ) -> Vec<Self> {
         match ck {
-            ReplacedComment(this, opposite) => {
+            ReplacedComment(this, opposite) | ReplacedString(this, opposite) => {
                 let this_content = match this {
                     List { .. } => unreachable!(),
                     Atom { content, .. } => content,
@@ -772,13 +788,19 @@ impl MatchedPos {
                         content, position, ..
                     } => (content, position),
                 };
+                let kind = if let ReplacedComment(_, _) = ck {
+                    AtomKind::Comment
+                } else {
+                    AtomKind::String
+                };
 
-                split_comment_words(
+                split_string_words(
                     this_content,
                     // TODO: handle the whole pos here.
                     pos[0],
                     opposite_content,
                     opposite_pos[0],
+                    kind,
                 )
             }
             Unchanged(opposite) => {
@@ -1132,7 +1154,13 @@ mod tests {
             end_col: 3,
         };
 
-        let res = split_comment_words(content, pos, opposite_content, opposite_pos);
+        let res = split_string_words(
+            content,
+            pos,
+            opposite_content,
+            opposite_pos,
+            AtomKind::Comment,
+        );
         assert_eq!(
             res,
             vec![MatchedPos {
