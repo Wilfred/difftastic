@@ -3122,6 +3122,21 @@
     "fields": {}
   },
   {
+    "type": "identifiers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_expression",
     "named": true,
     "fields": {
@@ -6353,6 +6368,10 @@
         "types": [
           {
             "type": "_pattern",
+            "named": true
+          },
+          {
+            "type": "identifiers",
             "named": true
           }
         ]
