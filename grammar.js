@@ -84,12 +84,19 @@ module.exports = grammar({
     [$.self_type, $._simple_expression],
     // 'package'  package_identifier  '{'  operator_identifier  '=>'  •  'enum'  …
     [$.self_type, $.lambda_expression],
+    // 'class'  _class_constructor  •  _automatic_semicolon  …
+    [$._class_definition],
+    // 'class'  operator_identifier  •  _automatic_semicolon  …
+    [$._class_constructor],
+    // 'enum'  _class_constructor  '{'  'case'  operator_identifier  _full_enum_def_repeat1  •  _automatic_semicolon  …
+    [$._full_enum_def],
   ],
 
   word: $ => $._alpha_identifier,
 
   rules: {
-    compilation_unit: $ => repeat($._top_level_definition),
+    // TopStats          ::=  TopStat {semi TopStat}
+    compilation_unit: $ => optional(trailingSep1($._semicolon, $._top_level_definition)),
 
     _top_level_definition: $ => choice(
       $.package_clause,
@@ -161,7 +168,7 @@ module.exports = grammar({
       )
     ),
 
-    simple_enum_case: $ => seq(field('name', $._identifier), field('extend', optional($.extends_clause))),
+    simple_enum_case: $ => prec.left(seq(field('name', $._identifier), field('extend', optional($.extends_clause)))),
 
     full_enum_case: $ => seq(field('name', $._identifier), $._full_enum_def),
 
@@ -171,16 +178,15 @@ module.exports = grammar({
       field('extend', optional($.extends_clause))
     ),
 
-    package_clause: $ => seq(
+    package_clause: $ => prec.right(seq(
       'package',
       field('name', $.package_identifier),
-      optional($._semicolon),
       // This is slightly more permissive than the EBNF in that it allows any
       // kind of delcaration inside of the package blocks. As we're more
       // concerned with the structure rather than the validity of the program
       // we'll allow it.
       field('body', optional($.template_body))
-    ),
+    )),
 
     package_identifier: $ => prec.right(sep1(
       '.', $._identifier
@@ -263,35 +269,40 @@ module.exports = grammar({
       field('name', $._identifier),
       field('extend', optional($.extends_clause)),
       field('derive', optional($.derives_clause)),
-      field('body', optional($.template_body)),
+      field('body', optional($._definition_body)),
     )),
 
-    class_definition: $ => prec.left(seq(
+    class_definition: $ => seq(
       repeat($.annotation),
       optional($.modifiers),
       optional('case'),
       'class',
       $._class_definition,
-    )),
+    ),
 
     _class_definition: $ => seq(
       $._class_constructor,
       field('extend', optional($.extends_clause)),
       field('derive', optional($.derives_clause)),
-      field('body', optional($.template_body))
+      optional($._definition_body),
+    ),
+
+    _definition_body: $ => seq(
+      optional($._automatic_semicolon),
+      field('body', $.template_body)
     ),
 
     /**
      * ClassConstr       ::=  [ClsTypeParamClause] [ConstrMods] ClsParamClauses
      * ConstrMods        ::=  {Annotation} [AccessModifier]
      */
-    _class_constructor: $ => prec.right(seq(
+    _class_constructor: $ => seq(
       field('name', $._identifier),
       field('type_parameters', optional($.type_parameters)),
       optional($.annotation),
       optional($.access_modifier),
       field('class_parameters', repeat($.class_parameters)),
-    )),
+    ),
 
     trait_definition: $ => prec.left(seq(
       repeat($.annotation),
@@ -299,7 +310,7 @@ module.exports = grammar({
       'trait',
       $._class_constructor,
       field('extend', optional($.extends_clause)),
-      field('body', optional($.template_body))
+      field('body', optional($._definition_body))
     )),
 
     // The EBNF makes a distinction between function type parameters and other
@@ -633,6 +644,7 @@ module.exports = grammar({
     )),
 
     class_parameters: $ => prec(1, seq(
+      optional($._automatic_semicolon),
       '(',
       optional(choice('implicit', 'using')),
       trailingCommaSep($.class_parameter),
