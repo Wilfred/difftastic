@@ -265,8 +265,10 @@ func f[A int|string, B ~int, C ~int|~string]()
         (identifier)
         (type_identifier))
       (parameter_declaration
-        (identifier)
-        (identifier)
+        (type_identifier))
+      (parameter_declaration
+        (type_identifier))
+      (parameter_declaration
         (identifier)
         (type_identifier)))
     (type_identifier)
@@ -304,7 +306,8 @@ func f[A int|string, B ~int, C ~int|~string]()
     (identifier)
     (type_parameter_list
       (parameter_declaration
-        (identifier)
+        (type_identifier))
+      (parameter_declaration
         (identifier)
         (type_identifier))
       (parameter_declaration
@@ -331,7 +334,8 @@ func f[A int|string, B ~int, C ~int|~string]()
     (identifier)
     (type_parameter_list
       (parameter_declaration
-        (identifier)
+        (type_identifier))
+      (parameter_declaration
         (identifier)
         (type_identifier))
       (parameter_declaration
@@ -371,18 +375,20 @@ func f[A int|string, B ~int, C ~int|~string]()
     (type_parameter_list
       (parameter_declaration
         (identifier)
-        (ERROR
-          (identifier))
-        (type_identifier))
+        (union_type
+          (type_identifier)
+          (type_identifier)))
       (parameter_declaration
         (identifier)
-        (ERROR)
-        (type_identifier))
+        (negated_type
+          (type_identifier)))
       (parameter_declaration
         (identifier)
-        (ERROR
-          (identifier))
-        (type_identifier)))
+        (union_type
+          (negated_type
+            (type_identifier))
+          (negated_type
+            (type_identifier)))))
     (parameter_list)))
 
 ================================================================================
