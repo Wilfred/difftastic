@@ -1569,7 +1569,7 @@
       },
       "extra": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "annotation",
@@ -1605,6 +1605,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "refinement",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -5050,6 +5060,29 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "refinement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_definition",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "self_type",
           "named": true
         }
       ]
