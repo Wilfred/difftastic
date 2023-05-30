@@ -62,8 +62,11 @@ module.exports = grammar({
     $.literal,
   ],
 
+  // Doc: https://tree-sitter.github.io/tree-sitter/creating-parsers, search "precedences"
+  // These names can be used in the prec functions to define precedence relative only to other names in the array, rather than globally. 
   precedences: $ => [
-    ['mod', 'soft_id'], ['end', 'soft_id'] 
+    ['mod', 'soft_id'], 
+    ['end', 'soft_id'],
   ],
 
   conflicts: $ => [
