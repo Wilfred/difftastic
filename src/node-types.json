@@ -96,6 +96,10 @@
         "named": true
       },
       {
+        "type": "generic_expression",
+        "named": true
+      },
+      {
         "type": "identifier",
         "named": true
       },
@@ -1671,6 +1675,25 @@
         },
         {
           "type": "type_qualifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "generic_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "type_descriptor",
           "named": true
         }
       ]
@@ -3390,6 +3413,14 @@
     "named": false
   },
   {
+    "type": "_Generic",
+    "named": false
+  },
+  {
+    "type": "_Noreturn",
+    "named": false
+  },
+  {
     "type": "__attribute__",
     "named": false
   },
@@ -3411,6 +3442,10 @@
   },
   {
     "type": "__fastcall",
+    "named": false
+  },
+  {
+    "type": "__restrict__",
     "named": false
   },
   {

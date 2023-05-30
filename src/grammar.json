@@ -3066,7 +3066,15 @@
         },
         {
           "type": "STRING",
+          "value": "__restrict__"
+        },
+        {
+          "type": "STRING",
           "value": "_Atomic"
+        },
+        {
+          "type": "STRING",
+          "value": "_Noreturn"
         }
       ]
     },
@@ -4356,6 +4364,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "generic_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "subscript_expression"
         },
         {
@@ -5461,6 +5473,86 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    },
+    "generic_expression": {
+      "type": "PREC",
+      "value": 14,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "_Generic"
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": ","
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "type_descriptor"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ":"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
+                ]
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "type_descriptor"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": ":"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_expression"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": ")"
           }
         ]
       }
