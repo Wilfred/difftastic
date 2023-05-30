@@ -1569,3 +1569,49 @@ def hello =
             (inline_modifier)
             (identifier)
             (case_block)))))))
+
+================================================================================
+Top-level expressions
+================================================================================
+
+var greeting = "Good bye"
+greeting = "Hello"
+val message = greeting + " from Scala script!"
+
+if true then
+  println(message)
+
+addSbtPlugin("foo" % "bar" % "0.1")
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (var_definition
+    (identifier)
+    (string))
+  (assignment_expression
+    (identifier)
+    (string))
+  (val_definition
+    (identifier)
+    (infix_expression
+      (identifier)
+      (operator_identifier)
+      (string)))
+  (if_expression
+    (boolean_literal)
+    (indented_block
+      (call_expression
+        (identifier)
+        (arguments
+          (identifier)))))
+  (call_expression
+    (identifier)
+    (arguments
+      (infix_expression
+        (infix_expression
+          (string)
+          (operator_identifier)
+          (string))
+        (operator_identifier)
+        (string)))))

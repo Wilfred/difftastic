@@ -103,6 +103,7 @@ module.exports = grammar({
       $.package_object,
       $._definition,
       $._end_marker,
+      $.expression,
     ),
 
     _definition: $ => choice(
