@@ -23,7 +23,8 @@
     {
       "scope": "source.scala",
       "file-types": [
-        "scala"
+        "scala",
+        "sbt"
       ],
       "highlights": "queries/scala/highlights.scm",
       "locals": "queries/scala/locals.scm"
