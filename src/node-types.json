@@ -1515,6 +1515,10 @@
           "named": true
         },
         {
+          "type": "expression",
+          "named": true
+        },
+        {
           "type": "package_clause",
           "named": true
         },
@@ -3604,6 +3608,11 @@
     }
   },
   {
+    "type": "infix_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "infix_pattern",
     "named": true,
     "fields": {
@@ -3754,6 +3763,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "inline_modifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "instance_expression",
@@ -4309,7 +4323,7 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -4369,6 +4383,16 @@
     }
   },
   {
+    "type": "opaque_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "open_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "package_clause",
     "named": true,
     "fields": {
@@ -4418,7 +4442,7 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -5491,7 +5515,7 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -5563,6 +5587,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "transparent_modifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "try_expression",
@@ -7058,12 +7087,12 @@
     "named": false
   },
   {
-    "type": "infix_modifier",
-    "named": true
+    "type": "infix",
+    "named": false
   },
   {
-    "type": "inline_modifier",
-    "named": true
+    "type": "inline",
+    "named": false
   },
   {
     "type": "integer_literal",
@@ -7090,12 +7119,12 @@
     "named": false
   },
   {
-    "type": "opaque_modifier",
-    "named": true
+    "type": "opaque",
+    "named": false
   },
   {
-    "type": "open_modifier",
-    "named": true
+    "type": "open",
+    "named": false
   },
   {
     "type": "operator_identifier",
@@ -7142,8 +7171,8 @@
     "named": false
   },
   {
-    "type": "transparent_modifier",
-    "named": true
+    "type": "transparent",
+    "named": false
   },
   {
     "type": "true",
