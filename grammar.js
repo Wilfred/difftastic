@@ -17,7 +17,6 @@ const PREC = {
   compound: 7,
   call: 8,
   field: 8,
-  end_marker: 9,
   macro: 10,
   binding: 10,
 }
@@ -61,6 +60,13 @@ module.exports = grammar({
     $._param_type,
     $._identifier,
     $.literal,
+  ],
+
+  // Doc: https://tree-sitter.github.io/tree-sitter/creating-parsers, search "precedences"
+  // These names can be used in the prec functions to define precedence relative only to other names in the array, rather than globally. 
+  precedences: $ => [
+    ['mod', 'soft_id'], 
+    ['end', 'soft_id'],
   ],
 
   conflicts: $ => [
@@ -402,7 +408,7 @@ module.exports = grammar({
       ),
     ),
 
-    _end_marker: $ => prec.left(PREC.end_marker, seq(
+    _end_marker: $ => prec.left('end', seq(
       'end',
       choice(
         'if',
@@ -524,7 +530,7 @@ module.exports = grammar({
       optional(seq(':', field('return_type', $._type))),
     )),
 
-    opaque_modifier: $ => 'opaque',
+    opaque_modifier: $ => prec('mod', 'opaque'),
 
     /**
      *   Extension         ::=  'extension' [DefTypeParamClause] {UsingParamClause}
@@ -600,7 +606,7 @@ module.exports = grammar({
       sep1('with', $._constructor_application),
     )),
 
-    modifiers: $ => repeat1(choice(
+    modifiers: $ => prec.left(repeat1(choice(
       'abstract',
       'final',
       'sealed',
@@ -612,7 +618,7 @@ module.exports = grammar({
       $.infix_modifier,
       $.open_modifier,
       $.transparent_modifier
-    )),
+    ))),
 
     access_modifier: $ => prec.left(seq(
       choice('private', 'protected'),
@@ -625,10 +631,10 @@ module.exports = grammar({
       ']',
     ),
 
-    inline_modifier: $ => 'inline',
-    infix_modifier: $ => 'infix',
-    open_modifier: $ => 'open',
-    transparent_modifier: $ => 'transparent',
+    inline_modifier: $ => prec('mod', 'inline'),
+    infix_modifier: $ => prec('mod', 'infix'),
+    open_modifier: $ => prec('mod', 'open'),
+    transparent_modifier: $ => prec('mod', 'transparent'),
 
     /**
      * InheritClauses    ::=  ['extends' ConstrApps] ['derives' QualId {',' QualId}]
@@ -732,13 +738,13 @@ module.exports = grammar({
       optional($._end_marker),
     )),
 
-    indented_cases: $ => prec.left(PREC.end_marker, seq(
+    indented_cases: $ => prec.left(seq(
       $._indent,
       repeat1($.case_clause),
       $._outdent,
     )),
 
-    _indented_type_cases: $ => prec.left(PREC.end_marker, seq(
+    _indented_type_cases: $ => prec.left(seq(
       $._indent,
       repeat1($.type_case_clause),
       $._outdent,
@@ -1311,7 +1317,18 @@ module.exports = grammar({
     identifier: $ => prec.left(choice(
       $._alpha_identifier,
       $._backquoted_id,
+      $._soft_identifier,
     )),
+
+    // https://docs.scala-lang.org/scala3/reference/soft-modifier.html
+   _soft_identifier: $ => prec('soft_id', choice(
+     'infix',
+     'inline',
+     'opaque',
+     'open',
+     'transparent',
+     'end',
+   )),
 
     /**
      * alphaid          ::=  upper idrest
