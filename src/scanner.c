@@ -10,6 +10,8 @@ enum TokenType {
   TRIVIA_RAW_ENV_LISTING,
   TRIVIA_RAW_ENV_MINTED,
   TRIVIA_RAW_ENV_PYCODE,
+  TRIVIA_RAW_ENV_SAGESILENT,
+  TRIVIA_RAW_ENV_SAGEBLOCK,
 };
 
 static bool find_verbatim(TSLexer *lexer, const char *keyword,
@@ -92,7 +94,7 @@ bool tree_sitter_latex_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
   bool found = false;
   TSSymbol type = 0xFFFF;
-  for (int i = 0; i <= TRIVIA_RAW_ENV_PYCODE; i++) {
+  for (int i = 0; i <= TRIVIA_RAW_ENV_SAGEBLOCK; i++) {
     if (valid_symbols[i]) {
       if (found) {
         return false;
@@ -117,6 +119,10 @@ bool tree_sitter_latex_external_scanner_scan(void *payload, TSLexer *lexer,
     return find_verbatim(lexer, "\\end{minted}", false);
   case TRIVIA_RAW_ENV_PYCODE:
     return find_verbatim(lexer, "\\end{pycode}", false);
+  case TRIVIA_RAW_ENV_SAGESILENT:
+    return find_verbatim(lexer, "\\end{sagesilent}", false);
+  case TRIVIA_RAW_ENV_SAGEBLOCK:
+    return find_verbatim(lexer, "\\end{sageblock}", false);
   }
 
   return false;
