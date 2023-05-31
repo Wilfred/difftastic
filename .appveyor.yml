@@ -1,7 +1,7 @@
-image: Visual Studio 2015
+image: Visual Studio 2022
 
 environment:
-  nodejs_version: "8"
+  nodejs_version: "18"
 
 platform:
   - x64
