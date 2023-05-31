@@ -134,6 +134,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "sagesilent_environment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sageblock_environment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "generic_environment"
         },
         {
@@ -2782,6 +2790,294 @@
             "content": {
               "type": "STRING",
               "value": "pycode"
+            },
+            "named": true,
+            "value": "word"
+          }
+        }
+      ]
+    },
+    "sagesilent_environment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "begin",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sagesilent_environment_begin"
+            },
+            "named": true,
+            "value": "begin"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "code",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_trivia_raw_env_sagesilent"
+            },
+            "named": true,
+            "value": "source_code"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "end",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sagesilent_environment_end"
+            },
+            "named": true,
+            "value": "end"
+          }
+        }
+      ]
+    },
+    "_sagesilent_environment_begin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\begin"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sagesilent_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": []
+        }
+      ]
+    },
+    "_sagesilent_environment_end": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\end"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sagesilent_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        }
+      ]
+    },
+    "_sagesilent_environment_group": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "text",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sagesilent_environment_name"
+            },
+            "named": true,
+            "value": "text"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_sagesilent_environment_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "word",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "sagesilent"
+            },
+            "named": true,
+            "value": "word"
+          }
+        }
+      ]
+    },
+    "sageblock_environment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "begin",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sageblock_environment_begin"
+            },
+            "named": true,
+            "value": "begin"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "code",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_trivia_raw_env_sageblock"
+            },
+            "named": true,
+            "value": "source_code"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "end",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sageblock_environment_end"
+            },
+            "named": true,
+            "value": "end"
+          }
+        }
+      ]
+    },
+    "_sageblock_environment_begin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\begin"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sageblock_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": []
+        }
+      ]
+    },
+    "_sageblock_environment_end": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\end"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sageblock_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        }
+      ]
+    },
+    "_sageblock_environment_group": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "text",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sageblock_environment_name"
+            },
+            "named": true,
+            "value": "text"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_sageblock_environment_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "word",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "sageblock"
             },
             "named": true,
             "value": "word"
@@ -5493,6 +5789,14 @@
     {
       "type": "SYMBOL",
       "name": "_trivia_raw_env_pycode"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_trivia_raw_env_sagesilent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_trivia_raw_env_sageblock"
     }
   ],
   "inline": [],

@@ -763,6 +763,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "svg_include",
           "named": true
         },
@@ -1094,6 +1102,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -1826,6 +1842,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "section",
           "named": true
         },
@@ -2359,6 +2383,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "section",
           "named": true
         },
@@ -2622,6 +2654,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -2960,6 +3000,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -3576,6 +3624,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -4271,6 +4327,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "section",
           "named": true
         },
@@ -4504,6 +4568,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -5046,6 +5118,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "subparagraph",
           "named": true
         },
@@ -5304,6 +5384,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "section",
           "named": true
         },
@@ -5356,6 +5444,78 @@
   },
   {
     "type": "pycode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sageblock_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sagesilent_environment",
     "named": true,
     "fields": {
       "begin": {
@@ -5606,6 +5766,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "subparagraph",
           "named": true
         },
@@ -5830,6 +5998,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -6084,6 +6260,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
@@ -6353,6 +6537,14 @@
           "named": true
         },
         {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
+          "named": true
+        },
+        {
           "type": "subparagraph",
           "named": true
         },
@@ -6600,6 +6792,14 @@
         },
         {
           "type": "pycode_environment",
+          "named": true
+        },
+        {
+          "type": "sageblock_environment",
+          "named": true
+        },
+        {
+          "type": "sagesilent_environment",
           "named": true
         },
         {
