@@ -10,6 +10,8 @@ use a, b, c, d, e <- f()
 
 use #(a, b) <- blah
 
+use x : OfType <- f()
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -35,4 +37,11 @@ use #(a, b) <- blah
     (tuple_pattern
       (identifier)
       (identifier))
-    (identifier)))
+    (identifier))
+  (use
+    (identifier)
+    (type
+      (type_identifier))
+    (function_call
+        (identifier)
+        (arguments))))
