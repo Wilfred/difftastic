@@ -7182,19 +7182,84 @@
       ]
     },
     "comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
             "type": "STRING",
             "value": "//"
-          },
-          {
-            "type": "PATTERN",
-            "value": ".*"
           }
-        ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "using_directive"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_comment_text"
+            }
+          ]
+        }
+      ]
+    },
+    "_comment_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 0,
+        "content": {
+          "type": "PATTERN",
+          "value": ".*"
+        }
+      }
+    },
+    "using_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": ">"
+            }
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "using"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "using_directive_key"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "using_directive_value"
+        }
+      ]
+    },
+    "using_directive_key": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\\s]+"
+      }
+    },
+    "using_directive_value": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": ".*"
       }
     },
     "block_comment": {
