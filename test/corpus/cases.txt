@@ -1,0 +1,34 @@
+================================================================================
+Case examples
+================================================================================
+
+case value {
+  "A" -> True
+  _ -> False
+}
+
+case value {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (case
+    (case_subjects
+      (identifier))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (string
+              (quoted_content))))
+        (record
+          (constructor_name)))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (discard)))
+        (record
+          (constructor_name)))))
+  (case
+    (case_subjects
+      (identifier))))

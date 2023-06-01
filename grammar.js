@@ -398,7 +398,7 @@ module.exports = grammar({
         "case",
         field("subjects", $.case_subjects),
         "{",
-        field("clauses", $.case_clauses),
+        optional(field("clauses", $.case_clauses)),
         "}"
       ),
     case_subjects: ($) => seq(series_of($._expression, ",")),
