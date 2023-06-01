@@ -47,6 +47,8 @@ module.exports = grammar({
     $._trivia_raw_env_listing,
     $._trivia_raw_env_minted,
     $._trivia_raw_env_pycode,
+    $._trivia_raw_env_sagesilent,
+    $._trivia_raw_env_sageblock,
   ],
   word: $ => $.command_name,
   rules: {
@@ -80,6 +82,8 @@ module.exports = grammar({
         $.listing_environment,
         $.minted_environment,
         $.pycode_environment,
+        $.sagesilent_environment,
+        $.sageblock_environment,
         $.generic_environment,
         $.math_environment,
         $._text_content
@@ -507,6 +511,22 @@ module.exports = grammar({
       name: 'pycode',
       content: $ =>
         field('code', alias($._trivia_raw_env_pycode, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'sagesilent_environment',
+      name: 'sagesilent',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_sagesilent, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'sageblock_environment',
+      name: 'sageblock',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_sageblock, $.source_code)),
       options: undefined,
     }),
 
