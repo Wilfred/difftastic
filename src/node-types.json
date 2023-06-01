@@ -1503,6 +1503,21 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "using_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "compilation_unit",
     "named": true,
     "fields": {},
@@ -6325,6 +6340,25 @@
     }
   },
   {
+    "type": "using_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "using_directive_key",
+          "named": true
+        },
+        {
+          "type": "using_directive_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "val_declaration",
     "named": true,
     "fields": {
@@ -6935,6 +6969,10 @@
     "named": false
   },
   {
+    "type": "//",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -6960,6 +6998,10 @@
   },
   {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": ">",
     "named": false
   },
   {
@@ -7009,10 +7051,6 @@
   {
     "type": "class",
     "named": false
-  },
-  {
-    "type": "comment",
-    "named": true
   },
   {
     "type": "def",
@@ -7189,6 +7227,14 @@
   {
     "type": "using",
     "named": false
+  },
+  {
+    "type": "using_directive_key",
+    "named": true
+  },
+  {
+    "type": "using_directive_value",
+    "named": true
   },
   {
     "type": "val",
