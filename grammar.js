@@ -78,9 +78,9 @@ module.exports = grammar({
         $._declaration,
         $._statement,
         $._literal,
+        // $._element
+        // $._primary_pattern
         // $._primary,
-        // $._type,
-        // $._simple_type,
         // $._type,
     ],
 

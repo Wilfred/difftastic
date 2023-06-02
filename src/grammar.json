@@ -12552,7 +12552,8 @@
   "supertypes": [
     "_declaration",
     "_statement",
-    "_literal"
+    "_literal",
+    "_element"
   ]
 }
 
