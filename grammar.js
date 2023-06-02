@@ -295,7 +295,7 @@ module.exports = grammar({
 
     charlist: ($) => choice($._quoted_i_single, $._quoted_i_heredoc_single),
 
-    interpolation: ($) => seq("#{", $._expression, "}"),
+    interpolation: ($) => seq("#{", optional($._expression), "}"),
 
     escape_sequence: ($) =>
       token(
