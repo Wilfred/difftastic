@@ -6,7 +6,9 @@ library;
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:ffi' as ffi;
+import 'dart:io';
 
+import 'package:dylib/dylib.dart';
 import 'package:ffi/ffi.dart';
 import 'package:tree_sitter/tree_sitter.dart';
 
@@ -20,7 +22,8 @@ final treeSitterApi = TreeSitterConfig.instance.ffiApi;
 
 /// Configuration of the package to find the correct shared libraries
 final class TreeSitterConfig {
-  static String _dylibLocation = 'tree-sitter/libtree-sitter.dylib';
+  static String _dylibLocation =
+      resolveDylibPath('tree-sitter', path: Directory.current.path);
   late final ffiApi = TreeSitter(DynamicLibrary.open(_dylibLocation));
 
   /// Sets the path to find the tree sitter shared libraries

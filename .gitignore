@@ -14,5 +14,7 @@ package-lock.json
 .packages
 pubspec.lock
 .antlr
-libdart.dylib
+*.so
+*.dll
+*.dylib
 doc
