@@ -193,12 +193,11 @@ module.exports = grammar({
     symbol: _ =>
       PREC.symbol(
         token(
-          PREC.right(
-            choice(
-              /#[cC][iIsS]/, // read-case-sensitive parameter
-              seq(
-                LEAF.symbol_start,
-                repeat(LEAF.symbol_remain)))))),
+          choice(
+            /#[cC][iIsS]/, // read-case-sensitive parameter
+            seq(
+              LEAF.symbol_start,
+              repeat(LEAF.symbol_remain))))),
 
     keyword: _ =>
       token(
@@ -312,214 +311,215 @@ module.exports = grammar({
 // number {{{
 
 function number_base(n) {
-  const general_number = _ =>
+  const digit = {
+    2: /[01]/,
+    8: /[0-7]/,
+    10: /[0-9]/,
+    16: /[0-9a-fA-F]/,
+  }[n];
+
+  const exp_mark = {
+    2: /[sldefSLDEF]/,
+    8: /[sldefSLDEF]/,
+    10: /[sldefSLDEF]/,
+    16: /[slSL]/,
+  }[n];
+
+  const prefix = {
+    2: /#[bB]/,
+    8: /#[oO]/,
+    10: optional(/#[dD]/),
+    16: /#[xX]/,
+  }[n];
+
+  const exactness =
+    /#[eiEI]/;
+
+  const sign = /[+-]/;
+
+  const digits_hash =
     seq(
-      optional(exactness()),
-      number());
+      repeat1(digit),
+      repeat("#"));
 
-  const number = _ =>
-    choice(
-      exact(),
-      inexact());
+  const unsigned_integer =
+    repeat1(digit);
 
-  const exact = _ =>
-    choice(
-      exact_rational(),
-      exact_complex());
+  // exact
 
-  const exact_rational = _ =>
+  const exact_integer =
     seq(
-      optional(sign()),
-      unsigned_rational());
+      optional(sign),
+      unsigned_integer);
 
-  const unsigned_rational = _ =>
+  const unsigned_rational =
     choice(
-      unsigned_integer(),
-      seq(unsigned_integer(), "/", unsigned_integer()));
+      unsigned_integer,
+      seq(unsigned_integer, "/", unsigned_integer));
 
-  const exact_integer = _ =>
+  const exact_rational =
     seq(
-      optional(sign()),
-      unsigned_integer());
+      optional(sign),
+      unsigned_rational);
 
-  const unsigned_integer = _ => repeat1(digit());
-
-  const exact_complex = _ =>
+  const exact_complex =
     seq(
-      exact_rational(),
-      sign(),
-      unsigned_rational());
+      exact_rational,
+      sign,
+      unsigned_rational,
+      /[iI]/);
 
-  const inexact = _ =>
-    choice(
-      inexact_real(),
-      inexact_complex());
+  const exact =
+    choice(exact_rational, exact_complex);
 
-  const inexact_real = _ =>
-    choice(
-      seq(
-        optional(sign()),
-        inexact_normal()),
-      seq(
-        sign(),
-        inexact_special()));
+  // inexact
 
-  const inexact_unsigned = _ =>
-    choice(
-      inexact_normal(),
-      inexact_special());
-
-  const inexact_normal = _ =>
-    seq(
-      inexact_simple(),
-      optional(
-        seq(
-          exp_mark(),
-          exact_integer())));
-
-  const inexact_simple = _ =>
-    choice(
-      seq(
-        digits_hash(),
-        optional("."),
-        repeat("#")),
-      seq(
-        optional(unsigned_integer()),
-        ".",
-        digits_hash()),
-      seq(
-        digits_hash(),
-        "/",
-        digits_hash()));
-
-  const inexact_special = _ =>
+  const inexact_special =
     choice(
       /[iI][nN][fF]\.[0fF]/,
       /[nN][aA][nN]\.[0fF]/);
 
-  const digits_hash = _ =>
-    seq(
-      repeat1(digit()),
-      repeat("#"));
-
-  const inexact_complex = _ =>
+  const inexact_simple =
     choice(
       seq(
-        optional(inexact_real()),
-        sign(),
-        inexact_unsigned(),
-        /[iI]/),
-      seq(
-        inexact_real(),
-        "@",
-        inexact_real()));
-
-  const sign = _ => /[+-]/;
-
-  const digit = _ => {
-    return {
-      2: /[01]/,
-      8: /[0-7]/,
-      10: /[0-9]/,
-      16: /[0-9a-fA-F]/,
-    }[n];
-  };
-
-  const exp_mark = _ => {
-    return {
-      2: /[sldefSLDEF]/,
-      8: /[sldefSLDEF]/,
-      10: /[sldefSLDEF]/,
-      16: /[slSL]/,
-    }[n];
-  };
-
-  const exactness = _ =>
-    choice("#e", "#E", "#i", "#I");
-
-  return general_number();
-}
-
-function extflonum(n) {
-  const exact_integer = _ =>
-    seq(
-      optional(sign()),
-      unsigned_integer());
-
-  const unsigned_integer = _ => repeat1(digit());
-
-  const inexact_real = _ =>
-    choice(
-      seq(
-        optional(sign()),
-        inexact_normal()),
-      seq(
-        sign(),
-        inexact_special()));
-
-  const inexact_normal = _ =>
-    seq(
-      inexact_simple(),
-      optional(
-        seq(
-          exp_mark(),
-          exact_integer())));
-
-  const inexact_simple = _ =>
-    choice(
-      seq(
-        digits_hash(),
+        digits_hash,
         optional("."),
         repeat("#")),
       seq(
-        optional(unsigned_integer()),
+        optional(unsigned_integer),
         ".",
-        digits_hash()),
+        digits_hash),
       seq(
-        digits_hash(),
+        digits_hash,
         "/",
-        digits_hash()));
+        digits_hash));
 
-  const inexact_special = _ =>
+  const inexact_normal =
+    seq(
+      inexact_simple,
+      optional(
+        seq(
+          exp_mark,
+          exact_integer)));
+
+  const inexact_unsigned =
+    choice(inexact_normal, inexact_special);
+
+  const inexact_real =
+    choice(
+      seq(
+        optional(sign),
+        inexact_normal),
+      seq(
+        sign,
+        inexact_special));
+
+  const inexact_complex =
+    choice(
+      seq(
+        optional(inexact_real),
+        sign,
+        inexact_unsigned,
+        /[iI]/),
+      seq(
+        inexact_real,
+        "@",
+        inexact_real));
+
+  const inexact =
+    choice(inexact_real, inexact_complex);
+
+  const number =
+    choice(exact, inexact);
+
+  const general_number =
+    seq(
+      choice(
+        seq(
+          optional(exactness),
+          optional(prefix)),
+        seq(
+          optional(prefix),
+          optional(exactness))),
+      number);
+
+  return general_number;
+}
+
+function extflonum(n) {
+  const digit = {
+    2: /[01]/,
+    8: /[0-7]/,
+    10: /[0-9]/,
+    16: /[0-9a-fA-F]/,
+  }[n];
+
+  const exp_mark = /[tT]/;
+
+  const prefix = {
+    2: /#[bB]/,
+    8: /#[oO]/,
+    10: optional(/#[dD]/),
+    16: /#[xX]/,
+  }[n];
+
+  const sign = /[+-]/;
+
+  const digits_hash =
+    seq(
+      repeat1(digit),
+      repeat("#"));
+
+  const unsigned_integer =
+    repeat1(digit);
+
+  // exact
+
+  const exact_integer =
+    seq(
+      optional(sign),
+      unsigned_integer);
+
+  // inexact
+
+  const inexact_special =
     choice(
       /[iI][nN][fF]\.[0fFtT]/,
       /[nN][aA][nN]\.[0fFtT]/);
 
-  const digits_hash = _ =>
+  const inexact_simple =
+    choice(
+      seq(
+        digits_hash,
+        optional("."),
+        repeat("#")),
+      seq(
+        optional(unsigned_integer),
+        ".",
+        digits_hash),
+      seq(
+        digits_hash,
+        "/",
+        digits_hash));
+
+  const inexact_normal =
     seq(
-      repeat1(digit()),
-      repeat("#"));
+      inexact_simple,
+      optional(
+        seq(
+          exp_mark,
+          exact_integer)));
 
-  const sign = _ => /[+-]/;
+  const inexact_real =
+    choice(
+      seq(
+        optional(sign),
+        inexact_normal),
+      seq(
+        sign,
+        inexact_special));
 
-  const digit = _ => {
-    return {
-      2: /[01]/,
-      8: /[0-7]/,
-      10: /[0-9]/,
-      16: /[0-9a-fA-F]/,
-    }[n];
-  };
-
-  const exp_mark = _ => {
-    return {
-      2: /[sldefSLDEFtT]/,
-      8: /[sldefSLDEFtT]/,
-      10: /[sldefSLDEFtT]/,
-      16: /[slSLtT]/,
-    }[n];
-  };
-
-  const radix = _ => {
-    return {
-      2: /#[bB]/,
-      8: /#[oO]/,
-      10: optional(/#[dD]/),
-      16: /#[xX]/,
-    }[n];
-  };
-
-  return seq(radix(), inexact_real());
+  return seq(optional(prefix), inexact_real);
 }
 
 // number }}}
