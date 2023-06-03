@@ -22,8 +22,7 @@ If you dont't use nix, you should follow the [official setup](https://tree-sitte
 
 ## Todo
 
-* See the tracking issues
-* Fix bugs
-* Add queries
-* Add tests
+* check the tracking issues
+* review the code to ensure it meets the standard
+* improve queries
 

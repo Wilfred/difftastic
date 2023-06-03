@@ -13,7 +13,7 @@ With R7RS support, a single `|` can no longer appears in the middle of an identi
 ~~tree-sitter-scheme should work on a superset of Scheme.~~
 
 Different Implementations might have conflict grammar. I am not sure if I should support
-them. If you need some implementation-specific features, please open an issue, then I will support it.
+them. If you need some implementation-specific features, please open an issue, then I will consider support it.
 
 current status:
 
@@ -24,11 +24,6 @@ current status:
   * [ ] Chez Scheme ([#1](https://github.com/6cdh/tree-sitter-scheme/issues/1))
   * [ ] Chicken Scheme ([#3](https://github.com/6cdh/tree-sitter-scheme/issues/3))
 
-## TODO
-
-* More tests
-* Queries
-
 ## Usage
 
 See [nodes.md](./nodes.md) for all visible nodes.
@@ -36,6 +31,11 @@ See [nodes.md](./nodes.md) for all visible nodes.
 This parser don't parse language constructs. Instead, it parse code as lists.
 
 If you want language constructs support, use custom queries (see [#5](https://github.com/6cdh/tree-sitter-scheme/issues/5)), also see [thchha/tree-sitter-scheme](https://gitlab.com/thchha/tree-sitter-scheme).
+
+## Query
+
+The queries here are too simple and not intended to be useful in an editor.
+See [nvim-treesitter scheme queries](https://github.com/nvim-treesitter/nvim-treesitter/blob/master/queries/scheme/highlights.scm). They are not compatible with tree-sitter's queries, but support more builtin functions/macros, sexp comment highlight, etc.
 
 ## Reference
 
