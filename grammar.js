@@ -233,7 +233,7 @@ module.exports = grammar({
       ')'
     ),
 
-    parameter_declaration: $ => prec.left(-1, seq(
+    parameter_declaration: $ => prec.left(seq(
       commaSep(field('name', $.identifier)),
       field('type', $._type),
     )),
