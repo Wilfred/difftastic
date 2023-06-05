@@ -813,7 +813,7 @@
     },
     "parameter_declaration": {
       "type": "PREC_LEFT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
