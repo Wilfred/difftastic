@@ -153,8 +153,7 @@ type g2[T, U any, V interface{}, W Foo[Bar[T]]] struct {}
       (type_identifier)
       (type_parameter_list
         (parameter_declaration
-          (type_identifier))
-        (parameter_declaration
+          (identifier)
           (identifier)
           (type_identifier))
         (parameter_declaration
