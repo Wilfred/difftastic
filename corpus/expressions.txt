@@ -185,10 +185,11 @@ class C:
           (indented_block
             (lambda_expression
               (identifier)
-              (infix_expression
-                (identifier)
-                (operator_identifier)
-                (integer_literal))))))
+              (indented_block
+                (infix_expression
+                  (identifier)
+                  (operator_identifier)
+                  (integer_literal)))))))
       (call_expression
         (identifier)
         (colon_argument
@@ -217,8 +218,8 @@ class C:
           (indented_cases
             (case_clause
               (identifier)
-              (identifier)))))
-      (comment)
+              (identifier))
+            (comment))))
       (ascription_expression
         (identifier)
         (type_identifier))
@@ -442,8 +443,8 @@ class C:
           (if_expression
             (boolean_literal)
             (indented_block
-              (unit))
-            (comment)
+              (unit)
+              (comment))
             (indented_block
               (unit))))))))
 
@@ -1054,8 +1055,14 @@ object O {
   val l = a => a + 1
   val b = (x: Int, y: Int) => { x * y }
   val f = _ => 2
-  (a, b, _) => a - b
-  foo { i => val x = 2 + i }
+  foo { i => 
+    val x = 2 + i 
+    x
+  }
+  { x => 
+    val y = 2 * x
+    y * y
+  }
 }
 
 --------------------------------------------------------------------------------
@@ -1092,29 +1099,33 @@ object O {
         (lambda_expression
           (wildcard)
           (integer_literal)))
-      (lambda_expression
-        (bindings
-          (binding
-            (identifier))
-          (binding
-            (identifier))
-          (binding
-            (identifier)))
-        (infix_expression
-          (identifier)
-          (operator_identifier)
-          (identifier)))
       (call_expression
         (identifier)
         (block
           (lambda_expression
             (identifier)
+            (indented_block
+              (val_definition
+                (identifier)
+                (infix_expression
+                  (integer_literal)
+                  (operator_identifier)
+                  (identifier)))
+              (identifier)))))
+      (block
+        (lambda_expression
+          (identifier)
+          (indented_block
             (val_definition
               (identifier)
               (infix_expression
                 (integer_literal)
                 (operator_identifier)
-                (identifier)))))))))
+                (identifier)))
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (identifier))))))))
 
 ================================================================================
 Unit expressions
@@ -1648,6 +1659,7 @@ throws()
 using()
 
 --------------------------------------------------------------------------------
+
 (compilation_unit
   (call_expression
     (identifier)

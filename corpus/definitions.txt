@@ -840,6 +840,8 @@ Value declarations (Scala 3 syntax)
 ================================================================================
 
 class A:
+ // Comments that should not
+  // influence indentation
   val b, c : Int
   val d : String
 
@@ -849,6 +851,8 @@ class A:
   (class_definition
     (identifier)
     (template_body
+      (comment)
+      (comment)
       (val_declaration
         (identifier)
         (identifier)
@@ -1454,6 +1458,10 @@ trait A {
   def f: Int
 }
 
+trait A { self =>
+  def f: Int
+}
+
 class B {
   self: Something[A] => 
 
@@ -1463,6 +1471,14 @@ class B {
 --------------------------------------------------------------------------------
 
 (compilation_unit
+  (trait_definition
+    (identifier)
+    (template_body
+      (self_type
+        (identifier))
+      (function_declaration
+        (identifier)
+        (type_identifier))))
   (trait_definition
     (identifier)
     (template_body

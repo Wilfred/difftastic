@@ -89,6 +89,18 @@ static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_inte
   }
 }
 
+static bool detect_comment_start(TSLexer *lexer) {
+  lexer->mark_end(lexer);
+  // Comments should not affect indentation
+  if (lexer->lookahead == '/') {
+    advance(lexer);
+    if (lexer->lookahead == '/' || lexer -> lookahead == '*') {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
   ScannerStack *stack = (ScannerStack *)payload;
@@ -103,7 +115,8 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       (
         (prev != -1) &&
         lexer->lookahead == ')' ||
-        lexer->lookahead == ']'
+        lexer->lookahead == ']' ||
+        lexer->lookahead == '}' 
       ) || (
         stack->last_indentation_size != -1 &&
         prev != -1 &&
@@ -131,6 +144,9 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       newline_count > 0 &&
       (isEmptyStack(stack) ||
         indentation_size > peekStack(stack))) {
+    if (detect_comment_start(lexer)) {
+      return false;
+    }
     pushStack(stack, indentation_size);
     lexer->result_symbol = INDENT;
     LOG("    INDENT\n");
@@ -148,6 +164,10 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     LOG("    pop\n");
     LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
+    lexer->mark_end(lexer);
+    if (detect_comment_start(lexer)) {
+      return false;
+    }
     stack->last_indentation_size = indentation_size;
     stack->last_newline_count = newline_count;
     if (lexer->eof(lexer)) {

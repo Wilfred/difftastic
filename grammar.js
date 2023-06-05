@@ -369,17 +369,37 @@ module.exports = grammar({
     /*
      * TemplateBody      ::=  :<<< [SelfType] TemplateStat {semi TemplateStat} >>>
      */
-    template_body: $ =>
+    template_body: $ => choice(
+      prec.left(PREC.control, $._indented_template_body),
+      prec.left(PREC.control, $._braced_template_body),
+    ),
+
+    _indented_template_body: $ => seq(
+      ':',
+      $._indent,
+      optional($.self_type),
+      $._block,
+      $._outdent,
+    ),
+
+    _braced_template_body: $ => seq(
+      '{',
+      optional(choice(
+        $._braced_template_body1,
+        $._braced_template_body2,
+      )),
+      '}',
+    ),
+
+    _braced_template_body1: $ => seq(optional($.self_type), $._block),
+    _braced_template_body2: $ => seq(
       choice(
-        prec.left(
-          PREC.control,
-          seq(":", $._indent, optional($.self_type), $._block, $._outdent),
-        ),
-        prec.left(
-          PREC.control,
-          seq("{", optional($.self_type), optional($._block), "}"),
-        ),
+        seq($._indent, optional($.self_type)),
+        seq(optional($.self_type), $._indent),
       ),
+      optional($._block),
+      $._outdent
+    ),
 
     /*
      * WithTemplateBody  ::=  <<< [SelfType] TemplateStat {semi TemplateStat} >>>
@@ -1038,12 +1058,13 @@ module.exports = grammar({
         $.call_expression,
       ),
 
+
     lambda_expression: $ =>
       prec.right(
         seq(
           field("parameters", choice($.bindings, $._identifier, $.wildcard)),
           "=>",
-          $._block,
+          $._indentable_expression,
         ),
       ),
 
