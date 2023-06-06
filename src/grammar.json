@@ -1432,8 +1432,36 @@
           "name": "comment",
           "content": {
             "type": "SYMBOL",
-            "name": "string"
+            "name": "multi_string"
           }
+        }
+      ]
+    },
+    "multi_string": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "FIELD",
+        "name": "elems",
+        "content": {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_like"
+          }
+        }
+      }
+    },
+    "_string_like": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_macro_body_expr"
         }
       ]
     },
@@ -6122,7 +6150,8 @@
     "_catch_pat",
     "_deprecated_details",
     "_deprecated_fun_arity",
-    "_desc"
+    "_desc",
+    "_string_like"
   ],
   "@generated": true
 }

@@ -156,7 +156,7 @@
         "named": true
       },
       {
-        "type": "string",
+        "type": "multi_string",
         "named": true
       }
     ]
@@ -621,6 +621,24 @@
       },
       {
         "type": "record_update_expr",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_string_like",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "macro_call_expr",
+        "named": true
+      },
+      {
+        "type": "macro_string",
+        "named": true
+      },
+      {
+        "type": "string",
         "named": true
       }
     ]
@@ -2139,6 +2157,22 @@
         "types": [
           {
             "type": "_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "multi_string",
+    "named": true,
+    "fields": {
+      "elems": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_string_like",
             "named": true
           }
         ]

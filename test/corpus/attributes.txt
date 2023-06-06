@@ -103,7 +103,8 @@ deprecated function/arity/desc attribute
       (atom)
       (integer)
       (deprecation_desc
-        (string)))))
+        (multi_string
+          (string))))))
 
 ================================================================================
 deprecated '_', '_', atom attribute
@@ -158,7 +159,8 @@ deprecated list attribute
         (atom)
         (integer)
         (deprecation_desc
-          (string)))
+          (multi_string
+            (string))))
       (deprecated_fa
         (atom)
         (integer))
@@ -166,6 +168,25 @@ deprecated list attribute
         (atom)
         (deprecated_wildcard)
         (deprecation_desc
+          (multi_string
+            (string)))))))
+
+================================================================================
+deprecated multi-string description
+================================================================================
+
+-deprecated({new, 1, "str1" "str2"}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (integer)
+      (deprecation_desc
+        (multi_string
+          (string)
           (string))))))
 
 ================================================================================

@@ -29,8 +29,8 @@ const PREC = {
     CALL: 80,
     REMOTE: 1,
     BIT_EXPR: 2,
-    
-    COND_MATCH: 81, // `?=` in maybe expr. Should has lowest priority https://www.erlang.org/eeps/eep-0049#operator-priority 
+
+    COND_MATCH: 81, // `?=` in maybe expr. Should has lowest priority https://www.erlang.org/eeps/eep-0049#operator-priority
 
     // In macro def, prefer expressions, if type and expr would parse
     DYN_CR_CLAUSES: 1,
@@ -98,7 +98,8 @@ module.exports = grammar({
         $._catch_pat,
         $._deprecated_details,
         $._deprecated_fun_arity,
-        $._desc
+        $._desc,
+        $._string_like
     ],
 
 
@@ -297,7 +298,14 @@ module.exports = grammar({
 
         _desc: $ => choice(
             field("atom", $.atom),
-            field("comment", $.string),
+            field("comment", $.multi_string),
+        ),
+
+        multi_string: $ => prec.right(field("elems", repeat1($._string_like))),
+
+        _string_like: $ => choice(
+            $.string,
+            $._macro_body_expr
         ),
 
         _deprecated_fun_arity: $ => choice(
