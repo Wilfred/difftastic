@@ -1,2 +1,5 @@
-# Move queries to ./queries/scala sub-directory 
+# Move queries to ./queries/scala sub-directory
 889eb65aea8e0f9ce1694ab9ee528df1fa5f75d1
+
+# Formatting using Prettier
+0a8ca4c836d7e9f0fd6a0668088c0d82874abc85
