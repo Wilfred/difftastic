@@ -15,11 +15,6 @@ const
   comparative_operators = ['==', '!=', '<', '<=', '>', '>='],
   assignment_operators = multiplicative_operators.concat(additive_operators).map(operator => operator + '=').concat('='),
 
-  unicodeLetter = /\p{L}/,
-  unicodeDigit = /[0-9]/,
-  unicodeChar = /./,
-  unicodeValue = unicodeChar,
-  letter = choice(unicodeLetter, '_'),
 
   newline = '\n',
   terminator = choice(newline, ';'),
@@ -84,12 +79,9 @@ module.exports = grammar({
     [$.qualified_type, $._expression],
     [$.generic_type, $._expression],
     [$.generic_type, $._simple_type],
-    [$.parameter_declaration, $.type_arguments],
     [$.parameter_declaration, $._simple_type, $._expression],
     [$.parameter_declaration, $.generic_type, $._expression],
     [$.parameter_declaration, $._expression],
-    [$.func_literal, $.function_type],
-    [$.function_type],
     [$.parameter_declaration, $._simple_type],
   ],
 
@@ -102,12 +94,15 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat(choice(
+    source_file: $ => seq(
+      repeat(choice(
       // Unlike a Go compiler, we accept statements at top-level to enable
       // parsing of partial code snippets in documentation (see #63).
       seq($._statement, terminator),
-      seq($._top_level_declaration, optional(terminator)),
-    )),
+      seq($._top_level_declaration, terminator),
+      )),
+      optional($._top_level_declaration),
+    ),
 
     _top_level_declaration: $ => choice(
       $.package_clause,
@@ -829,10 +824,7 @@ module.exports = grammar({
       field('name', $._type_identifier)
     ),
 
-    identifier: $ => token(seq(
-      letter,
-      repeat(choice(letter, unicodeDigit))
-    )),
+    identifier: _ => /[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
