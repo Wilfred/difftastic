@@ -913,7 +913,8 @@ module.exports = grammar({
       $.typed_pattern,
       $.quote_expression,
       $.literal,
-      $.wildcard
+      $.wildcard,
+      $.repeat_pattern,
     ),
 
     case_class_pattern: $ => seq(
@@ -929,10 +930,15 @@ module.exports = grammar({
       field('right', $._pattern),
     )),
 
-    capture_pattern: $ => prec(PREC.field, seq(
-      field('name', $._identifier),
+    capture_pattern: $ => prec.right(PREC.field, seq(
+      field('name', choice($._identifier, $.wildcard)),
       '@',
-      field('pattern', $._pattern)
+      field('pattern', $._pattern),
+    )),
+
+    repeat_pattern: $ => prec.right(seq(
+      field('pattern', $._pattern),
+      '*',
     )),
 
     typed_pattern: $ => prec.right(seq(
