@@ -99,7 +99,12 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
 
   // Before advancing the lexer, check if we can double outdent
   if (valid_symbols[OUTDENT] &&
-      (lexer->lookahead == 0 || (
+      (lexer->lookahead == 0 ||
+      (
+        (prev != -1) &&
+        lexer->lookahead == ')' ||
+        lexer->lookahead == ']'
+      ) || (
         stack->last_indentation_size != -1 &&
         prev != -1 &&
         stack->last_indentation_size < prev))) {
