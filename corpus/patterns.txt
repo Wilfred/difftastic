@@ -141,6 +141,7 @@ val x = y match {
   case a @ B(1) => a
   case b @ C(d @ (e @ X, _: Y)) => e
   case req @ (POST | GET) -> Root / "test" => 5
+  case Array(a: Type, _@_*) => y
 }
 
 ---
@@ -168,7 +169,18 @@ val x = y match {
               (capture_pattern (identifier)
                 (tuple_pattern (alternative_pattern (identifier) (identifier))))
               (operator_identifier) (identifier)) (operator_identifier) (string))
-              (integer_literal))))))
+              (integer_literal))
+        (case_clause
+          (case_class_pattern
+            (type_identifier)
+            (typed_pattern
+              (identifier)
+              (type_identifier))
+            (repeat_pattern
+              (capture_pattern
+                (wildcard)
+                (wildcard))))
+          (identifier))))))
 
 ============================
 Quoted patterns (Scala 3 syntax)
