@@ -2,3 +2,11 @@
 //  ^keyword
 //        ^parameter
 //              ^string
+
+/*
+ * Beep boop
+ */
+// <- comment
+
+// Single line comment
+// <- comment
