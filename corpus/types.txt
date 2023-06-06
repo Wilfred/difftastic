@@ -198,6 +198,9 @@ type G = H[A1] {
   def foo[A2 <: Stepper[_]]: A2
 }
 
+type I = F1[A1:
+  def foo: A2]
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -235,7 +238,18 @@ type G = H[A1] {
                 (type_identifier)
                 (type_arguments
                   (wildcard)))))
-          (type_identifier))))))
+          (type_identifier)))))
+  (type_definition
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (compound_type
+          (type_identifier)
+          (refinement
+            (function_declaration
+              (identifier)
+              (type_identifier))))))))
 
 ================================================================================
 Infix types
