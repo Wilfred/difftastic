@@ -248,6 +248,7 @@ func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
 func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
 func g2(a foo.bar[int]) {}
 func f[A int|string, B ~int, C ~int|~string]()
+func f2(a File, b, c, d Thing) int {}
 
 --------------------------------------------------------------------------------
 
@@ -265,10 +266,8 @@ func f[A int|string, B ~int, C ~int|~string]()
         (identifier)
         (type_identifier))
       (parameter_declaration
-        (type_identifier))
-      (parameter_declaration
-        (type_identifier))
-      (parameter_declaration
+        (identifier)
+        (identifier)
         (identifier)
         (type_identifier)))
     (type_identifier)
@@ -306,8 +305,7 @@ func f[A int|string, B ~int, C ~int|~string]()
     (identifier)
     (type_parameter_list
       (parameter_declaration
-        (type_identifier))
-      (parameter_declaration
+        (identifier)
         (identifier)
         (type_identifier))
       (parameter_declaration
@@ -334,8 +332,7 @@ func f[A int|string, B ~int, C ~int|~string]()
     (identifier)
     (type_parameter_list
       (parameter_declaration
-        (type_identifier))
-      (parameter_declaration
+        (identifier)
         (identifier)
         (type_identifier))
       (parameter_declaration
@@ -389,7 +386,20 @@ func f[A int|string, B ~int, C ~int|~string]()
             (type_identifier))
           (negated_type
             (type_identifier)))))
-    (parameter_list)))
+    (parameter_list))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter_declaration
+        (identifier)
+        (type_identifier))
+      (parameter_declaration
+        (identifier)
+        (identifier)
+        (identifier)
+        (type_identifier)))
+    (type_identifier)
+    (block)))
 
 ================================================================================
 Single-line function declarations
