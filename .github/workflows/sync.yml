@@ -21,11 +21,17 @@ jobs:
           npm install
           npm run build
 
+      - name: Format Javascipt
+        run: |
+          npm install
+          npm run format
+
       - name: Check for changes
         uses: tj-actions/verify-changed-files@v13
         id: verify-changed-files
         with:
           files: |
+            grammar.js
             src/grammar.json
             src/node-types.json
             src/parser.c
