@@ -39,3 +39,16 @@
 ;; Inlclude all other cases - list literal with symbol as the
 ;; first element
 (list_lit . [(sym_lit) (package_lit)] @name) @reference.call
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; classes
+
+(list_lit . [(sym_lit) (package_lit)] @ignore
+          . [(sym_lit) (package_lit)] @name
+  (#match? @ignore "(cl:defclass|defclass)")
+          ) @definition.class
+
+(list_lit . [(sym_lit) (package_lit)] @ignore
+          . (quoting_lit [(sym_lit) (package_lit)] @name)
+  (#match? @ignore "(cl:make-instance|make-instance)")
+          ) @reference.class
