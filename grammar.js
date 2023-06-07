@@ -61,6 +61,7 @@ module.exports = grammar({
   precedences: $ => [
     ["mod", "soft_id"],
     ["end", "soft_id"],
+    ["new", "structural_type"],
   ],
 
   conflicts: $ => [
@@ -772,7 +773,6 @@ module.exports = grammar({
         $.match_type,
         $._annotated_type,
         $.literal_type,
-        alias($.template_body, $.structural_type),
       ),
 
     // TODO: Make this a visible type, so that _type can be a supertype.
@@ -787,6 +787,7 @@ module.exports = grammar({
         $.stable_type_identifier,
         $._type_identifier,
         $.wildcard,
+        $._structural_type,
       ),
 
     compound_type: $ =>
@@ -813,6 +814,9 @@ module.exports = grammar({
           ),
         ),
       ),
+
+    _structural_type: $ =>
+      prec("structural_type", alias($.template_body, $.structural_type)),
 
     _refinement: $ => alias($.template_body, $.refinement),
 
@@ -1205,7 +1209,7 @@ module.exports = grammar({
           0,
           seq("new", $._constructor_application, $.template_body),
         ),
-        seq("new", $.template_body),
+        prec("new", seq("new", $.template_body)),
         seq("new", $._constructor_application),
       ),
 

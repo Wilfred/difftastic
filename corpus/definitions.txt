@@ -414,6 +414,10 @@ case object O2 {
 object O3 extends A {
 }
 
+object O4 extends {
+  val a: A = b
+}
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -428,7 +432,15 @@ object O3 extends A {
     (identifier)
     (extends_clause
       (type_identifier))
-    (template_body)))
+    (template_body))
+  (object_definition
+    (identifier)
+    (extends_clause
+      (structural_type
+        (val_definition
+          (identifier)
+          (type_identifier)
+          (identifier))))))
 
 ================================================================================
 Object definitions
