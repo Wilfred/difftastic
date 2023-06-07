@@ -61,6 +61,7 @@ module.exports = grammar({
   precedences: $ => [
     ["mod", "soft_id"],
     ["end", "soft_id"],
+    ["new", "structural_type"],
   ],
 
   conflicts: $ => [
@@ -606,6 +607,9 @@ module.exports = grammar({
         choice(
           $._annotated_type,
           $.compound_type,
+          // In theory structural_type should just be added to simple_type,
+          // but doing so increases the state of template_body to 4000
+          $._structural_type,
           // This adds _simple_type, but not the above intentionall/y.
           seq($._simple_type, field("arguments", $.arguments)),
           seq($._annotated_type, field("arguments", $.arguments)),
@@ -772,11 +776,16 @@ module.exports = grammar({
         $.match_type,
         $._annotated_type,
         $.literal_type,
-        alias($.template_body, $.structural_type),
+        $._structural_type,
       ),
 
-    // TODO: Make this a visible type, so that _type can be a supertype.
-    _annotated_type: $ => prec.right(seq($._simple_type, repeat($.annotation))),
+    _annotated_type: $ =>
+      prec.right(choice(
+        $.annotated_type,
+        $._simple_type,
+      )),
+
+    annotated_type: $ => prec.right(seq($._simple_type, repeat1($.annotation))),
 
     _simple_type: $ =>
       choice(
@@ -813,6 +822,9 @@ module.exports = grammar({
           ),
         ),
       ),
+
+    _structural_type: $ =>
+      prec("structural_type", alias($.template_body, $.structural_type)),
 
     _refinement: $ => alias($.template_body, $.refinement),
 
@@ -1205,7 +1217,7 @@ module.exports = grammar({
           0,
           seq("new", $._constructor_application, $.template_body),
         ),
-        seq("new", $.template_body),
+        prec("new", seq("new", $.template_body)),
         seq("new", $._constructor_application),
       ),
 
