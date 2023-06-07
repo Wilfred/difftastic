@@ -122,6 +122,10 @@
         "named": true
       },
       {
+        "type": "repeat_pattern",
+        "named": true
+      },
+      {
         "type": "stable_identifier",
         "named": true
       },
@@ -1034,6 +1038,10 @@
           },
           {
             "type": "operator_identifier",
+            "named": true
+          },
+          {
+            "type": "wildcard",
             "named": true
           }
         ]
@@ -5125,6 +5133,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "repeat_pattern",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_pattern",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
