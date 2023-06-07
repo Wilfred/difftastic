@@ -8,15 +8,16 @@ on:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Node
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
       - name: Test
         run: npm run test
