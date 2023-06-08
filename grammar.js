@@ -3,9 +3,7 @@ const PREC = {
   using_directive: 1,
   control: 1,
   stable_type_id: 2,
-  binding_decl: 2,
   while: 2,
-  binding_def: 3,
   assign: 3,
   case: 3,
   stable_id: 4,
@@ -91,6 +89,8 @@ module.exports = grammar({
     [$._class_constructor],
     // 'enum'  _class_constructor  '{'  'case'  operator_identifier  _full_enum_def_repeat1  •  _automatic_semicolon  …
     [$._full_enum_def],
+    // _start_val  identifier  ','  identifier  •  ':'  …
+    [$.identifiers, $.val_declaration],
   ],
 
   word: $ => $._alpha_identifier,
@@ -456,51 +456,39 @@ module.exports = grammar({
       ),
 
     val_definition: $ =>
-      prec(
-        PREC.binding_def,
-        seq(
-          $._start_val,
-          field("pattern", choice($._pattern, $.identifiers)),
-          optional(seq(":", field("type", $._type))),
-          "=",
-          field("value", $._indentable_expression),
-        ),
+      seq(
+        $._start_val,
+        field("pattern", choice($._pattern, $.identifiers)),
+        optional(seq(":", field("type", $._type))),
+        "=",
+        field("value", $._indentable_expression),
       ),
 
     val_declaration: $ =>
-      prec(
-        PREC.binding_decl,
-        seq(
-          $._start_val,
-          commaSep1(field("name", $._identifier)),
-          ":",
-          field("type", $._type),
-        ),
+      seq(
+        $._start_val,
+        commaSep1(field("name", $._identifier)),
+        ":",
+        field("type", $._type),
       ),
 
     _start_val: $ => seq(repeat($.annotation), optional($.modifiers), "val"),
 
     var_declaration: $ =>
-      prec(
-        PREC.binding_decl,
-        seq(
-          $._start_var,
-          commaSep1(field("name", $._identifier)),
-          ":",
-          field("type", $._type),
-        ),
+      seq(
+        $._start_var,
+        commaSep1(field("name", $._identifier)),
+        ":",
+        field("type", $._type),
       ),
 
     var_definition: $ =>
-      prec(
-        PREC.binding_def,
-        seq(
-          $._start_var,
-          field("pattern", $._pattern),
-          optional(seq(":", field("type", $._type))),
-          "=",
-          field("value", $._indentable_expression),
-        ),
+      seq(
+        $._start_var,
+        field("pattern", choice($._pattern, $.identifiers)),
+        optional(seq(":", field("type", $._type))),
+        "=",
+        field("value", $._indentable_expression),
       ),
 
     _start_var: $ => seq(repeat($.annotation), optional($.modifiers), "var"),
@@ -1384,8 +1372,7 @@ module.exports = grammar({
 
     _identifier: $ => choice($.identifier, $.operator_identifier),
 
-    identifiers: $ =>
-      prec.left(-1, seq($.identifier, ",", commaSep1($.identifier))),
+    identifiers: $ => seq($.identifier, ",", commaSep1($.identifier)),
 
     wildcard: $ => "_",
 
