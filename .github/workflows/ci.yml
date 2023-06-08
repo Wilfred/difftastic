@@ -10,6 +10,7 @@ jobs:
     outputs:
       all: ${{ steps.changes.outputs.all}}
       c: ${{ steps.changes.outputs.c }}
+      gen: ${{ steps.changes.outputs.gen }}
     steps:
       - name: checkout tree-sitter-scala
         uses: actions/checkout@v3
@@ -21,7 +22,8 @@ jobs:
         run: |
           echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
           echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
-
+          # Generated C code
+          echo "gen=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.\(c\|h\)$' | grep -v 'src/scanner.c' | xargs)" >> $GITHUB_OUTPUT
   test:
     runs-on: ${{ matrix.os }}
     needs: changedfiles
@@ -66,15 +68,15 @@ jobs:
         run: gcc test/test-stack.c -o a.out && ./a.out
 
       - name: Generate parser from scratch and test it
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ runner.os == 'Linux' || needs.changedfiles.outputs.c }}
         shell: bash
         run: |
           npm install
           npm run build
           npm test
 
-      - name: Check parser
-        if: ${{ runner.os != 'Linux' && needs.changedfiles.outputs.c }}
+      - name: Check fidelity of checked-in C code
+        if: ${{ runner.os == 'Linux' && needs.changedfiles.outputs.gen }}
         shell: bash
         run: |
           # `git diff --quiet` doesn't seem to work on Github Actions
@@ -84,11 +86,6 @@ jobs:
             git diff --exit-code
             exit 1
           fi
-
-      - name: Parser tests
-        if: ${{ needs.changedfiles.outputs.c }}
-        shell: bash
-        run: npm install && npm test
 
       - name: Smoke test
         if: ${{ runner.os == 'Linux' }}
