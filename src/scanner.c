@@ -350,3 +350,5 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
 
   return false;
 }
+
+//
