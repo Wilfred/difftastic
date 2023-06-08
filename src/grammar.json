@@ -2671,6 +2671,10 @@
             "name": "compound_type"
           },
           {
+            "type": "SYMBOL",
+            "name": "_structural_type"
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -3690,17 +3694,29 @@
           "name": "literal_type"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "template_body"
-          },
-          "named": true,
-          "value": "structural_type"
+          "type": "SYMBOL",
+          "name": "_structural_type"
         }
       ]
     },
     "_annotated_type": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "annotated_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_simple_type"
+          }
+        ]
+      }
+    },
+    "annotated_type": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -3711,7 +3727,7 @@
             "name": "_simple_type"
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",
               "name": "annotation"
@@ -3865,6 +3881,19 @@
           }
         }
       ]
+    },
+    "_structural_type": {
+      "type": "PREC",
+      "value": "structural_type",
+      "content": {
+        "type": "ALIAS",
+        "content": {
+          "type": "SYMBOL",
+          "name": "template_body"
+        },
+        "named": true,
+        "value": "structural_type"
+      }
     },
     "_refinement": {
       "type": "ALIAS",
@@ -5587,17 +5616,21 @@
           }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "new"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "template_body"
-            }
-          ]
+          "type": "PREC",
+          "value": "new",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "new"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_body"
+              }
+            ]
+          }
         },
         {
           "type": "SEQ",
@@ -7431,6 +7464,16 @@
       {
         "type": "STRING",
         "value": "soft_id"
+      }
+    ],
+    [
+      {
+        "type": "STRING",
+        "value": "new"
+      },
+      {
+        "type": "STRING",
+        "value": "structural_type"
       }
     ]
   ],
