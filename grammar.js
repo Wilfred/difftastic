@@ -779,11 +779,7 @@ module.exports = grammar({
         $._structural_type,
       ),
 
-    _annotated_type: $ =>
-      prec.right(choice(
-        $.annotated_type,
-        $._simple_type,
-      )),
+    _annotated_type: $ => prec.right(choice($.annotated_type, $._simple_type)),
 
     annotated_type: $ => prec.right(seq($._simple_type, repeat1($.annotation))),
 
