@@ -27,7 +27,7 @@ $ sdiff -s <(cat -n expect.txt) <(cat -n res.txt)
 # If there is some error, run
 $ sdiff -s <(cat -n expect.txt) <(cat -n res.txt) | less
 # then get the first error case at `N`-th line
-$ cat case.txt | sed n 'Np'
+$ cat case.txt | sed -n 'Np'
 ```
 
 You can edit `gen_cases.rkt` to generate less cases during development.
