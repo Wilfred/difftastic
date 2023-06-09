@@ -14,7 +14,7 @@
 ;;
 ;;    (defun my-func (arg1 arg2) ...)
 ;;
-;; do not treat (arg1 arg2) as a call for function arg1
+;; do not treat (arg1 arg2) as a call of function arg1
 ;;
 (defun_header
   lambda_list: (list_lit . [(sym_lit) (package_lit)] @ignore))
@@ -32,8 +32,10 @@
 ;;       - (let ((var ...) (var2 ...)) ...)
 ;;              exclude var, var2
 ;;       - the same for let*
-;;       - (defclass name (parent parent2) ...)
-;;              exclude the parent
+;;       - (defclass name (parent parent2)
+;;           ((slot1 ...)
+;;            (slot2 ...))
+;;              exclude the parent, slot1, slot2
 ;;       - what else?
 
 ;; Inlclude all other cases - list literal with symbol as the
