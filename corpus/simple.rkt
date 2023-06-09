@@ -31,10 +31,14 @@ number
 #b101
 +inf.t
 -nan.t
++i
+0##+i
 
 ---
 
 (program
+  (number)
+  (number)
   (number)
   (number)
   (number)

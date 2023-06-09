@@ -364,9 +364,9 @@ function number_base(n) {
 
   const exact_complex =
     seq(
-      exact_rational,
+      optional(exact_rational),
       sign,
-      unsigned_rational,
+      optional(unsigned_rational),
       /[iI]/);
 
   const exact =
@@ -419,7 +419,7 @@ function number_base(n) {
       seq(
         optional(inexact_real),
         sign,
-        inexact_unsigned,
+        optional(inexact_unsigned),
         /[iI]/),
       seq(
         inexact_real,
