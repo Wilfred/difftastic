@@ -79,9 +79,13 @@ Ap\ ple
 app123app123
 123app123
 中文
+a
+fec
 
 ---
 (program
+  (symbol)
+  (symbol)
   (symbol)
   (symbol)
   (symbol)

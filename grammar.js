@@ -437,9 +437,9 @@ function number_base(n) {
       choice(
         seq(
           optional(exactness),
-          optional(prefix)),
+          prefix),
         seq(
-          optional(prefix),
+          prefix,
           optional(exactness))),
       number);
 
@@ -519,7 +519,7 @@ function extflonum(n) {
         sign,
         inexact_special));
 
-  return seq(optional(prefix), inexact_real);
+  return seq(prefix, inexact_real);
 }
 
 // number }}}
