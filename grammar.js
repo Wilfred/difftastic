@@ -91,6 +91,7 @@ module.exports = grammar({
     [$._full_enum_def],
     // _start_val  identifier  ','  identifier  •  ':'  …
     [$.identifiers, $.val_declaration],
+    [$.class_parameters],
   ],
 
   word: $ => $._alpha_identifier,
@@ -312,7 +313,10 @@ module.exports = grammar({
         field("type_parameters", optional($.type_parameters)),
         optional($.annotation),
         optional($.access_modifier),
-        field("class_parameters", repeat($.class_parameters)),
+        field("class_parameters", repeat(seq(
+          optional($._automatic_semicolon),
+          $.class_parameters,
+        ))),
       ),
 
     trait_definition: $ =>
@@ -513,34 +517,36 @@ module.exports = grammar({
 
     function_definition: $ =>
       seq(
-        repeat($.annotation),
-        optional($.modifiers),
-        "def",
-        $._function_constructor,
+        $._function_declaration,
         choice(
           seq("=", field("body", $._indentable_expression)),
           field("body", $.block),
         ),
       ),
 
-    function_declaration: $ =>
+    function_declaration: $ => $._function_declaration,
+
+    _function_declaration: $ =>
       prec.left(
         seq(
           repeat($.annotation),
           optional($.modifiers),
           "def",
           $._function_constructor,
+          optional(seq(":", field("return_type", $._type))),
         ),
       ),
 
     // Created for memory-usage optimization during codegen.
     _function_constructor: $ =>
-      prec.left(
+      prec.right(
         seq(
           field("name", $._identifier),
           field("type_parameters", optional($.type_parameters)),
-          field("parameters", repeat($.parameters)),
-          optional(seq(":", field("return_type", $._type))),
+          field("parameters", repeat(seq(
+            optional($._automatic_semicolon),
+            $.parameters,
+          ))),
         ),
       ),
 
