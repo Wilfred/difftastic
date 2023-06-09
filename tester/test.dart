@@ -1,6 +1,7 @@
 #! /usr/bin/env dcli
 
 import 'dart:io';
+
 // import 'package:dcli/dcli.dart';
 import 'package:path/path.dart';
 
@@ -13,6 +14,11 @@ void main(List<String> args) async {
   if (args.length < 2) {
     print(
         "Usage: dart tester/test.dart /path/to/directory/for/testing parse/highlight/query [query.scm]");
+    return;
+  }
+  if (File(args[0]).existsSync()) {
+    await runTreeSitterSingle(
+        [args[0]], args[1], args.length == 3 ? args[2] : null);
     return;
   }
   final files = Directory(args[0])
