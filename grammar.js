@@ -369,37 +369,32 @@ module.exports = grammar({
     /*
      * TemplateBody      ::=  :<<< [SelfType] TemplateStat {semi TemplateStat} >>>
      */
-    template_body: $ => choice(
-      prec.left(PREC.control, $._indented_template_body),
-      prec.left(PREC.control, $._braced_template_body),
-    ),
+    template_body: $ =>
+      choice(
+        prec.left(PREC.control, $._indented_template_body),
+        prec.left(PREC.control, $._braced_template_body),
+      ),
 
-    _indented_template_body: $ => seq(
-      ':',
-      $._indent,
-      optional($.self_type),
-      $._block,
-      $._outdent,
-    ),
+    _indented_template_body: $ =>
+      seq(":", $._indent, optional($.self_type), $._block, $._outdent),
 
-    _braced_template_body: $ => seq(
-      '{',
-      optional(choice(
-        $._braced_template_body1,
-        $._braced_template_body2,
-      )),
-      '}',
-    ),
+    _braced_template_body: $ =>
+      seq(
+        "{",
+        optional(choice($._braced_template_body1, $._braced_template_body2)),
+        "}",
+      ),
 
     _braced_template_body1: $ => seq(optional($.self_type), $._block),
-    _braced_template_body2: $ => seq(
-      choice(
-        seq($._indent, optional($.self_type)),
-        seq(optional($.self_type), $._indent),
+    _braced_template_body2: $ =>
+      seq(
+        choice(
+          seq($._indent, optional($.self_type)),
+          seq(optional($.self_type), $._indent),
+        ),
+        optional($._block),
+        $._outdent,
       ),
-      optional($._block),
-      $._outdent
-    ),
 
     /*
      * WithTemplateBody  ::=  <<< [SelfType] TemplateStat {semi TemplateStat} >>>
@@ -1057,7 +1052,6 @@ module.exports = grammar({
         $.generic_function,
         $.call_expression,
       ),
-
 
     lambda_expression: $ =>
       prec.right(
