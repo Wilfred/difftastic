@@ -3997,15 +3997,19 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "_definition",
+          "type": "expression",
           "named": true
         },
         {
-          "type": "expression",
+          "type": "indented_block",
+          "named": true
+        },
+        {
+          "type": "indented_cases",
           "named": true
         }
       ]
