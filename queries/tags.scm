@@ -28,15 +28,45 @@
 (defun_header
   lambda_list: (list_lit (list_lit . [(sym_lit) (package_lit)] @ignore)))
 
+;;
+;;      (let ((var ...) (var2 ...)) ...)
+;;
+;; - exclude var, var2
+;; - the same for let*, flet, labels, macrolet, symbol-macrolet
+(list_lit . [(sym_lit) (package_lit)] @name
+          . (list_lit (list_lit . [(sym_lit) (package_lit)] @ignore))
+          (#match? @name
+                   "(?i)^(cl:)?(let|let\\*|flet|labels|macrolet|symbol-macrolet)$")
+  )
+
 ;; TODO: exclude also:
-;;       - (let ((var ...) (var2 ...)) ...)
-;;              exclude var, var2
-;;       - the same for let*
 ;;       - (defclass name (parent parent2)
 ;;           ((slot1 ...)
 ;;            (slot2 ...))
 ;;              exclude the parent, slot1, slot2
+;;       - (flet ((func-1 (param1 param2))) ...)
+;;           - we already exclude func-1, but param1 is still recognized
+;;             as a function call - exclude it too
+;;           - the same for labels
+;;           - the same macrolet
+;;       - (flet ((func-1 (param1 param2))) ...)
+;;         - instead of simply excluding it, as we do today,
+;;           tag func-1 as @local.definition.function (I suppose)
+;;         - the same for labels, macrolet
+;;       - @local.scope for let, let*, flet, labels, macrolet
+;;         - I guess the whole span of the scope text,
+;;           till the closing paren, should be tagged as @local.scope;
+;;           Hopefully, combined with @local.definition.function
+;;           withing the scope, the usual  @reference.call within
+;;           that scope will refer to the local definition,
+;;           and there will be no need to use @local.reference.call
+;;           (which is more difficult to implement).
+;;         - When implementing, remeber the scope rules differences
+;;           of let vs let*, flet vs labels.
 ;;       - what else?
+;;         (that's a non-goal to completely support all macros
+;;          and special operators, but every one we support
+;;          makes the solution a little bit better)
 
 ;; Inlclude all other cases - list literal with symbol as the
 ;; first element
