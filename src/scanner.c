@@ -109,6 +109,16 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   int indentation_size = 0;
   LOG("scanner was called at column: %d\n", lexer->get_column(lexer));
 
+  while (iswspace(lexer->lookahead)) {
+    if (lexer->lookahead == '\n') {
+      newline_count++;
+      indentation_size = 0;
+    }
+    else
+      indentation_size++;
+    skip(lexer);
+  }
+
   // Before advancing the lexer, check if we can double outdent
   if (valid_symbols[OUTDENT] &&
       (lexer->lookahead == 0 ||
@@ -129,15 +139,6 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   }
   stack->last_indentation_size = -1;
 
-  while (iswspace(lexer->lookahead)) {
-    if (lexer->lookahead == '\n') {
-      newline_count++;
-      indentation_size = 0;
-    }
-    else
-      indentation_size++;
-    lexer->advance(lexer, true);
-  }
   printStack(stack, "    before");
 
   if (valid_symbols[INDENT] &&

@@ -1063,6 +1063,8 @@ object O {
     val y = 2 * x
     y * y
   }
+  { b =>
+   if (c) d.e }
 }
 
 --------------------------------------------------------------------------------
@@ -1125,7 +1127,17 @@ object O {
             (infix_expression
               (identifier)
               (operator_identifier)
-              (identifier))))))))
+              (identifier)))))
+      (block
+        (lambda_expression
+          (identifier)
+          (indented_block
+            (if_expression
+              (parenthesized_expression
+                (identifier))
+              (field_expression
+                (identifier)
+                (identifier)))))))))
 
 ================================================================================
 Unit expressions
