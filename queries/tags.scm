@@ -47,10 +47,10 @@
 
 (list_lit . [(sym_lit) (package_lit)] @ignore
           . [(sym_lit) (package_lit)] @name
-  (#match? @ignore "(cl:defclass|defclass)")
+  (#match? @ignore "(?i)^(cl:)?defclass$")
           ) @definition.class
 
 (list_lit . [(sym_lit) (package_lit)] @ignore
           . (quoting_lit [(sym_lit) (package_lit)] @name)
-  (#match? @ignore "(cl:make-instance|make-instance)")
+  (#match? @ignore "(?i)^(cl:)?make-instance$")
           ) @reference.class
