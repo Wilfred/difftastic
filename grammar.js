@@ -313,10 +313,10 @@ module.exports = grammar({
         field("type_parameters", optional($.type_parameters)),
         optional($.annotation),
         optional($.access_modifier),
-        field("class_parameters", repeat(seq(
-          optional($._automatic_semicolon),
-          $.class_parameters,
-        ))),
+        field(
+          "class_parameters",
+          repeat(seq(optional($._automatic_semicolon), $.class_parameters)),
+        ),
       ),
 
     trait_definition: $ =>
@@ -543,10 +543,10 @@ module.exports = grammar({
         seq(
           field("name", $._identifier),
           field("type_parameters", optional($.type_parameters)),
-          field("parameters", repeat(seq(
-            optional($._automatic_semicolon),
-            $.parameters,
-          ))),
+          field(
+            "parameters",
+            repeat(seq(optional($._automatic_semicolon), $.parameters)),
+          ),
         ),
       ),
 

@@ -3013,23 +3013,7 @@
             "named": true
           },
           {
-            "type": "function_type",
-            "named": true
-          },
-          {
             "type": "generic_type",
-            "named": true
-          },
-          {
-            "type": "infix_type",
-            "named": true
-          },
-          {
-            "type": "literal_type",
-            "named": true
-          },
-          {
-            "type": "match_type",
             "named": true
           },
           {
@@ -6757,6 +6741,10 @@
         "types": [
           {
             "type": "_pattern",
+            "named": true
+          },
+          {
+            "type": "identifiers",
             "named": true
           }
         ]
