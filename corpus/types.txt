@@ -201,6 +201,8 @@ type G = H[A1] {
 type I = F1[A1:
   def foo: A2]
 
+def a: F { val x: Int } = ???
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -249,7 +251,16 @@ type I = F1[A1:
           (refinement
             (function_declaration
               (identifier)
-              (type_identifier))))))))
+              (type_identifier)))))))
+  (function_definition
+    (identifier)
+    (compound_type
+      (type_identifier)
+      (refinement
+        (val_declaration
+          (identifier)
+          (type_identifier))))
+    (operator_identifier)))
 
 ================================================================================
 Infix types

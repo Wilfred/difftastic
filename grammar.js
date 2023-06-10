@@ -65,16 +65,11 @@ module.exports = grammar({
   conflicts: $ => [
     [$.tuple_type, $.parameter_types],
     [$.binding, $._simple_expression],
-    [$.binding, $.ascription_expression],
     [$.binding, $._type_identifier],
-    [$.if_expression, $.expression],
     [$.while_expression, $._simple_expression],
-    [$.for_expression, $.infix_expression],
-    [$._indentable_expression, $.do_while_expression],
     [$.if_expression],
     [$.match_expression],
     [$._function_constructor, $._type_identifier],
-    [$._type_identifier, $.identifier],
     [$.instance_expression],
     // In case of: 'extension'  _indent  '{'  'case'  operator_identifier  'if'  operator_identifier  •  '=>'  …
     // we treat `operator_identifier` as `simple_expression`
@@ -91,7 +86,10 @@ module.exports = grammar({
     [$._full_enum_def],
     // _start_val  identifier  ','  identifier  •  ':'  …
     [$.identifiers, $.val_declaration],
+    // 'enum'  operator_identifier  _automatic_semicolon  '('  ')'  •  ':'  …
     [$.class_parameters],
+    // 'for'  operator_identifier  ':'  _annotated_type  •  ':'  …
+    [$._type, $.compound_type]
   ],
 
   word: $ => $._alpha_identifier,
@@ -375,19 +373,19 @@ module.exports = grammar({
      */
     template_body: $ =>
       choice(
-        prec.left(PREC.control, $._indented_template_body),
-        prec.left(PREC.control, $._braced_template_body),
+        $._indented_template_body,
+        $._braced_template_body,
       ),
 
     _indented_template_body: $ =>
-      seq(":", $._indent, optional($.self_type), $._block, $._outdent),
+      prec.left(PREC.control, seq(":", $._indent, optional($.self_type), $._block, $._outdent)),
 
     _braced_template_body: $ =>
-      seq(
+      prec.left(PREC.control, seq(
         "{",
         optional(choice($._braced_template_body1, $._braced_template_body2)),
         "}",
-      ),
+      )),
 
     _braced_template_body1: $ => seq(optional($.self_type), $._block),
     _braced_template_body2: $ =>
@@ -812,7 +810,7 @@ module.exports = grammar({
             repeat1(seq("with", field("extra", $._annotated_type))),
           ),
         ),
-        prec.left(-1, seq(field("base", $._annotated_type), $._refinement)),
+        prec.left(seq(field("base", $._annotated_type), $._refinement)),
         prec.left(
           -1,
           seq(
