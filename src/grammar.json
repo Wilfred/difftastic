@@ -1586,89 +1586,89 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC_LEFT",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "_indented_template_body"
-          }
+          "type": "SYMBOL",
+          "name": "_indented_template_body"
         },
         {
-          "type": "PREC_LEFT",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "_braced_template_body"
-          }
+          "type": "SYMBOL",
+          "name": "_braced_template_body"
         }
       ]
     },
     "_indented_template_body": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_indent"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "self_type"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_block"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_outdent"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_indent"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "self_type"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_block"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_outdent"
+          }
+        ]
+      }
     },
     "_braced_template_body": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_braced_template_body1"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_braced_template_body2"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_braced_template_body1"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_braced_template_body2"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          }
+        ]
+      }
     },
     "_braced_template_body1": {
       "type": "SEQ",
@@ -3913,7 +3913,7 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": -1,
+          "value": 0,
           "content": {
             "type": "SEQ",
             "members": [
@@ -7482,27 +7482,11 @@
     ],
     [
       "binding",
-      "ascription_expression"
-    ],
-    [
-      "binding",
       "_type_identifier"
-    ],
-    [
-      "if_expression",
-      "expression"
     ],
     [
       "while_expression",
       "_simple_expression"
-    ],
-    [
-      "for_expression",
-      "infix_expression"
-    ],
-    [
-      "_indentable_expression",
-      "do_while_expression"
     ],
     [
       "if_expression"
@@ -7513,10 +7497,6 @@
     [
       "_function_constructor",
       "_type_identifier"
-    ],
-    [
-      "_type_identifier",
-      "identifier"
     ],
     [
       "instance_expression"
@@ -7548,6 +7528,10 @@
     ],
     [
       "class_parameters"
+    ],
+    [
+      "_type",
+      "compound_type"
     ]
   ],
   "precedences": [
