@@ -85,3 +85,41 @@ Nested sections
             (word))))
       (text
         (word)))))
+
+================================================================================
+Subsection with preceeding paragraph
+================================================================================
+
+\section{Foo}
+
+\paragraph{Par}
+
+\subsection{Bar}
+
+\paragraph{Par}
+
+\subsection{Bar}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (section
+    (curly_group
+      (text
+        (word)))
+    (paragraph
+      (curly_group
+        (text
+          (word))))
+    (subsection
+      (curly_group
+        (text
+          (word)))
+      (paragraph
+        (curly_group
+          (text
+            (word)))))
+    (subsection
+      (curly_group
+        (text
+          (word))))))

@@ -69,7 +69,7 @@ module.exports = grammar({
 
     //--- Content
 
-    _root_content: $ => choice($._section, $._flat_content),
+    _root_content: $ => choice($._section, $._paragraph, $._flat_content),
 
     _flat_content: $ => prec.right(choice($._text_with_env_content, '[', ']')),
 
@@ -115,7 +115,13 @@ module.exports = grammar({
           repeat1($.chapter),
           repeat1($.section),
           repeat1($.subsection),
-          repeat1($.subsubsection),
+          repeat1($.subsubsection)
+        )
+      ),
+
+    _paragraph: $ =>
+      prec.right(
+        choice(
           repeat1($.paragraph),
           repeat1($.subparagraph),
           repeat1($.enum_item)
@@ -142,6 +148,7 @@ module.exports = grammar({
         seq(
           $._part_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
             prec.right(
               choice(
@@ -149,9 +156,6 @@ module.exports = grammar({
                 repeat1($.section),
                 repeat1($.subsection),
                 repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
               )
             )
           )
@@ -175,15 +179,13 @@ module.exports = grammar({
         seq(
           $._chapter_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
             prec.right(
               choice(
                 repeat1($.section),
                 repeat1($.subsection),
                 repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
               )
             )
           )
@@ -207,14 +209,12 @@ module.exports = grammar({
         seq(
           $._section_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
             prec.right(
               choice(
                 repeat1($.subsection),
-                repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
+                repeat1($.subsubsection)
               )
             )
           )
@@ -235,14 +235,10 @@ module.exports = grammar({
         seq(
           $._subsection_declaration,
           repeat($._flat_content),
+          optional(prec.right(-1, $._paragraph)),
           optional(
             prec.right(
-              choice(
-                repeat1($.subsubsection),
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
+              repeat1($.subsubsection)
             )
           )
         )
@@ -262,15 +258,7 @@ module.exports = grammar({
         seq(
           $._subsubsection_declaration,
           repeat($._flat_content),
-          optional(
-            prec.right(
-              choice(
-                repeat1($.paragraph),
-                repeat1($.subparagraph),
-                repeat1($.enum_item)
-              )
-            )
-          )
+          optional(prec.right(-1, $._paragraph)),
         )
       ),
 
@@ -289,7 +277,12 @@ module.exports = grammar({
           $._paragraph_declaration,
           repeat($._flat_content),
           optional(
-            prec.right(choice(repeat1($.subparagraph), repeat1($.enum_item)))
+            prec.right(
+              choice(
+                repeat1($.subparagraph),
+                repeat1($.enum_item)
+              )
+            )
           )
         )
       ),
@@ -308,7 +301,13 @@ module.exports = grammar({
         seq(
           $._subparagraph_declaration,
           repeat($._flat_content),
-          optional(prec.right(choice(repeat1($.enum_item))))
+          optional(
+            prec.right(
+              choice(
+                repeat1($.enum_item)
+              )
+            )
+          )
         )
       ),
 
@@ -326,7 +325,11 @@ module.exports = grammar({
         seq(
           $._enum_itemdeclaration,
           repeat($._flat_content),
-          optional(prec.right(choice()))
+          optional(
+            prec.right(
+              choice()
+            )
+          )
         )
       ),
 
