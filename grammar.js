@@ -89,7 +89,7 @@ module.exports = grammar({
     // 'enum'  operator_identifier  _automatic_semicolon  '('  ')'  •  ':'  …
     [$.class_parameters],
     // 'for'  operator_identifier  ':'  _annotated_type  •  ':'  …
-    [$._type, $.compound_type]
+    [$._type, $.compound_type],
   ],
 
   word: $ => $._alpha_identifier,
@@ -372,20 +372,23 @@ module.exports = grammar({
      * TemplateBody      ::=  :<<< [SelfType] TemplateStat {semi TemplateStat} >>>
      */
     template_body: $ =>
-      choice(
-        $._indented_template_body,
-        $._braced_template_body,
-      ),
+      choice($._indented_template_body, $._braced_template_body),
 
     _indented_template_body: $ =>
-      prec.left(PREC.control, seq(":", $._indent, optional($.self_type), $._block, $._outdent)),
+      prec.left(
+        PREC.control,
+        seq(":", $._indent, optional($.self_type), $._block, $._outdent),
+      ),
 
     _braced_template_body: $ =>
-      prec.left(PREC.control, seq(
-        "{",
-        optional(choice($._braced_template_body1, $._braced_template_body2)),
-        "}",
-      )),
+      prec.left(
+        PREC.control,
+        seq(
+          "{",
+          optional(choice($._braced_template_body1, $._braced_template_body2)),
+          "}",
+        ),
+      ),
 
     _braced_template_body1: $ => seq(optional($.self_type), $._block),
     _braced_template_body2: $ =>
