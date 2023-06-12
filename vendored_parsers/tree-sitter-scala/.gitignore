@@ -1,5 +1,6 @@
 node_modules
 build
+/.build
 target
 *.log
 test.scala
@@ -9,6 +10,7 @@ Cargo.lock
 *worksheet.sc
 *.out
 .direnv
-
-./scala 
+.metals
+report-*
+./scala
 ./dotty

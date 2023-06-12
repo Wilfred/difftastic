@@ -57,7 +57,7 @@ object Hello {
 // ^ keyword
 //      ^ type
     self: X =>
-//  ^type
+//  ^parameter
 //        ^type
   }
 
@@ -70,8 +70,14 @@ object Hello {
 //               ^keyword
 //                   ^type.definition
 
-  val hello = c"some $stuff"
+  val hello = c"some $mutation ${1}"
 //            ^function.call
 //                   ^punctuation.special
+//                     ^variable
+//                               ^number
+  def meth = ???
+//     ^method
+  val hello2 = c"some $meth"
+//                      ^method
 }
 

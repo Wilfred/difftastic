@@ -23,7 +23,10 @@
 (class_parameter 
   name: (identifier) @parameter)
 
-(interpolation) @none
+(self_type (identifier) @parameter)
+
+(interpolation (identifier) @none)
+(interpolation (block) @none)
 
 ;; types
 
@@ -233,6 +236,7 @@
 "return" @keyword.return
 
 (comment) @comment @spell
+(block_comment) @comment @spell
 
 ;; `case` is a conditional keyword in case_block
 
@@ -249,3 +253,7 @@
 ;;   (identifier) @function.builtin
 ;;   (#lua-match? @function.builtin "^super$")
 ;; )
+
+;; Scala CLI using directives
+(using_directive_key) @parameter
+(using_directive_value) @string

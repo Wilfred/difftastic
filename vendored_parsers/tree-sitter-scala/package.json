@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-scala",
-  "version": "0.20.7",
+  "version": "0.20.0",
   "description": "Scala grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -13,19 +13,23 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.7"
+    "tree-sitter-cli": "0.20.7",
+    "prettier": "3.0.0-alpha.6"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && tree-sitter parse examples/*.scala --quiet --time"
+    "test": "tree-sitter test && tree-sitter parse examples/*.scala --quiet --time",
+    "format": "prettier --write --ignore-unknown grammar.js"
   },
   "tree-sitter": [
     {
       "scope": "source.scala",
       "file-types": [
-        "scala"
+        "scala",
+        "sbt"
       ],
-      "highlights": "queries/scala/highlights.scm"
+      "highlights": "queries/scala/highlights.scm",
+      "locals": "queries/scala/locals.scm"
     }
   ]
 }

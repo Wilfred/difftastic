@@ -1,6 +1,6 @@
-===================================
+================================================================================
 Stable type identifiers
-===================================
+================================================================================
 
 object Main {
   type A = B.C
@@ -8,23 +8,35 @@ object Main {
   type H = __root__.scala.Int
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (object_definition (identifier) (template_body
-    (type_definition
-      (type_identifier)
-      (stable_type_identifier (identifier) (type_identifier)))
-    (type_definition
-      (type_identifier)
-      (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier)))
-    (type_definition
-      (type_identifier)
-      (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier))))))
+  (object_definition
+    (identifier)
+    (template_body
+      (type_definition
+        (type_identifier)
+        (stable_type_identifier
+          (identifier)
+          (type_identifier)))
+      (type_definition
+        (type_identifier)
+        (stable_type_identifier
+          (stable_identifier
+            (identifier)
+            (identifier))
+          (type_identifier)))
+      (type_definition
+        (type_identifier)
+        (stable_type_identifier
+          (stable_identifier
+            (identifier)
+            (identifier))
+          (type_identifier))))))
 
-===================================
+================================================================================
 Generic types
-===================================
+================================================================================
 
 object Main {
   type A = B[
@@ -34,24 +46,31 @@ object Main {
   type E = F.G[H]
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (object_definition (identifier) (template_body
-    (type_definition
-      (type_identifier)
-      (generic_type
+  (object_definition
+    (identifier)
+    (template_body
+      (type_definition
         (type_identifier)
-        (type_arguments (type_identifier) (type_identifier))))
-    (type_definition
-      (type_identifier)
-      (generic_type
-        (stable_type_identifier (identifier) (type_identifier))
-        (type_arguments (type_identifier)))))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)
+            (type_identifier))))
+      (type_definition
+        (type_identifier)
+        (generic_type
+          (stable_type_identifier
+            (identifier)
+            (type_identifier))
+          (type_arguments
+            (type_identifier)))))))
 
-===================================
+================================================================================
 Tuple types
-===================================
+================================================================================
 
 object Main {
   type A = (B, C)
@@ -61,24 +80,26 @@ object Main {
   )
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (object_definition (identifier) (template_body
-    (type_definition
-      (type_identifier)
-      (tuple_type
+  (object_definition
+    (identifier)
+    (template_body
+      (type_definition
         (type_identifier)
-        (type_identifier)))
-    (type_definition
-      (type_identifier)
-      (tuple_type
+        (tuple_type
+          (type_identifier)
+          (type_identifier)))
+      (type_definition
         (type_identifier)
-        (type_identifier))))))
+        (tuple_type
+          (type_identifier)
+          (type_identifier))))))
 
-===================================
+================================================================================
 Function types
-===================================
+================================================================================
 
 object Main {
   type A = (B, C) => D
@@ -88,64 +109,162 @@ object Main {
   type A = B => (D, E)
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (object_definition (identifier) (template_body
-    (type_definition
-      (type_identifier)
-      (function_type
-        (parameter_types (type_identifier) (type_identifier))
-        (type_identifier)))
-    (type_definition
-      (type_identifier)
-      (function_type
-        (parameter_types (type_identifier) (type_identifier))
-        (tuple_type (type_identifier) (type_identifier))))
-    (type_definition
-      (type_identifier)
-      (function_type
-        (parameter_types (type_identifier))
-        (tuple_type (type_identifier) (type_identifier)))))))
+  (object_definition
+    (identifier)
+    (template_body
+      (type_definition
+        (type_identifier)
+        (function_type
+          (parameter_types
+            (type_identifier)
+            (type_identifier))
+          (type_identifier)))
+      (type_definition
+        (type_identifier)
+        (function_type
+          (parameter_types
+            (type_identifier)
+            (type_identifier))
+          (tuple_type
+            (type_identifier)
+            (type_identifier))))
+      (type_definition
+        (type_identifier)
+        (function_type
+          (parameter_types
+            (type_identifier))
+          (tuple_type
+            (type_identifier)
+            (type_identifier)))))))
 
-===================================
+================================================================================
 Context function types (Scala 3 syntax)
-===================================
+================================================================================
 
 type Executable[A] = ExecutionContext ?=> A
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition (type_identifier) (type_parameters (identifier))
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (identifier))
     (function_type
-      (parameter_types (type_identifier))
+      (parameter_types
+        (type_identifier))
       (type_identifier))))
 
-==================================
+================================================================================
+Match types (Scala 3 syntax)
+================================================================================
+
+type Elem[A] = A match
+  case String   => Char
+  case Array[a] => a
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (identifier))
+    (match_type
+      (type_identifier)
+      (type_case_clause
+        (type_identifier)
+        (type_identifier))
+      (type_case_clause
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (type_identifier)))))
+
+================================================================================
 Compound types
-==================================
+================================================================================
 
 def cloneAndReset(obj: Cloneable with Resetable): Cloneable = {
 }
 
 class F extends Cloneable with Resetable with Serializable {}
 
----
+type G = H[A1] {
+  def foo[A2 <: Stepper[_]]: A2
+}
+
+type I = F1[A1:
+  def foo: A2]
+
+def a: F { val x: Int } = ???
+
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
     (identifier)
-    (parameters (parameter (identifier) (compound_type (type_identifier) (type_identifier))))
-    (type_identifier) (block))
-  (class_definition (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (compound_type
+          (type_identifier)
+          (type_identifier))))
+    (type_identifier)
+    (block))
+  (class_definition
+    (identifier)
     (extends_clause
-      (type_identifier) (type_identifier) (type_identifier))
-    (template_body)))
+      (type_identifier)
+      (type_identifier)
+      (type_identifier))
+    (template_body))
+  (type_definition
+    (type_identifier)
+    (compound_type
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier)))
+      (refinement
+        (function_declaration
+          (identifier)
+          (type_parameters
+            (identifier)
+            (upper_bound
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (wildcard)))))
+          (type_identifier)))))
+  (type_definition
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (compound_type
+          (type_identifier)
+          (refinement
+            (function_declaration
+              (identifier)
+              (type_identifier)))))))
+  (function_definition
+    (identifier)
+    (compound_type
+      (type_identifier)
+      (refinement
+        (val_declaration
+          (identifier)
+          (type_identifier))))
+    (operator_identifier)))
 
-==================================
+================================================================================
 Infix types
-==================================
+================================================================================
 
 type A = B Foo C
 
@@ -153,137 +272,179 @@ type A = B ! C or D
 
 type A = (B, C) ~ D
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (type_definition
     (type_identifier)
-    (infix_type (type_identifier) (identifier) (type_identifier)))
-  (type_definition
-    (type_identifier)
     (infix_type
-      (infix_type (type_identifier) (operator_identifier) (type_identifier))
+      (type_identifier)
       (identifier)
       (type_identifier)))
   (type_definition
     (type_identifier)
     (infix_type
-      (tuple_type (type_identifier) (type_identifier))
+      (infix_type
+        (type_identifier)
+        (operator_identifier)
+        (type_identifier))
+      (identifier)
+      (type_identifier)))
+  (type_definition
+    (type_identifier)
+    (infix_type
+      (tuple_type
+        (type_identifier)
+        (type_identifier))
       (operator_identifier)
       (type_identifier))))
 
-
-==================================
+================================================================================
 Variant Types
-==================================
+================================================================================
 
 class Function1[-T1, +R]
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (type_parameters
-      (contravariant_type_parameter (identifier))
-      (covariant_type_parameter (identifier)))))
+      (contravariant_type_parameter
+        (identifier))
+      (covariant_type_parameter
+        (identifier)))))
 
-
-==================================
+================================================================================
 Upper bound
-==================================
+================================================================================
 
 class A[B <: C]
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (type_parameters
       (identifier)
-      (upper_bound (type_identifier)))))
+      (upper_bound
+        (type_identifier)))))
 
-==================================
+================================================================================
 Lower bound
-==================================
+================================================================================
 
 class A[B >: C]
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (type_parameters
       (identifier)
-      (lower_bound (type_identifier)))))
+      (lower_bound
+        (type_identifier)))))
 
-==================================
+================================================================================
+Lower and upper bounds
+================================================================================
+
+class A[B >: C <: D]
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (lower_bound
+        (type_identifier))
+      (upper_bound
+        (type_identifier)))))
+
+================================================================================
 View bound
-==================================
+================================================================================
 
 
 class A[B <% C <% D]
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (type_parameters
       (identifier)
-      (view_bound (type_identifier))
-      (view_bound (type_identifier)))))
+      (view_bound
+        (type_identifier))
+      (view_bound
+        (type_identifier)))))
 
-==================================
+================================================================================
 Context bound
-==================================
+================================================================================
 
 class A[B : C : D]
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (type_parameters
       (identifier)
-      (context_bound (type_identifier))
-      (context_bound (type_identifier)))))
+      (context_bound
+        (type_identifier))
+      (context_bound
+        (type_identifier)))))
 
-==================================
+================================================================================
 Projections
-==================================
+================================================================================
 
 type A = B[C]#D
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition (type_identifier)
+  (type_definition
+    (type_identifier)
     (projected_type
-      (generic_type (type_identifier) (type_arguments (type_identifier)))
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier)))
       (type_identifier))))
 
-==================================
+================================================================================
 Complex types
-==================================
+================================================================================
 
 type A = B with B1 with B2 ! C with C1
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition (type_identifier)
+  (type_definition
+    (type_identifier)
     (infix_type
-      (compound_type (type_identifier) (type_identifier) (type_identifier))
+      (compound_type
+        (type_identifier)
+        (type_identifier)
+        (type_identifier))
       (operator_identifier)
-      (compound_type (type_identifier) (type_identifier)))))
+      (compound_type
+        (type_identifier)
+        (type_identifier)))))
 
-==================================
+================================================================================
 Literal type aliases (Scala 2.13+)
-==================================
+================================================================================
 
 type A = "hello"
 type B = 25
@@ -292,21 +453,25 @@ type D = 0.5f
 
 class Test(d: "hello", b: 25)
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition 
-    (type_identifier) (literal_type (string)))
-
-  (type_definition 
-    (type_identifier) (literal_type (integer_literal)))
-
-  (type_definition 
-    (type_identifier) (literal_type (boolean_literal)))
-
-  (type_definition 
-    (type_identifier) (literal_type (floating_point_literal)))
-
+  (type_definition
+    (type_identifier)
+    (literal_type
+      (string)))
+  (type_definition
+    (type_identifier)
+    (literal_type
+      (integer_literal)))
+  (type_definition
+    (type_identifier)
+    (literal_type
+      (boolean_literal)))
+  (type_definition
+    (type_identifier)
+    (literal_type
+      (floating_point_literal)))
   (class_definition
     (identifier)
     (class_parameters
@@ -319,81 +484,91 @@ class Test(d: "hello", b: 25)
         (literal_type
           (integer_literal))))))
 
-==================================
+================================================================================
 Singleton Types
-==================================
+================================================================================
 
 class A:
   def foobar: this.type = this
   type X = A.B.type
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (template_body
-      (function_definition (identifier) (singleton_type (identifier)) (identifier))
-      (type_definition (type_identifier) (singleton_type (stable_identifier (identifier) (identifier)))))))
+      (function_definition
+        (identifier)
+        (singleton_type
+          (identifier))
+        (identifier))
+      (type_definition
+        (type_identifier)
+        (singleton_type
+          (stable_identifier
+            (identifier)
+            (identifier)))))))
 
-==================================
+================================================================================
 Opaque type aliases (Scala 3)
-==================================
+================================================================================
 
 opaque type A = Int
 private opaque type B = String
-opaque type B <: Test >: Help = String
+opaque type B >: Test <: Help = String
 
----
+
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition 
-    (opaque_modifier) (type_identifier) (type_identifier))
-
-  (type_definition 
-    (modifiers (access_modifier))
-    (opaque_modifier) 
-    (type_identifier) 
+  (type_definition
+    (opaque_modifier)
+    (type_identifier)
     (type_identifier))
-
-  (type_definition 
-    (opaque_modifier) 
-    (type_identifier) 
-    (upper_bound (type_identifier))
-    (lower_bound (type_identifier))
+  (type_definition
+    (modifiers
+      (access_modifier))
+    (opaque_modifier)
+    (type_identifier)
     (type_identifier))
-)
+  (type_definition
+    (opaque_modifier)
+    (type_identifier)
+    (lower_bound
+      (type_identifier))
+    (upper_bound
+      (type_identifier))
+    (type_identifier)))
 
-==================================
+================================================================================
 Structural type
-==================================
+================================================================================
 
 type A = { def fly(): Unit }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition (type_identifier)
+  (type_definition
+    (type_identifier)
     (structural_type
-      (function_declaration 
+      (function_declaration
         (identifier)
         (parameters)
-        (type_identifier)
-      )
-    )
-  )
-)
+        (type_identifier)))))
 
-=========================================
+================================================================================
 Anonymous structural type with projection
-=========================================
+================================================================================
 
 type A = B[({ type f[x] = M[S, x] })#f]
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (type_definition (type_identifier)
+  (type_definition
+    (type_identifier)
     (generic_type
       (type_identifier)
       (type_arguments
@@ -403,21 +578,10 @@ type A = B[({ type f[x] = M[S, x] })#f]
               (type_definition
                 (type_identifier)
                 (type_parameters
-                  (identifier)
-                )
+                  (identifier))
                 (generic_type
                   (type_identifier)
-                    (type_arguments
-                      (type_identifier)
-                      (type_identifier)
-                    )
-                )
-              )
-            )
-          )
-          (type_identifier)
-        )
-      )
-    )
-  )
-)
+                  (type_arguments
+                    (type_identifier)
+                    (type_identifier))))))
+          (type_identifier))))))

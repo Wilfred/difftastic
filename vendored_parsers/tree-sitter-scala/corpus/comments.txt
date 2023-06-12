@@ -1,0 +1,89 @@
+================================================================================
+Single line comments
+================================================================================
+
+// comment 1
+// comment 2
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (comment)
+  (comment))
+
+================================================================================
+Block comments
+================================================================================
+/**/
+/** comment 1
+ * /* comment 2
+ *  /* / * * /comment 3 */
+ // comment 4
+ * @param
+ *  */
+*/
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (block_comment)
+  (block_comment
+    (block_comment
+      (block_comment))))
+
+================================================================================
+Single line comments with block comment
+================================================================================
+
+// /*
+//  * This is awesome comment
+// */
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (comment)
+  (comment)
+  (comment))
+
+================================================================================
+Block comment with single-line comment inside
+================================================================================
+
+/* // */
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (block_comment))
+
+================================================================================
+Using directives
+================================================================================
+
+//> using jvm graalvm:21
+//> using scala 3.3.0
+//> using dep foo:bar:1,2,3,url=https://github.com
+//> using exclude "examples/*" "*/resources/*" 
+// > just a comment
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (comment
+    (using_directive
+      (using_directive_key)
+      (using_directive_value)))
+  (comment
+    (using_directive
+      (using_directive_key)
+      (using_directive_value)))
+  (comment
+    (using_directive
+      (using_directive_key)
+      (using_directive_value)))
+  (comment
+    (using_directive
+      (using_directive_key)
+      (using_directive_value)))
+  (comment))

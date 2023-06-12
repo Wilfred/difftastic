@@ -23,6 +23,16 @@ object O1:
   //^keyword.function
   //  ^method
 
+object O2:
+  type Elem[A] = A match
+  //^keyword
+  //   ^type.definition
+    case String   => Char
+    //^keyword
+    //   ^type       ^type
+    case Array[a] => a
+    //   ^type       ^type
+
 // SIP-44
 class C:
 // ^keyword
@@ -141,9 +151,9 @@ class Copier:
 
   export scanUnit.scan
   // ^ include
-  //        ^namespace
+  //        ^variable
   export printUnit.{status as _, *}
   // ^ include
-  //        ^namespace
+  //        ^variable
 
   def status: List[String] = printUnit.status ++ scanUnit.status
