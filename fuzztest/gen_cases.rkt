@@ -24,9 +24,10 @@
   (with-handlers ([exn:fail? (lambda _ (void))])
     (when (> i 0)
       (define case-str (list->string case))
-      ;; only one known bug: ".0@.0" should be a number according the document,
+      ;; ".0@.0" should be a number according the document,
       ;; but it's actually a symbol.
-      ;; will fix later.
+      ;; It's a bug of Racket reader, and will fix in new Racket release.
+      ;; we skip these cases.
       (when (not (string-contains? case-str "@."))
         (with-handlers ([exn:fail? void])
           (with-input-from-string case-str
