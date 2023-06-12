@@ -1,6 +1,6 @@
 const PREC = {
-  comment: 0,
-  using_directive: 1,
+  comment: 1,
+  using_directive: 2,
   control: 1,
   stable_type_id: 2,
   while: 2,
@@ -1602,7 +1602,6 @@ module.exports = grammar({
       ),
 
     comment: $ => seq(token("//"), choice($.using_directive, $._comment_text)),
-
     _comment_text: $ => token(prec(PREC.comment, /.*/)),
 
     using_directive: $ =>
@@ -1615,7 +1614,8 @@ module.exports = grammar({
     using_directive_key: $ => token(/[^\s]+/),
     using_directive_value: $ => token(/.*/),
 
-    block_comment: $ => seq(token("/*"), repeat(token(/./)), token("*/")),
+    block_comment: $ =>
+      seq(token("/*"), repeat(choice(token(/./), token("//"))), token("*/")),
   },
 });
 
