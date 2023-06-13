@@ -1,5 +1,9 @@
 ## 0.48 (unreleased)
 
+### Parsing
+
+Updated Scala parser.
+
 ### Internals
 
 Difftastic's logging is now configured with the environment variable
