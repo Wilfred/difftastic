@@ -857,7 +857,10 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_scala() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string", "template_string"].into_iter().collect(),
+                // TODO: probably all comments should be treated as atoms
+                atom_nodes: vec!["string", "template_string", "comment", "block_comment"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
