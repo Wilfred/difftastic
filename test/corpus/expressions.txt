@@ -439,6 +439,25 @@ int main() {
         (type_descriptor (primitive_type) (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))))
 
 ============================================
+Offsetof expressions
+============================================
+
+int main() {
+  offsetof( struct x, a );
+  offsetof( x, a );
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list))
+    (compound_statement
+      (expression_statement (offsetof_expression (type_descriptor (struct_specifier (type_identifier))) (field_identifier)))
+      (expression_statement (offsetof_expression (type_descriptor (type_identifier)) (field_identifier))))))
+
+============================================
 Compound literals
 ============================================
 
