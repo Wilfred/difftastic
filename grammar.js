@@ -1725,7 +1725,7 @@ module.exports = grammar({
                 '=', $._type, ';'),
         ),
 
-        _class_modifiers: $ => seq(choice($.sealed, seq(optional($.abstract), optional(choice($.base, $.interface, 'final')))), 'class'),
+        _class_modifiers: $ => seq(choice($.sealed, seq(optional($.abstract), optional(choice($.base, $.interface, 'final', 'inline')))), 'class'),
 
         _mixin_class_modifiers: $ => seq(optional($.abstract), optional($.base), $.mixin, 'class'),
 

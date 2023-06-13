@@ -14778,6 +14778,10 @@
     "named": true
   },
   {
+    "type": "inline",
+    "named": false
+  },
+  {
     "type": "interface",
     "named": false
   },

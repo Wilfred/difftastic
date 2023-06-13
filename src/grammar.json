@@ -7194,6 +7194,10 @@
                         {
                           "type": "STRING",
                           "value": "final"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "inline"
                         }
                       ]
                     },
@@ -12552,8 +12556,7 @@
   "supertypes": [
     "_declaration",
     "_statement",
-    "_literal",
-    "_element"
+    "_literal"
   ]
 }
 
