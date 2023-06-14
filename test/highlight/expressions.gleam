@@ -7,6 +7,6 @@ case "12345" {
   //   ^ string
 }
 
--x
-^ operator
- ^ variable
+   -x
+// ^ operator
+//  ^ variable
