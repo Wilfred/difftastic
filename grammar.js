@@ -90,6 +90,7 @@ module.exports = grammar({
     [$.class_parameters],
     // 'for'  operator_identifier  ':'  _annotated_type  •  ':'  …
     [$._type, $.compound_type],
+    [$.lambda_expression, $.modifiers],
   ],
 
   word: $ => $._alpha_identifier,
@@ -1051,8 +1052,15 @@ module.exports = grammar({
     lambda_expression: $ =>
       prec.right(
         seq(
-          field("parameters", choice($.bindings, $._identifier, $.wildcard)),
-          "=>",
+          field(
+            "parameters",
+            choice(
+              $.bindings,
+              seq(optional("implicit"), $._identifier),
+              $.wildcard,
+            ),
+          ),
+          choice("=>", "?=>"),
           $._indentable_expression,
         ),
       ),
