@@ -23,14 +23,15 @@ const PREC = {
   EQUAL: 6,
   RELATIONAL: 7,
   SIZEOF: 8,
-  SHIFT: 9,
-  ADD: 10,
-  MULTIPLY: 11,
-  CAST: 12,
-  UNARY: 13,
-  CALL: 14,
-  FIELD: 15,
-  SUBSCRIPT: 16,
+  OFFSETOF: 9,
+  SHIFT: 10,
+  ADD: 11,
+  MULTIPLY: 12,
+  CAST: 13,
+  UNARY: 14,
+  CALL: 15,
+  FIELD: 16,
+  SUBSCRIPT: 17,
 };
 
 module.exports = grammar({
@@ -738,6 +739,7 @@ module.exports = grammar({
       $.cast_expression,
       $.pointer_expression,
       $.sizeof_expression,
+      $.offsetof_expression,
       $.generic_expression,
       $.subscript_expression,
       $.call_expression,
@@ -866,6 +868,11 @@ module.exports = grammar({
         field('value', $._expression),
         seq('(', field('type', $.type_descriptor), ')'),
       ),
+    )),
+
+    offsetof_expression: $ => prec(PREC.OFFSETOF, seq(
+      'offsetof',
+      seq('(', field('type', $.type_descriptor), ',', field('member', $._field_identifier), ')'),
     )),
 
     generic_expression: $ => prec(PREC.CALL, seq(
