@@ -4967,8 +4967,25 @@
                   "name": "bindings"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_identifier"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "implicit"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_identifier"
+                    }
+                  ]
                 },
                 {
                   "type": "SYMBOL",
@@ -4978,8 +4995,17 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "=>"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "=>"
+              },
+              {
+                "type": "STRING",
+                "value": "?=>"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -7544,6 +7570,10 @@
     [
       "_type",
       "compound_type"
+    ],
+    [
+      "lambda_expression",
+      "modifiers"
     ]
   ],
   "precedences": [
