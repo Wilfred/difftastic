@@ -3958,7 +3958,7 @@
     "named": true,
     "fields": {
       "parameters": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3968,6 +3968,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "implicit",
+            "named": false
           },
           {
             "type": "operator_identifier",
