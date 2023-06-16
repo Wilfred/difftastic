@@ -55,9 +55,9 @@ module.exports = grammar({
     $._newline,
     $._indent,
     $._dedent,
-    $._string_start,
+    $.string_start,
     $._string_content,
-    $._string_end,
+    $.string_end,
 
     // Mark comments as external tokens so that the external scanner is always
     // invoked, even if no external token is expected. This allows for better
@@ -930,15 +930,12 @@ module.exports = grammar({
     ),
 
     string: $ => seq(
-      field('prefix', alias($._string_start, '"')),
-      repeat(choice(
-        field('interpolation', $.interpolation),
-        field('string_content', $.string_content)
-      )),
-      field('suffix', alias($._string_end, '"'))
+      $.string_start,
+      repeat(choice($.interpolation, $.string_content)),
+      $.string_end,
     ),
 
-    string_content: $ => prec.right(0, repeat1(
+    string_content: $ => prec.right(repeat1(
       choice(
         $._escape_interpolation,
         $.escape_sequence,
@@ -947,7 +944,7 @@ module.exports = grammar({
       ))),
 
     interpolation: $ => seq(
-      token.immediate('{'),
+      '{',
       field('expression', $._f_expression),
       optional('='),
       optional(field('type_conversion', $.type_conversion)),
