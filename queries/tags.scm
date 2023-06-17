@@ -1,6 +1,10 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Function Definitions ;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun_header
   function_name: (sym_lit) @name) @definition.function
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Function Calls ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Basically, we consider every list literal with symbol as the
@@ -86,3 +90,26 @@
           . (quoting_lit [(sym_lit) (package_lit)] @name)
   (#match? @ignore "(?i)^(cl:)?make-instance$")
           ) @reference.class
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; TODO:
+;; - Symbols referenced in defpackage
+;;
+;;       (defpackage ...
+;;         (:export (symbol-a :symbol-b #:symbol-c "SYMBOL-D")))
+;;
+;;   The goal is to allow quick navigation from the API
+;;   overview in the form of defpackage, to the definition
+;;   where user can read parameters, docstring, ect.
+;;   - The @name must not include the colon, or sharpsign colon, quotes,
+;;     just symbol-a, symbol-b, symbol-c, sybmol-d
+;;   - Downcase the names specified as stirng literals?
+;;     ("SYMBOL-D" -> symbol-d)
+;;   - We don't know if the exported symbol is a function, variable,
+;;     class or something else. The oficial doc
+;;     (https://tree-sitter.github.io/tree-sitter/code-navigation-systems)
+;;     does not even suggest a tag for variable reference.
+;;     (Although in practice, the `tree-sitter tags` command
+;;     allows any @reference.* and @definition.* tags)
+;;     Probably it's better to just use @reference.call for all
+;;     the symbols in the :export clause.
