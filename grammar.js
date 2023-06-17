@@ -29,7 +29,8 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/
+    /[\s\f\uFEFF\u2060\u200B]|\r?\n/,
+    $.line_continuation,
   ],
 
   conflicts: $ => [
@@ -178,11 +179,11 @@ module.exports = grammar({
         repeat(seq(',', field('argument', $.expression))),
         optional(','))
       ),
-      prec(-3, seq(
+      prec(-3, prec.dynamic(-1, seq(
         'print',
         commaSep1(field('argument', $.expression)),
         optional(',')
-      ))
+      ))),
     ),
 
     chevron: $ => seq(
@@ -632,7 +633,7 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.generator_expression,
       $.ellipsis,
-      $.list_splat_pattern,
+      alias($.list_splat_pattern, $.list_splat),
     ),
 
     not_operator: $ => prec(PREC.not, seq(
@@ -973,6 +974,7 @@ module.exports = grammar({
         /\d{3}/,
         /\r?\n/,
         /['"abfrntv\\]/,
+        /N\{[^}]+\}/,
       )
     ))),
 
@@ -1050,6 +1052,8 @@ module.exports = grammar({
     )),
 
     comment: $ => token(seq('#', /.*/)),
+
+    line_continuation: $ => token(seq('\\', choice(seq(optional('\r'), '\n'), '\0'))),
 
     positional_separator: $ => '/',
     keyword_separator: $ => '*',
