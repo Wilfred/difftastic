@@ -599,7 +599,6 @@ module.exports = grammar({
       $.comparison_operator,
       $.not_operator,
       $.boolean_operator,
-      $.await,
       $.lambda,
       $.primary_expression,
       $.conditional_expression,
@@ -608,6 +607,7 @@ module.exports = grammar({
     ),
 
     primary_expression: $ => choice(
+      $.await,
       $.binary_operator,
       $.identifier,
       $.keyword_identifier,
