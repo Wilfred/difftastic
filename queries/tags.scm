@@ -113,3 +113,7 @@
 ;;     allows any @reference.* and @definition.* tags)
 ;;     Probably it's better to just use @reference.call for all
 ;;     the symbols in the :export clause.
+;;
+;; - The same for the export function call:
+;; 
+;;       (export '(symbol-a :symbol-b #:symbol-c "SYMBOL-D"))
