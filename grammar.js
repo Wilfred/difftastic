@@ -557,7 +557,7 @@ module.exports = grammar({
     ),
 
     default_parameter: $ => seq(
-      field('name', $.identifier),
+      field('name', choice($.identifier, $.tuple_pattern)),
       '=',
       field('value', $.expression)
     ),
