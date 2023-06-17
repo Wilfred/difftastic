@@ -40,6 +40,7 @@ module.exports = grammar({
     [$.with_item, $._collection_elements],
     [$.named_expression, $.as_pattern],
     [$.match_statement, $.primary_expression],
+    [$.print_statement, $.primary_expression],
   ],
 
   supertypes: $ => [
@@ -177,7 +178,7 @@ module.exports = grammar({
         repeat(seq(',', field('argument', $.expression))),
         optional(','))
       ),
-      prec(-10, seq(
+      prec(-3, seq(
         'print',
         commaSep1(field('argument', $.expression)),
         optional(',')
