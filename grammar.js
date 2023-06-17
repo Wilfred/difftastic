@@ -286,7 +286,7 @@ module.exports = grammar({
       commaSep1(
         field(
           'pattern',
-          alias(choice($.expression, $.list_splat_pattern), $.case_pattern),
+          alias($.expression, $.case_pattern),
         )
       ),
       optional(','),
@@ -603,7 +603,7 @@ module.exports = grammar({
       $.primary_expression,
       $.conditional_expression,
       $.named_expression,
-      $.as_pattern
+      $.as_pattern,
     ),
 
     primary_expression: $ => choice(
@@ -630,7 +630,8 @@ module.exports = grammar({
       $.tuple,
       $.parenthesized_expression,
       $.generator_expression,
-      $.ellipsis
+      $.ellipsis,
+      $.list_splat_pattern,
     ),
 
     not_operator: $ => prec(PREC.not, seq(
@@ -757,6 +758,7 @@ module.exports = grammar({
       $.expression_list,
       $.assignment,
       $.augmented_assignment,
+      $.pattern_list,
       $.yield
     ),
 
@@ -955,6 +957,7 @@ module.exports = grammar({
     _f_expression: $ => choice(
       $.expression,
       $.expression_list,
+      $.pattern_list,
       $.yield,
     ),
 
