@@ -91,6 +91,9 @@
   (#match? @ignore "(?i)^(cl:)?make-instance$")
           ) @reference.class
 
+;;; TODO:
+;;  - @reference.class for base classes
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TODO:
 ;; - Symbols referenced in defpackage
