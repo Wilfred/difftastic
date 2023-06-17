@@ -428,7 +428,7 @@ module.exports = grammar({
 
     exec_statement: $ => seq(
       'exec',
-      field('code', $.string),
+      field('code', choice($.string, $.identifier)),
       optional(
         seq(
           'in',
