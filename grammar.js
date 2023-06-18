@@ -95,6 +95,7 @@ module.exports = grammar({
     [$._expression_without_call_expression_with_just_name, $.goto_expression],
     [$._expression_without_call_expression_with_just_name, $.method_invocation],
     [$._expression_without_call_expression_with_just_name, $.goto_expression, $.method_invocation],
+    [$._expression_without_call_expression_with_just_name, $._string],
     [$.list_block],
     [$.method_invocation, $.hash_dereference],
     [$.method_invocation, $.array_dereference],
@@ -123,9 +124,10 @@ module.exports = grammar({
     $._transliteration_content,
     $._separator_delimiter_transliteration,
     $._end_delimiter_transliteration,
-    $._eof_start_identifier,
-    $._eof_content,
-    $._eof_end_identifier,
+    // heredocs
+    $.heredoc_start_identifier,
+    $._heredoc_content,
+    $.heredoc_end_identifier,
     $._pod_content,
   ],
   
@@ -170,21 +172,40 @@ module.exports = grammar({
 
       $.special_literal,
 
-      $.eof_statement,
+      $.heredoc_body_statement,
 
       $.pod_statement,
     ),
 
-    eof_statement: $ => seq(
-      $.eof_expression,
+    // pseudocode
+    // ------------
+    // have start identifier as external. then parse till end of line
+    // then \n, then start hereodc body.
+
+    // heredoc_expression_statement: $ => seq(
+    //   $._statement,
+    //   // optional('\n')
+    //   '\n',
+    //   'EOF',
+    // ),
+
+    heredoc_initializer: $ => prec(PRECEDENCE.STRING, seq(
+      $._heredoc_operator,
+      $.heredoc_start_identifier,
+    )),
+
+    _heredoc_operator: $ => choice(
+      '<<',
+      '<<~'
     ),
 
-    // << start_identifier <any statement> \n
-    // content
-    // end_identifier
-    eof_expression: $ => seq(
-      '<<',
-      $._eof_start_identifier,
+    heredoc_body_statement: $ => seq(
+      repeat(choice(
+        // $.interpolation,
+        $.escape_sequence,
+        alias($._heredoc_content, $.contenttt),
+      )),
+      $.heredoc_end_identifier
     ),
 
     pod_statement: $ => prec(PRECEDENCE.COMMENTS, seq(
@@ -725,6 +746,7 @@ module.exports = grammar({
       alias($.call_expression_with_just_name, $.call_expression),
     )),
 
+    // TODO: change this to _expression_without_bareword
     // NOTE: just a hack to handle identifier vs subroutine call
     _expression_without_call_expression_with_just_name: $ => with_or_without_brackets(choice(
       $._primitive_expression,
@@ -747,8 +769,7 @@ module.exports = grammar({
       $.regex_pattern_qr,
       $.substitution_pattern_s,
       $.transliteration_tr_or_y,
-      $.eof_expression,
-
+      $.heredoc_initializer,
       $.pattern_matcher,
 
       $._i_o_operator,
@@ -1218,14 +1239,14 @@ module.exports = grammar({
 
     _shift_expression: $ => prec.left(PRECEDENCE.SHIFT_OPERATORS, choice(
       seq(
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
         field('operator', '<<'),
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
       ),
       seq(
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
         field('operator', '>>'),
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
       ),
     )),
 
@@ -1520,6 +1541,7 @@ module.exports = grammar({
       $.string_q_quoted,
       $.string_double_quoted,
       $.string_qq_quoted,
+      $.heredoc_initializer,
     )),
 
     _resolves_to_digit: $ => choice(
