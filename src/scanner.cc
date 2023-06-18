@@ -1,11 +1,12 @@
+#include <cwctype>
 #include <tree_sitter/parser.h>
-#include <wctype.h>
 
+namespace {
 enum TokenType { BRACKET_ARGUMENT, BRACKET_COMMENT, LINE_COMMENT };
 void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 void skip_wspace(TSLexer *lexer) {
-  while (iswspace(lexer->lookahead)) {
+  while (std::iswspace(lexer->lookahead)) {
     skip(lexer);
   }
 }
@@ -71,6 +72,8 @@ bool scan(void *payload, TSLexer *lexer, bool const *valid_symbols) {
   return false;
 }
 
+} // namespace
+extern "C" {
 void *tree_sitter_cmake_external_scanner_create() { return NULL; }
 void tree_sitter_cmake_external_scanner_destroy(void *payload) {}
 unsigned tree_sitter_cmake_external_scanner_serialize(void *payload,
@@ -83,4 +86,5 @@ void tree_sitter_cmake_external_scanner_deserialize(void *payload,
 bool tree_sitter_cmake_external_scanner_scan(void *payload, TSLexer *lexer,
                                              bool const *valid_symbols) {
   return scan(payload, lexer, valid_symbols);
+}
 }
