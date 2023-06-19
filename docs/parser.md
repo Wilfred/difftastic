@@ -33,7 +33,7 @@ For detailed introduction see the official guide on [Creating parsers](https://t
 
 Essentially, we define relevant language rules in `grammar.js`, based on which
 Tree-sitter generates parser code (under `src/`). In some cases, we want to write
-custom C++ code for tokenizing specific character sequences (in `src/scanner.cc`).
+custom C code for tokenizing specific character sequences (in `src/scanner.c`).
 
 The grammar rules may often conflict with each other, meaning that the given
 sequence of tokens has multiple valid interpretations given one _token_ of lookahead.
