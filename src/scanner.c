@@ -7,8 +7,9 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #define VEC_RESIZE(vec, _cap)                                                  \
-    (vec)->data = realloc((vec)->data, (_cap) * sizeof((vec)->data[0]));       \
-    assert((vec)->data != NULL);                                               \
+    void *tmp = realloc((vec)->data, (_cap) * sizeof((vec)->data[0]));         \
+    assert(tmp != NULL);                                                       \
+    (vec)->data = tmp;                                                         \
     (vec)->cap = (_cap);
 
 #define VEC_GROW(vec, _cap)                                                    \
@@ -68,10 +69,7 @@ typedef struct {
     char flags;
 } Delimiter;
 
-static inline Delimiter new_delimiter() {
-    Delimiter d = {0};
-    return d;
-}
+static inline Delimiter new_delimiter() { return (Delimiter){0}; }
 
 static inline bool is_format(Delimiter *delimiter) {
     return delimiter->flags & Format;
@@ -89,13 +87,16 @@ static inline bool is_bytes(Delimiter *delimiter) {
     return delimiter->flags & Bytes;
 }
 
-static inline const int32_t end_character(Delimiter *delimiter) {
-    if (delimiter->flags & SingleQuote)
+static inline int32_t end_character(Delimiter *delimiter) {
+    if (delimiter->flags & SingleQuote) {
         return '\'';
-    if (delimiter->flags & DoubleQuote)
+    }
+    if (delimiter->flags & DoubleQuote) {
         return '"';
-    if (delimiter->flags & BackQuote)
+    }
+    if (delimiter->flags & BackQuote) {
         return '`';
+    }
     return 0;
 }
 
@@ -130,12 +131,15 @@ static inline void set_end_character(Delimiter *delimiter, int32_t character) {
 }
 
 static inline const char *delimiter_string(Delimiter *delimiter) {
-    if (delimiter->flags & SingleQuote)
+    if (delimiter->flags & SingleQuote) {
         return "\'";
-    if (delimiter->flags & DoubleQuote)
+    }
+    if (delimiter->flags & DoubleQuote) {
         return "\"";
-    if (delimiter->flags & BackQuote)
+    }
+    if (delimiter->flags & BackQuote) {
         return "`";
+    }
     return "";
 }
 
@@ -181,7 +185,8 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                 lexer->mark_end(lexer);
                 lexer->result_symbol = STRING_CONTENT;
                 return has_content;
-            } else if (lexer->lookahead == '\\') {
+            }
+            if (lexer->lookahead == '\\') {
                 if (is_raw(&delimiter)) {
                     // Step over the backslash.
                     lexer->advance(lexer, false);
@@ -191,7 +196,8 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                         lexer->advance(lexer, false);
                     }
                     continue;
-                } else if (is_bytes(&delimiter)) {
+                }
+                if (is_bytes(&delimiter)) {
                     lexer->mark_end(lexer);
                     lexer->advance(lexer, false);
                     if (lexer->lookahead == 'N' || lexer->lookahead == 'u' ||
@@ -225,27 +231,25 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
                                 lexer->result_symbol = STRING_END;
                             }
                             return true;
-                        } else {
-                            lexer->mark_end(lexer);
-                            lexer->result_symbol = STRING_CONTENT;
-                            return true;
                         }
-                    } else {
                         lexer->mark_end(lexer);
                         lexer->result_symbol = STRING_CONTENT;
                         return true;
                     }
-                } else {
-                    if (has_content) {
-                        lexer->result_symbol = STRING_CONTENT;
-                    } else {
-                        lexer->advance(lexer, false);
-                        VEC_POP(scanner->delimiters);
-                        lexer->result_symbol = STRING_END;
-                    }
                     lexer->mark_end(lexer);
+                    lexer->result_symbol = STRING_CONTENT;
                     return true;
                 }
+                if (has_content) {
+                    lexer->result_symbol = STRING_CONTENT;
+                } else {
+                    lexer->advance(lexer, false);
+                    VEC_POP(scanner->delimiters);
+                    lexer->result_symbol = STRING_END;
+                }
+                lexer->mark_end(lexer);
+                return true;
+
             } else if (lexer->lookahead == '\n' && has_content &&
                        !is_triple(&delimiter)) {
                 return false;
@@ -268,7 +272,7 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
         } else if (lexer->lookahead == ' ') {
             indent_length++;
             skip(lexer);
-        } else if (lexer->lookahead == '\r') {
+        } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
             indent_length = 0;
             skip(lexer);
         } else if (lexer->lookahead == '\t') {
@@ -293,9 +297,6 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             } else {
                 return false;
             }
-        } else if (lexer->lookahead == '\f') {
-            indent_length = 0;
-            skip(lexer);
         } else if (lexer->eof(lexer)) {
             indent_length = 0;
             found_end_of_line = true;
@@ -421,7 +422,8 @@ bool tree_sitter_gdscript_external_scanner_scan(void *payload, TSLexer *lexer,
             lexer->result_symbol = STRING_START;
 
             return true;
-        } else if (has_flags) {
+        }
+        if (has_flags) {
             return false;
         }
     }
@@ -433,25 +435,26 @@ unsigned tree_sitter_gdscript_external_scanner_serialize(void *payload,
                                                          char *buffer) {
     Scanner *scanner = (Scanner *)payload;
 
-    size_t i = 0;
+    size_t size = 0;
 
     size_t delimiter_count = scanner->delimiters->len;
-    if (delimiter_count > UINT8_MAX)
+    if (delimiter_count > UINT8_MAX) {
         delimiter_count = UINT8_MAX;
-    buffer[i++] = delimiter_count;
+    }
+    buffer[size++] = (char)delimiter_count;
 
     if (delimiter_count > 0) {
-        memcpy(&buffer[i], scanner->delimiters->data, delimiter_count);
+        memcpy(&buffer[size], scanner->delimiters->data, delimiter_count);
     }
-    i += delimiter_count;
+    size += delimiter_count;
 
     for (int iter = 1; iter < scanner->indents->len &&
-                       i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
+                       size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
          ++iter) {
-        buffer[i++] = scanner->indents->data[iter];
+        buffer[size++] = (char)scanner->indents->data[iter];
     }
 
-    return i;
+    return size;
 }
 
 void tree_sitter_gdscript_external_scanner_deserialize(void *payload,
@@ -464,24 +467,30 @@ void tree_sitter_gdscript_external_scanner_deserialize(void *payload,
     VEC_PUSH(scanner->indents, 0);
 
     if (length > 0) {
-        size_t i = 0;
+        size_t size = 0;
 
-        size_t delimiter_count = (uint8_t)buffer[i++];
+        size_t delimiter_count = (uint8_t)buffer[size++];
         if (delimiter_count > 0) {
             VEC_GROW(scanner->delimiters, delimiter_count);
             scanner->delimiters->len = delimiter_count;
-            memcpy(scanner->delimiters->data, &buffer[i], delimiter_count);
-            i += delimiter_count;
+            memcpy(scanner->delimiters->data, &buffer[size], delimiter_count);
+            size += delimiter_count;
         }
 
-        for (; i < length; i++) {
-            VEC_PUSH(scanner->indents, buffer[i]);
+        for (; size < length; size++) {
+            VEC_PUSH(scanner->indents, (unsigned char)buffer[size]);
         }
+
+        assert(size == length);
     }
 }
 
 void *tree_sitter_gdscript_external_scanner_create() {
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
+    static_assert(sizeof(Delimiter) == sizeof(char), "");
+#else
     assert(sizeof(Delimiter) == sizeof(char));
+#endif
     Scanner *scanner = calloc(1, sizeof(Scanner));
     scanner->indents = calloc(1, sizeof(indent_vec));
     scanner->delimiters = calloc(1, sizeof(delimiter_vec));
