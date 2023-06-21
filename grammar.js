@@ -344,6 +344,7 @@ module.exports = grammar({
           $.covariant_type_parameter,
           $.contravariant_type_parameter,
           $._type_parameter, // invariant type parameter
+          $.type_lambda,
         ),
       ),
 
@@ -788,6 +789,7 @@ module.exports = grammar({
         $._annotated_type,
         $.literal_type,
         $._structural_type,
+        $.type_lambda,
       ),
 
     _annotated_type: $ => prec.right(choice($.annotated_type, $._simple_type)),
@@ -928,6 +930,15 @@ module.exports = grammar({
       prec.left(PREC.postfix, seq(field("type", $._type), "*")),
 
     _type_identifier: $ => alias($._identifier, $.type_identifier),
+
+    type_lambda: $ =>
+      seq(
+        "[",
+        trailingCommaSep1($._type_parameter),
+        "]",
+        "=>>",
+        field("result_type", $._type),
+      ),
 
     // ---------------------------------------------------------------
     // Patterns
