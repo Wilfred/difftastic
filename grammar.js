@@ -937,7 +937,7 @@ module.exports = grammar({
         trailingCommaSep1($._type_parameter),
         "]",
         "=>>",
-        field("result_type", $._type),
+        field("return_type", $._type),
       ),
 
     // ---------------------------------------------------------------
