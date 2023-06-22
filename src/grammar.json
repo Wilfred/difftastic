@@ -1375,6 +1375,10 @@
             {
               "type": "SYMBOL",
               "name": "_type_parameter"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_lambda"
             }
           ]
         }
@@ -3798,6 +3802,10 @@
         {
           "type": "SYMBOL",
           "name": "_structural_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_lambda"
         }
       ]
     },
@@ -4499,6 +4507,73 @@
       },
       "named": true,
       "value": "type_identifier"
+    },
+    "type_lambda": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_parameter"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_type_parameter"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        },
+        {
+          "type": "STRING",
+          "value": "=>>"
+        },
+        {
+          "type": "FIELD",
+          "name": "return_type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type"
+          }
+        }
+      ]
     },
     "_pattern": {
       "type": "CHOICE",
