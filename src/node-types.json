@@ -687,6 +687,10 @@
           "named": true
         },
         {
+          "type": "type_lambda",
+          "named": true
+        },
+        {
           "type": "unit",
           "named": true
         },
@@ -887,6 +891,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -1475,6 +1483,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -1749,6 +1761,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -2625,6 +2641,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -2759,6 +2779,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -2858,6 +2882,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -3402,6 +3430,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         },
         {
@@ -4064,6 +4096,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -4160,6 +4196,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -4374,6 +4414,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         },
         {
@@ -4650,6 +4694,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -4740,6 +4788,10 @@
           "named": true
         },
         {
+          "type": "type_lambda",
+          "named": true
+        },
+        {
           "type": "wildcard",
           "named": true
         }
@@ -4816,6 +4868,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         },
         {
@@ -5155,6 +5211,10 @@
         {
           "type": "type_identifier",
           "named": true
+        },
+        {
+          "type": "type_lambda",
+          "named": true
         }
       ]
     }
@@ -5259,6 +5319,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -5347,6 +5411,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         },
         {
@@ -5475,6 +5543,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         }
       ]
@@ -5808,6 +5880,10 @@
           "named": true
         },
         {
+          "type": "type_lambda",
+          "named": true
+        },
+        {
           "type": "wildcard",
           "named": true
         }
@@ -5872,6 +5948,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         },
         {
@@ -5950,6 +6030,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -6009,6 +6093,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -6150,6 +6238,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -6183,6 +6275,128 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "type_lambda",
+    "named": true,
+    "fields": {
+      "bound": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "context_bound",
+            "named": true
+          },
+          {
+            "type": "lower_bound",
+            "named": true
+          },
+          {
+            "type": "upper_bound",
+            "named": true
+          },
+          {
+            "type": "view_bound",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "operator_identifier",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "annotated_type",
+            "named": true
+          },
+          {
+            "type": "compound_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "infix_type",
+            "named": true
+          },
+          {
+            "type": "literal_type",
+            "named": true
+          },
+          {
+            "type": "match_type",
+            "named": true
+          },
+          {
+            "type": "projected_type",
+            "named": true
+          },
+          {
+            "type": "singleton_type",
+            "named": true
+          },
+          {
+            "type": "stable_type_identifier",
+            "named": true
+          },
+          {
+            "type": "structural_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameters",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -6254,6 +6468,10 @@
         },
         {
           "type": "covariant_type_parameter",
+          "named": true
+        },
+        {
+          "type": "type_lambda",
           "named": true
         }
       ]
@@ -6330,6 +6548,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -6400,6 +6622,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -6504,6 +6730,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -6597,6 +6827,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -6714,6 +6948,10 @@
             "named": true
           },
           {
+            "type": "type_lambda",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -6807,6 +7045,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -6907,6 +7149,10 @@
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_lambda",
             "named": true
           },
           {
@@ -7073,6 +7319,10 @@
   },
   {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": "=>>",
     "named": false
   },
   {
