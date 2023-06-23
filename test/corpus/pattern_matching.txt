@@ -25,13 +25,19 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
       (block
         (expression_statement
           (call
             (identifier)
             (argument_list
-              (string (string_content)))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
         (expression_statement
           (call
             (identifier)
@@ -39,7 +45,10 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
       (block
         (expression_statement
           (call
@@ -50,7 +59,10 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (identifier)))
       (block
         (expression_statement
@@ -64,7 +76,10 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (identifier)))
       (block
         (expression_statement
@@ -98,7 +113,10 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (list_splat
             (identifier))))
       (block
@@ -140,7 +158,10 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
       (block
         (expression_statement
           (ellipsis))
@@ -148,14 +169,20 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (identifier)))
       (block
         (pass_statement)))
     (case_clause
       (case_pattern
         (list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (list_splat
             (identifier))))
       (block
@@ -169,10 +196,12 @@ match command.split():
             (identifier)
             (argument_list
               (string
+                (string_start)
                 (string_content)
                 (interpolation
                   (identifier)
-                  (type_conversion))))))))))
+                  (type_conversion))
+                (string_end)))))))))
 
 ================================================================================
 Or patterns
@@ -196,10 +225,19 @@ match command.split():
       (case_pattern
         (binary_operator
           (list
-            (string (string_content)))
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))
           (list
-            (string (string_content))
-            (string (string_content)))))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))))
       (block
         (expression_statement
           (assignment
@@ -209,22 +247,40 @@ match command.split():
                 (identifier)
                 (identifier))
               (argument_list
-                (string (string_content))))))))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))))
     (case_clause
       (case_pattern
         (binary_operator
           (binary_operator
             (list
-              (string (string_content))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))
               (identifier))
             (list
-              (string (string_content))
-              (string (string_content))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))
               (identifier)))
           (list
-            (string (string_content))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
             (identifier)
-            (string (string_content)))))
+            (string
+              (string_start)
+              (string_content)
+              (string_end)))))
       (block
         (pass_statement)))))
 
@@ -247,16 +303,31 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (as_pattern
             (parenthesized_expression
               (binary_operator
                 (binary_operator
                   (binary_operator
-                    (string (string_content))
-                    (string (string_content)))
-                  (string (string_content)))
-                (string (string_content))))
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end)))
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))
             (as_pattern_target
               (identifier)))))
       (block
@@ -308,7 +379,10 @@ def foo(**match): pass
         (identifier))
       (expression_list
         (integer)
-        (string (string_content)))))
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))))
   (expression_statement
     (assignment
       (pattern_list
@@ -364,7 +438,10 @@ field = call(match=r".*\.txt$")
         (argument_list
           (keyword_argument
             (identifier)
-            (string (string_content))))))))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 Match kwargs 2
@@ -481,7 +558,8 @@ match (0, 1, 2):
       (case_pattern
         (integer))
       (case_pattern
-        (identifier))
+        (list_splat
+          (identifier)))
       (block
         (expression_statement
           (assignment
@@ -501,7 +579,8 @@ match x,:
     (identifier)
     (case_clause
       (case_pattern
-        (identifier))
+        (list_splat
+          (identifier)))
       (block
         (expression_statement
           (assignment
@@ -576,7 +655,10 @@ if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII)
           (identifier)
           (identifier))
         (argument_list
-          (string (string_content))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))
           (identifier)
           (keyword_argument
             (identifier)
