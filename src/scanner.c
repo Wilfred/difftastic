@@ -102,6 +102,7 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {
     read_line(&terminator, lexer);
 
     if (lexer->eof(lexer)) {
+        string_free(&terminator);
         return false;
     }
 
@@ -113,9 +114,13 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {
         read_line(&current_line, lexer);
         if (strcmp(terminator.data, current_line.data) == 0) {
             lexer->result_symbol = HERE_STRING_BODY;
+            string_free(&terminator);
+            string_free(&current_line);
             return true;
         }
         if (lexer->eof(lexer)) {
+            string_free(&terminator);
+            string_free(&current_line);
             return false;
         }
         string_clear(&current_line);
