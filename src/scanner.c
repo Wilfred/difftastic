@@ -33,39 +33,39 @@ static String string_new(void) {
     return (String){.cap = cap, .len = 0, .data = tmp};
 }
 
-static void string_resize(String *vec, size_t new_cap) {
-    void *block = realloc(vec->data, new_cap * sizeof(char));
+static void string_resize(String *str, size_t new_cap) {
+    void *block = realloc(str->data, new_cap * sizeof(char));
     check_alloc(block);
-    vec->data = block;
-    vec->cap = new_cap;
-    memset(vec->data + vec->len, 0, (new_cap - vec->len) * sizeof(char));
+    str->data = block;
+    str->cap = new_cap;
+    memset(str->data + str->len, 0, (new_cap - str->len) * sizeof(char));
 }
 
-static void string_push(String *vec, int32_t elem) {
-    if (vec->len + sizeof(elem) >= vec->cap) {
-        // vec->cap * 2 + 1 > vec->len + sizeof(elem) always holds
-        // as vec->cap > 16
-        string_resize(vec, vec->cap * 2 + 1);
+static void string_push(String *str, int32_t elem) {
+    if (str->len + sizeof(elem) >= str->cap) {
+        // str->cap * 2 + 1 > str->len + sizeof(elem) always holds
+        // as str->cap > 16
+        string_resize(str, str->cap * 2 + 1);
     }
     // NOTE: we don't consider little-endian/big-endian here
     // the character in string is only for compare.
     // They only need to be store in consistent way
-    memcpy(vec->data + vec->len, &elem, sizeof(elem));
-    vec->len += sizeof(elem);
+    memcpy(str->data + str->len, &elem, sizeof(elem));
+    str->len += sizeof(elem);
 }
 
-static void string_free(String *vec) {
-    if (vec->data != NULL) {
-        free(vec->data);
-        vec->data = NULL;
-        vec->len = 0;
-        vec->cap = 0;
+static void string_free(String *str) {
+    if (str->data != NULL) {
+        free(str->data);
+        str->data = NULL;
+        str->len = 0;
+        str->cap = 0;
     }
 }
 
-static void string_clear(String *vec) {
-    memset(vec->data, 0, vec->len * sizeof(char));
-    vec->len = 0;
+static void string_clear(String *str) {
+    memset(str->data, 0, str->len * sizeof(char));
+    str->len = 0;
 }
 
 static void advance(TSLexer *lexer) {
