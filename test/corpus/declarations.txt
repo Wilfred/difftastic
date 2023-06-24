@@ -9,6 +9,10 @@ struct s2 {
   float y : 5;
 };
 
+struct s3 {
+  int x : 1, y : 2;
+};
+
 ---
 
 (translation_unit
@@ -23,7 +27,19 @@ struct s2 {
     (field_declaration
       type: (primitive_type)
       declarator: (field_identifier)
-      (bitfield_clause (number_literal))))))
+      (bitfield_clause 
+        (number_literal)))))
+  (struct_specifier
+    name: (type_identifier)
+    body: (field_declaration_list
+    (field_declaration
+      type: (primitive_type)
+      declarator: (field_identifier)
+      (bitfield_clause
+        (number_literal))
+      declarator: (field_identifier)
+      (bitfield_clause
+        (number_literal))))))
 
 ============================================
 Union declarations
@@ -67,6 +83,10 @@ enum e3 {
   val1,
 };
 
+enum e4: int {
+  val1,
+};
+
 ---
 
 (translation_unit
@@ -81,7 +101,14 @@ enum e3 {
   (enum_specifier
     name: (type_identifier)
     body: (enumerator_list
-      (enumerator name: (identifier)))))
+      (enumerator
+      name: (identifier))))
+  (enum_specifier
+    name: (type_identifier)
+    underlying_type: (primitive_type)
+    body: (enumerator_list
+      (enumerator
+      name: (identifier)))))
 
 ======================================================
 Struct declarations containing preprocessor directives
