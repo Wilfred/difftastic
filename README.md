@@ -14,7 +14,7 @@ There are no plans to add support for new language currently.
 
 ## News
 
-From 2023-6-24 (commit date) or release 0.3.0, the external scanner will be written in C.
+From 2023-6-24 (commit 989c3e631a7f2d87bb6a66a5394870aaeb6c56e7) or release 0.3.0, the external scanner will be written in C.
 
 ## Build and Try
 
