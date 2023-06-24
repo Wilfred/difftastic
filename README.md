@@ -12,13 +12,16 @@ It should be complete and compatible with Racket 8.9.
 
 There are no plans to add support for new language currently.
 
+## News
+
+From 2023-6-24 (commit date) or release 0.3.0, the external scanner will be written in C.
+
 ## Build and Try
 
 You need
 
 * nodejs
 * a C compiler
-* a C++11 compiler
 
 then run
 
