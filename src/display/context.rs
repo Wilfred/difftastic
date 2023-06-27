@@ -17,6 +17,7 @@ pub fn all_matched_lines_filled(
     lhs_lines: &[&str],
     rhs_lines: &[&str],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    // already too late by all_matched_lines.
     let matched_lines = add_ends(&all_matched_lines(lhs_mps, rhs_mps), lhs_lines, rhs_lines);
 
     compact_gaps(&ensure_contiguous(&match_preceding_blanks(
@@ -114,8 +115,8 @@ fn all_matched_lines(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let lhs_matched_lines = matched_lines_from_unchanged(lhs_mps);
-    let rhs_lines = all_lines(rhs_mps);
+    let lhs_matched_lines = matched_lines_from_unchanged(dbg!(lhs_mps));
+    let rhs_lines = all_lines(dbg!(rhs_mps));
 
     let lines = merge_in_opposite_lines(&lhs_matched_lines, &rhs_lines);
 
