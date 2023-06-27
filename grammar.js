@@ -61,6 +61,7 @@ module.exports = grammar({
     [$.sized_type_specifier],
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
+    [$.enum_specifier],
   ],
 
   word: $ => $.identifier,
@@ -526,6 +527,7 @@ module.exports = grammar({
       choice(
         seq(
           field('name', $._type_identifier),
+          optional(seq(':', field('underlying_type', $.primitive_type))),
           field('body', optional($.enumerator_list)),
         ),
         field('body', $.enumerator_list),
@@ -580,8 +582,10 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       $._declaration_specifiers,
-      commaSep(field('declarator', $._field_declarator)),
-      optional($.bitfield_clause),
+      commaSep(seq(
+        field('declarator', $._field_declarator),
+        optional($.bitfield_clause),
+      )),
       ';',
     ),
 

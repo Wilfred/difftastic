@@ -1303,6 +1303,16 @@
             "named": true
           }
         ]
+      },
+      "underlying_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
       }
     }
   },
