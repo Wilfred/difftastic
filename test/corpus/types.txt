@@ -278,3 +278,41 @@ private typealias T<E> = Foo<E>
         (type_projection
           (user_type
             (type_identifier)))))))
+
+================================================================================
+Ampersand type
+================================================================================
+
+a as T & F
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (not_nullable_type
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))))
+
+================================================================================
+Ampersand type with modifiers
+================================================================================
+
+a as @Foo T & F
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (type_modifiers
+      (annotation
+        (user_type
+          (type_identifier))))
+    (not_nullable_type
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))))
