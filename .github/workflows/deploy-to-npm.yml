@@ -14,7 +14,6 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: Compile grammar
