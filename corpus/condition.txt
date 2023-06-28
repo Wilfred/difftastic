@@ -12,6 +12,7 @@ endif()
       (if)
       (argument (unquoted_argument))
     )
+    (body)
     (endif_command (endif))
   )
 )
@@ -31,10 +32,12 @@ endif()
       (if)
       (argument (unquoted_argument))
     )
+    (body)
     (elseif_command
       (elseif)
       (argument (unquoted_argument))
     )
+    (body)
     (endif_command (endif))
   )
 )
@@ -55,19 +58,23 @@ endif()
       (if)
       (argument (unquoted_argument))
     )
+    (body)
     (elseif_command
       (elseif)
       (argument (unquoted_argument))
     )
+    (body)
     (else_command (else))
+    (body)
     (endif_command (endif))
   )
 )
 
-==========================================
-If with one command invocation [condition]
-==========================================
+============================================
+If with many command invocations [condition]
+============================================
 if(cond)
+  message(STATUS)
   message(STATUS)
 endif()
 
@@ -79,13 +86,84 @@ endif()
    (if)
    (argument (unquoted_argument))
   )
-  (normal_command
-   (identifier)
-   (argument (unquoted_argument))
+  (body
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
   )
   (endif_command (endif))
  )
 )
+
+==============================================================
+If, elseof, and else with many command invocations [condition]
+==============================================================
+if(cond)
+  message(STATUS)
+  message(STATUS)
+elseif(cond)
+  message(STATUS)
+  message(STATUS)
+else(cond)
+  message(STATUS)
+  message(STATUS)
+endif()
+
+---
+
+(source_file
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
+  )
+  (body
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+  )
+  (elseif_command
+   (elseif)
+   (argument (unquoted_argument))
+  )
+  (body
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+  )
+  (else_command
+   (else)
+   (argument (unquoted_argument))
+  )
+  (body
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+    (normal_command
+      (identifier)
+      (argument (unquoted_argument))
+    )
+  )
+  (endif_command (endif))
+ )
+)
+
 
 ======================================
 Condition with parentheses [condition]
@@ -103,6 +181,7 @@ endif()
    (argument (unquoted_argument))
    (argument (unquoted_argument))
   )
+  (body)
   (endif_command (endif))
  )
 )
@@ -125,6 +204,7 @@ endif(NOT (A AND B) OR C)
    (argument (unquoted_argument))
    (argument (unquoted_argument))
   )
+  (body)
   (else_command
    (else)
    (argument (unquoted_argument))
@@ -134,6 +214,7 @@ endif(NOT (A AND B) OR C)
    (argument (unquoted_argument))
    (argument (unquoted_argument))
   )
+  (body)
   (endif_command 
    (endif)
    (argument (unquoted_argument))
@@ -144,4 +225,34 @@ endif(NOT (A AND B) OR C)
    (argument (unquoted_argument))
   )
  )
+)
+
+============================
+Nested condition [condition]
+============================
+if(A)
+  if(A)
+  endif()
+endif()
+
+---
+
+(source_file
+  (if_condition
+    (if_command
+      (if)
+      (argument (unquoted_argument))
+    )
+    (body
+      (if_condition
+        (if_command
+          (if)
+          (argument (unquoted_argument))
+        )
+        (body)
+        (endif_command (endif))
+      )
+    )
+    (endif_command (endif))
+  )
 )

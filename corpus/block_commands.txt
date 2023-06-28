@@ -14,6 +14,7 @@ endfunction()
         (unquoted_argument)
       )
     )
+    (body)
     (endfunction_command
       (endfunction)
     )
@@ -45,6 +46,7 @@ endfunction()
         (unquoted_argument)
       )
     )
+    (body)
     (endfunction_command
       (endfunction)
     )
@@ -67,6 +69,7 @@ endmacro()
         (unquoted_argument)
       )
     )
+    (body)
     (endmacro_command
       (endmacro)
     )
@@ -98,6 +101,7 @@ endmacro()
         (unquoted_argument)
       )
     )
+    (body)
     (endmacro_command
       (endmacro)
     )
@@ -132,9 +136,46 @@ endblock()
         (unquoted_argument)
       )
     )
+    (body)
     (endblock_command
       (endblock)
     )
   )
 )
 
+================================
+Nested function [block_commands]
+================================
+function(a)
+  function(b)
+  endfunction()
+endfunction()
+
+---
+(source_file
+  (function_def
+    (function_command
+      (function)
+      (argument
+        (unquoted_argument)
+      )
+    )
+    (body
+      (function_def
+        (function_command
+          (function)
+          (argument
+            (unquoted_argument)
+          )
+        )
+        (body)
+        (endfunction_command
+          (endfunction)
+        )
+      )
+    )
+    (endfunction_command
+      (endfunction)
+    )
+  )
+)

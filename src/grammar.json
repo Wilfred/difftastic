@@ -433,6 +433,17 @@
         }
       }
     },
+    "body": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_untrimmed_command_invocation"
+        }
+      }
+    },
     "if_command": {
       "type": "SEQ",
       "members": [
@@ -571,7 +582,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_untrimmed_command_invocation"
+                "name": "body"
               },
               {
                 "type": "SYMBOL",
@@ -665,11 +676,8 @@
           "name": "foreach_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -765,11 +773,8 @@
           "name": "while_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -847,11 +852,8 @@
           "name": "function_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -929,11 +931,8 @@
           "name": "macro_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -1011,11 +1010,8 @@
           "name": "block_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
