@@ -1,8 +1,18 @@
+use std::collections::HashMap;
+
 use itertools::Itertools;
 
-use crate::parse::syntax::MatchedPos;
+use crate::{
+    lines::LineNumber,
+    parse::syntax::{MatchKind, MatchedPos},
+};
 
-pub fn fix_sliders(lines: &[String], lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) {
+pub fn fix_sliders(
+    lhs_lines: &[String],
+    rhs_lines: &[String],
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) {
     // GOAL: Join contiguous novel regions where possible.
     //
     // Iterate through novel regions pairwise, and if there's a gap
@@ -10,8 +20,22 @@ pub fn fix_sliders(lines: &[String], lhs_mps: &[MatchedPos], rhs_mps: &[MatchedP
     // slide.
     let lhs_novel_regions = novel_regions(lhs_mps);
 
+    // Slider: (lhs_old, (lhs_new, rhs_line)).
+    let mut lhs_sliders: HashMap<usize, (usize, LineNumber)> = HashMap::new();
+
     for (prev_region, next_region) in lhs_novel_regions.iter().tuple_windows() {
-        if can_slide(lines, lhs_mps, prev_region.1, next_region.0, next_region.1) {}
+        if can_slide(
+            lhs_lines,
+            lhs_mps,
+            prev_region.1,
+            next_region.0,
+            next_region.1,
+        ) {
+            let unchanged_mp = &lhs_mps[prev_region.1 + 1];
+            if let MatchKind::UnchangedToken { opposite_pos, .. } = &unchanged_mp.kind {
+                lhs_sliders.insert(prev_region.1 + 1, (next_region.1 + 1, opposite_pos[0].line));
+            }
+        }
     }
 }
 
