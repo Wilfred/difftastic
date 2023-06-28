@@ -23,19 +23,15 @@
     }
   },
   {
-    "type": "block_command",
+    "type": "argument_list",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "argument",
-          "named": true
-        },
-        {
-          "type": "block",
           "named": true
         },
         {
@@ -44,6 +40,25 @@
         },
         {
           "type": "line_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "block",
           "named": true
         }
       ]
@@ -143,19 +158,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "else",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -170,19 +177,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "elseif",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -197,19 +196,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endblock",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -243,19 +234,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endfunction",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -270,19 +253,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endif",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -297,19 +272,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endmacro",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -363,19 +330,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -413,19 +372,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "function",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -478,19 +429,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "if",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -536,15 +479,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
-          "named": true
-        },
-        {
-          "type": "line_comment",
+          "type": "argument_list",
           "named": true
         },
         {
@@ -586,19 +521,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -778,15 +705,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
-          "named": true
-        },
-        {
-          "type": "line_comment",
+          "type": "argument_list",
           "named": true
         },
         {

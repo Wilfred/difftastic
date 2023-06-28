@@ -8,9 +8,15 @@ message($<>)
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (unquoted_argument
-        (gen_exp)))))
+    (argument_list
+      (argument
+        (unquoted_argument
+        (gen_exp)
+        )
+      )
+    )
+  )
+)
 
 =====================================
 Quoted generator expression [gen_exp]
@@ -22,10 +28,17 @@ message("$<>")
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (quoted_argument
+    (argument_list
+      (argument
+        (quoted_argument
         (quoted_element
-          (gen_exp))))))
+          (gen_exp)
+        )
+        )
+      )
+    )
+  )
+)
 
 =====================
 No argument [gen_exp]
@@ -37,11 +50,19 @@ message($<ANGLE-R>)
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (unquoted_argument
+    (argument_list
+      (argument
+        (unquoted_argument
         (gen_exp
           (argument
-            (unquoted_argument)))))))
+          (unquoted_argument)
+          )
+        )
+        )
+      )
+    )
+  )
+)
 
 ============================================
 No argument with superfluous colon [gen_exp]
@@ -53,11 +74,19 @@ message($<ANGLE-R:>)
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (unquoted_argument
-        (gen_exp
-          (argument
-            (unquoted_argument)))))))
+    (argument_list
+      (argument
+        (unquoted_argument
+          (gen_exp
+            (argument
+            (unquoted_argument)
+            )
+          )
+        )
+      )
+    )
+  )
+)
 
 ======================
 One argument [gen_exp]
@@ -69,13 +98,21 @@ message($<BOOL:-NOTFOUND>)
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (unquoted_argument
+    (argument_list
+      (argument
+        (unquoted_argument
         (gen_exp
           (argument
-            (unquoted_argument))
+          (unquoted_argument))
           (argument
-            (unquoted_argument)))))))
+          (unquoted_argument)
+          )
+        )
+        )
+      )
+    )
+  )
+)
 
 =======================
 Two arguments [gen_exp]
@@ -87,12 +124,20 @@ message($<AND:TRUE,FALSE>)
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (unquoted_argument
-        (gen_exp
-          (argument
+    (argument_list
+      (argument
+        (unquoted_argument
+          (gen_exp
+            (argument
             (unquoted_argument))
-          (argument
+            (argument
             (unquoted_argument))
-          (argument
-            (unquoted_argument)))))))
+            (argument
+            (unquoted_argument)
+            )
+          )
+        )
+      )
+    )
+  )
+)

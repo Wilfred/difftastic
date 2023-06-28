@@ -6,11 +6,13 @@ message("")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument (quoted_argument))
- )
- )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (quoted_argument))
+    )
+  )
+)
 
 =====================================
 One quoted argument [quoted_argument] 
@@ -20,11 +22,13 @@ message("An argument")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument (quoted_argument (quoted_element)))
- )
- )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (quoted_argument (quoted_element)))
+    )
+  )
+)
 
 ======================================
 Two quoted arguments [quoted_argument] 
@@ -34,12 +38,14 @@ message("First argument" "Second argument")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument (quoted_argument (quoted_element)))
-  (argument (quoted_argument (quoted_element)))
- )
- )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (quoted_argument (quoted_element)))
+      (argument (quoted_argument (quoted_element)))
+    )
+  )
+)
 
 ===================================================
 A quoted argument with line break [quoted_argument] 
@@ -50,11 +56,13 @@ with line break")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument (quoted_argument (quoted_element)))
- )
- )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (quoted_argument (quoted_element)))
+    )
+  )
+)
 
 ========================================
 One variable reference [quoted_argument] 
@@ -64,17 +72,19 @@ message("${var}")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument
-   (quoted_argument
-    (quoted_element
-     (variable_ref (normal_var (variable)))
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (quoted_argument
+          (quoted_element
+            (variable_ref (normal_var (variable)))
+          )
+        )
+      )
     )
-   )
   )
- )
- )
+)
 
 =========================================
 Two Variable references [quoted_argument]
@@ -84,18 +94,20 @@ message("${var} ${var}")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument
-   (quoted_argument
-    (quoted_element
-     (variable_ref (normal_var (variable)))
-     (variable_ref (normal_var (variable)))
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (quoted_argument
+          (quoted_element
+            (variable_ref (normal_var (variable)))
+            (variable_ref (normal_var (variable)))
+          )
+        )
+      )
     )
-   )
   )
- )
- )
+)
 
 ======================================================================
 Variable reference inside another variable reference [quoted_argument]
@@ -105,17 +117,19 @@ message("${var_${var}}")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument
-   (quoted_argument
-    (quoted_element
-     (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (quoted_argument
+          (quoted_element
+            (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+          )
+        )
+      )
     )
-   )
   )
- )
- )
+)
 
 ======================================================================
 Lookalike bracket comment inside quoted argument [quoted_argument]
@@ -125,17 +139,19 @@ message("${var_${var}} #[[comment]]")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument
-   (quoted_argument
-    (quoted_element
-     (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (quoted_argument
+          (quoted_element
+            (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+          )
+        )
+      )
     )
-   )
   )
- )
- )
+)
 
 ======================================================================
 Lookalike line comment inside quoted argument [quoted_argument]
@@ -145,17 +161,19 @@ message("${var_${var}} #comment")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument
-   (quoted_argument
-    (quoted_element
-     (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (quoted_argument
+          (quoted_element
+            (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+          )
+        )
+      )
     )
-   )
   )
- )
- )
+)
 
 ===========================================================
 Lookalike variable inside quoted argument [quoted_argument]
@@ -165,12 +183,14 @@ message("$var")
 
 ---
 (source_file
- (normal_command
-  (identifier)
-  (argument
-   (quoted_argument
-    (quoted_element)
-   )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (quoted_argument
+          (quoted_element)
+        )
+      )
+    )
   )
- )
- )
+)

@@ -8,15 +8,17 @@ endforeach()
 ---
 
 (source_file
- (foreach_loop
-  (foreach_command
-    (foreach)
-    (argument (unquoted_argument))
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
   )
-  (body)
-  (endforeach_command (endforeach))
- )
- )
+)
 
 ===============================================================
 Empty foreach loop with one argument endforeach [foreach]
@@ -28,17 +30,20 @@ endforeach(var)
 ---
 
 (source_file
- (foreach_loop
-  (foreach_command
-    (foreach)
-    (argument (unquoted_argument))
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command
+      (endforeach)
+      (argument (unquoted_argument))
+    )
   )
-  (body)
-  (endforeach_command
-    (endforeach)
-    (argument (unquoted_argument))
-  )
- ))
+)
 
 =================================
 Uppercase foreach [foreach]
@@ -50,15 +55,17 @@ ENDFOREACH()
 ---
 
 (source_file
- (foreach_loop
-  (foreach_command
-    (foreach)
-    (argument (unquoted_argument))
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
   )
-  (body)
-  (endforeach_command (endforeach))
- )
- )
+)
 
 ==================================
 Mixed case foreach [foreach]
@@ -70,15 +77,17 @@ endForEach()
 ---
 
 (source_file
- (foreach_loop
-  (foreach_command
-    (foreach)
-    (argument (unquoted_argument))
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
   )
-  (body)
-  (endforeach_command (endforeach))
- )
- )
+)
 
 ==================================
 Empty IN [foreach]
@@ -90,16 +99,18 @@ endforeach()
 ---
 
 (source_file
- (foreach_loop
-  (foreach_command
-    (foreach)
-    (argument (unquoted_argument))
-    (argument (unquoted_argument))
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
   )
-  (body)
-  (endforeach_command (endforeach))
- )
- )
+)
 
 ==================================
 Empty RANGE [foreach]
@@ -111,13 +122,15 @@ endforeach()
 ---
 
 (source_file
- (foreach_loop
-  (foreach_command
-    (foreach)
-    (argument (unquoted_argument))
-    (argument (unquoted_argument))
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
   )
-  (body)
-  (endforeach_command (endforeach))
- )
- )
+)

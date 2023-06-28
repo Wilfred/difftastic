@@ -52,34 +52,35 @@ module.exports = grammar({
     _unquoted_text: (_) => prec.left(repeat1(choice("$", /[^()#"\\']/))),
 
     body: ($) => prec.right(repeat1($._untrimmed_command_invocation)),
+    argument_list: ($) => repeat1($._untrimmed_argument),
 
-    if_command: ($) => command($.if, repeat($._untrimmed_argument)),
-    elseif_command: ($) => command($.elseif, repeat($._untrimmed_argument)),
-    else_command: ($) => command($.else, repeat($._untrimmed_argument)),
-    endif_command: ($) => command($.endif, repeat($._untrimmed_argument)),
+    if_command: ($) => command($.if, $.argument_list),
+    elseif_command: ($) => command($.elseif, $.argument_list),
+    else_command: ($) => command($.else, optional($.argument_list)),
+    endif_command: ($) => command($.endif, optional($.argument_list)),
     if_condition: ($) => seq($.if_command, repeat(choice($.body, $.elseif_command, $.else_command)), $.endif_command),
 
-    foreach_command: ($) => command($.foreach, repeat($._untrimmed_argument)),
+    foreach_command: ($) => command($.foreach, $.argument_list),
     endforeach_command: ($) => command($.endforeach, optional($.argument)),
     foreach_loop: ($) => seq($.foreach_command, $.body, $.endforeach_command),
 
-    while_command: ($) => command($.while, repeat($._untrimmed_argument)),
+    while_command: ($) => command($.while, $.argument_list),
     endwhile_command: ($) => command($.endwhile, optional(seq(/\s*/, $.argument, /\s*/))),
     while_loop: ($) => seq($.while_command, $.body, $.endwhile_command),
 
-    function_command: ($) => command($.function, repeat($._untrimmed_argument)),
-    endfunction_command: ($) => command($.endfunction, repeat($._untrimmed_argument)),
+    function_command: ($) => command($.function, $.argument_list),
+    endfunction_command: ($) => command($.endfunction, optional($.argument_list)),
     function_def: ($) => seq($.function_command, $.body, $.endfunction_command),
 
-    macro_command: ($) => command($.macro, repeat($._untrimmed_argument)),
-    endmacro_command: ($) => command($.endmacro, repeat($._untrimmed_argument)),
+    macro_command: ($) => command($.macro, $.argument_list),
+    endmacro_command: ($) => command($.endmacro, optional($.argument_list)),
     macro_def: ($) => seq($.macro_command, $.body, $.endmacro_command),
 
-    block_command: ($) => command($.block, repeat($._untrimmed_argument)),
-    endblock_command: ($) => command($.endblock, repeat($._untrimmed_argument)),
+    block_command: ($) => command($.block, $.argument_list),
+    endblock_command: ($) => command($.endblock, optional($.argument_list)),
     block_def: ($) => seq($.block_command, $.body, $.endblock_command),
 
-    normal_command: ($) => command($.identifier, repeat($._untrimmed_argument)),
+    normal_command: ($) => command($.identifier, optional($.argument_list)),
 
     _command_invocation: ($) =>
       choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop, $.function_def, $.macro_def, $.block_def),

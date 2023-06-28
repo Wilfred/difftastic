@@ -10,8 +10,10 @@ endfunction()
   (function_def
     (function_command
       (function)
-      (argument
-        (unquoted_argument)
+      (argument_list
+        (argument
+          (unquoted_argument)
+        )
       )
     )
     (body)
@@ -33,17 +35,19 @@ endfunction()
   (function_def
     (function_command
       (function)
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
+      (argument_list
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
       )
     )
     (body)
@@ -65,8 +69,10 @@ endmacro()
   (macro_def
     (macro_command
       (macro)
-      (argument
-        (unquoted_argument)
+      (argument_list
+        (argument
+          (unquoted_argument)
+        )
       )
     )
     (body)
@@ -88,17 +94,19 @@ endmacro()
   (macro_def
     (macro_command
       (macro)
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
+      (argument_list
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
       )
     )
     (body)
@@ -120,20 +128,22 @@ endblock()
   (block_def
     (block_command
       (block)
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
-      )
-      (argument
-        (unquoted_argument)
+      (argument_list
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
+        (argument
+          (unquoted_argument)
+        )
       )
     )
     (body)
@@ -156,16 +166,20 @@ endfunction()
   (function_def
     (function_command
       (function)
-      (argument
-        (unquoted_argument)
+      (argument_list
+        (argument
+          (unquoted_argument)
+        )
       )
     )
     (body
       (function_def
         (function_command
           (function)
-          (argument
-            (unquoted_argument)
+          (argument_list
+            (argument
+              (unquoted_argument)
+            )
           )
         )
         (body)

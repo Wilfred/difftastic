@@ -1,5 +1,5 @@
 ========================================
-Escape sequence of "\;" [Escape_sequence]
+Escape sequence of "\;" [escape_sequence]
 =========================================
 
 set(var "It is \; and \"")
@@ -9,10 +9,17 @@ set(var "It is \; and \"")
 (source_file
   (normal_command
     (identifier)
-    (argument
-      (unquoted_argument))
-    (argument
-      (quoted_argument
-        (quoted_element
-          (escape_sequence)
-          (escape_sequence))))))
+    (argument_list
+      (argument
+        (unquoted_argument))
+      (argument
+        (quoted_argument
+          (quoted_element
+            (escape_sequence)
+            (escape_sequence)
+          )
+        )
+      )
+    )
+  )
+)

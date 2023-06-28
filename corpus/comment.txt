@@ -19,10 +19,12 @@ message(STATUS #[[Some comment]] "comment is next" #[[Some comment]])
 (source_file
  (normal_command
   (identifier)
-  (argument (unquoted_argument))
-  (bracket_comment)
-  (argument (quoted_argument (quoted_element)))
-  (bracket_comment)
+  (argument_list
+    (argument (unquoted_argument))
+    (bracket_comment)
+    (argument (quoted_argument (quoted_element)))
+    (bracket_comment)
+  )
  )
 )
 
@@ -50,9 +52,11 @@ Second #Some other line comment
 (source_file
  (normal_command
   (identifier)
-  (argument (unquoted_argument))
-  (line_comment)
-  (argument (unquoted_argument))
-  (line_comment)
+  (argument_list
+    (argument (unquoted_argument))
+    (line_comment)
+    (argument (unquoted_argument))
+    (line_comment)
+  )
  )
 )
