@@ -4,6 +4,10 @@
 
 Updated Scala parser.
 
+### Display
+
+Improved word highlighting in comments when they contain numbers.
+
 ### Internals
 
 Difftastic's logging is now configured with the environment variable

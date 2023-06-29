@@ -662,25 +662,41 @@ pub struct MatchedPos {
 /// Split `s` into a vec of things that look like words and individual
 /// non-word characters.
 ///
-/// "foo bar" -> vec!["foo", " ", "bar"]
+/// "foo..bar23" -> vec!["foo", ".", ".", "bar", "23"]
 pub fn split_words(s: &str) -> Vec<&str> {
     let mut res = vec![];
-    let mut word_start = None;
+    let mut word_start: Option<(usize, char)> = None;
     for (idx, c) in s.char_indices() {
-        if c.is_alphanumeric() || c == '-' || c == '_' {
-            if word_start.is_none() {
-                word_start = Some(idx);
+        match word_start {
+            Some((start, start_c)) => {
+                if c.is_alphanumeric() || c == '-' || c == '_' {
+                    // Word character, add to the current word if it's
+                    // not a number.
+                    if c.is_ascii_digit() == start_c.is_ascii_digit() {
+                        // Just carry on in this word.
+                    } else {
+                        // Finish previous word, start a new one.
+                        res.push(&s[start..idx]);
+                        word_start = Some((idx, c));
+                    }
+                } else {
+                    // Push the previous word, then this non-word character.
+                    res.push(&s[start..idx]);
+                    res.push(&s[idx..idx + c.len_utf8()]);
+                    word_start = None;
+                }
             }
-        } else {
-            if let Some(start) = word_start {
-                res.push(&s[start..idx]);
-                word_start = None;
+            None => {
+                if c.is_alphanumeric() || c == '-' || c == '_' {
+                    word_start = Some((idx, c));
+                } else {
+                    res.push(&s[idx..idx + c.len_utf8()]);
+                }
             }
-            res.push(&s[idx..idx + c.len_utf8()]);
         }
     }
 
-    if let Some(start) = word_start {
+    if let Some((start, _)) = word_start {
         res.push(&s[start..]);
     }
     res
@@ -1160,6 +1176,13 @@ mod tests {
         let s = "example..";
         let res = split_words(s);
         assert_eq!(res, vec!["example", ".", "."])
+    }
+
+    #[test]
+    fn test_split_words_numbers() {
+        let s = "foo123bar";
+        let res = split_words(s);
+        assert_eq!(res, vec!["foo", "123", "bar"])
     }
 
     #[test]
