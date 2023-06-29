@@ -116,10 +116,6 @@
         "named": true
       },
       {
-        "type": "await",
-        "named": true
-      },
-      {
         "type": "boolean_operator",
         "named": true
       },
@@ -230,6 +226,10 @@
         "named": true
       },
       {
+        "type": "await",
+        "named": true
+      },
+      {
         "type": "binary_operator",
         "named": true
       },
@@ -279,6 +279,10 @@
       },
       {
         "type": "list_comprehension",
+        "named": true
+      },
+      {
+        "type": "list_splat",
         "named": true
       },
       {
@@ -456,6 +460,10 @@
             "named": true
           },
           {
+            "type": "pattern_list",
+            "named": true
+          },
+          {
             "type": "yield",
             "named": true
           }
@@ -593,6 +601,10 @@
           },
           {
             "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "pattern_list",
             "named": true
           },
           {
@@ -833,29 +845,6 @@
     }
   },
   {
-    "type": "case_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "chevron",
     "named": true,
     "fields": {},
@@ -1062,6 +1051,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
             "named": true
           }
         ]
@@ -1288,6 +1281,10 @@
         "required": true,
         "types": [
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           }
@@ -1464,6 +1461,10 @@
           },
           {
             "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "pattern_list",
             "named": true
           },
           {
@@ -1761,6 +1762,10 @@
             "named": true
           },
           {
+            "type": "pattern_list",
+            "named": true
+          },
+          {
             "type": "yield",
             "named": true
           }
@@ -1941,7 +1946,19 @@
       "required": true,
       "types": [
         {
+          "type": "attribute",
+          "named": true
+        },
+        {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "subscript",
           "named": true
         }
       ]
@@ -2353,47 +2370,28 @@
   {
     "type": "string",
     "named": true,
-    "fields": {
-      "interpolation": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "interpolation",
-            "named": true
-          }
-        ]
-      },
-      "prefix": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          }
-        ]
-      },
-      "string_content": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "string_content",
-            "named": true
-          }
-        ]
-      },
-      "suffix": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        },
+        {
+          "type": "string_end",
+          "named": true
+        },
+        {
+          "type": "string_start",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2762,10 +2760,6 @@
     "named": false
   },
   {
-    "type": "\"",
-    "named": false
-  },
-  {
     "type": "%",
     "named": false
   },
@@ -3066,6 +3060,10 @@
     "named": false
   },
   {
+    "type": "line_continuation",
+    "named": true
+  },
+  {
     "type": "match",
     "named": false
   },
@@ -3104,6 +3102,14 @@
   {
     "type": "return",
     "named": false
+  },
+  {
+    "type": "string_end",
+    "named": true
+  },
+  {
+    "type": "string_start",
+    "named": true
   },
   {
     "type": "true",

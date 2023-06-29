@@ -161,8 +161,14 @@ print >> a, "b", "c"
   (print_statement
     (chevron
       (identifier))
-    (string (string_content))
-    (string (string_content))))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 Assert statements
@@ -606,7 +612,10 @@ with e as f, g as h,:
           (call
             (identifier)
             (argument_list
-              (string (string_content))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
           (as_pattern_target
             (identifier))))
       (with_item
@@ -614,7 +623,10 @@ with e as f, g as h,:
           (call
             (identifier)
             (argument_list
-              (string (string_content))))
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
           (as_pattern_target
             (identifier)))))
     (block
@@ -760,7 +772,10 @@ async def d(a:str="default", b=c) -> None:
         name: (identifier)
         type: (type
           (identifier))
-        value: (string string_content: (string_content)))
+        value: (string 
+          (string_start)
+          (string_content)
+          (string_end)))
       (default_parameter
         name: (identifier)
         value: (identifier)))
@@ -1097,12 +1112,18 @@ raise RunTimeError('NO') from e
     (call
       (identifier)
       (argument_list
-        (string (string_content)))))
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))))
   (raise_statement
     (call
       (identifier)
       (argument_list
-        (string (string_content))))
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))
     (identifier)))
 
 ================================================================================
@@ -1220,7 +1241,10 @@ print "a"
 
 (module
   (print_statement
-    (string (string_content)))
+    (string
+      (string_start)
+      (string_content)
+      (string_end)))
   (comment))
 
 ================================================================================
@@ -1251,12 +1275,21 @@ exec 'x+=1' in a, b
 
 (module
   (exec_statement
-    (string (string_content)))
+    (string
+      (string_start)
+      (string_content)
+      (string_end)))
   (exec_statement
-    (string (string_content))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
     (none))
   (exec_statement
-    (string (string_content))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
     (identifier)
     (identifier)))
 
@@ -1323,11 +1356,18 @@ or len("aa")
       (call
         (identifier)
         (argument_list
-          (string (string_content))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
+      (line_continuation)
       (call
         (identifier)
         (argument_list
-          (string (string_content)))))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
 
 ================================================================================
 Statements with semicolons

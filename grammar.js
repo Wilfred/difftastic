@@ -29,7 +29,8 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/
+    /[\s\f\uFEFF\u2060\u200B]|\r?\n/,
+    $.line_continuation,
   ],
 
   conflicts: $ => [
@@ -40,6 +41,7 @@ module.exports = grammar({
     [$.with_item, $._collection_elements],
     [$.named_expression, $.as_pattern],
     [$.match_statement, $.primary_expression],
+    [$.print_statement, $.primary_expression],
   ],
 
   supertypes: $ => [
@@ -55,9 +57,9 @@ module.exports = grammar({
     $._newline,
     $._indent,
     $._dedent,
-    $._string_start,
+    $.string_start,
     $._string_content,
-    $._string_end,
+    $.string_end,
 
     // Mark comments as external tokens so that the external scanner is always
     // invoked, even if no external token is expected. This allows for better
@@ -177,11 +179,11 @@ module.exports = grammar({
         repeat(seq(',', field('argument', $.expression))),
         optional(','))
       ),
-      prec(-10, seq(
+      prec(-3, prec.dynamic(-1, seq(
         'print',
         commaSep1(field('argument', $.expression)),
         optional(',')
-      ))
+      ))),
     ),
 
     chevron: $ => seq(
@@ -286,7 +288,7 @@ module.exports = grammar({
       commaSep1(
         field(
           'pattern',
-          alias(choice($.expression, $.list_splat_pattern), $.case_pattern),
+          alias($.expression, $.case_pattern),
         )
       ),
       optional(','),
@@ -427,7 +429,7 @@ module.exports = grammar({
 
     exec_statement: $ => seq(
       'exec',
-      field('code', $.string),
+      field('code', choice($.string, $.identifier)),
       optional(
         seq(
           'in',
@@ -556,7 +558,7 @@ module.exports = grammar({
     ),
 
     default_parameter: $ => seq(
-      field('name', $.identifier),
+      field('name', choice($.identifier, $.tuple_pattern)),
       '=',
       field('value', $.expression)
     ),
@@ -598,15 +600,15 @@ module.exports = grammar({
       $.comparison_operator,
       $.not_operator,
       $.boolean_operator,
-      $.await,
       $.lambda,
       $.primary_expression,
       $.conditional_expression,
       $.named_expression,
-      $.as_pattern
+      $.as_pattern,
     ),
 
     primary_expression: $ => choice(
+      $.await,
       $.binary_operator,
       $.identifier,
       $.keyword_identifier,
@@ -630,7 +632,8 @@ module.exports = grammar({
       $.tuple,
       $.parenthesized_expression,
       $.generator_expression,
-      $.ellipsis
+      $.ellipsis,
+      alias($.list_splat_pattern, $.list_splat),
     ),
 
     not_operator: $ => prec(PREC.not, seq(
@@ -757,6 +760,7 @@ module.exports = grammar({
       $.expression_list,
       $.assignment,
       $.augmented_assignment,
+      $.pattern_list,
       $.yield
     ),
 
@@ -930,15 +934,12 @@ module.exports = grammar({
     ),
 
     string: $ => seq(
-      field('prefix', alias($._string_start, '"')),
-      repeat(choice(
-        field('interpolation', $.interpolation),
-        field('string_content', $.string_content)
-      )),
-      field('suffix', alias($._string_end, '"'))
+      $.string_start,
+      repeat(choice($.interpolation, $.string_content)),
+      $.string_end,
     ),
 
-    string_content: $ => prec.right(0, repeat1(
+    string_content: $ => prec.right(repeat1(
       choice(
         $._escape_interpolation,
         $.escape_sequence,
@@ -947,7 +948,7 @@ module.exports = grammar({
       ))),
 
     interpolation: $ => seq(
-      token.immediate('{'),
+      '{',
       field('expression', $._f_expression),
       optional('='),
       optional(field('type_conversion', $.type_conversion)),
@@ -958,6 +959,7 @@ module.exports = grammar({
     _f_expression: $ => choice(
       $.expression,
       $.expression_list,
+      $.pattern_list,
       $.yield,
     ),
 
@@ -972,6 +974,7 @@ module.exports = grammar({
         /\d{3}/,
         /\r?\n/,
         /['"abfrntv\\]/,
+        /N\{[^}]+\}/,
       )
     ))),
 
@@ -1049,6 +1052,8 @@ module.exports = grammar({
     )),
 
     comment: $ => token(seq('#', /.*/)),
+
+    line_continuation: $ => token(seq('\\', choice(seq(optional('\r'), '\n'), '\0'))),
 
     positional_separator: $ => '/',
     keyword_separator: $ => '*',

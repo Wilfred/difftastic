@@ -280,19 +280,28 @@ exec("""exec _code_ in _globs_, _locs_""")
     (call
       (identifier)
       (argument_list
-        (string (string_content
-          (escape_sequence)
-          (escape_sequence)))
+        (string
+          (string_start)
+          (string_content
+            (escape_sequence)
+            (escape_sequence))
+          (string_end))
         (dictionary
           (pair
-            (string (string_content))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
             (none)))
         (identifier))))
   (expression_statement
     (call
       (identifier)
       (argument_list
-        (string (string_content))))))
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
 
 ================================================================================
 Async / await used as identifiers
@@ -762,7 +771,10 @@ foo(x := 3, cat='vector')
           (integer))
         (keyword_argument
           (identifier)
-          (string (string_content))))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))))
   (expression_statement
     (parenthesized_expression
       (named_expression
@@ -841,7 +853,10 @@ lambda (a, b): (a, b)
         (identifier)
         (argument_list
           (binary_operator
-            (string (string_content))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
             (identifier))))))
   (expression_statement
     (lambda
