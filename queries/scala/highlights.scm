@@ -242,6 +242,8 @@
 
 (case_block
   (case_clause ("case") @conditional))
+(indented_cases
+  (case_clause ("case") @conditional))
 
 (operator_identifier) @operator
 
