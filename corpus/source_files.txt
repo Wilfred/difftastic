@@ -35,6 +35,8 @@ Grouped import declarations
 
 package a
 
+import()
+import ("fmt")
 import (
   "net/http"
   . "some/dsl"
@@ -46,6 +48,9 @@ import (
 
 (source_file
   (package_clause (package_identifier))
+  (import_declaration (import_spec_list))
+  (import_declaration (import_spec_list
+    (import_spec (interpreted_string_literal))))
   (import_declaration (import_spec_list
     (import_spec (interpreted_string_literal))
     (import_spec (dot) (interpreted_string_literal))
