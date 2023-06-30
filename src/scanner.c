@@ -327,8 +327,13 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                 return true;
             }
 
+            bool next_tok_is_string_start = lexer->lookahead == '\"' ||
+                                            lexer->lookahead == '\'' ||
+                                            lexer->lookahead == '`';
+
             if ((valid_symbols[DEDENT] ||
-                 (!valid_symbols[NEWLINE] && !valid_symbols[STRING_START] &&
+                 (!valid_symbols[NEWLINE] &&
+                  !(valid_symbols[STRING_START] && next_tok_is_string_start) &&
                   !within_brackets)) &&
                 indent_length < current_indent_length &&
 
