@@ -282,6 +282,7 @@ mod tests {
         assert_eq!(
             actions,
             vec![UnchangedNode {
+                probably_punctuation: false,
                 depth_difference: 0
             }]
         );
@@ -326,10 +327,7 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomLHS {
-                    contiguous: false,
-                    probably_punctuation: false,
-                },
+                NovelAtomLHS { contiguous: false },
             ]
         );
     }
@@ -371,14 +369,8 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomRHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                },
-                NovelAtomRHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                },
+                NovelAtomRHS { contiguous: false },
+                NovelAtomRHS { contiguous: false },
             ]
         );
     }
@@ -423,9 +415,11 @@ mod tests {
                 EnterNovelDelimiterRHS { contiguous: false },
                 EnterNovelDelimiterLHS { contiguous: false },
                 UnchangedNode {
+                    probably_punctuation: false,
                     depth_difference: 0
                 },
                 UnchangedNode {
+                    probably_punctuation: false,
                     depth_difference: 0
                 },
             ],
@@ -459,16 +453,11 @@ mod tests {
             actions,
             vec![
                 UnchangedNode {
+                    probably_punctuation: false,
                     depth_difference: 0
                 },
-                NovelAtomLHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: false
-                },
+                NovelAtomLHS { contiguous: false },
+                NovelAtomLHS { contiguous: true },
             ]
         );
     }
@@ -503,10 +492,7 @@ mod tests {
             actions,
             vec![
                 EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: false
-                },
+                NovelAtomLHS { contiguous: true },
             ]
         );
     }
@@ -544,14 +530,8 @@ mod tests {
             actions,
             vec![
                 EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: false
-                },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: true
-                },
+                NovelAtomLHS { contiguous: true },
+                NovelAtomLHS { contiguous: true },
             ]
         );
     }
@@ -658,10 +638,7 @@ mod tests {
                 ReplacedComment {
                     levenshtein_pct: 95
                 },
-                NovelAtomLHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                }
+                NovelAtomLHS { contiguous: false }
             ]
         );
     }

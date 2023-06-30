@@ -276,6 +276,7 @@ impl<'s, 'b> Vertex<'s, 'b> {
 pub enum Edge {
     UnchangedNode {
         depth_difference: u32,
+        probably_punctuation: bool,
     },
     EnterUnchangedDelimiter {
         depth_difference: u32,
@@ -285,11 +286,9 @@ pub enum Edge {
     },
     NovelAtomLHS {
         contiguous: bool,
-        probably_punctuation: bool,
     },
     NovelAtomRHS {
         contiguous: bool,
-        probably_punctuation: bool,
     },
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
@@ -302,33 +301,34 @@ pub enum Edge {
 }
 
 const NOT_CONTIGUOUS_PENALTY: u32 = 50;
+const PUNCTUATION_PENALTY: u32 = 10;
 
 impl Edge {
     pub fn cost(self) -> u32 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode { depth_difference } => min(40, depth_difference + 1),
+            UnchangedNode {
+                depth_difference,
+                probably_punctuation,
+            } => {
+                // If it's only punctuation, increase the cost
+                // slightly. It's better to have novel punctuation
+                // than novel variable names.
+                min(40, depth_difference + 1)
+                    + if probably_punctuation {
+                        PUNCTUATION_PENALTY
+                    } else {
+                        0
+                    }
+            }
             // Matching an outer delimiter is good.
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
 
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS {
-                contiguous,
-                probably_punctuation,
-            }
-            | NovelAtomRHS {
-                contiguous,
-                probably_punctuation,
-            } => {
+            NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
                 let mut cost = 300;
                 if !contiguous {
                     cost += NOT_CONTIGUOUS_PENALTY;
-                }
-                // If it's only punctuation, decrease the cost
-                // slightly. It's better to have novel punctuation
-                // than novel variable names.
-                if probably_punctuation {
-                    cost -= 10;
                 }
                 cost
             }
@@ -401,12 +401,15 @@ fn allocate_if_new<'s, 'b>(
     }
 }
 
-/// Does this atom look like punctuation?
+/// Does this node look like punctuation?
 ///
 /// This check is deliberately conservative, becuase it's hard to
 /// accurately recognise punctuation in a language-agnostic way.
-fn looks_like_punctuation(content: &str) -> bool {
-    content == "," || content == ";" || content == "."
+fn looks_like_punctuation(node: &Syntax) -> bool {
+    match node {
+        Syntax::Atom { content, .. } => content == "," || content == ";" || content == ".",
+        _ => false,
+    }
 }
 
 /// Pop as many parents of `lhs_node` and `rhs_node` as
@@ -496,6 +499,8 @@ pub fn get_set_neighbours<'s, 'b>(
                 - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
 
+            let probably_punctuation = looks_like_punctuation(lhs_syntax);
+
             // Both nodes are equal, the happy case.
             let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) = pop_all_parents(
                 lhs_syntax.next_sibling(),
@@ -506,7 +511,10 @@ pub fn get_set_neighbours<'s, 'b>(
             );
 
             res.push((
-                UnchangedNode { depth_difference },
+                UnchangedNode {
+                    depth_difference,
+                    probably_punctuation,
+                },
                 allocate_if_new(
                     Vertex {
                         neighbours: RefCell::new(None),
@@ -630,7 +638,7 @@ pub fn get_set_neighbours<'s, 'b>(
     if let Some(lhs_syntax) = &v.lhs_syntax {
         match lhs_syntax {
             // Step over this novel atom.
-            Syntax::Atom { content, .. } => {
+            Syntax::Atom { .. } => {
                 // TODO: should this apply if prev is a parent node
                 // rather than a sibling?
                 let contiguous = lhs_syntax.prev_is_contiguous();
@@ -645,10 +653,7 @@ pub fn get_set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    NovelAtomLHS {
-                        contiguous,
-                        probably_punctuation: looks_like_punctuation(content),
-                    },
+                    NovelAtomLHS { contiguous },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
@@ -704,7 +709,7 @@ pub fn get_set_neighbours<'s, 'b>(
     if let Some(rhs_syntax) = &v.rhs_syntax {
         match rhs_syntax {
             // Step over this novel atom.
-            Syntax::Atom { content, .. } => {
+            Syntax::Atom { .. } => {
                 let contiguous = rhs_syntax.prev_is_contiguous();
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
@@ -717,10 +722,7 @@ pub fn get_set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    NovelAtomRHS {
-                        contiguous,
-                        probably_punctuation: looks_like_punctuation(content),
-                    },
+                    NovelAtomRHS { contiguous },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
