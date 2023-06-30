@@ -36,8 +36,8 @@ object O2:
 // SIP-44
 class C:
 // ^keyword
+  //  ^type
   fooooo.map: x =>
-  // ^type
   //     ^method.call
     x + 1
 
