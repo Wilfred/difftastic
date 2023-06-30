@@ -137,11 +137,12 @@ module.exports = grammar({
 
     import_spec_list: $ => seq(
       '(',
-      repeat(seq(
+      optional(seq(
         $.import_spec,
-        terminator
+        repeat(seq(terminator, $.import_spec)),
+        optional(terminator),
       )),
-      ')'
+      ')',
     ),
 
     _declaration: $ => choice(
