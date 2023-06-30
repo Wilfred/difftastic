@@ -124,6 +124,7 @@ print a
 print b, c
 print 0 or 1, 1 or 0,
 print 0 or 1
+print not True
 
 --------------------------------------------------------------------------------
 
@@ -143,7 +144,10 @@ print 0 or 1
   (print_statement
     (boolean_operator
       (integer)
-      (integer))))
+      (integer)))
+  (print_statement
+    (not_operator
+      (true))))
 
 ================================================================================
 Print statements with redirection
@@ -808,6 +812,11 @@ def h(*a):
   i((*a))
   j(((*a)))
 
+def foo():
+    pass \
+\
+\
+
 --------------------------------------------------------------------------------
 
 (module
@@ -889,7 +898,15 @@ def h(*a):
             (parenthesized_expression
               (parenthesized_expression
                 (list_splat
-                  (identifier))))))))))
+                  (identifier)))))))))
+  (function_definition
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      (pass_statement)))
+  (line_continuation)
+  (line_continuation)
+  (line_continuation))
 
 ================================================================================
 Empty blocks
@@ -1270,6 +1287,8 @@ Exec statements
 exec '1+1'
 exec 'x+=1' in None
 exec 'x+=1' in a, b
+func = "print"
+exec func in {}
 
 --------------------------------------------------------------------------------
 
@@ -1291,7 +1310,17 @@ exec 'x+=1' in a, b
       (string_content)
       (string_end))
     (identifier)
-    (identifier)))
+    (identifier))
+  (expression_statement
+    (assignment
+      (identifier)
+      (string
+        (string_start)
+        (string_content)
+        (string_end))))
+  (exec_statement
+    (identifier)
+    (dictionary)))
 
 ================================================================================
 Extra newlines
