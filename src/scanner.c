@@ -126,19 +126,6 @@ static inline void set_end_character(Delimiter *delimiter, int32_t character) {
     }
 }
 
-static inline const char *delimiter_string(Delimiter *delimiter) {
-    if (delimiter->flags & SingleQuote) {
-        return "\'";
-    }
-    if (delimiter->flags & DoubleQuote) {
-        return "\"";
-    }
-    if (delimiter->flags & BackQuote) {
-        return "`";
-    }
-    return "";
-}
-
 typedef struct {
     uint32_t len;
     uint32_t cap;
