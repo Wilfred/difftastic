@@ -311,9 +311,6 @@ impl Edge {
             // Matching an outer delimiter is good.
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
 
-            // Replacing a comment is better than treating it as novel.
-            ReplacedComment { levenshtein_pct } => 150 + u32::from(100 - levenshtein_pct),
-
             // Otherwise, we've added/removed a node.
             NovelAtomLHS {
                 contiguous,
@@ -348,6 +345,12 @@ impl Edge {
                 }
                 cost
             }
+            // Replacing a comment is better than treating it as
+            // novel. However, since ReplacedComment is an alternative
+            // to NovelAtomLHS nad NovelAtomRHS, we need to be
+            // slightly less than 2 * (300 + NOT_CONTIGUOUS_PENALTY),
+            // so less than 700.
+            ReplacedComment { levenshtein_pct } => 600 + u32::from(100 - levenshtein_pct),
         }
     }
 }

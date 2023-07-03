@@ -4,6 +4,12 @@
 
 Updated Scala parser.
 
+### Diffing
+
+Fixed an issue with the cost model for comment replacement, leading
+difftastic to prefer modified comments even when exact comment matches
+are possible.
+
 ### Display
 
 Improved word highlighting in comments when they contain numbers.

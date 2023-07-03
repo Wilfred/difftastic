@@ -22,6 +22,9 @@ b2cace14b01c272217eec27d16adddbe  -
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 b8e17b8eb649ba0b8d29b57a23e4ac81  -
 
+sample_files/comma_and_comment_before.js sample_files/comma_and_comment_after.js
+78be73c9caf82b3aeee81d8b8e7cf3c6  -
+
 sample_files/comma_before.js sample_files/comma_after.js
 e615c73ff860651f7749dc13cb3f110f  -
 
