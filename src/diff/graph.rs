@@ -292,12 +292,8 @@ pub enum Edge {
     },
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
-    EnterNovelDelimiterLHS {
-        contiguous: bool,
-    },
-    EnterNovelDelimiterRHS {
-        contiguous: bool,
-    },
+    EnterNovelDelimiterLHS {},
+    EnterNovelDelimiterRHS {},
 }
 
 const NOT_CONTIGUOUS_PENALTY: u32 = 50;
@@ -328,13 +324,6 @@ impl Edge {
             NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
                 let mut cost = 300;
                 if !contiguous {
-                    cost += NOT_CONTIGUOUS_PENALTY;
-                }
-                cost
-            }
-            EnterNovelDelimiterLHS { contiguous } | EnterNovelDelimiterRHS { contiguous } => {
-                let mut cost = 300;
-                if !contiguous {
                     // This needs to be more than 40 greater than the
                     // contiguous case. Otherwise, we end up choosing
                     // a badly positioned unchanged delimiter just
@@ -345,6 +334,7 @@ impl Edge {
                 }
                 cost
             }
+            EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS nad NovelAtomRHS, we need to be
@@ -675,8 +665,6 @@ pub fn get_set_neighbours<'s, 'b>(
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
-                let contiguous = lhs_syntax.prev_is_contiguous();
-
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         lhs_next,
@@ -687,7 +675,7 @@ pub fn get_set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    EnterNovelDelimiterLHS { contiguous },
+                    EnterNovelDelimiterLHS {},
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
@@ -742,7 +730,6 @@ pub fn get_set_neighbours<'s, 'b>(
             Syntax::List { children, .. } => {
                 let rhs_next = children.get(0).copied();
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
-                let contiguous = rhs_syntax.prev_is_contiguous();
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
@@ -754,7 +741,7 @@ pub fn get_set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    EnterNovelDelimiterRHS { contiguous },
+                    EnterNovelDelimiterRHS {},
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),

@@ -56,7 +56,7 @@ sample_files/elvish_before.elv sample_files/elvish_after.elv
 1efd973752dcbec973578fc1420f0686  -
 
 sample_files/erlang_before.erl sample_files/erlang_after.erl
-e5c989cce93d63604e4e71b83c39c5d4  -
+59df4bdd240b32df06a0bdd2c7dbee14  -
 
 sample_files/hack_before.php sample_files/hack_after.php
 83d4a92c596b5d465ff024aa1b30be92  -
@@ -134,7 +134,7 @@ sample_files/multiline_string_before.ml sample_files/multiline_string_after.ml
 ba135b1451962f563ce8c2f449a904bf  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
-a8d0454af5275807d425cdfa2d08dce8  -
+59f4e15e83e05c0fa36d03f4b2bb4cf4  -
 
 sample_files/nested_slider_before.rs sample_files/nested_slider_after.rs
 5c3dc3d870cdf182658da6a29650d911  -

@@ -412,8 +412,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS { contiguous: false },
-                EnterNovelDelimiterLHS { contiguous: false },
+                EnterNovelDelimiterRHS {},
+                EnterNovelDelimiterLHS {},
                 UnchangedNode {
                     probably_punctuation: false,
                     depth_difference: 0
@@ -490,10 +490,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![
-                EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS { contiguous: true },
-            ]
+            vec![EnterNovelDelimiterLHS {}, NovelAtomLHS { contiguous: true },]
         );
     }
 
@@ -529,7 +526,7 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterLHS { contiguous: false },
+                EnterNovelDelimiterLHS {},
                 NovelAtomLHS { contiguous: true },
                 NovelAtomLHS { contiguous: true },
             ]
