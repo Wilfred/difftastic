@@ -307,6 +307,9 @@ impl Edge {
                 depth_difference,
                 probably_punctuation,
             } => {
+                // TODO: Perhaps prefer matching longer strings? It's
+                // probably easier to read.
+
                 // If it's only punctuation, increase the cost
                 // slightly. It's better to have novel punctuation
                 // than novel variable names.
