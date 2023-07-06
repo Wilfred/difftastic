@@ -32,5 +32,11 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.8"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.kotlin",
+      "file-types": ["kt", "kts"]
+    }
+  ]
 }
