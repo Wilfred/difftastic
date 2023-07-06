@@ -134,7 +134,7 @@ fn fix_nested_slider_prefer_outer<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
                     }
                 }
             }
-            ReplacedComment(_, _) => {}
+            ReplacedComment(_, _) | ReplacedString(_, _) => {}
             Novel => {}
         }
 
@@ -154,7 +154,7 @@ fn fix_nested_slider_prefer_inner<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
             .expect("Changes should be set before slider correction")
         {
             Unchanged(_) => {}
-            ReplacedComment(_, _) => {}
+            ReplacedComment(_, _) | ReplacedString(_, _) => {}
             Novel => {
                 let mut found_unchanged = vec![];
                 unchanged_descendants(children, &mut found_unchanged, change_map);
@@ -188,7 +188,7 @@ fn unchanged_descendants<'a>(
             Unchanged(_) => {
                 found.push(node);
             }
-            Novel | ReplacedComment(_, _) => {
+            Novel | ReplacedComment(_, _) | ReplacedString(_, _) => {
                 if let List { children, .. } = node {
                     unchanged_descendants(children, found, change_map);
                 }
@@ -347,7 +347,7 @@ fn novel_regions_after_unchanged<'a>(
                     region = Some(r);
                 }
             }
-            ReplacedComment(_, _) => {
+            ReplacedComment(_, _) | ReplacedString(_, _) => {
                 // Could have just finished a novel region.
                 if let Some(region) = region {
                     regions.push(region);
@@ -395,7 +395,7 @@ fn novel_regions_before_unchanged<'a>(
                 r.push(i);
                 region = Some(r);
             }
-            ReplacedComment(_, _) => {
+            ReplacedComment(_, _) | ReplacedString(_, _) => {
                 region = None;
             }
         }

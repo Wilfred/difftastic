@@ -284,6 +284,9 @@ pub enum Edge {
     ReplacedComment {
         levenshtein_pct: u8,
     },
+    ReplacedString {
+        levenshtein_pct: u8,
+    },
     NovelAtomLHS {},
     NovelAtomRHS {},
     // TODO: An EnterNovelDelimiterBoth edge might help performance
@@ -333,7 +336,9 @@ impl Edge {
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS and NovelAtomRHS, we need to be
             // slightly less than 2 * 300.
-            ReplacedComment { levenshtein_pct } => 500 + u32::from(100 - levenshtein_pct),
+            ReplacedComment { levenshtein_pct } | ReplacedString { levenshtein_pct } => {
+                500 + u32::from(100 - levenshtein_pct)
+            }
         }
     }
 }
@@ -574,21 +579,26 @@ pub fn set_neighbours<'s, 'b>(
         if let (
             Syntax::Atom {
                 content: lhs_content,
-                kind: AtomKind::Comment,
+                kind: lhs_kind @ AtomKind::Comment | lhs_kind @ AtomKind::String,
                 ..
             },
             Syntax::Atom {
                 content: rhs_content,
-                kind: AtomKind::Comment,
+                kind: rhs_kind @ AtomKind::Comment | rhs_kind @ AtomKind::String,
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)
         {
-            // Both sides are comments and their content is reasonably
-            // similar.
-            if lhs_content != rhs_content {
+            // Both sides are comments/both sides are strings and
+            // their content is reasonably similar.
+            if lhs_kind == rhs_kind && lhs_content != rhs_content {
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
+                let edge = if lhs_kind == &AtomKind::Comment {
+                    ReplacedComment { levenshtein_pct }
+                } else {
+                    ReplacedString { levenshtein_pct }
+                };
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
@@ -599,7 +609,7 @@ pub fn set_neighbours<'s, 'b>(
                         &v.parents,
                     );
                 res.push((
-                    ReplacedComment { levenshtein_pct },
+                    edge,
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
@@ -776,13 +786,20 @@ pub fn populate_change_map<'s, 'b>(
                 change_map.insert(lhs, ChangeKind::Unchanged(rhs));
                 change_map.insert(rhs, ChangeKind::Unchanged(lhs));
             }
-            ReplacedComment { levenshtein_pct } => {
+            ReplacedComment { levenshtein_pct } | ReplacedString { levenshtein_pct } => {
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
+                let change_kind = |first, second| {
+                    if let ReplacedComment { .. } = e {
+                        ChangeKind::ReplacedComment(first, second)
+                    } else {
+                        ChangeKind::ReplacedString(first, second)
+                    }
+                };
 
                 if *levenshtein_pct > 40 {
-                    change_map.insert(lhs, ChangeKind::ReplacedComment(lhs, rhs));
-                    change_map.insert(rhs, ChangeKind::ReplacedComment(rhs, lhs));
+                    change_map.insert(lhs, change_kind(lhs, rhs));
+                    change_map.insert(rhs, change_kind(rhs, lhs));
                 } else {
                     change_map.insert(lhs, ChangeKind::Novel);
                     change_map.insert(rhs, ChangeKind::Novel);
