@@ -113,7 +113,7 @@ sample_files/julia_before.jl sample_files/julia_after.jl
 0311b682e1ff78f83a1e10589a764a33  -
 
 sample_files/load_before.js sample_files/load_after.js
-1132cc5cefc04f7d16c5f25e588f0af1  -
+5cb293020a07b0635b864850c07458b3  -
 
 sample_files/lua_before.lua sample_files/lua_after.lua
 9886d61f459cdf566be9c42f7fa61a12  -
@@ -143,7 +143,7 @@ sample_files/nesting_before.el sample_files/nesting_after.el
 9fcf6b8adf148cdae47bc3a5f8068e41  -
 
 sample_files/newick_before.nwk sample_files/newick_after.nwk
-2919522e564dad74183ef2411bfc3111  -
+d17c12222f804e4973c166d751a9ae06  -
 
 sample_files/nix_before.nix sample_files/nix_after.nix
 09a56752c1eb7f3f5c10d631a01973fc  -

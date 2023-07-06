@@ -257,14 +257,6 @@ mod tests {
         }]
     }
 
-    fn col_helper(line: u32, col: u32) -> Vec<SingleLineSpan> {
-        vec![SingleLineSpan {
-            line: line.into(),
-            start_col: col,
-            end_col: col + 1,
-        }]
-    }
-
     #[test]
     fn identical_atoms() {
         let arena = Arena::new();
@@ -327,7 +319,7 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomLHS { contiguous: false },
+                NovelAtomLHS {},
             ]
         );
     }
@@ -369,8 +361,8 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomRHS { contiguous: false },
-                NovelAtomRHS { contiguous: false },
+                NovelAtomRHS {},
+                NovelAtomRHS {},
             ]
         );
     }
@@ -423,113 +415,6 @@ mod tests {
                     depth_difference: 0
                 },
             ],
-        );
-    }
-
-    #[test]
-    fn prefer_atoms_same_line() {
-        let arena = Arena::new();
-
-        let lhs = vec![
-            Syntax::new_atom(&arena, col_helper(1, 0), "foo", AtomKind::Normal),
-            Syntax::new_atom(&arena, col_helper(2, 0), "bar", AtomKind::Normal),
-            Syntax::new_atom(&arena, col_helper(2, 1), "foo", AtomKind::Normal),
-        ];
-
-        let rhs = vec![Syntax::new_atom(
-            &arena,
-            col_helper(1, 0),
-            "foo",
-            AtomKind::Normal,
-        )];
-        init_all_info(&lhs, &rhs);
-
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
-
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                UnchangedNode {
-                    probably_punctuation: false,
-                    depth_difference: 0
-                },
-                NovelAtomLHS { contiguous: false },
-                NovelAtomLHS { contiguous: true },
-            ]
-        );
-    }
-
-    #[test]
-    fn prefer_children_same_line() {
-        let arena = Arena::new();
-
-        let lhs = vec![Syntax::new_list(
-            &arena,
-            "[",
-            col_helper(1, 0),
-            vec![Syntax::new_atom(
-                &arena,
-                col_helper(1, 2),
-                "1",
-                AtomKind::Normal,
-            )],
-            "]",
-            pos_helper(2),
-        )];
-
-        let rhs = vec![];
-        init_all_info(&lhs, &rhs);
-
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
-
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![EnterNovelDelimiterLHS {}, NovelAtomLHS { contiguous: true },]
-        );
-    }
-
-    #[test]
-    fn atom_after_novel_list_contiguous() {
-        let arena = Arena::new();
-
-        let lhs = vec![
-            Syntax::new_list(
-                &arena,
-                "[",
-                col_helper(1, 0),
-                vec![Syntax::new_atom(
-                    &arena,
-                    col_helper(1, 2),
-                    "1",
-                    AtomKind::Normal,
-                )],
-                "]",
-                col_helper(2, 1),
-            ),
-            Syntax::new_atom(&arena, col_helper(2, 2), ";", AtomKind::Normal),
-        ];
-
-        let rhs = vec![];
-        init_all_info(&lhs, &rhs);
-
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
-
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                EnterNovelDelimiterLHS {},
-                NovelAtomLHS { contiguous: true },
-                NovelAtomLHS { contiguous: true },
-            ]
         );
     }
 
@@ -635,7 +520,7 @@ mod tests {
                 ReplacedComment {
                     levenshtein_pct: 95
                 },
-                NovelAtomLHS { contiguous: false }
+                NovelAtomLHS {}
             ]
         );
     }

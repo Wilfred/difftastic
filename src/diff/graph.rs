@@ -284,19 +284,14 @@ pub enum Edge {
     ReplacedComment {
         levenshtein_pct: u8,
     },
-    NovelAtomLHS {
-        contiguous: bool,
-    },
-    NovelAtomRHS {
-        contiguous: bool,
-    },
+    NovelAtomLHS {},
+    NovelAtomRHS {},
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
     EnterNovelDelimiterLHS {},
     EnterNovelDelimiterRHS {},
 }
 
-const NOT_CONTIGUOUS_PENALTY: u32 = 50;
 const PUNCTUATION_PENALTY: u32 = 100;
 
 impl Edge {
@@ -324,26 +319,13 @@ impl Edge {
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
 
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
-                let mut cost = 300;
-                if !contiguous {
-                    // This needs to be more than 40 greater than the
-                    // contiguous case. Otherwise, we end up choosing
-                    // a badly positioned unchanged delimiter just
-                    // because it has a better depth difference.
-                    //
-                    // TODO: write a test for this case.
-                    cost += NOT_CONTIGUOUS_PENALTY;
-                }
-                cost
-            }
+            NovelAtomLHS {} | NovelAtomRHS {} => 300,
             EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
             // to NovelAtomLHS nad NovelAtomRHS, we need to be
-            // slightly less than 2 * (300 + NOT_CONTIGUOUS_PENALTY),
-            // so less than 700.
-            ReplacedComment { levenshtein_pct } => 600 + u32::from(100 - levenshtein_pct),
+            // slightly less than 2 * 300.
+            ReplacedComment { levenshtein_pct } => 500 + u32::from(100 - levenshtein_pct),
         }
     }
 }
@@ -632,10 +614,6 @@ pub fn get_set_neighbours<'s, 'b>(
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                // TODO: should this apply if prev is a parent node
-                // rather than a sibling?
-                let contiguous = lhs_syntax.prev_is_contiguous();
-
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         lhs_syntax.next_sibling(),
@@ -646,7 +624,7 @@ pub fn get_set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    NovelAtomLHS { contiguous },
+                    NovelAtomLHS {},
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
@@ -701,8 +679,6 @@ pub fn get_set_neighbours<'s, 'b>(
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                let contiguous = rhs_syntax.prev_is_contiguous();
-
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         v.lhs_syntax,
@@ -713,7 +689,7 @@ pub fn get_set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    NovelAtomRHS { contiguous },
+                    NovelAtomRHS {},
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),

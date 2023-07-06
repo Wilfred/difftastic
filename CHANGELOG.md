@@ -10,6 +10,11 @@ Fixed an issue with the cost model for comment replacement, leading
 difftastic to prefer modified comments even when exact comment matches
 are possible.
 
+Simplified the cost model, which previously had an inconsistent
+heuristic depending on whether there were multiple items on the same
+line. This can lead to slightly different items being marked as
+changed, but on average the results are better.
+
 ### Display
 
 Improved word highlighting in comments when they contain numbers.

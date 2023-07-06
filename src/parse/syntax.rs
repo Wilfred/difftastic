@@ -9,7 +9,7 @@ use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
     diff::myers_diff,
-    lines::{is_all_whitespace, LineNumber, NewlinePositions},
+    lines::{is_all_whitespace, NewlinePositions},
     positions::SingleLineSpan,
 };
 use Syntax::*;
@@ -47,9 +47,6 @@ pub struct SyntaxInfo<'a> {
     prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
-    /// Does the previous syntax node occur on the same line as the
-    /// first line of this node?
-    prev_is_contiguous: Cell<bool>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     pub num_after: Cell<usize>,
@@ -73,7 +70,6 @@ impl<'a> SyntaxInfo<'a> {
             next_sibling: Cell::new(None),
             prev: Cell::new(None),
             parent: Cell::new(None),
-            prev_is_contiguous: Cell::new(false),
             num_ancestors: Cell::new(0),
             num_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
@@ -277,10 +273,6 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
-    pub fn prev_is_contiguous(&self) -> bool {
-        self.info().prev_is_contiguous.get()
-    }
-
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
     pub fn id(&self) -> SyntaxId {
@@ -327,22 +319,6 @@ impl<'a> Syntax<'a> {
                 format!("line:{} {}", line, content)
             }
         }
-    }
-
-    pub fn first_line(&self) -> Option<LineNumber> {
-        let position = match self {
-            List { open_position, .. } => open_position,
-            Atom { position, .. } => position,
-        };
-        position.first().map(|lp| lp.line)
-    }
-
-    pub fn last_line(&self) -> Option<LineNumber> {
-        let position = match self {
-            List { close_position, .. } => close_position,
-            Atom { position, .. } => position,
-        };
-        position.last().map(|lp| lp.line)
     }
 }
 
@@ -457,7 +433,6 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
-    set_prev_is_contiguous(roots);
 }
 
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
@@ -561,35 +536,6 @@ fn set_num_ancestors(nodes: &[&Syntax], num_ancestors: u32) {
 
         if let List { children, .. } = node {
             set_num_ancestors(children, num_ancestors + 1);
-        }
-    }
-}
-
-fn set_prev_is_contiguous(roots: &[&Syntax]) {
-    for node in roots {
-        let is_contiguous = if let Some(prev) = node.info().prev.get() {
-            match prev {
-                List {
-                    open_position,
-                    close_position,
-                    ..
-                } => {
-                    let prev_is_parent = prev.num_ancestors() < node.num_ancestors();
-                    if prev_is_parent {
-                        open_position.last().map(|p| p.line) == node.first_line()
-                    } else {
-                        // predecessor node at the same level.
-                        close_position.last().map(|p| p.line) == node.first_line()
-                    }
-                }
-                Atom { .. } => prev.last_line() == node.first_line(),
-            }
-        } else {
-            false
-        };
-        node.info().prev_is_contiguous.set(is_contiguous);
-        if let List { children, .. } = node {
-            set_prev_is_contiguous(children);
         }
     }
 }
