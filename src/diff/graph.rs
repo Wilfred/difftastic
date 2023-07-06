@@ -297,7 +297,7 @@ pub enum Edge {
 }
 
 const NOT_CONTIGUOUS_PENALTY: u32 = 50;
-const PUNCTUATION_PENALTY: u32 = 10;
+const PUNCTUATION_PENALTY: u32 = 100;
 
 impl Edge {
     pub fn cost(self) -> u32 {
