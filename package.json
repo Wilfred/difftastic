@@ -36,7 +36,7 @@
   "tree-sitter": [
     {
       "scope": "source.kotlin",
-      "file-types": ["kt"]
+      "file-types": ["kt", "kts"]
     }
   ]
 }
