@@ -17,7 +17,7 @@ sample_files/change_outer_before.el sample_files/change_outer_after.el
 4d202515307556b443806ea25aac0b84  -
 
 sample_files/chinese_before.po sample_files/chinese_after.po
-b2cace14b01c272217eec27d16adddbe  -
+46cc71b46688dd2abc51f9fd82864c90  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 b8e17b8eb649ba0b8d29b57a23e4ac81  -
@@ -62,7 +62,7 @@ sample_files/hack_before.php sample_files/hack_after.php
 83d4a92c596b5d465ff024aa1b30be92  -
 
 sample_files/hare_before.ha sample_files/hare_after.ha
-ea834f886bd44133115c567a200f1996  -
+2b3a9433cd692d9ffab872477312e3b8  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
 5a2c0c5d4a04f79e2f8f32299e6cd364  -
@@ -83,7 +83,7 @@ sample_files/html_simple_before.html sample_files/html_simple_after.html
 ce3bfa12bc21d0eb5528766e18387e86  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-b0dd65cc5431f3cca9e93ca6f4a64676  -
+c879bed2d8551579975617262245337c  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
@@ -209,10 +209,10 @@ sample_files/tab_before.c sample_files/tab_after.c
 b652d15f3a05b82a7d871cfeca2f453f  -
 
 sample_files/tailwind_before.css sample_files/tailwind_after.css
-3e07691cbb537948db60bcc80813eaf9  -
+cee5ee7415b1bd50bdc2dacd11e7303a  -
 
 sample_files/text_before.txt sample_files/text_after.txt
-5fbdac2d1156ed8bb6b098e87f30d319  -
+db9c0a184326ab8b3b1561035ad3545d  -
 
 sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
 b142169ae6ac08ef64d0cf67a2e66f5b  -

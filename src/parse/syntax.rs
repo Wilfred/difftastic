@@ -608,8 +608,47 @@ pub struct MatchedPos {
 /// Split `s` into a vec of things that look like words and individual
 /// non-word characters.
 ///
-/// "foo..bar23" -> vec!["foo", ".", ".", "bar", "23"]
+/// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
+///
+/// See also `split_words_and_numbers`. Both these functions are hot,
+/// so they are separate implementations rather than passing a bool to
+/// customise number handling.
 pub fn split_words(s: &str) -> Vec<&str> {
+    let mut res = vec![];
+    let mut word_start: Option<usize> = None;
+    for (idx, c) in s.char_indices() {
+        match word_start {
+            Some(start) => {
+                if c.is_alphanumeric() || c == '-' || c == '_' {
+                    // Just carry on in this word.
+                } else {
+                    // Push the previous word, then this non-word character.
+                    res.push(&s[start..idx]);
+                    res.push(&s[idx..idx + c.len_utf8()]);
+                    word_start = None;
+                }
+            }
+            None => {
+                if c.is_alphanumeric() || c == '-' || c == '_' {
+                    word_start = Some(idx);
+                } else {
+                    res.push(&s[idx..idx + c.len_utf8()]);
+                }
+            }
+        }
+    }
+
+    if let Some(start) = word_start {
+        res.push(&s[start..]);
+    }
+    res
+}
+
+/// Split `s` into a vec of things that look like words and individual
+/// non-word characters.
+///
+/// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
+pub fn split_words_and_numbers(s: &str) -> Vec<&str> {
     let mut res = vec![];
     let mut word_start: Option<(usize, char)> = None;
     for (idx, c) in s.char_indices() {
@@ -656,8 +695,8 @@ fn split_comment_words(
 ) -> Vec<MatchedPos> {
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
-    let content_parts = split_words(content);
-    let other_parts = split_words(opposite_content);
+    let content_parts = split_words_and_numbers(content);
+    let other_parts = split_words_and_numbers(opposite_content);
 
     let content_newlines = NewlinePositions::from(content);
     let opposite_content_newlines = NewlinePositions::from(opposite_content);
@@ -1118,7 +1157,7 @@ mod tests {
     }
 
     #[test]
-    fn test_split_words_punctuations() {
+    fn test_split_words_punctuation() {
         let s = "example..";
         let res = split_words(s);
         assert_eq!(res, vec!["example", ".", "."])
@@ -1128,7 +1167,7 @@ mod tests {
     fn test_split_words_numbers() {
         let s = "foo123bar";
         let res = split_words(s);
-        assert_eq!(res, vec!["foo", "123", "bar"])
+        assert_eq!(res, vec!["foo123bar"])
     }
 
     #[test]
@@ -1157,5 +1196,19 @@ mod tests {
         let s = "a xöy b";
         let res = split_words(s);
         assert_eq!(res, vec!["a", " ", "xöy", " ", "b"])
+    }
+
+    #[test]
+    fn test_split_words_and_numbers() {
+        let s = "a123b";
+        let res = split_words_and_numbers(s);
+        assert_eq!(res, vec!["a", "123", "b"])
+    }
+
+    #[test]
+    fn test_split_words_and_numbers_spaces() {
+        let s = "foo bar";
+        let res = split_words_and_numbers(s);
+        assert_eq!(res, vec!["foo", " ", "bar"])
     }
 }
