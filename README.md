@@ -14,7 +14,7 @@ There are no plans to add support for new language currently.
 
 ## News
 
-From 2023-6-24 ([commit](https://github.com/6cdh/tree-sitter-racket/commit/989c3e631a7f2d87bb6a66a5394870aaeb6c56e7)) or release 0.3.0, the external scanner will be written in C.
+Starting from June 24, 2023, ([commit](https://github.com/6cdh/tree-sitter-racket/commit/989c3e631a7f2d87bb6a66a5394870aaeb6c56e7)) or release 0.3.0, the external scanner was written in C.
 
 ## Build and Try
 
