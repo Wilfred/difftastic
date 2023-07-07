@@ -35,7 +35,7 @@ If you want language constructs support, use custom queries (see [#5](https://gi
 ## Query
 
 The queries here are too simple and not intended to be useful in an editor.
-See [nvim-treesitter scheme queries](https://github.com/nvim-treesitter/nvim-treesitter/blob/master/queries/scheme/highlights.scm). They are not compatible with tree-sitter's queries, but support more builtin functions/macros, sexp comment highlight, etc.
+Please open an issue if you have suggestions.
 
 ## Reference
 
