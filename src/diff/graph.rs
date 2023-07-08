@@ -478,7 +478,7 @@ pub fn set_neighbours<'s, 'b>(
         return;
     }
 
-    // There are only seven pushe in this functions, so that's sufficient.
+    // There are only seven pushes in this functions, so that's sufficient.
     let mut res: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
