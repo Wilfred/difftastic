@@ -29,7 +29,7 @@ sample_files/comma_before.js sample_files/comma_after.js
 e615c73ff860651f7749dc13cb3f110f  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-9af41b8c280d4ce94a19023f652e46fb  -
+d5f54a0acc3177939f2720ae5b2679d6  -
 
 sample_files/context_before.rs sample_files/context_after.rs
 eac81f7ca15eff973498a4d8b050ec34  -
@@ -65,7 +65,7 @@ sample_files/hare_before.ha sample_files/hare_after.ha
 2b3a9433cd692d9ffab872477312e3b8  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
-5a2c0c5d4a04f79e2f8f32299e6cd364  -
+0cefa44fdf56edf504f50506bbcded4e  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
 24c6205befd0fd1b44f21dd039cafb48  -
@@ -77,7 +77,7 @@ sample_files/helpful_before.el sample_files/helpful_after.el
 a0f2e0115ea94c46d3650ba89b486f09  -
 
 sample_files/html_before.html sample_files/html_after.html
-3d10040707b655920988fae2e610c4be  -
+ed77c9d76eefdc82cf52e089d268ac6c  -
 
 sample_files/html_simple_before.html sample_files/html_simple_after.html
 ce3bfa12bc21d0eb5528766e18387e86  -

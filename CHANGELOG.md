@@ -17,7 +17,8 @@ changed, but on average the results are better.
 
 ### Display
 
-Improved word highlighting in comments when they contain numbers.
+Improved word highlighting in comments when they contain numbers or
+hyphens.
 
 ### Internals
 

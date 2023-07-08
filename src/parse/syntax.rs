@@ -661,7 +661,7 @@ pub fn split_words_and_numbers(s: &str) -> Vec<&str> {
     for (idx, c) in s.char_indices() {
         match word_start {
             Some((start, start_c)) => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
+                if c.is_alphanumeric() || c == '_' {
                     // Word character, add to the current word if it's
                     // not a number.
                     if c.is_ascii_digit() == start_c.is_ascii_digit() {
