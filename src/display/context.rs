@@ -606,7 +606,7 @@ pub fn add_context(
     before_lines
         .into_iter()
         .chain(lines.iter().copied())
-        .chain(after_lines.into_iter())
+        .chain(after_lines)
         .collect()
 }
 
