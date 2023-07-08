@@ -292,8 +292,6 @@ pub enum Edge {
     EnterNovelDelimiterRHS {},
 }
 
-const PUNCTUATION_PENALTY: u32 = 100;
-
 impl Edge {
     pub fn cost(self) -> u32 {
         match self {
@@ -305,15 +303,21 @@ impl Edge {
                 // TODO: Perhaps prefer matching longer strings? It's
                 // probably easier to read.
 
-                // If it's only punctuation, increase the cost
-                // slightly. It's better to have novel punctuation
-                // than novel variable names.
-                min(40, depth_difference + 1)
-                    + if probably_punctuation {
-                        PUNCTUATION_PENALTY
-                    } else {
-                        0
-                    }
+                // The cost for unchanged nodes can be as low as 1,
+                // but we penalise nodes that have a different depth
+                // difference, capped at 40.
+                let base = min(40, depth_difference + 1);
+
+                // If it's only punctuation, increase the cost. It's
+                // better to have unchanged variable names and novel
+                // punctuation than the reverse.
+                //
+                // We want a sufficiently large punctuation cost such
+                // that unchanged variables always win, even if there
+                // are replacement edges elsewhere.
+                //
+                // Replacement edges have a cost between 500 and 600.
+                base + if probably_punctuation { 100 } else { 0 }
             }
             // Matching an outer delimiter is good.
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
@@ -323,7 +327,7 @@ impl Edge {
             EnterNovelDelimiterLHS { .. } | EnterNovelDelimiterRHS { .. } => 300,
             // Replacing a comment is better than treating it as
             // novel. However, since ReplacedComment is an alternative
-            // to NovelAtomLHS nad NovelAtomRHS, we need to be
+            // to NovelAtomLHS and NovelAtomRHS, we need to be
             // slightly less than 2 * 300.
             ReplacedComment { levenshtein_pct } => 500 + u32::from(100 - levenshtein_pct),
         }
