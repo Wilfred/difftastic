@@ -455,15 +455,14 @@ fn pop_all_parents<'s>(
 }
 
 /// Compute the neighbours of `v` if we haven't previously done so,
-/// write them to the .neighbours cell inside `v`, and return them.
-pub fn get_set_neighbours<'s, 'b>(
+/// and write them to the .neighbours cell inside `v`.
+pub fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
     seen: &mut FxHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
-) -> Vec<(Edge, &'b Vertex<'s, 'b>)> {
-    match &*v.neighbours.borrow() {
-        Some(neighbours) => return neighbours.clone(),
-        None => {}
+) {
+    if v.neighbours.borrow().is_some() {
+        return;
     }
 
     let mut res: Vec<(Edge, &Vertex)> = vec![];
@@ -744,7 +743,6 @@ pub fn get_set_neighbours<'s, 'b>(
     );
 
     v.neighbours.replace(Some(res.clone()));
-    res
 }
 
 pub fn populate_change_map<'s, 'b>(

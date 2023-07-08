@@ -5,7 +5,7 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{get_set_neighbours, populate_change_map, Edge, Vertex},
+    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
@@ -40,7 +40,8 @@ fn shortest_vertex_path<'a, 'b>(
                     break current;
                 }
 
-                for neighbour in &get_set_neighbours(current, vertex_arena, &mut seen) {
+                set_neighbours(current, vertex_arena, &mut seen);
+                for neighbour in current.neighbours.borrow().as_ref().unwrap() {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
 
