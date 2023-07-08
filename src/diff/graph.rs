@@ -308,16 +308,20 @@ impl Edge {
                 // difference, capped at 40.
                 let base = min(40, depth_difference + 1);
 
-                // If it's only punctuation, increase the cost. It's
-                // better to have unchanged variable names and novel
-                // punctuation than the reverse.
+                // If the node is only punctuation, increase the
+                // cost. It's better to have unchanged variable names
+                // and novel punctuation than the reverse.
                 //
                 // We want a sufficiently large punctuation cost such
                 // that unchanged variables always win, even if there
                 // are replacement edges elsewhere.
                 //
-                // Replacement edges have a cost between 500 and 600.
-                base + if probably_punctuation { 100 } else { 0 }
+                // Replacement edges have a cost between 500 and 600,
+                // so they can be up to 100 less than two novel nodes.
+                // If we have replacements either side of a node
+                // (e.g. see comma_and_comment_before.js), then that's
+                // potentially a cost difference of 200.
+                base + if probably_punctuation { 200 } else { 0 }
             }
             // Matching an outer delimiter is good.
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
