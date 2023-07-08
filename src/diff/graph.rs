@@ -465,7 +465,8 @@ pub fn set_neighbours<'s, 'b>(
         return;
     }
 
-    let mut res: Vec<(Edge, &Vertex)> = vec![];
+    // There are only seven pushe in this functions, so that's sufficient.
+    let mut res: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
@@ -742,7 +743,7 @@ pub fn set_neighbours<'s, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(res.clone()));
+    v.neighbours.replace(Some(res));
 }
 
 pub fn populate_change_map<'s, 'b>(
