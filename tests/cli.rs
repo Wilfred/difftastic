@@ -170,3 +170,24 @@ fn drop_different_path_starts() {
     let predicate_fn = predicate::str::contains("dir_after/clojure.clj").not();
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn dump_tree_sitter() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--dump-ts")
+        .arg("sample_files/simple_before.js")
+        .arg("sample_files/simple_after.js");
+    cmd.assert().success();
+}
+
+#[test]
+fn dump_syntax() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--dump-syntax")
+        .arg("sample_files/simple_before.js")
+        .arg("sample_files/simple_after.js");
+    cmd.assert().success();
+}
+
