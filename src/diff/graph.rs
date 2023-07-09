@@ -1,12 +1,12 @@
 //! A graph representation for computing tree diffs.
 
 use bumpalo::Bump;
-use rustc_hash::FxHashMap;
+use rustc_hash::FxHasher;
 use std::{
     cell::{Cell, RefCell},
     cmp::min,
     fmt,
-    hash::{Hash, Hasher},
+    hash::{BuildHasherDefault, Hash, Hasher},
 };
 use strsim::normalized_levenshtein;
 
@@ -343,10 +343,19 @@ impl Edge {
     }
 }
 
+/// A fast hashmap with no hash DoS protection. This is used in
+/// extremely hot code.
+///
+/// Wrapping FxHasher (the fastest hash algorithm in difftastic
+/// benchmarks) in a hashborwn::HashMap rather than std HashMap is a
+/// little faster, and it also allows us to use the entry_ref API
+/// which is unavailable in stable Rust.
+pub type DftHashMap<K, V> = hashbrown::HashMap<K, V, BuildHasherDefault<FxHasher>>;
+
 fn allocate_if_new<'s, 'b>(
     v: Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
 ) -> &'b Vertex<'s, 'b> {
     match seen.get_mut(&v) {
         Some(existing) => {
@@ -472,7 +481,7 @@ fn pop_all_parents<'s>(
 pub fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
 ) {
     if v.neighbours.borrow().is_some() {
         return;
