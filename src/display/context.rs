@@ -3,9 +3,10 @@
 use std::cmp::Ordering;
 use std::collections::HashSet;
 
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashSet;
 
 use crate::{
+    hash::DftHashMap,
     lines::LineNumber,
     parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
@@ -326,8 +327,8 @@ fn match_preceding_blanks(
     res
 }
 
-pub fn opposite_positions(mps: &[MatchedPos]) -> FxHashMap<LineNumber, HashSet<LineNumber>> {
-    let mut res: FxHashMap<LineNumber, HashSet<LineNumber>> = FxHashMap::default();
+pub fn opposite_positions(mps: &[MatchedPos]) -> DftHashMap<LineNumber, HashSet<LineNumber>> {
+    let mut res: DftHashMap<LineNumber, HashSet<LineNumber>> = DftHashMap::default();
 
     for mp in mps {
         match &mp.kind {
@@ -375,7 +376,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> FxHashMap<LineNumber, HashSet<L
 /// ```
 fn before_with_opposites(
     before_lines: &[LineNumber],
-    opposite_lines: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_lines: &DftHashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut lines = before_lines.to_vec();
     lines.reverse();
@@ -471,7 +472,7 @@ pub fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
 /// 122    91 (closest match)
 fn after_with_opposites(
     after_lines: &[LineNumber],
-    opposite_lines: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_lines: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     prev_max_opposite: Option<LineNumber>,
     max_opposite: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
@@ -514,8 +515,8 @@ fn after_with_opposites(
 
 pub fn calculate_before_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     num_context_lines: usize,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.first() {
@@ -536,8 +537,8 @@ pub fn calculate_before_context(
 
 pub fn calculate_after_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
@@ -586,8 +587,8 @@ pub fn calculate_after_context(
 
 pub fn add_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
@@ -738,10 +739,10 @@ mod tests {
         let num_context_lines = 3;
         let lines = vec![(Some(1.into()), Some(1.into()))];
 
-        let mut opposite_to_lhs = FxHashMap::default();
+        let mut opposite_to_lhs = DftHashMap::default();
         opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
 
-        let mut opposite_to_rhs = FxHashMap::default();
+        let mut opposite_to_rhs = DftHashMap::default();
         opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
 
         let res = calculate_before_context(

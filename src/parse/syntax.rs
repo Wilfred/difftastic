@@ -2,13 +2,14 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use std::{cell::Cell, collections::HashMap, env, fmt, hash::Hash, num::NonZeroU32};
+use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
 
 use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
     diff::myers_diff,
+    hash::DftHashMap,
     lines::{is_all_whitespace, NewlinePositions},
     positions::SingleLineSpan,
 };
@@ -365,7 +366,7 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     init_info_on_side(lhs_roots, &mut id);
     init_info_on_side(rhs_roots, &mut id);
 
-    let mut existing = HashMap::new();
+    let mut existing = DftHashMap::default();
     set_content_id(lhs_roots, &mut existing);
     set_content_id(rhs_roots, &mut existing);
 
@@ -375,7 +376,7 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
 
-fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
+fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>) {
     for node in nodes {
         let key: ContentKey = match node {
             List {
@@ -463,7 +464,7 @@ fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
 }
 
 /// Assumes that `set_content_id` has already run.
-fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut HashMap<u32, usize>) {
+fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut DftHashMap<u32, usize>) {
     for node in nodes {
         *counts.entry(node.content_id()).or_insert(0) += 1;
         if let List { children, .. } = node {
@@ -472,7 +473,7 @@ fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut HashMap<u32, u
     }
 }
 
-fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &HashMap<u32, usize>) {
+fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &DftHashMap<u32, usize>) {
     for node in nodes {
         let count = counts
             .get(&node.content_id())
@@ -486,7 +487,7 @@ fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &HashMap<u32, us
 }
 
 fn set_content_is_unique(nodes: &[&Syntax]) {
-    let mut counts = HashMap::new();
+    let mut counts = DftHashMap::default();
     find_nodes_with_unique_content(nodes, &mut counts);
     set_content_is_unique_from_counts(nodes, &counts);
 }

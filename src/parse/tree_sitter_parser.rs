@@ -1,8 +1,8 @@
 //! Load and configure parsers written with tree-sitter.
 
-use std::collections::HashMap;
 use std::collections::HashSet;
 
+use crate::hash::DftHashMap;
 use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
 use tree_sitter as ts;
@@ -1038,8 +1038,8 @@ pub fn parse_subtrees(
     src: &str,
     config: &TreeSitterConfig,
     tree: &tree_sitter::Tree,
-) -> HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)> {
-    let mut subtrees = HashMap::new();
+) -> DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)> {
+    let mut subtrees = DftHashMap::default();
 
     for language in &config.sub_languages {
         let mut query_cursor = tree_sitter::QueryCursor::new();
@@ -1377,7 +1377,7 @@ fn all_syntaxes_from_cursor<'a>(
     error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
@@ -1413,7 +1413,7 @@ fn syntax_from_cursor<'a>(
     error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
@@ -1429,7 +1429,7 @@ fn syntax_from_cursor<'a>(
             error_count,
             subconfig,
             subhighlights,
-            &HashMap::new(),
+            &DftHashMap::default(),
             ignore_comments,
         );
     }
@@ -1470,7 +1470,7 @@ fn list_from_cursor<'a>(
     error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();

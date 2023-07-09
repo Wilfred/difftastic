@@ -2,6 +2,7 @@
 
 use crate::{
     constants::Side,
+    hash::DftHashMap,
     lines::{byte_len, LineNumber},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
@@ -9,7 +10,6 @@ use crate::{
     summary::FileFormat,
 };
 use owo_colors::{OwoColorize, Style};
-use rustc_hash::FxHashMap;
 use std::cmp::{max, min};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
@@ -259,8 +259,8 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
 fn group_by_line(
     ranges: &[(SingleLineSpan, Style)],
-) -> FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> {
-    let mut ranges_by_line: FxHashMap<_, Vec<_>> = FxHashMap::default();
+) -> DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> {
+    let mut ranges_by_line: DftHashMap<_, Vec<_>> = DftHashMap::default();
     for range in ranges {
         if let Some(matching_ranges) = ranges_by_line.get_mut(&range.0.line) {
             (*matching_ranges).push(*range);
@@ -283,7 +283,7 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
     for (i, line) in lines.iter().enumerate() {
         let mut styled_line = String::with_capacity(line.len());
         let ranges = ranges_by_line
-            .remove(&(i as u32).into())
+            .remove::<LineNumber>(&(i as u32).into())
             .unwrap_or_default();
 
         styled_line.push_str(&apply_line(line, &ranges));

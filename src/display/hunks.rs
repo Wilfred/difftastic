@@ -7,12 +7,11 @@ const MAX_DISTANCE: u32 = 4;
 
 use std::collections::HashSet;
 
-use rustc_hash::FxHashMap;
-
 use crate::{
     constants::Side,
     display::context::{add_context, opposite_positions},
     display::side_by_side::lines_with_novel,
+    hash::DftHashMap,
     lines::LineNumber,
     parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos},
 };
@@ -132,8 +131,8 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
 
 pub fn merge_adjacent(
     hunks: &[Hunk],
-    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
@@ -364,8 +363,8 @@ fn novel_section_in_order(
     rhs_novel_mps: &[&MatchedPos],
     lhs_prev_matched_line: Option<LineNumber>,
     rhs_prev_matched_line: Option<LineNumber>,
-    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Side, MatchedPos)> {
     let mut res: Vec<(Side, MatchedPos)> = vec![];
 
@@ -439,8 +438,8 @@ fn novel_section_in_order(
 fn sorted_novel_positions(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Side, MatchedPos)> {
     let mut lhs_mps: Vec<MatchedPos> = lhs_mps.to_vec();
     lhs_mps.sort_unstable_by_key(|mp| mp.pos);
@@ -533,7 +532,7 @@ fn sorted_novel_positions(
 
 fn next_opposite(
     line: LineNumber,
-    opposites: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposites: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     prev_opposite: Option<LineNumber>,
 ) -> Option<LineNumber> {
     opposites.get(&line).and_then(|lines_set| {
@@ -683,6 +682,7 @@ mod tests {
 
     use super::*;
     use crate::{
+        hash::DftHashMap,
         positions::SingleLineSpan,
         syntax::{MatchKind, TokenKind},
     };
@@ -725,8 +725,8 @@ mod tests {
         let res = sorted_novel_positions(
             &lhs_mps,
             &[matched_mp],
-            &FxHashMap::default(),
-            &FxHashMap::default(),
+            &DftHashMap::default(),
+            &DftHashMap::default(),
         );
 
         assert_eq!(res, vec![(Side::Left, novel_mp)]);

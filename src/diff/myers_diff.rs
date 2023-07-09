@@ -1,7 +1,9 @@
 //! A fast diff for linear content, using Myer's diff algorithm.
 
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashSet;
 use std::hash::Hash;
+
+use crate::hash::DftHashMap;
 
 #[derive(Debug, PartialEq)]
 pub enum DiffResult<T> {
@@ -39,8 +41,8 @@ pub fn slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffRe
     //
     // This is the decorate-sort-undecorate pattern, or Schwartzian
     // transform, for diffing.
-    let mut value_ids: FxHashMap<&T, u32> = FxHashMap::default();
-    let mut id_values: FxHashMap<u32, &T> = FxHashMap::default();
+    let mut value_ids: DftHashMap<&T, u32> = DftHashMap::default();
+    let mut id_values: DftHashMap<u32, &T> = DftHashMap::default();
 
     let mut lhs_ids = Vec::with_capacity(lhs.len());
     for value in lhs {

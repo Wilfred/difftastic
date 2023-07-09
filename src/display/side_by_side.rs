@@ -1,7 +1,7 @@
 //! Side-by-side (two column) display of diffs.
 
 use owo_colors::{OwoColorize, Style};
-use rustc_hash::FxHashMap;
+
 use std::{
     cmp::{max, min},
     collections::HashSet,
@@ -15,6 +15,7 @@ use crate::{
         self, apply_colors, apply_line_number_color, color_positions, novel_style, split_and_apply,
         BackgroundColor,
     },
+    hash::DftHashMap,
     lines::{codepoint_len, format_line_num, LineNumber},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
@@ -256,8 +257,8 @@ fn highlight_positions(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
-    FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
-    FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
+    DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
+    DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
     let lhs_positions = color_positions(
         Side::Left,
@@ -267,7 +268,8 @@ fn highlight_positions(
         lhs_mps,
     );
     // Preallocate the hashmap assuming the average line will have 2 items on it.
-    let mut lhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
+    let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
+        DftHashMap::default();
     for (span, style) in lhs_positions {
         let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
         styles.push((span, style));
@@ -280,7 +282,8 @@ fn highlight_positions(
         file_format,
         rhs_mps,
     );
-    let mut rhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
+    let mut rhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
+        DftHashMap::default();
     for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
         styles.push((span, style));
@@ -389,7 +392,7 @@ pub fn print(
             rhs_mps,
         )
     } else {
-        (FxHashMap::default(), FxHashMap::default())
+        (DftHashMap::default(), DftHashMap::default())
     };
 
     let (lhs_lines_with_novel, rhs_lines_with_novel) = lines_with_novel(lhs_mps, rhs_mps);
