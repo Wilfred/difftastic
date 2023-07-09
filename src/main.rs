@@ -28,6 +28,7 @@ mod diff;
 mod display;
 mod exit_codes;
 mod files;
+mod hash;
 mod line_parser;
 mod lines;
 mod options;

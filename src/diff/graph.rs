@@ -1,12 +1,11 @@
 //! A graph representation for computing tree diffs.
 
 use bumpalo::Bump;
-use rustc_hash::FxHasher;
 use std::{
     cell::{Cell, RefCell},
     cmp::min,
     fmt,
-    hash::{BuildHasherDefault, Hash, Hasher},
+    hash::{Hash, Hasher},
 };
 use strsim::normalized_levenshtein;
 
@@ -15,6 +14,7 @@ use crate::{
         changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
         stack::Stack,
     },
+    hash::DftHashMap,
     parse::syntax::{AtomKind, Syntax, SyntaxId},
 };
 use Edge::*;
@@ -342,15 +342,6 @@ impl Edge {
         }
     }
 }
-
-/// A fast hashmap with no hash DoS protection. This is used in
-/// extremely hot code.
-///
-/// Wrapping FxHasher (the fastest hash algorithm in difftastic
-/// benchmarks) in a hashborwn::HashMap rather than std HashMap is a
-/// little faster, and it also allows us to use the entry_ref API
-/// which is unavailable in stable Rust.
-pub type DftHashMap<K, V> = hashbrown::HashMap<K, V, BuildHasherDefault<FxHasher>>;
 
 fn allocate_if_new<'s, 'b>(
     v: Vertex<'s, 'b>,

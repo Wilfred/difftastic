@@ -5,7 +5,8 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{populate_change_map, set_neighbours, DftHashMap, Edge, Vertex},
+    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
+    hash::DftHashMap,
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
