@@ -23,7 +23,7 @@ Object-like macro definitions
 ============================================
 
 #define ONE
-#define TWO int a = b;
+    #define TWO int a = b;
 #define THREE \
   c == d ? \
   e : \
