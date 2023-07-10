@@ -6,6 +6,9 @@ Updated Scala parser.
 
 ### Diffing
 
+Replaced strings now have subword highlighting, consistent with
+replaced comments. Thanks @amnore!
+
 Fixed an issue with the cost model for comment replacement, leading
 difftastic to prefer modified comments even when exact comment matches
 are possible.
