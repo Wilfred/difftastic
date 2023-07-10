@@ -60,7 +60,8 @@ unicode-width = "0.1.9"
 crossterm = { version = "0.25.0", features = [] }
 glob = "0.3.1"
 strum = { version = "0.24", features = ["derive"] }
-hashbrown = "0.14.0"
+# hashbrown 0.14 requires rust 1.64
+hashbrown = "0.13.2"
 
 [dev-dependencies]
 # This is the last version of assert_cmd that supports rustc 1.57.

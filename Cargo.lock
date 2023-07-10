@@ -23,12 +23,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "allocator-api2"
-version = "0.2.15"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "56fc6cf8dc8c4158eed8649f9b8b0ea1518eb62b544fe9490d66fa0b349eafe9"
-
-[[package]]
 name = "assert_cmd"
 version = "2.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -249,7 +243,7 @@ dependencies = [
  "const_format",
  "crossterm",
  "glob",
- "hashbrown 0.14.0",
+ "hashbrown 0.13.2",
  "itertools",
  "lazy_static",
  "libc",
@@ -335,12 +329,11 @@ checksum = "ab5ef0d4909ef3724cc8cce6ccc8572c5c817592e9285f5464f8e86f8bd3726e"
 
 [[package]]
 name = "hashbrown"
-version = "0.14.0"
+version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c6201b9ff9fd90a5a3bac2e56a830d0caa509576f0e503818ee82c181b3437a"
+checksum = "43a3c133739dddd0d2990f9a4bdf8eb4b21ef50e4851ca85ab661199821d510e"
 dependencies = [
  "ahash",
- "allocator-api2",
 ]
 
 [[package]]
