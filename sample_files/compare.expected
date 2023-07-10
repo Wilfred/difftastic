@@ -77,7 +77,7 @@ sample_files/helpful_before.el sample_files/helpful_after.el
 a0f2e0115ea94c46d3650ba89b486f09  -
 
 sample_files/html_before.html sample_files/html_after.html
-ed77c9d76eefdc82cf52e089d268ac6c  -
+0cd91f89716413757ee300e0a6f13453  -
 
 sample_files/html_simple_before.html sample_files/html_simple_after.html
 ce3bfa12bc21d0eb5528766e18387e86  -
@@ -104,7 +104,7 @@ sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
 3357d9d47a5e7efb3c7677745993ea2b  -
 
 sample_files/json_before.json sample_files/json_after.json
-11bd95ff0aff18781d3421f702d62c17  -
+bae479fb04e15baf9460c5274c77963b  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
 5784f67cac95fcdb621751aa80a3402b  -
@@ -116,7 +116,7 @@ sample_files/load_before.js sample_files/load_after.js
 5cb293020a07b0635b864850c07458b3  -
 
 sample_files/lua_before.lua sample_files/lua_after.lua
-c12d85c8ffa7ad6b6ca931cf52ac5f3e  -
+9886d61f459cdf566be9c42f7fa61a12  -
 
 sample_files/makefile_before.mk sample_files/makefile_after.mk
 82ed37f60448e7402c62d5319f30fd3c  -
@@ -198,6 +198,9 @@ sample_files/slow_before.rs sample_files/slow_after.rs
 
 sample_files/small_before.js sample_files/small_after.js
 b4300bfc0203acd8f2603b504b859dc8  -
+
+sample_files/strings_before.el sample_files/strings_after.el
+adc1c8734906b83deff25b1567e46b56  -
 
 sample_files/swift_before.swift sample_files/swift_after.swift
 4285db52158468d58d54115b6cb8f29b  -

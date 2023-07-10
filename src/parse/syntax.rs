@@ -695,6 +695,11 @@ pub fn split_words_and_numbers(s: &str) -> Vec<&str> {
     res
 }
 
+/// Given the text `content` from a comment or strings, split it into
+/// MatchedPos values for the novel and unchanged words.
+///
+/// If there is negligible text in common with `opposite_content`,
+/// treat the whole `content` as a single novel region.
 fn split_atom_words(
     content: &str,
     pos: SingleLineSpan,
@@ -709,6 +714,17 @@ fn split_atom_words(
     let content_parts = split_words_and_numbers(content);
     let other_parts = split_words_and_numbers(opposite_content);
 
+    let word_diffs = myers_diff::slice_by_hash(&content_parts, &other_parts);
+
+    if !has_common_words(&word_diffs) {
+        return vec![MatchedPos {
+            kind: MatchKind::Novel {
+                highlight: TokenKind::Atom(kind),
+            },
+            pos,
+        }];
+    }
+
     let content_newlines = NewlinePositions::from(content);
     let opposite_content_newlines = NewlinePositions::from(opposite_content);
 
@@ -716,7 +732,7 @@ fn split_atom_words(
     let mut opposite_offset = 0;
 
     let mut res = vec![];
-    for diff_res in myers_diff::slice_by_hash(&content_parts, &other_parts) {
+    for diff_res in word_diffs {
         match diff_res {
             myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
@@ -763,6 +779,34 @@ fn split_atom_words(
     }
 
     res
+}
+
+/// Are there sufficient common words that we should only highlight
+/// individual changed words?
+fn has_common_words(word_diffs: &Vec<myers_diff::DiffResult<&&str>>) -> bool {
+    let mut word_count = 0;
+    for word_diff in word_diffs {
+        match word_diff {
+            myers_diff::DiffResult::Both(word, _) => {
+                // If we have at least one long word (i.e. not just
+                // punctuation), that's sufficient.
+                if word.len() > 2 {
+                    return true;
+                }
+
+                // If we have lots of common short words, not just the
+                // beginning/end comment delimiter, that qualifies
+                // too.
+                word_count += 1;
+                if word_count > 4 {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    false
 }
 
 impl MatchedPos {
@@ -1135,15 +1179,15 @@ mod tests {
     }
 
     #[test]
-    fn test_split_comment_words_basic() {
-        let content = "abc";
+    fn test_split_atom_words() {
+        let content = "abc def";
         let pos = SingleLineSpan {
             line: 0.into(),
             start_col: 0,
-            end_col: 3,
+            end_col: 7,
         };
 
-        let opposite_content = "def";
+        let opposite_content = "abc";
         let opposite_pos = SingleLineSpan {
             line: 0.into(),
             start_col: 0,
@@ -1159,16 +1203,38 @@ mod tests {
         );
         assert_eq!(
             res,
-            vec![MatchedPos {
-                kind: MatchKind::NovelWord {
-                    highlight: TokenKind::Atom(AtomKind::Comment),
+            vec![
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 3
+                        },
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 3
+                        }]
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 3
+                    },
                 },
-                pos: SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 3
+                MatchedPos {
+                    kind: MatchKind::NovelWord {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 4,
+                        end_col: 7
+                    },
                 },
-            },]
+            ]
         );
     }
 
