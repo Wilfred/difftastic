@@ -1,6 +1,7 @@
 //! A graph representation for computing tree diffs.
 
 use bumpalo::Bump;
+use hashbrown::hash_map::RawEntryMut;
 use std::{
     cell::{Cell, RefCell},
     cmp::min,
@@ -348,8 +349,12 @@ fn allocate_if_new<'s, 'b>(
     alloc: &'b Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
 ) -> &'b Vertex<'s, 'b> {
-    match seen.get_mut(&v) {
-        Some(existing) => {
+    // We use the entry API so that we only need to do a single lookup
+    // for access and insert.
+    match seen.raw_entry_mut().from_key(&v) {
+        RawEntryMut::Occupied(mut occupied) => {
+            let existing = occupied.get_mut();
+
             // Don't explore more than two possible parenthesis
             // nestings for each syntax node pair.
             if let Some(allocated) = existing.last() {
@@ -372,7 +377,7 @@ fn allocate_if_new<'s, 'b>(
             existing.push(allocated);
             allocated
         }
-        None => {
+        RawEntryMut::Vacant(vacant) => {
             let allocated = alloc.alloc(v);
 
             // We know that this vec will never have more than 2
@@ -383,7 +388,7 @@ fn allocate_if_new<'s, 'b>(
             let mut existing: Vec<&'b Vertex<'s, 'b>> = Vec::with_capacity(2);
             existing.push(allocated);
 
-            seen.insert(allocated, existing);
+            vacant.insert(allocated, existing);
             allocated
         }
     }
