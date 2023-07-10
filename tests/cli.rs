@@ -190,4 +190,3 @@ fn dump_syntax() {
         .arg("sample_files/simple_after.js");
     cmd.assert().success();
 }
-
