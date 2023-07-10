@@ -60,7 +60,7 @@ typedef struct {
     char *data;
 } String;
 
-String string_new() {
+static String string_new() {
     return (String){.cap = 16, .len = 0, .data = calloc(1, sizeof(char) * 17)};
 }
 
@@ -76,7 +76,7 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
-unsigned serialize(Scanner *scanner, char *buffer) {
+static unsigned serialize(Scanner *scanner, char *buffer) {
     if (scanner->heredoc_delimiter.len + 3 >=
         TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
         return 0;
@@ -89,7 +89,7 @@ unsigned serialize(Scanner *scanner, char *buffer) {
     return scanner->heredoc_delimiter.len + 3;
 }
 
-void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
+static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
     if (length == 0) {
         scanner->heredoc_is_raw = false;
         scanner->started_heredoc = false;
@@ -113,7 +113,7 @@ void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
  * POSIX-mandated substitution, and assumes the default value for
  * IFS.
  */
-bool advance_word(TSLexer *lexer, String *unquoted_word) {
+static bool advance_word(TSLexer *lexer, String *unquoted_word) {
     bool empty = true;
 
     int32_t quote = 0;
@@ -142,7 +142,7 @@ bool advance_word(TSLexer *lexer, String *unquoted_word) {
     return !empty;
 }
 
-bool scan_heredoc_start(Scanner *scanner, TSLexer *lexer) {
+static bool scan_heredoc_start(Scanner *scanner, TSLexer *lexer) {
     while (iswspace(lexer->lookahead)) {
         skip(lexer);
     }
@@ -158,7 +158,7 @@ bool scan_heredoc_start(Scanner *scanner, TSLexer *lexer) {
     return found_delimiter;
 }
 
-bool scan_heredoc_end_identifier(Scanner *scanner, TSLexer *lexer) {
+static bool scan_heredoc_end_identifier(Scanner *scanner, TSLexer *lexer) {
     STRING_CLEAR(scanner->current_leading_word);
     // Scan the first 'n' characters on this line, to see if they match the
     // heredoc delimiter
@@ -174,8 +174,9 @@ bool scan_heredoc_end_identifier(Scanner *scanner, TSLexer *lexer) {
                   scanner->heredoc_delimiter.data) == 0;
 }
 
-bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
-                          enum TokenType middle_type, enum TokenType end_type) {
+static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
+                                 enum TokenType middle_type,
+                                 enum TokenType end_type) {
     bool did_advance = false;
 
     for (;;) {
@@ -249,7 +250,7 @@ bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
     }
 }
 
-bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
+static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[CONCAT]) {
         if (!(lexer->lookahead == 0 || iswspace(lexer->lookahead) ||
               lexer->lookahead == '\\' || lexer->lookahead == '>' ||
