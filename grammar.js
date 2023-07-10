@@ -162,7 +162,8 @@ module.exports = grammar({
     pseudo_element_selector: $ => seq(
       optional($._selector),
       '::',
-      alias($.identifier, $.tag_name)
+      alias($.identifier, $.tag_name),
+      optional(alias($.pseudo_element_arguments, $.arguments))
     ),
 
     id_selector: $ => seq(
@@ -191,6 +192,12 @@ module.exports = grammar({
     adjacent_sibling_selector: $ => prec.left(seq($._selector, '+', $._selector)),
 
     pseudo_class_arguments: $ => seq(
+      token.immediate('('),
+      sep(',', choice($._selector, repeat1($._value))),
+      ')'
+    ),
+
+    pseudo_element_arguments: $ => seq(
       token.immediate('('),
       sep(',', choice($._selector, repeat1($._value))),
       ')'

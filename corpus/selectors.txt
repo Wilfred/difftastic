@@ -102,6 +102,21 @@ a::first-line {}
     (block)))
 
 =========================
+::slotted pseudo element
+=========================
+
+::slotted(button) {}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (pseudo_element_selector (tag_name)
+      (arguments (tag_name))))
+    (block)))
+
+
+=========================
 Child selectors
 =========================
 
