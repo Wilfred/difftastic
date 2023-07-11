@@ -125,7 +125,7 @@ declare module Foo {
 
   (ambient_declaration
     (module
-      name: (nested_identifier (identifier) (identifier))
+      name: (nested_identifier (identifier) (property_identifier))
       body: (statement_block
         (export_statement
           declaration: (variable_declaration (variable_declarator name: (identifier)))))))
@@ -320,7 +320,7 @@ import r = X.N;
 ---
 
 (program
-  (import_alias (identifier) (nested_identifier (identifier) (identifier))))
+  (import_alias (identifier) (nested_identifier (identifier) (property_identifier))))
 
 ==================================
 Import aliases in modules
@@ -334,7 +334,7 @@ module C {
 
 (program
   (module (identifier) (statement_block
-		(import_alias (identifier) (nested_identifier (identifier) (identifier))))))
+		(import_alias (identifier) (nested_identifier (identifier) (property_identifier))))))
 
 ==================================
 Export import aliases

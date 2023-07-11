@@ -214,7 +214,7 @@ module.exports = function defineGrammar(dialect) {
         if (dialect === 'typescript') {
           choices.push($.type_assertion);
           choices.push(...previous.members.filter(member =>
-            member.name !== '_jsx_element' && member.name !== 'jsx_fragment'
+            member.name !== '_jsx_element'
           ));
         } else if (dialect === 'tsx') {
           choices.push(...previous.members);
@@ -227,20 +227,24 @@ module.exports = function defineGrammar(dialect) {
 
       _jsx_start_opening_element: $ => seq(
         '<',
-        choice(
-          field('name', choice(
-            $._jsx_identifier,
-            $.jsx_namespace_name
-          )),
+        optional(
           seq(
-            field('name', choice(
-              $.identifier,
-              $.nested_identifier
-            )),
-            field('type_arguments', optional($.type_arguments))
-          )
+            choice(
+              field('name', choice(
+                $._jsx_identifier,
+                $.jsx_namespace_name
+              )),
+              seq(
+                field('name', choice(
+                  $.identifier,
+                  $.nested_identifier
+                )),
+                field('type_arguments', optional($.type_arguments))
+              )
+            ),
+            repeat(field('attribute', $._jsx_attribute)),
+          ),
         ),
-        repeat(field('attribute', $._jsx_attribute))
       ),
 
       // This rule is only referenced by expression when the dialect is 'tsx'
@@ -252,8 +256,7 @@ module.exports = function defineGrammar(dialect) {
       // tsx only. See jsx_opening_element.
       jsx_self_closing_element: $ => prec.dynamic(-1, seq(
         $._jsx_start_opening_element,
-        '/',
-        '>'
+        '/>'
       )),
 
       export_specifier: ($, previous) => seq(
