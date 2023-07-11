@@ -29,7 +29,7 @@ sample_files/comma_before.js sample_files/comma_after.js
 e615c73ff860651f7749dc13cb3f110f  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-d5f54a0acc3177939f2720ae5b2679d6  -
+405e6895418f89ed26d5f9a21fa77344  -
 
 sample_files/context_before.rs sample_files/context_after.rs
 eac81f7ca15eff973498a4d8b050ec34  -

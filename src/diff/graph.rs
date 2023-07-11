@@ -802,7 +802,7 @@ pub fn populate_change_map<'s, 'b>(
                     }
                 };
 
-                if *levenshtein_pct > 40 {
+                if *levenshtein_pct > 20 {
                     change_map.insert(lhs, change_kind(lhs, rhs));
                     change_map.insert(rhs, change_kind(rhs, lhs));
                 } else {
