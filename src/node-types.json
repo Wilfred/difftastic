@@ -526,10 +526,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "attribute_declaration",
           "named": true
         },
@@ -577,10 +573,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -764,25 +756,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "asm_specifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "asm_operand",
           "named": true
         },
         {
@@ -1589,10 +1562,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "attribute_declaration",
           "named": true
         },
@@ -1662,10 +1631,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -2030,10 +1995,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "attribute_declaration",
           "named": true
         },
@@ -2315,10 +2276,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "attribute_declaration",
           "named": true
         },
@@ -2407,10 +2364,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -2641,10 +2594,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "asm_statement",
           "named": true
         },
@@ -2836,10 +2785,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -3346,10 +3291,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "attribute_declaration",
           "named": true
         },
@@ -3402,10 +3343,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -3509,10 +3446,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -3705,10 +3638,6 @@
             "named": true
           },
           {
-            "type": "asm_specifier",
-            "named": true
-          },
-          {
             "type": "attribute_declaration",
             "named": true
           },
@@ -3751,10 +3680,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -3844,10 +3769,6 @@
         },
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -3942,10 +3863,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -4154,10 +4071,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "atdef_field",
           "named": true
         },
@@ -4282,10 +4195,6 @@
         },
         {
           "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -4509,10 +4418,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "atdef_field",
           "named": true
         },
@@ -4658,10 +4563,6 @@
         },
         {
           "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -4925,10 +4826,6 @@
           "named": true
         },
         {
-          "type": "asm_specifier",
-          "named": true
-        },
-        {
           "type": "atomic_declaration",
           "named": true
         },
@@ -4992,10 +4889,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -5091,10 +4984,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -5332,10 +5221,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {
@@ -5678,10 +5563,6 @@
       "types": [
         {
           "type": "alignas_specifier",
-          "named": true
-        },
-        {
-          "type": "asm_specifier",
           "named": true
         },
         {

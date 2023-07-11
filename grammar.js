@@ -95,7 +95,6 @@ module.exports = grammar(C, {
       // ...original.members.filter(member => member.name !== 'attribute_declaration'),
       original,
       $.availability_attribute_specifier,
-      $.asm_specifier,
       $.attribute_declaration,
       $.alignas_specifier,
     ),
@@ -332,7 +331,7 @@ module.exports = grammar(C, {
       ';',
     ),
 
-    ...preprocIf('', $ => choice($._top_level_item, $.attribute_specifier, $.property_implementation, $.asm_specifier)),
+    ...preprocIf('', $ => choice($._top_level_item, $.attribute_specifier, $.property_implementation)),
     ...preprocIf('_in_implementation_definition', $ => $.implementation_definition),
     ...preprocIf('_in_interface_declaration', $ => $.interface_declaration),
     ...preprocIf('_in_enumerator', $ => seq($.enumerator, ',')),
@@ -370,29 +369,8 @@ module.exports = grammar(C, {
       ')',
     ),
 
-    asm_specifier: $ => (seq(
-      '__asm__',
-      optional('volatile'),
-      '(',
-      $.string_literal,
-      optional(seq(
-        ':',
-        commaSep($.asm_operand),
-        optional(seq(
-          ':',
-          commaSep($.asm_operand),
-          optional(seq(
-            ':',
-            commaSep($.asm_operand),
-          )),
-        )),
-      )),
-      ')',
-      ';',
-    )),
-
     asm_statement: $ => (seq(
-      'asm',
+      choice('asm', '__asm__'),
       optional('volatile'),
       '(',
       $.string_literal,

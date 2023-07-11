@@ -420,10 +420,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "property_implementation"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "asm_specifier"
                 }
               ]
             }
@@ -518,10 +514,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "property_implementation"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "asm_specifier"
                 }
               ]
             }
@@ -594,10 +586,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "property_implementation"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "asm_specifier"
                 }
               ]
             }
@@ -648,10 +636,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "property_implementation"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "asm_specifier"
                 }
               ]
             }
@@ -2121,10 +2105,6 @@
         {
           "type": "SYMBOL",
           "name": "availability_attribute_specifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "asm_specifier"
         },
         {
           "type": "SYMBOL",
@@ -9221,199 +9201,21 @@
         }
       ]
     },
-    "asm_specifier": {
+    "asm_statement": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "STRING",
-          "value": "__asm__"
-        },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "STRING",
-              "value": "volatile"
+              "value": "asm"
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "__asm__"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_literal"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ":"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "asm_operand"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": ","
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "asm_operand"
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ":"
-                        },
-                        {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "asm_operand"
-                                },
-                                {
-                                  "type": "REPEAT",
-                                  "content": {
-                                    "type": "SEQ",
-                                    "members": [
-                                      {
-                                        "type": "STRING",
-                                        "value": ","
-                                      },
-                                      {
-                                        "type": "SYMBOL",
-                                        "name": "asm_operand"
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            },
-                            {
-                              "type": "BLANK"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": ":"
-                                },
-                                {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "SEQ",
-                                      "members": [
-                                        {
-                                          "type": "SYMBOL",
-                                          "name": "asm_operand"
-                                        },
-                                        {
-                                          "type": "REPEAT",
-                                          "content": {
-                                            "type": "SEQ",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": ","
-                                              },
-                                              {
-                                                "type": "SYMBOL",
-                                                "name": "asm_operand"
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "BLANK"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "BLANK"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
-    "asm_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "asm"
         },
         {
           "type": "CHOICE",
