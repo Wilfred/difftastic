@@ -717,7 +717,18 @@
   {
     "type": "block",
     "named": true,
-    "fields": {},
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "case_clause",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1991,12 +2002,12 @@
     "type": "match_statement",
     "named": true,
     "fields": {
-      "alternative": {
-        "multiple": true,
-        "required": false,
+      "body": {
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "case_clause",
+            "type": "block",
             "named": true
           }
         ]

@@ -959,15 +959,50 @@
           "value": ":"
         },
         {
-          "type": "REPEAT",
+          "type": "FIELD",
+          "name": "body",
           "content": {
-            "type": "FIELD",
-            "name": "alternative",
+            "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "case_clause"
-            }
+              "name": "_match_block"
+            },
+            "named": true,
+            "value": "block"
           }
+        }
+      ]
+    },
+    "_match_block": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_indent"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "FIELD",
+                "name": "alternative",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "case_clause"
+                }
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_dedent"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
         }
       ]
     },

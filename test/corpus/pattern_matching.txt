@@ -22,76 +22,77 @@ match command.split():
         (identifier)
         (identifier))
       (argument_list))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))))
-      (block
-        (expression_statement
-          (call
-            (identifier)
-            (argument_list
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))
-        (expression_statement
-          (call
-            (identifier)
-            (argument_list)))))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))))
-      (block
-        (expression_statement
-          (call
-            (attribute
+    (block
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (block
+          (expression_statement
+            (call
               (identifier)
-              (identifier))
-            (argument_list)))))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (identifier)))
-      (block
-        (expression_statement
-          (call
-            (attribute
+              (argument_list
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))))
+          (expression_statement
+            (call
               (identifier)
-              (identifier))
-            (argument_list
-              (identifier)
-              (identifier))))))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (identifier)))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (block
+          (expression_statement
+            (call
+              (attribute
+                (identifier)
+                (identifier))
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (identifier)))
+        (block
+          (expression_statement
             (call
               (attribute
                 (identifier)
                 (identifier))
               (argument_list
-                (identifier))))))))
-  (comment))
+                (identifier)
+                (identifier))))))
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (identifier)))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier)))))))
+      (comment))))
 
 ================================================================================
 Matching multiple values
@@ -110,28 +111,29 @@ match command.split():
         (identifier)
         (identifier))
       (argument_list))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (list_splat
-            (identifier))))
-      (block
-        (for_statement
-          (identifier)
-          (identifier)
-          (block
-            (expression_statement
-              (call
-                (attribute
-                  (identifier)
-                  (identifier))
-                (argument_list
-                  (identifier)
-                  (identifier))))))))))
+    (block
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (list_splat
+              (identifier))))
+        (block
+          (for_statement
+            (identifier)
+            (identifier)
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier)
+                    (identifier)))))))))))
 
 ================================================================================
 Adding a wild card
@@ -154,54 +156,55 @@ match command.split():
         (identifier)
         (identifier))
       (argument_list))
-    (comment)
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))))
-      (block
-        (expression_statement
-          (ellipsis))
-        (comment)))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (identifier)))
-      (block
-        (pass_statement)))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (list_splat
-            (identifier))))
-      (block
-        (pass_statement)))
-    (case_clause
-      (case_pattern
-        (identifier))
-      (block
-        (expression_statement
-          (call
-            (identifier)
-            (argument_list
-              (string
-                (string_start)
-                (string_content)
-                (interpolation
-                  (identifier)
-                  (type_conversion))
-                (string_end)))))))))
+    (block
+      (comment)
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (block
+          (expression_statement
+            (ellipsis))
+            (comment)))
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (identifier)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (list_splat
+              (identifier))))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (identifier))
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list
+                (string
+                  (string_start)
+                  (string_content)
+                  (interpolation
+                    (identifier)
+                    (type_conversion))
+                  (string_end))))))))))
 
 ================================================================================
 Or patterns
@@ -221,46 +224,15 @@ match command.split():
         (identifier)
         (identifier))
       (argument_list))
-    (case_clause
-      (case_pattern
-        (binary_operator
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (call
-              (attribute
-                (identifier)
-                (identifier))
-              (argument_list
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end))))))))
-    (case_clause
-      (case_pattern
-        (binary_operator
+    (block
+      (case_clause
+        (case_pattern
           (binary_operator
             (list
               (string
                 (string_start)
                 (string_content)
-                (string_end))
-              (identifier))
+                (string_end)))
             (list
               (string
                 (string_start)
@@ -269,20 +241,52 @@ match command.split():
               (string
                 (string_start)
                 (string_content)
+                (string_end)))))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end))))))))
+      (case_clause
+        (case_pattern
+          (binary_operator
+            (binary_operator
+              (list
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (identifier))
+              (list
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (identifier)))
+            (list
+              (string
+                (string_start)
+                (string_content)
                 (string_end))
-              (identifier)))
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (identifier)
-            (string
-              (string_start)
-              (string_content)
-              (string_end)))))
-      (block
-        (pass_statement)))))
+              (identifier)
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
+        (block
+          (pass_statement))))))
 
 ================================================================================
 As patterns
@@ -300,22 +304,27 @@ match command.split():
         (identifier)
         (identifier))
       (argument_list))
-    (case_clause
-      (case_pattern
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (as_pattern
-            (parenthesized_expression
-              (binary_operator
+    (block
+      (case_clause
+        (case_pattern
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (as_pattern
+              (parenthesized_expression
                 (binary_operator
                   (binary_operator
-                    (string
-                      (string_start)
-                      (string_content)
-                      (string_end))
+                    (binary_operator
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end))
+                      (string
+                        (string_start)
+                        (string_content)
+                        (string_end)))
                     (string
                       (string_start)
                       (string_content)
@@ -323,23 +332,19 @@ match command.split():
                   (string
                     (string_start)
                     (string_content)
-                    (string_end)))
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end))))
-            (as_pattern_target
-              (identifier)))))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (call
-              (attribute
-                (identifier)
-                (identifier))
-              (argument_list
-                (identifier)))))))))
+                    (string_end))))
+              (as_pattern_target
+                (identifier)))))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))))))
 
 ================================================================================
 Actually not match
@@ -507,26 +512,27 @@ match 0:
 (module
   (match_statement
     (integer)
-    (case_clause
-      (case_pattern
-        (integer))
-      (if_clause
-        (false))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (false)))))
-    (case_clause
-      (case_pattern
-        (integer))
-      (if_clause
-        (true))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (true)))))))
+    (block
+      (case_clause
+        (case_pattern
+          (integer))
+        (if_clause
+          (false))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (false)))))
+      (case_clause
+        (case_pattern
+          (integer))
+        (if_clause
+          (true))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (true))))))))
 
 ================================================================================
 Comma separated cases
@@ -544,27 +550,28 @@ match (0, 1, 2):
       (integer)
       (integer)
       (integer))
-    (case_clause
-      (case_pattern
-        (integer))
-      (case_pattern
-        (integer))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (integer)))))
-    (case_clause
-      (case_pattern
-        (integer))
-      (case_pattern
-        (list_splat
-          (identifier)))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (integer)))))))
+    (block
+      (case_clause
+        (case_pattern
+          (integer))
+        (case_pattern
+          (integer))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (integer)))))
+      (case_clause
+        (case_pattern
+          (integer))
+        (case_pattern
+          (list_splat
+            (identifier)))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (integer))))))))
 
 ================================================================================
 case terminating in comma
@@ -577,15 +584,16 @@ match x,:
 (module
   (match_statement
     (identifier)
-    (case_clause
-      (case_pattern
-        (list_splat
-          (identifier)))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (integer)))))))
+    (block
+      (case_clause
+        (case_pattern
+          (list_splat
+            (identifier)))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (integer))))))))
 
 ================================================================================
 Multiple match patterns
@@ -601,16 +609,17 @@ match ..., ...:
   (match_statement
     (ellipsis)
     (ellipsis)
-    (case_clause
-      (case_pattern
-        (identifier))
-      (case_pattern
-        (identifier))
-      (block
-        (return_statement
-          (call
-            (identifier)
-            (argument_list)))))))
+    (block
+      (case_clause
+        (case_pattern
+          (identifier))
+        (case_pattern
+          (identifier))
+        (block
+          (return_statement
+            (call
+              (identifier)
+              (argument_list))))))))
 
 ================================================================================
 Match match, case case
@@ -630,14 +639,15 @@ match match:
         (integer))))
   (match_statement
     (identifier)
-    (case_clause
-      (case_pattern
-        (identifier))
-      (block
-        (expression_statement
-          (assignment
-            (identifier)
-            (integer)))))))
+    (block
+      (case_clause
+        (case_pattern
+          (identifier))
+        (block
+          (expression_statement
+            (assignment
+              (identifier)
+              (integer))))))))
 
 ================================================================================
 Walrus match (Issue #150)
