@@ -141,6 +141,7 @@ Descendant selectors
 
 a b {}
 c d e {}
+f * {}
 
 ---
 
@@ -152,6 +153,12 @@ c d e {}
     (selectors (descendant_selector
       (descendant_selector (tag_name) (tag_name))
       (tag_name)))
+    (block))
+  (rule_set
+    (selectors
+      (descendant_selector
+        (tag_name)
+        (universal_selector)))
     (block)))
 
 ===========================
