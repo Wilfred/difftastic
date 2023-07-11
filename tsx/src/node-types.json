@@ -180,10 +180,6 @@
         "named": true
       },
       {
-        "type": "jsx_fragment",
-        "named": true
-      },
-      {
         "type": "jsx_self_closing_element",
         "named": true
       },
@@ -3257,10 +3253,6 @@
           "named": true
         },
         {
-          "type": "jsx_fragment",
-          "named": true
-        },
-        {
           "type": "jsx_namespace_name",
           "named": true
         },
@@ -3285,7 +3277,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -3296,7 +3288,7 @@
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -3341,10 +3333,6 @@
           "named": true
         },
         {
-          "type": "jsx_fragment",
-          "named": true
-        },
-        {
           "type": "jsx_self_closing_element",
           "named": true
         },
@@ -3373,37 +3361,6 @@
         },
         {
           "type": "spread_element",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "jsx_fragment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "jsx_element",
-          "named": true
-        },
-        {
-          "type": "jsx_expression",
-          "named": true
-        },
-        {
-          "type": "jsx_fragment",
-          "named": true
-        },
-        {
-          "type": "jsx_self_closing_element",
-          "named": true
-        },
-        {
-          "type": "jsx_text",
           "named": true
         }
       ]
@@ -3444,7 +3401,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -3492,7 +3449,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -3519,6 +3476,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "jsx_text",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "labeled_statement",
@@ -3720,7 +3682,7 @@
     "fields": {
       "object": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "expression",
@@ -3740,7 +3702,7 @@
       },
       "property": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "private_property_identifier",
@@ -3752,6 +3714,24 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "property_identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4033,7 +4013,11 @@
           "named": true
         },
         {
-          "type": "nested_identifier",
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "property_identifier",
           "named": true
         }
       ]
@@ -6021,6 +6005,10 @@
     "named": false
   },
   {
+    "type": "/>",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -6030,6 +6018,10 @@
   },
   {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "</",
     "named": false
   },
   {
@@ -6297,10 +6289,6 @@
     "named": false
   },
   {
-    "type": "jsx_text",
-    "named": true
-  },
-  {
     "type": "keyof",
     "named": false
   },
@@ -6330,11 +6318,11 @@
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "object",
