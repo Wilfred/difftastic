@@ -1227,6 +1227,11 @@ if c:
     # three
       # four
 
+def a():
+    if b:
+        b # comment
+    b # comment
+
 # five
 
 --------------------------------------------------------------------------------
@@ -1245,6 +1250,19 @@ if c:
       (expression_statement
         (identifier))
       (comment)
+      (comment)))
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (if_statement
+        (identifier)
+        (block
+          (expression_statement
+            (identifier))
+          (comment)))
+      (expression_statement
+        (identifier))
       (comment)))
   (comment))
 

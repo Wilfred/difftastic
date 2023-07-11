@@ -276,6 +276,13 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
             indent_length += 8;
             skip(lexer);
         } else if (lexer->lookahead == '#') {
+            // If we haven't found an EOL yet,
+            // then this is a comment after an expression:
+            //   foo = bar # comment
+            // Just return, since we don't want to generate an indent/dedent token.
+            if (!found_end_of_line) {
+                return false;
+            }
             if (first_comment_indent_length == -1) {
                 first_comment_indent_length = (int32_t)indent_length;
             }
