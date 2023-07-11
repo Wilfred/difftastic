@@ -457,7 +457,6 @@ module.exports = grammar({
       $.primary_expression,
       $.glimmer_template,
       $._jsx_element,
-      $.jsx_fragment,
       $.assignment_expression,
       $.augmented_assignment_expression,
       $.await_expression,
@@ -589,9 +588,11 @@ module.exports = grammar({
       field('close_tag', $.jsx_closing_element)
     ),
 
-    jsx_fragment: $ => seq('<', '>', repeat($._jsx_child), '<', '/', '>'),
-
-    jsx_text: $ => /[^{}<>]+/,
+    // Should not contain new lines and should not start or end with a space
+    jsx_text: $ => choice(
+      /[^{}<>\n ]([^{}<>\n]*[^{}<>\n ])?/,
+      /\/\/[^\n]*/,
+    ),
 
     jsx_expression: $ => seq(
       '{',
@@ -606,14 +607,15 @@ module.exports = grammar({
     _jsx_child: $ => choice(
       $.jsx_text,
       $._jsx_element,
-      $.jsx_fragment,
       $.jsx_expression
     ),
 
     jsx_opening_element: $ => prec.dynamic(-1, seq(
       '<',
-      field('name', $._jsx_element_name),
-      repeat(field('attribute', $._jsx_attribute)),
+      optional(seq(
+        field('name', $._jsx_element_name),
+        repeat(field('attribute', $._jsx_attribute)),
+      )),
       '>'
     )),
 
@@ -625,23 +627,22 @@ module.exports = grammar({
     ),
 
     nested_identifier: $ => prec('member', seq(
-      choice($.identifier, $.nested_identifier),
+      choice($.identifier, alias($.nested_identifier, $.member_expression)),
       '.',
-      $.identifier
+      alias($.identifier, $.property_identifier),
     )),
 
     jsx_namespace_name: $ => seq($._jsx_identifier, ':', $._jsx_identifier),
 
     _jsx_element_name: $ => choice(
       $._jsx_identifier,
-      $.nested_identifier,
+      alias($.nested_identifier, $.member_expression),
       $.jsx_namespace_name,
     ),
 
     jsx_closing_element: $ => seq(
-      '<',
-      '/',
-      field('name', $._jsx_element_name),
+      '</',
+      optional(field('name', $._jsx_element_name)),
       '>'
     ),
 
@@ -649,8 +650,7 @@ module.exports = grammar({
       '<',
       field('name', $._jsx_element_name),
       repeat(field('attribute', $._jsx_attribute)),
-      '/',
-      '>'
+      '/>'
     ),
 
     _jsx_attribute: $ => choice($.jsx_attribute, $.jsx_expression),
@@ -669,7 +669,6 @@ module.exports = grammar({
       $.string,
       $.jsx_expression,
       $._jsx_element,
-      $.jsx_fragment
     ),
 
     class: $ => prec('literal', seq(
