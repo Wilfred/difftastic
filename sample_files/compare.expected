@@ -65,7 +65,7 @@ sample_files/hare_before.ha sample_files/hare_after.ha
 2b3a9433cd692d9ffab872477312e3b8  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
-0cefa44fdf56edf504f50506bbcded4e  -
+4f242cc3e97d4b987cd79c760542f996  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
 24c6205befd0fd1b44f21dd039cafb48  -

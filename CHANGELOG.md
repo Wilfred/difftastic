@@ -4,6 +4,8 @@
 
 Updated Scala parser.
 
+Improved parsing of qualified modules and variables in Haskell.
+
 ### Diffing
 
 Replaced strings now have subword highlighting, consistent with
