@@ -7230,8 +7230,13 @@
                                 "name": "identifier"
                               },
                               {
-                                "type": "SYMBOL",
-                                "name": "nested_identifier"
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "SYMBOL",
+                                  "name": "nested_identifier"
+                                },
+                                "named": true,
+                                "value": "member_expression"
                               }
                             ]
                           }

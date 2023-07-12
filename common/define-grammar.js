@@ -237,7 +237,7 @@ module.exports = function defineGrammar(dialect) {
               seq(
                 field('name', choice(
                   $.identifier,
-                  $.nested_identifier
+                  alias($.nested_identifier, $.member_expression),
                 )),
                 field('type_arguments', optional($.type_arguments))
               )
