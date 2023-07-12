@@ -1180,18 +1180,18 @@ mod tests {
 
     #[test]
     fn test_split_atom_words() {
-        let content = "abc def";
+        let content = "abc def ghi novel";
         let pos = vec![SingleLineSpan {
             line: 0.into(),
             start_col: 0,
-            end_col: 7,
+            end_col: 17,
         }];
 
-        let opposite_content = "abc";
+        let opposite_content = "abc def ghi";
         let opposite_pos = vec![SingleLineSpan {
             line: 0.into(),
             start_col: 0,
-            end_col: 3,
+            end_col: 11,
         }];
 
         let res = split_atom_words(
@@ -1222,19 +1222,99 @@ mod tests {
                         line: 0.into(),
                         start_col: 0,
                         end_col: 3
-                    },
+                    }
                 },
                 MatchedPos {
-                    kind: MatchKind::NovelWord {
+                    kind: MatchKind::NovelLinePart {
                         highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 3,
+                            end_col: 4
+                        },
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 3,
+                            end_col: 4
+                        }]
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 3,
+                        end_col: 4
+                    }
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 4,
+                            end_col: 7
+                        },
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 4,
+                            end_col: 7
+                        }]
                     },
                     pos: SingleLineSpan {
                         line: 0.into(),
                         start_col: 4,
                         end_col: 7
-                    },
+                    }
                 },
-            ]
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 7,
+                            end_col: 8
+                        },
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 7,
+                            end_col: 8
+                        }]
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 7,
+                        end_col: 8
+                    }
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 8,
+                            end_col: 11
+                        },
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 8,
+                            end_col: 11
+                        }]
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 8,
+                        end_col: 11
+                    }
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelWord {
+                        highlight: TokenKind::Atom(AtomKind::Comment)
+                    },
+                    pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 12,
+                        end_col: 17
+                    }
+                }
+            ],
         );
     }
 
