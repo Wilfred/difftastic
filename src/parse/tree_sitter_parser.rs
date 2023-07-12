@@ -425,7 +425,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_haskell() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["qualified_variable", "qualified_module"].into_iter().collect(),
+                atom_nodes: vec!["qualified_variable", "qualified_module"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("[", "]"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
