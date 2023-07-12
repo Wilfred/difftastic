@@ -3412,7 +3412,7 @@
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -3460,7 +3460,7 @@
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "member_expression",
             "named": true
           }
         ]
