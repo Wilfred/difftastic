@@ -438,7 +438,7 @@ module.exports = function defineGrammar(dialect) {
       as_expression: $ => prec.left('binary', seq(
         $.expression,
         'as',
-        $._type
+        choice('const', $._type)
       )),
 
       satisfies_expression: $ => prec.left('binary', seq(
