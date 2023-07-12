@@ -5293,7 +5293,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "expression"
+            "name": "primary_expression"
           }
         ]
       }
