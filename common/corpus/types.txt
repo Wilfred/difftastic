@@ -273,6 +273,40 @@ let x: new < T1, T2 > ( p1, p2 ) => R;
 
 
 =======================================
+Symbol types
+=======================================
+
+const symFoo: unique symbol = Symbol("foo");
+const symBar: symbol = Symbol.for("bar");
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (call_expression
+        (identifier)
+        (arguments
+          (string
+            (string_fragment))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier))
+        (arguments
+          (string
+            (string_fragment)))))))
+
+
+=======================================
 Type annotations in parenthesized expressions
 =======================================
 
