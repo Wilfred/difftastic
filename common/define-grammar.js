@@ -438,7 +438,7 @@ module.exports = function defineGrammar(dialect) {
       as_expression: $ => prec.left('binary', seq(
         $.expression,
         'as',
-        $._type
+        choice('const', $._type)
       )),
 
       satisfies_expression: $ => prec.left('binary', seq(
@@ -627,9 +627,12 @@ module.exports = function defineGrammar(dialect) {
       type_annotation: $ => seq(':', $._type),
 
       asserts: $ => seq(
-        ':',
         'asserts',
         choice($.type_predicate, $.identifier, $.this)
+      ),
+
+      asserts_annotation: $ => seq(
+        seq(':', $.asserts)
       ),
 
       _type: $ => choice(
@@ -704,7 +707,14 @@ module.exports = function defineGrammar(dialect) {
         '`'
       ),
 
-      infer_type: $ => seq("infer", $._type_identifier),
+      infer_type: $ => prec.right(seq(
+        'infer',
+        $._type_identifier,
+        optional(seq(
+          'extends',
+          $._type
+        ))
+      )),
 
       conditional_type: $ => prec.left(seq(
         field('left', $._type),
@@ -834,6 +844,7 @@ module.exports = function defineGrammar(dialect) {
         'boolean',
         'string',
         'symbol',
+        alias(seq('unique', 'symbol'), 'unique symbol'),
         'void',
         'unknown',
         'string',
@@ -881,7 +892,7 @@ module.exports = function defineGrammar(dialect) {
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         field('return_type', optional(
-          choice($.type_annotation, $.asserts, $.type_predicate_annotation)
+          choice($.type_annotation, $.asserts_annotation, $.type_predicate_annotation)
         ))
       ),
 
@@ -890,6 +901,7 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       type_parameter: $ => seq(
+        optional('const'),
         field('name', $._type_identifier),
         field('constraint', optional($.constraint)),
         field('value', optional($.default_type))
@@ -953,7 +965,7 @@ module.exports = function defineGrammar(dialect) {
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         '=>',
-        field('return_type', choice($._type, $.type_predicate)),
+        field('return_type', choice($._type, $.asserts, $.type_predicate)),
       )),
 
       _type_identifier: $ => alias($.identifier, $.type_identifier),

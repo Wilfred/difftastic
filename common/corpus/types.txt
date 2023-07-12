@@ -273,6 +273,40 @@ let x: new < T1, T2 > ( p1, p2 ) => R;
 
 
 =======================================
+Symbol types
+=======================================
+
+const symFoo: unique symbol = Symbol("foo");
+const symBar: symbol = Symbol.for("bar");
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (call_expression
+        (identifier)
+        (arguments
+          (string
+            (string_fragment))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier))
+        (arguments
+          (string
+            (string_fragment)))))))
+
+
+=======================================
 Type annotations in parenthesized expressions
 =======================================
 
@@ -855,7 +889,8 @@ function f(x: any): asserts x {
     (identifier)
     (formal_parameters
       (required_parameter (identifier) (type_annotation (predefined_type))))
-    (asserts (identifier))
+    (asserts_annotation
+      (asserts (identifier)))
     (statement_block)))
 
 =======================================
@@ -881,8 +916,9 @@ function isT(t: T): t is T {
     (formal_parameters
     (required_parameter
       (identifier) (type_annotation (predefined_type))))
-    (asserts
-      (type_predicate (identifier) (predefined_type)))
+    (asserts_annotation
+      (asserts
+        (type_predicate (identifier) (predefined_type))))
     (statement_block))
   (class_declaration
     (type_identifier)
@@ -907,6 +943,45 @@ function isT(t: T): t is T {
         (identifier)
         (type_identifier)))
     (statement_block (return_statement (true)))))
+
+=======================================
+Type of an assertion function
+=======================================
+
+declare const f: (x: any) => asserts x;
+declare const g: (x: any) => asserts x is number;
+
+---
+
+(program
+  (ambient_declaration
+    (lexical_declaration
+      (variable_declarator
+        (identifier)
+        (type_annotation
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (predefined_type))))
+            (asserts
+              (identifier)))))))
+  (ambient_declaration
+    (lexical_declaration
+      (variable_declarator
+        (identifier)
+        (type_annotation
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (predefined_type))))
+            (asserts
+              (type_predicate
+                (identifier)
+                (predefined_type)))))))))
 
 ==================================
 Type predicate and predefined types
@@ -1045,6 +1120,7 @@ type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? 
 type T<X, Y> = T extends X<infer Y> ? Y : X
 type T<X> = X extends (infer X)[] ? X : never;
 type T<X> = T extends { x: infer X } ? X : never;
+type T<X> = T extends { x: infer X extends number } ? X : never;
 
 ---
 (program
@@ -1154,6 +1230,18 @@ type T<X> = T extends { x: infer X } ? X : never;
             (property_identifier)
             (type_annotation (infer_type (type_identifier)))))
       (type_identifier)
+      (predefined_type)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (object_type
+        (property_signature
+          (property_identifier)
+          (type_annotation (infer_type (type_identifier) (predefined_type)))))
+      (type_identifier)
       (predefined_type))))
 
 ==================================
@@ -1170,6 +1258,7 @@ type A<B, C> = B extends C
   : never
 type Trim<S extends string> = S extends `${infer R}` ? Trim<R>  : S;
 type A = `${true & ('foo' | false)}`;
+type StringToNumber<S extends string> = S extends `${infer N extends number}` ? N : never;
 ---
 (program
   (type_alias_declaration
@@ -1271,7 +1360,23 @@ type A = `${true & ('foo' | false)}`;
                 (string
                   (string_fragment)))
               (literal_type
-                (false)))))))))
+                (false))))))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (predefined_type))))
+    (conditional_type
+      (type_identifier)
+      (template_literal_type
+        (template_type
+          (infer_type
+            (type_identifier)
+            (predefined_type))))
+      (type_identifier)
+      (predefined_type))))
 
 ==================================
 Mapped type 'as' clauses
