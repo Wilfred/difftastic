@@ -707,7 +707,14 @@ module.exports = function defineGrammar(dialect) {
         '`'
       ),
 
-      infer_type: $ => seq("infer", $._type_identifier),
+      infer_type: $ => prec.right(seq(
+        'infer',
+        $._type_identifier,
+        optional(seq(
+          'extends',
+          $._type
+        ))
+      )),
 
       conditional_type: $ => prec.left(seq(
         field('left', $._type),

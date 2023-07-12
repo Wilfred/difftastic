@@ -1120,6 +1120,7 @@ type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? 
 type T<X, Y> = T extends X<infer Y> ? Y : X
 type T<X> = X extends (infer X)[] ? X : never;
 type T<X> = T extends { x: infer X } ? X : never;
+type T<X> = T extends { x: infer X extends number } ? X : never;
 
 ---
 (program
@@ -1229,6 +1230,18 @@ type T<X> = T extends { x: infer X } ? X : never;
             (property_identifier)
             (type_annotation (infer_type (type_identifier)))))
       (type_identifier)
+      (predefined_type)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (object_type
+        (property_signature
+          (property_identifier)
+          (type_annotation (infer_type (type_identifier) (predefined_type)))))
+      (type_identifier)
       (predefined_type))))
 
 ==================================
@@ -1245,6 +1258,7 @@ type A<B, C> = B extends C
   : never
 type Trim<S extends string> = S extends `${infer R}` ? Trim<R>  : S;
 type A = `${true & ('foo' | false)}`;
+type StringToNumber<S extends string> = S extends `${infer N extends number}` ? N : never;
 ---
 (program
   (type_alias_declaration
@@ -1346,7 +1360,23 @@ type A = `${true & ('foo' | false)}`;
                 (string
                   (string_fragment)))
               (literal_type
-                (false)))))))))
+                (false))))))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (predefined_type))))
+    (conditional_type
+      (type_identifier)
+      (template_literal_type
+        (template_type
+          (infer_type
+            (type_identifier)
+            (predefined_type))))
+      (type_identifier)
+      (predefined_type))))
 
 ==================================
 Mapped type 'as' clauses
