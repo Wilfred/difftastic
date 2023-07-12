@@ -158,7 +158,7 @@ sample_files/pascal_before.pascal sample_files/pascal_after.pascal
 dfea5599b7f5e180d0fafab326f612cc  -
 
 sample_files/perl_before.pl sample_files/perl_after.pl
-09034cdf9cc4853ba7527de6d633e9be  -
+62ed7685bdfad901d1087e8bad399d86  -
 
 sample_files/prefer_outer_before.el sample_files/prefer_outer_after.el
 de31a80dc8a06987aeff4aaa04ce3b87  -
@@ -198,6 +198,9 @@ sample_files/slow_before.rs sample_files/slow_after.rs
 
 sample_files/small_before.js sample_files/small_after.js
 b4300bfc0203acd8f2603b504b859dc8  -
+
+sample_files/string_subwords_before.el sample_files/string_subwords_after.el
+1154702ee8bc90407728871b94d12878  -
 
 sample_files/strings_before.el sample_files/strings_after.el
 adc1c8734906b83deff25b1567e46b56  -

@@ -790,29 +790,30 @@ fn split_atom_words(
 /// Are there sufficient common words that we should only highlight
 /// individual changed words?
 fn has_common_words(word_diffs: &Vec<myers_diff::DiffResult<&&str>>) -> bool {
-    let mut word_count = 0;
+    let mut novel_count = 0;
+    let mut unchanged_count = 0;
+
     for word_diff in word_diffs {
         match word_diff {
             myers_diff::DiffResult::Both(word, _) => {
-                // If we have at least one long word (i.e. not just
-                // punctuation), that's sufficient.
-                if word.len() > 2 {
-                    return true;
-                }
-
-                // If we have lots of common short words, not just the
-                // beginning/end comment delimiter, that qualifies
-                // too.
-                word_count += 1;
-                if word_count > 4 {
-                    return true;
+                if **word != " " {
+                    unchanged_count += 1;
                 }
             }
-            _ => {}
+            _ => {
+                novel_count += 1;
+            }
         }
     }
 
-    false
+    // We want more than two unchanged words, because the text content
+    // includes the comment or string delimiters.
+    //
+    // A sufficiently similar set of words is when more than 50% of
+    // the words are common between the two sides. We multiply by two
+    // because non-matching words gives us two novel words, whereas
+    // matched words only gives us one unchanged word.
+    unchanged_count > 2 && unchanged_count * 2 >= novel_count
 }
 
 impl MatchedPos {
