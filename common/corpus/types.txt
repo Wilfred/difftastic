@@ -889,7 +889,8 @@ function f(x: any): asserts x {
     (identifier)
     (formal_parameters
       (required_parameter (identifier) (type_annotation (predefined_type))))
-    (asserts (identifier))
+    (asserts_annotation
+      (asserts (identifier)))
     (statement_block)))
 
 =======================================
@@ -915,8 +916,9 @@ function isT(t: T): t is T {
     (formal_parameters
     (required_parameter
       (identifier) (type_annotation (predefined_type))))
-    (asserts
-      (type_predicate (identifier) (predefined_type)))
+    (asserts_annotation
+      (asserts
+        (type_predicate (identifier) (predefined_type))))
     (statement_block))
   (class_declaration
     (type_identifier)
@@ -941,6 +943,45 @@ function isT(t: T): t is T {
         (identifier)
         (type_identifier)))
     (statement_block (return_statement (true)))))
+
+=======================================
+Type of an assertion function
+=======================================
+
+declare const f: (x: any) => asserts x;
+declare const g: (x: any) => asserts x is number;
+
+---
+
+(program
+  (ambient_declaration
+    (lexical_declaration
+      (variable_declarator
+        (identifier)
+        (type_annotation
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (predefined_type))))
+            (asserts
+              (identifier)))))))
+  (ambient_declaration
+    (lexical_declaration
+      (variable_declarator
+        (identifier)
+        (type_annotation
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (predefined_type))))
+            (asserts
+              (type_predicate
+                (identifier)
+                (predefined_type)))))))))
 
 ==================================
 Type predicate and predefined types
