@@ -702,9 +702,9 @@ pub fn split_words_and_numbers(s: &str) -> Vec<&str> {
 /// treat the whole `content` as a single novel region.
 fn split_atom_words(
     content: &str,
-    pos: SingleLineSpan,
+    pos: &[SingleLineSpan],
     opposite_content: &str,
-    opposite_pos: SingleLineSpan,
+    opposite_pos: &[SingleLineSpan],
     kind: AtomKind,
 ) -> Vec<MatchedPos> {
     debug_assert!(kind == AtomKind::Comment || kind == AtomKind::String);
@@ -717,12 +717,15 @@ fn split_atom_words(
     let word_diffs = myers_diff::slice_by_hash(&content_parts, &other_parts);
 
     if !has_common_words(&word_diffs) {
-        return vec![MatchedPos {
-            kind: MatchKind::Novel {
-                highlight: TokenKind::Atom(kind),
-            },
-            pos,
-        }];
+        return pos
+            .iter()
+            .map(|line| MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Atom(kind),
+                },
+                pos: *line,
+            })
+            .collect();
     }
 
     let content_newlines = NewlinePositions::from(content);
@@ -742,7 +745,8 @@ fn split_atom_words(
                             highlight: TokenKind::Atom(kind),
                         },
                         pos: content_newlines.from_offsets_relative_to(
-                            pos,
+                            // TODO: don't assume a single line atom.
+                            pos[0],
                             offset,
                             offset + word.len(),
                         )[0],
@@ -752,10 +756,12 @@ fn split_atom_words(
             }
             myers_diff::DiffResult::Both(word, opposite_word) => {
                 // This word is present on both sides.
+                // TODO: don't assume this atom is on a single line.
                 let word_pos =
-                    content_newlines.from_offsets_relative_to(pos, offset, offset + word.len())[0];
+                    content_newlines.from_offsets_relative_to(pos[0], offset, offset + word.len())
+                        [0];
                 let opposite_word_pos = opposite_content_newlines.from_offsets_relative_to(
-                    opposite_pos,
+                    opposite_pos[0],
                     opposite_offset,
                     opposite_offset + opposite_word.len(),
                 );
@@ -834,14 +840,7 @@ impl MatchedPos {
                     AtomKind::String
                 };
 
-                split_atom_words(
-                    this_content,
-                    // TODO: handle the whole pos here.
-                    pos[0],
-                    opposite_content,
-                    opposite_pos[0],
-                    kind,
-                )
+                split_atom_words(this_content, pos, opposite_content, opposite_pos, kind)
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -1181,24 +1180,24 @@ mod tests {
     #[test]
     fn test_split_atom_words() {
         let content = "abc def";
-        let pos = SingleLineSpan {
+        let pos = vec![SingleLineSpan {
             line: 0.into(),
             start_col: 0,
             end_col: 7,
-        };
+        }];
 
         let opposite_content = "abc";
-        let opposite_pos = SingleLineSpan {
+        let opposite_pos = vec![SingleLineSpan {
             line: 0.into(),
             start_col: 0,
             end_col: 3,
-        };
+        }];
 
         let res = split_atom_words(
             content,
-            pos,
+            &pos,
             opposite_content,
-            opposite_pos,
+            &opposite_pos,
             AtomKind::Comment,
         );
         assert_eq!(
