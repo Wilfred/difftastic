@@ -98,6 +98,8 @@ return await i(j, 5)
 async def region_exists(region: str) -> bool:
     return region in await all_regions()
 
+assert await a(b) == c
+
 --------------------------------------------------------------------------------
 
 (module
@@ -131,7 +133,15 @@ async def region_exists(region: str) -> bool:
           (await
             (call
               (identifier)
-              (argument_list))))))))
+              (argument_list)))))))
+   (assert_statement
+     (comparison_operator
+       (await
+         (call
+           (identifier)
+           (argument_list
+             (identifier))))
+       (identifier))))
 
 ================================================================================
 Call expressions

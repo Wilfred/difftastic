@@ -1058,7 +1058,7 @@ module.exports = grammar({
 
     await: $ => prec(PREC.unary, seq(
       'await',
-      $.expression
+      $.primary_expression,
     )),
 
     comment: $ => token(seq('#', /.*/)),
