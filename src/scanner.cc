@@ -32,6 +32,7 @@ namespace {
     TRANSLITERATION_CONTENT,
     SEPARATOR_DELIMITER_TRANSLITERATION,
     END_DELIMITER_TRANSLITERATION,
+    IMAGINARY_HEREDOC_START,
     HEREDOC_START_IDENTIFIER,
     HEREDOC_CONTENT,
     HEREDOC_END_IDENTIFIER,
@@ -107,6 +108,7 @@ namespace {
         && valid_symbols[TRANSLITERATION_CONTENT]
         && valid_symbols[SEPARATOR_DELIMITER_TRANSLITERATION]
         && valid_symbols[END_DELIMITER_TRANSLITERATION]
+        && valid_symbols[IMAGINARY_HEREDOC_START]
         && valid_symbols[HEREDOC_START_IDENTIFIER]
         && valid_symbols[HEREDOC_CONTENT]
         && valid_symbols[HEREDOC_END_IDENTIFIER]
@@ -315,9 +317,11 @@ namespace {
         lexer->result_symbol = HEREDOC_START_IDENTIFIER;
 
         std::string delimiter;
-        bool found_delimiter = advance_word(lexer, delimiter);
+        bool allows_interpolation;
+        bool found_delimiter = advance_word(lexer, delimiter, allows_interpolation);
         if (found_delimiter) {
           heredoc_identifier_queue.push(delimiter);
+          heredoc_allows_interpolation.push(allows_interpolation);
 
           started_heredoc = true;
         }
@@ -325,43 +329,38 @@ namespace {
         return found_delimiter;
       }
 
-      // if (valid_symbols[HEREDOC_CONTENT] && !heredoc_identifier_queue.empty()) {
-      //   return scan_heredoc_content(lexer, HEREDOC_CONTENT, HEREDOC_END_IDENTIFIER);
-      // }
+      if (
+        (valid_symbols[HEREDOC_CONTENT] || valid_symbols[IMAGINARY_HEREDOC_START])
+        && !heredoc_identifier_queue.empty()
+      ) {
+        // another exit condition
+        if (!lexer->lookahead && !started_heredoc_body) {
+          return false;
+        }
 
-      // if (valid_symbols[HEREDOC_END_IDENTIFIER]) {
-      //   return scan_heredoc_end_identifier(lexer);
-      // }
-
-      if (valid_symbols[HEREDOC_CONTENT] && !heredoc_identifier_queue.empty()) {
-        // printf("started heredoc? - %c", started_heredoc);
         if (lexer->lookahead == '\n' && !started_heredoc_body) {
           started_heredoc_body = true;
-          skip(lexer);
+
+          lexer->result_symbol = IMAGINARY_HEREDOC_START;
+          // advance(lexer);
+          lexer->mark_end(lexer);
+          return true;
         }
 
         if (started_heredoc_body) {
           // while(lexer->lookahead) {
             switch (lexer->lookahead) {
-              // case '\\': {
-              //   did_advance = true;
-              //   advance(lexer);
-              //   advance(lexer);
-              //   break;
-              // }
+              case '\\': {
+                if (heredoc_allows_interpolation.front()) {
+                  return handle_escape_sequence(lexer, HEREDOC_CONTENT);
+                }
+              }
 
-              // case '$': {
-              //   if (heredoc_is_raw) {
-              //     advance(lexer);
-              //     break;
-              //   } else if (did_advance) {
-              //     lexer->result_symbol = middle_type;
-              //     started_heredoc = true;
-              //     return true;
-              //   } else {
-              //     return false;
-              //   }
-              // }
+              case '$': {
+                if (heredoc_allows_interpolation.front()) {
+                  return false;
+                }
+              }
 
               case '\n': {
                 skip(lexer);
@@ -374,6 +373,13 @@ namespace {
                 return exit_if_heredoc_end_delimiter(lexer);
               }
 
+              // exit condition
+              case NULL: {
+                started_heredoc_body = false;
+                lexer->mark_end(lexer);
+                return false;
+              }
+
               default: {
                 lexer->result_symbol = HEREDOC_CONTENT;
                 advance(lexer);
@@ -382,31 +388,10 @@ namespace {
             }
           // }
         }
+        else {
+          return false;
+        }
       }
-
-      // if (valid_symbols[HEREDOC_END_IDENTIFIER]) {
-      //   // end delimiter should be from a new line
-      //   if (lexer->lookahead) {
-      //   // if (lexer->lookahead == '\r' || lexer->lookahead == '\n' || lexer->lookahead == ' ') {
-      //     advance(lexer);
-      //     printf("stack string - %", static_cast<char>(heredoc_identifier_stack.top()));
-
-      //     while(lexer->lookahead == heredoc_identifier_stack.top()) {
-      //       printf("formated string - %chehe", static_cast<char>(lexer->lookahead));
-      //       heredoc_identifier_stack.pop();
-
-      //       lexer->result_symbol = HEREDOC_END_IDENTIFIER;
-      //       advance(lexer);
-
-      //       if (lexer->lookahead == '\r') {
-      //         lexer->mark_end(lexer);
-      //         return true;
-      //       }
-      //     }
-      //     lexer->mark_end(lexer);
-      //     return true;
-      //   }
-      // }
 
       if (valid_symbols[POD_CONTENT]) {
 
@@ -594,22 +579,6 @@ namespace {
       return true;
     }
 
-    // void parse_heredoc_start_delimiter(int32_t character) {
-    //   heredoc_reverse_identifier_stack.push(character);
-    // }
-
-    // void set_heredoc_end_delimiter() {
-    //   while (!heredoc_reverse_identifier_stack.empty()) {
-    //     heredoc_identifier_stack.push(heredoc_reverse_identifier_stack.top());
-    //     heredoc_reverse_identifier_stack.pop();
-    //   }
-
-    //   // while (!heredoc_identifier_stack.empty()) {
-    //   //   printf("formated string - %c", static_cast<char>(heredoc_identifier_stack.top()));
-    //   //   heredoc_identifier_stack.pop();
-    //   // }
-    // }
-
     // runs over spaces like a champ
     void run_over_spaces(TSLexer *lexer) {
       while (iswspace(lexer->lookahead)) skip(lexer);
@@ -673,12 +642,24 @@ namespace {
    * POSIX-mandated substitution, and assumes the default value for
    * IFS.
    */
-  bool advance_word(TSLexer *lexer, std::string& unquoted_word) {
+  bool advance_word(TSLexer *lexer, std::string& unquoted_word, bool& allows_interpolation) {
     bool empty = true;
+    allows_interpolation = true;
 
     int32_t quote = 0;
-    if (lexer->lookahead == '\'' || lexer->lookahead == '"') {
+    if (
+      lexer->lookahead == '\''
+      || lexer->lookahead == '"'
+      || lexer->lookahead == '`'
+    ) {
+      allows_interpolation = (lexer->lookahead == '\'') ? false : true;
       quote = lexer->lookahead;
+      advance(lexer);
+    }
+
+    // <<\EOF
+    if (lexer->lookahead == '\\') {
+      allows_interpolation = false;
       advance(lexer);
     }
 
@@ -712,6 +693,10 @@ namespace {
       // printf("string here - %c", lexer->lookahead);
       word += lexer->lookahead;
       advance(lexer);
+
+      if (!lexer->lookahead) {
+        break;
+      }
     }
 
     if (word == heredoc_identifier_queue.front()) {
@@ -723,6 +708,7 @@ namespace {
       started_heredoc = false;
       started_heredoc_body = false;
       heredoc_identifier_queue.pop();
+      heredoc_allows_interpolation.pop();
       return true;
     }
     else {
@@ -730,99 +716,6 @@ namespace {
       return true;
     }
   }
-
-    bool scan_heredoc_content(TSLexer *lexer, TokenType middle_type, TokenType end_type) {
-      bool did_advance = false;
-
-      for (;;) {
-        switch (lexer->lookahead) {
-          // string nulls
-          case '\0': {
-            if (did_advance) {
-              heredoc_is_raw = false;
-              started_heredoc = false;
-              heredoc_allows_indent = false;
-              heredoc_identifier_queue.pop();
-              lexer->result_symbol = end_type;
-              return true;
-            } else {
-              return false;
-            }
-          }
-
-          case '\\': {
-            did_advance = true;
-            advance(lexer);
-            advance(lexer);
-            break;
-          }
-
-          case '$': {
-            if (heredoc_is_raw) {
-              did_advance = true;
-              advance(lexer);
-              break;
-            } else if (did_advance) {
-              lexer->result_symbol = middle_type;
-              started_heredoc = true;
-              return true;
-            } else {
-              return false;
-            }
-          }
-
-          case '\n': {
-            did_advance = true;
-            advance(lexer);
-            if (heredoc_allows_indent) {
-              while (iswspace(lexer->lookahead)) {
-                advance(lexer);
-              }
-            }
-            if (scan_heredoc_end_identifier(lexer)) {
-              heredoc_is_raw = false;
-              started_heredoc = false;
-              heredoc_allows_indent = false;
-              heredoc_identifier_queue.pop();
-              lexer->mark_end(lexer);
-              return false;
-            }
-            break;
-          }
-
-          default: {
-            did_advance = true;
-            advance(lexer);
-            break;
-          }
-        }
-      }
-    }
-
-    bool scan_heredoc_end_identifier(TSLexer *lexer) {
-      current_leading_word.clear();
-      // Scan the first 'n' characters on this line, to see if they match the heredoc delimiter
-      int32_t i = 0;
-      while (
-        lexer->lookahead != '\0' &&
-        lexer->lookahead != '\n' &&
-        !iswspace(lexer->lookahead) &&
-        ((int32_t)heredoc_identifier_queue.front().at(i++)) == lexer->lookahead &&
-        current_leading_word.length() < heredoc_identifier_queue.front().length()
-      ) {
-        current_leading_word += lexer->lookahead;
-        lexer->result_symbol = HEREDOC_END_IDENTIFIER;
-        advance(lexer);
-      }
-      if (current_leading_word == heredoc_identifier_queue.front()) {
-        heredoc_identifier_queue.pop();
-        lexer->mark_end(lexer);
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
 
     int32_t start_delimiter_char;
     int32_t end_delimiter_char;
@@ -834,10 +727,9 @@ namespace {
     // heredoc
     bool started_heredoc = false;
     bool started_heredoc_body = false;
-    bool heredoc_is_raw;
-    bool heredoc_allows_indent;
-    std::string current_leading_word;
     std::queue<std::string> heredoc_identifier_queue;
+    std::queue<bool> heredoc_allows_interpolation;
+    std::queue<bool> heredoc_allows_indent;
 
   };
   

@@ -83,6 +83,7 @@ module.exports = grammar({
     [$.hash, $._dereference],
     [$._expression_without_call_expression_with_just_name, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
+    [$._variables, $.interpolation],
     [$.string_double_quoted],
     [$.named_block_statement, $.hash_ref],
     [$.variable_declarator, $._variables],
@@ -125,9 +126,11 @@ module.exports = grammar({
     $._separator_delimiter_transliteration,
     $._end_delimiter_transliteration,
     // heredocs
+    $._imaginary_heredoc_start,
     $.heredoc_start_identifier,
     $._heredoc_content,
     $.heredoc_end_identifier,
+    // end of heredocs
     $._pod_content,
   ],
   
@@ -181,14 +184,6 @@ module.exports = grammar({
     // ------------
     // have start identifier as external. then parse till end of line
     // then \n, then start hereodc body.
-
-    // heredoc_expression_statement: $ => seq(
-    //   $._statement,
-    //   // optional('\n')
-    //   '\n',
-    //   'EOF',
-    // ),
-
     heredoc_initializer: $ => prec(PRECEDENCE.STRING, seq(
       $._heredoc_operator,
       $.heredoc_start_identifier,
@@ -200,10 +195,11 @@ module.exports = grammar({
     ),
 
     heredoc_body_statement: $ => seq(
+      $._imaginary_heredoc_start, // just to track between initializer and body start
       repeat(choice(
-        // $.interpolation,
+        $.interpolation,
         $.escape_sequence,
-        alias($._heredoc_content, $.contenttt),
+        $._heredoc_content,
       )),
       $.heredoc_end_identifier
     ),

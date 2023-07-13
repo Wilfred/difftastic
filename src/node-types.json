@@ -7261,15 +7261,15 @@
       "required": true,
       "types": [
         {
-          "type": "contenttt",
-          "named": true
-        },
-        {
           "type": "escape_sequence",
           "named": true
         },
         {
           "type": "heredoc_end_identifier",
+          "named": true
+        },
+        {
+          "type": "interpolation",
           "named": true
         }
       ]
@@ -16996,10 +16996,6 @@
     "named": false
   },
   {
-    "type": "contenttt",
-    "named": true
-  },
-  {
     "type": "continue",
     "named": false
   },
@@ -17181,11 +17177,11 @@
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "push",

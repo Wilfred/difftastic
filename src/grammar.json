@@ -132,22 +132,25 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "_imaginary_heredoc_start"
+        },
+        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "interpolation"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "escape_sequence"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_heredoc_content"
-                },
-                "named": true,
-                "value": "contenttt"
+                "type": "SYMBOL",
+                "name": "_heredoc_content"
               }
             ]
           }
@@ -9566,6 +9569,10 @@
       "ternary_expression_in_hash"
     ],
     [
+      "_variables",
+      "interpolation"
+    ],
+    [
       "string_double_quoted"
     ],
     [
@@ -9716,6 +9723,10 @@
     {
       "type": "SYMBOL",
       "name": "_end_delimiter_transliteration"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_imaginary_heredoc_start"
     },
     {
       "type": "SYMBOL",
