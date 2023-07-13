@@ -214,11 +214,19 @@ module.exports = grammar({
       $.switch_expression,
     ),
 
-    cast_expression: $ => prec(PREC.CAST, seq(
-      '(',
-      sep1(field('type', $._type), '&'),
-      ')',
-      field('value', $.expression)
+    cast_expression: $ => prec(PREC.CAST, choice(
+      seq(
+        '(',
+        field('type', $._type),
+        ')',
+        field('value', $.expression),
+      ),
+      seq(
+        '(',
+        sep1(field('type', $._type), '&'),
+        ')',
+        field('value', choice($.primary_expression, $.lambda_expression)),
+      ),
     )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
