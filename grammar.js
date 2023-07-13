@@ -1,4 +1,5 @@
-const DIGITS = token(sep1(/[0-9]+/, /_+/))
+const DIGITS = token(choice('0', seq(/[1-9]/, optional(seq(optional('_'), sep1(/[0-9]+/, /_+/))))))
+const DECIMAL_DIGITS = token(sep1(/[0-9]+/, '_'))
 const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
 const PREC = {
   // https://introcs.cs.princeton.edu/java/11precedence/
@@ -106,7 +107,7 @@ module.exports = grammar({
     )),
 
     octal_integer_literal: $ => token(seq(
-      choice('0o', '0O'),
+      choice('0o', '0O', '0'),
       sep1(/[0-7]+/, '_'),
       optional(choice('l', 'L'))
     )),
@@ -118,10 +119,10 @@ module.exports = grammar({
     )),
 
     decimal_floating_point_literal: $ => token(choice(
-      seq(DIGITS, '.', optional(DIGITS), optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), optional(/[fFdD]/)),
-      seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), optional(/[fFdD]/)),
-      seq(DIGITS, /[eEpP]/, optional(choice('-', '+')), DIGITS, optional(/[fFdD]/)),
-      seq(DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)), (/[fFdD]/))
+      seq(DECIMAL_DIGITS, '.', optional(DECIMAL_DIGITS), optional(seq((/[eE]/), optional(choice('-', '+')), DECIMAL_DIGITS)), optional(/[fFdD]/)),
+      seq('.', DECIMAL_DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DECIMAL_DIGITS)), optional(/[fFdD]/)),
+      seq(DIGITS, /[eEpP]/, optional(choice('-', '+')), DECIMAL_DIGITS, optional(/[fFdD]/)),
+      seq(DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DECIMAL_DIGITS)), (/[fFdD]/))
     )),
 
     hex_floating_point_literal: $ => token(seq(
