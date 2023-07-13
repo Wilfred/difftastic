@@ -54,12 +54,24 @@ my $string = q{im a non interpolated string};
 qx command
 =================================================
 
-my $string = q{im a non interpolated string};
+my $string = qx{im a non interpolated string};
 
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_q_quoted)) (semi_colon)
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (command_qx_quoted (start_delimiter) (end_delimiter))) (semi_colon)
+)
+
+=================================================
+backtick_quoted
+=================================================
+
+`ls -a`;
+
+---
+
+(source_file
+  (backtick_quoted) (semi_colon)
 )
 
 =================================================
@@ -81,6 +93,20 @@ my @array = qw /
 )
 
 =================================================
+implicit regex matcher - all the flags are allowed, and the regex can have whitespace
+=================================================
+
+$string =~ /a b c/msixpodualng;
+
+---
+
+(source_file
+  (binary_expression
+    (scalar_variable) (pattern_matcher (regex_pattern) (regex_option))
+  ) (semi_colon)
+)
+
+=================================================
 m matcher operator
 =================================================
 
@@ -93,6 +119,21 @@ $string =~ m/Simple/is;
     (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter) (regex_option))
   ) (semi_colon)
 )
+
+=================================================
+m matcher operator - global flag is allowed for searches
+=================================================
+
+$string =~ m/abc/g;
+
+---
+
+(source_file
+  (binary_expression
+    (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter) (regex_option))
+  ) (semi_colon)
+)
+
 
 =================================================
 m matcher operator - $ at the end shouldn't interpolate
