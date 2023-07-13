@@ -115,6 +115,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "fsi_directive_decl"
+        },
+        {
+          "type": "SYMBOL",
           "name": "type_definition"
         }
       ]
@@ -221,6 +225,43 @@
             "type": "SYMBOL",
             "name": "string"
           }
+        }
+      ]
+    },
+    "fsi_directive_decl": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#r"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#load"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "string"
+              }
+            }
+          ]
         }
       ]
     },

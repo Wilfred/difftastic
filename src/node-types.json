@@ -142,6 +142,10 @@
         "named": true
       },
       {
+        "type": "fsi_directive_decl",
+        "named": true
+      },
+      {
         "type": "import_decl",
         "named": true
       },
@@ -1409,6 +1413,21 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fsi_directive_decl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -3279,7 +3298,15 @@
     "named": false
   },
   {
+    "type": "#load",
+    "named": false
+  },
+  {
     "type": "#nowarn",
+    "named": false
+  },
+  {
+    "type": "#r",
     "named": false
   },
   {

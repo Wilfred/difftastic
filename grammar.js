@@ -104,6 +104,7 @@ module.exports = grammar({
         $.module_abbrev,
         $.import_decl,
         $.compiler_directive_decl,
+        $.fsi_directive_decl,
         $.type_definition,
         // $.exception_defn
       ),
@@ -135,6 +136,13 @@ module.exports = grammar({
       seq(
         "#nowarn",
         repeat($.string),
+      ),
+
+
+    fsi_directive_decl: $ =>
+      choice(
+        seq("#r", repeat($.string)),
+        seq("#load", repeat($.string)),
       ),
 
     import_decl: $ =>
