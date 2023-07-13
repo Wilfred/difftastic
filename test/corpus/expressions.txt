@@ -129,6 +129,53 @@ int main() {
         (argument_list (string_literal (escape_sequence)) (identifier)))))))
 
 ============================================
+GNU inline assembly
+============================================
+
+asm volatile (
+    "mov r0, %0\n"
+    "mov r1, %[y]\n"
+    "add r2, r0, r1\n"
+    "mov %1, r2\n"
+    :     "r"  (z)
+    :     "=r" (x),
+      [y] "=r" ((uintptr_t) y)
+    : "r2");
+
+---
+
+(translation_unit
+  (expression_statement
+    (gnu_asm_expression
+      (gnu_asm_qualifier)
+      (concatenated_string
+        (string_literal
+          (escape_sequence))
+        (string_literal
+          (escape_sequence))
+        (string_literal
+          (escape_sequence))
+        (string_literal
+          (escape_sequence)))
+      (gnu_asm_output_operand_list
+        (gnu_asm_output_operand
+          (string_literal)
+          (identifier)))
+      (gnu_asm_input_operand_list
+        (gnu_asm_input_operand
+          (string_literal)
+          (identifier))
+        (gnu_asm_input_operand
+          (identifier)
+          (string_literal)
+           (cast_expression
+             (type_descriptor
+               (primitive_type))
+             (identifier))))
+      (gnu_asm_clobber_list
+        (string_literal)))))
+
+============================================
 String literals
 ============================================
 
