@@ -1,5 +1,9 @@
 ## 0.49 (unreleased)
 
+### Parsing
+
+Improved parsing of qualified constructors in Haskell.
+
 ## 0.48 (released 12th July 2023)
 
 ### Parsing
