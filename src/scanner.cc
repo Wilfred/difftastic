@@ -366,14 +366,13 @@ namespace {
               return exit_if_heredoc_end_delimiter(lexer);
             }
 
-            // exit condition
-            case NULL: {
-              started_heredoc_body = false;
-              lexer->mark_end(lexer);
-              return false;
-            }
-
             default: {
+              // exit condition
+              if (!lexer->lookahead) {
+                started_heredoc_body = false;
+                lexer->mark_end(lexer);
+                return false;
+              }
               lexer->result_symbol = HEREDOC_CONTENT;
               advance(lexer);
               return true;
