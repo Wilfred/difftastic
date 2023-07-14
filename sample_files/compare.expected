@@ -136,6 +136,9 @@ sample_files/multiline_string_before.ml sample_files/multiline_string_after.ml
 sample_files/nest_before.rs sample_files/nest_after.rs
 59f4e15e83e05c0fa36d03f4b2bb4cf4  -
 
+sample_files/nested_slider_before.el sample_files/nested_slider_after.el
+dc30db682f9f17dd2866a7b5f2a9a081  -
+
 sample_files/nested_slider_before.rs sample_files/nested_slider_after.rs
 5c3dc3d870cdf182658da6a29650d911  -
 

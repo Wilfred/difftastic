@@ -122,20 +122,21 @@ fn fix_nested_slider_prefer_outer<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
             .expect("Changes should be set before slider correction")
         {
             Unchanged(_) => {
-                // All children should be novel except one descendant.
-                let mut found_unchanged = vec![];
-                unchanged_descendants_ignore_delim(children, &mut found_unchanged, change_map);
+                let mut candidates = vec![];
+                unchanged_descendants_for_outer_slider(children, &mut candidates, change_map);
 
-                if let [unchanged] = found_unchanged[..] {
-                    if matches!(unchanged, List { .. })
-                        && matches!(change_map.get(unchanged), Some(Novel))
+                // We can slide if there is a single unchanged
+                // descendant, that descendant is a list, and that
+                // list has novel delimiters.
+                if let [candidate] = candidates[..] {
+                    if matches!(candidate, List { .. })
+                        && matches!(change_map.get(candidate), Some(Novel))
                     {
-                        push_unchanged_to_descendant(node, unchanged, change_map);
+                        push_unchanged_to_descendant(node, candidate, change_map);
                     }
                 }
             }
-            ReplacedComment(_, _) | ReplacedString(_, _) => {}
-            Novel => {}
+            ReplacedComment(_, _) | ReplacedString(_, _) | Novel => {}
         }
 
         for child in children {
@@ -197,9 +198,18 @@ fn unchanged_descendants<'a>(
     }
 }
 
-/// Find the descendants of `nodes` that are unchanged, but ignore the
-/// delimiter on list nodes.
-fn unchanged_descendants_ignore_delim<'a>(
+/// Nested sliders require a single unchanged descendant whose
+/// delimiters we can slide.
+///
+/// ```
+/// (old-1 (novel (old-2)))
+/// ```
+///
+/// To slide, we want a single list that contains unchanged items but
+/// the outer delimiters are novel.
+///
+/// Find all the unchanged descendants.
+fn unchanged_descendants_for_outer_slider<'a>(
     nodes: &[&'a Syntax<'a>],
     found: &mut Vec<&'a Syntax<'a>>,
     change_map: &ChangeMap<'a>,
@@ -216,24 +226,47 @@ fn unchanged_descendants_ignore_delim<'a>(
         match node {
             Atom { .. } => {
                 if is_unchanged {
+                    // If there's an unchanged atom descendant, we
+                    // can't slide. Sliding the delimiters requires a
+                    // single list, or we are potentially changing the
+                    // diff semantically.
+                    //
+                    // Add to the found items, but terminate early
+                    // since we'll never slide.
                     found.push(node);
+                    break;
                 } else {
-                    // No problem
+                    // Novel atom. This is fine, we're looking for a
+                    // single unchanged node.
                 }
             }
             List { children, .. } => {
-                let all_children_unchanged = true;
-
                 if is_unchanged {
-                    // Outer list is unchanged, not what we wanted.
+                    // This list is unchanged, and the delimiters are
+                    // unchanged. It's an unchanged descendant, but we
+                    // won't be able to slide its delimiters because
+                    // its delimiters are unchanged.
+                    //
+                    // Add to the found items, but terminate early
+                    // since we'll never slide.
                     found.push(node);
+                    break;
                 } else {
-                    // Is changed.
-                    if all_children_unchanged {
-                        // What we're looking for.
+                    // A list whose outer delimiters are novel.
+
+                    let has_unchanged_children = children
+                        .iter()
+                        .any(|node| matches!(change_map.get(node), Some(Unchanged(_))));
+                    if has_unchanged_children {
+                        // The list has unchanged children and novel
+                        // delimiters. This is a candidate for
+                        // sliding.
                         found.push(node);
                     } else {
-                        unchanged_descendants_ignore_delim(children, found, change_map);
+                        // All of the immediate children are novel,
+                        // recurse in case they have descendants that
+                        // are unchanged.
+                        unchanged_descendants_for_outer_slider(children, found, change_map);
                     }
                 }
             }
