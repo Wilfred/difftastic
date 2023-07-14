@@ -116,17 +116,8 @@
       }
     },
     "_heredoc_operator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<<"
-        },
-        {
-          "type": "STRING",
-          "value": "<<~"
-        }
-      ]
+      "type": "STRING",
+      "value": "<<"
     },
     "heredoc_body_statement": {
       "type": "SEQ",

@@ -189,10 +189,7 @@ module.exports = grammar({
       $.heredoc_start_identifier,
     )),
 
-    _heredoc_operator: $ => choice(
-      '<<',
-      '<<~'
-    ),
+    _heredoc_operator: $ => '<<',
 
     heredoc_body_statement: $ => seq(
       $._imaginary_heredoc_start, // just to track between initializer and body start

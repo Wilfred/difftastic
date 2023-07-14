@@ -308,12 +308,6 @@ namespace {
       }
 
       if (valid_symbols[HEREDOC_START_IDENTIFIER]) {
-        // for, <<   "EOF"
-        run_over_spaces(lexer);
-
-        // for, <<EOF
-        // heredoc_is_raw = lexer->lookahead == '\'';
-
         lexer->result_symbol = HEREDOC_START_IDENTIFIER;
 
         std::string delimiter;
@@ -342,51 +336,49 @@ namespace {
           started_heredoc_body = true;
 
           lexer->result_symbol = IMAGINARY_HEREDOC_START;
-          // advance(lexer);
           lexer->mark_end(lexer);
           return true;
         }
 
         if (started_heredoc_body) {
-          // while(lexer->lookahead) {
-            switch (lexer->lookahead) {
-              case '\\': {
-                if (heredoc_allows_interpolation.front()) {
-                  return handle_escape_sequence(lexer, HEREDOC_CONTENT);
-                }
-              }
-
-              case '$': {
-                if (heredoc_allows_interpolation.front()) {
-                  return false;
-                }
-              }
-
-              case '\n': {
-                skip(lexer);
-                lexer->mark_end(lexer);
-                // if (heredoc_allows_indent) {
-                //   while (iswspace(lexer->lookahead)) {
-                //     advance(lexer);
-                //   }
-                // }
-                return exit_if_heredoc_end_delimiter(lexer);
-              }
-
-              // exit condition
-              case NULL: {
-                started_heredoc_body = false;
-                lexer->mark_end(lexer);
-                return false;
-              }
-
-              default: {
-                lexer->result_symbol = HEREDOC_CONTENT;
-                advance(lexer);
-                return true;
+          switch (lexer->lookahead) {
+            case '\\': {
+              if (heredoc_allows_interpolation.front()) {
+                return handle_escape_sequence(lexer, HEREDOC_CONTENT);
               }
             }
-          // }
+
+            case '$': {
+              if (heredoc_allows_interpolation.front()) {
+                return false;
+              }
+            }
+
+            case '\n': {
+              skip(lexer);
+              lexer->mark_end(lexer);
+              // TODO: validate all possible intended heredocs properly
+              if (heredoc_allows_indent.front()) {
+                while (iswspace(lexer->lookahead)) {
+                  advance(lexer);
+                }
+              }
+              return exit_if_heredoc_end_delimiter(lexer);
+            }
+
+            // exit condition
+            case NULL: {
+              started_heredoc_body = false;
+              lexer->mark_end(lexer);
+              return false;
+            }
+
+            default: {
+              lexer->result_symbol = HEREDOC_CONTENT;
+              advance(lexer);
+              return true;
+            }
+          }
         }
         else {
           return false;
@@ -644,7 +636,30 @@ namespace {
    */
   bool advance_word(TSLexer *lexer, std::string& unquoted_word, bool& allows_interpolation) {
     bool empty = true;
+    bool has_space_before = false;
     allows_interpolation = true;
+
+    // <<~EOF
+    if (lexer->lookahead == '~') {
+      heredoc_allows_indent.push(true);
+      advance(lexer);
+    }
+    else {
+      heredoc_allows_indent.push(false);
+    }
+
+    // <<\EOF, <<~\EOF
+    if (lexer->lookahead == '\\') {
+      allows_interpolation = false;
+      advance(lexer);
+    }
+    
+
+    // run over the spaces
+    if (iswspace(lexer->lookahead)) {
+      run_over_spaces(lexer);
+      has_space_before = true;
+    }
 
     int32_t quote = 0;
     if (
@@ -656,11 +671,8 @@ namespace {
       quote = lexer->lookahead;
       advance(lexer);
     }
-
-    // <<\EOF
-    if (lexer->lookahead == '\\') {
-      allows_interpolation = false;
-      advance(lexer);
+    else if (has_space_before) {
+      return false;
     }
 
     regex identifier_regex("[a-zA-Z0-9]");
