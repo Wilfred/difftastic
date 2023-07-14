@@ -1179,23 +1179,23 @@ type T<X> = T extends { x: infer X extends number } ? X : never;
           (identifier)
           (type_annotation (type_identifier))))
       (conditional_type
+        (type_identifier)
+        (type_identifier)
+        (type_identifier)
         (conditional_type
           (type_identifier)
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation (type_identifier))))
+            (conditional_type
+              (type_identifier)
+              (type_identifier)
+              (type_identifier)
+              (type_identifier)))
           (type_identifier)
-          (type_identifier)
-          (type_identifier))
-        (function_type
-          (formal_parameters
-            (required_parameter
-              (identifier)
-              (type_annotation (type_identifier))))
-          (conditional_type
-            (type_identifier)
-            (type_identifier)
-            (type_identifier)
-            (type_identifier)))
-        (type_identifier)
-        (type_identifier))))
+          (type_identifier)))))
   (type_alias_declaration
     (type_identifier)
     (type_parameters
@@ -1205,20 +1205,20 @@ type T<X> = T extends { x: infer X extends number } ? X : never;
       (type_identifier)
       (generic_type
         (type_identifier)
-        (type_arguments
-          (infer_type (type_identifier))))
+        (type_arguments (infer_type (type_identifier))))
       (type_identifier)
       (type_identifier)))
-    (type_alias_declaration
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter (type_identifier)))
+    (conditional_type
       (type_identifier)
-      (type_parameters
-        (type_parameter (type_identifier)))
-      (conditional_type
-        (type_identifier)
-        (array_type
-          (parenthesized_type (infer_type (type_identifier))))
-        (type_identifier)
-        (predefined_type)))
+      (array_type
+        (parenthesized_type
+          (infer_type (type_identifier))))
+      (type_identifier)
+      (predefined_type)))
   (type_alias_declaration
     (type_identifier)
     (type_parameters
@@ -1568,7 +1568,7 @@ type Foo<T> = abstract new () => T;
 
 ---
 
-(program (type_alias_declaration (type_identifier) (type_parameters (type_parameter (type_identifier))) (constructor_type (formal_parameters) (type_identifier)))) 
+(program (type_alias_declaration (type_identifier) (type_parameters (type_parameter (type_identifier))) (constructor_type (formal_parameters) (type_identifier))))
 
 =========================
 Indexed Access Precedence
