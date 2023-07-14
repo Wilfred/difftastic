@@ -83,6 +83,7 @@ module.exports = grammar({
     [$.hash, $._dereference],
     [$._expression_without_call_expression_with_just_name, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
+    [$._variables, $.interpolation],
     [$.string_double_quoted],
     [$.named_block_statement, $.hash_ref],
     [$.variable_declarator, $._variables],
@@ -95,6 +96,7 @@ module.exports = grammar({
     [$._expression_without_call_expression_with_just_name, $.goto_expression],
     [$._expression_without_call_expression_with_just_name, $.method_invocation],
     [$._expression_without_call_expression_with_just_name, $.goto_expression, $.method_invocation],
+    [$._expression_without_call_expression_with_just_name, $._string],
     [$.list_block],
     [$.method_invocation, $.hash_dereference],
     [$.method_invocation, $.array_dereference],
@@ -123,7 +125,12 @@ module.exports = grammar({
     $._transliteration_content,
     $._separator_delimiter_transliteration,
     $._end_delimiter_transliteration,
-    //  TODO: handle <<EOF
+    // heredocs
+    $._imaginary_heredoc_start,
+    $.heredoc_start_identifier,
+    $._heredoc_content,
+    $.heredoc_end_identifier,
+    // end of heredocs
     $._pod_content,
   ],
   
@@ -168,7 +175,30 @@ module.exports = grammar({
 
       $.special_literal,
 
+      $.heredoc_body_statement,
+
       $.pod_statement,
+    ),
+
+    // pseudocode
+    // ------------
+    // have start identifier as external. then parse till end of line
+    // then \n, then start hereodc body.
+    heredoc_initializer: $ => prec(PRECEDENCE.STRING, seq(
+      $._heredoc_operator,
+      $.heredoc_start_identifier,
+    )),
+
+    _heredoc_operator: $ => '<<',
+
+    heredoc_body_statement: $ => seq(
+      $._imaginary_heredoc_start, // just to track between initializer and body start
+      repeat(choice(
+        $.interpolation,
+        $.escape_sequence,
+        $._heredoc_content,
+      )),
+      $.heredoc_end_identifier
     ),
 
     pod_statement: $ => prec(PRECEDENCE.COMMENTS, seq(
@@ -394,12 +424,12 @@ module.exports = grammar({
     elsif_clause: $ => seq(
       'elsif',
       field('condition', $.parenthesized_expression),
-      field('alternative_if_consequence', $.block), // 'consequence' to match the Python grammar
+      field('alternative_if_consequence', $.block),
     ),
 
     else_clause: $ => seq(
       'else',
-      field('alternative', $.block), // 'body' to match the Python grammar
+      field('alternative', $.block),
     ),
 
     // given_statement: $ => seq(
@@ -665,6 +695,7 @@ module.exports = grammar({
       alias($.call_expression_with_just_name, $.call_expression),
     )),
 
+    // TODO: change this to _expression_without_bareword
     // NOTE: just a hack to handle identifier vs subroutine call
     _expression_without_call_expression_with_just_name: $ => with_or_without_brackets(choice(
       $._primitive_expression,
@@ -688,7 +719,7 @@ module.exports = grammar({
       $.regex_pattern_qr,
       $.substitution_pattern_s,
       $.transliteration_tr_or_y,
-
+      $.heredoc_initializer,
       $.pattern_matcher,
 
       $._i_o_operator,
@@ -1158,14 +1189,14 @@ module.exports = grammar({
 
     _shift_expression: $ => prec.left(PRECEDENCE.SHIFT_OPERATORS, choice(
       seq(
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
         field('operator', '<<'),
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
       ),
       seq(
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
         field('operator', '>>'),
-        field('variable', $._expression),
+        field('variable', $._expression_without_call_expression_with_just_name),
       ),
     )),
 
@@ -1460,6 +1491,7 @@ module.exports = grammar({
       $.string_q_quoted,
       $.string_double_quoted,
       $.string_qq_quoted,
+      $.heredoc_initializer,
     )),
 
     _resolves_to_digit: $ => choice(
@@ -1899,6 +1931,13 @@ function with_or_without_brackets(rule) {
     seq('(', rule, ')'),
   ));
 }
+// TODO: the above should be like this, test it
+// function with_or_without_brackets(rule) {
+//   return choice(
+//     rule,
+//     prec(PRECEDENCE.BRACKETS, seq('(', rule, ')')),
+//   );
+// }
 
 /**
  * Given a rule, returns back a rule with and without

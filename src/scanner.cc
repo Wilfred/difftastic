@@ -1,12 +1,15 @@
 #include <tree_sitter/parser.h>
-#include <vector>
 #include <cassert>
 #include <cstring>
+#include <queue>
+#include <regex>
+#include <vector>
 
 namespace {
 
   using std::vector;
   using std::memcpy;
+  using std::regex;
 
   enum TokenType {
     START_DELIMITER,
@@ -29,6 +32,10 @@ namespace {
     TRANSLITERATION_CONTENT,
     SEPARATOR_DELIMITER_TRANSLITERATION,
     END_DELIMITER_TRANSLITERATION,
+    IMAGINARY_HEREDOC_START,
+    HEREDOC_START_IDENTIFIER,
+    HEREDOC_CONTENT,
+    HEREDOC_END_IDENTIFIER,
     POD_CONTENT,
   };
 
@@ -101,6 +108,10 @@ namespace {
         && valid_symbols[TRANSLITERATION_CONTENT]
         && valid_symbols[SEPARATOR_DELIMITER_TRANSLITERATION]
         && valid_symbols[END_DELIMITER_TRANSLITERATION]
+        && valid_symbols[IMAGINARY_HEREDOC_START]
+        && valid_symbols[HEREDOC_START_IDENTIFIER]
+        && valid_symbols[HEREDOC_CONTENT]
+        && valid_symbols[HEREDOC_END_IDENTIFIER]
         && valid_symbols[POD_CONTENT]
       ) {
         return false;
@@ -296,6 +307,84 @@ namespace {
         return true;
       }
 
+      if (valid_symbols[HEREDOC_START_IDENTIFIER]) {
+        lexer->result_symbol = HEREDOC_START_IDENTIFIER;
+
+        std::string delimiter;
+        bool allows_interpolation;
+        bool found_delimiter = advance_word(lexer, delimiter, allows_interpolation);
+        if (found_delimiter) {
+          heredoc_identifier_queue.push(delimiter);
+          heredoc_allows_interpolation.push(allows_interpolation);
+
+          started_heredoc = true;
+        }
+
+        return found_delimiter;
+      }
+
+      if (
+        (valid_symbols[HEREDOC_CONTENT] || valid_symbols[IMAGINARY_HEREDOC_START])
+        && !heredoc_identifier_queue.empty()
+      ) {
+        // another exit condition
+        if (!lexer->lookahead && !started_heredoc_body) {
+          return false;
+        }
+
+        if (lexer->lookahead == '\n' && !started_heredoc_body) {
+          started_heredoc_body = true;
+
+          lexer->result_symbol = IMAGINARY_HEREDOC_START;
+          lexer->mark_end(lexer);
+          return true;
+        }
+
+        if (started_heredoc_body) {
+          switch (lexer->lookahead) {
+            case '\\': {
+              if (heredoc_allows_interpolation.front()) {
+                return handle_escape_sequence(lexer, HEREDOC_CONTENT);
+              }
+            }
+
+            case '$': {
+              if (heredoc_allows_interpolation.front()) {
+                return false;
+              }
+            }
+
+            case '\n': {
+              skip(lexer);
+              lexer->mark_end(lexer);
+              // TODO: validate all possible intended heredocs properly
+              if (heredoc_allows_indent.front()) {
+                while (iswspace(lexer->lookahead)) {
+                  advance(lexer);
+                }
+              }
+              return exit_if_heredoc_end_delimiter(lexer);
+            }
+
+            // exit condition
+            case NULL: {
+              started_heredoc_body = false;
+              lexer->mark_end(lexer);
+              return false;
+            }
+
+            default: {
+              lexer->result_symbol = HEREDOC_CONTENT;
+              advance(lexer);
+              return true;
+            }
+          }
+        }
+        else {
+          return false;
+        }
+      }
+
       if (valid_symbols[POD_CONTENT]) {
 
         while (lexer->lookahead) {
@@ -484,16 +573,12 @@ namespace {
 
     // runs over spaces like a champ
     void run_over_spaces(TSLexer *lexer) {
-      while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\n') {
-        skip(lexer);
-      }
+      while (iswspace(lexer->lookahead)) skip(lexer);
     }
 
     // runs with the spaces using advance
     void run_with_spaces(TSLexer *lexer) {
-      while(lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\n') {
-        advance(lexer);
-      }
+      while (iswspace(lexer->lookahead)) advance(lexer);
     }
 
     bool handle_interpolation(TSLexer *lexer, TokenType surrounding_token) {
@@ -542,12 +627,121 @@ namespace {
       return true;
     }
 
+    /**
+   * Consume a "word" in POSIX parlance, and returns it unquoted.
+   *
+   * This is an approximate implementation that doesn't deal with any
+   * POSIX-mandated substitution, and assumes the default value for
+   * IFS.
+   */
+  bool advance_word(TSLexer *lexer, std::string& unquoted_word, bool& allows_interpolation) {
+    bool empty = true;
+    bool has_space_before = false;
+    allows_interpolation = true;
+
+    // <<~EOF
+    if (lexer->lookahead == '~') {
+      heredoc_allows_indent.push(true);
+      advance(lexer);
+    }
+    else {
+      heredoc_allows_indent.push(false);
+    }
+
+    // <<\EOF, <<~\EOF
+    if (lexer->lookahead == '\\') {
+      allows_interpolation = false;
+      advance(lexer);
+    }
+    
+
+    // run over the spaces
+    if (iswspace(lexer->lookahead)) {
+      run_over_spaces(lexer);
+      has_space_before = true;
+    }
+
+    int32_t quote = 0;
+    if (
+      lexer->lookahead == '\''
+      || lexer->lookahead == '"'
+      || lexer->lookahead == '`'
+    ) {
+      allows_interpolation = (lexer->lookahead == '\'') ? false : true;
+      quote = lexer->lookahead;
+      advance(lexer);
+    }
+    else if (has_space_before) {
+      return false;
+    }
+
+    regex identifier_regex("[a-zA-Z0-9]");
+    while (
+      lexer->lookahead 
+      && std::regex_match(std::string(1, static_cast<char>(lexer->lookahead)), identifier_regex)
+      && ! (quote ? lexer->lookahead == quote : iswspace(lexer->lookahead))
+    ) {
+      // TODO: check this below condition
+      if (lexer->lookahead == '\\') {
+        advance(lexer);
+        if (! lexer->lookahead) return false;
+      }
+      empty = false;
+      unquoted_word += lexer->lookahead;
+      advance(lexer);
+    }
+
+    if (quote && lexer->lookahead == quote) {
+      advance(lexer);
+    }
+
+    return ! empty;
+  }
+
+  bool exit_if_heredoc_end_delimiter(TSLexer *lexer) {
+    std::string word;
+    // lexer->result_symbol = HEREDOC_END_IDENTIFIER;
+    while (!iswspace(lexer->lookahead)) {
+      // printf("string here - %c", lexer->lookahead);
+      word += lexer->lookahead;
+      advance(lexer);
+
+      if (!lexer->lookahead) {
+        break;
+      }
+    }
+
+    if (word == heredoc_identifier_queue.front()) {
+    // if (1) {
+      lexer->result_symbol = HEREDOC_END_IDENTIFIER;
+      lexer->mark_end(lexer);
+
+      // unset stuffs
+      started_heredoc = false;
+      started_heredoc_body = false;
+      heredoc_identifier_queue.pop();
+      heredoc_allows_interpolation.pop();
+      return true;
+    }
+    else {
+      lexer->result_symbol = HEREDOC_CONTENT;
+      return true;
+    }
+  }
+
     int32_t start_delimiter_char;
     int32_t end_delimiter_char;
     bool is_separator_delimiter_parsed;
     bool is_delimiter_enclosing; // is the delimiter {}, <> and same character not //, !!
     int delimiter_cout = 0;
     bool reached;
+
+    // heredoc
+    bool started_heredoc = false;
+    bool started_heredoc_body = false;
+    std::queue<std::string> heredoc_identifier_queue;
+    std::queue<bool> heredoc_allows_interpolation;
+    std::queue<bool> heredoc_allows_indent;
 
   };
   
