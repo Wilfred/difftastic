@@ -1229,3 +1229,20 @@ java.util.List<java.lang.Integer> x = null;
     (variable_declarator
       (identifier)
       (null_literal))))
+
+================================================================================
+binary expression
+================================================================================
+
+(a & b) + c;
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (binary_expression
+      (parenthesized_expression
+        (binary_expression
+          (identifier)
+          (identifier)))
+      (identifier))))

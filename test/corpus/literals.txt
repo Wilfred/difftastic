@@ -34,10 +34,12 @@ octal integer literals
 
 0o123;
 0O123;
+0123;
 
 ---
 
 (program
+  (expression_statement (octal_integer_literal))
   (expression_statement (octal_integer_literal))
   (expression_statement (octal_integer_literal)))
 
