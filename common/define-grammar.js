@@ -141,7 +141,7 @@ module.exports = function defineGrammar(dialect) {
         optional('declare'),
         optional($.accessibility_modifier),
         choice(
-          seq(optional('static'), optional($.override_modifier), optional('readonly')), 
+          seq(optional('static'), optional($.override_modifier), optional('readonly')),
           seq(optional('abstract'), optional('readonly')),
           seq(optional('readonly'), optional('abstract')),
         ),
@@ -386,7 +386,7 @@ module.exports = function defineGrammar(dialect) {
           // *definition*, not a declaration. Example:
           //     public foo()
           //     { <--- this brace made the method signature become a definition
-          //     }      
+          //     }
           // The same rule applies for functions and that's why we use
           // "_function_signature_automatic_semicolon".
           seq($.method_signature, choice($._function_signature_automatic_semicolon, ',')),
@@ -716,7 +716,7 @@ module.exports = function defineGrammar(dialect) {
         ))
       )),
 
-      conditional_type: $ => prec.left(seq(
+      conditional_type: $ => prec.right(seq(
         field('left', $._type),
         'extends',
         field('right', $._type),
