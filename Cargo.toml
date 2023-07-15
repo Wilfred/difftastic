@@ -4,7 +4,7 @@ description = "Elixir grammar for the tree-sitter parsing library"
 version = "0.1.0"
 keywords = ["incremental", "parsing", "elixir"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-elixir"
+repository = "https://github.com/elixir-lang/tree-sitter-elixir"
 edition = "2018"
 license = "Apache-2.0"
 
