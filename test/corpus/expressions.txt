@@ -206,6 +206,52 @@ asm volatile (
           (string_content))))))
 
 ================================================================================
+Function call with compound statement
+================================================================================
+
+#define TAKES_BLOCK(x, block) for (i = 0; i < x; i++) block
+
+int main(void) {
+  {
+    int x = 0;
+  }
+  TAKES_BLOCK(10, {
+    // Doesn't matter what I put in here
+  });
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_function_def
+    (identifier)
+    (preproc_params
+      (identifier)
+      (identifier))
+    (preproc_arg))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (compound_statement
+        (declaration
+          (primitive_type)
+          (init_declarator
+            (identifier)
+            (number_literal))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal)
+            (compound_statement
+              (comment))))))))
+
+================================================================================
 String literals
 ================================================================================
 

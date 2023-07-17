@@ -429,6 +429,10 @@
           "named": true
         },
         {
+          "type": "compound_statement",
+          "named": true
+        },
+        {
           "type": "preproc_defined",
           "named": true
         }
