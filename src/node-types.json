@@ -1293,6 +1293,21 @@
     }
   },
   {
+    "type": "else_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "enum_specifier",
     "named": true,
     "fields": {
@@ -1961,7 +1976,7 @@
         "required": false,
         "types": [
           {
-            "type": "_statement",
+            "type": "else_clause",
             "named": true
           }
         ]

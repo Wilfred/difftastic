@@ -34,9 +34,10 @@ int main() {
         (compound_statement
           (expression_statement
             (number_literal)))
-        (compound_statement
-          (expression_statement
-            (number_literal)))))))
+        (else_clause
+          (compound_statement
+            (expression_statement
+              (number_literal))))))))
 
 ================================================================================
 For loops
@@ -518,11 +519,12 @@ void f() {
             (attribute
               (identifier)))
           (compound_statement))
-        (attributed_statement
-          (attribute_declaration
-            (attribute
-              (identifier)))
-          (compound_statement)))
+        (else_clause
+          (attributed_statement
+            (attribute_declaration
+              (attribute
+                (identifier)))
+            (compound_statement))))
       (do_statement
         (attributed_statement
           (attribute_declaration
