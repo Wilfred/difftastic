@@ -489,6 +489,8 @@ Type qualifiers
 const _Atomic unsigned long int x = 5;
 restrict int y = 6;
 volatile int z = 7;
+constexpr int a = 8;
+noreturn void b() {}
 
 --------------------------------------------------------------------------------
 
@@ -512,7 +514,20 @@ volatile int z = 7;
     (primitive_type)
     (init_declarator
       (identifier)
-      (number_literal))))
+      (number_literal)))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (number_literal)))
+  (function_definition
+    (type_qualifier)
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement)))
 
 ================================================================================
 Local array declarations

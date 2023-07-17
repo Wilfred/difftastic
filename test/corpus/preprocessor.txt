@@ -165,6 +165,52 @@ int b;
         alternative: (preproc_else)))))
 
 ================================================================================
+Elifdefs
+================================================================================
+
+#ifndef DEFINE1
+int j;
+#elifndef DEFINE2
+int k;
+#endif
+
+#ifdef DEFINE2
+ssize_t b;
+#elifdef DEFINE3
+ssize_t c;
+#else
+int b;
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_ifdef
+    (identifier)
+    (declaration
+      (primitive_type)
+      (identifier))
+    (preproc_elifdef
+      (identifier)
+      (declaration
+        (primitive_type)
+        (identifier))))
+  (preproc_ifdef
+    (identifier)
+    (declaration
+      (primitive_type)
+      (identifier))
+    (preproc_elifdef
+      (identifier)
+      (declaration
+        (primitive_type)
+        (identifier))
+      (preproc_else
+        (declaration
+          (primitive_type)
+          (identifier))))))
+
+================================================================================
 General if blocks
 ================================================================================
 

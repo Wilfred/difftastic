@@ -472,15 +472,18 @@ module.exports = grammar({
       'auto',
       'register',
       'inline',
+      'thread_local',
     ),
 
     type_qualifier: _ => choice(
       'const',
+      'constexpr',
       'volatile',
       'restrict',
       '__restrict__',
       '_Atomic',
       '_Noreturn',
+      'noreturn',
     ),
 
     _type_specifier: $ => choice(
@@ -515,9 +518,12 @@ module.exports = grammar({
       'void',
       'size_t',
       'ssize_t',
+      'ptrdiff_t',
       'intptr_t',
       'uintptr_t',
       'charptr_t',
+      'nullptr_t',
+      'max_align_t',
       ...[8, 16, 32, 64].map(n => `int${n}_t`),
       ...[8, 16, 32, 64].map(n => `uint${n}_t`),
       ...[8, 16, 32, 64].map(n => `char${n}_t`),
@@ -1086,9 +1092,10 @@ module.exports = grammar({
 
     true: _ => token(choice('TRUE', 'true')),
     false: _ => token(choice('FALSE', 'false')),
-    null: _ => 'NULL',
+    null: _ => choice('NULL', 'nullptr'),
 
-    identifier: _ => /(\p{XID_Start}|_)\p{XID_Continue}*/,
+    identifier: _ =>
+      /(\p{XID_Start}|_|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})(\p{XID_Continue}|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
@@ -1167,7 +1174,7 @@ function preprocIf(suffix, content) {
       choice(preprocessor('ifdef'), preprocessor('ifndef')),
       field('name', $.identifier),
       repeat(content($)),
-      field('alternative', optional(elseBlock($))),
+      field('alternative', optional(choice(elseBlock($), $.preproc_elifdef))),
       preprocessor('endif'),
     ),
 
@@ -1180,6 +1187,13 @@ function preprocIf(suffix, content) {
       preprocessor('elif'),
       field('condition', $._preproc_expression),
       '\n',
+      repeat(content($)),
+      field('alternative', optional(elseBlock($))),
+    ),
+
+    ['preproc_elifdef' + suffix]: $ => seq(
+      choice(preprocessor('elifdef'), preprocessor('elifndef')),
+      field('name', $.identifier),
       repeat(content($)),
       field('alternative', optional(elseBlock($))),
     ),
