@@ -328,7 +328,8 @@ int main() {
       (parameter_list))
     (compound_statement
       (expression_statement
-        (char_literal))
+        (char_literal
+          (character)))
       (expression_statement
         (char_literal
           (escape_sequence)))
@@ -339,9 +340,11 @@ int main() {
         (char_literal
           (escape_sequence)))
       (expression_statement
-        (char_literal))
+        (char_literal
+          (character)))
       (expression_statement
-        (char_literal))
+        (char_literal
+          (character)))
       (expression_statement
         (char_literal
           (escape_sequence)))
@@ -764,8 +767,10 @@ int main() {
               (type_qualifier)
               (abstract_array_declarator))
             (initializer_list
-              (char_literal)
-              (char_literal))))))))
+              (char_literal
+                (character))
+              (char_literal
+                (character)))))))))
 
 ================================================================================
 Compound literals with trailing commas
@@ -879,7 +884,8 @@ int main(int argc, char **argv) {
         (primitive_type)
         (init_declarator
           (identifier)
-          (char_literal)))
+          (char_literal
+            (character))))
       (expression_statement
         (assignment_expression
           (identifier)
@@ -948,16 +954,20 @@ int main(int argc, char **argv) {
               (escape_sequence))
             (type_descriptor
               (primitive_type))
-            (char_literal)
+            (char_literal
+              (character))
             (type_descriptor
               (primitive_type))
-            (char_literal)
+            (char_literal
+              (character))
             (type_descriptor
               (primitive_type))
-            (char_literal)
+            (char_literal
+              (character))
             (type_descriptor
               (primitive_type))
-            (char_literal))))
+            (char_literal
+              (character)))))
       (expression_statement
         (generic_expression
           (identifier)

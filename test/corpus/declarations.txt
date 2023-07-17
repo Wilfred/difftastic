@@ -289,6 +289,10 @@ typedef struct A {
   int i;
 } a, b;
 
+typedef void const *voidpc;
+typedef void volatile *voidpv;
+typedef void const volatile *const voidpcv;
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -321,7 +325,24 @@ typedef struct A {
           type: (primitive_type)
           declarator: (field_identifier))))
     declarator: (type_identifier)
-    declarator: (type_identifier)))
+    declarator: (type_identifier))
+  (type_definition
+    type: (primitive_type)
+    (type_qualifier)
+    declarator: (pointer_declarator
+      declarator: (type_identifier)))
+  (type_definition
+    type: (primitive_type)
+    (type_qualifier)
+    declarator: (pointer_declarator
+      declarator: (type_identifier)))
+  (type_definition
+    type: (primitive_type)
+    (type_qualifier)
+    (type_qualifier)
+    declarator: (pointer_declarator
+      (type_qualifier)
+      declarator: (type_identifier))))
 
 ================================================================================
 Function declarations
