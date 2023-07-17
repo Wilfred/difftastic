@@ -967,8 +967,12 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "character",
+          "named": true
+        },
         {
           "type": "escape_sequence",
           "named": true
@@ -3769,6 +3773,10 @@
   {
     "type": "case",
     "named": false
+  },
+  {
+    "type": "character",
+    "named": true
   },
   {
     "type": "comment",

@@ -221,6 +221,7 @@ module.exports = grammar({
       'typedef',
       repeat($.type_qualifier),
       field('type', $._type_specifier),
+      repeat($.type_qualifier),
       commaSep1(field('declarator', $._type_declarator)),
       ';',
     ),
@@ -1047,7 +1048,7 @@ module.exports = grammar({
       choice('L\'', 'u\'', 'U\'', 'u8\'', '\''),
       choice(
         $.escape_sequence,
-        token.immediate(/[^\n']/),
+        alias(token.immediate(/[^\n']/), $.character),
       ),
       '\'',
     ),
