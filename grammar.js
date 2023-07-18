@@ -62,6 +62,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression_not_binary],
     [$._type_specifier, $._expression_not_binary, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
+    [$._typedef_type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
@@ -244,7 +245,7 @@ module.exports = grammar({
     type_definition: $ => seq(
       'typedef',
       repeat($.type_qualifier),
-      field('type', $._type_specifier),
+      field('type', $._typedef_type_specifier),
       repeat($.type_qualifier),
       commaSep1(field('declarator', $._type_declarator)),
       ';',
@@ -524,6 +525,16 @@ module.exports = grammar({
       'noreturn',
     ),
 
+    _typedef_type_specifier: $ => choice(
+      $.struct_specifier,
+      $.union_specifier,
+      $.enum_specifier,
+      $.macro_type_specifier,
+      alias($._typedef_sized_type_specifier, $.sized_type_specifier),
+      $.primitive_type,
+      $._type_identifier,
+    ),
+
     _type_specifier: $ => choice(
       $.struct_specifier,
       $.union_specifier,
@@ -533,6 +544,13 @@ module.exports = grammar({
       $.primitive_type,
       $._type_identifier,
     ),
+
+    _typedef_sized_type_specifier: _ => repeat1(choice(
+      'signed',
+      'unsigned',
+      'long',
+      'short',
+    )),
 
     sized_type_specifier: $ => seq(
       repeat1(choice(
