@@ -633,7 +633,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_top_level_item"
+            "name": "_block_item"
           }
         },
         {
@@ -1869,14 +1869,14 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_declaration_specifiers"
+          "name": "_function_declaration_specifiers"
         },
         {
           "type": "FIELD",
           "name": "declarator",
           "content": {
             "type": "SYMBOL",
-            "name": "_declarator"
+            "name": "_function_definition_declarator"
           }
         },
         {
@@ -2062,6 +2062,42 @@
           "content": {
             "type": "SYMBOL",
             "name": "_type_specifier"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_declaration_modifiers"
+          }
+        }
+      ]
+    },
+    "_function_declaration_specifiers": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_declaration_modifiers"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type_specifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "pointer_type"
+              }
+            ]
           }
         },
         {
@@ -2359,6 +2395,31 @@
         {
           "type": "SYMBOL",
           "name": "pointer_declarator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_declarator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_declarator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_declarator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "_function_definition_declarator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "attributed_declarator"
         },
         {
           "type": "SYMBOL",
@@ -3514,6 +3575,26 @@
           {
             "type": "STRING",
             "value": "char64_t"
+          }
+        ]
+      }
+    },
+    "pointer_type": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_type_specifier"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "STRING",
+              "value": "*"
+            }
           }
         ]
       }
@@ -7647,6 +7728,19 @@
     ],
     [
       "enum_specifier"
+    ],
+    [
+      "_declaration_specifiers",
+      "_function_declaration_specifiers"
+    ],
+    [
+      "_declaration_specifiers",
+      "_function_declaration_specifiers",
+      "pointer_type"
+    ],
+    [
+      "_function_declaration_specifiers",
+      "pointer_type"
     ]
   ],
   "precedences": [],

@@ -1678,7 +1678,23 @@
         "required": true,
         "types": [
           {
-            "type": "_declarator",
+            "type": "array_declarator",
+            "named": true
+          },
+          {
+            "type": "attributed_declarator",
+            "named": true
+          },
+          {
+            "type": "function_declarator",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "parenthesized_declarator",
             "named": true
           }
         ]
@@ -1689,6 +1705,10 @@
         "types": [
           {
             "type": "_type_specifier",
+            "named": true
+          },
+          {
+            "type": "pointer_type",
             "named": true
           }
         ]
@@ -2469,6 +2489,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "pointer_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_type_specifier",
+          "named": true
+        }
+      ]
     }
   },
   {
