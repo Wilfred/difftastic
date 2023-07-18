@@ -24,11 +24,16 @@ module.exports = grammar(C, {
   conflicts: ($, superclass) => superclass.concat([
     [$.enum_specifier],
     [$._expression, $.macro_type_specifier],
+    [$._expression_not_binary, $.macro_type_specifier],
     [$._expression, $.generic_specifier],
+    [$._expression_not_binary, $.generic_specifier],
+    [$._expression_not_binary, $.concatenated_string],
     [$._declarator, $._type_specifier, $.generic_specifier],
     [$.attribute, $._expression],
+    [$.attribute, $._expression_not_binary],
     [$.parameterized_arguments],
     [$.string_literal],
+    [$.concatenated_string],
   ]),
 
   inline: ($, original) => original.concat([
@@ -46,6 +51,19 @@ module.exports = grammar(C, {
   rules: {
     _top_level_item: ($, original) => choice(
       // ...original.members.filter(member => member.name !== 'attributed_statement'),
+      original,
+      $.class_declaration,
+      $.class_interface,
+      $.class_implementation,
+      $.protocol_declaration,
+      $.protocol_forward_declaration,
+      $.module_import,
+      $.compatibility_alias_declaration,
+      $.preproc_undef,
+      $.preproc_linemarker,
+    ),
+
+    _block_item: ($, original) => choice(
       original,
       $.class_declaration,
       $.class_interface,
@@ -120,7 +138,6 @@ module.exports = grammar(C, {
       $.throw_statement,
       $.synchronized_statement,
       $.ms_asm_block,
-      $.asm_statement,
     ),
 
     attribute: $ => seq(
@@ -137,7 +154,7 @@ module.exports = grammar(C, {
       ']',
     ),
 
-    _expression: ($, original) => choice(
+    _expression_not_binary: ($, original) => choice(
       original,
       $.message_expression,
       $.selector_expression,
@@ -197,7 +214,7 @@ module.exports = grammar(C, {
     compound_statement: $ => seq(
       optional('@autoreleasepool'),
       '{',
-      repeat($._top_level_item),
+      repeat($._block_item),
       '}',
     ),
 
@@ -331,7 +348,7 @@ module.exports = grammar(C, {
       ';',
     ),
 
-    ...preprocIf('', $ => choice($._top_level_item, $.attribute_specifier, $.property_implementation)),
+    ...preprocIf('', $ => choice($._block_item, $.attribute_specifier, $.property_implementation)),
     ...preprocIf('_in_implementation_definition', $ => $.implementation_definition),
     ...preprocIf('_in_interface_declaration', $ => $.interface_declaration),
     ...preprocIf('_in_enumerator', $ => seq($.enumerator, ',')),
@@ -365,35 +382,9 @@ module.exports = grammar(C, {
     attribute_specifier: $ => seq(
       choice('__attribute__', '__attribute'),
       '(',
-      $.argument_list,
+      choice($.argument_list, seq('(', commaSep1(choice('noreturn', 'nothrow')), ')')),
       ')',
     ),
-
-    asm_statement: $ => (seq(
-      choice('asm', '__asm__'),
-      optional('volatile'),
-      '(',
-      $.string_literal,
-      optional(seq(
-        ':',
-        commaSep($.asm_operand),
-        optional(seq(
-          ':',
-          commaSep($.asm_operand),
-          optional(seq(
-            ':',
-            commaSep($.asm_operand),
-          )),
-        )),
-      )),
-      ')',
-      ';',
-    )),
-
-    asm_operand: $ => (seq(
-      $.string_literal,
-      optional(seq('(', $.identifier, ')')),
-    )),
 
     availability_attribute_specifier: $ => choice(
       'NS_AUTOMATED_REFCOUNT_UNAVAILABLE',
@@ -773,7 +764,7 @@ module.exports = grammar(C, {
     preproc_block: $ => prec.right(seq(
       $.identifier,
       '\n',
-      repeat($._top_level_item),
+      repeat($._block_item),
       $.identifier,
       '\n',
     )),
@@ -823,6 +814,12 @@ module.exports = grammar(C, {
       field('parameters', $.parameter_list),
       repeat(choice($.attribute_specifier, $.type_qualifier)),
     )),
+
+    // This is missing binary expressions, others were kept so that macro code can be parsed better and code examples
+    _top_level_expression_statement: $ => seq(
+      optional($._expression_not_binary),
+      ';',
+    ),
 
     try_statement: $ => seq(
       choice('@try', '__try'),

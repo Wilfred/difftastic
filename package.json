@@ -19,10 +19,10 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "eslint": "^8.40.0",
+    "eslint": "^8.45.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-c": "github:tree-sitter/tree-sitter-c",
-    "tree-sitter-cli": "0.20.7"
+    "tree-sitter-c": "^0.20.3",
+    "tree-sitter-cli": "0.20.8"
   },
   "repository": "https://github.com/amaanq/tree-sitter-objc",
   "scripts": {

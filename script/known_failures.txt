@@ -190,3 +190,4 @@ examples/HandBrake/macosx/HBJob.m
 examples/HandBrake/macosx/HBPresetsManager.m
 examples/HandBrake/macosx/HBRedirect.m
 examples/HandBrake/macosx/HBUtilities.m
+examples/clang/test/SemaObjC/format-size-spec-nsinteger.m
