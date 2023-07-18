@@ -62,13 +62,11 @@ module.exports = grammar({
     [$._type_specifier, $._expression_not_binary],
     [$._type_specifier, $._expression_not_binary, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
+    [$._typedef_type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
     [$.enum_specifier],
-    [$._declaration_specifiers, $._function_declaration_specifiers],
-    [$._declaration_specifiers, $._function_declaration_specifiers, $.pointer_type],
-    [$._function_declaration_specifiers, $.pointer_type],
   ],
 
   word: $ => $.identifier,
@@ -150,8 +148,8 @@ module.exports = grammar({
     ...preprocIf('', $ => $._block_item),
     ...preprocIf('_in_field_declaration_list', $ => $._field_declaration_list_item),
 
-    preproc_directive: _ => /#[ \t]*[a-zA-Z]\w*/,
     preproc_arg: _ => token(prec(-1, /\S(.|\\\r?\n)*/)),
+    preproc_directive: _ => /#[ \t]*[a-zA-Z0-9]\w*/,
 
     _preproc_expression: $ => choice(
       $.identifier,
@@ -227,8 +225,8 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($.ms_call_modifier),
-      $._function_declaration_specifiers,
-      field('declarator', $._function_definition_declarator),
+      $._declaration_specifiers,
+      field('declarator', $._declarator),
       field('body', $.compound_statement),
     ),
 
@@ -244,7 +242,7 @@ module.exports = grammar({
     type_definition: $ => seq(
       'typedef',
       repeat($.type_qualifier),
-      field('type', $._type_specifier),
+      field('type', $._typedef_type_specifier),
       repeat($.type_qualifier),
       commaSep1(field('declarator', $._type_declarator)),
       ';',
@@ -258,17 +256,11 @@ module.exports = grammar({
       $.ms_declspec_modifier,
     ),
 
-    _declaration_specifiers: $ => seq(
+    _declaration_specifiers: $ => prec.right(seq(
       repeat($._declaration_modifiers),
       field('type', $._type_specifier),
       repeat($._declaration_modifiers),
-    ),
-
-    _function_declaration_specifiers: $ => seq(
-      repeat($._declaration_modifiers),
-      field('type', choice($._type_specifier, $.pointer_type)),
-      repeat($._declaration_modifiers),
-    ),
+    )),
 
     linkage_specification: $ => seq(
       'extern',
@@ -344,14 +336,6 @@ module.exports = grammar({
     _declarator: $ => choice(
       $.attributed_declarator,
       $.pointer_declarator,
-      $.function_declarator,
-      $.array_declarator,
-      $.parenthesized_declarator,
-      $.identifier,
-    ),
-
-    _function_definition_declarator: $ => choice(
-      $.attributed_declarator,
       $.function_declarator,
       $.array_declarator,
       $.parenthesized_declarator,
@@ -524,6 +508,16 @@ module.exports = grammar({
       'noreturn',
     ),
 
+    _typedef_type_specifier: $ => choice(
+      $.struct_specifier,
+      $.union_specifier,
+      $.enum_specifier,
+      $.macro_type_specifier,
+      alias($._typedef_sized_type_specifier, $.sized_type_specifier),
+      $.primitive_type,
+      $._type_identifier,
+    ),
+
     _type_specifier: $ => choice(
       $.struct_specifier,
       $.union_specifier,
@@ -533,6 +527,13 @@ module.exports = grammar({
       $.primitive_type,
       $._type_identifier,
     ),
+
+    _typedef_sized_type_specifier: _ => repeat1(choice(
+      'signed',
+      'unsigned',
+      'long',
+      'short',
+    )),
 
     sized_type_specifier: $ => seq(
       repeat1(choice(
@@ -567,8 +568,6 @@ module.exports = grammar({
       ...[8, 16, 32, 64].map(n => `char${n}_t`),
     )),
 
-    pointer_type: $ => prec.right(seq($._type_specifier, repeat1('*'))),
-
     enum_specifier: $ => seq(
       'enum',
       choice(
@@ -579,6 +578,7 @@ module.exports = grammar({
         ),
         field('body', $.enumerator_list),
       ),
+      optional($.attribute_specifier),
     ),
 
     enumerator_list: $ => seq(
@@ -588,7 +588,7 @@ module.exports = grammar({
       '}',
     ),
 
-    struct_specifier: $ => seq(
+    struct_specifier: $ => prec.right(seq(
       'struct',
       optional($.ms_declspec_modifier),
       choice(
@@ -598,9 +598,10 @@ module.exports = grammar({
         ),
         field('body', $.field_declaration_list),
       ),
-    ),
+      optional($.attribute_specifier),
+    )),
 
-    union_specifier: $ => seq(
+    union_specifier: $ => prec.right(seq(
       'union',
       optional($.ms_declspec_modifier),
       choice(
@@ -610,7 +611,8 @@ module.exports = grammar({
         ),
         field('body', $.field_declaration_list),
       ),
-    ),
+      optional($.attribute_specifier),
+    )),
 
     field_declaration_list: $ => seq(
       '{',
@@ -633,6 +635,7 @@ module.exports = grammar({
         field('declarator', $._field_declarator),
         optional($.bitfield_clause),
       )),
+      optional($.attribute_specifier),
       ';',
     ),
 
