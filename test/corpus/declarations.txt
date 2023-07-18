@@ -395,14 +395,14 @@ void * do_stuff(int arg1) {
 
 (translation_unit
   (function_definition
-    type: (primitive_type)
-    declarator: (pointer_declarator
-      declarator: (function_declarator
-        declarator: (identifier)
-        parameters: (parameter_list
-          (parameter_declaration
-            type: (primitive_type)
-            declarator: (identifier)))))
+    type: (pointer_type
+      (primitive_type))
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))))
     body: (compound_statement
       (return_statement
         (number_literal)))))

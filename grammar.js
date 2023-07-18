@@ -44,7 +44,9 @@ module.exports = grammar({
 
   inline: $ => [
     $._statement,
+    $._block_item,
     $._top_level_item,
+    $._top_level_statement,
     $._type_identifier,
     $._field_identifier,
     $._statement_identifier,
@@ -57,11 +59,16 @@ module.exports = grammar({
     [$._type_specifier, $._declarator, $.macro_type_specifier],
     [$._type_specifier, $._expression],
     [$._type_specifier, $._expression, $.macro_type_specifier],
+    [$._type_specifier, $._expression_not_binary],
+    [$._type_specifier, $._expression_not_binary, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
     [$.enum_specifier],
+    [$._declaration_specifiers, $._function_declaration_specifiers],
+    [$._declaration_specifiers, $._function_declaration_specifiers, $.pointer_type],
+    [$._function_declaration_specifiers, $.pointer_type],
   ],
 
   word: $ => $.identifier,
@@ -69,7 +76,24 @@ module.exports = grammar({
   rules: {
     translation_unit: $ => repeat($._top_level_item),
 
+    // Top level items are block items with the exception of the expression statement
     _top_level_item: $ => choice(
+      $.function_definition,
+      $.linkage_specification,
+      $.declaration,
+      $._top_level_statement,
+      $.attributed_statement,
+      $.type_definition,
+      $._empty_declaration,
+      $.preproc_if,
+      $.preproc_ifdef,
+      $.preproc_include,
+      $.preproc_def,
+      $.preproc_function_def,
+      $.preproc_call,
+    ),
+
+    _block_item: $ => choice(
       $.function_definition,
       $.linkage_specification,
       $.declaration,
@@ -123,7 +147,7 @@ module.exports = grammar({
       '\n',
     ),
 
-    ...preprocIf('', $ => $._top_level_item),
+    ...preprocIf('', $ => $._block_item),
     ...preprocIf('_in_field_declaration_list', $ => $._field_declaration_list_item),
 
     preproc_directive: _ => /#[ \t]*[a-zA-Z]\w*/,
@@ -203,8 +227,8 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($.ms_call_modifier),
-      $._declaration_specifiers,
-      field('declarator', $._declarator),
+      $._function_declaration_specifiers,
+      field('declarator', $._function_definition_declarator),
       field('body', $.compound_statement),
     ),
 
@@ -237,6 +261,12 @@ module.exports = grammar({
     _declaration_specifiers: $ => seq(
       repeat($._declaration_modifiers),
       field('type', $._type_specifier),
+      repeat($._declaration_modifiers),
+    ),
+
+    _function_declaration_specifiers: $ => seq(
+      repeat($._declaration_modifiers),
+      field('type', choice($._type_specifier, $.pointer_type)),
       repeat($._declaration_modifiers),
     ),
 
@@ -307,13 +337,21 @@ module.exports = grammar({
 
     declaration_list: $ => seq(
       '{',
-      repeat($._top_level_item),
+      repeat($._block_item),
       '}',
     ),
 
     _declarator: $ => choice(
       $.attributed_declarator,
       $.pointer_declarator,
+      $.function_declarator,
+      $.array_declarator,
+      $.parenthesized_declarator,
+      $.identifier,
+    ),
+
+    _function_definition_declarator: $ => choice(
+      $.attributed_declarator,
       $.function_declarator,
       $.array_declarator,
       $.parenthesized_declarator,
@@ -462,7 +500,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      repeat($._top_level_item),
+      repeat($._block_item),
       '}',
     ),
 
@@ -528,6 +566,8 @@ module.exports = grammar({
       ...[8, 16, 32, 64].map(n => `uint${n}_t`),
       ...[8, 16, 32, 64].map(n => `char${n}_t`),
     )),
+
+    pointer_type: $ => prec.right(seq($._type_specifier, repeat1('*'))),
 
     enum_specifier: $ => seq(
       'enum',
@@ -649,10 +689,33 @@ module.exports = grammar({
       $.goto_statement,
     ),
 
+    _top_level_statement: $ => choice(
+      $.case_statement,
+      $.attributed_statement,
+      $.labeled_statement,
+      $.compound_statement,
+      alias($._top_level_expression_statement, $.expression_statement),
+      $.if_statement,
+      $.switch_statement,
+      $.do_statement,
+      $.while_statement,
+      $.for_statement,
+      $.return_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.goto_statement,
+    ),
+
     labeled_statement: $ => seq(
       field('label', $._statement_identifier),
       ':',
       $._statement,
+    ),
+
+    // This is missing binary expressions, others were kept so that macro code can be parsed better and code examples
+    _top_level_expression_statement: $ => seq(
+      $._expression_not_binary,
+      ';',
     ),
 
     expression_statement: $ => seq(
@@ -741,9 +804,13 @@ module.exports = grammar({
     // Expressions
 
     _expression: $ => choice(
+      $._expression_not_binary,
+      $.binary_expression,
+    ),
+
+    _expression_not_binary: $ => choice(
       $.conditional_expression,
       $.assignment_expression,
-      $.binary_expression,
       $.unary_expression,
       $.update_expression,
       $.cast_expression,
@@ -975,6 +1042,7 @@ module.exports = grammar({
       commaSep(field('label', $.identifier)),
     ),
 
+    // The compound_statement is added to parse macros taking statements as arguments, e.g. MYFORLOOP(1, 10, i, { foo(i); bar(i); })
     argument_list: $ => seq('(', commaSep(choice($._expression, $.compound_statement)), ')'),
 
     field_expression: $ => seq(
@@ -1061,7 +1129,7 @@ module.exports = grammar({
 
     concatenated_string: $ => seq(
       $.string_literal,
-      repeat1(choice($.string_literal, $.identifier)),
+      repeat1(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
     ),
 
     string_literal: $ => seq(

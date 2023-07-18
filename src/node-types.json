@@ -1678,7 +1678,23 @@
         "required": true,
         "types": [
           {
-            "type": "_declarator",
+            "type": "array_declarator",
+            "named": true
+          },
+          {
+            "type": "attributed_declarator",
+            "named": true
+          },
+          {
+            "type": "function_declarator",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "parenthesized_declarator",
             "named": true
           }
         ]
@@ -1689,6 +1705,10 @@
         "types": [
           {
             "type": "_type_specifier",
+            "named": true
+          },
+          {
+            "type": "pointer_type",
             "named": true
           }
         ]
@@ -2469,6 +2489,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "pointer_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_type_specifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3289,11 +3324,27 @@
       "required": false,
       "types": [
         {
-          "type": "_statement",
+          "type": "_type_specifier",
           "named": true
         },
         {
-          "type": "_type_specifier",
+          "type": "attributed_statement",
+          "named": true
+        },
+        {
+          "type": "break_statement",
+          "named": true
+        },
+        {
+          "type": "case_statement",
+          "named": true
+        },
+        {
+          "type": "compound_statement",
+          "named": true
+        },
+        {
+          "type": "continue_statement",
           "named": true
         },
         {
@@ -3301,7 +3352,31 @@
           "named": true
         },
         {
+          "type": "do_statement",
+          "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "for_statement",
+          "named": true
+        },
+        {
           "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "goto_statement",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "labeled_statement",
           "named": true
         },
         {
@@ -3333,7 +3408,19 @@
           "named": true
         },
         {
+          "type": "return_statement",
+          "named": true
+        },
+        {
+          "type": "switch_statement",
+          "named": true
+        },
+        {
           "type": "type_definition",
+          "named": true
+        },
+        {
+          "type": "while_statement",
           "named": true
         }
       ]

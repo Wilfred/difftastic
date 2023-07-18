@@ -1,6 +1,10 @@
 ================================================================================
-pointer declarations vs multiplications
+pointer declarations vs expressions
 ================================================================================
+
+TSLanguage *(*lang_parser)(void);
+
+char (*ptr_to_array)[];
 
 int main() {
   // declare a function pointer
@@ -14,6 +18,22 @@ int main() {
 --------------------------------------------------------------------------------
 
 (translation_unit
+  (declaration
+    (type_identifier)
+    (pointer_declarator
+      (function_declarator
+        (parenthesized_declarator
+          (pointer_declarator
+            (identifier)))
+        (parameter_list
+          (parameter_declaration
+            (primitive_type))))))
+  (declaration
+    (primitive_type)
+    (array_declarator
+      (parenthesized_declarator
+        (pointer_declarator
+          (identifier)))))
   (function_definition
     (primitive_type)
     (function_declarator
