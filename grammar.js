@@ -44,6 +44,7 @@ module.exports = grammar(C, {
   conflicts: ($, original) => original.concat([
     [$.template_function, $.template_type],
     [$.template_function, $.template_type, $._expression],
+    [$.template_function, $.template_type, $._expression_not_binary],
     [$.template_function, $.template_type, $.qualified_identifier],
     [$.template_method, $.field_expression],
     [$.template_type, $.qualified_type_identifier],
@@ -51,8 +52,11 @@ module.exports = grammar(C, {
     [$.dependent_type_identifier, $.dependent_identifier],
     [$.comma_expression, $.initializer_list],
     [$._expression, $._declarator],
+    [$._expression_not_binary, $._declarator],
     [$._expression, $.structured_binding_declarator],
+    [$._expression_not_binary, $.structured_binding_declarator],
     [$._expression, $._declarator, $._type_specifier],
+    [$._expression_not_binary, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
     [$._type_specifier, $.call_expression],
     [$._declaration_specifiers, $._constructor_specifiers],
@@ -62,6 +66,7 @@ module.exports = grammar(C, {
     [$._binary_fold_operator, $._fold_operator],
     [$.expression_statement, $.for_statement],
     [$.init_statement, $.for_statement],
+    [$._typedef_type_specifier, $.sized_type_specifier],
   ]),
 
   inline: ($, original) => original.concat([
@@ -70,6 +75,21 @@ module.exports = grammar(C, {
 
   rules: {
     _top_level_item: ($, original) => choice(
+      original,
+      $.namespace_definition,
+      $.concept_definition,
+      $.namespace_alias_definition,
+      $.using_declaration,
+      $.alias_declaration,
+      $.static_assert_declaration,
+      $.template_declaration,
+      $.template_instantiation,
+      alias($.constructor_or_destructor_definition, $.function_definition),
+      alias($.operator_cast_definition, $.function_definition),
+      alias($.operator_cast_declaration, $.declaration),
+    ),
+
+    _block_item: ($, original) => choice(
       original,
       $.namespace_definition,
       $.concept_definition,
@@ -125,7 +145,6 @@ module.exports = grammar(C, {
     type_qualifier: (_, original) => choice(
       original,
       'mutable',
-      'constexpr',
       'constinit',
       'consteval',
     ),
@@ -248,6 +267,25 @@ module.exports = grammar(C, {
     ))),
 
     // Declarations
+
+    _typedef_type_specifier: $ => choice(
+      $.macro_type_specifier,
+      alias($._typedef_sized_type_specifier, $.sized_type_specifier),
+      $.struct_specifier,
+      $.union_specifier,
+      $.enum_specifier,
+      $.class_specifier,
+      $.sized_type_specifier,
+      $.primitive_type,
+      $.template_type,
+      $.dependent_type,
+      $.placeholder_type_specifier,
+      $.decltype,
+      prec.right(choice(
+        alias($.qualified_type_identifier, $.qualified_identifier),
+        $._type_identifier,
+      )),
+    ),
 
     template_declaration: $ => seq(
       'template',
@@ -694,6 +732,15 @@ module.exports = grammar(C, {
 
     // Statements
 
+    _top_level_statement: ($, original) => choice(
+      original,
+      $.co_return_statement,
+      $.co_yield_statement,
+      $.for_range_loop,
+      $.try_statement,
+      $.throw_statement,
+    ),
+
     _non_case_statement: ($, original) => choice(
       original,
       $.co_return_statement,
@@ -810,7 +857,7 @@ module.exports = grammar(C, {
 
     // Expressions
 
-    _expression: ($, original) => choice(
+    _expression_not_binary: ($, original) => choice(
       original,
       $.co_await_expression,
       $.requires_expression,
@@ -821,7 +868,6 @@ module.exports = grammar(C, {
       $.delete_expression,
       $.lambda_expression,
       $.parameter_pack_expansion,
-      $.nullptr,
       $.this,
       $.raw_string_literal,
       $.user_defined_literal,
@@ -1191,7 +1237,6 @@ module.exports = grammar(C, {
     )),
 
     this: _ => 'this',
-    nullptr: _ => 'nullptr',
 
     concatenated_string: $ => seq(
       choice($.raw_string_literal, $.string_literal),
