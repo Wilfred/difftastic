@@ -67,9 +67,6 @@ module.exports = grammar({
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
     [$.enum_specifier],
-    [$._declaration_specifiers, $._function_declaration_specifiers],
-    [$._declaration_specifiers, $._function_declaration_specifiers, $.pointer_type],
-    [$._function_declaration_specifiers, $.pointer_type],
   ],
 
   word: $ => $.identifier,
@@ -228,8 +225,8 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($.ms_call_modifier),
-      $._function_declaration_specifiers,
-      field('declarator', $._function_definition_declarator),
+      $._declaration_specifiers,
+      field('declarator', $._declarator),
       field('body', $.compound_statement),
     ),
 
@@ -264,12 +261,6 @@ module.exports = grammar({
       field('type', $._type_specifier),
       repeat($._declaration_modifiers),
     )),
-
-    _function_declaration_specifiers: $ => seq(
-      repeat($._declaration_modifiers),
-      field('type', choice($._type_specifier, $.pointer_type)),
-      repeat($._declaration_modifiers),
-    ),
 
     linkage_specification: $ => seq(
       'extern',
@@ -345,14 +336,6 @@ module.exports = grammar({
     _declarator: $ => choice(
       $.attributed_declarator,
       $.pointer_declarator,
-      $.function_declarator,
-      $.array_declarator,
-      $.parenthesized_declarator,
-      $.identifier,
-    ),
-
-    _function_definition_declarator: $ => choice(
-      $.attributed_declarator,
       $.function_declarator,
       $.array_declarator,
       $.parenthesized_declarator,
@@ -584,8 +567,6 @@ module.exports = grammar({
       ...[8, 16, 32, 64].map(n => `uint${n}_t`),
       ...[8, 16, 32, 64].map(n => `char${n}_t`),
     )),
-
-    pointer_type: $ => prec.right(seq($._type_specifier, repeat1('*'))),
 
     enum_specifier: $ => seq(
       'enum',
