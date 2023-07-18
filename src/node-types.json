@@ -1345,6 +1345,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_specifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1678,23 +1688,7 @@
         "required": true,
         "types": [
           {
-            "type": "array_declarator",
-            "named": true
-          },
-          {
-            "type": "attributed_declarator",
-            "named": true
-          },
-          {
-            "type": "function_declarator",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "parenthesized_declarator",
+            "type": "_declarator",
             "named": true
           }
         ]
@@ -1705,10 +1699,6 @@
         "types": [
           {
             "type": "_type_specifier",
-            "named": true
-          },
-          {
-            "type": "pointer_type",
             "named": true
           }
         ]
@@ -2492,21 +2482,6 @@
     }
   },
   {
-    "type": "pointer_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_type_specifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "preproc_call",
     "named": true,
     "fields": {
@@ -3238,9 +3213,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_specifier",
+          "named": true
+        },
         {
           "type": "ms_declspec_modifier",
           "named": true
@@ -3445,7 +3424,31 @@
         "required": true,
         "types": [
           {
-            "type": "_type_specifier",
+            "type": "enum_specifier",
+            "named": true
+          },
+          {
+            "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "sized_type_specifier",
+            "named": true
+          },
+          {
+            "type": "struct_specifier",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "union_specifier",
             "named": true
           }
         ]
@@ -3571,9 +3574,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_specifier",
+          "named": true
+        },
         {
           "type": "ms_declspec_modifier",
           "named": true
