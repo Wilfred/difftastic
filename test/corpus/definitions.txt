@@ -1,30 +1,38 @@
-=====================================
+================================================================================
 Scoped function definitions
-=====================================
+================================================================================
 
 int T::foo() { return 1; }
 int T::foo() const { return 0; }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
     (function_declarator
-      (qualified_identifier (namespace_identifier) (identifier))
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
       (parameter_list))
-    (compound_statement (return_statement (number_literal))))
+    (compound_statement
+      (return_statement
+        (number_literal))))
   (function_definition
     (primitive_type)
     (function_declarator
-      (qualified_identifier (namespace_identifier) (identifier))
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
       (parameter_list)
       (type_qualifier))
-    (compound_statement (return_statement (number_literal)))))
+    (compound_statement
+      (return_statement
+        (number_literal)))))
 
-=====================================
+================================================================================
 Constructor definitions
-=====================================
+================================================================================
 
 T::T() {}
 
@@ -36,32 +44,52 @@ T::T() : Base<T>() {}
 
 T::T() try : f1(0) {} catch(...) {}
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (function_declarator
-      (qualified_identifier (namespace_identifier) (identifier))
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
       (parameter_list))
     (compound_statement))
   (function_definition
     (function_declarator
-      (qualified_identifier (namespace_identifier) (identifier))
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
       (parameter_list))
     (field_initializer_list
-      (field_initializer (field_identifier) (argument_list (number_literal)))
-      (field_initializer (field_identifier) (argument_list (number_literal) (number_literal))))
+      (field_initializer
+        (field_identifier)
+        (argument_list
+          (number_literal)))
+      (field_initializer
+        (field_identifier)
+        (argument_list
+          (number_literal)
+          (number_literal))))
     (compound_statement
-      (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)))))))
   (function_definition
     (function_declarator
-      (qualified_identifier (namespace_identifier) (identifier))
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
       (parameter_list))
     (field_initializer_list
       (field_initializer
         (template_method
           (field_identifier)
-          (template_argument_list (type_descriptor (type_identifier))))
+          (template_argument_list
+            (type_descriptor
+              (type_identifier))))
         (argument_list)))
     (compound_statement))
   (function_definition
@@ -81,9 +109,9 @@ T::T() try : f1(0) {} catch(...) {}
         (parameter_list)
         (compound_statement)))))
 
-=====================================
+================================================================================
 Explicit constructor definitions
-=====================================
+================================================================================
 
 class C {
   explicit C(int f) : f_(f) {}
@@ -92,7 +120,7 @@ class C {
   int f_;
 };
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (class_specifier
@@ -102,23 +130,31 @@ class C {
         (explicit_function_specifier)
         (function_declarator
           (identifier)
-          (parameter_list (parameter_declaration (primitive_type) (identifier))))
+          (parameter_list
+            (parameter_declaration
+              (primitive_type)
+              (identifier))))
         (field_initializer_list
-          (field_initializer (field_identifier) (argument_list (identifier))))
+          (field_initializer
+            (field_identifier)
+            (argument_list
+              (identifier))))
         (compound_statement))
       (access_specifier)
-        (field_declaration (primitive_type) (field_identifier)))))
+      (field_declaration
+        (primitive_type)
+        (field_identifier)))))
 
-=====================================
+================================================================================
 Explicit constructor declaration
-=====================================
+================================================================================
 
 class C {
   explicit C(int f);
   explicit(true) C(long f);
 };
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (class_specifier
@@ -126,14 +162,25 @@ class C {
     (field_declaration_list
       (declaration
         (explicit_function_specifier)
-        (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type) (identifier)))))
+        (function_declarator
+          (identifier)
+          (parameter_list
+            (parameter_declaration
+              (primitive_type)
+              (identifier)))))
       (declaration
-        (explicit_function_specifier (true))
-        (function_declarator (identifier) (parameter_list (parameter_declaration (sized_type_specifier) (identifier))))))))
+        (explicit_function_specifier
+          (true))
+        (function_declarator
+          (identifier)
+          (parameter_list
+            (parameter_declaration
+              (sized_type_specifier)
+              (identifier))))))))
 
-=====================================
+================================================================================
 Default and deleted methods
-=====================================
+================================================================================
 
 class A : public B {
   A() = default;
@@ -143,7 +190,7 @@ class A : public B {
   A& operator=(A&&) = delete;
 };
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (class_specifier
@@ -153,56 +200,78 @@ class A : public B {
       (type_identifier))
     (field_declaration_list
       (function_definition
-        (function_declarator (identifier) (parameter_list))
+        (function_declarator
+          (identifier)
+          (parameter_list))
         (default_method_clause))
       (function_definition
         (function_declarator
           (identifier)
-          (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator))))
+          (parameter_list
+            (parameter_declaration
+              (type_identifier)
+              (abstract_reference_declarator))))
         (delete_method_clause))
       (function_definition
         (primitive_type)
-        (function_declarator (field_identifier) (parameter_list)) (delete_method_clause))
+        (function_declarator
+          (field_identifier)
+          (parameter_list))
+        (delete_method_clause))
       (function_definition
         (type_identifier)
         (reference_declarator
           (function_declarator
             (operator_name)
-            (parameter_list (parameter_declaration (type_qualifier) (type_identifier) (abstract_reference_declarator)))))
+            (parameter_list
+              (parameter_declaration
+                (type_qualifier)
+                (type_identifier)
+                (abstract_reference_declarator)))))
         (default_method_clause))
       (function_definition
         (type_identifier)
         (reference_declarator
           (function_declarator
             (operator_name)
-            (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))
+            (parameter_list
+              (parameter_declaration
+                (type_identifier)
+                (abstract_reference_declarator)))))
         (delete_method_clause)))))
 
-=====================================
+================================================================================
 Destructor definitions
-=====================================
+================================================================================
 
 ~T() {}
 T::~T() {}
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
-    (function_declarator (destructor_name (identifier)) (parameter_list))
+    (function_declarator
+      (destructor_name
+        (identifier))
+      (parameter_list))
     (compound_statement))
   (function_definition
     (function_declarator
-      (qualified_identifier (namespace_identifier) (destructor_name (identifier))) (parameter_list))
+      (qualified_identifier
+        (namespace_identifier)
+        (destructor_name
+          (identifier)))
+      (parameter_list))
     (compound_statement)))
 
-=====================================
+================================================================================
 Function-try-block definitions
-=====================================
+================================================================================
 
 void foo() try {} catch(...) {}
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -216,14 +285,13 @@ void foo() try {} catch(...) {}
         (parameter_list)
         (compound_statement)))))
 
-
-=====================================
+================================================================================
 Conversion operator definitions
-=====================================
+================================================================================
 
 T::operator int() try { throw 1; } catch (...) { return 2; }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -242,4 +310,3 @@ T::operator int() try { throw 1; } catch (...) { return 2; }
         (compound_statement
           (return_statement
             (number_literal)))))))
-
