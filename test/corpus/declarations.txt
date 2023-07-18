@@ -293,6 +293,22 @@ typedef void const *voidpc;
 typedef void volatile *voidpv;
 typedef void const volatile *const voidpcv;
 
+typedef unsigned long int;
+typedef unsigned short ptrdiff_t;
+typedef short charptr_t;
+typedef unsigned nullptr_t;
+typedef signed max_align_t;
+
+typedef unsigned long ulong_t;
+typedef long long_t;
+typedef unsigned short ushort_t;
+typedef short short_t;
+typedef unsigned unsigned_t;
+typedef signed signed_t;
+
+// FIXME: Still errors
+typedef long long;
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -342,7 +358,44 @@ typedef void const volatile *const voidpcv;
     (type_qualifier)
     declarator: (pointer_declarator
       (type_qualifier)
-      declarator: (type_identifier))))
+      declarator: (type_identifier)))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (type_identifier))
+  (comment)
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (MISSING type_identifier)))
 
 ================================================================================
 Function declarations
@@ -588,6 +641,18 @@ struct S {
 
 typedef int MyInt [[deprecated]];
 
+struct X {
+    int a __attribute__((aligned(4)));
+} __attribute__((aligned(16)));
+
+union Y {
+    int a __attribute__((aligned(4)));
+} __attribute__((aligned(16)));
+
+enum Z {
+    A
+} __attribute__((aligned(16)));
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -754,4 +819,51 @@ typedef int MyInt [[deprecated]];
       (type_identifier)
       (attribute_declaration
         (attribute
-          (identifier))))))
+          (identifier)))))
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (field_identifier)
+        (attribute_specifier
+          (argument_list
+            (call_expression
+              (identifier)
+              (argument_list
+                (number_literal)))))))
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal))))))
+  (union_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (field_identifier)
+        (attribute_specifier
+          (argument_list
+            (call_expression
+              (identifier)
+              (argument_list
+                (number_literal)))))))
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal))))))
+  (enum_specifier
+    (type_identifier)
+    (enumerator_list
+      (enumerator
+        (identifier)))
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal)))))))
