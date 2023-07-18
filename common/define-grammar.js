@@ -19,10 +19,15 @@ module.exports = function defineGrammar(dialect) {
     precedences: ($, previous) => previous.concat([
       [
         'call',
+        'instantiation',
         'unary',
         'binary',
         $.await_expression,
         $.arrow_function,
+      ],
+      [
+        'extends',
+        'instantiation',
       ],
       [
         $.intersection_type,
@@ -53,6 +58,7 @@ module.exports = function defineGrammar(dialect) {
       [$._type_query_subscript_expression, $.subscript_expression],
       [$._type_query_subscript_expression, $.primary_expression],
       [$._type_query_call_expression, $.primary_expression],
+      [$._type_query_instantiation_expression, $.primary_expression],
       [$.type_query, $.primary_expression],
       [$.override_modifier, $.primary_expression],
       [$.decorator_call_expression, $.decorator],
@@ -61,11 +67,11 @@ module.exports = function defineGrammar(dialect) {
     ]),
 
     conflicts: ($, previous) => previous.concat([
-      [$.call_expression, $.binary_expression],
-      [$.call_expression, $.binary_expression, $.unary_expression],
-      [$.call_expression, $.binary_expression, $.update_expression],
+      [$.call_expression, $.instantiation_expression, $.binary_expression],
+      [$.call_expression, $.instantiation_expression, $.binary_expression, $.unary_expression],
+      [$.call_expression, $.instantiation_expression, $.binary_expression, $.update_expression],
       [$.call_expression, $.binary_expression, $.type_assertion],
-      [$.call_expression, $.binary_expression, $.await_expression],
+      [$.call_expression, $.instantiation_expression, $.binary_expression, $.await_expression],
 
       // This appears to be necessary to parse a parenthesized class expression
       [$.class],
@@ -208,6 +214,7 @@ module.exports = function defineGrammar(dialect) {
         const choices = [
           $.as_expression,
           $.satisfies_expression,
+          $.instantiation_expression,
           $.internal_module,
         ];
 
@@ -447,6 +454,11 @@ module.exports = function defineGrammar(dialect) {
         $._type
       )),
 
+      instantiation_expression: $ => prec('instantiation', seq(
+        $.expression,
+        field('type_arguments', $.type_arguments),
+      )),
+
       class_heritage: $ => choice(
         seq($.extends_clause, optional($.implements_clause)),
         $.implements_clause
@@ -463,11 +475,13 @@ module.exports = function defineGrammar(dialect) {
 
       extends_clause: $ => seq(
         'extends',
-        commaSep1(seq(
+        commaSep1($._extends_clause_single),
+      ),
+
+      _extends_clause_single: $ => prec('extends', seq(
           field('value', $.expression),
           field('type_arguments', optional($.type_arguments))
-        )),
-      ),
+      )),
 
       implements_clause: $ => seq(
         'implements',
@@ -786,12 +800,22 @@ module.exports = function defineGrammar(dialect) {
         )),
         field('arguments', $.arguments)
       ),
+      _type_query_instantiation_expression: $ => seq(
+        field('function', choice(
+          $.import,
+          $.identifier,
+          alias($._type_query_member_expression, $.member_expression),
+          alias($._type_query_subscript_expression, $.subscript_expression)
+        )),
+        field('type_arguments', $.type_arguments)
+      ),
       type_query: $ => prec.right(seq(
         'typeof',
         choice(
           alias($._type_query_subscript_expression, $.subscript_expression),
           alias($._type_query_member_expression, $.member_expression),
           alias($._type_query_call_expression, $.call_expression),
+          alias($._type_query_instantiation_expression, $.instantiation_expression),
           $.identifier
         ),
       )),

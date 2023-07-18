@@ -602,6 +602,8 @@ class E extends funThatEvalsToClass()<
   Y,
 > {}
 
+class F extends G, H<T> {}
+
 ---
 
 (program
@@ -621,6 +623,15 @@ class E extends funThatEvalsToClass()<
       (extends_clause
         (call_expression (identifier) (arguments))
         (type_arguments (type_identifier) (type_identifier))))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (class_heritage
+      (extends_clause
+        (identifier)
+        (identifier)
+        (type_arguments
+          (type_identifier))))
     (class_body)))
 
 =======================================
@@ -1599,3 +1610,24 @@ type X2 = (typeof Y)[keyof typeof Z];
       (index_type_query
         (type_query
           (identifier))))))
+
+=========================
+Type of instantiation expressions
+=========================
+
+// This is a special construct, different from both "typeof (f<T>)" and
+// "(typeof f)<T>" (which are both invalid)
+type T = typeof f<T>;
+
+---
+
+(program
+  (comment)
+  (comment)
+  (type_alias_declaration
+    (type_identifier)
+    (type_query
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (type_identifier))))))

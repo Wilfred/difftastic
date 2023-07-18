@@ -172,6 +172,10 @@
         "named": true
       },
       {
+        "type": "instantiation_expression",
+        "named": true
+      },
+      {
         "type": "internal_module",
         "named": true
       },
@@ -3161,6 +3165,54 @@
     }
   },
   {
+    "type": "instantiation_expression",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "subscript_expression",
+            "named": true
+          }
+        ]
+      },
+      "type_arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_arguments",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "interface_declaration",
     "named": true,
     "fields": {
@@ -5665,6 +5717,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "instantiation_expression",
           "named": true
         },
         {
