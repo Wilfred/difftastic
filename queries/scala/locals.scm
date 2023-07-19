@@ -27,3 +27,5 @@
   name: (identifier) @local.definition)
 
 (identifier) @local.reference
+
+(dollar_identifier) @local.reference

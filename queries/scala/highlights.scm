@@ -25,7 +25,7 @@
 
 (self_type (identifier) @parameter)
 
-(interpolation (identifier) @none)
+(interpolation (dollar_identifier) @none)
 (interpolation (block) @none)
 
 ;; types
@@ -253,6 +253,15 @@
 
 (
   (identifier) @function.builtin
+  (#match? @function.builtin "^super$")
+)
+
+((dollar_identifier) @type (#match? @type "^[A-Z]"))
+((dollar_identifier) @variable.builtin
+ (#match? @variable.builtin "^this$"))
+
+(
+  (dollar_identifier) @function.builtin
   (#match? @function.builtin "^super$")
 )
 

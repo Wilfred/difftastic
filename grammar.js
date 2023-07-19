@@ -1388,6 +1388,26 @@ module.exports = grammar({
     _alpha_identifier: $ =>
       /[\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F\$][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9\$_\p{Ll}]*(_[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]+)?/,
 
+    /**
+     * Despite what the lexical syntax suggests, the alphaid rule doesn't apply 
+     * to identifiers that aren't in blocks in interpolated strings (e.g. $foo).
+     * A more accurate description is given in 
+     * https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+     * where it states (regarding dollar sign escapes in interpolated strings) that
+     * """
+     * The simpler form consists of a ‘$’-sign followed by an identifier starting 
+     * with a letter and followed only by letters, digits, and underscore characters
+     * """
+     * where "letters" does not include the $ character.
+     *
+     * This rule is similar to the _alpha_identifier rule, with the differences 
+     * being that the $ character is excluded, along with the _(operator_chars)
+     * suffix and can be approximated as
+     * /[A-Za-z_][A-Z_a-z0-9]/;
+     */
+    dollar_identifier: $ =>
+      /[\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9_\p{Ll}]*/,
+
     _backquoted_id: $ => /`[^\n`]+`/,
 
     _identifier: $ => choice($.identifier, $.operator_identifier),
@@ -1492,7 +1512,7 @@ module.exports = grammar({
 
     _interpolated_multiline_string_start: $ => '"""',
 
-    interpolation: $ => seq("$", choice($.identifier, $.block)),
+    interpolation: $ => seq("$", choice($.dollar_identifier, $.block)),
 
     interpolated_string: $ =>
       choice(
