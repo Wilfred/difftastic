@@ -214,3 +214,54 @@ foo! += bar;
       (non_null_expression
         (parenthesized_expression (identifier)))
       (identifier))))
+
+==================================
+Generic calls
+==================================
+
+f<T>(x)
+
+---
+
+(program
+  (expression_statement
+    (call_expression
+      (identifier)
+      (type_arguments
+        (type_identifier))
+      (arguments
+        (identifier)))))
+
+==================================
+Instantiation expressions
+==================================
+
+const makeHammerBox = makeBox<Hammer>;
+const makeStringBox = makeBox<string>;
+const ErrorMap = Map<string, Error>;
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (type_identifier)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (predefined_type)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (predefined_type)
+          (type_identifier))))))
