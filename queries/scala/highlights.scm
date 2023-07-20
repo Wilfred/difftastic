@@ -256,15 +256,6 @@
   (#match? @function.builtin "^super$")
 )
 
-((dollar_identifier) @type (#match? @type "^[A-Z]"))
-((dollar_identifier) @variable.builtin
- (#match? @variable.builtin "^this$"))
-
-(
-  (dollar_identifier) @function.builtin
-  (#match? @function.builtin "^super$")
-)
-
 ;; Scala CLI using directives
 (using_directive_key) @parameter
 (using_directive_value) @string
