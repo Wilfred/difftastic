@@ -1405,7 +1405,7 @@ module.exports = grammar({
      * suffix and can be approximated as
      * /[A-Za-z_][A-Z_a-z0-9]/;
      */
-    interpolation_identifier: $ =>
+    _interpolation_identifier: $ =>
       /[\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9_\p{Ll}]*/,
 
     _backquoted_id: $ => /`[^\n`]+`/,
@@ -1514,7 +1514,9 @@ module.exports = grammar({
 
     _dollar_escape: $ => seq('$', '$'),
 
-    interpolation: $ => seq("$", choice($.interpolation_identifier, $.block)),
+    _aliased_interpolation_identifier: $ => alias($._interpolation_identifier, $.identifier),
+    
+    interpolation: $ => seq("$", choice($._aliased_interpolation_identifier, $.block)),
 
     interpolated_string: $ =>
       choice(

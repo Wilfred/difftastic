@@ -706,9 +706,9 @@ def matchTest(x: Int): String = x match {
             (identifier)
             (interpolated_string
               (interpolation
-                (interpolation_identifier))
+                (identifier))
               (interpolation
-                (interpolation_identifier))))
+                (identifier))))
           (infix_expression
             (identifier)
             (operator_identifier)

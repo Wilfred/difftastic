@@ -25,7 +25,7 @@
 
 (self_type (identifier) @parameter)
 
-(interpolation (interpolation_identifier) @none)
+(interpolation (identifier) @none)
 (interpolation (block) @none)
 
 ;; types

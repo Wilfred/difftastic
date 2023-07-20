@@ -28,4 +28,3 @@
 
 (identifier) @local.reference
 
-(interpolation_identifier) @local.reference

@@ -104,13 +104,13 @@ def showNotification(notification: Notification): String = {
       (match_expression (identifier) (case_block
         (case_clause
           (case_class_pattern (type_identifier) (identifier) (identifier) (wildcard))
-          (interpolated_string_expression (identifier) (interpolated_string (interpolation (interpolation_identifier)) (interpolation (interpolation_identifier)))))
+          (interpolated_string_expression (identifier) (interpolated_string (interpolation (identifier)) (interpolation (identifier)))))
         (case_clause
           (case_class_pattern (type_identifier) (identifier) (identifier))
-          (interpolated_string_expression (identifier) (interpolated_string (interpolation (interpolation_identifier)) (interpolation (interpolation_identifier)))))
+          (interpolated_string_expression (identifier) (interpolated_string (interpolation (identifier)) (interpolation (identifier)))))
         (case_clause
           (case_class_pattern (type_identifier) (identifier) (identifier))
-          (interpolated_string_expression (identifier) (interpolated_string (interpolation (interpolation_identifier)) (interpolation (interpolation_identifier))))))))))
+          (interpolated_string_expression (identifier) (interpolated_string (interpolation (identifier)) (interpolation (identifier))))))))))
 
 ============================
 Infix patterns
