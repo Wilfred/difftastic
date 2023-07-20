@@ -1512,18 +1512,20 @@ module.exports = grammar({
 
     _interpolated_multiline_string_start: $ => '"""',
 
+    _dollar_escape: $ => seq('$', '$'),
+
     interpolation: $ => seq("$", choice($.dollar_identifier, $.block)),
 
     interpolated_string: $ =>
       choice(
         seq(
           $._interpolated_string_start,
-          repeat(seq($._interpolated_string_middle, $.interpolation)),
+          repeat(seq($._interpolated_string_middle, choice($._dollar_escape, $.interpolation))),
           $._interpolated_string_end,
         ),
         seq(
           $._interpolated_multiline_string_start,
-          repeat(seq($._interpolated_multiline_string_middle, $.interpolation)),
+          repeat(seq($._interpolated_multiline_string_middle, choice($._dollar_escape, $.interpolation))),
           $._interpolated_multiline_string_end,
         ),
       ),

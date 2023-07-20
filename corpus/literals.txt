@@ -42,6 +42,8 @@ works even in multiline strings, ${name}
 val string5 = s"$works${without}$spaces"
 
 val string6 = s"$a$b"
+
+val string7 = s"$$ $a"
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -98,7 +100,14 @@ val string6 = s"$a$b"
           (interpolation
             (dollar_identifier))
           (interpolation
-            (dollar_identifier))))))
+            (dollar_identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (dollar_identifier))))))
 
 
 ================================================================================
