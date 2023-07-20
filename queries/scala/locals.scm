@@ -28,4 +28,4 @@
 
 (identifier) @local.reference
 
-(dollar_identifier) @local.reference
+(interpolation_identifier) @local.reference

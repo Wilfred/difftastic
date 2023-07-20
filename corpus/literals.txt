@@ -53,7 +53,7 @@ val string7 = s"$$ $a"
       (identifier)
       (interpolated_string
         (interpolation
-          (dollar_identifier))
+          (interpolation_identifier))
         (interpolation
           (block
             (identifier))))))
@@ -63,7 +63,7 @@ val string7 = s"$$ $a"
       (identifier)
       (interpolated_string
         (interpolation
-          (dollar_identifier)))))
+          (interpolation_identifier)))))
   (val_definition
     (identifier)
     (interpolated_string_expression
@@ -86,28 +86,28 @@ val string7 = s"$$ $a"
       (identifier)
       (interpolated_string
         (interpolation
-          (dollar_identifier))
+          (interpolation_identifier))
         (interpolation
           (block
             (identifier)))
         (interpolation
-          (dollar_identifier)))))
+          (interpolation_identifier)))))
   (val_definition
     (identifier)
     (interpolated_string_expression
       (identifier)
         (interpolated_string
           (interpolation
-            (dollar_identifier))
+            (interpolation_identifier))
           (interpolation
-            (dollar_identifier)))))
+            (interpolation_identifier)))))
   (val_definition
     (identifier)
     (interpolated_string_expression
       (identifier)
       (interpolated_string
         (interpolation
-          (dollar_identifier))))))
+          (interpolation_identifier))))))
 
 
 ================================================================================
