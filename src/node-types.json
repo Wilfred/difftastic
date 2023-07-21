@@ -270,6 +270,10 @@
         "named": true
       },
       {
+        "type": "primitive_type",
+        "named": true
+      },
+      {
         "type": "type_identifier",
         "named": true
       }
@@ -3424,31 +3428,7 @@
         "required": true,
         "types": [
           {
-            "type": "enum_specifier",
-            "named": true
-          },
-          {
-            "type": "macro_type_specifier",
-            "named": true
-          },
-          {
-            "type": "primitive_type",
-            "named": true
-          },
-          {
-            "type": "sized_type_specifier",
-            "named": true
-          },
-          {
-            "type": "struct_specifier",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "union_specifier",
+            "type": "_type_specifier",
             "named": true
           }
         ]
