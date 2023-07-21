@@ -193,11 +193,14 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
     let num_utf8_invalid = utf8_string
         .chars()
-        .take(1000)
+        .take(5000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
         .count();
     if num_utf8_invalid <= 10 {
-        info!("Input file is mostly valid UTF-8");
+        info!(
+            "Input file is mostly valid UTF-8 (invalid characters: {})",
+            num_utf8_invalid
+        );
         return ProbableFileKind::Text(utf8_string);
     }
 
@@ -206,11 +209,14 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     let utf16_string = String::from_utf16_lossy(&u16_values);
     let num_utf16_invalid = utf16_string
         .chars()
-        .take(1000)
+        .take(5000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
         .count();
     if num_utf16_invalid <= 5 {
-        info!("Input file is mostly valid UTF-16");
+        info!(
+            "Input file is mostly valid UTF-16 (invalid characters: {})",
+            num_utf16_invalid
+        );
         return ProbableFileKind::Text(utf16_string);
     }
 

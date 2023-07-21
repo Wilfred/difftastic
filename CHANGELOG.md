@@ -8,6 +8,10 @@ Updated grammar for Java.
 
 Improved parsing of qualified constructors in Haskell.
 
+Difftastic is now stricter about valid UTF-8 and UTF-16, considering
+more of the file's bytes during filetype detection. This fixes cases
+where e.g. PDF was sometimes incorrectly considered as UTF-8.
+
 ### Diffing
 
 Improved handling of delimiters ("nested sliders") in languages that
