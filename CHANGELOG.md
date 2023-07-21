@@ -10,7 +10,7 @@ Improved parsing of qualified constructors in Haskell.
 
 ### Diffing
 
-Improved handling of delimiters ("nested sliders") in language that
+Improved handling of delimiters ("nested sliders") in languages that
 prefer the outer delimiter, such as JSON and Lisps.
 
 ## 0.48 (released 12th July 2023)
