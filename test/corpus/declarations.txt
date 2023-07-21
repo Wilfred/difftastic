@@ -306,8 +306,13 @@ typedef short short_t;
 typedef unsigned unsigned_t;
 typedef signed signed_t;
 
-// FIXME: Still errors
 typedef long long;
+typedef short short;
+typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned unsigned short;
+typedef signed signed short;
+typedef signed signed unsigned;
 
 --------------------------------------------------------------------------------
 
@@ -361,7 +366,19 @@ typedef long long;
       declarator: (type_identifier)))
   (type_definition
     type: (sized_type_specifier)
-    declarator: (type_identifier))
+    declarator: (primitive_type))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (primitive_type))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (primitive_type))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (primitive_type))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (primitive_type))
   (type_definition
     type: (sized_type_specifier)
     declarator: (type_identifier))
@@ -382,20 +399,26 @@ typedef long long;
     declarator: (type_identifier))
   (type_definition
     type: (sized_type_specifier)
+    declarator: (primitive_type))
+  (type_definition
+    type: (sized_type_specifier)
+    declarator: (primitive_type))
+  (type_definition
+    type: (sized_type_specifier
+      type: (primitive_type))
     declarator: (type_identifier))
   (type_definition
     type: (sized_type_specifier)
     declarator: (type_identifier))
   (type_definition
     type: (sized_type_specifier)
-    declarator: (type_identifier))
+    declarator: (primitive_type))
   (type_definition
     type: (sized_type_specifier)
-    declarator: (type_identifier))
-  (comment)
+    declarator: (primitive_type))
   (type_definition
     type: (sized_type_specifier)
-    declarator: (MISSING type_identifier)))
+    declarator: (primitive_type)))
 
 ================================================================================
 Function declarations
