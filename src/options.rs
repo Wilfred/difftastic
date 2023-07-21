@@ -216,7 +216,7 @@ inline: A single column display, closer to traditional diff display.")
 
 $ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
 
-Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
+See --list-languages for the list of language names. Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
 
 This argument may be given more than once. For example:
 
