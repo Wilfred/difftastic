@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-sfapex",
-  "version": "0.0.9-beta1",
+  "version": "0.0.9-beta2",
   "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
   "homepage": "https://github.com/aheber/tree-sitter-sfapex",
   "bugs": {
@@ -24,10 +24,15 @@
   },
   "main": "bindings/node",
   "scripts": {
-    "build": "npm run build-apex && npm run build-soql && npm run build-sosl",
+    "build": "npm run build-generate && npm run build-wasm",
+    "build-generate": "npm run build-apex && npm run build-soql && npm run build-sosl",
     "build-apex": "cd apex && npx tree-sitter generate --no-bindings",
     "build-soql": "cd soql && npx tree-sitter generate --no-bindings",
     "build-sosl": "cd sosl && npx tree-sitter generate --no-bindings",
+    "build-wasm": "npm run build-apex-wasm && npm run build-soql-wasm && npm run build-sosl-wasm",
+    "build-apex-wasm": "cd apex && npx tree-sitter build-wasm && cp tree-sitter-apex.wasm ../docs/playground/js/",
+    "build-soql-wasm": "cd soql && npx tree-sitter build-wasm && cp tree-sitter-soql.wasm ../docs/playground/js/",
+    "build-sosl-wasm": "cd sosl && npx tree-sitter build-wasm && cp tree-sitter-sosl.wasm ../docs/playground/js/",
     "test-load": "node -e \"require('./apex').then(apex => console.log(apex.name)), require('./soql').then(soql => console.log(soql.name)), require('./sosl').then(sosl => console.log(sosl.name))\"",
     "test": "npm run test-apex && npm run test-soql && npm run test-sosl && npm run test-load",
     "test-apex": "cd apex && npx tree-sitter test",
