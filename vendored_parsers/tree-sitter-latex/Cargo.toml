@@ -1,0 +1,31 @@
+[package]
+name = "tree-sitter-latex"
+description = "latex grammar for the tree-sitter parsing library"
+version = "0.3.0"
+keywords = ["incremental", "parsing", "latex"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/latex-lsp/tree-sitter-latex"
+edition = "2018"
+license = "MIT"
+authors = ["Patrick Förster <patrick.foerster@outlook.de>"]
+readme = "README.md"
+
+build = "bindings/rust/build.rs"
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "~0.20.9"
+
+[build-dependencies]
+cc = "1.0"
+
+[dev-dependencies]
+criterion = "0.4.0"
+
+[[bench]]
+name = "bench_main"
+path = "benches/bench_main.rs"
+harness = false

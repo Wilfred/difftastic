@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+\date{\today}
+\author{Eric Förster \and Patrick Förster}
+\title{\TeX{}Lab}
+
+\begin{document}
+
+\maketitle{}
+
+\section{Introduction}
+
+TexLab is a cross-platform implementation of the
+\href{https://microsoft.github.io/language-server-protocol/specifications/specification-current/}{Language Server Protocol}
+for the \LaTeX{} typesetting system.
+It aims to produce high quality code completion results.
+The server may be used with any editor that implements the Language Server Protocol.
+It is written in Rust, a blazingly fast systems programming language.
+
+\section{Features}
+
+The language server implements most of the Language Server Protocol specification.
+In addition to that, it implements additional functionality like
+building and forward search.
+
+\section{Availability}
+
+TexLab is available on \href{https://github.com/latex-lsp/texlab}{GitHub},
+various package managers and CTAN\@. 
+Pre-compiled binaries are available on the 
+\href{https://github.com/latex-lsp/texlab/releases}{GitHub Releases} page.
+Some editor extensions are able to automatically download TexLab.
+
+\section{Installation}
+
+There are various ways to install TexLab:
+\begin{itemize}
+    \item 
+        TexLab is included in some package managers like \texttt{brew},
+        \texttt{pacman} and \texttt{scoop}.
+        Please refer to the badges in the README to see if your package manager
+        includes TexLab.
+    \item
+        You can download a pre-compiled binary from our 
+        \href{https://github.com/latex-lsp/texlab/releases}{GitHub Releases} page.
+    \item
+        Some extensions like the Visual Studio Code extension or
+        \texttt{coc-texlab} can automatically download the server for you.
+    \item
+        You can download the sources from either GitHub or CTAN
+        and compile the server with \texttt{cargo build --release}.
+        The \texttt{texlab} binary can be found inside \texttt{target/release}.    
+\end{itemize}
+
+\section{Usage}
+
+\subsection{Synopsis}
+
+\texttt{texlab [FLAGS] [OPTIONS]}
+
+\subsection{Flags}
+
+\begin{itemize}
+    \item \texttt{-h}, \texttt{--help} Prints help information
+    \item \texttt{-q}, \texttt{--quiet} No output printed to stderr
+    \item \texttt{-V}, \texttt{--version} Prints version information
+    \item \texttt{-v}, \texttt{--verbosity} Increase message verbosity (\texttt{-vvvv} for max verbosity)
+\end{itemize}
+
+\subsection{Options}
+
+\begin{itemize}
+    \item \texttt{--log-file <FILE>} WRite the logging output to \texttt{FILE}
+\end{itemize}
+
+\end{document}

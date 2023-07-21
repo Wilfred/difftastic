@@ -46,6 +46,7 @@ pub enum Language {
     Json,
     Julia,
     Kotlin,
+    LaTeX,
     Lua,
     Make,
     Newick,
@@ -129,6 +130,7 @@ pub fn language_name(language: Language) -> &'static str {
         Json => "JSON",
         Julia => "Julia",
         Kotlin => "Kotlin",
+        LaTeX => "LaTeX",
         Lua => "Lua",
         Make => "Make",
         Newick => "Newick",
@@ -282,6 +284,7 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
         JavascriptJsx => &["*.jsx"],
         Julia => &["*.jl"],
         Kotlin => &["*.kt", "*.ktm", "*.kts"],
+        LaTeX => &["*.aux", "*.cls", "*.sty", "*.tex"],
         Lua => &["*.lua"],
         Make => &[
             "*.mak",

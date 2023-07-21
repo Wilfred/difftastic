@@ -1,0 +1,156 @@
+================================================================================
+Command without arguments
+================================================================================
+
+\foo bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_command
+    (command_name))
+  (text
+    (word)))
+
+================================================================================
+Command with one curly argument
+================================================================================
+
+\foo{bar}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_command
+    (command_name)
+    (curly_group
+      (text
+        (word)))))
+
+================================================================================
+Command with one curly argument and brackets
+================================================================================
+
+\foo{bar}[baz]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_command
+    (command_name)
+    (curly_group
+      (text
+        (word))))
+  (text
+    (word)))
+
+================================================================================
+Command with incomplete argument
+================================================================================
+
+\foo{ \begin{document} \end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (command_name)
+    (generic_environment
+      (begin
+        (curly_group_text
+          (text
+            (word))))
+      (end
+        (curly_group_text
+          (text
+            (word)))))))
+
+================================================================================
+Acroynm definition
+================================================================================
+
+\newacronym[foo={bar}]{gcd}{GCD}{Greatest Common Divisor}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (acronym_definition
+    (brack_group_key_value
+      (key_value_pair
+        (text
+          (word))
+        (value
+          (curly_group
+            (text
+              (word))))))
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word)
+        (word)
+        (word)))))
+
+================================================================================
+Command definition without default arg
+================================================================================
+
+\newcommand{\foo}[1]{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (brack_group_argc
+      (argc))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Command definition with default arg
+================================================================================
+
+\newcommand{\foo}[1][bar]{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (brack_group_argc
+      (argc))
+    (brack_group
+      (text
+        (word)))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Author command
+================================================================================
+
+\author{John Doe \and Foo Bar}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (author_declaration
+    (curly_group_author_list
+      (author
+        (text
+          (word)
+          (word)))
+      (command_name)
+      (author
+        (text
+          (word)
+          (word))))))

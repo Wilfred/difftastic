@@ -1,0 +1,55 @@
+name: CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+env:
+  CARGO_INCREMENTAL: 0
+  CI: 1
+  RUST_BACKTRACE: short
+  RUSTFLAGS: '-D warnings'
+  RUSTUP_MAX_RETRIES: 10
+jobs:
+  binding_node:
+    name: Node
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - run: npm install
+      - run: npm test
+  binding_rust:
+    name: Rust
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cache Dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: Compile
+        run: cargo test --no-run
+      - name: Test
+        run: cargo test -- --nocapture --quiet
+  binding_c:
+    name: C
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - run: make
+      - run: sudo make install
