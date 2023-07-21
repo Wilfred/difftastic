@@ -86,5 +86,9 @@ object Hello {
 //                      ^punctuation.special
 //                       ^variable
 //                             ^string
+  val hello4 = s"$"$hello3"
+//               ^string
+//                 ^punctuation.special
+//                  ^variable
 }
 

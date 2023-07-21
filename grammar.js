@@ -1512,7 +1512,7 @@ module.exports = grammar({
 
     _interpolated_multiline_string_start: $ => '"""',
 
-    _dollar_escape: $ => seq('$', '$'),
+    _dollar_escape: $ => seq('$', choice('$', '"')),
 
     _aliased_interpolation_identifier: $ => alias($._interpolation_identifier, $.identifier),
     

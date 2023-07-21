@@ -44,6 +44,9 @@ val string5 = s"$works${without}$spaces"
 val string6 = s"$a$b"
 
 val string7 = s"$$ $a"
+
+val string8 = s"$"$a"
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -101,6 +104,13 @@ val string7 = s"$$ $a"
             (identifier))
           (interpolation
             (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier)))))
   (val_definition
     (identifier)
     (interpolated_string_expression
