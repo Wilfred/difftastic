@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added support for LaTeX.
+
 Updated grammar for Java.
 
 Improved parsing of qualified constructors in Haskell.
