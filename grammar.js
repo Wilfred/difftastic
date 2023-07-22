@@ -575,6 +575,7 @@ module.exports = grammar({
 
     struct_specifier: $ => prec.right(seq(
       'struct',
+      optional($.attribute_specifier),
       optional($.ms_declspec_modifier),
       choice(
         seq(
