@@ -150,6 +150,14 @@ H="${I#*;}"
 J="${K##*;}"
 L="${M%;*}"
 N="${O%%;*}"
+P="${Q%|*}"
+R="${S%()}"
+T="${U%(}"
+V="${W%)}"
+X="${Y%<}"
+Z="${A#*<B>}"
+C="${D%</E>*}"
+F="${!#}"
 
 --------------------------------------------------------------------------------
 
@@ -191,6 +199,51 @@ N="${O%%;*}"
     (string
       (expansion
         (variable_name)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (array))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion)))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word)
         (word))))
   (variable_assignment
     (variable_name)

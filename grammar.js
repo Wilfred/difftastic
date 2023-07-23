@@ -516,10 +516,10 @@ module.exports = grammar({
             token(prec(1, '/')),
             optional($.regex)
           )),
-          repeat(choice(
+          repeat(prec.right(choice(
             $._literal, $.array,
-            ':', ':?', '=', ':-', '%', '-', '#', ';'
-          ))
+            ':', ':?', '=', ':-', '%', '-', '#', ';', '|', '(', ')', '<', '>',
+          ))),
         ),
       )),
       '}'
