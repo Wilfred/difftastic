@@ -79,5 +79,16 @@ object Hello {
 //     ^method
   val hello2 = c"some $meth"
 //                      ^method
+  val hello3 = s"$$$meth$hello2%"
+//               ^string
+//                 ^punctuation.special
+//                  ^method
+//                      ^punctuation.special
+//                       ^variable
+//                             ^string
+  val hello4 = s"$"$hello3"
+//               ^string
+//                 ^punctuation.special
+//                  ^variable
 }
 

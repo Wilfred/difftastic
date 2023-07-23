@@ -38,6 +38,15 @@ val string3 = raw"Not a new line \n${ha}"
 val string4 = s"""
 works even in multiline strings, ${name}
 """
+
+val string5 = s"$works${without}$spaces"
+
+val string6 = s"$a$b"
+
+val string7 = s"$$ $a"
+
+val string8 = s"$"$a"
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -73,7 +82,43 @@ works even in multiline strings, ${name}
       (interpolated_string
         (interpolation
           (block
-            (identifier)))))))
+            (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier))
+        (interpolation
+          (block
+            (identifier)))
+        (interpolation
+          (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+        (interpolated_string
+          (interpolation
+            (identifier))
+          (interpolation
+            (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier))))))
+
 
 ================================================================================
 Integer literals
