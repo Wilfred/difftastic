@@ -517,8 +517,8 @@ module.exports = grammar({
             optional($.regex)
           )),
           repeat(choice(
-            $._literal,
-            ':', ':?', '=', ':-', '%', '-', '#'
+            $._literal, $.array,
+            ':', ':?', '=', ':-', '%', '-', '#', ';'
           ))
         ),
       )),

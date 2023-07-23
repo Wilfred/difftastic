@@ -1,61 +1,89 @@
-=============================
+================================================================================
 Literal words
-=============================
+================================================================================
 
 echo a
 echo a b
 
----
+--------------------------------------------------------------------------------
 
 (program
-  (command (command_name (word)) (word))
-  (command (command_name (word)) (word) (word)))
+  (command
+    (command_name
+      (word))
+    (word))
+  (command
+    (command_name
+      (word))
+    (word)
+    (word)))
 
-=============================
+================================================================================
 Words with special characters
-=============================
+================================================================================
 
 echo {o[k]}
 echo }}}
 echo ]]] ===
 
----
-
-(program
-  (command (command_name (word)) (concatenation (word) (word)))
-  (command (command_name (word)) (concatenation))
-  (command (command_name (word)) (concatenation) (word)))
-
-=============================
-Simple variable expansions
-=============================
-
-echo $abc
-
----
-
-(program
-  (command (command_name (word)) (simple_expansion (variable_name))))
-
-=============================
-Special variable expansions
-=============================
-
-echo $# $* $@ $!
-
----
+--------------------------------------------------------------------------------
 
 (program
   (command
-    (command_name (word))
-    (simple_expansion (special_variable_name))
-    (simple_expansion (special_variable_name))
-    (simple_expansion (special_variable_name))
-    (simple_expansion (special_variable_name))))
+    (command_name
+      (word))
+    (concatenation
+      (word)
+      (word)))
+  (command
+    (command_name
+      (word))
+    (concatenation))
+  (command
+    (command_name
+      (word))
+    (concatenation)
+    (word)))
 
-=============================
+================================================================================
+Simple variable expansions
+================================================================================
+
+echo $abc
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (word))
+    (simple_expansion
+      (variable_name))))
+
+================================================================================
+Special variable expansions
+================================================================================
+
+echo $# $* $@ $!
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (word))
+    (simple_expansion
+      (special_variable_name))
+    (simple_expansion
+      (special_variable_name))
+    (simple_expansion
+      (special_variable_name))
+    (simple_expansion
+      (special_variable_name))))
+
+================================================================================
 Variable expansions
-=============================
+================================================================================
 
 echo ${}
 echo ${#}
@@ -67,255 +95,437 @@ echo ${abc:- }
 echo ${abc:
 }
 
----
+--------------------------------------------------------------------------------
 
 (program
-  (command (command_name (word)) (expansion))
-  (command (command_name (word)) (expansion))
-  (command (command_name (word)) (expansion (variable_name) (word)))
-  (command (command_name (word)) (expansion (variable_name)))
-  (command (command_name (word)) (expansion (variable_name)))
-  (command (command_name (word)) (expansion (variable_name) (word)))
-  (command (command_name (word)) (expansion (variable_name)))
-  (command (command_name (word)) (expansion (variable_name))))
+  (command
+    (command_name
+      (word))
+    (expansion))
+  (command
+    (command_name
+      (word))
+    (expansion))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)
+      (word)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)
+      (word)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (variable_name))))
 
-===================================
+================================================================================
 Variable expansions with operators
-===================================
+================================================================================
 
 A="${B[0]# }"
 C="${D/#* -E /}"
 F="${G%% *}"
+H="${I#*;}"
+J="${K##*;}"
+L="${M%;*}"
+N="${O%%;*}"
 
----
-
-(program
-  (variable_assignment
-    (variable_name)
-    (string (expansion (subscript (variable_name) (word)))))
-  (variable_assignment
-    (variable_name)
-    (string (expansion (variable_name) (regex))))
-  (variable_assignment
-    (variable_name)
-    (string (expansion (variable_name) (word) (word)))))
-
-===================================
-Variable expansions in strings
-===================================
-
-A="${A:-$B/c}"
-A="${b=$c/$d}"
-
----
+--------------------------------------------------------------------------------
 
 (program
   (variable_assignment
     (variable_name)
     (string
       (expansion
+        (subscript
+          (variable_name)
+          (word)))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
         (variable_name)
-        (concatenation (simple_expansion (variable_name)) (word)))))
+        (regex))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (word)
+        (word)))))
+
+================================================================================
+Variable expansions in strings
+================================================================================
+
+A="${A:-$B/c}"
+A="${b=$c/$d}"
+
+--------------------------------------------------------------------------------
+
+(program
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
         (concatenation
-          (simple_expansion (variable_name))
+          (simple_expansion
+            (variable_name))
+          (word)))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (concatenation
+          (simple_expansion
+            (variable_name))
           (word)
-          (simple_expansion (variable_name)))))))
+          (simple_expansion
+            (variable_name)))))))
 
-===================================
+================================================================================
 Variable expansions with regexes
-===================================
+================================================================================
 
 A=${B//:;;/$'\n'}
 
 # escaped space
 C=${D/;\ *;|}
 
----
+--------------------------------------------------------------------------------
 
 (program
-  (variable_assignment (variable_name) (expansion (variable_name) (regex)))
+  (variable_assignment
+    (variable_name)
+    (expansion
+      (variable_name)
+      (regex)))
   (comment)
-  (variable_assignment (variable_name) (expansion (variable_name) (regex))))
+  (variable_assignment
+    (variable_name)
+    (expansion
+      (variable_name)
+      (regex))))
 
-===================================
+================================================================================
 Other variable expansion operators
-===================================
+================================================================================
 
 cat ${BAR} ${ABC=def} ${GHI:?jkl}
 [ "$a" != "${a#[Bc]}" ]
 
----
+--------------------------------------------------------------------------------
 
 (program
   (command
-    (command_name (word))
-    (expansion (variable_name))
-    (expansion (variable_name) (word))
-    (expansion (variable_name) (word)))
+    (command_name
+      (word))
+    (expansion
+      (variable_name))
+    (expansion
+      (variable_name)
+      (word))
+    (expansion
+      (variable_name)
+      (word)))
   (test_command
     (binary_expression
-      (string (simple_expansion (variable_name)))
-      (string (expansion (variable_name) (concatenation (word)))))))
+      (string
+        (simple_expansion
+          (variable_name)))
+      (string
+        (expansion
+          (variable_name)
+          (concatenation
+            (word)))))))
 
-=============================
+================================================================================
 Words ending with '$'
-=============================
+================================================================================
 
 grep ^${var}$
 
----
+--------------------------------------------------------------------------------
 
-(program (command
-  (command_name (word))
-  (concatenation (word) (expansion (variable_name)))))
+(program
+  (command
+    (command_name
+      (word))
+    (concatenation
+      (word)
+      (expansion
+        (variable_name)))))
 
-=============================
+================================================================================
 Command substitutions
-=============================
+================================================================================
 
 echo `echo hi`
 echo `echo hi; echo there`
 echo $(echo $(echo hi))
 echo $(< some-file)
 
----
+--------------------------------------------------------------------------------
 
 (program
   (command
-    (command_name (word))
-    (command_substitution (command (command_name (word)) (word))))
+    (command_name
+      (word))
+    (command_substitution
+      (command
+        (command_name
+          (word))
+        (word))))
   (command
-    (command_name (word))
-    (command_substitution (command (command_name (word)) (word)) (command (command_name (word)) (word))))
+    (command_name
+      (word))
+    (command_substitution
+      (command
+        (command_name
+          (word))
+        (word))
+      (command
+        (command_name
+          (word))
+        (word))))
   (command
-    (command_name (word))
-    (command_substitution (command
-      (command_name (word))
-      (command_substitution (command
-        (command_name (word))
-        (word))))))
+    (command_name
+      (word))
+    (command_substitution
+      (command
+        (command_name
+          (word))
+        (command_substitution
+          (command
+            (command_name
+              (word))
+            (word))))))
   (command
-    (command_name (word))
-    (command_substitution (file_redirect (word)))))
+    (command_name
+      (word))
+    (command_substitution
+      (file_redirect
+        (word)))))
 
-=============================
+================================================================================
 Process substitutions
-=============================
+================================================================================
 
 wc -c <(echo abc && echo def)
 wc -c <(echo abc; echo def)
 echo abc > >(wc -c)
 
----
+--------------------------------------------------------------------------------
 
 (program
   (command
-    (command_name (word))
-    (word)
-    (process_substitution (list
-      (command (command_name (word)) (word))
-      (command (command_name (word)) (word)))))
-  (command
-    (command_name (word))
+    (command_name
+      (word))
     (word)
     (process_substitution
-      (command (command_name (word)) (word))
-      (command (command_name (word)) (word))))
+      (list
+        (command
+          (command_name
+            (word))
+          (word))
+        (command
+          (command_name
+            (word))
+          (word)))))
+  (command
+    (command_name
+      (word))
+    (word)
+    (process_substitution
+      (command
+        (command_name
+          (word))
+        (word))
+      (command
+        (command_name
+          (word))
+        (word))))
   (redirected_statement
     (command
-      (command_name (word))
+      (command_name
+        (word))
       (word))
-    (file_redirect (process_substitution
-      (command (command_name (word)) (word))))))
+    (file_redirect
+      (process_substitution
+        (command
+          (command_name
+            (word))
+          (word))))))
 
-=============================
+================================================================================
 Single quoted strings
-=============================
+================================================================================
 
 echo 'a b' 'c d'
 
----
+--------------------------------------------------------------------------------
 
 (program
-  (command (command_name (word)) (raw_string) (raw_string)))
+  (command
+    (command_name
+      (word))
+    (raw_string)
+    (raw_string)))
 
-=============================
+================================================================================
 Double quoted strings
-=============================
+================================================================================
 
 echo "a" "b"
 echo "a ${b} c" "d $e"
 
----
-
-(program
-  (command (command_name (word))
-    (string)
-    (string))
-  (command (command_name (word))
-    (string (expansion (variable_name)))
-    (string (simple_expansion (variable_name)))))
-
-=========================================
-Strings containing command substitutions
-=========================================
-
-find "`dirname $file`" -name "$base"'*'
-
----
+--------------------------------------------------------------------------------
 
 (program
   (command
-    (command_name (word))
-    (string (command_substitution (command (command_name (word)) (simple_expansion (variable_name)))))
+    (command_name
+      (word))
+    (string)
+    (string))
+  (command
+    (command_name
+      (word))
+    (string
+      (expansion
+        (variable_name)))
+    (string
+      (simple_expansion
+        (variable_name)))))
+
+================================================================================
+Strings containing command substitutions
+================================================================================
+
+find "`dirname $file`" -name "$base"'*'
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (word))
+    (string
+      (command_substitution
+        (command
+          (command_name
+            (word))
+          (simple_expansion
+            (variable_name)))))
     (word)
     (concatenation
-      (string (simple_expansion (variable_name)))
+      (string
+        (simple_expansion
+          (variable_name)))
       (raw_string))))
 
-=========================================
+================================================================================
 Strings containing escape sequence
-=========================================
+================================================================================
 
 echo "\"The great escape\`\${var}"
 
----
+--------------------------------------------------------------------------------
 
-(program (command (command_name (word)) (string)))
+(program
+  (command
+    (command_name
+      (word))
+    (string)))
 
-======================================
+================================================================================
 Strings containing special characters
-======================================
+================================================================================
 
 echo "s/$/'/"
 echo "#"
 echo "s$"
 
----
+--------------------------------------------------------------------------------
 
 (program
-  (command (command_name (word)) (string))
-  (command (command_name (word)) (string))
-  (command (command_name (word)) (string)))
+  (command
+    (command_name
+      (word))
+    (string))
+  (command
+    (command_name
+      (word))
+    (string))
+  (command
+    (command_name
+      (word))
+    (string)))
 
-========================================
+================================================================================
 Strings with ANSI-C quoting
-========================================
+================================================================================
 
 echo $'Here\'s Johnny!\r\n'
 
----
+--------------------------------------------------------------------------------
 
-(program (command (command_name (word)) (ansi_c_string)))
+(program
+  (command
+    (command_name
+      (word))
+    (ansi_c_string)))
 
-=========================================
+================================================================================
 Arrays and array expansions
-=========================================
+================================================================================
 
 a=()
 b=(1 2 3)
@@ -326,35 +536,78 @@ echo ${#b[@]}
 a[$i]=50
 a+=(foo "bar" $(baz))
 
----
+printf "  %-9s" "${seq0:-(default)}"
+
+--------------------------------------------------------------------------------
 
 (program
-  (variable_assignment (variable_name) (array))
-  (variable_assignment (variable_name) (array (word) (word) (word)))
-  (command (command_name (word)) (expansion (subscript (variable_name) (word))))
-  (command (command_name (word)) (expansion (subscript (variable_name) (word))))
   (variable_assignment
-    (subscript (variable_name) (simple_expansion (variable_name)))
+    (variable_name)
+    (array))
+  (variable_assignment
+    (variable_name)
+    (array
+      (word)
+      (word)
+      (word)))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (subscript
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (word))
+    (expansion
+      (subscript
+        (variable_name)
+        (word))))
+  (variable_assignment
+    (subscript
+      (variable_name)
+      (simple_expansion
+        (variable_name)))
     (word))
   (variable_assignment
     (variable_name)
     (array
       (word)
       (string)
-      (command_substitution (command (command_name (word)))))))
+      (command_substitution
+        (command
+          (command_name
+            (word))))))
+  (command
+    (command_name
+      (word))
+    (string)
+    (string
+      (expansion
+        (variable_name)
+        (array
+          (word))))))
 
-==============================
+================================================================================
 Escaped characters in strings
-==============================
+================================================================================
 
 echo -ne "\033k$1\033\\" > /dev/stderr
 
----
+--------------------------------------------------------------------------------
 
 (program
   (redirected_statement
-    (command (command_name (word)) (word) (string (simple_expansion (variable_name))))
-    (file_redirect (word))))
+    (command
+      (command_name
+        (word))
+      (word)
+      (string
+        (simple_expansion
+          (variable_name))))
+    (file_redirect
+      (word))))
 
 ================================================================================
 Words containing bare '#'
@@ -366,7 +619,16 @@ nix build nixpkgs#hello -v # comment with space
 --------------------------------------------------------------------------------
 
 (program
-  (command (command_name (word)) (word) (word))
+  (command
+    (command_name
+      (word))
+    (word)
+    (word))
   (comment)
-  (command (command_name (word)) (word) (word) (word))
+  (command
+    (command_name
+      (word))
+    (word)
+    (word)
+    (word))
   (comment))
