@@ -499,7 +499,7 @@ module.exports = grammar({
 
     expansion: $ => seq(
       '${',
-      optional(choice('#', '!')),
+      repeat(choice('#', '!')),
       optional(choice(
         seq(
           $.variable_name,

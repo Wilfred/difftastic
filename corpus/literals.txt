@@ -157,7 +157,7 @@ V="${W%)}"
 X="${Y%<}"
 Z="${A#*<B>}"
 C="${D%</E>*}"
-F="${!#}"
+F="${#!}"
 
 --------------------------------------------------------------------------------
 
@@ -237,10 +237,6 @@ F="${!#}"
   (variable_assignment
     (variable_name)
     (string
-      (expansion)))
-  (variable_assignment
-    (variable_name)
-    (string
       (expansion
         (variable_name)
         (word)
@@ -251,7 +247,11 @@ F="${!#}"
       (expansion
         (variable_name)
         (word)
-        (word)))))
+        (word))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion))))
 
 ================================================================================
 Variable expansions in strings
