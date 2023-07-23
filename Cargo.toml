@@ -1,10 +1,10 @@
 [package]
 name = "tree-sitter-python"
 description = "Python grammar for the tree-sitter parsing library"
-version = "0.20.2"
+version = "0.20.3"
 authors = [
-    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
-    "Douglas Creager <dcreager@dcreager.net>",
+	"Max Brunsfeld <maxbrunsfeld@gmail.com>",
+	"Douglas Creager <dcreager@dcreager.net>",
 ]
 license = "MIT"
 readme = "bindings/rust/README.md"
@@ -14,12 +14,7 @@ repository = "https://github.com/tree-sitter/tree-sitter-python"
 edition = "2018"
 
 build = "bindings/rust/build.rs"
-include = [
-  "bindings/rust/*",
-  "grammar.js",
-  "queries/*",
-  "src/*",
-]
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 
 [lib]
 path = "bindings/rust/lib.rs"
