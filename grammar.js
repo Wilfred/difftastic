@@ -373,7 +373,7 @@ module.exports = grammar({
       $.parenthesized_expression
     ),
 
-    binary_expression: $ => prec.left(choice(
+    binary_expression: $ => prec.left(2, choice(
       seq(
         field('left', $._expression),
         field('operator', choice(
@@ -402,7 +402,7 @@ module.exports = grammar({
       )
     ),
 
-    unary_expression: $ => prec.right(seq(
+    unary_expression: $ => prec.right(1, seq(
       choice('!', $.test_operator),
       $._expression
     )),
@@ -428,6 +428,7 @@ module.exports = grammar({
 
     _primary_expression: $ => choice(
       $.word,
+      alias($.test_operator, $.word),
       $.string,
       $.raw_string,
       $.translated_string,
