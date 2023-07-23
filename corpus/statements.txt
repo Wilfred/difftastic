@@ -438,6 +438,10 @@ esac
 
 case x in x) echo meow ;; esac
 
+case foo in
+    bar\ baz) : ;;
+esac
+
 --------------------------------------------------------------------------------
 
 (program
@@ -510,7 +514,14 @@ case x in x) echo meow ;; esac
       (command
         (command_name
           (word))
-        (word)))))
+        (word))))
+  (case_statement
+    (word)
+    (case_item
+      (word)
+      (command
+        (command_name
+          (word))))))
 
 ================================================================================
 Test commands
@@ -782,6 +793,7 @@ Variable declaration: local
 
 local a=42 b
 local -r c
+local var=word1\ word2
 
 --------------------------------------------------------------------------------
 
@@ -793,7 +805,11 @@ local -r c
     (variable_name))
   (declaration_command
     (word)
-    (variable_name)))
+    (variable_name))
+  (declaration_command
+    (variable_assignment
+      (variable_name)
+      (word))))
 
 ================================================================================
 Variable declaration: export

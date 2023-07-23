@@ -550,7 +550,8 @@ module.exports = grammar({
       ),
       repeat(choice(
         noneOf(...SPECIAL_CHARACTERS),
-        seq('\\', noneOf('\\s'))
+        seq('\\', noneOf('\\s')),
+        "\\ ",
       ))
     )),
 
