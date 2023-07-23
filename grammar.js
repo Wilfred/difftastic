@@ -387,7 +387,7 @@ module.exports = grammar({
       ),
       seq(
         field('left', $._expression),
-        field('operator', choice('==', '=~')),
+        field('operator', choice('==', '=~', '!=')),
         field('right', $.regex)
       )
     )),

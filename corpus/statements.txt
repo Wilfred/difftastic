@@ -349,6 +349,9 @@ if [ a = -d ]; then
   echo two
 fi
 
+[[ abc == +(a|b|c) ]] && echo 1
+[[ abc != +(a|b|c) ]] && echo 2
+
 --------------------------------------------------------------------------------
 
 (program
@@ -370,6 +373,24 @@ fi
       (binary_expression
         (word)
         (word)))
+    (command
+      (command_name
+        (word))
+      (word)))
+  (list
+    (test_command
+      (binary_expression
+        (word)
+        (regex)))
+    (command
+      (command_name
+        (word))
+      (word)))
+  (list
+    (test_command
+      (binary_expression
+        (word)
+        (regex)))
     (command
       (command_name
         (word))
