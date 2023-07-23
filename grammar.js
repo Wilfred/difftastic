@@ -178,7 +178,7 @@ module.exports = grammar({
       field('value', $._literal),
       optional($._terminator),
       'in',
-      $._terminator,
+      optional($._terminator),
       optional(seq(
         repeat($.case_item),
         alias($.last_case_item, $.case_item),

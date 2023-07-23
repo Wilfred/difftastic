@@ -436,6 +436,8 @@ case $dest in
     ;;
 esac
 
+case x in x) echo meow ;; esac
+
 --------------------------------------------------------------------------------
 
 (program
@@ -500,7 +502,15 @@ esac
         (command_name
           (word))
         (simple_expansion
-          (special_variable_name))))))
+          (special_variable_name)))))
+  (case_statement
+    (word)
+    (case_item
+      (word)
+      (command
+        (command_name
+          (word))
+        (word)))))
 
 ================================================================================
 Test commands
