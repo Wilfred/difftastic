@@ -40,7 +40,7 @@ crates.io](https://crates.io/crates/difftastic) with Cargo (which is
 part of Rust).
 
 ```
-$ cargo install difftastic
+$ cargo install --locked difftastic
 ```
 
 Difftastic uses the `cc` crate for building C/C++ dependencies. This
