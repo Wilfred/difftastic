@@ -1019,6 +1019,7 @@ module.exports = grammar({
         $.while_expression,
         $.do_while_expression,
         $.for_expression,
+        $.macro_body,
         $._simple_expression,
       ),
 
@@ -1304,6 +1305,15 @@ module.exports = grammar({
           $.prefix_expression,
           $._simple_expression,
         ),
+      ),
+
+    macro_body: $ =>
+      prec.left(
+        PREC.macro,
+        seq(
+          "macro",
+          choice($.infix_expression, $.prefix_expression, $._simple_expression),
+        )
       ),
 
     /**

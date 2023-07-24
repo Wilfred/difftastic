@@ -1523,6 +1523,30 @@ def main() {
         (identifier)))))
 
 ================================================================================
+Macros (Scala 2 syntax)
+================================================================================
+
+class Foo {
+  def a: A =
+    macro B.b
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (type_identifier)
+        (indented_block
+          (macro_body
+            (field_expression
+              (identifier)
+              (identifier))))))))
+
+================================================================================
 Macros (Scala 3 syntax)
 ================================================================================
 
