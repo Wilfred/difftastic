@@ -1,7 +1,7 @@
 # Tricky Cases
 
-Tree diffing is challenging in some situations. This page demonstrates
-difficult cases observed during development.
+Tree diffing is challenging in some situations. This page discusses
+difficult cases, and how difftastic handles them.
 
 Not all of these cases work well in difftastic yet.
 
@@ -27,6 +27,9 @@ to display this case clearly: we want to highlight the changed
 delimiters, but not their content. This is challenging in larger
 expressions.
 
+**Difftastic**: Difftastic considers nodes to be equal even at
+different depths, achieving the desired result in this case.
+
 ## Changing Delimiters
 
 ```
@@ -37,10 +40,12 @@ expressions.
 [x]
 ```
 
-Desired result: <code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span> <span style="background-color: PaleGreen; color: #000">[</span>x<span style="background-color: PaleGreen; color: #000">]</span></code>
+Desired result: <code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span></code>, <code><span style="background-color: PaleGreen; color: #000">[</span>x<span style="background-color: PaleGreen; color: #000">]</span></code>
 
 As with the wrapping case, we want to highlight the delimiters rather
 than the `x`.
+
+**Difftastic**: Difftastic handles this correctly through its tree diffing.
 
 ## Expanding Delimiters
 
@@ -52,10 +57,15 @@ than the `x`.
 (x y)
 ```
 
-Desired result: <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code>
+Possible result 1: <code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span> y</code>, <code><span style="background-color: PaleGreen; color: #000">(</span>x y<span style="background-color: PaleGreen; color: #000">)</span></code>
 
-In this case, we want to highlight `y`. Highlighting the delimiters
-could make `x` look changed.
+Possible result 2: <code>(x) <span style="background-color: #fbbd98; color: #000">y</span></code>, <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code>
+
+It's not clear which is better in this case.
+
+**Difftastic**: Difftastic currently shows result 2, but this case is
+sensitive to the cost model. Some previous versions of difftastic have
+shown result 1.
 
 ## Contracting Delimiters
 
@@ -67,7 +77,7 @@ could make `x` look changed.
 (x) y
 ```
 
-This should be highlighted similar to the expanding delimiter case.
+This case is similar to the expanding delimiter case.
 
 ## Disconnected Delimiters
 
