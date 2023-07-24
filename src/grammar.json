@@ -6413,6 +6413,10 @@
       "type": "PATTERN",
       "value": "[\\p{Lu}\\p{Lt}\\p{Nl}\\p{Lo}\\p{Lm}\\$\\p{Ll}_\\u00AA\\u00BB\\u02B0-\\u02B8\\u02C0-\\u02C1\\u02E0-\\u02E4\\u037A\\u1D78\\u1D9B-\\u1DBF\\u2071\\u207F\\u2090-\\u209C\\u2C7C-\\u2C7D\\uA69C-\\uA69D\\uA770\\uA7F8-\\uA7F9\\uAB5C-\\uAB5F\\$][\\p{Lu}\\p{Lt}\\p{Nl}\\p{Lo}\\p{Lm}\\$\\p{Ll}_\\u00AA\\u00BB\\u02B0-\\u02B8\\u02C0-\\u02C1\\u02E0-\\u02E4\\u037A\\u1D78\\u1D9B-\\u1DBF\\u2071\\u207F\\u2090-\\u209C\\u2C7C-\\u2C7D\\uA69C-\\uA69D\\uA770\\uA7F8-\\uA7F9\\uAB5C-\\uAB5F0-9\\$_\\p{Ll}]*(_[\\-!#%&*+\\/\\\\:<=>?@\\u005e\\u007c~\\p{Sm}\\p{So}]+)?"
     },
+    "_interpolation_identifier": {
+      "type": "PATTERN",
+      "value": "[\\p{Lu}\\p{Lt}\\p{Nl}\\p{Lo}\\p{Lm}\\p{Ll}_\\u00AA\\u00BB\\u02B0-\\u02B8\\u02C0-\\u02C1\\u02E0-\\u02E4\\u037A\\u1D78\\u1D9B-\\u1DBF\\u2071\\u207F\\u2090-\\u209C\\u2C7C-\\u2C7D\\uA69C-\\uA69D\\uA770\\uA7F8-\\uA7F9\\uAB5C-\\uAB5F][\\p{Lu}\\p{Lt}\\p{Nl}\\p{Lo}\\p{Lm}\\p{Ll}_\\u00AA\\u00BB\\u02B0-\\u02B8\\u02C0-\\u02C1\\u02E0-\\u02E4\\u037A\\u1D78\\u1D9B-\\u1DBF\\u2071\\u207F\\u2090-\\u209C\\u2C7C-\\u2C7D\\uA69C-\\uA69D\\uA770\\uA7F8-\\uA7F9\\uAB5C-\\uAB5F0-9_\\p{Ll}]*"
+    },
     "_backquoted_id": {
       "type": "PATTERN",
       "value": "`[^\\n`]+`"
@@ -6849,6 +6853,37 @@
       "type": "STRING",
       "value": "\"\"\""
     },
+    "_dollar_escape": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "$"
+            },
+            {
+              "type": "STRING",
+              "value": "\""
+            }
+          ]
+        }
+      ]
+    },
+    "_aliased_interpolation_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_interpolation_identifier"
+      },
+      "named": true,
+      "value": "identifier"
+    },
     "interpolation": {
       "type": "SEQ",
       "members": [
@@ -6861,7 +6896,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "_aliased_interpolation_identifier"
             },
             {
               "type": "SYMBOL",
@@ -6891,8 +6926,17 @@
                     "name": "_interpolated_string_middle"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "interpolation"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_dollar_escape"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "interpolation"
+                      }
+                    ]
                   }
                 ]
               }
@@ -6920,8 +6964,17 @@
                     "name": "_interpolated_multiline_string_middle"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "interpolation"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_dollar_escape"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "interpolation"
+                      }
+                    ]
                   }
                 ]
               }
