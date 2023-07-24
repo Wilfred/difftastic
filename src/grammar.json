@@ -4952,6 +4952,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "macro_body"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_simple_expression"
         }
       ]
@@ -5999,6 +6003,36 @@
           {
             "type": "SYMBOL",
             "name": "_simple_expression"
+          }
+        ]
+      }
+    },
+    "macro_body": {
+      "type": "PREC_LEFT",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "macro"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "infix_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "prefix_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_simple_expression"
+              }
+            ]
           }
         ]
       }

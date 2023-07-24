@@ -1313,7 +1313,7 @@ module.exports = grammar({
         seq(
           "macro",
           choice($.infix_expression, $.prefix_expression, $._simple_expression),
-        )
+        ),
       ),
 
     /**
