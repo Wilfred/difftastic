@@ -166,8 +166,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -208,8 +211,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -258,8 +264,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -358,8 +367,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -1010,7 +1022,7 @@
         "value": -1,
         "content": {
           "type": "PATTERN",
-          "value": "\\S(.|\\\\\\r?\\n)*"
+          "value": "\\S([^/\\n]|\\\\\\r?\\n)*"
         }
       }
     },
@@ -4954,7 +4966,7 @@
     },
     "conditional_expression": {
       "type": "PREC_RIGHT",
-      "value": -2,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5032,7 +5044,7 @@
     },
     "assignment_expression": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": -2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7779,8 +7791,8 @@
   ],
   "PREC": {
     "PAREN_DECLARATOR": -10,
-    "ASSIGNMENT": -1,
-    "CONDITIONAL": -2,
+    "ASSIGNMENT": -2,
+    "CONDITIONAL": -1,
     "DEFAULT": 0,
     "LOGICAL_OR": 1,
     "LOGICAL_AND": 2,
