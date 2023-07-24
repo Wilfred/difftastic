@@ -14,8 +14,6 @@ typedef struct {
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
-
 static inline void reset(Scanner *scanner) {
     scanner->delimiter_length = 0;
     memset(scanner->delimiter, 0, sizeof(scanner->delimiter));
