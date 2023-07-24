@@ -3713,6 +3713,18 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "attribute_specifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
                 "name": "ms_declspec_modifier"
               },
               {

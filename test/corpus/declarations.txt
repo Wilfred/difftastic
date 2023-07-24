@@ -676,6 +676,10 @@ enum Z {
     A
 } __attribute__((aligned(16)));
 
+struct __attribute__((__packed__)) foo_t {
+  int x;
+};
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -889,4 +893,13 @@ enum Z {
         (call_expression
           (identifier)
           (argument_list
-            (number_literal)))))))
+            (number_literal))))))
+  (struct_specifier
+    (attribute_specifier
+      (argument_list
+        (identifier)))
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (field_identifier)))))
