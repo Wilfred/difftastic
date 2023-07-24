@@ -174,8 +174,9 @@ T f() {
         consequence: (return_statement
           (pointer_expression
             argument: (identifier)))
-        alternative: (return_statement
-          (identifier))))))
+        alternative: (else_clause
+          (return_statement
+            (identifier)))))))
 
 ================================================================================
 If statements with declarations
