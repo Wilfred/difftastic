@@ -40,6 +40,8 @@ Object-like macro definitions
 #define SIX(a,   \
             b) x \
                + y
+#define SEVEN 7/* seven has an
+                * annoying comment */
 
 --------------------------------------------------------------------------------
 
@@ -66,7 +68,11 @@ Object-like macro definitions
     parameters: (preproc_params
       (identifier)
       (identifier))
-    value: (preproc_arg)))
+    value: (preproc_arg))
+  (preproc_def
+    name: (identifier)
+    value: (preproc_arg)
+    (comment)))
 
 ================================================================================
 Function-like macro definitions

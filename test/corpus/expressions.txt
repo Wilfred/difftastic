@@ -504,6 +504,7 @@ int main() {
   q /= r;
   *s++ = 1;
   (*t) = 1;
+  a *= ((b!=c) ? d : e);
 }
 
 --------------------------------------------------------------------------------
@@ -573,7 +574,18 @@ int main() {
           left: (parenthesized_expression
             (pointer_expression
               argument: (identifier)))
-          right: (number_literal))))))
+          right: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (parenthesized_expression
+            (conditional_expression
+              condition: (parenthesized_expression
+                (binary_expression
+                  left: (identifier)
+                  right: (identifier)))
+              consequence: (identifier)
+              alternative: (identifier))))))))
 
 ================================================================================
 Pointer operations
