@@ -66,7 +66,6 @@ module.exports = grammar(C, {
     [$._binary_fold_operator, $._fold_operator],
     [$.expression_statement, $.for_statement],
     [$.init_statement, $.for_statement],
-    [$._typedef_type_specifier, $.sized_type_specifier],
   ]),
 
   inline: ($, original) => original.concat([
@@ -267,25 +266,6 @@ module.exports = grammar(C, {
     ))),
 
     // Declarations
-
-    _typedef_type_specifier: $ => choice(
-      $.macro_type_specifier,
-      alias($._typedef_sized_type_specifier, $.sized_type_specifier),
-      $.struct_specifier,
-      $.union_specifier,
-      $.enum_specifier,
-      $.class_specifier,
-      $.sized_type_specifier,
-      $.primitive_type,
-      $.template_type,
-      $.dependent_type,
-      $.placeholder_type_specifier,
-      $.decltype,
-      prec.right(choice(
-        alias($.qualified_type_identifier, $.qualified_identifier),
-        $._type_identifier,
-      )),
-    ),
 
     template_declaration: $ => seq(
       'template',
@@ -767,10 +747,7 @@ module.exports = grammar(C, {
       optional('constexpr'),
       field('condition', $.condition_clause),
       field('consequence', $._statement),
-      optional(seq(
-        'else',
-        field('alternative', $._statement),
-      )),
+      optional(field('alternative', $.else_clause)),
     )),
 
     for_range_loop: $ => seq(
