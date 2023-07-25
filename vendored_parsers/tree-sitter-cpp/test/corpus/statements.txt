@@ -1,23 +1,28 @@
-===========================================
+================================================================================
 Returning braced initializer lists
-===========================================
+================================================================================
 
 T main() {
   return {0, 5};
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (type_identifier)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (return_statement (initializer_list (number_literal) (number_literal))))))
+      (return_statement
+        (initializer_list
+          (number_literal)
+          (number_literal))))))
 
-===========================================
+================================================================================
 Range-based for loops
-===========================================
+================================================================================
 
 T main() {
   for (Value &value : values) {
@@ -41,7 +46,7 @@ T main() {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -52,34 +57,46 @@ T main() {
     body: (compound_statement
       (for_range_loop
         type: (type_identifier)
-        declarator: (reference_declarator (identifier))
+        declarator: (reference_declarator
+          (identifier))
         right: (identifier)
         body: (compound_statement
-          (expression_statement (binary_expression
-            left: (identifier)
-            right: (identifier)))))
+          (expression_statement
+            (binary_expression
+              left: (identifier)
+              right: (identifier)))))
       (for_range_loop
         (type_qualifier)
-        type: (placeholder_type_specifier (auto))
-        declarator: (reference_declarator (identifier))
+        type: (placeholder_type_specifier
+          (auto))
+        declarator: (reference_declarator
+          (identifier))
         right: (identifier)
         body: (compound_statement
-          (expression_statement (binary_expression
-            left: (identifier)
-            right: (identifier)))))
+          (expression_statement
+            (binary_expression
+              left: (identifier)
+              right: (identifier)))))
       (for_range_loop
         (type_qualifier)
-        type: (placeholder_type_specifier (auto))
-        declarator: (reference_declarator (identifier))
-        right: (initializer_list (number_literal) (number_literal) (number_literal))
+        type: (placeholder_type_specifier
+          (auto))
+        declarator: (reference_declarator
+          (identifier))
+        right: (initializer_list
+          (number_literal)
+          (number_literal)
+          (number_literal))
         body: (compound_statement
-          (expression_statement (binary_expression
-            left: (identifier)
-            right: (identifier)))))
+          (expression_statement
+            (binary_expression
+              left: (identifier)
+              right: (identifier)))))
       (for_range_loop
         initializer: (init_statement
           (declaration
-            type: (placeholder_type_specifier (auto))
+            type: (placeholder_type_specifier
+              (auto))
             declarator: (init_declarator
               declarator: (identifier)
               value: (call_expression
@@ -87,7 +104,8 @@ T main() {
                   argument: (identifier)
                   field: (field_identifier))
                 arguments: (argument_list)))))
-        type: (placeholder_type_specifier (auto))
+        type: (placeholder_type_specifier
+          (auto))
         declarator: (identifier)
         right: (identifier)
         body: (compound_statement
@@ -99,7 +117,8 @@ T main() {
                   left: (update_expression
                     argument: (identifier))
                   right: (identifier)))
-              right: (char_literal)))))
+              right: (char_literal
+                (character))))))
       (for_range_loop
         initializer: (init_statement
           (alias_declaration
@@ -120,11 +139,12 @@ T main() {
                   left: (update_expression
                     argument: (identifier))
                   right: (identifier)))
-              right: (char_literal))))))))
+              right: (char_literal
+                (character)))))))))
 
-===========================================
+================================================================================
 Constexpr if statements
-===========================================
+================================================================================
 
 T f() {
   if constexpr (std::is_pointer_v<T>)
@@ -133,7 +153,7 @@ T f() {
     return t;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -149,14 +169,18 @@ T f() {
             name: (template_function
               name: (identifier)
               arguments: (template_argument_list
-                (type_descriptor type: (type_identifier))))))
+                (type_descriptor
+                  type: (type_identifier))))))
         consequence: (return_statement
-          (pointer_expression argument: (identifier)))
-        alternative: (return_statement (identifier))))))
+          (pointer_expression
+            argument: (identifier)))
+        alternative: (else_clause
+          (return_statement
+            (identifier)))))))
 
-=====================================
+================================================================================
 If statements with declarations
-====================================
+================================================================================
 
 void f() {
   if (const int x = foo()) { }
@@ -164,7 +188,7 @@ void f() {
   if (const int x = foo(); x != 0) { }
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -189,7 +213,10 @@ void f() {
             (type_qualifier)
             type: (primitive_type)
             declarator: (identifier)
-          value: (initializer_list (call_expression function: (identifier) arguments: (argument_list)))))
+            value: (initializer_list
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list)))))
         consequence: (compound_statement))
       (if_statement
         condition: (condition_clause
@@ -199,13 +226,17 @@ void f() {
               type: (primitive_type)
               declarator: (init_declarator
                 declarator: (identifier)
-                value: (call_expression function: (identifier) arguments: (argument_list)))))
-          value: (binary_expression left: (identifier) right: (number_literal)))
+                value: (call_expression
+                  function: (identifier)
+                  arguments: (argument_list)))))
+          value: (binary_expression
+            left: (identifier)
+            right: (number_literal)))
         consequence: (compound_statement)))))
 
-===========================================
+================================================================================
 Try/catch statements
-===========================================
+================================================================================
 
 void main() {
   try {
@@ -219,37 +250,7 @@ void main() {
   }
 }
 
----
-
-(translation_unit
-  (function_definition
-    (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
-      (try_statement
-        (compound_statement
-          (expression_statement (call_expression (identifier) (argument_list))))
-        (catch_clause
-          (parameter_list (parameter_declaration (type_qualifier) (qualified_identifier (namespace_identifier) (type_identifier))))
-          (compound_statement (comment)))
-        (catch_clause
-          (parameter_list (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
-          (compound_statement (comment)))
-        (catch_clause
-          (parameter_list)
-          (compound_statement (comment)))))))
-
-===========================================
-Throw statements
-===========================================
-
-void main() {
-     throw e;
-     throw x + 1;
-     throw "exception";
-}
-
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -257,78 +258,161 @@ void main() {
     (function_declarator
       (identifier)
       (parameter_list))
-      (compound_statement
-        (throw_statement (identifier))
-        (throw_statement (binary_expression (identifier) (number_literal)))
-        (throw_statement (string_literal)))))
+    (compound_statement
+      (try_statement
+        (compound_statement
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list))))
+        (catch_clause
+          (parameter_list
+            (parameter_declaration
+              (type_qualifier)
+              (qualified_identifier
+                (namespace_identifier)
+                (type_identifier))))
+          (compound_statement
+            (comment)))
+        (catch_clause
+          (parameter_list
+            (parameter_declaration
+              (type_qualifier)
+              (type_identifier)
+              (reference_declarator
+                (identifier))))
+          (compound_statement
+            (comment)))
+        (catch_clause
+          (parameter_list)
+          (compound_statement
+            (comment)))))))
 
-===========================================
+================================================================================
+Throw statements
+================================================================================
+
+void main() {
+     throw e;
+     throw x + 1;
+     throw "exception";
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (throw_statement
+        (identifier))
+      (throw_statement
+        (binary_expression
+          (identifier)
+          (number_literal)))
+      (throw_statement
+        (string_literal
+          (string_content))))))
+
+================================================================================
 Noexcept specifier
-===========================================
+================================================================================
 
 void foo() noexcept;
 void foo() noexcept(true);
 template<class T> T foo() noexcept(sizeof(T) < 4);
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (declaration
     (primitive_type)
-    (function_declarator (identifier) (parameter_list)
+    (function_declarator
+      (identifier)
+      (parameter_list)
       (noexcept)))
   (declaration
     (primitive_type)
-    (function_declarator (identifier) (parameter_list)
-      (noexcept (true))))
+    (function_declarator
+      (identifier)
+      (parameter_list)
+      (noexcept
+        (true))))
   (template_declaration
     (template_parameter_list
-      (type_parameter_declaration (type_identifier)))
+      (type_parameter_declaration
+        (type_identifier)))
     (declaration
       (type_identifier)
-      (function_declarator (identifier) (parameter_list)
+      (function_declarator
+        (identifier)
+        (parameter_list)
         (noexcept
-          (binary_expression (sizeof_expression (parenthesized_expression (identifier))) (number_literal)))))))
+          (binary_expression
+            (sizeof_expression
+              (parenthesized_expression
+                (identifier)))
+            (number_literal)))))))
 
-===========================================
+================================================================================
 Throw specifier
-===========================================
+================================================================================
 
 void foo() throw();
 void foo() throw(int);
 void foo() throw(std::string, char *);
 void foo() throw(float) { }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (declaration
     (primitive_type)
-    (function_declarator (identifier) (parameter_list)
+    (function_declarator
+      (identifier)
+      (parameter_list)
       (throw_specifier)))
   (declaration
-  (primitive_type)
-  (function_declarator (identifier) (parameter_list)
-    (throw_specifier (type_descriptor (primitive_type)))))
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list)
+      (throw_specifier
+        (type_descriptor
+          (primitive_type)))))
   (declaration
     (primitive_type)
-    (function_declarator (identifier) (parameter_list)
+    (function_declarator
+      (identifier)
+      (parameter_list)
       (throw_specifier
-        (type_descriptor (qualified_identifier (namespace_identifier) (type_identifier)))
-        (type_descriptor (primitive_type) (abstract_pointer_declarator)))))
+        (type_descriptor
+          (qualified_identifier
+            (namespace_identifier)
+            (type_identifier)))
+        (type_descriptor
+          (primitive_type)
+          (abstract_pointer_declarator)))))
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list)
-      (throw_specifier (type_descriptor (primitive_type))))
-      (compound_statement)))
+    (function_declarator
+      (identifier)
+      (parameter_list)
+      (throw_specifier
+        (type_descriptor
+          (primitive_type))))
+    (compound_statement)))
 
-===========================================
+================================================================================
 Assignment
-===========================================
+================================================================================
 
 a::b::c = 1;
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (expression_statement
@@ -340,9 +424,9 @@ a::b::c = 1;
           (identifier)))
       (number_literal))))
 
-=========================================
+================================================================================
 Attributes
-=========================================
+================================================================================
 
 void f() {
   [[a]] switch (b) {
@@ -359,37 +443,101 @@ void f() {
   [[a]] goto label;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
-  (function_definition (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (attributed_statement (attribute_declaration (attribute (identifier)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
         (switch_statement
-          (condition_clause (identifier))
+          (condition_clause
+            (identifier))
           (compound_statement
-            (attributed_statement (attribute_declaration (attribute (identifier)))
-              (case_statement (number_literal) (compound_statement))))))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (while_statement (condition_clause (true)) (compound_statement)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (if_statement (condition_clause (true)) (compound_statement)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (for_range_loop (placeholder_type_specifier (auto)) (identifier) (identifier) (compound_statement)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (for_statement (compound_statement)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (return_statement))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier))))))
+            (attributed_statement
+              (attribute_declaration
+                (attribute
+                  (identifier)))
+              (case_statement
+                (number_literal)
+                (compound_statement))))))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (while_statement
+          (condition_clause
+            (true))
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (if_statement
+          (condition_clause
+            (true))
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (for_range_loop
+          (placeholder_type_specifier
+            (auto))
+          (identifier)
+          (identifier)
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (for_statement
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (return_statement))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (expression_statement
+          (identifier)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (expression_statement))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (labeled_statement
+          (statement_identifier)
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (goto_statement
+          (statement_identifier))))))
 
-===========================================
+================================================================================
 Coroutines
-===========================================
+================================================================================
 
 co_return 1;
 co_return;
 co_yield 1;
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (co_return_statement
@@ -398,10 +546,9 @@ co_yield 1;
   (co_yield_statement
     (number_literal)))
 
-
-===========================================
+================================================================================
 Switch statements
-===========================================
+================================================================================
 
 void foo(int a) {
   switch (a) {
@@ -419,15 +566,43 @@ void foo(int a) {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
-  (function_definition (primitive_type)
-    (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type) (identifier))))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))))
     (compound_statement
-      (switch_statement (condition_clause (identifier))
+      (switch_statement
+        (condition_clause
+          (identifier))
         (compound_statement
-          (case_statement (number_literal) (for_range_loop (placeholder_type_specifier (auto)) (identifier) (identifier) (compound_statement)))
-          (case_statement (number_literal) (try_statement (compound_statement (comment)) (catch_clause (parameter_list) (compound_statement))) (throw_statement (number_literal)))
-          (case_statement (number_literal) (co_return_statement))
-          (case_statement (co_yield_statement (identifier))))))))
+          (case_statement
+            (number_literal)
+            (for_range_loop
+              (placeholder_type_specifier
+                (auto))
+              (identifier)
+              (identifier)
+              (compound_statement)))
+          (case_statement
+            (number_literal)
+            (try_statement
+              (compound_statement
+                (comment))
+              (catch_clause
+                (parameter_list)
+                (compound_statement)))
+            (throw_statement
+              (number_literal)))
+          (case_statement
+            (number_literal)
+            (co_return_statement))
+          (case_statement
+            (co_yield_statement
+              (identifier))))))))

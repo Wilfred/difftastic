@@ -108,7 +108,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-cpp",
             src_dir: "vendored_parsers/tree-sitter-cpp-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-c-sharp",
