@@ -154,7 +154,7 @@ module.exports = grammar(C, {
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
     // with an associativity.
     _class_declaration: $ => prec.right(seq(
-      optional($.attribute_specifier),
+      repeat(choice($.attribute_specifier, $.alignas_specifier)),
       optional($.ms_declspec_modifier),
       repeat($.attribute_declaration),
       choice(
@@ -205,9 +205,17 @@ module.exports = grammar(C, {
 
     virtual: _ => choice('virtual'),
 
+    alignas_specifier: $ => seq(
+      'alignas',
+      '(',
+      choice($._expression, $.primitive_type),
+      ')',
+    ),
+
     _declaration_modifiers: ($, original) => choice(
       original,
       $.virtual,
+      $.alignas_specifier,
     ),
 
     explicit_function_specifier: $ => choice(
@@ -843,6 +851,7 @@ module.exports = grammar(C, {
       $.requires_clause,
       $.template_function,
       $.qualified_identifier,
+      $.alignof_expression,
       $.new_expression,
       $.delete_expression,
       $.lambda_expression,
@@ -1067,6 +1076,13 @@ module.exports = grammar(C, {
         field('value', $.identifier),
         ')',
       ),
+    )),
+
+    alignof_expression: $ => prec.right(PREC.SIZEOF, seq(
+      'alignof',
+      '(',
+      field('type', $.type_descriptor),
+      ')',
     )),
 
     unary_expression: ($, original) => choice(

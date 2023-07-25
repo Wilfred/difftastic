@@ -2172,3 +2172,99 @@ int main() {
       (comment)
       (return_statement
         (number_literal)))))
+
+================================================================================
+Alignas specifier and alignof expression
+================================================================================
+
+struct sse_t {
+    alignas(16) float sse_data[4];
+};
+
+struct data {
+    char x;
+    alignas(128) char cacheline[128]; // over-aligned array of char,
+                                      // not array of over-aligned chars
+};
+
+int main(void) {
+    printf("sizeof(data) = %zu (1 byte + 127 bytes padding + 128-byte array)\n",
+           sizeof(struct data));
+
+    printf("alignment of sse_t is %zu\n", alignof(struct sse_t));
+
+    alignas(2048) struct data d; // this instance of data is aligned even stricter
+    (void)d; // suppresses "maybe unused" warning
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (alignas_specifier
+          (number_literal))
+        (primitive_type)
+        (array_declarator
+          (field_identifier)
+          (number_literal)))))
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (field_identifier))
+      (field_declaration
+        (alignas_specifier
+          (number_literal))
+        (primitive_type)
+        (array_declarator
+          (field_identifier)
+          (number_literal)))
+      (comment)
+      (comment)))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)
+              (escape_sequence))
+            (sizeof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier)))))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)
+              (escape_sequence))
+            (alignof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier)))))))
+      (declaration
+        (alignas_specifier
+          (number_literal))
+        (struct_specifier
+          (type_identifier))
+        (identifier))
+      (comment)
+      (expression_statement
+        (cast_expression
+          (type_descriptor
+            (primitive_type))
+          (identifier)))
+      (comment))))
