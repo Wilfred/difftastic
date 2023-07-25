@@ -1,6 +1,6 @@
-============================================
+================================================================================
 If statements
-============================================
+================================================================================
 
 int main() {
   if (a)
@@ -13,24 +13,35 @@ int main() {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (if_statement (parenthesized_expression (identifier))
-        (expression_statement (number_literal)))
-      (if_statement (parenthesized_expression (unary_expression (identifier)))
+      (if_statement
+        (parenthesized_expression
+          (identifier))
+        (expression_statement
+          (number_literal)))
+      (if_statement
+        (parenthesized_expression
+          (unary_expression
+            (identifier)))
         (compound_statement
-          (expression_statement (number_literal)))
-        (compound_statement
-          (expression_statement (number_literal)))))))
+          (expression_statement
+            (number_literal)))
+        (else_clause
+          (compound_statement
+            (expression_statement
+              (number_literal))))))))
 
-============================================
+================================================================================
 For loops
-============================================
+================================================================================
 
 int main() {
   for (;;)
@@ -47,35 +58,64 @@ int main() {
     1;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
       (for_statement
-        (expression_statement (number_literal)))
+        (expression_statement
+          (number_literal)))
       (for_statement
-        (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
-        (binary_expression (identifier) (number_literal))
+        (declaration
+          (primitive_type)
+          (init_declarator
+            (identifier)
+            (number_literal)))
+        (binary_expression
+          (identifier)
+          (number_literal))
         (comma_expression
-          (call_expression (identifier) (argument_list))
-          (update_expression (identifier)))
-        (compound_statement (expression_statement (number_literal))))
+          (call_expression
+            (identifier)
+            (argument_list))
+          (update_expression
+            (identifier)))
+        (compound_statement
+          (expression_statement
+            (number_literal))))
       (for_statement
-        (call_expression (identifier) (argument_list))
-        (call_expression (identifier) (argument_list))
-        (call_expression (identifier) (argument_list))
-        (expression_statement (number_literal)))
+        (call_expression
+          (identifier)
+          (argument_list))
+        (call_expression
+          (identifier)
+          (argument_list))
+        (call_expression
+          (identifier)
+          (argument_list))
+        (expression_statement
+          (number_literal)))
       (for_statement
         (comma_expression
-          (assignment_expression (identifier) (number_literal))
+          (assignment_expression
+            (identifier)
+            (number_literal))
           (comma_expression
-            (assignment_expression (identifier) (number_literal))
+            (assignment_expression
+              (identifier)
+              (number_literal))
             (comma_expression
-              (assignment_expression (identifier) (number_literal))
-              (assignment_expression (identifier) (number_literal)))))
+              (assignment_expression
+                (identifier)
+                (number_literal))
+              (assignment_expression
+                (identifier)
+                (number_literal)))))
         (comma_expression
           (binary_expression
             (identifier)
@@ -84,38 +124,50 @@ int main() {
             (identifier)
             (number_literal)))
         (comma_expression
-          (update_expression (identifier))
+          (update_expression
+            (identifier))
           (comma_expression
-            (update_expression (identifier))
+            (update_expression
+              (identifier))
             (comma_expression
-              (update_expression (identifier))
-              (update_expression (identifier)))))
-        (expression_statement (number_literal))))))
+              (update_expression
+                (identifier))
+              (update_expression
+                (identifier)))))
+        (expression_statement
+          (number_literal))))))
 
-============================================
+================================================================================
 While loops
-============================================
+================================================================================
 
 int main() {
   while (x)
     printf("hi");
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (while_statement (parenthesized_expression (identifier))
-        (expression_statement (call_expression
-          (identifier)
-          (argument_list (string_literal))))))))
+      (while_statement
+        (parenthesized_expression
+          (identifier))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)))))))))
 
-============================================
+================================================================================
 Labeled statements
-============================================
+================================================================================
 
 void foo(T *t) {
 recur:
@@ -123,23 +175,38 @@ recur:
   if (t) goto recur;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list
-      (parameter_declaration (type_identifier) (pointer_declarator (identifier)))))
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (type_identifier)
+          (pointer_declarator
+            (identifier)))))
     (compound_statement
-      (labeled_statement (statement_identifier)
-        (expression_statement (assignment_expression
-          (identifier)
-          (call_expression (field_expression (identifier) (field_identifier)) (argument_list)))))
-      (if_statement (parenthesized_expression (identifier)) (goto_statement (statement_identifier))))))
+      (labeled_statement
+        (statement_identifier)
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (call_expression
+              (field_expression
+                (identifier)
+                (field_identifier))
+              (argument_list)))))
+      (if_statement
+        (parenthesized_expression
+          (identifier))
+        (goto_statement
+          (statement_identifier))))))
 
-============================================
+================================================================================
 Switch statements
-============================================
+================================================================================
 
 void foo(int a) {
   switch (a) {
@@ -158,31 +225,51 @@ void foo(int a) {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list
-      (parameter_declaration (primitive_type) (identifier))))
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))))
     (compound_statement
       (switch_statement
-        (parenthesized_expression (identifier))
+        (parenthesized_expression
+          (identifier))
         (compound_statement
-          (expression_statement (call_expression (identifier) (argument_list (string_literal))))
-          (case_statement (number_literal))
-          (case_statement (number_literal)
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list
+                (string_literal
+                  (string_content)))))
+          (case_statement
+            (number_literal))
+          (case_statement
+            (number_literal)
             (if_statement
-              (parenthesized_expression (identifier))
-              (compound_statement (expression_statement (call_expression (identifier) (argument_list)))))
+              (parenthesized_expression
+                (identifier))
+              (compound_statement
+                (expression_statement
+                  (call_expression
+                    (identifier)
+                    (argument_list)))))
             (break_statement))
           (case_statement
-            (expression_statement (call_expression (identifier) (argument_list)))
+            (expression_statement
+              (call_expression
+                (identifier)
+                (argument_list)))
             (break_statement)))))))
 
-============================================
+================================================================================
 Case statements separate from switch statements
-============================================
+================================================================================
 
 int main() {
   switch (count % 8) {
@@ -195,35 +282,59 @@ int main() {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
       (switch_statement
-        (parenthesized_expression (binary_expression (identifier) (number_literal)))
+        (parenthesized_expression
+          (binary_expression
+            (identifier)
+            (number_literal)))
         (compound_statement
-          (case_statement (number_literal)
+          (case_statement
+            (number_literal)
             (do_statement
               (compound_statement
-                (expression_statement (assignment_expression
-                  (pointer_expression (identifier))
-                  (pointer_expression (update_expression (identifier)))))
-                (case_statement (number_literal)
-                  (expression_statement (assignment_expression
-                    (pointer_expression (identifier))
-                    (pointer_expression (update_expression (identifier))))))
-                (case_statement (number_literal)
-                  (expression_statement (assignment_expression
-                    (pointer_expression (identifier))
-                    (pointer_expression (update_expression (identifier)))))))
-              (parenthesized_expression (binary_expression (update_expression (identifier)) (number_literal))))))))))
+                (expression_statement
+                  (assignment_expression
+                    (pointer_expression
+                      (identifier))
+                    (pointer_expression
+                      (update_expression
+                        (identifier)))))
+                (case_statement
+                  (number_literal)
+                  (expression_statement
+                    (assignment_expression
+                      (pointer_expression
+                        (identifier))
+                      (pointer_expression
+                        (update_expression
+                          (identifier))))))
+                (case_statement
+                  (number_literal)
+                  (expression_statement
+                    (assignment_expression
+                      (pointer_expression
+                        (identifier))
+                      (pointer_expression
+                        (update_expression
+                          (identifier)))))))
+              (parenthesized_expression
+                (binary_expression
+                  (update_expression
+                    (identifier))
+                  (number_literal))))))))))
 
-============================================
+================================================================================
 Return statements
-============================================
+================================================================================
 
 void foo() {
   return;
@@ -231,20 +342,26 @@ void foo() {
   return a, b;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
       (return_statement)
-      (return_statement (identifier))
-      (return_statement (comma_expression (identifier) (identifier))))))
+      (return_statement
+        (identifier))
+      (return_statement
+        (comma_expression
+          (identifier)
+          (identifier))))))
 
-============================================
+================================================================================
 Comments with asterisks
-============================================
+================================================================================
 
 /*************************
  * odd number of asterisks
@@ -256,17 +373,38 @@ int a;
  **************************/
 int b;
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (comment)
-  (declaration (primitive_type) (identifier))
+  (declaration
+    (primitive_type)
+    (identifier))
   (comment)
-  (declaration (primitive_type) (identifier)))
+  (declaration
+    (primitive_type)
+    (identifier)))
 
-============================================
+================================================================================
+Comment with multiple backslashes
+================================================================================
+
+int a = 3; // Hello \\
+World
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (number_literal)))
+  (comment))
+
+================================================================================
 Attributes
-============================================
+================================================================================
 
 void f() {
   [[a]] switch (b) {
@@ -289,38 +427,109 @@ void f() {
   do [[likely]] {} while (true);
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
-  (function_definition (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-      (compound_statement
-        (attributed_statement
-          (attribute_declaration (attribute (identifier)))
-          (switch_statement
-            (parenthesized_expression (identifier))
-            (compound_statement
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (switch_statement
+          (parenthesized_expression
+            (identifier))
+          (compound_statement
+            (attributed_statement
+              (attribute_declaration
+                (attribute
+                  (identifier)))
+              (case_statement
+                (number_literal)
+                (compound_statement)))
+            (case_statement
+              (number_literal)
               (attributed_statement
-                (attribute_declaration (attribute (identifier)))
-                (case_statement (number_literal) (compound_statement)))
-              (case_statement (number_literal)
-                (attributed_statement
-                  (attribute_declaration (attribute (identifier)))
-                  (expression_statement)))
-              (case_statement))))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (while_statement (parenthesized_expression (true)) (compound_statement)))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (if_statement (parenthesized_expression (true)) (compound_statement)))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (for_statement (compound_statement)))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (return_statement))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier)))
-        (comment)
+                (attribute_declaration
+                  (attribute
+                    (identifier)))
+                (expression_statement)))
+            (case_statement))))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (while_statement
+          (parenthesized_expression
+            (true))
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
         (if_statement
-          (parenthesized_expression (true))
-          (attributed_statement (attribute_declaration (attribute (identifier))) (compound_statement))
-          (attributed_statement (attribute_declaration (attribute (identifier))) (compound_statement)))
-        (do_statement
-          (attributed_statement (attribute_declaration (attribute (identifier))) (compound_statement))
-          (parenthesized_expression (true))))))
+          (parenthesized_expression
+            (true))
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (for_statement
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (return_statement))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (expression_statement
+          (identifier)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (expression_statement))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (labeled_statement
+          (statement_identifier)
+          (compound_statement)))
+      (attributed_statement
+        (attribute_declaration
+          (attribute
+            (identifier)))
+        (goto_statement
+          (statement_identifier)))
+      (comment)
+      (if_statement
+        (parenthesized_expression
+          (true))
+        (attributed_statement
+          (attribute_declaration
+            (attribute
+              (identifier)))
+          (compound_statement))
+        (else_clause
+          (attributed_statement
+            (attribute_declaration
+              (attribute
+                (identifier)))
+            (compound_statement))))
+      (do_statement
+        (attributed_statement
+          (attribute_declaration
+            (attribute
+              (identifier)))
+          (compound_statement))
+        (parenthesized_expression
+          (true))))))

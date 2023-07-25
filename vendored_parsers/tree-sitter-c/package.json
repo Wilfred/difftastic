@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.20.2",
+  "version": "0.20.4",
   "description": "C grammar for node-tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -17,10 +17,13 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
+    "eslint": "^8.41.0",
+    "eslint-config-google": "^0.14.0",
     "tree-sitter-cli": "^0.20.0"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
+    "lint": "eslint grammar.js",
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
     "test-windows": "tree-sitter test"
   },
@@ -30,6 +33,10 @@
       "file-types": [
         "c",
         "h"
+      ],
+      "injection-regex": "^(c|h)$",
+      "highlights": [
+        "queries/highlights.scm"
       ]
     }
   ]

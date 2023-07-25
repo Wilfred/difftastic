@@ -1,6 +1,6 @@
-============================================
+================================================================================
 Number literals
-============================================
+================================================================================
 
 double a = {
   0xAC00,
@@ -18,7 +18,7 @@ double a = {
   0x10.1p0,
 };
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (declaration
@@ -38,31 +38,57 @@ double a = {
         (number_literal)
         (number_literal)
         (number_literal)
-        (number_literal)
-      ))))
+        (number_literal)))))
 
-============================================
+================================================================================
 Identifiers
-============================================
+================================================================================
 
 int main() {
   _abc;
   d_EG123;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (identifier))
-      (expression_statement (identifier)))))
+      (expression_statement
+        (identifier))
+      (expression_statement
+        (identifier)))))
 
-============================================
+================================================================================
+Unicode Identifiers
+================================================================================
+
+int main() {
+  µs;
+  blah_accenté;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (identifier))
+      (expression_statement
+        (identifier)))))
+
+================================================================================
 Common constants
-============================================
+================================================================================
 
 int main() {
   true;
@@ -75,43 +101,159 @@ int main() {
   NULL_value;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (true))
-      (expression_statement (false))
-      (expression_statement (null))
+      (expression_statement
+        (true))
+      (expression_statement
+        (false))
+      (expression_statement
+        (null))
       (comment)
-      (expression_statement (identifier))
-      (expression_statement (identifier))
-      (expression_statement (identifier)))))
+      (expression_statement
+        (identifier))
+      (expression_statement
+        (identifier))
+      (expression_statement
+        (identifier)))))
 
-============================================
+================================================================================
 Function calls
-============================================
+================================================================================
 
 int main() {
   printf("hi! %d\n", x);
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (call_expression
-        (identifier)
-        (argument_list (string_literal (escape_sequence)) (identifier)))))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)
+              (escape_sequence))
+            (identifier)))))))
 
-============================================
+================================================================================
+GNU inline assembly
+================================================================================
+
+asm volatile (
+    "mov r0, %0\n"
+    "mov r1, %[y]\n"
+    "add r2, r0, r1\n"
+    "mov %1, r2\n"
+    :     "r"  (z)
+    :     "=r" (x),
+      [y] "=r" ((uintptr_t) y)
+    : "r2");
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (gnu_asm_expression
+      (gnu_asm_qualifier)
+      (concatenated_string
+        (string_literal
+          (string_content)
+          (escape_sequence))
+        (string_literal
+          (string_content)
+          (escape_sequence))
+        (string_literal
+          (string_content)
+          (escape_sequence))
+        (string_literal
+          (string_content)
+          (escape_sequence)))
+      (gnu_asm_output_operand_list
+        (gnu_asm_output_operand
+          (string_literal
+            (string_content))
+          (identifier)))
+      (gnu_asm_input_operand_list
+        (gnu_asm_input_operand
+          (string_literal
+            (string_content))
+          (identifier))
+        (gnu_asm_input_operand
+          (identifier)
+          (string_literal
+            (string_content))
+          (cast_expression
+            (type_descriptor
+              (primitive_type))
+            (identifier))))
+      (gnu_asm_clobber_list
+        (string_literal
+          (string_content))))))
+
+================================================================================
+Function call with compound statement
+================================================================================
+
+#define TAKES_BLOCK(x, block) for (i = 0; i < x; i++) block
+
+int main(void) {
+  {
+    int x = 0;
+  }
+  TAKES_BLOCK(10, {
+    // Doesn't matter what I put in here
+  });
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_function_def
+    (identifier)
+    (preproc_params
+      (identifier)
+      (identifier))
+    (preproc_arg))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (compound_statement
+        (declaration
+          (primitive_type)
+          (init_declarator
+            (identifier)
+            (number_literal))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal)
+            (compound_statement
+              (comment))))))))
+
+================================================================================
 String literals
-============================================
+================================================================================
 
 int main() {
   "a";
@@ -123,24 +265,47 @@ int main() {
   u8"buongiorno";
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (string_literal))
-      (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
-      (expression_statement (string_literal (escape_sequence) (escape_sequence)))
-      (expression_statement (string_literal))
-      (expression_statement (string_literal))
-      (expression_statement (string_literal))
-      (expression_statement (string_literal)))))
+      (expression_statement
+        (string_literal
+          (string_content)))
+      (expression_statement
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))))
+      (expression_statement
+        (string_literal
+          (escape_sequence)
+          (string_content)
+          (escape_sequence)))
+      (expression_statement
+        (string_literal
+          (string_content)))
+      (expression_statement
+        (string_literal
+          (string_content)))
+      (expression_statement
+        (string_literal
+          (string_content)))
+      (expression_statement
+        (string_literal
+          (string_content))))))
 
-============================================
+================================================================================
 Character literals
-============================================
+================================================================================
 
 int main() {
   'a';
@@ -153,25 +318,43 @@ int main() {
   u8'\x1A';
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (char_literal))
-      (expression_statement (char_literal (escape_sequence)))
-      (expression_statement (char_literal (escape_sequence)))
-      (expression_statement (char_literal (escape_sequence)))
-      (expression_statement (char_literal))
-      (expression_statement (char_literal))
-      (expression_statement (char_literal (escape_sequence)))
-      (expression_statement (char_literal (escape_sequence))))))
+      (expression_statement
+        (char_literal
+          (character)))
+      (expression_statement
+        (char_literal
+          (escape_sequence)))
+      (expression_statement
+        (char_literal
+          (escape_sequence)))
+      (expression_statement
+        (char_literal
+          (escape_sequence)))
+      (expression_statement
+        (char_literal
+          (character)))
+      (expression_statement
+        (char_literal
+          (character)))
+      (expression_statement
+        (char_literal
+          (escape_sequence)))
+      (expression_statement
+        (char_literal
+          (escape_sequence))))))
 
-============================================
+================================================================================
 Field access
-============================================
+================================================================================
 
 int main() {
   s.data1;
@@ -179,41 +362,58 @@ int main() {
   q[data3];
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (field_expression (identifier) (field_identifier)))
-      (expression_statement (field_expression (identifier) (field_identifier)))
-      (expression_statement (subscript_expression (identifier) (identifier))))))
+      (expression_statement
+        (field_expression
+          (identifier)
+          (field_identifier)))
+      (expression_statement
+        (field_expression
+          (identifier)
+          (field_identifier)))
+      (expression_statement
+        (subscript_expression
+          (identifier)
+          (identifier))))))
 
-============================================
+================================================================================
 Boolean operators
-============================================
+================================================================================
 
 int main() {
   !x || !y && !z;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (binary_expression
-        (unary_expression (identifier))
+      (expression_statement
         (binary_expression
-          (unary_expression (identifier))
-          (unary_expression (identifier))))))))
+          (unary_expression
+            (identifier))
+          (binary_expression
+            (unary_expression
+              (identifier))
+            (unary_expression
+              (identifier))))))))
 
-============================================
+================================================================================
 Math operators
-============================================
+================================================================================
 
 int main() {
   -a / b + c * -d;
@@ -221,59 +421,76 @@ int main() {
   ++L;
   }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (binary_expression
+      (expression_statement
         (binary_expression
-          (unary_expression (identifier))
-          (identifier))
-        (binary_expression
-          (identifier)
-          (unary_expression (identifier)))))
+          (binary_expression
+            (unary_expression
+              (identifier))
+            (identifier))
+          (binary_expression
+            (identifier)
+            (unary_expression
+              (identifier)))))
       (expression_statement
         (binary_expression
           (binary_expression
             (binary_expression
-              (update_expression (identifier))
-              (update_expression (identifier)))
-            (update_expression (identifier)))
-          (update_expression (identifier))))
-       (expression_statement (update_expression (identifier))))))
+              (update_expression
+                (identifier))
+              (update_expression
+                (identifier)))
+            (update_expression
+              (identifier)))
+          (update_expression
+            (identifier))))
+      (expression_statement
+        (update_expression
+          (identifier))))))
 
-============================================
+================================================================================
 The comma operator
-============================================
+================================================================================
 
 int main() {
   i--, j--;
   (i--, j--);
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
       (expression_statement
         (comma_expression
-          (update_expression (identifier))
-          (update_expression (identifier))))
+          (update_expression
+            (identifier))
+          (update_expression
+            (identifier))))
       (expression_statement
         (parenthesized_expression
           (comma_expression
-            (update_expression (identifier))
-            (update_expression (identifier))))))))
+            (update_expression
+              (identifier))
+            (update_expression
+              (identifier))))))))
 
-============================================
+================================================================================
 Assignments
-============================================
+================================================================================
 
 int main() {
   static int a = 1;
@@ -287,9 +504,10 @@ int main() {
   q /= r;
   *s++ = 1;
   (*t) = 1;
+  a *= ((b!=c) ? d : e);
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -304,79 +522,106 @@ int main() {
         declarator: (init_declarator
           declarator: (identifier)
           value: (number_literal)))
-      (expression_statement (assignment_expression
-        left: (identifier)
-        right: (assignment_expression
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (assignment_expression
+            left: (pointer_expression
+              argument: (identifier))
+            right: (number_literal))))
+      (expression_statement
+        (assignment_expression
+          left: (field_expression
+            argument: (identifier)
+            field: (field_identifier))
+          right: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (field_expression
+            argument: (identifier)
+            field: (field_identifier))
+          right: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (subscript_expression
+            argument: (identifier)
+            index: (identifier))
+          right: (identifier)))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (identifier)))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (identifier)))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (identifier)))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (identifier)))
+      (expression_statement
+        (assignment_expression
           left: (pointer_expression
-            argument: (identifier))
-          right: (number_literal))))
-      (expression_statement (assignment_expression
-        left: (field_expression
-          argument: (identifier)
-          field: (field_identifier))
-        right: (number_literal)))
-      (expression_statement (assignment_expression
-        left: (field_expression
-          argument: (identifier)
-          field: (field_identifier))
-        right: (number_literal)))
-      (expression_statement (assignment_expression
-        left: (subscript_expression
-          argument: (identifier)
-          index: (identifier))
-        right: (identifier)))
-      (expression_statement (assignment_expression
-        left: (identifier)
-        right: (identifier)))
-      (expression_statement (assignment_expression
-        left: (identifier)
-        right: (identifier)))
-      (expression_statement (assignment_expression
-        left: (identifier)
-        right: (identifier)))
-      (expression_statement (assignment_expression
-        left: (identifier)
-        right: (identifier)))
-      (expression_statement (assignment_expression
-        left: (pointer_expression
-          argument: (update_expression
-            argument: (identifier)))
-        right: (number_literal)))
-      (expression_statement (assignment_expression
-        left: (parenthesized_expression (pointer_expression
-          argument: (identifier)))
-        right: (number_literal))))))
+            argument: (update_expression
+              argument: (identifier)))
+          right: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (parenthesized_expression
+            (pointer_expression
+              argument: (identifier)))
+          right: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (parenthesized_expression
+            (conditional_expression
+              condition: (parenthesized_expression
+                (binary_expression
+                  left: (identifier)
+                  right: (identifier)))
+              consequence: (identifier)
+              alternative: (identifier))))))))
 
-============================================
+================================================================================
 Pointer operations
-============================================
+================================================================================
 
 int main() {
   doSomething(&x, *x);
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (call_expression
-        (identifier)
-        (argument_list
-          (pointer_expression (identifier))
-          (pointer_expression (identifier))))))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (pointer_expression
+              (identifier))
+            (pointer_expression
+              (identifier))))))))
 
-============================================
+================================================================================
 Type-casts
-============================================
+================================================================================
 
 int main() {
   x = (const SomeType *)thing;
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
@@ -385,18 +630,19 @@ int main() {
       declarator: (identifier)
       parameters: (parameter_list))
     body: (compound_statement
-      (expression_statement (assignment_expression
-        left: (identifier)
-        right: (cast_expression
-          type: (type_descriptor
-            (type_qualifier)
-            type: (type_identifier)
-            declarator: (abstract_pointer_declarator))
-          value: (identifier)))))))
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (cast_expression
+            type: (type_descriptor
+              (type_qualifier)
+              type: (type_identifier)
+              declarator: (abstract_pointer_declarator))
+            value: (identifier)))))))
 
-============================================
+================================================================================
 Sizeof expressions
-============================================
+================================================================================
 
 int main() {
   sizeof x.a;
@@ -405,23 +651,74 @@ int main() {
   sizeof(char * ());
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (sizeof_expression (field_expression (identifier) (field_identifier))))
-      (expression_statement (sizeof_expression (parenthesized_expression (field_expression (identifier) (field_identifier)))))
-      (expression_statement (sizeof_expression
-        (type_descriptor (type_qualifier) (primitive_type) (abstract_pointer_declarator (abstract_pointer_declarator)))))
-      (expression_statement (sizeof_expression
-        (type_descriptor (primitive_type) (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))))
+      (expression_statement
+        (sizeof_expression
+          (field_expression
+            (identifier)
+            (field_identifier))))
+      (expression_statement
+        (sizeof_expression
+          (parenthesized_expression
+            (field_expression
+              (identifier)
+              (field_identifier)))))
+      (expression_statement
+        (sizeof_expression
+          (type_descriptor
+            (type_qualifier)
+            (primitive_type)
+            (abstract_pointer_declarator
+              (abstract_pointer_declarator)))))
+      (expression_statement
+        (sizeof_expression
+          (type_descriptor
+            (primitive_type)
+            (abstract_pointer_declarator
+              (abstract_function_declarator
+                (parameter_list)))))))))
 
-============================================
+================================================================================
+Offsetof expressions
+================================================================================
+
+int main() {
+  offsetof( struct x, a );
+  offsetof( x, a );
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (offsetof_expression
+          (type_descriptor
+            (struct_specifier
+              (type_identifier)))
+          (field_identifier)))
+      (expression_statement
+        (offsetof_expression
+          (type_descriptor
+            (type_identifier))
+          (field_identifier))))))
+
+================================================================================
 Compound literals
-============================================
+================================================================================
 
 int main() {
   x = (SomeType) {
@@ -435,84 +732,462 @@ int main() {
   z = (char const []) {'a', 'b'};
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
+    (function_declarator
+      (identifier)
+      (parameter_list))
     (compound_statement
-      (expression_statement (assignment_expression
-        (identifier)
-        (compound_literal_expression
-          (type_descriptor (type_identifier))
-          (initializer_list
-            (initializer_pair
-              (field_designator (field_identifier))
-              (field_designator (field_identifier))
-              (subscript_designator (identifier))
-              (number_literal))
-            (initializer_pair
-              (field_designator (field_identifier))
-              (initializer_list))))))
-      (expression_statement (assignment_expression
-        (identifier)
-        (compound_literal_expression
-          (type_descriptor (struct_specifier (type_identifier)))
-          (initializer_list
-            (number_literal)
-            (number_literal)))))
       (expression_statement
         (assignment_expression
           (identifier)
           (compound_literal_expression
-            (type_descriptor (primitive_type) (type_qualifier) (abstract_array_declarator))
-            (initializer_list (char_literal) (char_literal))))))))
+            (type_descriptor
+              (type_identifier))
+            (initializer_list
+              (initializer_pair
+                (field_designator
+                  (field_identifier))
+                (field_designator
+                  (field_identifier))
+                (subscript_designator
+                  (identifier))
+                (number_literal))
+              (initializer_pair
+                (field_designator
+                  (field_identifier))
+                (initializer_list))))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (compound_literal_expression
+            (type_descriptor
+              (struct_specifier
+                (type_identifier)))
+            (initializer_list
+              (number_literal)
+              (number_literal)))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (compound_literal_expression
+            (type_descriptor
+              (primitive_type)
+              (type_qualifier)
+              (abstract_array_declarator))
+            (initializer_list
+              (char_literal
+                (character))
+              (char_literal
+                (character)))))))))
 
-============================================
+================================================================================
 Compound literals with trailing commas
-============================================
+================================================================================
 
 int main() {
   y = (struct SomeStruct) { 7, 8, };
 }
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (function_definition
     (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-    (compound_statement
-    (expression_statement (assignment_expression
+    (function_declarator
       (identifier)
-      (compound_literal_expression
-        (type_descriptor (struct_specifier (type_identifier)))
-        (initializer_list
-          (number_literal)
-          (number_literal))))))))
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (compound_literal_expression
+            (type_descriptor
+              (struct_specifier
+                (type_identifier)))
+            (initializer_list
+              (number_literal)
+              (number_literal))))))))
 
-====================================
+================================================================================
 Comments with escaped newlines
-====================================
+================================================================================
 
 // one \
    two
 
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (comment))
 
-==============================================
+================================================================================
 Comments with escaped chars and newlines
-==============================================
+================================================================================
 
 // one \a \b \
    two
 // one \c \d
----
+--------------------------------------------------------------------------------
 
 (translation_unit
   (comment)
   (comment))
+
+================================================================================
+Generic Expressions
+================================================================================
+
+int main(int argc, char **argv) {
+  int    a = 10;
+  float  b = 3.14;
+  double c = 2.71828;
+  char   d = 'A';
+
+  a = _Generic(d, int: 5, float: 0, char: 100);
+  b = _Generic(a, void *: 0, int: 4.0, float: 3.14, double: 2.71828, char: 1.0);
+	c = _Generic(b, void *: 0, int: 4.0, float: 3.14, double: 2.71828, char: 1.0);
+	d = _Generic(c, void *: '\0', int: '0', float: '3', double: '2', char: '1');
+
+  _Generic(a, int: printf("a is an int\n"), float: printf("a is a float\n"), double: printf("a is a double\n"), char: printf("a is a char\n"));
+  _Generic(b, int: printf("b is an int\n"), float: printf("b is a float\n"), double: printf("b is a double\n"), char: printf("b is a char\n"));
+  _Generic(c, int: printf("c is an int\n"), float: printf("c is a float\n"), double: printf("c is a double\n"), char: printf("c is a char\n"));
+  _Generic(d, int: printf("d is an int\n"), float: printf("d is a float\n"), double: printf("d is a double\n"), char: printf("d is a char\n"));
+
+  return 0;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))
+        (parameter_declaration
+          (primitive_type)
+          (pointer_declarator
+            (pointer_declarator
+              (identifier))))))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (number_literal)))
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (number_literal)))
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (number_literal)))
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (char_literal
+            (character))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type)
+              (abstract_pointer_declarator))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type)
+              (abstract_pointer_declarator))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type)
+              (abstract_pointer_declarator))
+            (char_literal
+              (escape_sequence))
+            (type_descriptor
+              (primitive_type))
+            (char_literal
+              (character))
+            (type_descriptor
+              (primitive_type))
+            (char_literal
+              (character))
+            (type_descriptor
+              (primitive_type))
+            (char_literal
+              (character))
+            (type_descriptor
+              (primitive_type))
+            (char_literal
+              (character)))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (string_content)
+                (escape_sequence))))))
+      (return_statement
+        (number_literal)))))
+
+================================================================================
+Noreturn Type Qualifier
+================================================================================
+
+_Noreturn void kill(void) {
+  printf("Killing the program\n");
+  exit(0);
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (type_qualifier)
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)
+              (escape_sequence)))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal)))))))
+
+================================================================================
+Restrict Type Qualifier
+================================================================================
+
+void fn (int *__restrict__ rptr) {
+  int *ptr = rptr;
+  *ptr = 0;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (pointer_declarator
+            (type_qualifier)
+            (identifier)))))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (pointer_declarator
+            (identifier))
+          (identifier)))
+      (expression_statement
+        (assignment_expression
+          (pointer_expression
+            (identifier))
+          (number_literal))))))

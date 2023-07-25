@@ -4,7 +4,7 @@
 
 Added support for LaTeX.
 
-Updated grammar for Java.
+Updated grammar for C and Java.
 
 Improved parsing of qualified constructors in Haskell.
 
