@@ -566,6 +566,7 @@ const _Atomic unsigned long int x = 5;
 restrict int y = 6;
 volatile int z = 7;
 constexpr int a = 8;
+__thread int c = 9;
 noreturn void b() {}
 
 --------------------------------------------------------------------------------
@@ -593,6 +594,12 @@ noreturn void b() {}
       (number_literal)))
   (declaration
     (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (number_literal)))
+  (declaration
+    (storage_class_specifier)
     (primitive_type)
     (init_declarator
       (identifier)

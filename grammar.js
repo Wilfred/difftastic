@@ -497,6 +497,7 @@ module.exports = grammar({
       'register',
       'inline',
       'thread_local',
+      '__thread',
     ),
 
     type_qualifier: _ => choice(
