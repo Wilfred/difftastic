@@ -1177,18 +1177,27 @@ module.exports = grammar(C, {
       $.qualified_identifier,
     ),
 
-    assignment_expression: ($, original) => choice(
-      original,
-      prec.right(PREC.ASSIGNMENT, seq(
-        field('left', $._assignment_left_expression),
-        field('operator', choice(
-          'and_eq',
-          'or_eq',
-          'xor_eq',
-        )),
-        field('right', $._expression),
+    assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
+      field('left', $._assignment_left_expression),
+      field('operator', choice(
+        '=',
+        '*=',
+        '/=',
+        '%=',
+        '+=',
+        '-=',
+        '<<=',
+        '>>=',
+        '&=',
+        '^=',
+        '|=',
+        'and_eq',
+        'or_eq',
+        'xor_eq',
       )),
-    ),
+      field('right', choice($._expression, $.initializer_list)),
+    )),
+
 
     operator_name: $ => prec(1, seq(
       'operator',
