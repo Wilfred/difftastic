@@ -66,6 +66,7 @@ module.exports = grammar(C, {
     [$._binary_fold_operator, $._fold_operator],
     [$.expression_statement, $.for_statement],
     [$.init_statement, $.for_statement],
+    [$._function_declarator_seq],
   ]),
 
   inline: ($, original) => original.concat([
@@ -571,6 +572,7 @@ module.exports = grammar(C, {
         $.noexcept,
         $.throw_specifier,
       )),
+      repeat($.attribute_specifier),
       repeat($.attribute_declaration),
       optional($.trailing_return_type),
       optional(choice(

@@ -2268,3 +2268,32 @@ int main(void) {
             (primitive_type))
           (identifier)))
       (comment))))
+
+================================================================================
+Attribute specifier after noexcept
+================================================================================
+
+inline constexpr MyEnum operator|(MyEnum bit0, MyEnum bit1) noexcept
+    __attribute__((always_inline)) {}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (storage_class_specifier)
+    (type_qualifier)
+    (type_identifier)
+    (function_declarator
+      (operator_name)
+      (parameter_list
+        (parameter_declaration
+          (type_identifier)
+          (identifier))
+        (parameter_declaration
+          (type_identifier)
+          (identifier)))
+      (noexcept)
+      (attribute_specifier
+        (argument_list
+          (identifier))))
+    (compound_statement)))
