@@ -154,6 +154,7 @@ module.exports = grammar(C, {
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
     // with an associativity.
     _class_declaration: $ => prec.right(seq(
+      optional($.attribute_specifier),
       optional($.ms_declspec_modifier),
       repeat($.attribute_declaration),
       choice(
@@ -165,6 +166,7 @@ module.exports = grammar(C, {
           field('body', $.field_declaration_list),
         ),
       ),
+      optional($.attribute_specifier),
     )),
 
     class_specifier: $ => seq(
