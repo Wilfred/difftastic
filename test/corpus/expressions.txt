@@ -32,6 +32,7 @@ Compound literals without parentheses
 
 T x = T{0};
 U<V> y = U<V>{0};
+int x = int{1};
 
 --------------------------------------------------------------------------------
 
@@ -58,6 +59,14 @@ U<V> y = U<V>{0};
           (template_argument_list
             (type_descriptor
               (type_identifier))))
+        (initializer_list
+          (number_literal)))))
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (compound_literal_expression
+        (primitive_type)
         (initializer_list
           (number_literal))))))
 

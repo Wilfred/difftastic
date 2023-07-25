@@ -1111,7 +1111,7 @@ module.exports = grammar(C, {
     compound_literal_expression: ($, original) => choice(
       original,
       seq(
-        field('type', $._class_name),
+        field('type', choice($._class_name, $.primitive_type)),
         field('value', $.initializer_list),
       ),
     ),
