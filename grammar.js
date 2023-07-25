@@ -17,7 +17,7 @@ const
 
 
   newline = '\n',
-  terminator = choice(newline, ';'),
+  terminator = choice(newline, ';', '\0'),
 
   hexDigit = /[0-9a-fA-F]/,
   octalDigit = /[0-7]/,
