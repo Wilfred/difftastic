@@ -43,7 +43,6 @@ module.exports = grammar(C, {
 
   conflicts: ($, original) => original.concat([
     [$.template_function, $.template_type],
-    [$.template_function, $.template_type, $._expression],
     [$.template_function, $.template_type, $._expression_not_binary],
     [$.template_function, $.template_type, $.qualified_identifier],
     [$.template_method, $.field_expression],
@@ -51,11 +50,8 @@ module.exports = grammar(C, {
     [$.qualified_type_identifier, $.qualified_identifier],
     [$.dependent_type_identifier, $.dependent_identifier],
     [$.comma_expression, $.initializer_list],
-    [$._expression, $._declarator],
     [$._expression_not_binary, $._declarator],
-    [$._expression, $.structured_binding_declarator],
     [$._expression_not_binary, $.structured_binding_declarator],
-    [$._expression, $._declarator, $._type_specifier],
     [$._expression_not_binary, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
     [$._type_specifier, $.call_expression],
