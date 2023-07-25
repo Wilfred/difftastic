@@ -22,7 +22,7 @@ include = [
 ]
 
 # Keep in sync with package.json
-version = "5.6.4"
+version = "5.6.5"
 
 [lib]
 path = "bindings/rust/lib.rs"
