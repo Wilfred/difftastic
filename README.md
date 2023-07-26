@@ -1,5 +1,4 @@
-tree-sitter-go
-===========================
+# tree-sitter-go
 
 [![Build/test](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml)
 
