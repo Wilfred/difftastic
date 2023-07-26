@@ -9,7 +9,7 @@ authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
 edition = "2018"
-rust-version = "1.57.0"
+rust-version = "1.58.0"
 include = [
         "/build.rs",
         "/src/",
@@ -28,7 +28,7 @@ pkg-url = "{ repo }/releases/download/{ version }/difft-{ target }.{ archive-for
 pkg-fmt = "zip"
 
 [dependencies]
-# This is the last version that supports rust 1.57, regex 1.8 requires rust 1.60.
+# regex 1.8 requires rust 1.60.
 regex = ">= 1.7, < 1.8"
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.10.1"
@@ -36,8 +36,7 @@ typed-arena = "2.0.1"
 rustc-hash = "1.1.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
-# This is the last version that supports 1.57, tree-sitter 0.20.10
-# requires rust 1.65.
+# tree-sitter 0.20.10 requires rust 1.65.
 tree-sitter = "0.20.9"
 libc = "0.2.108"
 log = "0.4.14"
@@ -64,10 +63,9 @@ strum = { version = "0.25", features = ["derive"] }
 hashbrown = "0.12.3"
 
 [dev-dependencies]
-# This is the last version of assert_cmd that supports rustc 1.57.
+# assert_cmd 2.0.6 requires rust 1.60
 assert_cmd = ">= 2, <= 2.0.5"
-# Predicates is a dependency of assert_cmd, but needs pinning to the
-# last version that supports rustc 1.57.
+# Predicates is a dependency of assert_cmd, but 2.1.2 requires rust 1.60.
 predicates = ">= 2, <= 2.1.1"
 
 pretty_assertions = "1.3.0"

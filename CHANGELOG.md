@@ -17,6 +17,10 @@ where e.g. PDF was sometimes incorrectly considered as UTF-8.
 Improved handling of delimiters ("nested sliders") in languages that
 prefer the outer delimiter, such as JSON and Lisps.
 
+### Build
+
+Difftastic now requires Rust 1.58 to build.
+
 ## 0.48 (released 12th July 2023)
 
 ### Parsing
