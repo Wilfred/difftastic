@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-go"
-description = "Go grammar for the tree-sitter parsing library"
-version = "0.19.1"
+description = "Go grammar for tree-sitter"
+version = "0.20.0"
 authors = [
 	"Max Brunsfeld <maxbrunsfeld@gmail.com>",
 	"Douglas Creager <dcreager@dcreager.net>",
@@ -12,6 +12,7 @@ keywords = ["incremental", "parsing", "go"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-go"
 edition = "2018"
+autoexamples = false
 
 build = "bindings/rust/build.rs"
 include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
@@ -20,7 +21,7 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = ">= 0.19, < 0.21"
+tree-sitter = ">= 0.20, < 0.21"
 
 [build-dependencies]
 cc = "1.0"
