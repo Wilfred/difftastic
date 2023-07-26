@@ -8,7 +8,7 @@ version = "0.49.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
-edition = "2018"
+edition = "2021"
 rust-version = "1.58.0"
 include = [
         "/build.rs",
