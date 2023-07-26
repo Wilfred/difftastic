@@ -14,15 +14,14 @@
 //!
 //! let code = r#"
 //!     func double(x int) int {
-//!     	return x * 2
+//!         return x * 2
 //!     }
 //! "#;
 //! let mut parser = Parser::new();
 //! parser.set_language(tree_sitter_go::language()).expect("Error loading Go grammar");
-//! let parsed = parser.parse(code, None);
-//! # let parsed = parsed.unwrap();
-//! # let root = parsed.root_node();
-//! # assert!(!root.has_error());
+//! let parsed = parser.parse(code, None).unwrap();
+//! let root = parsed.root_node();
+//! assert!(!root.has_error());
 //! ```
 //!
 //! [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
@@ -44,18 +43,18 @@ pub fn language() -> Language {
 }
 
 /// The source of the Go tree-sitter grammar description.
-pub const GRAMMAR: &'static str = include_str!("../../grammar.js");
+pub const GRAMMAR: &str = include_str!("../../grammar.js");
 
 /// The syntax highlighting query for this language.
-pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../queries/highlights.scm");
+pub const HIGHLIGHT_QUERY: &str = include_str!("../../queries/highlights.scm");
 
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
-pub const NODE_TYPES: &'static str = include_str!("../../src/node-types.json");
+pub const NODE_TYPES: &str = include_str!("../../src/node-types.json");
 
 /// The symbol tagging query for this language.
-pub const TAGGING_QUERY: &'static str = include_str!("../../queries/tags.scm");
+pub const TAGGING_QUERY: &str = include_str!("../../queries/tags.scm");
 
 #[cfg(test)]
 mod tests {
