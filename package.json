@@ -17,10 +17,13 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-config-google": "^0.14.0",
     "tree-sitter-cli": "^0.20.6"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
+    "lint": "eslint grammar.js",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
