@@ -6,7 +6,7 @@
   "scripts": {
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
-    "example": "tree-sitter parse examples/*"
+    "example": "tree-sitter parse examples/* --quiet --stat"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

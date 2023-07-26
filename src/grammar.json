@@ -1581,50 +1581,58 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "CHOICE",
+                  "type": "SEQ",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "scope"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "scope"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
                     },
                     {
-                      "type": "BLANK"
+                      "type": "SYMBOL",
+                      "name": "scalar_variable"
                     }
                   ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "scalar_variable"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\\"
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "scope"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "hash_variable"
+                    }
+                  ]
                 }
               ]
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "scope"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "hash_variable"
-                }
-              ]
+              "type": "BLANK"
             }
           ]
         },
@@ -2655,13 +2663,13 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_expression_without_call_expression_with_just_name"
+                "name": "_expression_without_bareword"
               },
               {
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "call_expression_with_just_name"
+                  "name": "call_expression_with_bareword"
                 },
                 "named": true,
                 "value": "call_expression"
@@ -2680,13 +2688,13 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_expression_without_call_expression_with_just_name"
+                    "name": "_expression_without_bareword"
                   },
                   {
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "call_expression_with_just_name"
+                      "name": "call_expression_with_bareword"
                     },
                     "named": true,
                     "value": "call_expression"
@@ -2702,7 +2710,7 @@
         ]
       }
     },
-    "_expression_without_call_expression_with_just_name": {
+    "_expression_without_bareword": {
       "type": "PREC",
       "value": 31,
       "content": {
@@ -2722,6 +2730,14 @@
               {
                 "type": "SYMBOL",
                 "name": "_variables"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_special_variable"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_dereference"
               },
               {
                 "type": "SYMBOL",
@@ -2801,23 +2817,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "scalar_reference"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "to_reference"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_dereference"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "bless"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_special_variable"
               },
               {
                 "type": "SYMBOL",
@@ -2870,6 +2870,14 @@
                   {
                     "type": "SYMBOL",
                     "name": "_variables"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_special_variable"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_dereference"
                   },
                   {
                     "type": "SYMBOL",
@@ -2949,23 +2957,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "scalar_reference"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "to_reference"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_dereference"
-                  },
-                  {
-                    "type": "SYMBOL",
                     "name": "bless"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_special_variable"
                   },
                   {
                     "type": "SYMBOL",
@@ -3660,7 +3652,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_expression_without_call_expression_with_just_name"
+                    "name": "_expression_without_bareword"
                   },
                   {
                     "type": "SYMBOL",
@@ -3719,581 +3711,585 @@
       ]
     },
     "special_scalar_variable": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$!"
-        },
-        {
-          "type": "STRING",
-          "value": "$\""
-        },
-        {
-          "type": "STRING",
-          "value": "$#"
-        },
-        {
-          "type": "STRING",
-          "value": "$$"
-        },
-        {
-          "type": "STRING",
-          "value": "$%"
-        },
-        {
-          "type": "STRING",
-          "value": "$&"
-        },
-        {
-          "type": "STRING",
-          "value": "$'"
-        },
-        {
-          "type": "STRING",
-          "value": "$("
-        },
-        {
-          "type": "STRING",
-          "value": "$)"
-        },
-        {
-          "type": "STRING",
-          "value": "$*"
-        },
-        {
-          "type": "STRING",
-          "value": "$+"
-        },
-        {
-          "type": "STRING",
-          "value": "$,"
-        },
-        {
-          "type": "STRING",
-          "value": "$-"
-        },
-        {
-          "type": "STRING",
-          "value": "$."
-        },
-        {
-          "type": "STRING",
-          "value": "$/"
-        },
-        {
-          "type": "STRING",
-          "value": "$0"
-        },
-        {
-          "type": "STRING",
-          "value": "$1"
-        },
-        {
-          "type": "STRING",
-          "value": "$2"
-        },
-        {
-          "type": "STRING",
-          "value": "$3"
-        },
-        {
-          "type": "STRING",
-          "value": "$4"
-        },
-        {
-          "type": "STRING",
-          "value": "$5"
-        },
-        {
-          "type": "STRING",
-          "value": "$6"
-        },
-        {
-          "type": "STRING",
-          "value": "$7"
-        },
-        {
-          "type": "STRING",
-          "value": "$8"
-        },
-        {
-          "type": "STRING",
-          "value": "$9"
-        },
-        {
-          "type": "STRING",
-          "value": "$:"
-        },
-        {
-          "type": "STRING",
-          "value": "$;"
-        },
-        {
-          "type": "STRING",
-          "value": "$<"
-        },
-        {
-          "type": "STRING",
-          "value": "$="
-        },
-        {
-          "type": "STRING",
-          "value": "$>"
-        },
-        {
-          "type": "STRING",
-          "value": "$?"
-        },
-        {
-          "type": "STRING",
-          "value": "$@"
-        },
-        {
-          "type": "STRING",
-          "value": "$ACCUMULATOR"
-        },
-        {
-          "type": "STRING",
-          "value": "$ARG"
-        },
-        {
-          "type": "STRING",
-          "value": "$ARGV"
-        },
-        {
-          "type": "STRING",
-          "value": "$BASETIME"
-        },
-        {
-          "type": "STRING",
-          "value": "$CHILD_ERROR"
-        },
-        {
-          "type": "STRING",
-          "value": "$COMPILING"
-        },
-        {
-          "type": "STRING",
-          "value": "$DEBUGGING"
-        },
-        {
-          "type": "STRING",
-          "value": "$EFFECTIVE_GROUP_ID"
-        },
-        {
-          "type": "STRING",
-          "value": "$EFFECTIVE_USER_ID"
-        },
-        {
-          "type": "STRING",
-          "value": "$EGID"
-        },
-        {
-          "type": "STRING",
-          "value": "$ERRNO"
-        },
-        {
-          "type": "STRING",
-          "value": "$EUID"
-        },
-        {
-          "type": "STRING",
-          "value": "$EVAL_ERROR"
-        },
-        {
-          "type": "STRING",
-          "value": "$EXCEPTIONS_BEING_CAUGHT"
-        },
-        {
-          "type": "STRING",
-          "value": "$EXECUTABLE_NAME"
-        },
-        {
-          "type": "STRING",
-          "value": "$EXTENDED_OS_ERROR"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_FORMFEED"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_LINES_LEFT"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_LINES_PER_PAGE"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_LINE_BREAK_CHARACTERS"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_NAME"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_PAGE_NUMBER"
-        },
-        {
-          "type": "STRING",
-          "value": "$FORMAT_TOP_NAME"
-        },
-        {
-          "type": "STRING",
-          "value": "$GID"
-        },
-        {
-          "type": "STRING",
-          "value": "$INPLACE_EDIT"
-        },
-        {
-          "type": "STRING",
-          "value": "$INPUT_LINE_NUMBER"
-        },
-        {
-          "type": "STRING",
-          "value": "$INPUT_RECORD_SEPARATOR"
-        },
-        {
-          "type": "STRING",
-          "value": "$LAST_PAREN_MATCH"
-        },
-        {
-          "type": "STRING",
-          "value": "$LAST_REGEXP_CODE_RESULT"
-        },
-        {
-          "type": "STRING",
-          "value": "$LAST_SUBMATCH_RESULT"
-        },
-        {
-          "type": "STRING",
-          "value": "$LIST_SEPARATOR"
-        },
-        {
-          "type": "STRING",
-          "value": "$MATCH"
-        },
-        {
-          "type": "STRING",
-          "value": "$NR"
-        },
-        {
-          "type": "STRING",
-          "value": "$OFS"
-        },
-        {
-          "type": "STRING",
-          "value": "$OLD_PERL_VERSION"
-        },
-        {
-          "type": "STRING",
-          "value": "$ORS"
-        },
-        {
-          "type": "STRING",
-          "value": "$OSNAME"
-        },
-        {
-          "type": "STRING",
-          "value": "$OS_ERROR"
-        },
-        {
-          "type": "STRING",
-          "value": "$OUTPUT_AUTOFLUSH"
-        },
-        {
-          "type": "STRING",
-          "value": "$OUTPUT_FIELD_SEPARATOR"
-        },
-        {
-          "type": "STRING",
-          "value": "$OUTPUT_RECORD_SEPARATOR"
-        },
-        {
-          "type": "STRING",
-          "value": "$PERLDB"
-        },
-        {
-          "type": "STRING",
-          "value": "$PERL_VERSION"
-        },
-        {
-          "type": "STRING",
-          "value": "$PID"
-        },
-        {
-          "type": "STRING",
-          "value": "$POSTMATCH"
-        },
-        {
-          "type": "STRING",
-          "value": "$PREMATCH"
-        },
-        {
-          "type": "STRING",
-          "value": "$PROCESS_ID"
-        },
-        {
-          "type": "STRING",
-          "value": "$PROGRAM_NAME"
-        },
-        {
-          "type": "STRING",
-          "value": "$REAL_GROUP_ID"
-        },
-        {
-          "type": "STRING",
-          "value": "$REAL_USER_ID"
-        },
-        {
-          "type": "STRING",
-          "value": "$RS"
-        },
-        {
-          "type": "STRING",
-          "value": "$SUBSCRIPT_SEPARATOR"
-        },
-        {
-          "type": "STRING",
-          "value": "$SUBSEP"
-        },
-        {
-          "type": "STRING",
-          "value": "$SYSTEM_FD_MAX"
-        },
-        {
-          "type": "STRING",
-          "value": "$UID"
-        },
-        {
-          "type": "STRING",
-          "value": "$WARNING"
-        },
-        {
-          "type": "STRING",
-          "value": "$["
-        },
-        {
-          "type": "STRING",
-          "value": "$\\"
-        },
-        {
-          "type": "STRING",
-          "value": "$]"
-        },
-        {
-          "type": "STRING",
-          "value": "$^"
-        },
-        {
-          "type": "STRING",
-          "value": "$^A"
-        },
-        {
-          "type": "STRING",
-          "value": "$^C"
-        },
-        {
-          "type": "STRING",
-          "value": "$^D"
-        },
-        {
-          "type": "STRING",
-          "value": "$^E"
-        },
-        {
-          "type": "STRING",
-          "value": "$^F"
-        },
-        {
-          "type": "STRING",
-          "value": "$^H"
-        },
-        {
-          "type": "STRING",
-          "value": "$^I"
-        },
-        {
-          "type": "STRING",
-          "value": "$^L"
-        },
-        {
-          "type": "STRING",
-          "value": "$^M"
-        },
-        {
-          "type": "STRING",
-          "value": "$^N"
-        },
-        {
-          "type": "STRING",
-          "value": "$^O"
-        },
-        {
-          "type": "STRING",
-          "value": "$^P"
-        },
-        {
-          "type": "STRING",
-          "value": "$^R"
-        },
-        {
-          "type": "STRING",
-          "value": "$^S"
-        },
-        {
-          "type": "STRING",
-          "value": "$^T"
-        },
-        {
-          "type": "STRING",
-          "value": "$^V"
-        },
-        {
-          "type": "STRING",
-          "value": "$^W"
-        },
-        {
-          "type": "STRING",
-          "value": "$^X"
-        },
-        {
-          "type": "STRING",
-          "value": "$_"
-        },
-        {
-          "type": "STRING",
-          "value": "$`"
-        },
-        {
-          "type": "STRING",
-          "value": "$a"
-        },
-        {
-          "type": "STRING",
-          "value": "$b"
-        },
-        {
-          "type": "STRING",
-          "value": "${^CHILD_ERROR_NATIVE}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^ENCODING}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^GLOBAL_PHASE}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^LAST_FH}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^MATCH}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^OPEN}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^POSTMATCH}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^PREMATCH}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^RE_COMPILE_RECURSION_LIMIT}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^RE_DEBUG_FLAGS}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^RE_TRIE_MAXBUF}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^SAFE_LOCALES}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^TAINT}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^UNICODE}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^UTF8CACHE}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^UTF8LOCALE}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^WARNING_BITS}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^WIN32_SLOPPY_STAT}"
-        },
-        {
-          "type": "STRING",
-          "value": "$|"
-        },
-        {
-          "type": "STRING",
-          "value": "$~"
-        },
-        {
-          "type": "STRING",
-          "value": "$ENV"
-        },
-        {
-          "type": "STRING",
-          "value": "$INC"
-        },
-        {
-          "type": "STRING",
-          "value": "$SIG"
-        },
-        {
-          "type": "STRING",
-          "value": "${^CAPTURE_ALL}"
-        },
-        {
-          "type": "STRING",
-          "value": "${^CAPTURE}"
-        },
-        {
-          "type": "STRING",
-          "value": "$F"
-        },
-        {
-          "type": "STRING",
-          "value": "$ISA"
-        },
-        {
-          "type": "STRING",
-          "value": "$LAST_MATCH_END"
-        },
-        {
-          "type": "STRING",
-          "value": "$LAST_MATCH_START"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "$!"
+          },
+          {
+            "type": "STRING",
+            "value": "$\""
+          },
+          {
+            "type": "STRING",
+            "value": "$#"
+          },
+          {
+            "type": "STRING",
+            "value": "$$"
+          },
+          {
+            "type": "STRING",
+            "value": "$%"
+          },
+          {
+            "type": "STRING",
+            "value": "$&"
+          },
+          {
+            "type": "STRING",
+            "value": "$'"
+          },
+          {
+            "type": "STRING",
+            "value": "$("
+          },
+          {
+            "type": "STRING",
+            "value": "$)"
+          },
+          {
+            "type": "STRING",
+            "value": "$*"
+          },
+          {
+            "type": "STRING",
+            "value": "$+"
+          },
+          {
+            "type": "STRING",
+            "value": "$,"
+          },
+          {
+            "type": "STRING",
+            "value": "$-"
+          },
+          {
+            "type": "STRING",
+            "value": "$."
+          },
+          {
+            "type": "STRING",
+            "value": "$/"
+          },
+          {
+            "type": "STRING",
+            "value": "$0"
+          },
+          {
+            "type": "STRING",
+            "value": "$1"
+          },
+          {
+            "type": "STRING",
+            "value": "$2"
+          },
+          {
+            "type": "STRING",
+            "value": "$3"
+          },
+          {
+            "type": "STRING",
+            "value": "$4"
+          },
+          {
+            "type": "STRING",
+            "value": "$5"
+          },
+          {
+            "type": "STRING",
+            "value": "$6"
+          },
+          {
+            "type": "STRING",
+            "value": "$7"
+          },
+          {
+            "type": "STRING",
+            "value": "$8"
+          },
+          {
+            "type": "STRING",
+            "value": "$9"
+          },
+          {
+            "type": "STRING",
+            "value": "$:"
+          },
+          {
+            "type": "STRING",
+            "value": "$;"
+          },
+          {
+            "type": "STRING",
+            "value": "$<"
+          },
+          {
+            "type": "STRING",
+            "value": "$="
+          },
+          {
+            "type": "STRING",
+            "value": "$>"
+          },
+          {
+            "type": "STRING",
+            "value": "$?"
+          },
+          {
+            "type": "STRING",
+            "value": "$@"
+          },
+          {
+            "type": "STRING",
+            "value": "$ACCUMULATOR"
+          },
+          {
+            "type": "STRING",
+            "value": "$ARG"
+          },
+          {
+            "type": "STRING",
+            "value": "$ARGV"
+          },
+          {
+            "type": "STRING",
+            "value": "$BASETIME"
+          },
+          {
+            "type": "STRING",
+            "value": "$CHILD_ERROR"
+          },
+          {
+            "type": "STRING",
+            "value": "$COMPILING"
+          },
+          {
+            "type": "STRING",
+            "value": "$DEBUGGING"
+          },
+          {
+            "type": "STRING",
+            "value": "$EFFECTIVE_GROUP_ID"
+          },
+          {
+            "type": "STRING",
+            "value": "$EFFECTIVE_USER_ID"
+          },
+          {
+            "type": "STRING",
+            "value": "$EGID"
+          },
+          {
+            "type": "STRING",
+            "value": "$ERRNO"
+          },
+          {
+            "type": "STRING",
+            "value": "$EUID"
+          },
+          {
+            "type": "STRING",
+            "value": "$EVAL_ERROR"
+          },
+          {
+            "type": "STRING",
+            "value": "$EXCEPTIONS_BEING_CAUGHT"
+          },
+          {
+            "type": "STRING",
+            "value": "$EXECUTABLE_NAME"
+          },
+          {
+            "type": "STRING",
+            "value": "$EXTENDED_OS_ERROR"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_FORMFEED"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_LINES_LEFT"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_LINES_PER_PAGE"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_LINE_BREAK_CHARACTERS"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_NAME"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_PAGE_NUMBER"
+          },
+          {
+            "type": "STRING",
+            "value": "$FORMAT_TOP_NAME"
+          },
+          {
+            "type": "STRING",
+            "value": "$GID"
+          },
+          {
+            "type": "STRING",
+            "value": "$INPLACE_EDIT"
+          },
+          {
+            "type": "STRING",
+            "value": "$INPUT_LINE_NUMBER"
+          },
+          {
+            "type": "STRING",
+            "value": "$INPUT_RECORD_SEPARATOR"
+          },
+          {
+            "type": "STRING",
+            "value": "$LAST_PAREN_MATCH"
+          },
+          {
+            "type": "STRING",
+            "value": "$LAST_REGEXP_CODE_RESULT"
+          },
+          {
+            "type": "STRING",
+            "value": "$LAST_SUBMATCH_RESULT"
+          },
+          {
+            "type": "STRING",
+            "value": "$LIST_SEPARATOR"
+          },
+          {
+            "type": "STRING",
+            "value": "$MATCH"
+          },
+          {
+            "type": "STRING",
+            "value": "$NR"
+          },
+          {
+            "type": "STRING",
+            "value": "$OFS"
+          },
+          {
+            "type": "STRING",
+            "value": "$OLD_PERL_VERSION"
+          },
+          {
+            "type": "STRING",
+            "value": "$ORS"
+          },
+          {
+            "type": "STRING",
+            "value": "$OSNAME"
+          },
+          {
+            "type": "STRING",
+            "value": "$OS_ERROR"
+          },
+          {
+            "type": "STRING",
+            "value": "$OUTPUT_AUTOFLUSH"
+          },
+          {
+            "type": "STRING",
+            "value": "$OUTPUT_FIELD_SEPARATOR"
+          },
+          {
+            "type": "STRING",
+            "value": "$OUTPUT_RECORD_SEPARATOR"
+          },
+          {
+            "type": "STRING",
+            "value": "$PERLDB"
+          },
+          {
+            "type": "STRING",
+            "value": "$PERL_VERSION"
+          },
+          {
+            "type": "STRING",
+            "value": "$PID"
+          },
+          {
+            "type": "STRING",
+            "value": "$POSTMATCH"
+          },
+          {
+            "type": "STRING",
+            "value": "$PREMATCH"
+          },
+          {
+            "type": "STRING",
+            "value": "$PROCESS_ID"
+          },
+          {
+            "type": "STRING",
+            "value": "$PROGRAM_NAME"
+          },
+          {
+            "type": "STRING",
+            "value": "$REAL_GROUP_ID"
+          },
+          {
+            "type": "STRING",
+            "value": "$REAL_USER_ID"
+          },
+          {
+            "type": "STRING",
+            "value": "$RS"
+          },
+          {
+            "type": "STRING",
+            "value": "$SUBSCRIPT_SEPARATOR"
+          },
+          {
+            "type": "STRING",
+            "value": "$SUBSEP"
+          },
+          {
+            "type": "STRING",
+            "value": "$SYSTEM_FD_MAX"
+          },
+          {
+            "type": "STRING",
+            "value": "$UID"
+          },
+          {
+            "type": "STRING",
+            "value": "$WARNING"
+          },
+          {
+            "type": "STRING",
+            "value": "$["
+          },
+          {
+            "type": "STRING",
+            "value": "$\\"
+          },
+          {
+            "type": "STRING",
+            "value": "$]"
+          },
+          {
+            "type": "STRING",
+            "value": "$^"
+          },
+          {
+            "type": "STRING",
+            "value": "$^A"
+          },
+          {
+            "type": "STRING",
+            "value": "$^C"
+          },
+          {
+            "type": "STRING",
+            "value": "$^D"
+          },
+          {
+            "type": "STRING",
+            "value": "$^E"
+          },
+          {
+            "type": "STRING",
+            "value": "$^F"
+          },
+          {
+            "type": "STRING",
+            "value": "$^H"
+          },
+          {
+            "type": "STRING",
+            "value": "$^I"
+          },
+          {
+            "type": "STRING",
+            "value": "$^L"
+          },
+          {
+            "type": "STRING",
+            "value": "$^M"
+          },
+          {
+            "type": "STRING",
+            "value": "$^N"
+          },
+          {
+            "type": "STRING",
+            "value": "$^O"
+          },
+          {
+            "type": "STRING",
+            "value": "$^P"
+          },
+          {
+            "type": "STRING",
+            "value": "$^R"
+          },
+          {
+            "type": "STRING",
+            "value": "$^S"
+          },
+          {
+            "type": "STRING",
+            "value": "$^T"
+          },
+          {
+            "type": "STRING",
+            "value": "$^V"
+          },
+          {
+            "type": "STRING",
+            "value": "$^W"
+          },
+          {
+            "type": "STRING",
+            "value": "$^X"
+          },
+          {
+            "type": "STRING",
+            "value": "$_"
+          },
+          {
+            "type": "STRING",
+            "value": "$`"
+          },
+          {
+            "type": "STRING",
+            "value": "$a"
+          },
+          {
+            "type": "STRING",
+            "value": "$b"
+          },
+          {
+            "type": "STRING",
+            "value": "${^CHILD_ERROR_NATIVE}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^ENCODING}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^GLOBAL_PHASE}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^LAST_FH}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^MATCH}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^OPEN}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^POSTMATCH}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^PREMATCH}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^RE_COMPILE_RECURSION_LIMIT}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^RE_DEBUG_FLAGS}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^RE_TRIE_MAXBUF}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^SAFE_LOCALES}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^TAINT}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^UNICODE}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^UTF8CACHE}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^UTF8LOCALE}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^WARNING_BITS}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^WIN32_SLOPPY_STAT}"
+          },
+          {
+            "type": "STRING",
+            "value": "$|"
+          },
+          {
+            "type": "STRING",
+            "value": "$~"
+          },
+          {
+            "type": "STRING",
+            "value": "$ENV"
+          },
+          {
+            "type": "STRING",
+            "value": "$INC"
+          },
+          {
+            "type": "STRING",
+            "value": "$SIG"
+          },
+          {
+            "type": "STRING",
+            "value": "${^CAPTURE_ALL}"
+          },
+          {
+            "type": "STRING",
+            "value": "${^CAPTURE}"
+          },
+          {
+            "type": "STRING",
+            "value": "$F"
+          },
+          {
+            "type": "STRING",
+            "value": "$ISA"
+          },
+          {
+            "type": "STRING",
+            "value": "$LAST_MATCH_END"
+          },
+          {
+            "type": "STRING",
+            "value": "$LAST_MATCH_START"
+          }
+        ]
+      }
     },
     "special_array_variable": {
       "type": "CHOICE",
@@ -4965,25 +4961,8 @@
             ]
           },
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
-                  "type": "STRING",
-                  "value": "\\"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "variable",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_expression"
-                }
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "to_reference"
           },
           {
             "type": "SEQ",
@@ -5332,7 +5311,7 @@
                 "name": "variable",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression_without_call_expression_with_just_name"
+                  "name": "_expression_without_bareword"
                 }
               },
               {
@@ -5348,7 +5327,7 @@
                 "name": "variable",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression_without_call_expression_with_just_name"
+                  "name": "_expression_without_bareword"
                 }
               }
             ]
@@ -5361,7 +5340,7 @@
                 "name": "variable",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression_without_call_expression_with_just_name"
+                  "name": "_expression_without_bareword"
                 }
               },
               {
@@ -5377,7 +5356,7 @@
                 "name": "variable",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression_without_call_expression_with_just_name"
+                  "name": "_expression_without_bareword"
                 }
               }
             ]
@@ -6766,7 +6745,7 @@
         ]
       }
     },
-    "call_expression_with_just_name": {
+    "call_expression_with_bareword": {
       "type": "PREC_RIGHT",
       "value": 30,
       "content": {
@@ -6932,7 +6911,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "scalar_reference"
+                        "name": "scalar_dereference"
                       }
                     ]
                   },
@@ -8320,10 +8299,6 @@
         },
         {
           "type": "PATTERN",
-          "value": "\\$\\{_?[a-zA-Z0-9_]+\\}"
-        },
-        {
-          "type": "PATTERN",
           "value": "\\$_?[a-zA-Z0-9_]+"
         }
       ]
@@ -8498,7 +8473,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_expression_without_call_expression_with_just_name"
+                        "name": "_expression_without_bareword"
                       }
                     ]
                   }
@@ -8864,69 +8839,34 @@
         {
           "type": "SYMBOL",
           "name": "scalar_variable"
-        }
-      ]
-    },
-    "scalar_reference": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
         },
         {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "call_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "to_reference"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "}"
+          "type": "SYMBOL",
+          "name": "to_reference"
         }
       ]
     },
     "to_reference": {
-      "type": "PREC",
-      "value": 30,
+      "type": "PREC_RIGHT",
+      "value": 21,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "\\"
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "\\"
+            }
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "array_variable"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "hash_variable"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "array"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "hash"
-              }
-            ]
+            "type": "FIELD",
+            "name": "variable",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
           }
         ]
       }
@@ -8936,6 +8876,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "scalar_dereference"
+        },
+        {
+          "type": "SYMBOL",
           "name": "array_dereference"
         },
         {
@@ -8943,6 +8887,49 @@
           "name": "hash_dereference"
         }
       ]
+    },
+    "scalar_dereference": {
+      "type": "PREC_LEFT",
+      "value": 4,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "$"
+          },
+          {
+            "type": "PREC",
+            "value": 31,
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression_without_bareword"
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "{"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression_without_bareword"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "}"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "array_dereference": {
       "type": "PREC",
@@ -9109,7 +9096,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_expression_without_call_expression_with_just_name"
+                  "name": "_expression_without_bareword"
                 }
               ]
             }
@@ -9350,14 +9337,10 @@
       "_expression"
     ],
     [
-      "_primitive_expression",
-      "to_reference"
-    ],
-    [
       "_expression"
     ],
     [
-      "_expression_without_call_expression_with_just_name"
+      "_expression_without_bareword"
     ],
     [
       "bareword_import",
@@ -9388,7 +9371,7 @@
       "_dereference"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "arguments"
     ],
     [
@@ -9409,11 +9392,19 @@
       "ternary_expression_in_hash"
     ],
     [
+      "_expression",
+      "scalar_dereference"
+    ],
+    [
+      "special_scalar_variable",
+      "scalar_dereference"
+    ],
+    [
       "hash",
       "_dereference"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "ternary_expression_in_hash"
     ],
     [
@@ -9455,28 +9446,32 @@
       "hash_ref"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "sort_function"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "goto_expression"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "method_invocation"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "goto_expression",
       "method_invocation"
     ],
     [
-      "_expression_without_call_expression_with_just_name",
+      "_expression_without_bareword",
       "_string"
     ],
     [
       "list_block"
+    ],
+    [
+      "method_invocation",
+      "scalar_dereference"
     ],
     [
       "method_invocation",

@@ -348,3 +348,18 @@ foreach (;;) {
     )
   )
 )
+
+=================================================
+foreach without my $element
+=================================================
+
+foreach (@array) {
+}
+
+---
+
+(source_file
+  (for_statement_2 (array_variable)
+    (block)
+  )
+)

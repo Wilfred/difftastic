@@ -64,9 +64,8 @@ module.exports = grammar({
     [$._primitive_expression, $._list],
     [$.standalone_block, $.hash_ref],
     [$.goto_expression, $._expression],
-    [$._primitive_expression, $.to_reference],
     [$._expression],
-    [$._expression_without_call_expression_with_just_name],
+    [$._expression_without_bareword],
     [$.bareword_import, $.package_name],
     [$.package_name],
     [$._list, $._variables],
@@ -75,13 +74,15 @@ module.exports = grammar({
     [$.hash_ref],
     [$.hash],
     [$.hash_ref, $._dereference],
-    [$._expression_without_call_expression_with_just_name, $.arguments],
+    [$._expression_without_bareword, $.arguments],
     [$.arguments, $.array],
     [$._expression, $.method_invocation],
     [$._expression, $.goto_expression, $.method_invocation],
     [$._expression, $.ternary_expression_in_hash],
+    [$._expression, $.scalar_dereference],
+    [$.special_scalar_variable, $.scalar_dereference],
     [$.hash, $._dereference],
-    [$._expression_without_call_expression_with_just_name, $.ternary_expression_in_hash],
+    [$._expression_without_bareword, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
     [$._variables, $.interpolation],
     [$.string_double_quoted],
@@ -92,12 +93,13 @@ module.exports = grammar({
     [$.array_access_variable, $.array_ref],
     [$.named_block_statement, $.hash_access_variable],
     [$.list_block, $.hash_ref],
-    [$._expression_without_call_expression_with_just_name, $.sort_function],
-    [$._expression_without_call_expression_with_just_name, $.goto_expression],
-    [$._expression_without_call_expression_with_just_name, $.method_invocation],
-    [$._expression_without_call_expression_with_just_name, $.goto_expression, $.method_invocation],
-    [$._expression_without_call_expression_with_just_name, $._string],
+    [$._expression_without_bareword, $.sort_function],
+    [$._expression_without_bareword, $.goto_expression],
+    [$._expression_without_bareword, $.method_invocation],
+    [$._expression_without_bareword, $.goto_expression, $.method_invocation],
+    [$._expression_without_bareword, $._string],
     [$.list_block],
+    [$.method_invocation, $.scalar_dereference],
     [$.method_invocation, $.hash_dereference],
     [$.method_invocation, $.array_dereference],
     [$.variable_declaration],
@@ -478,10 +480,10 @@ module.exports = grammar({
     for_statement_2: $ => seq(
       optional(seq(field('label', $.identifier), ':')),
       choice('for', 'foreach'),
-      choice(
+      optional(choice(
         seq(optional($.scope), $.scalar_variable),
         seq('\\', optional($.scope), $.hash_variable), // \my %hash
-      ),
+      )),
       '(',
       $._expression,
       ')',      
@@ -691,16 +693,18 @@ module.exports = grammar({
     ),
 
     _expression: $ => with_or_without_brackets(choice(
-      $._expression_without_call_expression_with_just_name,
-      alias($.call_expression_with_just_name, $.call_expression),
+      $._expression_without_bareword,
+      alias($.call_expression_with_bareword, $.call_expression),
     )),
 
     // TODO: change this to _expression_without_bareword
     // NOTE: just a hack to handle identifier vs subroutine call
-    _expression_without_call_expression_with_just_name: $ => with_or_without_brackets(choice(
+    _expression_without_bareword: $ => with_or_without_brackets(choice(
       $._primitive_expression,
       $._string,
       $._variables,
+      $._special_variable,
+      $._dereference,
       $.package_variable,
 
       $.binary_expression,
@@ -728,14 +732,8 @@ module.exports = grammar({
 
       $.anonymous_function,
 
-      $.scalar_reference,
-      $.to_reference,
-      $._dereference,
-
       // object oriented stuffs
       $.bless,
-      
-      $._special_variable,
 
       $.grep_or_map_function,
       $.join_function,
@@ -811,7 +809,7 @@ module.exports = grammar({
     list_block: $ => seq(
       '{',
       choice(
-        repeat1(choice($._expression_without_call_expression_with_just_name, $.key_value_pair)),
+        repeat1(choice($._expression_without_bareword, $.key_value_pair)),
         repeat1($._statement),
       ),
       '}'
@@ -826,7 +824,7 @@ module.exports = grammar({
         )
     ),
 
-    special_scalar_variable: $ => choice(
+    special_scalar_variable: $ => prec(PRECEDENCE.REGEXP, choice(
       '$!',
       '$"',
       '$#',
@@ -972,7 +970,7 @@ module.exports = grammar({
       '$ISA',
       '$LAST_MATCH_END',
       '$LAST_MATCH_START',
-    ),
+    )),
 
     special_array_variable: $ => choice(
       '@+',
@@ -1119,10 +1117,7 @@ module.exports = grammar({
         field('operator', '~'),
         field('variable', $._expression),
       ),
-      seq(
-        field('operator', '\\'),
-        field('variable', $._expression),
-      ),
+      $.to_reference,
       seq(
         field('operator', '+'),
         field('variable', $._expression),
@@ -1189,14 +1184,14 @@ module.exports = grammar({
 
     _shift_expression: $ => prec.left(PRECEDENCE.SHIFT_OPERATORS, choice(
       seq(
-        field('variable', $._expression_without_call_expression_with_just_name),
+        field('variable', $._expression_without_bareword),
         field('operator', '<<'),
-        field('variable', $._expression_without_call_expression_with_just_name),
+        field('variable', $._expression_without_bareword),
       ),
       seq(
-        field('variable', $._expression_without_call_expression_with_just_name),
+        field('variable', $._expression_without_bareword),
         field('operator', '>>'),
-        field('variable', $._expression_without_call_expression_with_just_name),
+        field('variable', $._expression_without_bareword),
       ),
     )),
 
@@ -1400,7 +1395,7 @@ module.exports = grammar({
       field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.arguments)),
     )),
 
-    call_expression_with_just_name: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
+    call_expression_with_bareword: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       optional(token.immediate('&')),
       optional(seq(
         field('package_name', $.package_name),
@@ -1424,7 +1419,7 @@ module.exports = grammar({
               field('function_name', $.identifier)
             ),
             $.scalar_variable,
-            $.scalar_reference,
+            $.scalar_dereference,
           ),
           optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.arguments))), // TODO: make this optional and fix errors
         ),
@@ -1721,7 +1716,7 @@ module.exports = grammar({
     scalar_variable: $ => choice(
       /\$\#_?[a-zA-Z0-9_]+/,          // length of an array
       /\$[A-Z^_?\\]/,                 // checkout https://perldoc.perl.org/perldata#Identifier-parsing
-      /\$\{_?[a-zA-Z0-9_]+\}/,        // need to name this. eg print "${key}"
+      // /\$\{_?[a-zA-Z0-9_]+\}/,        // need to name this. eg print "${key}"
       /\$_?[a-zA-Z0-9_]+/,
     ),
 
@@ -1764,7 +1759,7 @@ module.exports = grammar({
           field('key', choice(
             alias($.identifier, $.bareword),
             alias($.key_words_in_hash_key, $.bareword),
-            $._expression_without_call_expression_with_just_name,
+            $._expression_without_bareword,
           )),
           '}',
         )
@@ -1818,31 +1813,24 @@ module.exports = grammar({
       $.array_ref,
       $.hash_ref,
       $.scalar_variable,
-      // TODO: \@array goes as unary_expression array_variable
-      // TODO: { \'string' }
+      $.to_reference,
     ),
 
-    scalar_reference: $ => seq(
-      '$',
-      '{',
-      choice($.call_expression, $.to_reference),
-      '}',
-    ),
-
-    to_reference: $ => prec(PRECEDENCE.SUB_CALL, seq(
-      '\\',
-      choice(
-        $.array_variable,
-        $.hash_variable,
-        $.array,
-        $.hash,
-      ),
+    to_reference: $ => prec.right(PRECEDENCE.SYMBOLIC_UNARY, seq(
+      field('operator', '\\'),
+      field('variable', $._expression), // this is to make anything a reference
     )),
 
     _dereference: $ => choice(
+      $.scalar_dereference,
       $.array_dereference,
       $.hash_dereference,
     ),
+
+    scalar_dereference: $ => prec.left(PRECEDENCE.STRING, seq(
+      '$',
+      with_or_without_curly_brackets($._expression_without_bareword),
+    )),
 
     array_dereference: $ => prec(PRECEDENCE.ARRAY, seq(
       '@',
@@ -1864,7 +1852,7 @@ module.exports = grammar({
           choice($.single_var_declaration, $.type_glob_declaration),
           optional($._initializer),
         ), $.variable_declaration),
-        $._expression_without_call_expression_with_just_name,
+        $._expression_without_bareword,
       )),
       $.hash_arrow_operator,
       choice(
