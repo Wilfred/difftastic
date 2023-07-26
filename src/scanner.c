@@ -75,7 +75,7 @@ static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 // > You can detect error recovery in the external scanner by the fact that
 // > _all_ tokens are considered valid at once.
 // https://github.com/tree-sitter/tree-sitter/pull/1783#issuecomment-1181011411
-bool in_error_recovery(const bool *valid_symbols) {
+static bool in_error_recovery(const bool *valid_symbols) {
     return (valid_symbols[VIRTUAL_END_DECL] &&
             valid_symbols[VIRTUAL_OPEN_SECTION] &&
             valid_symbols[VIRTUAL_END_SECTION] &&
@@ -84,12 +84,12 @@ bool in_error_recovery(const bool *valid_symbols) {
             valid_symbols[BLOCK_COMMENT_CONTENT]);
 }
 
-bool is_elm_space(TSLexer *lexer) {
+static bool is_elm_space(TSLexer *lexer) {
     return lexer->lookahead == ' ' || lexer->lookahead == '\r' ||
            lexer->lookahead == '\n';
 }
 
-int checkForIn(TSLexer *lexer, const bool *valid_symbols) {
+static int checkForIn(TSLexer *lexer, const bool *valid_symbols) {
     // Are we at the end of a let (in) declaration
     if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == 'i') {
         skip(lexer);
@@ -106,7 +106,7 @@ int checkForIn(TSLexer *lexer, const bool *valid_symbols) {
     return 0;
 }
 
-bool scan_block_comment(TSLexer *lexer) {
+static bool scan_block_comment(TSLexer *lexer) {
     lexer->mark_end(lexer);
     if (lexer->lookahead != '{') {
         return false;
@@ -139,7 +139,7 @@ bool scan_block_comment(TSLexer *lexer) {
     }
 }
 
-void advance_to_line_end(TSLexer *lexer) {
+static void advance_to_line_end(TSLexer *lexer) {
     while (true) {
         if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
             break;
@@ -148,7 +148,7 @@ void advance_to_line_end(TSLexer *lexer) {
     }
 }
 
-bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
+static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (in_error_recovery(valid_symbols)) {
         return false;
     }
@@ -162,12 +162,10 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
     if (scanner->runback.len > 0 && VEC_BACK(scanner->runback) == 1 &&
         valid_symbols[VIRTUAL_END_SECTION]) {
-        /* runback.pop_back(); */
         VEC_POP(scanner->runback);
         lexer->result_symbol = VIRTUAL_END_SECTION;
         return true;
     }
-    /* runback.clear(); */
     VEC_CLEAR(scanner->runback);
 
     // Check if we have newlines and how much indentation
@@ -254,7 +252,6 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     // Open section if the grammar lets us but only push to indent stack if
     // we go further down in the stack
     if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
-        /* indent_length_stack.push_back(lexer->get_column(lexer)); */
         VEC_PUSH(scanner->indents, lexer->get_column(lexer));
         lexer->result_symbol = VIRTUAL_OPEN_SECTION;
         return true;
@@ -330,13 +327,11 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         // Needed for some of the more weird cases where let is in the same
         // line as everything before the in in the next line
         if (found_in) {
-            /* runback.push_back(1); */
             VEC_PUSH(scanner->runback, 1);
             found_in = false;
         }
 
         // Our list is the wrong way around, reverse it
-        /* std::reverse(runback.begin(), runback.end()); */
         VEC_REVERSE(scanner->runback);
         // Handle the first runback token if we have them, if there are more
         // they will be handled on the next scan operation
@@ -449,22 +444,6 @@ unsigned tree_sitter_elm_external_scanner_serialize(void *payload,
     }
 
     return size;
-
-    /* size_t indent_count = scanner->indents.len; */
-    /* if (indent_count > UINT8_MAX) { */
-    /*     indent_count = UINT8_MAX; */
-    /* } */
-    /* buffer[size++] = (char)indent_count; */
-    /* if (indent_count > 0) { */
-    /*     memcpy(&buffer[size], scanner->indents.data + 1, indent_count - 1);
-     */
-    /* } */
-    /* size += indent_count - 1; */
-    /**/
-    /* buffer[size++] = (char)scanner->indent_length; */
-    /**/
-    /* return size; */
-    /* return 0; */
 }
 
 /**
