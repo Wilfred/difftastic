@@ -233,7 +233,7 @@ module.exports = grammar({
     declaration: $ => seq(
       $._declaration_specifiers,
       commaSep1(field('declarator', choice(
-        $._declarator,
+        seq($._declarator, optional($.gnu_asm_expression)),
         $.init_declarator,
       ))),
       ';',
