@@ -212,7 +212,7 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
   return false;
 }
 
-bool scan_multiline_comment(TSLexer *lexer) {
+static bool scan_multiline_comment(TSLexer *lexer) {
   if (lexer->lookahead != '/') return false;
   advance(lexer);
   if (lexer->lookahead != '*') return false;
@@ -268,7 +268,7 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
   }
 }
 
-bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
+static bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
     skip(lexer);
     for (unsigned i = 0; i < len; i++) {
       if (lexer->lookahead != word[i]) return false;
@@ -277,7 +277,7 @@ bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
     return true;
 }
 
-bool scan_automatic_semicolon(TSLexer *lexer) {
+static bool scan_automatic_semicolon(TSLexer *lexer) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
   lexer->mark_end(lexer);
 
@@ -403,7 +403,7 @@ bool scan_automatic_semicolon(TSLexer *lexer) {
   }
 }
 
-bool scan_safe_nav(TSLexer *lexer) {
+static bool scan_safe_nav(TSLexer *lexer) {
   lexer->result_symbol = SAFE_NAV;
   lexer->mark_end(lexer);
 
@@ -427,7 +427,7 @@ bool scan_safe_nav(TSLexer *lexer) {
   return true;
 }
 
-bool scan_line_sep(TSLexer *lexer) {
+static bool scan_line_sep(TSLexer *lexer) {
   // Line Seps: [ CR, LF, CRLF ]
   int state = 0;
   while (true) {
@@ -461,7 +461,7 @@ bool scan_line_sep(TSLexer *lexer) {
   }
 }
 
-bool scan_import_list_delimiter(TSLexer *lexer) {
+static bool scan_import_list_delimiter(TSLexer *lexer) {
   // Import lists are terminated either by an empty line or a non import statement
   lexer->result_symbol = IMPORT_LIST_DELIMITER;
   lexer->mark_end(lexer);
