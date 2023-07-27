@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/theHamsta/tree-sitter-common-lisp.git"
+    "url": "git://github.com/theHamsta/tree-sitter-commonlisp"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.4"
