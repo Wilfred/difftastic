@@ -526,7 +526,23 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_java() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string_literal"].into_iter().collect(),
+                atom_nodes: vec![
+                    "string_literal",
+                    // The Java parser has a subnode (boolean_type
+                    // ("bool")) for built-in types. This isn't a
+                    // problem for diffing, but the syntax
+                    // highlighting only applies to the parent node, so flatten.
+                    //
+                    // TODO: our syntax highlighting logic should
+                    // consider parent tree-sitter nodes when applying
+                    // the highlights.scm.
+                    "boolean_type",
+                    "integral_type",
+                    "floating_point_type",
+                    "void_type",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
