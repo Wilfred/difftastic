@@ -1172,6 +1172,10 @@
             "named": true
           },
           {
+            "type": "gnu_asm_expression",
+            "named": true
+          },
+          {
             "type": "init_declarator",
             "named": true
           }
@@ -3923,6 +3927,10 @@
   },
   {
     "type": "__thiscall",
+    "named": false
+  },
+  {
+    "type": "__thread",
     "named": false
   },
   {
