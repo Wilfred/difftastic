@@ -145,7 +145,7 @@ typedef struct {
     Delimiter *data;
 } delimiter_vec;
 
-delimiter_vec delimiter_vec_new() {
+static delimiter_vec delimiter_vec_new() {
     delimiter_vec vec = VEC_NEW;
     vec.data = calloc(1, sizeof(Delimiter));
     vec.cap = 1;
@@ -279,7 +279,8 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
             // If we haven't found an EOL yet,
             // then this is a comment after an expression:
             //   foo = bar # comment
-            // Just return, since we don't want to generate an indent/dedent token.
+            // Just return, since we don't want to generate an indent/dedent
+            // token.
             if (!found_end_of_line) {
                 return false;
             }
