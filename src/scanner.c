@@ -132,7 +132,7 @@ typedef struct {
     uint16_t *data;
 } indent_vec;
 
-indent_vec indent_vec_new() {
+static indent_vec indent_vec_new() {
     indent_vec vec = VEC_NEW;
     vec.data = calloc(1, sizeof(uint16_t));
     vec.cap = 1;
