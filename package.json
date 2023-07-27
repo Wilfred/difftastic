@@ -19,7 +19,7 @@
   "devDependencies": {
     "eslint": "^8.43.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-c": "github:tree-sitter/tree-sitter-c",
+    "tree-sitter-c": "^0.20.4",
     "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
