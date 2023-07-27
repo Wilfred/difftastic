@@ -16,7 +16,7 @@ enum TokenType {
 
 /* Pretty much all of this code is taken from the Julia tree-sitter
    parser.
-   
+
    Julia has similar problems with multiline comments that can be nested,
    line comments, as well as line and multiline strings.
 
@@ -59,9 +59,9 @@ static void free_stack(Stack *stack) {
   free(stack);
 }
 
-static void push(Stack *stack, char c, bool triple) {
+static void push(Stack *stack, char chr, bool triple) {
   if (stack->len >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) exit(1);
-  stack->arr[stack->len++] = triple ? (c + 1) : c;
+  stack->arr[stack->len++] = (Delimiter)(triple ? (chr + 1) : chr);
 }
 
 static Delimiter pop(Stack *stack) {
@@ -128,18 +128,17 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
       // otherwise, if this is the start, determine if it is an 
       // interpolated identifier.
       // otherwise, it's just string content, so continue 
-      else {
-        advance(lexer);
-        if (iswalpha(lexer->lookahead) || lexer->lookahead == '{') {
-          // this must be a string interpolation, let's
-          // fail so we parse it as such
-          return false;
-        }
-        lexer->result_symbol = STRING_CONTENT;
-        mark_end(lexer);
-        return true;
+      advance(lexer);
+      if (iswalpha(lexer->lookahead) || lexer->lookahead == '{') {
+        // this must be a string interpolation, let's
+        // fail so we parse it as such
+        return false;
       }
-    } else if (lexer->lookahead == '\\') {
+      lexer->result_symbol = STRING_CONTENT;
+      mark_end(lexer);
+      return true;
+    } 
+    if (lexer->lookahead == '\\') {
       // if we see a \, then this might possibly escape a dollar sign
       // in which case, we need to not defer to the interpolation 
       has_content = true;
@@ -167,7 +166,7 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
               ^ 
            where we are at the `f`, we should quit after
            reading `foo`, and ascribe it to STRING_CONTENT.
-           
+
            Then, we restart and try to read the end.
            This is to prevent `foo` from being absorbed into
            the STRING_END token.
@@ -192,19 +191,17 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
         }
         pop(stack);
         return true;
-      } else {
-        if (has_content) {
-          mark_end(lexer);
-          lexer->result_symbol = STRING_CONTENT;
-          return true;
-        } else {
-          pop(stack);
-          advance(lexer);
-          mark_end(lexer);
-          lexer->result_symbol = STRING_END;
-          return true;
-        }
       }
+      if (has_content) {
+        mark_end(lexer);
+        lexer->result_symbol = STRING_CONTENT;
+        return true;
+      }
+      pop(stack);
+      advance(lexer);
+      mark_end(lexer);
+      lexer->result_symbol = STRING_END;
+      return true;
     }
     advance(lexer);
     has_content = true;
@@ -212,7 +209,7 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
   return false;
 }
 
-bool scan_multiline_comment(TSLexer *lexer) {
+static bool scan_multiline_comment(TSLexer *lexer) {
   if (lexer->lookahead != '/') return false;
   advance(lexer);
   if (lexer->lookahead != '*') return false;
@@ -262,13 +259,12 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 
     if (lexer->lookahead == '/') {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 }
 
-bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
+static bool scan_for_word(TSLexer *lexer, const char* word, unsigned len) {
     skip(lexer);
     for (unsigned i = 0; i < len; i++) {
       if (lexer->lookahead != word[i]) return false;
@@ -277,7 +273,7 @@ bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
     return true;
 }
 
-bool scan_automatic_semicolon(TSLexer *lexer) {
+static bool scan_automatic_semicolon(TSLexer *lexer) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
   lexer->mark_end(lexer);
 
@@ -403,7 +399,7 @@ bool scan_automatic_semicolon(TSLexer *lexer) {
   }
 }
 
-bool scan_safe_nav(TSLexer *lexer) {
+static bool scan_safe_nav(TSLexer *lexer) {
   lexer->result_symbol = SAFE_NAV;
   lexer->mark_end(lexer);
 
@@ -427,7 +423,7 @@ bool scan_safe_nav(TSLexer *lexer) {
   return true;
 }
 
-bool scan_line_sep(TSLexer *lexer) {
+static bool scan_line_sep(TSLexer *lexer) {
   // Line Seps: [ CR, LF, CRLF ]
   int state = 0;
   while (true) {
@@ -461,7 +457,7 @@ bool scan_line_sep(TSLexer *lexer) {
   }
 }
 
-bool scan_import_list_delimiter(TSLexer *lexer) {
+static bool scan_import_list_delimiter(TSLexer *lexer) {
   // Import lists are terminated either by an empty line or a non import statement
   lexer->result_symbol = IMPORT_LIST_DELIMITER;
   lexer->mark_end(lexer);
