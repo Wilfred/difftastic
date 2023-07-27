@@ -57,13 +57,10 @@ module.exports = grammar({
   conflicts: $ => [
     [$._type_specifier, $._declarator],
     [$._type_specifier, $._declarator, $.macro_type_specifier],
-    [$._type_specifier, $._expression],
-    [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $._expression_not_binary],
     [$._type_specifier, $._expression_not_binary, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
-    [$._type_specifier, $.sized_type_specifier],
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
     [$.enum_specifier],

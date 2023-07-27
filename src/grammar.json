@@ -7767,15 +7767,6 @@
     ],
     [
       "_type_specifier",
-      "_expression"
-    ],
-    [
-      "_type_specifier",
-      "_expression",
-      "macro_type_specifier"
-    ],
-    [
-      "_type_specifier",
       "_expression_not_binary"
     ],
     [
@@ -7788,10 +7779,6 @@
       "macro_type_specifier"
     ],
     [
-      "sized_type_specifier"
-    ],
-    [
-      "_type_specifier",
       "sized_type_specifier"
     ],
     [
