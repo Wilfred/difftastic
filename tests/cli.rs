@@ -52,6 +52,18 @@ fn has_changes_requested_exit_code() {
 }
 
 #[test]
+fn ignore_comments() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--ignore-comments")
+        .arg("sample_files/comma_and_comment_before.js")
+        .arg("sample_files/comma_and_comment_after.js");
+
+    let predicate_fn = predicate::str::contains("No syntactic changes");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
 fn check_only() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
