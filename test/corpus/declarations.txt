@@ -188,6 +188,7 @@ extern int b, c;
 auto int d;
 register int e;
 static int f;
+register uint64_t rd_ asm("x" "10");
 
 --------------------------------------------------------------------------------
 
@@ -211,7 +212,17 @@ static int f;
   (declaration
     (storage_class_specifier)
     (primitive_type)
-    (identifier)))
+    (identifier))
+  (declaration
+    (storage_class_specifier)
+    (primitive_type)
+    (identifier)
+    (gnu_asm_expression
+      (concatenated_string
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content))))))
 
 ================================================================================
 Composite-typed variable declarations
@@ -566,6 +577,7 @@ const _Atomic unsigned long int x = 5;
 restrict int y = 6;
 volatile int z = 7;
 constexpr int a = 8;
+__thread int c = 9;
 noreturn void b() {}
 
 --------------------------------------------------------------------------------
@@ -593,6 +605,12 @@ noreturn void b() {}
       (number_literal)))
   (declaration
     (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (number_literal)))
+  (declaration
+    (storage_class_specifier)
     (primitive_type)
     (init_declarator
       (identifier)
