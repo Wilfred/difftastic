@@ -60,14 +60,6 @@ module.exports = grammar({
     // Ambiguous when used in an explicit delegation expression,
     // since the '{' could either be interpreted as the class body
     // or as the anonymous function body. Consider the following sequence:
-    //
-    // 'class'  simple_identifier  ':'  user_type  'by'  'fun'  '('  ')'  •  '{'  …
-    //
-    // Possible interpretations:
-    //
-    // 'class'  simple_identifier  ':'  user_type  'by'  (anonymous_function  'fun'  '('  ')'  •  function_body)
-    // 'class'  simple_identifier  ':'  user_type  'by'  (anonymous_function  'fun'  '('  ')')  •  '{'  …
-    [$.anonymous_function],
 
     // Member access operator '::' conflicts with callable reference
     [$._primary_expression, $.callable_reference],
@@ -84,7 +76,6 @@ module.exports = grammar({
     [$._postfix_unary_expression, $._expression],
 
     // ambiguity between generics and comparison operations (foo < b > c)
-    [$.call_expression, $.prefix_expression, $.comparison_expression],
     [$.call_expression, $.range_expression, $.comparison_expression],
     [$.call_expression, $.elvis_expression, $.comparison_expression],
     [$.call_expression, $.check_expression, $.comparison_expression],
