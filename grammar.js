@@ -54,7 +54,6 @@ module.exports = grammar({
     [$.list, $.list_pattern],
     [$.with_item, $._collection_elements],
     [$.named_expression, $.as_pattern],
-    [$.match_statement, $.primary_expression],
     [$.print_statement, $.primary_expression],
   ],
 

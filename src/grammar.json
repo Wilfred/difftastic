@@ -5405,10 +5405,6 @@
       "as_pattern"
     ],
     [
-      "match_statement",
-      "primary_expression"
-    ],
-    [
       "print_statement",
       "primary_expression"
     ]
