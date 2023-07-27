@@ -42,6 +42,10 @@ Object-like macro definitions
                + y
 #define SEVEN 7/* seven has an
                 * annoying comment */
+#define EIGHT(x) do { \
+        x = x + 1;  \
+        x = x / 2;  \
+    } while (x > 0);
 
 --------------------------------------------------------------------------------
 
@@ -72,7 +76,12 @@ Object-like macro definitions
   (preproc_def
     name: (identifier)
     value: (preproc_arg)
-    (comment)))
+    (comment))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params
+      (identifier))
+    value: (preproc_arg)))
 
 ================================================================================
 Function-like macro definitions

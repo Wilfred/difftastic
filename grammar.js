@@ -148,7 +148,7 @@ module.exports = grammar({
     ...preprocIf('', $ => $._block_item),
     ...preprocIf('_in_field_declaration_list', $ => $._field_declaration_list_item),
 
-    preproc_arg: _ => token(prec(-1, /\S([^/\n]|\\\r?\n)*/)),
+    preproc_arg: _ => token(prec(-1, /\S([^/\n]|\/[^*]|\\\r?\n)*/)),
     preproc_directive: _ => /#[ \t]*[a-zA-Z0-9]\w*/,
 
     _preproc_expression: $ => choice(
