@@ -166,7 +166,7 @@ static inline int8_t find_quoted_token_info(const bool *valid_symbols) {
   return -1;
 }
 
-bool scan_quoted_content(TSLexer *lexer, const QuotedContentInfo *info) {
+static bool scan_quoted_content(TSLexer *lexer, const QuotedContentInfo *info) {
   lexer->result_symbol = info->token_type;
 
   bool is_heredoc = (info->delimiter_length == 3);
@@ -524,7 +524,7 @@ static bool scan_newline(TSLexer *lexer, const bool *valid_symbols) {
   return false;
 }
 
-bool scan(TSLexer *lexer, const bool *valid_symbols) {
+static bool scan(TSLexer *lexer, const bool *valid_symbols) {
   int8_t quoted_content_info_idx = find_quoted_token_info(valid_symbols);
 
   // Quoted content, which matches any character except for close
