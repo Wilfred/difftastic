@@ -13,6 +13,7 @@ match command.split():
     case ["go", direction]:
         current_room = current_room.neighbor(direction)
     # The rest of your commands go here
+
 --------------------------------------------------------------------------------
 
 (module
@@ -25,11 +26,12 @@ match command.split():
     (block
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
         (block
           (expression_statement
             (call
@@ -45,11 +47,12 @@ match command.split():
               (argument_list)))))
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
         (block
           (expression_statement
             (call
@@ -59,12 +62,15 @@ match command.split():
               (argument_list)))))
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (identifier)))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (case_pattern
+              (dotted_name
+                (identifier)))))
         (block
           (expression_statement
             (call
@@ -76,12 +82,15 @@ match command.split():
                 (identifier))))))
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (identifier)))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (case_pattern
+              (dotted_name
+                (identifier)))))
         (block
           (expression_statement
             (assignment
@@ -102,6 +111,7 @@ match command.split():
     case ["drop", *objects]:
         for obj in objects:
             character.drop(obj, current_room)
+
 --------------------------------------------------------------------------------
 
 (module
@@ -114,13 +124,15 @@ match command.split():
     (block
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (list_splat
-              (identifier))))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (case_pattern
+              (splat_pattern
+                (identifier)))))
         (block
           (for_statement
             (identifier)
@@ -160,39 +172,44 @@ match command.split():
       (comment)
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))
         (block
           (expression_statement
             (ellipsis))
-            (comment)))
+          (comment)))
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (identifier)))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (case_pattern
+              (dotted_name
+                (identifier)))))
         (block
           (pass_statement)))
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (list_splat
-              (identifier))))
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (case_pattern
+              (splat_pattern
+                (identifier)))))
         (block
           (pass_statement)))
       (case_clause
-        (case_pattern
-          (identifier))
+        (case_pattern)
         (block
           (expression_statement
             (call
@@ -215,6 +232,7 @@ match command.split():
         current_room = current_room.neighbor("north")
     case ["get", obj] | ["pick", "up", obj] | ["pick", obj, "up"]:
         pass
+
 --------------------------------------------------------------------------------
 
 (module
@@ -227,21 +245,24 @@ match command.split():
     (block
       (case_clause
         (case_pattern
-          (binary_operator
-            (list
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))
-            (list
-              (string
-                (string_start)
-                (string_content)
-                (string_end))
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))
+          (union_pattern
+            (list_pattern
+              (case_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))
+            (list_pattern
+              (case_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))
+              (case_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))
         (block
           (expression_statement
             (assignment
@@ -257,40 +278,51 @@ match command.split():
                     (string_end))))))))
       (case_clause
         (case_pattern
-          (binary_operator
-            (binary_operator
-              (list
+          (union_pattern
+            (list_pattern
+              (case_pattern
                 (string
                   (string_start)
                   (string_content)
-                  (string_end))
-                (identifier))
-              (list
+                  (string_end)))
+              (case_pattern
+                (dotted_name
+                  (identifier))))
+            (list_pattern
+              (case_pattern
                 (string
                   (string_start)
                   (string_content)
-                  (string_end))
+                  (string_end)))
+              (case_pattern
                 (string
                   (string_start)
                   (string_content)
-                  (string_end))
-                (identifier)))
-            (list
-              (string
-                (string_start)
-                (string_content)
-                (string_end))
-              (identifier)
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))
+                  (string_end)))
+              (case_pattern
+                (dotted_name
+                  (identifier))))
+            (list_pattern
+              (case_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))
+              (case_pattern
+                (dotted_name
+                  (identifier)))
+              (case_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))
         (block
           (pass_statement))))))
 
 ================================================================================
 As patterns
 ================================================================================
+
 match command.split():
     case ["go", ("north" | "south" | "east" | "west") as direction]:
         current_room = current_room.neighbor(direction)
@@ -307,33 +339,34 @@ match command.split():
     (block
       (case_clause
         (case_pattern
-          (list
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (as_pattern
-              (parenthesized_expression
-                (binary_operator
-                  (binary_operator
-                    (binary_operator
-                      (string
-                        (string_start)
-                        (string_content)
-                        (string_end))
-                      (string
-                        (string_start)
-                        (string_content)
-                        (string_end)))
-                    (string
-                      (string_start)
-                      (string_content)
-                      (string_end)))
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end))))
-              (as_pattern_target
+          (list_pattern
+            (case_pattern
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))
+            (case_pattern
+              (as_pattern
+                (case_pattern
+                  (tuple_pattern
+                    (case_pattern
+                      (union_pattern
+                        (string
+                          (string_start)
+                          (string_content)
+                          (string_end))
+                        (string
+                          (string_start)
+                          (string_content)
+                          (string_end))
+                        (string
+                          (string_start)
+                          (string_content)
+                          (string_end))
+                        (string
+                          (string_start)
+                          (string_content)
+                          (string_end))))))
                 (identifier)))))
         (block
           (expression_statement
@@ -349,6 +382,7 @@ match command.split():
 ================================================================================
 Actually not match
 ================================================================================
+
 match = 2
 match, a = 2, 3
 match: int = secret
@@ -412,6 +446,7 @@ Match is match but not pattern matching
 
 a = [match]
 match = [match]
+
 --------------------------------------------------------------------------------
 
 (module
@@ -475,6 +510,7 @@ Case used as identifier
 a = [case]
 case = [case]
 just_in_case = call_me(case=True)
+
 --------------------------------------------------------------------------------
 
 (module
@@ -507,6 +543,7 @@ match 0:
         x = False
     case 0 if True:
         x = True
+
 --------------------------------------------------------------------------------
 
 (module
@@ -535,13 +572,87 @@ match 0:
               (true))))))))
 
 ================================================================================
+Literals
+================================================================================
+
+match xxx:
+    case 3 | -3:
+      pass
+    case "something":
+      pass
+    case "something" "else":
+      pass
+    case 1.0 | -1.0:
+      pass
+    case True | False:
+      pass
+    case None:
+      pass
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (block
+      (case_clause
+        (case_pattern
+          (union_pattern
+            (integer)
+            (integer)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (concatenated_string
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (union_pattern
+            (float)
+            (float)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (union_pattern
+            (true)
+            (false)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (none))
+        (block
+          (pass_statement))))))
+
+================================================================================
 Comma separated cases
 ================================================================================
+
 match (0, 1, 2):
     case 0,1:
         x = 0
     case 0, *x:
         x = 0
+
 --------------------------------------------------------------------------------
 
 (module
@@ -565,7 +676,7 @@ match (0, 1, 2):
         (case_pattern
           (integer))
         (case_pattern
-          (list_splat
+          (splat_pattern
             (identifier)))
         (block
           (expression_statement
@@ -574,11 +685,13 @@ match (0, 1, 2):
               (integer))))))))
 
 ================================================================================
-case terminating in comma
+Case terminating in comma
 ================================================================================
+
 match x,:
     case *x,:
         y = 0
+
 --------------------------------------------------------------------------------
 
 (module
@@ -587,7 +700,7 @@ match x,:
     (block
       (case_clause
         (case_pattern
-          (list_splat
+          (splat_pattern
             (identifier)))
         (block
           (expression_statement
@@ -612,9 +725,11 @@ match ..., ...:
     (block
       (case_clause
         (case_pattern
-          (identifier))
+          (dotted_name
+            (identifier)))
         (case_pattern
-          (identifier))
+          (dotted_name
+            (identifier)))
         (block
           (return_statement
             (call
@@ -624,6 +739,7 @@ match ..., ...:
 ================================================================================
 Match match, case case
 ================================================================================
+
 match = case = 0
 match match:
     case case:
@@ -642,7 +758,8 @@ match match:
     (block
       (case_clause
         (case_pattern
-          (identifier))
+          (dotted_name
+            (identifier)))
         (block
           (expression_statement
             (assignment
@@ -652,8 +769,10 @@ match match:
 ================================================================================
 Walrus match (Issue #150)
 ================================================================================
+
 if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII):
     return 42
+
 --------------------------------------------------------------------------------
 
 (module
@@ -678,3 +797,776 @@ if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII)
     (block
       (return_statement
         (integer)))))
+
+================================================================================
+Matching objects
+================================================================================
+
+match event.get():
+    case Click(position=(x, y)):
+        handle_click_at(x, y)
+    case KeyPress(key_name="Q") | Quit():
+        game.quit()
+    case KeyPress(key_name="up arrow"):
+        game.go_north()
+        ...
+    case KeyPress():
+        pass # Ignore other keystrokes
+    case other_event:
+        raise ValueError(f"Unrecognized event: {other_event}")
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (call
+      (attribute
+        (identifier)
+        (identifier))
+      (argument_list))
+    (block
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (tuple_pattern
+                  (case_pattern
+                    (dotted_name
+                      (identifier)))
+                  (case_pattern
+                    (dotted_name
+                      (identifier))))))))
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list
+                (identifier)
+                (identifier))))))
+      (case_clause
+        (case_pattern
+          (union_pattern
+            (class_pattern
+              (dotted_name
+                (identifier))
+              (case_pattern
+                (keyword_pattern
+                  (identifier)
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))
+            (class_pattern
+              (dotted_name
+                (identifier)))))
+        (block
+          (expression_statement
+            (call
+              (attribute
+                (identifier)
+                (identifier))
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))
+        (block
+          (expression_statement
+            (call
+              (attribute
+                (identifier)
+                (identifier))
+              (argument_list)))
+          (expression_statement
+            (ellipsis))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))))
+        (block
+          (pass_statement)
+          (comment)))
+      (case_clause
+        (case_pattern
+          (dotted_name
+            (identifier)))
+        (block
+          (raise_statement
+            (call
+              (identifier)
+              (argument_list
+                (string
+                  (string_start)
+                  (string_content)
+                  (interpolation
+                    (identifier))
+                  (string_end))))))))))
+
+================================================================================
+Positional arguments
+================================================================================
+
+match event.get():
+    case Click((x, y)):
+        handle_click_at(x, y)
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (call
+      (attribute
+        (identifier)
+        (identifier))
+      (argument_list))
+    (block
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (tuple_pattern
+                (case_pattern
+                  (dotted_name
+                    (identifier)))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))))))
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list
+                (identifier)
+                (identifier)))))))))
+
+================================================================================
+Constants and enums
+================================================================================
+
+match event.get():
+    case Click((x, y), button=Button.LEFT):  # This is a left click
+        handle_click_at(x, y)
+    case Click():
+        pass  # ignore other clicks
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (call
+      (attribute
+        (identifier)
+        (identifier))
+      (argument_list))
+    (block
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (tuple_pattern
+                (case_pattern
+                  (dotted_name
+                    (identifier)))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (dotted_name
+                  (identifier)
+                  (identifier))))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list
+                (identifier)
+                (identifier))))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))))
+        (block
+          (pass_statement)
+          (comment))))))
+
+================================================================================
+Dict mappings
+================================================================================
+
+for action in actions:
+    match action:
+        case {"text": message, "color": c}:
+            ui.set_text_color(c)
+            ui.display(message)
+        case {"sleep": duration}:
+            ui.wait(duration)
+        case {"sound": url, "format": "ogg"}:
+            ui.play(url)
+        case {a.b: c}:
+            action()
+        case {"sound": _, "format": _}:
+            warning("Unsupported audio format")
+--------------------------------------------------------------------------------
+
+(module
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (match_statement
+        (identifier)
+        (block
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))))
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))))
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (dotted_name
+                  (identifier)
+                  (identifier))
+                (case_pattern
+                  (dotted_name
+                    (identifier)))))
+            (block
+              (expression_statement
+                (call
+                  (identifier)
+                  (argument_list)))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern)
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern)))
+            (block
+              (expression_statement
+                (call
+                  (identifier)
+                  (argument_list
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))))))))))))
+
+================================================================================
+Builtin classes
+================================================================================
+
+for action in actions:
+    match action:
+        case {"text": str(message), "color": str(c)}:
+            ui.set_text_color(c)
+            ui.display(message)
+        case {"sleep": float(duration)}:
+            ui.wait(duration)
+        case {"sound": str(url), "format": "ogg"}:
+            ui.play(url)
+        case {"sound": _, "format": _}:
+            warning("Unsupported audio format")
+
+--------------------------------------------------------------------------------
+
+(module
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (match_statement
+        (identifier)
+        (block
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (class_pattern
+                    (dotted_name
+                      (identifier))
+                    (case_pattern
+                      (dotted_name
+                        (identifier)))))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (class_pattern
+                    (dotted_name
+                      (identifier))
+                    (case_pattern
+                      (dotted_name
+                        (identifier)))))))
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (class_pattern
+                    (dotted_name
+                      (identifier))
+                    (case_pattern
+                      (dotted_name
+                        (identifier)))))))
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (class_pattern
+                    (dotted_name
+                      (identifier))
+                    (case_pattern
+                      (dotted_name
+                        (identifier)))))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))
+            (block
+              (expression_statement
+                (call
+                  (attribute
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (identifier))))))
+          (case_clause
+            (case_pattern
+              (dict_pattern
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern)
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (case_pattern)))
+            (block
+              (expression_statement
+                (call
+                  (identifier)
+                  (argument_list
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end))))))))))))
+
+================================================================================
+Complex case patterns on classes
+================================================================================
+
+match x:
+    case Something(): # no args
+        foo1()
+    case Something.Else(): # more complex class name
+        foo2()
+    case Point2D(0, 1, 2): # three args
+        foo3()
+    case Point3D(x=0, y=0, z=0): # kw args
+        foo4()
+    case Point3D(34, x=0, y=0, z=0): # positional + kw args
+        foo5()
+    case Point2D(0, 1, 2,): # three args + trail comma
+        foo6()
+    case Point3D(x=0, y=0, z=0,): # kw args + trail comma
+        foo7()
+    case Point3D(34, x=0, y=0, z=0,): # positional + kw args + trail comma
+        foo8()
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (block
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier)
+              (identifier))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (integer))
+            (case_pattern
+              (integer))
+            (case_pattern
+              (integer))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (integer))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (integer))
+            (case_pattern
+              (integer))
+            (case_pattern
+              (integer))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list)))))
+      (case_clause
+        (case_pattern
+          (class_pattern
+            (dotted_name
+              (identifier))
+            (case_pattern
+              (integer))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))
+            (case_pattern
+              (keyword_pattern
+                (identifier)
+                (integer)))))
+        (comment)
+        (block
+          (expression_statement
+            (call
+              (identifier)
+              (argument_list))))))))
+
+================================================================================
+Complex case patterns on complex numbers
+================================================================================
+
+match x:
+    case  -3 + 5j:
+        pass
+    case  -3 + 5j as b2:
+        pass
+    case 3j as b1, -3 + 5j as b2:
+        pass
+    case  -3. + 5j:
+        pass
+    case  3 - 5.j:
+        pass
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (block
+      (case_clause
+        (case_pattern
+          (complex_pattern
+            (integer)
+            (integer)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (as_pattern
+            (case_pattern
+              (complex_pattern
+                (integer)
+                (integer)))
+            (identifier)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (as_pattern
+            (case_pattern
+              (integer))
+            (identifier)))
+        (case_pattern
+          (as_pattern
+            (case_pattern
+              (complex_pattern
+                (integer)
+                (integer)))
+            (identifier)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (complex_pattern
+            (float)
+            (integer)))
+        (block
+          (pass_statement)))
+      (case_clause
+        (case_pattern
+          (complex_pattern
+            (integer)
+            (float)))
+        (block
+          (pass_statement))))))
+
+================================================================================
+Maybe sequence pattern right hand side precedence validation
+================================================================================
+
+match x:
+    case a1, *a2, a3:
+        pass
+
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (block
+      (case_clause
+        (case_pattern
+          (dotted_name
+            (identifier)))
+        (case_pattern
+          (splat_pattern
+            (identifier)))
+        (case_pattern
+          (dotted_name
+            (identifier)))
+        (block
+          (pass_statement))))))

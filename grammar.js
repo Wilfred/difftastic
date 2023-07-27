@@ -311,12 +311,7 @@ module.exports = grammar({
 
     case_clause: $ => seq(
       'case',
-      commaSep1(
-        field(
-          'pattern',
-          alias($.expression, $.case_pattern),
-        ),
-      ),
+      commaSep1($.case_pattern),
       optional(','),
       optional(field('guard', $.if_clause)),
       ':',
@@ -549,7 +544,91 @@ module.exports = grammar({
       ),
     )),
 
-    dotted_name: $ => sep1($.identifier, '.'),
+    dotted_name: $ => prec(1, sep1($.identifier, '.')),
+
+    // Match cases
+
+    case_pattern: $ => prec(1, choice(
+      alias($._as_pattern, $.as_pattern),
+      $.keyword_pattern,
+      $._simple_pattern,
+    )),
+
+    _simple_pattern: $ => prec(1, choice(
+      $.class_pattern,
+      $.splat_pattern,
+      $.union_pattern,
+      alias($._list_pattern, $.list_pattern),
+      alias($._tuple_pattern, $.tuple_pattern),
+      $.dict_pattern,
+      $.string,
+      $.concatenated_string,
+      $.true,
+      $.false,
+      $.none,
+      seq(optional('-'), choice($.integer, $.float)),
+      $.complex_pattern,
+      $.dotted_name,
+      '_',
+    )),
+
+    _as_pattern: $ => seq($.case_pattern, 'as', $.identifier),
+
+    union_pattern: $ => prec.right(seq($._simple_pattern, repeat1(prec.left(seq('|', $._simple_pattern))))),
+
+    _list_pattern: $ => seq(
+      '[',
+      optional(seq(
+        commaSep1($.case_pattern),
+        optional(','),
+      )),
+      ']',
+    ),
+
+    _tuple_pattern: $ => seq(
+      '(',
+      optional(seq(
+        commaSep1($.case_pattern),
+        optional(','),
+      )),
+      ')',
+    ),
+
+    dict_pattern: $ => seq(
+      '{',
+      optional(seq(
+        commaSep1(choice($._key_value_pattern, $.splat_pattern)),
+        optional(','),
+      )),
+      '}',
+    ),
+
+    _key_value_pattern: $ => seq(
+      field('key', $._simple_pattern),
+      ':',
+      field('value', $.case_pattern),
+    ),
+
+    keyword_pattern: $ => seq($.identifier, '=', $._simple_pattern),
+
+    splat_pattern: $ => prec(1, seq(choice('*', '**'), choice($.identifier, '_'))),
+
+    class_pattern: $ => seq(
+      $.dotted_name,
+      '(',
+      optional(seq(
+        commaSep1($.case_pattern),
+        optional(','),
+      )),
+      ')',
+    ),
+
+    complex_pattern: $ => prec(1, seq(
+      optional('-'),
+      choice($.integer, $.float),
+      choice('+', '-'),
+      choice($.integer, $.float),
+    )),
 
     // Patterns
 
@@ -1120,7 +1199,7 @@ module.exports.PREC = PREC;
 /**
  * Creates a rule to match one or more of the rules separated by a comma
  *
- * @param {RegExp|Rule|String} rule
+ * @param {RuleOrLiteral} rule
  *
  * @return {SeqRule}
  *
@@ -1132,9 +1211,9 @@ function commaSep1(rule) {
 /**
  * Creates a rule to match one or more occurrences of `rule` separated by `sep`
  *
- * @param {RegExp|Rule|String} rule
+ * @param {RuleOrLiteral} rule
  *
- * @param {RegExp|Rule|String} separator
+ * @param {RuleOrLiteral} separator
  *
  * @return {SeqRule}
  *
