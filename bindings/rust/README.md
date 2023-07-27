@@ -9,10 +9,10 @@ way.)
 ```toml
 [dependencies]
 tree-sitter = "0.20.10"
-tree-sitter-cpp = "0.20.1"
+tree-sitter-cpp = "0.20.2"
 ```
 
-Typically, you will use the [language][language func] function to add this
+Typically, you will use the [language][language] function to add this
 grammar to a tree-sitter [Parser][], and then use the parser to parse some code:
 
 ```rust
@@ -29,8 +29,7 @@ let parsed = parser.parse(code, None);
 If you have any questions, please reach out to us in the [tree-sitter
 discussions] page.
 
-[Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
-[language func]: https://docs.rs/tree-sitter-cpp/*/tree_sitter_cpp/fn.language.html
+[language]: https://docs.rs/tree-sitter-cpp/*/tree_sitter_cpp/fn.language.html
 [Parser]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html
 [tree-sitter]: https://tree-sitter.github.io/
 [tree-sitter crate]: https://crates.io/crates/tree-sitter
