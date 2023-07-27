@@ -114,7 +114,7 @@ module.exports = grammar({
     // ambiguity between parameter modifiers in anonymous functions
     [$.parameter_modifiers, $._type_modifier],
 
-    // ambiguity between type modifiers before an @  
+    // ambiguity between type modifiers before an @
     [$.type_modifiers],
     // ambiguity between associating type modifiers
     [$.not_nullable_type],
@@ -719,7 +719,7 @@ module.exports = grammar({
     type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
 
     value_arguments: $ => seq(
-      "(", 
+      "(",
       optional(
         seq(
           sep1($.value_argument, ","),
@@ -1187,7 +1187,7 @@ module.exports = grammar({
       $._backtick_identifier,
     ),
 
-    _alpha_identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+    _alpha_identifier: $ => /[\p{L}_][\p{L}_\p{Nd}]*/,
 
     _backtick_identifier: $ => /`[^\r\n`]+`/,
 
