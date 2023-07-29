@@ -79,10 +79,17 @@ Contributing
 Policies
 --------
 
-Per the conversation in [#55](https://github.com/gleam-lang/tree-sitter-gleam/pull/55), we have decided that from v0.28.0 forward, tree-sitter-gleam will maintain backwards compatibility with the previous two versions; meaning that each release will support three versions:
-- Current
-- Current - 1
-- Current - 2
+### Backwards-Compatibility Policy
+
+Per the conversation in [#55](https://github.com/gleam-lang/tree-sitter-gleam/pull/55), we have decided that from v0.28.0 forward, tree-sitter-gleam will maintain backwards compatibility with the previous two minor versions; meaning that each release will support three versions:
+- 0.x.0
+- 0.x-1.*
+- 0.x-2.*
+
+e.g. The v0.30.0 release of tree-sitter gleam will support the following version of the Gleam language:
+- v0.30.0
+- v0.29.*
+- v0.28.*
 
 Style
 -----
