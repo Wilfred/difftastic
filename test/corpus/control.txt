@@ -311,7 +311,7 @@ for my $single (@array) {
 ---
 
 (source_file
-  (for_statement_2 (scope) (scalar_variable) (array_variable)
+  (for_statement_2 (scope) (scalar_variable) (array (array_variable))
     (block)
   )
 )
@@ -326,7 +326,7 @@ foreach my $single (@array) {
 ---
 
 (source_file
-  (for_statement_2 (scope) (scalar_variable) (array_variable)
+  (for_statement_2 (scope) (scalar_variable) (array (array_variable))
     (block)
   )
 )
@@ -359,7 +359,7 @@ foreach (@array) {
 ---
 
 (source_file
-  (for_statement_2 (array_variable)
+  (for_statement_2 (array (array_variable))
     (block)
   )
 )

@@ -58,6 +58,9 @@ module.exports = grammar({
     [$.binary_expression, $._bodmas_2, $._unary_and],
     [$.binary_expression, $._bodmas_2, $._logical_verbal_or_xor],
     [$.binary_expression, $._bodmas_2, $.join_function],
+    [$.binary_expression, $._bodmas_2, $.push_function],
+    [$.binary_expression, $._bodmas_2, $.grep_or_map_function],
+    [$.binary_expression, $._bodmas_2, $.unpack_function],
     [$.binary_expression, $._bodmas_2, $.arguments],
     [$._range_exp],
     [$._class_instance_exp],
@@ -78,13 +81,11 @@ module.exports = grammar({
     [$.arguments, $.array],
     [$._expression, $.method_invocation],
     [$._expression, $.goto_expression, $.method_invocation],
-    [$._expression, $.ternary_expression_in_hash],
     [$._expression, $.scalar_dereference],
     [$.special_scalar_variable, $.scalar_dereference],
     [$.hash, $._dereference],
-    [$._expression_without_bareword, $.ternary_expression_in_hash],
-    [$._variables, $.ternary_expression_in_hash],
     [$._variables, $.interpolation],
+    [$._variables, $.hash_ref],
     [$.string_double_quoted],
     [$.named_block_statement, $.hash_ref],
     [$.variable_declarator, $._variables],
@@ -342,7 +343,7 @@ module.exports = grammar({
       ),
       choice($.package_name, $.module_name, $._string),
       optional($.version),
-      optional('=>'),
+      optional($._comma_operator),
       optional(choice($._list, $._string)),
       $.semi_colon,
     ),
@@ -484,9 +485,7 @@ module.exports = grammar({
         seq(optional($.scope), $.scalar_variable),
         seq('\\', optional($.scope), $.hash_variable), // \my %hash
       )),
-      '(',
-      $._expression,
-      ')',      
+      $.array,      
       field('body', $.block),
       optional(field('flow', $.continue)),
     ),
@@ -765,7 +764,7 @@ module.exports = grammar({
 
     push_function: $ => prec.right(seq(
       alias('push', $.push),
-      with_or_without_brackets(seq($._expression, ',', $._expression))
+      with_or_without_brackets(commaSeparated($._expression)),
     )),
 
     grep_or_map_function: $ => prec.right(seq(
@@ -775,7 +774,7 @@ module.exports = grammar({
       ),
       choice(
         seq($.list_block, $._expression),
-        with_or_without_brackets(seq($._expression, ',', $._expression)),
+        with_or_without_brackets(commaSeparated($._expression)),
       ),
     )),
 
@@ -802,7 +801,7 @@ module.exports = grammar({
 
     unpack_function: $ => prec.right(seq(
       alias('unpack', $.alias),
-      with_or_without_brackets(seq($._expression, ',', $._expression)),
+      with_or_without_brackets(commaSeparated($._expression)),
     )),
 
     // TODO: this needs more cases coverage
@@ -1159,7 +1158,7 @@ module.exports = grammar({
       ),
       seq(
         field('variable', $._expression),
-        field('operator', 'X'),
+        field('operator', 'x'),
         field('variable', $._expression),
       ),
     )),
@@ -1335,6 +1334,11 @@ module.exports = grammar({
         ),
       )
     )),
+
+    _comma_operator: $ => choice(
+      ',',
+      '=>',
+    ),
 
     _unary_not: $ => prec.right(PRECEDENCE.UNARY_NOT, seq(
       field('operator', 'not'),
@@ -1790,10 +1794,11 @@ module.exports = grammar({
     // TODO: accept ('key', value, 'key2', value2) as hash
     hash: $ => seq(
       '(',
-      optional(commaSeparated(choice(
-        $.ternary_expression_in_hash,
+      optional(binaryCommaSeparated(choice(
+        $.ternary_expression,
         $.key_value_pair,
         $.hash_dereference,
+        // $.hash_variable,
       ))),
       ')',
     ),
@@ -1801,10 +1806,11 @@ module.exports = grammar({
     hash_ref: $ => seq(
       optional('+'), // to make into a hash_ref rather than a block
       '{',
-      optional(commaSeparated(choice(
-        $.ternary_expression_in_hash,
+      optional(binaryCommaSeparated(choice(
+        $.ternary_expression,
         $.key_value_pair,
         $.hash_dereference,
+        $.hash_variable,
       ))),
       '}'
     ),
@@ -1855,24 +1861,13 @@ module.exports = grammar({
         $._expression_without_bareword,
       )),
       $.hash_arrow_operator,
-      choice(
-        // field('value', $.hash_access_variable),
-        field('value', $._expression),
-      ),
+      field('value', $._expression),
     )),
 
     // NOTE: this is a hack for keys that are keywords
     key_words_in_hash_key: $ => choice(
       'sub'
     ),
-
-    ternary_expression_in_hash: $ => prec.left(1, seq(
-      field('condition', $._expression),
-      field('operator', '?'),
-      field('true', prec.left($.hash)),
-      field('operator', ':'),
-      field('false', prec.left($.hash)),
-    )),
 
     arrow_operator: $ => /->/,
     hash_arrow_operator: $ => prec.left(PRECEDENCE.COMMA_OPERATORS, /=>/), // alias comma operator
@@ -1891,12 +1886,27 @@ module.exports = grammar({
 
 /**
  * repeats the rule comma separated, like
- * rule, rule
+ * rule, rule => rule, rule => rule
  * example: my (a, b);
  * using it in the above.
  * @param {*} rule 
  */
 function commaSeparated(rule) {
+  return prec.left(PRECEDENCE.COMMA_OPERATORS, seq(
+    rule,
+    repeat(seq(choice(',', '=>'), rule)),
+    optional(','), // in perl so far you could have this
+  ));
+}
+
+/**
+ * repeats the rule binary comma (,) separated, like
+ * rule, rule
+ * example: my (a, b);
+ * using it in the above.
+ * @param {*} rule 
+ */
+function binaryCommaSeparated(rule) {
   return prec.left(PRECEDENCE.COMMA_OPERATORS, seq(
     rule,
     repeat(seq(',', rule)),
