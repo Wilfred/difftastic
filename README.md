@@ -76,6 +76,14 @@ Contributing
 3. Add parser feature tests to the relevant file(s) in `test/corpus/`, or make a new one.
 4. Run `npm run test` and fix any failing tests.
 
+Policies
+--------
+
+Per the conversation in [#55](https://github.com/gleam-lang/tree-sitter-gleam/pull/55), we have decided that from v0.28.0 forward, tree-sitter-gleam will maintain backwards compatibility with the previous two versions; meaning that each release will support three versions:
+- Current
+- Current - 1
+- Current - 2
+
 Style
 -----
 
