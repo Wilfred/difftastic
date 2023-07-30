@@ -1,6 +1,6 @@
 {
   "name": "@elm-tooling/tree-sitter-elm",
-  "version": "5.6.5",
+  "version": "5.6.6",
   "description": "Tree sitter definitions for elm",
   "main": "bindings/node",
   "publishConfig": {
