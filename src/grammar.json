@@ -3370,12 +3370,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "clauses",
-          "content": {
-            "type": "SYMBOL",
-            "name": "case_clauses"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "clauses",
+              "content": {
+                "type": "SYMBOL",
+                "name": "case_clauses"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",

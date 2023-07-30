@@ -1202,7 +1202,7 @@
     "fields": {
       "clauses": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "case_clauses",
