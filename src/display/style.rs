@@ -470,16 +470,18 @@ pub fn header(
         hunk_num,
     );
 
+    let mut trailer = format!(" --- {}{}", divider, file_format);
+    if display_options.use_color {
+        trailer = trailer.dimmed().to_string();
+    }
+
     match old_path {
         Some(old_path) => {
             let renamed = format!("Renamed {} to {}", old_path, display_path);
-            format!(
-                "{}\n{} --- {}{}",
-                renamed, display_path, divider, file_format
-            )
+            format!("{}\n{}{}", renamed, display_path, trailer)
         }
         None => {
-            format!("{} --- {}{}", display_path_pretty, divider, file_format)
+            format!("{}{}", display_path_pretty, trailer)
         }
     }
 }

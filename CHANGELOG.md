@@ -2,6 +2,9 @@
 
 ### Display
 
+Tweaked the colours on the file header, to make metadata less
+prominent.
+
 Improved syntax hightling for Java built-in types.
 
 ## 0.49 (release 26th July 2023)
