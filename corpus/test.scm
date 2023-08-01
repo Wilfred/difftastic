@@ -183,3 +183,89 @@ Test 14
 	(content
 		(text)
 		(text)))
+
+
+=====================
+Test 15
+=====================
+#{a}
+---------------------
+
+(source_file
+	(block
+		(ident)))
+
+
+=====================
+Test 16
+=====================
+#(a, b)
+---------------------
+
+(source_file
+	(group
+		(ident)
+		(ident)))
+
+
+=====================
+Test 17
+=====================
+#(a, c: b)
+---------------------
+
+(source_file
+	(group
+		(ident)
+		(field
+			field: (ident)
+			(ident))))
+
+
+=====================
+Test 18
+=====================
+#hello(a, c: b)
+---------------------
+
+(source_file
+	(call
+		item: (ident)
+		(group
+			(ident)
+			(field
+				field: (ident)
+				(ident)))))
+
+
+=====================
+Test 19
+=====================
+#hello(a, c: b)World
+---------------------
+
+(source_file
+	(call
+		item: (ident)
+		(group
+			(ident)
+			(field
+				field: (ident)
+				(ident))))
+	(text))
+
+
+=====================
+Test 19
+=====================
+#hello()[World]
+---------------------
+
+(source_file
+	(call
+		item:
+		(call
+			item: (ident)
+			(group))	
+		(content
+			(text))))

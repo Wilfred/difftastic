@@ -15,7 +15,10 @@ module.exports = grammar({
   extras: $ => [],
   conflicts: $ => [
     [$.mul, $._3],
+    [$._4, $.add],
+    [$._list, $.add],
     [$.mul, $.add],
+    [$.field, $.add],
   ],
   rules: {
     source_file: $ => optional(choice(
@@ -45,30 +48,6 @@ module.exports = grammar({
       $._tail_space_text,
       $._escape,
     ))),
-
-    // ESCAPE
-    _escape: $ => seq('#', choice(
-      seq($.ident, optional(choice(
-        $._tail_ident_text,
-        $._tail_ident_space,
-        $._escape,
-      ))),
-      seq($.group, optional(choice(
-        $._tail_group_text,
-        $._tail_group_space,
-        $._escape,
-      ))),
-      seq($.content, optional(choice(
-        $._tail_content_text,
-        $._tail_content_space,
-        $._escape,
-      ))),
-      seq($.call, optional(choice(
-        $._tail_call_text,
-        $._tail_call_space,
-        $._escape,
-      ))),
-    )),
 
     // TAIL IDENT
     _tail_ident_text: $ => seq(alias($.text_next_ident, $.text), optional(choice(
@@ -110,12 +89,54 @@ module.exports = grammar({
       $._escape,
     ))),
 
+    // TAIL BLOCK
+    _tail_block_space: $ => seq($._space, optional(choice(
+      $._tail_space_text,
+      $._escape,
+    ))),
+    _tail_block_text: $ => seq($.text_next_block, optional(choice(
+      $._tail_text_space,
+      $._escape,
+    ))),
+
+
+    // ESCAPE
+    _escape: $ => seq('#', choice(
+      seq($.ident, optional(choice(
+        $._tail_ident_text,
+        $._tail_ident_space,
+        $._escape,
+      ))),
+      seq($.group, optional(choice(
+        $._tail_group_text,
+        $._tail_group_space,
+        $._escape,
+      ))),
+      seq($.content, optional(choice(
+        $._tail_content_text,
+        $._tail_content_space,
+        $._escape,
+      ))),
+      seq($.block, optional(choice(
+        $._tail_block_text,
+        $._tail_block_space,
+        $._escape,
+      ))),
+      seq($.call, optional(choice(
+        $._tail_call_text,
+        $._tail_call_space,
+        $._escape,
+      ))),
+    )),
+
+
     text: $ => /.+/,
     text_next_space: $ => /[^# \t\n\]]+/,
-    text_next_ident: $ => /[^# \t\n\]\(a-zA-Z][^# \t\n\]]*/,
-    text_next_call: $ => /[^# \t\n\(\]][^# \t\n\]]*/,
-    text_next_group: $ => /[^# \t\n\(\]][^# \t\n\]]*/,
-    text_next_content: $ => /[^# \t\n\(\]][^# \t\n\]]*/,
+    text_next_ident: $ => /[^# \t\n\[\]\(a-zA-Z][^# \t\n\]]*/,
+    text_next_call: $ => /[^# \t\n\(\[\]][^# \t\n\]]*/,
+    text_next_group: $ => /[^# \t\n\(\[\]][^# \t\n\]]*/,
+    text_next_content: $ => /[^# \t\n\[\(\]][^# \t\n\]]*/,
+    text_next_block: $ => /[^# \t\n\(\[\]][^# \t\n\]]*/,
     _space: $ => /[ \t\n]+/,
 
     // PRECEDENCES
@@ -136,13 +157,27 @@ module.exports = grammar({
       $._2,
       $.add,
     ),
+    _4: $ => choice(
+      $._3,
+      $.field,
+    ),
+    _5: $ => choice(
+      $._4,
+      $._list,
+    ),
 
     // EXPRETIONS
     group: $ => seq(
       '(',
       optional($._space),
-      optional(seq($._3, optional($._space))),
+      optional(seq($._5, optional($._space))),
       ')'
+    ),
+    block: $ => seq(
+      '{',
+      optional($._space),
+      optional(seq($._5, optional($._space))),
+      '}'
     ),
     content: $ => seq(
       '[',
@@ -153,9 +188,11 @@ module.exports = grammar({
       )),
       ']',
     ),
+    _list: $ => seq($._5, optional($._space), ',', optional($._space), $._4),
+    field: $ => seq(field('field', $.ident), ':', optional($._space), $._3),
     add: $ => seq($._3, optional($._space), '+', optional($._space), $._2),
     mul: $ => seq($._2, optional($._space), '*', optional($._space), $._1),
-    call: $ => seq(field('item', $._1), $.group),
+    call: $ => seq(field('item', $._1), choice($.group, $.content)),
     ident: $ => /[a-zA-Z]+/,
   }
 });
