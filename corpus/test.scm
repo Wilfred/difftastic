@@ -417,3 +417,27 @@ Test 30
 		(text))
 	(text))
 
+
+=====================
+Test 31
+=====================
+_hello_ world
+---------------------
+
+(source_file
+	(emph
+		(text))
+	(text))
+
+
+=====================
+Test 32
+=====================
+*hello _world_*
+---------------------
+
+(source_file
+	(strong
+		(text)
+		(emph
+			(text))))
