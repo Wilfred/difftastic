@@ -451,3 +451,15 @@ Test 33
 (source_file
 	(ident)
 	(text))
+
+
+=====================
+Test 34
+=====================
+#let a = b
+---------------------
+
+(source_file
+	(let
+		pattern: (ident)
+		(ident)))
