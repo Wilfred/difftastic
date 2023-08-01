@@ -296,3 +296,124 @@ Test 22
 		(block))
 	(text)
 	(text))
+
+
+=====================
+Test 23
+=====================
+#if a {} elsee {}
+---------------------
+
+(source_file
+	(condition
+		test: (ident)
+		(block))
+	(text)
+	(text))
+
+
+=====================
+Test 24
+=====================
+a b
+c
+
+d e
+---------------------
+
+(source_file
+	(text)
+	(text)
+	(text)
+	(break)
+	(text)
+	(text))
+
+
+=====================
+Test 25
+=====================
+#if a{}
+
+
+else[]
+---------------------
+
+(source_file
+	(branch
+		test: (ident)
+		(block)
+		(content)))
+
+
+=====================
+Test 26
+=====================
+#if a[]{}
+---------------------
+
+(source_file
+	(condition
+		test: (call
+			item: (ident)
+			(content))
+		(block)))
+
+
+=====================
+Test 27
+=====================
+#if a []{}
+---------------------
+
+(source_file
+	(condition
+		test: (ident)
+		(content))
+	(text))
+
+
+=====================
+Test 28
+=====================
+#if(a)[]{}
+---------------------
+
+(source_file
+	(condition
+		test: (call
+			item: (group
+				(ident))
+			(content))
+		(block)))
+
+
+
+=====================
+Test 29
+=====================
+#if(a) + b[]{}
+---------------------
+
+(source_file
+	(condition
+		test: (add
+			(group
+				(ident))
+			(call
+				item: (ident)
+				(content)))
+		(block)))
+
+
+=====================
+Test 30
+=====================
+*hello* world
+---------------------
+
+(source_file
+	(strong
+		(text))
+	(text))
+
