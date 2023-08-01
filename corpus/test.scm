@@ -171,3 +171,15 @@ Test 13
 			(group))
 		(group))
 	(text))
+
+
+=====================
+Test 14
+=====================
+#[Hello World!]
+---------------------
+
+(source_file
+	(content
+		(text)
+		(text)))
