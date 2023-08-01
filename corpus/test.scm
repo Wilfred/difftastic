@@ -256,7 +256,7 @@ Test 19
 
 
 =====================
-Test 19
+Test 20
 =====================
 #hello()[World]
 ---------------------
@@ -269,3 +269,30 @@ Test 19
 			(group))	
 		(content
 			(text))))
+
+
+=====================
+Test 21
+=====================
+#if a {} else {}
+---------------------
+
+(source_file
+	(branch
+		test: (ident)
+		(block)
+		(block)))
+
+
+=====================
+Test 22
+=====================
+#if a {} elsa {}
+---------------------
+
+(source_file
+	(condition
+		test: (ident)
+		(block))
+	(text)
+	(text))

@@ -14,11 +14,13 @@ module.exports = grammar({
   name: 'typst',
   extras: $ => [],
   conflicts: $ => [
-    [$.mul, $._3],
-    [$._4, $.add],
+    [$.mul, $._4],
+    [$._5, $.add],
     [$._list, $.add],
     [$.mul, $.add],
     [$.field, $.add],
+    [$.branch],
+    [$.branch, $.condition],
   ],
   rules: {
     source_file: $ => optional(choice(
@@ -99,6 +101,26 @@ module.exports = grammar({
       $._escape,
     ))),
 
+    // TAIL BRANCH
+    _tail_branch_space: $ => seq($._space, optional(choice(
+      $._tail_space_text,
+      $._escape,
+    ))),
+    _tail_branch_text: $ => seq($.text_next_branch, optional(choice(
+      $._tail_text_space,
+      $._escape,
+    ))),
+
+    // TAIL CONDITION
+    _tail_condition_space: $ => seq($._space, optional(choice(
+      $._tail_condition_text,
+      $._escape,
+    ))),
+    _tail_condition_text: $ => seq(alias($.text_next_condition, $.text), optional(choice(
+      $._tail_text_space,
+      $._escape,
+    ))),
+
 
     // ESCAPE
     _escape: $ => seq('#', choice(
@@ -127,6 +149,16 @@ module.exports = grammar({
         $._tail_call_space,
         $._escape,
       ))),
+      seq($.branch, optional(choice(
+        $._tail_branch_text,
+        $._tail_branch_space,
+        $._escape,
+      ))),
+      seq($.condition, optional(choice(
+        $._tail_condition_text,
+        $._tail_condition_space,
+        $._escape,
+      ))),
     )),
 
 
@@ -137,6 +169,8 @@ module.exports = grammar({
     text_next_group: $ => /[^# \t\n\(\[\]][^# \t\n\]]*/,
     text_next_content: $ => /[^# \t\n\[\(\]][^# \t\n\]]*/,
     text_next_block: $ => /[^# \t\n\(\[\]][^# \t\n\]]*/,
+    text_next_branch: $ => /[^# \t\n\(\[\]][^# \t\n\]]*/,
+    text_next_condition: $ => /(else[^ \t\n]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\]])[^# \t\n\]]*/,
     _space: $ => /[ \t\n]+/,
 
     // PRECEDENCES
@@ -147,22 +181,27 @@ module.exports = grammar({
     ),
     _1: $ => choice(
       $._0,
-      $.call,
+      $.branch,
+      $.condition,
     ),
     _2: $ => choice(
       $._1,
-      $.mul,
+      $.call,
     ),
     _3: $ => choice(
       $._2,
-      $.add,
+      $.mul,
     ),
     _4: $ => choice(
       $._3,
-      $.field,
+      $.add,
     ),
     _5: $ => choice(
       $._4,
+      $.field,
+    ),
+    _6: $ => choice(
+      $._5,
       $._list,
     ),
 
@@ -170,13 +209,13 @@ module.exports = grammar({
     group: $ => seq(
       '(',
       optional($._space),
-      optional(seq($._5, optional($._space))),
+      optional(seq($._6, optional($._space))),
       ')'
     ),
     block: $ => seq(
       '{',
       optional($._space),
-      optional(seq($._5, optional($._space))),
+      optional(seq($._6, optional($._space))),
       '}'
     ),
     content: $ => seq(
@@ -188,11 +227,29 @@ module.exports = grammar({
       )),
       ']',
     ),
-    _list: $ => seq($._5, optional($._space), ',', optional($._space), $._4),
-    field: $ => seq(field('field', $.ident), ':', optional($._space), $._3),
-    add: $ => seq($._3, optional($._space), '+', optional($._space), $._2),
-    mul: $ => seq($._2, optional($._space), '*', optional($._space), $._1),
-    call: $ => seq(field('item', $._1), choice($.group, $.content)),
+    _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
+    field: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
+    add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
+    mul: $ => seq($._3, optional($._space), '*', optional($._space), $._2),
+    call: $ => seq(field('item', $._2), choice($.group, $.content)),
+    branch: $ => seq(
+      'if',
+      $._space,
+      field('test', $._4),
+      $._space,
+      choice($.block, $.content),
+      $._space,
+      'else',
+      $._space,
+      choice($.block, $.content),
+    ),
+    condition: $ => seq(
+      'if',
+      $._space,
+      field('test', $._4),
+      $._space,
+      choice($.block, $.content),
+    ),
     ident: $ => /[a-zA-Z]+/,
   }
 });
