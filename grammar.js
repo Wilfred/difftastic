@@ -1,10 +1,6 @@
 const PREC = {
   first: $ => prec(100, $),
   last: $ => prec(-1, $),
-  number: $ => prec(2, $),
-  symbol: $ => prec(1, $),
-  left: prec.left,
-  right: prec.right,
 };
 
 const LEAF = {
@@ -164,17 +160,16 @@ module.exports = grammar({
     // string }}}
 
     number: _ =>
-      PREC.number(
-        token(
-          choice(
-            extflonum(2),
-            extflonum(8),
-            extflonum(10),
-            extflonum(16),
-            number_base(2),
-            number_base(8),
-            number_base(10),
-            number_base(16)))),
+      token(
+        choice(
+          extflonum(2),
+          extflonum(8),
+          extflonum(10),
+          extflonum(16),
+          number_base(2),
+          number_base(8),
+          number_base(10),
+          number_base(16))),
 
     decimal: _ => /[0-9]+/,
 
@@ -191,13 +186,12 @@ module.exports = grammar({
             /./))),
 
     symbol: _ =>
-      PREC.symbol(
-        token(
-          choice(
-            /#[cC][iIsS]/, // read-case-sensitive parameter
-            seq(
-              LEAF.symbol_start,
-              repeat(LEAF.symbol_remain))))),
+      token(
+        choice(
+          /#[cC][iIsS]/, // read-case-sensitive parameter
+          seq(
+            LEAF.symbol_start,
+            repeat(LEAF.symbol_remain)))),
 
     keyword: _ =>
       token(
