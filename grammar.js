@@ -123,6 +123,20 @@ module.exports = grammar({
       $._emph_tail_any_strong,
     ))),
 
+    // TAIL ITEM
+    _normal_tail_item_text: $ => seq($._text_next_item, optional(choice(
+      $._normal_tail_any_space,
+      $._any_normal,
+    ))),
+    _strong_tail_item_text: $ => seq($._text_next_item, optional(choice(
+      $._strong_tail_any_space,
+      $._any_strong,
+    ))),
+    _emph_tail_item_text: $ => seq($._text_next_item, optional(choice(
+      $._emph_tail_any_space,
+      $._any_emph,
+    ))),
+
     // TAIL IDENT
     _normal_tail_ident_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
@@ -306,8 +320,8 @@ module.exports = grammar({
 
     // ESCAPE
     _normal_tail_any_escape: $ => seq('#', choice(
-      seq($.ident, choice(
-        $._normal_tail_ident_text,
+      seq($._item, choice(
+        $._normal_tail_item_text,
         $._any_normal_space,
       )),
       seq($.group, choice(
@@ -344,8 +358,8 @@ module.exports = grammar({
       ))),
     )),
     _strong_tail_any_escape: $ => seq('#', choice(
-      seq($.ident, choice(
-        $._strong_tail_ident_text,
+      seq($._item, choice(
+        $._strong_tail_item_text,
         $._any_strong_space,
       )),
       seq($.group, choice(
@@ -382,8 +396,8 @@ module.exports = grammar({
       ))),
     )),
     _emph_tail_any_escape: $ => seq('#', choice(
-      seq($.ident, choice(
-        $._emph_tail_ident_text,
+      seq($._item, choice(
+        $._emph_tail_item_text,
         $._any_emph_space,
       )),
       seq($.group, choice(
@@ -434,9 +448,17 @@ module.exports = grammar({
     _space: $ => /[ \t]+/,
     _line: $ => '\n',
 
+    _item: $ => choice(
+      $.ident,
+      $.int,
+      $.float,
+    ),
+
     // PRECEDENCES
     _0: $ => choice(
       $.ident,
+      $.int,
+      $.float,
       $.group,
       $.content,
     ),
@@ -498,6 +520,9 @@ module.exports = grammar({
       ']',
     ),
     ident: $ => /[a-zA-Z]+/,
+    unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt'),
+    int: $ => seq(/[0-9]+/, optional($.unit)),
+    float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
     _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
     field: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
     add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
@@ -527,6 +552,8 @@ module.exports = grammar({
     ),
     _terminated: $ => choice(
       $.let,
+      $.int,
+      $.float,
       $.ident,
       $.call,
       $.branch,
