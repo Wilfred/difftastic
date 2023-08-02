@@ -50,6 +50,22 @@ module.exports = grammar({
       $._emph_tail_any_escape,
       $._emph_tail_any_strong,
     ),
+    _any_normal_space: $ => choice(
+      $._normal_tail_any_space,
+      $._normal_tail_any_escape,
+      $._normal_tail_any_strong,
+      $._normal_tail_any_emph,
+    ),
+    _any_strong_space: $ => choice(
+      $._strong_tail_any_space,
+      $._strong_tail_any_escape,
+      $._strong_tail_any_emph,
+    ),
+    _any_emph_space: $ => choice(
+      $._emph_tail_any_space,
+      $._emph_tail_any_escape,
+      $._emph_tail_any_strong,
+    ),
 
     // TAIL ANY
     _normal_tail_any_space: $ => seq($._space, optional(choice(
@@ -108,57 +124,57 @@ module.exports = grammar({
     ))),
 
     // TAIL IDENT
-    _normal_tail_ident_text: $ => seq($._text_next_ident, optional(choice(
+    _normal_tail_ident_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
     ))),
-    _strong_tail_ident_text: $ => seq($._text_next_ident, optional(choice(
+    _strong_tail_ident_text: $ => seq($._text_next_item, optional(choice(
       $._strong_tail_any_space,
       $._any_strong,
     ))),
-    _emph_tail_ident_text: $ => seq($._text_next_ident, optional(choice(
+    _emph_tail_ident_text: $ => seq($._text_next_item, optional(choice(
       $._emph_tail_any_space,
       $._any_emph,
     ))),
 
     // TAIL CALL
-    _normal_tail_call_text: $ => seq($._text_next_call, optional(choice(
+    _normal_tail_call_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
     ))),
-    _strong_tail_call_text: $ => seq($._text_next_call, optional(choice(
+    _strong_tail_call_text: $ => seq($._text_next_item, optional(choice(
       $._strong_tail_any_space,
       $._any_strong,
     ))),
-    _emph_tail_call_text: $ => seq($._text_next_call, optional(choice(
+    _emph_tail_call_text: $ => seq($._text_next_item, optional(choice(
       $._emph_tail_any_space,
       $._any_emph,
     ))),
 
     // TAIL GROUP
-    _normal_tail_group_text: $ => seq($._text_next_group, optional(choice(
+    _normal_tail_group_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
     ))),
-    _strong_tail_group_text: $ => seq($._text_next_group, optional(choice(
+    _strong_tail_group_text: $ => seq($._text_next_item, optional(choice(
       $._strong_tail_any_space,
       $._any_strong,
     ))),
-    _emph_tail_group_text: $ => seq($._text_next_group, optional(choice(
+    _emph_tail_group_text: $ => seq($._text_next_item, optional(choice(
       $._emph_tail_any_space,
       $._any_emph,
     ))),
 
     // TAIL CONTENT
-    _normal_tail_content_text: $ => seq($._text_next_content, optional(choice(
+    _normal_tail_content_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
     ))),
-    _strong_tail_content_text: $ => seq($._text_next_content, optional(choice(
+    _strong_tail_content_text: $ => seq($._text_next_item, optional(choice(
       $._strong_tail_any_space,
       $._any_strong,
     ))),
-    _emph_tail_content_text: $ => seq($._text_next_content, optional(choice(
+    _emph_tail_content_text: $ => seq($._text_next_item, optional(choice(
       $._emph_tail_any_space,
       $._any_emph,
     ))),
@@ -168,7 +184,7 @@ module.exports = grammar({
       $._normal_tail_any_text,
       $._any_normal,
     ))),
-    _normal_tail_block_text: $ => seq($._text_next_block, optional(choice(
+    _normal_tail_block_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
     ))),
@@ -176,7 +192,7 @@ module.exports = grammar({
       $._strong_tail_any_text,
       $._any_strong,
     ))),
-    _strong_tail_block_text: $ => seq($._text_next_block, optional(choice(
+    _strong_tail_block_text: $ => seq($._text_next_item, optional(choice(
       $._strong_tail_any_space,
       $._any_strong,
     ))),
@@ -184,7 +200,7 @@ module.exports = grammar({
       $._emph_tail_any_text,
       $._any_emph,
     ))),
-    _emph_tail_block_text: $ => seq($._text_next_block, optional(choice(
+    _emph_tail_block_text: $ => seq($._text_next_item, optional(choice(
       $._emph_tail_any_space,
       $._any_emph,
     ))),
@@ -194,7 +210,7 @@ module.exports = grammar({
       $._normal_tail_any_text,
       $._any_normal,
     ))),
-    _normal_tail_branch_text: $ => seq($._text_next_branch, optional(choice(
+    _normal_tail_branch_text: $ => seq($._text_next_item, optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
     ))),
@@ -202,7 +218,7 @@ module.exports = grammar({
       $._strong_tail_any_text,
       $._any_strong,
     ))),
-    _strong_tail_branch_text: $ => seq($._text_next_branch, optional(choice(
+    _strong_tail_branch_text: $ => seq($._text_next_item, optional(choice(
       $._strong_tail_any_space,
       $._any_strong,
     ))),
@@ -210,7 +226,7 @@ module.exports = grammar({
       $._emph_tail_any_text,
       $._any_emph,
     ))),
-    _emph_tail_branch_text: $ => seq($._text_next_branch, optional(choice(
+    _emph_tail_branch_text: $ => seq($._text_next_item, optional(choice(
       $._emph_tail_any_space,
       $._any_emph,
     ))),
@@ -241,9 +257,11 @@ module.exports = grammar({
       $._any_emph,
     ))),
 
-    // // TAIL LET
-    // _normal_tail_let_space: $ => seq($._space, optional(choice(
-    //   $._normal_
+    // TAIL STATEMENT
+    // TODO: check paragraph break
+    // _normal_tail_let_line: $ => seq($._line, optional(choice(
+    //   $._normal_tail_any_text,
+    //   $._normal_tail_any_space,
     // ))),
 
     // STRONG
@@ -288,142 +306,131 @@ module.exports = grammar({
 
     // ESCAPE
     _normal_tail_any_escape: $ => seq('#', choice(
-      seq($.ident, optional(choice(
+      seq($.ident, choice(
         $._normal_tail_ident_text,
-        $._normal_tail_any_space,
-        $._any_normal,
-      ))),
-      seq($.group, optional(choice(
+        $._any_normal_space,
+      )),
+      seq($.group, choice(
         $._normal_tail_group_text,
-        $._normal_tail_any_space,
-        $._any_normal,
-      ))),
-      seq($.content, optional(choice(
+        $._any_normal_space,
+      )),
+      seq($.content, choice(
         $._normal_tail_content_text,
-        $._normal_tail_any_space,
-        $._any_normal,
-      ))),
-      seq($.block, optional(choice(
+        $._any_normal_space,
+      )),
+      seq($.block, choice(
         $._normal_tail_block_text,
-        $._normal_tail_block_space,
-        $._any_normal,
-      ))),
-      seq($.call, optional(choice(
+        $._any_normal_space,
+      )),
+      seq($.call, choice(
         $._normal_tail_call_text,
-        $._normal_tail_any_space,
-        $._any_normal,
-      ))),
-      seq($.branch, optional(choice(
+        $._any_normal_space,
+      )),
+      seq($.branch, choice(
         $._normal_tail_branch_text,
-        $._normal_tail_branch_space,
-        $._any_normal,
-      ))),
-      seq($.condition, optional(choice(
+        $._any_normal_space,
+      )),
+      seq($.condition, choice(
         $._normal_tail_condition_text,
-        $._normal_tail_condition_space,
-        $._any_normal,
+        $._any_normal_space,
+      )),
+      seq($._terminated, optional(choice(
+        $._normal_tail_any_line,
+        seq(';', optional(choice(
+          $._normal_tail_any_text,
+          $._normal_tail_any_space,
+          $._any_normal,
+        ))),
       ))),
-      // seq($.let, optional(choice(
-      //   $._normal_tail_let_text,
-      //   $._normal_tail_let_space,
-      //   $._any_normal,
-      // ))),
     )),
     _strong_tail_any_escape: $ => seq('#', choice(
-      seq($.ident, optional(choice(
+      seq($.ident, choice(
         $._strong_tail_ident_text,
-        $._strong_tail_any_space,
-        $._any_strong,
-      ))),
-      seq($.group, optional(choice(
+        $._any_strong_space,
+      )),
+      seq($.group, choice(
         $._strong_tail_group_text,
-        $._strong_tail_any_space,
-        $._any_strong,
-      ))),
-      seq($.content, optional(choice(
+        $._any_strong_space,
+      )),
+      seq($.content, choice(
         $._strong_tail_content_text,
-        $._strong_tail_any_space,
-        $._any_strong,
-      ))),
-      seq($.block, optional(choice(
+        $._any_strong_space,
+      )),
+      seq($.block, choice(
         $._strong_tail_block_text,
-        $._strong_tail_block_space,
-        $._any_strong,
-      ))),
-      seq($.call, optional(choice(
+        $._any_strong_space,
+      )),
+      seq($.call, choice(
         $._strong_tail_call_text,
-        $._strong_tail_any_space,
-        $._any_strong,
-      ))),
-      seq($.branch, optional(choice(
+        $._any_strong_space,
+      )),
+      seq($.branch, choice(
         $._strong_tail_branch_text,
-        $._strong_tail_branch_space,
-        $._any_strong,
-      ))),
-      seq($.condition, optional(choice(
+        $._any_strong_space,
+      )),
+      seq($.condition, choice(
         $._strong_tail_condition_text,
-        $._strong_tail_condition_space,
-        $._any_strong,
+        $._any_strong_space,
+      )),
+      seq($._terminated, optional(choice(
+        $._strong_tail_any_line,
+        seq(';', optional(choice(
+          $._strong_tail_any_text,
+          $._strong_tail_any_space,
+          $._any_strong,
+        ))),
       ))),
-      // seq($.let, optional(choice(
-      //   $._strong_tail_let_text,
-      //   $._strong_tail_let_space,
-      //   $._any_strong,
-      // ))),
     )),
     _emph_tail_any_escape: $ => seq('#', choice(
-      seq($.ident, optional(choice(
+      seq($.ident, choice(
         $._emph_tail_ident_text,
-        $._emph_tail_any_space,
-        $._any_emph,
-      ))),
-      seq($.group, optional(choice(
+        $._any_emph_space,
+      )),
+      seq($.group, choice(
         $._emph_tail_group_text,
-        $._emph_tail_any_space,
-        $._any_emph,
-      ))),
-      seq($.content, optional(choice(
+        $._any_emph_space,
+      )),
+      seq($.content, choice(
         $._emph_tail_content_text,
-        $._emph_tail_any_space,
-        $._any_emph,
-      ))),
-      seq($.block, optional(choice(
+        $._any_emph_space,
+      )),
+      seq($.block, choice(
         $._emph_tail_block_text,
-        $._emph_tail_block_space,
-        $._any_emph,
-      ))),
-      seq($.call, optional(choice(
+        $._any_emph_space,
+      )),
+      seq($.call, choice(
         $._emph_tail_call_text,
-        $._emph_tail_any_space,
-        $._any_emph,
-      ))),
-      seq($.branch, optional(choice(
+        $._any_emph_space,
+      )),
+      seq($.branch, choice(
         $._emph_tail_branch_text,
-        $._emph_tail_branch_space,
-        $._any_emph,
-      ))),
-      seq($.condition, optional(choice(
+        $._any_emph_space,
+      )),
+      seq($.condition, choice(
         $._emph_tail_condition_text,
-        $._emph_tail_condition_space,
-        $._any_emph,
+        $._any_emph_space,
+      )),
+      seq($._terminated, optional(choice(
+        $._emph_tail_any_line,
+        seq(';', optional(choice(
+          $._emph_tail_any_text,
+          $._emph_tail_any_space,
+          $._any_emph,
+        ))),
       ))),
-      // seq($.let, optional(choice(
-      //   $._emph_tail_let_text,
-      //   $._emph_tail_let_space,
-      //   $._any_emph,
-      // ))),
     )),
 
 
     text: $ => /.+/,
     _text_next_space: $ => alias(/[^# \t\n\]\*_]+/, $.text),
-    _text_next_ident: $ => alias(/[^# \t\n\[\*\]\(a-zA-Z_][^# \t\n\]\*_]*/, $.text),
-    _text_next_call: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
-    _text_next_group: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
-    _text_next_content: $ => alias(/[^# \t\n\[\*\(\]_][^# \t\n\]\*_]*/, $.text),
-    _text_next_block: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
-    _text_next_branch: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
-    _text_next_condition: $ => alias(/(else[^ \t\n\*\+\!\(\{]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]])[^# \t\n\]\*_]*/, $.text),
+    _text_next_item: $ => alias(/[^# \t\n\[\*\]\(_;][^# \t\n\]\*_]*/, $.text),
+    // _text_next_ident: $ => alias(/[^# \t\n\[\*\]\(_][^# \t\n\]\*_]*/, $.text),
+    // _text_next_call: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
+    // _text_next_group: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
+    // _text_next_content: $ => alias(/[^# \t\n\[\*\(\]_][^# \t\n\]\*_]*/, $.text),
+    // _text_next_block: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
+    // _text_next_branch: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
+    _text_next_condition: $ => alias(/(else[^ \t\n\*\+\!\(\{;]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]])[^# \t\n\]\*_]*/, $.text),
     _space: $ => /[ \t]+/,
     _line: $ => '\n',
 
@@ -458,6 +465,14 @@ module.exports = grammar({
       $._5,
       $._list,
     ),
+    _7: $ => choice(
+      $._4,
+      $.let,
+    ),
+    _8: $ => choice(
+      $._7,
+      $.sep,
+    ),
 
     // EXPRETIONS
     group: $ => seq(
@@ -483,6 +498,7 @@ module.exports = grammar({
       )),
       ']',
     ),
+    ident: $ => /[a-zA-Z]+/,
     _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
     field: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
     add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
@@ -510,16 +526,27 @@ module.exports = grammar({
         $.block,
       ),
     ),
+    _terminated: $ => choice(
+      $.let,
+      $.ident,
+      $.call,
+      $.branch,
+      $.condition,
+      $.group,
+      $.content,
+      $.block
+    ),
     let: $ => seq(
       'let',
       optional($._space),
-      $._2,
+      field('pattern', $._2),
       optional($._space),
       '=',
       optional($._space),
-      $._4
+      $._4,
+      optional($._space),
     ),
-    ident: $ => /[a-zA-Z]+/,
+    sep: $ => seq($._8, optional($._space), ';', optional($._space), $._7),
   }
 });
 

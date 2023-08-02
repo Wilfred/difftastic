@@ -456,6 +456,21 @@ Test 33
 =====================
 Test 34
 =====================
+#if a {} else {}()
+---------------------
+
+(source_file
+	(call
+		item: (branch
+			test: (ident)
+			(block)
+			(block))
+		(group)))
+
+
+=====================
+Test 35
+=====================
 #let a = b
 ---------------------
 
@@ -463,3 +478,27 @@ Test 34
 	(let
 		pattern: (ident)
 		(ident)))
+
+
+=====================
+Test 36
+=====================
+#let a = b;Hello
+---------------------
+
+(source_file
+	(let
+		pattern: (ident)
+		(ident))
+	(text))
+
+
+=====================
+Test 37
+=====================
+#a; Hello
+---------------------
+
+(source_file
+	(ident)
+	(text))
