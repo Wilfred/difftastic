@@ -502,3 +502,22 @@ Test 37
 (source_file
 	(ident)
 	(text))
+
+
+=====================
+Test 38
+=====================
+#{
+	let a = b
+	a + a
+}
+---------------------
+
+(source_file
+	(block
+		(let
+			pattern: (ident)
+			(ident))
+	(add
+		(ident)
+		(ident))))

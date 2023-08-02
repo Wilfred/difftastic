@@ -15,11 +15,11 @@ module.exports = grammar({
   extras: $ => [],
   conflicts: $ => [
     [$._4, $.mul],
-    // [$._4_left_safe, $.mul_left_safe],
     [$._5, $.add],
+    [$._7, $.add],
     [$.field, $.add],
     [$.add, $.mul],
-    // [$.add_left_safe, $.mul],
+    [$.add, $.let],
     [$.branch, $.condition],
   ],
   rules: {
@@ -469,10 +469,10 @@ module.exports = grammar({
       $._4,
       $.let,
     ),
-    _8: $ => choice(
-      $._7,
-      $.sep,
-    ),
+    // _8: $ => choice(
+    //   $._7,
+    //   $.sep,
+    // ),
 
     // EXPRETIONS
     group: $ => seq(
@@ -483,8 +483,7 @@ module.exports = grammar({
     ),
     block: $ => seq(
       '{',
-      optional($._space),
-      optional(seq($._6, optional($._space))),
+      zebra(seq(optional($._space), $._7, optional($._space)), repeat1(choice($._line, ';'))),
       '}'
     ),
     content: $ => seq(
@@ -546,7 +545,7 @@ module.exports = grammar({
       $._4,
       optional($._space),
     ),
-    sep: $ => seq($._8, optional($._space), ';', optional($._space), $._7),
+    // sep: $ => seq($._8, optional($._space), ';', optional($._space), $._7),
   }
 });
 
