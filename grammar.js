@@ -115,6 +115,14 @@ const r7rs = {
       "|")
 };
 
+const hidden_node = {
+  symbol:
+    token(
+      choice(
+        repeat1(common.symbol_element),
+        r7rs.symbol)),
+};
+
 module.exports = grammar({
   name: "scheme",
 
@@ -170,7 +178,9 @@ module.exports = grammar({
       $.syntax,
       $.quasisyntax,
       $.unsyntax,
-      $.unsyntax_splicing),
+      $.unsyntax_splicing,
+
+      $.keyword),
 
     // simple datum {{{
 
@@ -212,12 +222,13 @@ module.exports = grammar({
           r6rs.escape_sequence,
           r7rs.escape_sequence)),
 
-    symbol: _ =>
-      PREC.symbol(
-        token(
-          choice(
-            repeat1(common.symbol_element),
-            r7rs.symbol))),
+    symbol: _ => PREC.symbol(hidden_node.symbol),
+
+    keyword: _ =>
+      token(
+        seq(
+          "#:",
+          hidden_node.symbol)),
 
     // simple datum }}}
 

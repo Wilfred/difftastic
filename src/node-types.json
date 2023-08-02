@@ -47,6 +47,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -131,6 +135,10 @@
         },
         {
           "type": "directive",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -248,6 +256,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -340,6 +352,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -424,6 +440,10 @@
         },
         {
           "type": "directive",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -514,6 +534,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -598,6 +622,10 @@
         },
         {
           "type": "directive",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -708,6 +736,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -792,6 +824,10 @@
         },
         {
           "type": "directive",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -882,6 +918,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -966,6 +1006,10 @@
         },
         {
           "type": "directive",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -1056,6 +1100,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -1140,6 +1188,10 @@
         },
         {
           "type": "directive",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -1279,6 +1331,10 @@
   },
   {
     "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "keyword",
     "named": true
   },
   {
