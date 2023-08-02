@@ -24,7 +24,7 @@ current status:
   * [x] `{}` as replacement for `()` or `[]`
   * [x] extend symbols which can start with digits, period, ... etc as long as it's not a number
   * [ ] keyword `#:symbol`
-  * [ ] escape sequence in string any character following `\`
+  * [ ] escape sequence in string `\` + any character
   * [ ] characters `#\bel`, `#\ls`, `#\nel`, `#\rubout`, `#\vt`
 
 Please open an issue to let me know it's really used if you want to add new extensions.
