@@ -576,3 +576,18 @@ Test 43
 	(field
 		(ident)
 		field: (ident)))
+
+
+=====================
+Test 44
+=====================
+Hello #a
+
+World
+---------------------
+
+(source_file
+	(text)
+	(ident)
+	(break)
+	(text))
