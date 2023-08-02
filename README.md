@@ -20,12 +20,21 @@ current status:
 * [x] R5RS
 * [x] R6RS
 * [x] R7RS
+* [ ] Extensions
+  * [x] `{}` as replacement for `()` or `[]`
+  * [x] extend symbols which can start with digits, period, ... etc as long as it's not a number
+  * [ ] keyword `#:symbol`
+  * [ ] escape sequence in string any character following `\`
+  * [ ] characters `#\bel`, `#\ls`, `#\nel`, `#\rubout`, `#\vt`
+
+Please open an issue to let me know it's really used if you want to add new extensions.
+
+## Implementation
+
 * [ ] Support for implementation
   * [ ] Chez Scheme ([#1](https://github.com/6cdh/tree-sitter-scheme/issues/1))
   * [ ] Chicken Scheme ([#3](https://github.com/6cdh/tree-sitter-scheme/issues/3))
   * [ ] Guile Scheme ([#7](https://github.com/6cdh/tree-sitter-scheme/issues/7))
-* [ ] Extensions
-  * [x] `{}` as replacement for `()` or `[]`
 
 ## Usage
 
