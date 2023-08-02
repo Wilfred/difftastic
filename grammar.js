@@ -38,8 +38,8 @@ const r5rs = {
         common.any_char)),
   escape_sequence:
     choice(
-      "\"",
-      "\\"),
+      "\\\"",
+      "\\\\"),
 };
 
 const r6rs = {

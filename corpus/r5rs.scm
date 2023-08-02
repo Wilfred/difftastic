@@ -41,6 +41,7 @@ string
 " "
 "
 abc"
+"\'"
 
 ---
 (program
@@ -54,7 +55,9 @@ abc"
     (escape_sequence))
   (string)
   (string)
-  (string))
+  (string)
+  (string
+    (ERROR)))
 
 ===
 comment
