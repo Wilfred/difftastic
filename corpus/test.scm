@@ -591,3 +591,61 @@ World
 	(ident)
 	(break)
 	(text))
+
+
+=====================
+Test 45
+=====================
+Hello #a
+World
+---------------------
+
+(source_file
+	(text)
+	(ident)
+	(text))
+
+
+=====================
+Test 46
+=====================
+Hello #a
+
+
+
+
+World
+---------------------
+
+(source_file
+	(text)
+	(ident)
+	(break)
+	(text))
+
+
+=====================
+Test 47
+=====================
+*_hello_ world*
+---------------------
+
+(source_file
+	(strong
+		(emph
+			(text))
+		(text)))
+
+
+=====================
+Test 48
+=====================
+*_*hello*_ world*
+---------------------
+
+(source_file
+	(strong
+		(emph
+			(strong
+				(text)))
+		(text)))
