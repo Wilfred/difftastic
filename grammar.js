@@ -114,6 +114,7 @@ const r7rs = {
 };
 
 const extension = {
+  escape_sequence: /\\./,
   character:
     seq(
       "#\\",
@@ -229,7 +230,8 @@ module.exports = grammar({
         choice(
           r5rs.escape_sequence,
           r6rs.escape_sequence,
-          r7rs.escape_sequence)),
+          r7rs.escape_sequence,
+          extension.escape_sequence)),
 
     symbol: _ => token(hidden_node.symbol),
 

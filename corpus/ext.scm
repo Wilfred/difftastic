@@ -40,3 +40,15 @@ character
   (character)
   (character)
   (character))
+
+===
+string
+===
+
+"\. \'"
+
+---
+(program
+  (string
+    (escape_sequence)
+    (escape_sequence)))
