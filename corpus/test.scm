@@ -217,7 +217,7 @@ Test 17
 (source_file
 	(group
 		(ident)
-		(field
+		(tagged
 			field: (ident)
 			(ident))))
 
@@ -233,7 +233,7 @@ Test 18
 		item: (ident)
 		(group
 			(ident)
-			(field
+			(tagged
 				field: (ident)
 				(ident)))))
 
@@ -249,7 +249,7 @@ Test 19
 		item: (ident)
 		(group
 			(ident)
-			(field
+			(tagged
 				field: (ident)
 				(ident))))
 	(text))
@@ -564,3 +564,15 @@ Test 42
 
 (source_file
 	(float))
+
+
+=====================
+Test 43
+=====================
+#a.b
+---------------------
+
+(source_file
+	(field
+		(ident)
+		field: (ident)))

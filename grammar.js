@@ -17,7 +17,7 @@ module.exports = grammar({
     [$._4, $.mul],
     [$._5, $.add],
     [$._7, $.add],
-    [$.field, $.add],
+    [$.tagged, $.add],
     [$.add, $.mul],
     [$.add, $.let],
     [$.branch, $.condition],
@@ -434,17 +434,30 @@ module.exports = grammar({
       ))),
     )),
 
+    _terminated: $ => choice(
+      $.let,
+      $.int,
+      $.float,
+      $.ident,
+      $.field,
+      $.call,
+      $.branch,
+      $.condition,
+      $.group,
+      $.content,
+      $.block
+    ),
 
     text: $ => /.+/,
     _text_next_space: $ => alias(/[^# \t\n\]\*_]+/, $.text),
-    _text_next_item: $ => alias(/[^# \t\n\[\*\]\(_;][^# \t\n\]\*_]*/, $.text),
+    _text_next_item: $ => alias(/(\.[^a-zA-Z])|[^\.# \t\n\[\*\]\(_;][^# \t\n\]\*_]*/, $.text),
     // _text_next_ident: $ => alias(/[^# \t\n\[\*\]\(_][^# \t\n\]\*_]*/, $.text),
     // _text_next_call: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
     // _text_next_group: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
     // _text_next_content: $ => alias(/[^# \t\n\[\*\(\]_][^# \t\n\]\*_]*/, $.text),
     // _text_next_block: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
     // _text_next_branch: $ => alias(/[^# \t\n\(\[\*\]_][^# \t\n\]\*_]*/, $.text),
-    _text_next_condition: $ => alias(/(else[^ \t\n\*\+\!\(\{;]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]])[^# \t\n\]\*_]*/, $.text),
+    _text_next_condition: $ => alias(/(\.[^a-zA-Z]|else[^ \t\n\*\+\!\(\{;]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]\.])[^# \t\n\]\*_]*/, $.text),
     _space: $ => /[ \t]+/,
     _line: $ => '\n',
 
@@ -452,6 +465,7 @@ module.exports = grammar({
       $.ident,
       $.int,
       $.float,
+      $.field,
     ),
 
     // PRECEDENCES
@@ -466,6 +480,7 @@ module.exports = grammar({
       $._0,
       $.branch,
       $.condition,
+      $.field,
     ),
     _2: $ => choice(
       $._1,
@@ -481,7 +496,7 @@ module.exports = grammar({
     ),
     _5: $ => choice(
       $._4,
-      $.field,
+      $.tagged,
     ),
     _6: $ => choice(
       $._5,
@@ -524,10 +539,11 @@ module.exports = grammar({
     int: $ => seq(/[0-9]+/, optional($.unit)),
     float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
     _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
-    field: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
+    tagged: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
     add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
     mul: $ => seq($._3, optional($._space), '*', optional($._space), $._2),
     call: $ => seq(field('item', $._2), choice($.group, $.content)),
+    field: $ => seq($._1, '.', field('field', $.ident)),
     branch: $ => seq(
       'if',
       optional($._space),
@@ -549,18 +565,6 @@ module.exports = grammar({
         seq($._space, choice($.block, $.content)),
         $.block,
       ),
-    ),
-    _terminated: $ => choice(
-      $.let,
-      $.int,
-      $.float,
-      $.ident,
-      $.call,
-      $.branch,
-      $.condition,
-      $.group,
-      $.content,
-      $.block
     ),
     let: $ => seq(
       'let',
