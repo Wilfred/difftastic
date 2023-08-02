@@ -113,6 +113,13 @@ const r7rs = {
       "|")
 };
 
+const extension = {
+  character:
+    seq(
+      "#\\",
+      choice("bel", "ls", "nel", "rubout", "vt")),
+};
+
 const hidden_node = {
   symbol:
     token(
@@ -205,7 +212,8 @@ module.exports = grammar({
         choice(
           r5rs.character,
           r6rs.character,
-          r7rs.character)),
+          r7rs.character,
+          extension.character)),
 
     string: $ =>
       seq(

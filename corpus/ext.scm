@@ -22,3 +22,21 @@ keyword
 (program
   (keyword)
   (keyword))
+
+===
+character
+===
+
+#\bel
+#\ls
+#\nel
+#\rubout
+#\vt
+
+---
+(program
+  (character)
+  (character)
+  (character)
+  (character)
+  (character))

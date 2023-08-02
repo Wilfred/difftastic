@@ -12064,6 +12064,40 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "#\\"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "bel"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "ls"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "nel"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "rubout"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "vt"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
