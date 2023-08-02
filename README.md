@@ -8,6 +8,8 @@ Scheme grammar for tree-sitter.
 
 With R7RS support, a single `|` can no longer appears in the middle of an identifier.
 
+The nodes `directive` no longer contain sub nodes `symbol`. Now it's a single node.
+
 ## Status
 
 ~~tree-sitter-scheme should work on a superset of Scheme.~~
