@@ -74,8 +74,8 @@ directive
 
 ---
 (program
-  (directive (symbol))
-  (directive (symbol)))
+  (directive)
+  (directive))
 
 ===
 comment

@@ -8,8 +8,6 @@
 const PREC = {
   first: $ => prec(100, $),
   last: $ => prec(-100, $),
-  number: $ => prec(1, $),
-  symbol: $ => prec(-1, $),
 };
 
 const common = {
@@ -150,7 +148,7 @@ module.exports = grammar({
         seq("#;", repeat($._intertoken), $._datum)),
 
     directive: $ =>
-      seq("#!", repeat($._intertoken), $.symbol),
+      seq("#!", repeat($._intertoken), hidden_node.symbol),
 
     block_comment: $ =>
       seq("#|",
@@ -162,9 +160,13 @@ module.exports = grammar({
 
     _datum: $ => choice(
       $.boolean,
-      $.number,
       $.character,
       $.string,
+
+      // number/symbol precedence
+      // for same length token, prefer number
+      // otherwise, prefer symbol which is also longer
+      $.number,
       $.symbol,
 
       $.vector,
@@ -192,12 +194,11 @@ module.exports = grammar({
           r7rs.boolean)),
 
     number: _ =>
-      PREC.number(
-        token(
-          choice(
-            r5rs.number,
-            r6rs.number,
-            r7rs.number))),
+      token(
+        choice(
+          r5rs.number,
+          r6rs.number,
+          r7rs.number)),
 
     character: _ =>
       token(
@@ -222,7 +223,7 @@ module.exports = grammar({
           r6rs.escape_sequence,
           r7rs.escape_sequence)),
 
-    symbol: _ => PREC.symbol(hidden_node.symbol),
+    symbol: _ => token(hidden_node.symbol),
 
     keyword: _ =>
       token(

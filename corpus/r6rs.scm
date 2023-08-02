@@ -96,7 +96,7 @@ directive
 
 ---
 (program
-  (directive (symbol)))
+  (directive))
 
 ===
 comment

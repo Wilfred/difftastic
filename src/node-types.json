@@ -202,7 +202,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "block_comment",
@@ -214,10 +214,6 @@
         },
         {
           "type": "directive",
-          "named": true
-        },
-        {
-          "type": "symbol",
           "named": true
         }
       ]
@@ -313,11 +309,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "number",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "program",
@@ -697,11 +688,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "symbol",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "syntax",
@@ -1335,6 +1321,14 @@
   },
   {
     "type": "keyword",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "symbol",
     "named": true
   },
   {
