@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-scheme"
 description = "scheme grammar for the tree-sitter parsing library"
-version = "0.5.0"
+version = "0.6.0"
 keywords = ["incremental", "parsing", "scheme"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-scheme"
