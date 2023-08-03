@@ -97,6 +97,10 @@ module.exports = grammar({
         $.here_string,
         $.byte_string,
         $.character,
+
+        // number/symbol precedence
+        // for same length token, prefer number
+        // otherwise, prefer symbol which is also longer
         $.number,
         $.symbol,
 
