@@ -477,7 +477,7 @@ Test 35
 (source_file
 	(let
 		pattern: (ident)
-		(ident)))
+		value: (ident)))
 
 
 =====================
@@ -489,7 +489,7 @@ Test 36
 (source_file
 	(let
 		pattern: (ident)
-		(ident))
+		value: (ident))
 	(text))
 
 
@@ -517,7 +517,7 @@ Test 38
 	(block
 		(let
 			pattern: (ident)
-			(ident))
+			value: (ident))
 	(add
 		(ident)
 		(ident))))
@@ -722,21 +722,201 @@ b
 	(text))
 
 
-; =====================
-; Test 
-; =====================
+=====================
+Test 54
+=====================
+a#[
+b
 
-; ---------------------
+]c
+---------------------
 
-; (source_file
-; 	)
+(source_file
+	(text)
+	(content
+		(text)
+		(break))
+	(text))
 
 
-; =====================
-; Test 
-; =====================
+=====================
+Test 55
+=====================
+a#[
+b
+]c
+---------------------
 
-; ---------------------
+(source_file
+	(text)
+	(content
+		(text))
+	(text))
 
-; (source_file
-; 	)
+
+=====================
+Test 56
+=====================
+a
+
+---------------------
+
+(source_file
+	(text))
+
+
+=====================
+Test 57
+=====================
+// Hey
+---------------------
+
+(source_file
+	(comment))
+
+
+=====================
+Test 58
+=====================
+// Hey
+
+
+---------------------
+
+(source_file
+	(comment))
+
+
+=====================
+Test 59
+=====================
+#/**/let a = 0
+---------------------
+
+(source_file
+	(comment)
+	(let
+		pattern: (ident)
+		value: (int)))
+
+
+=====================
+Test 60
+=====================
+#let /* HEY */ a = 0
+---------------------
+
+(source_file
+	(let
+		(comment)
+		pattern: (ident)
+		value: (int)))
+
+
+=====================
+Test 61
+=====================
+#set text(a: 0)
+---------------------
+
+(source_file
+	(set
+		(call
+			item: (ident)
+			(group
+				(tagged
+					field: (ident)
+					(int))))))
+
+
+=====================
+Test 62
+=====================
+#{
+	set text()
+}
+---------------------
+
+(source_file
+	(block
+		(set
+			(call
+				item: (ident)
+				(group)))))
+
+
+=====================
+Test 63
+=====================
+#{
+	set text()
+
+
+	[Hey]
+}
+---------------------
+
+(source_file
+	(block
+		(set
+			(call
+				item: (ident)
+				(group)))
+		(content
+			(text))))
+
+
+=====================
+Test 64
+=====================
+#"a"4
+---------------------
+
+(source_file
+	(string)
+	(text))
+
+
+=====================
+Test 65
+=====================
+#"a\""4
+---------------------
+
+(source_file
+	(string
+		(escape))
+	(text))
+
+
+=====================
+Test 66
+=====================
+#import "a"
+---------------------
+
+(source_file
+	(import
+		(string)))
+
+
+=====================
+Test 67
+=====================
+#import "a": a, b
+---------------------
+
+(source_file
+	(import
+		(string)
+		(ident)
+		(ident)))
+
+
+=====================
+Test _
+=====================
+---------------------
+
+(source_file
+	)

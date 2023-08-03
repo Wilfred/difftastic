@@ -12,7 +12,7 @@ function zebra(zeb, ra) {
 // }
 module.exports = grammar({
   name: 'typst',
-  extras: $ => [],
+  extras: $ => [$.comment],
   conflicts: $ => [
     [$._4, $.mul],
     [$._5, $.add],
@@ -21,7 +21,10 @@ module.exports = grammar({
     [$.add, $.mul],
     [$.add, $.let],
     [$.branch, $.condition],
-    // [$.source_file],
+    [$._normal_tail_any_line],
+    [$.let],
+    [$.import],
+    [$._list, $.import],
   ],
   rules: {
     source_file: $ => optional(choice(
@@ -30,6 +33,10 @@ module.exports = grammar({
       $._any_normal,
     )),
 
+    comment: $ => choice(
+      seq('//', /[^\n]*\n?/),
+      seq('/*', /([^\*]|\*[^\/])*/, '*/'),
+    ),
     escape: $ => /\\./,
     text: $ => /.+/,
     _text_any: $ => choice(
@@ -39,7 +46,8 @@ module.exports = grammar({
     _text_next_space: $ => repeat1($._text_any),
     _text_next_item: $ => seq(/(\.[^a-zA-Z])|[^\.# \t\n\[\*\]\(_;]/, repeat($._text_any)),
     _text_next_condition: $ => seq(/(\.[^a-zA-Z]|else[^ \t\n\*\+\!\(\{;]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]\.])/, repeat($._text_any)),
-    _space: $ => /[ \t]+/,
+    // _space: $ => /[ \t]+/,
+    _space: $ => repeat1(/[ \t]/),
     _line: $ => '\n',
     break: $ => repeat1($._line),
 
@@ -261,8 +269,11 @@ module.exports = grammar({
 
     _terminated: $ => choice(
       $.let,
+      $.set,
+      $.import,
       $.int,
       $.float,
+      $.string,
       $.ident,
       $.field,
       $.call,
@@ -277,6 +288,7 @@ module.exports = grammar({
       $.ident,
       $.int,
       $.float,
+      $.string,
       $.field,
       $.group,
       $.content,
@@ -289,6 +301,7 @@ module.exports = grammar({
       $.ident,
       $.int,
       $.float,
+      $.string,
       $.group,
       $.content,
     ),
@@ -321,6 +334,8 @@ module.exports = grammar({
     _7: $ => choice(
       $._4,
       $.let,
+      $.set,
+      $.import,
     ),
     // _8: $ => choice(
     //   $._7,
@@ -352,6 +367,7 @@ module.exports = grammar({
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt'),
     int: $ => seq(/[0-9]+/, optional($.unit)),
     float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
+    string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
     _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
     tagged: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
     add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
@@ -387,8 +403,24 @@ module.exports = grammar({
       optional($._space),
       '=',
       optional($._space),
-      $._4,
+      field('value', $._4),
       optional($._space),
+    ),
+    set: $ => seq(
+      'set',
+      optional($._space),
+      $.call,
+    ),
+    import: $ => seq(
+      'import',
+      optional($._space),
+      $.string,
+      optional(seq(
+        optional($._space),
+        ':',
+        optional($._space),
+        $._6,
+      )),
     ),
   }
 });
