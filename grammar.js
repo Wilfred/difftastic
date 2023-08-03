@@ -315,31 +315,25 @@ module.exports = grammar({
       $._4,
       $.tagged,
     ),
-    _6: $ => choice(
-      $._5,
-      // $._list,
-    ),
     _7: $ => choice(
       $._4,
       $.let,
       $.set,
       $.import,
     ),
-    // _8: $ => choice(
-    //   $._7,
-    //   $.sep,
-    // ),
 
+    // for optimization when there is no ambiguity with $._space or $._line
+    // it replaces `zebra(repeat1($._line), $._space)`
     _wsl: $ => /[ \t\n]+/,
 
     // EXPRETIONS
     group: $ => seq(
       '(',
-      optional($._wsl),
-      optional(seq(
-        seq(repeat(seq($._5, optional($._wsl), ',')), optional(seq(optional($._wsl), $._5))),
+      seq(
+        repeat(seq(optional($._wsl), $._5, optional($._wsl), ',')),
         optional($._wsl),
-      )),
+        optional(seq($._5, optional($._wsl))),
+      ),
       ')'
     ),
     block: $ => seq(
@@ -361,8 +355,6 @@ module.exports = grammar({
     int: $ => seq(/[0-9]+/, optional($.unit)),
     float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    // _list: $ => ,
-    // _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
     tagged: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
     add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
     mul: $ => seq($._3, optional($._space), '*', optional($._space), $._2),
@@ -409,11 +401,13 @@ module.exports = grammar({
       'import',
       optional($._space),
       $.string,
+      optional($._space),
       optional(seq(
-        optional($._space),
         ':',
-        optional($._space),
-        seq(repeat(seq($.ident, optional($._space), ',')), optional(seq(optional($._space), $.ident))),
+        seq(
+          repeat(seq(optional($._space), $.ident, optional($._space), ',')),
+          optional(seq(optional($._space), $.ident))
+        ),
       )),
     ),
   }
