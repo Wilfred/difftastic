@@ -17,23 +17,23 @@ use radix_heap::RadixHeapMap;
 pub struct ExceededGraphLimit {}
 
 /// Return the shortest route from `start` to the end vertex.
-fn shortest_vertex_path<'a, 'b>(
-    start: &'b Vertex<'a, 'b>,
+fn shortest_vertex_path<'s, 'b>(
+    start: &'b Vertex<'s, 'b>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<&'b Vertex<'a, 'b>>, ExceededGraphLimit> {
+) -> Result<Vec<&'b Vertex<'s, 'b>>, ExceededGraphLimit> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'a, 'b>> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'s, 'b>> = RadixHeapMap::new();
 
     heap.push(Reverse(0), start);
 
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
 
-    let end: &'b Vertex<'a, 'b> = loop {
+    let end: &'b Vertex<'s, 'b> = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
                 if current.is_end() {
@@ -72,7 +72,7 @@ fn shortest_vertex_path<'a, 'b>(
     );
 
     let mut current = Some((0, end));
-    let mut vertex_route: Vec<&'b Vertex<'a, 'b>> = vec![];
+    let mut vertex_route: Vec<&'b Vertex<'s, 'b>> = vec![];
     while let Some((_, node)) = current {
         vertex_route.push(node);
         current = node.predecessor.get();
@@ -82,9 +82,9 @@ fn shortest_vertex_path<'a, 'b>(
     Ok(vertex_route)
 }
 
-fn shortest_path_with_edges<'a, 'b>(
-    route: &[&'b Vertex<'a, 'b>],
-) -> Vec<(Edge, &'b Vertex<'a, 'b>)> {
+fn shortest_path_with_edges<'s, 'b>(
+    route: &[&'b Vertex<'s, 'b>],
+) -> Vec<(Edge, &'b Vertex<'s, 'b>)> {
     let mut prev = route.first().expect("Expected non-empty route");
 
     let mut cost = 0;
@@ -106,18 +106,18 @@ fn shortest_path_with_edges<'a, 'b>(
 ///
 /// The vec returned does not return the very last vertex. This is
 /// necessary because a route of N vertices only has N-1 edges.
-fn shortest_path<'a, 'b>(
-    start: Vertex<'a, 'b>,
+fn shortest_path<'s, 'b>(
+    start: Vertex<'s, 'b>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start);
+) -> Result<Vec<(Edge, &'b Vertex<'s, 'b>)>, ExceededGraphLimit> {
+    let start: &'b Vertex<'s, 'b> = vertex_arena.alloc(start);
     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
-fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge {
+fn edge_between<'s, 'b>(before: &Vertex<'s, 'b>, after: &Vertex<'s, 'b>) -> Edge {
     assert_ne!(before, after);
 
     let mut shortest_edge: Option<Edge> = None;
