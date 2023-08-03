@@ -1,30 +1,18 @@
-// function join(elem, sep) {
-//   return seq(elem, repeat(seq(sep, elem)));
-// }
 function zebra(zeb, ra) {
   return seq(optional(ra), (repeat(seq(zeb, ra))), optional(zeb));
 }
-// function list(elem, sep) {
-//   return seq(
-//       repeat(seq(elem, sep)),
-//       optional(elem),
-//   );
-// }
 module.exports = grammar({
   name: 'typst',
   extras: $ => [$.comment],
   conflicts: $ => [
     [$._4, $.mul],
-    [$._5, $.add],
     [$._7, $.add],
-    [$.tagged, $.add],
     [$.add, $.mul],
     [$.add, $.let],
     [$.branch, $.condition],
     [$._normal_tail_any_line],
     [$.let],
     [$.import],
-    [$._list, $.import],
   ],
   rules: {
     source_file: $ => optional(choice(
@@ -329,7 +317,7 @@ module.exports = grammar({
     ),
     _6: $ => choice(
       $._5,
-      $._list,
+      // $._list,
     ),
     _7: $ => choice(
       $._4,
@@ -342,11 +330,16 @@ module.exports = grammar({
     //   $.sep,
     // ),
 
+    _wsl: $ => /[ \t\n]+/,
+
     // EXPRETIONS
     group: $ => seq(
       '(',
-      optional($._space),
-      optional(seq($._6, optional($._space))),
+      optional($._wsl),
+      optional(seq(
+        seq(repeat(seq($._5, optional($._wsl), ',')), optional(seq(optional($._wsl), $._5))),
+        optional($._wsl),
+      )),
       ')'
     ),
     block: $ => seq(
@@ -368,7 +361,8 @@ module.exports = grammar({
     int: $ => seq(/[0-9]+/, optional($.unit)),
     float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
+    // _list: $ => ,
+    // _list: $ => seq($._6, optional($._space), ',', optional($._space), $._5),
     tagged: $ => seq(field('field', $.ident), ':', optional($._space), $._4),
     add: $ => seq($._4, optional($._space), '+', optional($._space), $._3),
     mul: $ => seq($._3, optional($._space), '*', optional($._space), $._2),
@@ -419,7 +413,7 @@ module.exports = grammar({
         optional($._space),
         ':',
         optional($._space),
-        $._6,
+        seq(repeat(seq($.ident, optional($._space), ',')), optional(seq(optional($._space), $.ident))),
       )),
     ),
   }
