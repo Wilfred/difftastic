@@ -77,3 +77,59 @@ let x = 1
           (long_identifier
             (identifier))))
       (const (int)))))
+
+================================================================================
+coment in simple string
+================================================================================
+
+let x = "//comment in string"
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (string)))))
+
+================================================================================
+coment in triple-quoted string
+================================================================================
+
+let x = """
+//comment in string
+"""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (triple_quoted_string)))))
+
+================================================================================
+coment in verbatim string
+================================================================================
+
+let x = @"//comment in string"
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (verbatim_string)))))

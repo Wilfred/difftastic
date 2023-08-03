@@ -50,8 +50,6 @@ module.exports = grammar({
   ],
 
   extras: $ => [
-    $.block_comment,
-    $.line_comment,
     /[ \s\f\uFEFF\u2060\u200B]|\\\r?n/,
   ],
 
@@ -99,6 +97,8 @@ module.exports = grammar({
 
     _module_elem: $ =>
       choice(
+        $.block_comment,
+        $.line_comment,
         $.value_declaration,
         $.module_defn,
         $.module_abbrev,
@@ -388,6 +388,8 @@ module.exports = grammar({
 
     _expression_inner: $ =>
       choice(
+        $.line_comment,
+        $.block_comment,
         $.const,
         $.paren_expression,
         $.begin_end_expression,
