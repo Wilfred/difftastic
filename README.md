@@ -6,9 +6,9 @@ Scheme grammar for tree-sitter.
 
 ## Recent News
 
-With R7RS support, a single `|` can no longer appears in the middle of an identifier.
-
-The nodes `directive` no longer contain sub nodes `symbol`. Now it's a single node.
+* With R7RS support, a single `|` can no longer appears in the middle of an identifier.
+* The nodes `directive` no longer contain sub nodes `symbol`. Now it's a single node.
+* some extensions added, see below
 
 ## Status
 
