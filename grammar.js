@@ -7,20 +7,34 @@ module.exports = grammar({
   conflicts: $ => [
     [$._5, $.mul],
     [$._5, $.mul, $.div],
-    [$._7, $.add],
-    [$._7, $.sub],
-    [$._7, $.add, $.sub],
-    [$._7, $.add, $.mul],
+    [$._instr, $.add],
+    [$._instr, $.sub],
+    [$._instr, $.add, $.sub],
+    [$._instr, $.add, $.mul],
     [$.add, $.mul],
     [$.sub, $.mul, $.div],
     [$.sub, $.mul],
     [$.add, $.mul, $.div],
     [$.add, $.let],
     [$.add, $.sub, $.let],
+    [$.add, $.sub, $.cmp, $._6],
+    [$.add, $.sub, $.cmp],
+    [$.add, $.sub, $.in],
     [$.branch, $.condition],
     [$._normal_tail_any_line],
     [$.let],
+    [$.let, $.in],
     [$.import],
+    [$._instr, $.in],
+    [$._7, $.in],
+    [$.and, $.in],
+    [$.and, $.or],
+    [$._8, $.and],
+    [$.not, $.and],
+    [$._expr, $.or],
+    [$.assign, $.or],
+    [$._expr, $.assign],
+    [$._9, $.or],
   ],
   rules: {
     source_file: $ => optional(choice(
@@ -328,10 +342,25 @@ module.exports = grammar({
     ),
     _6: $ => choice(
       $._5,
-      $.tagged,
+      $.cmp,
+      $.in,
     ),
     _7: $ => choice(
-      $._5,
+      $._6,
+      $.not,
+      $.and,
+    ),
+    _8: $ => choice(
+      $._7,
+      $.or,
+    ),
+    _9: $ => choice(
+      $._8,
+      $.assign,
+    ),
+    _expr: $ => $._9,
+    _instr: $ => choice(
+      $._expr,
       $.let,
       $.set,
       $.import,
@@ -342,18 +371,22 @@ module.exports = grammar({
     _wsl: $ => /[ \t\n]+/,
 
     // EXPRETIONS
+    _list_elem: $ => choice(
+      $._expr,
+      $.tagged,
+    ),
     group: $ => seq(
       '(',
       seq(
-        repeat(seq(optional($._wsl), $._6, optional($._wsl), ',')),
+        repeat(seq(optional($._wsl), $._list_elem, optional($._wsl), ',')),
         optional($._wsl),
-        optional(seq($._6, optional($._wsl))),
+        optional(seq($._list_elem, optional($._wsl))),
       ),
       ')'
     ),
     block: $ => seq(
       '{',
-      zebra(seq(optional($._space), $._7, optional($._space)), repeat1(choice($._line, ';'))),
+      zebra(seq(optional($._space), $._instr, optional($._space)), repeat1(choice($._line, ';'))),
       '}'
     ),
     content: $ => seq(
@@ -370,19 +403,25 @@ module.exports = grammar({
     int: $ => seq(/[0-9]+/, optional($.unit)),
     float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    tagged: $ => seq(field('field', $.ident), ':', optional($._space), $._5),
-    positif: $ => seq('+', optional($._space), $._3),
-    negatif: $ => seq('-', optional($._space), $._3),
+    tagged: $ => seq(field('field', $.ident), ':', optional($._space), $._expr),
+    assign: $ => seq($._9, optional($._space), choice('=', '+=', '-=', '*=', '/='), optional($._space), $._8),
+    not: $ => seq('not', optional($._space), $._7),
+    and: $ => seq($._7, optional($._space), 'and', optional($._space), $._6),
+    or: $ => seq($._8, optional($._space), 'or', optional($._space), $._7),
+    in: $ => seq($._6, optional($._space), optional(seq('not', $._space)), 'in', optional($._space), $._5),
+    cmp: $ => seq($._5, optional($._space), choice('<', '<=', '==', '>=', '>', '!='), optional($._space), $._5),
     add: $ => seq($._5, optional($._space), '+', optional($._space), $._4),
     sub: $ => seq($._5, optional($._space), '-', optional($._space), $._4),
-    mul: $ => seq($._4, optional($._space), '*', optional($._space), $._2),
-    div: $ => seq($._4, optional($._space), '/', optional($._space), $._2),
+    mul: $ => seq($._4, optional($._space), '*', optional($._space), $._3),
+    div: $ => seq($._4, optional($._space), '/', optional($._space), $._3),
+    positif: $ => seq('+', optional($._space), $._3),
+    negatif: $ => seq('-', optional($._space), $._3),
     call: $ => seq(field('item', $._2), choice($.group, $.content)),
     field: $ => seq($._1, '.', field('field', $.ident)),
     branch: $ => seq(
       'if',
       optional($._space),
-      field('test', $._5),
+      field('test', $._expr),
       choice(
         seq($._space, choice($.block, $.content)),
         $.block,
@@ -395,7 +434,7 @@ module.exports = grammar({
     condition: $ => seq(
       'if',
       optional($._space),
-      field('test', $._5),
+      field('test', $._expr),
       choice(
         seq($._space, choice($.block, $.content)),
         $.block,
@@ -408,7 +447,7 @@ module.exports = grammar({
       optional($._space),
       '=',
       optional($._space),
-      field('value', $._5),
+      field('value', $._expr),
       optional($._space),
     ),
     set: $ => seq(
