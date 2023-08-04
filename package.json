@@ -1,0 +1,56 @@
+{
+  "name": "tree-sitter-xml",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "XML & DTD grammars for tree-sitter",
+  "repository": "ObserverOfTime/tree-sitter-xml",
+  "author": {
+    "name": "ObserverOfTime",
+    "email": "chronobserver@disroot.org",
+    "url": "https://observeroftime.github.io/"
+  },
+  "keywords": [
+    "tree-sitter",
+    "parser",
+    "lexer",
+    "xml",
+    "dtd"
+  ],
+  "scripts": {
+    "generate-xml": "cd tree-sitter-xml && tree-sitter generate --no-bindings",
+    "generate-dtd": "cd tree-sitter-dtd && tree-sitter generate --no-bindings",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test",
+    "playground-xml": "cd tree-sitter-xml && tree-sitter build-wasm && tree-sitter playground",
+    "playground-dtd": "cd tree-sitter-dtd && tree-sitter build-wasm && tree-sitter playground"
+  },
+  "main": "bindings/node",
+  "dependencies": {
+    "nan": "^2.17.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.xml",
+      "path": "tree-sitter-xml",
+      "highlights": "tree-sitter-xml/queries/highlights.scm",
+      "injections": "tree-sitter-xml/queries/injections.scm",
+      "file-types": [
+        "xml",
+        "svg",
+        "xsd",
+        "xslt"
+      ]
+    },
+    {
+      "scope": "source.dtd",
+      "path": "tree-sitter-dtd",
+      "highlights": "tree-sitter-dtd/queries/highlights.scm",
+      "file-types": [
+        "dtd"
+      ]
+    }
+  ]
+}
