@@ -5,6 +5,7 @@
 - [使用](./usage.md)
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)
+  - [Fossil](./fossil.md)
 - [支持的语言](./languages_supported.md)
 - [解析](./parsing.md)
 - [差异分析](./diffing.md)
