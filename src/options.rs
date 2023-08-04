@@ -16,7 +16,7 @@ pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
 // files (the highest is slow_before/after.rs at 1.3M nodes), but
 // small enough to terminate in ~5 seconds like the test file in #306.
-pub const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
+pub const DEFAULT_GRAPH_LIMIT: usize = 3_000_000_000;
 pub const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
 pub const DEFAULT_TAB_WIDTH: usize = 8;
