@@ -19,7 +19,7 @@ pub struct ExceededGraphLimit {}
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'s, 'b>(
     start: &'b Vertex<'s, 'b>,
-    vertex_arena: &'b Bump,
+    arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<&'b Vertex<'s, 'b>>, ExceededGraphLimit> {
@@ -40,7 +40,7 @@ fn shortest_vertex_path<'s, 'b>(
                     break current;
                 }
 
-                set_neighbours(current, vertex_arena, &mut seen);
+                set_neighbours(current, arena, &mut seen);
                 for neighbour in current.neighbours.borrow().as_ref().unwrap() {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();

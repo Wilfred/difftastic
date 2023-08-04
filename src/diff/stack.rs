@@ -1,45 +1,42 @@
 use std::rc::Rc;
 
+use bumpalo::Bump;
+
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
-struct Node<T> {
-    val: T,
-    next: Option<Rc<Node<T>>>,
+pub struct BumpStack<'b, T> {
+    head: Option<&'b BumpStackNode<'b, T>>,
 }
 
-/// A persistent stack.
-///
-/// This is similar to `Stack` from the rpds crate, but it's faster
-/// and uses less memory.
+// TODO: equality checks on this are super hot (11% runtime for
+// slow_before.rs), see if storing length helps.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
-pub(crate) struct Stack<T> {
-    head: Option<Rc<Node<T>>>,
+struct BumpStackNode<'b, T> {
+    value: T,
+    next: Option<&'b BumpStackNode<'b, T>>,
 }
 
-impl<T> Stack<T> {
+impl<'b, T> BumpStack<'b, T> {
     pub(crate) fn new() -> Self {
         Self { head: None }
     }
 
     pub(crate) fn peek(&self) -> Option<&T> {
-        self.head.as_deref().map(|n| &n.val)
+        self.head.as_ref().map(|n| &n.value)
     }
 
-    pub(crate) fn pop(&self) -> Option<Stack<T>> {
-        self.head.as_deref().map(|n| Self {
-            head: n.next.clone(),
-        })
+    pub(crate) fn pop(&self) -> Option<BumpStack<'b, T>> {
+        self.head.as_ref().map(|n| Self { head: n.next })
     }
 
-    pub(crate) fn push(&self, v: T) -> Stack<T> {
+    pub(crate) fn push(&self, alloc: &'b Bump, v: T) -> BumpStack<'b, T> {
         Self {
-            head: Some(Rc::new(Node {
-                val: v,
-                next: self.head.clone(),
+            head: Some(alloc.alloc(BumpStackNode {
+                value: v,
+                next: self.head,
             })),
         }
     }
 
-    // O(n)
     pub(crate) fn size(&self) -> usize {
         let mut res = 0;
         let mut node = &self.head;
@@ -54,3 +51,10 @@ impl<T> Stack<T> {
         self.head.is_none()
     }
 }
+
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+struct Node<T> {
+    val: T,
+    next: Option<Rc<Node<T>>>,
+}
+
