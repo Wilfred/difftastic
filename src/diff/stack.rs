@@ -2,17 +2,41 @@ use std::rc::Rc;
 
 use bumpalo::Bump;
 
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+/// A bump allocated, persistent stack.
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct BumpStack<'b, T> {
     head: Option<&'b BumpStackNode<'b, T>>,
 }
 
 // TODO: equality checks on this are super hot (11% runtime for
 // slow_before.rs), see if storing length helps.
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Debug, Clone, Default)]
 struct BumpStackNode<'b, T> {
     value: T,
     next: Option<&'b BumpStackNode<'b, T>>,
+}
+
+impl<'b, T> PartialEq for BumpStackNode<'b, T>
+where
+    T: PartialEq,
+{
+    fn eq(&self, other: &Self) -> bool {
+        if self.value != other.value {
+            return false;
+        }
+
+        match (self.next, other.next) {
+            (Some(self_next), Some(other_next)) => {
+                if std::ptr::eq(self_next, other_next) {
+                    return true;
+                }
+
+                self_next == other_next
+            }
+            (None, None) => true,
+            _ => false,
+        }
+    }
 }
 
 impl<'b, T> BumpStack<'b, T> {
@@ -57,4 +81,3 @@ struct Node<T> {
     val: T,
     next: Option<Rc<Node<T>>>,
 }
-
