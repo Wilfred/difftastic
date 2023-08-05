@@ -1060,7 +1060,7 @@ Test 78
 	(group
 		(add
 			(int)
-			(negatif
+			(sign
 				(int)))))
 
 
@@ -1074,7 +1074,7 @@ Test 79
 	(group
 		(sub
 			(int)
-			(negatif
+			(sign
 				(int)))))
 
 
@@ -1124,6 +1124,30 @@ Test 82
 		(add
 			(int)
 			(int))))
+
+
+=====================
+Test 83
+=====================
+#(
+let
+
+
+a
+
+= 0
+
+
++2)
+---------------------
+
+(source_file
+	(group
+		(let
+			pattern: (ident)
+			value: (add
+				(int)
+				(int)))))
 
 
 =====================
