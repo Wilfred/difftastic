@@ -9,6 +9,9 @@ authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
 edition = "2021"
+# Goal: support at least 12 months of Rust versions, and also the Rust
+# version on Debian stable:
+# https://tracker.debian.org/pkg/rustc
 rust-version = "1.58.0"
 include = [
         "/build.rs",
