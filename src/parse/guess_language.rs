@@ -415,7 +415,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             (Some(cap), _) | (_, Some(cap)) => cap[1].into(),
             _ => "".into(),
         };
-        let lang = match mode_name.to_ascii_lowercase().trim().borrow() {
+        let lang = match mode_name.to_ascii_lowercase().trim() {
             "ada" => Some(Ada),
             "c" => Some(C),
             "clojure" => Some(Clojure),
