@@ -61,6 +61,7 @@ glob = "0.3.1"
 strum = { version = "0.25", features = ["derive"] }
 # hashbrown 0.13 requires rust 1.61
 hashbrown = "0.12.3"
+similar = "2.2.1"
 
 [dev-dependencies]
 # assert_cmd 2.0.6 requires rust 1.60

@@ -14,19 +14,38 @@ pub enum DiffResult<T> {
 
 /// Compute a linear diff between `lhs` and `rhs`. This is the
 /// traditional Myer's diff algorithm.
-pub fn slice<'a, T: PartialEq + Clone>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffResult<&'a T>> {
-    wu_diff::diff(lhs, rhs)
-        .into_iter()
-        .map(|result| match result {
-            wu_diff::DiffResult::Removed(r) => DiffResult::Left(&lhs[r.old_index.unwrap()]),
-            wu_diff::DiffResult::Common(c) => {
-                let lhs_id = c.old_index.unwrap();
-                let rhs_id = c.new_index.unwrap();
-                DiffResult::Both(&lhs[lhs_id], &rhs[rhs_id])
+pub fn slice<'a, T: PartialEq + Clone + Hash + Ord>(
+    lhs: &'a [T],
+    rhs: &'a [T],
+) -> Vec<DiffResult<&'a T>> {
+    use similar::{capture_diff_slices, Algorithm};
+
+    let mut res = vec![];
+    for result in capture_diff_slices(Algorithm::Patience, lhs, rhs) {
+        match result {
+            similar::DiffOp::Equal {
+                old_index,
+                new_index,
+                ..
+            } => res.push(DiffResult::Both(&lhs[old_index], &rhs[new_index])),
+            similar::DiffOp::Delete { old_index, .. } => {
+                res.push(DiffResult::Left(&lhs[old_index]))
             }
-            wu_diff::DiffResult::Added(a) => DiffResult::Right(&rhs[a.new_index.unwrap()]),
-        })
-        .collect::<Vec<_>>()
+            similar::DiffOp::Insert { new_index, .. } => {
+                res.push(DiffResult::Right(&rhs[new_index]))
+            }
+            similar::DiffOp::Replace {
+                old_index,
+                new_index,
+                ..
+            } => {
+                res.push(DiffResult::Left(&lhs[old_index]));
+                res.push(DiffResult::Right(&rhs[new_index]));
+            }
+        }
+    }
+
+    res
 }
 
 /// Compute a linear diff between `lhs` and `rhs`, but use hashed

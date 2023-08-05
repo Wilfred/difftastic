@@ -258,6 +258,7 @@ dependencies = [
  "rayon",
  "regex",
  "rustc-hash",
+ "similar",
  "strsim",
  "strum",
  "tree-sitter",
@@ -759,6 +760,12 @@ checksum = "e51e73328dc4ac0c7ccbda3a494dfa03df1de2f46018127f60c693f2648455b0"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "similar"
+version = "2.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "420acb44afdae038210c99e69aae24109f32f15500aa708e81d46c9f29d55fcf"
 
 [[package]]
 name = "smallvec"
