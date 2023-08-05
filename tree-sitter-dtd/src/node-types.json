@@ -638,19 +638,7 @@
     "named": false
   },
   {
-    "type": "<!ATTLIST",
-    "named": false
-  },
-  {
-    "type": "<!ELEMENT",
-    "named": false
-  },
-  {
-    "type": "<!ENTITY",
-    "named": false
-  },
-  {
-    "type": "<!NOTATION",
+    "type": "<!",
     "named": false
   },
   {
@@ -682,11 +670,23 @@
     "named": false
   },
   {
+    "type": "ATTLIST",
+    "named": false
+  },
+  {
     "type": "Comment",
     "named": true
   },
   {
+    "type": "ELEMENT",
+    "named": false
+  },
+  {
     "type": "EMPTY",
+    "named": false
+  },
+  {
+    "type": "ENTITY",
     "named": false
   },
   {

@@ -15,7 +15,6 @@ module.exports = grammar(DTD, {
   name: 'xml',
 
   inline: $ => [
-    $._occurences,
     $._extSubsetDecl,
     $.conditionalSect
   ],

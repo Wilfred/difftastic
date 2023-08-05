@@ -24,10 +24,6 @@ module.exports = grammar({
     $._Reference
   ],
 
-  inline: $ => [
-    $._occurences
-  ],
-
   rules: {
     // AKA: extSubset
     document: $ => seq(
@@ -105,37 +101,23 @@ module.exports = grammar({
       )
     ),
 
-    // TODO: clean this up
     children: $ => seq(
-      choice($._choice, $._seq),
-      O($._occurences)
+      $._choice,
+      O(choice('?', '*', '+'))
     ),
 
     _cp: $ => prec.right(seq(
-      choice(c.ref($, $.Name), $._choice, $._seq),
-      O($._occurences)
+      c.ref($, $.Name, $._choice),
+      O(choice('?', '*', '+'))
     )),
 
     _choice: $ => seq(
       '(',
       O($._S),
       $._cp,
-      c.rseq1(
-        O($._S),
-        '|',
-        O($._S),
-        $._cp
-      ),
-      ')'
-    ),
-
-    _seq: $ => seq(
-      '(',
-      O($._S),
-      $._cp,
       c.rseq(
         O($._S),
-        ',',
+        choice('|', ','),
         O($._S),
         $._cp
       ),
@@ -280,8 +262,6 @@ module.exports = grammar({
     ),
 
     PEReference: $ => seq('%', $.Name, ';'),
-
-    _occurences: _ => choice('?', '*', '+'),
 
     _Char: _ => /[\u0001-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/u,
 
