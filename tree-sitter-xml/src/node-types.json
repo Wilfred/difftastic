@@ -4,6 +4,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "PEReference",
+        "named": true
+      },
+      {
         "type": "StringType",
         "named": true
       },
@@ -90,6 +94,29 @@
     ]
   },
   {
+    "type": "AttDef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "DefaultDecl",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "_AttType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "AttValue",
     "named": true,
     "fields": {},
@@ -113,7 +140,7 @@
       "required": true,
       "types": [
         {
-          "type": "DefaultDecl",
+          "type": "AttDef",
           "named": true
         },
         {
@@ -121,7 +148,7 @@
           "named": true
         },
         {
-          "type": "_AttType",
+          "type": "PEReference",
           "named": true
         }
       ]
@@ -306,6 +333,10 @@
         {
           "type": "Name",
           "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
         }
       ]
     }
@@ -340,6 +371,10 @@
         {
           "type": "Name",
           "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
         }
       ]
     }
@@ -361,6 +396,10 @@
           "named": true
         },
         {
+          "type": "PEReference",
+          "named": true
+        },
+        {
           "type": "PublicID",
           "named": true
         }
@@ -377,6 +416,10 @@
       "types": [
         {
           "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
           "named": true
         }
       ]
@@ -445,9 +488,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "PEReference",
+          "named": true
+        },
         {
           "type": "PubidLiteral",
           "named": true
@@ -509,6 +556,10 @@
         {
           "type": "Name",
           "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
         }
       ]
     }
@@ -561,6 +612,10 @@
           "named": true
         },
         {
+          "type": "PEReference",
+          "named": true
+        },
+        {
           "type": "children",
           "named": true
         }
@@ -584,7 +639,11 @@
           "named": true
         },
         {
-          "type": "intSubset",
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "_markupdecl",
           "named": true
         }
       ]
@@ -664,26 +723,11 @@
           "named": true
         },
         {
-          "type": "contentspec",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "intSubset",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
           "type": "PEReference",
           "named": true
         },
         {
-          "type": "_markupdecl",
+          "type": "contentspec",
           "named": true
         }
       ]

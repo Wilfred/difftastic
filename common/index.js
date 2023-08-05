@@ -60,6 +60,13 @@ module.exports.str = (...choices) =>
     seq('"', ...choices, '"')
   );
 
+/**
+ * @param {GrammarSymbols<any>} $
+ * @param {RuleOrLiteral[]} choices
+ */
+module.exports.ref = ($, ...choices) =>
+  choice(...choices, $.PEReference);
+
 /** @param {RuleOrLiteral[]} rules */
 module.exports.rseq = (...rules) => repeat(seq(...rules));
 

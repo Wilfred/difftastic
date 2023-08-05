@@ -17,30 +17,30 @@ module.exports = grammar(DTD, {
   rules: {
     document: $ => seq(
       optional($.prolog),
+      repeat($._Misc),
       field('root', $.element),
       repeat($._Misc),
     ),
 
-    prolog: $ => choice(
+    prolog: $ => prec.right(choice(
+      $.XMLDecl,
       seq(
-        $.XMLDecl,
+        O($.XMLDecl),
         repeat($._Misc),
-        O(seq($.doctypedecl, repeat($._Misc)))
-      ),
-      seq(
-        repeat($._Misc),
-        seq($.doctypedecl, repeat($._Misc))
-      ),
-    ),
+        $.doctypedecl
+      )
+    )),
 
-    XMLDecl: $ => seq(
+    _Misc: $ => choice($.PI, $.Comment, $._S),
+
+    XMLDecl: $ => prec(1, seq(
       '<?xml',
       $._VersionInfo,
       O($._EncodingDecl),
       O($._SDDecl),
       O($._S),
       '?>'
-    ),
+    )),
 
     _VersionInfo: $ => seq(
       $._S,
@@ -75,14 +75,14 @@ module.exports = grammar(DTD, {
       O($._S),
       O(seq(
         '[',
-        $.intSubset,
+        $._intSubset,
         ']',
         O($._S)
       )),
       '>'
     ),
 
-    intSubset: $ => c.rseq1(
+    _intSubset: $ => c.rseq1(
       O($._S),
       $._markupdecl,
       $._DeclSep
@@ -97,7 +97,7 @@ module.exports = grammar(DTD, {
       '<',
       $.Name,
       c.rseq($._S, $.Attribute),
-      $._S,
+      O($._S),
       '/>'
     ),
 

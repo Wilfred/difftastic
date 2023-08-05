@@ -20,7 +20,8 @@
     "generate-xml": "cd tree-sitter-xml && tree-sitter generate --no-bindings",
     "generate-dtd": "cd tree-sitter-dtd && tree-sitter generate --no-bindings",
     "parse": "tree-sitter parse",
-    "test": "tree-sitter test",
+    "test-xml": "cd tree-sitter-xml && tree-sitter test",
+    "test-dtd": "cd tree-sitter-dtd && tree-sitter test",
     "playground-xml": "cd tree-sitter-xml && tree-sitter build-wasm && tree-sitter playground",
     "playground-dtd": "cd tree-sitter-dtd && tree-sitter build-wasm && tree-sitter playground"
   },

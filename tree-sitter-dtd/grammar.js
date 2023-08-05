@@ -14,6 +14,8 @@ module.exports = grammar({
 
   extras: _ => [],
 
+  word: $ => $.Name,
+
   supertypes: $ => [
     $._markupdecl,
     $._AttType,
@@ -27,6 +29,7 @@ module.exports = grammar({
   ],
 
   rules: {
+    // TODO: https://www.w3.org/TR/xml11/#NT-extSubset
     document: $ => c.rseq1(
       O($._S),
       $._markupdecl,
@@ -47,7 +50,7 @@ module.exports = grammar({
     elementdecl: $ => seq(
       '<!ELEMENT',
       $._S,
-      $.Name,
+      c.ref($, $.Name),
       $._S,
       $.contentspec,
       O($._S),
@@ -58,19 +61,20 @@ module.exports = grammar({
       'EMPTY',
       'ANY',
       $.Mixed,
-      $.children
+      $.children,
+      $.PEReference
     ),
 
     Mixed: $ => choice(
       seq(
         '(',
         O($._S),
-        '#PCDATA',
+        c.ref($, '#PCDATA'),
         c.rseq(
           O($._S),
           '|',
           O($._S),
-          choice($.Name, $.PEReference),
+          c.ref($, $.Name),
           O($._S),
         ),
         ')',
@@ -79,7 +83,7 @@ module.exports = grammar({
       seq(
         '(',
         O($._S),
-        '#PCDATA',
+        c.ref($, '#PCDATA'),
         O($._S),
         ')'
       )
@@ -91,10 +95,10 @@ module.exports = grammar({
       O($._occurences)
     ),
 
-    _cp: $ => seq(
-      choice($.Name, $._choice, $._seq),
+    _cp: $ => prec.right(seq(
+      choice(c.ref($, $.Name), $._choice, $._seq),
       O($._occurences)
-    ),
+    )),
 
     _choice: $ => seq(
       '(',
@@ -125,25 +129,25 @@ module.exports = grammar({
     AttlistDecl: $ => seq(
       '<!ATTLIST',
       $._S,
-      $.Name,
-      repeat($._AttDef),
+      c.ref($, $.Name),
+      repeat($.AttDef),
       O($._S),
       '>'
     ),
 
-    _AttDef: $ => seq(
+    AttDef: $ => prec.right(seq(
       $._S,
-      $.Name,
+      c.ref($, $.Name),
       $._S,
       $._AttType,
-      $._S,
-      $.DefaultDecl
-    ),
+      O(seq($._S, $.DefaultDecl))
+    )),
 
     _AttType: $ => choice(
       $.StringType,
       $.TokenizedType,
-      $._EnumeratedType
+      $._EnumeratedType,
+      $.PEReference
     ),
 
     StringType: _ => 'CDATA',
@@ -155,7 +159,7 @@ module.exports = grammar({
       'ENTITY',
       'ENTITIES',
       'NMTOKEN',
-      'NMTOKENS'
+      'NMTOKENS',
     )),
 
     _EnumeratedType: $ => choice(
@@ -168,13 +172,13 @@ module.exports = grammar({
       $._S,
       '(',
       O($._S),
-      $.Name,
+      c.ref($, $.Name),
       c.rseq(
         O($._S),
         '|',
         O($._S)
       ),
-      $.Name,
+      c.ref($, $.Name),
       O($._S),
       ')'
     ),
@@ -210,7 +214,7 @@ module.exports = grammar({
     GEDecl: $ => seq(
       '<!ENTITY',
       $._S,
-      $.Name,
+      c.ref($, $.Name),
       $._S,
       choice(
         $.EntityValue,
@@ -243,12 +247,12 @@ module.exports = grammar({
       c.entity_value($, "'")
     ),
 
-    NDataDecl: $ => seq($._S, 'NDATA', $._S, $.Name),
+    NDataDecl: $ => seq($._S, 'NDATA', $._S, c.ref($, $.Name)),
 
     NotationDecl: $ => seq(
       '<!NOTATION',
       $._S,
-      $.Name,
+      c.ref($, $.Name),
       $._S,
       choice($.ExternalID, $.PublicID),
       O($._S),
@@ -286,7 +290,9 @@ module.exports = grammar({
       seq('PUBLIC', $._S, $.PubidLiteral, $._S, $.SystemLiteral)
     ),
 
-    PublicID: $ => prec.right(seq('PUBLIC', $._S, $.PubidLiteral)),
+    PublicID: $ => prec.right(
+      seq(c.ref($, 'PUBLIC'), $._S, $.PubidLiteral)
+    ),
 
     SystemLiteral: _ => choice(
       seq('"', O(field('content', /[^"]*/)), '"'),
@@ -311,12 +317,6 @@ module.exports = grammar({
       '<!--',
       /([^-]|-[^-])*/,
       '-->'
-    )),
-
-    _Misc: $ => choice(
-      $.PI,
-      $.Comment,
-      $._S
-    )
+    ))
   }
 });
