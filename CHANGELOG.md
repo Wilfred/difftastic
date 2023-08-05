@@ -7,6 +7,11 @@ prominent.
 
 Improved syntax hightling for Java built-in types.
 
+### Diffing
+
+Fixed an issue with runaway memory usage when the two files input
+files had a large number of differences.
+
 ## 0.49 (release 26th July 2023)
 
 ### Parsing

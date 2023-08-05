@@ -205,7 +205,12 @@ pub fn mark_syntax<'a>(
     // graph whose size is roughly quadratic. Use this as a size hint,
     // so we don't spend too much time re-hashing and expanding the
     // predecessors hashmap.
-    let size_hint = lhs_node_count * rhs_node_count;
+    //
+    // Cap this number to the graph limit, so we don't try to allocate
+    // an absurdly large (i.e. greater than physical memory) hashmap
+    // when there is a large number of nodes. We'll never visit more
+    // than graph_limit nodes.
+    let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let vertex_arena = Bump::new();
