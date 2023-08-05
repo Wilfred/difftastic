@@ -2,6 +2,7 @@
 //! diff on smaller inputs.
 
 use std::collections::HashSet;
+use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::myers_diff;
@@ -322,6 +323,24 @@ impl<X: Eq, Y> PartialEq for EqOnFirstItem<X, Y> {
     }
 }
 impl<X: Eq, Y> Eq for EqOnFirstItem<X, Y> {}
+
+impl<X: Eq + PartialOrd, Y> PartialOrd for EqOnFirstItem<X, Y> {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.0.partial_cmp(&other.0)
+    }
+}
+
+impl<X: Eq + Ord, Y> Ord for EqOnFirstItem<X, Y> {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.cmp(&other.0)
+    }
+}
+
+impl<X: Hash, Y> Hash for EqOnFirstItem<X, Y> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.0.hash(state);
+    }
+}
 
 fn as_singleton_list_children<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
