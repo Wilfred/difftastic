@@ -39,7 +39,8 @@ Comment
 --------------------------------------------------------------------------------
 
 (document
-  (Comment)
+  (prolog
+    (Comment))
   (element
     (EmptyElemTag
       (Name))))

@@ -2,7 +2,9 @@
  * @file Tree-sitter grammar definition for XML
  * @author ObserverOfTime
  * @license MIT
- * @see {@link https://www.w3.org/TR/xml/|W3C standard}
+ * @see {@link https://www.w3.org/TR/xml/|XML standard}
+ * @see {@link https://www.w3.org/TR/xml-model/|XML model}
+ * @see {@link https://www.w3.org/TR/xml-stylesheet/|XML stylesheet}
  */
 
 const c = require('../common');
@@ -20,23 +22,34 @@ module.exports = grammar(DTD, {
   ],
 
   rules: {
-    document: $ => seq(
+    document: $ => prec(2, seq(
+      optional($._S),
       optional($.prolog),
-      repeat($._Misc),
       field('root', $.element),
       repeat($._Misc),
-    ),
+    )),
 
     prolog: $ => prec.right(choice(
-      $.XMLDecl,
+      seq(
+        $.XMLDecl,
+        repeat($._Misc),
+      ),
       seq(
         O($.XMLDecl),
         repeat($._Misc),
-        $.doctypedecl
-      )
+        $.doctypedecl,
+        repeat($._Misc),
+      ),
+      repeat1($._Misc)
     )),
 
-    _Misc: $ => choice($.PI, $.Comment, $._S),
+    _Misc: $ => choice(
+      $.PI,
+      $.StyleSheetPI,
+      $.XmlModelPI,
+      $.Comment,
+      $._S
+    ),
 
     XMLDecl: $ => seq(
       '<?',
@@ -56,7 +69,8 @@ module.exports = grammar(DTD, {
     ),
 
     doctypedecl: $ => seq(
-      '<!DOCTYPE',
+      '<!',
+      'DOCTYPE',
       $._S,
       $.Name,
       O(seq($._S, $.ExternalID)),
@@ -118,6 +132,29 @@ module.exports = grammar(DTD, {
       seq('<![CDATA[', $.CData, ']]>')
     ),
 
-    CData: _ => /([^\]]|][^\]]|]][^>])*/
+    CData: _ => /([^\]]|][^\]]|]][^>])*/,
+
+    StyleSheetPI: $ => seq(
+      '<?',
+      'xml-stylesheet',
+      c.rseq($._S, $.PseudoAtt),
+      O($._S),
+      '?>'
+    ),
+
+    XmlModelPI: $ => seq(
+      '<?',
+      'xml-model',
+      c.rseq($._S, $.PseudoAtt),
+      O($._S),
+      '?>'
+    ),
+
+    PseudoAtt: $ => seq($.Name, $._Eq, $.PseudoAttValue),
+
+    PseudoAttValue: $ => choice(
+      c.att_value($, '"'),
+      c.att_value($, "'")
+    )
   }
 });

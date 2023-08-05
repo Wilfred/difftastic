@@ -2,7 +2,7 @@
  * @file Tree-sitter grammar definition for DTD
  * @author ObserverOfTime
  * @license MIT
- * @see {@link https://www.w3.org/TR/xml/|W3C standard}
+ * @see {@link https://www.w3.org/TR/xml/|XML standard}
  */
 
 const c = require('../common');
@@ -44,7 +44,8 @@ module.exports = grammar({
       O($._S),
       '[',
       repeat($._extSubsetDecl),
-      ']]>'
+      ']',
+      ']>'
     ),
 
     _markupdecl: $ => choice(
@@ -265,7 +266,7 @@ module.exports = grammar({
 
     _Char: _ => /[\u0001-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/u,
 
-    _S: _ => /[\x20\x09\x0D\x0A]+/,
+    _S: _ => /[ \t\r\n]+/,
 
     Name: _ => new RegExp(`${c.NAME_START_CHAR}${c.NAME_CHAR}*`, 'u'),
 
@@ -332,20 +333,17 @@ module.exports = grammar({
 
     EncName: _ => /[A-Za-z][A-Za-z0-9._\-]*/,
 
-    // TODO: parse attributes
     PI: $ => seq(
       '<?',
-      // FIXME: disallow /xml/i
+      // FIXME: disallow /^xml$/i
       alias($.Name, $.PITarget),
       O(seq($._S, /([^?]|\?[^>])*/)),
       '?>'
     ),
 
-    Comment: _ => token(seq(
-      '<!--',
-      /([^-]|-[^-])*/,
-      '-->'
-    )),
+    Comment: _ => token(
+      seq('<!--', /([^-]|-[^-])*/, '-->')
+    ),
 
     _Eq: $ => seq(O($._S), '=', O($._S))
   }

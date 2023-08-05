@@ -26,16 +26,29 @@ module.exports.NAME_CHAR = '[\-.0-9\xB7' +
   '\u0300-\u036F\u203F-\u2040' +
   module.exports.NAME_START_CHAR.substring(1);
 
-/** @param {"'" | ''} q */
+/**
+ * @param {"'" | ''} q
+ * @see {@link https://www.w3.org/TR/xml/#NT-PubidChar}
+ */
 module.exports.pubid_char = (q) =>
-  new RegExp(`[\x20\x0D\x0Aa-zA-Z0-9\-${q}()+,./:=?;!*#@$_%]*`);
+  new RegExp(`[ \\r\\na-zA-Z0-9\\-${q}()+,./:=?;!*#@$_%]*`);
 
 /**
  * @param {GrammarSymbols<any>} $
  * @param {'"' | "'"} q
  */
 module.exports.att_value = ($, q) =>
-  seq(q, repeat(choice(new RegExp(`[^<&${q}]`), $._Reference)), q);
+  seq(
+    q,
+    field(
+      'content',
+      repeat(choice(
+        new RegExp(`[^<&${q}]`),
+        $._Reference
+      ))
+    ),
+    q
+  );
 
 /**
  * @param {GrammarSymbols<any>} $
@@ -44,11 +57,14 @@ module.exports.att_value = ($, q) =>
 module.exports.entity_value = ($, q) =>
   seq(
     q,
-    repeat(choice(
-      new RegExp(`[^<%&${q}]`),
-      $.PEReference,
-      $._Reference
-    )),
+    field(
+      'content',
+      repeat(choice(
+        new RegExp(`[^<%&${q}]`),
+        $.PEReference,
+        $._Reference
+      ))
+    ),
     q
   );
 

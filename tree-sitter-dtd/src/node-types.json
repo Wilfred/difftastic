@@ -119,16 +119,17 @@
   {
     "type": "AttValue",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_Reference",
-          "named": true
-        }
-      ]
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -192,20 +193,21 @@
   {
     "type": "EntityValue",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "PEReference",
-          "named": true
-        },
-        {
-          "type": "_Reference",
-          "named": true
-        }
-      ]
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "PEReference",
+            "named": true
+          },
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -746,7 +748,11 @@
     "named": false
   },
   {
-    "type": "]]>",
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "]>",
     "named": false
   },
   {

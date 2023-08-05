@@ -119,16 +119,17 @@
   {
     "type": "AttValue",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_Reference",
-          "named": true
-        }
-      ]
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -260,20 +261,21 @@
   {
     "type": "EntityValue",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "PEReference",
-          "named": true
-        },
-        {
-          "type": "_Reference",
-          "named": true
-        }
-      ]
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "PEReference",
+            "named": true
+          },
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -479,6 +481,41 @@
     }
   },
   {
+    "type": "PseudoAtt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PseudoAttValue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PseudoAttValue",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "PubidLiteral",
     "named": true,
     "fields": {}
@@ -522,6 +559,21 @@
     }
   },
   {
+    "type": "StyleSheetPI",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "PseudoAtt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "SystemLiteral",
     "named": true,
     "fields": {}
@@ -540,6 +592,21 @@
         },
         {
           "type": "VersionNum",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "XmlModelPI",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "PseudoAtt",
           "named": true
         }
       ]
@@ -677,6 +744,14 @@
           "named": true
         },
         {
+          "type": "StyleSheetPI",
+          "named": true
+        },
+        {
+          "type": "XmlModelPI",
+          "named": true
+        },
+        {
           "type": "prolog",
           "named": true
         }
@@ -739,7 +814,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "Comment",
@@ -750,7 +825,15 @@
           "named": true
         },
         {
+          "type": "StyleSheetPI",
+          "named": true
+        },
+        {
           "type": "XMLDecl",
+          "named": true
+        },
+        {
+          "type": "XmlModelPI",
           "named": true
         },
         {
@@ -833,23 +916,7 @@
     "named": false
   },
   {
-    "type": "<!ATTLIST",
-    "named": false
-  },
-  {
-    "type": "<!DOCTYPE",
-    "named": false
-  },
-  {
-    "type": "<!ELEMENT",
-    "named": false
-  },
-  {
-    "type": "<!ENTITY",
-    "named": false
-  },
-  {
-    "type": "<!NOTATION",
+    "type": "<!",
     "named": false
   },
   {
@@ -889,6 +956,10 @@
     "named": false
   },
   {
+    "type": "ATTLIST",
+    "named": false
+  },
+  {
     "type": "CData",
     "named": true
   },
@@ -901,7 +972,19 @@
     "named": true
   },
   {
+    "type": "DOCTYPE",
+    "named": false
+  },
+  {
+    "type": "ELEMENT",
+    "named": false
+  },
+  {
     "type": "EMPTY",
+    "named": false
+  },
+  {
+    "type": "ENTITY",
     "named": false
   },
   {
@@ -965,6 +1048,10 @@
     "named": false
   },
   {
+    "type": "]>",
+    "named": false
+  },
+  {
     "type": "]]>",
     "named": false
   },
@@ -986,6 +1073,14 @@
   },
   {
     "type": "xml",
+    "named": false
+  },
+  {
+    "type": "xml-model",
+    "named": false
+  },
+  {
+    "type": "xml-stylesheet",
     "named": false
   },
   {
