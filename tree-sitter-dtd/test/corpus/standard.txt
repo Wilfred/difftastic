@@ -153,16 +153,19 @@ Entity Declarations
   (GEDecl
     (Name)
     (ExternalID
-      (SystemLiteral)))
+      (SystemLiteral
+        (URI))))
   (GEDecl
     (Name)
     (ExternalID
       (PubidLiteral)
-      (SystemLiteral)))
+      (SystemLiteral
+        (URI))))
   (GEDecl
     (Name)
     (ExternalID
-      (SystemLiteral))
+      (SystemLiteral
+        (URI)))
     (NDataDecl
       (Name))))
 

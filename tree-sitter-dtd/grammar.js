@@ -44,8 +44,7 @@ module.exports = grammar({
       O($._S),
       '[',
       repeat($._extSubsetDecl),
-      ']',
-      ']>'
+      ']]>'
     ),
 
     _markupdecl: $ => choice(
@@ -295,14 +294,14 @@ module.exports = grammar({
       seq(c.ref($, 'PUBLIC'), $._S, $.PubidLiteral)
     ),
 
-    SystemLiteral: _ => choice(
-      seq('"', O(field('content', /[^"]*/)), '"'),
-      seq("'", O(field('content', /[^']*/)), "'")
+    SystemLiteral: $ => choice(
+      seq('"', alias(/[^"]*/, $.URI), '"'),
+      seq("'", alias(/[^']*/, $.URI), "'")
     ),
 
     PubidLiteral: _ => choice(
-      seq('"', O(field('content', c.pubid_char("'"))), '"'),
-      seq("'", O(field('content', c.pubid_char(''))), "'")
+      seq('"', c.pubid_char("'"), '"'),
+      seq("'", c.pubid_char(''), "'")
     ),
 
     // AKA: TextDecl

@@ -576,7 +576,17 @@
   {
     "type": "SystemLiteral",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "URI",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "XMLDecl",
@@ -1036,6 +1046,10 @@
     "named": true
   },
   {
+    "type": "URI",
+    "named": true
+  },
+  {
     "type": "VersionNum",
     "named": true
   },
@@ -1045,10 +1059,6 @@
   },
   {
     "type": "]",
-    "named": false
-  },
-  {
-    "type": "]>",
     "named": false
   },
   {

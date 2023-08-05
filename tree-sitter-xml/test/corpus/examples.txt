@@ -145,7 +145,8 @@ address.xml
     (doctypedecl
       (Name)
       (ExternalID
-        (SystemLiteral))))
+        (SystemLiteral
+          (URI)))))
   (element
     (STag
       (Name))

@@ -128,11 +128,7 @@
         },
         {
           "type": "STRING",
-          "value": "]"
-        },
-        {
-          "type": "STRING",
-          "value": "]>"
+          "value": "]]>"
         }
       ]
     },
@@ -1579,20 +1575,13 @@
               "value": "\""
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "content",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"]*"
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\"]*"
+              },
+              "named": true,
+              "value": "URI"
             },
             {
               "type": "STRING",
@@ -1608,20 +1597,13 @@
               "value": "'"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "content",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^']*"
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^']*"
+              },
+              "named": true,
+              "value": "URI"
             },
             {
               "type": "STRING",
@@ -1642,20 +1624,8 @@
               "value": "\""
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "content",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[ \\r\\na-zA-Z0-9\\-'()+,./:=?;!*#@$_%]*"
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "PATTERN",
+              "value": "[ \\r\\na-zA-Z0-9\\-'()+,./:=?;!*#@$_%]*"
             },
             {
               "type": "STRING",
@@ -1671,20 +1641,8 @@
               "value": "'"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "content",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[ \\r\\na-zA-Z0-9\\-()+,./:=?;!*#@$_%]*"
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "PATTERN",
+              "value": "[ \\r\\na-zA-Z0-9\\-()+,./:=?;!*#@$_%]*"
             },
             {
               "type": "STRING",
