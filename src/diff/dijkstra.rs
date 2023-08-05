@@ -57,6 +57,10 @@ fn shortest_vertex_path<'s, 'b>(
                 }
 
                 if seen.len() > graph_limit {
+                    info!(
+                        "Reached graph limit, arena consumed {} bytes",
+                        vertex_arena.allocated_bytes(),
+                    );
                     return Err(ExceededGraphLimit {});
                 }
             }
@@ -65,9 +69,10 @@ fn shortest_vertex_path<'s, 'b>(
     };
 
     info!(
-        "Saw {} vertices (a Vertex is {} bytes), with {} left on heap.",
+        "Saw {} vertices (a Vertex is {} bytes), arena consumed {} bytes, with {} vertices left on heap.",
         seen.len(),
         std::mem::size_of::<Vertex>(),
+        vertex_arena.allocated_bytes(),
         heap.len(),
     );
 
