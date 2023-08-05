@@ -2,7 +2,7 @@
  * @file Tree-sitter grammar definition for XML
  * @author ObserverOfTime
  * @license MIT
- * @see {@link https://www.w3.org/TR/xml11/|W3C standard}
+ * @see {@link https://www.w3.org/TR/xml/|W3C standard}
  */
 
 const {rules, rseq} = require('../common');

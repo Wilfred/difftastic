@@ -1,3 +1,4 @@
 * text=auto
 
-src/** linguist-generated
+**/src/** linguist-generated
+**/bindings/node/binding.cc linguist-generated
