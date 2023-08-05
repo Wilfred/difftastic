@@ -41,6 +41,88 @@
         }
       ]
     },
+    "_extSubsetDecl": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_markupdecl"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditionalSect"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_DeclSep"
+        }
+      ]
+    },
+    "conditionalSect": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<!["
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_S"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "IGNORE"
+            },
+            {
+              "type": "STRING",
+              "value": "INCLUDE"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "PEReference"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_S"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_extSubsetDecl"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]]>"
+        }
+      ]
+    },
     "_markupdecl": {
       "type": "CHOICE",
       "members": [
@@ -1632,7 +1714,7 @@
         }
       ]
     },
-    "PI": {
+    "XMLDecl": {
       "type": "SEQ",
       "members": [
         {
@@ -1640,29 +1722,43 @@
           "value": "<?"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Name"
-          },
-          "named": true,
-          "value": "PITarget"
+          "type": "STRING",
+          "value": "xml"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_VersionInfo"
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_S"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "([^?]|\\?[^>])*"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_EncodingDecl"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_SDDecl"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_S"
             },
             {
               "type": "BLANK"
@@ -1674,141 +1770,6 @@
           "value": "?>"
         }
       ]
-    },
-    "Comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "<!--"
-          },
-          {
-            "type": "PATTERN",
-            "value": "([^-]|-[^-])*"
-          },
-          {
-            "type": "STRING",
-            "value": "-->"
-          }
-        ]
-      }
-    },
-    "prolog": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "XMLDecl"
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "XMLDecl"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_Misc"
-                }
-              },
-              {
-                "type": "SYMBOL",
-                "name": "doctypedecl"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "_Misc": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "PI"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "Comment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_S"
-        }
-      ]
-    },
-    "XMLDecl": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "<?xml"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_VersionInfo"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_EncodingDecl"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_SDDecl"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_S"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "?>"
-          }
-        ]
-      }
     },
     "_VersionInfo": {
       "type": "SEQ",
@@ -1929,6 +1890,160 @@
     "EncName": {
       "type": "PATTERN",
       "value": "[A-Za-z][A-Za-z0-9._\\-]*"
+    },
+    "PI": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<?"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Name"
+          },
+          "named": true,
+          "value": "PITarget"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_S"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "([^?]|\\?[^>])*"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "?>"
+        }
+      ]
+    },
+    "Comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "<!--"
+          },
+          {
+            "type": "PATTERN",
+            "value": "([^-]|-[^-])*"
+          },
+          {
+            "type": "STRING",
+            "value": "-->"
+          }
+        ]
+      }
+    },
+    "_Eq": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_S"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_S"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "prolog": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "XMLDecl"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "XMLDecl"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_Misc"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "doctypedecl"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_Misc": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "PI"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "Comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_S"
+        }
+      ]
     },
     "_SDDecl": {
       "type": "SEQ",
@@ -2353,39 +2468,6 @@
     "CData": {
       "type": "PATTERN",
       "value": "([^\\]]|][^\\]]|]][^>])*"
-    },
-    "_Eq": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_S"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_S"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
     }
   },
   "extras": [],
@@ -2393,7 +2475,9 @@
   "precedences": [],
   "externals": [],
   "inline": [
-    "_occurences"
+    "_occurences",
+    "_extSubsetDecl",
+    "conditionalSect"
   ],
   "supertypes": [
     "_markupdecl",

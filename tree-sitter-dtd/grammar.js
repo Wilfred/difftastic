@@ -29,11 +29,26 @@ module.exports = grammar({
   ],
 
   rules: {
-    // TODO: https://www.w3.org/TR/xml11/#NT-extSubset
-    document: $ => c.rseq1(
-      O($._S),
+    // AKA: extSubset
+    document: $ => seq(
+      O($.XMLDecl),
+      repeat1($._extSubsetDecl)
+    ),
+
+    _extSubsetDecl: $ => choice(
       $._markupdecl,
+      $.conditionalSect,
       $._DeclSep
+    ),
+
+    conditionalSect: $ => seq(
+      '<![',
+      O($._S),
+      c.ref($, 'IGNORE', 'INCLUDE'),
+      O($._S),
+      '[',
+      repeat($._extSubsetDecl),
+      ']]>'
     ),
 
     _markupdecl: $ => choice(
@@ -48,7 +63,8 @@ module.exports = grammar({
     _DeclSep: $ => choice($.PEReference, $._S),
 
     elementdecl: $ => seq(
-      '<!ELEMENT',
+      '<!',
+      'ELEMENT',
       $._S,
       c.ref($, $.Name),
       $._S,
@@ -127,7 +143,8 @@ module.exports = grammar({
     ),
 
     AttlistDecl: $ => seq(
-      '<!ATTLIST',
+      '<!',
+      'ATTLIST',
       $._S,
       c.ref($, $.Name),
       repeat($.AttDef),
@@ -212,7 +229,8 @@ module.exports = grammar({
     ),
 
     GEDecl: $ => seq(
-      '<!ENTITY',
+      '<!',
+      'ENTITY',
       $._S,
       c.ref($, $.Name),
       $._S,
@@ -228,7 +246,8 @@ module.exports = grammar({
     ),
 
     PEDecl: $ => seq(
-      '<!ENTITY',
+      '<!',
+      'ENTITY',
       $._S,
       '%',
       $._S,
@@ -250,7 +269,8 @@ module.exports = grammar({
     NDataDecl: $ => seq($._S, 'NDATA', $._S, c.ref($, $.Name)),
 
     NotationDecl: $ => seq(
-      '<!NOTATION',
+      '<!',
+      'NOTATION',
       $._S,
       c.ref($, $.Name),
       $._S,
@@ -304,6 +324,34 @@ module.exports = grammar({
       seq("'", O(field('content', c.pubid_char(''))), "'")
     ),
 
+    // AKA: TextDecl
+    XMLDecl: $ => seq(
+      '<?',
+      'xml',
+      $._VersionInfo,
+      O($._EncodingDecl),
+      O($._S),
+      '?>'
+    ),
+
+    _VersionInfo: $ => seq(
+      $._S,
+      'version',
+      $._Eq,
+      c.str($.VersionNum)
+    ),
+
+    VersionNum: _ => /1\.[0-9]+/,
+
+    _EncodingDecl: $ => seq(
+      $._S,
+      'encoding',
+      $._Eq,
+      c.str($.EncName)
+    ),
+
+    EncName: _ => /[A-Za-z][A-Za-z0-9._\-]*/,
+
     // TODO: parse attributes
     PI: $ => seq(
       '<?',
@@ -317,6 +365,8 @@ module.exports = grammar({
       '<!--',
       /([^-]|-[^-])*/,
       '-->'
-    ))
+    )),
+
+    _Eq: $ => seq(O($._S), '=', O($._S))
   }
 });

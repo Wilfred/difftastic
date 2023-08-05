@@ -440,6 +440,25 @@
     "fields": {}
   },
   {
+    "type": "XMLDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "EncName",
+          "named": true
+        },
+        {
+          "type": "VersionNum",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "children",
     "named": true,
     "fields": {},
@@ -453,6 +472,29 @@
         },
         {
           "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conditionalSect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "_markupdecl",
+          "named": true
+        },
+        {
+          "type": "conditionalSect",
           "named": true
         }
       ]
@@ -487,14 +529,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "PEReference",
           "named": true
         },
         {
+          "type": "XMLDecl",
+          "named": true
+        },
+        {
           "type": "_markupdecl",
+          "named": true
+        },
+        {
+          "type": "conditionalSect",
           "named": true
         }
       ]
@@ -604,7 +654,15 @@
     "named": false
   },
   {
+    "type": "<![",
+    "named": false
+  },
+  {
     "type": "<?",
+    "named": false
+  },
+  {
+    "type": "=",
     "named": false
   },
   {
@@ -629,6 +687,18 @@
   },
   {
     "type": "EMPTY",
+    "named": false
+  },
+  {
+    "type": "EncName",
+    "named": true
+  },
+  {
+    "type": "IGNORE",
+    "named": false
+  },
+  {
+    "type": "INCLUDE",
     "named": false
   },
   {
@@ -666,6 +736,30 @@
   {
     "type": "TokenizedType",
     "named": true
+  },
+  {
+    "type": "VersionNum",
+    "named": true
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]]>",
+    "named": false
+  },
+  {
+    "type": "encoding",
+    "named": false
+  },
+  {
+    "type": "version",
+    "named": false
+  },
+  {
+    "type": "xml",
+    "named": false
   },
   {
     "type": "|",

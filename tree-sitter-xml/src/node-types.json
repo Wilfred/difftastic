@@ -853,6 +853,10 @@
     "named": false
   },
   {
+    "type": "<![",
+    "named": false
+  },
+  {
     "type": "<![CDATA[",
     "named": false
   },
@@ -862,10 +866,6 @@
   },
   {
     "type": "<?",
-    "named": false
-  },
-  {
-    "type": "<?xml",
     "named": false
   },
   {
@@ -907,6 +907,14 @@
   {
     "type": "EncName",
     "named": true
+  },
+  {
+    "type": "IGNORE",
+    "named": false
+  },
+  {
+    "type": "INCLUDE",
+    "named": false
   },
   {
     "type": "NDATA",
@@ -974,6 +982,10 @@
   },
   {
     "type": "version",
+    "named": false
+  },
+  {
+    "type": "xml",
     "named": false
   },
   {

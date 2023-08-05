@@ -165,3 +165,47 @@ Entity Declarations
       (SystemLiteral))
     (NDataDecl
       (Name))))
+
+================================================================================
+Conditional Sections
+================================================================================
+
+<!ENTITY % draft 'INCLUDE' >
+<!ENTITY % final 'IGNORE' >
+<![%draft;[
+<!ELEMENT book (comments*, title, body, supplements?)>
+]]>
+<![%final;[
+<!ELEMENT book (title, body, supplements?)>
+]]>
+
+--------------------------------------------------------------------------------
+
+(document
+  (PEDecl
+    (Name)
+    (EntityValue))
+  (PEDecl
+    (Name)
+    (EntityValue))
+  (conditionalSect
+    (PEReference
+      (Name))
+    (elementdecl
+      (Name)
+      (contentspec
+        (children
+          (Name)
+          (Name)
+          (Name)
+          (Name)))))
+  (conditionalSect
+    (PEReference
+      (Name))
+    (elementdecl
+      (Name)
+      (contentspec
+        (children
+          (Name)
+          (Name)
+          (Name))))))

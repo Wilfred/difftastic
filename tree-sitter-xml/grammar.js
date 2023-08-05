@@ -14,6 +14,12 @@ const O = optional;
 module.exports = grammar(DTD, {
   name: 'xml',
 
+  inline: $ => [
+    $._occurences,
+    $._extSubsetDecl,
+    $.conditionalSect
+  ],
+
   rules: {
     document: $ => seq(
       optional($.prolog),
@@ -33,32 +39,15 @@ module.exports = grammar(DTD, {
 
     _Misc: $ => choice($.PI, $.Comment, $._S),
 
-    XMLDecl: $ => prec(1, seq(
-      '<?xml',
+    XMLDecl: $ => seq(
+      '<?',
+      'xml',
       $._VersionInfo,
       O($._EncodingDecl),
       O($._SDDecl),
       O($._S),
       '?>'
-    )),
-
-    _VersionInfo: $ => seq(
-      $._S,
-      'version',
-      $._Eq,
-      c.str($.VersionNum)
     ),
-
-    VersionNum: _ => /1\.[0-9]+/,
-
-    _EncodingDecl: $ => seq(
-      $._S,
-      'encoding',
-      $._Eq,
-      c.str($.EncName)
-    ),
-
-    EncName: _ => /[A-Za-z][A-Za-z0-9._\-]*/,
 
     _SDDecl: $ => seq(
       $._S,
@@ -130,8 +119,6 @@ module.exports = grammar(DTD, {
       seq('<![CDATA[', $.CData, ']]>')
     ),
 
-    CData: _ => /([^\]]|][^\]]|]][^>])*/,
-
-    _Eq: $ => seq(O($._S), '=', O($._S))
+    CData: _ => /([^\]]|][^\]]|]][^>])*/
   }
 });
