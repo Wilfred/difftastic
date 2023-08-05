@@ -5,24 +5,14 @@
  * @see {@link https://www.w3.org/TR/xml/|W3C standard}
  */
 
-const {rules, rseq} = require('../common');
+const c = require('../common');
+
+const DTD = require('../tree-sitter-dtd/grammar');
 
 const O = optional;
 
-/** @param {RuleOrLiteral[]} choices */
-const str = (...choices) => choice(
-  seq("'", ...choices, "'"),
-  seq('"', ...choices, '"')
-);
-
-module.exports = grammar({
+module.exports = grammar(DTD, {
   name: 'xml',
-
-  extras: _ => [],
-
-  supertypes: $ => [
-    $._Reference
-  ],
 
   rules: {
     document: $ => seq(
@@ -56,7 +46,7 @@ module.exports = grammar({
       $._S,
       'version',
       $._Eq,
-      str($.VersionNum)
+      c.str($.VersionNum)
     ),
 
     VersionNum: _ => /1\.[0-9]+/,
@@ -65,7 +55,7 @@ module.exports = grammar({
       $._S,
       'encoding',
       $._Eq,
-      str($.EncName)
+      c.str($.EncName)
     ),
 
     EncName: _ => /[A-Za-z][A-Za-z0-9._\-]*/,
@@ -74,7 +64,7 @@ module.exports = grammar({
       $._S,
       'standalone',
       $._Eq,
-      str(choice('yes', 'no'))
+      c.str(choice('yes', 'no'))
     ),
 
     doctypedecl: $ => seq(
@@ -85,14 +75,17 @@ module.exports = grammar({
       O($._S),
       O(seq(
         '[',
-        alias(
-          repeat($._Char),
-          $.intSubset
-        ),
+        $.intSubset,
         ']',
         O($._S)
       )),
       '>'
+    ),
+
+    intSubset: $ => c.rseq1(
+      O($._S),
+      $._markupdecl,
+      $._DeclSep
     ),
 
     element: $ => choice(
@@ -103,7 +96,7 @@ module.exports = grammar({
     EmptyElemTag: $ => seq(
       '<',
       $.Name,
-      rseq($._S, $.Attribute),
+      c.rseq($._S, $.Attribute),
       $._S,
       '/>'
     ),
@@ -113,7 +106,7 @@ module.exports = grammar({
     STag: $ => seq(
       '<',
       $.Name,
-      rseq($._S, $.Attribute),
+      c.rseq($._S, $.Attribute),
       O($._S),
       '>'
     ),
@@ -139,8 +132,6 @@ module.exports = grammar({
 
     CData: _ => /([^\]]|][^\]]|]][^>])*/,
 
-    _Eq: $ => seq(O($._S), '=', O($._S)),
-
-    ...rules
+    _Eq: $ => seq(O($._S), '=', O($._S))
   }
 });

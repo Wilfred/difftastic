@@ -5,24 +5,9 @@
  * @see {@link https://www.w3.org/TR/xml/|W3C standard}
  */
 
-const {rules, rseq, rseq1} = require('../common');
+const c = require('../common');
 
 const O = optional;
-
-/**
- * @param {GrammarSymbols<any>} $
- * @param {'"' | "'"} q
- */
-const entity_value = ($, q) =>
-  seq(
-    q,
-    repeat(choice(
-      new RegExp(`[^<%&${q}]`),
-      $.PEReference,
-      $._Reference
-    )),
-    q
-  );
 
 module.exports = grammar({
   name: 'dtd',
@@ -42,7 +27,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    document: $ => rseq1(
+    document: $ => c.rseq1(
       O($._S),
       $._markupdecl,
       $._DeclSep
@@ -81,7 +66,7 @@ module.exports = grammar({
         '(',
         O($._S),
         '#PCDATA',
-        rseq(
+        c.rseq(
           O($._S),
           '|',
           O($._S),
@@ -115,7 +100,7 @@ module.exports = grammar({
       '(',
       O($._S),
       $._cp,
-      rseq1(
+      c.rseq1(
         O($._S),
         '|',
         O($._S),
@@ -128,7 +113,7 @@ module.exports = grammar({
       '(',
       O($._S),
       $._cp,
-      rseq(
+      c.rseq(
         O($._S),
         ',',
         O($._S),
@@ -184,7 +169,7 @@ module.exports = grammar({
       '(',
       O($._S),
       $.Name,
-      rseq(
+      c.rseq(
         O($._S),
         '|',
         O($._S)
@@ -198,7 +183,7 @@ module.exports = grammar({
       '(',
       O($._S),
       $.Nmtoken,
-      rseq(
+      c.rseq(
         O($._S),
         '|',
         O($._S),
@@ -254,8 +239,8 @@ module.exports = grammar({
     ),
 
     EntityValue: $ => choice(
-      entity_value($, '"'),
-      entity_value($, "'")
+      c.entity_value($, '"'),
+      c.entity_value($, "'")
     ),
 
     NDataDecl: $ => seq($._S, 'NDATA', $._S, $.Name),
@@ -274,6 +259,64 @@ module.exports = grammar({
 
     _occurences: _ => choice('?', '*', '+'),
 
-    ...rules
+    _Char: _ => /[\u0001-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/u,
+
+    _S: _ => /[\x20\x09\x0D\x0A]+/,
+
+    Name: _ => new RegExp(`${c.NAME_START_CHAR}${c.NAME_CHAR}*`, 'u'),
+
+    Nmtoken: _ => new RegExp(`${c.NAME_CHAR}+`, 'u'),
+
+    _Reference: $ => choice($.EntityRef, $.CharRef),
+
+    EntityRef: $ => seq('&', $.Name, ';'),
+
+    CharRef: _ => choice(
+      seq('&#', /[0-9]+/, ';'),
+      seq('&#x', /[0-9a-fA-F]+/, ';')
+    ),
+
+    AttValue: $ => choice(
+      c.att_value($, '"'),
+      c.att_value($, "'")
+    ),
+
+    ExternalID: $ => choice(
+      seq('SYSTEM', $._S, $.SystemLiteral),
+      seq('PUBLIC', $._S, $.PubidLiteral, $._S, $.SystemLiteral)
+    ),
+
+    PublicID: $ => prec.right(seq('PUBLIC', $._S, $.PubidLiteral)),
+
+    SystemLiteral: _ => choice(
+      seq('"', O(field('content', /[^"]*/)), '"'),
+      seq("'", O(field('content', /[^']*/)), "'")
+    ),
+
+    PubidLiteral: _ => choice(
+      seq('"', O(field('content', c.pubid_char("'"))), '"'),
+      seq("'", O(field('content', c.pubid_char(''))), "'")
+    ),
+
+    // TODO: parse attributes
+    PI: $ => seq(
+      '<?',
+      // FIXME: disallow /xml/i
+      alias($.Name, $.PITarget),
+      O(seq($._S, /([^?]|\?[^>])*/)),
+      '?>'
+    ),
+
+    Comment: _ => token(seq(
+      '<!--',
+      /([^-]|-[^-])*/,
+      '-->'
+    )),
+
+    _Misc: $ => choice(
+      $.PI,
+      $.Comment,
+      $._S
+    )
   }
 });

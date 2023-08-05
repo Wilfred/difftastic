@@ -37,10 +37,6 @@ pub const NODE_TYPES: &str = include_str!("../../src/node-types.json");
 ///
 /// [`highlights.scm`]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting#highlights
 pub const HIGHLIGHTS_QUERY: &str = include_str!("../../queries/highlights.scm");
-/// The content of the [`injections.scm`] file for this grammar.
-///
-/// [`injections.scm`]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting#language-injection
-pub const INJECTIONS_QUERY: &str = include_str!("../../queries/injections.scm");
 
 #[cfg(test)]
 mod tests {
