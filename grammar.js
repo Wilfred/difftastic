@@ -25,6 +25,7 @@ module.exports = grammar({
     [$._sl_branch, $._sl_condition],
     [$._normal_tail_any_line],
     [$._sl_let],
+    [$._sl_set],
     [$._sl_let, $._sl_in],
     [$._sl_import],
     [$._sl_instr, $._sl_in],
@@ -641,6 +642,7 @@ module.exports = grammar({
       '=',
       optional($._space_l0),
       field('value', $._sl_expr),
+      optional($._space_l0),
     ),
     _ml_let: $ => seq(
       'let',
@@ -656,6 +658,7 @@ module.exports = grammar({
       'set',
       optional($._space_l0),
       alias($._sl_call, $.call),
+      optional($._space_l0),
     ),
     _ml_set: $ => seq(
       'set',
@@ -675,6 +678,7 @@ module.exports = grammar({
           optional(seq(optional($._space_l0), $.ident))
         ),
       )),
+      optional($._space_l0),
     ),
     _ml_import: $ => seq(
       choice('import', 'include'),
