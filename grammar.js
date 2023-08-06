@@ -4,7 +4,7 @@ function zebra(zeb, ra) {
 module.exports = grammar({
   name: 'typst',
   extras: $ => [$.comment],
-  inline: $ => [$._sl_expr, $._ml_expr],
+  inline: $ => [$._sl_expr, $._ml_expr, $._terminated, $._any_normal, $._any_strong, $._any_emph],
   conflicts: $ => [
     [$._sl_5, $._sl_mul],
     [$._sl_5, $._sl_mul, $._sl_div],
@@ -78,6 +78,12 @@ module.exports = grammar({
     // [$._terminated, $._normal_tail_any_space],
     // [$._terminated, $._strong_tail_any_space],
     // [$._terminated, $._emph_tail_any_space],
+    [$._normal_tail_any_code, $._item],
+    [$._strong_tail_any_code, $._item],
+    [$._emph_tail_any_code, $._item],
+    [$._normal_tail_any_code, $._normal_tail_any_space],
+    [$._strong_tail_any_code, $._strong_tail_any_space],
+    [$._emph_tail_any_code, $._emph_tail_any_space],
 
     // [$._space_la],
     // [$._ml_5, $._ml_6, $._ml_cmp, $._ml_sub],
@@ -281,14 +287,20 @@ module.exports = grammar({
 
     // CODE
     _normal_tail_any_code: $ => seq('#', choice(
-      seq($._item, choice(
+      seq($._item, optional(choice(
+        seq(';', optional(choice(
+          $._normal_tail_any_text,
+          $._normal_tail_any_space,
+          $._any_normal,
+        ))),
         $._normal_tail_item_text,
-        $._any_normal_space,
-      )),
-      seq(alias($._sl_condition, $.condition), choice(
+        $._normal_tail_any_space,
+        $._any_normal,
+      ))),
+      seq(alias($._sl_condition, $.condition), optional(choice(
         $._normal_tail_condition_text,
         $._any_normal_space,
-      )),
+      ))),
       seq($._terminated, optional(choice(
         $._normal_tail_any_line,
         $._normal_tail_any_break,
@@ -300,14 +312,19 @@ module.exports = grammar({
       ))),
     )),
     _strong_tail_any_code: $ => seq('#', choice(
-      seq($._item, choice(
+      seq($._item, optional(choice(
+        seq(';', optional(choice(
+          $._strong_tail_any_text,
+          $._strong_tail_any_space,
+          $._any_strong,
+        ))),
         $._strong_tail_item_text,
         $._any_strong_space,
-      )),
-      seq(alias($._sl_condition, $.condition), choice(
+      ))),
+      seq(alias($._sl_condition, $.condition), optional(choice(
         $._strong_tail_condition_text,
         $._any_strong_space,
-      )),
+      ))),
       seq($._terminated, optional(choice(
         $._strong_tail_any_line,
         seq(';', optional(choice(
@@ -318,14 +335,19 @@ module.exports = grammar({
       ))),
     )),
     _emph_tail_any_code: $ => seq('#', choice(
-      seq($._item, choice(
+      seq($._item, optional(choice(
+        seq(';', optional(choice(
+          $._emph_tail_any_text,
+          $._emph_tail_any_space,
+          $._any_emph,
+        ))),
         $._emph_tail_item_text,
         $._any_emph_space,
-      )),
-      seq(alias($._sl_condition, $.condition), choice(
+      ))),
+      seq(alias($._sl_condition, $.condition), optional(choice(
         $._emph_tail_condition_text,
         $._any_emph_space,
-      )),
+      ))),
       seq($._terminated, optional(choice(
         $._emph_tail_any_line,
         seq(';', optional(choice(
@@ -336,21 +358,26 @@ module.exports = grammar({
       ))),
     )),
 
+    // _terminated: $ => choice(
+    //   alias($._sl_let, $.let),
+    //   alias($._sl_set, $.set),
+    //   alias($._sl_import, $.import),
+    //   $.int,
+    //   $.float,
+    //   $.string,
+    //   $.ident,
+    //   alias($._sl_field, $.field),
+    //   alias($._sl_call, $.call),
+    //   alias($._sl_branch, $.branch),
+    //   alias($._sl_condition, $.condition),
+    //   $.group,
+    //   $.content,
+    //   $.block
+    // ),
     _terminated: $ => choice(
       alias($._sl_let, $.let),
       alias($._sl_set, $.set),
       alias($._sl_import, $.import),
-      $.int,
-      $.float,
-      $.string,
-      $.ident,
-      alias($._sl_field, $.field),
-      alias($._sl_call, $.call),
-      alias($._sl_branch, $.branch),
-      alias($._sl_condition, $.condition),
-      $.group,
-      $.content,
-      $.block
     ),
 
     _item: $ => choice(
@@ -361,6 +388,7 @@ module.exports = grammar({
       alias($._sl_field, $.field),
       $.group,
       $.content,
+      $.block,
       alias($._sl_branch, $.branch),
       alias($._sl_call, $.call),
     ),
