@@ -129,8 +129,10 @@ module.exports = grammar(DTD, {
     CharData: _ => token(prec(-1, /[^<&]*/)),
 
     CDSect: $ => prec.left(
-      seq('<![CDATA[', $.CData, ']]>')
+      seq($.CDStart, $.CData, ']]>')
     ),
+
+    CDStart: _ => seq('<![', 'CDATA', '['),
 
     CData: _ => /[^\]]*|][^\][\]>]*|]][^>]*/,
 

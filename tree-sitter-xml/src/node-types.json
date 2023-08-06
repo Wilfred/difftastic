@@ -179,15 +179,24 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "CDStart",
+          "named": true
+        },
         {
           "type": "CData",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "CDStart",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "CharRef",
@@ -557,6 +566,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "StringType",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "StyleSheetPI",
@@ -934,10 +948,6 @@
     "named": false
   },
   {
-    "type": "<![CDATA[",
-    "named": false
-  },
-  {
     "type": "</",
     "named": false
   },
@@ -967,6 +977,10 @@
   },
   {
     "type": "ATTLIST",
+    "named": false
+  },
+  {
+    "type": "CDATA",
     "named": false
   },
   {
@@ -1036,10 +1050,6 @@
   {
     "type": "SYSTEM",
     "named": false
-  },
-  {
-    "type": "StringType",
-    "named": true
   },
   {
     "type": "TokenizedType",

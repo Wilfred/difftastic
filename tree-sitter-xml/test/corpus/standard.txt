@@ -62,6 +62,7 @@ CDATA Section
     (content
       (CharData)
       (CDSect
+        (CDStart)
         (CData))
       (CharData))
     (ETag

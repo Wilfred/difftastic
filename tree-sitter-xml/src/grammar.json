@@ -2430,8 +2430,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "<![CDATA["
+            "type": "SYMBOL",
+            "name": "CDStart"
           },
           {
             "type": "SYMBOL",
@@ -2443,6 +2443,23 @@
           }
         ]
       }
+    },
+    "CDStart": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<!["
+        },
+        {
+          "type": "STRING",
+          "value": "CDATA"
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        }
+      ]
     },
     "CData": {
       "type": "PATTERN",
