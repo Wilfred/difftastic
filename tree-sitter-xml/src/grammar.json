@@ -1886,7 +1886,7 @@
             },
             {
               "type": "PATTERN",
-              "value": ".*"
+              "value": "(.|[\\r\\n])*"
             },
             {
               "type": "STRING",

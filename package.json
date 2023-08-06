@@ -37,7 +37,6 @@
       "scope": "source.xml",
       "path": "tree-sitter-xml",
       "highlights": "tree-sitter-xml/queries/highlights.scm",
-      "injections": "tree-sitter-xml/queries/injections.scm",
       "file-types": [
         "xml",
         "svg",

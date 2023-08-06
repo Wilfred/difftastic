@@ -341,7 +341,7 @@ module.exports = grammar({
 
     Comment: _ => prec.left(token(
       // FIXME: disallow '--'
-      seq('<!--', /.*/, '-->')
+      seq('<!--', /(.|[\r\n])*/, '-->')
     )),
 
     _Eq: $ => seq(O($._S), '=', O($._S))
