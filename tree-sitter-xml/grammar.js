@@ -126,6 +126,7 @@ module.exports = grammar(DTD, {
       )
     ),
 
+    // FIXME: disallow ']]>'
     CharData: _ => token(prec(-1, /[^<&]*/)),
 
     CDSect: $ => prec.left(

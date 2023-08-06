@@ -1826,66 +1826,74 @@
       "value": "[A-Za-z][A-Za-z0-9._\\-]*"
     },
     "PI": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<?"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Name"
-          },
-          "named": true,
-          "value": "PITarget"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_S"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "([^?]|\\?[^>])*"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "?>"
-        }
-      ]
-    },
-    "Comment": {
-      "type": "TOKEN",
+      "type": "PREC_LEFT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "STRING",
-            "value": "<!--"
+            "value": "<?"
           },
           {
-            "type": "PATTERN",
-            "value": "([^-]|-[^-])*"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "Name"
+            },
+            "named": true,
+            "value": "PITarget"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_S"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": ".*"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
-            "value": "-->"
+            "value": "?>"
           }
         ]
+      }
+    },
+    "Comment": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "TOKEN",
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<!--"
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
+            },
+            {
+              "type": "STRING",
+              "value": "-->"
+            }
+          ]
+        }
       }
     },
     "_Eq": {

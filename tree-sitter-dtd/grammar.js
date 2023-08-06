@@ -330,17 +330,19 @@ module.exports = grammar({
 
     EncName: _ => /[A-Za-z][A-Za-z0-9._\-]*/,
 
-    PI: $ => seq(
+    PI: $ => prec.left(seq(
       '<?',
-      // FIXME: disallow /^xml$/i
+      // FIXME: disallow /[Xx][Mm][Ll]/
       alias($.Name, $.PITarget),
-      O(seq($._S, /([^?]|\?[^>])*/)),
+      // FIXME: disallow '?>'
+      O(seq($._S, /.*/)),
       '?>'
-    ),
+    )),
 
-    Comment: _ => token(
-      seq('<!--', /([^-]|-[^-])*/, '-->')
-    ),
+    Comment: _ => prec.left(token(
+      // FIXME: disallow '--'
+      seq('<!--', /.*/, '-->')
+    )),
 
     _Eq: $ => seq(O($._S), '=', O($._S))
   }
