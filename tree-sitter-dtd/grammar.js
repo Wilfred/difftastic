@@ -263,8 +263,6 @@ module.exports = grammar({
 
     PEReference: $ => seq('%', $.Name, ';'),
 
-    _Char: _ => /[\u0001-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/u,
-
     _S: _ => /[ \t\r\n]+/,
 
     Name: _ => new RegExp(`${c.NAME_START_CHAR}${c.NAME_CHAR}*`, 'u'),
