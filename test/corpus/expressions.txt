@@ -1355,3 +1355,24 @@ auto x = a[1, 2, 3];
           (number_literal)
           (number_literal)
           (number_literal))))))
+
+================================================================================
+Dependent operator templates
+================================================================================
+
+x.template operator()<int>();
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (call_expression
+      (field_expression
+        (identifier)
+        (dependent_name
+          (template_method
+            (operator_name)
+            (template_argument_list
+              (type_descriptor
+                (primitive_type))))))
+      (argument_list))))
