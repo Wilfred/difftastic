@@ -880,11 +880,14 @@ module.exports = grammar(C, {
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
       field('argument', $._expression),
-      '[',
-      field('index', choice($._expression, $.initializer_list)),
-      ']',
+      field('indices', $.subscript_argument_list),
     )),
 
+    subscript_argument_list: $ => seq(
+      '[',
+      commaSep(choice($._expression, $.initializer_list)),
+      ']',
+    ),
 
     call_expression: ($, original) => choice(original, seq(
       field('function', $.primitive_type),
