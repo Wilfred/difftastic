@@ -4,6 +4,7 @@ function zebra(zeb, ra) {
 module.exports = grammar({
   name: 'typst',
   extras: $ => [$.comment],
+  // extras: $ => [],
   inline: $ => [$._sl_expr, $._ml_expr, $._terminated, $._any_normal, $._any_strong, $._any_emph],
   conflicts: $ => [
     [$._sl_5, $._sl_mul],
@@ -75,10 +76,6 @@ module.exports = grammar({
     [$._ml_expr, $._ml_assign],
     [$._ml_9, $._ml_or],
 
-    // [$._terminated, $._item],
-    // [$._terminated, $._normal_tail_any_space],
-    // [$._terminated, $._strong_tail_any_space],
-    // [$._terminated, $._emph_tail_any_space],
     [$._normal_tail_any_code, $._item],
     [$._strong_tail_any_code, $._item],
     [$._emph_tail_any_code, $._item],
@@ -86,10 +83,7 @@ module.exports = grammar({
     [$._strong_tail_any_code, $._strong_tail_any_space],
     [$._emph_tail_any_code, $._emph_tail_any_space],
 
-    // [$._space_la],
-    // [$._ml_5, $._ml_6, $._ml_cmp, $._ml_sub],
-    // [$._ml_5, $._ml_cmp, $._ml_sub],
-    // [$._ml_5, $._ml_in, $._ml_sub],
+    [$._space_lp],
   ],
   rules: {
     source_file: $ => optional(choice(
@@ -110,9 +104,11 @@ module.exports = grammar({
     _text_next_space: $ => repeat1($._text_any),
     _text_next_item: $ => seq(/(\.[^a-zA-Z])|[^\.# \t\n\[\*\]\(_;]/, repeat($._text_any)),
     _text_next_condition: $ => seq(/(\.[^a-zA-Z]|else[^ \t\n\*\+\!\(\{;]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]\.])/, repeat($._text_any)),
-    _space_l0: $ => /[ \t]+/,
+    _space_l0: $ => repeat1(/[ \t]/),
+    // _space_l0: $ => /[ \t]+/,
     _space_l1: $ => /\n/,
-    _space_lp: $ => /\n([ \t]*\n)+/,
+    _space_lp: $ => seq($._space_l1, repeat1(seq(optional($._space_l0), $._space_l1))),
+    // _space_lp: $ => /\n([ \t]*\n)+/,
     _space_la: $ => prec.right(choice(
       seq($._space_l0, optional(seq(choice($._space_l1, $._space_lp), optional($._space_l0)))),
       seq(choice($._space_l1, $._space_lp), optional($._space_l0)),
