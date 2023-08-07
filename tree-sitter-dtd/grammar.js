@@ -265,9 +265,9 @@ module.exports = grammar({
 
     _S: _ => /[ \t\r\n]+/,
 
-    Name: _ => new RegExp(`${c.NAME_START_CHAR}${c.NAME_CHAR}*`, 'u'),
+    Name: _ => /[a-zA-Z_][a-zA-Z0-9_:.·-]*/,
 
-    Nmtoken: _ => new RegExp(`${c.NAME_CHAR}+`, 'u'),
+    Nmtoken: _ => /[a-zA-Z0-9_:.·-]+/,
 
     _Reference: $ => choice($.EntityRef, $.CharRef),
 
