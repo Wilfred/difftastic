@@ -12,7 +12,7 @@ const pattern = require('./grammar/pattern.js')
 const misc = require('./grammar/misc.js')
 
 module.exports = grammar({
-  name: 'haskell',
+  name: 'purescript',
 
   /**
    * These rules may occur anywhere in the grammar and don't have to be specified.
@@ -234,7 +234,7 @@ module.exports = grammar({
   word: $ => $._varid,
 
   rules: {
-    haskell: $ => choice(
+    purescript: $ => choice(
       $.empty_file,
       $._module,
       terminated($, $._topdecl),

@@ -1,8 +1,8 @@
 {
-  "name": "haskell",
+  "name": "purescript",
   "word": "_varid",
   "rules": {
-    "haskell": {
+    "purescript": {
       "type": "CHOICE",
       "members": [
         {
@@ -2669,17 +2669,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_type_or_implicit"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_adt_rhs"
             },
             {
               "type": "SYMBOL",
@@ -3798,7 +3789,7 @@
                   "members": [
                     {
                       "type": "STRING",
-                      "value": "="
+                      "value": ":"
                     },
                     {
                       "type": "SYMBOL",
@@ -4534,178 +4525,6 @@
         }
       ]
     },
-    "rec": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "rec"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "{"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ";"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "stmt"
-                        },
-                        {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "REPEAT1",
-                                "content": {
-                                  "type": "STRING",
-                                  "value": ";"
-                                }
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "stmt"
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ";"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "STRING",
-                  "value": "}"
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_layout_start"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "SYMBOL",
-                              "name": "stmt"
-                            },
-                            {
-                              "type": "REPEAT",
-                              "content": {
-                                "type": "SEQ",
-                                "members": [
-                                  {
-                                    "type": "PREC_DYNAMIC",
-                                    "value": 1,
-                                    "content": {
-                                      "type": "CHOICE",
-                                      "members": [
-                                        {
-                                          "type": "STRING",
-                                          "value": ";"
-                                        },
-                                        {
-                                          "type": "SYMBOL",
-                                          "name": "_layout_semicolon"
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  {
-                                    "type": "SYMBOL",
-                                    "name": "stmt"
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": ";"
-                                },
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "_layout_semicolon"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "BLANK"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_layout_end"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
     "stmt": {
       "type": "CHOICE",
       "members": [
@@ -4720,10 +4539,6 @@
         {
           "type": "SYMBOL",
           "name": "let"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "rec"
         }
       ]
     },
@@ -4732,7 +4547,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "mdo"
+          "value": "ado"
         },
         {
           "type": "STRING",
@@ -7532,38 +7347,12 @@
       ]
     },
     "_adt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_adt_rhs"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_gadt_rhs"
-            }
-          ]
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_gadt_rhs"
     },
     "decl_adt": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "type"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
         {
           "type": "STRING",
           "value": "data"
@@ -7604,7 +7393,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_adt"
+                  "name": "_gadt_rhs"
                 },
                 {
                   "type": "REPEAT",

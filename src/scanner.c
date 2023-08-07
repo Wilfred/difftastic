@@ -1604,7 +1604,7 @@ static bool eval(Result (*chk)(State *state), State *state) {
 /**
  * This function allocates the persistent state of the parser that is passed into the other API functions.
  */
-void *tree_sitter_haskell_external_scanner_create() {
+void *tree_sitter_purescript_external_scanner_create() {
   void *res = calloc(sizeof(indent_vec), 1);
   return res;
 }
@@ -1613,7 +1613,7 @@ void *tree_sitter_haskell_external_scanner_create() {
  * Main logic entry point.
  * Since the state is a singular vector, it can just be cast and used directly.
  */
-bool tree_sitter_haskell_external_scanner_scan(void *indents_v, TSLexer *lexer, const bool *syms) {
+bool tree_sitter_purescript_external_scanner_scan(void *indents_v, TSLexer *lexer, const bool *syms) {
   indent_vec *indents = (indent_vec*) indents_v;
   State state = {
     .lexer = lexer,
@@ -1632,7 +1632,7 @@ bool tree_sitter_haskell_external_scanner_scan(void *indents_v, TSLexer *lexer, 
  * This is normally more complex, but since this parser's state constists solely of a vector of integers, it can just be
  * copied.
  */
-unsigned tree_sitter_haskell_external_scanner_serialize(void *indents_v, char *buffer) {
+unsigned tree_sitter_purescript_external_scanner_serialize(void *indents_v, char *buffer) {
   indent_vec *indents = (indent_vec*) indents_v;
   unsigned to_copy = sizeof(indents->data[0]) * indents->len;
   if (to_copy > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
@@ -1647,7 +1647,7 @@ unsigned tree_sitter_haskell_external_scanner_serialize(void *indents_v, char *b
  * `payload` is the state of the previous parser execution, while `buffer` is the saved state of a different position
  * (e.g. when doing incremental parsing).
  */
-void tree_sitter_haskell_external_scanner_deserialize(void *indents_v, char *buffer, unsigned length) {
+void tree_sitter_purescript_external_scanner_deserialize(void *indents_v, char *buffer, unsigned length) {
   indent_vec *indents = (indent_vec*) indents_v;
   unsigned els = length / sizeof(indents->data[0]);
   if (els > 0) {
@@ -1660,7 +1660,7 @@ void tree_sitter_haskell_external_scanner_deserialize(void *indents_v, char *buf
 /**
  * Destroy the state.
  */
-void tree_sitter_haskell_external_scanner_destroy(void *indents_v) {
+void tree_sitter_purescript_external_scanner_destroy(void *indents_v) {
   indent_vec *indents = (indent_vec*) indents_v;
   VEC_FREE(indents);
   free(indents);

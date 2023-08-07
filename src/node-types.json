@@ -113,10 +113,6 @@
           "named": true
         },
         {
-          "type": "constructors",
-          "named": true
-        },
-        {
           "type": "context",
           "named": true
         },
@@ -1579,10 +1575,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "constructors",
-          "named": true
-        },
         {
           "type": "context",
           "named": true
@@ -8607,128 +8599,6 @@
     }
   },
   {
-    "type": "haskell",
-    "named": true,
-    "fields": {
-      "module": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "module",
-            "named": true
-          },
-          {
-            "type": "qualified_module",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "adt",
-          "named": true
-        },
-        {
-          "type": "class",
-          "named": true
-        },
-        {
-          "type": "data_family",
-          "named": true
-        },
-        {
-          "type": "data_instance",
-          "named": true
-        },
-        {
-          "type": "decl_special",
-          "named": true
-        },
-        {
-          "type": "default_declaration",
-          "named": true
-        },
-        {
-          "type": "deriving_declaration",
-          "named": true
-        },
-        {
-          "type": "empty_file",
-          "named": true
-        },
-        {
-          "type": "exports",
-          "named": true
-        },
-        {
-          "type": "fixity",
-          "named": true
-        },
-        {
-          "type": "foreign_export",
-          "named": true
-        },
-        {
-          "type": "foreign_import",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "instance",
-          "named": true
-        },
-        {
-          "type": "newtype",
-          "named": true
-        },
-        {
-          "type": "pattern_synonym",
-          "named": true
-        },
-        {
-          "type": "role_annotation",
-          "named": true
-        },
-        {
-          "type": "signature",
-          "named": true
-        },
-        {
-          "type": "top_splice",
-          "named": true
-        },
-        {
-          "type": "type_alias",
-          "named": true
-        },
-        {
-          "type": "type_family",
-          "named": true
-        },
-        {
-          "type": "type_instance",
-          "named": true
-        },
-        {
-          "type": "where",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "head",
     "named": true,
     "fields": {
@@ -11850,6 +11720,128 @@
     }
   },
   {
+    "type": "purescript",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "module",
+            "named": true
+          },
+          {
+            "type": "qualified_module",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "adt",
+          "named": true
+        },
+        {
+          "type": "class",
+          "named": true
+        },
+        {
+          "type": "data_family",
+          "named": true
+        },
+        {
+          "type": "data_instance",
+          "named": true
+        },
+        {
+          "type": "decl_special",
+          "named": true
+        },
+        {
+          "type": "default_declaration",
+          "named": true
+        },
+        {
+          "type": "deriving_declaration",
+          "named": true
+        },
+        {
+          "type": "empty_file",
+          "named": true
+        },
+        {
+          "type": "exports",
+          "named": true
+        },
+        {
+          "type": "fixity",
+          "named": true
+        },
+        {
+          "type": "foreign_export",
+          "named": true
+        },
+        {
+          "type": "foreign_import",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "instance",
+          "named": true
+        },
+        {
+          "type": "newtype",
+          "named": true
+        },
+        {
+          "type": "pattern_synonym",
+          "named": true
+        },
+        {
+          "type": "role_annotation",
+          "named": true
+        },
+        {
+          "type": "signature",
+          "named": true
+        },
+        {
+          "type": "top_splice",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        },
+        {
+          "type": "type_family",
+          "named": true
+        },
+        {
+          "type": "type_instance",
+          "named": true
+        },
+        {
+          "type": "where",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "qual",
     "named": true,
     "fields": {
@@ -12233,21 +12225,6 @@
         },
         {
           "type": "quoter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "rec",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "stmt",
           "named": true
         }
       ]
@@ -12682,10 +12659,6 @@
         },
         {
           "type": "quasiquote",
-          "named": true
-        },
-        {
-          "type": "rec",
           "named": true
         },
         {
@@ -13248,71 +13221,15 @@
           "named": true
         },
         {
-          "type": "context",
+          "type": "constructors",
           "named": true
         },
         {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
-          "type": "implicit_param",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "quasiquote",
-          "named": true
-        },
-        {
-          "type": "splice",
-          "named": true
-        },
-        {
-          "type": "type_apply",
+          "type": "deriving",
           "named": true
         },
         {
           "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_list",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
-          "named": true
-        },
-        {
-          "type": "type_tuple",
-          "named": true
-        },
-        {
-          "type": "type_unboxed_sum",
-          "named": true
-        },
-        {
-          "type": "type_unboxed_tuple",
           "named": true
         },
         {
@@ -14485,6 +14402,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "::",
     "named": false
   },
@@ -14526,6 +14447,10 @@
   },
   {
     "type": "`",
+    "named": false
+  },
+  {
+    "type": "ado",
     "named": false
   },
   {
@@ -14685,10 +14610,6 @@
     "named": false
   },
   {
-    "type": "mdo",
-    "named": false
-  },
-  {
     "type": "module",
     "named": false
   },
@@ -14735,10 +14656,6 @@
   {
     "type": "quasiquote_start",
     "named": true
-  },
-  {
-    "type": "rec",
-    "named": false
   },
   {
     "type": "representational",
