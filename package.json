@@ -3,23 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "grammar.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "node-gyp rebuild"
-  },
   "author": "",
   "license": "ISC",
   "gypfile": true,
   "tree-sitter": [
     {
-      "scope": "source.haskell",
+      "scope": "source.purescript",
       "file-types": [
-        "hs"
+        "purs"
       ],
-      "highlights": [
-        "queries/highlights.scm"
-      ],
-      "injection-regex": "^(hs|haskell)$"
+      "injection-regex": "purescript"
     }
   ],
   "dependencies": {
