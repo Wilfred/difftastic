@@ -954,6 +954,7 @@ module.exports = grammar({
         $.infix_pattern,
         $.alternative_pattern,
         $.typed_pattern,
+        $.given_pattern,
         $.quote_expression,
         $.literal,
         $.wildcard,
@@ -994,6 +995,8 @@ module.exports = grammar({
       prec.right(
         seq(field("pattern", $._pattern), ":", field("type", $._type)),
       ),
+
+    given_pattern: $ => seq("given", field("type", $._type)),
 
     // TODO: Flatten this.
     alternative_pattern: $ => prec.left(-1, seq($._pattern, "|", $._pattern)),
