@@ -1,154 +1,124 @@
-;; Copyright 2022 nvim-treesitter
-;;
-;; Licensed under the Apache License, Version 2.0 (the "License");
-;; you may not use this file except in compliance with the License.
-;; You may obtain a copy of the License at
-;;
-;;     http://www.apache.org/licenses/LICENSE-2.0
-;;
-;; Unless required by applicable law or agreed to in writing, software
-;; distributed under the License is distributed on an "AS IS" BASIS,
-;; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-;; See the License for the specific language governing permissions and
-;; limitations under the License.
+; ----------------------------------------------------------------------------
+; Literals and comments
 
-;; ----------------------------------------------------------------------------
-;; Literals and comments
+ (integer) @constant.numeric.integer
+ (exp_negation) @constant.numeric.integer
+ (exp_literal (float)) @constant.numeric.float
+ (char) @constant.character
+ (string) @string
 
-(integer) @number
-(exp_negation) @number
-(exp_literal (float)) @float
-(char) @character
-(string) @string
+ (con_unit) @constant.builtin ; unit, as in ()
 
-(con_unit) @symbol  ; unit, as in ()
-
-(comment) @comment
+ (comment) @comment
 
 
-;; ----------------------------------------------------------------------------
-;; Punctuation
+; ----------------------------------------------------------------------------
+; Punctuation
 
-[
-  "("
-  ")"
-  "{"
-  "}"
-  "["
-  "]"
-] @punctuation.bracket
+ [
+   "("
+   ")"
+   "{"
+   "}"
+   "["
+   "]"
+ ] @punctuation.bracket
 
-[
-  (comma)
-  ";"
-] @punctuation.delimiter
-
-
-;; ----------------------------------------------------------------------------
-;; Keywords, operators, includes
-
-[
-  "forall"
-  "∀"
-] @repeat
-
-(pragma) @constant.macro
-
-[
-  "if"
-  "then"
-  "else"
-  "case"
-  "of"
-] @conditional
-
-[
-  "import"
-  "qualified"
-  "module"
-] @include
-
-[
-  (operator)
-  (constructor_operator)
-  (type_operator)
-  (tycon_arrow)
-  (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
-  (all_names)
-  (wildcard)
-  "="
-  "|"
-  "::"
-  "=>"
-  "->"
-  "<-"
-  "\\"
-  "`"
-  "@"
-] @operator
-
-(module) @namespace
-
-[
-  (where)
-  "let"
-  "in"
-  "class"
-  "instance"
-  "data"
-  "newtype"
-  "family"
-  "type"
-  "as"
-  "hiding"
-  "deriving"
-  "via"
-  "stock"
-  "anyclass"
-  "do"
-  "mdo"
-  "rec"
-  "infix"
-  "infixl"
-  "infixr"
-] @keyword
+ [
+ (comma)
+ ";"
+ ] @punctuation.delimiter
 
 
-;; ----------------------------------------------------------------------------
-;; Functions and variables
+; ----------------------------------------------------------------------------
+; Keywords, operators, includes
 
-(variable) @variable
-(pat_wildcard) @variable
+ (pragma) @constant.macro
 
-(signature name: (variable) @type)
-(function
-  name: (variable) @function
-  patterns: (patterns))
-((signature (fun)) . (function (variable) @function))
-((signature (context (fun))) . (function (variable) @function))
-((signature (forall (context (fun)))) . (function (variable) @function))
+ [
+   "if"
+   "then"
+   "else"
+   "case"
+   "of"
+ ] @keyword.control.conditional
 
-(exp_infix (variable) @operator)  ; consider infix functions as operators
+ [
+   "import"
+   "qualified"
+   "module"
+ ] @keyword.control.import
 
-(exp_infix (exp_name) @function (#set! "priority" 101))
-(exp_apply . (exp_name (variable) @function))
-(exp_apply . (exp_name (qualified_variable (variable) @function)))
+ [
+   (operator)
+   (constructor_operator)
+   (type_operator)
+   (tycon_arrow)
+   (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
+   (all_names)
+   (wildcard)
+   "="
+   "|"
+   "::"
+   "=>"
+   "->"
+   "<-"
+   "\\"
+   "`"
+   "@"
+ ] @operator
+
+ (qualified_module (module) @constructor)
+ (qualified_type (module) @namespace)
+ (qualified_variable (module) @namespace)
+ (import (module) @namespace)
+
+ [
+   (where)
+   "let"
+   "in"
+   "class"
+   "instance"
+   "data"
+   "newtype"
+   "family"
+   "type"
+   "as"
+   "hiding"
+   "deriving"
+   "via"
+   "stock"
+   "anyclass"
+   "do"
+   "ado"
+   "forall"
+   "∀"
+   "infix"
+   "infixl"
+   "infixr"
+ ] @keyword
 
 
-;; ----------------------------------------------------------------------------
-;; Types
+; ----------------------------------------------------------------------------
+; Functions and variables
 
-(type) @type
-(type_variable) @type
+ (signature name: (variable) @type)
+ (function name: (variable) @function)
 
-(constructor) @constructor
+ (variable) @variable
+ "_" @variable.builtin
 
-; True or False
-((constructor) @_bool (#match? @_bool "(True|False)")) @boolean
+ (exp_infix (variable) @operator)  ; consider infix functions as operators
+
+ ("@" @namespace)  ; "as" pattern operator, e.g. x@Constructor
 
 
-;; ----------------------------------------------------------------------------
-;; Quasi-quotes
+; ----------------------------------------------------------------------------
+; Types
 
-(quoter) @function
-; Highlighting of quasiquote_body is handled by injections.scm
+ (type) @type
+
+ (constructor) @constructor
+
+ ; True or False
+ ((constructor) @_bool (#match? @_bool "(True|False)")) @constant.builtin.boolean
