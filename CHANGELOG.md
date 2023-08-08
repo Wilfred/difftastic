@@ -5,6 +5,8 @@
 Tweaked the colours on the file header, to make metadata less
 prominent.
 
+Improved styling of file rename information.
+
 Improved syntax hightling for Java built-in types.
 
 ### Diffing

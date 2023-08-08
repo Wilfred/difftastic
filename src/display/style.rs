@@ -477,8 +477,8 @@ pub fn header(
 
     match old_path {
         Some(old_path) => {
-            let renamed = format!("Renamed {} to {}", old_path, display_path);
-            format!("{}\n{}{}", renamed, display_path, trailer)
+            let renamed = format!("Renamed from {} to {}", old_path, display_path);
+            format!("{}{}\n{}", display_path_pretty, trailer, renamed)
         }
         None => {
             format!("{}{}", display_path_pretty, trailer)
