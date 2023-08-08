@@ -502,7 +502,7 @@ class A
 ================================================================================
 Class definitions (Scala 3)
 ================================================================================
-final case class C() extends A derives B, C
+final case class C() extends A derives B, C.D
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -514,7 +514,9 @@ final case class C() extends A derives B, C
       (type_identifier))
     (derives_clause
       (type_identifier)
-      (type_identifier))))
+      (stable_type_identifier
+        (identifier)
+        (type_identifier)))))
 
 ================================================================================
 Subclass definitions
