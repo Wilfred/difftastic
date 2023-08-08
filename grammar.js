@@ -550,6 +550,7 @@ module.exports = grammar({
             "parameters",
             repeat(seq(optional($._automatic_semicolon), $.parameters)),
           ),
+          optional($._automatic_semicolon),
         ),
       ),
 
