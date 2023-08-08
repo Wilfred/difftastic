@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.58.0
+      - uses: dtolnay/rust-toolchain@1.59.0
       - run: cargo test
       # This also runs tests that rely on the MIME database being
       # present.
@@ -27,7 +27,7 @@ jobs:
   #   runs-on: ubuntu-20.04
   #   steps:
   #     - uses: actions/checkout@v3
-  #     - uses: dtolnay/rust-toolchain@1.58.0
+  #     - uses: dtolnay/rust-toolchain@1.59.0
   #     - run: rustup target add aarch64-unknown-linux-gnu
   #     - run: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
   #     - run: cargo build --target=aarch64-unknown-linux-gnu
@@ -37,7 +37,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.58.0
+      - uses: dtolnay/rust-toolchain@1.59.0
       - run: cargo test
 
   test_windows:
@@ -45,7 +45,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.58.0
+      - uses: dtolnay/rust-toolchain@1.59.0
       - run: cargo test
 
   regression_test:
@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.58.0
+      - uses: dtolnay/rust-toolchain@1.59.0
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.58.0
+      - uses: dtolnay/rust-toolchain@1.59.0
       - run: cargo package --allow-dirty
 
   fmt:
@@ -72,5 +72,5 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.58.0
+      - uses: dtolnay/rust-toolchain@1.59.0
       - run: cargo fmt --all -- --check

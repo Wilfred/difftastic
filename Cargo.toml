@@ -12,7 +12,7 @@ edition = "2021"
 # Goal: support at least 12 months of Rust versions, and also the Rust
 # version on Debian stable:
 # https://tracker.debian.org/pkg/rustc
-rust-version = "1.58.0"
+rust-version = "1.59.0"
 include = [
         "/build.rs",
         "/src/",

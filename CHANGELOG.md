@@ -12,6 +12,10 @@ Improved syntax hightling for Java built-in types.
 Fixed an issue with runaway memory usage when the two files input
 files had a large number of differences.
 
+### Build
+
+Difftastic now requires Rust 1.59 to build.
+
 ## 0.49 (release 26th July 2023)
 
 ### Parsing
