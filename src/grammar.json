@@ -3082,8 +3082,17 @@
                 "type": "FIELD",
                 "name": "type",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "_type_identifier"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_type_identifier"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "stable_type_identifier"
+                    }
+                  ]
                 }
               },
               {
@@ -3099,8 +3108,17 @@
                       "type": "FIELD",
                       "name": "type",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "_type_identifier"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_type_identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "stable_type_identifier"
+                          }
+                        ]
                       }
                     }
                   ]
@@ -4616,6 +4634,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "given_pattern"
+        },
+        {
+          "type": "SYMBOL",
           "name": "quote_expression"
         },
         {
@@ -4836,6 +4858,23 @@
           }
         ]
       }
+    },
+    "given_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "given"
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type"
+          }
+        }
+      ]
     },
     "alternative_pattern": {
       "type": "PREC_LEFT",
