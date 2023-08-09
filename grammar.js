@@ -237,11 +237,13 @@ module.exports = grammar({
     ),
 
     type_definition: $ => seq(
+      optional('__extension__'),
       'typedef',
       repeat($.type_qualifier),
       field('type', $._type_specifier),
       repeat($.type_qualifier),
       commaSep1(field('declarator', $._type_declarator)),
+      repeat($.attribute_specifier),
       ';',
     ),
 
@@ -427,10 +429,11 @@ module.exports = grammar({
       field('declarator', optional($._abstract_declarator)),
     ))),
 
-    function_declarator: $ => prec(1,
+    function_declarator: $ => prec.right(1,
       seq(
         field('declarator', $._declarator),
         field('parameters', $.parameter_list),
+        optional($.gnu_asm_expression),
         repeat($.attribute_specifier),
       )),
     function_field_declarator: $ => prec(1, seq(
@@ -493,6 +496,9 @@ module.exports = grammar({
       'auto',
       'register',
       'inline',
+      '__inline',
+      '__inline__',
+      '__forceinline',
       'thread_local',
       '__thread',
     ),
@@ -503,6 +509,7 @@ module.exports = grammar({
       'volatile',
       'restrict',
       '__restrict__',
+      '__extension__',
       '_Atomic',
       '_Noreturn',
       'noreturn',
@@ -803,6 +810,7 @@ module.exports = grammar({
       $.cast_expression,
       $.pointer_expression,
       $.sizeof_expression,
+      $.alignof_expression,
       $.offsetof_expression,
       $.generic_expression,
       $.subscript_expression,
@@ -935,6 +943,11 @@ module.exports = grammar({
       ),
     )),
 
+    alignof_expression: $ => prec(PREC.SIZEOF, seq(
+      choice('__alignof__', '__alignof', '_alignof', 'alignof', '_Alignof'),
+      seq('(', field('type', $.type_descriptor), ')'),
+    )),
+
     offsetof_expression: $ => prec(PREC.OFFSETOF, seq(
       'offsetof',
       seq('(', field('type', $.type_descriptor), ',', field('member', $._field_identifier), ')'),
@@ -1030,7 +1043,7 @@ module.exports = grammar({
     ),
 
     // The compound_statement is added to parse macros taking statements as arguments, e.g. MYFORLOOP(1, 10, i, { foo(i); bar(i); })
-    argument_list: $ => seq('(', commaSep(choice($._expression, $.compound_statement)), ')'),
+    argument_list: $ => seq('(', commaSep(choice(seq(optional('__extension__'), $._expression), $.compound_statement)), ')'),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
@@ -1115,8 +1128,9 @@ module.exports = grammar({
     ),
 
     concatenated_string: $ => seq(
+      choice($.identifier, $.string_literal),
       $.string_literal,
-      repeat1(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
+      repeat(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
     ),
 
     string_literal: $ => seq(
