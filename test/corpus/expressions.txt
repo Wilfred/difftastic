@@ -130,6 +130,7 @@ Function calls
 
 int main() {
   printf("hi! %d\n", x);
+  __assert_fail("some_error_message", 115, __extension__ __func__);
 }
 
 --------------------------------------------------------------------------------
@@ -148,6 +149,14 @@ int main() {
             (string_literal
               (string_content)
               (escape_sequence))
+            (identifier))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content))
+            (number_literal)
             (identifier)))))))
 
 ================================================================================

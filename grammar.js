@@ -237,6 +237,7 @@ module.exports = grammar({
     ),
 
     type_definition: $ => seq(
+      optional('__extension__'),
       'typedef',
       repeat($.type_qualifier),
       field('type', $._type_specifier),
@@ -504,6 +505,7 @@ module.exports = grammar({
       'volatile',
       'restrict',
       '__restrict__',
+      '__extension__',
       '_Atomic',
       '_Noreturn',
       'noreturn',
@@ -1031,7 +1033,7 @@ module.exports = grammar({
     ),
 
     // The compound_statement is added to parse macros taking statements as arguments, e.g. MYFORLOOP(1, 10, i, { foo(i); bar(i); })
-    argument_list: $ => seq('(', commaSep(choice($._expression, $.compound_statement)), ')'),
+    argument_list: $ => seq('(', commaSep(choice(seq(optional('__extension__'), $._expression), $.compound_statement)), ')'),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(

@@ -327,6 +327,13 @@ typedef signed signed unsigned;
 
 typedef int register_t __attribute__((__mode__(__word__)));
 
+__extension__ typedef long int greg_t;
+
+__extension__ typedef struct {
+    long long int quot;
+    long long int rem;
+} lldiv_t;
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -440,7 +447,23 @@ typedef int register_t __attribute__((__mode__(__word__)));
         (call_expression
           function: (identifier)
           arguments: (argument_list
-            (identifier)))))))
+            (identifier))))))
+  (type_definition
+    type: (sized_type_specifier
+      type: (primitive_type))
+    declarator: (type_identifier))
+  (type_definition
+    type: (struct_specifier
+      body: (field_declaration_list
+        (field_declaration
+          type: (sized_type_specifier
+            type: (primitive_type))
+          declarator: (field_identifier))
+        (field_declaration
+          type: (sized_type_specifier
+            type: (primitive_type))
+          declarator: (field_identifier))))
+    declarator: (type_identifier)))
 
 ================================================================================
 Function declarations
@@ -590,6 +613,8 @@ volatile int z = 7;
 constexpr int a = 8;
 __thread int c = 9;
 noreturn void b() {}
+ __extension__ extern int ffsll (long long int __ll)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
 
 --------------------------------------------------------------------------------
 
@@ -632,7 +657,24 @@ noreturn void b() {}
     (function_declarator
       (identifier)
       (parameter_list))
-    (compound_statement)))
+    (compound_statement))
+  (declaration
+    (type_qualifier)
+    (storage_class_specifier)
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (sized_type_specifier
+            (primitive_type))
+          (identifier)))
+      (attribute_specifier
+        (argument_list
+          (identifier)))
+      (attribute_specifier
+        (argument_list
+          (identifier))))))
 
 ================================================================================
 Local array declarations
