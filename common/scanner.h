@@ -15,9 +15,20 @@ enum TokenType {
 /// Advance the lexer to the next token
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
+/// Check if the character is valid in PITarget
+/// @private
 static inline bool is_valid_pi_char(int32_t chr) {
-    return isalnum(chr) || chr == '_' || chr == ':' || chr == '.' ||
-           chr == '-' || chr == L'·';
+    return isalnum(chr) || chr == '_' || chr == ':' || chr == '.' || chr == '-' || chr == L'·';
+}
+
+/// Check if the lexer matches the given word
+/// @private
+static inline bool check_word(TSLexer *lexer, const char *const word) {
+    for (int j = 0; word[j] != '\0'; ++j) {
+        if (word[j] != lexer->lookahead) return false;
+        advance(lexer);
+    }
+    return true;
 }
 
 /// Scan for the target of a PI node
@@ -45,35 +56,8 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
                         bool last_char_hyphen = lexer->lookahead == '-';
                         advance(lexer);
                         if (last_char_hyphen) {
-                            // scan for stylesheet/model and disallow that
-                            if (valid_symbols[XmlModel]) {
-                                const char *const word = "model";
-                                int j = 0;
-                                while (word[j] != '\0') {
-                                    if (word[j] != lexer->lookahead) {
-                                        break;
-                                    }
-                                    j++;
-                                    advance(lexer);
-                                }
-                                if (word[j] == '\0') {
-                                    return false;
-                                }
-                            }
-                            if (valid_symbols[XmlStylesheet]) {
-                                const char *const word = "stylesheet";
-                                int j = 0;
-                                while (word[j] != '\0') {
-                                    if (word[j] != lexer->lookahead) {
-                                        break;
-                                    }
-                                    j++;
-                                    advance(lexer);
-                                }
-                                if (word[j] == '\0') {
-                                    return false;
-                                }
-                            }
+                            if (valid_symbols[XmlModel] && check_word(lexer, "model")) return false;
+                            if (valid_symbols[XmlStylesheet] && check_word(lexer, "stylesheet")) return false;
                         }
                     } else {
                         return false;
@@ -97,9 +81,7 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
 static bool scan_pi_content(TSLexer *lexer) {
     bool advanced_once = false;
 
-    while (!lexer->eof(lexer) &&
-           lexer->lookahead != '\n' &&
-           lexer->lookahead != '?') {
+    while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '?') {
         advanced_once = true;
         advance(lexer);
     }
@@ -159,7 +141,6 @@ static bool scan_comment(TSLexer *lexer) {
 }
 
 /// Define the boilerplate functions of the scanner
-/// @param name the name of the language
 #define SCANNER_BOILERPLATE(name) \
     void *tree_sitter_##name##_external_scanner_create() { return NULL; } \
     \

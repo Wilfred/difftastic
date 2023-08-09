@@ -2623,6 +2623,14 @@
     {
       "type": "SYMBOL",
       "name": "CharData"
+    },
+    {
+      "type": "STRING",
+      "value": "xml-model"
+    },
+    {
+      "type": "STRING",
+      "value": "xml-stylesheet"
     }
   ],
   "inline": [
