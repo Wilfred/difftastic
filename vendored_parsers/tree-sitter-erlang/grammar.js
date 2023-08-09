@@ -1,5 +1,5 @@
-/*
- * Copyright (c) Facebook, Inc. and its affiliates.
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,8 @@ const PREC = {
     CALL: 80,
     REMOTE: 1,
     BIT_EXPR: 2,
+
+    COND_MATCH: 81, // `?=` in maybe expr. Should has lowest priority https://www.erlang.org/eeps/eep-0049#operator-priority
 
     // In macro def, prefer expressions, if type and expr would parse
     DYN_CR_CLAUSES: 1,
@@ -101,6 +103,10 @@ module.exports = grammar({
         $._expr,
         $._expr_max,
         $._catch_pat,
+        $._deprecated_details,
+        $._deprecated_fun_arity,
+        $._desc,
+        $._string_like
     ],
 
 
@@ -140,6 +146,7 @@ module.exports = grammar({
             $.optional_callbacks_attribute,
             $.compile_options_attribute,
             $.file_attribute,
+            $.deprecated_attribute,
             $.record_decl,
             $.type_alias,
             $.opaque,
@@ -263,6 +270,58 @@ module.exports = grammar({
             field("original_line", $.integer),
             ')', '.'),
 
+        deprecated_attribute: $ => seq(
+            '-',
+            atom_const('deprecated'),
+            '(',
+            field("attr", $._deprecated_details),
+            ')',
+            '.'
+        ),
+
+        _deprecated_details: $ => choice(
+            $.deprecated_module,
+            $.deprecated_fa,
+            $.deprecated_fas,
+        ),
+
+        deprecated_module: $ => field("module", $.atom),
+
+        deprecated_fas: $ => seq(
+            '[',
+            sepBy1(',', field("fa", $.deprecated_fa)),
+            ']',
+        ),
+        deprecated_fa: $ => seq(
+            '{',
+            field("fun", $.atom),
+            ',',
+            field("arity", $._deprecated_fun_arity),
+            field("desc", optional($.deprecation_desc)),
+            '}',
+        ),
+
+        deprecation_desc: $ => seq(',', field("desc", $._desc)),
+
+        _desc: $ => choice(
+            field("atom", $.atom),
+            field("comment", $.multi_string),
+        ),
+
+        multi_string: $ => prec.right(field("elems", repeat1($._string_like))),
+
+        _string_like: $ => choice(
+            $.string,
+            $._macro_body_expr
+        ),
+
+        _deprecated_fun_arity: $ => choice(
+            $.integer,
+            $.deprecated_wildcard,
+        ),
+
+        deprecated_wildcard: $ => "'_'",
+
         type_alias: $ => seq('-', atom_const('type'), $._type_def, '.'),
 
         opaque: $ => seq('-', atom_const('opaque'), $._type_def, '.'),
@@ -367,6 +426,7 @@ module.exports = grammar({
             $._record_expr,
             $.remote,
             $._expr_max,
+            $.cond_match_expr,
         ),
 
         dotdotdot: $ => '...',
@@ -377,6 +437,12 @@ module.exports = grammar({
             prec.right(PREC.EQ, seq(
                 field("lhs", $._expr),
                 '=',
+                field("rhs", prec.right($._expr)),
+            )),
+        cond_match_expr: $ =>
+            prec.right(PREC.COND_MATCH, seq(
+                field("lhs", $._expr),
+                '?=',
                 field("rhs", prec.right($._expr)),
             )),
         binary_op_expr: $ => choice(
@@ -435,6 +501,7 @@ module.exports = grammar({
             $.binary,
             $.list_comprehension,
             $.binary_comprehension,
+            $.map_comprehension,
             $.tuple,
             $.paren_expr,
             $.block_expr,
@@ -443,6 +510,7 @@ module.exports = grammar({
             $.receive_expr,
             $._fun_expr,
             $.try_expr,
+            $.maybe_expr,
         ),
 
         remote: $ => prec.right(PREC.REMOTE, seq(field("module", $.remote_module), field("fun", $._expr_max))),
@@ -512,6 +580,13 @@ module.exports = grammar({
             field("lc_exprs", $.lc_exprs),
             '>>'
         ),
+        map_comprehension: $ => seq(
+            '#',
+            '{',
+            field("expr", $.map_field),
+            field("lc_exprs", $.lc_exprs),
+            '}',
+        ),
 
         lc_exprs: $ => seq('||', sepBy1(',', field("exprs", $._lc_expr))),
 
@@ -519,6 +594,7 @@ module.exports = grammar({
             $._expr,
             $.generator,
             $.b_generator,
+            $.map_generator,
         ),
 
         generator: $ => seq(
@@ -529,6 +605,11 @@ module.exports = grammar({
         b_generator: $ => seq(
             field("lhs", $._expr),
             '<=',
+            field("rhs", $._expr),
+        ),
+        map_generator: $ => seq(
+            field("lhs", $.map_field),
+            '<-',
             field("rhs", $._expr),
         ),
 
@@ -792,6 +873,13 @@ module.exports = grammar({
                 field("rhs", $._catch_pat),
             )),
         ),
+
+        maybe_expr: $ => choice(
+                    seq('maybe', sepBy1(',', field("exprs", $._expr)), 'end'),
+                    seq('maybe', sepBy1(',', field("exprs", $._expr)), $._maybe_else_clause),
+        ),
+
+        _maybe_else_clause: $ => seq('else', optional($._cr_clauses), 'end'),
 
         _macro_def_replacement: $ => choice(
             prec.dynamic(PREC.DYN_EXPR, $._expr),

@@ -1,5 +1,9 @@
 ## 0.50 (unreleased)
 
+### Parsing
+
+Updated Erlang parser.
+
 ### Display
 
 Tweaked the colours on the file header, to make metadata less

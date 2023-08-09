@@ -116,6 +116,52 @@
     ]
   },
   {
+    "type": "_deprecated_details",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "deprecated_fa",
+        "named": true
+      },
+      {
+        "type": "deprecated_fas",
+        "named": true
+      },
+      {
+        "type": "deprecated_module",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_deprecated_fun_arity",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "deprecated_wildcard",
+        "named": true
+      },
+      {
+        "type": "integer",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_desc",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "atom",
+        "named": true
+      },
+      {
+        "type": "multi_string",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "_expr",
     "named": true,
     "subtypes": [
@@ -137,6 +183,10 @@
       },
       {
         "type": "catch_expr",
+        "named": true
+      },
+      {
+        "type": "cond_match_expr",
         "named": true
       },
       {
@@ -266,6 +316,14 @@
         "named": true
       },
       {
+        "type": "map_comprehension",
+        "named": true
+      },
+      {
+        "type": "maybe_expr",
+        "named": true
+      },
+      {
         "type": "paren_expr",
         "named": true
       },
@@ -309,6 +367,10 @@
       },
       {
         "type": "compile_options_attribute",
+        "named": true
+      },
+      {
+        "type": "deprecated_attribute",
         "named": true
       },
       {
@@ -403,6 +465,10 @@
       },
       {
         "type": "generator",
+        "named": true
+      },
+      {
+        "type": "map_generator",
         "named": true
       }
     ]
@@ -555,6 +621,24 @@
       },
       {
         "type": "record_update_expr",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_string_like",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "macro_call_expr",
+        "named": true
+      },
+      {
+        "type": "macro_string",
+        "named": true
+      },
+      {
+        "type": "string",
         "named": true
       }
     ]
@@ -1076,6 +1160,32 @@
     }
   },
   {
+    "type": "cond_match_expr",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "cr_clause",
     "named": true,
     "fields": {
@@ -1105,6 +1215,106 @@
         "types": [
           {
             "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_attribute",
+    "named": true,
+    "fields": {
+      "attr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_deprecated_details",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_fa",
+    "named": true,
+    "fields": {
+      "arity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_deprecated_fun_arity",
+            "named": true
+          }
+        ]
+      },
+      "desc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "deprecation_desc",
+            "named": true
+          }
+        ]
+      },
+      "fun": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "atom",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_fas",
+    "named": true,
+    "fields": {
+      "fa": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "deprecated_fa",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_module",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "atom",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecation_desc",
+    "named": true,
+    "fields": {
+      "desc": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_desc",
             "named": true
           }
         ]
@@ -1750,6 +1960,32 @@
     }
   },
   {
+    "type": "map_comprehension",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "map_field",
+            "named": true
+          }
+        ]
+      },
+      "lc_exprs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "lc_exprs",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "map_expr",
     "named": true,
     "fields": {
@@ -1818,6 +2054,32 @@
     }
   },
   {
+    "type": "map_generator",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "map_field",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "match_expr",
     "named": true,
     "fields": {
@@ -1833,6 +2095,32 @@
       },
       "rhs": {
         "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "maybe_expr",
+    "named": true,
+    "fields": {
+      "clauses": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_cr_clause_or_macro",
+            "named": true
+          }
+        ]
+      },
+      "exprs": {
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1869,6 +2157,22 @@
         "types": [
           {
             "type": "_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "multi_string",
+    "named": true,
+    "fields": {
+      "elems": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_string_like",
             "named": true
           }
         ]
@@ -2974,6 +3278,10 @@
     "named": false
   },
   {
+    "type": "?=",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -3062,6 +3370,14 @@
     "named": false
   },
   {
+    "type": "deprecated",
+    "named": false
+  },
+  {
+    "type": "deprecated_wildcard",
+    "named": true
+  },
+  {
     "type": "div",
     "named": false
   },
@@ -3132,6 +3448,10 @@
   {
     "type": "integer",
     "named": true
+  },
+  {
+    "type": "maybe",
+    "named": false
   },
   {
     "type": "module",

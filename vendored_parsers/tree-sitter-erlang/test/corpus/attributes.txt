@@ -35,6 +35,161 @@ behaviour attribute
     (atom)))
 
 ================================================================================
+deprecated attribute with arity
+================================================================================
+
+-deprecated({f,1}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (integer))))
+
+================================================================================
+deprecated attribute with arity wildcard
+================================================================================
+
+-deprecated({f,'_'}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (deprecated_wildcard))))
+
+================================================================================
+deprecated module attribute
+================================================================================
+
+-deprecated(module).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_module
+      (atom))))
+
+================================================================================
+deprecated '_', '_' attribute
+================================================================================
+
+-deprecated({'_','_'}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (deprecated_wildcard))))
+
+================================================================================
+deprecated function/arity/desc attribute
+================================================================================
+
+-deprecated({f,1,"Use g/1 instead"}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (integer)
+      (deprecation_desc
+        (multi_string
+          (string))))))
+
+================================================================================
+deprecated '_', '_', atom attribute
+================================================================================
+
+-deprecated({'_','_',eventually}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (deprecated_wildcard)
+      (deprecation_desc
+        (atom)))))
+
+================================================================================
+deprecated list attribute with func, arity and atom desc
+================================================================================
+
+-deprecated([{g,1,next_version}]).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fas
+      (deprecated_fa
+        (atom)
+        (integer)
+        (deprecation_desc
+          (atom))))))
+
+================================================================================
+deprecated list attribute
+================================================================================
+
+-deprecated([{foo,'_',next}, {bar,1,"desc"}, {baz, 2}, {'_', '_', "all"}]).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fas
+      (deprecated_fa
+        (atom)
+        (deprecated_wildcard)
+        (deprecation_desc
+          (atom)))
+      (deprecated_fa
+        (atom)
+        (integer)
+        (deprecation_desc
+          (multi_string
+            (string))))
+      (deprecated_fa
+        (atom)
+        (integer))
+      (deprecated_fa
+        (atom)
+        (deprecated_wildcard)
+        (deprecation_desc
+          (multi_string
+            (string)))))))
+
+================================================================================
+deprecated multi-string description
+================================================================================
+
+-deprecated({new, 1, "str1" "str2"}).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (deprecated_attribute
+    (deprecated_fa
+      (atom)
+      (integer)
+      (deprecation_desc
+        (multi_string
+          (string)
+          (string))))))
+
+================================================================================
 include attribute
 ================================================================================
 

@@ -5,7 +5,7 @@ edition = "2018"
 keywords = ["incremental", "parsing", "erlang"]
 license = "MIT"
 name = "tree-sitter-erlang"
-version = "0.0.1"
+version = "0.1.0"
 
 build = "bindings/rust/build.rs"
 include = [
@@ -19,7 +19,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.20.9"
+tree-sitter = "0.20.10"
 
 [build-dependencies]
-cc = "1.0.73"
+cc = "1.0.79"
