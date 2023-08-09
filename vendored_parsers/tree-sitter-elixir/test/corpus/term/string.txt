@@ -82,6 +82,18 @@ nested interpolation
     (quoted_content)))
 
 =====================================
+empty interpolation
+=====================================
+
+"#{}"
+
+---
+
+(source
+  (string
+    (interpolation)))
+
+=====================================
 escape sequence
 =====================================
 

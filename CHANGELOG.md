@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated Erlang and Go parsers.
+Updated Elixir, Erlang and Go parsers.
 
 ### Display
 
