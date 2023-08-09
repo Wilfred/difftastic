@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.20.4",
+  "version": "0.20.5",
   "description": "C grammar for node-tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -14,12 +14,12 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "eslint": "^8.41.0",
+    "eslint": "^8.46.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.0"
+    "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",

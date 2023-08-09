@@ -1,14 +1,14 @@
 [package]
 name = "tree-sitter-c"
 description = "C grammar for the tree-sitter parsing library"
-version = "0.20.4"
+version = "0.20.5"
 authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
 license = "MIT"
 readme = "bindings/rust/README.md"
 keywords = ["incremental", "parsing", "c"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-c"
-edition = "2018"
+edition = "2021"
 autoexamples = false
 
 build = "bindings/rust/build.rs"
@@ -21,4 +21,4 @@ path = "bindings/rust/lib.rs"
 tree-sitter = "0.20.10"
 
 [build-dependencies]
-cc = "1.0"
+cc = "~1.0"
