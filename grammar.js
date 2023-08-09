@@ -242,6 +242,7 @@ module.exports = grammar({
       field('type', $._type_specifier),
       repeat($.type_qualifier),
       commaSep1(field('declarator', $._type_declarator)),
+      repeat($.attribute_specifier),
       ';',
     ),
 
