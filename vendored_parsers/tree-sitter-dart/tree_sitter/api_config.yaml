@@ -1,0 +1,16 @@
+name: "TreeSitter"
+description: "C Bindings to the TreeSitter library"
+output: 'lib/src/generated_bindings.dart'
+headers:
+  entry-points:
+    - 'tree-sitter/lib/include/tree_sitter/api.h'
+  include-directives:
+    - 'tree-sitter/lib/include/tree_sitter/api.h'
+functions:
+  symbol-address:
+    include:
+      - 'ts_parser_delete'
+      - 'ts_tree_delete'
+      - 'ts_tree_cursor_delete'
+      - 'ts_query_delete'
+      - 'ts_query_cursor_delete'

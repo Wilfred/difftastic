@@ -1,0 +1,115 @@
+=====================
+Variable declaration
+=====================
+
+void record() {
+  var (i as int, String s) = record; 
+}
+
+---
+
+(program
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (local_variable_declaration
+            (pattern_variable_declaration
+              (inferred_type)
+              (record_pattern
+                (cast_pattern
+                  (constant_pattern
+                    (identifier))
+                  (type_identifier))
+                (variable_pattern
+                  (type_identifier)
+                  (identifier)))
+              (identifier))))))
+
+============================
+Switch statement relational
+============================
+void main(){
+  switch (obj) {
+    case >= first && <= last:
+      print('in range');
+    default:
+  }
+}
+---
+(program
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (switch_statement
+            (parenthesized_expression
+              (identifier))
+            (switch_block
+              (switch_statement_case
+                (case_builtin)
+                (relational_operator)
+                (identifier)
+                (logical_and_operator)
+                (relational_operator)
+                (identifier)
+                (expression_statement
+                  (identifier)
+                  (selector
+                    (argument_part
+                      (arguments
+                        (argument
+                          (string_literal)))))))
+              (switch_statement_default))))))
+
+============================
+For loop pattern
+============================
+void main() {
+  // ERROR
+  for (var MapEntry(key: key, value: count) in hist.entries) {
+    print('$key occurred $count times');
+  }
+}
+
+---
+
+(program
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (comment)
+          (for_statement
+            (for_loop_parts
+              (inferred_type)
+              (object_pattern
+                (type_identifier)
+                (identifier)
+                (constant_pattern
+                  (identifier))
+                (identifier)
+                (constant_pattern
+                  (identifier)))
+              (identifier)
+              (selector
+                (unconditional_assignable_selector
+                  (identifier))))
+            (block
+              (expression_statement
+                (identifier)
+                (selector
+                  (argument_part
+                    (arguments
+                      (argument
+                        (string_literal
+                          (template_substitution
+                            (identifier_dollar_escaped))
+                          (template_substitution
+                            (identifier_dollar_escaped)))))))))))))

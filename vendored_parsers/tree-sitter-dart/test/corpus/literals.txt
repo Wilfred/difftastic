@@ -2,123 +2,194 @@
 decimal integer literals
 ========================
 
-123;
-4;
-50;
+main() {
+  123;
+  4;
+  50;
+}
 
 ---
 
 (program
-  (expression_statement (decimal_integer_literal))
-  (expression_statement (decimal_integer_literal))
-  (expression_statement (decimal_integer_literal)))
+  (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (decimal_integer_literal))
+          (expression_statement
+            (decimal_integer_literal))
+          (expression_statement
+            (decimal_integer_literal)))))
 
 ====================
 hex integer literals
 ====================
 
-0xa_bcd_ef0;
-0Xa_bcd_ef0;
-0X8000;
+main() {
+  0xa_bcd_ef0;
+  0Xa_bcd_ef0;
+  0X8000;
+}
 
 ---
 
 (program
-  (expression_statement (hex_integer_literal))
-  (expression_statement (hex_integer_literal))
-  (expression_statement (hex_integer_literal)))
+  (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (hex_integer_literal))
+          (expression_statement
+            (hex_integer_literal))
+          (expression_statement
+            (hex_integer_literal)))))
 
 ===============================
 floating point literals
 ===============================
 
-4.23e9;
-4.23e-9;
-4.23e+9;
-40.3e6;
-40.3e-6;
-1.234;
-0.123456;
-.12345;
-1e4;
-0.2e-2;
-0.0e-4;
-.2e-2;
-5.4;
-5.4e-10;
+main() {
+  4.23e9;
+  4.23e-9;
+  4.23e+9;
+  40.3e6;
+  40.3e-6;
+  1.234;
+  0.123456;
+  .12345;
+  1e4;
+  0.2e-2;
+  0.0e-4;
+  .2e-2;
+  5.4;
+  5.4e-10;
+}
 
 ---
 
 (program
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal))
-  (expression_statement (decimal_floating_point_literal)))
+  (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal))
+          (expression_statement
+            (decimal_floating_point_literal)))))
 
 ================
 boolean literals
 ================
 
-true;
-false;
+final t = true;
+final f = false;
 
 ---
 
 (program
-  (expression_statement (true))
-  (expression_statement (false)))
+  (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (true)))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (false))))
 
 ===============
 string literals
 ===============
 
-"";
-"\"";
-"This is a string";
-"'";
-'\n';
+main() {
+  "";
+  "\"";
+  "This is a string";
+  "'";
+  '\n';
+}
 
 ---
 
 (program
-  (expression_statement (string_literal))
-  (expression_statement (string_literal (escape_sequence)))
-  (expression_statement (string_literal))
-  (expression_statement (string_literal))
-  (expression_statement (string_literal (escape_sequence))))
+  (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (string_literal))
+          (expression_statement
+            (string_literal
+              (escape_sequence)))
+          (expression_statement
+            (string_literal))
+          (expression_statement
+            (string_literal))
+          (expression_statement
+            (string_literal
+              (escape_sequence))))))
 
 =============
 null literals
 =============
 
-null;
+final s = null;
 
 ---
 
 (program
-  (expression_statement (null_literal)))
+ (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (null_literal))))
 
 =============
 multiline string literals with single quotes of same type inside
 =============
 
-''' 
+final s = ''' 
 # * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
 ''';
 
 ---
 
-(program (expression_statement (string_literal)))
+(program (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (string_literal))))
 
 =============
 adjacent string concatentation
@@ -143,43 +214,65 @@ final mixedStr = r'''(["'])((?:\\{2})*|(?:.*?[^\\](?:\\{2})*))\2|''' // with quo
 complex string interpolation
 =============
 
-'ERROR: $error${'\n$stackTrace' ?? ''}';
+final s = 'ERROR: $error${'\n$stackTrace' ?? ''}';
 
 ---
 
-(program 
-  (expression_statement (string_literal 
-    (template_substitution (identifier_dollar_escaped)) 
-    (template_substitution 
-      (if_null_expression 
-        (string_literal (escape_sequence) (template_substitution (identifier_dollar_escaped))) 
-        (string_literal))))))
-
+(program
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (string_literal
+            (template_substitution
+              (identifier_dollar_escaped))
+            (template_substitution
+              (if_null_expression
+                (string_literal
+                  (escape_sequence)
+                  (template_substitution
+                    (identifier_dollar_escaped)))
+                (string_literal)))))))
 
 =============
 raw strings single
 =============
 
-r'\';
-r'''\''';
+final s = r'\';
+final s1 = r'''\''';
 
 ---
+
 (program
-    (expression_statement (string_literal))
-    (expression_statement (string_literal))
-)
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (string_literal)))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (string_literal))))
 
 =============
 raw strings double
 =============
 
-r"\";
-r"""\""";
+
+final s = r"\";
+final s1 = r"""\""";
 
 ---
 
 (program
-    (expression_statement (string_literal))
-    (expression_statement (string_literal))
-)
-
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (string_literal)))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (string_literal))))

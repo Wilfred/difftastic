@@ -1,173 +1,11 @@
-================================
-big test 
-================================
-abstract class IOSApp extends ApplicationPackage {
-  IOSApp({required String projectBundleId}) : super(id: projectBundleId);
+===================================================
+Weird file
+===================================================
 
-  @override
-  String get displayName => id;
+d
 
-  String get simulatorBundlePath;
-
-  String get deviceBundlePath;
-
-  /// Directory used by ios-deploy to store incremental installation metadata for
-  /// faster second installs.
-  Directory? get appDeltaDirectory;
-}
-
-class BuildableIOSApp extends IOSApp {
-  BuildableIOSApp(this.project, String projectBundleId, String? hostAppBundleName)
-    : _hostAppBundleName = hostAppBundleName,
-      super(projectBundleId: projectBundleId);
-
-  static Future<BuildableIOSApp?> fromProject(IosProject project, BuildInfo? buildInfo) async {
-    final String? hostAppBundleName = await project.hostAppBundleName(buildInfo);
-    final String? projectBundleId = await project.productBundleIdentifier(buildInfo);
-    if (projectBundleId != null) {
-      return BuildableIOSApp(project, projectBundleId, hostAppBundleName);
-    }
-    return null;
-  }
-
-  final IosProject project;
-
-  final String? _hostAppBundleName;
-
-  @override
-  String? get name => _hostAppBundleName;
-
-  @override
-  String get simulatorBundlePath => _buildAppPath('iphonesimulator');
-
-  @override
-  String get deviceBundlePath => _buildAppPath('iphoneos');
-
-  @override
-  Directory get appDeltaDirectory => globals.fs.directory(globals.fs.path.join(getIosBuildDirectory(), 'app-delta'));
-
-  // Xcode uses this path for the final archive bundle location,
-  // not a top-level output directory.
-  // Specifying `build/ios/archive/Runner` will result in `build/ios/archive/Runner.xcarchive`.
-  String get archiveBundlePath => globals.fs.path.join(getIosBuildDirectory(), 'archive',
-      _hostAppBundleName == null ? 'Runner' : globals.fs.path.withoutExtension(_hostAppBundleName!));
-
-  // The output xcarchive bundle path `build/ios/archive/Runner.xcarchive`.
-  String get archiveBundleOutputPath =>
-      globals.fs.path.setExtension(archiveBundlePath, '.xcarchive');
-
-  String get ipaOutputPath =>
-      globals.fs.path.join(getIosBuildDirectory(), 'ipa');
-
-  String _buildAppPath(String type) {
-    return globals.fs.path.join(getIosBuildDirectory(), type, _hostAppBundleName);
-  }
-}
-
----
-
-(program (class_definition (identifier) (superclass (type_identifier)) 
-(class_body (declaration (constructor_signature (identifier) 
-(formal_parameter_list (optional_formal_parameters 
-(formal_parameter (type_identifier) (identifier))))) (initializers
- (initializer_list_entry (arguments (named_argument (label (identifier)) 
-(identifier)))))) (marker_annotation (identifier)) 
-(method_signature (getter_signature 
-(type_identifier) (identifier))) (function_body (identifier)) (declaration 
-(getter_signature (type_identifier) (identifier))) (declaration
- (getter_signature (type_identifier) (identifier))) (documentation_comment) 
- (documentation_comment) (declaration (getter_signature (type_identifier) (identifier)))))
-  (class_definition (identifier) (superclass (type_identifier)) 
-  (class_body (declaration (constructor_signature (identifier) 
-  (formal_parameter_list (formal_parameter (constructor_param (this) (identifier))) 
-  (formal_parameter (type_identifier) (identifier)) 
-  (formal_parameter (type_identifier) (identifier)))) 
-  (initializers (initializer_list_entry (field_initializer (identifier) (identifier))) 
-  (initializer_list_entry (arguments (named_argument (label (identifier)) (identifier)))))) 
-  (method_signature (function_signature (type_identifier) (type_arguments
-   (type_identifier)) (identifier) (formal_parameter_list 
-(formal_parameter (type_identifier) (identifier)) 
-
-
-
-  (formal_parameter (type_identifier) (identifier))))) 
-      (function_body 
-          (block 
-              (local_variable_declaration 
-                  (initialized_variable_definition (final_builtin) (type_identifier) 
-                      (identifier) 
-                      (unary_expression (await_expression (identifier) 
-                      (selector (unconditional_assignable_selector
-                       (identifier))) (selector (argument_part (arguments (argument (identifier))))))))) 
-              (local_variable_declaration (initialized_variable_definition (final_builtin) 
-                  (type_identifier) (identifier) (unary_expression (await_expression (identifier) 
-                  (selector (unconditional_assignable_selector (identifier))) 
-                  (selector (argument_part (arguments (argument (identifier))))))))) 
-                  (if_statement (parenthesized_expression (equality_expression (identifier) 
-                  (equality_operator) (null_literal))) (block (return_statement (identifier) 
-                  (selector (argument_part (arguments (argument (identifier)) (argument (identifier)) 
-                  (argument (identifier))))))))
-                   (return_statement (null_literal)))) 
-                   (declaration (final_builtin) (type_identifier) 
-                   (initialized_identifier_list (initialized_identifier (identifier)))) 
-                   (declaration (final_builtin) (type_identifier) 
-                   (initialized_identifier_list (initialized_identifier (identifier))))
-                    (marker_annotation (identifier)) 
-                    (method_signature (getter_signature (type_identifier)  
- (identifier))) (function_body (identifier)) (marker_annotation (identifier)) (method_signature 
-(getter_signature (type_identifier) (identifier))) (function_body (identifier) 
-(selector (argument_part (arguments (argument (string_literal)))))) 
-(marker_annotation (identifier)) 
-(method_signature (getter_signature (type_identifier) (identifier))) 
-  (function_body (identifier) 
-  (selector (argument_part (arguments (argument (string_literal)))))) 
-  (marker_annotation (identifier)) 
-(method_signature (getter_signature (type_identifier) (identifier))) 
-  (function_body (identifier) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (argument_part (arguments (argument (identifier) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (argument_part (arguments (argument (identifier) 
-    (selector (argument_part (arguments)))) (argument (string_literal)))))))))) 
-    (comment) (comment) (comment) 
-    (method_signature (getter_signature (type_identifier) (identifier))) 
-    (function_body (identifier) (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (argument_part (arguments (argument (identifier) 
-(selector (argument_part (arguments)))) (argument (string_literal)) 
-(argument 
-    (conditional_expression (equality_expression (identifier) 
-    (equality_operator) (null_literal)) (string_literal) (identifier) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (argument_part (arguments (argument (identifier) 
-    (selector))))))))))) 
-    (comment) 
-(method_signature (getter_signature (type_identifier) (identifier))) 
-(function_body (identifier) (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (argument_part (arguments (argument (identifier)) (argument (string_literal)))))) 
-(method_signature (getter_signature (type_identifier) (identifier))) 
-    (function_body (identifier) (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (unconditional_assignable_selector (identifier))) 
-    (selector (argument_part (arguments (argument (identifier) 
-    (selector (argument_part (arguments)))) (argument (string_literal)))))) 
-(method_signature 
-    (function_signature (type_identifier) (identifier) 
-    (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
-(function_body (block (return_statement (identifier) 
-(selector (unconditional_assignable_selector (identifier))) 
-(selector (unconditional_assignable_selector (identifier))) 
-(selector (unconditional_assignable_selector (identifier))) 
-(selector (argument_part (arguments (argument (identifier) 
-(selector (argument_part (arguments)))) (argument (identifier)) (argument (identifier))))))))))) 
+---------------
+(ERROR (ERROR (identifier)))
 
 =====================================
 more tests
@@ -197,45 +35,46 @@ typedef RpcPeerConnectionFunction = Future<vms.VmService> Function(
 =======================================
 more tests2
 =======================================
-  static bool? _boolAttribute(
-      String resourceId,
-      String name,
-      Map<String, Object?> attributes,
-      String attributeName,
-      ) {
-    final Object? value = attributes[attributeName];
-    if (value == null) {
-      return null;
-    }
-    if (value != 'true' && value != 'false') {
-      throw L10nException(
-        'The "$attributeName" value of the "$name" placeholder in message $resourceId '
-            'must be a boolean value.',
-      );
-    }
-    return value == 'true';
+
+bool? _boolAttribute(
+    String resourceId,
+    String name,
+    Map<String, Object?> attributes,
+    String attributeName,
+    ) {
+  final Object? value = attributes[attributeName];
+  if (value == null) {
+    return null;
   }
+  if (value != 'true' && value != 'false') {
+    throw L10nException(
+      'The "$attributeName" value of the "$name" placeholder in message $resourceId '
+          'must be a boolean value.',
+    );
+  }
+  return value == 'true';
+}
 
 ---
 
-(program (function_signature (type_identifier) (ERROR 
-(identifier)) (identifier) 
+(program (function_signature (type_identifier) (nullable_type) (identifier) 
   (formal_parameter_list 
     (formal_parameter 
       (type_identifier) (identifier)) (formal_parameter (type_identifier) (identifier)) 
     (formal_parameter 
-      (type_identifier) (type_arguments (type_identifier) (type_identifier))
+      (type_identifier) (type_arguments (type_identifier) (type_identifier) (nullable_type))
       (identifier)) 
     (formal_parameter (type_identifier) (identifier)))
     ) 
       (function_body (block (local_variable_declaration 
-      (initialized_variable_definition (final_builtin) (type_identifier) (identifier)
-        (identifier) (selector (unconditional_assignable_selector (identifier))))) 
-        (if_statement (parenthesized_expression (equality_expression (identifier) (equality_operator) 
-        (null_literal))) (block (return_statement (null_literal)))) 
-        (if_statement (parenthesized_expression (logical_and_expression 
+      (initialized_variable_definition (final_builtin) (type_identifier) (nullable_type) (identifier)
+        (identifier) (selector (unconditional_assignable_selector (index_selector (identifier)))))) 
+        (if_statement (equality_expression (identifier) (equality_operator) 
+        (null_literal)) (block (return_statement (null_literal)))) 
+        (if_statement (logical_and_expression 
         (equality_expression (identifier) (equality_operator) (string_literal))
-        (equality_expression (identifier) (equality_operator) (string_literal)))) 
+        (logical_and_operator)
+        (equality_expression (identifier) (equality_operator) (string_literal))) 
         (block (expression_statement (throw_expression (identifier) 
         (selector (argument_part (arguments (argument (string_literal 
         (template_substitution (identifier_dollar_escaped)) 
@@ -273,7 +112,7 @@ abstract class IntelliJValidator extends DoctorValidator {
 
 (program 
   (documentation_comment) 
-  (class_definition (identifier) (superclass (type_identifier)) 
+  (class_definition (abstract) (identifier) (superclass (type_identifier)) 
     (class_body (declaration (constructor_signature (identifier) 
       (formal_parameter_list 
         (formal_parameter (super_formal_parameter (super) (identifier))) 
@@ -288,7 +127,7 @@ abstract class IntelliJValidator extends DoctorValidator {
          (declaration (final_builtin) (type_identifier) 
          (initialized_identifier_list (initialized_identifier (identifier)))) 
          (declaration (getter_signature (type_identifier) (identifier))) 
-         (declaration (getter_signature (type_identifier) (identifier))) 
+         (declaration (getter_signature (type_identifier) (nullable_type) (identifier))) 
          (declaration (const_builtin) (type_identifier) (type_arguments (type_identifier) 
          (type_identifier)) (static_final_declaration_list (static_final_declaration (identifier) 
          (set_or_map_literal (type_arguments (type_identifier) (type_identifier)) 
@@ -339,17 +178,17 @@ class _RecompileRequest extends _CompilationRequest {
             (formal_parameter (constructor_param (this) (identifier))))))) 
         (declaration (type_identifier) 
           (initialized_identifier_list (initialized_identifier (identifier)))) 
-        (declaration (type_identifier) (type_arguments (type_identifier)) 
+        (declaration (type_identifier) (type_arguments (type_identifier)) (nullable_type)
         (initialized_identifier_list (initialized_identifier (identifier)))) 
         (declaration (type_identifier) (initialized_identifier_list
          (initialized_identifier (identifier)))) (declaration (type_identifier) 
          (initialized_identifier_list (initialized_identifier (identifier)))) 
          (declaration (type_identifier) (initialized_identifier_list 
          (initialized_identifier (identifier)))) 
-         (declaration (final_builtin) (type_identifier)
+         (declaration (final_builtin) (type_identifier) (nullable_type)
           (initialized_identifier_list (initialized_identifier (identifier)))) 
           (marker_annotation (identifier)) (method_signature 
-          (function_signature (type_identifier) (type_arguments (type_identifier)) 
+          (function_signature (type_identifier) (type_arguments (type_identifier) (nullable_type)) 
           (identifier) (formal_parameter_list (formal_parameter (type_identifier) 
           (identifier))))) (function_body (identifier) (selector 
           (unconditional_assignable_selector (identifier))) 
@@ -360,19 +199,19 @@ class _RecompileRequest extends _CompilationRequest {
 more tests 4
 ===============================
 
-  bool debugAssertIsValid() {
-    assert(
-      textColor != null
-        && style != null
-        && margin != null
-        && _position != null
-        && _position.isFinite
-        && _opacity != null
-        && _opacity >= 0.0
-        && _opacity <= 1.0,
-    );
-    return true;
-  }
+bool debugAssertIsValid() {
+  assert(
+    textColor != null
+      && style != null
+      && margin != null
+      && _position != null
+      && _position.isFinite
+      && _opacity != null
+      && _opacity >= 0.0
+      && _opacity <= 1.0,
+  );
+  return true;
+}
 
 ---
  
@@ -380,17 +219,24 @@ more tests 4
 (function_signature (type_identifier) (identifier) (formal_parameter_list)) 
 (function_body (block (assert_statement 
 (assertion 
-  (logical_and_expression 
+  (assertion_arguments (logical_and_expression 
     (equality_expression (identifier) (equality_operator) (null_literal)) 
+    (logical_and_operator)
     (logical_and_expression 
       (equality_expression (identifier) (equality_operator) (null_literal)) 
+      (logical_and_operator)
       (logical_and_expression (equality_expression (identifier) (equality_operator) (null_literal)) 
+        (logical_and_operator)
         (logical_and_expression (equality_expression (identifier) (equality_operator) (null_literal)) 
+          (logical_and_operator)
           (logical_and_expression (identifier) (selector (unconditional_assignable_selector (identifier))) 
+            (logical_and_operator)
             (logical_and_expression (equality_expression (identifier) (equality_operator) (null_literal)) 
+                (logical_and_operator)
                 (logical_and_expression 
                     (relational_expression (identifier) (relational_operator) 
                       (decimal_floating_point_literal)) 
+                     (logical_and_operator)
                     (relational_expression (identifier) (relational_operator) (decimal_floating_point_literal)
                     )
                   )
@@ -399,7 +245,7 @@ more tests 4
                 )
               )
             )
-          )
+          ))
         )
       ) (return_statement (true)))))
 
@@ -408,42 +254,56 @@ more tests 4
 more tests 5
 ===================================
 
-
-  var TextTheme textTheme = TextTheme(error: '');
+main(){
+  var textTheme = TextTheme(error: '');
+}
 
 ---
 
 
-(program (inferred_type) (type_identifier) 
-  (initialized_identifier_list (initialized_identifier (identifier) (identifier) 
-    (selector (argument_part (arguments (named_argument (label (identifier)) (string_literal))))))))
-
+(program  (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (local_variable_declaration
+            (initialized_variable_definition
+              (inferred_type)
+              (identifier)
+              (identifier)
+              (selector
+                (argument_part
+                  (arguments
+                    (named_argument
+                      (label
+                        (identifier))
+                      (string_literal))))))))))
 
 ===================================
 more tests 6
 ===================================
 
-  void _layout(ConstraintType constraints) {
-    @pragma('vm:notify-debugger-on-exception')
-    void layoutCallback() {
-      Widget built;
-      try {
-        built = (widget as ConstrainedLayoutBuilder<ConstraintType>).builder(this, constraints);
-        debugWidgetBuilderValue(widget, built);
-      } catch (e, stack) {
-        built = ErrorWidget.builder(
-          _debugReportException(
-            informationCollector: () => <DiagnosticsNode>[
-              if (kDebugMode)
-                DiagnosticsDebugCreator(DebugCreator(this)),
-            ],
-          ),
-        );
-      }
+void _layout(ConstraintType constraints) {
+  @pragma('vm:notify-debugger-on-exception')
+  void layoutCallback() {
+    Widget built;
+    try {
+      built = (widget as ConstrainedLayoutBuilder<ConstraintType>).builder(this, constraints);
+      debugWidgetBuilderValue(widget, built);
+    } catch (e, stack) {
+      built = ErrorWidget.builder(
+        _debugReportException(
+          informationCollector: () => <DiagnosticsNode>[
+            if (kDebugMode)
+              DiagnosticsDebugCreator(DebugCreator(this)),
+          ],
+        ),
+      );
     }
-
-    owner!.buildScope(this, layoutCallback);
   }
+
+  owner!.buildScope(this, layoutCallback);
+}
 
 ---
 
@@ -461,14 +321,15 @@ more tests 6
           (block 
             (expression_statement 
               (assignment_expression (assignable_expression (identifier)) 
-              (type_cast_expression (identifier) 
-              (type_cast (as_operator) (type_identifier) (type_arguments (type_identifier)))) 
+              (parenthesized_expression 
+                (type_cast_expression (identifier) 
+                  (type_cast (as_operator) (type_identifier) (type_arguments (type_identifier))))) 
               (selector (unconditional_assignable_selector (identifier))) 
               (selector (argument_part (arguments (argument (this)) (argument (identifier))))))) 
             (expression_statement 
               (identifier) (selector 
               (argument_part (arguments (argument (identifier)) (argument (identifier))))))) 
-        (catch_clause (identifier) (identifier)) 
+        (catch_clause (catch_parameters (identifier) (identifier))) 
           (block 
               (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier) 
                   (selector (unconditional_assignable_selector (identifier))) 
@@ -476,7 +337,7 @@ more tests 6
                 (selector (argument_part (arguments (named_argument (label (identifier)) 
               (function_expression (formal_parameter_list) (function_expression_body 
                 (list_literal (type_arguments (type_identifier)) 
-                    (if_element (parenthesized_expression (identifier)) (identifier) 
+                    (if_element (identifier) (identifier) 
                         (selector (argument_part (arguments (argument (identifier) 
                         (selector (argument_part (arguments (argument (this))))))))))))))))))))))))))))) 
               
@@ -490,12 +351,12 @@ more tests 6
 more tests 7
 ===================================
 
-  void _layout(ConstraintType constraints) {
-    @pragma('vm:notify-debugger-on-exception')
-    void layoutCallback() {
-      Widget built;
-    }
+void _layout(ConstraintType constraints) {
+  @pragma('vm:notify-debugger-on-exception')
+  void layoutCallback() {
+    Widget built;
   }
+}
 
 ---
 
@@ -513,13 +374,13 @@ more tests 7
 more tests 8
 ===================================
 
-  void _layout(ConstraintType constraints) {
-    @pragma('vm:notify-debugger-on-exception')
-    void layoutCallback() {
-      Widget built;
-    }
-    owner!.buildScope(this, layoutCallback);
+void _layout(ConstraintType constraints) {
+  @pragma('vm:notify-debugger-on-exception')
+  void layoutCallback() {
+    Widget built;
   }
+  owner!.buildScope(this, layoutCallback);
+}
 
 ---
 
@@ -540,57 +401,84 @@ more tests 8
 cascade selector
 ====================================
 
-
-        layer
-        ?..link = link
-        ..showWhenUnlinked = showWhenUnlinked
-        ..linkedOffset = effectiveLinkedOffset
-        ..unlinkedOffset = offset;
-
+main() {
+  layer
+  ?..link = link
+  ..showWhenUnlinked = showWhenUnlinked
+  ..linkedOffset = effectiveLinkedOffset
+  ..unlinkedOffset = offset;
+}
 
 ---
-(program 
-  (expression_statement 
-    (identifier) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier))
-  )
-)
+ (program
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))))))
 
 ====================================
 cascade selector 2
 ====================================
 
-
-        layer
-        ..link = link
-        ..showWhenUnlinked = showWhenUnlinked
-        ..linkedOffset = effectiveLinkedOffset
-        ..unlinkedOffset = offset;
+main() {
+  layer
+  ..link = link
+  ..showWhenUnlinked = showWhenUnlinked
+  ..linkedOffset = effectiveLinkedOffset
+  ..unlinkedOffset = offset;
+}
 
 
 ---
-(program 
-  (expression_statement 
-    (identifier) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier))
-  )
-)
 
+(program
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))))))
 
 ====================================
 comment selector 1
 ====================================
 
-    //    O
-    //   / \       O=root
-    //  L   L      L=node with label
-    //     / \     C=node with checked
     //    C   C*   *=node removed next pass
     //
     await tester.pumpWidget(Directionality(
@@ -600,26 +488,28 @@ comment selector 1
 
 ---
 
-(program 
-
-  (comment) 
-  (comment) 
-  (comment) 
-  (comment) 
-  (comment) 
-  (comment) 
-  
-  (expression_statement 
-      (unary_expression 
-        (await_expression (identifier) 
-            (selector (unconditional_assignable_selector (identifier))) 
-            (selector (argument_part (arguments (argument (identifier) 
-            (selector (argument_part 
-              (arguments 
-                (named_argument (label (identifier)) (identifier) 
-                  (selector (unconditional_assignable_selector (identifier)))) 
-                (named_argument (label (identifier)) (identifier) (selector (argument_part (arguments))))
-              )))))))))))
+(program
+      (comment)
+      (comment)
+      (function_signature
+        (type_identifier)
+        (ERROR
+          (identifier))
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter
+            (identifier)
+            (formal_parameter_list
+              (ERROR
+                (formal_parameter
+                  (identifier)))
+              (formal_parameter
+                (type_identifier)
+                (type_identifier)
+                (ERROR
+                  (identifier))
+                (identifier)
+                (formal_parameter_list)))))))
 
 ====================================
 comment overselected 2
@@ -642,9 +532,9 @@ class Placeholder {
 (program (comment) (comment) (class_definition (identifier) 
     (class_body (declaration (constructor_signature (identifier) (formal_parameter_list 
     (formal_parameter (constructor_param (this) (identifier))) (formal_parameter (constructor_param (this) (identifier))) 
-    (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier)) (identifier)))) (initializers 
-    (initializer_list_entry (assertion (equality_expression (identifier) (equality_operator) (null_literal)))) 
-    (initializer_list_entry (assertion (equality_expression (identifier) (equality_operator) (null_literal)))) 
+    (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier) (nullable_type) ) (identifier)))) (initializers 
+    (initializer_list_entry (assertion (assertion_arguments (equality_expression (identifier) (equality_operator) (null_literal))))) 
+    (initializer_list_entry (assertion (assertion_arguments (equality_expression (identifier) (equality_operator) (null_literal))))) 
     (initializer_list_entry (field_initializer (identifier) (identifier) (selector (argument_part (arguments (argument (identifier)) 
     (argument (identifier)) (argument (identifier)) (argument (string_literal))))))) 
     (initializer_list_entry (field_initializer (identifier) 
@@ -679,7 +569,7 @@ class TestRoot extends StatefulWidget {
       (class_definition (identifier) (superclass (type_identifier)) 
         (class_body 
           (declaration 
-              (constant_constructor_signature (const_builtin) (qualified (identifier)) 
+              (constant_constructor_signature (const_builtin) (identifier) 
               (formal_parameter_list (optional_formal_parameters 
           (formal_parameter (super_formal_parameter (super) (identifier))))))) 
           (declaration (final_builtin) (type_identifier) 
@@ -702,3 +592,138 @@ class TestRoot extends StatefulWidget {
     (program (class_definition (identifier) (superclass (type_identifier)) 
         (class_body (declaration (final_builtin) (type_identifier) 
         (initialized_identifier_list (initialized_identifier (identifier)))))))
+
+
+===================
+Error
+===================
+Offset getOffsetForCaret() {
+    switch (caretMetrics) {
+      case _EmptyLineCaretMetrics(:final double lineVerticalOffset):
+        final double paintOffsetAlignment = _computePaintOffsetFraction(textAlign, textDirection!);
+        // The full width is not (width - caretPrototype.width)
+        final double dx = paintOffsetAlignment == 0 ? 0 : paintOffsetAlignment * width;
+        return Offset(dx, lineVerticalOffset);
+      case _LineCaretMetrics(writingDirection: TextDirection.ltr, :final Offset offset):
+        rawOffset = offset;
+      case _LineCaretMetrics(writingDirection: TextDirection.rtl, :final Offset offset):
+        rawOffset = Offset(offset.dx - caretPrototype.width, offset.dy);
+    }
+}
+
+---
+
+(program
+      (function_signature
+        (type_identifier)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (switch_statement
+            (parenthesized_expression
+              (identifier))
+            (switch_block
+              (switch_statement_case
+              (case_builtin)
+                (object_pattern
+                  (type_identifier)
+                  (variable_pattern
+                    (final_builtin)
+                    (type_identifier)
+                    (identifier)))
+                (local_variable_declaration
+                  (initialized_variable_definition
+                    (final_builtin)
+                    (type_identifier)
+                    (identifier)
+                    (identifier)
+                    (selector
+                      (argument_part
+                        (arguments
+                          (argument
+                            (identifier))
+                          (argument
+                            (identifier)
+                            (selector)))))))
+                (comment)
+                (local_variable_declaration
+                  (initialized_variable_definition
+                    (final_builtin)
+                    (type_identifier)
+                    (identifier)
+                    (conditional_expression
+                      (equality_expression
+                        (identifier)
+                        (equality_operator)
+                        (decimal_integer_literal))
+                      (decimal_integer_literal)
+                      (multiplicative_expression
+                        (identifier)
+                        (multiplicative_operator)
+                        (identifier)))))
+                        (return_statement
+                  (identifier)
+                  (selector
+                    (argument_part
+                      (arguments
+                        (argument
+                          (identifier))
+                        (argument
+                          (identifier)))))))
+              (switch_statement_case
+              (case_builtin)
+                (object_pattern
+                  (type_identifier)
+                  (identifier)
+                  (constant_pattern
+                    (qualified
+                      (type_identifier)
+                      (identifier)))
+                  (variable_pattern
+                    (final_builtin)
+                    (type_identifier)
+                    (identifier)))
+                (expression_statement
+                  (assignment_expression
+                    (assignable_expression
+                      (identifier))
+                    (identifier))))
+              (switch_statement_case
+              (case_builtin)
+                (object_pattern
+                  (type_identifier)
+                  (identifier)
+                  (constant_pattern
+                    (qualified
+                      (type_identifier)
+                      (identifier)))
+                  (variable_pattern
+                    (final_builtin)
+                    (type_identifier)
+                    (identifier)))
+                (expression_statement
+                  (assignment_expression
+                    (assignable_expression
+                      (identifier))
+                    (identifier)
+                    (selector
+                      (argument_part
+                        (arguments
+                          (argument
+                            (additive_expression
+                              (identifier)
+                              (selector
+                                (unconditional_assignable_selector
+                                  (identifier)))
+                              (additive_operator)
+                              (identifier)
+                              (selector
+                                (unconditional_assignable_selector
+                                  (identifier)))))
+                          (argument
+                            (identifier)
+                            (selector
+                              (unconditional_assignable_selector
+                                (identifier)))))))))))))))
+                

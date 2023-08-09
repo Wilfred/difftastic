@@ -1,16 +1,3 @@
-========================================
-dart if statements
-========================================
-
-if (z) return n;
-
----
-
-(program
-(if_statement
-      (parenthesized_expression (identifier))
-      (return_statement (identifier))))
-
 =========================================
 dart string literals
 =========================================
@@ -149,7 +136,7 @@ class A {
                       (inferred_type)
                         name: (identifier)
                         value: (set_or_map_literal (if_element
-                        condition: (parenthesized_expression (identifier))
+                         (identifier)
                         consequence: (identifier)
                         ))
           )
@@ -308,8 +295,9 @@ abstract class MyDataClass implements _$MyDataClass {
 ---
 
 (program 
-  (marker_annotation (identifier)) 
-  (class_definition (identifier) (interfaces (type_identifier)) 
+  (class_definition 
+    (marker_annotation (identifier)) 
+    (abstract) (identifier) (interfaces (type_identifier)) 
     (class_body 
       (declaration (redirecting_factory_constructor_signature (const_builtin) (identifier) (identifier) (formal_parameter_list 
         (optional_formal_parameters (formal_parameter 

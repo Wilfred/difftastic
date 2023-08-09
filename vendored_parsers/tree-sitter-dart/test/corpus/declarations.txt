@@ -97,7 +97,7 @@ abstract class ColoredPoint extends Point {
 (program
   (class_definition  (identifier) (class_body))
   (class_definition  (identifier) (class_body))
-  (class_definition (identifier) (superclass (type_identifier)) (class_body)))
+  (class_definition (abstract) (identifier) (superclass (type_identifier)) (class_body)))
 
 ==================================
 class declaration with implements
@@ -487,8 +487,9 @@ void callback(Future<void> Function(String?) handler) {
             (function_type
                 (type_identifier)
                             (type_arguments (void_type))
-                            (parameter_type_list (normal_parameter_type (type_identifier)))) (identifier))))
+                            (parameter_type_list (normal_parameter_type (type_identifier) (nullable_type)))) (identifier))))
       (function_body (block)))
+
 
 ==================================
 Type with Library Prefix
@@ -498,61 +499,59 @@ const my.MyType newMyType = my.MyType();
 
 ---
 
- (program
-    (const_builtin)
-    (type_identifier) (type_identifier)
-            (static_final_declaration_list
-                (static_final_declaration
-                        (identifier)
-                        (identifier) (selector
-                                        (unconditional_assignable_selector (identifier))
-                                     )
-                        (selector (argument_part (arguments)))
-                )
-            )
- )
-
-==================================
-Type with Library Prefix Plus
-==================================
-
-const my.MyType newMyType;
-const my.MyType newMytype;
-
----
-
 (program
-    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
-    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
-)
+      (const_builtin)
+      (type_identifier)
+      (type_identifier)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (identifier)
+          (selector
+            (unconditional_assignable_selector
+              (identifier)))
+          (selector
+            (argument_part
+              (arguments))))))
 
 ==================================
 Type with Library Prefix Plus Final
 ==================================
 
 final my.MyType newMyType = my.MyType();
-final my.MyType newMytype;
 
-if (blah) {
-    const my.myType newMyType = ggg;
-    const mytype = 2;
+main() {
+  final my.myType newMyType = ggg;
 }
 
 ---
 
 (program
-     (final_builtin) (type_identifier) (type_identifier)
-     (static_final_declaration_list (static_final_declaration (identifier) (identifier) (selector
-        (unconditional_assignable_selector (identifier))) (selector (argument_part (arguments)))))
-    (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier)))
-    (if_statement (parenthesized_expression (identifier))
+      (final_builtin)
+      (type_identifier)
+      (type_identifier)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (identifier)
+          (selector
+            (unconditional_assignable_selector
+              (identifier)))
+          (selector
+            (argument_part
+              (arguments)))))
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
         (block
-            (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier) (identifier)))
-            (local_variable_declaration (initialized_variable_definition (const_builtin) (identifier) (decimal_integer_literal)))
-        )
-    )
-)
-
+          (local_variable_declaration
+            (initialized_variable_definition
+              (final_builtin)
+              (type_identifier)
+              (type_identifier)
+              (identifier)
+              (identifier))))))
 
 ==================================
 Null function argument
@@ -566,8 +565,8 @@ void _invoke(void callback()?, Zone? zone) {
 (program 
   (function_signature (void_type) (identifier) 
     (formal_parameter_list 
-      (formal_parameter (void_type) (identifier) (formal_parameter_list)) 
-      (formal_parameter (type_identifier) (identifier)))) 
+      (formal_parameter (void_type) (identifier) (formal_parameter_list) (nullable_type)) 
+      (formal_parameter (type_identifier) (nullable_type) (identifier)))) 
     (function_body (block)))
 
 
@@ -620,8 +619,9 @@ class MyClass {
                 (function_body (block)))))
 
 ======================================
-Get and set identifiers
+Get and set identifiers (ERROR)
 ======================================
+
 class Tree {
   Set toSet() {
     Set set = Set();
@@ -633,6 +633,30 @@ class Tree {
 
 ---
 
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature
+        (function_signature
+          (type_identifier)
+          (identifier)
+          (formal_parameter_list)))
+      (function_body
+        (block
+          (ERROR
+            (function_signature
+              (type_identifier)
+              (identifier)
+              (ERROR
+                (identifier))
+              (formal_parameter_list))
+            (identifier)
+            (identifier)
+            (identifier)
+            (identifier))
+          (return_statement
+            (identifier)))))))
 
 ==================================
 void types

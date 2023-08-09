@@ -1,0 +1,316 @@
+===============
+Record Literals
+===============
+
+final y = (1, 2, await x);
+final z = (a: 1, b: 4);
+final a = (1,);
+final b = (a: 1);
+final c = (a: 1, b: 2,);
+final d = (a, b, x: 4, c, d);
+final e = (1, 2,);
+
+---
+
+(program
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (unary_expression
+                (await_expression
+                  (identifier)))))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal))
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal)))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (decimal_integer_literal))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (label
+              (identifier))
+            (decimal_integer_literal))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal))
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal)))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (identifier))
+            (record_field
+              (identifier))
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal))
+            (record_field
+              (identifier))
+            (record_field
+              (identifier)))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal))))))
+
+======================================================
+Records in function and class bounds, and local types
+======================================================
+class C2<T extends (num, {Object o})> {
+  T t;
+  C2(this.t);
+}
+T bar<T extends (num, {Object o})>(T t) => t;
+
+void main() {
+  (num, String) a1 = (1.2, "s");
+}
+
+---
+
+(program
+      (class_definition
+        (identifier)
+        (type_parameters
+          (type_parameter
+            (type_identifier)
+            (type_bound
+              (record_type
+                (record_type_field
+                  (type_identifier))
+                (record_type_named_field
+                  (typed_identifier
+                    (type_identifier)
+                    (identifier)))))))
+        (class_body
+          (declaration
+            (type_identifier)
+            (initialized_identifier_list
+              (initialized_identifier
+                (identifier))))
+          (declaration
+            (constructor_signature
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (constructor_param
+                    (this)
+                    (identifier))))))))
+      (function_signature
+        (type_identifier)
+        (identifier)
+        (type_parameters
+          (type_parameter
+            (type_identifier)
+            (type_bound
+              (record_type
+                (record_type_field
+                  (type_identifier))
+                (record_type_named_field
+                  (typed_identifier
+                    (type_identifier)
+                    (identifier)))))))
+        (formal_parameter_list
+          (formal_parameter
+            (type_identifier)
+            (identifier))))
+      (function_body
+        (identifier))
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (local_variable_declaration
+            (initialized_variable_definition
+              (record_type
+                (record_type_field
+                  (type_identifier))
+                (record_type_field
+                  (type_identifier)))
+              (identifier)
+              (record_literal
+                (record_field
+                  (decimal_floating_point_literal))
+                (record_field
+                  (string_literal))))))))
+
+===============
+Record Typedefs
+===============
+
+typedef R1 = (int $6, {String s});
+
+typedef R2 = (int, {String $101});
+
+typedef (int $1, {int i}) R3();
+
+typedef (int, {int $2}) R4();
+
+typedef void R5((String s, {String $2}) r);
+
+(int, {int $2})? foo1() => null;
+
+(int $3, {int x})? foo2() => null;
+
+void bar1((int i, {bool $2}) r) {}
+
+void bar2((int $4, {bool b}) r) {}
+
+---
+
+(program
+      (type_alias
+        (type_identifier)
+        (record_type
+          (record_type_field
+            (type_identifier)
+            (identifier))
+          (record_type_named_field
+            (typed_identifier
+              (type_identifier)
+              (identifier)))))
+      (type_alias
+        (type_identifier)
+       (record_type
+          (record_type_field
+            (type_identifier))
+          (record_type_named_field
+            (typed_identifier
+              (type_identifier)
+              (identifier)))))
+      (type_alias
+        (record_type
+          (record_type_field
+            (type_identifier)
+            (identifier))
+          (record_type_named_field
+            (typed_identifier
+              (type_identifier)
+              (identifier))))
+        (type_identifier)
+        (formal_parameter_list))
+      (type_alias
+        (record_type
+          (record_type_field
+            (type_identifier))
+          (record_type_named_field
+            (typed_identifier
+              (type_identifier)
+              (identifier))))
+        (type_identifier)
+        (formal_parameter_list))
+      (type_alias
+        (void_type)
+        (type_identifier)
+        (formal_parameter_list
+          (formal_parameter
+            (record_type
+              (record_type_field
+                (type_identifier)
+                (identifier))
+              (record_type_named_field
+                (typed_identifier
+                  (type_identifier)
+                  (identifier))))
+            (identifier))))
+      (function_signature
+        (record_type
+          (record_type_field
+            (type_identifier))
+          (record_type_named_field
+            (typed_identifier
+              (type_identifier)
+              (identifier))))
+        (nullable_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (null_literal))
+      (function_signature
+        (record_type
+          (record_type_field
+            (type_identifier)
+            (identifier))
+          (record_type_named_field
+            (typed_identifier
+              (type_identifier)
+              (identifier))))
+        (nullable_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (null_literal))
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter
+            (record_type
+              (record_type_field
+                (type_identifier)
+                (identifier))
+              (record_type_named_field
+                (typed_identifier
+                  (type_identifier)
+                  (identifier))))
+            (identifier))))
+      (function_body
+        (block))
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter
+            (record_type
+              (record_type_field
+                (type_identifier)
+                (identifier))
+              (record_type_named_field
+                (typed_identifier
+                  (type_identifier)
+                  (identifier))))
+            (identifier))))
+      (function_body
+        (block)))

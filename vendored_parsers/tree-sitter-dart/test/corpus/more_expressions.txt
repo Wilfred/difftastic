@@ -117,7 +117,7 @@ var a;
               )
                (type_identifier)
               (catch_clause
-                (identifier))
+                 (catch_parameters (identifier)))
                  (block
                     (expression_statement
                         (identifier)
@@ -138,18 +138,40 @@ var a;
 return statement
 ==================================
 
-return x;
-return x * y;
-return x + 2;
-return fire(x);
+main() {
+  return x;
+  return x * y;
+  return x + 2;
+  return fire(x);
+}
 
 ---
 
 (program
-  (return_statement (identifier))
-  (return_statement (multiplicative_expression (identifier) (multiplicative_operator) (identifier)))
-  (return_statement (additive_expression (identifier) (additive_operator) (decimal_integer_literal)))
-  (return_statement (identifier) (selector (argument_part (arguments (argument (identifier)))))))
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (return_statement
+            (identifier))
+          (return_statement
+            (multiplicative_expression
+              (identifier)
+              (multiplicative_operator)
+              (identifier)))
+          (return_statement
+            (additive_expression
+              (identifier)
+              (additive_operator)
+              (decimal_integer_literal)))
+          (return_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (argument
+                    (identifier)))))))))
 
 ==================================
 annotation
@@ -164,19 +186,25 @@ class Duck {
 ---
 
 (program
-  (annotation
+  (class_definition
+    (annotation
+      (identifier)
+      (arguments
+        (argument
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (string_literal)))))
+    (annotation
+      (identifier)
+      (arguments
+        (argument
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (true)))))
     (identifier)
-        (arguments (argument (assignment_expression (assignable_expression (identifier)) (string_literal))))
-    )
-  (annotation
-    (identifier)
-        (arguments (argument (assignment_expression (assignable_expression (identifier)) (true))))
-    )
-    (class_definition
-    (identifier)
-    (class_body)
-  )
-)
+    (class_body)))
 
 ==================================
 marker annotation
@@ -193,20 +221,20 @@ class Quack {
 ---
 
 (program
-  (marker_annotation (identifier))
-    (class_definition
+  (class_definition
+    (marker_annotation
+      (identifier))
     (identifier)
     (class_body
-      (marker_annotation (identifier))
+      (marker_annotation
+        (identifier))
       (method_signature
-      (function_signature
-        (void_type)
-        (identifier)
-        (formal_parameter_list)
-        ))
-        (function_body
-        (block))
-        )))
+        (function_signature
+          (void_type)
+          (identifier)
+          (formal_parameter_list)))
+      (function_body
+        (block)))))
 
 ==================================
 single element annotation
@@ -221,13 +249,22 @@ class Quack {
 ---
 
 (program
-  (annotation (identifier)
-  (arguments (argument (identifier) (selector (unconditional_assignable_selector (identifier)))))
-  )
-  (annotation (identifier) (arguments (argument (string_literal))))
-    (class_definition
-    (identifier)
-    (class_body)))
+  (class_definition
+    (annotation
+      (identifier)
+      (arguments
+        (argument
+          (identifier)
+          (selector
+            (unconditional_assignable_selector
+              (identifier))))))
+        (annotation
+          (identifier)
+          (arguments
+            (argument
+              (string_literal))))
+        (identifier)
+        (class_body)))
 
 ==================================
 lambda expression
@@ -337,26 +374,43 @@ class SwitchDemo {
           (switch_statement
             condition: (parenthesized_expression (identifier))
             body: (switch_block
-              (switch_label (case_builtin) (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)
-              (switch_label (case_builtin) (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)
-              (switch_label (case_builtin) (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)
-              (switch_label)
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)))
+              (switch_statement_case
+              (case_builtin)
+                    (constant_pattern
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))
+                  (switch_statement_case
+                  (case_builtin)
+                    (constant_pattern
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))
+                  (switch_statement_case
+                  (case_builtin)
+                    (constant_pattern
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))
+                  (switch_statement_default
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))))
           (expression_statement
               (identifier)
               (selector

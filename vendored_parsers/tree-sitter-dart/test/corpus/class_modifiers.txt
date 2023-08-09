@@ -1,0 +1,93 @@
+=============
+Basic Classes
+=============
+class Hello {}
+base class Base {}
+interface class Interface {}
+final class Final {}
+sealed class Sealed {}
+abstract class Abstract {}
+
+---
+
+(program
+      (class_definition
+        (identifier)
+        (class_body))
+      (class_definition
+        (base)
+        (identifier)
+        (class_body))
+      (class_definition
+        (interface)
+        (identifier)
+        (class_body))
+      (class_definition
+        (identifier)
+        (class_body))
+      (class_definition
+        (sealed)
+        (identifier)
+        (class_body))
+      (class_definition
+        (abstract)
+        (identifier)
+        (class_body)))
+
+=============
+Combo Classes
+=============
+abstract base class AbstractBase {}
+abstract interface class AbstractInterface {}
+abstract final class AbstractFinal {}
+abstract mixin class AbstractMixin {}
+abstract base mixin class AbstractBaseMixin {}
+
+
+---
+(program
+      (class_definition
+        (abstract)
+        (base)
+        (identifier)
+        (class_body))
+      (class_definition
+        (abstract)
+        (interface)
+        (identifier)
+        (class_body))
+      (class_definition
+        (abstract)
+        (identifier)
+        (class_body))
+      (class_definition
+        (abstract)
+        (mixin)
+        (identifier)
+        (class_body))
+      (class_definition
+        (abstract)
+        (base)
+        (mixin)
+        (identifier)
+        (class_body)))
+
+=============
+Mixins
+=============
+
+mixin Mixin {}
+base mixin BaseMixin {}
+
+---
+
+(program
+      (mixin_declaration
+        (mixin)
+        (identifier)
+        (class_body))
+      (mixin_declaration
+        (base)
+        (mixin)
+        (identifier)
+        (class_body)))
