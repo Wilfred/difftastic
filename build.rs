@@ -298,7 +298,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-racket",
             src_dir: "vendored_parsers/tree-sitter-racket-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-ruby",

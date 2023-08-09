@@ -31,10 +31,14 @@ number
 #b101
 +inf.t
 -nan.t
++i
+0##+i
 
 ---
 
 (program
+  (number)
+  (number)
   (number)
   (number)
   (number)
@@ -79,9 +83,13 @@ Ap\ ple
 app123app123
 123app123
 中文
+a
+fec
 
 ---
 (program
+  (symbol)
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
