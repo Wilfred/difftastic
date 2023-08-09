@@ -39,9 +39,9 @@ const PREC = {
   EQUALITY: 5,
   CONJUNCTION: 4,
   DISJUNCTION: 3,
+  VAR_DECL: 3,
   SPREAD: 2,
   SIMPLE_USER_TYPE: 2,
-  VAR_DECL: 1,
   ASSIGNMENT: 1,
   BLOCK: 1,
   LAMBDA_LITERAL: 0,
@@ -113,16 +113,26 @@ module.exports = grammar({
 
     // ambiguity between parameter modifiers in anonymous functions
     [$.parameter_modifiers, $._type_modifier],
+
+    // ambiguity between type modifiers before an @
+    [$.type_modifiers],
+    // ambiguity between associating type modifiers
+    [$.not_nullable_type],
   ],
 
   externals: $ => [
     $._automatic_semicolon,
     $._import_list_delimiter,
     $.safe_nav,
+    $.multiline_comment,
+    $._string_start,
+    $._string_end,
+    $._string_content,
   ],
 
   extras: $ => [
-    $.comment,
+    $.line_comment,
+    $.multiline_comment,
     /\s+/ // Whitespace
   ],
 
@@ -179,6 +189,7 @@ module.exports = grammar({
       optional($.modifiers),
       "typealias",
       alias($.simple_identifier, $.type_identifier),
+      optional($.type_parameters),
       "=",
       $._type
     ),
@@ -317,7 +328,7 @@ module.exports = grammar({
       optional($.class_body)
     ),
 
-    _function_value_parameters: $ => seq(
+    function_value_parameters: $ => seq(
       "(",
       optional(sep1($._function_value_parameter, ",")),
       optional(","),
@@ -345,7 +356,7 @@ module.exports = grammar({
       optional($.type_parameters),
       optional(seq($._receiver_type, optional('.'))),
       $.simple_identifier,
-      $._function_value_parameters,
+      $.function_value_parameters,
       optional(seq(":", $._type)),
       optional($.type_constraints),
       optional($.function_body)
@@ -423,7 +434,7 @@ module.exports = grammar({
     secondary_constructor: $ => seq(
       optional($.modifiers),
       "constructor",
-      $._function_value_parameters,
+      $.function_value_parameters,
       optional(seq(":", $.constructor_delegation_call)),
       optional($._block)
     ),
@@ -460,13 +471,22 @@ module.exports = grammar({
         $.parenthesized_type,
         $.nullable_type,
         $._type_reference,
-        $.function_type
+        $.function_type,
+        $.not_nullable_type
       )
     ),
 
-    _type_reference: $ => choice(
+    _type_reference: $ => prec.left(1, choice(
       $.user_type,
       "dynamic"
+    )),
+
+    not_nullable_type: $ => seq(
+      optional($.type_modifiers),
+      choice($.user_type, $.parenthesized_user_type),
+      '&',
+      optional($.type_modifiers),
+      choice($.user_type, $.parenthesized_user_type),
     ),
 
     nullable_type: $ => seq(
@@ -698,7 +718,16 @@ module.exports = grammar({
 
     type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
 
-    value_arguments: $ => seq("(", optional(sep1($.value_argument, ",")), ")"),
+    value_arguments: $ => seq(
+      "(",
+      optional(
+        seq(
+          sep1($.value_argument, ","),
+          optional(","),
+        )
+      ),
+      ")"
+    ),
 
     value_argument: $ => seq(
       optional($.annotation),
@@ -711,7 +740,7 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.simple_identifier,
       $._literal_constant,
-      $._string_literal,
+      $.string_literal,
       $.callable_reference,
       $._function_literal,
       $.object_literal,
@@ -740,30 +769,13 @@ module.exports = grammar({
       $.unsigned_literal
     ),
 
-    _string_literal: $ => choice(
-      $.line_string_literal,
-      $.multi_line_string_literal
-    ),
-
-    line_string_literal: $ => seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
-
-    multi_line_string_literal: $ => seq(
-      '"""',
-      repeat(choice(
-        $._multi_line_string_content,
-        $._interpolation
-      )),
-      '"""'
-    ),
-
-    _line_string_content: $ => choice(
-      $._line_str_text,
-      $.character_escape_seq
+    string_literal: $ => seq(
+      $._string_start,
+      repeat(choice($._string_content, $._interpolation)),
+      $._string_end,
     ),
 
     line_string_expression: $ => seq("${", $._expression, "}"),
-
-    _multi_line_string_content: $ => choice($._multi_line_str_text, '"'),
 
     _interpolation: $ => choice(
       seq("${", alias($._expression, $.interpolated_expression), "}"),
@@ -793,7 +805,7 @@ module.exports = grammar({
     anonymous_function: $ => prec.right(seq(
       "fun",
       optional(seq(sep1($._simple_user_type, "."), ".")), // TODO
-      $._function_value_parameters,
+      $.function_value_parameters,
       optional(seq(":", $._type)),
       optional($.function_body)
     )),
@@ -1100,11 +1112,7 @@ module.exports = grammar({
     // General
     // ==========
 
-    // Source: https://github.com/tree-sitter/tree-sitter-java/blob/bc7124d924723e933b6ffeb5f22c4cf5248416b7/grammar.js#L1030
-    comment: $ => token(prec(PREC.COMMENT, choice(
-      seq("//", /.*/),
-      seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
-    ))),
+    line_comment: $ => token(seq('//', /.*/)),
 
     // ==========
     // Separators and operations
@@ -1179,7 +1187,7 @@ module.exports = grammar({
       $._backtick_identifier,
     ),
 
-    _alpha_identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+    _alpha_identifier: $ => /[\p{L}_][\p{L}_\p{Nd}]*/,
 
     _backtick_identifier: $ => /`[^\r\n`]+`/,
 
@@ -1190,13 +1198,6 @@ module.exports = grammar({
 
     _escaped_identifier: $ => /\\[tbrn'"\\$]/,
 
-    // ==========
-    // Strings
-    // ==========
-
-    _line_str_text: $ => /[^\\"$]+/,
-
-    _multi_line_str_text: $ => /[^"$]+/
   }
 });
 

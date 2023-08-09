@@ -28,9 +28,15 @@
   },
   "homepage": "https://github.com/fwcd/tree-sitter-kotlin#readme",
   "dependencies": {
-    "nan": "^2.15.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.0"
-  }
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.kotlin",
+      "file-types": ["kt", "kts"]
+    }
+  ]
 }

@@ -1,37 +1,45 @@
-==================
+================================================================================
 Dot after newline
-==================
+================================================================================
 
 bar.foo()
    .show()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-   (call_expression
-     (navigation_expression
-        (call_expression
-          (navigation_expression (simple_identifier)
-             (navigation_suffix (simple_identifier)))
-          (call_suffix (value_arguments)))
-        (navigation_suffix (simple_identifier)))
-      (call_suffix (value_arguments))))
+  (call_expression
+    (navigation_expression
+      (call_expression
+        (navigation_expression
+          (simple_identifier)
+          (navigation_suffix
+            (simple_identifier)))
+        (call_suffix
+          (value_arguments)))
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments))))
 
-==================
+================================================================================
 Eq after newline
-==================
+================================================================================
 
 fun foo()
     = 1
 
 ---
 (source_file
-   (function_declaration (simple_identifier)
-      (function_body (integer_literal))))
+   (function_declaration
+    (simple_identifier)
+    (function_value_parameters)
+    (function_body 
+    (integer_literal))))
 
-==================
+================================================================================
 Binary operator after newline
-==================
+================================================================================
 
 
 fun foo()  {
@@ -39,47 +47,60 @@ fun foo()  {
          && y
 }
 
----
+--------------------------------------------------------------------------------
+
 (source_file
-  (function_declaration (simple_identifier)
+  (function_declaration (simple_identifier) (function_value_parameters)
      (function_body
         (statements
            (property_declaration
-              (variable_declaration (simple_identifier))
-              (conjunction_expression (simple_identifier) (simple_identifier)))))))
+              (variable_declaration
+               (simple_identifier))
+              (conjunction_expression
+               (simple_identifier)
+               (simple_identifier)))))))
 
-
-==================
+================================================================================
 Open brace after newline
-==================
+================================================================================
 
 fun foo():String
     { return "bar"}
 
 ---
-(source_file
-   (function_declaration (simple_identifier)
-      (user_type (type_identifier))
-      (function_body (statements (jump_expression (line_string_literal))))))
 
-==================
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (function_value_parameters)
+    (user_type
+      (type_identifier))
+    (function_body
+      (statements
+        (jump_expression
+          (string_literal))))))
+
+================================================================================
 Colon after newline
-==================
+================================================================================
 
 class Foo
     : Bar {
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (class_declaration (type_identifier)
-     (delegation_specifier (user_type (type_identifier)))
-     (class_body)))
+  (class_declaration
+    (type_identifier)
+    (delegation_specifier
+      (user_type
+        (type_identifier)))
+    (class_body)))
 
-==================
+================================================================================
 Question mark after newline
-==================
+================================================================================
 
 
 fun foo() {
@@ -88,52 +109,68 @@ fun foo() {
              ?: break
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (function_declaration (simple_identifier)
+  (function_declaration
+   (simple_identifier)
+  (function_value_parameters)
     (function_body
       (statements
         (property_declaration
-          (variable_declaration (simple_identifier))
+          (variable_declaration
+            (simple_identifier))
+          (elvis_expression
             (elvis_expression
-              (elvis_expression
-                (call_expression
-                   (navigation_expression (simple_identifier)
-                     (navigation_suffix (simple_identifier)))
-                   (call_suffix
-                     (value_arguments (value_argument (boolean_literal)))))
-                (call_expression
-                   (navigation_expression (simple_identifier)
-                      (navigation_suffix (simple_identifier)))
-                    (call_suffix (value_arguments))))
-               (jump_expression)))))))
+              (call_expression
+                (navigation_expression
+                  (simple_identifier)
+                  (navigation_suffix
+                    (simple_identifier)))
+                (call_suffix
+                  (value_arguments
+                    (value_argument
+                      (boolean_literal)))))
+              (call_expression
+                (navigation_expression
+                  (simple_identifier)
+                  (navigation_suffix
+                    (simple_identifier)))
+                (call_suffix
+                  (value_arguments))))
+            (jump_expression)))))))
 
-==================
+================================================================================
 get after newline
-==================
+================================================================================
 class Foo {
      val maxMemory: Long
      get() = bar() / 1024
 }
 
----
+--------------------------------------------------------------------------------
+
 (source_file
-  (class_declaration (type_identifier)
+  (class_declaration
+    (type_identifier)
     (class_body
       (property_declaration
-        (variable_declaration (simple_identifier)
-	  (user_type (type_identifier))))
+        (variable_declaration
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
       (getter
-         (function_body
-	   (multiplicative_expression
-	     (call_expression (simple_identifier)
-	        (call_suffix (value_arguments)))
-	     (integer_literal)))))))
+        (function_body
+          (multiplicative_expression
+            (call_expression
+              (simple_identifier)
+              (call_suffix
+                (value_arguments)))
+            (integer_literal)))))))
 
-==================
+================================================================================
 Newline in function call
-==================
+================================================================================
 
 // The Kotlin grammar does not allow newlines/semicolons in function calls,
 // but tree-sitter uses context-aware lexing to overcome this.
@@ -141,26 +178,28 @@ Newline in function call
 foo(1,
     2)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (comment)
-  (comment)
-  (call_expression (simple_identifier)
+  (line_comment)
+  (line_comment)
+  (call_expression
+    (simple_identifier)
     (call_suffix
       (value_arguments
-        (value_argument (integer_literal))
-        (value_argument (integer_literal))))))
+        (value_argument
+          (integer_literal))
+        (value_argument
+          (integer_literal))))))
 
-
-==================
+================================================================================
 Else after newline
-==================
+================================================================================
 
 if (!foo) 3
 else boo()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (if_expression
@@ -174,13 +213,13 @@ else boo()
         (call_suffix
           (value_arguments))))))
 
-==================
+================================================================================
 Else after newline
-==================
+================================================================================
 
 if (!foo) 3 else boo()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (if_expression

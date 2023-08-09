@@ -1,0 +1,27 @@
+name: Regenerate Parser
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+      - name: Generate parser
+        run: npm run generate
+      - name: Commit the updated parser
+        run: |
+          git add src
+          git commit -m "Regenerate the parser ($(git rev-parse --short HEAD))"
+          git push

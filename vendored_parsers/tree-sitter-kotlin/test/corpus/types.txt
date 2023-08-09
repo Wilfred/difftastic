@@ -1,149 +1,181 @@
-==================
+================================================================================
 Type references
-==================
+================================================================================
 
 something as Int
 something as A
 
----
+--------------------------------------------------------------------------------
 
-(source_file 
+(source_file
   (as_expression
     (simple_identifier)
-    (user_type (type_identifier)))
+    (user_type
+      (type_identifier)))
   (as_expression
     (simple_identifier)
-    (user_type (type_identifier))))
+    (user_type
+      (type_identifier))))
 
-==================
+================================================================================
 Nested types
-==================
+================================================================================
 
 // TODO the introduction of scanner.c changed the AST for nested types
 something as Some.NestedType
 
----
-(source_file
-   (comment)
-   (navigation_expression
-      (as_expression (simple_identifier)
-          (user_type (type_identifier)))
-      (navigation_suffix (simple_identifier))))
+--------------------------------------------------------------------------------
 
-==================
+(source_file
+  (line_comment)
+  (navigation_expression
+    (as_expression
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (navigation_suffix
+      (simple_identifier))))
+
+================================================================================
 Deeply nested types
-==================
+================================================================================
 
 // TODO the introduction of scanner.c changed the AST for nested types
 somethingElse as A.Deeply.Nested.Type
 
----
+--------------------------------------------------------------------------------
+
 (source_file
-   (comment)
-   (navigation_expression
+  (line_comment)
+  (navigation_expression
+    (navigation_expression
       (navigation_expression
-         (navigation_expression
-	    (as_expression (simple_identifier) (user_type (type_identifier)))
-	    (navigation_suffix (simple_identifier)))
-	 (navigation_suffix (simple_identifier)))
-      (navigation_suffix (simple_identifier))))
+        (as_expression
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (navigation_suffix
+          (simple_identifier)))
+      (navigation_suffix
+        (simple_identifier)))
+    (navigation_suffix
+      (simple_identifier))))
 
-
-==================
+================================================================================
 Generic wildcard types
-==================
+================================================================================
 
 something as Generic<*>
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (as_expression
     (simple_identifier)
-    (user_type (type_identifier)
-      (type_arguments (type_projection)))))
+    (user_type
+      (type_identifier)
+      (type_arguments
+        (type_projection)))))
 
-==================
+================================================================================
 Generic parameterized types
-==================
+================================================================================
 
 something as Generic<T>
 something as Generic<A, Type>
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (as_expression
     (simple_identifier)
-    (user_type (type_identifier)
+    (user_type
+      (type_identifier)
       (type_arguments
         (type_projection
-          (user_type (type_identifier))))))
+          (user_type
+            (type_identifier))))))
   (as_expression
     (simple_identifier)
-    (user_type (type_identifier)
+    (user_type
+      (type_identifier)
       (type_arguments
         (type_projection
-          (user_type (type_identifier)))
+          (user_type
+            (type_identifier)))
         (type_projection
-          (user_type (type_identifier)))))))
+          (user_type
+            (type_identifier)))))))
 
-==================
+================================================================================
 Function types
-==================
+================================================================================
 
 unitFunction as () -> Unit
 consumer as (Int) -> Unit
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (as_expression
     (simple_identifier)
     (function_type
       (function_type_parameters)
-      (user_type (type_identifier))))
+      (user_type
+        (type_identifier))))
   (as_expression
     (simple_identifier)
     (function_type
-      (function_type_parameters (user_type (type_identifier)))
-      (user_type (type_identifier)))))
+      (function_type_parameters
+        (user_type
+          (type_identifier)))
+      (user_type
+        (type_identifier)))))
 
-==================
+================================================================================
 Function types with multiple parameters
-==================
+================================================================================
 
 a as (Int, Generic<*>, Boolean) -> Unit
 b as (Nested.Type, (Int)) -> Unit
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (as_expression
     (simple_identifier)
     (function_type
       (function_type_parameters
-        (user_type (type_identifier))
-        (user_type (type_identifier)
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier)
           (type_arguments
             (type_projection)))
-        (user_type (type_identifier)))
-      (user_type (type_identifier))))
+        (user_type
+          (type_identifier)))
+      (user_type
+        (type_identifier))))
   (as_expression
     (simple_identifier)
     (function_type
       (function_type_parameters
-        (user_type (type_identifier) (type_identifier))
-        (parenthesized_type (user_type (type_identifier))))
-      (user_type (type_identifier)))))
+        (user_type
+          (type_identifier)
+          (type_identifier))
+        (parenthesized_type
+          (user_type
+            (type_identifier))))
+      (user_type
+        (type_identifier)))))
 
-==================
+================================================================================
 Function types with named parameters
-==================
+================================================================================
 
 a as (first: A, second: B) -> Unit
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (as_expression
@@ -152,19 +184,22 @@ a as (first: A, second: B) -> Unit
       (function_type_parameters
         (parameter
           (simple_identifier)
-          (user_type (type_identifier)))
+          (user_type
+            (type_identifier)))
         (parameter
           (simple_identifier)
-          (user_type (type_identifier))))
-      (user_type (type_identifier)))))
+          (user_type
+            (type_identifier))))
+      (user_type
+        (type_identifier)))))
 
-==================
+================================================================================
 Function types with receiver
-==================
+================================================================================
 
 a as T.() -> Unit
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (as_expression
@@ -172,5 +207,112 @@ a as T.() -> Unit
     (function_type
       (type_identifier)
       (function_type_parameters)
-      (user_type (type_identifier)))))
+      (user_type
+        (type_identifier)))))
 
+================================================================================
+Type constructor
+================================================================================
+
+a as Foo(x = "hi", y = "bar")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (call_expression
+    (as_expression
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier)
+          (string_literal))
+        (value_argument
+          (simple_identifier)
+          (string_literal))))))
+
+================================================================================
+Type constructor with trailing comma
+================================================================================
+
+a as Foo(x = "hi", y = "bar",)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (call_expression
+    (as_expression
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier)
+          (string_literal))
+        (value_argument
+          (simple_identifier)
+          (string_literal))))))
+
+================================================================================
+Type alias with type parameters
+================================================================================
+
+private typealias T<E> = Foo<E>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (user_type
+      (type_identifier)
+      (type_arguments
+        (type_projection
+          (user_type
+            (type_identifier)))))))
+
+================================================================================
+Ampersand type
+================================================================================
+
+a as T & F
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (not_nullable_type
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))))
+
+================================================================================
+Ampersand type with modifiers
+================================================================================
+
+a as @Foo T & F
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (type_modifiers
+      (annotation
+        (user_type
+          (type_identifier))))
+    (not_nullable_type
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))))

@@ -1,20 +1,30 @@
 name: Build
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '12'
-          cache: 'npm'
+          node-version: '18'
       - name: Install dependencies
         run: npm install
-      - name: Compile grammar
+      - name: Generate parser
         run: npm run generate
+      - name: Verify that generated parser matches the repository
+        run: |
+          diff=`git diff HEAD -- src`
+          echo "$diff"
+          test -z "$diff"
       - name: Run tests
         run: npm test
       - name: Set up Rust
