@@ -1827,35 +1827,6 @@
         }
       ]
     },
-    "Comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "<!--"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "-"
-              },
-              {
-                "type": "PATTERN",
-                "value": "(([^-])|(-[^-])|[\\r\\n])*"
-              }
-            ]
-          },
-          {
-            "type": "STRING",
-            "value": "-->"
-          }
-        ]
-      }
-    },
     "_Eq": {
       "type": "SEQ",
       "members": [
@@ -1901,6 +1872,10 @@
     {
       "type": "SYMBOL",
       "name": "_pi_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "Comment"
     }
   ],
   "inline": [],

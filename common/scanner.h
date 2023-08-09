@@ -6,6 +6,7 @@
 enum TokenType {
     PITarget,
     PIContent,
+    Comment,
     CharData,
 };
 
@@ -91,6 +92,42 @@ static bool scan_pi_content(TSLexer *lexer) {
     return false;
 }
 
+/// Scan for a Comment node
+static bool scan_comment(TSLexer *lexer) {
+    if (lexer->lookahead != '<') return false;
+    advance(lexer);
+
+    if (lexer->lookahead != '!') return false;
+    advance(lexer);
+
+    if (lexer->lookahead != '-') return false;
+    advance(lexer);
+
+    if (lexer->lookahead != '-') return false;
+    advance(lexer);
+
+    while (!lexer->eof(lexer)) {
+        if (lexer->lookahead == '-') {
+            advance(lexer);
+            if (lexer->lookahead == '-') {
+                advance(lexer);
+                break;
+            }
+        } else {
+            advance(lexer);
+        }
+    }
+
+    if (lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        lexer->result_symbol = Comment;
+        return true;
+    }
+
+    return false;
+}
+
 /// Scan for a CharData node
 static bool scan_char_data(TSLexer *lexer) {
     bool advanced_once = false;
@@ -123,14 +160,6 @@ static bool scan_char_data(TSLexer *lexer) {
     }
     return false;
 }
-
-/// Scan for the common symbols
-#define SCAN_COMMON(lexer, valid_symbols) \
-    if (in_error_recovery(valid_symbols)) return false; \
-    \
-    if (valid_symbols[PITarget]) return scan_pi_target(lexer); \
-    \
-    if (valid_symbols[PIContent]) return scan_pi_content(lexer);
 
 /// Define the boilerplate functions of the scanner
 /// @param name the name of the language

@@ -16,15 +16,17 @@ const O = optional;
 module.exports = grammar(DTD, {
   name: 'xml',
 
+  // XXX: TS LS doesn't like the ($, previous) form
   externals: $ => [
     $.PITarget,
     $._pi_content,
+    $.Comment,
     $.CharData,
   ],
 
   inline: $ => [
     $._extSubsetDecl,
-    $.conditionalSect
+    $.conditionalSect,
   ],
 
   rules: {
