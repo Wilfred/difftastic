@@ -1115,8 +1115,9 @@ module.exports = grammar({
     ),
 
     concatenated_string: $ => seq(
+      choice($.identifier, $.string_literal),
       $.string_literal,
-      repeat1(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
+      repeat(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
     ),
 
     string_literal: $ => seq(

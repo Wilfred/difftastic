@@ -258,6 +258,7 @@ String literals
 int main() {
   "a";
   "b" "c" "d";
+  e "f" g;
   "\"hi\"";
   L"bonjour";
   u"guten morgen";
@@ -285,6 +286,12 @@ int main() {
             (string_content))
           (string_literal
             (string_content))))
+      (expression_statement
+        (concatenated_string
+          (identifier)
+          (string_literal
+            (string_content))
+          (identifier)))
       (expression_statement
         (string_literal
           (escape_sequence)
