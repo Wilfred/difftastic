@@ -1,7 +1,6 @@
-tree-sitter-go
-===========================
+# tree-sitter-go
 
-[![Build/test](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml)
+[![CI](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-go/actions/workflows/ci.yml)
 
 A [tree-sitter][] grammar for [Go](https://go.dev/ref/spec).
 

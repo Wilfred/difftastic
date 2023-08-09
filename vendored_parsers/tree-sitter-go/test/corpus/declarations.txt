@@ -248,6 +248,7 @@ func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
 func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
 func g2(a foo.bar[int]) {}
 func f[A int|string, B ~int, C ~int|~string]()
+func f2(a File, b, c, d Thing) int {}
 
 --------------------------------------------------------------------------------
 
@@ -371,19 +372,34 @@ func f[A int|string, B ~int, C ~int|~string]()
     (type_parameter_list
       (parameter_declaration
         (identifier)
-        (ERROR
-          (identifier))
+        (union_type
+          (type_identifier)
+          (type_identifier)))
+      (parameter_declaration
+        (identifier)
+        (negated_type
+          (type_identifier)))
+      (parameter_declaration
+        (identifier)
+        (union_type
+          (negated_type
+            (type_identifier))
+          (negated_type
+            (type_identifier)))))
+    (parameter_list))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter_declaration
+        (identifier)
         (type_identifier))
       (parameter_declaration
         (identifier)
-        (ERROR)
-        (type_identifier))
-      (parameter_declaration
         (identifier)
-        (ERROR
-          (identifier))
+        (identifier)
         (type_identifier)))
-    (parameter_list)))
+    (type_identifier)
+    (block)))
 
 ================================================================================
 Single-line function declarations
@@ -404,29 +420,34 @@ func f3() { a(); b(); }
     (identifier)
     (parameter_list)
     (block
-      (call_expression
-        (identifier)
-        (argument_list))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list)))))
   (function_declaration
     (identifier)
     (parameter_list)
     (block
-      (call_expression
-        (identifier)
-        (argument_list))
-      (call_expression
-        (identifier)
-        (argument_list))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list)))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list)))))
   (function_declaration
     (identifier)
     (parameter_list)
     (block
-      (call_expression
-        (identifier)
-        (argument_list))
-      (call_expression
-        (identifier)
-        (argument_list)))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list)))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list))))))
 
 ================================================================================
 Variadic function declarations

@@ -205,7 +205,7 @@ type SignedInteger interface {
     (type_spec
       (type_identifier)
       (interface_type
-        (interface_type_name
+        (constraint_elem
           (qualified_type
             (package_identifier)
             (type_identifier))))))
@@ -213,9 +213,9 @@ type SignedInteger interface {
     (type_spec
       (type_identifier)
       (interface_type
-        (interface_type_name
+        (constraint_elem
           (type_identifier))
-        (interface_type_name
+        (constraint_elem
           (qualified_type
             (package_identifier)
             (type_identifier)))
@@ -239,14 +239,15 @@ type SignedInteger interface {
       (type_identifier)
       (interface_type
         (constraint_elem
-          (constraint_term
-            (type_identifier))
-          (constraint_term
-            (type_identifier))
-          (constraint_term
-            (type_identifier))
-          (constraint_term
-            (type_identifier)))))))
+          (union_type
+            (union_type
+              (union_type
+                (type_identifier)
+                (type_identifier))
+              (negated_type
+                (type_identifier)))
+            (negated_type
+              (type_identifier))))))))
 
 ================================================================================
 Interface embedded struct types

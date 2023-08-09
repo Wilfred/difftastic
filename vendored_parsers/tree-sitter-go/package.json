@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-go",
-  "version": "0.19.1",
+  "version": "0.20.0",
   "description": "Go grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -17,10 +17,13 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.6"
+    "eslint": "^8.45.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
+    "lint": "eslint grammar.js",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
