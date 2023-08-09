@@ -620,7 +620,7 @@ module.exports = grammar(C, {
     ),
 
     template_method: $ => seq(
-      field('name', $._field_identifier),
+      field('name', choice($._field_identifier, $.operator_name)),
       field('arguments', $.template_argument_list),
     ),
 
