@@ -50,18 +50,18 @@ pub fn language_xml() -> Language {
     unsafe { tree_sitter_xml() }
 }
 
-/// The syntax highlighting query for this language.
+/// The syntax highlighting queries for XML.
 pub const XML_HIGHLIGHT_QUERY: &str = include_str!("../../tree-sitter-xml/queries/highlights.scm");
+
+/// The syntax highlighting queries for DTD.
 pub const DTD_HIGHLIGHT_QUERY: &str = include_str!("../../tree-sitter-dtd/queries/highlights.scm");
 
-/// The local-variable syntax highlighting query for this language.
-// pub const LOCALS_QUERY: &str = include_str!("../../tree-sitter-xml/queries/locals.scm");
-
-/// The symbol tagging query for this language.
-// pub const TAGGING_QUERY: &str = include_str!("../../tree-sitter-xml/queries/tags.scm");
-
-/// The content of the [`node-types.json`][] file for this grammar.
+/// The content of the [`node-types.json`][] file for XML.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
 pub const XML_NODE_TYPES: &str = include_str!("../../tree-sitter-xml/src/node-types.json");
+
+/// The content of the [`node-types.json`][] file for DTD.
+///
+/// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
 pub const DTD_NODE_TYPES: &str = include_str!("../../tree-sitter-dtd/src/node-types.json");

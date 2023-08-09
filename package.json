@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-xml",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "ObserverOfTime/tree-sitter-xml",
@@ -53,7 +53,7 @@
       "file-types": [
         "dtd"
       ],
-      "injection-regex": "dtd",
+      "injection-regex": "^dtd$",
       "highlights": "tree-sitter-dtd/queries/highlights.scm",
       "path": "tree-sitter-dtd"
     }

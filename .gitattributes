@@ -1,4 +1,4 @@
 * text=auto
 
-**/src/** linguist-generated
-**/bindings/node/binding.cc linguist-generated
+**/src/*.json linguist-generated
+**/src/parser.c linguist-generated

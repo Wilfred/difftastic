@@ -28,6 +28,7 @@ module.exports = grammar({
     $._EntityDecl,
     $._Reference
   ],
+
   rules: {
     // AKA: extSubset
     document: $ => seq(

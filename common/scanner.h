@@ -1,3 +1,5 @@
+#pragma once
+
 #include <ctype.h>
 #include <tree_sitter/parser.h>
 
@@ -7,20 +9,13 @@ enum TokenType {
     CharData,
 };
 
-static bool in_dtd_error_recovery(const bool *valid_symbols) {
-    return valid_symbols[PITarget] && valid_symbols[PIContent];
-}
+/// Advance the lexer to the next token
+static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-static bool in_xml_error_recovery(const bool *valid_symbols) {
-    return valid_symbols[PITarget] && valid_symbols[PIContent] &&
-           valid_symbols[CharData];
-}
-
-static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-
+/// Scan for the target of a PI node
 static bool scan_pi_target(TSLexer *lexer) {
-    bool advanced_once = false;
-    bool found_x_first = false;
+    bool advanced_once = false, found_x_first = false;
+
     if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
         if (lexer->lookahead == 'x' || lexer->lookahead == 'X') {
             found_x_first = true;
@@ -67,10 +62,13 @@ static bool scan_pi_target(TSLexer *lexer) {
     return false;
 }
 
+/// Scan for the content of a PI node
 static bool scan_pi_content(TSLexer *lexer) {
     bool advanced_once = false;
-    while (lexer->lookahead != '\n' && lexer->lookahead != '?' &&
-           !lexer->eof(lexer)) {
+
+    while (!lexer->eof(lexer) &&
+           lexer->lookahead != '\n' &&
+           lexer->lookahead != '?') {
         advanced_once = true;
         advance(lexer);
     }
@@ -93,10 +91,13 @@ static bool scan_pi_content(TSLexer *lexer) {
     return false;
 }
 
+/// Scan for a CharData node
 static bool scan_char_data(TSLexer *lexer) {
     bool advanced_once = false;
-    while (lexer->lookahead != '<' && lexer->lookahead != '&' &&
-           !lexer->eof(lexer)) {
+
+    while (!lexer->eof(lexer) &&
+           lexer->lookahead != '<' &&
+           lexer->lookahead != '&') {
         if (lexer->lookahead == ']') {
             lexer->mark_end(lexer);
             advance(lexer);
@@ -122,3 +123,24 @@ static bool scan_char_data(TSLexer *lexer) {
     }
     return false;
 }
+
+/// Scan for the common symbols
+#define SCAN_COMMON(lexer, valid_symbols) \
+    if (in_error_recovery(valid_symbols)) return false; \
+    \
+    if (valid_symbols[PITarget]) return scan_pi_target(lexer); \
+    \
+    if (valid_symbols[PIContent]) return scan_pi_content(lexer);
+
+/// Define the boilerplate functions of the scanner
+/// @param name the name of the language
+#define SCANNER_BOILERPLATE(name) \
+    void *tree_sitter_##name##_external_scanner_create() { return NULL; } \
+    \
+    void tree_sitter_##name##_external_scanner_destroy(void *payload) {} \
+    \
+    void tree_sitter_##name##_external_scanner_reset(void *payload) {} \
+    \
+    unsigned tree_sitter_##name##_external_scanner_serialize(void *payload, char *buffer) { return 0; } \
+    \
+    void tree_sitter_##name##_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}

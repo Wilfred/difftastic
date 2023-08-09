@@ -18,7 +18,5 @@ jobs:
           node-version: 16
       - run: npm install
         name: Install dependencies
-      - run: >-
-          npm run test-dtd &&
-          npm run test-xml
+      - run: npm test
         name: Run tests

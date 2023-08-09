@@ -29,8 +29,8 @@ module.exports = grammar(DTD, {
 
   rules: {
     document: $ => prec(2, seq(
-      optional($._S),
-      optional($.prolog),
+      O($._S),
+      O($.prolog),
       field('root', $.element),
       repeat($._Misc),
     )),
@@ -138,7 +138,7 @@ module.exports = grammar(DTD, {
 
     CDStart: _ => seq('<![', 'CDATA', '['),
 
-    CData: _ => /[^\]]*|][^\][\]>]*|]][^>]*/,
+    CData: _ => /([^\]]|][^\][\]]|]][^>])*/,
 
     StyleSheetPI: $ => seq(
       '<?',

@@ -2,6 +2,7 @@ fn main() {
     let root_dir = std::path::Path::new(".");
     let xml_dir = root_dir.join("tree-sitter-xml").join("src");
     let dtd_dir = root_dir.join("tree-sitter-dtd").join("src");
+    let common_dir = root_dir.join("common");
 
     let mut config = cc::Build::new();
     config.include(&xml_dir);
@@ -19,10 +20,7 @@ fn main() {
         println!("cargo:rerun-if-changed={}", path.to_str().unwrap());
     }
 
-    println!(
-        "cargo:rerun-if-changed={}",
-        root_dir.join("common").join("scanner.h").to_str().unwrap()
-    );
+    println!("cargo:rerun-if-changed={}", common_dir.join("scanner.h").to_str().unwrap());
 
     config.compile("parser-scanner");
 }
