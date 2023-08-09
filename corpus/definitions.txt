@@ -1078,6 +1078,9 @@ class A {
 
   def n(using a: A)
     (using B <:< B, C =:= C) = ()
+
+  def o()
+    : Int = 42
 }
 
 --------------------------------------------------------------------------------
@@ -1119,7 +1122,12 @@ class A {
             (type_identifier)
             (operator_identifier)
             (type_identifier)))
-        (unit)))))
+        (unit))
+      (function_definition
+        (identifier)
+        (parameters)
+        (type_identifier)
+        (integer_literal)))))
 
 ================================================================================
 Function definitions (Scala 3 syntax)
@@ -1208,6 +1216,9 @@ object A:
   private given listFoo[A1](using ev: CanFoo[A1]): CanFoo[List[A1]] with
     def foo(xs: List[A1]): Int = 0
 
+  given foo(using ev: Foo)
+    : Foo = ev
+
   given [T: Ordering]: Ordering[List[T]] with
     def x = ()
 
@@ -1287,6 +1298,14 @@ object A:
                     (type_identifier)))))
             (type_identifier)
             (integer_literal))))
+      (given_definition
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (identifier))
       (given_definition
         (identifier
           (MISSING _alpha_identifier))
