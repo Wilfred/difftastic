@@ -204,11 +204,6 @@
     "fields": {}
   },
   {
-    "type": "Comment",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "DefaultDecl",
     "named": true,
     "fields": {},
@@ -994,6 +989,10 @@
   },
   {
     "type": "CharData",
+    "named": true
+  },
+  {
+    "type": "Comment",
     "named": true
   },
   {

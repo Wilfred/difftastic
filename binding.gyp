@@ -7,26 +7,15 @@
         "tree-sitter-xml/src"
       ],
       "sources": [
-        "tree-sitter-xml/bindings/node/binding.cc",
+        "tree-sitter-dtd/src/parser.c",
+        "tree-sitter-dtd/src/scanner.c",
         "tree-sitter-xml/src/parser.c",
+        "tree-sitter-xml/src/scanner.c",
+        "bindings/node/binding.cc"
       ],
       "cflags_c": [
         "-std=c99",
       ]
     },
-    {
-      "target_name": "tree_sitter_dtd_binding",
-      "include_dirs": [
-        "<!(node -e \"require('nan')\")",
-        "tree-sitter-dtd/src"
-        ],
-        "sources": [
-          "tree-sitter-dtd/bindings/node/binding.cc",
-          "tree-sitter-dtd/src/parser.c",
-        ],
-        "cflags_c": [
-          "-std=c99",
-        ]
-    }
   ]
 }

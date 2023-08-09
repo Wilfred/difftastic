@@ -1826,74 +1826,70 @@
       "value": "[A-Za-z][A-Za-z0-9._\\-]*"
     },
     "PI": {
-      "type": "PREC_LEFT",
-      "value": 0,
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<?"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PITarget"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_S"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_pi_content"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "?>"
+        }
+      ]
+    },
+    "Comment": {
+      "type": "TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "STRING",
-            "value": "<?"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "Name"
-            },
-            "named": true,
-            "value": "PITarget"
+            "value": "<!--"
           },
           {
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_S"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": ".*"
-                  }
-                ]
+                "type": "STRING",
+                "value": "-"
               },
               {
-                "type": "BLANK"
+                "type": "PATTERN",
+                "value": "(([^-])|(-[^-])|[\\r\\n])*"
               }
             ]
           },
           {
             "type": "STRING",
-            "value": "?>"
+            "value": "-->"
           }
         ]
-      }
-    },
-    "Comment": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "TOKEN",
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "<!--"
-            },
-            {
-              "type": "PATTERN",
-              "value": "(.|[\\r\\n])*"
-            },
-            {
-              "type": "STRING",
-              "value": "-->"
-            }
-          ]
-        }
       }
     },
     "_Eq": {
@@ -1930,71 +1926,67 @@
       ]
     },
     "prolog": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "XMLDecl"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_Misc"
-                }
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "XMLDecl"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_Misc"
-                }
-              },
-              {
-                "type": "SYMBOL",
-                "name": "doctypedecl"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_Misc"
-                }
-              }
-            ]
-          },
-          {
-            "type": "REPEAT1",
-            "content": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
               "type": "SYMBOL",
-              "name": "_Misc"
+              "name": "XMLDecl"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_Misc"
+              }
             }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "XMLDecl"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_Misc"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "doctypedecl"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_Misc"
+              }
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_Misc"
           }
-        ]
-      }
+        }
+      ]
     },
     "_Misc": {
       "type": "CHOICE",
@@ -2420,17 +2412,6 @@
         ]
       }
     },
-    "CharData": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[^<&]*"
-        }
-      }
-    },
     "CDSect": {
       "type": "PREC_LEFT",
       "value": 0,
@@ -2655,7 +2636,20 @@
   "extras": [],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "PITarget"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_pi_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "CharData"
+    }
+  ],
   "inline": [
     "_extSubsetDecl",
     "conditionalSect"

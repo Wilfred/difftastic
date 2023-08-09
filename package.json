@@ -16,41 +16,46 @@
     "xml",
     "dtd"
   ],
-  "scripts": {
-    "generate-xml": "cd tree-sitter-xml && tree-sitter generate --no-bindings",
-    "generate-dtd": "cd tree-sitter-dtd && tree-sitter generate --no-bindings",
-    "parse": "tree-sitter parse",
-    "test-xml": "cd tree-sitter-xml && tree-sitter test",
-    "test-dtd": "cd tree-sitter-dtd && tree-sitter test",
-    "playground-xml": "cd tree-sitter-xml && tree-sitter build-wasm && tree-sitter playground",
-    "playground-dtd": "cd tree-sitter-dtd && tree-sitter build-wasm && tree-sitter playground"
-  },
-  "main": "bindings/node",
+  "main": "./bindings/node",
   "dependencies": {
     "nan": "^2.17.0"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.8"
   },
+  "scripts": {
+    "build": "npm run build-dtd && npm run build-xml",
+    "build-dtd": "cd tree-sitter-dtd && tree-sitter generate --no-bindings",
+    "build-xml": "cd tree-sitter-xml && tree-sitter generate --no-bindings",
+    "parse": "tree-sitter parse",
+    "test-load": "node -e \"console.log(require('./tree-sitter-dtd').name, require('./tree-sitter-xml').name)\"",
+    "test": "npm run test-dtd && npm run test-xml && npm run test-load",
+    "test-dtd": "cd tree-sitter-dtd && tree-sitter test",
+    "test-xml": "cd tree-sitter-xml && tree-sitter test",
+    "playground-xml": "cd tree-sitter-xml && tree-sitter build-wasm && tree-sitter playground",
+    "playground-dtd": "cd tree-sitter-dtd && tree-sitter build-wasm && tree-sitter playground"
+  },
   "tree-sitter": [
     {
       "scope": "source.xml",
-      "path": "tree-sitter-xml",
-      "highlights": "tree-sitter-xml/queries/highlights.scm",
       "file-types": [
         "xml",
         "svg",
         "xsd",
         "xslt"
-      ]
+      ],
+      "injection-regex": "^(xml|svg|xsd|xslt)$",
+      "highlights": "tree-sitter-xml/queries/highlights.scm",
+      "path": "tree-sitter-xml"
     },
     {
       "scope": "source.dtd",
-      "path": "tree-sitter-dtd",
-      "highlights": "tree-sitter-dtd/queries/highlights.scm",
       "file-types": [
         "dtd"
-      ]
+      ],
+      "injection-regex": "dtd",
+      "highlights": "tree-sitter-dtd/queries/highlights.scm",
+      "path": "tree-sitter-dtd"
     }
   ]
 }

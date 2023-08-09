@@ -12,6 +12,11 @@ const O = optional;
 module.exports = grammar({
   name: 'dtd',
 
+  externals: $ => [
+    $.PITarget,
+    $._pi_content,
+  ],
+
   extras: _ => [],
 
   word: $ => $.Name,
@@ -23,7 +28,6 @@ module.exports = grammar({
     $._EntityDecl,
     $._Reference
   ],
-
   rules: {
     // AKA: extSubset
     document: $ => seq(
@@ -330,19 +334,16 @@ module.exports = grammar({
 
     EncName: _ => /[A-Za-z][A-Za-z0-9._\-]*/,
 
-    PI: $ => prec.left(seq(
+    PI: $ => seq(
       '<?',
-      // FIXME: disallow /[Xx][Mm][Ll]/
-      alias($.Name, $.PITarget),
-      // FIXME: disallow '?>'
-      O(seq($._S, /.*/)),
+      $.PITarget,
+      O(seq($._S, $._pi_content)),
       '?>'
-    )),
+    ),
 
-    Comment: _ => prec.left(token(
-      // FIXME: disallow '--'
-      seq('<!--', /(.|[\r\n])*/, '-->')
-    )),
+    Comment: _ => token(
+      seq('<!--', choice('-', /(([^-])|(-[^-])|[\r\n])*/), '-->')
+    ),
 
     _Eq: $ => seq(O($._S), '=', O($._S))
   }

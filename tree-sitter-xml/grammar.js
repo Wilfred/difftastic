@@ -16,6 +16,12 @@ const O = optional;
 module.exports = grammar(DTD, {
   name: 'xml',
 
+  externals: $ => [
+    $.PITarget,
+    $._pi_content,
+    $.CharData,
+  ],
+
   inline: $ => [
     $._extSubsetDecl,
     $.conditionalSect
@@ -29,7 +35,7 @@ module.exports = grammar(DTD, {
       repeat($._Misc),
     )),
 
-    prolog: $ => prec.right(choice(
+    prolog: $ => choice(
       seq(
         $.XMLDecl,
         repeat($._Misc),
@@ -41,7 +47,7 @@ module.exports = grammar(DTD, {
         repeat($._Misc),
       ),
       repeat1($._Misc)
-    )),
+    ),
 
     _Misc: $ => choice(
       $.PI,
@@ -125,9 +131,6 @@ module.exports = grammar(DTD, {
         $.Comment
       )
     ),
-
-    // FIXME: disallow ']]>'
-    CharData: _ => token(prec(-1, /[^<&]*/)),
 
     CDSect: $ => prec.left(
       seq($.CDStart, $.CData, ']]>')

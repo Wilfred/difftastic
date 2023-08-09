@@ -161,11 +161,6 @@
     "fields": {}
   },
   {
-    "type": "Comment",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "DefaultDecl",
     "named": true,
     "fields": {},
@@ -689,6 +684,10 @@
   {
     "type": "ATTLIST",
     "named": false
+  },
+  {
+    "type": "Comment",
+    "named": true
   },
   {
     "type": "ELEMENT",
