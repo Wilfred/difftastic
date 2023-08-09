@@ -102,6 +102,21 @@ a::first-line {}
     (block)))
 
 =========================
+::slotted pseudo element
+=========================
+
+::slotted(button) {}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (pseudo_element_selector (tag_name)
+      (arguments (tag_name))))
+    (block)))
+
+
+=========================
 Child selectors
 =========================
 
@@ -126,6 +141,7 @@ Descendant selectors
 
 a b {}
 c d e {}
+f * {}
 
 ---
 
@@ -137,6 +153,12 @@ c d e {}
     (selectors (descendant_selector
       (descendant_selector (tag_name) (tag_name))
       (tag_name)))
+    (block))
+  (rule_set
+    (selectors
+      (descendant_selector
+        (tag_name)
+        (universal_selector)))
     (block)))
 
 ===========================

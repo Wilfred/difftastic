@@ -1227,6 +1227,10 @@
           "named": true
         },
         {
+          "type": "arguments",
+          "named": true
+        },
+        {
           "type": "attribute_selector",
           "named": true
         },

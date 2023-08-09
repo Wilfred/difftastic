@@ -26,6 +26,7 @@ bool tree_sitter_css_external_scanner_scan(void *payload, TSLexer *lexer, const 
       lexer->lookahead == '.' ||
       lexer->lookahead == '[' ||
       lexer->lookahead == '-' ||
+      lexer->lookahead == '*' ||
       iswalnum(lexer->lookahead)
     ) {
       return true;
