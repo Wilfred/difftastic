@@ -1,0 +1,155 @@
+===============================
+Resolve expr in fieldname key 1
+===============================
+
+local a = 'a';
+{ [a]: 'a' }
+
+---
+
+(document
+  (expr
+    (local_bind
+      (local)
+      (bind
+        (id)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
+      (expr
+        (member
+          (field
+            (fieldname
+              (expr
+                (id)))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
+
+===============================
+Resolve expr in fieldname key 2
+===============================
+
+local prefix = 'Happy Hour ';
+{
+  [prefix + 'Mimosa']: 'Champagne',
+}
+
+---
+
+(document
+  (expr
+    (local_bind
+      (local)
+      (bind
+        (id)
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
+      (expr
+        (member
+          (field
+            (fieldname
+              (expr
+                (expr (id))
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))
+            (expr
+              (string
+                (string_start)
+                (string_content)
+                (string_end)))))))))
+
+===============================
+Resolve expr in fieldname key 3
+===============================
+
+local Margarita(salted) = {
+  [if salted then 'garnish']: 'Salt',
+  ingredients: [
+    { kind: 'Tequila Blanco', qty: 2 },
+  ],
+};
+{
+  Margarita: Margarita(true),
+  'Margarita Unsalted': Margarita(false),
+}
+
+---
+
+(document
+ (expr
+  (local_bind
+   (local)
+   (bind
+    function: (id)
+    params:
+    (params
+     (param
+      identifier: (id)))
+    body: (expr
+    (member
+      (field
+       (fieldname
+        (expr
+         condition: (expr (id))
+         consequence:
+         (expr
+          (string
+           (string_start)
+           (string_content)
+           (string_end)))))
+       (expr
+        (string
+         (string_start)
+         (string_content)
+         (string_end)))))
+     (member
+      (field
+       (fieldname (id))
+       (expr
+        (expr
+         (member
+          (field
+           (fieldname (id))
+           (expr
+            (string
+             (string_start)
+             (string_content)
+             (string_end)))))
+         (member
+          (field
+           (fieldname
+            (id))
+           (expr
+            (number))))))))
+     ))
+   (expr
+    (member
+     (field
+      (fieldname (id))
+      (expr
+       (expr (id))
+       (args
+        (expr (true))))))
+    (member
+     (field
+      (fieldname
+       (string
+        (string_start)
+        (string_content)
+        (string_end)))
+      (expr
+       (expr (id))
+       (args
+        (expr
+         (false))))))))))

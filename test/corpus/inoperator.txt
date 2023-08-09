@@ -1,0 +1,68 @@
+======================
+In operator on object
+======================
+
+local obj = { a: null };
+'a' in obj
+
+---
+
+(document
+  (expr
+    (local_bind
+      (local)
+      (bind
+        (id)
+        (expr
+          (member
+            (field
+              (fieldname
+                (id))
+              (expr
+                (null))))))
+      (expr
+        (expr
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (expr
+          (id))))))
+
+======================
+In operator on super
+======================
+
+local obj = { a: null };
+obj + { b: 'a' in super }
+
+---
+
+(document
+  (expr
+    (local_bind
+      (local)
+      (bind
+        (id)
+        (expr
+          (member
+            (field
+              (fieldname
+                (id))
+              (expr
+                (null))))))
+      (expr
+        (expr
+          (id))
+        (expr
+          (member
+            (field
+              (fieldname
+                (id))
+              (expr
+                (expr
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
+                (super)))))))))

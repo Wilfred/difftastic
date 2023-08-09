@@ -156,7 +156,7 @@ module.exports = grammar({
                 [PREC.multiplicative, choice("*", "/", "%")],
                 [PREC.additive, choice("+", "-")],
                 [PREC.bitshift, choice("<<", ">>")],
-                [PREC.comparison, choice("<", "<=", ">", ">=")],
+                [PREC.comparison, choice("<", "<=", ">", ">=", "in")],
                 [PREC.equality, choice("==", "!=")],
                 [PREC.bitand, "&"],
                 [PREC.bitxor, "^"],
@@ -210,7 +210,7 @@ module.exports = grammar({
         // error expr
         expr_error: ($) => prec.right(seq("error", $.expr)),
 
-        _expr_super: ($) => seq($.expr, "in", $.super),
+        _expr_super: ($) => prec(PREC.comparison, seq($.expr, "in", $.super)),
 
         _parenthesis: ($) => seq("(", $.expr, ")"),
 
@@ -218,18 +218,17 @@ module.exports = grammar({
             choice(
                 // seq($.member, repeat(seq(",", $.member)), optional(",")),
                 commaSep1($.member, true),
-                seq(
-                    repeat(seq($.objlocal, ",")),
-                    "[",
-                    $.expr,
-                    "]",
-                    ":",
-                    $.expr,
-                    repeat(seq(",", $.objlocal)),
-                    optional(","),
-                    $.forspec,
-                    optional($.compspec),
-                ),
+                $._objforloop,
+            ),
+
+        _objforloop: ($) =>
+            seq(
+                repeat(seq($.objlocal, ",")),
+                $.field,
+                repeat(seq(",", $.objlocal)),
+                optional(","),
+                $.forspec,
+                optional($.compspec),
             ),
 
         member: ($) =>
