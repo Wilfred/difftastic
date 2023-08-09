@@ -22,6 +22,8 @@ module.exports = grammar(DTD, {
     $._pi_content,
     $.Comment,
     $.CharData,
+    'xml-model',
+    'xml-stylesheet',
   ],
 
   inline: $ => [

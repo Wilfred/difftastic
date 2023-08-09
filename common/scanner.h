@@ -8,13 +8,20 @@ enum TokenType {
     PIContent,
     Comment,
     CharData,
+    XmlModel,
+    XmlStylesheet,
 };
 
 /// Advance the lexer to the next token
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
+static inline bool is_valid_pi_char(int32_t chr) {
+    return isalnum(chr) || chr == '_' || chr == ':' || chr == '.' ||
+           chr == '-' || chr == L'·';
+}
+
 /// Scan for the target of a PI node
-static bool scan_pi_target(TSLexer *lexer) {
+static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
     bool advanced_once = false, found_x_first = false;
 
     if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
@@ -27,27 +34,50 @@ static bool scan_pi_target(TSLexer *lexer) {
     }
 
     if (advanced_once) {
-        while (isalnum(lexer->lookahead) || lexer->lookahead == '_' ||
-               lexer->lookahead == ':' || lexer->lookahead == '.' ||
-               lexer->lookahead == L'·' || lexer->lookahead == '-') {
-            if (lexer->lookahead == 'x' || lexer->lookahead == 'X') {
-                lexer->mark_end(lexer);
-                advance(lexer);
-                if (lexer->lookahead == 'm' || lexer->lookahead == 'M') {
-                    advance(lexer);
-                    if (lexer->lookahead == 'l' || lexer->lookahead == 'L') {
-                        advance(lexer);
-                        return false;
-                    }
-                }
-            }
-
+        while (is_valid_pi_char(lexer->lookahead)) {
             if (found_x_first &&
                 (lexer->lookahead == 'm' || lexer->lookahead == 'M')) {
                 advance(lexer);
                 if (lexer->lookahead == 'l' || lexer->lookahead == 'L') {
                     advance(lexer);
-                    return false;
+                    if (is_valid_pi_char(lexer->lookahead)) {
+                        found_x_first = false;
+                        bool last_char_hyphen = lexer->lookahead == '-';
+                        advance(lexer);
+                        if (last_char_hyphen) {
+                            // scan for stylesheet/model and disallow that
+                            if (valid_symbols[XmlModel]) {
+                                const char *const word = "model";
+                                int j = 0;
+                                while (word[j] != '\0') {
+                                    if (word[j] != lexer->lookahead) {
+                                        break;
+                                    }
+                                    j++;
+                                    advance(lexer);
+                                }
+                                if (word[j] == '\0') {
+                                    return false;
+                                }
+                            }
+                            if (valid_symbols[XmlStylesheet]) {
+                                const char *const word = "stylesheet";
+                                int j = 0;
+                                while (word[j] != '\0') {
+                                    if (word[j] != lexer->lookahead) {
+                                        break;
+                                    }
+                                    j++;
+                                    advance(lexer);
+                                }
+                                if (word[j] == '\0') {
+                                    return false;
+                                }
+                            }
+                        }
+                    } else {
+                        return false;
+                    }
                 }
             }
 

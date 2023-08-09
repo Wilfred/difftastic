@@ -11,7 +11,7 @@
 #define SYMBOL_COUNT 140
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 73
-#define EXTERNAL_TOKEN_COUNT 4
+#define EXTERNAL_TOKEN_COUNT 6
 #define FIELD_COUNT 2
 #define MAX_ALIAS_SEQUENCE_LENGTH 12
 #define PRODUCTION_ID_COUNT 5
@@ -3399,7 +3399,7 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [402] = {.lex_state = 147},
   [403] = {.lex_state = 44},
   [404] = {.lex_state = 1},
-  [405] = {.lex_state = 0, .external_lex_state = 4},
+  [405] = {.lex_state = 0, .external_lex_state = 6},
   [406] = {.lex_state = 40},
   [407] = {.lex_state = 1},
   [408] = {.lex_state = 1},
@@ -3431,7 +3431,7 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [434] = {.lex_state = 1},
   [435] = {.lex_state = 1},
   [436] = {.lex_state = 40},
-  [437] = {.lex_state = 0, .external_lex_state = 4},
+  [437] = {.lex_state = 0, .external_lex_state = 6},
   [438] = {.lex_state = 1},
   [439] = {.lex_state = 0, .external_lex_state = 5},
   [440] = {.lex_state = 1},
@@ -3454,6 +3454,8 @@ enum {
   ts_external_token__pi_content = 1,
   ts_external_token_Comment = 2,
   ts_external_token_CharData = 3,
+  ts_external_token_xml_DASHmodel = 4,
+  ts_external_token_xml_DASHstylesheet = 5,
 };
 
 static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
@@ -3461,14 +3463,18 @@ static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
   [ts_external_token__pi_content] = sym__pi_content,
   [ts_external_token_Comment] = sym_Comment,
   [ts_external_token_CharData] = sym_CharData,
+  [ts_external_token_xml_DASHmodel] = anon_sym_xml_DASHmodel,
+  [ts_external_token_xml_DASHstylesheet] = anon_sym_xml_DASHstylesheet,
 };
 
-static const bool ts_external_scanner_states[6][EXTERNAL_TOKEN_COUNT] = {
+static const bool ts_external_scanner_states[7][EXTERNAL_TOKEN_COUNT] = {
   [1] = {
     [ts_external_token_PITarget] = true,
     [ts_external_token__pi_content] = true,
     [ts_external_token_Comment] = true,
     [ts_external_token_CharData] = true,
+    [ts_external_token_xml_DASHmodel] = true,
+    [ts_external_token_xml_DASHstylesheet] = true,
   },
   [2] = {
     [ts_external_token_Comment] = true,
@@ -3479,9 +3485,14 @@ static const bool ts_external_scanner_states[6][EXTERNAL_TOKEN_COUNT] = {
   },
   [4] = {
     [ts_external_token_PITarget] = true,
+    [ts_external_token_xml_DASHmodel] = true,
+    [ts_external_token_xml_DASHstylesheet] = true,
   },
   [5] = {
     [ts_external_token__pi_content] = true,
+  },
+  [6] = {
+    [ts_external_token_PITarget] = true,
   },
 };
 

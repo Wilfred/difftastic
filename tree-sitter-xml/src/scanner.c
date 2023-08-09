@@ -43,7 +43,7 @@ bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer,
                                            const bool *valid_symbols) {
     if (in_error_recovery(valid_symbols)) return false;
 
-    if (valid_symbols[PITarget]) return scan_pi_target(lexer);
+    if (valid_symbols[PITarget]) return scan_pi_target(lexer, valid_symbols);
 
     if (valid_symbols[PIContent]) return scan_pi_content(lexer);
 
