@@ -5795,6 +5795,25 @@
     }
   },
   {
+    "type": "subscript_argument_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "initializer_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "subscript_designator",
     "named": true,
     "fields": {},
@@ -5823,16 +5842,12 @@
           }
         ]
       },
-      "index": {
+      "indices": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "initializer_list",
+            "type": "subscript_argument_list",
             "named": true
           }
         ]

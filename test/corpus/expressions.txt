@@ -1168,22 +1168,26 @@ array_[{i}] = s[{1,2,3}];
     (assignment_expression
       (subscript_expression
         (identifier)
-        (identifier))
+        (subscript_argument_list
+          (identifier)))
       (subscript_expression
         (identifier)
-        (identifier))))
+        (subscript_argument_list
+          (identifier)))))
   (expression_statement
     (assignment_expression
       (subscript_expression
         (identifier)
-        (initializer_list
-          (identifier)))
+        (subscript_argument_list
+          (initializer_list
+            (identifier))))
       (subscript_expression
         (identifier)
-        (initializer_list
-          (number_literal)
-          (number_literal)
-          (number_literal))))))
+        (subscript_argument_list
+          (initializer_list
+            (number_literal)
+            (number_literal)
+            (number_literal)))))))
 
 ================================================================================
 Coroutines
@@ -1330,3 +1334,24 @@ foo and_eq bar();
       (call_expression
         (identifier)
         (argument_list)))))
+
+================================================================================
+Subscript expression
+================================================================================
+
+auto x = a[1, 2, 3];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (placeholder_type_specifier
+      (auto))
+    (init_declarator
+      (identifier)
+      (subscript_expression
+        (identifier)
+        (subscript_argument_list
+          (number_literal)
+          (number_literal)
+          (number_literal))))))
