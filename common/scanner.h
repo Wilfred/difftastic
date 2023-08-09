@@ -128,39 +128,6 @@ static bool scan_comment(TSLexer *lexer) {
     return false;
 }
 
-/// Scan for a CharData node
-static bool scan_char_data(TSLexer *lexer) {
-    bool advanced_once = false;
-
-    while (!lexer->eof(lexer) &&
-           lexer->lookahead != '<' &&
-           lexer->lookahead != '&') {
-        if (lexer->lookahead == ']') {
-            lexer->mark_end(lexer);
-            advance(lexer);
-            if (lexer->lookahead == ']') {
-                advance(lexer);
-                if (lexer->lookahead == '>') {
-                    advance(lexer);
-                    if (advanced_once) {
-                        lexer->result_symbol = CharData;
-                        return false;
-                    }
-                }
-            }
-        }
-        advanced_once = true;
-        advance(lexer);
-    }
-
-    if (advanced_once) {
-        lexer->mark_end(lexer);
-        lexer->result_symbol = CharData;
-        return true;
-    }
-    return false;
-}
-
 /// Define the boilerplate functions of the scanner
 /// @param name the name of the language
 #define SCANNER_BOILERPLATE(name) \

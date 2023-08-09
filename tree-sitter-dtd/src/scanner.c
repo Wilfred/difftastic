@@ -1,5 +1,6 @@
 #include "../../common/scanner.h"
 
+/// Check if the lexer is in error recovery mode
 static inline bool in_error_recovery(const bool *valid_symbols) {
     return valid_symbols[PITarget] && valid_symbols[PIContent] && valid_symbols[Comment];
 }
