@@ -4,12 +4,12 @@
 #include <tree_sitter/parser.h>
 
 enum TokenType {
-    PITarget,
-    PIContent,
-    Comment,
-    CharData,
-    XmlModel,
-    XmlStylesheet,
+    PI_TARGET,
+    PI_CONTENT,
+    COMMENT,
+    CHAR_DATA,
+    XML_MODEL,
+    XML_STYLESHEET,
 };
 
 /// Advance the lexer to the next token
@@ -56,8 +56,8 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
                         bool last_char_hyphen = lexer->lookahead == '-';
                         advance(lexer);
                         if (last_char_hyphen) {
-                            if (valid_symbols[XmlModel] && check_word(lexer, "model")) return false;
-                            if (valid_symbols[XmlStylesheet] && check_word(lexer, "stylesheet")) return false;
+                            if (valid_symbols[XML_MODEL] && check_word(lexer, "model")) return false;
+                            if (valid_symbols[XML_STYLESHEET] && check_word(lexer, "stylesheet")) return false;
                         }
                     } else {
                         return false;
@@ -70,7 +70,7 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
         }
 
         lexer->mark_end(lexer);
-        lexer->result_symbol = PITarget;
+        lexer->result_symbol = PI_TARGET;
         return true;
     }
 
@@ -79,29 +79,20 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
 
 /// Scan for the content of a PI node
 static bool scan_pi_content(TSLexer *lexer) {
-    bool advanced_once = false;
+    while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '?') advance(lexer);
 
-    while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '?') {
-        advanced_once = true;
+    if (lexer->lookahead != '?') return false;
+
+    lexer->mark_end(lexer);
+    advance(lexer);
+
+    if (lexer->lookahead == '>') {
         advance(lexer);
+        return false;
     }
 
-    if (lexer->lookahead == '?') {
-        lexer->mark_end(lexer);
-        advance(lexer);
-        if (lexer->lookahead == '>') {
-            advance(lexer);
-            return false;
-        }
-    }
-
-    if (advanced_once) {
-        lexer->mark_end(lexer);
-        lexer->result_symbol = PIContent;
-        return true;
-    }
-
-    return false;
+    lexer->result_symbol = PI_CONTENT;
+    return true;
 }
 
 /// Scan for a Comment node
@@ -133,7 +124,7 @@ static bool scan_comment(TSLexer *lexer) {
     if (lexer->lookahead == '>') {
         advance(lexer);
         lexer->mark_end(lexer);
-        lexer->result_symbol = Comment;
+        lexer->result_symbol = COMMENT;
         return true;
     }
 
