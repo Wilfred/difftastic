@@ -2,6 +2,14 @@
   "name": "tree-sitter-commonlisp",
   "version": "0.3.0",
   "description": "Tree-sitter grammar for Common Lisp",
+  "tree-sitter": [
+    {
+      "scope": "source.lisp",
+      "file-types": [
+        "lisp"
+      ]
+    }
+  ],
   "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test"
