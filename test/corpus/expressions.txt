@@ -703,6 +703,49 @@ int main() {
                 (parameter_list)))))))))
 
 ================================================================================
+Alignof expressions
+================================================================================
+
+typedef struct {
+    long long __clang_max_align_nonce1
+        __attribute__((__aligned__(__alignof__(long long))));
+    long double __clang_max_align_nonce2
+        __attribute__((__aligned__(__alignof__(long double))));
+} max_align_t;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    (struct_specifier
+      (field_declaration_list
+        (field_declaration
+          (sized_type_specifier)
+          (field_identifier)
+          (attribute_specifier
+            (argument_list
+              (call_expression
+                (identifier)
+                (argument_list
+                  (alignof_expression
+                    (type_descriptor
+                      (sized_type_specifier))))))))
+        (field_declaration
+          (sized_type_specifier
+            (primitive_type))
+          (field_identifier)
+          (attribute_specifier
+            (argument_list
+              (call_expression
+                (identifier)
+                (argument_list
+                  (alignof_expression
+                    (type_descriptor
+                      (sized_type_specifier
+                        (primitive_type)))))))))))
+    (primitive_type)))
+
+================================================================================
 Offsetof expressions
 ================================================================================
 

@@ -807,6 +807,7 @@ module.exports = grammar({
       $.cast_expression,
       $.pointer_expression,
       $.sizeof_expression,
+      $.alignof_expression,
       $.offsetof_expression,
       $.generic_expression,
       $.subscript_expression,
@@ -937,6 +938,11 @@ module.exports = grammar({
         field('value', $._expression),
         seq('(', field('type', $.type_descriptor), ')'),
       ),
+    )),
+
+    alignof_expression: $ => prec(PREC.SIZEOF, seq(
+      choice('__alignof__', '__alignof', '_alignof', 'alignof', '_Alignof'),
+      seq('(', field('type', $.type_descriptor), ')'),
     )),
 
     offsetof_expression: $ => prec(PREC.OFFSETOF, seq(
