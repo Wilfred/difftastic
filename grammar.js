@@ -681,7 +681,14 @@ module.exports = grammar({
       ),
 
     derives_clause: $ =>
-      prec.left(seq("derives", commaSep1(field("type", choice($._type_identifier, $.stable_type_identifier))))),
+      prec.left(
+        seq(
+          "derives",
+          commaSep1(
+            field("type", choice($._type_identifier, $.stable_type_identifier)),
+          ),
+        ),
+      ),
 
     class_parameters: $ =>
       prec(
