@@ -429,10 +429,11 @@ module.exports = grammar({
       field('declarator', optional($._abstract_declarator)),
     ))),
 
-    function_declarator: $ => prec(1,
+    function_declarator: $ => prec.right(1,
       seq(
         field('declarator', $._declarator),
         field('parameters', $.parameter_list),
+        optional($.gnu_asm_expression),
         repeat($.attribute_specifier),
       )),
     function_field_declarator: $ => prec(1, seq(

@@ -714,6 +714,11 @@ void die(const char *format, ...) __attribute__((noreturn))
                                   __attribute__((format(printf,1,2)));
 extern __attribute__((visibility("default"), weak)) int print_status();
 
+extern int strerror_r(int __errnum, char *__buf,
+                      int __buflen) __asm__(""
+                                            "__xpg_strerror_r")
+    __attribute__((__nothrow__)) __attribute__((__nonnull__(2)));
+
 int f([[a::b(c), d]] int x) {}
 
 [[gnu::always_inline]] [[gnu::hot]] [[gnu::const]] [[nodiscard]]
@@ -812,6 +817,36 @@ struct __attribute__((__packed__)) foo_t {
     (function_declarator
       (identifier)
       (parameter_list)))
+  (declaration
+    (storage_class_specifier)
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))
+        (parameter_declaration
+          (primitive_type)
+          (pointer_declarator
+            (identifier)))
+        (parameter_declaration
+          (primitive_type)
+          (identifier)))
+      (gnu_asm_expression
+        (concatenated_string
+          (string_literal)
+          (string_literal
+            (string_content))))
+      (attribute_specifier
+        (argument_list
+          (identifier)))
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            (identifier)
+            (argument_list
+              (number_literal)))))))
   (function_definition
     (primitive_type)
     (function_declarator
