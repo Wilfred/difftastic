@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-objc",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Objective-C grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [

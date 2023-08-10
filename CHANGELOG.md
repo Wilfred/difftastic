@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/amaanq/tree-sitter-objc/compare/v1.2.0...v2.0.0) (2023-08-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* update tree-sitter-c to 0.20.5
+
+### Features
+
+* update tree-sitter-c to 0.20.5 ([e198f35](https://github.com/amaanq/tree-sitter-objc/commit/e198f3579a95e81a0c83d080572a32c787c08afc))
+
 ## [1.2.0](https://github.com/amaanq/tree-sitter-objc/compare/v1.1.0...v1.2.0) (2023-07-18)
 
 
