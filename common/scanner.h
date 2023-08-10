@@ -88,11 +88,17 @@ static bool scan_pi_content(TSLexer *lexer) {
 
     if (lexer->lookahead == '>') {
         advance(lexer);
-        return false;
+        while (lexer->lookahead == ' ') advance(lexer);
+        if (lexer->lookahead == '\n') {
+            advance(lexer);
+        } else {
+            return false;
+        }
+        lexer->result_symbol = PI_CONTENT;
+        return true;
     }
 
-    lexer->result_symbol = PI_CONTENT;
-    return true;
+    return false;
 }
 
 /// Scan for a Comment node
