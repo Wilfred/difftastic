@@ -110,6 +110,7 @@ examples/clang/test/SemaObjC/class-unavail-warning.m
 examples/clang/test/SemaObjC/crash-label.m
 examples/clang/test/SemaObjC/crash-on-objc-bool-literal.m
 examples/clang/test/SemaObjC/crash-on-type-args-protocols.m
+examples/clang/test/SemaObjC/delay-parsing-cfunctions.m
 examples/clang/test/SemaObjC/diagnose_if.m
 examples/clang/test/SemaObjC/enum-fixed-type.m
 examples/clang/test/SemaObjC/externally-retained.m

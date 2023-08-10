@@ -60,6 +60,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "alignof_expression",
+        "named": true
+      },
+      {
         "type": "array_literal",
         "named": true
       },
@@ -133,10 +137,6 @@
       },
       {
         "type": "identifier",
-        "named": true
-      },
-      {
-        "type": "keyword_identifier",
         "named": true
       },
       {
@@ -335,6 +335,10 @@
       },
       {
         "type": "pointer_declarator",
+        "named": true
+      },
+      {
+        "type": "primitive_type",
         "named": true
       },
       {
@@ -626,6 +630,22 @@
     }
   },
   {
+    "type": "alignof_expression",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_descriptor",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "argument_list",
     "named": true,
     "fields": {},
@@ -638,11 +658,11 @@
           "named": true
         },
         {
-          "type": "_type_specifier",
+          "type": "availability",
           "named": true
         },
         {
-          "type": "availability",
+          "type": "compound_statement",
           "named": true
         },
         {
@@ -658,11 +678,19 @@
           "named": true
         },
         {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
           "type": "type_name",
           "named": true
         },
         {
           "type": "type_qualifier",
+          "named": true
+        },
+        {
+          "type": "typeof_specifier",
           "named": true
         }
       ]
@@ -1429,16 +1457,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "type_qualifier",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1940,6 +1958,10 @@
             "named": true
           },
           {
+            "type": "gnu_asm_expression",
+            "named": true
+          },
+          {
             "type": "init_declarator",
             "named": true
           },
@@ -2204,6 +2226,20 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "underlying_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "primitive_type",
+            "named": true
+          },
           {
             "type": "type_identifier",
             "named": true
@@ -2719,7 +2755,7 @@
           "named": true
         },
         {
-          "type": "type_name",
+          "type": "gnu_asm_expression",
           "named": true
         },
         {
@@ -3353,21 +3389,6 @@
     }
   },
   {
-    "type": "keyword_identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "labeled_statement",
     "named": true,
     "fields": {
@@ -3677,10 +3698,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "keyword_identifier",
           "named": true
         },
         {
@@ -4469,6 +4486,10 @@
           "named": true
         },
         {
+          "type": "attribute_specifier",
+          "named": true
+        },
+        {
           "type": "class_declaration",
           "named": true
         },
@@ -4530,6 +4551,10 @@
         },
         {
           "type": "preproc_undef",
+          "named": true
+        },
+        {
+          "type": "property_implementation",
           "named": true
         },
         {
@@ -5576,6 +5601,10 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -6847,6 +6876,10 @@
     "named": false
   },
   {
+    "type": "_Alignof",
+    "named": false
+  },
+  {
     "type": "_Atomic",
     "named": false
   },
@@ -6884,6 +6917,14 @@
   },
   {
     "type": "__OSX_AVAILABLE_STARTING",
+    "named": false
+  },
+  {
+    "type": "__alignof",
+    "named": false
+  },
+  {
+    "type": "__alignof__",
     "named": false
   },
   {
@@ -6971,6 +7012,10 @@
     "named": false
   },
   {
+    "type": "__extension__",
+    "named": false
+  },
+  {
     "type": "__fastcall",
     "named": false
   },
@@ -6979,7 +7024,15 @@
     "named": false
   },
   {
+    "type": "__forceinline",
+    "named": false
+  },
+  {
     "type": "__imag",
+    "named": false
+  },
+  {
+    "type": "__inline",
     "named": false
   },
   {
@@ -7067,7 +7120,15 @@
     "named": false
   },
   {
+    "type": "_alignof",
+    "named": false
+  },
+  {
     "type": "_unaligned",
+    "named": false
+  },
+  {
+    "type": "alignof",
     "named": false
   },
   {
@@ -7297,6 +7358,10 @@
   {
     "type": "static",
     "named": false
+  },
+  {
+    "type": "string_content",
+    "named": true
   },
   {
     "type": "struct",
