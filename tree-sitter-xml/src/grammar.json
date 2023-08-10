@@ -2421,10 +2421,6 @@
         }
       ]
     },
-    "CData": {
-      "type": "PATTERN",
-      "value": "([^\\]]|][^\\][\\]]|]][^>])*"
-    },
     "StyleSheetPI": {
       "type": "SEQ",
       "members": [
@@ -2623,6 +2619,10 @@
     {
       "type": "SYMBOL",
       "name": "CharData"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "CData"
     },
     {
       "type": "STRING",

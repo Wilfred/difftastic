@@ -6,6 +6,7 @@
  * @see {@link https://www.w3.org/TR/xml-model/|XML model}
  * @see {@link https://www.w3.org/TR/xml-stylesheet/|XML stylesheet}
  */
+// @ts-nocheck
 
 const c = require('../common');
 
@@ -16,15 +17,12 @@ const O = optional;
 module.exports = grammar(DTD, {
   name: 'xml',
 
-  // XXX: TS LS doesn't like the ($, previous) form
-  externals: $ => [
-    $.PITarget,
-    $._pi_content,
-    $.Comment,
+  externals: ($, previous) => previous.concat([
     $.CharData,
+    $.CData,
     'xml-model',
     'xml-stylesheet',
-  ],
+  ]),
 
   inline: $ => [
     $._extSubsetDecl,
@@ -141,8 +139,6 @@ module.exports = grammar(DTD, {
     ),
 
     CDStart: _ => seq('<![', 'CDATA', '['),
-
-    CData: _ => /([^\]]|][^\][\]]|]][^>])*/,
 
     StyleSheetPI: $ => seq(
       '<?',

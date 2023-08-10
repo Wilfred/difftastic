@@ -8,9 +8,14 @@ enum TokenType {
     PI_CONTENT,
     COMMENT,
     CHAR_DATA,
+    CDATA,
     XML_MODEL,
     XML_STYLESHEET,
 };
+
+/// Advance the lexer if the next token doesn't match the given character
+#define advance_if_not(lexer, chr) \
+    if ((lexer)->lookahead != (chr)) return false; advance((lexer))
 
 /// Advance the lexer to the next token
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -25,8 +30,7 @@ static inline bool is_valid_pi_char(int32_t chr) {
 /// @private
 static inline bool check_word(TSLexer *lexer, const char *const word) {
     for (int j = 0; word[j] != '\0'; ++j) {
-        if (word[j] != lexer->lookahead) return false;
-        advance(lexer);
+        advance_if_not(lexer, word[j]);
     }
     return true;
 }
@@ -82,18 +86,13 @@ static bool scan_pi_content(TSLexer *lexer) {
     while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '?') advance(lexer);
 
     if (lexer->lookahead != '?') return false;
-
     lexer->mark_end(lexer);
     advance(lexer);
 
     if (lexer->lookahead == '>') {
         advance(lexer);
         while (lexer->lookahead == ' ') advance(lexer);
-        if (lexer->lookahead == '\n') {
-            advance(lexer);
-        } else {
-            return false;
-        }
+        advance_if_not(lexer, '\n');
         lexer->result_symbol = PI_CONTENT;
         return true;
     }
@@ -103,17 +102,10 @@ static bool scan_pi_content(TSLexer *lexer) {
 
 /// Scan for a Comment node
 static bool scan_comment(TSLexer *lexer) {
-    if (lexer->lookahead != '<') return false;
-    advance(lexer);
-
-    if (lexer->lookahead != '!') return false;
-    advance(lexer);
-
-    if (lexer->lookahead != '-') return false;
-    advance(lexer);
-
-    if (lexer->lookahead != '-') return false;
-    advance(lexer);
+    advance_if_not(lexer, '<');
+    advance_if_not(lexer, '!');
+    advance_if_not(lexer, '-');
+    advance_if_not(lexer, '-');
 
     while (!lexer->eof(lexer)) {
         if (lexer->lookahead == '-') {
