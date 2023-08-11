@@ -1197,6 +1197,7 @@ module.exports = grammar(C, {
     _assignment_left_expression: ($, original) => choice(
       original,
       $.qualified_identifier,
+      $.user_defined_literal,
     ),
 
     assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
