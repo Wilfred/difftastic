@@ -92,8 +92,8 @@ module.exports = grammar({
     [$._space_lp],
     [$._space_lp, $._normal_tail_condition_line],
     [$._heading_tail_any_text],
-    [$._heading_tail_any_raw],
-    [$._heading_tail_any_math],
+    [$._heading_tail_any_element],
+    // [$._heading_tail_any_math],
     [$._heading_tail_any_strong],
     [$._heading_tail_any_emph],
     [$._heading_tail_any_code],
@@ -134,7 +134,7 @@ module.exports = grammar({
       seq($._space_l0, optional(seq(choice($._space_l1, $._space_lp), optional($._space_l0)))),
       seq(choice($._space_l1, $._space_lp), optional($._space_l0)),
     )),
-    _element: $ => choice($.raw, $.inline, $.strong, $.emph),
+    _element: $ => choice($.raw, $.inline, $.math),
     raw: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
     inline: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
     math: $ => seq('$', /[^\$]*/, '$'),
@@ -143,61 +143,53 @@ module.exports = grammar({
       $._normal_tail_any_line,
       $._normal_tail_any_break,
       $._normal_tail_any_code,
+      $._normal_tail_any_element,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
-      $._normal_tail_any_raw,
-      $._normal_tail_any_math,
     ),
     _any_strong: $ => choice(
       $._strong_tail_any_line,
       $._strong_tail_any_code,
       $._strong_tail_any_emph,
-      $._strong_tail_any_raw,
-      $._strong_tail_any_math,
+      $._strong_tail_any_element,
     ),
     _any_emph: $ => choice(
       $._emph_tail_any_line,
       $._emph_tail_any_code,
       $._emph_tail_any_strong,
-      $._emph_tail_any_raw,
-      $._emph_tail_any_math,
+      $._emph_tail_any_element,
     ),
     _any_heading: $ => choice(
       $._heading_tail_any_code,
       $._heading_tail_any_strong,
       $._heading_tail_any_emph,
-      $._heading_tail_any_raw,
-      $._heading_tail_any_math,
+      $._heading_tail_any_element,
     ),
     _any_normal_space: $ => choice(
       $._normal_tail_any_space,
       $._normal_tail_any_code,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
-      $._normal_tail_any_raw,
-      $._normal_tail_any_math,
+      $._normal_tail_any_element,
     ),
     _any_strong_space: $ => choice(
       $._strong_tail_any_space,
       $._strong_tail_any_code,
       $._strong_tail_any_emph,
-      $._strong_tail_any_raw,
-      $._strong_tail_any_math,
+      $._strong_tail_any_element,
     ),
     _any_emph_space: $ => choice(
       $._emph_tail_any_space,
       $._emph_tail_any_code,
       $._emph_tail_any_strong,
-      $._emph_tail_any_raw,
-      $._emph_tail_any_math,
+      $._emph_tail_any_element,
     ),
     _any_heading_space: $ => choice(
       $._heading_tail_any_space,
       $._heading_tail_any_code,
       $._heading_tail_any_strong,
       $._heading_tail_any_emph,
-      $._heading_tail_any_raw,
-      $._heading_tail_any_math,
+      $._heading_tail_any_element,
     ),
 
     // TAIL INIT
@@ -233,12 +225,7 @@ module.exports = grammar({
       $._normal_tail_any_text,
       $._any_normal,
     ))),
-    _normal_tail_any_raw: $ => seq($.raw, optional(choice(
-      $._normal_tail_any_space,
-      $._normal_tail_any_text,
-      $._any_normal,
-    ))),
-    _normal_tail_any_math: $ => seq($.math, optional(choice(
+    _normal_tail_any_element: $ => seq($._element, optional(choice(
       $._normal_tail_any_space,
       $._normal_tail_any_text,
       $._any_normal,
@@ -251,12 +238,7 @@ module.exports = grammar({
       $._strong_tail_any_space,
       $._any_strong,
     ))),
-    _strong_tail_any_raw: $ => seq($.raw, optional(choice(
-      $._strong_tail_any_space,
-      $._strong_tail_any_text,
-      $._any_strong,
-    ))),
-    _strong_tail_any_math: $ => seq($.math, optional(choice(
+    _strong_tail_any_element: $ => seq($._element, optional(choice(
       $._strong_tail_any_space,
       $._strong_tail_any_text,
       $._any_strong,
@@ -269,12 +251,7 @@ module.exports = grammar({
       $._emph_tail_any_space,
       $._any_emph,
     ))),
-    _emph_tail_any_raw: $ => seq($.raw, optional(choice(
-      $._emph_tail_any_space,
-      $._emph_tail_any_text,
-      $._any_emph,
-    ))),
-    _emph_tail_any_math: $ => seq($.math, optional(choice(
+    _emph_tail_any_element: $ => seq($._element, optional(choice(
       $._emph_tail_any_space,
       $._emph_tail_any_text,
       $._any_emph,
@@ -287,12 +264,7 @@ module.exports = grammar({
       $._heading_tail_any_space,
       $._any_heading,
     ))),
-    _heading_tail_any_raw: $ => seq($.raw, optional(choice(
-      $._heading_tail_any_space,
-      $._heading_tail_any_text,
-      $._any_heading,
-    ))),
-    _heading_tail_any_math: $ => seq($.math, optional(choice(
+    _heading_tail_any_element: $ => seq($._element, optional(choice(
       $._heading_tail_any_space,
       $._heading_tail_any_text,
       $._any_heading,
@@ -315,8 +287,7 @@ module.exports = grammar({
       $._normal_tail_any_code,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
-      $._normal_tail_any_raw,
-      $._normal_tail_any_math,
+      $._normal_tail_any_element,
     ))),
     _normal_tail_any_break: $ => seq(alias($._space_lp, $.break), optional($._space_l0), optional(choice(
       $._normal_tail_init_text,
@@ -324,24 +295,21 @@ module.exports = grammar({
       $._normal_tail_any_code,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
-      $._normal_tail_any_raw,
-      $._normal_tail_any_math,
+      $._normal_tail_any_element,
     ))),
     _strong_tail_any_line: $ => seq($._space_l1, optional(choice(
       $._strong_tail_init_text,
       $._strong_tail_init_heading,
       $._strong_tail_any_code,
       $._strong_tail_any_emph,
-      $._strong_tail_any_raw,
-      $._strong_tail_any_math,
+      $._strong_tail_any_element,
     ))),
     _emph_tail_any_line: $ => seq($._space_l1, optional(choice(
       $._emph_tail_init_text,
       $._emph_tail_init_heading,
       $._emph_tail_any_code,
       $._emph_tail_any_strong,
-      $._emph_tail_any_raw,
-      $._emph_tail_any_math,
+      $._emph_tail_any_element,
     ))),
 
     // TAIL ITEM
@@ -370,6 +338,7 @@ module.exports = grammar({
       $._normal_tail_any_code,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
+      $._normal_tail_any_element,
     ))),
     _normal_tail_condition_break: $ => seq(alias($._space_lp, $.break), optional(choice(
       $._normal_tail_condition_space,
@@ -377,6 +346,7 @@ module.exports = grammar({
       $._normal_tail_any_code,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
+      $._normal_tail_any_element,
     ))),
     _normal_tail_condition_line: $ => seq($._space_l1, optional(choice(
       $._normal_tail_condition_space,
@@ -384,6 +354,7 @@ module.exports = grammar({
       $._normal_tail_any_code,
       $._normal_tail_any_strong,
       $._normal_tail_any_emph,
+      $._normal_tail_any_element,
     ))),
     _normal_tail_condition_text: $ => seq(alias($._text_next_condition, $.text), optional(choice(
       $._normal_tail_any_space,
