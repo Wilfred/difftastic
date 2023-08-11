@@ -1169,7 +1169,7 @@ module.exports = grammar(C, {
         alias($.dependent_identifier, $.dependent_name),
         $.qualified_identifier,
         $.template_function,
-        $.identifier,
+        seq(optional('template'), $.identifier),
         $.operator_name,
         $.destructor_name,
         $.pointer_type_declarator,
