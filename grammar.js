@@ -1,11 +1,22 @@
 function zebra(zeb, ra) {
   return seq(optional(ra), (repeat(seq(zeb, ra))), optional(zeb));
 }
+// function x($) {
+//   return repeat($.comment),
+// }
 module.exports = grammar({
   name: 'typst',
-  // extras: $ => [$.comment],
   extras: $ => [],
-  inline: $ => [$._sl_expr, $._ml_expr, $._terminated, $._any_normal, $._any_strong, $._any_emph, $._element],
+  inline: $ => [
+    $._xtra,
+    $._sl_expr,
+    $._ml_expr,
+    $._terminated,
+    $._any_normal,
+    $._any_strong,
+    $._any_emph,
+    $._element
+  ],
   conflicts: $ => [
     [$._sl_5, $._sl_mul],
     [$._sl_5, $._sl_mul, $._sl_div],
@@ -84,6 +95,8 @@ module.exports = grammar({
     [$._ml_9, $._ml_or],
     [$._ml_elude],
     [$._ml_elude, $._ml_or],
+    [$._ml_3, $._ml_field],
+    [$._ml_2, $._ml_set],
 
     [$.tagged, $._0],
     [$._item, $._0],
@@ -93,7 +106,6 @@ module.exports = grammar({
     [$._space_lp, $._normal_tail_condition_line],
     [$._heading_tail_any_text],
     [$._heading_tail_any_element],
-    // [$._heading_tail_any_math],
     [$._heading_tail_any_strong],
     [$._heading_tail_any_emph],
     [$._heading_tail_any_code],
@@ -111,33 +123,55 @@ module.exports = grammar({
       $._any_normal,
     )),
 
+    // unused for the moment
     comment: $ => choice(
       seq('//', /[^\n]*\n?/),
-      seq('/*', /([^\*]|\*[^\/])*/, '*/'),
+      seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
-    escape: $ => /\\./,
+
+    escape: $ => /\\[^\nu]|\\u\{[0-9a-fA-F]*\}/,
     line: $ => /\\/,
+
+    // text only matches none markup simbols
     _text_any: $ => choice(
-      /[^# \t\n\]\*_\\\$]/,
+      /[^# \t\n\]\*_\\\$\/]/,
+      /\/[^\/\* #\t\n\]\\\$]/,
       /[a-zA-Z0-9][_\*][a-zA-Z0-9]/,
       $.escape,
       $.line,
     ),
+    // next to a space, no restriction for text
     _text_next_space: $ => repeat1($._text_any),
-    _text_next_init: $ => seq(/[^=# \t\n\]\*_\\\$]|=[^\t\n ]/, repeat($._text_any)),
+    // the text at line begin can't contains leading `=`
+    _text_next_init: $ => seq(choice($.escape, /[^=# \t\n\]\*_\\\$]|=[^\t\n ]/), repeat($._text_any)),
+    // the text following a code insert can't be the continuation of a code expression
     _text_next_item: $ => choice('.', seq(/(\.[^a-zA-Z \t\n_\$])|[^\.# \t\n\[\*\]\(_;\$]/, repeat($._text_any))),
+    // the text following a if statement can't be followed by `else` and by the usual potential code expression
     _text_next_condition: $ => seq(/(\.[^a-zA-Z]|else[^ \t\n\*\+\!\(\{;\$]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]\.\$])/, repeat($._text_any)),
+
+    // contains 0 line
     _space_l0: $ => repeat1(/[ \t]/),
+    // contains exactly 1 line
     _space_l1: $ => /\n/,
+    // contains more than 1 line
     _space_lp: $ => seq($._space_l1, repeat1(seq(optional($._space_l0), $._space_l1))),
+    // contains any combination of spaces and lines
     _space_la: $ => prec.right(choice(
       seq($._space_l0, optional(seq(choice($._space_l1, $._space_lp), optional($._space_l0)))),
       seq(choice($._space_l1, $._space_lp), optional($._space_l0)),
     )),
-    _element: $ => choice($.raw, $.inline, $.math),
+
+    // shorthand
+    _element: $ => choice($.raw, $.inline, $.math, $.comment),
+    // block of raw text
     raw: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
+    // inlined raw text
     inline: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
+    // math context
     math: $ => seq('$', /[^\$]*/, '$'),
+
+    // this grammar uses a state machine to handle transition between contextes
+    // the following rules (starting by `_any_`) are just code factorisation
 
     _any_normal: $ => choice(
       $._normal_tail_any_line,
@@ -192,7 +226,19 @@ module.exports = grammar({
       $._heading_tail_any_element,
     ),
 
+
+    // The states are named as follow:
+    //     _MODE_tail_PREVIOUS_NEXT
+    // Where MODE is the current state (like a stack), for the moment the is only 4 states:
+    //   - normal: regular text mode
+    //   - strong: text surronded by `*`
+    //   - emph: text surronded by `_`
+    //   - heading: text of a heading
+    // Where PREVIOUS is the element parsed before
+    // Where NEXT is the element that will be parsed
+
     // TAIL INIT
+    // at beginning of line, not any text is allowed (because of heading)
     _normal_tail_init_text: $ => seq(alias($._text_next_init, $.text), optional(choice(
       $._normal_tail_any_space,
       $._any_normal,
@@ -207,6 +253,7 @@ module.exports = grammar({
     ))),
 
     // TAIL ANY
+    // many times, there are no particular restriction, this act as code factorisation
     _normal_tail_any_space: $ => seq($._space_l0, optional(choice(
       $._normal_tail_any_text,
       $._any_normal,
@@ -280,7 +327,7 @@ module.exports = grammar({
       $._any_heading,
     ))),
 
-    // TAIL LINE
+    // TAIL ANY LINE
     _normal_tail_any_line: $ => seq($._space_l1, optional($._space_l0), optional(choice(
       $._normal_tail_init_text,
       $._normal_tail_init_heading,
@@ -560,15 +607,20 @@ module.exports = grammar({
     )),
 
 
+    // the following instructions has to be terminated when inlined
+    // the termination can be a `;` or the end of the line
     _terminated: $ => choice(
       alias($._sl_let, $.let),
       alias($._sl_set, $.set),
       alias($._sl_import, $.import),
+      alias($._sl_show, $.show),
     ),
 
+    // those expressions all have the same restriction regarding to following text
     _item: $ => choice(
       $.builtin,
       $.flow,
+      $.return,
       $.bool,
       $.ident,
       $.int,
@@ -584,10 +636,18 @@ module.exports = grammar({
       alias($._sl_while, $.while),
     ),
 
-    // PRECEDENCES
+    // PRECEDENCES (lowest index means strongest precedence)
+
+    // this grammar does make use of of `prec` to avoid spaghetti nightmare
+    // instead, a rule is declared for each precedence
+    // operands in an operations are either of the same or inferior precedence
+
+    // each expression has to exist in to version (two stack state, similar to the text modes)
+    // either singlelined (`_sl_`), or multilined (`_ml_`),
+    // because inlined code can't contains new lines in most places
+    
     _0: $ => choice(
       $.builtin,
-      $.flow,
       $.bool,
       $.ident,
       $.int,
@@ -689,26 +749,38 @@ module.exports = grammar({
       alias($._sl_assign, $.assign),
       alias($._sl_lambda, $.lambda),
     ),
+
+    // shorthand to the lowest precedence expression
     _ml_expr: $ => $._ml_9,
     _sl_expr: $ => $._sl_9,
+
     _ml_instr: $ => choice(
       $._ml_expr,
+      $.flow,
+      $.return,
       alias($._ml_let, $.let),
       alias($._ml_set, $.set),
       alias($._ml_import, $.import),
+      alias($._ml_show, $.show),
     ),
     _sl_instr: $ => choice(
       $._sl_expr,
+      $.flow,
+      $.return,
       alias($._sl_let, $.let),
       alias($._sl_set, $.set),
       alias($._sl_import, $.import),
+      alias($._sl_show, $.show),
     ),
 
-    // EXPRETIONS
+    // EXPRESSIONS
+
+    // what can appear inside parenthesis
     _list_elem: $ => choice(
       $._ml_instr,
       $.tagged,
     ),
+    // parenthesis
     group: $ => seq(
       '(',
       repeat(seq(optional($._space_la), $._list_elem, optional($._space_la), ',')),
@@ -716,6 +788,7 @@ module.exports = grammar({
       optional(seq($._list_elem, optional($._space_la))),
       ')'
     ),
+
     block: $ => seq(
       '{',
       repeat(choice(
@@ -726,6 +799,7 @@ module.exports = grammar({
       optional(seq(optional($._space_l0), optional(seq($._sl_instr, optional($._space_l0))))),
       '}'
     ),
+
     content: $ => seq(
       '[',
       optional(choice(
@@ -735,17 +809,42 @@ module.exports = grammar({
       )),
       ']',
     ),
+
     ident: $ => /[a-zA-Z_][a-zA-Z0-9_\-]*/,
+
     flow: $ => choice('break', 'continue'),
+    return: $ => seq(alias('return', $.flow), optional($._space_la), $._ml_instr),
     builtin: $ => choice(
       'auto',
       'none',
-      // 'center',
-      // 'horizon',
-      // 'top',
-      // 'bottom',
-      // 'left',
-      // 'right',
+      // TODO: I don't know if all the builtin items shoud be considered as builtins
+      // thus, it is an excellent indicator
+      'grid',
+      'parbreak',
+      'h',
+      'v',
+      'luma',
+      'cmyk',
+      'rgb',
+      'scale',
+      'par',
+      'min',
+      'max',
+      'center',
+      'horizon',
+      'top',
+      'bottom',
+      'left',
+      'right',
+      'emph',
+      'strong',
+      'heading',
+      'rect',
+      'box',
+      'align',
+      'image',
+      'link',
+      'text',
     ),
     bool: $ => choice('true', 'false'),
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
@@ -927,6 +1026,25 @@ module.exports = grammar({
       'set',
       optional($._space_la),
       alias($._ml_call, $.call),
+    ),
+
+    _sl_show: $ => seq(
+      'show',
+      optional($._space_l0),
+      field('pattern', $._sl_2),
+      optional($._space_l0),
+      ':',
+      optional($._space_l0),
+      field('value', $._sl_instr),
+    ),
+    _ml_show: $ => seq(
+      'show',
+      optional($._space_la),
+      field('pattern', $._ml_2),
+      optional($._space_la),
+      ':',
+      optional($._space_la),
+      field('value', $._ml_instr),
     ),
 
     _sl_import: $ => seq(

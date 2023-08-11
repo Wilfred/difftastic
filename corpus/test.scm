@@ -822,7 +822,7 @@ Test 061
 (source_file
 	(set
 		(call
-			item: (ident)
+			item: (builtin)
 			(group
 				(tagged
 					field: (ident)
@@ -841,7 +841,7 @@ Test 062
 	(block
 		(set
 			(call
-				item: (ident)
+				item: (builtin)
 				(group)))))
 
 
@@ -860,7 +860,7 @@ Test 063
 	(block
 		(set
 			(call
-				item: (ident)
+				item: (builtin)
 				(group)))
 		(content
 			(text))))
@@ -1603,9 +1603,87 @@ World
 
 
 =====================
-Test _
+Test 116
 =====================
+_
+= Hello _World_
+_
 ---------------------
 
 (source_file
-	)
+	(emph
+		(heading
+			(level1)
+			(text)
+			(emph
+				(text)))))
+
+
+=====================
+Test 117
+=====================
+#let a() = {
+  return 2
+}
+---------------------
+
+(source_file
+	(let
+		pattern: (call
+			item: (ident)
+			(group))
+		value: (block
+			(return
+				(flow)
+				(int)))))
+
+
+=====================
+Test 118
+=====================
+#show par: set text(size: 3em)
+---------------------
+
+(source_file
+	(show
+		pattern: (builtin)
+		value: (set
+			(call
+				item: (builtin)
+				(group
+					(tagged
+						field: (ident)
+						(int
+							(unit))))))))
+
+
+=====================
+Test 119
+=====================
+\n
+---------------------
+
+(source_file
+	(text
+		(escape)))
+
+
+=====================
+Test 120
+=====================
+\u{1f600}
+---------------------
+
+(source_file
+	(text
+		(escape)))
+
+
+=====================
+Test 121
+=====================
+// Hello
+---------------------
+
+(source_file
+	(comment))
