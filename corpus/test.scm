@@ -1687,3 +1687,67 @@ Test 121
 
 (source_file
 	(comment))
+
+
+=====================
+Test 122
+=====================
+#show: columns.with(2)
+---------------------
+
+(source_file
+	(show
+		value: (call
+			item: (field
+				(ident)
+				field: (ident))
+			(group
+				(int)))))
+
+
+=====================
+Test 123
+=====================
+#(a and b or not c)
+---------------------
+
+(source_file
+	(group
+		(or
+			(and
+				(ident)
+				(ident))
+			(not
+				(ident)))))
+
+
+=====================
+Test 124
+=====================
+#<hello>
+---------------------
+
+(source_file
+	(label))
+
+
+=====================
+Test 125
+=====================
+#<héllo>
+---------------------
+
+(source_file
+	(label))
+
+
+=====================
+Test 126
+=====================
+#let Échö = 8
+---------------------
+
+(source_file
+	(let
+		pattern: (ident)
+		value: (int)))
