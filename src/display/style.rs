@@ -476,11 +476,11 @@ pub fn header(
     }
 
     match old_path {
-        Some(old_path) => {
+        Some(old_path) if hunk_num == 1 => {
             let renamed = format!("Renamed from {} to {}", old_path, display_path);
             format!("{}{}\n{}", display_path_pretty, trailer, renamed)
         }
-        None => {
+        _ => {
             format!("{}{}", display_path_pretty, trailer)
         }
     }
