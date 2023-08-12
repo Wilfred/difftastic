@@ -13,6 +13,16 @@ use walkdir::WalkDir;
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::options::FileArgument;
 
+pub fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
+    match read_file_arg(path) {
+        Ok(src) => src,
+        Err(e) => {
+            eprint_read_error(path, &e);
+            std::process::exit(EXIT_BAD_ARGUMENTS);
+        }
+    }
+}
+
 pub fn read_files_or_die(
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,

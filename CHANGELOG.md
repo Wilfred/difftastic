@@ -1,5 +1,14 @@
 ## 0.50 (unreleased)
 
+### Conflicts
+
+Difftastic now supports parsing files with conflict markers, enabling
+you to diff the two conflicting file states.
+
+```
+$ difft file_with_conflicts.js
+```
+
 ### Parsing
 
 Updated Elixir, Erlang, Go, Kotlin and Racket parsers.

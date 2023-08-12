@@ -95,6 +95,10 @@ fn app() -> clap::Command<'static> {
             "$ ",
             env!("CARGO_BIN_NAME"),
             " old/ new/\n\n",
+            "If you have a file with conflict markers, you can pass it as a single argument. Difftastic will diff the two conflicting file states.\n\n",
+            "$ ",
+            env!("CARGO_BIN_NAME"),
+            " file_with_conflicts.js\n\n",
             "Difftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n",
             "See the full manual at: https://difftastic.wilfred.me.uk/")
         )
@@ -357,6 +361,15 @@ pub enum Mode {
         /// If this file has been renamed, the name it had previously.
         old_path: Option<String>,
     },
+    DiffFromConflicts {
+        diff_options: DiffOptions,
+        display_options: DisplayOptions,
+        set_exit_code: bool,
+        language_overrides: Vec<(glob::Pattern, LanguageOverride)>,
+        path: FileArgument,
+        /// The path that we show to the user.
+        display_path: String,
+    },
     ListLanguages {
         use_color: bool,
         language_overrides: Vec<(glob::Pattern, LanguageOverride)>,
@@ -612,6 +625,30 @@ pub fn parse_args() -> Mode {
                 Some(renamed),
                 true,
             )
+        }
+        [path] => {
+            let display_options = DisplayOptions {
+                background_color,
+                use_color,
+                print_unchanged,
+                tab_width,
+                display_mode,
+                display_width,
+                num_context_lines,
+                syntax_highlight,
+                in_vcs: true,
+            };
+
+            let display_path = path.to_string_lossy().to_string();
+            let path = FileArgument::from_path_argument(path);
+            return Mode::DiffFromConflicts {
+                display_path,
+                path,
+                diff_options,
+                display_options,
+                set_exit_code,
+                language_overrides,
+            };
         }
         _ => {
             if !args.is_empty() {

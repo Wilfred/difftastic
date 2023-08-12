@@ -28,6 +28,19 @@ You can read a file from stdin by specifying `-` as the file path.
 $ cat sample_files/before.js | difft - sample_files/after.js
 ```
 
+### Files With Conflicts
+
+*(Added in version 0.50.)*
+
+If you have a file with `<<<<<<<` conflict markers, you can pass it as
+a single argument to difftastic. Difftastic will construct the two
+file states and diff those.
+
+```
+$ difft sample_files/conflicts.el
+```
+
+
 ## Language Detection
 
 Difftastic guesses the language used based on the file extension, file

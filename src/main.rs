@@ -23,6 +23,7 @@
 // correct.
 #![allow(clippy::mutable_key_type)]
 
+mod conflicts;
 mod constants;
 mod diff;
 mod display;
@@ -39,16 +40,20 @@ mod summary;
 #[macro_use]
 extern crate log;
 
+use crate::conflicts::START_LHS_MARKER;
 use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
+use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::parse::guess_language::language_globs;
 use crate::parse::syntax;
+use conflicts::apply_conflict_markers;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
 use display::context::opposite_positions;
 use exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
 use files::{
-    guess_content, read_files_or_die, read_or_die, relative_paths_in_either, ProbableFileKind,
+    guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
+    ProbableFileKind,
 };
 use log::info;
 use mimalloc::MiMalloc;
@@ -173,6 +178,31 @@ fn main() {
                 }
                 println!();
             }
+        }
+        Mode::DiffFromConflicts {
+            display_path,
+            path,
+            diff_options,
+            display_options,
+            set_exit_code,
+            language_overrides,
+        } => {
+            let diff_result = diff_conflicts_file(
+                &display_path,
+                &path,
+                &display_options,
+                &diff_options,
+                &language_overrides,
+            );
+
+            print_diff_result(&display_options, &diff_result);
+
+            let exit_code = if set_exit_code && diff_result.has_reportable_change() {
+                EXIT_FOUND_CHANGES
+            } else {
+                EXIT_SUCCESS
+            };
+            std::process::exit(exit_code);
         }
         Mode::Diff {
             diff_options,
@@ -301,6 +331,56 @@ fn diff_file(
         rhs_path,
         &lhs_src,
         &rhs_src,
+        display_options,
+        diff_options,
+        overrides,
+    )
+}
+
+fn diff_conflicts_file(
+    display_path: &str,
+    path: &FileArgument,
+    display_options: &DisplayOptions,
+    diff_options: &DiffOptions,
+    overrides: &[(glob::Pattern, LanguageOverride)],
+) -> DiffResult {
+    let bytes = read_file_or_die(path);
+    let src = match guess_content(&bytes) {
+        ProbableFileKind::Text(src) => src,
+        ProbableFileKind::Binary => {
+            eprintln!("error: Expected a text file with conflict markers, got a binary file.");
+            std::process::exit(EXIT_BAD_ARGUMENTS);
+        }
+    };
+
+    let conflict_files = match apply_conflict_markers(&src) {
+        Ok(cf) => cf,
+        Err(msg) => {
+            eprintln!("error: {}", msg);
+            std::process::exit(EXIT_BAD_ARGUMENTS);
+        }
+    };
+
+    if conflict_files.num_conflicts == 0 {
+        eprintln!(
+            "warning: Expected a file with conflict markers {}, but none were found.",
+            START_LHS_MARKER,
+        );
+        eprintln!("Difftastic parses conflict markers from a single file argument. Did you forget a second file argument?");
+    }
+
+    let extra_info = format!(
+        "Comparing '{}' with '{}'",
+        conflict_files.lhs_name, conflict_files.rhs_name
+    );
+
+    diff_file_content(
+        display_path,
+        Some(extra_info),
+        path,
+        path,
+        &conflict_files.lhs_content,
+        &conflict_files.rhs_content,
         display_options,
         diff_options,
         overrides,
