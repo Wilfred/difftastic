@@ -748,3 +748,19 @@ echo "'$var'" # -> '#not-comment'
       (simple_expansion
         (variable_name))))
   (comment))
+
+================================================================================
+Variable assignments immediately followed by a terminator
+================================================================================
+
+loop=; variables=& here=;;
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_assignment
+    (variable_name))
+  (variable_assignment
+    (variable_name))
+  (variable_assignment
+    (variable_name)))
