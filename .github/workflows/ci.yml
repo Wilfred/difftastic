@@ -1,4 +1,4 @@
-name: Build/test
+name: CI
 on:
   push:
     branches:
@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - run: npm install
       - run: npm test
   test_windows:
@@ -32,6 +32,6 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - run: npm install
       - run: npm run-script test-windows
