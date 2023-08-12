@@ -182,7 +182,7 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
     for (;;) {
         switch (lexer->lookahead) {
             case '\0': {
-                if (did_advance) {
+                if (lexer->eof(lexer) && did_advance) {
                     scanner->heredoc_is_raw = false;
                     scanner->started_heredoc = false;
                     scanner->heredoc_allows_indent = false;
@@ -234,13 +234,20 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
             }
 
             default: {
-                if (scan_heredoc_end_identifier(scanner, lexer)) {
-                    scanner->heredoc_is_raw = false;
-                    scanner->started_heredoc = false;
-                    scanner->heredoc_allows_indent = false;
-                    STRING_CLEAR(scanner->heredoc_delimiter);
-                    lexer->result_symbol = end_type;
-                    return true;
+                if (lexer->get_column(lexer) == 0) {
+                    // an alternative is to check the starting column of the
+                    // heredoc body and track that statefully
+                    while (iswspace(lexer->lookahead)) {
+                        skip(lexer);
+                    }
+                    if (scan_heredoc_end_identifier(scanner, lexer)) {
+                        scanner->heredoc_is_raw = false;
+                        scanner->started_heredoc = false;
+                        scanner->heredoc_allows_indent = false;
+                        STRING_CLEAR(scanner->heredoc_delimiter);
+                        lexer->result_symbol = end_type;
+                        return true;
+                    }
                 }
                 did_advance = true;
                 advance(lexer);
