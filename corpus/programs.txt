@@ -28,7 +28,8 @@ f=g   \
 
 (program
   (command
-    (command_name (word))
+    (command_name
+      (word))
     (word)
     (word))
   (command
@@ -38,7 +39,8 @@ f=g   \
     (variable_assignment
       (variable_name)
       (word))
-    (command_name (word))
+    (command_name
+      (word))
     (word)))
 
 =============================
@@ -78,13 +80,19 @@ echo a\
 
 =============================
 Escaped whitespace
-============================
+=============================
 
 echo 1 \ 2 \ 3
 
 ---
 
-(program (command (command_name (word)) (word) (word) (word)))
+(program
+  (command
+    (command_name
+      (word))
+    (number)
+    (number)
+    (number)))
 
 ====================================
 Files without trailing terminators
@@ -93,4 +101,8 @@ Files without trailing terminators
 echo hi
 ---
 
-(program (command (command_name (word)) (word)))
+(program
+  (command
+    (command_name
+      (word))
+    (word)))

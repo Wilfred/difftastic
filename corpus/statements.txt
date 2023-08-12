@@ -163,14 +163,14 @@ done
 (program
   (for_statement
     variable: (variable_name)
-    value: (word)
-    value: (word)
+    value: (number)
+    value: (number)
     value: (command_substitution
       (command
         name: (command_name
           (word))
-        argument: (word)
-        argument: (word)))
+        argument: (number)
+        argument: (number)))
     body: (do_group
       (command
         name: (command_name
@@ -257,10 +257,12 @@ done
 
 (program
   (c_style_for_statement
-    (word)
+    (variable_assignment
+      (variable_name)
+      (number))
     (binary_expression
       (word)
-      (word))
+      (number))
     (word)
     (do_group
       (command
@@ -269,10 +271,12 @@ done
         (simple_expansion
           (variable_name)))))
   (c_style_for_statement
-    (word)
+    (variable_assignment
+      (variable_name)
+      (number))
     (binary_expression
       (word)
-      (word))
+      (number))
     (word)
     (compound_statement
       (command
@@ -385,7 +389,7 @@ fi
     (command
       (command_name
         (word))
-      (word)))
+      (number)))
   (list
     (test_command
       (binary_expression
@@ -394,7 +398,7 @@ fi
     (command
       (command_name
         (word))
-      (word))))
+      (number))))
 
 ================================================================================
 Case statements
@@ -501,7 +505,7 @@ esac
     (case_item
       (concatenation
         (word)
-        (word))
+        (number))
       (command
         (command_name
           (word))
@@ -558,7 +562,7 @@ fi
     (command
       (command_name
         (word))
-      (word))))
+      (number))))
 
 ================================================================================
 Test commands with ternary
@@ -575,14 +579,14 @@ fi
     (test_command
       (ternary_expression
         (binary_expression
-          (word)
-          (word))
-        (word)
-        (word)))
+          (number)
+          (number))
+        (number)
+        (number)))
     (command
       (command_name
         (word))
-      (word))))
+      (number))))
 
 ================================================================================
 Test commands with regexes
@@ -746,7 +750,7 @@ function do_yet_another_thing {
           (word))))
     (file_redirect
       (file_descriptor)
-      (word))))
+      (number))))
 
 ================================================================================
 Variable declaration: declare & typeset
@@ -765,10 +769,10 @@ typeset -i -r var2=42 var3=10
     (word)
     (variable_assignment
       (variable_name)
-      (word))
+      (number))
     (variable_assignment
       (variable_name)
-      (word))))
+      (number))))
 
 ================================================================================
 Variable declaration: readonly
@@ -785,7 +789,7 @@ readonly var2=42
   (declaration_command
     (variable_assignment
       (variable_name)
-      (word))))
+      (number))))
 
 ================================================================================
 Variable declaration: local
@@ -801,7 +805,7 @@ local var=word1\ word2
   (declaration_command
     (variable_assignment
       (variable_name)
-      (word))
+      (number))
     (variable_name))
   (declaration_command
     (word)
@@ -945,7 +949,7 @@ a () {
           (command
             (command_name
               (word))
-            (word))))
+            (number))))
       (command
         (command_name
           (word))
@@ -961,4 +965,4 @@ a () {
           (word))
         (string)))
     (file_redirect
-      (word))))
+      (number))))

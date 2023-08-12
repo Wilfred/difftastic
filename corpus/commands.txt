@@ -44,7 +44,7 @@ exit 1
 ---
 
 (program
-  (command (command_name (word)) (word)))
+  (command (command_name (word)) (number)))
 
 ===================================
 Commands with environment variables
@@ -57,7 +57,7 @@ VAR1=a VAR2="ok" git diff --word-diff=color
 
 (program
   (command
-    (variable_assignment (variable_name) (word))
+    (variable_assignment (variable_name) (number))
     (command_name (word)))
   (command
     (variable_assignment (variable_name) (word))
@@ -97,7 +97,7 @@ cat a b > /dev/null
     (command (command_name (word)) (word) (word))
     (file_redirect (word)))
   (command
-    (file_redirect (file_descriptor) (word))
+    (file_redirect (file_descriptor) (number))
     (command_name (word))))
 
 ===============================
@@ -370,6 +370,6 @@ done 3<<<"$ENTRIES"
   (redirected_statement (command (command_name (word))) (herestring_redirect (word)))
   (redirected_statement
     (while_statement
-      (command (command_name (word)) (word) (word) (word))
+      (command (command_name (word)) (word) (number) (word))
       (do_group (command (command_name (word)) (simple_expansion (variable_name)))))
     (herestring_redirect (file_descriptor) (string (simple_expansion (variable_name))))))

@@ -13,6 +13,10 @@ const SPECIAL_CHARACTERS = [
 module.exports = grammar({
   name: 'bash',
 
+  conflicts: $ => [
+    [$._expression, $.command_name],
+  ],
+
   inline: $ => [
     $._statement,
     $._terminator,
@@ -126,7 +130,7 @@ module.exports = grammar({
     c_style_for_statement: $ => seq(
       'for',
       '((',
-      field('initializer', optional($._expression)),
+      field('initializer', optional(choice($.variable_assignment, $._expression))),
       $._terminator,
       field('condition', optional($._expression)),
       $._terminator,
@@ -319,7 +323,7 @@ module.exports = grammar({
         $.array,
         $._empty_value,
         alias($._comment_word, $.word),
-      ))
+      )),
     ),
 
     subscript: $ => seq(
@@ -334,7 +338,7 @@ module.exports = grammar({
     file_redirect: $ => prec.left(seq(
       field('descriptor', optional($.file_descriptor)),
       choice('<', '>', '>>', '&>', '&>>', '<&', '>&', '>|'),
-      field('destination', $._literal)
+      // FIXME: repeat1 here inflates the state count, find a better solution.
       field('destination', $._literal),
     )),
 
@@ -381,8 +385,13 @@ module.exports = grammar({
         field('operator', choice(
           '=', '==', '=~', '!=',
           '+', '-', '+=', '-=',
+          '*', '/', '*=', '/=',
+          '%', '%=', '**',
           '<', '>', '<=', '>=',
           '||', '&&',
+          '<<', '>>', '<<=', '>>=',
+          '&', '|', '^',
+          '&=', '|=', '^=',
           $.test_operator
         )),
         field('right', $._expression)
@@ -404,10 +413,16 @@ module.exports = grammar({
       )
     ),
 
-    unary_expression: $ => prec.right(1, seq(
-      choice('!', $.test_operator),
-      $._expression
-    )),
+    unary_expression: $ => choice(
+      prec(1, seq(
+        token(prec(1, choice('-', '+', '~', '++', '--'))),
+        $._expression
+      )),
+      prec.right(1, seq(
+        choice('!', $.test_operator),
+        $._expression
+      )),
+    ),
 
     postfix_expression: $ => seq(
       $._expression,
@@ -435,11 +450,15 @@ module.exports = grammar({
       $.raw_string,
       $.translated_string,
       $.ansi_c_string,
+      $.number,
       $.expansion,
       $.simple_expansion,
       $.command_substitution,
-      $.process_substitution
+      $.process_substitution,
+      $.arithmetic_expansion,
     ),
+
+    arithmetic_expansion: $ => seq('$(', '(', $._expression, '))'),
 
     concatenation: $ => prec(-1, seq(
       choice(
@@ -466,7 +485,8 @@ module.exports = grammar({
           seq(optional('$'), $._string_content),
           $.expansion,
           $.simple_expansion,
-          $.command_substitution
+          $.command_substitution,
+          $.arithmetic_expansion,
         ),
         optional($._concat)
       )),
@@ -487,6 +507,8 @@ module.exports = grammar({
     raw_string: $ => /'[^']*'/,
 
     ansi_c_string: $ => /\$'([^']|\\')*'/,
+
+    number: $ => /(0x)?[0-9]+(#[0-9A-Za-z@_]+)?/,
 
     simple_expansion: $ => seq(
       '$',

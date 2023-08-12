@@ -168,7 +168,7 @@ F="${#!}"
       (expansion
         (subscript
           (variable_name)
-          (word)))))
+          (number)))))
   (variable_assignment
     (variable_name)
     (string
@@ -600,9 +600,9 @@ printf "  %-9s" "${seq0:-(default)}"
   (variable_assignment
     (variable_name)
     (array
-      (word)
-      (word)
-      (word)))
+      (number)
+      (number)
+      (number)))
   (command
     (command_name
       (word))
@@ -622,7 +622,7 @@ printf "  %-9s" "${seq0:-(default)}"
       (variable_name)
       (simple_expansion
         (variable_name)))
-    (word))
+    (number))
   (variable_assignment
     (variable_name)
     (array
@@ -764,3 +764,45 @@ loop=; variables=& here=;;
     (variable_name))
   (variable_assignment
     (variable_name)))
+
+================================================================================
+Arithmetic expansions
+================================================================================
+
+echo $((1 + 2 - 3 * 4 / 5))
+a=$((6 % 7 ** 8 << 9 >> 10 & 11 | 12 ^ 13))
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (word))
+    (arithmetic_expansion
+      (binary_expression
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (number)
+              (number))
+            (number))
+          (number))
+        (number))))
+  (variable_assignment
+    (variable_name)
+    (arithmetic_expansion
+      (binary_expression
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (binary_expression
+                (binary_expression
+                  (binary_expression
+                    (number)
+                    (number))
+                  (number))
+                (number))
+              (number))
+            (number))
+          (number))
+        (number)))))
