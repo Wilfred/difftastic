@@ -264,7 +264,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
               lexer->lookahead == '<' || lexer->lookahead == ')' ||
               lexer->lookahead == '(' || lexer->lookahead == ';' ||
               lexer->lookahead == '&' || lexer->lookahead == '|' ||
-              lexer->lookahead == '`' || lexer->lookahead == '#' ||
+              lexer->lookahead == '`' ||
               (lexer->lookahead == '}' && valid_symbols[CLOSING_BRACE]) ||
               (lexer->lookahead == ']' && valid_symbols[CLOSING_BRACKET]))) {
             lexer->result_symbol = CONCAT;

@@ -300,7 +300,7 @@ module.exports = grammar({
           choice('=~', '=='),
           choice($._literal, $.regex)
         )
-      )))
+      ))),
     )),
 
     command_name: $ => $._literal,
@@ -317,7 +317,8 @@ module.exports = grammar({
       field('value', choice(
         $._literal,
         $.array,
-        $._empty_value
+        $._empty_value,
+        alias($._comment_word, $.word),
       ))
     ),
 
@@ -334,6 +335,7 @@ module.exports = grammar({
       field('descriptor', optional($.file_descriptor)),
       choice('<', '>', '>>', '&>', '&>>', '<&', '>&', '>|'),
       field('destination', $._literal)
+      field('destination', $._literal),
     )),
 
     heredoc_redirect: $ => seq(
@@ -449,6 +451,7 @@ module.exports = grammar({
         choice(
           $._primary_expression,
           $._special_character,
+          alias($._comment_word, $.word),
         )
       ))),
       optional(seq($._concat, '$'))
@@ -538,6 +541,17 @@ module.exports = grammar({
     ),
 
     comment: $ => token(prec(-10, /#.*/)),
+    _comment_word: $ => token(prec(-9, seq(
+      choice(
+        noneOf(...SPECIAL_CHARACTERS),
+        seq('\\', noneOf('\\s'))
+      ),
+      repeat(choice(
+        noneOf(...SPECIAL_CHARACTERS),
+        seq('\\', noneOf('\\s')),
+        "\\ ",
+      ))
+    ))),
 
     _simple_variable_name: $ => alias(/\w+/, $.variable_name),
 
