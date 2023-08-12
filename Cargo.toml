@@ -1,11 +1,11 @@
 [package]
 name = "tree-sitter-bash"
-description = "bash grammar for the tree-sitter parsing library"
+description = "Bash grammar for tree-sitter"
 version = "0.19.0"
 keywords = ["incremental", "parsing", "bash"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-bash"
-edition = "2018"
+edition = "2021"
 license = "MIT"
 authors = [
   "Max Brunsfeld <maxbrunsfeld@gmail.com",
@@ -23,7 +23,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = ">= 0.19, < 0.21"
+tree-sitter = "~0.20.10"
 
 [build-dependencies]
-cc = "1.0"
+cc = "^1.0"
