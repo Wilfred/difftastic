@@ -229,23 +229,24 @@ module.exports = grammar({
 
     declaration: $ => seq(
       $._declaration_specifiers,
-      commaSep1(field('declarator', choice(
-        seq($._declarator, optional($.gnu_asm_expression)),
-        $.init_declarator,
-      ))),
+      $._declaration_declarator,
       ';',
     ),
+    _declaration_declarator: $ => commaSep1(field('declarator', choice(
+      seq($._declarator, optional($.gnu_asm_expression)),
+      $.init_declarator,
+    ))),
 
     type_definition: $ => seq(
       optional('__extension__'),
       'typedef',
-      repeat($.type_qualifier),
-      field('type', $._type_specifier),
-      repeat($.type_qualifier),
-      commaSep1(field('declarator', $._type_declarator)),
+      $._type_definition_type,
+      $._type_definition_declarators,
       repeat($.attribute_specifier),
       ';',
     ),
+    _type_definition_type: $ => seq(repeat($.type_qualifier), field('type', $._type_specifier), repeat($.type_qualifier)),
+    _type_definition_declarators: $ => commaSep1(field('declarator', $._type_declarator)),
 
     _declaration_modifiers: $ => choice(
       $.storage_class_specifier,
@@ -622,13 +623,14 @@ module.exports = grammar({
 
     field_declaration: $ => seq(
       $._declaration_specifiers,
-      commaSep(seq(
-        field('declarator', $._field_declarator),
-        optional($.bitfield_clause),
-      )),
+      optional($._field_declaration_declarator),
       optional($.attribute_specifier),
       ';',
     ),
+    _field_declaration_declarator: $ => commaSep1(seq(
+      field('declarator', $._field_declarator),
+      optional($.bitfield_clause),
+    )),
 
     bitfield_clause: $ => seq(':', $._expression),
 
@@ -765,14 +767,18 @@ module.exports = grammar({
     for_statement: $ => seq(
       'for',
       '(',
+      $._for_statement_body,
+      ')',
+      field('body', $._statement),
+    ),
+    _for_statement_body: $ => seq(
       choice(
         field('initializer', $.declaration),
         seq(field('initializer', optional(choice($._expression, $.comma_expression))), ';'),
       ),
-      field('condition', optional(choice($._expression, $.comma_expression))), ';',
+      field('condition', optional(choice($._expression, $.comma_expression))),
+      ';',
       field('update', optional(choice($._expression, $.comma_expression))),
-      ')',
-      field('body', $._statement),
     ),
 
     return_statement: $ => seq(
