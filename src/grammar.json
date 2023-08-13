@@ -83,6 +83,15 @@
           "name": "function_definition"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_old_style_function_definition"
+          },
+          "named": true,
+          "value": "function_definition"
+        },
+        {
           "type": "SYMBOL",
           "name": "linkage_specification"
         },
