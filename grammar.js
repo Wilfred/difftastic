@@ -1122,13 +1122,13 @@ module.exports = grammar({
       const decimalDigits = seq(repeat1(decimal), repeat(seq(separator, repeat1(decimal))));
       return token(seq(
         optional(/[-\+]/),
-        optional(choice('0x', '0b')),
+        optional(choice(/0[xX]/, /0[bB]/)),
         choice(
           seq(
             choice(
               decimalDigits,
-              seq('0b', decimalDigits),
-              seq('0x', hexDigits),
+              seq(/0[bB]/, decimalDigits),
+              seq(/0[xX]/, hexDigits),
             ),
             optional(seq('.', optional(hexDigits))),
           ),
