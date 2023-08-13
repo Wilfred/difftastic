@@ -273,7 +273,8 @@ module.exports = grammar({
     negated_command: $ => seq(
       '!',
       choice(
-        $.command,
+        prec(2, $.command),
+        prec(1, $.variable_assignment),
         $.test_command,
         $.subshell,
       ),

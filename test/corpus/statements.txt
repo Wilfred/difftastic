@@ -401,6 +401,131 @@ fi
       (number))))
 
 ================================================================================
+If statements with negated command
+================================================================================
+
+if ! command -v echo; then
+  echo 'hello'
+fi
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (negated_command
+      (command
+        name: (command_name
+          (word))
+        argument: (word)
+        argument: (word)))
+    (command
+      name: (command_name (word))
+      argument: (raw_string))))
+
+================================================================================
+If statements with command
+================================================================================
+
+if command -v echo; then
+  echo 'hello'
+fi
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (command
+      name: (command_name
+        (word))
+      argument: (word)
+      argument: (word))
+    (command
+      name: (command_name (word))
+      argument: (raw_string))))
+
+================================================================================
+If statements with variable assignment by command substitution
+================================================================================
+
+if result=$(echo 'hello'); then
+  echo 'hello'
+fi
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (variable_assignment
+          name: (variable_name)
+          value: (command_substitution (command name: (command_name (word)) argument: (raw_string))))
+    (command
+      name: (command_name (word))
+      argument: (raw_string))))
+
+================================================================================
+If statements with negated variable assignment by command substitution
+================================================================================
+
+if ! result=$(echo 'hello'); then
+  echo 'hello'
+fi
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (negated_command 
+      (variable_assignment
+        name: (variable_name)
+        value: (command_substitution
+          (command
+            name: (command_name
+              (word))
+            argument: (raw_string)))))
+    (command
+      name: (command_name (word))
+      argument: (raw_string))))
+
+================================================================================
+If statements with variable assignment
+================================================================================
+
+if foo=1; then
+  echo 'hello'
+fi
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (variable_assignment
+          name: (variable_name)
+          value: (number))
+    (command
+      name: (command_name (word))
+      argument: (raw_string))))
+
+================================================================================
+If statements with negated variable assignment
+================================================================================
+
+if ! foo=1; then
+  echo 'hello'
+fi
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (negated_command
+      (variable_assignment
+        name: (variable_name)
+        value: (number)))
+    (command
+      name: (command_name (word))
+      argument: (raw_string))))
+
+================================================================================
 Case statements
 ================================================================================
 

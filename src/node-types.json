@@ -1027,6 +1027,10 @@
         {
           "type": "test_command",
           "named": true
+        },
+        {
+          "type": "variable_assignment",
+          "named": true
         }
       ]
     }
