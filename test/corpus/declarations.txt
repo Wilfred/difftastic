@@ -512,6 +512,13 @@ void * do_stuff(int arg1) {
   return 5;
 }
 
+// K&R style
+int foo(bar, baz, qux)
+int bar, baz;
+char *qux;
+{
+}
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -526,7 +533,25 @@ void * do_stuff(int arg1) {
             declarator: (identifier)))))
     body: (compound_statement
       (return_statement
-        (number_literal)))))
+        (number_literal))))
+  (comment)
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (identifier)
+        (identifier)
+        (identifier)))
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      declarator: (identifier))
+    (declaration
+      type: (primitive_type)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    body: (compound_statement)))
 
 ================================================================================
 Function specifiers after types
