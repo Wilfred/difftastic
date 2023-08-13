@@ -62,6 +62,7 @@ use parse::guess_language::{guess, language_name, Language, LanguageOverride};
 static GLOBAL: MiMalloc = MiMalloc;
 
 use diff::sliders::fix_all_sliders;
+use humansize::{format_size, BINARY};
 use options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
@@ -261,21 +262,6 @@ fn main() {
             std::process::exit(exit_code);
         }
     };
-}
-
-fn format_num_bytes(num_bytes: usize) -> String {
-    if num_bytes >= 1024 * 1024 * 1024 {
-        let g = num_bytes as f64 / (1024.0 * 1024.0 * 1024.0);
-        return format!("{}GiB", g.round());
-    } else if num_bytes >= 1024 * 1024 {
-        let m = num_bytes as f64 / (1024.0 * 1024.0);
-        return format!("{}MiB", m.round());
-    } else if num_bytes >= 1024 {
-        let k = num_bytes as f64 / 1024.0;
-        return format!("{}KiB", k.round());
-    }
-
-    format!("{}B", num_bytes)
 }
 
 /// Print a diff between two files.
@@ -526,7 +512,10 @@ fn diff_file_content(
                 }
                 Err(tsp::ExceededByteLimit(num_bytes)) => {
                     let file_format = FileFormat::TextFallback {
-                        reason: format!("{} exceeded DFT_BYTE_LIMIT", &format_num_bytes(num_bytes)),
+                        reason: format!(
+                            "{} exceeded DFT_BYTE_LIMIT",
+                            &format_size(num_bytes, BINARY)
+                        ),
                     };
 
                     if diff_options.check_only {
@@ -764,20 +753,5 @@ mod tests {
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);
-    }
-
-    #[test]
-    fn test_num_bytes_small() {
-        assert_eq!(&format_num_bytes(200), "200B");
-    }
-
-    #[test]
-    fn test_num_bytes_kb() {
-        assert_eq!(&format_num_bytes(10_000), "10KiB");
-    }
-
-    #[test]
-    fn test_num_bytes_mb() {
-        assert_eq!(&format_num_bytes(3_000_000), "3MiB");
     }
 }
