@@ -64,6 +64,8 @@ module.exports = grammar({
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
     [$.enum_specifier],
+    [$._type_specifier, $._old_style_parameter_list],
+    [$.parameter_list, $._old_style_parameter_list],
   ],
 
   word: $ => $.identifier,
@@ -74,6 +76,7 @@ module.exports = grammar({
     // Top level items are block items with the exception of the expression statement
     _top_level_item: $ => choice(
       $.function_definition,
+      alias($._old_style_function_definition, $.function_definition),
       $.linkage_specification,
       $.declaration,
       $._top_level_statement,
@@ -224,6 +227,14 @@ module.exports = grammar({
       optional($.ms_call_modifier),
       $._declaration_specifiers,
       field('declarator', $._declarator),
+      field('body', $.compound_statement),
+    ),
+
+    _old_style_function_definition: $ => seq(
+      optional($.ms_call_modifier),
+      $._declaration_specifiers,
+      field('declarator', alias($._old_style_function_declarator, $.function_declarator)),
+      repeat($.declaration),
       field('body', $.compound_statement),
     ),
 
@@ -450,6 +461,11 @@ module.exports = grammar({
       field('parameters', $.parameter_list),
     )),
 
+    _old_style_function_declarator: $ => seq(
+      field('declarator', $._declarator),
+      field('parameters', alias($._old_style_parameter_list, $.parameter_list)),
+    ),
+
     array_declarator: $ => prec(1, seq(
       field('declarator', $._declarator),
       '[',
@@ -646,6 +662,11 @@ module.exports = grammar({
     parameter_list: $ => seq(
       '(',
       commaSep(choice($.parameter_declaration, $.variadic_parameter)),
+      ')',
+    ),
+    _old_style_parameter_list: $ => seq(
+      '(',
+      commaSep(choice($.identifier, $.variadic_parameter)),
       ')',
     ),
 
