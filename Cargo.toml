@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-c"
 description = "C grammar for the tree-sitter parsing library"
-version = "0.20.5"
+version = "0.20.6"
 authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
 license = "MIT"
 readme = "bindings/rust/README.md"
