@@ -553,16 +553,13 @@ module.exports = grammar({
     comment: ($) =>
       choice(
         seq(
-          field('start', alias('--', 'comment_start')),
-          field('content', alias(/[^\r\n]*/, 'comment_content'))
+          field('start', '--'),
+          field('content', alias(/[^\r\n]*/, $.comment_content))
         ),
         seq(
-          field('start', alias($._block_comment_start, 'comment_start')),
-          field(
-            'content',
-            optional(alias($._block_comment_content, 'comment_content'))
-          ),
-          field('end', alias($._block_comment_end, 'comment_end'))
+          field('start', alias($._block_comment_start, '[[')),
+          field('content', alias($._block_comment_content, $.comment_content)),
+          field('end', alias($._block_comment_end, ']]'))
         )
       ),
   },

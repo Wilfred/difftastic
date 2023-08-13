@@ -300,11 +300,11 @@
     "fields": {
       "content": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "comment_content",
-            "named": false
+            "named": true
           }
         ]
       },
@@ -313,7 +313,7 @@
         "required": false,
         "types": [
           {
-            "type": "comment_end",
+            "type": "]]",
             "named": false
           }
         ]
@@ -323,7 +323,11 @@
         "required": true,
         "types": [
           {
-            "type": "comment_start",
+            "type": "--",
+            "named": false
+          },
+          {
+            "type": "[[",
             "named": false
           }
         ]
@@ -1086,6 +1090,10 @@
     "named": false
   },
   {
+    "type": "--",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -1175,15 +1183,7 @@
   },
   {
     "type": "comment_content",
-    "named": false
-  },
-  {
-    "type": "comment_end",
-    "named": false
-  },
-  {
-    "type": "comment_start",
-    "named": false
+    "named": true
   },
   {
     "type": "do",

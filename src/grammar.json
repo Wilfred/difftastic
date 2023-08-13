@@ -2982,13 +2982,8 @@
               "type": "FIELD",
               "name": "start",
               "content": {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "--"
-                },
-                "named": false,
-                "value": "comment_start"
+                "type": "STRING",
+                "value": "--"
               }
             },
             {
@@ -3000,7 +2995,7 @@
                   "type": "PATTERN",
                   "value": "[^\\r\\n]*"
                 },
-                "named": false,
+                "named": true,
                 "value": "comment_content"
               }
             }
@@ -3019,28 +3014,20 @@
                   "name": "_block_comment_start"
                 },
                 "named": false,
-                "value": "comment_start"
+                "value": "[["
               }
             },
             {
               "type": "FIELD",
               "name": "content",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_block_comment_content"
-                    },
-                    "named": false,
-                    "value": "comment_content"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_block_comment_content"
+                },
+                "named": true,
+                "value": "comment_content"
               }
             },
             {
@@ -3053,7 +3040,7 @@
                   "name": "_block_comment_end"
                 },
                 "named": false,
-                "value": "comment_end"
+                "value": "]]"
               }
             }
           ]

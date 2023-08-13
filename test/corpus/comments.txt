@@ -5,6 +5,8 @@ comment
 --
 -- single-line comment, below an empty single-line comment
 
+--[[]]
+
 --[[
 print("block comment")
 --]]
@@ -54,29 +56,47 @@ print("not level 2 block comment")
 --------------------------------------------------------------------------------
 
 (chunk
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
   (function_call
     name: (identifier)
     arguments: (arguments
       (string
         content: (string_content))))
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment)
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
+  (comment
+    content: (comment_content))
   (function_call
     name: (identifier)
     arguments: (arguments
       (string
         content: (string_content))))
-  (comment))
+  (comment
+    content: (comment_content)))
