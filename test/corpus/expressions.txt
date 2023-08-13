@@ -16,6 +16,8 @@ double a = {
   123.456e-67,
   .1E4f,
   0x10.1p0,
+  0X1, 0B1,
+  2.0dd, 5wb,
 };
 
 --------------------------------------------------------------------------------
@@ -26,6 +28,10 @@ double a = {
     (init_declarator
       (identifier)
       (initializer_list
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
         (number_literal)
         (number_literal)
         (number_literal)

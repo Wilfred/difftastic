@@ -1141,7 +1141,7 @@ module.exports = grammar({
             hexDigits,
           )),
         )),
-        repeat(choice('u', 'l', 'U', 'L', 'f', 'F')),
+        /[uUlLwWfFbBdD]*/,
       ));
     },
 
