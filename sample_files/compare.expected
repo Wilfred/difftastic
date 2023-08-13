@@ -83,7 +83,7 @@ sample_files/html_simple_before.html sample_files/html_simple_after.html
 915a46736d489be724b18c87b4ebf6b2  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-e00c9b14e4c9d3e937520f4390d958a5  -
+8302a9d03dd1a32e52e83d864a990ab2  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 da6c8d397a9d3992b494d761d082366c  -
