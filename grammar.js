@@ -93,6 +93,7 @@ module.exports = grammar({
 
     _block_item: $ => choice(
       $.function_definition,
+      alias($._old_style_function_definition, $.function_definition),
       $.linkage_specification,
       $.declaration,
       $._statement,
