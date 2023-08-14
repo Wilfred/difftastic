@@ -4682,7 +4682,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_escape_interpolation"
+              "name": "escape_interpolation"
             },
             {
               "type": "SYMBOL",
@@ -4785,22 +4785,6 @@
           "name": "yield"
         }
       ]
-    },
-    "_escape_interpolation": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "{{"
-          },
-          {
-            "type": "STRING",
-            "value": "}}"
-          }
-        ]
-      }
     },
     "escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
@@ -5430,6 +5414,10 @@
     {
       "type": "SYMBOL",
       "name": "_string_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "escape_interpolation"
     },
     {
       "type": "SYMBOL",
