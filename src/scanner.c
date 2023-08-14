@@ -44,6 +44,7 @@ enum TokenType {
     DEDENT,
     STRING_START,
     STRING_CONTENT,
+    ESCAPE_INTERPOLATION,
     STRING_END,
     COMMENT,
     CLOSE_PAREN,
@@ -171,13 +172,34 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                            valid_symbols[CLOSE_PAREN] ||
                            valid_symbols[CLOSE_BRACKET];
 
+	bool advanced_once = false;
+    if (valid_symbols[ESCAPE_INTERPOLATION] && scanner->delimiters.len > 0 &&
+		(lexer->lookahead == '{' || lexer->lookahead == '}') &&
+        !error_recovery_mode) {
+        Delimiter delimiter = VEC_BACK(scanner->delimiters);
+        if (is_format(&delimiter)) {
+            lexer->mark_end(lexer);
+            bool is_left_brace = lexer->lookahead == '{';
+            advance(lexer);
+            advanced_once = true;
+            if ((lexer->lookahead == '{' && is_left_brace) ||
+                (lexer->lookahead == '}' && !is_left_brace)) {
+                advance(lexer);
+                lexer->mark_end(lexer);
+                lexer->result_symbol = ESCAPE_INTERPOLATION;
+                return true;
+            }
+            return false;
+        }
+    }
+
     if (valid_symbols[STRING_CONTENT] && scanner->delimiters.len > 0 &&
         !error_recovery_mode) {
         Delimiter delimiter = VEC_BACK(scanner->delimiters);
         int32_t end_char = end_character(&delimiter);
-        bool has_content = false;
+        bool has_content = advanced_once;
         while (lexer->lookahead) {
-            if ((lexer->lookahead == '{' || lexer->lookahead == '}') &&
+            if ((advanced_once || lexer->lookahead == '{' || lexer->lookahead == '}') &&
                 is_format(&delimiter)) {
                 lexer->mark_end(lexer);
                 lexer->result_symbol = STRING_CONTENT;
@@ -186,23 +208,23 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
             if (lexer->lookahead == '\\') {
                 if (is_raw(&delimiter)) {
                     // Step over the backslash.
-                    lexer->advance(lexer, false);
+                    advance(lexer);
                     // Step over any escaped quotes.
                     if (lexer->lookahead == end_character(&delimiter) ||
                         lexer->lookahead == '\\') {
-                        lexer->advance(lexer, false);
+                        advance(lexer);
                     }
                     continue;
                 }
                 if (is_bytes(&delimiter)) {
                     lexer->mark_end(lexer);
-                    lexer->advance(lexer, false);
+                    advance(lexer);
                     if (lexer->lookahead == 'N' || lexer->lookahead == 'u' ||
                         lexer->lookahead == 'U') {
                         // In bytes string, \N{...}, \uXXXX and \UXXXXXXXX are
                         // not escape sequences
                         // https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals
-                        lexer->advance(lexer, false);
+                        advance(lexer);
                     } else {
                         lexer->result_symbol = STRING_CONTENT;
                         return has_content;
@@ -215,14 +237,14 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
             } else if (lexer->lookahead == end_char) {
                 if (is_triple(&delimiter)) {
                     lexer->mark_end(lexer);
-                    lexer->advance(lexer, false);
+                    advance(lexer);
                     if (lexer->lookahead == end_char) {
-                        lexer->advance(lexer, false);
+                        advance(lexer);
                         if (lexer->lookahead == end_char) {
                             if (has_content) {
                                 lexer->result_symbol = STRING_CONTENT;
                             } else {
-                                lexer->advance(lexer, false);
+                                advance(lexer);
                                 lexer->mark_end(lexer);
                                 VEC_POP(scanner->delimiters);
                                 lexer->result_symbol = STRING_END;
@@ -240,7 +262,7 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                 if (has_content) {
                     lexer->result_symbol = STRING_CONTENT;
                 } else {
-                    lexer->advance(lexer, false);
+                    advance(lexer);
                     VEC_POP(scanner->delimiters);
                     lexer->result_symbol = STRING_END;
                 }
@@ -431,7 +453,6 @@ unsigned tree_sitter_python_external_scanner_serialize(void *payload,
     for (; iter < scanner->indents.len &&
            size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
          ++iter) {
-        // yeah, it narrows the value but it's fine?
         buffer[size++] = (char)scanner->indents.data[iter];
     }
 

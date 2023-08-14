@@ -72,6 +72,7 @@ module.exports = grammar({
     $._dedent,
     $.string_start,
     $._string_content,
+    $.escape_interpolation,
     $.string_end,
 
     // Mark comments as external tokens so that the external scanner is always
@@ -966,7 +967,7 @@ module.exports = grammar({
 
     string_content: $ => prec.right(repeat1(
       choice(
-        $._escape_interpolation,
+        $.escape_interpolation,
         $.escape_sequence,
         $._not_escape_sequence,
         $._string_content,
@@ -987,8 +988,6 @@ module.exports = grammar({
       $.pattern_list,
       $.yield,
     ),
-
-    _escape_interpolation: _ => token.immediate(choice('{{', '}}')),
 
     escape_sequence: _ => token.immediate(prec(1, seq(
       '\\',
