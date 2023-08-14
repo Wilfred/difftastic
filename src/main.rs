@@ -276,13 +276,31 @@ fn diff_file(
     overrides: &[(glob::Pattern, LanguageOverride)],
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
+    let (lhs_src, rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
+        (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+            return DiffResult {
+                old_path,
+                display_path: display_path.to_owned(),
+                file_format: FileFormat::Binary,
+                lhs_src: FileContent::Binary,
+                rhs_src: FileContent::Binary,
+                lhs_positions: vec![],
+                rhs_positions: vec![],
+                hunks: vec![],
+                has_byte_changes: lhs_bytes != rhs_bytes,
+                has_syntactic_changes: false,
+            };
+        }
+        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
+    };
+
     diff_file_content(
         display_path,
         old_path,
         lhs_path,
         rhs_path,
-        &lhs_bytes,
-        &rhs_bytes,
+        &lhs_src,
+        &rhs_src,
         display_options,
         diff_options,
         overrides,
@@ -317,30 +335,12 @@ fn diff_file_content(
     old_path: Option<String>,
     _lhs_path: &FileArgument,
     rhs_path: &FileArgument,
-    lhs_bytes: &[u8],
-    rhs_bytes: &[u8],
+    lhs_src: &str,
+    rhs_src: &str,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     overrides: &[(glob::Pattern, LanguageOverride)],
 ) -> DiffResult {
-    let (lhs_src, rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
-        (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
-            return DiffResult {
-                old_path,
-                display_path: display_path.to_owned(),
-                file_format: FileFormat::Binary,
-                lhs_src: FileContent::Binary,
-                rhs_src: FileContent::Binary,
-                lhs_positions: vec![],
-                rhs_positions: vec![],
-                hunks: vec![],
-                has_byte_changes: lhs_bytes != rhs_bytes,
-                has_syntactic_changes: false,
-            };
-        }
-        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
-    };
-
     let (guess_src, guess_path) = match rhs_path {
         FileArgument::NamedPath(path) => (&rhs_src, Path::new(path)),
         FileArgument::Stdin => (&rhs_src, Path::new(&display_path)),
@@ -350,7 +350,7 @@ fn diff_file_content(
     let language = guess(guess_path, guess_src, overrides);
     let lang_config = language.map(tsp::from_language);
 
-    if lhs_bytes == rhs_bytes {
+    if lhs_src == rhs_src {
         let file_format = match language {
             Some(language) => FileFormat::SupportedLanguage(language),
             None => FileFormat::PlainText,
@@ -408,8 +408,8 @@ fn diff_file_content(
                                     old_path,
                                     display_path: display_path.to_string(),
                                     file_format,
-                                    lhs_src: FileContent::Text(lhs_src),
-                                    rhs_src: FileContent::Text(rhs_src),
+                                    lhs_src: FileContent::Text(lhs_src.to_owned()),
+                                    rhs_src: FileContent::Text(rhs_src.to_owned()),
                                     lhs_positions: vec![],
                                     rhs_positions: vec![],
                                     hunks: vec![],
@@ -554,8 +554,8 @@ fn diff_file_content(
         old_path,
         display_path: display_path.to_string(),
         file_format,
-        lhs_src: FileContent::Text(lhs_src),
-        rhs_src: FileContent::Text(rhs_src),
+        lhs_src: FileContent::Text(lhs_src.to_owned()),
+        rhs_src: FileContent::Text(rhs_src.to_owned()),
         lhs_positions,
         rhs_positions,
         hunks,
@@ -744,8 +744,8 @@ mod tests {
             None,
             &FileArgument::from_path_argument(OsStr::new("foo.el")),
             &FileArgument::from_path_argument(OsStr::new("foo.el")),
-            s.as_bytes(),
-            s.as_bytes(),
+            s,
+            s,
             &DisplayOptions::default(),
             &DiffOptions::default(),
             &[],
