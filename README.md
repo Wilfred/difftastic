@@ -96,6 +96,21 @@ showing one way to use difftastic with magit.
 Probably not. Difftastic is young. Consider writing a plugin for your
 favourite tool, and I will link it in the README!
 
+### Can I use difftastic to check for syntactic changes without diffing?
+
+Yes. Difftastic can check if the two files have the same AST, without
+calculating a diff. This is much faster than normal diffing, and
+useful for building tools that check for changes.
+
+For example:
+
+```
+$ difft --check-only --exit-code before.js after.js
+```
+
+This will set the exit code to 0 if there are no syntactic changes, or
+1 if there are changes found.
+
 ## Translation
 
 + [Chinese](./translation/zh-CN/README-zh-CN.md)
