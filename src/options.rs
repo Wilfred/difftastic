@@ -503,9 +503,6 @@ pub fn parse_args() -> Mode {
         };
     }
 
-    let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
-    info!("CLI arguments: {:?}", args);
-
     let display_width = if let Some(arg_width) = matches.value_of("width") {
         arg_width
             .parse::<usize>()
@@ -577,6 +574,9 @@ pub fn parse_args() -> Mode {
         check_only,
         ignore_comments,
     };
+
+    let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
+    info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path, old_path, in_vcs) = match &args[..] {
