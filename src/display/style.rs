@@ -451,7 +451,7 @@ pub(crate) fn apply_line_number_color(
 
 pub fn header(
     display_path: &str,
-    old_path: &Option<String>,
+    extra_info: &Option<String>,
     hunk_num: usize,
     hunk_total: usize,
     file_format: &FileFormat,
@@ -475,10 +475,9 @@ pub fn header(
         trailer = trailer.dimmed().to_string();
     }
 
-    match old_path {
-        Some(old_path) if hunk_num == 1 => {
-            let renamed = format!("Renamed from {} to {}", old_path, display_path);
-            format!("{}{}\n{}", display_path_pretty, trailer, renamed)
+    match extra_info {
+        Some(extra_info) if hunk_num == 1 => {
+            format!("{}{}\n{}", display_path_pretty, trailer, extra_info)
         }
         _ => {
             format!("{}{}", display_path_pretty, trailer)

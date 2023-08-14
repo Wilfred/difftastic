@@ -38,7 +38,9 @@ impl Display for FileFormat {
 #[derive(Debug)]
 pub struct DiffResult {
     pub display_path: String,
-    pub old_path: Option<String>,
+    /// Additional information to display about this file, such as
+    /// "Renamed from x.js to y.js".
+    pub extra_info: Option<String>,
 
     pub file_format: FileFormat,
     pub lhs_src: FileContent,

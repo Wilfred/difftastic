@@ -603,12 +603,13 @@ pub fn parse_args() -> Mode {
 
             let old_name = old_name.to_string_lossy().to_string();
             let new_name = new_name.to_string_lossy().to_string();
+            let renamed = format!("Renamed from {} to {}", old_name, new_name);
 
             (
                 new_name,
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some(old_name),
+                Some(renamed),
                 true,
             )
         }

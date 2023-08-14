@@ -267,7 +267,7 @@ fn main() {
 /// Print a diff between two files.
 fn diff_file(
     display_path: &str,
-    old_path: Option<String>,
+    extra_info: Option<String>,
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     display_options: &DisplayOptions,
@@ -279,7 +279,7 @@ fn diff_file(
     let (lhs_src, rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
-                old_path,
+                extra_info,
                 display_path: display_path.to_owned(),
                 file_format: FileFormat::Binary,
                 lhs_src: FileContent::Binary,
@@ -296,7 +296,7 @@ fn diff_file(
 
     diff_file_content(
         display_path,
-        old_path,
+        extra_info,
         lhs_path,
         rhs_path,
         &lhs_src,
@@ -310,7 +310,7 @@ fn diff_file(
 fn check_only_text(
     file_format: &FileFormat,
     display_path: &str,
-    old_path: Option<String>,
+    extra_info: Option<String>,
     lhs_src: &str,
     rhs_src: &str,
 ) -> DiffResult {
@@ -318,7 +318,7 @@ fn check_only_text(
 
     DiffResult {
         display_path: display_path.to_string(),
-        old_path,
+        extra_info,
         file_format: file_format.clone(),
         lhs_src: FileContent::Text(lhs_src.into()),
         rhs_src: FileContent::Text(rhs_src.into()),
@@ -332,7 +332,7 @@ fn check_only_text(
 
 fn diff_file_content(
     display_path: &str,
-    old_path: Option<String>,
+    extra_info: Option<String>,
     _lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     lhs_src: &str,
@@ -359,7 +359,7 @@ fn diff_file_content(
         // If the two files are completely identical, return early
         // rather than doing any more work.
         return DiffResult {
-            old_path,
+            extra_info,
             display_path: display_path.to_string(),
             file_format,
             lhs_src: FileContent::Text("".into()),
@@ -376,7 +376,7 @@ fn diff_file_content(
         None => {
             let file_format = FileFormat::PlainText;
             if diff_options.check_only {
-                return check_only_text(&file_format, display_path, old_path, &lhs_src, &rhs_src);
+                return check_only_text(&file_format, display_path, extra_info, &lhs_src, &rhs_src);
             }
 
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
@@ -405,7 +405,7 @@ fn diff_file_content(
 
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
-                                    old_path,
+                                    extra_info,
                                     display_path: display_path.to_string(),
                                     file_format,
                                     lhs_src: FileContent::Text(lhs_src.to_owned()),
@@ -498,7 +498,7 @@ fn diff_file_content(
                                 return check_only_text(
                                     &file_format,
                                     display_path,
-                                    old_path,
+                                    extra_info,
                                     &lhs_src,
                                     &rhs_src,
                                 );
@@ -522,7 +522,7 @@ fn diff_file_content(
                         return check_only_text(
                             &file_format,
                             display_path,
-                            old_path,
+                            extra_info,
                             &lhs_src,
                             &rhs_src,
                         );
@@ -551,7 +551,7 @@ fn diff_file_content(
     let has_syntactic_changes = !hunks.is_empty();
 
     DiffResult {
-        old_path,
+        extra_info,
         display_path: display_path.to_string(),
         file_format,
         lhs_src: FileContent::Text(lhs_src.to_owned()),
@@ -616,7 +616,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         "{}",
                         display::style::header(
                             &summary.display_path,
-                            &summary.old_path,
+                            &summary.extra_info,
                             1,
                             1,
                             &summary.file_format,
@@ -643,7 +643,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         &summary.display_path,
-                        &summary.old_path,
+                        &summary.extra_info,
                         1,
                         1,
                         &summary.file_format,
@@ -672,7 +672,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_positions,
                         hunks,
                         &summary.display_path,
-                        &summary.old_path,
+                        &summary.extra_info,
                         &summary.file_format,
                     );
                 }
@@ -681,7 +681,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         hunks,
                         display_options,
                         &summary.display_path,
-                        &summary.old_path,
+                        &summary.extra_info,
                         &summary.file_format,
                         lhs_src,
                         rhs_src,
@@ -697,7 +697,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         &summary.display_path,
-                        &summary.old_path,
+                        &summary.extra_info,
                         1,
                         1,
                         &FileFormat::Binary,
@@ -718,7 +718,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 "{}",
                 display::style::header(
                     &summary.display_path,
-                    &summary.old_path,
+                    &summary.extra_info,
                     1,
                     1,
                     &FileFormat::Binary,
