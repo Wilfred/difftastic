@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/amaanq/tree-sitter-objc/compare/v2.0.0...v2.1.0) (2023-08-13)
+
+
+### Features
+
+* bump C to 0.20.6 ([7d5b173](https://github.com/amaanq/tree-sitter-objc/commit/7d5b1733b9006b7d4388f097745c8e10e0c30a2a))
+
 ## [2.0.0](https://github.com/amaanq/tree-sitter-objc/compare/v1.2.0...v2.0.0) (2023-08-10)
 
 
