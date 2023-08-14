@@ -506,54 +506,6 @@ pub fn parse_args() -> Mode {
     let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
     info!("CLI arguments: {:?}", args);
 
-    // TODO: document these different ways of calling difftastic.
-    let (display_path, lhs_path, rhs_path, old_path, in_vcs) = match &args[..] {
-        [lhs_path, rhs_path] => {
-            let lhs_arg = FileArgument::from_cli_argument(lhs_path);
-            let rhs_arg = FileArgument::from_cli_argument(rhs_path);
-            let display_path = build_display_path(&lhs_arg, &rhs_arg);
-            (display_path, lhs_arg, rhs_arg, None, false)
-        }
-        [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
-            // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
-            (
-                display_path.to_string_lossy().to_string(),
-                FileArgument::from_path_argument(lhs_tmp_file),
-                FileArgument::from_path_argument(rhs_tmp_file),
-                None,
-                true,
-            )
-        }
-        [old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
-        {
-            // Rename file.
-            // TODO: where does git document these 9 arguments?
-
-            let old_name = old_name.to_string_lossy().to_string();
-            let new_name = new_name.to_string_lossy().to_string();
-
-            (
-                new_name,
-                FileArgument::from_path_argument(lhs_tmp_file),
-                FileArgument::from_path_argument(rhs_tmp_file),
-                Some(old_name),
-                true,
-            )
-        }
-        _ => {
-            if !args.is_empty() {
-                eprintln!(
-                    "error: Difftastic does not support being called with {} argument{}.\n",
-                    args.len(),
-                    if args.len() == 1 { "" } else { "s" }
-                );
-            }
-            eprintln!("USAGE:\n\n    {}\n", USAGE);
-            eprintln!("For more information try --help");
-            std::process::exit(EXIT_BAD_ARGUMENTS);
-        }
-    };
-
     let display_width = if let Some(arg_width) = matches.value_of("width") {
         arg_width
             .parse::<usize>()
@@ -618,6 +570,62 @@ pub fn parse_args() -> Mode {
 
     let check_only = matches.is_present("check-only");
 
+    let diff_options = DiffOptions {
+        graph_limit,
+        byte_limit,
+        parse_error_limit,
+        check_only,
+        ignore_comments,
+    };
+
+    // TODO: document these different ways of calling difftastic.
+    let (display_path, lhs_path, rhs_path, old_path, in_vcs) = match &args[..] {
+        [lhs_path, rhs_path] => {
+            let lhs_arg = FileArgument::from_cli_argument(lhs_path);
+            let rhs_arg = FileArgument::from_cli_argument(rhs_path);
+            let display_path = build_display_path(&lhs_arg, &rhs_arg);
+            (display_path, lhs_arg, rhs_arg, None, false)
+        }
+        [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
+            // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
+            (
+                display_path.to_string_lossy().to_string(),
+                FileArgument::from_path_argument(lhs_tmp_file),
+                FileArgument::from_path_argument(rhs_tmp_file),
+                None,
+                true,
+            )
+        }
+        [old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
+        {
+            // Rename file.
+            // TODO: where does git document these 9 arguments?
+
+            let old_name = old_name.to_string_lossy().to_string();
+            let new_name = new_name.to_string_lossy().to_string();
+
+            (
+                new_name,
+                FileArgument::from_path_argument(lhs_tmp_file),
+                FileArgument::from_path_argument(rhs_tmp_file),
+                Some(old_name),
+                true,
+            )
+        }
+        _ => {
+            if !args.is_empty() {
+                eprintln!(
+                    "error: Difftastic does not support being called with {} argument{}.\n",
+                    args.len(),
+                    if args.len() == 1 { "" } else { "s" }
+                );
+            }
+            eprintln!("USAGE:\n\n    {}\n", USAGE);
+            eprintln!("For more information try --help");
+            std::process::exit(EXIT_BAD_ARGUMENTS);
+        }
+    };
+
     let display_options = DisplayOptions {
         background_color,
         use_color,
@@ -628,14 +636,6 @@ pub fn parse_args() -> Mode {
         num_context_lines,
         syntax_highlight,
         in_vcs,
-    };
-
-    let diff_options = DiffOptions {
-        graph_limit,
-        byte_limit,
-        parse_error_limit,
-        check_only,
-        ignore_comments,
     };
 
     Mode::Diff {
