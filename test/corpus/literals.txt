@@ -365,7 +365,9 @@ def function():
   (expression_statement
     (string
       (string_start)
-      (string_content)
+      (string_content
+        (escape_interpolation)
+        (escape_interpolation))
       (string_end)))
   (expression_statement
     (string
@@ -373,27 +375,33 @@ def function():
       (string_content)
       (interpolation
         (identifier))
-      (string_content)
+      (string_content
+        (escape_interpolation))
       (string_end)))
   (expression_statement
     (string
       (string_start)
-      (string_content)
+      (string_content
+        (escape_interpolation))
       (interpolation
         (identifier))
       (string_end)))
   (expression_statement
     (string
       (string_start)
-      (string_content)
+      (string_content
+        (escape_interpolation)
+        (escape_interpolation))
       (string_end)))
   (expression_statement
     (string
       (string_start)
-      (string_content)
+      (string_content
+        (escape_interpolation))
       (interpolation
         (identifier))
-      (string_content)
+      (string_content
+        (escape_interpolation))
       (string_end)))
   (expression_statement
     (string
