@@ -735,9 +735,11 @@ async def d(a:str="default", b=c) -> None:
       (typed_parameter
         (identifier)
         type: (type
-          (subscript
-            value: (identifier)
-            subscript: (identifier)))))
+          (generic_type
+            (identifier)
+            (type_parameter
+              (type
+                (identifier)))))))
     return_type: (type
       (identifier))
     body: (block
@@ -776,7 +778,7 @@ async def d(a:str="default", b=c) -> None:
         name: (identifier)
         type: (type
           (identifier))
-        value: (string 
+        value: (string
           (string_start)
           (string_content)
           (string_end)))
@@ -1112,7 +1114,6 @@ def spam():
         (expression_statement
           (ellipsis))))))
 
-
 ================================================================================
 Raise statements
 ================================================================================
@@ -1437,3 +1438,191 @@ foo; bar;
     (identifier))
   (expression_statement
     (identifier)))
+
+================================================================================
+Type Alias Statements
+================================================================================
+
+type Point = tuple[float, float]
+type Point[T] = tuple[T, T]
+type IntFunc[**P] = Callable[P, int]  # ParamSpec
+type LabeledTuple[*Ts] = tuple[str, *Ts]  # TypeVarTuple
+type HashableSequence[T: Hashable] = Sequence[T]  # TypeVar with bound
+type IntOrStrSequence[T: (int, str)] = Sequence[T]  # TypeVar with constraints
+
+--------------------------------------------------------------------------------
+
+(module
+  (type_alias_statement
+    (type
+      (identifier))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (identifier))))))
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier)))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (identifier))))))
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (splat_type
+              (identifier))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (identifier))))))
+  (comment)
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (splat_type
+              (identifier))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (splat_type
+              (identifier)))))))
+  (comment)
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (constrained_type
+              (type
+                (identifier))
+              (type
+                (identifier)))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))))))
+  (comment)
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (constrained_type
+              (type
+                (identifier))
+              (type
+                (tuple
+                  (identifier)
+                  (identifier))))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))))))
+  (comment))
+
+================================================================================
+Generic Function Definitions
+================================================================================
+
+def more_generic[T, *Ts, **P]():
+    type TA[T2, *Ts2, **P2] = tuple[Callable[P, tuple[T, *Ts]], Callable[P2, tuple[T2, *Ts2]]]
+    return TA
+
+--------------------------------------------------------------------------------
+
+(module
+  (function_definition
+    (identifier)
+    (type_parameter
+      (type
+        (identifier))
+      (type
+        (splat_type
+          (identifier)))
+      (type
+        (splat_type
+          (identifier))))
+    (parameters)
+    (block
+      (type_alias_statement
+        (type
+          (generic_type
+            (identifier)
+            (type_parameter
+              (type
+                (identifier))
+              (type
+                (splat_type
+                  (identifier)))
+              (type
+                (splat_type
+                  (identifier))))))
+        (type
+          (generic_type
+            (identifier)
+            (type_parameter
+              (type
+                (generic_type
+                  (identifier)
+                  (type_parameter
+                    (type
+                      (identifier))
+                    (type
+                      (generic_type
+                        (identifier)
+                        (type_parameter
+                          (type
+                            (identifier))
+                          (type
+                            (splat_type
+                              (identifier)))))))))
+              (type
+                (generic_type
+                  (identifier)
+                  (type_parameter
+                    (type
+                      (identifier))
+                    (type
+                      (generic_type
+                        (identifier)
+                        (type_parameter
+                          (type
+                            (identifier))
+                          (type
+                            (splat_type
+                              (identifier)))))))))))))
+      (return_statement
+        (identifier)))))

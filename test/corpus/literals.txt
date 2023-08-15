@@ -237,6 +237,9 @@ ur"\n"
 fr"\{0}"
 
 r"\\"
+r'"a\
+de\
+fg"'
 
 --------------------------------------------------------------------------------
 
@@ -275,6 +278,11 @@ r"\\"
   (expression_statement
     (string
       (string_start)
+      (string_end)))
+  (expression_statement
+    (string
+      (string_start)
+      (string_content)
       (string_end))))
 
 ================================================================================
@@ -321,9 +329,14 @@ f"{yield d}"
 f"{*a,}"
 
 def function():
-     return f"""
+    return f"""
 {"string1" if True else
  "string2"}"""
+
+def test(self):
+    self.assertEqual(f'''A complex trick: {
+2  # two
+}''', 'A complex trick: 2')
 
 --------------------------------------------------------------------------------
 
@@ -444,7 +457,29 @@ def function():
                 (string_start)
                 (string_content)
                 (string_end))))
-          (string_end))))))
+          (string_end)))))
+  (function_definition
+    (identifier)
+    (parameters
+      (identifier))
+    (block
+      (expression_statement
+        (call
+          (attribute
+            (identifier)
+            (identifier))
+          (argument_list
+            (string
+              (string_start)
+              (string_content)
+              (interpolation
+                (integer)
+                (comment))
+              (string_end))
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 Format strings with format specifiers

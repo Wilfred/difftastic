@@ -134,14 +134,14 @@ assert await a(b) == c
             (call
               (identifier)
               (argument_list)))))))
-   (assert_statement
-     (comparison_operator
-       (await
-         (call
-           (identifier)
-           (argument_list
-             (identifier))))
-       (identifier))))
+  (assert_statement
+    (comparison_operator
+      (await
+        (call
+          (identifier)
+          (argument_list
+            (identifier))))
+      (identifier))))
 
 ================================================================================
 Call expressions
@@ -683,9 +683,11 @@ tail_leaves: List[Leaf] = []
     (assignment
       (identifier)
       (type
-        (subscript
+        (generic_type
           (identifier)
-          (identifier)))
+          (type_parameter
+            (type
+              (identifier)))))
       (list))))
 
 ================================================================================
@@ -971,7 +973,7 @@ def comp_args((a, b)=(3, 4)):
       (return_statement
         (expression_list
           (identifier)
-        (identifier))))))
+          (identifier))))))
 
 ================================================================================
 Conditional if expressions
