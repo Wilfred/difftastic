@@ -156,6 +156,7 @@ static delimiter_vec delimiter_vec_new() {
 typedef struct {
     indent_vec indents;
     delimiter_vec delimiters;
+    bool inside_f_string;
 } Scanner;
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -214,6 +215,15 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                         lexer->lookahead == '\\') {
                         advance(lexer);
                     }
+                    // Step over newlines
+                    if (lexer -> lookahead == '\r') {
+                        advance(lexer);
+                        if (lexer -> lookahead == '\n') {
+                        advance(lexer);
+                        }
+                    } else if (lexer -> lookahead == '\n') {
+                        advance(lexer);
+                    }
                     continue;
                 }
                 if (is_bytes(&delimiter)) {
@@ -248,6 +258,7 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                                 lexer->mark_end(lexer);
                                 VEC_POP(scanner->delimiters);
                                 lexer->result_symbol = STRING_END;
+                                scanner->inside_f_string = false;
                             }
                             return true;
                         }
@@ -265,6 +276,7 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                     advance(lexer);
                     VEC_POP(scanner->delimiters);
                     lexer->result_symbol = STRING_END;
+                    scanner->inside_f_string = false;
                 }
                 lexer->mark_end(lexer);
                 return true;
@@ -353,6 +365,7 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                   !(valid_symbols[STRING_START] && next_tok_is_string_start) &&
                   !within_brackets)) &&
                 indent_length < current_indent_length &&
+                !scanner->inside_f_string &&
 
                 // Wait to create a dedent token until we've consumed any
                 // comments
@@ -421,7 +434,7 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
         if (end_character(&delimiter)) {
             VEC_PUSH(scanner->delimiters, delimiter);
             lexer->result_symbol = STRING_START;
-
+            scanner->inside_f_string = is_format(&delimiter);
             return true;
         }
         if (has_flags) {
@@ -437,6 +450,8 @@ unsigned tree_sitter_python_external_scanner_serialize(void *payload,
     Scanner *scanner = (Scanner *)payload;
 
     size_t size = 0;
+
+    buffer[size++] = (char)scanner->inside_f_string;
 
     size_t delimiter_count = scanner->delimiters.len;
     if (delimiter_count > UINT8_MAX) {
@@ -470,6 +485,8 @@ void tree_sitter_python_external_scanner_deserialize(void *payload,
 
     if (length > 0) {
         size_t size = 0;
+
+        scanner->inside_f_string = (bool)buffer[size++];
 
         size_t delimiter_count = (uint8_t)buffer[size++];
         if (delimiter_count > 0) {
