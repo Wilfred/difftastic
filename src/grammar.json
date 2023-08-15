@@ -1195,10 +1195,6 @@
             "type": "SYMBOL",
             "name": "parenthesized_expression"
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
         }
       ]
     },
