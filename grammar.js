@@ -55,6 +55,7 @@ module.exports = grammar({
     [$.with_item, $._collection_elements],
     [$.named_expression, $.as_pattern],
     [$.print_statement, $.primary_expression],
+    [$.type_alias_statement, $.primary_expression],
   ],
 
   supertypes: $ => [
@@ -132,6 +133,7 @@ module.exports = grammar({
       $.global_statement,
       $.nonlocal_statement,
       $.exec_statement,
+      $.type_alias_statement,
     ),
 
     import_statement: $ => seq(
@@ -412,6 +414,7 @@ module.exports = grammar({
       optional('async'),
       'def',
       field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter)),
       field('parameters', $.parameters),
       optional(
         seq(
@@ -462,12 +465,25 @@ module.exports = grammar({
       ),
     ),
 
+    type_alias_statement: $ => prec.dynamic(1, seq(
+      'type',
+      $.type,
+      '=',
+      $.type,
+    )),
+
     class_definition: $ => seq(
       'class',
       field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter)),
       field('superclasses', optional($.argument_list)),
       ':',
       field('body', $._suite),
+    ),
+    type_parameter: $ => seq(
+      '[',
+      commaSep1($.type),
+      ']',
     ),
 
     parenthesized_list_splat: $ => prec(PREC.parenthesized_list_splat, seq(
@@ -842,7 +858,19 @@ module.exports = grammar({
       field('type', $.type),
     )),
 
-    type: $ => $.expression,
+    type: $ => choice(
+      $.expression,
+      $.splat_type,
+      $.generic_type,
+      $.union_type,
+      $.constrained_type,
+      $.member_type,
+    ),
+    splat_type: $ => prec(1, seq(choice('*', '**'), $.identifier)),
+    generic_type: $ => prec(1, seq($.identifier, $.type_parameter)),
+    union_type: $ => prec.left(seq($.type, '|', $.type)),
+    constrained_type: $ => prec.right(seq($.type, ':', $.type)),
+    member_type: $ => seq($.type, '.', $.identifier),
 
     keyword_argument: $ => seq(
       field('name', choice($.identifier, $.keyword_identifier)),
@@ -1055,16 +1083,19 @@ module.exports = grammar({
 
     identifier: _ => /[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
-    keyword_identifier: $ => prec(-3, alias(
-      choice(
-        'print',
-        'exec',
-        'async',
-        'await',
-        'match',
-      ),
-      $.identifier,
-    )),
+    keyword_identifier: $ => choice(
+      prec(-3, alias(
+        choice(
+          'print',
+          'exec',
+          'async',
+          'await',
+          'match',
+        ),
+        $.identifier,
+      )),
+      alias('type', $.identifier),
+    ),
 
     true: _ => 'True',
     false: _ => 'False',
