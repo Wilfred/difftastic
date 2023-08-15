@@ -6543,29 +6543,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "variable"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "comma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "variable"
-                  }
-                ]
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "variable"
         },
         {
           "type": "SYMBOL",
@@ -6576,11 +6555,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "strict_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "lazy_type"
+              "name": "_record_field"
             },
             {
               "type": "SYMBOL",

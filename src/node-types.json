@@ -7144,11 +7144,11 @@
       "required": true,
       "types": [
         {
-          "type": "comma",
+          "type": "context",
           "named": true
         },
         {
-          "type": "context",
+          "type": "field",
           "named": true
         },
         {
@@ -7157,10 +7157,6 @@
         },
         {
           "type": "fun",
-          "named": true
-        },
-        {
-          "type": "lazy_type",
           "named": true
         },
         {
@@ -7173,10 +7169,6 @@
         },
         {
           "type": "splice",
-          "named": true
-        },
-        {
-          "type": "strict_type",
           "named": true
         },
         {
