@@ -97,8 +97,10 @@ module.exports = {
     'data',
     optional($.context),
     $._simpletype,
-    optional($._type_annotation),
-    optional(choice($._gadt_rhs, repeat($.deriving))),
+    '=',
+    $._type_or_implicit,
+    // optional($._type_annotation),
+    // optional(choice($._gadt_rhs, repeat($.deriving))),
   ),
 
   newtype_constructor: $ => seq(
