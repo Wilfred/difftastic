@@ -136,3 +136,21 @@ message($var)
     )
   )
 )
+
+=====================================================
+Single quote in unquoted_argument [unquoted_argument]
+=====================================================
+
+message(hello'world)
+
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (unquoted_argument)
+      )
+    )
+  )
+)

@@ -49,7 +49,7 @@ module.exports = grammar({
 
     unquoted_argument: ($) =>
       prec.right(repeat1(choice($.variable_ref, $.gen_exp, $._unquoted_text, $.escape_sequence))),
-    _unquoted_text: (_) => prec.left(repeat1(choice("$", /[^()#"\\']/))),
+    _unquoted_text: (_) => prec.left(repeat1(choice("$", /[^()#"\\]/))),
 
     body: ($) => prec.right(repeat1($._untrimmed_command_invocation)),
     argument_list: ($) => repeat1($._untrimmed_argument),
