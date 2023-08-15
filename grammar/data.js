@@ -6,9 +6,9 @@ module.exports = {
   // ------------------------------------------------------------------------
 
   field: $ => seq(
-    sep1($.comma, $.variable),
+    $.variable,
     $._colon2,
-    choice($.strict_type, $.lazy_type, $._type),
+    choice($._record_field, $._type),
   ),
 
   data_constructor: $ => seq(
