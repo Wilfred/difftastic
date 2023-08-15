@@ -8,27 +8,22 @@ local a = 'a';
 ---
 
 (document
-  (expr
-    (local_bind
-      (local)
-      (bind
-        (id)
-        (expr
+  (local_bind
+    (local)
+    (bind
+      (id)
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))
+    (object
+      (member
+        (field
+          (fieldname (id))
           (string
             (string_start)
             (string_content)
-            (string_end))))
-      (expr
-        (member
-          (field
-            (fieldname
-              (expr
-                (id)))
-            (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))))))))
+            (string_end)))))))
 
 ===============================
 Resolve expr in fieldname key 2
@@ -42,32 +37,29 @@ local prefix = 'Happy Hour ';
 ---
 
 (document
-  (expr
-    (local_bind
-      (local)
-      (bind
-        (id)
-        (expr
-          (string
-            (string_start)
-            (string_content)
-            (string_end))))
-      (expr
-        (member
-          (field
-            (fieldname
-              (expr
-                (expr (id))
-                (expr
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end)))))
-            (expr
+  (local_bind
+    (local)
+    (bind
+      (id)
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+    (object
+      (member
+        (field
+          (fieldname
+            (binary
+              (id)
+              (additive)
               (string
                 (string_start)
                 (string_content)
-                (string_end)))))))))
+                (string_end))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
 
 ===============================
 Resolve expr in fieldname key 3
@@ -87,7 +79,6 @@ local Margarita(salted) = {
 ---
 
 (document
- (expr
   (local_bind
    (local)
    (bind
@@ -96,51 +87,44 @@ local Margarita(salted) = {
     (params
      (param
       identifier: (id)))
-    body: (expr
+    body: (object
     (member
       (field
        (fieldname
-        (expr
-         condition: (expr (id))
+        (conditional
+         condition: (id)
          consequence:
-         (expr
           (string
            (string_start)
            (string_content)
-           (string_end)))))
-       (expr
+           (string_end))))
         (string
          (string_start)
          (string_content)
-         (string_end)))))
+         (string_end))))
      (member
       (field
        (fieldname (id))
-       (expr
-        (expr
-         (member
-          (field
-           (fieldname (id))
-           (expr
-            (string
-             (string_start)
-             (string_content)
-             (string_end)))))
-         (member
-          (field
-           (fieldname
-            (id))
-           (expr
-            (number))))))))
-     ))
-   (expr
+       (array
+         (object
+           (member
+            (field
+             (fieldname (id))
+             (string
+               (string_start)
+               (string_content)
+               (string_end))))
+           (member
+            (field
+             (fieldname (id))
+             (number)))))))))
+   (object
     (member
      (field
       (fieldname (id))
-      (expr
-       (expr (id))
-       (args
-        (expr (true))))))
+      (functioncall
+       (id)
+       (args (true)))))
     (member
      (field
       (fieldname
@@ -148,8 +132,6 @@ local Margarita(salted) = {
         (string_start)
         (string_content)
         (string_end)))
-      (expr
-       (expr (id))
-       (args
-        (expr
-         (false))))))))))
+      (functioncall
+       (id)
+       (args (false))))))))

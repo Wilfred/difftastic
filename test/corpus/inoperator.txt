@@ -8,26 +8,22 @@ local obj = { a: null };
 ---
 
 (document
-  (expr
     (local_bind
       (local)
       (bind
         (id)
-        (expr
+        (object
           (member
             (field
-              (fieldname
-                (id))
-              (expr
-                (null))))))
-      (expr
-        (expr
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))
-        (expr
-          (id))))))
+              (fieldname (id))
+              (null)))))
+    (binary
+      (string
+        (string_start)
+        (string_content)
+        (string_end))
+      (comparison)
+      (id))))
 
 ======================
 In operator on super
@@ -39,30 +35,25 @@ obj + { b: 'a' in super }
 ---
 
 (document
-  (expr
-    (local_bind
-      (local)
-      (bind
-        (id)
-        (expr
-          (member
-            (field
-              (fieldname
-                (id))
-              (expr
-                (null))))))
-      (expr
-        (expr
-          (id))
-        (expr
-          (member
-            (field
-              (fieldname
-                (id))
-              (expr
-                (expr
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end)))
-                (super)))))))))
+  (local_bind
+    (local)
+    (bind
+      (id)
+      (object
+        (member
+          (field
+            (fieldname (id))
+            (null)))))
+    (binary
+      (id)
+      (additive)
+      (object
+        (member
+          (field
+            (fieldname (id))
+              (in_super
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (super))))))))

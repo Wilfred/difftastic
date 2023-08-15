@@ -7,8 +7,7 @@ should parse literal 0
 ---
 
 (document
-  (expr
-    (number)))
+  (number))
 
 ======================
 should parse literal 1
@@ -19,8 +18,7 @@ should parse literal 1
 ---
 
 (document
-  (expr
-    (number)))
+  (number))
 
 =========================
 should parse literal 3.14
@@ -31,8 +29,7 @@ should parse literal 3.14
 ---
 
 (document
-  (expr
-    (number)))
+  (number))
 
 ============================
 should parse literal 1.23e10
@@ -43,5 +40,4 @@ should parse literal 1.23e10
 ---
 
 (document
-  (expr
-    (number)))
+  (number))

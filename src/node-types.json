@@ -1,14 +1,131 @@
 [
   {
+    "type": "additive",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "anonymous_function",
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
@@ -34,11 +151,242 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
           "named": true
         },
         {
           "type": "named_argument",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -53,10 +401,414 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "binary",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "additive",
+            "named": true
+          },
+          {
+            "type": "and",
+            "named": true
+          },
+          {
+            "type": "bitand",
+            "named": true
+          },
+          {
+            "type": "bitor",
+            "named": true
+          },
+          {
+            "type": "bitshift",
+            "named": true
+          },
+          {
+            "type": "bitxor",
+            "named": true
+          },
+          {
+            "type": "comparison",
+            "named": true
+          },
+          {
+            "type": "equality",
+            "named": true
+          },
+          {
+            "type": "multiplicative",
+            "named": true
+          },
+          {
+            "type": "or",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -64,11 +816,123 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
@@ -99,15 +963,129 @@
       "required": false,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
           "named": true
         },
         {
           "type": "id",
           "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "bitshift",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "comparison",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "compspec",
@@ -129,177 +1107,391 @@
     }
   },
   {
-    "type": "document",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "expr",
+    "type": "conditional",
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
             "named": true
-          }
-        ]
-      },
-      "argument": {
-        "multiple": false,
-        "required": false,
-        "types": [
+          },
           {
-            "type": "expr",
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
       },
       "condition": {
-        "multiple": false,
-        "required": false,
+        "multiple": true,
+        "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
       },
       "consequence": {
-        "multiple": false,
-        "required": false,
+        "multiple": true,
+        "required": true,
         "types": [
           {
-            "type": "expr",
-            "named": true
-          }
-        ]
-      },
-      "left": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expr",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "!=",
+            "type": ";",
             "named": false
           },
           {
-            "type": "%",
-            "named": false
-          },
-          {
-            "type": "&",
-            "named": false
-          },
-          {
-            "type": "&&",
-            "named": false
-          },
-          {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "-",
-            "named": false
-          },
-          {
-            "type": "/",
-            "named": false
-          },
-          {
-            "type": "<",
-            "named": false
-          },
-          {
-            "type": "<<",
-            "named": false
-          },
-          {
-            "type": "<=",
-            "named": false
-          },
-          {
-            "type": "==",
-            "named": false
-          },
-          {
-            "type": ">",
-            "named": false
-          },
-          {
-            "type": ">=",
-            "named": false
-          },
-          {
-            "type": ">>",
-            "named": false
-          },
-          {
-            "type": "^",
-            "named": false
-          },
-          {
-            "type": "unaryop",
+            "type": "anonymous_function",
             "named": true
           },
           {
-            "type": "|",
-            "named": false
+            "type": "array",
+            "named": true
           },
           {
-            "type": "||",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": false,
-        "types": [
+            "type": "assert",
+            "named": true
+          },
           {
-            "type": "expr",
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "document",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "anonymous_function",
           "named": true
         },
         {
-          "type": "args",
+          "type": "array",
           "named": true
         },
         {
@@ -307,7 +1499,11 @@
           "named": true
         },
         {
-          "type": "compspec",
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
           "named": true
         },
         {
@@ -315,11 +1511,7 @@
           "named": true
         },
         {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "expr_error",
+          "type": "error",
           "named": true
         },
         {
@@ -327,11 +1519,27 @@
           "named": true
         },
         {
-          "type": "forspec",
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
           "named": true
         },
         {
           "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
           "named": true
         },
         {
@@ -343,11 +1551,19 @@
           "named": true
         },
         {
-          "type": "local_bind",
+          "type": "in_super",
           "named": true
         },
         {
-          "type": "member",
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
           "named": true
         },
         {
@@ -359,7 +1575,11 @@
           "named": true
         },
         {
-          "type": "objlocal",
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
           "named": true
         },
         {
@@ -371,30 +1591,139 @@
           "named": true
         },
         {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "tailstrict",
-          "named": true
-        },
-        {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "expr_error",
+    "type": "equality",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "error",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -403,13 +1732,60 @@
   {
     "type": "field",
     "named": true,
-    "fields": {},
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "fieldname",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
           "named": true
         },
         {
@@ -417,7 +1793,232 @@
           "named": true
         },
         {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
           "type": "params",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fieldaccess",
+    "named": true,
+    "fields": {
+      "last": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fieldaccess_super",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "super",
           "named": true
         }
       ]
@@ -428,11 +2029,55 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
           "named": true
         },
         {
@@ -440,7 +2085,194 @@
           "named": true
         },
         {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "forloop",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "compspec",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "forspec",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -455,26 +2287,497 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
           "named": true
         },
         {
           "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
     }
   },
   {
+    "type": "functioncall",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "args",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tailstrict",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "id",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "ifspec",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implicit_plus",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -511,6 +2814,383 @@
     }
   },
   {
+    "type": "in_super",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "indexing",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "indexing_super",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "local_bind",
     "named": true,
     "fields": {},
@@ -519,15 +3199,123 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
           "type": "bind",
           "named": true
         },
         {
-          "type": "expr",
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
           "named": true
         },
         {
           "type": "local",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -557,6 +3345,11 @@
     }
   },
   {
+    "type": "multiplicative",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "named_argument",
     "named": true,
     "fields": {},
@@ -565,11 +3358,166 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
           "named": true
         },
         {
           "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "object",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "member",
+          "named": true
+        },
+        {
+          "type": "objforloop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "objforloop",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "compspec",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "forspec",
+          "named": true
+        },
+        {
+          "type": "objlocal",
           "named": true
         }
       ]
@@ -609,11 +3557,123 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
             "named": true
           }
         ]
@@ -630,6 +3690,129 @@
       "types": [
         {
           "type": "param",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesis",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "fieldaccess",
+          "named": true
+        },
+        {
+          "type": "fieldaccess_super",
+          "named": true
+        },
+        {
+          "type": "forloop",
+          "named": true
+        },
+        {
+          "type": "functioncall",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "implicit_plus",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "in_super",
+          "named": true
+        },
+        {
+          "type": "indexing",
+          "named": true
+        },
+        {
+          "type": "indexing_super",
+          "named": true
+        },
+        {
+          "type": "local_bind",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesis",
+          "named": true
+        },
+        {
+          "type": "self",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -674,6 +3857,144 @@
     }
   },
   {
+    "type": "unary",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "dollar",
+            "named": true
+          },
+          {
+            "type": "error",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "fieldaccess",
+            "named": true
+          },
+          {
+            "type": "fieldaccess_super",
+            "named": true
+          },
+          {
+            "type": "forloop",
+            "named": true
+          },
+          {
+            "type": "functioncall",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "implicit_plus",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "importstr",
+            "named": true
+          },
+          {
+            "type": "in_super",
+            "named": true
+          },
+          {
+            "type": "indexing",
+            "named": true
+          },
+          {
+            "type": "indexing_super",
+            "named": true
+          },
+          {
+            "type": "local_bind",
+            "named": true
+          },
+          {
+            "type": "null",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthesis",
+            "named": true
+          },
+          {
+            "type": "self",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unaryop",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "unaryop",
     "named": true,
     "fields": {}
@@ -688,14 +4009,6 @@
   },
   {
     "type": "%",
-    "named": false
-  },
-  {
-    "type": "&",
-    "named": false
-  },
-  {
-    "type": "&&",
     "named": false
   },
   {
@@ -791,12 +4104,24 @@
     "named": false
   },
   {
-    "type": "^",
-    "named": false
+    "type": "and",
+    "named": true
   },
   {
     "type": "assert",
     "named": false
+  },
+  {
+    "type": "bitand",
+    "named": true
+  },
+  {
+    "type": "bitor",
+    "named": true
+  },
+  {
+    "type": "bitxor",
+    "named": true
   },
   {
     "type": "comment",
@@ -831,10 +4156,6 @@
     "named": false
   },
   {
-    "type": "id",
-    "named": true
-  },
-  {
     "type": "if",
     "named": false
   },
@@ -859,7 +4180,7 @@
     "named": true
   },
   {
-    "type": "number",
+    "type": "or",
     "named": true
   },
   {
@@ -892,14 +4213,6 @@
   },
   {
     "type": "{",
-    "named": false
-  },
-  {
-    "type": "|",
-    "named": false
-  },
-  {
-    "type": "||",
     "named": false
   },
   {

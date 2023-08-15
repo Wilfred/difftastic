@@ -19,46 +19,37 @@ local Mojito(virgin=false, large=false) = {
 
 
 (document
-  (expr
-    (local_bind
-      (local)
-      (bind
-        (id)
-        (params
-          (param
-            (id)
-            (expr
-              (false)))
-          (param
-            (id)
-            (expr
-              (false))))
-        (expr
-          (comment)
-          (member
-            (objlocal
-              (local)
-              (bind
-                (id)
-                (expr
-                  (expr
-                    (id))
-                  (expr
-                    (number))
-                  (expr
-                    (number))))))
-          (comment)
-          (comment)
-          (member
-            (field
-              (fieldname
-                (id))
-              (expr)))))
-      (expr
+  (local_bind
+    (local)
+    (bind
+      function: (id)
+      params: (params
+        (param
+          identifier: (id)
+          value: (false))
+        (param
+          identifier: (id)
+          value: (false)))
+      body: (object
+        (comment)
+        (member
+          (objlocal
+            (local)
+            (bind
+              (id)
+              (conditional
+                condition: (id)
+                consequence: (number)
+                alternative: (number)))))
+        (comment)
+        (comment)
         (member
           (field
-            (fieldname
-              (id))
-            (expr
-              (expr
-                (id)))))))))
+            (fieldname (id))
+            (array)))))
+    (object
+      (member
+        (field
+          (fieldname (id))
+          (functioncall
+            (id)))))))

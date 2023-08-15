@@ -29,7 +29,7 @@ module.exports = grammar({
     conflicts: () => [],
 
     rules: {
-        document: ($) => $.expr,
+        document: ($) => $._expr,
 
         comment: () =>
             token(
@@ -40,7 +40,7 @@ module.exports = grammar({
                 ),
             ),
 
-        expr: ($) =>
+        _expr: ($) =>
             choice(
                 $.null,
                 $.true,
@@ -49,27 +49,27 @@ module.exports = grammar({
                 $.dollar,
                 $.string,
                 $.number,
-                $._object,
-                $._array,
-                $._array_for,
-                $._expr_id,
-                $._expr_expr,
-                $._super_id,
-                $._super_expr,
-                $._expr_args,
+                $.object,
+                $.array,
+                $.forloop,
+                $.fieldaccess,
+                $.indexing,
+                $.fieldaccess_super,
+                $.indexing_super,
+                $.functioncall,
                 $.id,
                 $.local_bind,
-                $._conditional,
-                $._binary_expr,
-                $._unary_expr,
-                $._expr_objinside,
+                $.conditional,
+                $.binary,
+                $.unary,
+                $.implicit_plus,
                 $.anonymous_function,
                 $._assert_expr,
                 $.import,
                 $.importstr,
-                $.expr_error,
-                $._expr_super,
-                $._parenthesis,
+                $.error,
+                $.in_super,
+                $.parenthesis,
             ),
 
         // Literals
@@ -87,47 +87,56 @@ module.exports = grammar({
         // Types
         number: ($) => $._number,
         string: ($) => $._string,
-        _object: ($) => seq("{", optional($.objinside), "}"),
-        _array: ($) => seq("[", commaSep($.expr, true), "]"),
+        object: ($) => seq("{", optional($.objinside), "}"),
+        array: ($) => seq("[", commaSep($._expr, true), "]"),
 
-        _array_for: ($) =>
+        forloop: ($) =>
             seq(
                 "[",
-                $.expr,
+                $._expr,
                 optional(","),
                 $.forspec,
                 optional($.compspec),
                 "]",
             ),
 
-        _expr_id: ($) =>
-            prec(PREC.application_indexing, seq($.expr, ".", $.id)),
+        fieldaccess: ($) =>
+            prec(
+                PREC.application_indexing,
+                seq($._expr, ".", field("last", $.id)),
+            ),
 
-        _expr_expr: ($) =>
+        indexing: ($) =>
             prec(
                 PREC.application_indexing,
                 seq(
-                    $.expr,
+                    $._expr,
                     "[",
-                    optional($.expr),
+                    optional($._expr),
                     optional(
                         seq(
                             ":",
-                            optional($.expr),
-                            optional(seq(":", optional($.expr))),
+                            optional($._expr),
+                            optional(seq(":", optional($._expr))),
                         ),
                     ),
                     "]",
                 ),
             ),
 
-        _super_id: ($) => seq($.super, ".", $.id),
-        _super_expr: ($) => seq($.super, "[", $.expr, "]"),
+        fieldaccess_super: ($) => seq($.super, ".", $.id),
+        indexing_super: ($) => seq($.super, "[", $._expr, "]"),
 
-        _expr_args: ($) =>
+        functioncall: ($) =>
             prec(
                 PREC.application_indexing,
-                seq($.expr, "(", optional($.args), ")", optional($.tailstrict)),
+                seq(
+                    $._expr,
+                    "(",
+                    optional($.args),
+                    ")",
+                    optional($.tailstrict),
+                ),
             ),
 
         id: ($) => $._ident,
@@ -138,55 +147,66 @@ module.exports = grammar({
         _ident: () => /[_a-zA-Z][_a-zA-Z0-9]*/,
 
         local_bind: ($) =>
-            prec.right(seq($.local, commaSep1($.bind, false), ";", $.expr)),
+            prec.right(seq($.local, commaSep1($.bind, false), ";", $._expr)),
 
-        _conditional: ($) =>
+        conditional: ($) =>
             prec.right(
                 seq(
                     "if",
-                    field("condition", $.expr),
+                    field("condition", $._expr),
                     "then",
-                    field("consequence", $.expr),
-                    optional(seq("else", field("alternative", $.expr))),
+                    field("consequence", $._expr),
+                    optional(seq("else", field("alternative", $._expr))),
                 ),
             ),
 
-        _binary_expr: ($) => {
+        multiplicative: () => choice("*", "/", "%"),
+        additive: () => choice("+", "-"),
+        bitshift: () => choice("<<", ">>"),
+        comparison: () => choice("<", "<=", ">", ">=", "in"),
+        equality: () => choice("==", "!="),
+        bitand: () => "&",
+        bitxor: () => "^",
+        bitor: () => "|",
+        and: () => "&&",
+        or: () => "||",
+
+        binary: ($) => {
             const table = [
-                [PREC.multiplicative, choice("*", "/", "%")],
-                [PREC.additive, choice("+", "-")],
-                [PREC.bitshift, choice("<<", ">>")],
-                [PREC.comparison, choice("<", "<=", ">", ">=", "in")],
-                [PREC.equality, choice("==", "!=")],
-                [PREC.bitand, "&"],
-                [PREC.bitxor, "^"],
-                [PREC.bitor, "|"],
-                [PREC.and, "&&"],
-                [PREC.or, "||"],
+                [PREC.multiplicative, $.multiplicative],
+                [PREC.additive, $.additive],
+                [PREC.bitshift, $.bitshift],
+                [PREC.comparison, $.comparison],
+                [PREC.equality, $.equality],
+                [PREC.bitand, $.bitand],
+                [PREC.bitxor, $.bitxor],
+                [PREC.bitor, $.bitor],
+                [PREC.and, $.and],
+                [PREC.or, $.or],
             ];
             return choice(
                 ...table.map(([precedence, operator]) =>
                     prec.left(
                         precedence,
                         seq(
-                            field("left", $.expr),
+                            field("left", $._expr),
                             field("operator", operator),
-                            field("right", $.expr),
+                            field("right", $._expr),
                         ),
                     ),
                 ),
             );
         },
 
-        _unary_expr: ($) =>
+        unary: ($) =>
             prec(
                 PREC.unary,
-                seq(field("operator", $.unaryop), field("argument", $.expr)),
+                seq(field("operator", $.unaryop), field("argument", $._expr)),
             ),
 
         unaryop: () => choice("-", "+", "!", "~"),
 
-        _expr_objinside: ($) => seq($.expr, "{", $.objinside, "}"),
+        implicit_plus: ($) => seq($._expr, $.object),
 
         anonymous_function: ($) =>
             prec.right(
@@ -195,11 +215,11 @@ module.exports = grammar({
                     "(",
                     optional(field("params", $.params)),
                     ")",
-                    field("body", $.expr),
+                    field("body", $._expr),
                 ),
             ),
 
-        _assert_expr: ($) => prec.right(seq($.assert, ";", $.expr)),
+        _assert_expr: ($) => prec.right(seq($.assert, ";", $._expr)),
 
         // import string
         import: ($) => seq("import", $.string),
@@ -208,20 +228,20 @@ module.exports = grammar({
         importstr: ($) => seq("importstr", $.string),
 
         // error expr
-        expr_error: ($) => prec.right(seq("error", $.expr)),
+        error: ($) => prec.right(seq("error", $._expr)),
 
-        _expr_super: ($) => prec(PREC.comparison, seq($.expr, "in", $.super)),
+        in_super: ($) => prec(PREC.comparison, seq($._expr, "in", $.super)),
 
-        _parenthesis: ($) => seq("(", $.expr, ")"),
+        parenthesis: ($) => seq("(", $._expr, ")"),
 
         objinside: ($) =>
             choice(
                 // seq($.member, repeat(seq(",", $.member)), optional(",")),
                 commaSep1($.member, true),
-                $._objforloop,
+                $.objforloop,
             ),
 
-        _objforloop: ($) =>
+        objforloop: ($) =>
             seq(
                 repeat(seq($.objlocal, ",")),
                 $.field,
@@ -236,8 +256,15 @@ module.exports = grammar({
 
         field: ($) =>
             choice(
-                seq($.fieldname, optional("+"), $.h, $.expr),
-                seq($.fieldname, "(", optional($.params), ")", $.h, $.expr),
+                seq($.fieldname, optional("+"), $.h, $._expr),
+                seq(
+                    field("function", $.fieldname),
+                    "(",
+                    optional($.params),
+                    ")",
+                    $.h,
+                    $._expr,
+                ),
             ),
 
         h: () => choice(":", "::", ":::"),
@@ -245,18 +272,18 @@ module.exports = grammar({
         objlocal: ($) => seq($.local, $.bind),
 
         compspec: ($) => repeat1(choice($.forspec, $.ifspec)),
-        forspec: ($) => seq("for", $.id, "in", $.expr),
-        ifspec: ($) => seq("if", $.expr),
+        forspec: ($) => seq("for", $.id, "in", $._expr),
+        ifspec: ($) => seq("if", $._expr),
 
         fieldname: ($) =>
-            prec.right(choice($.id, $.string, seq("[", $.expr, "]"))),
+            prec.right(choice($.id, $.string, seq("[", $._expr, "]"))),
 
         // assert in objects
-        assert: ($) => seq("assert", $.expr, optional(seq(":", $.expr))),
+        assert: ($) => seq("assert", $._expr, optional(seq(":", $._expr))),
 
         bind: ($) =>
             choice(
-                seq($.id, "=", $.expr),
+                seq($.id, "=", $._expr),
                 prec.right(
                     seq(
                         field("function", $.id),
@@ -264,7 +291,7 @@ module.exports = grammar({
                         optional(field("params", $.params)),
                         ")",
                         "=",
-                        field("body", $.expr),
+                        field("body", $._expr),
                     ),
                 ),
             ),
@@ -272,8 +299,8 @@ module.exports = grammar({
         args: ($) =>
             choice(
                 seq(
-                    $.expr,
-                    repeat(seq(",", $.expr)),
+                    $._expr,
+                    repeat(seq(",", $._expr)),
                     repeat(seq(",", $.named_argument)),
                     optional(","),
                 ),
@@ -283,13 +310,13 @@ module.exports = grammar({
                     optional(","),
                 ),
             ),
-        named_argument: ($) => seq($.id, "=", $.expr),
+        named_argument: ($) => seq($.id, "=", $._expr),
 
         params: ($) => commaSep1($.param, true),
         param: ($) =>
             seq(
                 field("identifier", $.id),
-                optional(seq("=", field("value", $.expr))),
+                optional(seq("=", field("value", $._expr))),
             ),
 
         // COPIED FROM: tree-sitter-json

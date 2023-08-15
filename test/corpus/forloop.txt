@@ -10,12 +10,13 @@ For loop in array
 ---
 
 (document
-  (expr
-    (expr (id))
+  (forloop
+    (id)
     (forspec
       (id)
-      (expr (expr (expr (id)) (id))
-      (args (expr (number)) (expr (number)))))))
+      (functioncall
+        (fieldaccess (id) last: (id))
+        (args (number) (number))))))
 
 ======================
 For loop in object
@@ -29,21 +30,24 @@ For loop in object
 ---
 
 (document
-  (expr
-    (field
-      (fieldname
-        (expr
-          (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))
-          (expr (id))))
-      (expr (id)))
+  (object
+    (objforloop
+      (field
+        (fieldname
+          (binary
+             left:
+               (string
+                 (string_start)
+                 (string_content)
+                 (string_end))
+             operator: (additive)
+             right: (id)))
+        (id))
       (forspec
         (id)
-        (expr (expr (expr (id)) (id))
-        (args (expr (number)) (expr (number)))))))
+        (functioncall
+          (fieldaccess (id) last: (id))
+          (args (number) (number)))))))
 
 ================================
 For loop in object with function
@@ -57,22 +61,26 @@ For loop in object with function
 ---
 
 (document
-  (expr
-    (field
-      (fieldname
-        (expr
-          (expr
-              (string
-                (string_start)
-                (string_content)
-                (string_end)))
-          (expr (id))))
-      (params
-        (param (id)))
-      (expr
-        (expr (id))
-        (expr (id))))
+  (object
+    (objforloop
+      (field
+        function: (fieldname
+          (binary
+            left: (string
+                    (string_start)
+                    (string_content)
+                    (string_end))
+            operator: (additive)
+            right: (id)))
+          (params
+            (param 
+              identifier: (id)))
+          (binary
+            left: (id)
+            operator: (additive)
+            right: (id)))
       (forspec
         (id)
-        (expr (expr (expr (id)) (id))
-        (args (expr (number)) (expr (number)))))))
+        (functioncall
+          (fieldaccess (id) last: (id))
+          (args (number) (number)))))))
