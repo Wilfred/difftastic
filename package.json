@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-python",
-  "version": "0.20.3",
+  "version": "0.20.4",
   "description": "Python grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -10,12 +10,12 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.15.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "eslint": "^8.45.0",
+    "eslint": "^8.47.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.1"
+    "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
@@ -30,6 +30,13 @@
       "scope": "source.python",
       "file-types": [
         "py"
+      ],
+      "injection-regex": "py",
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
       ]
     }
   ]
