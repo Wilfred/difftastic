@@ -352,7 +352,6 @@ module.exports = grammar({
       field('body', $.statement),
       'while',
       field('condition', $.parenthesized_expression),
-      $._semicolon
     ),
 
     try_statement: $ => seq(
