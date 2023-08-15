@@ -7378,8 +7378,17 @@
           "value": "="
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_or_implicit"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_simpletype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type_sum"
+            }
+          ]
         }
       ]
     },

@@ -205,7 +205,6 @@ module.exports = {
     $._simpletype,
     choice(
       $._adt_rhs,
-      // seq('=', $._type_or_implicit),
       $._type_annotation
     ),
   ),

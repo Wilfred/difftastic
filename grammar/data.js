@@ -98,9 +98,7 @@ module.exports = {
     optional($.context),
     $._simpletype,
     '=',
-    $._type_or_implicit,
-    // optional($._type_annotation),
-    // optional(choice($._gadt_rhs, repeat($.deriving))),
+    choice($._simpletype, $._type_sum),
   ),
 
   newtype_constructor: $ => seq(

@@ -32,7 +32,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "annotated_type_variable",
@@ -52,6 +52,10 @@
         },
         {
           "type": "implicit_param",
+          "named": true
+        },
+        {
+          "type": "kind",
           "named": true
         },
         {
