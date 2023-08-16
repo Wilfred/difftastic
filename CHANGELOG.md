@@ -1,4 +1,6 @@
-## 0.50 (unreleased)
+## 0.51 (unreleased)
+
+## 0.50 (released 15th August 2023)
 
 ### Conflicts
 
