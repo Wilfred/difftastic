@@ -86,8 +86,6 @@ module.exports = grammar({
     $._simple_tyconop,
     $._simple_qtyconop,
     $._quantifiers,
-    $._tyfam_pat_prefix,
-    $._tyfam_pat_infix,
     $._qualifying_module,
   ],
 
@@ -179,10 +177,6 @@ module.exports = grammar({
      */
     [$.type_name, $.data_constructor],
 
-    /**
-     * Ambiguity between symbolic and regular type family equations.
-     */
-    [$.type_name, $.tyfam_pat],
 
     /**
      * For getting a node for function application, and no extra node if the expression only consists of one term.
@@ -212,10 +206,6 @@ module.exports = grammar({
      */
     [$._pat_unboxed_sum, $._exp_unboxed_sum],
 
-    /**
-     * The nullary unboxed tuple `(# #)` is indistinguishable between exp and pat.
-     */
-    [$.exp_unboxed_tuple, $.pat_unboxed_tuple],
 
     [$.exp_lambda_case],
 
@@ -242,13 +232,8 @@ module.exports = grammar({
 
     _topdecl: $ => choice(
       alias($.decl_type, $.type_alias),
-      alias($.decl_tyfam, $.type_family),
-      alias($.decl_tyinst, $.type_instance),
-      alias($.decl_role, $.role_annotation),
-      alias($.decl_adt, $.adt),
+      alias($.decl_data, $.data),
       alias($.decl_newtype, $.newtype),
-      alias($.decl_datafam, $.data_family),
-      alias($.decl_datainst, $.data_instance),
       alias($.decl_import, $.import),
       alias($.decl_class, $.class),
       alias($.decl_instance, $.instance),
@@ -258,7 +243,6 @@ module.exports = grammar({
       $._decl,
       alias($.decl_pattern, $.pattern_synonym),
       $.top_splice,
-      $.decl_special,
     ),
 
     ...basic,
