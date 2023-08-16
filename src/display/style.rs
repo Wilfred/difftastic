@@ -477,6 +477,11 @@ pub fn header(
 
     match extra_info {
         Some(extra_info) if hunk_num == 1 => {
+            let mut extra_info = extra_info.clone();
+            if display_options.use_color {
+                extra_info = extra_info.dimmed().to_string();
+            }
+
             format!("{}{}\n{}", display_path_pretty, trailer, extra_info)
         }
         _ => {
