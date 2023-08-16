@@ -1,14 +1,59 @@
-function zebra(zeb, ra) {
-  return seq(optional(ra), (repeat(seq(zeb, ra))), optional(zeb));
-}
-// function x($) {
-//   return repeat($.comment),
+// function zebra(zeb, ra) {
+//   return seq(optional(ra), (repeat(seq(zeb, ra))), optional(zeb));
 // }
+// function optional_sandwich(cheese, bread) {
+//   return seq(optional(bread), optional(seq(cheese, optional(bread))));
+// }
+// function joinned(elem, sep) {
+//   return seq(repeat(seq(elem, sep)), optional(elem));
+// }
+
+const ml = true;
+const sl = false;
+function binop($, lines, op, lhs, rhs, field_lhs = undefined, field_rhs = undefined) {
+  lhs = select_expr($, lines, lhs);
+  rhs = select_expr($, lines, rhs);
+  lhs = field_lhs === undefined ? lhs : field(field_lhs, lhs);
+  rhs = field_rhs === undefined ? rhs : field(field_rhs, rhs);
+  let space = lines ? $._space_la : $._space_l0;
+  return seq(lhs, optional(space), op, optional(space), rhs);
+}
+
+function select_expr($, line, index) {
+  if (line) {
+    return [
+      $._0,
+      $._ml_1,
+      $._ml_2,
+      $._ml_3,
+      $._ml_4,
+      $._ml_5,
+      $._ml_6,
+      $._ml_7,
+      $._ml_8,
+      $._ml_9,
+    ][index];
+  } else {
+    return [
+      $._0,
+      $._sl_1,
+      $._sl_2,
+      $._sl_3,
+      $._sl_4,
+      $._sl_5,
+      $._sl_6,
+      $._sl_7,
+      $._sl_8,
+      $._sl_9,
+    ][index];
+  }
+}
 module.exports = grammar({
   name: 'typst',
+  // due to the nature of the language (sensible to white spaces),
+  // the best approach remains to handle all extras manually
   extras: $ => [],
   inline: $ => [
-    $._xtra,
     $._sl_expr,
     $._ml_expr,
     $._terminated,
@@ -55,6 +100,12 @@ module.exports = grammar({
     [$._sl_9, $._sl_or],
     [$._sl_elude],
     [$._sl_elude, $._sl_or],
+
+    // token code/text conflict
+    [$._normal_tail_any_code, $._sl_1],
+    [$._strong_tail_any_code, $._sl_1],
+    [$._emph_tail_any_code, $._sl_1],
+    [$._heading_tail_any_code, $._sl_1],
 
 
     [$._ml_5, $._ml_mul],
@@ -123,31 +174,51 @@ module.exports = grammar({
       $._any_normal,
     )),
 
-    // unused for the moment
     comment: $ => choice(
       seq('//', /[^\n]*\n?/),
+      // comments can be nested
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
 
+    // All escape sequences, not allowing LF escape
     escape: $ => /\\[^\nu]|\\u\{[0-9a-fA-F]*\}/,
+    // As LF escape is not allowed, the `\` can be matched alone when present at the end of a line, which in Typst means a line-break
     line: $ => /\\/,
 
-    // text only matches none markup simbols
+    _token_dot: $ => '.',
+    _token_else: $ => 'else',
+
+    // this rule matches exactly 1 symbol
     _text_any: $ => choice(
-      /[^# \t\n\]\*_\\\$\/]/,
-      /\/[^\/\* #\t\n\]\\\$]/,
-      /[a-zA-Z0-9][_\*][a-zA-Z0-9]/,
+
+      // text matches only non-markup simbols and exclude spaces
+      /[^# \t\n\]\*_\\\$\/\.]/,
+
+      // the `/` is allowed if not followed by `*` or a second `/`
+      /\/[^\/\* #\t\n\]\\\$\.]/,
+
+      // the `_` is allowed only when joint with letters or digits
+      /[\p{L}0-9][_\*][\p{L}0-9]/,
+
+      $._token_dot,
+      $._token_else,
       $.escape,
       $.line,
     ),
+
     // next to a space, no restriction for text
     _text_next_space: $ => repeat1($._text_any),
-    // the text at line begin can't contains leading `=`
+
+    // the text at the beginning of a line can't contains leading `=`
     _text_next_init: $ => seq(choice($.escape, /[^=# \t\n\]\*_\\\$]|=[^\t\n ]/), repeat($._text_any)),
+
     // the text following a code insert can't be the continuation of a code expression
-    _text_next_item: $ => choice('.', seq(/(\.[^a-zA-Z \t\n_\$])|[^\.# \t\n\[\*\]\(_;\$]/, repeat($._text_any))),
+    _text_next_item: $ => repeat1($._text_any),
+    // _text_next_item: $ => choice('.', seq(/(\.[^a-zA-Z \t\n_\$])|[^\.# \t\n\[\*\]\(_;\$]/, repeat($._text_any))),
+
     // the text following a if statement can't be followed by `else` and by the usual potential code expression
-    _text_next_condition: $ => seq(/(\.[^a-zA-Z]|else[^ \t\n\*\+\!\(\{;\$]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]\.\$])/, repeat($._text_any)),
+    _text_next_condition: $ => repeat1($._text_any),
+    // _text_next_condition: $ => seq(/(\.[^a-zA-Z]|else[^ \t\n\*\+\!\(\{;\$]|els[^e]|el[^s]|e[^l]|[^e# \t\n\(\[\*\]\.\$])/, repeat($._text_any)),
 
     // contains 0 line
     _space_l0: $ => repeat1(/[ \t]/),
@@ -451,11 +522,11 @@ module.exports = grammar({
     ))),
 
     // STRONG
-    strong: $ => seq('*', choice(
+    strong: $ => seq('*', optional(choice(
       $._strong_tail_any_space,
       $._strong_tail_any_text,
       $._any_strong,
-    ), '*'),
+    )), '*'),
     _normal_tail_any_strong: $ => seq($.strong, optional(choice(
       $._normal_tail_any_text,
       $._normal_tail_any_space,
@@ -468,11 +539,11 @@ module.exports = grammar({
     ))),
 
     // EMPH
-    emph: $ => seq('_', choice(
+    emph: $ => seq('_', optional(choice(
       $._emph_tail_any_space,
       $._emph_tail_any_text,
       $._any_emph,
-    ), '_'),
+    )), '_'),
     _normal_tail_any_emph: $ => seq($.emph, optional(choice(
       $._normal_tail_any_space,
       $._normal_tail_any_text,
@@ -506,6 +577,8 @@ module.exports = grammar({
     _emph_tail_init_heading: $ => seq($.heading, optional(choice(
       $._emph_tail_any_line,
     ))),
+
+    // 
 
     // CODE
     _normal_tail_any_code: $ => seq('#', choice(
@@ -785,22 +858,32 @@ module.exports = grammar({
     // parenthesis
     group: $ => seq(
       '(',
-      repeat(seq(optional($._space_la), $._list_elem, optional($._space_la), ',')),
+      repeat(seq(
+        optional($._space_la),
+        $._list_elem,
+        optional($._space_la),
+        ','
+      )),
       optional($._space_la),
-      optional(seq($._list_elem, optional($._space_la))),
+      optional(seq(
+        $._list_elem,
+        optional($._space_la)
+      )),
       ')'
     ),
 
-    label: $ => /<([\-0-9_]|\p{L})+>/,
-
     block: $ => seq(
       '{',
-      repeat(choice(
-        $._space_l1,
-        ';',
-        seq(optional($._space_l0), optional(seq($._sl_instr, optional($._space_l0))), choice($._space_l1, ';')),
+      repeat(seq(
+        optional($._space_l0),
+        optional(seq($._sl_instr, optional($._space_l0))),
+        choice($._space_l1, ';')
       )),
-      optional(seq(optional($._space_l0), optional(seq($._sl_instr, optional($._space_l0))))),
+      optional($._space_l0),
+      optional(seq(
+        $._sl_instr,
+        optional($._space_l0)
+      )),
       '}'
     ),
 
@@ -814,6 +897,8 @@ module.exports = grammar({
       ']',
     ),
 
+    // TODO: use the unicode property XID_Continue
+    label: $ => /<([\-0-9_]|\p{L})+>/,
     ident: $ => /[\p{L}_][\p{L}0-9_\-]*/,
 
     flow: $ => choice('break', 'continue'),
@@ -840,6 +925,7 @@ module.exports = grammar({
       'image',
       'left',
       'link',
+      'list',
       'luma',
       'max',
       'min',
@@ -849,6 +935,7 @@ module.exports = grammar({
       'purple',
       'rect',
       'red',
+      'regex',
       'rgb',
       'right',
       'scale',
@@ -862,47 +949,41 @@ module.exports = grammar({
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
     int: $ => seq(/[0-9]+/, optional($.unit)),
     float: $ => seq(/[0-9]+\.[0-9]+/, optional($.unit)),
-    string: $ => /"([^\"\\]|\\.)*"/,
-    // string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    // string: $ => seq('"', optional($._string_tail), token.immediate('"')),
-    // _string_tail: $ => seq(
-    //   choice(token.immediate(/[^\"\\]/), alias(token.immediate(/\\./), $.escape)),
-    //   optional($._string_tail)
-    // ),
+    string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
     tagged: $ => seq(field('field', $.ident), optional($._space_la), ':', optional($._space_la), $._ml_instr),
 
-    _sl_assign: $ => seq($._sl_9, optional($._space_l0), choice('=', '+=', '-=', '*=', '/='), optional($._space_l0), $._sl_8),
-    _ml_assign: $ => seq($._ml_9, optional($._space_la), choice('=', '+=', '-=', '*=', '/='), optional($._space_la), $._ml_8),
+    _sl_assign: $ => binop($, sl, choice('=', '+=', '-=', '*=', '/='), 9, 8),
+    _ml_assign: $ => binop($, ml, choice('=', '+=', '-=', '*=', '/='), 9, 8),
 
-    _sl_lambda: $ => seq(field('pattern', $._sl_9), optional($._space_l0), '=>', optional($._space_l0), field('value', $._sl_8)),
-    _ml_lambda: $ => seq(field('pattern', $._ml_9), optional($._space_la), '=>', optional($._space_la), field('value', $._ml_8)),
+    _sl_lambda: $ => binop($, sl, '=>', 9, 8, 'pattern', 'value'),
+    _ml_lambda: $ => binop($, ml, '=>', 9, 8, 'pattern', 'value'),
 
     _sl_not: $ => seq('not', optional($._space_l0), $._sl_7),
     _ml_not: $ => seq('not', optional($._space_la), $._ml_7),
 
-    _sl_and: $ => seq($._sl_7, optional($._space_l0), 'and', optional($._space_l0), $._sl_6),
-    _ml_and: $ => seq($._ml_7, optional($._space_la), 'and', optional($._space_la), $._ml_6),
+    _sl_and: $ => binop($, sl, 'and', 7, 6),
+    _ml_and: $ => binop($, ml, 'and', 7, 6),
 
-    _sl_or: $ => seq($._sl_8, optional($._space_l0), 'or', optional($._space_l0), $._sl_7),
-    _ml_or: $ => seq($._ml_8, optional($._space_la), 'or', optional($._space_la), $._ml_7),
+    _sl_or: $ => binop($, sl, 'or', 8, 7),
+    _ml_or: $ => binop($, ml, 'or', 8, 7),
 
-    _sl_in: $ => seq($._sl_6, optional($._space_l0), optional(seq('not', $._space_l0)), 'in', optional($._space_l0), $._sl_5),
-    _ml_in: $ => seq($._ml_6, optional($._space_la), optional(seq('not', $._space_la)), 'in', optional($._space_la), $._ml_5),
+    _sl_in: $ => binop($, sl, seq(optional(seq('not', $._space_l0)), 'in'), 6, 5),
+    _ml_in: $ => binop($, ml, seq(optional(seq('not', $._space_la)), 'in'), 6, 5),
 
-    _sl_cmp: $ => seq($._sl_5, optional($._space_l0), choice('<', '<=', '==', '>=', '>', '!='), optional($._space_l0), $._sl_5),
-    _ml_cmp: $ => seq($._ml_5, optional($._space_la), choice('<', '<=', '==', '>=', '>', '!='), optional($._space_la), $._ml_5),
+    _sl_cmp: $ => binop($, sl, choice('<', '<=', '==', '>=', '>', '!='), 5, 5),
+    _ml_cmp: $ => binop($, ml, choice('<', '<=', '==', '>=', '>', '!='), 5, 5),
 
-    _sl_add: $ => seq($._sl_5, optional($._space_l0), '+', optional($._space_l0), $._sl_4),
-    _ml_add: $ => seq($._ml_5, optional($._space_la), '+', optional($._space_la), $._ml_4),
+    _sl_add: $ => binop($, sl, '+', 5, 4),
+    _ml_add: $ => binop($, ml, '+', 5, 4),
 
-    _sl_sub: $ => seq($._sl_5, optional($._space_l0), '-', optional($._space_l0), $._sl_4),
-    _ml_sub: $ => seq($._ml_5, optional($._space_la), '-', optional($._space_la), $._ml_4),
+    _sl_sub: $ => binop($, sl, '-', 5, 4),
+    _ml_sub: $ => binop($, ml, '-', 5, 4),
 
-    _sl_mul: $ => seq($._sl_4, optional($._space_l0), '*', optional($._space_l0), $._sl_3),
-    _ml_mul: $ => seq($._ml_4, optional($._space_la), '*', optional($._space_la), $._ml_3),
+    _sl_mul: $ => binop($, sl, '*', 4, 3),
+    _ml_mul: $ => binop($, ml, '*', 4, 3),
 
-    _sl_div: $ => seq($._sl_4, optional($._space_l0), '/', optional($._space_l0), $._sl_3),
-    _ml_div: $ => seq($._ml_4, optional($._space_la), '/', optional($._space_la), $._ml_3),
+    _sl_div: $ => binop($, sl, '/', 4, 3),
+    _ml_div: $ => binop($, ml, '/', 4, 3),
 
     _sl_sign: $ => seq(choice('+', '-'), optional($._space_l0), $._sl_3),
     _ml_sign: $ => seq(choice('+', '-'), optional($._space_la), $._ml_3),
@@ -910,8 +991,8 @@ module.exports = grammar({
     _sl_call: $ => seq(field('item', $._sl_2), choice($.group, $.content)),
     _ml_call: $ => seq(field('item', $._ml_2), choice($.group, $.content)),
 
-    _sl_field: $ => seq($._sl_2, '.', field('field', $.ident)),
-    _ml_field: $ => seq($._ml_2, '.', field('field', $.ident)),
+    _sl_field: $ => seq($._sl_2, $._token_dot, field('field', $.ident)),
+    _ml_field: $ => seq($._ml_2, $._token_dot, field('field', $.ident)),
 
     _sl_elude: $ => seq('..', optional($._space_l0), optional($._sl_8)),
     _ml_elude: $ => seq('..', optional($._space_la), optional($._ml_8)),
@@ -1070,10 +1151,8 @@ module.exports = grammar({
       optional($._space_l0),
       optional(seq(
         ':',
-        seq(
-          repeat(seq(optional($._space_l0), $.ident, optional($._space_l0), ',')),
-          optional(seq(optional($._space_l0), $.ident))
-        ),
+        repeat(seq(optional($._space_l0), $.ident, optional($._space_l0), ',')),
+        optional(seq(optional($._space_l0), $.ident)),
       )),
       optional($._space_l0),
     ),
@@ -1084,10 +1163,8 @@ module.exports = grammar({
       optional($._space_la),
       optional(seq(
         ':',
-        seq(
-          repeat(seq(optional($._space_la), $.ident, optional($._space_la), ',')),
-          optional(seq(optional($._space_la), $.ident))
-        ),
+        repeat(seq(optional($._space_la), $.ident, optional($._space_la), ',')),
+        optional(seq(optional($._space_la), $.ident)),
       )),
     ),
   }

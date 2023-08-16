@@ -884,7 +884,8 @@ Test 065
 ---------------------
 
 (source_file
-	(string)
+	(string
+		(escape))
 	(text))
 
 
@@ -1751,3 +1752,137 @@ Test 126
 	(let
 		pattern: (ident)
 		value: (int)))
+
+
+=====================
+Test 127
+=====================
+#"Hello\u{fff}World"
+---------------------
+
+(source_file
+	(string
+		(escape)))
+
+
+=====================
+Test 128
+=====================
+*#e*
+---------------------
+
+(source_file
+	(strong
+		(ident)))
+
+
+=====================
+Test 129
+=====================
+** Hello ** World
+---------------------
+
+(source_file
+	(strong)
+	(text)
+	(strong)
+	(text))
+
+
+=====================
+Test 130
+=====================
+__ Hello ** World
+---------------------
+
+(source_file
+	(emph)
+	(text)
+	(strong)
+	(text))
+
+
+=====================
+Test 131
+=====================
+__ Hello $$ World
+---------------------
+
+(source_file
+	(emph)
+	(text)
+	(math)
+	(text))
+
+
+=====================
+Test 132
+=====================
+__** Hello $$$$ World
+---------------------
+
+(source_file
+	(emph)
+	(strong)
+	(text)
+	(math)
+	(math)
+	(text))
+
+
+=====================
+Test 133
+=====================
+#if a {}
+else if b {}
+---------------------
+
+(source_file
+	(branch
+		test: (ident)
+		(block)
+		test: (ident)
+		(block)))
+
+; =====================
+; Test 133
+; =====================
+; - A
+;  - B
+;     - C
+; 		- C
+;  - B
+; ---------------------
+
+; (source_file
+; 	(list
+; 		(elem
+; 			(text)
+; 			(list
+; 				(elem
+; 					(list
+; 						(elem
+; 							(text))
+; 						(elem
+; 							(text))))
+; 				(elem
+; 					(text))))))
+
+
+; =====================
+; Test 134
+; =====================
+; #enum(
+;   [+ Hello],
+;   [ + World],
+;   [\+ Hey],
+; )
+; ---------------------
+
+; (source_file
+; 	(emph)
+; 	(strong)
+; 	(text)
+; 	(math)
+; 	(math)
+; 	(text))
