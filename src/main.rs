@@ -363,15 +363,23 @@ fn diff_conflicts_file(
 
     if conflict_files.num_conflicts == 0 {
         eprintln!(
-            "warning: Expected a file with conflict markers {}, but none were found.",
+            "warning: Expected a file with conflict markers {}, but none were found. See --help for usage instructions.\n",
             START_LHS_MARKER,
         );
-        eprintln!("Difftastic parses conflict markers from a single file argument. Did you forget a second file argument?");
     }
 
+    let lhs_name = match conflict_files.lhs_name {
+        Some(name) => format!("'{}'", name),
+        None => "the left file".to_owned(),
+    };
+    let rhs_name = match conflict_files.rhs_name {
+        Some(name) => format!("'{}'", name),
+        None => "the right file".to_owned(),
+    };
+
     let extra_info = format!(
-        "Comparing '{}' with '{}'",
-        conflict_files.lhs_name, conflict_files.rhs_name
+        "Showing the result of replacing every conflict in {} with {}.",
+        lhs_name, rhs_name
     );
 
     diff_file_content(

@@ -18,9 +18,9 @@ const START_RHS_MARKER: &str = "=======";
 const END_RHS_MARKER: &str = ">>>>>>>";
 
 pub struct ConflictFiles {
-    pub lhs_name: String,
+    pub lhs_name: Option<String>,
     pub lhs_content: String,
-    pub rhs_name: String,
+    pub rhs_name: Option<String>,
     pub rhs_content: String,
     pub num_conflicts: usize,
 }
@@ -28,8 +28,8 @@ pub struct ConflictFiles {
 /// Convert a string with conflict markers into the two conflicting
 /// file contents.
 pub fn apply_conflict_markers(s: &str) -> Result<ConflictFiles, String> {
-    let mut lhs_name = String::new();
-    let mut rhs_name = String::new();
+    let mut lhs_name: Option<String> = None;
+    let mut rhs_name: Option<String> = None;
 
     let mut lhs_content = String::with_capacity(s.len());
     let mut rhs_content = String::with_capacity(s.len());
@@ -44,8 +44,14 @@ pub fn apply_conflict_markers(s: &str) -> Result<ConflictFiles, String> {
             conflict_start_line = Some(i);
 
             let hunk_lhs_name = hunk_lhs_name.trim();
-            if hunk_lhs_name.len() > lhs_name.len() {
-                lhs_name = hunk_lhs_name.to_owned();
+            if !hunk_lhs_name.is_empty() {
+                let should_replace = match &lhs_name {
+                    Some(prev_name) => hunk_lhs_name.len() > prev_name.len(),
+                    None => true,
+                };
+                if should_replace {
+                    lhs_name = Some(hunk_lhs_name.to_owned());
+                }
             }
 
             continue;
@@ -62,8 +68,14 @@ pub fn apply_conflict_markers(s: &str) -> Result<ConflictFiles, String> {
             state = NoConflict;
 
             let hunk_rhs_name = hunk_rhs_name.trim();
-            if hunk_rhs_name.len() > rhs_name.len() {
-                rhs_name = hunk_rhs_name.to_owned();
+            if !hunk_rhs_name.is_empty() {
+                let should_replace = match &rhs_name {
+                    Some(prev_name) => hunk_rhs_name.len() > prev_name.len(),
+                    None => true,
+                };
+                if should_replace {
+                    rhs_name = Some(hunk_rhs_name.to_owned());
+                }
             }
             continue;
         }
@@ -117,8 +129,8 @@ mod tests {
         assert_eq!(conflict_files.lhs_content, "before\nnew in left\nafter");
         assert_eq!(conflict_files.rhs_content, "before\nnew in right\nafter");
 
-        assert_eq!(conflict_files.lhs_name, "Temporary merge branch 1");
-        assert_eq!(conflict_files.rhs_name, "Temporary merge branch 2");
+        assert_eq!(conflict_files.lhs_name.unwrap(), "Temporary merge branch 1");
+        assert_eq!(conflict_files.rhs_name.unwrap(), "Temporary merge branch 2");
     }
 
     #[test]
@@ -131,7 +143,7 @@ mod tests {
         assert_eq!(conflict_files.lhs_content, "before\nnew in left\nafter");
         assert_eq!(conflict_files.rhs_content, "before\nnew in right\nafter");
 
-        assert_eq!(conflict_files.lhs_name, "Temporary merge branch 1");
-        assert_eq!(conflict_files.rhs_name, "Temporary merge branch 2");
+        assert_eq!(conflict_files.lhs_name.unwrap(), "Temporary merge branch 1");
+        assert_eq!(conflict_files.rhs_name.unwrap(), "Temporary merge branch 2");
     }
 }
