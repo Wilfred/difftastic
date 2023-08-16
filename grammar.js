@@ -160,10 +160,13 @@ module.exports = grammar({
      */
     [$._fun_name, $.exp_name],
     [$._fun_name, $.pat_name],
+    [$._fun_name, $.exp_name, $.exp_record_mutation],
+    [$.exp_name, $.exp_record_mutation],
     [$._fun_name, $.pat_name, $.exp_name],
     [$.signature, $.pat_name],
     [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
+    [$.exp_field, $.pat_field],
     [$._aexp_projection, $._apat],
     [$.exp_type_application, $.pat_type_binder],
 

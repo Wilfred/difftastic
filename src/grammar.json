@@ -2989,6 +2989,27 @@
         }
       ]
     },
+    "exp_field_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "field",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_qvar"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_exp"
+        }
+      ]
+    },
     "exp_type_application": {
       "type": "SEQ",
       "members": [
@@ -3945,41 +3966,93 @@
         }
       ]
     },
-    "exp_record": {
+    "exp_record_mutation": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "{"
+          "type": "SYMBOL",
+          "name": "variable"
         },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "exp_field"
+              "type": "STRING",
+              "value": "{"
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "comma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "exp_field"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "exp_field_assignment"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "comma"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "exp_field_assignment"
+                      }
+                    ]
                   }
-                ]
-              }
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "}"
             }
           ]
-        },
+        }
+      ]
+    },
+    "exp_record": {
+      "type": "CHOICE",
+      "members": [
         {
-          "type": "STRING",
-          "value": "}"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "exp_field"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "comma"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "exp_field"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
         }
       ]
     },
@@ -4071,6 +4144,10 @@
         {
           "type": "SYMBOL",
           "name": "exp_record"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_record_mutation"
         },
         {
           "type": "SYMBOL",
@@ -7584,6 +7661,15 @@
     [
       "_fun_name",
       "pat_name"
+    ],
+    [
+      "_fun_name",
+      "exp_name",
+      "exp_record_mutation"
+    ],
+    [
+      "exp_name",
+      "exp_record_mutation"
     ],
     [
       "_fun_name",

@@ -94,6 +94,12 @@ module.exports = {
     ),
   ),
 
+  exp_field_assignment: $ => seq(
+    field('field', $._qvar),
+    '=',
+    $._exp,
+  ),
+
   exp_type_application: $ => seq('@', $._atype),
 
   exp_lambda: $ => seq(
@@ -176,7 +182,14 @@ module.exports = {
 
   exp_negation: $ => seq('-', $._aexp),
 
-  exp_record: $ => braces(sep1($.comma, $.exp_field)),
+  exp_record_mutation: $ => seq(
+    $.variable,
+    braces(sep1($.comma, $.exp_field_assignment))
+  ),
+
+  exp_record: $ => choice(
+    braces(sep1($.comma, $.exp_field)),
+  ),
 
   exp_name: $ => choice(
     $._qvar,
@@ -228,6 +241,7 @@ module.exports = {
     $.exp_list,
     $.exp_th_quoted_name,
     $.exp_record,
+    $.exp_record_mutation,
     $.exp_arithmetic_sequence,
     $.exp_list_comprehension,
     $.exp_section_left,
