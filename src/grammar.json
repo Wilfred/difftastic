@@ -3949,46 +3949,37 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_aexp"
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "{"
+              "type": "SYMBOL",
+              "name": "exp_field"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "exp_field"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "comma"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "exp_field"
-                      }
-                    ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "comma"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "exp_field"
                   }
-                }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "}"
+                ]
+              }
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -4386,7 +4377,7 @@
                   "members": [
                     {
                       "type": "STRING",
-                      "value": "="
+                      "value": ":"
                     },
                     {
                       "type": "SYMBOL",
@@ -4491,25 +4482,12 @@
       "value": "pat_name"
     },
     "pat_record": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "con",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_pat_constructor"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "fields",
-          "content": {
-            "type": "SYMBOL",
-            "name": "pat_fields"
-          }
-        }
-      ]
+      "type": "FIELD",
+      "name": "fields",
+      "content": {
+        "type": "SYMBOL",
+        "name": "pat_fields"
+      }
     },
     "pat_wildcard": {
       "type": "STRING",
@@ -7623,6 +7601,10 @@
     [
       "exp_name",
       "pat_name"
+    ],
+    [
+      "exp_field",
+      "pat_field"
     ],
     [
       "_aexp_projection",
