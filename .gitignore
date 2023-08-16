@@ -1,0 +1,6 @@
+binding.gyp
+bindings
+log.html
+node_modules
+package-lock.json
+src
