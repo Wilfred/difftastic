@@ -361,6 +361,35 @@ pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'
     init_next_prev(rhs_roots);
 }
 
+pub fn syntax_ids<'a>(
+    lhs_roots: &[&'a Syntax<'a>],
+    rhs_roots: &[&'a Syntax<'a>],
+) -> DftHashMap<SyntaxId, &'a Syntax<'a>> {
+    let mut res = DftHashMap::default();
+
+    for node in lhs_roots {
+        syntax_ids_from_node(node, &mut res);
+    }
+    for node in rhs_roots {
+        syntax_ids_from_node(node, &mut res);
+    }
+
+    res
+}
+
+fn syntax_ids_from_node<'a>(
+    node: &'a Syntax<'a>,
+    syntax_ids: &mut DftHashMap<SyntaxId, &'a Syntax<'a>>,
+) {
+    syntax_ids.insert(node.id(), node);
+
+    if let List { children, .. } = node {
+        for child in children {
+            syntax_ids_from_node(child, syntax_ids);
+        }
+    }
+}
+
 fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
     init_info_on_side(lhs_roots, &mut id);

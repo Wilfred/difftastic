@@ -7,7 +7,7 @@ use crate::{
     diff::changes::ChangeMap,
     diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
     hash::DftHashMap,
-    parse::syntax::Syntax,
+    parse::syntax::{Syntax, SyntaxId},
 };
 use bumpalo::Bump;
 use itertools::Itertools;
@@ -19,6 +19,7 @@ pub struct ExceededGraphLimit {}
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'s, 'b>(
     start: &'b Vertex<'s, 'b>,
+    syntax_ids: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
@@ -40,7 +41,7 @@ fn shortest_vertex_path<'s, 'b>(
                     break current;
                 }
 
-                set_neighbours(current, vertex_arena, &mut seen);
+                set_neighbours(current, vertex_arena, syntax_ids, &mut seen);
                 for neighbour in current.neighbours.borrow().as_ref().unwrap() {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
@@ -113,12 +114,14 @@ fn shortest_path_with_edges<'s, 'b>(
 /// necessary because a route of N vertices only has N-1 edges.
 fn shortest_path<'s, 'b>(
     start: Vertex<'s, 'b>,
+    syntax_ids: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'b Vertex<'s, 'b>)>, ExceededGraphLimit> {
     let start: &'b Vertex<'s, 'b> = vertex_arena.alloc(start);
-    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+    let vertex_path =
+        shortest_vertex_path(start, syntax_ids, vertex_arena, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
@@ -188,6 +191,7 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
 pub fn mark_syntax<'a>(
     lhs_syntax: Option<&'a Syntax<'a>>,
     rhs_syntax: Option<&'a Syntax<'a>>,
+    syntax_ids: &DftHashMap<SyntaxId, &'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
     graph_limit: usize,
 ) -> Result<(), ExceededGraphLimit> {
@@ -215,7 +219,7 @@ pub fn mark_syntax<'a>(
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let vertex_arena = Bump::new();
 
-    let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+    let route = shortest_path(start, syntax_ids, &vertex_arena, size_hint, graph_limit)?;
 
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
@@ -277,9 +281,12 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&[lhs], &[rhs]);
+
         let start = Vertex::new(Some(lhs), Some(rhs));
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -319,9 +326,12 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -361,9 +371,12 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -407,9 +420,12 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -448,9 +464,12 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -480,9 +499,12 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -520,9 +542,12 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route =
+            shortest_path(start, &syntax_ids, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -543,8 +568,17 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&[lhs], &[rhs]);
+
         let mut change_map = ChangeMap::default();
-        mark_syntax(Some(lhs), Some(rhs), &mut change_map, DEFAULT_GRAPH_LIMIT).unwrap();
+        mark_syntax(
+            Some(lhs),
+            Some(rhs),
+            &syntax_ids,
+            &mut change_map,
+            DEFAULT_GRAPH_LIMIT,
+        )
+        .unwrap();
 
         assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
         assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
@@ -557,8 +591,17 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
+        let syntax_ids = crate::parse::syntax::syntax_ids(&[lhs], &[rhs]);
+
         let mut change_map = ChangeMap::default();
-        mark_syntax(Some(lhs), Some(rhs), &mut change_map, DEFAULT_GRAPH_LIMIT).unwrap();
+        mark_syntax(
+            Some(lhs),
+            Some(rhs),
+            &syntax_ids,
+            &mut change_map,
+            DEFAULT_GRAPH_LIMIT,
+        )
+        .unwrap();
         assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
         assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
     }

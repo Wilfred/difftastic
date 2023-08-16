@@ -485,6 +485,8 @@ fn diff_file_content(
                         diff_options,
                     ) {
                         Ok((lhs, rhs)) => {
+                            let syntax_ids = syntax::syntax_ids(&lhs, &rhs);
+
                             if diff_options.check_only {
                                 let file_format = match language {
                                     Some(language) => FileFormat::SupportedLanguage(language),
@@ -522,6 +524,7 @@ fn diff_file_content(
                                 match mark_syntax(
                                     lhs_section_nodes.get(0).copied(),
                                     rhs_section_nodes.get(0).copied(),
+                                    &syntax_ids,
                                     &mut change_map,
                                     diff_options.graph_limit,
                                 ) {

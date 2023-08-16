@@ -482,6 +482,7 @@ fn pop_all_parents<'s>(
 pub fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
+    syntax_ids: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
     seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
 ) {
     if v.neighbours.borrow().is_some() {
