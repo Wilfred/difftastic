@@ -67,7 +67,7 @@ fn format_missing_line_num(
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(
     display_path: &str,
-    old_path: &Option<String>,
+    old_path: Option<&String>,
     file_format: &FileFormat,
     src_lines: &[String],
     side: Side,
@@ -320,7 +320,7 @@ pub fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
     display_path: &str,
-    old_path: &Option<String>,
+    old_path: Option<&String>,
     file_format: &FileFormat,
     lhs_src: &str,
     rhs_src: &str,
@@ -667,7 +667,7 @@ mod tests {
         // Basic smoke test.
         let res_lines = display_single_column(
             "foo.py",
-            &None,
+            None,
             &FileFormat::SupportedLanguage(Language::Python),
             &["print(123)\n".to_string()],
             Side::Right,
@@ -724,7 +724,7 @@ mod tests {
             &hunks,
             &DisplayOptions::default(),
             "foo-new.el",
-            &None,
+            None,
             &FileFormat::SupportedLanguage(Language::EmacsLisp),
             "foo",
             "bar",

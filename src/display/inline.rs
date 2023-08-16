@@ -65,7 +65,7 @@ pub fn print(
             "{}",
             style::header(
                 display_path,
-                extra_info,
+                extra_info.as_ref(),
                 i + 1,
                 hunks.len(),
                 file_format,

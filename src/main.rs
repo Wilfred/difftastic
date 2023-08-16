@@ -704,7 +704,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         "{}",
                         display::style::header(
                             &summary.display_path,
-                            &summary.extra_info,
+                            summary.extra_info.as_ref(),
                             1,
                             1,
                             &summary.file_format,
@@ -731,7 +731,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         &summary.display_path,
-                        &summary.extra_info,
+                        summary.extra_info.as_ref(),
                         1,
                         1,
                         &summary.file_format,
@@ -769,7 +769,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         hunks,
                         display_options,
                         &summary.display_path,
-                        &summary.extra_info,
+                        summary.extra_info.as_ref(),
                         &summary.file_format,
                         lhs_src,
                         rhs_src,
@@ -785,7 +785,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         &summary.display_path,
-                        &summary.extra_info,
+                        summary.extra_info.as_ref(),
                         1,
                         1,
                         &FileFormat::Binary,
@@ -806,7 +806,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 "{}",
                 display::style::header(
                     &summary.display_path,
-                    &summary.extra_info,
+                    summary.extra_info.as_ref(),
                     1,
                     1,
                     &FileFormat::Binary,

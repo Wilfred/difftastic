@@ -451,7 +451,7 @@ pub(crate) fn apply_line_number_color(
 
 pub fn header(
     display_path: &str,
-    extra_info: &Option<String>,
+    extra_info: Option<&String>,
     hunk_num: usize,
     hunk_total: usize,
     file_format: &FileFormat,
