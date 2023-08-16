@@ -8216,10 +8216,6 @@
         {
           "type": "variable",
           "named": true
-        },
-        {
-          "type": "wildcard",
-          "named": true
         }
       ]
     }

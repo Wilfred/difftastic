@@ -35,7 +35,7 @@ terminated = ($, rule) => seq(
   * Explicitly braced layouts may have arbitrary numbers of semicolons before and after each statement, but this causes
   * strange conflicts, so we only allow them once in leading and trailing position, but many times between statements.
   */
-layouted_braces = rule => braces(optional(';'), sep(repeat1(';'), rule), optional(';')),
+// layouted_braces = rule => braces(optional(';'), sep(repeat1(';'), rule), optional(';')),
 
 /**
   * Wrap a repeated rule in a layout.
@@ -47,12 +47,12 @@ layouted_braces = rule => braces(optional(';'), sep(repeat1(';'), rule), optiona
   * If explicit braces are provided, the scanner isn't relevant.
   */
 layouted = ($, rule) => choice(
-  layouted_braces(rule),
+  // layouted_braces(rule),
   seq($._layout_start, optional(terminated($, rule)), $._layout_end),
 )
 
 layouted_without_end = ($, rule) => choice(
-  layouted_braces(rule),
+  // layouted_braces(rule),
   seq($._layout_start, optional(terminated($, rule))),
 )
 

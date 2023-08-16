@@ -1270,13 +1270,6 @@ static Result close_layout_in_list(State *state) {
       SHORT_SCANNER;
       return res_fail;
     }
-    case '}': {
-      if (state->symbols[END]) {
-        pop(state);
-        return finish(END, "brace");
-      }
-      break;
-    }
   }
   return res_cont;
 }
@@ -1366,11 +1359,6 @@ static Result inline_tokens(State *state) {
 static Result layout_start(uint32_t column, State *state) {
   if (state->symbols[START]) {
     switch (PEEK) {
-      case '{': {
-        Result res = brace(state);
-        SHORT_SCANNER;
-        break;
-      }
       case '-': {
         Result res = minus(state);
         SHORT_SCANNER;

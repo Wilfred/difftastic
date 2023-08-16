@@ -2,7 +2,7 @@ const {parens} = require('./util.js')
 
 module.exports = {
   pat_field: $ => choice(
-    alias('..', $.wildcard),
+    // alias('..', $.wildcard),
     seq($._qvar, optional(seq(':', $._nested_pat))),
   ),
 

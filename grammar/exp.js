@@ -89,7 +89,7 @@ module.exports = {
     alias('..', $.wildcard),
     seq(
       field('field', $._qvar),
-      repeat(seq($._immediate_dot, field('subfield', $._immediate_variable))),
+      optional(repeat(seq($._immediate_dot, field('subfield', $._immediate_variable)))),
       optional(seq(':', $._exp))
     ),
   ),
