@@ -589,7 +589,7 @@ module.exports = grammar({
             seq(
               field("return_type", $._annotated_type),
               "=",
-              field("body", $.expression),
+              field("body", $._indentable_expression),
             ),
           ),
         ),
