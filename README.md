@@ -96,6 +96,27 @@ showing one way to use difftastic with magit.
 Probably not. Difftastic is young. Consider writing a plugin for your
 favourite tool, and I will link it in the README!
 
+### Can difftastic help me with merge conflicts?
+
+Yes! As of version 0.50, difftastic understands merge conflict markers
+(i.e. `<<<<<<<`, `=======` and `>>>>>>>`).
+
+Pass your file with conflicts as a single argument to
+difftastic. Difftastic will construct the two conflicting files and
+diff those.
+
+```
+$ difft file_with_conflicts.js
+```
+
+### Can difftastic do merges?
+
+No. AST merging is a hard problem that difftastic does not address.
+
+AST diffing is a also lossy process from the perspective of a text
+diff. Difftastic will ignore whitespace that isn't syntactically
+significant, but merging requires tracking whitespace.
+
 ### Can I use difftastic to check for syntactic changes without diffing?
 
 Yes. Difftastic can check if the two files have the same AST, without
