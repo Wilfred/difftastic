@@ -1334,7 +1334,16 @@ object A:
           (type_identifier)
           (type_arguments
             (type_identifier)))
-        (identifier)))))
+        (identifier))
+      (given_definition
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (indented_cases
+          (case_clause
+            (identifier)
+            (string)))))))
 
 ================================================================================
 Top-level Definitions (Scala 3 syntax)
@@ -1601,8 +1610,9 @@ inline given Test =
     (modifiers
       (inline_modifier))
     (type_identifier)
-    (instance_expression
-      (type_identifier))))
+    (indented_block
+      (instance_expression
+        (type_identifier)))))
 
 ================================================================================
 Infix methods (Scala 3)
