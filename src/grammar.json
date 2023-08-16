@@ -5555,7 +5555,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_simpletype"
+              "name": "data_constructor"
             },
             {
               "type": "SYMBOL",
@@ -6016,11 +6016,22 @@
       "members": [
         {
           "type": "STRING",
-          "value": "deriving"
+          "value": "derive"
+        },
+        {
+          "type": "STRING",
+          "value": "instance"
         },
         {
           "type": "SYMBOL",
-          "name": "_instance"
+          "name": "type_name"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_atype"
+          }
         }
       ]
     },

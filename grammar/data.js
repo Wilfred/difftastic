@@ -36,7 +36,7 @@ module.exports = {
     'data',
     $._simpletype,
     '=',
-    choice($._simpletype, $._type_sum),
+    choice($.data_constructor, $._type_sum),
   ),
 
   newtype_constructor: $ => seq(

@@ -1012,6 +1012,10 @@
           "named": true
         },
         {
+          "type": "data_constructor",
+          "named": true
+        },
+        {
           "type": "forall",
           "named": true
         },
@@ -1259,11 +1263,47 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "instance_head",
+          "type": "promoted",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "record_fields",
+          "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_star",
+          "named": true
+        },
+        {
+          "type": "type_unboxed_sum",
+          "named": true
+        },
+        {
+          "type": "type_unboxed_tuple",
           "named": true
         }
       ]
@@ -11751,7 +11791,7 @@
     "named": false
   },
   {
-    "type": "deriving",
+    "type": "derive",
     "named": false
   },
   {

@@ -56,7 +56,9 @@ module.exports = {
   ),
 
   decl_deriving: $ => seq(
-    'deriving',
-    $._instance,
+    'derive',
+    'instance',
+    $.type_name,
+    repeat($._atype),
   ),
 }
