@@ -1376,3 +1376,92 @@ x.template operator()<int>();
               (type_descriptor
                 (primitive_type))))))
       (argument_list))))
+
+================================================================================
+Numeric literals
+================================================================================
+
+void f() {
+  0123'4567;
+  0b1001'0110;
+  0B10;
+  0xabcd'1234;
+  0XABCD;
+  1'234;
+  -123;
+  123l;
+  123u;
+  123ULL;
+  123z;
+  123UZ;
+
+  1.0;
+  -1.0;
+  1.f;
+  .1f;
+  1.0l;
+  1.0f16;
+  1.0bf16;
+  1.e1;
+  1.0e1;
+  0xa.bp1;
+  0xap-1;
+  0x.ap-1;
+}
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal))
+      (expression_statement
+        (number_literal)))))

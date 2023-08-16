@@ -1275,6 +1275,56 @@ module.exports = grammar(C, {
       repeat(choice($.identifier, $.string_literal, $.raw_string_literal)),
     ),
 
+    number_literal: $ => {
+      const sign = /[-\+]/;
+      const separator = '\'';
+      const binary = /[01]/;
+      const binaryDigits = seq(repeat1(binary), repeat(seq(separator, repeat1(binary))));
+      const decimal = /[0-9]/;
+      const firstDecimal = /[1-9]/;
+      const intDecimalDigits = seq(firstDecimal, repeat(decimal), repeat(seq(separator, repeat1(decimal))));
+      const floatDecimalDigits = seq(repeat1(decimal), repeat(seq(separator, repeat1(decimal))));
+      const hex = /[0-9a-fA-F]/;
+      const hexDigits = seq(repeat1(hex), repeat(seq(separator, repeat1(hex))));
+      const octal = /[0-7]/;
+      const octalDigits = seq('0', repeat(octal), repeat(seq(separator, repeat1(octal))));
+      const hexExponent = seq(/[pP]/, optional(sign), floatDecimalDigits);
+      const decimalExponent = seq(/[eE]/, optional(sign), floatDecimalDigits);
+      const intSuffix = /(ll|LL)[uU]?|[uU](ll|LL)?|[uU][lL]?|[uU][zZ]?|[lL][uU]?|[zZ][uU]?/;
+      const floatSuffix = /([fF](16|32|64|128)?)|[lL]|(bf16|BF16)/;
+
+      return token(seq(
+        optional(sign),
+        choice(
+          seq(
+            choice(
+              seq(choice('0b', '0B'), binaryDigits),
+              intDecimalDigits,
+              seq(choice('0x', '0X'), hexDigits),
+              octalDigits,
+            ),
+            optional(intSuffix),
+          ),
+          seq(
+            choice(
+              seq(floatDecimalDigits, decimalExponent),
+              seq(floatDecimalDigits, '.', optional(floatDecimalDigits), optional(decimalExponent)),
+              seq('.', floatDecimalDigits, optional(decimalExponent)),
+              seq(
+                choice('0x', '0X'),
+                choice(
+                  hexDigits,
+                  seq(hexDigits, '.', optional(hexDigits)),
+                  seq('.', hexDigits)),
+                hexExponent,
+              ),
+            ),
+            optional(floatSuffix),
+          ),
+        ),
+      ));
+    },
+
     literal_suffix: _ => token.immediate(/[a-zA-Z_]\w*/),
 
     user_defined_literal: $ => seq(
