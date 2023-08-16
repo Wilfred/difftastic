@@ -504,7 +504,7 @@ void tree_sitter_python_external_scanner_deserialize(void *payload,
 
 void *tree_sitter_python_external_scanner_create() {
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-    static_assert(sizeof(Delimiter) == sizeof(char), "");
+    _Static_assert(sizeof(Delimiter) == sizeof(char), "");
 #else
     assert(sizeof(Delimiter) == sizeof(char));
 #endif
