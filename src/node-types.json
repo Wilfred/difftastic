@@ -10084,6 +10084,10 @@
         {
           "type": "field",
           "named": true
+        },
+        {
+          "type": "type_variable",
+          "named": true
         }
       ]
     }

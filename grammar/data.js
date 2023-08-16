@@ -13,7 +13,9 @@ module.exports = {
     $._type,
   ),
 
-  record_fields: $ => braces(sep($.comma, $.field)),
+  record_fields: $ => braces(
+    seq(sep($.comma, $.field), optional(seq('|', $.type_variable)))
+  ),
 
   data_constructor_record: $ => seq(
     $.constructor,
