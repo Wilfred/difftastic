@@ -11,7 +11,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_module"
+          "name": "_decl_module"
         },
         {
           "type": "SEQ",
@@ -4951,7 +4951,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_qmodid"
+          "name": "qualified_module"
         },
         {
           "type": "CHOICE",
@@ -4977,7 +4977,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_qmodid"
+                  "name": "_modid"
                 }
               ]
             },
@@ -5014,28 +5014,24 @@
       }
     },
     "qualified_module": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_qualifying_module"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_modid"
-        }
-      ]
-    },
-    "_qmodid": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "qualified_module"
+          "name": "_modid"
         },
         {
-          "type": "SYMBOL",
-          "name": "_modid"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_qualifying_module"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_modid"
+            }
+          ]
         }
       ]
     },
@@ -5159,7 +5155,7 @@
               "name": "module",
               "content": {
                 "type": "SYMBOL",
-                "name": "_qmodid"
+                "name": "qualified_module"
               }
             }
           ]
@@ -5224,7 +5220,7 @@
         }
       ]
     },
-    "_module": {
+    "_decl_module": {
       "type": "SEQ",
       "members": [
         {
@@ -5232,12 +5228,8 @@
           "value": "module"
         },
         {
-          "type": "FIELD",
-          "name": "module",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_qmodid"
-          }
+          "type": "SYMBOL",
+          "name": "qualified_module"
         },
         {
           "type": "CHOICE",

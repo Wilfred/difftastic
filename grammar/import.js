@@ -36,8 +36,8 @@ module.exports = {
   decl_import: $ => seq(
     'import',
     optional(alias($.string, $.import_package)),
-    $._qmodid,
+    $.qualified_module,
     optional($.import_list),
-    optional(seq('as', $._qmodid)),
+    optional(seq('as', $._modid)),
   ),
 }

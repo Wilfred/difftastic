@@ -9,8 +9,7 @@ module.exports = {
 
   _qualifying_module: $ => repeat1(seq($._modid, $._dot)),
 
-  qualified_module: $ => qualified($, $._modid),
-  _qmodid: $ => choice($.qualified_module, $._modid),
+  qualified_module: $ => choice($._modid, qualified($, $._modid)),
 
   export_names: $ => parens(optional(choice(alias('..', $.all_names), sep($.comma, $._name)))),
 
@@ -21,7 +20,7 @@ module.exports = {
       $._qtycon,
       optional($.export_names),
     ),
-    seq('module', field('module', $._qmodid)),
+    seq('module', field('module', $.qualified_module)),
   ),
 
   exports: $ => parens(
@@ -29,9 +28,9 @@ module.exports = {
     optional($.comma), // for trailing commas at the end of an export list
   ),
 
-  _module: $ => seq(
+  _decl_module: $ => seq(
     'module',
-    field('module', $._qmodid),
+    $.qualified_module,
     optional($.exports),
     where($, $._topdecl),
   ),

@@ -5978,10 +5978,6 @@
         "required": false,
         "types": [
           {
-            "type": "module",
-            "named": true
-          },
-          {
             "type": "qualified_module",
             "named": true
           }
@@ -9656,22 +9652,7 @@
   {
     "type": "purescript",
     "named": true,
-    "fields": {
-      "module": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "module",
-            "named": true
-          },
-          {
-            "type": "qualified_module",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -9730,6 +9711,10 @@
         },
         {
           "type": "pattern_synonym",
+          "named": true
+        },
+        {
+          "type": "qualified_module",
           "named": true
         },
         {
