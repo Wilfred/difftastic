@@ -11911,10 +11911,6 @@
     "named": false
   },
   {
-    "type": "qualified",
-    "named": false
-  },
-  {
     "type": "quasiquote_bar",
     "named": true
   },

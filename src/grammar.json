@@ -4936,18 +4936,6 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "qualified"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
@@ -4969,8 +4957,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "qualified"
+              "type": "SYMBOL",
+              "name": "import_list"
             },
             {
               "type": "BLANK"
@@ -4992,18 +4980,6 @@
                   "name": "_qmodid"
                 }
               ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "import_list"
             },
             {
               "type": "BLANK"
