@@ -125,7 +125,7 @@ bool tree_sitter_cpp_external_scanner_scan(void *payload, TSLexer *lexer,
 unsigned tree_sitter_cpp_external_scanner_serialize(void *payload,
                                                     char *buffer) {
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
-    static_assert(RAW_STRING_DELIMITER_MAX * sizeof(wchar_t) <
+    _Static_assert(RAW_STRING_DELIMITER_MAX * sizeof(wchar_t) <
                       TREE_SITTER_SERIALIZATION_BUFFER_SIZE,
                   "Serialized delimiter is too long!");
 #else
