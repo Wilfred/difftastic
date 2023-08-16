@@ -31,7 +31,7 @@ files had a large number of differences.
 
 Difftastic now requires Rust 1.59 to build.
 
-## 0.49 (release 26th July 2023)
+## 0.49 (released 26th July 2023)
 
 ### Parsing
 
