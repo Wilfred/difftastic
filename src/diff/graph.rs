@@ -54,6 +54,9 @@ pub struct Vertex<'s, 'b> {
     pub predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
+    pub lhs_syntax_id: Option<SyntaxId>,
+    pub rhs_syntax_id: Option<SyntaxId>,
+
     pub lhs_syntax: Option<&'s Syntax<'s>>,
     pub rhs_syntax: Option<&'s Syntax<'s>>,
     parents: Stack<EnteredDelimiter<'s>>,
@@ -79,13 +82,13 @@ impl<'s, 'b> PartialEq for Vertex<'s, 'b> {
         // Handling this properly would require considering many
         // more vertices to be distinct, exponentially increasing
         // the graph size relative to tree depth.
-        let b0 = match (self.lhs_syntax, other.lhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
+        let b0 = match (self.lhs_syntax_id, other.lhs_syntax_id) {
+            (Some(s0), Some(s1)) => s0 == s1,
             (None, None) => self.lhs_parent_id == other.lhs_parent_id,
             _ => false,
         };
-        let b1 = match (self.rhs_syntax, other.rhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
+        let b1 = match (self.rhs_syntax_id, other.rhs_syntax_id) {
+            (Some(s0), Some(s1)) => s0 == s1,
             (None, None) => self.rhs_parent_id == other.rhs_parent_id,
             _ => false,
         };
@@ -103,8 +106,8 @@ impl<'s, 'b> Eq for Vertex<'s, 'b> {}
 
 impl<'s, 'b> Hash for Vertex<'s, 'b> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.lhs_syntax.map(|node| node.id()).hash(state);
-        self.rhs_syntax.map(|node| node.id()).hash(state);
+        self.lhs_syntax_id.hash(state);
+        self.rhs_syntax_id.hash(state);
 
         self.lhs_parent_id.hash(state);
         self.rhs_parent_id.hash(state);
@@ -249,7 +252,7 @@ fn push_rhs_delimiter<'s>(
 
 impl<'s, 'b> Vertex<'s, 'b> {
     pub fn is_end(&self) -> bool {
-        self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
+        self.lhs_syntax_id.is_none() && self.rhs_syntax_id.is_none() && self.parents.is_empty()
     }
 
     pub fn new(lhs_syntax: Option<&'s Syntax<'s>>, rhs_syntax: Option<&'s Syntax<'s>>) -> Self {
@@ -259,6 +262,8 @@ impl<'s, 'b> Vertex<'s, 'b> {
             predecessor: Cell::new(None),
             lhs_syntax,
             rhs_syntax,
+            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
             parents,
             lhs_parent_id: None,
             rhs_parent_id: None,
@@ -514,6 +519,8 @@ pub fn set_neighbours<'s, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syntax,
                         rhs_syntax,
+                        lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                        rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                         parents,
                         lhs_parent_id,
                         rhs_parent_id,
@@ -570,6 +577,8 @@ pub fn set_neighbours<'s, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
+                            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
                             lhs_parent_id,
                             rhs_parent_id,
@@ -621,6 +630,8 @@ pub fn set_neighbours<'s, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
+                            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
                             lhs_parent_id,
                             rhs_parent_id,
@@ -654,6 +665,8 @@ pub fn set_neighbours<'s, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
+                            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
                             lhs_parent_id,
                             rhs_parent_id,
@@ -686,6 +699,8 @@ pub fn set_neighbours<'s, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
+                            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
                             lhs_parent_id,
                             rhs_parent_id,
@@ -719,6 +734,8 @@ pub fn set_neighbours<'s, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
+                            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
                             lhs_parent_id,
                             rhs_parent_id,
@@ -750,6 +767,8 @@ pub fn set_neighbours<'s, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syntax,
                             rhs_syntax,
+                            lhs_syntax_id: lhs_syntax.map(|s| s.id()),
+                            rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
                             lhs_parent_id,
                             rhs_parent_id,
