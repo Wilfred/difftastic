@@ -8,38 +8,6 @@ module.exports = {
   exp_parens: $ => parens($._exp),
 
   /**
-    * This needs to be disambiguated from `gcon_tuple`, which is a constructor with _only_ commas.
-    * Tuple sections aren't allowed in patterns.
-    *
-    * Since tuple expressions can contain singular expressions in sections like `(a,)` and `(,a)`, it has to be ensured
-    * that there is _at least_ each one comma and one expression in there, but the comma may be on either side and be
-    * preceded by any number of further commas, like `(,,,a)`.
-    *
-    * The final `repeat` is simpler, it just has to ensure that no two `_exp`s can be successive, but this encoding
-    * means that the optional `_exp` after `(5,)` needs to be included in the `choice`, otherwise a simple pair would be
-    * impossible.
-    */
-  _exp_tuple: $ => seq(
-    choice(seq(repeat1($.comma), $._exp), seq($._exp, $.comma, optional($._exp))),
-    repeat(seq($.comma, optional($._exp)))
-  ),
-
-  exp_tuple: $ => parens($._exp_tuple),
-
-  /**
-  * Unlike their boxed variants, unboxed tuples may be nullary and unary, making it simpler to parse them.
-  * The nullary tuple may even have no space between the hashes, but this format coincides with the prefix notation of
-  * the `##` symop. Since the latter is already parsed by other rules and is valid in the same positions, it is left out
-  * here.
-  *
-  * The opening lexeme, `(#`, is parsed with a hardcoded trailing space in exp, pat and type. This is a hack that works
-  * around some peculiarities of the interactions with some features like TH and symbolic operators that would most
-  * likely be significantly more complex to implement correctly. As it stands, the grammar can't parse an unboxed sum
-  * exp without a leading space, as in `(#| x #)`.
-  */
-  exp_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, optional($._exp)), $._unboxed_close),
-
-  /**
   * Unboxed sums must have at least one separating `|`, otherwise the expression would be a unary or nullary tuple.
   */
   _exp_unboxed_sum: $ => sep2('|', optional($._exp)),
@@ -257,7 +225,6 @@ module.exports = {
   _aexp_projection: $ => choice(
     $.exp_name,
     $.exp_parens,
-    $.exp_tuple,
     $.exp_list,
     $.exp_th_quoted_name,
     $.exp_record,
@@ -265,7 +232,6 @@ module.exports = {
     $.exp_list_comprehension,
     $.exp_section_left,
     $.exp_section_right,
-    $.exp_unboxed_tuple,
     $.exp_unboxed_sum,
     $.exp_projection_selector,
     $.splice,

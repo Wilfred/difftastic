@@ -23,10 +23,6 @@ module.exports = {
 
   pat_parens: $ => parens($._nested_pat),
 
-  pat_tuple: $ => parens(sep2($.comma, $._nested_pat)),
-
-  pat_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, $._nested_pat), $._unboxed_close),
-
   _pat_unboxed_sum: $ => sep2('|', optional($._nested_pat)),
 
   pat_unboxed_sum: $ => seq($._unboxed_open, $._pat_unboxed_sum, $._unboxed_close),
@@ -47,8 +43,6 @@ module.exports = {
     alias($.literal, $.pat_literal),
     $.pat_wildcard,
     $.pat_parens,
-    $.pat_tuple,
-    $.pat_unboxed_tuple,
     $.pat_unboxed_sum,
     $.pat_list,
     $.pat_strict,

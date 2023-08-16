@@ -5,25 +5,10 @@ module.exports = {
 
   default_signature: $ => seq('default', $.signature),
 
-  class_datafam: $ => seq(
-    'data',
-    optional('family'),
-    $._datafam,
-  ),
-
-  class_tyfam: $ => seq(
-    'type',
-    optional('family'),
-    $._tyfam,
-  ),
-
   _cdecl: $ => choice(
     $._gendecl,
     $.default_signature,
     $.function,
-    alias($.class_tyfam, $.type_family),
-    alias($.inst_tyinst, $.type_instance),
-    alias($.class_datafam, $.data_family),
   ),
 
   fundep: $ => seq(repeat1($.type_variable), $._arrow, repeat1($.type_variable)),
@@ -34,7 +19,7 @@ module.exports = {
 
   decl_class: $ => seq(
     'class',
-    optional($.context),
+    // optional($.context),
     alias($.constraint, $.class_head),
     optional($.fundeps),
     optional($.class_body),
@@ -43,21 +28,6 @@ module.exports = {
   // ------------------------------------------------------------------------
   // instance
   // ------------------------------------------------------------------------
-
-  inst_datainst: $ => choice(
-    seq(
-      'data',
-      optional('instance'),
-      $._datainst,
-      optional($._adt),
-    ),
-    seq(
-      'newtype',
-      optional('instance'),
-      $._datainst,
-      $._newtype
-    ),
-  ),
 
   inst_tyinst: $ => seq(
     'type',
@@ -68,8 +38,6 @@ module.exports = {
   _idecl: $ => choice(
     $.function,
     $.signature,
-    alias($.inst_datainst, $.data_instance),
-    alias($.inst_tyinst, $.type_instance),
   ),
 
   /**
@@ -77,8 +45,8 @@ module.exports = {
    */
   _instance: $ => seq(
     'instance',
-    optional($.forall),
-    optional($.context),
+    // optional($.forall),
+    // optional($.context),
     alias($.constraint, $.instance_head),
   ),
 
@@ -89,7 +57,6 @@ module.exports = {
 
   decl_deriving: $ => seq(
     'deriving',
-    optional(choice($.deriving_strategy, $.via)),
     $._instance,
   ),
 }
