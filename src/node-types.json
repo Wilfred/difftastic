@@ -3007,6 +3007,14 @@
             "named": true
           },
           {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
+          },
+          {
             "type": "with_template_body",
             "named": true
           }
