@@ -45,7 +45,6 @@
 
  [
    "import"
-   "qualified"
    "module"
  ] @keyword.control.import
 
@@ -69,6 +68,7 @@
  ] @operator
 
  (qualified_module (module) @constructor)
+ (module) @namespace
  (qualified_type (module) @namespace)
  (qualified_variable (module) @namespace)
  (import (module) @namespace)
@@ -79,16 +79,12 @@
    "in"
    "class"
    "instance"
+   "derive"
+   "foreign"
    "data"
    "newtype"
-   "family"
    "type"
    "as"
-   "hiding"
-   "deriving"
-   "via"
-   "stock"
-   "anyclass"
    "do"
    "ado"
    "forall"
@@ -105,8 +101,11 @@
  (signature name: (variable) @type)
  (function name: (variable) @function)
 
+ ; true or false
+((variable) @constant.builtin.boolean
+ (#match? @constant.builtin.boolean "^(true|false)$"))
+
  (variable) @variable
- "_" @variable.builtin
 
  (exp_infix (variable) @operator)  ; consider infix functions as operators
 
@@ -120,5 +119,3 @@
 
  (constructor) @constructor
 
- ; True or False
- ((constructor) @_bool (#match? @_bool "(True|False)")) @constant.builtin.boolean
