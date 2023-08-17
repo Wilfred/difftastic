@@ -2739,7 +2739,7 @@
                     "name": "body",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "expression"
+                      "name": "_indentable_expression"
                     }
                   }
                 ]
