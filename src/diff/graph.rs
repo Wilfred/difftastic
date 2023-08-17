@@ -52,13 +52,8 @@ use Edge::*;
 pub struct Vertex<'s, 'b> {
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
     pub predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
-    // TODO: experiment with storing SyntaxId only, and have a HashMap
-    // from SyntaxId to &Syntax.
     pub lhs_syntax_id: Option<SyntaxId>,
     pub rhs_syntax_id: Option<SyntaxId>,
-
-    pub lhs_syntax: Option<&'s Syntax<'s>>,
-    pub rhs_syntax: Option<&'s Syntax<'s>>,
     parents: Stack<EnteredDelimiter<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
@@ -260,8 +255,6 @@ impl<'s, 'b> Vertex<'s, 'b> {
         Vertex {
             neighbours: RefCell::new(None),
             predecessor: Cell::new(None),
-            lhs_syntax,
-            rhs_syntax,
             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
             parents,
@@ -492,7 +485,9 @@ pub fn set_neighbours<'s, 'b>(
     // There are only seven pushes in this functions, so that's sufficient.
     let mut res: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
 
-    if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
+    let v_lhs_syntax = v.lhs_syntax_id.map(|id| *syntax_ids.get(&id).unwrap());
+    let v_rhs_syntax = v.rhs_syntax_id.map(|id| *syntax_ids.get(&id).unwrap());
+    if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v_lhs_syntax, &v_rhs_syntax) {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
@@ -518,8 +513,6 @@ pub fn set_neighbours<'s, 'b>(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
-                        lhs_syntax,
-                        rhs_syntax,
                         lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                         rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                         parents,
@@ -576,8 +569,6 @@ pub fn set_neighbours<'s, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
                             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
@@ -629,8 +620,6 @@ pub fn set_neighbours<'s, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
                             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
@@ -645,14 +634,17 @@ pub fn set_neighbours<'s, 'b>(
         }
     }
 
-    if let Some(lhs_syntax) = &v.lhs_syntax {
+    if let Some(lhs_syntax_id) = &v.lhs_syntax_id {
+        let lhs_syntax = syntax_ids.get(lhs_syntax_id).unwrap();
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
+                let v_rhs_syntax = v.rhs_syntax_id.map(|id| *syntax_ids.get(&id).unwrap());
+
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         lhs_syntax.next_sibling(),
-                        v.rhs_syntax,
+                        v_rhs_syntax,
                         v.lhs_parent_id,
                         v.rhs_parent_id,
                         &v.parents,
@@ -664,8 +656,6 @@ pub fn set_neighbours<'s, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
                             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
@@ -686,7 +676,7 @@ pub fn set_neighbours<'s, 'b>(
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
                         lhs_next,
-                        v.rhs_syntax,
+                        v_rhs_syntax,
                         Some(lhs_syntax.id()),
                         v.rhs_parent_id,
                         &parents_next,
@@ -698,8 +688,6 @@ pub fn set_neighbours<'s, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
                             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
@@ -714,13 +702,13 @@ pub fn set_neighbours<'s, 'b>(
         }
     }
 
-    if let Some(rhs_syntax) = &v.rhs_syntax {
+    if let Some(rhs_syntax) = &v_rhs_syntax {
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
-                        v.lhs_syntax,
+                        v_lhs_syntax,
                         rhs_syntax.next_sibling(),
                         v.lhs_parent_id,
                         v.rhs_parent_id,
@@ -733,8 +721,6 @@ pub fn set_neighbours<'s, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
                             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
@@ -753,7 +739,7 @@ pub fn set_neighbours<'s, 'b>(
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
-                        v.lhs_syntax,
+                        v_lhs_syntax,
                         rhs_next,
                         v.lhs_parent_id,
                         Some(rhs_syntax.id()),
@@ -766,8 +752,6 @@ pub fn set_neighbours<'s, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax,
-                            rhs_syntax,
                             lhs_syntax_id: lhs_syntax.map(|s| s.id()),
                             rhs_syntax_id: rhs_syntax.map(|s| s.id()),
                             parents,
@@ -791,14 +775,15 @@ pub fn set_neighbours<'s, 'b>(
 
 pub fn populate_change_map<'s, 'b>(
     route: &[(Edge, &'b Vertex<'s, 'b>)],
+    syntax_ids: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
     change_map: &mut ChangeMap<'s>,
 ) {
     for (e, v) in route {
         match e {
             UnchangedNode { .. } => {
                 // No change on this node or its children.
-                let lhs = v.lhs_syntax.unwrap();
-                let rhs = v.rhs_syntax.unwrap();
+                let lhs = syntax_ids.get(&v.lhs_syntax_id.unwrap()).unwrap();
+                let rhs = syntax_ids.get(&v.rhs_syntax_id.unwrap()).unwrap();
 
                 insert_deep_unchanged(lhs, rhs, change_map);
                 insert_deep_unchanged(rhs, lhs, change_map);
@@ -806,14 +791,14 @@ pub fn populate_change_map<'s, 'b>(
             EnterUnchangedDelimiter { .. } => {
                 // No change on the outer delimiter, but children may
                 // have changed.
-                let lhs = v.lhs_syntax.unwrap();
-                let rhs = v.rhs_syntax.unwrap();
+                let lhs = syntax_ids.get(&v.lhs_syntax_id.unwrap()).unwrap();
+                let rhs = syntax_ids.get(&v.rhs_syntax_id.unwrap()).unwrap();
                 change_map.insert(lhs, ChangeKind::Unchanged(rhs));
                 change_map.insert(rhs, ChangeKind::Unchanged(lhs));
             }
             ReplacedComment { levenshtein_pct } | ReplacedString { levenshtein_pct } => {
-                let lhs = v.lhs_syntax.unwrap();
-                let rhs = v.rhs_syntax.unwrap();
+                let lhs = syntax_ids.get(&v.lhs_syntax_id.unwrap()).unwrap();
+                let rhs = syntax_ids.get(&v.rhs_syntax_id.unwrap()).unwrap();
                 let change_kind = |first, second| {
                     if let ReplacedComment { .. } = e {
                         ChangeKind::ReplacedComment(first, second)
@@ -831,11 +816,11 @@ pub fn populate_change_map<'s, 'b>(
                 }
             }
             NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
-                let lhs = v.lhs_syntax.unwrap();
+                let lhs = syntax_ids.get(&v.lhs_syntax_id.unwrap()).unwrap();
                 change_map.insert(lhs, ChangeKind::Novel);
             }
             NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
-                let rhs = v.rhs_syntax.unwrap();
+                let rhs = syntax_ids.get(&v.rhs_syntax_id.unwrap()).unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
             }
         }

@@ -234,10 +234,14 @@ pub fn mark_syntax<'a>(
             .map(|x| {
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                    x.1.lhs_syntax_id
+                        .and_then(|id| syntax_ids.get(&id))
+                        .map(|s| s.dbg_content())
+                        .unwrap_or("None".to_owned()),
+                    x.1.rhs_syntax_id
+                        .and_then(|id| syntax_ids.get(&id))
+                        .map(|s| s.dbg_content())
+                        .unwrap_or("None".to_owned()),
                     x.0.cost(),
                     x.0,
                 )
@@ -246,7 +250,7 @@ pub fn mark_syntax<'a>(
             .collect_vec()
     );
 
-    populate_change_map(&route, change_map);
+    populate_change_map(&route, syntax_ids, change_map);
     Ok(())
 }
 
