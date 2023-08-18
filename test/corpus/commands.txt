@@ -390,12 +390,14 @@ done 3<<<"$ENTRIES"
     (herestring_redirect (file_descriptor) (string (simple_expansion (variable_name))))))
 
 ==========================================
-Spaces in Subscripts
+Subscripts
 ==========================================
 
 echo ${a[1 + 2]}
 
 echo ${b[1234 % 2]}
+
+${words[++counter]}
 
 ---
 
@@ -407,4 +409,8 @@ echo ${b[1234 % 2]}
   (command
     (command_name (word))
     (expansion
-      (subscript (variable_name) (binary_expression (number) (number))))))
+      (subscript (variable_name) (binary_expression (number) (number)))))
+  (command
+    (command_name
+      (expansion
+        (subscript (variable_name) (unary_expression (word)))))))
