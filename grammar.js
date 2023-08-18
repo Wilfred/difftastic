@@ -335,7 +335,7 @@ module.exports = grammar({
 
     test_command: $ => seq(
       choice(
-        seq('[', $._expression, ']'),
+        seq('[', choice($._expression, $.redirected_statement), ']'),
         seq('[[', $._expression, ']]'),
         seq('((', $._expression, '))'),
       ),

@@ -90,6 +90,7 @@ whoami > /dev/null
 cat a b > /dev/null
 2>&1 whoami
 echo "foobar" >&2
+[ ! command -v go &>/dev/null ] && return
 
 ---
 
@@ -105,7 +106,14 @@ echo "foobar" >&2
     (command_name (word)))
   (redirected_statement
     (command (command_name (word)) (string))
-    (file_redirect (number))))
+    (file_redirect (number)))
+  (list
+    (test_command
+      (redirected_statement
+        (negated_command
+          (command (command_name (word)) (word) (word)))
+        (file_redirect (word))))
+    (command (command_name (word)))))
 
 ===============================
 File redirects (noclobber override)
@@ -171,7 +179,7 @@ exit
 
 =================================
 Heredocs with file redirects
-================================
+=================================
 
 cat <<EOF > $tmpfile
 a $B ${C}
@@ -196,7 +204,7 @@ wc -l $tmpfile
 
 =================================
 Heredocs with pipes
-================================
+=================================
 
 one <<EOF | grep two
 three
