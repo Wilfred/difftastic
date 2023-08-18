@@ -352,8 +352,7 @@ module.exports = grammar({
     file_redirect: $ => prec.left(seq(
       field('descriptor', optional($.file_descriptor)),
       choice('<', '>', '>>', '&>', '&>>', '<&', '>&', '>|'),
-      // FIXME: repeat1 here inflates the state count, find a better solution.
-      field('destination', $._literal),
+      field('destination', repeat1($._literal)),
     )),
 
     heredoc_redirect: $ => seq(

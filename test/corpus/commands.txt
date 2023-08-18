@@ -89,6 +89,7 @@ File redirects
 whoami > /dev/null
 cat a b > /dev/null
 2>&1 whoami
+echo "foobar" >&2
 
 ---
 
@@ -101,7 +102,10 @@ cat a b > /dev/null
     (file_redirect (word)))
   (command
     (file_redirect (file_descriptor) (number))
-    (command_name (word))))
+    (command_name (word)))
+  (redirected_statement
+    (command (command_name (word)) (string))
+    (file_redirect (number))))
 
 ===============================
 File redirects (noclobber override)
