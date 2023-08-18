@@ -227,15 +227,15 @@ pub fn mark_syntax<'a>(
         print_length,
         route
             .iter()
-            .map(|x| {
+            .map(|(edge, v)| {
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax
+                    v.lhs_syntax
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax
+                    v.rhs_syntax
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.0.cost(),
-                    x.0,
+                    edge.cost(),
+                    edge,
                 )
             })
             .take(print_length)
