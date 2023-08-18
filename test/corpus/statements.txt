@@ -1036,6 +1036,29 @@ _path=$(
         (simple_expansion
           (variable_name))))))
 
+===========================================================
+Command substution with $ and backticks
+===========================================================
+
+$(eval echo $`echo ${foo}`)
+
+---
+
+(program
+  (command
+    (command_name
+      (command_substitution
+        (command
+          (command_name
+            (word))
+          (word)
+          (command_substitution
+            (command
+              (command_name
+                (word))
+              (expansion
+                (variable_name)))))))))
+
 ================================================================================
 Expressions passed to declaration commands
 ================================================================================

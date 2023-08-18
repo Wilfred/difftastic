@@ -622,6 +622,7 @@ module.exports = grammar({
       seq('$(', $._statements, ')'),
       seq('$(', $.file_redirect, ')'),
       prec(1, seq('`', $._statements, '`')),
+      seq('$`', $._statements, '`'),
     ),
 
     process_substitution: $ => seq(
