@@ -1,5 +1,6 @@
-corpus
-build
-script
-examples
-target
+/test
+/examples
+/build
+/script
+/target
+bindings/rust

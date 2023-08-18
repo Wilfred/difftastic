@@ -3,8 +3,6 @@ node_modules
 build
 *.log
 package-lock.json
-examples
+/examples
 !examples/ast.rs
 /target/
-.build/
-/.idea/
