@@ -34,6 +34,15 @@ const numeric_types = [
   'f64'
 ]
 
+const TOKEN_TREE_NON_SPECIAL_TOKENS = [
+  '/', '_', '\\', '-',
+  '=', '->', ',', ';',
+  ':', '::', '!', '?',
+  '.', '@', '*', '&',
+  '#', '%', '^', '+',
+  '<', '>', '|', '~',
+];
+
 const primitive_types = numeric_types.concat(['bool', 'str', 'char'])
 
 module.exports = grammar({
@@ -202,7 +211,7 @@ module.exports = grammar({
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
-      /[/_\-=->,;:::!=?.@*&#%^+<>|~]+/,
+      prec.right(repeat1(choice(...TOKEN_TREE_NON_SPECIAL_TOKENS))),
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
