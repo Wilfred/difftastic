@@ -758,6 +758,49 @@ fi
       (number))))
 
 ================================================================================
+Ternary expressions
+================================================================================
+
+$((n < 10 ? n : 10))
+$(($n < 10 ? $n : 10))
+$((${n} < 10 ? ${n} : 10))
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (arithmetic_expansion
+        (ternary_expression
+          (binary_expression
+            (word)
+            (number))
+          (word)
+          (number)))))
+  (command
+    (command_name
+      (arithmetic_expansion
+        (ternary_expression
+          (binary_expression
+            (simple_expansion
+              (variable_name))
+            (number))
+          (simple_expansion
+            (variable_name))
+          (number)))))
+  (command
+    (command_name
+      (arithmetic_expansion
+        (ternary_expression
+          (binary_expression
+            (expansion
+              (variable_name))
+            (number))
+          (expansion
+            (variable_name))
+          (number))))))
+
+================================================================================
 Test commands with regexes
 ================================================================================
 
