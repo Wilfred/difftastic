@@ -766,6 +766,28 @@ loop=; variables=& here=;;
     (variable_name)))
 
 ================================================================================
+Multiple variable assignments
+================================================================================
+
+component_type="${1}" item_name="${2?}"
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_assignments
+    (variable_assignment
+      (variable_name)
+      (string
+        (expansion
+          (variable_name))))
+    (variable_assignment
+      (variable_name)
+      (string
+        (expansion
+          (variable_name)
+          (word))))))
+
+================================================================================
 Arithmetic expansions
 ================================================================================
 

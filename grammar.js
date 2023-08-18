@@ -27,6 +27,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._expression, $.command_name],
+    [$.command, $.variable_assignments],
   ],
 
   inline: $ => [
@@ -110,6 +111,7 @@ module.exports = grammar({
     _statement_not_subshell: $ => choice(
       $.redirected_statement,
       $.variable_assignment,
+      $.variable_assignments,
       $.command,
       $.declaration_command,
       $.unset_command,
@@ -396,6 +398,8 @@ module.exports = grammar({
         alias($._comment_word, $.word),
       )),
     ),
+
+    variable_assignments: $ => seq($.variable_assignment, repeat1($.variable_assignment)),
 
     subscript: $ => seq(
       field('name', $.variable_name),
