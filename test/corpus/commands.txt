@@ -376,3 +376,23 @@ done 3<<<"$ENTRIES"
       (command (command_name (word)) (word) (number) (word))
       (do_group (command (command_name (word)) (simple_expansion (variable_name)))))
     (herestring_redirect (file_descriptor) (string (simple_expansion (variable_name))))))
+
+==========================================
+Spaces in Subscripts
+==========================================
+
+echo ${a[1 + 2]}
+
+echo ${b[1234 % 2]}
+
+---
+
+(program
+  (command
+    (command_name (word))
+    (expansion
+      (subscript (variable_name) (binary_expression (number) (number)))))
+  (command
+    (command_name (word))
+    (expansion
+      (subscript (variable_name) (binary_expression (number) (number))))))
