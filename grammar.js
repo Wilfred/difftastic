@@ -540,30 +540,31 @@ module.exports = grammar({
     expansion: $ => seq(
       '${',
       repeat(choice('#', '!')),
-      optional(choice(
-        seq(
-          $.variable_name,
-          '=',
-          optional($._literal),
-        ),
-        seq(
-          choice(
-            $.subscript,
-            $._simple_variable_name,
-            $._special_variable_name,
-            $.command_substitution,
-          ),
-          optional(seq(
-            token(prec(1, '/')),
-            optional($.regex),
-          )),
-          repeat(prec.right(choice(
-            $._literal, $.array,
-            ':', ':?', '=', ':-', '%', '-', '#', ';', '|', '(', ')', '<', '>',
-          ))),
-        ),
-      )),
+      optional($._expansion_body),
       '}',
+    ),
+    _expansion_body: $ => choice(
+      seq(
+        $.variable_name,
+        '=',
+        optional($._literal),
+      ),
+      seq(
+        choice(
+          $.subscript,
+          $._simple_variable_name,
+          $._special_variable_name,
+          $.command_substitution,
+        ),
+        optional(seq(
+          token(prec(1, '/')),
+          optional($.regex),
+        )),
+        repeat(prec.right(choice(
+          $._literal, $.array,
+          ':', ':?', '=', ':-', '%', '-', '#', ';', '|', '(', ')', '<', '>',
+        ))),
+      ),
     ),
 
     command_substitution: $ => choice(
