@@ -7,7 +7,7 @@ use crate::{
     diff::changes::ChangeMap,
     diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
     hash::DftHashMap,
-    parse::syntax::Syntax,
+    parse::syntax::{Syntax, SyntaxArena},
 };
 use bumpalo::Bump;
 use itertools::Itertools;
@@ -155,7 +155,7 @@ fn edge_between<'s, 'b>(before: &Vertex<'s, 'b>, after: &Vertex<'s, 'b>) -> Edge
 }
 
 /// What is the total number of AST nodes?
-fn node_count(root: Option<&Syntax>) -> u32 {
+fn node_count<'a>(node_arena: &SyntaxArena<'a>, root: Option<&Syntax>) -> u32 {
     let mut node = root;
     let mut count = 0;
     while let Some(current_node) = node {
@@ -167,38 +167,39 @@ fn node_count(root: Option<&Syntax>) -> u32 {
         };
         count += current_count;
 
-        node = current_node.next_sibling();
+        node = current_node.next_sibling().map(|id| &node_arena[id]);
     }
 
     count
 }
 
 /// How many top-level AST nodes do we have?
-fn tree_count(root: Option<&Syntax>) -> u32 {
+fn tree_count<'a>(node_arena: &SyntaxArena<'a>, root: Option<&Syntax>) -> u32 {
     let mut node = root;
     let mut count = 0;
     while let Some(current_node) = node {
         count += 1;
-        node = current_node.next_sibling();
+        node = current_node.next_sibling().map(|id| &node_arena[id]);
     }
 
     count
 }
 
 pub fn mark_syntax<'a>(
+    node_arena: &SyntaxArena<'a>,
     lhs_syntax: Option<&'a Syntax<'a>>,
     rhs_syntax: Option<&'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
     graph_limit: usize,
 ) -> Result<(), ExceededGraphLimit> {
-    let lhs_node_count = node_count(lhs_syntax) as usize;
-    let rhs_node_count = node_count(rhs_syntax) as usize;
+    let lhs_node_count = node_count(node_arena, lhs_syntax) as usize;
+    let rhs_node_count = node_count(node_arena, rhs_syntax) as usize;
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
         lhs_node_count,
-        tree_count(lhs_syntax),
+        tree_count(node_arena, lhs_syntax),
         rhs_node_count,
-        tree_count(rhs_syntax),
+        tree_count(node_arena, rhs_syntax),
     );
 
     // When there are a large number of changes, we end up building a

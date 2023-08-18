@@ -4,6 +4,8 @@
 
 use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
+use id_arena::Arena as IdArena;
+use id_arena::Id;
 
 use crate::{
     diff::changes::ChangeKind,
@@ -41,6 +43,9 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
         f.write_str(&desc)
     }
 }
+
+pub type SyntaxArena<'a> = IdArena<Syntax<'a>>;
+pub type SyntaxArenaId<'a> = Id<Syntax<'a>>;
 
 pub type SyntaxId = NonZeroU32;
 
@@ -98,7 +103,7 @@ pub enum Syntax<'a> {
         info: SyntaxInfo<'a>,
         open_position: Vec<SingleLineSpan>,
         open_content: String,
-        children: Vec<&'a Syntax<'a>>,
+        children: Vec<SyntaxArenaId<'a>>,
         close_position: Vec<SingleLineSpan>,
         close_content: String,
         num_descendants: u32,
@@ -193,10 +198,10 @@ impl<'a> Syntax<'a> {
         arena: &'a Arena<Syntax<'a>>,
         open_content: &str,
         open_position: Vec<SingleLineSpan>,
-        children: Vec<&'a Syntax<'a>>,
+        children: Vec<SyntaxArenaId<'a>>,
         close_content: &str,
         close_position: Vec<SingleLineSpan>,
-    ) -> &'a Syntax<'a> {
+    ) -> SyntaxArenaId<'a> {
         // Skip empty atoms: they aren't displayed, so there's no
         // point making our syntax tree bigger. These occur when we're
         // parsing incomplete or malformed programs.
@@ -247,7 +252,7 @@ impl<'a> Syntax<'a> {
         mut position: Vec<SingleLineSpan>,
         mut content: &str,
         kind: AtomKind,
-    ) -> &'a Syntax<'a> {
+    ) -> SyntaxArenaId<'a> {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
         if content.ends_with('\r') {
@@ -273,11 +278,11 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    pub fn parent(&self) -> Option<&'a Syntax<'a>> {
+    pub fn parent(&self) -> Option<SyntaxArenaId<'a>> {
         self.info().parent.get()
     }
 
-    pub fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
+    pub fn next_sibling(&self) -> Option<SyntaxArenaId<'a>> {
         self.info().next_sibling.get()
     }
 
@@ -330,7 +335,7 @@ impl<'a> Syntax<'a> {
     }
 }
 
-pub fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
+pub fn comment_positions<'a>(nodes: &[SyntaxArenaId<'a>]) -> Vec<SingleLineSpan> {
     fn walk_comment_positions(node: &Syntax<'_>, positions: &mut Vec<SingleLineSpan>) {
         match node {
             List { children, .. } => {
@@ -355,13 +360,13 @@ pub fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
 }
 
 /// Initialise all the fields in `SyntaxInfo`.
-pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+pub fn init_all_info<'a>(lhs_roots: &[SyntaxArenaId<'a>], rhs_roots: &[SyntaxArenaId<'a>]) {
     init_info(lhs_roots, rhs_roots);
     init_next_prev(lhs_roots);
     init_next_prev(rhs_roots);
 }
 
-fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+fn init_info<'a>(lhs_roots: &[SyntaxArenaId<'a>], rhs_roots: &[SyntaxArenaId<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
     init_info_on_side(lhs_roots, &mut id);
     init_info_on_side(rhs_roots, &mut id);
@@ -437,7 +442,7 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
         }
     }
 }
-pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
+pub fn init_next_prev<'a>(roots: &[SyntaxArenaId<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
@@ -445,7 +450,7 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
 /// side (LHS or RHS).
-fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
+fn init_info_on_side<'a>(roots: &[SyntaxArenaId<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_num_after(roots, 0);
@@ -492,7 +497,7 @@ fn set_content_is_unique(nodes: &[&Syntax]) {
     set_content_is_unique_from_counts(nodes, &counts);
 }
 
-fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
+fn set_prev_sibling<'a>(nodes: &[SyntaxArenaId<'a>]) {
     let mut prev = None;
 
     for node in nodes {
@@ -505,7 +510,7 @@ fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
     }
 }
 
-fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
+fn set_next_sibling<'a>(nodes: &[SyntaxArenaId<'a>]) {
     for (i, node) in nodes.iter().enumerate() {
         let sibling = nodes.get(i + 1).copied();
         node.info().next_sibling.set(sibling);
@@ -518,7 +523,7 @@ fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
 
 /// For every syntax node in the tree, mark the previous node
 /// according to a preorder traversal.
-fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
+fn set_prev<'a>(nodes: &[SyntaxArenaId<'a>], parent: Option<SyntaxArenaId<'a>>) {
     for (i, node) in nodes.iter().enumerate() {
         let node_prev = if i == 0 { parent } else { Some(nodes[i - 1]) };
 
@@ -529,7 +534,7 @@ fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
     }
 }
 
-fn set_parent<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
+fn set_parent<'a>(nodes: &[SyntaxArenaId<'a>], parent: Option<SyntaxArenaId<'a>>) {
     for node in nodes {
         node.info().parent.set(parent);
         if let List { children, .. } = node {
@@ -928,7 +933,7 @@ impl MatchedPos {
 
 /// Walk `nodes` and return a vec of all the changed positions.
 pub fn change_positions<'a>(
-    nodes: &[&'a Syntax<'a>],
+    nodes: &[SyntaxArenaId<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<MatchedPos> {
     let mut positions = Vec::new();
@@ -937,7 +942,7 @@ pub fn change_positions<'a>(
 }
 
 fn change_positions_<'a>(
-    nodes: &[&'a Syntax<'a>],
+    nodes: &[SyntaxArenaId<'a>],
     change_map: &ChangeMap<'a>,
     positions: &mut Vec<MatchedPos>,
 ) {

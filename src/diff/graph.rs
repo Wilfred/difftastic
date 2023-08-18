@@ -16,7 +16,7 @@ use crate::{
         stack::Stack,
     },
     hash::DftHashMap,
-    parse::syntax::{AtomKind, Syntax, SyntaxId},
+    parse::syntax::{AtomKind, Syntax, SyntaxArena, SyntaxArenaId, SyntaxId},
 };
 use Edge::*;
 
@@ -408,18 +408,22 @@ fn looks_like_punctuation(node: &Syntax) -> bool {
 /// Pop as many parents of `lhs_node` and `rhs_node` as
 /// possible. Return the new syntax nodes and parents.
 fn pop_all_parents<'s>(
-    lhs_node: Option<&'s Syntax<'s>>,
-    rhs_node: Option<&'s Syntax<'s>>,
+    node_arena: &SyntaxArena<'s>,
+    lhs_node_id: Option<SyntaxArenaId<'s>>,
+    rhs_node_id: Option<SyntaxArenaId<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
     parents: &Stack<EnteredDelimiter<'s>>,
 ) -> (
-    Option<&'s Syntax<'s>>,
-    Option<&'s Syntax<'s>>,
+    Option<SyntaxArenaId<'s>>,
+    Option<SyntaxArenaId<'s>>,
     Option<SyntaxId>,
     Option<SyntaxId>,
     Stack<EnteredDelimiter<'s>>,
 ) {
+    let lhs_node = lhs_node_id.map(|id| &node_arena[id]);
+    let rhs_node = rhs_node_id.map(|id| &node_arena[id]);
+
     let mut lhs_node = lhs_node;
     let mut rhs_node = rhs_node;
     let mut lhs_parent_id = lhs_parent_id;
@@ -432,8 +436,8 @@ fn pop_all_parents<'s>(
                 // Move to next after LHS parent.
 
                 // Continue from sibling of parent.
-                lhs_node = lhs_parent.next_sibling();
-                lhs_parent_id = lhs_parent.parent().map(Syntax::id);
+                lhs_node = lhs_parent.next_sibling().map(|id| &node_arena[id]);
+                lhs_parent_id = lhs_parent.parent().map(|id| node_arena[id].id());
                 parents = parents_next;
                 continue;
             }
@@ -444,8 +448,8 @@ fn pop_all_parents<'s>(
                 // Move to next after RHS parent.
 
                 // Continue from sibling of parent.
-                rhs_node = rhs_parent.next_sibling();
-                rhs_parent_id = rhs_parent.parent().map(Syntax::id);
+                rhs_node = rhs_parent.next_sibling().map(|id| &node_arena[id]);
+                rhs_parent_id = rhs_parent.parent().map(|id| node_arena[id].id());
                 parents = parents_next;
                 continue;
             }
@@ -457,10 +461,12 @@ fn pop_all_parents<'s>(
 
             // Continue from sibling of parent.
             if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&parents) {
-                lhs_node = lhs_parent.next_sibling();
-                rhs_node = rhs_parent.next_sibling();
-                lhs_parent_id = lhs_parent.parent().map(Syntax::id);
-                rhs_parent_id = rhs_parent.parent().map(Syntax::id);
+                lhs_node = lhs_parent.next_sibling().map(|id| &node_arena[id]);
+                lhs_parent_id = lhs_parent.parent().map(|id| node_arena[id].id());
+
+                rhs_node = rhs_parent.next_sibling().map(|id| &node_arena[id]);
+                rhs_parent_id = rhs_parent.parent().map(|id| node_arena[id].id());
+
                 parents = parents_next;
                 continue;
             }
@@ -469,12 +475,19 @@ fn pop_all_parents<'s>(
         break;
     }
 
-    (lhs_node, rhs_node, lhs_parent_id, rhs_parent_id, parents)
+    (
+        lhs_node_id,
+        rhs_node_id,
+        lhs_parent_id,
+        rhs_parent_id,
+        parents,
+    )
 }
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// and write them to the .neighbours cell inside `v`.
 pub fn set_neighbours<'s, 'b>(
+    node_arena: &SyntaxArena<'s>,
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
@@ -496,6 +509,7 @@ pub fn set_neighbours<'s, 'b>(
 
             // Both nodes are equal, the happy case.
             let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) = pop_all_parents(
+                node_arena,
                 lhs_syntax.next_sibling(),
                 rhs_syntax.next_sibling(),
                 v.lhs_parent_id,

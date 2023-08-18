@@ -2,14 +2,14 @@
 
 use crate::{
     hash::DftHashMap,
-    parse::syntax::{Syntax, SyntaxId},
+    parse::syntax::{Syntax, SyntaxArena, SyntaxArenaId, SyntaxId},
 };
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
-    Unchanged(&'a Syntax<'a>),
-    ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
-    ReplacedString(&'a Syntax<'a>, &'a Syntax<'a>),
+    Unchanged(SyntaxArenaId<'a>),
+    ReplacedComment(SyntaxArenaId<'a>, SyntaxArenaId<'a>),
+    ReplacedString(SyntaxArenaId<'a>, SyntaxArenaId<'a>),
     Novel,
 }
 
@@ -19,21 +19,36 @@ pub struct ChangeMap<'a> {
 }
 
 impl<'a> ChangeMap<'a> {
-    pub fn insert(&mut self, node: &'a Syntax<'a>, ck: ChangeKind<'a>) {
+    pub fn insert(
+        &mut self,
+        node_arena: &SyntaxArena<'a>,
+        node_id: SyntaxArenaId<'a>,
+        ck: ChangeKind<'a>,
+    ) {
+        let node = &node_arena[node_id];
         self.changes.insert(node.id(), ck);
     }
 
-    pub fn get(&self, node: &Syntax<'a>) -> Option<ChangeKind<'a>> {
+    pub fn get(
+        &self,
+        node_arena: &SyntaxArena<'a>,
+        node_id: SyntaxArenaId<'a>,
+    ) -> Option<ChangeKind<'a>> {
+        let node = &node_arena[node_id];
         self.changes.get(&node.id()).copied()
     }
 }
 
 pub fn insert_deep_unchanged<'a>(
-    node: &'a Syntax<'a>,
-    opposite_node: &'a Syntax<'a>,
+    node_arena: &SyntaxArena<'a>,
+    node_id: SyntaxArenaId<'a>,
+    opposite_node_id: SyntaxArenaId<'a>,
     change_map: &mut ChangeMap<'a>,
 ) {
-    change_map.insert(node, ChangeKind::Unchanged(opposite_node));
+    let node = &node_arena[node_id];
+    let opposite_node = &node_arena[opposite_node_id];
+
+    change_map.insert(node_arena, node_id, ChangeKind::Unchanged(opposite_node_id));
 
     match (node, opposite_node) {
         (
@@ -47,7 +62,7 @@ pub fn insert_deep_unchanged<'a>(
             },
         ) => {
             for (child, opposite_child) in node_children.iter().zip(opposite_children) {
-                insert_deep_unchanged(child, opposite_child, change_map);
+                insert_deep_unchanged(node_arena, *child, *opposite_child, change_map);
             }
         }
         (Syntax::Atom { .. }, Syntax::Atom { .. }) => {}
@@ -55,12 +70,17 @@ pub fn insert_deep_unchanged<'a>(
     }
 }
 
-pub fn insert_deep_novel<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
-    change_map.insert(node, ChangeKind::Novel);
+pub fn insert_deep_novel<'a>(
+    node_arena: &SyntaxArena<'a>,
+    node_id: SyntaxArenaId<'a>,
+    change_map: &mut ChangeMap<'a>,
+) {
+    let node = &node_arena[node_id];
+    change_map.insert(node_arena, node_id, ChangeKind::Novel);
 
     if let Syntax::List { children, .. } = node {
         for child in children.iter() {
-            insert_deep_novel(child, change_map);
+            insert_deep_novel(node_arena, *child, change_map);
         }
     }
 }
