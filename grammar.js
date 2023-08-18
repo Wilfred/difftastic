@@ -82,12 +82,17 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   rules: {
-    source_file: $ => repeat($._statement),
+    source_file: $ => seq(
+      optional($.shebang),
+      repeat($._statement),
+    ),
 
     _statement: $ => choice(
       $.expression_statement,
       $._declaration_statement
     ),
+
+    shebang: $ => /#!.*/,
 
     empty_statement: $ => ';',
 
