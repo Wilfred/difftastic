@@ -1082,6 +1082,24 @@ Scoped functions with macros as types
       (arguments))))
 
 ================================================================================
+Scoped identifier with nested super
+================================================================================
+
+super::super::foo();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (call_expression
+      (scoped_identifier
+        (scoped_identifier
+          (super)
+          (super))
+        (identifier))
+      (arguments))))
+
+================================================================================
 Generic functions
 ================================================================================
 

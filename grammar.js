@@ -917,7 +917,7 @@ module.exports = grammar({
         alias($.generic_type_with_turbofish, $.generic_type)
       ))),
       '::',
-      field('name', $.identifier)
+      field('name', choice($.identifier, $.super)),
     ),
 
     scoped_type_identifier_in_expression_position: $ => prec(-2, seq(
