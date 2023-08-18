@@ -14,12 +14,18 @@
   "author": "Maxim Sokolov <maxim0xff@gmail.com> (https://github.com/MaximSokolov)",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.0"
+    "eslint": "^8.47.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "build-wasm": "tree-sitter build-wasm",
+    "lint": "eslint grammar.js",
+    "parse": "tree-sitter parse",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
@@ -29,6 +35,15 @@
       "injection-regex": "rust",
       "file-types": [
         "rs"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injections": [
+        "queries/injections.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
       ]
     }
   ]
