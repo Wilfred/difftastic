@@ -35,7 +35,7 @@ pkg-fmt = "zip"
 regex = ">= 1.7, < 1.8"
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.10.1"
-typed-arena = "2.0.1"
+typed-arena = "2.0.2"
 rustc-hash = "1.1.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
