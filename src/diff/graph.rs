@@ -1,7 +1,7 @@
 //! A graph representation for computing tree diffs.
 
-use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
+use id_arena::{Arena, Id};
 use std::{
     cell::{Cell, RefCell},
     cmp::min,
@@ -49,9 +49,9 @@ use Edge::*;
 ///      ^              ^
 /// ```
 #[derive(Debug, Clone)]
-pub struct Vertex<'s, 'b> {
-    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
-    pub predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
+pub struct Vertex<'s> {
+    pub neighbours: RefCell<Option<Vec<(Edge, VertexId<'s>)>>>,
+    pub predecessor: Cell<Option<(u32, VertexId<'s>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub lhs_syntax: Option<&'s Syntax<'s>>,
@@ -61,7 +61,9 @@ pub struct Vertex<'s, 'b> {
     rhs_parent_id: Option<SyntaxId>,
 }
 
-impl<'s, 'b> PartialEq for Vertex<'s, 'b> {
+pub type VertexId<'s> = Id<Vertex<'s>>;
+
+impl<'s> PartialEq for Vertex<'s> {
     fn eq(&self, other: &Self) -> bool {
         // Strictly speaking, we should compare the whole
         // EnteredDelimiter stack, not just the immediate
@@ -99,9 +101,9 @@ impl<'s, 'b> PartialEq for Vertex<'s, 'b> {
         b0 && b1 && b2
     }
 }
-impl<'s, 'b> Eq for Vertex<'s, 'b> {}
+impl<'s> Eq for Vertex<'s> {}
 
-impl<'s, 'b> Hash for Vertex<'s, 'b> {
+impl<'s> Hash for Vertex<'s> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
@@ -247,7 +249,7 @@ fn push_rhs_delimiter<'s>(
     }
 }
 
-impl<'s, 'b> Vertex<'s, 'b> {
+impl<'s> Vertex<'s> {
     pub fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
@@ -344,11 +346,11 @@ impl Edge {
     }
 }
 
-fn allocate_if_new<'s, 'b>(
-    v: Vertex<'s, 'b>,
-    alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
-) -> &'b Vertex<'s, 'b> {
+fn allocate_if_new<'a, 's>(
+    v: Vertex<'s>,
+    alloc: &'a mut Arena<Vertex<'s>>,
+    seen: &mut DftHashMap<Vertex<'s>, Vec<VertexId<'s>>>,
+) -> VertexId<'s> {
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
     match seen.raw_entry_mut().from_key(&v) {
@@ -359,15 +361,16 @@ fn allocate_if_new<'s, 'b>(
             // nestings for each syntax node pair.
             if let Some(allocated) = existing.last() {
                 if existing.len() >= 2 {
-                    return allocated;
+                    return *allocated;
                 }
             }
 
             // If we have seen exactly this graph node before, even
             // considering parenthesis matching, return it.
-            for existing_node in existing.iter() {
+            for existing_node_id in existing.iter() {
+                let existing_node = &alloc[*existing_node_id];
                 if existing_node.parents == v.parents {
-                    return existing_node;
+                    return *existing_node_id;
                 }
             }
 
@@ -378,18 +381,18 @@ fn allocate_if_new<'s, 'b>(
             allocated
         }
         RawEntryMut::Vacant(vacant) => {
-            let allocated = alloc.alloc(v);
+            let allocated_id = alloc.alloc(v.clone());
 
             // We know that this vec will never have more than 2
             // nodes, and this code is very hot, so reserve.
             //
             // We still use a vec to enable experiments with the value
             // of how many possible parenthesis nestings to explore.
-            let mut existing: Vec<&'b Vertex<'s, 'b>> = Vec::with_capacity(2);
-            existing.push(allocated);
+            let mut existing: Vec<VertexId<'s>> = Vec::with_capacity(2);
+            existing.push(allocated_id);
 
-            vacant.insert(allocated, existing);
-            allocated
+            vacant.insert(v, existing);
+            allocated_id
         }
     }
 }
@@ -474,20 +477,22 @@ fn pop_all_parents<'s>(
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// and write them to the .neighbours cell inside `v`.
-pub fn set_neighbours<'s, 'b>(
-    v: &Vertex<'s, 'b>,
-    alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+pub fn set_neighbours<'a, 's>(
+    v_id: VertexId<'s>,
+    alloc: &'a mut Arena<Vertex<'s>>,
+    seen: &mut DftHashMap<Vertex<'s>, Vec<VertexId<'s>>>,
 ) {
-    if v.neighbours.borrow().is_some() {
+    if alloc[v_id].neighbours.borrow().is_some() {
         return;
     }
 
     // There are only seven pushes in this function, so that's sufficient.
-    let mut res: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
+    let mut res: Vec<(Edge, VertexId<'s>)> = Vec::with_capacity(7);
 
+    let v = &alloc[v_id];
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
+            let v = &alloc[v_id];
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
@@ -769,11 +774,13 @@ pub fn set_neighbours<'s, 'b>(
     v.neighbours.replace(Some(res));
 }
 
-pub fn populate_change_map<'s, 'b>(
-    route: &[(Edge, &'b Vertex<'s, 'b>)],
+pub fn populate_change_map<'s>(
+    route: &[(Edge, VertexId<'s>)],
+    vertex_arena: &Arena<Vertex<'s>>,
     change_map: &mut ChangeMap<'s>,
 ) {
-    for (e, v) in route {
+    for (e, v_id) in route {
+        let v = &vertex_arena[*v_id];
         match e {
             UnchangedNode { .. } => {
                 // No change on this node or its children.

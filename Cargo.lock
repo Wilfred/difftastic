@@ -245,6 +245,7 @@ dependencies = [
  "glob",
  "hashbrown 0.12.3",
  "humansize",
+ "id-arena",
  "itertools",
  "lazy_static",
  "libc",
@@ -382,6 +383,12 @@ checksum = "df004cfca50ef23c36850aaaa59ad52cc70d0e90243c3c7737a4dd32dc7a3c4f"
 dependencies = [
  "quick-error",
 ]
+
+[[package]]
+name = "id-arena"
+version = "2.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25a2bc672d1148e28034f176e01fffebb08b35768468cc954630da77a1449005"
 
 [[package]]
 name = "indexmap"

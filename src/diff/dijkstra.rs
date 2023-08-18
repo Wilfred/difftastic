@@ -5,11 +5,11 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
+    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex, VertexId},
     hash::DftHashMap,
     parse::syntax::Syntax,
 };
-use bumpalo::Bump;
+use id_arena::Arena;
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 
@@ -17,32 +17,36 @@ use radix_heap::RadixHeapMap;
 pub struct ExceededGraphLimit {}
 
 /// Return the shortest route from `start` to the end vertex.
-fn shortest_vertex_path<'s, 'b>(
-    start: &'b Vertex<'s, 'b>,
-    vertex_arena: &'b Bump,
+fn shortest_vertex_path<'s>(
+    start: VertexId<'s>,
+    vertex_arena: &mut Arena<Vertex<'s>>,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<&'b Vertex<'s, 'b>>, ExceededGraphLimit> {
+) -> Result<Vec<VertexId<'s>>, ExceededGraphLimit> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'s, 'b>> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, VertexId<'s>> = RadixHeapMap::new();
 
     heap.push(Reverse(0), start);
 
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
 
-    let end: &'b Vertex<'s, 'b> = loop {
+    let end: VertexId<'s> = loop {
         match heap.pop() {
-            Some((Reverse(distance), current)) => {
-                if current.is_end() {
-                    break current;
+            Some((Reverse(distance), current_id)) => {
+                {
+                    if (vertex_arena[current_id]).is_end() {
+                        break current_id;
+                    }
                 }
 
-                set_neighbours(current, vertex_arena, &mut seen);
+                set_neighbours(current_id, vertex_arena, &mut seen);
+                let current = &vertex_arena[current_id];
                 for neighbour in current.neighbours.borrow().as_ref().unwrap() {
-                    let (edge, next) = neighbour;
+                    let (edge, next_id) = neighbour;
+                    let next = &vertex_arena[*next_id];
                     let distance_to_next = distance + edge.cost();
 
                     let found_shorter_route = match next.predecessor.get() {
@@ -51,15 +55,16 @@ fn shortest_vertex_path<'s, 'b>(
                     };
 
                     if found_shorter_route {
-                        next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+                        next.predecessor
+                            .replace(Some((distance_to_next, current_id)));
+                        heap.push(Reverse(distance_to_next), *next_id);
                     }
                 }
 
                 if seen.len() > graph_limit {
                     info!(
-                        "Reached graph limit, arena consumed {} bytes",
-                        vertex_arena.allocated_bytes(),
+                        "Reached graph limit, arena allocated {} items",
+                        vertex_arena.len(),
                     );
                     return Err(ExceededGraphLimit {});
                 }
@@ -69,38 +74,39 @@ fn shortest_vertex_path<'s, 'b>(
     };
 
     info!(
-        "Saw {} vertices (a Vertex is {} bytes), arena consumed {} bytes, with {} vertices left on heap.",
+        "Saw {} vertices (a Vertex is {} bytes), arena allocated {} items, with {} vertices left on heap.",
         seen.len(),
         std::mem::size_of::<Vertex>(),
-        vertex_arena.allocated_bytes(),
+        vertex_arena.len(),
         heap.len(),
     );
 
     let mut current = Some((0, end));
-    let mut vertex_route: Vec<&'b Vertex<'s, 'b>> = vec![];
-    while let Some((_, node)) = current {
-        vertex_route.push(node);
-        current = node.predecessor.get();
+    let mut vertex_route: Vec<VertexId<'s>> = vec![];
+    while let Some((_, node_id)) = current {
+        vertex_route.push(node_id);
+        current = vertex_arena[node_id].predecessor.get();
     }
 
     vertex_route.reverse();
     Ok(vertex_route)
 }
 
-fn shortest_path_with_edges<'s, 'b>(
-    route: &[&'b Vertex<'s, 'b>],
-) -> Vec<(Edge, &'b Vertex<'s, 'b>)> {
+fn shortest_path_with_edges<'s>(
+    route: &[VertexId<'s>],
+    vertex_arena: &Arena<Vertex<'s>>,
+) -> Vec<(Edge, VertexId<'s>)> {
     let mut prev = route.first().expect("Expected non-empty route");
 
     let mut cost = 0;
     let mut res = vec![];
 
-    for vertex in route.iter().skip(1) {
-        let edge = edge_between(prev, vertex);
+    for vertex_id in route.iter().skip(1) {
+        let edge = edge_between(*prev, *vertex_id, vertex_arena);
         res.push((edge, *prev));
         cost += edge.cost();
 
-        prev = vertex;
+        prev = vertex_id;
     }
     debug!("Found a path of {} with cost {}.", route.len(), cost);
 
@@ -111,27 +117,34 @@ fn shortest_path_with_edges<'s, 'b>(
 ///
 /// The vec returned does not return the very last vertex. This is
 /// necessary because a route of N vertices only has N-1 edges.
-fn shortest_path<'s, 'b>(
-    start: Vertex<'s, 'b>,
-    vertex_arena: &'b Bump,
+fn shortest_path<'s>(
+    start: Vertex<'s>,
+    vertex_arena: &mut Arena<Vertex<'s>>,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<(Edge, &'b Vertex<'s, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'s, 'b> = vertex_arena.alloc(start);
+) -> Result<Vec<(Edge, VertexId<'s>)>, ExceededGraphLimit> {
+    let start: VertexId<'s> = vertex_arena.alloc(start);
     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
-    Ok(shortest_path_with_edges(&vertex_path))
+    Ok(shortest_path_with_edges(&vertex_path, vertex_arena))
 }
 
-fn edge_between<'s, 'b>(before: &Vertex<'s, 'b>, after: &Vertex<'s, 'b>) -> Edge {
-    assert_ne!(before, after);
+fn edge_between<'s>(
+    before_id: VertexId<'s>,
+    after_id: VertexId<'s>,
+    vertex_arena: &Arena<Vertex<'s>>,
+) -> Edge {
+    assert_ne!(before_id, after_id);
+    let before = &vertex_arena[before_id];
+    let after = &vertex_arena[after_id];
 
     let mut shortest_edge: Option<Edge> = None;
     if let Some(neighbours) = &*before.neighbours.borrow() {
         for neighbour in neighbours {
-            let (edge, next) = *neighbour;
+            let (edge, next_id) = *neighbour;
+
             // If there are multiple edges that can take us to `next`,
             // prefer the shortest.
-            if *next == *after {
+            if next_id == after_id {
                 let is_shorter = match shortest_edge {
                     Some(prev_edge) => edge.cost() < prev_edge.cost(),
                     None => true,
@@ -213,9 +226,9 @@ pub fn mark_syntax<'a>(
     let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let vertex_arena = Bump::new();
+    let mut vertex_arena = Arena::new();
 
-    let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+    let route = shortest_path(start, &mut vertex_arena, size_hint, graph_limit)?;
 
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
@@ -227,7 +240,8 @@ pub fn mark_syntax<'a>(
         print_length,
         route
             .iter()
-            .map(|(edge, v)| {
+            .map(|(edge, v_id)| {
+                let v = &vertex_arena[*v_id];
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
                     v.lhs_syntax
@@ -242,7 +256,7 @@ pub fn mark_syntax<'a>(
             .collect_vec()
     );
 
-    populate_change_map(&route, change_map);
+    populate_change_map(&route, &vertex_arena, change_map);
     Ok(())
 }
 
@@ -258,7 +272,7 @@ mod tests {
     };
 
     use itertools::Itertools;
-    use typed_arena::Arena;
+    use typed_arena::Arena as TypedArena;
 
     fn pos_helper(line: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {
@@ -270,7 +284,7 @@ mod tests {
 
     #[test]
     fn identical_atoms() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         // Same content as LHS.
@@ -278,8 +292,8 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::<Vertex>::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -293,7 +307,7 @@ mod tests {
 
     #[test]
     fn extra_atom_lhs() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = vec![Syntax::new_list(
             &arena,
@@ -320,8 +334,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -337,7 +351,7 @@ mod tests {
 
     #[test]
     fn repeated_atoms() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = vec![Syntax::new_list(
             &arena,
@@ -362,8 +376,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -380,7 +394,7 @@ mod tests {
 
     #[test]
     fn atom_after_empty_list() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = vec![Syntax::new_list(
             &arena,
@@ -408,8 +422,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -431,7 +445,7 @@ mod tests {
 
     #[test]
     fn replace_similar_comment() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = vec![Syntax::new_atom(
             &arena,
@@ -449,8 +463,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -463,7 +477,7 @@ mod tests {
 
     #[test]
     fn replace_very_different_comment() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = vec![Syntax::new_atom(
             &arena,
@@ -481,8 +495,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -495,7 +509,7 @@ mod tests {
 
     #[test]
     fn replace_comment_prefer_most_similar() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
 
         let lhs = vec![
             Syntax::new_atom(
@@ -521,8 +535,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let mut vertex_arena = Arena::new();
+        let route = shortest_path(start, &mut vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -538,7 +552,7 @@ mod tests {
 
     #[test]
     fn mark_syntax_equal_atoms() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
         let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
@@ -552,7 +566,7 @@ mod tests {
 
     #[test]
     fn mark_syntax_different_atoms() {
-        let arena = Arena::new();
+        let arena = TypedArena::new();
         let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
