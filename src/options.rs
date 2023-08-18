@@ -2,7 +2,7 @@
 
 use std::{env, ffi::OsStr, path::Path, path::PathBuf};
 
-use clap::{crate_authors, crate_description, crate_version, Arg, Command};
+use clap::{crate_authors, crate_description, Arg, Command};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
 
@@ -10,6 +10,7 @@ use crate::{
     display::style::BackgroundColor,
     exit_codes::EXIT_BAD_ARGUMENTS,
     parse::guess_language::{language_override_from_name, LanguageOverride},
+    version::VERSION,
 };
 
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
@@ -83,7 +84,7 @@ impl Default for DiffOptions {
 fn app() -> clap::Command<'static> {
     Command::new("Difftastic")
         .override_usage(USAGE)
-        .version(crate_version!())
+        .version(VERSION.as_str())
         .about(crate_description!())
         .author(crate_authors!())
         .after_long_help(concat!(
