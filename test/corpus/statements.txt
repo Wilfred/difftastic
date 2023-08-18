@@ -158,6 +158,10 @@ for ARG; do
   ARG=''
 done
 
+for c in ${=1}; do
+	echo c
+done
+
 --------------------------------------------------------------------------------
 
 (program
@@ -187,7 +191,16 @@ done
           (variable_name)))
       (variable_assignment
         name: (variable_name)
-        value: (raw_string)))))
+        value: (raw_string))))
+  (for_statement
+    variable: (variable_name)
+    value: (expansion
+      (variable_name))
+    body: (do_group
+      (command
+        name: (command_name
+          (word))
+        argument: (word)))))
 
 ================================================================================
 Select statements
