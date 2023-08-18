@@ -253,6 +253,10 @@ do
   echo 'forever'
 done
 
+for ((cx = 0; c = $cx / $pf, c < $wc - $k; )); do
+		echo "$cx"
+done
+
 --------------------------------------------------------------------------------
 
 (program
@@ -263,7 +267,8 @@ done
     (binary_expression
       (word)
       (number))
-    (word)
+    (postfix_expression
+      (word))
     (do_group
       (command
         (command_name
@@ -277,7 +282,8 @@ done
     (binary_expression
       (word)
       (number))
-    (word)
+    (postfix_expression
+      (word))
     (compound_statement
       (command
         (command_name
@@ -289,7 +295,32 @@ done
       (command
         (command_name
           (word))
-        (raw_string)))))
+        (raw_string))))
+  (c_style_for_statement
+    (variable_assignment
+      (variable_name)
+      (number))
+    (variable_assignment
+      (variable_name)
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (simple_expansion
+          (variable_name))))
+    (binary_expression
+      (word)
+      (binary_expression
+        (simple_expansion
+          (variable_name))
+        (simple_expansion
+          (variable_name))))
+    (do_group
+      (command
+        (command_name
+          (word))
+        (string
+          (simple_expansion
+            (variable_name)))))))
 
 ================================================================================
 If statements

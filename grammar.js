@@ -38,6 +38,7 @@ module.exports = grammar({
     $._simple_variable_name,
     $._multiline_variable_name,
     $._special_variable_name,
+    $._c_word,
   ],
 
   externals: $ => [
@@ -143,11 +144,7 @@ module.exports = grammar({
     c_style_for_statement: $ => seq(
       'for',
       '((',
-      field('initializer', optional(choice($.variable_assignment, $._expression))),
-      $._terminator,
-      field('condition', optional($._expression)),
-      $._terminator,
-      field('update', optional($._expression)),
+      choice($._for_body, ';;'),
       '))',
       optional(';'),
       field('body', choice(
@@ -155,6 +152,61 @@ module.exports = grammar({
         $.compound_statement,
       )),
     ),
+    _for_body: $ => seq(
+      field('initializer', commaSep($._c_expression)),
+      $._terminator,
+      field('condition', commaSep($._c_expression)),
+      $._terminator,
+      field('update', commaSep($._c_expression)),
+    ),
+
+    _c_expression: $ => choice(
+      $._c_expression_not_assignment,
+      alias($._c_variable_assignment, $.variable_assignment),
+    ),
+    _c_expression_not_assignment: $ => choice(
+      $._c_word,
+      $.simple_expansion,
+      $.expansion,
+      $.number,
+      $.string,
+      alias($._c_unary_expression, $.unary_expression),
+      alias($._c_binary_expression, $.binary_expression),
+      alias($._c_postfix_expression, $.postfix_expression),
+      alias($._c_parenthesized_expression, $.parenthesized_expression),
+    ),
+
+    _c_variable_assignment: $ => seq(
+      alias($._c_word, $.variable_name),
+      '=',
+      $._c_expression,
+    ),
+    _c_unary_expression: $ => prec.left(seq(
+      choice('++', '--'),
+      $._c_expression_not_assignment,
+    )),
+    _c_binary_expression: $ => prec.right(seq(
+      choice($._c_word, $.simple_expansion),
+      choice(
+        '+=', '-=', '*=', '/=', '%=', '**=',
+        '<<=', '>>=', '&=', '^=', '|=',
+        '==', '!=', '<=', '>=', '&&', '||',
+        '<<', '>>',
+        '+', '-', '*', '/', '%', '**',
+        '<', '>',
+      ),
+      $._c_expression_not_assignment,
+    )),
+    _c_postfix_expression: $ => seq(
+      $._c_expression_not_assignment,
+      choice('++', '--'),
+    ),
+    _c_parenthesized_expression: $ => seq(
+      '(',
+      $._c_expression,
+      ')',
+    ),
+    _c_word: $ => alias(/[a-zA-Z_][a-zA-Z0-9_]*/, $.word),
 
     while_statement: $ => seq(
       choice('while', 'until'),
@@ -629,4 +681,28 @@ module.exports = grammar({
 function noneOf(...characters) {
   const negatedString = characters.map(c => c == '\\' ? '\\\\' : c).join('');
   return new RegExp('[^' + negatedString + ']');
+}
+
+/**
+ * Creates a rule to optionally match one or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {ChoiceRule}
+ *
+ */
+function commaSep(rule) {
+  return optional(commaSep1(rule));
+}
+
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(',', rule)));
 }
