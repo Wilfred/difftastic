@@ -39,6 +39,7 @@ module.exports = grammar({
     $._multiline_variable_name,
     $._special_variable_name,
     $._c_word,
+    $._statement_not_subshell,
   ],
 
   externals: $ => [
@@ -95,13 +96,18 @@ module.exports = grammar({
     )),
 
     _terminated_statement: $ => seq(
-      $._statement,
+      $._statement_not_subshell,
       $._terminator,
     ),
 
     // Statements
 
     _statement: $ => choice(
+      $._statement_not_subshell,
+      $.subshell,
+    ),
+
+    _statement_not_subshell: $ => choice(
       $.redirected_statement,
       $.variable_assignment,
       $.command,
@@ -116,7 +122,6 @@ module.exports = grammar({
       $.case_statement,
       $.pipeline,
       $.list,
-      $.subshell,
       $.compound_statement,
       $.function_definition,
     ),
@@ -337,7 +342,7 @@ module.exports = grammar({
       choice(
         seq('[', choice($._expression, $.redirected_statement), ']'),
         seq('[[', $._expression, ']]'),
-        seq('((', $._expression, '))'),
+        seq('(', '(', $._expression, '))'),
       ),
     ),
 

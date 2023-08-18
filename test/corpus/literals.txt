@@ -771,6 +771,7 @@ Arithmetic expansions
 
 echo $((1 + 2 - 3 * 4 / 5))
 a=$((6 % 7 ** 8 << 9 >> 10 & 11 | 12 ^ 13))
+$(((${1:-${SECONDS}} % 12) + 144))
 
 --------------------------------------------------------------------------------
 
@@ -805,4 +806,16 @@ a=$((6 % 7 ** 8 << 9 >> 10 & 11 | 12 ^ 13))
               (number))
             (number))
           (number))
-        (number)))))
+        (number))))
+  (command
+    (command_name
+      (arithmetic_expansion
+        (binary_expression
+          (parenthesized_expression
+            (binary_expression
+              (expansion
+                (variable_name)
+                (expansion
+                  (variable_name)))
+              (number)))
+          (number))))))
