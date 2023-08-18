@@ -8452,6 +8452,10 @@
       "type": "PATTERN",
       "value": "(r#)?[_\\p{XID_Start}][_\\p{XID_Continue}]*"
     },
+    "shebang": {
+      "type": "PATTERN",
+      "value": "#!.*"
+    },
     "_reserved_identifier": {
       "type": "ALIAS",
       "content": {

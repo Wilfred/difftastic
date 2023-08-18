@@ -92,8 +92,6 @@ module.exports = grammar({
       $._declaration_statement
     ),
 
-    shebang: $ => /#!.*/,
-
     empty_statement: $ => ';',
 
     expression_statement: $ => choice(
@@ -1467,6 +1465,8 @@ module.exports = grammar({
     ),
 
     identifier: $ => /(r#)?[_\p{XID_Start}][_\p{XID_Continue}]*/,
+
+    shebang: $ => /#!.*/,
 
     _reserved_identifier: $ => alias(choice(
       'default',
