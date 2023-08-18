@@ -1,11 +1,49 @@
 #!/usr/bin/env bash
-shopt -s globstar
+
+set -eu
+
+cd "$(dirname "$0")/.."
+
+function clone_repo() {
+	owner=$1
+	name=$2
+	url=$3
+	sha=$4
+
+	path=examples/$name
+	if [ ! -d "$path" ]; then
+		echo "Cloning $owner/$name"
+		git clone "$url" "$path"
+	fi
+
+	pushd "$path" >/dev/null
+	actual_sha=$(git rev-parse HEAD)
+	if [ "$actual_sha" != "$sha" ]; then
+		echo "Updating $owner/$name to $sha"
+		git fetch
+		git reset --hard "$sha"
+	fi
+	popd >/dev/null
+}
+
+clone_repo Bash-it bash-it https://github.com/Bash-it/bash-it e38696a0acfdb6e4fbeb6963801c417d6ca7e9a7
+clone_repo bash bash https://git.savannah.gnu.org/git/bash.git ec8113b9861375e4e17b3307372569d429dec814
 
 known_failures="$(cat script/known-failures.txt)"
 
-tree-sitter parse -q -t \
-  examples/bash-it/**/*.bash \
-  examples/bash-it/**/*.sh \
-  examples/bash/tests/*.tests \
-  examples/*.sh   \
-  $(for failure in $known_failures; do echo "!${failure}"; done)
+# shellcheck disable=2046
+tree-sitter parse -q \
+	examples/bash-it/**/*.bash \
+	examples/bash-it/**/*.sh \
+	examples/bash/tests/*.tests \
+	examples/*.sh \
+	$(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.bash' -o -name '*.sh' -o -name '*.tests' | wc -l)
+failure_count=$(wc -w <<<"$known_failures")
+success_count=$((example_count - failure_count))
+success_percent=$(bc -l <<<"100*${success_count}/${example_count}")
+
+printf \
+	"Successfully parsed %d of %d example files (%.1f%%)\n" \
+	"$success_count" "$example_count" "$success_percent"
