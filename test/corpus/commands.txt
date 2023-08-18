@@ -15,12 +15,15 @@ Commands with arguments
 
 cat file1.txt
 git diff --word-diff=color -- file1.txt file2.txt
+echo $sing\
+levar
 
 ---
 
 (program
   (command (command_name (word)) (word))
-  (command (command_name (word)) (word) (word) (word) (word) (word)))
+  (command (command_name (word)) (word) (word) (word) (word) (word))
+  (command (command_name (word)) (simple_expansion (variable_name)) (word)))
 
 ===============================
 Quoted command names

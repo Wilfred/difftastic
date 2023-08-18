@@ -36,6 +36,7 @@ module.exports = grammar({
     $._statements2,
     $._primary_expression,
     $._simple_variable_name,
+    $._multiline_variable_name,
     $._special_variable_name,
   ],
 
@@ -527,6 +528,7 @@ module.exports = grammar({
       '$',
       choice(
         $._simple_variable_name,
+        $._multiline_variable_name,
         $._special_variable_name,
         alias('!', $.special_variable_name),
         alias('#', $.special_variable_name),
@@ -589,6 +591,10 @@ module.exports = grammar({
     ))),
 
     _simple_variable_name: $ => alias(/\w+/, $.variable_name),
+    _multiline_variable_name: $ => alias(
+      token(prec(-1, /(\w|\\\r?\n)+/)),
+      $.variable_name,
+    ),
 
     _special_variable_name: $ => alias(choice('*', '@', '?', '-', '$', '0', '_'), $.special_variable_name),
 
