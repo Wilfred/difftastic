@@ -1,6 +1,5 @@
-
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -21,7 +20,7 @@ typedef struct ScannerStack {
   int last_column;
 } ScannerStack;
 
-ScannerStack* createStack() {
+static ScannerStack* createStack() {
   ScannerStack* ptr = (ScannerStack*) malloc(sizeof(ScannerStack));
 
   ptr -> top = 0;
@@ -33,29 +32,28 @@ ScannerStack* createStack() {
   return ptr;
 }
 
-bool isEmptyStack(ScannerStack *stack) { return stack->top == 0; }
+static bool isEmptyStack(ScannerStack *stack) { return stack->top == 0; }
 
-int peekStack(ScannerStack *stack) {
+static int peekStack(ScannerStack *stack) {
   return isEmptyStack(stack) ? -1 : stack->stack[stack->top - 1];
 }
 
-void pushStack(ScannerStack *stack, unsigned int value) {
+static void pushStack(ScannerStack *stack, unsigned int value) {
   stack->top++;
-  stack->stack[stack->top - 1] = value;
+  stack->stack[stack->top - 1] = (int)value;
 }
 
-int popStack(ScannerStack *stack) {
-  if (isEmptyStack(stack))
+static int popStack(ScannerStack *stack) {
+  if (isEmptyStack(stack)) {
     return -1;
-  else {
-    int result = peekStack(stack);
-    stack->top--;
-
-    return result;
   }
+  int result = peekStack(stack);
+  stack->top--;
+
+  return result;
 }
 
-void printStack(ScannerStack *stack, char *msg) {
+static void printStack(ScannerStack *stack, char *msg) {
   LOG("%s Stack[top = %d; ", msg, stack->top);
   for (int i = 0; i < stack->top; i++) {
     LOG("%d | ", stack->stack[i]);
@@ -63,7 +61,7 @@ void printStack(ScannerStack *stack, char *msg) {
   LOG("]\n");
 }
 
-unsigned serialiseStack(ScannerStack *stack, char *buf) {
+static unsigned serialiseStack(ScannerStack *stack, char *buf) {
   int elements = isEmptyStack(stack) ? 0 : stack->top;
   if (elements < 0) {
     elements = 0;
@@ -78,22 +76,15 @@ unsigned serialiseStack(ScannerStack *stack, char *buf) {
   return result_length;
 }
 
-void deserialiseStack(ScannerStack* stack, const char* buf, unsigned n) {
-  if (n != 0) {
+static void deserialiseStack(ScannerStack* stack, const char* buf, unsigned length) {
+  if (length != 0) {
     int *intBuf = (int *)buf;
 
-    unsigned elements = n / sizeof(int) - 3;
-    stack->top = elements;
+    unsigned elements = length / sizeof(int) - 3;
+    stack->top = (int)elements;
     memcpy(stack->stack, intBuf, elements * sizeof(int));
     stack->last_indentation_size = intBuf[elements];
     stack->last_newline_count = intBuf[elements + 1];
     stack->last_column = intBuf[elements + 2];
   }
-}
-
-void resetStack(ScannerStack *p) {
-  p->top = 0;
-  p->last_indentation_size = -1;
-  p->last_newline_count = 0;
-  p->last_column = -1;
 }
