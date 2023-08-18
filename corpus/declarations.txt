@@ -89,6 +89,8 @@ fn foo(#[attr] x: i32, #[attr] x: i64) {}
 
 fn accumulate(self) -> Machine<{State::Accumulate}> {}
 
+fn foo(bar: impl for<'a> Baz<Quux<'a>>) {}
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -200,6 +202,24 @@ fn accumulate(self) -> Machine<{State::Accumulate}> {}
           (scoped_identifier
             path: (identifier)
             name: (identifier)))))
+    body: (block))
+  (function_item
+    name: (identifier)
+    parameters: (parameters
+      (parameter
+        pattern: (identifier)
+        type: (abstract_type
+          (type_parameters
+            (lifetime
+              (identifier)))
+          trait: (generic_type
+            type: (type_identifier)
+            type_arguments: (type_arguments
+              (generic_type
+                type: (type_identifier)
+                type_arguments: (type_arguments
+                  (lifetime
+                    (identifier)))))))))
     body: (block)))
 
 ================================================================================

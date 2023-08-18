@@ -809,6 +809,7 @@ module.exports = grammar({
 
     abstract_type: $ => seq(
       'impl',
+      optional(seq('for', $.type_parameters)),
       field('trait', choice(
         $._type_identifier,
         $.scoped_type_identifier,
