@@ -481,6 +481,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3215,6 +3225,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "super",
+            "named": true
           }
         ]
       },
@@ -3429,6 +3443,10 @@
         },
         {
           "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "shebang",
           "named": true
         }
       ]
@@ -5060,6 +5078,10 @@
   },
   {
     "type": "self",
+    "named": true
+  },
+  {
+    "type": "shebang",
     "named": true
   },
   {
