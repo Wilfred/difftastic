@@ -1,5 +1,5 @@
 function ws($) {
-  return optional($._space_la);
+  return repeat(choice($._space_la, $.comment));
 }
 module.exports = grammar({
   name: 'typst',
@@ -16,6 +16,12 @@ module.exports = grammar({
 
     _token_dlim: $ => /[ ]*(\n|;)/,
     break: $ => /\n([ \t]*\n)+/,
+    escape: $ => /\\[^\nu]|\\u\{[0-9a-fA-F]*\}/,
+    comment: $ => choice(
+      seq('//', /[^\n]*\n?/),
+      // comments can be nested
+      seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
+    ),
     _space_la: $ => /[ \n]+/,
     _anti_else: $ => /[ \n]*else[^ \t\{\[]/,
 
@@ -34,11 +40,13 @@ module.exports = grammar({
       $.strong,
       $.emph,
       $._space_la,
+      $.comment,
     ),
 
     text: $ => prec.right(repeat1(choice(
       $._anti_else,
       $._char_any,
+      $.escape,
     ))),
 
     strong: $ => prec.left(seq('*', repeat($._markup), '*')),
@@ -46,22 +54,33 @@ module.exports = grammar({
 
     _code: $ => seq($._token_numsign, choice($._item, $._stmt), optional($._token_dlim)),
 
-    _item: $ => choice(
+    _item: $ => prec(1, choice(
+      $.auto,
+      $.none,
+      $.builtin,
       $.ident,
+      $.number,
       $.branch,
+      $.field,
       $.block,
       $.group,
       $.call,
       $.content,
-    ),
+    )),
 
     _stmt: $ => choice(
       $.let,
+      $.set,
     ),
 
     _expr: $ => choice(
+      $.auto,
+      $.none,
+      $.builtin,
       $.ident,
+      $.number,
       $.branch,
+      $.field,
       $.block,
       $.group,
       $.add,
@@ -69,6 +88,7 @@ module.exports = grammar({
       $.call,
       $.content,
       $.let,
+      $.set,
     ),
 
     _pattern: $ => choice(
@@ -77,9 +97,12 @@ module.exports = grammar({
     ),
 
     ident: $ => /[a-z]+/,
-    add: $ => prec.left(1, seq($._expr, $._token_plus, ws($), $._expr)),
-    mul: $ => prec.left(2, seq($._expr, $._token_star, ws($), $._expr)),
+    unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
+    number: $ => seq(/[0-9]+(\.[0-9]+)?/, optional($.unit)),
+    add: $ => prec.left(2, seq($._expr, $._token_plus, ws($), $._expr)),
+    mul: $ => prec.left(3, seq($._expr, $._token_star, ws($), $._expr)),
     call: $ => seq(field('item', $._item), choice($.content, $.group)),
+    field: $ => seq($._item, '.', field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
     content: $ => seq('[', repeat($._markup), ']'),
     group: $ => seq(
@@ -91,14 +114,13 @@ module.exports = grammar({
     ),
     block: $ => seq(
       '{',
-      repeat(seq(
-        optional(seq(ws($), $._expr)),
-        choice($._token_dlim, $._space_la),
+      repeat(choice(
+        /[ \t\n;]+/,
+        $._expr,
       )),
-      optional($._expr),
       '}'
     ),
-    branch: $ => prec.left(1, seq(
+    branch: $ => prec.left(2, seq(
       'if',
       ws($), 
       field('test', $._expr), 
@@ -120,6 +142,51 @@ module.exports = grammar({
         field('value', $._expr)
       ))
     )),
+    set: $ => prec(0, seq(
+      'set',
+      ws($),
+      $.call,
+    )),
+    auto: $ => 'auto',
+    none: $ => 'none',
+    builtin: $ => choice(
+      'align',
+      'black',
+      'blue',
+      'bottom',
+      'box',
+      'center',
+      'cmyk',
+      'emph',
+      'gray',
+      'green',
+      'grid',
+      'h',
+      'heading',
+      'horizon',
+      'image',
+      'left',
+      'link',
+      'list',
+      'luma',
+      'max',
+      'min',
+      'navy',
+      'par',
+      'parbreak',
+      'purple',
+      'rect',
+      'red',
+      'regex',
+      'rgb',
+      'right',
+      'scale',
+      'strong',
+      'text',
+      'top',
+      'v',
+      'white',
+    ),
   },
 });
 
