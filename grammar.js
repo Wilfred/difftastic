@@ -1,5 +1,8 @@
 function ws($) {
-  return repeat(choice($._space_la, $.comment));
+  return repeat(choice($._space_expr, $.comment));
+}
+function ws1($) {
+  return repeat1(choice($._space_expr, $.comment));
 }
 module.exports = grammar({
   name: 'typst',
@@ -7,6 +10,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$._code],
     [$.let],
+    [$.import],
+    // [$.group],
     [$.tagged, $._expr],
     [$._item, $._expr],
   ],
@@ -22,7 +27,8 @@ module.exports = grammar({
       // comments can be nested
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
-    _space_la: $ => /[ \n]+/,
+    _space_expr: $ => /[ \n]+/,
+    _space_text: $ => /[ \n]+/,
     _anti_else: $ => /[ \n]*else[^ \t\{\[]/,
 
     _token_numsign: $ => '#',
@@ -39,7 +45,7 @@ module.exports = grammar({
       $.break,
       $.strong,
       $.emph,
-      $._space_la,
+      $._space_text,
       $.comment,
     ),
 
@@ -60,6 +66,7 @@ module.exports = grammar({
       $.builtin,
       $.ident,
       $.number,
+      $.string,
       $.branch,
       $.field,
       $.block,
@@ -71,6 +78,7 @@ module.exports = grammar({
     _stmt: $ => choice(
       $.let,
       $.set,
+      $.import,
     ),
 
     _expr: $ => choice(
@@ -79,6 +87,7 @@ module.exports = grammar({
       $.builtin,
       $.ident,
       $.number,
+      $.string,
       $.branch,
       $.field,
       $.block,
@@ -89,6 +98,7 @@ module.exports = grammar({
       $.content,
       $.let,
       $.set,
+      $.import,
     ),
 
     _pattern: $ => choice(
@@ -99,12 +109,18 @@ module.exports = grammar({
     ident: $ => /[a-z]+/,
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
     number: $ => seq(/[0-9]+(\.[0-9]+)?/, optional($.unit)),
+    string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
     add: $ => prec.left(2, seq($._expr, $._token_plus, ws($), $._expr)),
     mul: $ => prec.left(3, seq($._expr, $._token_star, ws($), $._expr)),
     call: $ => seq(field('item', $._item), choice($.content, $.group)),
     field: $ => seq($._item, '.', field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
     content: $ => seq('[', repeat($._markup), ']'),
+    // group: $ => seq(
+    //   '(',
+    //   repeat(choice(ws1($), $._expr, $.tagged, ',')),
+    //   ')'
+    // ),
     group: $ => seq(
       '(',
       repeat(seq(ws($), choice($.tagged, $._expr), ws($), ',')),
@@ -146,6 +162,17 @@ module.exports = grammar({
       'set',
       ws($),
       $.call,
+    )),
+    import: $ => prec(0, seq(
+      'import',
+      ws($),
+      $.string,
+      optional(seq(
+        ws($),
+        ':',
+        repeat(seq(ws($), $.ident, ws($), ',')),
+        optional(seq(ws($), $.ident)),
+      )),
     )),
     auto: $ => 'auto',
     none: $ => 'none',
