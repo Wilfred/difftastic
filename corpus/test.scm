@@ -1592,3 +1592,288 @@ Hey
 		(text)
 		(text))
 	(text))
+
+
+=====================
+Test 114
+=====================
+== Hello World
+Hey
+---------------------
+
+(source_file
+	(heading
+		(text)
+		(text))
+	(text))
+
+
+=====================
+Test 115
+=====================
+= Hello\
+World
+---------------------
+
+(source_file
+	(heading
+		(text
+			(line)))
+	(text))
+
+
+=====================
+Test 116
+=====================
+_
+= Hello _World_
+_
+---------------------
+
+(source_file
+	(emph
+		(heading
+			(text)
+			(emph
+				(text)))))
+
+
+=====================
+Test 117
+=====================
+#let a() = {
+  return 2
+}
+---------------------
+
+(source_file
+	(let
+		pattern: (call
+			item: (ident)
+			(group))
+		value: (block
+			(return
+				(number)))))
+
+
+=====================
+Test 118
+=====================
+#show par: set text(size: 3em)
+---------------------
+
+(source_file
+	(show
+		pattern: (builtin)
+		value: (set
+			(call
+				item: (builtin)
+				(group
+					(tagged
+						field: (ident)
+						(number
+							(unit))))))))
+
+
+=====================
+Test 119
+=====================
+\n
+---------------------
+
+(source_file
+	(text
+		(escape)))
+
+
+=====================
+Test 120
+=====================
+\u{1f600}
+---------------------
+
+(source_file
+	(text
+		(escape)))
+
+
+=====================
+Test 121
+=====================
+// Hello
+---------------------
+
+(source_file
+	(comment))
+
+
+=====================
+Test 122
+=====================
+#show: columns.with(2)
+---------------------
+
+(source_file
+	(show
+		value: (call
+			item: (field
+				(ident)
+				field: (ident))
+			(group
+				(number)))))
+
+
+=====================
+Test 123
+=====================
+#(a and b or not c)
+---------------------
+
+(source_file
+	(group
+		(or
+			(and
+				(ident)
+				(ident))
+			(not
+				(ident)))))
+
+
+=====================
+Test 124
+=====================
+#<hello>
+---------------------
+
+(source_file
+	(label))
+
+
+=====================
+Test 125
+=====================
+#<héllo>
+---------------------
+
+(source_file
+	(label))
+
+
+=====================
+Test 126
+=====================
+#let Échö = 8
+---------------------
+
+(source_file
+	(let
+		pattern: (ident)
+		value: (number)))
+
+
+=====================
+Test 127
+=====================
+#"Hello\u{fff}World"
+---------------------
+
+(source_file
+	(string
+		(escape)))
+
+
+=====================
+Test 128
+=====================
+*#e*
+---------------------
+
+(source_file
+	(strong
+		(ident)))
+
+
+=====================
+Test 129
+=====================
+** Hello ** World
+---------------------
+
+(source_file
+	(strong)
+	(text)
+	(strong)
+	(text))
+
+
+=====================
+Test 130
+=====================
+__ Hello ** World
+---------------------
+
+(source_file
+	(emph)
+	(text)
+	(strong)
+	(text))
+
+
+=====================
+Test 131
+=====================
+__ Hello $$ World
+---------------------
+
+(source_file
+	(emph)
+	(text)
+	(math)
+	(text))
+
+
+=====================
+Test 132
+=====================
+__** Hello $$$$ World
+---------------------
+
+(source_file
+	(emph)
+	(strong)
+	(text)
+	(math)
+	(math)
+	(text))
+
+
+=====================
+Test 133
+=====================
+#if a {}
+else if b {}
+---------------------
+
+(source_file
+	(branch
+		test: (ident)
+		(block)
+		(branch
+			test: (ident)
+			(block))))
+
+
+=====================
+Test 134
+=====================
+#{
+	2
+	+2
+}
+---------------------
+
+(source_file
+	(block
+		(number)
+		(sign
+			(number))))

@@ -8,7 +8,10 @@ function ws1($) {
   return repeat1(choice($._space_expr, $.comment));
 }
 function content($) {
-  return zebra(choice($.break, $._new_line), choice($.heading, repeat1($._markup3)));
+  return zebra(choice($.break, $._new_line), choice($.heading, repeat1($._markup)));
+}
+function inside($) {
+  return zebra($._new_line, choice(seq($.heading, $._new_line), prec.left(repeat1($._markup))));
 }
 module.exports = grammar({
   name: 'typst',
@@ -18,23 +21,15 @@ module.exports = grammar({
     [$.let],
     [$.import],
     [$.elude],
+    [$.return],
     [$.tagged, $._expr],
     [$._item, $._expr],
     [$._code, $.field],
+    // [$.strong],
+    // [$.emph],
   ],
   rules: {
     source_file: $ => content($),
-    _markup3: $ => choice(
-      $._code,
-      $.text,
-      $.strong,
-      $.emph,
-      $._space_text,
-      $.comment,
-      $.raw_blck,
-      $.raw_span,
-      $.math,
-    ),
 
     _token_dlim: $ => /[ ]*(\n|;)/,
     break: $ => /\n([ \t]*\n)+/,
@@ -55,6 +50,9 @@ module.exports = grammar({
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
     _token_plus: $ => /[ \n\t]*\+/,
+    _token_not:  $ => /[ \n\t]*not/,
+    _token_and:  $ => /[ \n\t]*and/,
+    _token_or:   $ => /[ \n\t]*or/,
     _token_dash: $ => /[ \n\t]*\-/,
     _token_star: $ => /[ \n\t]*\*/,
     _token_slsh: $ => /[ \n\t]*\//,
@@ -62,13 +60,24 @@ module.exports = grammar({
     _token_comp: $ => /[ \n\t]*(<|>|<=|>=|==|!=)/,
     _token_lmdb: $ => /[ \n\t]*=>/,
     _token_dot: $ => /\./,
+    line: $ => /\\/,
 
     _char_any: $ => /./,
 
     _markup: $ => choice(
       $._code,
       $.text,
-      $.break,
+      $.strong,
+      $.emph,
+      $._space_text,
+      $.comment,
+      $.raw_blck,
+      $.raw_span,
+      $.math,
+    ),
+    _markup_inside: $ => choice(
+      $._code,
+      $.text,
       $.strong,
       $.emph,
       $._space_text,
@@ -77,7 +86,6 @@ module.exports = grammar({
       $.raw_blck,
       $.raw_span,
       $.math,
-      // $.heading,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -86,11 +94,12 @@ module.exports = grammar({
       $._token_dot,
       $._char_any,
       $.escape,
+      $.line,
     ))),
 
-    heading: $ => prec.left(seq($._token_head, repeat($._markup3))),
-    strong: $ => prec.left(seq('*', repeat($._markup), '*')),
-    emph: $ => prec.left(seq('_', repeat($._markup), '_')),
+    heading: $ => seq($._token_head, repeat($._markup)),
+    strong: $ => prec.left(seq('*', inside($), '*')),
+    emph: $ => prec.left(seq('_', inside($), '_')),
     math: $ => seq('$', /[^\$]*/, '$'),
     raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
@@ -102,6 +111,7 @@ module.exports = grammar({
       $.none,
       $.builtin,
       $.ident,
+      $.label,
       $.bool,
       $.number,
       $.string,
@@ -120,6 +130,8 @@ module.exports = grammar({
       $.include,
       $.for,
       $.while,
+      $.show,
+      $.return,
     ),
 
     _expr: $ => choice(
@@ -127,6 +139,7 @@ module.exports = grammar({
       $.none,
       $.builtin,
       $.ident,
+      $.label,
       $.bool,
       $.number,
       $.string,
@@ -136,6 +149,9 @@ module.exports = grammar({
       $.group,
       $.elude,
       $.lambda,
+      $.not,
+      $.or,
+      $.and,
       $.cmp,
       $.in,
       $.add,
@@ -151,6 +167,8 @@ module.exports = grammar({
       $.include,
       $.for,
       $.while,
+      $.show,
+      $.return,
     ),
 
     _pattern: $ => choice(
@@ -165,16 +183,20 @@ module.exports = grammar({
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
     elude:  $ =>      prec(2, seq('..', optional(seq(ws($), $._expr)))),
     lambda: $ => prec.left(3, seq(field('pattern', $._pattern), $._token_lmdb, ws($), field('value', $._expr))),
-    cmp:    $ => prec.left(4, seq($._expr, $._token_comp, ws($), $._expr)),
-    in:     $ => prec.left(5, seq($._expr, $._token_part, ws($), $._expr)),
-    add:    $ => prec.left(6, seq($._expr, $._token_plus, ws($), $._expr)),
-    sub:    $ => prec.left(6, seq($._expr, $._token_dash, ws($), $._expr)),
-    mul:    $ => prec.left(7, seq($._expr, $._token_star, ws($), $._expr)),
-    div:    $ => prec.left(7, seq($._expr, $._token_slsh, ws($), $._expr)),
-    sign:   $ =>      prec(8, seq(choice($._token_plus, $._token_dash), ws($), $._expr)),
+    or:     $ => prec.left(4, seq($._expr, $._token_or, ws($), $._expr)),
+    not:    $ => prec.left(5, seq($._token_not, ws($), $._expr)),
+    and:    $ => prec.left(5, seq($._expr, $._token_and, ws($), $._expr)),
+    cmp:    $ => prec.left(6, seq($._expr, $._token_comp, ws($), $._expr)),
+    in:     $ => prec.left(7, seq($._expr, $._token_part, ws($), $._expr)),
+    add:    $ => prec.left(8, seq($._expr, $._token_plus, ws($), $._expr)),
+    sub:    $ => prec.left(8, seq($._expr, $._token_dash, ws($), $._expr)),
+    mul:    $ => prec.left(9, seq($._expr, $._token_star, ws($), $._expr)),
+    div:    $ => prec.left(9, seq($._expr, $._token_slsh, ws($), $._expr)),
+    sign:   $ =>      prec(10, seq(choice($._token_plus, $._token_dash), ws($), $._expr)),
     call:   $ => seq(field('item', $._item), choice($.content, $.group)),
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
+    label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
     content: $ => seq('[', content($), ']'),
     group: $ => seq(
       '(',
@@ -254,6 +276,18 @@ module.exports = grammar({
       ws($),
       choice($.block, $.content),
     ),
+    show: $ => seq(
+      'show',
+      ws($),
+      optional(seq(
+        field('pattern', $._expr),
+        ws($),
+      )),
+      ':',
+      ws($),
+      field('value', $._expr),
+    ),
+    return: $ => seq('return', optional(seq(ws($), $._expr))),
     auto: $ => 'auto',
     none: $ => 'none',
     builtin: $ => choice(
