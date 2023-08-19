@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+function checkout() {
+  repo=$1; url=$2; sha=$3
+
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard "$sha"
+  popd
+}
+
+checkout examples/bitflags rust-lang-nursery/bitflags 7ec3fe2d7cafb7f185c5785006efac94b88f42f0
+checkout examples/libc     rust-lang/libc             8318a3ec1c1f13aab21d0a74ac9a7cf618bb2261
+checkout examples/regex    rust-lang/regex.git        991ae1a4c69cd81ecf989119b9205a3204088e83
+checkout examples/serde    serde-rs/serde.git         4e54aaf7963c3580cc50b56842949b0ce6b3a997
+checkout examples/tokio    tokio-rs/tokio             0490280d662f000aff674593cc9a4f69a1cd1171
