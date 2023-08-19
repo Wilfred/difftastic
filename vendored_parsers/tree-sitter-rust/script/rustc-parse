@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rustc -Z ast-json-noexpand $@ | jq .
