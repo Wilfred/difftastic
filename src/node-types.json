@@ -3,6 +3,254 @@
     "type": "alt",
     "named": true,
     "fields": {
+      "exp": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "::",
+            "named": false
+          },
+          {
+            "type": "context",
+            "named": true
+          },
+          {
+            "type": "exp_apply",
+            "named": true
+          },
+          {
+            "type": "exp_arithmetic_sequence",
+            "named": true
+          },
+          {
+            "type": "exp_case",
+            "named": true
+          },
+          {
+            "type": "exp_cond",
+            "named": true
+          },
+          {
+            "type": "exp_do",
+            "named": true
+          },
+          {
+            "type": "exp_if_guard",
+            "named": true
+          },
+          {
+            "type": "exp_infix",
+            "named": true
+          },
+          {
+            "type": "exp_lambda",
+            "named": true
+          },
+          {
+            "type": "exp_lambda_case",
+            "named": true
+          },
+          {
+            "type": "exp_let_in",
+            "named": true
+          },
+          {
+            "type": "exp_list",
+            "named": true
+          },
+          {
+            "type": "exp_list_comprehension",
+            "named": true
+          },
+          {
+            "type": "exp_literal",
+            "named": true
+          },
+          {
+            "type": "exp_name",
+            "named": true
+          },
+          {
+            "type": "exp_negation",
+            "named": true
+          },
+          {
+            "type": "exp_parens",
+            "named": true
+          },
+          {
+            "type": "exp_projection",
+            "named": true
+          },
+          {
+            "type": "exp_projection_selector",
+            "named": true
+          },
+          {
+            "type": "exp_record",
+            "named": true
+          },
+          {
+            "type": "exp_record_mutation",
+            "named": true
+          },
+          {
+            "type": "exp_section_left",
+            "named": true
+          },
+          {
+            "type": "exp_section_right",
+            "named": true
+          },
+          {
+            "type": "exp_th_quoted_name",
+            "named": true
+          },
+          {
+            "type": "exp_type_application",
+            "named": true
+          },
+          {
+            "type": "exp_unboxed_sum",
+            "named": true
+          },
+          {
+            "type": "forall",
+            "named": true
+          },
+          {
+            "type": "fun",
+            "named": true
+          },
+          {
+            "type": "implicit_param",
+            "named": true
+          },
+          {
+            "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
+            "type": "record_fields",
+            "named": true
+          },
+          {
+            "type": "splice",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_star",
+            "named": true
+          },
+          {
+            "type": "type_unboxed_sum",
+            "named": true
+          },
+          {
+            "type": "type_unboxed_tuple",
+            "named": true
+          },
+          {
+            "type": "∷",
+            "named": false
+          }
+        ]
+      },
+      "pat": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pat_apply",
+            "named": true
+          },
+          {
+            "type": "pat_as",
+            "named": true
+          },
+          {
+            "type": "pat_infix",
+            "named": true
+          },
+          {
+            "type": "pat_irrefutable",
+            "named": true
+          },
+          {
+            "type": "pat_list",
+            "named": true
+          },
+          {
+            "type": "pat_literal",
+            "named": true
+          },
+          {
+            "type": "pat_name",
+            "named": true
+          },
+          {
+            "type": "pat_negation",
+            "named": true
+          },
+          {
+            "type": "pat_parens",
+            "named": true
+          },
+          {
+            "type": "pat_record",
+            "named": true
+          },
+          {
+            "type": "pat_strict",
+            "named": true
+          },
+          {
+            "type": "pat_type_binder",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_sum",
+            "named": true
+          },
+          {
+            "type": "pat_wildcard",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
+            "type": "splice",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": false,
@@ -76,182 +324,10 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "decls",
-          "named": true
-        },
-        {
-          "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
-          "type": "exp_case",
-          "named": true
-        },
-        {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
-          "type": "exp_do",
-          "named": true
-        },
-        {
-          "type": "exp_if_guard",
-          "named": true
-        },
-        {
-          "type": "exp_infix",
-          "named": true
-        },
-        {
-          "type": "exp_lambda",
-          "named": true
-        },
-        {
-          "type": "exp_lambda_case",
-          "named": true
-        },
-        {
-          "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
-          "named": true
-        },
-        {
-          "type": "exp_list_comprehension",
-          "named": true
-        },
-        {
-          "type": "exp_literal",
-          "named": true
-        },
-        {
-          "type": "exp_name",
-          "named": true
-        },
-        {
-          "type": "exp_negation",
-          "named": true
-        },
-        {
-          "type": "exp_parens",
-          "named": true
-        },
-        {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
-          "named": true
-        },
-        {
-          "type": "exp_record",
-          "named": true
-        },
-        {
-          "type": "exp_record_mutation",
-          "named": true
-        },
-        {
-          "type": "exp_section_left",
-          "named": true
-        },
-        {
-          "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
-          "type": "exp_type_application",
-          "named": true
-        },
-        {
-          "type": "exp_unboxed_sum",
-          "named": true
-        },
-        {
           "type": "gdpat",
-          "named": true
-        },
-        {
-          "type": "pat_apply",
-          "named": true
-        },
-        {
-          "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
-          "named": true
-        },
-        {
-          "type": "pat_literal",
-          "named": true
-        },
-        {
-          "type": "pat_name",
-          "named": true
-        },
-        {
-          "type": "pat_negation",
-          "named": true
-        },
-        {
-          "type": "pat_parens",
-          "named": true
-        },
-        {
-          "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
-          "type": "pat_unboxed_sum",
-          "named": true
-        },
-        {
-          "type": "pat_wildcard",
-          "named": true
-        },
-        {
-          "type": "quasiquote",
-          "named": true
-        },
-        {
-          "type": "splice",
-          "named": true
-        },
-        {
-          "type": "where",
           "named": true
         }
       ]
@@ -728,6 +804,21 @@
         },
         {
           "type": "type_unboxed_tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_name",
           "named": true
         }
       ]
@@ -2513,6 +2604,184 @@
     "type": "exp_case",
     "named": true,
     "fields": {
+      "condition": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "::",
+            "named": false
+          },
+          {
+            "type": "context",
+            "named": true
+          },
+          {
+            "type": "exp_apply",
+            "named": true
+          },
+          {
+            "type": "exp_arithmetic_sequence",
+            "named": true
+          },
+          {
+            "type": "exp_case",
+            "named": true
+          },
+          {
+            "type": "exp_cond",
+            "named": true
+          },
+          {
+            "type": "exp_do",
+            "named": true
+          },
+          {
+            "type": "exp_if_guard",
+            "named": true
+          },
+          {
+            "type": "exp_infix",
+            "named": true
+          },
+          {
+            "type": "exp_lambda",
+            "named": true
+          },
+          {
+            "type": "exp_lambda_case",
+            "named": true
+          },
+          {
+            "type": "exp_let_in",
+            "named": true
+          },
+          {
+            "type": "exp_list",
+            "named": true
+          },
+          {
+            "type": "exp_list_comprehension",
+            "named": true
+          },
+          {
+            "type": "exp_literal",
+            "named": true
+          },
+          {
+            "type": "exp_name",
+            "named": true
+          },
+          {
+            "type": "exp_negation",
+            "named": true
+          },
+          {
+            "type": "exp_parens",
+            "named": true
+          },
+          {
+            "type": "exp_projection",
+            "named": true
+          },
+          {
+            "type": "exp_projection_selector",
+            "named": true
+          },
+          {
+            "type": "exp_record",
+            "named": true
+          },
+          {
+            "type": "exp_record_mutation",
+            "named": true
+          },
+          {
+            "type": "exp_section_left",
+            "named": true
+          },
+          {
+            "type": "exp_section_right",
+            "named": true
+          },
+          {
+            "type": "exp_th_quoted_name",
+            "named": true
+          },
+          {
+            "type": "exp_type_application",
+            "named": true
+          },
+          {
+            "type": "exp_unboxed_sum",
+            "named": true
+          },
+          {
+            "type": "forall",
+            "named": true
+          },
+          {
+            "type": "fun",
+            "named": true
+          },
+          {
+            "type": "implicit_param",
+            "named": true
+          },
+          {
+            "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
+            "type": "record_fields",
+            "named": true
+          },
+          {
+            "type": "splice",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_star",
+            "named": true
+          },
+          {
+            "type": "type_unboxed_sum",
+            "named": true
+          },
+          {
+            "type": "type_unboxed_tuple",
+            "named": true
+          },
+          {
+            "type": "∷",
+            "named": false
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": false,
@@ -2585,119 +2854,11 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "alts",
-          "named": true
-        },
-        {
-          "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
-          "type": "exp_case",
-          "named": true
-        },
-        {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
-          "type": "exp_do",
-          "named": true
-        },
-        {
-          "type": "exp_if_guard",
-          "named": true
-        },
-        {
-          "type": "exp_infix",
-          "named": true
-        },
-        {
-          "type": "exp_lambda",
-          "named": true
-        },
-        {
-          "type": "exp_lambda_case",
-          "named": true
-        },
-        {
-          "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
-          "named": true
-        },
-        {
-          "type": "exp_list_comprehension",
-          "named": true
-        },
-        {
-          "type": "exp_literal",
-          "named": true
-        },
-        {
-          "type": "exp_name",
-          "named": true
-        },
-        {
-          "type": "exp_negation",
-          "named": true
-        },
-        {
-          "type": "exp_parens",
-          "named": true
-        },
-        {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
-          "named": true
-        },
-        {
-          "type": "exp_record",
-          "named": true
-        },
-        {
-          "type": "exp_record_mutation",
-          "named": true
-        },
-        {
-          "type": "exp_section_left",
-          "named": true
-        },
-        {
-          "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
-          "type": "exp_type_application",
-          "named": true
-        },
-        {
-          "type": "exp_unboxed_sum",
-          "named": true
-        },
-        {
-          "type": "quasiquote",
-          "named": true
-        },
-        {
-          "type": "splice",
           "named": true
         }
       ]
@@ -7479,28 +7640,41 @@
   {
     "type": "import",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "import_list",
-          "named": true
-        },
-        {
-          "type": "import_package",
-          "named": true
-        },
-        {
-          "type": "module",
-          "named": true
-        },
-        {
-          "type": "qualified_module",
-          "named": true
-        }
-      ]
+    "fields": {
+      "import_rename": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "module",
+            "named": true
+          }
+        ]
+      },
+      "imports": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "import_list",
+            "named": true
+          }
+        ]
+      },
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "qualified_module",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -7543,35 +7717,23 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "constructor_operator",
+          "type": "class_import",
           "named": true
         },
         {
-          "type": "import_con_names",
+          "type": "type_import",
           "named": true
         },
         {
-          "type": "namespace",
+          "type": "type_operator_import",
           "named": true
         },
         {
-          "type": "operator",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_operator",
-          "named": true
-        },
-        {
-          "type": "variable",
+          "type": "var_import",
           "named": true
         }
       ]
@@ -9652,7 +9814,28 @@
   {
     "type": "purescript",
     "named": true,
-    "fields": {},
+    "fields": {
+      "exports": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "exports",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "qualified_module",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -9675,10 +9858,6 @@
         },
         {
           "type": "empty_file",
-          "named": true
-        },
-        {
-          "type": "exports",
           "named": true
         },
         {
@@ -9711,10 +9890,6 @@
         },
         {
           "type": "pattern_synonym",
-          "named": true
-        },
-        {
-          "type": "qualified_module",
           "named": true
         },
         {
@@ -10985,6 +11160,33 @@
     }
   },
   {
+    "type": "type_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_operator",
+          "named": true
+        },
+        {
+          "type": "import_con_names",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_infix",
     "named": true,
     "fields": {
@@ -11298,6 +11500,21 @@
     }
   },
   {
+    "type": "type_operator_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_parens",
     "named": true,
     "fields": {},
@@ -11604,6 +11821,25 @@
     "fields": {}
   },
   {
+    "type": "var_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "variable",
     "named": true,
     "fields": {}
@@ -11828,10 +12064,6 @@
     "named": false
   },
   {
-    "type": "import_package",
-    "named": true
-  },
-  {
     "type": "in",
     "named": false
   },
@@ -11886,10 +12118,6 @@
   {
     "type": "pattern",
     "named": false
-  },
-  {
-    "type": "pragma",
-    "named": true
   },
   {
     "type": "prim",

@@ -23,7 +23,6 @@ module.exports = grammar({
     /\r/,
     $.cpp,
     $.comment,
-    $.pragma,
   ],
 
   /**
@@ -229,7 +228,7 @@ module.exports = grammar({
   rules: {
     purescript: $ => choice(
       $.empty_file,
-      $._module,
+      $._decl_module,
       terminated($, $._topdecl),
     ),
 

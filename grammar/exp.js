@@ -149,15 +149,15 @@ module.exports = {
   exp_if_guard: $ => seq('if', repeat1($.gdpat)),
 
   _alt_variants: $ => choice(
-    seq($._arrow, $._exp),
+    seq($._arrow, field('exp', $._exp)),
     repeat1($.gdpat),
   ),
 
-  alt: $ => seq($._pat, $._alt_variants, optional(seq($.where, optional($.decls)))),
+  alt: $ => seq(field('pat', $._pat), $._alt_variants),
 
   alts: $ => layouted($, $.alt),
 
-  exp_case: $ => seq('case', $._exp, 'of', optional($.alts)),
+  exp_case: $ => seq('case', field('condition', $._exp), 'of', optional($.alts)),
 
   /**
    * left associative because the alts are optional
