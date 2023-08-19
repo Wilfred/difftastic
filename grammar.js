@@ -14,6 +14,7 @@ module.exports = grammar({
     // [$.group],
     [$.tagged, $._expr],
     [$._item, $._expr],
+    [$._code, $.field],
   ],
   // word: $ => $._token_else,
   rules: {
@@ -27,15 +28,19 @@ module.exports = grammar({
       // comments can be nested
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
-    _space_expr: $ => /[ \n]+/,
-    _space_text: $ => /[ \n]+/,
-    _anti_else: $ => /[ \n]*else[^ \t\{\[]/,
+    _space_expr: $ => /[ \n\t]+/,
+    _space_text: $ => /[ \n\t]+/,
+    _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
 
-    _token_numsign: $ => '#',
-    _token_else: $ => /[ \n]*else/,
-    _token_plus: $ => /[ \n]*\+/,
-    _token_star: $ => /[ \n]*\*/,
-    _token_assign: $ => /[ \n]*\*/,
+    _token_else: $ => /[ \n\t]*else/,
+    _token_plus: $ => /[ \n\t]*\+/,
+    _token_dash: $ => /[ \n\t]*\-/,
+    _token_star: $ => /[ \n\t]*\*/,
+    _token_slsh: $ => /[ \n\t]*\//,
+    _token_part: $ => /[ \n\t]*(not[ \n\t]*)?in/,
+    _token_comp: $ => /[ \n\t]*(<|>|<=|>=|==|!=)/,
+    _token_lmdb: $ => /[ \n\t]*=>/,
+    _token_dot: $ => /\./,
 
     _char_any: $ => /./,
 
@@ -51,6 +56,7 @@ module.exports = grammar({
 
     text: $ => prec.right(repeat1(choice(
       $._anti_else,
+      $._token_dot,
       $._char_any,
       $.escape,
     ))),
@@ -58,7 +64,7 @@ module.exports = grammar({
     strong: $ => prec.left(seq('*', repeat($._markup), '*')),
     emph: $ => prec.left(seq('_', repeat($._markup), '_')),
 
-    _code: $ => seq($._token_numsign, choice($._item, $._stmt), optional($._token_dlim)),
+    _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
 
     _item: $ => prec(1, choice(
       $.auto,
@@ -79,6 +85,8 @@ module.exports = grammar({
       $.let,
       $.set,
       $.import,
+      $.include,
+      $.for,
     ),
 
     _expr: $ => choice(
@@ -92,13 +100,21 @@ module.exports = grammar({
       $.field,
       $.block,
       $.group,
+      $.lambda,
+      $.cmp,
+      $.in,
       $.add,
+      $.sub,
       $.mul,
+      $.div,
+      $.sign,
       $.call,
       $.content,
       $.let,
       $.set,
       $.import,
+      $.include,
+      $.for,
     ),
 
     _pattern: $ => choice(
@@ -106,21 +122,22 @@ module.exports = grammar({
       $.group,
     ),
 
-    ident: $ => /[a-z]+/,
+    ident: $ => /[\p{XID_Start}][\p{XID_Continue}\-]*/,
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
     number: $ => seq(/[0-9]+(\.[0-9]+)?/, optional($.unit)),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    add: $ => prec.left(2, seq($._expr, $._token_plus, ws($), $._expr)),
-    mul: $ => prec.left(3, seq($._expr, $._token_star, ws($), $._expr)),
-    call: $ => seq(field('item', $._item), choice($.content, $.group)),
-    field: $ => seq($._item, '.', field('field', $.ident)),
+    lambda: $ => prec.left(2, seq(field('pattern', $._pattern), $._token_lmdb, ws($), field('value', $._expr))),
+    cmp:    $ => prec.left(3, seq($._expr, $._token_comp, ws($), $._expr)),
+    in:     $ => prec.left(4, seq($._expr, $._token_part, ws($), $._expr)),
+    add:    $ => prec.left(5, seq($._expr, $._token_plus, ws($), $._expr)),
+    sub:    $ => prec.left(5, seq($._expr, $._token_dash, ws($), $._expr)),
+    mul:    $ => prec.left(6, seq($._expr, $._token_star, ws($), $._expr)),
+    div:    $ => prec.left(6, seq($._expr, $._token_slsh, ws($), $._expr)),
+    sign:   $ =>      prec(7, seq(choice($._token_plus, $._token_dash), ws($), $._expr)),
+    call:   $ => seq(field('item', $._item), choice($.content, $.group)),
+    field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
     content: $ => seq('[', repeat($._markup), ']'),
-    // group: $ => seq(
-    //   '(',
-    //   repeat(choice(ws1($), $._expr, $.tagged, ',')),
-    //   ')'
-    // ),
     group: $ => seq(
       '(',
       repeat(seq(ws($), choice($.tagged, $._expr), ws($), ',')),
@@ -131,7 +148,9 @@ module.exports = grammar({
     block: $ => seq(
       '{',
       repeat(choice(
-        /[ \t\n;]+/,
+        ';',
+        $._space_expr,
+        $.comment,
         $._expr,
       )),
       '}'
@@ -150,7 +169,7 @@ module.exports = grammar({
     let: $ => prec(0, seq(
       'let',
       ws($),
-      field('pattern', $._pattern),
+      field('pattern', choice($._pattern, $.call)),
       optional(seq(
         ws($),
         '=',
@@ -174,6 +193,22 @@ module.exports = grammar({
         optional(seq(ws($), $.ident)),
       )),
     )),
+    include: $ => prec(0, seq(
+      'include',
+      ws($),
+      $.string,
+    )),
+    for: $ => seq(
+      'for',
+      ws($),
+      field('pattern', $._pattern),
+      ws($),
+      'in',
+      ws($),
+      field('value', $._expr),
+      ws($),
+      choice($.block, $.content),
+    ),
     auto: $ => 'auto',
     none: $ => 'none',
     builtin: $ => choice(

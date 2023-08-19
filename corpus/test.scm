@@ -944,3 +944,378 @@ Test 068
 (source_file
 	(group
 		(ident)))
+
+
+=====================
+Test 069
+=====================
+#(
+	a,
+)
+---------------------
+
+(source_file
+	(group
+		(ident)))
+
+
+=====================
+Test 070
+=====================
+#(
+	a,
+
+
+	o
+)
+---------------------
+
+(source_file
+	(group
+		(ident)
+		(ident)))
+
+
+=====================
+Test 071
+=====================
+#(
+	b,
+	c: d,
+)
+---------------------
+
+(source_file
+	(group
+		(ident)
+		(tagged
+			field: (ident)
+			(ident))))
+
+
+=====================
+Test 072
+=====================
+#include "a"     
+---------------------
+
+(source_file
+	(include
+		(string)))
+
+
+=====================
+Test 073
+=====================
+#let a = 0          
+---------------------
+
+(source_file
+	(let
+		pattern: (ident)
+		value: (number)))
+
+
+=====================
+Test 074
+=====================
+#import "a";Hello
+---------------------
+
+(source_file
+	(import
+		(string))
+	(text))
+
+
+=====================
+Test 075
+=====================
+#import "a"  ; Hello
+---------------------
+
+(source_file
+	(import
+		(string))
+	(text))
+
+
+=====================
+Test 076
+=====================
+#(2 / 1 * 3)
+---------------------
+
+(source_file
+	(group
+		(mul
+			(div
+				(number)
+				(number))
+			(number))))
+
+
+=====================
+Test 077
+=====================
+#(2 - 1 * 3)
+---------------------
+
+(source_file
+	(group
+		(sub
+			(number)
+			(mul
+				(number)
+				(number)))))
+
+
+=====================
+Test 078
+=====================
+#(2 + - 1)
+---------------------
+
+(source_file
+	(group
+		(add
+			(number)
+			(sign
+				(number)))))
+
+
+
+=====================
+Test 079
+=====================
+#(2 - - 1)
+---------------------
+
+(source_file
+	(group
+		(sub
+			(number)
+			(sign
+				(number)))))
+
+
+=====================
+Test 080
+=====================
+#(0 in "0" not in a)
+---------------------
+
+(source_file
+	(group
+		(in
+			(in
+				(number)
+				(string))
+			(ident))))
+
+
+=====================
+Test 081
+=====================
+#if 2 > 1 []
+---------------------
+
+(source_file
+	(branch
+		test: (cmp
+			(number)
+			(number))
+		(content)))
+
+
+=====================
+Test 082
+=====================
+#(3
+
++
+
+4
+
+)
+---------------------
+
+(source_file
+	(group
+		(add
+			(number)
+			(number))))
+
+
+=====================
+Test 083
+=====================
+#(
+let
+
+
+a
+
+= 0
+
+
++2)
+---------------------
+
+(source_file
+	(group
+		(let
+			pattern: (ident)
+			value: (add
+				(number)
+				(number)))))
+
+
+=====================
+Test 084
+=====================
+#(a => a)
+---------------------
+
+(source_file
+	(group
+		(lambda
+			pattern: (ident)
+			value: (ident))))
+
+
+=====================
+Test 085
+=====================
+#range().map
+---------------------
+
+(source_file
+	(field
+		(call
+			item: (ident)
+			(group))
+		field: (ident)))
+
+
+=====================
+Test 086
+=====================
+#if a {}
+
+---------------------
+
+(source_file
+	(branch
+		test: (ident)
+		(block)))
+
+
+=====================
+Test 087
+=====================
+#{
+ }
+---------------------
+
+(source_file
+	(block))
+
+
+=====================
+Test 088
+=====================
+#"httpsgitlab.com"
+---------------------
+
+(source_file
+	(string))
+
+
+=====================
+Test 089
+=====================
+#"https://gitlab.com"
+---------------------
+
+(source_file
+	(string))
+
+
+=====================
+Test 090
+=====================
+#a-b
+---------------------
+
+(source_file
+	(ident))
+
+
+=====================
+Test 091
+=====================
+#for i in a {}
+---------------------
+
+(source_file
+	(for
+		pattern: (ident)
+		value: (ident)
+		(block)))
+
+
+=====================
+Test 092
+=====================
+#{let x = 1; x + 2}
+---------------------
+
+(source_file
+	(block
+		(let
+			pattern: (ident)
+			value: (number))
+		(add
+			(ident)
+			(number))))
+
+
+=====================
+Test 093
+=====================
+#[*Hey* there!]
+---------------------
+
+(source_file
+	(content
+		(strong
+			(text))
+		(text)))
+
+
+=====================
+Test 094
+=====================
+#let add(x, y) = x + y
+Sum is #add(2, 3).
+---------------------
+
+(source_file
+	(let
+		pattern: (call
+			item: (ident)
+			(group
+				(ident)
+				(ident)))
+		value: (add
+			(ident)
+			(ident)))
+	(text)
+	(text)
+	(call
+		item: (ident)
+		(group
+			(number)
+			(number)))
+	(text))
