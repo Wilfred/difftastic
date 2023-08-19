@@ -1,6 +1,6 @@
-corpus
-build
-examples
-script
-target
-Cargo.lock
+/test
+/examples
+/build
+/script
+/target
+bindings/rust

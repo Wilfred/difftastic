@@ -1,6 +1,0 @@
-[submodule "examples/bash-it"]
-	path = examples/bash-it
-	url = https://github.com/Bash-it/bash-it.git
-[submodule "examples/bash"]
-	path = examples/bash
-	url = https://git.savannah.gnu.org/git/bash.git

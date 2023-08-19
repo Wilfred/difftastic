@@ -1,8 +1,7 @@
+Cargo.lock
+package-lock.json
 node_modules
 build
 *.log
-package-lock.json
-test.sh
-Cargo.lock
-target
-.build/
+/examples/*/
+/target/
