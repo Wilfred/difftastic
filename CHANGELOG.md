@@ -1,5 +1,9 @@
 ## 0.51 (unreleased)
 
+### Parsing
+
+Updated Bash parser.
+
 ### Display
 
 Added a JSON display option. This is currently unstable, and requires
