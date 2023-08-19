@@ -371,6 +371,16 @@ fn commit_info() {
         return;
     }
 
+    // Watch git HEAD and commit to trigger a rebuild
+    if PathBuf::from(".git/HEAD").exists() {
+        println!("cargo:rerun-if-changed=.git/HEAD");
+        let head_ref = std::fs::read_to_string(".git/HEAD").unwrap();
+        let mut head_ref = head_ref.split_ascii_whitespace();
+        if let Some(branch) = head_ref.nth(1) {
+            println!("cargo:rerun-if-changed=.git/{}", branch);
+        }
+    }
+
     let output = match Command::new("git")
         .arg("log")
         .arg("-1")
