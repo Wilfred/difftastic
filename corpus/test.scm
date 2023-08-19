@@ -1319,3 +1319,276 @@ Sum is #add(2, 3).
 			(number)
 			(number)))
 	(text))
+
+
+=====================
+Test 095
+=====================
+#a. Hello
+---------------------
+
+(source_file
+	(ident)
+	(text)
+	(text))
+
+
+=====================
+Test 096
+=====================
+#a._b_
+---------------------
+
+(source_file
+	(field
+		(ident)
+		field: (ident)))
+
+
+=====================
+Test 097
+=====================
+#a._ b _
+---------------------
+
+(source_file
+	(ident)
+	(text)
+	(emph
+		(text)))
+
+
+=====================
+Test 098
+=====================
+#let (_, y) = (1, 2)
+---------------------
+
+(source_file
+	(let
+		pattern: (group
+			(ident)
+			(ident))
+		value: (group
+			(number)
+			(number))))
+
+
+=====================
+Test 099
+=====================
+#let (a, .., b) = (1, 2, 3, 4)
+---------------------
+
+(source_file
+	(let
+		pattern: (group
+			(ident)
+			(elude)
+			(ident))
+		value: (group
+			(number)
+			(number)
+			(number)
+			(number))))
+
+
+=====================
+Test 100
+=====================
+#let (Homer, ..other) = books
+---------------------
+
+(source_file
+	(let
+		pattern: (group
+			(ident)
+			(elude
+				(ident)))
+		value: (ident)))
+
+
+=====================
+Test 101
+=====================
+#l.zip(r).map(
+  ((a,b)) => a + b
+)
+---------------------
+
+(source_file
+	(call
+		item: (field
+			(call
+				item: (field
+					(ident)
+					field: (ident))
+				(group
+					(ident)))
+			field: (ident))
+		(group
+			(lambda
+				pattern: (group
+					(group
+						(ident)
+						(ident)))
+				value: (add
+					(ident)
+					(ident))))))
+
+
+=====================
+Test 102
+=====================
+#(a, b => b)
+---------------------
+
+(source_file
+	(group
+		(ident)
+		(lambda
+			pattern: (ident)
+			value: (ident))))
+
+
+=====================
+Test 103
+=====================
+#if a {}
+else if b {}
+else {}
+---------------------
+
+(source_file
+	(branch
+		test: (ident)
+		(block)
+		(branch
+			test: (ident)
+			(block)
+			(block))))
+
+
+=====================
+Test 104
+=====================
+#while n < 10 {
+	(n,)
+}
+---------------------
+
+(source_file
+	(while
+		test: (cmp
+			(ident)
+			(number))
+		(block
+			(group
+				(ident)))))
+
+
+=====================
+Test 105
+=====================
+```rust
+fn main() {}
+```
+---------------------
+
+(source_file
+	(raw_blck
+		lang: (ident)
+		(blob)))
+
+
+=====================
+Test 106
+=====================
+Hello_World
+---------------------
+
+(source_file
+	(text))
+
+
+=====================
+Test 107
+=====================
+Hello*World
+---------------------
+
+(source_file
+	(text))
+
+
+=====================
+Test 108
+=====================
+_UNIX_.
+---------------------
+
+(source_file
+	(emph
+		(text))
+	(text))
+
+
+=====================
+Test 109
+=====================
+0_\n2_
+---------------------
+
+(source_file
+	(text)
+	(emph
+		(text
+			(escape))))
+
+
+=====================
+Test 110
+=====================
+$a$
+---------------------
+
+(source_file
+	(math))
+
+
+=====================
+Test 111
+=====================
+#true
+---------------------
+
+(source_file
+	(bool))
+
+
+=====================
+Test 112
+=====================
+#(a
+: "hey")
+---------------------
+
+(source_file
+	(group
+		(tagged
+			field: (ident)
+			(string))))
+
+
+=====================
+Test 113
+=====================
+= Hello World
+Hey
+---------------------
+
+(source_file
+	(heading
+		(text)
+		(text))
+	(text))
