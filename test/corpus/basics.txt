@@ -1,0 +1,332 @@
+================================================================================
+tiny module
+================================================================================
+
+module A where
+
+fun a = a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_name
+      (variable))))
+
+================================================================================
+module name with dots
+================================================================================
+
+module A.B.C.D where
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module)
+    (module)
+    (module)
+    (module))
+  (where))
+
+================================================================================
+bigger module
+================================================================================
+
+module A where
+
+fun a = a
+
+fun a = 1
+
+fun a = { a }
+
+fun a = { a : 1 }
+
+fun a = a { a = 1 }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_name
+      (variable)))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_literal
+      (integer)))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_record
+      (exp_field
+        field: (variable))))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_record
+      (exp_field
+        field: (variable)
+        (exp_literal
+          (integer)))))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_record_mutation
+      (variable)
+      (exp_field_assignment
+        field: (variable)
+        (exp_literal
+          (integer))))))
+
+================================================================================
+data definition
+================================================================================
+
+module A where
+
+data A = A | B | C
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (data
+    (type)
+    (type_name
+      (type))
+    (type_name
+      (type))
+    (type_name
+      (type))))
+
+================================================================================
+data definition with extra info
+================================================================================
+
+module A where
+
+data A a =
+  A a a
+  | B a
+  | C a a
+  | D
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (data
+    (type)
+    (type_variable)
+    (type_apply
+      (type_name
+        (type))
+      (type_name
+        (type_variable))
+      (type_name
+        (type_variable)))
+    (type_apply
+      (type_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_apply
+      (type_name
+        (type))
+      (type_name
+        (type_variable))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))))
+
+================================================================================
+type definition
+================================================================================
+
+module A where
+
+type A = A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (type_alias
+    (type)
+    (type_name
+      (type))))
+
+================================================================================
+newtype definition
+================================================================================
+
+module A where
+
+newtype A = A abc
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (newtype
+    (ERROR)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type_variable)))))
+
+================================================================================
+simple class
+================================================================================
+
+module A where
+
+class A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (class
+    (class_head
+      (class_name
+        (type)))))
+
+================================================================================
+simple class with member
+================================================================================
+
+module A where
+
+class B where
+  a :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (class
+    (class_head
+      (class_name
+        (type)))
+    (class_body
+      (where)
+      (signature
+        (variable)
+        (type_name
+          (type))))))
+
+================================================================================
+simple class with two member
+================================================================================
+
+module A where
+
+class B where
+  a :: Int
+  b :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (class
+    (class_head
+      (class_name
+        (type)))
+    (class_body
+      (where)
+      (signature
+        (variable)
+        (type_name
+          (type)))
+      (signature
+        (variable)
+        (type_name
+          (type))))))
+
+================================================================================
+class with deps and 3 members
+================================================================================
+
+module A where
+
+class (A a) <= B a where
+  a :: Int
+  b :: Int
+  c :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (class
+    (class_head
+      (type_infix
+        (type_parens
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type_variable))))
+        (type_operator)
+        (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable)))))
+    (class_body
+      (where)
+      (signature
+        (variable)
+        (type_name
+          (type)))
+      (signature
+        (variable)
+        (type_name
+          (type)))
+      (signature
+        (variable)
+        (type_name
+          (type))))))
