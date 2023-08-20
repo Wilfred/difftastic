@@ -285,6 +285,7 @@ module.exports = grammar({
       $.integer_value,
       $.float_value,
       $.string_value,
+      $.grid_value,
       $.binary_expression,
       $.parenthesized_value,
       $.call_expression
@@ -325,6 +326,12 @@ module.exports = grammar({
     ),
 
     unit: $ => token.immediate(/[a-zA-Z%]+/),
+
+    grid_value: $ => seq(
+      '[',
+      sep1(',', $._value),
+      ']'
+    ),
 
     call_expression: $ => seq(
       alias($.identifier, $.function_name),
