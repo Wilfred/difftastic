@@ -4,6 +4,9 @@ function zebra(zeb, ra) {
 function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
+function sl($) {
+  return repeat(choice($._space_text, $.comment));
+}
 function ws1($) {
   return repeat1(choice($._space_expr, $.comment));
 }
@@ -25,8 +28,16 @@ module.exports = grammar({
     [$.tagged, $._expr],
     [$._item, $._expr],
     [$._code, $.field],
-    // [$.strong],
-    // [$.emph],
+    // [$._sl_expr, $._expr],
+    // [$.sl_sign, $.sign],
+    // [$.sl_add, $.add],
+    // [$.sl_sub, $.sub],
+    // [$.sl_mul, $.mul],
+    // [$.sl_div, $.div],
+    // [$.sl_lambda, $.lambda],
+    // [$.sl_and, $.and],
+    // [$.sl_or, $.or],
+    // [$.sl_not, $.not],
   ],
   rules: {
     source_file: $ => content($),
@@ -171,6 +182,43 @@ module.exports = grammar({
       $.return,
     ),
 
+    // _sl_expr: $ => choice(
+    //   $.auto,
+    //   $.none,
+    //   $.builtin,
+    //   $.ident,
+    //   $.label,
+    //   $.bool,
+    //   $.number,
+    //   $.string,
+    //   $.branch,
+    //   $.field,
+    //   $.block,
+    //   $.group,
+    //   $.elude,
+    //   $.sl_lambda,
+    //   $.sl_not,
+    //   $.sl_or,
+    //   $.sl_and,
+    //   $.sl_cmp,
+    //   $.sl_in,
+    //   $.sl_add,
+    //   $.sl_sub,
+    //   $.sl_mul,
+    //   $.sl_div,
+    //   $.sl_sign,
+    //   $.call,
+    //   $.content,
+    //   $.let,
+    //   $.set,
+    //   $.import,
+    //   $.include,
+    //   $.for,
+    //   $.while,
+    //   $.show,
+    //   $.return,
+    // ),
+
     _pattern: $ => choice(
       $.ident,
       $.group,
@@ -193,6 +241,19 @@ module.exports = grammar({
     mul:    $ => prec.left(9, seq($._expr, $._token_star, ws($), $._expr)),
     div:    $ => prec.left(9, seq($._expr, $._token_slsh, ws($), $._expr)),
     sign:   $ =>      prec(10, seq(choice($._token_plus, $._token_dash), ws($), $._expr)),
+
+    // sl_lambda: $ => prec.left(3, seq(field('pattern', $._pattern), $._token_lmdb, sl($), field('value', $._expr))),
+    // sl_or:     $ => prec.left(4, seq($._expr, $._token_or, sl($), $._expr)),
+    // sl_not:    $ => prec.left(5, seq($._token_not, sl($), $._expr)),
+    // sl_and:    $ => prec.left(5, seq($._expr, $._token_and, sl($), $._expr)),
+    // sl_cmp:    $ => prec.left(6, seq($._expr, $._token_comp, sl($), $._expr)),
+    // sl_in:     $ => prec.left(7, seq($._expr, $._token_part, sl($), $._expr)),
+    // sl_add:    $ => prec.left(8, seq($._expr, $._token_plus, sl($), $._expr)),
+    // sl_sub:    $ => prec.left(8, seq($._expr, $._token_dash, sl($), $._expr)),
+    // sl_mul:    $ => prec.left(9, seq($._expr, $._token_star, sl($), $._expr)),
+    // sl_div:    $ => prec.left(9, seq($._expr, $._token_slsh, sl($), $._expr)),
+    // sl_sign:   $ =>      prec(10, seq(choice($._token_plus, $._token_dash), sl($), $._expr)),
+
     call:   $ => seq(field('item', $._item), choice($.content, $.group)),
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
