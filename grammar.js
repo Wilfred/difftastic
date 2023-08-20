@@ -8,10 +8,7 @@ module.exports = grammar({
 
   externals: $ => [
     $._descendant_operator,
-  ],
-
-  conflicts: $ => [
-    [$._selector, $.declaration],
+    $._pseudo_class_selector_colon,
   ],
 
   inline: $ => [
@@ -106,7 +103,8 @@ module.exports = grammar({
 
     selectors: $ => sep1(',', $._selector),
 
-    block: $ => seq('{',
+    block: $ => seq(
+      '{',
       repeat($._block_item),
       optional(alias($.last_declaration, $.declaration)),
       '}'
@@ -155,7 +153,7 @@ module.exports = grammar({
 
     pseudo_class_selector: $ => seq(
       optional($._selector),
-      ':',
+      alias($._pseudo_class_selector_colon, ':'),
       alias($.identifier, $.class_name),
       optional(alias($.pseudo_class_arguments, $.arguments))
     ),
