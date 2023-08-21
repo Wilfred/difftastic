@@ -2068,3 +2068,19 @@ Test 148
 	(content
 		(heading
 			(text))))
+
+
+=====================
+Test 149
+=====================
+#if true {}
+/* Hey */ else {}
+---------------------
+
+(source_file
+	(branch
+		test: (bool)
+		(block))
+	(comment)
+	(text)
+	(text))

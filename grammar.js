@@ -4,9 +4,6 @@ function zebra(zeb, ra) {
 function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
-function ws1($) {
-  return repeat1(choice($._space_expr, $.comment));
-}
 function content($) {
   return zebra(choice($.break, $._new_line), choice($.heading, repeat1($._markup)));
 }
@@ -17,7 +14,6 @@ module.exports = grammar({
   name: 'typst',
   extras: $ => [],
   conflicts: $ => [
-    // [$.block],
     [$._code],
     [$.let],
     [$.import],
@@ -26,7 +22,6 @@ module.exports = grammar({
     [$.tagged, $._expr],
     [$.tagged, $._expr, $._pattern],
     [$._expr, $._pattern],
-    [$._item, $._expr],
     [$._code, $.field],
     [$.or, $.not, $.and, $.cmp, $.in, $.add, $.sub, $.mul, $.div],
     [$.or, $.and, $.cmp, $.in, $.add, $.sub, $.mul, $.div],
@@ -46,24 +41,13 @@ module.exports = grammar({
 
     _space_expr: $ => /[ \n\t]+/,
     _new_line: $ => /\n/,
-    _space_text: $ => /[ \t]+/,
+    _space: $ => /[ \t]+/,
 
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
-    // _anti_head: $ => /[^\n][ \t]*=+[^ \t]/,
 
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
-    // _token_plus: $ => /[ \n\t]*\+/,
-    // _token_not:  $ => /[ \n\t]*not/,
-    // _token_and:  $ => /[ \n\t]*and/,
-    // _token_or:   $ => /[ \n\t]*or/,
-    // _token_dash: $ => /[ \n\t]*\-/,
-    // _token_star: $ => /[ \n\t]*\*/,
-    // _token_slsh: $ => /[ \n\t]*\//,
-    // _token_part: $ => /[ \n\t]*(not[ \n\t]*)?in/,
-    // _token_comp: $ => /[ \n\t]*(<|>|<=|>=|==|!=)/,
-    // _token_lmdb: $ => /[ \n\t]*=>/,
     _token_dot: $ => /\./,
     line: $ => /\\/,
 
@@ -74,7 +58,7 @@ module.exports = grammar({
       $.text,
       $.strong,
       $.emph,
-      $._space_text,
+      $._space,
       $.comment,
       $.raw_blck,
       $.raw_span,
@@ -86,7 +70,7 @@ module.exports = grammar({
       $.text,
       $.strong,
       $.emph,
-      $._space_text,
+      $._space,
       $._new_line,
       $.comment,
       $.raw_blck,

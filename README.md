@@ -21,12 +21,19 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 ## TODO
 
 - [ ] Scanner for indent and dedent.
-- [ ] All remaining markups like `@` reference, `-` lists, and others...
-  - [O] Urls
-  - [ ] Lists
+- [ ] Markups
+  - [X] Heading
+  - [X] Url
+  - [ ] List
+  - [ ] Label
+  - [ ] Reference
 - [ ] Math mode.
 - [ ] Check Typst specification about `ident` and `label` character classes like `XID_Start` and `XID_Continue`.
 - [ ] Increase by an order of magnitude the number of tests
+
+## DONE
+
+- [X] Code
 
 ## Particularity
 
