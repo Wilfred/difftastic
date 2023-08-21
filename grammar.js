@@ -42,6 +42,7 @@ module.exports = grammar({
       seq('//', /[^\n]*\n?/),
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
+    url: $ => prec.right(seq(/http(s?):\/\//, $.text)),
 
     _space_expr: $ => /[ \n\t]+/,
     _new_line: $ => /\n/,
@@ -78,6 +79,7 @@ module.exports = grammar({
       $.raw_blck,
       $.raw_span,
       $.math,
+      $.url,
     ),
     _markup_inside: $ => choice(
       $._code,
@@ -90,6 +92,7 @@ module.exports = grammar({
       $.raw_blck,
       $.raw_span,
       $.math,
+      $.url,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -331,6 +334,7 @@ module.exports = grammar({
       'max',
       'min',
       'navy',
+      'pagebreak',
       'par',
       'parbreak',
       'purple',

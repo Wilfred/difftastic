@@ -2020,3 +2020,51 @@ Test 144
 			value: (assign
 				pattern: (ident)
 				value: (ident)))))
+
+
+=====================
+Test 145
+=====================
+https://example.com
+---------------------
+
+(source_file
+	(url
+		(text)))
+
+
+=====================
+Test 146
+=====================
+https://hello\ world.com
+---------------------
+
+(source_file
+	(url
+		(text
+			(escape))))
+
+
+=====================
+Test 147
+=====================
+https://hello\ world.com Hey
+---------------------
+
+(source_file
+	(url
+		(text
+			(escape)))
+	(text))
+
+
+=====================
+Test 148
+=====================
+#[= Hello]
+---------------------
+
+(source_file
+	(content
+		(heading
+			(text))))

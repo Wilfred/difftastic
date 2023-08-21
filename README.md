@@ -22,6 +22,8 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 - [ ] Scanner for indent and dedent.
 - [ ] All remaining markups like `@` reference, `-` lists, and others...
+  - [O] Urls
+  - [ ] Lists
 - [ ] Math mode.
 - [ ] Check Typst specification about `ident` and `label` character classes like `XID_Start` and `XID_Continue`.
 - [ ] Increase by an order of magnitude the number of tests
