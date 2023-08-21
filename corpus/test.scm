@@ -1976,3 +1976,47 @@ Test 141
 	(group
 		(not
 			(ident))))
+
+
+=====================
+Test 142
+=====================
+#(b = c)
+---------------------
+
+(source_file
+	(group
+		(assign
+			pattern: (ident)
+			value: (ident))))
+
+
+=====================
+Test 143
+=====================
+#(b = c
+)
+---------------------
+
+(source_file
+	(group
+		(assign
+			pattern: (ident)
+			value: (ident))))
+
+
+=====================
+Test 144
+=====================
+#(let a
+=b = c
+)
+---------------------
+
+(source_file
+	(group
+		(let
+			pattern: (ident)
+			value: (assign
+				pattern: (ident)
+				value: (ident)))))

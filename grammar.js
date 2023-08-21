@@ -152,6 +152,7 @@ module.exports = grammar({
       $.block,
       $.group,
       $.elude,
+      $.assign,
       $.lambda,
       $.not,
       $.or,
@@ -185,21 +186,22 @@ module.exports = grammar({
     bool: $ => choice('true', 'false'),
     number: $ => prec.right(seq(/[0-9]+(\.[0-9]+)?/, optional($.unit))),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    // elude and lambda have strange behavior if no optional space place at the end
-    // see test 139 and 140
+    // elude, assign and lambda have strange behavior if no optional space place at the end
+    // see test 139, 140 and 142
     elude:  $ =>      prec(2, seq('..', optional(seq(ws($), $._expr)), ws($))),
-    lambda: $ => prec.right(3, seq(field('pattern', $._pattern), ws($), '=>', ws($), field('value', $._expr), ws($))),
-    or:     $ => prec.left(4, seq($._expr, ws($), 'or', ws($), $._expr)),
-    not:    $ => prec.left(5, seq('not', ws($), $._expr)),
-    and:    $ => prec.left(5, seq($._expr, ws($), 'and', ws($), $._expr)),
-    cmp:    $ => prec.left(6, seq($._expr, ws($), choice('<', '>', '<=', '>=', '==', '!='), ws($), $._expr)),
+    assign: $ => prec.right(3, seq(field('pattern', $._pattern), ws($), choice('=', '+=', '-=', '*=', '/='), ws($), field('value', $._expr), ws($))),
+    lambda: $ => prec.right(4, seq(field('pattern', $._pattern), ws($), '=>', ws($), field('value', $._expr), ws($))),
+    or:     $ => prec.left(5, seq($._expr, ws($), 'or', ws($), $._expr)),
+    not:    $ => prec.left(6, seq('not', ws($), $._expr)),
+    and:    $ => prec.left(6, seq($._expr, ws($), 'and', ws($), $._expr)),
+    cmp:    $ => prec.left(7, seq($._expr, ws($), choice('<', '>', '<=', '>=', '==', '!='), ws($), $._expr)),
     // FIXME: `not in` with comments and spaces
-    in:     $ => prec.left(7, seq($._expr, ws($), choice('not in', 'in'), ws($), $._expr)), 
-    add:    $ => prec.left(8, seq($._expr, ws($), '+', ws($), $._expr)),
-    sub:    $ => prec.left(8, seq($._expr, ws($), '-', ws($), $._expr)),
-    mul:    $ => prec.left(9, seq($._expr, ws($), '*', ws($), $._expr)),
-    div:    $ => prec.left(9, seq($._expr, ws($), '/', ws($), $._expr)),
-    sign:   $ =>      prec(10, seq(choice('+', '-'), ws($), $._expr)),
+    in:     $ => prec.left(8, seq($._expr, ws($), choice('not in', 'in'), ws($), $._expr)), 
+    add:    $ => prec.left(9, seq($._expr, ws($), '+', ws($), $._expr)),
+    sub:    $ => prec.left(9, seq($._expr, ws($), '-', ws($), $._expr)),
+    mul:    $ => prec.left(10, seq($._expr, ws($), '*', ws($), $._expr)),
+    div:    $ => prec.left(10, seq($._expr, ws($), '/', ws($), $._expr)),
+    sign:   $ =>      prec(11, seq(choice('+', '-'), ws($), $._expr)),
 
     call:   $ => seq(field('item', $._item), choice($.content, $.group)),
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
