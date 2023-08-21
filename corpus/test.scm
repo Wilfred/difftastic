@@ -2084,3 +2084,27 @@ Test 149
 	(comment)
 	(text)
 	(text))
+
+
+=====================
+Test 150
+=====================
+#return 0 Hello
+---------------------
+
+(source_file
+	(return
+		(number))
+	(text))
+
+
+=====================
+Test 151
+=====================
+#return; 0 Hello
+---------------------
+
+(source_file
+	(return)
+	(text)
+	(text))

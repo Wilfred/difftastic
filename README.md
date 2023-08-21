@@ -16,7 +16,7 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 - [X] ~Multiline vs singleline expressions~
 - [X] ~Comments before operators~
 - [ ] Comments and spaces in `not in` between the `not` and the `in`
-- [ ] Figure out why an optional space is required at the end of `elude` and `lambda`
+- [ ] Figure out why an optional space is required at the end of `elude`, `assign` and `lambda`
 
 ## TODO
 

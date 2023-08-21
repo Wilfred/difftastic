@@ -19,6 +19,7 @@ module.exports = grammar({
     [$.import],
     [$.elude],
     [$.return],
+    [$.return_inline],
     [$.tagged, $._expr],
     [$.tagged, $._expr, $._pattern],
     [$._expr, $._pattern],
@@ -100,6 +101,7 @@ module.exports = grammar({
     _item: $ => prec(1, choice(
       $.auto,
       $.none,
+      $.flow,
       $.builtin,
       $.ident,
       $.label,
@@ -122,12 +124,13 @@ module.exports = grammar({
       $.for,
       $.while,
       $.show,
-      $.return,
+      alias($.return_inline, $.return),
     ),
 
     _expr: $ => choice(
       $.auto,
       $.none,
+      $.flow,
       $.builtin,
       $.ident,
       $.label,
@@ -225,7 +228,7 @@ module.exports = grammar({
       field('test', $._expr), 
       ws($),
       choice($.block, $.content),
-      optional(seq($._token_else,
+      optional(seq(alias($._token_else, 'else'),
         ws($),
         choice($.block, $.content, $.branch)
       )),
@@ -293,6 +296,8 @@ module.exports = grammar({
       field('value', $._expr),
     ),
     return: $ => seq('return', optional(seq(ws($), $._expr))),
+    return_inline: $ => prec(-1, seq('return', optional(seq(ws($), choice($._stmt, $._item))))),
+    flow: $ => choice('break', 'continue'),
     auto: $ => 'auto',
     none: $ => 'none',
     builtin: $ => choice(
@@ -318,6 +323,7 @@ module.exports = grammar({
       'max',
       'min',
       'navy',
+      'page',
       'pagebreak',
       'par',
       'parbreak',
