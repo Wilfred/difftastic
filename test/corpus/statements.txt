@@ -622,7 +622,11 @@ esac
 case x in x) echo meow ;; esac
 
 case foo in
-    bar\ baz) : ;;
+  bar\ baz) : ;;
+esac
+
+case "$arg" in
+  *([0-9])([0-9])) echo "$arg"
 esac
 
 --------------------------------------------------------------------------------
@@ -706,7 +710,19 @@ esac
       (word)
       (command
         (command_name
-          (word))))))
+          (word)))))
+  (case_statement
+    (string
+      (simple_expansion
+        (variable_name)))
+    (case_item
+      (extglob_pattern)
+      (command
+        (command_name
+          (word))
+        (string
+          (simple_expansion
+            (variable_name)))))))
 
 ================================================================================
 Test commands

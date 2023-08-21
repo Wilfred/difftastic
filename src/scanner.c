@@ -47,6 +47,7 @@ enum TokenType {
     CONCAT,
     VARIABLE_NAME,
     REGEX,
+    EXTGLOB_PATTERN,
     CLOSING_BRACE,
     CLOSING_BRACKET,
     HEREDOC_ARROW,
@@ -77,12 +78,9 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static inline bool in_error_recovery(const bool *valid_symbols) {
-    if (valid_symbols[HEREDOC_START] && valid_symbols[HEREDOC_BODY_END] &&
-        valid_symbols[FILE_DESCRIPTOR] && valid_symbols[EMPTY_VALUE] &&
-        valid_symbols[CONCAT] && valid_symbols[REGEX]) {
-        return true;
-    }
-    return false;
+    return valid_symbols[HEREDOC_START] && valid_symbols[HEREDOC_BODY_END] &&
+           valid_symbols[FILE_DESCRIPTOR] && valid_symbols[EMPTY_VALUE] &&
+           valid_symbols[CONCAT] && valid_symbols[REGEX];
 }
 
 static unsigned serialize(Scanner *scanner, char *buffer) {
@@ -456,6 +454,79 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             lexer->result_symbol = REGEX;
             return true;
         }
+    }
+
+    if (valid_symbols[EXTGLOB_PATTERN]) {
+        // first skip ws, then check for ? * + @ !
+        while (iswspace(lexer->lookahead)) {
+            skip(lexer);
+        }
+
+        if (lexer->lookahead == '?' || lexer->lookahead == '*' ||
+            lexer->lookahead == '+' || lexer->lookahead == '@' ||
+            lexer->lookahead == '!') {
+            lexer->mark_end(lexer);
+            advance(lexer);
+
+            if (lexer->lookahead != '(') {
+                return false;
+            }
+
+            typedef struct {
+                bool done;
+                uint32_t paren_depth;
+                uint32_t bracket_depth;
+                uint32_t brace_depth;
+            } State;
+
+            State state = {false, 0, 0, 0};
+            while (!state.done) {
+                switch (lexer->lookahead) {
+                    case '\0':
+                        return false;
+                    case '(':
+                        state.paren_depth++;
+                        break;
+                    case '[':
+                        state.bracket_depth++;
+                        break;
+                    case '{':
+                        state.brace_depth++;
+                        break;
+                    case ')':
+                        if (state.paren_depth == 0) {
+                            state.done = true;
+                        }
+                        state.paren_depth--;
+                        break;
+                    case ']':
+                        if (state.bracket_depth == 0) {
+                            state.done = true;
+                        }
+                        state.bracket_depth--;
+                        break;
+                    case '}':
+                        if (state.brace_depth == 0) {
+                            state.done = true;
+                        }
+                        state.brace_depth--;
+                        break;
+                }
+
+                if (!state.done) {
+                    bool was_space = iswspace(lexer->lookahead);
+                    advance(lexer);
+                    if (!was_space) {
+                        lexer->mark_end(lexer);
+                    }
+                }
+            }
+
+            lexer->result_symbol = EXTGLOB_PATTERN;
+            return true;
+        }
+
+        return false;
     }
 
     return false;

@@ -55,6 +55,7 @@ module.exports = grammar({
     $._concat,
     $.variable_name, // Variable name followed by an operator like '=' or '+='
     $.regex,
+    $.extglob_pattern,
     '}',
     ']',
     '<<',
@@ -264,10 +265,14 @@ module.exports = grammar({
     ),
 
     case_item: $ => seq(
-      optional('('),
-      field('value', $._literal),
-      repeat(seq('|', field('value', $._literal))),
-      ')',
+      choice(
+        seq(
+          optional('('),
+          field('value', choice($._literal, $.extglob_pattern)),
+          repeat(seq('|', field('value', choice($._literal, $.extglob_pattern)))),
+          ')',
+        ),
+      ),
       optional($._statements),
       prec(1, choice(
         field('termination', ';;'),
@@ -277,8 +282,8 @@ module.exports = grammar({
 
     last_case_item: $ => seq(
       optional('('),
-      field('value', $._literal),
-      repeat(seq('|', field('value', $._literal))),
+      field('value', choice($._literal, $.extglob_pattern)),
+      repeat(seq('|', field('value', choice($._literal, $.extglob_pattern)))),
       ')',
       optional($._statements),
       optional(prec(1, ';;')),
