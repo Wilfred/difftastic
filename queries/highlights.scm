@@ -33,8 +33,6 @@
 ; ----------------------------------------------------------------------------
 ; Keywords, operators, includes
 
- (pragma) @constant.macro
-
  [
    "if"
    "then"

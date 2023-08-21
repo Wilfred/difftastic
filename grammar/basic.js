@@ -88,20 +88,4 @@ module.exports = {
    * Field projection dot-syntax requires the dot to follow a varid without any whitespace.
    */
   _immediate_dot: _ => token.immediate('.'),
-
-  // ------------------------------------------------------------------------
-  // pragma
-  // ------------------------------------------------------------------------
-
-  pragma: _ => token(
-    seq(
-      '{-#',
-      repeat(choice(
-        /[^#]/,
-        /#[^-]/,
-        /#\-[^}]/,
-      )),
-      '#-}'
-    )
-  ),
 }

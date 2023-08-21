@@ -30,8 +30,9 @@ module.exports = {
 
   _decl_module: $ => seq(
     'module',
-    $.qualified_module,
-    optional($.exports),
-    where($, $._topdecl),
+    field('name', $.qualified_module),
+    field('exports', optional($.exports)),
+    $.where,
+    optional($._topdecl),
   ),
 }
