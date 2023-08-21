@@ -399,6 +399,10 @@ echo ${b[1234 % 2]}
 
 ${words[++counter]}
 
+${array[(($number+1))]}
+
+${array[((number+1))]}
+
 ---
 
 (program
@@ -413,4 +417,18 @@ ${words[++counter]}
   (command
     (command_name
       (expansion
-        (subscript (variable_name) (unary_expression (word)))))))
+        (subscript (variable_name) (unary_expression (word))))))
+  (command
+    (command_name
+      (expansion
+        (subscript
+          (variable_name)
+          (parenthesized_expression
+            (parenthesized_expression
+              (concatenation (simple_expansion (variable_name)) (word))))))))
+  (command
+    (command_name
+      (expansion
+        (subscript
+          (variable_name)
+          (parenthesized_expression (parenthesized_expression (word))))))))

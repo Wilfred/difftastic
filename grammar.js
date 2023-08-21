@@ -410,7 +410,7 @@ module.exports = grammar({
     subscript: $ => seq(
       field('name', $.variable_name),
       '[',
-      field('index', choice($._literal, $.binary_expression, $.unary_expression)),
+      field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
       optional($._concat),
       ']',
       optional($._concat),
