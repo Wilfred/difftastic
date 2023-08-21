@@ -34,15 +34,25 @@ echo ]]] ===
       (word))
     (concatenation
       (word)
+      (word)
+      (word)
+      (word)
+      (word)
       (word)))
   (command
     (command_name
       (word))
-    (concatenation))
+    (concatenation
+      (word)
+      (word)
+      (word)))
   (command
     (command_name
       (word))
-    (concatenation)
+    (concatenation
+      (word)
+      (word)
+      (word))
     (word)))
 
 ================================================================================
@@ -338,6 +348,8 @@ cat ${BAR} ${ABC=def} ${GHI:?jkl}
         (expansion
           (variable_name)
           (concatenation
+            (word)
+            (word)
             (word)))))))
 
 ================================================================================

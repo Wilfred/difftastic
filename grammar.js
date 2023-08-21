@@ -28,6 +28,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._expression, $.command_name],
     [$.command, $.variable_assignments],
+    [$.compound_statement],
   ],
 
   inline: $ => [
@@ -306,8 +307,8 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      optional($._statements2),
-      '}',
+      optional(choice($._statements2, seq($._statement, optional($._terminator)))),
+      alias(token(prec(-1, '}')), '}'),
     ),
 
     subshell: $ => seq(
@@ -537,16 +538,16 @@ module.exports = grammar({
     concatenation: $ => prec(-1, seq(
       choice(
         $._primary_expression,
-        $._special_character,
+        alias($._special_character, $.word),
       ),
-      repeat1(prec(-1, seq(
+      repeat1(seq(
         $._concat,
         choice(
           $._primary_expression,
-          $._special_character,
+          alias($._special_character, $.word),
           alias($._comment_word, $.word),
         ),
-      ))),
+      )),
       optional(seq($._concat, '$')),
     )),
 

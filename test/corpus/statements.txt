@@ -463,7 +463,8 @@ fi
         argument: (word)
         argument: (word)))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -484,7 +485,8 @@ fi
       argument: (word)
       argument: (word))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -500,10 +502,15 @@ fi
 (program
   (if_statement
     condition: (variable_assignment
-          name: (variable_name)
-          value: (command_substitution (command name: (command_name (word)) argument: (raw_string))))
+      name: (variable_name)
+      value: (command_substitution
+        (command
+          name: (command_name
+            (word))
+          argument: (raw_string))))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -518,7 +525,7 @@ fi
 
 (program
   (if_statement
-    condition: (negated_command 
+    condition: (negated_command
       (variable_assignment
         name: (variable_name)
         value: (command_substitution
@@ -527,7 +534,8 @@ fi
               (word))
             argument: (raw_string)))))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -543,10 +551,11 @@ fi
 (program
   (if_statement
     condition: (variable_assignment
-          name: (variable_name)
-          value: (number))
+      name: (variable_name)
+      value: (number))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -566,7 +575,8 @@ fi
         name: (variable_name)
         value: (number)))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -674,7 +684,9 @@ esac
     (case_item
       (concatenation
         (word)
-        (number))
+        (word)
+        (number)
+        (word))
       (command
         (command_name
           (word))
@@ -913,6 +925,8 @@ function do_yet_another_thing {
   echo ok
 } 2>&1
 
+do_nothing() { return 0 }
+
 --------------------------------------------------------------------------------
 
 (program
@@ -946,9 +960,13 @@ function do_yet_another_thing {
           (command_name
             (word))
           (concatenation
+            (word)
+            (word)
             (word))
           (word)
           (concatenation
+            (word)
+            (word)
             (word))
           (word)
           (word)))))
@@ -962,7 +980,14 @@ function do_yet_another_thing {
           (word))))
     (file_redirect
       (file_descriptor)
-      (number))))
+      (number)))
+  (function_definition
+    (word)
+    (compound_statement
+      (command
+        (command_name
+          (word))
+        (number)))))
 
 ================================================================================
 Variable declaration: declare & typeset
@@ -1124,8 +1149,12 @@ export "$(echo ${key} | tr [:lower:] [:upper:])=${p_key#*=}"
             (command_name
               (word))
             (concatenation
+              (word)
+              (word)
               (word))
             (concatenation
+              (word)
+              (word)
               (word)))))
       (expansion
         (variable_name)
