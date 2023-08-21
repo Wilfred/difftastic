@@ -289,7 +289,7 @@ module.exports = grammar({
       optional(prec(1, ';;')),
     ),
 
-    function_definition: $ => seq(
+    function_definition: $ => prec.right(seq(
       choice(
         seq(
           'function',
@@ -308,7 +308,8 @@ module.exports = grammar({
           $.subshell,
           $.test_command),
       ),
-    ),
+      optional($.file_redirect),
+    )),
 
     compound_statement: $ => seq(
       '{',

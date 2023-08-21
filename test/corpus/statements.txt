@@ -986,14 +986,13 @@ do_nothing() { return 0 }
             (word))
           (word)
           (word)))))
-  (redirected_statement
-    (function_definition
-      (word)
-      (compound_statement
-        (command
-          (command_name
-            (word))
-          (word))))
+  (function_definition
+    (word)
+    (compound_statement
+      (command
+        (command_name
+          (word))
+        (word)))
     (file_redirect
       (file_descriptor)
       (number)))
