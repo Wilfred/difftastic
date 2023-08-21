@@ -13,7 +13,7 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 ## FIXME
 
-- [ ] Multiline vs singleline expressions
+- [X] ~Multiline vs singleline expressions~
 - [ ] Comments befor operators
 
 Those two problems are the priority. No other work should be done before fixing them.
