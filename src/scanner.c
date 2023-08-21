@@ -76,6 +76,15 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
+static inline bool in_error_recovery(const bool *valid_symbols) {
+    if (valid_symbols[HEREDOC_START] && valid_symbols[HEREDOC_BODY_END] &&
+        valid_symbols[FILE_DESCRIPTOR] && valid_symbols[EMPTY_VALUE] &&
+        valid_symbols[CONCAT] && valid_symbols[REGEX]) {
+        return true;
+    }
+    return false;
+}
+
 static unsigned serialize(Scanner *scanner, char *buffer) {
     if (scanner->heredoc_delimiter.len + 3 >=
         TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
@@ -273,25 +282,28 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
 
     if (valid_symbols[EMPTY_VALUE]) {
-        if (iswspace(lexer->lookahead) || lexer->eof(lexer) || lexer->lookahead == ';' || lexer->lookahead == '&') {
+        if (iswspace(lexer->lookahead) || lexer->eof(lexer) ||
+            lexer->lookahead == ';' || lexer->lookahead == '&') {
             lexer->result_symbol = EMPTY_VALUE;
             return true;
         }
     }
 
     if (valid_symbols[HEREDOC_BODY_BEGINNING] &&
-        scanner->heredoc_delimiter.len > 0 && !scanner->started_heredoc) {
+        scanner->heredoc_delimiter.len > 0 && !scanner->started_heredoc &&
+        !in_error_recovery(valid_symbols)) {
         return scan_heredoc_content(scanner, lexer, HEREDOC_BODY_BEGINNING,
                                     SIMPLE_HEREDOC_BODY);
     }
 
     if (valid_symbols[HEREDOC_BODY_MIDDLE] &&
-        scanner->heredoc_delimiter.len > 0 && scanner->started_heredoc) {
+        scanner->heredoc_delimiter.len > 0 && scanner->started_heredoc &&
+        !in_error_recovery(valid_symbols)) {
         return scan_heredoc_content(scanner, lexer, HEREDOC_BODY_MIDDLE,
                                     HEREDOC_BODY_END);
     }
 
-    if (valid_symbols[HEREDOC_START]) {
+    if (valid_symbols[HEREDOC_START] && !in_error_recovery(valid_symbols)) {
         return scan_heredoc_start(scanner, lexer);
     }
 
