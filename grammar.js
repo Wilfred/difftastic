@@ -24,8 +24,12 @@ module.exports = grammar({
     [$.elude],
     [$.return],
     [$.tagged, $._expr],
+    [$.tagged, $._expr, $._pattern],
+    [$._expr, $._pattern],
     [$._item, $._expr],
     [$._code, $.field],
+    [$.or, $.not, $.and, $.cmp, $.in, $.add, $.sub, $.mul, $.div],
+    [$.or, $.and, $.cmp, $.in, $.add, $.sub, $.mul, $.div],
   ],
   rules: {
     source_file: $ => content($),
@@ -49,16 +53,16 @@ module.exports = grammar({
 
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
-    _token_plus: $ => /[ \n\t]*\+/,
-    _token_not:  $ => /[ \n\t]*not/,
-    _token_and:  $ => /[ \n\t]*and/,
-    _token_or:   $ => /[ \n\t]*or/,
-    _token_dash: $ => /[ \n\t]*\-/,
-    _token_star: $ => /[ \n\t]*\*/,
-    _token_slsh: $ => /[ \n\t]*\//,
-    _token_part: $ => /[ \n\t]*(not[ \n\t]*)?in/,
-    _token_comp: $ => /[ \n\t]*(<|>|<=|>=|==|!=)/,
-    _token_lmdb: $ => /[ \n\t]*=>/,
+    // _token_plus: $ => /[ \n\t]*\+/,
+    // _token_not:  $ => /[ \n\t]*not/,
+    // _token_and:  $ => /[ \n\t]*and/,
+    // _token_or:   $ => /[ \n\t]*or/,
+    // _token_dash: $ => /[ \n\t]*\-/,
+    // _token_star: $ => /[ \n\t]*\*/,
+    // _token_slsh: $ => /[ \n\t]*\//,
+    // _token_part: $ => /[ \n\t]*(not[ \n\t]*)?in/,
+    // _token_comp: $ => /[ \n\t]*(<|>|<=|>=|==|!=)/,
+    // _token_lmdb: $ => /[ \n\t]*=>/,
     _token_dot: $ => /\./,
     line: $ => /\\/,
 
@@ -179,20 +183,23 @@ module.exports = grammar({
     ident: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
     bool: $ => choice('true', 'false'),
-    number: $ => seq(/[0-9]+(\.[0-9]+)?/, optional($.unit)),
+    number: $ => prec.right(seq(/[0-9]+(\.[0-9]+)?/, optional($.unit))),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    elude:  $ =>      prec(2, seq('..', optional(seq(ws($), $._expr)))),
-    lambda: $ => prec.left(3, seq(field('pattern', $._pattern), $._token_lmdb, ws($), field('value', $._expr))),
-    or:     $ => prec.left(4, seq($._expr, $._token_or, ws($), $._expr)),
-    not:    $ => prec.left(5, seq($._token_not, ws($), $._expr)),
-    and:    $ => prec.left(5, seq($._expr, $._token_and, ws($), $._expr)),
-    cmp:    $ => prec.left(6, seq($._expr, $._token_comp, ws($), $._expr)),
-    in:     $ => prec.left(7, seq($._expr, $._token_part, ws($), $._expr)),
-    add:    $ => prec.left(8, seq($._expr, $._token_plus, ws($), $._expr)),
-    sub:    $ => prec.left(8, seq($._expr, $._token_dash, ws($), $._expr)),
-    mul:    $ => prec.left(9, seq($._expr, $._token_star, ws($), $._expr)),
-    div:    $ => prec.left(9, seq($._expr, $._token_slsh, ws($), $._expr)),
-    sign:   $ =>      prec(10, seq(choice($._token_plus, $._token_dash), ws($), $._expr)),
+    // elude and lambda have strange behavior if no optional space place at the end
+    // see test 139 and 140
+    elude:  $ =>      prec(2, seq('..', optional(seq(ws($), $._expr)), ws($))),
+    lambda: $ => prec.right(3, seq(field('pattern', $._pattern), ws($), '=>', ws($), field('value', $._expr), ws($))),
+    or:     $ => prec.left(4, seq($._expr, ws($), 'or', ws($), $._expr)),
+    not:    $ => prec.left(5, seq('not', ws($), $._expr)),
+    and:    $ => prec.left(5, seq($._expr, ws($), 'and', ws($), $._expr)),
+    cmp:    $ => prec.left(6, seq($._expr, ws($), choice('<', '>', '<=', '>=', '==', '!='), ws($), $._expr)),
+    // FIXME: `not in` with comments and spaces
+    in:     $ => prec.left(7, seq($._expr, ws($), choice('not in', 'in'), ws($), $._expr)), 
+    add:    $ => prec.left(8, seq($._expr, ws($), '+', ws($), $._expr)),
+    sub:    $ => prec.left(8, seq($._expr, ws($), '-', ws($), $._expr)),
+    mul:    $ => prec.left(9, seq($._expr, ws($), '*', ws($), $._expr)),
+    div:    $ => prec.left(9, seq($._expr, ws($), '/', ws($), $._expr)),
+    sign:   $ =>      prec(10, seq(choice('+', '-'), ws($), $._expr)),
 
     call:   $ => seq(field('item', $._item), choice($.content, $.group)),
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
@@ -201,7 +208,12 @@ module.exports = grammar({
     content: $ => seq('[', content($), ']'),
     group: $ => seq(
       '(',
-      repeat(seq(ws($), choice($.tagged, $._expr), ws($), ',')),
+      repeat(seq(
+        ws($),
+        choice($.tagged, $._expr),
+        ws($),
+        ','
+      )),
       ws($),
       optional(seq(choice($.tagged, $._expr), ws($))),
       ')'
@@ -210,6 +222,8 @@ module.exports = grammar({
       '{',
       repeat(seq(
         prec.left(optional(choice($._expr, $.comment))),
+        // this token as the precedence over regular new lines inside expression
+        // that way, a new line is a separator between expressions
         $._token_dlim_blck,
         optional($._space_expr),
       )),
@@ -236,7 +250,8 @@ module.exports = grammar({
         '=',
         ws($),
         field('value', $._expr)
-      ))
+      )),
+      ws($),
     )),
     set: $ => prec(0, seq(
       'set',

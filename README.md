@@ -14,11 +14,9 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 ## FIXME
 
 - [X] ~Multiline vs singleline expressions~
-- [ ] Comments befor operators
-
-Those two problems are the priority. No other work should be done before fixing them.
-
-The branch `experimental` contains work that fixes both problems, but introduces new problems, particularly in transition from inlined code to markup, like in `#a._ b _`.
+- [X] ~Comments before operators~
+- [ ] Comments and spaces in `not in` between the `not` and the `in`
+- [ ] Figure out why an optional space is required at the end of `elude` and `lambda`
 
 ## TODO
 
