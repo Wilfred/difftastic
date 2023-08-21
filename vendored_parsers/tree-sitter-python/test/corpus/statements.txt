@@ -124,6 +124,7 @@ print a
 print b, c
 print 0 or 1, 1 or 0,
 print 0 or 1
+print not True
 
 --------------------------------------------------------------------------------
 
@@ -143,7 +144,10 @@ print 0 or 1
   (print_statement
     (boolean_operator
       (integer)
-      (integer))))
+      (integer)))
+  (print_statement
+    (not_operator
+      (true))))
 
 ================================================================================
 Print statements with redirection
@@ -161,8 +165,14 @@ print >> a, "b", "c"
   (print_statement
     (chevron
       (identifier))
-    (string)
-    (string)))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
+    (string
+      (string_start)
+      (string_content)
+      (string_end))))
 
 ================================================================================
 Assert statements
@@ -486,6 +496,17 @@ else:
 finally:
   f
 
+try:
+  a
+except* b:
+  c
+except* d as e:
+  f
+else:
+  g
+finally:
+  h
+
 --------------------------------------------------------------------------------
 
 (module
@@ -534,6 +555,31 @@ finally:
     (finally_clause
       (block
         (expression_statement
+          (identifier)))))
+  (try_statement
+    body: (block
+      (expression_statement
+        (identifier)))
+    (except_group_clause
+      (identifier)
+      (block
+        (expression_statement
+          (identifier))))
+    (except_group_clause
+      (as_pattern
+        (identifier)
+        alias: (as_pattern_target
+          (identifier)))
+      (block
+        (expression_statement
+          (identifier))))
+    (else_clause
+      body: (block
+        (expression_statement
+          (identifier))))
+    (finally_clause
+      (block
+        (expression_statement
           (identifier))))))
 
 ================================================================================
@@ -546,6 +592,9 @@ with a as b:
 with (open('d') as d,
       open('e') as e):
   f
+
+with e as f, g as h,:
+  i
 
 --------------------------------------------------------------------------------
 
@@ -563,21 +612,42 @@ with (open('d') as d,
   (with_statement
     (with_clause
       (with_item
-        (tuple
-          (as_pattern
-            (call
-              (identifier)
-              (argument_list
-                (string)))
-            (as_pattern_target
-              (identifier)))
-          (as_pattern
-            (call
-              (identifier)
-              (argument_list
-                (string)))
-            (as_pattern_target
-              (identifier))))))
+        (as_pattern
+          (call
+            (identifier)
+            (argument_list
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (as_pattern_target
+            (identifier))))
+      (with_item
+        (as_pattern
+          (call
+            (identifier)
+            (argument_list
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (as_pattern_target
+            (identifier)))))
+    (block
+      (expression_statement
+        (identifier))))
+  (with_statement
+    (with_clause
+      (with_item
+        (as_pattern
+          (identifier)
+          (as_pattern_target
+            (identifier))))
+      (with_item
+        (as_pattern
+          (identifier)
+          (as_pattern_target
+            (identifier)))))
     (block
       (expression_statement
         (identifier)))))
@@ -665,9 +735,11 @@ async def d(a:str="default", b=c) -> None:
       (typed_parameter
         (identifier)
         type: (type
-          (subscript
-            value: (identifier)
-            subscript: (identifier)))))
+          (generic_type
+            (identifier)
+            (type_parameter
+              (type
+                (identifier)))))))
     return_type: (type
       (identifier))
     body: (block
@@ -706,7 +778,10 @@ async def d(a:str="default", b=c) -> None:
         name: (identifier)
         type: (type
           (identifier))
-        value: (string))
+        value: (string
+          (string_start)
+          (string_content)
+          (string_end)))
       (default_parameter
         name: (identifier)
         value: (identifier)))
@@ -738,6 +813,11 @@ def g(h, i, /, j, *, k=100, **kwarg):
 def h(*a):
   i((*a))
   j(((*a)))
+
+def foo():
+    pass \
+\
+\
 
 --------------------------------------------------------------------------------
 
@@ -820,7 +900,15 @@ def h(*a):
             (parenthesized_expression
               (parenthesized_expression
                 (list_splat
-                  (identifier))))))))))
+                  (identifier)))))))))
+  (function_definition
+    name: (identifier)
+    parameters: (parameters)
+    body: (block
+      (pass_statement)))
+  (line_continuation)
+  (line_continuation)
+  (line_continuation))
 
 ================================================================================
 Empty blocks
@@ -964,6 +1052,10 @@ class C:
   async def f():
     g
 
+@buttons[0].clicked.connect
+def spam():
+    ...
+
 --------------------------------------------------------------------------------
 
 (module
@@ -1005,7 +1097,22 @@ class C:
             (parameters)
             (block
               (expression_statement
-                (identifier)))))))))
+                (identifier))))))))
+  (decorated_definition
+    (decorator
+      (attribute
+        (attribute
+          (subscript
+            (identifier)
+            (integer))
+          (identifier))
+        (identifier)))
+    (function_definition
+      (identifier)
+      (parameters)
+      (block
+        (expression_statement
+          (ellipsis))))))
 
 ================================================================================
 Raise statements
@@ -1023,12 +1130,18 @@ raise RunTimeError('NO') from e
     (call
       (identifier)
       (argument_list
-        (string))))
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))))
   (raise_statement
     (call
       (identifier)
       (argument_list
-        (string)))
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))
     (identifier)))
 
 ================================================================================
@@ -1115,6 +1228,11 @@ if c:
     # three
       # four
 
+def a():
+    if b:
+        b # comment
+    b # comment
+
 # five
 
 --------------------------------------------------------------------------------
@@ -1134,6 +1252,19 @@ if c:
         (identifier))
       (comment)
       (comment)))
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (if_statement
+        (identifier)
+        (block
+          (expression_statement
+            (identifier))
+          (comment)))
+      (expression_statement
+        (identifier))
+      (comment)))
   (comment))
 
 ================================================================================
@@ -1146,7 +1277,10 @@ print "a"
 
 (module
   (print_statement
-    (string))
+    (string
+      (string_start)
+      (string_content)
+      (string_end)))
   (comment))
 
 ================================================================================
@@ -1172,19 +1306,40 @@ Exec statements
 exec '1+1'
 exec 'x+=1' in None
 exec 'x+=1' in a, b
+func = "print"
+exec func in {}
 
 --------------------------------------------------------------------------------
 
 (module
   (exec_statement
-    (string))
+    (string
+      (string_start)
+      (string_content)
+      (string_end)))
   (exec_statement
-    (string)
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
     (none))
   (exec_statement
-    (string)
+    (string
+      (string_start)
+      (string_content)
+      (string_end))
     (identifier)
-    (identifier)))
+    (identifier))
+  (expression_statement
+    (assignment
+      (identifier)
+      (string
+        (string_start)
+        (string_content)
+        (string_end))))
+  (exec_statement
+    (identifier)
+    (dictionary)))
 
 ================================================================================
 Extra newlines
@@ -1249,11 +1404,18 @@ or len("aa")
       (call
         (identifier)
         (argument_list
-          (string)))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))
+      (line_continuation)
       (call
         (identifier)
         (argument_list
-          (string))))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
 
 ================================================================================
 Statements with semicolons
@@ -1276,3 +1438,191 @@ foo; bar;
     (identifier))
   (expression_statement
     (identifier)))
+
+================================================================================
+Type Alias Statements
+================================================================================
+
+type Point = tuple[float, float]
+type Point[T] = tuple[T, T]
+type IntFunc[**P] = Callable[P, int]  # ParamSpec
+type LabeledTuple[*Ts] = tuple[str, *Ts]  # TypeVarTuple
+type HashableSequence[T: Hashable] = Sequence[T]  # TypeVar with bound
+type IntOrStrSequence[T: (int, str)] = Sequence[T]  # TypeVar with constraints
+
+--------------------------------------------------------------------------------
+
+(module
+  (type_alias_statement
+    (type
+      (identifier))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (identifier))))))
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier)))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (identifier))))))
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (splat_type
+              (identifier))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (identifier))))))
+  (comment)
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (splat_type
+              (identifier))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))
+          (type
+            (splat_type
+              (identifier)))))))
+  (comment)
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (constrained_type
+              (type
+                (identifier))
+              (type
+                (identifier)))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))))))
+  (comment)
+  (type_alias_statement
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (constrained_type
+              (type
+                (identifier))
+              (type
+                (tuple
+                  (identifier)
+                  (identifier))))))))
+    (type
+      (generic_type
+        (identifier)
+        (type_parameter
+          (type
+            (identifier))))))
+  (comment))
+
+================================================================================
+Generic Function Definitions
+================================================================================
+
+def more_generic[T, *Ts, **P]():
+    type TA[T2, *Ts2, **P2] = tuple[Callable[P, tuple[T, *Ts]], Callable[P2, tuple[T2, *Ts2]]]
+    return TA
+
+--------------------------------------------------------------------------------
+
+(module
+  (function_definition
+    (identifier)
+    (type_parameter
+      (type
+        (identifier))
+      (type
+        (splat_type
+          (identifier)))
+      (type
+        (splat_type
+          (identifier))))
+    (parameters)
+    (block
+      (type_alias_statement
+        (type
+          (generic_type
+            (identifier)
+            (type_parameter
+              (type
+                (identifier))
+              (type
+                (splat_type
+                  (identifier)))
+              (type
+                (splat_type
+                  (identifier))))))
+        (type
+          (generic_type
+            (identifier)
+            (type_parameter
+              (type
+                (generic_type
+                  (identifier)
+                  (type_parameter
+                    (type
+                      (identifier))
+                    (type
+                      (generic_type
+                        (identifier)
+                        (type_parameter
+                          (type
+                            (identifier))
+                          (type
+                            (splat_type
+                              (identifier)))))))))
+              (type
+                (generic_type
+                  (identifier)
+                  (type_parameter
+                    (type
+                      (identifier))
+                    (type
+                      (generic_type
+                        (identifier)
+                        (type_parameter
+                          (type
+                            (identifier))
+                          (type
+                            (splat_type
+                              (identifier)))))))))))))
+      (return_statement
+        (identifier)))))

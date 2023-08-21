@@ -7,9 +7,9 @@
         "src"
       ],
       "sources": [
-        "src/parser.c",
         "bindings/node/binding.cc",
-        "src/scanner.cc"
+        "src/parser.c",
+        "src/scanner.c"
       ],
       "cflags_c": [
         "-std=c99",

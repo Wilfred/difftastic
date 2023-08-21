@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated Bash and Rust parsers.
+Updated Bash, Python and Rust parsers.
 
 ### Display
 

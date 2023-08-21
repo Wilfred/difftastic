@@ -95,6 +95,10 @@ Await expressions
 
 await i(j, 5)
 return await i(j, 5)
+async def region_exists(region: str) -> bool:
+    return region in await all_regions()
+
+assert await a(b) == c
 
 --------------------------------------------------------------------------------
 
@@ -112,7 +116,32 @@ return await i(j, 5)
         (identifier)
         (argument_list
           (identifier)
-          (integer))))))
+          (integer)))))
+  (function_definition
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (block
+      (return_statement
+        (comparison_operator
+          (identifier)
+          (await
+            (call
+              (identifier)
+              (argument_list)))))))
+  (assert_statement
+    (comparison_operator
+      (await
+        (call
+          (identifier)
+          (argument_list
+            (identifier))))
+      (identifier))))
 
 ================================================================================
 Call expressions
@@ -281,18 +310,27 @@ exec("""exec _code_ in _globs_, _locs_""")
       (identifier)
       (argument_list
         (string
-          (escape_sequence)
-          (escape_sequence))
+          (string_start)
+          (string_content
+            (escape_sequence)
+            (escape_sequence))
+          (string_end))
         (dictionary
           (pair
-            (string)
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
             (none)))
         (identifier))))
   (expression_statement
     (call
       (identifier)
       (argument_list
-        (string)))))
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
 
 ================================================================================
 Async / await used as identifiers
@@ -645,9 +683,11 @@ tail_leaves: List[Leaf] = []
     (assignment
       (identifier)
       (type
-        (subscript
+        (generic_type
           (identifier)
-          (identifier)))
+          (type_parameter
+            (type
+              (identifier)))))
       (list))))
 
 ================================================================================
@@ -762,7 +802,10 @@ foo(x := 3, cat='vector')
           (integer))
         (keyword_argument
           (identifier)
-          (string)))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end))))))
   (expression_statement
     (parenthesized_expression
       (named_expression
@@ -841,7 +884,10 @@ lambda (a, b): (a, b)
         (identifier)
         (argument_list
           (binary_operator
-            (string)
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
             (identifier))))))
   (expression_statement
     (lambda
@@ -900,6 +946,32 @@ Tuples with yield
       (yield
         (expression_list
           (identifier)
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Default Tuple Arguments
+================================================================================
+
+def comp_args((a, b)=(3, 4)):
+    return a, b
+
+--------------------------------------------------------------------------------
+
+(module
+  (function_definition
+    (identifier)
+    (parameters
+      (default_parameter
+        (tuple_pattern
+          (identifier)
+          (identifier))
+        (tuple
+          (integer)
+          (integer))))
+    (block
+      (return_statement
+        (expression_list
           (identifier)
           (identifier))))))
 
@@ -969,21 +1041,21 @@ async with a as b:
                 left: (identifier)
                 right: (identifier)))))))))
 
-===========================================
+================================================================================
 Arbitrary indentation between brackets
-==========================================
+================================================================================
 
 def a():
     b(
 1,
 2
     )
-    
+
     c = [
 3
     ]
 
----
+--------------------------------------------------------------------------------
 
 (module
   (function_definition
@@ -1001,3 +1073,36 @@ def a():
           (identifier)
           (list
             (integer)))))))
+
+================================================================================
+Splat Inside of Expression List
+================================================================================
+
+a,c = [1,2],3
+w, x, y, z = 0, *a, c
+
+--------------------------------------------------------------------------------
+
+(module
+  (expression_statement
+    (assignment
+      (pattern_list
+        (identifier)
+        (identifier))
+      (expression_list
+        (list
+          (integer)
+          (integer))
+        (integer))))
+  (expression_statement
+    (assignment
+      (pattern_list
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier))
+      (expression_list
+        (integer)
+        (list_splat
+          (identifier))
+        (identifier)))))
