@@ -963,9 +963,9 @@ $((${n} < 10 ? ${n} : 10))
       (arithmetic_expansion
         (ternary_expression
           (binary_expression
-            (word)
+            (variable_name)
             (number))
-          (word)
+          (variable_name)
           (number)))))
   (command
     (command_name

@@ -542,7 +542,76 @@ module.exports = grammar({
       $.arithmetic_expansion,
     ),
 
-    arithmetic_expansion: $ => seq('$(', '(', $._expression, '))'),
+    arithmetic_expansion: $ => seq('$((', $._arithmetic_expression, '))'),
+
+    _arithmetic_expression: $ => choice(
+      $._arithmetic_literal,
+      alias($._arithmetic_unary_expression, $.unary_expression),
+      alias($._arithmetic_ternary_expression, $.ternary_expression),
+      alias($._arithmetic_binary_expression, $.binary_expression),
+      alias($._arithmetic_postfix_expression, $.postfix_expression),
+      alias($._arithmetic_parenthesized_expression, $.parenthesized_expression),
+    ),
+
+    _arithmetic_literal: $ => prec(1, choice(
+      $.number,
+      $.subscript,
+      $.simple_expansion,
+      $.expansion,
+      $._simple_variable_name,
+    )),
+
+    _arithmetic_binary_expression: $ => prec.left(2, choice(
+      seq(
+        field('left', $._arithmetic_expression),
+        field('operator', choice(
+          '=', '==', '=~', '!=',
+          '+', '-', '+=', '-=',
+          '*', '/', '*=', '/=',
+          '%', '%=', '**',
+          '<', '>', '<=', '>=',
+          '||', '&&',
+          '<<', '>>', '<<=', '>>=',
+          '&', '|', '^',
+          '&=', '|=', '^=',
+          $.test_operator,
+        )),
+        field('right', $._arithmetic_expression),
+      ),
+    )),
+
+    _arithmetic_ternary_expression: $ => prec.left(
+      seq(
+        field('condition', $._arithmetic_expression),
+        '?',
+        field('consequence', $._arithmetic_expression),
+        ':',
+        field('alternative', $._arithmetic_expression),
+      ),
+    ),
+
+    _arithmetic_unary_expression: $ => choice(
+      prec(1, seq(
+        token(prec(1, choice('-', '+', '~', '++', '--'))),
+        $._arithmetic_expression,
+      )),
+      prec.right(1, seq(
+        choice('!', $.test_operator),
+        $._arithmetic_expression,
+      )),
+    ),
+
+    _arithmetic_postfix_expression: $ => seq(
+      $._arithmetic_expression,
+      choice('++', '--'),
+    ),
+
+    _arithmetic_parenthesized_expression: $ => seq(
+      '(',
+      $._arithmetic_expression,
+      ')',
+    ),
+
 
     concatenation: $ => prec(-1, seq(
       choice(
