@@ -70,6 +70,10 @@ while something happens; do
   echo b
 done
 
+while local name="$1" val="$2"; shift 2; do
+  printf "%s (%s)\n" "$val" "$name"
+done
+
 --------------------------------------------------------------------------------
 
 (program
@@ -86,7 +90,34 @@ done
       (command
         name: (command_name
           (word))
-        argument: (word)))))
+        argument: (word))))
+  (while_statement
+    condition: (declaration_command
+      (variable_assignment
+        name: (variable_name)
+        value: (string
+          (simple_expansion
+            (variable_name))))
+      (variable_assignment
+        name: (variable_name)
+        value: (string
+          (simple_expansion
+            (variable_name)))))
+    condition: (command
+      name: (command_name
+        (word))
+      argument: (number))
+    body: (do_group
+      (command
+        name: (command_name
+          (word))
+        argument: (string)
+        argument: (string
+          (simple_expansion
+            (variable_name)))
+        argument: (string
+          (simple_expansion
+            (variable_name)))))))
 
 ================================================================================
 Until statements
