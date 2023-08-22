@@ -315,7 +315,7 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      optional(choice($._statements2, seq($._statement, optional($._terminator)))),
+      optional(choice($._statements2, seq($._statement, $._terminator))),
       alias(token(prec(-1, '}')), '}'),
     ),
 

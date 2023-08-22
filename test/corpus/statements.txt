@@ -1103,7 +1103,7 @@ function do_yet_another_thing {
   echo ok
 } 2>&1
 
-do_nothing() { return 0 }
+do_nothing() { return 0; }
 
 --------------------------------------------------------------------------------
 
