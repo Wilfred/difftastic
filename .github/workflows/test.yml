@@ -30,6 +30,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.59.0
         with:
           targets: x86_64-unknown-linux-musl
+      - run: rustup target add x86_64-unknown-linux-musl
       - run: cargo test --target=x86_64-unknown-linux-musl
 
   # test_linux_arm64:
