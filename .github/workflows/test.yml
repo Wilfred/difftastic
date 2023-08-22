@@ -31,6 +31,7 @@ jobs:
         with:
           targets: x86_64-unknown-linux-musl
       - run: rustup target add x86_64-unknown-linux-musl
+      - run: sudo apt-get install musl-tools
       - run: cargo test --target=x86_64-unknown-linux-musl
 
   # test_linux_arm64:
@@ -50,6 +51,16 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.59.0
       - run: cargo test
+
+  test_mac_arm:
+    name: Test macOS ARM
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.59.0
+        with:
+          targets: aarch64-apple-darwin
+      - run: cargo test --target=aarch64-apple-darwin
 
   test_windows:
     name: Test Windows
