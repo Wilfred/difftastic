@@ -700,7 +700,13 @@ module.exports = grammar({
           $.command_substitution,
         ),
         optional(seq(
-          token(prec(1, '/')),
+          choice(
+            alias(token(prec(1, '/')), '/'),
+            alias(token(prec(1, ',')), ','),
+            alias(token(prec(1, ',,')), ',,'),
+            alias(token(prec(1, '^')), '^'),
+            alias(token(prec(1, '^^')), '^^'),
+          ),
           optional($.regex),
         )),
         repeat(prec.right(choice(

@@ -168,6 +168,8 @@ X="${Y%<}"
 Z="${A#*<B>}"
 C="${D%</E>*}"
 F="${#!}"
+G=${H,,[I]}
+J=${K^^[L]}
 
 --------------------------------------------------------------------------------
 
@@ -261,7 +263,17 @@ F="${#!}"
   (variable_assignment
     (variable_name)
     (string
-      (expansion))))
+      (expansion)))
+  (variable_assignment
+    (variable_name)
+    (expansion
+      (variable_name)
+      (regex)))
+  (variable_assignment
+    (variable_name)
+    (expansion
+      (variable_name)
+      (regex))))
 
 ================================================================================
 Variable expansions in strings
