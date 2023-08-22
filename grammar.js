@@ -549,7 +549,7 @@ module.exports = grammar({
         alias($._special_character, $.word),
       ),
       repeat1(seq(
-        $._concat,
+        choice($._concat, alias(/`\s*`/, '``')),
         choice(
           $._primary_expression,
           alias($._special_character, $.word),

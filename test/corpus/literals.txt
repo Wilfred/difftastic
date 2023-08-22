@@ -853,3 +853,25 @@ $(((${1:-${SECONDS}} % 12) + 144))
                   (variable_name)))
               (number)))
           (number))))))
+
+================================================================================
+Concatenation with double backticks
+================================================================================
+
+main() {
+    local foo="asd"`
+        `"fgh"
+}
+
+---
+
+(program
+  (function_definition
+    (word)
+    (compound_statement
+      (declaration_command
+        (variable_assignment
+          (variable_name)
+          (concatenation
+            (string)
+            (string)))))))
