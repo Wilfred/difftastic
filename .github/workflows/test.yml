@@ -22,6 +22,16 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo +stable test
 
+  test_linux_musl_build:
+    name: Test Linux (musl)
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.59.0
+        with:
+          targets: x86_64-unknown-linux-musl
+      - run: cargo test --target=x86_64-unknown-linux-musl
+
   # test_linux_arm64:
   #   name: Test Linux arm64 (build only)
   #   runs-on: ubuntu-20.04
