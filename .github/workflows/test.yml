@@ -60,6 +60,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.59.0
         with:
           targets: aarch64-apple-darwin
+      - run: rustup target add aarch64-apple-darwin
       - run: cargo test --target=aarch64-apple-darwin
 
   test_windows:
