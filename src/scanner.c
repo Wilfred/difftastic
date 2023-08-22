@@ -350,7 +350,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                     advance(lexer);
                     scanner->heredoc_allows_indent = true;
                     lexer->result_symbol = HEREDOC_ARROW_DASH;
-                } else if (lexer->lookahead == '<') {
+                } else if (lexer->lookahead == '<' || lexer->lookahead == '=') {
                     return false;
                 } else {
                     scanner->heredoc_allows_indent = false;
