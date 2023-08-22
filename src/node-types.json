@@ -174,7 +174,43 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "expansion",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "simple_expansion",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -209,6 +245,26 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "variable_name",
             "named": true
           }
         ]
@@ -356,7 +412,27 @@
             "named": true
           },
           {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
             "type": "regex",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "variable_name",
             "named": true
           }
         ]
@@ -368,6 +444,10 @@
       "types": [
         {
           "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "command_substitution",
           "named": true
         },
         {
@@ -436,6 +516,10 @@
             "named": true
           },
           {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
             "type": "expansion",
             "named": true
           },
@@ -486,6 +570,10 @@
             "named": true
           },
           {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
             "type": "expansion",
             "named": true
           },
@@ -533,6 +621,10 @@
           },
           {
             "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
             "named": true
           },
           {
@@ -1280,15 +1372,34 @@
     }
   },
   {
-    "type": "parenthesized_expression",
+    "type": "number",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expansion",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesized_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "command_substitution",
           "named": true
         },
         {
@@ -1308,7 +1419,15 @@
           "named": true
         },
         {
+          "type": "subscript",
+          "named": true
+        },
+        {
           "type": "variable_assignment",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -1342,6 +1461,10 @@
           "named": true
         },
         {
+          "type": "command_substitution",
+          "named": true
+        },
+        {
           "type": "expansion",
           "named": true
         },
@@ -1355,6 +1478,14 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -1550,6 +1681,26 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
           }
         ]
       },
@@ -1560,6 +1711,26 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
           }
         ]
       },
@@ -1569,6 +1740,26 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "simple_expansion",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "variable_name",
             "named": true
           }
         ]
@@ -1581,7 +1772,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_expression",
@@ -1622,6 +1813,10 @@
           "named": true
         },
         {
+          "type": "command_substitution",
+          "named": true
+        },
+        {
           "type": "expansion",
           "named": true
         },
@@ -1638,7 +1833,15 @@
           "named": true
         },
         {
+          "type": "subscript",
+          "named": true
+        },
+        {
           "type": "test_operator",
+          "named": true
+        },
+        {
+          "type": "variable_name",
           "named": true
         }
       ]
@@ -1710,6 +1913,10 @@
       "types": [
         {
           "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "command_substitution",
           "named": true
         },
         {
@@ -1910,6 +2117,10 @@
     "named": false
   },
   {
+    "type": "$((",
+    "named": false
+  },
+  {
     "type": "$`",
     "named": false
   },
@@ -1991,6 +2202,10 @@
   },
   {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": ",,",
     "named": false
   },
   {
@@ -2142,6 +2357,10 @@
     "named": false
   },
   {
+    "type": "^^",
+    "named": false
+  },
+  {
     "type": "`",
     "named": false
   },
@@ -2224,10 +2443,6 @@
   {
     "type": "local",
     "named": false
-  },
-  {
-    "type": "number",
-    "named": true
   },
   {
     "type": "raw_string",
