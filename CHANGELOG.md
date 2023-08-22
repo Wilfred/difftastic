@@ -11,6 +11,15 @@ you to set DFT_UNSTABLE. The JSON structure may change in future.
 
 Please give it a try and give feedback on GitHub issues.
 
+### Build
+
+Added support for Linux with musl, Linux on aarch64, and macOS on
+aarch64.
+
+Note that Difftastic already worked on these platforms, but they are
+now exercised in CI and will be included in prebuilt binaries in
+releases.
+
 ## 0.50 (released 15th August 2023)
 
 ### Conflicts

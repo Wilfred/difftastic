@@ -3,15 +3,53 @@ on: [push, pull_request]
 name: Continuous integration
 
 jobs:
-  test_linux:
-    name: Test Linux
+  build:
+    name: Test ${{ matrix.job.target }}
+    runs-on: ${{ matrix.job.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
+          - { target: x86_64-apple-darwin, os: macos-latest }
+          - { target: x86_64-pc-windows-gnu, os: windows-latest }
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true }
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
+          - { target: aarch64-apple-darwin, os: ubuntu-20.04, use-cross: true }
+    env:
+      BUILD_CMD: cargo
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@1.59.0
+      with:
+        targets: ${{ matrix.job.target }}
+
+    - name: Install cross
+      if: matrix.job.use-cross
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cross
+
+    - name: Overwrite build command env variable
+      if: matrix.job.use-cross
+      shell: bash
+      run: echo "BUILD_CMD=cross" >> $GITHUB_ENV
+
+    - name: Test
+      shell: bash
+      run: $BUILD_CMD test
+
+  test_mime_db:
+    name: Test with MIME database
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.59.0
-      - run: cargo test
-      # This also runs tests that rely on the MIME database being
-      # present.
+      # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
 
   test_linux_latest_stable:
@@ -21,32 +59,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo +stable test
-
-  # test_linux_arm64:
-  #   name: Test Linux arm64 (build only)
-  #   runs-on: ubuntu-20.04
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: dtolnay/rust-toolchain@1.59.0
-  #     - run: rustup target add aarch64-unknown-linux-gnu
-  #     - run: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-  #     - run: cargo build --target=aarch64-unknown-linux-gnu
-
-  test_mac:
-    name: Test macOS
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
-      - run: cargo test
-
-  test_windows:
-    name: Test Windows
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
-      - run: cargo test
 
   regression_test:
     name: Output Regression Test
