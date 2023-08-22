@@ -353,7 +353,7 @@ module.exports = grammar({
       choice(
         seq('[', choice($._expression, $.redirected_statement), ']'),
         seq('[[', $._expression, ']]'),
-        seq('(', '(', $._expression, '))'),
+        seq('(', '(', optional($._expression), '))'),
       ),
     ),
 
@@ -661,7 +661,11 @@ module.exports = grammar({
 
     ansi_c_string: _ => /\$'([^']|\\')*'/,
 
-    number: _ => /-?(0x)?[0-9]+(#[0-9A-Za-z@_]+)?/,
+    number: $ => choice(
+      /-?(0x)?[0-9]+(#[0-9A-Za-z@_]+)?/,
+      // the base can be an expansion
+      seq(/-?(0x)?[0-9]+#/, $.expansion),
+    ),
 
     simple_expansion: $ => seq(
       '$',
