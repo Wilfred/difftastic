@@ -614,6 +614,10 @@
           {
             "type": "concatenation",
             "named": true
+          },
+          {
+            "type": "extglob_pattern",
+            "named": true
           }
         ]
       }
@@ -671,6 +675,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "$",
+            "named": false
+          },
           {
             "type": "==",
             "named": false
@@ -786,7 +794,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "_primary_expression",
@@ -1020,6 +1028,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "file_redirect",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1478,6 +1496,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
             "named": true
           },
           {
@@ -2124,6 +2146,10 @@
     "named": false
   },
   {
+    "type": "``",
+    "named": false
+  },
+  {
     "type": "ansi_c_string",
     "named": true
   },
@@ -2162,6 +2188,10 @@
   {
     "type": "export",
     "named": false
+  },
+  {
+    "type": "extglob_pattern",
+    "named": true
   },
   {
     "type": "fi",
