@@ -1,4 +1,3 @@
-examples/bash/tests/arith-for.tests
 examples/bash/tests/arith.tests
 examples/bash/tests/array.tests
 examples/bash/tests/assoc.tests
