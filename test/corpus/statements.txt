@@ -303,6 +303,19 @@ done
 
 for (( i = 4;;i--)) ; do echo $i; if (( $i == 0 )); then break; fi; done
 
+# added post-bash-4.2
+for (( i = j = k = 1; i % 9 || (j *= -1, $( ((i%9)) || printf " " >&2; echo 0), k++ <= 10); i += j ))
+do
+printf "$i"
+done
+
+echo
+
+( for (( i = j = k = 1; i % 9 || (j *= -1, $( ((i%9)) || printf " " >&2; echo 0), k++ <= 10); i += j ))
+do
+printf "$i"
+done )
+
 --------------------------------------------------------------------------------
 
 (program
@@ -387,7 +400,102 @@ for (( i = 4;;i--)) ; do echo $i; if (( $i == 0 )); then break; fi; done
             (regex)))
         (command
           (command_name
-            (word)))))))
+            (word))))))
+  (comment)
+  (c_style_for_statement
+    (variable_assignment
+      (variable_name)
+      (variable_assignment
+        (variable_name)
+        (variable_assignment
+          (variable_name)
+          (number))))
+    (binary_expression
+      (word)
+      (binary_expression
+        (number)
+        (parenthesized_expression
+          (binary_expression
+            (word)
+            (number))
+          (command_substitution
+            (redirected_statement
+              (list
+                (test_command
+                  (word))
+                (command
+                  (command_name
+                    (word))
+                  (string)))
+              (file_redirect
+                (number)))
+            (command
+              (command_name
+                (word))
+              (number)))
+          (binary_expression
+            (postfix_expression
+              (word))
+            (number)))))
+    (binary_expression
+      (word)
+      (word))
+    (do_group
+      (command
+        (command_name
+          (word))
+        (string
+          (simple_expansion
+            (variable_name))))))
+  (command
+    (command_name
+      (word)))
+  (subshell
+    (c_style_for_statement
+      (variable_assignment
+        (variable_name)
+        (variable_assignment
+          (variable_name)
+          (variable_assignment
+            (variable_name)
+            (number))))
+      (binary_expression
+        (word)
+        (binary_expression
+          (number)
+          (parenthesized_expression
+            (binary_expression
+              (word)
+              (number))
+            (command_substitution
+              (redirected_statement
+                (list
+                  (test_command
+                    (word))
+                  (command
+                    (command_name
+                      (word))
+                    (string)))
+                (file_redirect
+                  (number)))
+              (command
+                (command_name
+                  (word))
+                (number)))
+            (binary_expression
+              (postfix_expression
+                (word))
+              (number)))))
+      (binary_expression
+        (word)
+        (word))
+      (do_group
+        (command
+          (command_name
+            (word))
+          (string
+            (simple_expansion
+              (variable_name))))))))
 
 ================================================================================
 If statements

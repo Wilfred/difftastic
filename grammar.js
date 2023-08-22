@@ -184,6 +184,7 @@ module.exports = grammar({
       alias($._c_binary_expression, $.binary_expression),
       alias($._c_postfix_expression, $.postfix_expression),
       alias($._c_parenthesized_expression, $.parenthesized_expression),
+      $.command_substitution,
     ),
 
     _c_variable_assignment: $ => seq(
@@ -196,7 +197,7 @@ module.exports = grammar({
       $._c_expression_not_assignment,
     )),
     _c_binary_expression: $ => prec.right(seq(
-      choice($._c_word, $.simple_expansion),
+      $._c_expression_not_assignment,
       choice(
         '+=', '-=', '*=', '/=', '%=', '**=',
         '<<=', '>>=', '&=', '^=', '|=',
@@ -213,7 +214,7 @@ module.exports = grammar({
     ),
     _c_parenthesized_expression: $ => seq(
       '(',
-      $._c_expression,
+      commaSep1($._c_expression),
       ')',
     ),
     _c_word: $ => alias(/[a-zA-Z_][a-zA-Z0-9_]*/, $.word),
@@ -591,7 +592,7 @@ module.exports = grammar({
 
     ansi_c_string: _ => /\$'([^']|\\')*'/,
 
-    number: _ => /(0x)?[0-9]+(#[0-9A-Za-z@_]+)?/,
+    number: _ => /-?(0x)?[0-9]+(#[0-9A-Za-z@_]+)?/,
 
     simple_expansion: $ => seq(
       '$',
