@@ -48,6 +48,7 @@ enum TokenType {
     VARIABLE_NAME,
     REGEX,
     EXTGLOB_PATTERN,
+    BARE_DOLLAR,
     CLOSING_BRACE,
     CLOSING_BRACKET,
     HEREDOC_ARROW,
@@ -276,6 +277,18 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
               (lexer->lookahead == ']' && valid_symbols[CLOSING_BRACKET]))) {
             lexer->result_symbol = CONCAT;
             return true;
+        }
+    }
+
+    if (valid_symbols[BARE_DOLLAR] && !in_error_recovery(valid_symbols)) {
+        while (iswspace(lexer->lookahead)) {
+            skip(lexer);
+        }
+
+        if (lexer->lookahead == '$') {
+            advance(lexer);
+            lexer->result_symbol = BARE_DOLLAR;
+            return iswspace(lexer->lookahead) || lexer->eof(lexer);
         }
     }
 

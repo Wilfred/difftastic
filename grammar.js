@@ -56,6 +56,7 @@ module.exports = grammar({
     $.variable_name, // Variable name followed by an operator like '=' or '+='
     $.regex,
     $.extglob_pattern,
+    $._bare_dollar,
     '}',
     ']',
     '<<',
@@ -380,6 +381,7 @@ module.exports = grammar({
       field('name', $.command_name),
       repeat(field('argument', choice(
         $._literal,
+        alias($._bare_dollar, '$'),
         seq(
           choice('=~', '=='),
           choice($._literal, $.regex),

@@ -432,3 +432,16 @@ ${array[((number+1))]}
         (subscript
           (variable_name)
           (parenthesized_expression (parenthesized_expression (word))))))))
+
+==========================================
+Bare $
+==========================================
+
+echo $
+
+---
+
+(program
+  (command
+    (command_name
+      (word))))
