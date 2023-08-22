@@ -154,7 +154,7 @@ module.exports = grammar({
     c_style_for_statement: $ => seq(
       'for',
       '((',
-      choice($._for_body, ';;'),
+      choice($._for_body),
       '))',
       optional(';'),
       field('body', choice(
@@ -164,9 +164,9 @@ module.exports = grammar({
     ),
     _for_body: $ => seq(
       field('initializer', commaSep($._c_expression)),
-      $._terminator,
+      $._c_terminator,
       field('condition', commaSep($._c_expression)),
-      $._terminator,
+      $._c_terminator,
       field('update', commaSep($._c_expression)),
     ),
 
@@ -684,6 +684,7 @@ module.exports = grammar({
 
     test_operator: _ => token(prec(1, seq('-', /[a-zA-Z]+/))),
 
+    _c_terminator: _ => choice(';', '\n', '&'),
     _terminator: _ => choice(';', ';;', '\n', '&'),
   },
 });
