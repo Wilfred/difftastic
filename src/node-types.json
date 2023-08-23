@@ -50,6 +50,10 @@
         "named": true
       },
       {
+        "type": "brace_expression",
+        "named": true
+      },
+      {
         "type": "command_substitution",
         "named": true
       },
@@ -480,6 +484,21 @@
         },
         {
           "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "brace_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
           "named": true
         }
       ]
@@ -1535,7 +1554,7 @@
     "fields": {
       "body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_statement",
@@ -1545,7 +1564,7 @@
       },
       "redirect": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "file_redirect",
@@ -1561,6 +1580,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "file_redirect",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2218,6 +2247,10 @@
   },
   {
     "type": "-=",
+    "named": false
+  },
+  {
+    "type": "..",
     "named": false
   },
   {
