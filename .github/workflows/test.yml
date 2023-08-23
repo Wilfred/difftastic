@@ -27,13 +27,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
+        # https://github.com/rust-lang/rust/issues/95926
+      - uses: dtolnay/rust-toolchain@1.62.0
         with:
           targets: x86_64-unknown-linux-musl
       - run: sudo apt-get install musl-tools musl-dev
       - run: sudo ln -s /bin/g++ /bin/musl-g++
       - run: rustup show active-toolchain
-      - run: rustup target install --toolchain 1.59 x86_64-unknown-linux-musl
+      - run: rustup target install --toolchain 1.62 x86_64-unknown-linux-musl
       - run: cargo build --target=x86_64-unknown-linux-musl
       - run: cargo run --target=x86_64-unknown-linux-musl -- --help
       - run: cargo test --target=x86_64-unknown-linux-musl -vv -- --nocapture --test-threads 1
