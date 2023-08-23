@@ -29,6 +29,8 @@ module.exports = grammar({
     [$._expression, $.command_name],
     [$.command, $.variable_assignments],
     [$.compound_statement],
+    [$.redirected_statement, $.command],
+    [$.redirected_statement, $.command_substitution],
   ],
 
   inline: $ => [
@@ -132,14 +134,17 @@ module.exports = grammar({
       $.function_definition,
     ),
 
-    redirected_statement: $ => prec(-1, seq(
-      field('body', $._statement),
-      field('redirect', repeat1(choice(
-        $.file_redirect,
-        $.heredoc_redirect,
-        $.herestring_redirect,
-      ))),
-    )),
+    redirected_statement: $ => prec.dynamic(-1, prec(-1, choice(
+      seq(
+        field('body', $._statement),
+        field('redirect', repeat1(choice(
+          $.file_redirect,
+          $.heredoc_redirect,
+          $.herestring_redirect,
+        ))),
+      ),
+      repeat1($.file_redirect),
+    ))),
 
     for_statement: $ => seq(
       choice('for', 'select'),
@@ -352,7 +357,7 @@ module.exports = grammar({
 
     test_command: $ => seq(
       choice(
-        seq('[', choice($._expression, $.redirected_statement), ']'),
+        seq('[', optional(choice($._expression, $.redirected_statement)), ']'),
         seq('[[', $._expression, ']]'),
         seq('(', '(', optional($._expression), '))'),
       ),

@@ -92,6 +92,10 @@ cat a b > /dev/null
 echo "foobar" >&2
 [ ! command -v go &>/dev/null ] && return
 
+if [ ]; then
+	>aa >bb
+fi
+
 ---
 
 (program
@@ -113,7 +117,12 @@ echo "foobar" >&2
         (negated_command
           (command (command_name (word)) (word) (word)))
         (file_redirect (word))))
-    (command (command_name (word)))))
+    (command (command_name (word))))
+  (if_statement
+    (test_command)
+    (redirected_statement
+      (file_redirect (word))
+      (file_redirect (word)))))
 
 ===============================
 File redirects (noclobber override)
