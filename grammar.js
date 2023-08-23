@@ -322,7 +322,7 @@ module.exports = grammar({
     compound_statement: $ => seq(
       '{',
       optional(choice($._statements2, seq($._statement, $._terminator))),
-      alias(token(prec(-1, '}')), '}'),
+      token(prec(-1, '}')),
     ),
 
     subshell: $ => seq(
@@ -699,7 +699,7 @@ module.exports = grammar({
       '${',
       repeat(choice('#', '!', '=')),
       optional($._expansion_body),
-      alias('}', '}'),
+      '}',
     ),
     _expansion_body: $ => choice(
       seq(
