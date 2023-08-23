@@ -48,10 +48,10 @@ module.exports = grammar({
 
   externals: $ => [
     $.heredoc_start,
-    $._simple_heredoc_body,
+    $.simple_heredoc_body,
     $._heredoc_body_beginning,
     $._heredoc_body_middle,
-    $._heredoc_body_end,
+    $.heredoc_end,
     $.file_descriptor,
     $._empty_value,
     $._concat,
@@ -88,17 +88,17 @@ module.exports = grammar({
     _statements: $ => prec(1, seq(
       repeat(seq(
         $._statement,
-        optional(seq('\n', $.heredoc_body)),
+        optional(seq('\n', choice($._heredoc_body, $._simple_heredoc_body))),
         $._terminator,
       )),
       $._statement,
-      optional(seq('\n', $.heredoc_body)),
+      optional(seq('\n', choice($._heredoc_body, $._simple_heredoc_body))),
       optional($._terminator),
     )),
 
     _statements2: $ => repeat1(seq(
       $._statement,
-      optional(seq('\n', $.heredoc_body)),
+      optional(seq('\n', choice($._heredoc_body, $._simple_heredoc_body))),
       $._terminator,
     )),
 
@@ -438,18 +438,24 @@ module.exports = grammar({
       $.heredoc_start,
     ),
 
-    heredoc_body: $ => choice(
-      $._simple_heredoc_body,
-      seq(
-        $._heredoc_body_beginning,
-        repeat(choice(
-          $.expansion,
-          $.simple_expansion,
-          $.command_substitution,
-          $._heredoc_body_middle,
-        )),
-        $._heredoc_body_end,
-      ),
+    _heredoc_body: $ => seq(
+      $.heredoc_body,
+      $.heredoc_end,
+    ),
+
+    heredoc_body: $ => seq(
+      $._heredoc_body_beginning,
+      repeat(choice(
+        $.expansion,
+        $.simple_expansion,
+        $.command_substitution,
+        $._heredoc_body_middle,
+      )),
+    ),
+
+    _simple_heredoc_body: $ => seq(
+      $.simple_heredoc_body,
+      $.heredoc_end,
     ),
 
     herestring_redirect: $ => seq(

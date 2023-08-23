@@ -42,7 +42,7 @@ enum TokenType {
     SIMPLE_HEREDOC_BODY,
     HEREDOC_BODY_BEGINNING,
     HEREDOC_BODY_MIDDLE,
-    HEREDOC_BODY_END,
+    HEREDOC_END,
     FILE_DESCRIPTOR,
     EMPTY_VALUE,
     CONCAT,
@@ -81,9 +81,16 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static inline bool in_error_recovery(const bool *valid_symbols) {
-    return valid_symbols[HEREDOC_START] && valid_symbols[HEREDOC_BODY_END] &&
+    return valid_symbols[HEREDOC_START] && valid_symbols[HEREDOC_END] &&
            valid_symbols[FILE_DESCRIPTOR] && valid_symbols[EMPTY_VALUE] &&
            valid_symbols[CONCAT] && valid_symbols[REGEX];
+}
+
+static inline void reset(Scanner *scanner) {
+    scanner->heredoc_is_raw = false;
+    scanner->started_heredoc = false;
+    scanner->heredoc_allows_indent = false;
+    STRING_CLEAR(scanner->heredoc_delimiter);
 }
 
 static unsigned serialize(Scanner *scanner, char *buffer) {
@@ -101,10 +108,7 @@ static unsigned serialize(Scanner *scanner, char *buffer) {
 
 static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
     if (length == 0) {
-        scanner->heredoc_is_raw = false;
-        scanner->started_heredoc = false;
-        scanner->heredoc_allows_indent = false;
-        STRING_CLEAR(scanner->heredoc_delimiter);
+        reset(scanner);
     } else {
         scanner->heredoc_is_raw = buffer[0];
         scanner->started_heredoc = buffer[1];
@@ -195,10 +199,7 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
         switch (lexer->lookahead) {
             case '\0': {
                 if (lexer->eof(lexer) && did_advance) {
-                    scanner->heredoc_is_raw = false;
-                    scanner->started_heredoc = false;
-                    scanner->heredoc_allows_indent = false;
-                    STRING_CLEAR(scanner->heredoc_delimiter);
+                    reset(scanner);
                     lexer->result_symbol = end_type;
                     return true;
                 }
@@ -227,20 +228,29 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
             }
 
             case '\n': {
+                if (!did_advance) {
+                    skip(lexer);
+                } else {
+                    advance(lexer);
+                }
                 did_advance = true;
-                advance(lexer);
                 if (scanner->heredoc_allows_indent) {
                     while (iswspace(lexer->lookahead)) {
                         advance(lexer);
                     }
                 }
-                if (scan_heredoc_end_identifier(scanner, lexer)) {
-                    scanner->heredoc_is_raw = false;
-                    scanner->started_heredoc = false;
-                    scanner->heredoc_allows_indent = false;
-                    STRING_CLEAR(scanner->heredoc_delimiter);
+                if (end_type != SIMPLE_HEREDOC_BODY &&
+                    scan_heredoc_end_identifier(scanner, lexer)) {
+                    reset(scanner);
                     lexer->result_symbol = end_type;
                     return true;
+                }
+                if (end_type == SIMPLE_HEREDOC_BODY) {
+                    lexer->result_symbol = end_type;
+                    lexer->mark_end(lexer);
+                    if (scan_heredoc_end_identifier(scanner, lexer)) {
+                        return true;
+                    }
                 }
                 break;
             }
@@ -252,13 +262,18 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
                     while (iswspace(lexer->lookahead)) {
                         skip(lexer);
                     }
-                    if (scan_heredoc_end_identifier(scanner, lexer)) {
-                        scanner->heredoc_is_raw = false;
-                        scanner->started_heredoc = false;
-                        scanner->heredoc_allows_indent = false;
-                        STRING_CLEAR(scanner->heredoc_delimiter);
+                    if (end_type != SIMPLE_HEREDOC_BODY &&
+                        scan_heredoc_end_identifier(scanner, lexer)) {
+                        reset(scanner);
                         lexer->result_symbol = end_type;
                         return true;
+                    }
+                    if (end_type == SIMPLE_HEREDOC_BODY) {
+                        lexer->result_symbol = end_type;
+                        lexer->mark_end(lexer);
+                        if (scan_heredoc_end_identifier(scanner, lexer)) {
+                            return true;
+                        }
                     }
                 }
                 did_advance = true;
@@ -325,11 +340,19 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                                     SIMPLE_HEREDOC_BODY);
     }
 
+    if (valid_symbols[HEREDOC_END]) {
+        if (scan_heredoc_end_identifier(scanner, lexer)) {
+            reset(scanner);
+            lexer->result_symbol = HEREDOC_END;
+            return true;
+        }
+    }
+
     if (valid_symbols[HEREDOC_BODY_MIDDLE] &&
         scanner->heredoc_delimiter.len > 0 && scanner->started_heredoc &&
         !in_error_recovery(valid_symbols)) {
         return scan_heredoc_content(scanner, lexer, HEREDOC_BODY_MIDDLE,
-                                    HEREDOC_BODY_END);
+                                    HEREDOC_END);
     }
 
     if (valid_symbols[HEREDOC_START] && !in_error_recovery(valid_symbols)) {
