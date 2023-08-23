@@ -57,15 +57,15 @@ use files::{
     ProbableFileKind,
 };
 use log::info;
-use mimalloc::MiMalloc;
+// use mimalloc::MiMalloc;
 use parse::guess_language::{guess, language_name, Language, LanguageOverride};
 
 /// The global allocator used by difftastic.
 ///
 /// Diffing allocates a large amount of memory, and `MiMalloc` performs
 /// better.
-#[global_allocator]
-static GLOBAL: MiMalloc = MiMalloc;
+// #[global_allocator]
+// static GLOBAL: MiMalloc = MiMalloc;
 
 use diff::sliders::fix_all_sliders;
 use humansize::{format_size, BINARY};
