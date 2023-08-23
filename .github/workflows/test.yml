@@ -35,6 +35,7 @@ jobs:
       - run: rustup show active-toolchain
       - run: rustup target install --toolchain 1.59 x86_64-unknown-linux-musl
       - run: cargo build --target=x86_64-unknown-linux-musl
+      - run: cargo run --target=x86_64-unknown-linux-musl -- --help
       - run: cargo test --target=x86_64-unknown-linux-musl
 
   # test_linux_arm64:
