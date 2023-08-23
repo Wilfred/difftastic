@@ -276,10 +276,24 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
               lexer->lookahead == '<' || lexer->lookahead == ')' ||
               lexer->lookahead == '(' || lexer->lookahead == ';' ||
               lexer->lookahead == '&' || lexer->lookahead == '|' ||
-              lexer->lookahead == '`' ||
               (lexer->lookahead == '}' && valid_symbols[CLOSING_BRACE]) ||
               (lexer->lookahead == ']' && valid_symbols[CLOSING_BRACKET]))) {
             lexer->result_symbol = CONCAT;
+            // This sucks
+            if (lexer->lookahead == '`') {
+                lexer->mark_end(lexer);
+                advance(lexer);
+                while (lexer->lookahead != '`' && !lexer->eof(lexer)) {
+                    advance(lexer);
+                }
+                if (lexer->eof(lexer)) {
+                    return false;
+                }
+                if (lexer->lookahead == '`') {
+                    advance(lexer);
+                }
+                return iswspace(lexer->lookahead) || lexer->eof(lexer);
+            }
             return true;
         }
     }
