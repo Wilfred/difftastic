@@ -469,15 +469,13 @@ ${array[((number+1))]}
       (expansion
         (subscript
           (variable_name)
-          (parenthesized_expression
-            (parenthesized_expression
-              (concatenation (simple_expansion (variable_name)) (word))))))))
+          (arithmetic_expansion (binary_expression (simple_expansion (variable_name)) (number)))))))
   (command
     (command_name
       (expansion
         (subscript
           (variable_name)
-          (parenthesized_expression (parenthesized_expression (word))))))))
+          (arithmetic_expansion (binary_expression (variable_name) (number))))))))
 
 ==========================================
 Bare $

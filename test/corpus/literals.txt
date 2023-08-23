@@ -843,6 +843,11 @@ Arithmetic expansions
 echo $((1 + 2 - 3 * 4 / 5))
 a=$((6 % 7 ** 8 << 9 >> 10 & 11 | 12 ^ 13))
 $(((${1:-${SECONDS}} % 12) + 144))
+((foo=0))
+echo $((bar=1))
+echo $((-1, 1))
+echo $((! -a || ~ +b || ++c || --d))
+echo $((foo-- || bar++))
 
 --------------------------------------------------------------------------------
 
@@ -889,7 +894,52 @@ $(((${1:-${SECONDS}} % 12) + 144))
                 (expansion
                   (variable_name)))
               (number)))
-          (number))))))
+          (number)))))
+  (command
+    (command_name
+      (arithmetic_expansion
+        (binary_expression
+          (variable_name)
+          (number)))))
+  (command
+    (command_name
+      (word))
+    (arithmetic_expansion
+      (binary_expression
+        (variable_name)
+        (number))))
+  (command
+    (command_name
+      (word))
+    (arithmetic_expansion
+      (unary_expression
+        (number))
+      (number)))
+  (command
+    (command_name
+      (word))
+    (arithmetic_expansion
+      (binary_expression
+        (binary_expression
+          (binary_expression
+            (unary_expression
+              (test_operator))
+            (unary_expression
+              (unary_expression
+                (variable_name))))
+          (unary_expression
+            (variable_name)))
+        (unary_expression
+          (variable_name)))))
+  (command
+    (command_name
+      (word))
+    (arithmetic_expansion
+      (postfix_expression
+        (binary_expression
+          (postfix_expression
+            (variable_name))
+          (variable_name))))))
 
 ================================================================================
 Concatenation with double backticks

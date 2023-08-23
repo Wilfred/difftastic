@@ -393,11 +393,13 @@ done )
         (simple_expansion
           (variable_name)))
       (if_statement
-        (test_command
-          (binary_expression
-            (simple_expansion
-              (variable_name))
-            (regex)))
+        (command
+          (command_name
+            (arithmetic_expansion
+              (binary_expression
+                (simple_expansion
+                  (variable_name))
+                (number)))))
         (command
           (command_name
             (word))))))
@@ -421,8 +423,12 @@ done )
           (command_substitution
             (redirected_statement
               (list
-                (test_command
-                  (word))
+                (command
+                  (command_name
+                    (arithmetic_expansion
+                      (binary_expression
+                        (variable_name)
+                        (number)))))
                 (command
                   (command_name
                     (word))
@@ -470,8 +476,12 @@ done )
             (command_substitution
               (redirected_statement
                 (list
-                  (test_command
-                    (word))
+                  (command
+                    (command_name
+                      (arithmetic_expansion
+                        (binary_expression
+                          (variable_name)
+                          (number)))))
                   (command
                     (command_name
                       (word))
@@ -935,13 +945,15 @@ fi
 
 (program
   (if_statement
-    (test_command
-      (ternary_expression
-        (binary_expression
-          (number)
-          (number))
-        (number)
-        (number)))
+    (command
+      (command_name
+        (arithmetic_expansion
+          (ternary_expression
+            (binary_expression
+              (number)
+              (number))
+            (number)
+            (number)))))
     (command
       (command_name
         (word))

@@ -562,7 +562,7 @@ module.exports = grammar({
       $.brace_expression,
     ),
 
-    arithmetic_expansion: $ => seq('$((', $._arithmetic_expression, '))'),
+    arithmetic_expansion: $ => seq(choice('$((', '(('), commaSep1($._arithmetic_expression), '))'),
 
     brace_expression: $ => seq(
       alias($._brace_start, '{'),
@@ -583,10 +583,12 @@ module.exports = grammar({
 
     _arithmetic_literal: $ => prec(1, choice(
       $.number,
+      $.test_operator,
       $.subscript,
       $.simple_expansion,
       $.expansion,
       $._simple_variable_name,
+      $.variable_name,
     )),
 
     _arithmetic_binary_expression: $ => prec.left(2, choice(
@@ -619,12 +621,12 @@ module.exports = grammar({
     ),
 
     _arithmetic_unary_expression: $ => choice(
-      prec(1, seq(
+      prec(3, seq(
         token(prec(1, choice('-', '+', '~', '++', '--'))),
         $._arithmetic_expression,
       )),
-      prec.right(1, seq(
-        choice('!', $.test_operator),
+      prec.right(3, seq(
+        '!',
         $._arithmetic_expression,
       )),
     ),
