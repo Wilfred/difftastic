@@ -76,7 +76,7 @@ predicates = ">= 2, <= 2.1.1"
 pretty_assertions = "1.3.0"
 
 [build-dependencies]
-cc = "1.0.78"
+cc = "1.0.83"
 rayon = "1.7.0"
 version_check = "0.9.4"
 
