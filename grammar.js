@@ -57,6 +57,7 @@ module.exports = grammar({
     $.regex,
     $.extglob_pattern,
     $._bare_dollar,
+    $._brace_start,
     '}',
     ']',
     '<<',
@@ -540,9 +541,18 @@ module.exports = grammar({
       $.command_substitution,
       $.process_substitution,
       $.arithmetic_expansion,
+      $.brace_expression,
     ),
 
     arithmetic_expansion: $ => seq('$((', $._arithmetic_expression, '))'),
+
+    brace_expression: $ => seq(
+      alias($._brace_start, '{'),
+      alias(token.immediate(/\d+/), $.number),
+      token.immediate('..'),
+      alias(token.immediate(/\d+/), $.number),
+      token.immediate('}'),
+    ),
 
     _arithmetic_expression: $ => choice(
       $._arithmetic_literal,

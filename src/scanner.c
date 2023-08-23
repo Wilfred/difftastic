@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <ctype.h>
 #include <string.h>
 #include <tree_sitter/parser.h>
 #include <wctype.h>
@@ -49,6 +50,7 @@ enum TokenType {
     REGEX,
     EXTGLOB_PATTERN,
     BARE_DOLLAR,
+    BRACE_START,
     CLOSING_BRACE,
     CLOSING_BRACKET,
     HEREDOC_ARROW,
@@ -368,6 +370,9 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             is_number = false;
             advance(lexer);
         } else {
+            if (lexer->lookahead == '{') {
+                goto brace_start;
+            }
             return false;
         }
 
@@ -542,6 +547,45 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         }
 
         return false;
+    }
+
+brace_start:
+    if (valid_symbols[BRACE_START] && !in_error_recovery(valid_symbols)) {
+        while (iswspace(lexer->lookahead)) {
+            skip(lexer);
+        }
+
+        if (lexer->lookahead != '{') {
+            return false;
+        }
+
+        advance(lexer);
+        lexer->mark_end(lexer);
+
+        while (isdigit(lexer->lookahead)) {
+            advance(lexer);
+        }
+
+        if (lexer->lookahead != '.') {
+            return false;
+        }
+        advance(lexer);
+
+        if (lexer->lookahead != '.') {
+            return false;
+        }
+        advance(lexer);
+
+        while (isdigit(lexer->lookahead)) {
+            advance(lexer);
+        }
+
+        if (lexer->lookahead != '}') {
+            return false;
+        }
+
+        lexer->result_symbol = BRACE_START;
+        return true;
     }
 
     return false;

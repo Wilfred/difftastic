@@ -887,3 +887,47 @@ main() {
           (concatenation
             (string)
             (string)))))))
+
+================================================================================
+Brace expressions and lookalikes
+================================================================================
+
+echo {1..2}
+echo {0..5}
+echo {0..2 # not a brace expression
+echo }{0..2}
+echo {0..n} # not a brace expression
+echo {0..n..2} # not a brace expression
+echo {0..2}{1..2}
+
+---
+
+(program
+  (command
+    (command_name (word))
+    (brace_expression (number) (number)))
+  (command
+    (command_name (word))
+    (brace_expression (number) (number)))
+  (command
+    (command_name (word))
+    (concatenation (word) (word)))
+  (comment)
+  (command
+    (command_name (word))
+    (concatenation
+      (word)
+      (brace_expression (number) (number))))
+  (command
+    (command_name (word))
+    (concatenation (word) (word) (word)))
+  (comment)
+  (command
+    (command_name (word))
+    (concatenation (word) (word) (word)))
+  (comment)
+  (command
+    (command_name (word))
+    (concatenation
+      (brace_expression (number) (number))
+      (brace_expression (number) (number)))))
