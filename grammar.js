@@ -59,6 +59,7 @@ module.exports = grammar({
     $.variable_name, // Variable name followed by an operator like '=' or '+='
     $.regex,
     $._regex_no_slash,
+    $._regex_no_space,
     $.extglob_pattern,
     $._bare_dollar,
     $._brace_start,
@@ -504,7 +505,7 @@ module.exports = grammar({
       seq(
         field('left', $._expression),
         field('operator', choice('==', '=~', '!=')),
-        field('right', $.regex),
+        field('right', alias($._regex_no_space, $.regex)),
       ),
     )),
 

@@ -49,6 +49,7 @@ enum TokenType {
     VARIABLE_NAME,
     REGEX,
     REGEX_NO_SLASH,
+    REGEX_NO_SPACE,
     EXTGLOB_PATTERN,
     BARE_DOLLAR,
     BRACE_START,
@@ -477,9 +478,9 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         return false;
     }
 
-    if (valid_symbols[REGEX] ||
-        valid_symbols[REGEX_NO_SLASH] && !in_error_recovery(valid_symbols)) {
-        if (valid_symbols[REGEX]) {
+    if (valid_symbols[REGEX] || valid_symbols[REGEX_NO_SLASH] ||
+        valid_symbols[REGEX_NO_SPACE] && !in_error_recovery(valid_symbols)) {
+        if (valid_symbols[REGEX] || valid_symbols[REGEX_NO_SPACE]) {
             while (iswspace(lexer->lookahead)) {
                 skip(lexer);
             }
@@ -490,6 +491,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             typedef struct {
                 bool done;
                 bool advanced_once;
+                bool found_non_alnumdollarunderdash;
                 uint32_t paren_depth;
                 uint32_t bracket_depth;
                 uint32_t brace_depth;
@@ -497,7 +499,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
             lexer->mark_end(lexer);
 
-            State state = {false, false, 0, 0, 0};
+            State state = {false, false, false, 0, 0, 0};
             while (!state.done) {
                 switch (lexer->lookahead) {
                     case '\0':
@@ -557,12 +559,36 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                                 lexer->mark_end(lexer);
                             }
                         }
+                    } else if (valid_symbols[REGEX_NO_SPACE]) {
+                        if (lexer->lookahead == '\\') {
+                            state.found_non_alnumdollarunderdash = true;
+                            advance(lexer);
+                            if (!lexer->eof(lexer)) {
+                                advance(lexer);
+                            }
+                        } else {
+                            if (iswspace(lexer->lookahead)) {
+                                lexer->mark_end(lexer);
+                                lexer->result_symbol = REGEX_NO_SPACE;
+                                return state.found_non_alnumdollarunderdash;
+                            }
+                            /* state. = true; */
+                            if (!iswalnum(lexer->lookahead) &&
+                                lexer->lookahead != '$' &&
+                                lexer->lookahead != '-' &&
+                                lexer->lookahead != '_') {
+                                state.found_non_alnumdollarunderdash = true;
+                            }
+                            advance(lexer);
+                        }
                     }
                 }
             }
 
             lexer->result_symbol =
-                valid_symbols[REGEX_NO_SLASH] ? REGEX_NO_SLASH : REGEX;
+                valid_symbols[REGEX_NO_SLASH]   ? REGEX_NO_SLASH
+                : valid_symbols[REGEX_NO_SPACE] ? REGEX_NO_SPACE
+                                                : REGEX;
             if (valid_symbols[REGEX] && !state.advanced_once) {
                 return false;
             }
