@@ -41,6 +41,7 @@ impl TreeSitterParser {
             cpp_build
                 .include(&dir)
                 .cpp(true)
+                .std("c++14")
                 .flag_if_supported("-Wno-implicit-fallthrough")
                 .flag_if_supported("-Wno-unused-parameter")
                 .flag_if_supported("-Wno-ignored-qualifiers")
@@ -53,12 +54,6 @@ impl TreeSitterParser {
                 // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
                 // should be removed after fixed.
                 .flag_if_supported("-Wno-return-type");
-
-            if cfg!(windows) {
-                cpp_build.flag("/std:c++14");
-            } else {
-                cpp_build.flag("--std=c++14");
-            }
 
             for file in cpp_files {
                 cpp_build.file(dir.join(file));
