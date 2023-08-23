@@ -161,18 +161,18 @@ JS
       (command_name
         (word)))
     (heredoc_redirect
-      (heredoc_start)))
-  (simple_heredoc_body)
-  (heredoc_end)
+      (heredoc_start)
+      (simple_heredoc_body)
+      (heredoc_end)))
   (redirected_statement
     (command
       (command_name
         (word))
       (word))
     (heredoc_redirect
-      (heredoc_start)))
-  (simple_heredoc_body)
-  (heredoc_end))
+      (heredoc_start)
+      (simple_heredoc_body)
+      (heredoc_end))))
 
 ===============================
 Heredocs with variables
@@ -192,13 +192,13 @@ exit
       (command_name
         (word)))
     (heredoc_redirect
-      (heredoc_start)))
-  (heredoc_body
-    (simple_expansion
-      (variable_name))
-    (expansion
-      (variable_name)))
-  (heredoc_end)
+      (heredoc_start)
+      (heredoc_body
+        (simple_expansion
+          (variable_name))
+        (expansion
+          (variable_name)))
+      (heredoc_end)))
   (command
     (command_name
       (word))))
@@ -221,16 +221,16 @@ wc -l $tmpfile
       (command_name
         (word)))
     (heredoc_redirect
-      (heredoc_start))
-    (file_redirect
-      (simple_expansion
-        (variable_name))))
-  (heredoc_body
-    (simple_expansion
-      (variable_name))
-    (expansion
-      (variable_name)))
-  (heredoc_end)
+      (heredoc_start)
+      (file_redirect
+        (simple_expansion
+          (variable_name)))
+      (heredoc_body
+        (simple_expansion
+          (variable_name))
+        (expansion
+          (variable_name)))
+      (heredoc_end)))
   (command
     (command_name
       (word))
@@ -249,19 +249,19 @@ EOF
 ---
 
 (program
-  (pipeline
-    (redirected_statement
-      (command
-        (command_name
-          (word)))
-      (heredoc_redirect
-        (heredoc_start)))
+  (redirected_statement
     (command
       (command_name
-        (word))
-      (word)))
-  (simple_heredoc_body)
-  (heredoc_end))
+        (word)))
+    (heredoc_redirect
+      (heredoc_start)
+      (pipeline
+        (command
+          (command_name
+            (word))
+          (word)))
+      (simple_heredoc_body)
+      (heredoc_end))))
 
 ======================================
 Heredocs with escaped expansions
@@ -273,7 +273,7 @@ EOF
 
 ---
 
-(program (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end))
+(program (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end))))
 
 ======================================
 Quoted Heredocs
@@ -298,10 +298,10 @@ EOF
 ---
 
 (program
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end))))
 
 ==========================================
 Heredocs with indented closing delimiters
@@ -321,9 +321,7 @@ usage() {
     (compound_statement
       (redirected_statement
         (command (command_name (word)))
-        (heredoc_redirect (heredoc_start)))
-      (heredoc_body (expansion (special_variable_name) (word)))
-      (heredoc_end))))
+        (heredoc_redirect (heredoc_start) (heredoc_body (expansion (special_variable_name) (word))) (heredoc_end))))))
 
 ==========================================
 Heredocs with empty bodies
@@ -351,17 +349,17 @@ EOF
       name: (command_name
         (word)))
     redirect: (heredoc_redirect
-      (heredoc_start)))
-  (simple_heredoc_body)
-  (heredoc_end)
+      (heredoc_start)
+      (simple_heredoc_body)
+      (heredoc_end)))
   (redirected_statement
     body: (command
       name: (command_name
         (word)))
     redirect: (heredoc_redirect
-      (heredoc_start)))
-  (simple_heredoc_body)
-  (heredoc_end)
+      (heredoc_start)
+      (simple_heredoc_body)
+      (heredoc_end)))
   (function_definition
     name: (word)
     body: (compound_statement
@@ -370,19 +368,19 @@ EOF
           name: (command_name
             (word)))
         redirect: (heredoc_redirect
-          (heredoc_start)))
-      (simple_heredoc_body)
-      (heredoc_end)))
+          (heredoc_start)
+          (simple_heredoc_body)
+          (heredoc_end)))))
   (redirected_statement
     body: (command
       name: (command_name
         (word)))
     redirect: (heredoc_redirect
-      (heredoc_start))
-    redirect: (file_redirect
-      destination: (word)))
-  (simple_heredoc_body)
-  (heredoc_end))
+      (heredoc_start)
+      (file_redirect
+        destination: (word))
+      (simple_heredoc_body)
+      (heredoc_end))))
 
 ==========================================
 Heredocs with weird characters
@@ -411,11 +409,11 @@ Hello.
 ---
 
 (program
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end)
-  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (simple_heredoc_body) (heredoc_end))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start) (simple_heredoc_body) (heredoc_end))))
 
 ==========================================
 Herestrings

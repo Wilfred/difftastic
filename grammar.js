@@ -88,17 +88,14 @@ module.exports = grammar({
     _statements: $ => prec(1, seq(
       repeat(seq(
         $._statement,
-        optional(seq('\n', choice($._heredoc_body, $._simple_heredoc_body))),
         $._terminator,
       )),
       $._statement,
-      optional(seq('\n', choice($._heredoc_body, $._simple_heredoc_body))),
       optional($._terminator),
     )),
 
     _statements2: $ => repeat1(seq(
       $._statement,
-      optional(seq('\n', choice($._heredoc_body, $._simple_heredoc_body))),
       $._terminator,
     )),
 
@@ -436,6 +433,16 @@ module.exports = grammar({
       field('descriptor', optional($.file_descriptor)),
       choice('<<', '<<-'),
       $.heredoc_start,
+      optional(seq(
+        choice(alias($._heredoc_pipeline, $.pipeline), $.file_redirect),
+      )),
+      '\n',
+      choice($._heredoc_body, $._simple_heredoc_body),
+    ),
+
+    _heredoc_pipeline: $ => seq(
+      choice('|', '|&'),
+      $._statement,
     ),
 
     _heredoc_body: $ => seq(

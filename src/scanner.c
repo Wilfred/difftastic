@@ -224,6 +224,12 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
                     scanner->started_heredoc = true;
                     return true;
                 }
+                if (middle_type == HEREDOC_BODY_BEGINNING &&
+                    lexer->get_column(lexer) == 0) {
+                    lexer->result_symbol = middle_type;
+                    scanner->started_heredoc = true;
+                    return true;
+                }
                 return false;
             }
 
@@ -239,18 +245,11 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
                         advance(lexer);
                     }
                 }
-                if (end_type != SIMPLE_HEREDOC_BODY &&
-                    scan_heredoc_end_identifier(scanner, lexer)) {
-                    reset(scanner);
-                    lexer->result_symbol = end_type;
+                lexer->result_symbol =
+                    scanner->started_heredoc ? middle_type : end_type;
+                lexer->mark_end(lexer);
+                if (scan_heredoc_end_identifier(scanner, lexer)) {
                     return true;
-                }
-                if (end_type == SIMPLE_HEREDOC_BODY) {
-                    lexer->result_symbol = end_type;
-                    lexer->mark_end(lexer);
-                    if (scan_heredoc_end_identifier(scanner, lexer)) {
-                        return true;
-                    }
                 }
                 break;
             }
@@ -262,11 +261,11 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer,
                     while (iswspace(lexer->lookahead)) {
                         skip(lexer);
                     }
-                    if (end_type != SIMPLE_HEREDOC_BODY &&
-                        scan_heredoc_end_identifier(scanner, lexer)) {
-                        reset(scanner);
-                        lexer->result_symbol = end_type;
-                        return true;
+                    if (end_type != SIMPLE_HEREDOC_BODY) {
+                        lexer->result_symbol = middle_type;
+                        if (scan_heredoc_end_identifier(scanner, lexer)) {
+                            return true;
+                        }
                     }
                     if (end_type == SIMPLE_HEREDOC_BODY) {
                         lexer->result_symbol = end_type;
@@ -333,7 +332,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         }
     }
 
-    if (valid_symbols[HEREDOC_BODY_BEGINNING] &&
+    if ((valid_symbols[HEREDOC_BODY_BEGINNING] ||
+         valid_symbols[SIMPLE_HEREDOC_BODY]) &&
         scanner->heredoc_delimiter.len > 0 && !scanner->started_heredoc &&
         !in_error_recovery(valid_symbols)) {
         return scan_heredoc_content(scanner, lexer, HEREDOC_BODY_BEGINNING,
