@@ -121,7 +121,7 @@ echo ${abc:
       (word))
     (expansion
       (variable_name)
-      (word)))
+      (regex)))
   (command
     (command_name
       (word))
@@ -192,74 +192,73 @@ J=${K^^[L]}
     (string
       (expansion
         (variable_name)
-        (word)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (array))))
-  (variable_assignment
-    (variable_name)
-    (string
-      (expansion
-        (variable_name))))
-  (variable_assignment
-    (variable_name)
-    (string
-      (expansion
-        (variable_name))))
-  (variable_assignment
-    (variable_name)
-    (string
-      (expansion
-        (variable_name))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word)
-        (word))))
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
       (expansion
         (variable_name)
-        (word)
-        (word))))
+        (regex))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (regex))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (regex))))
+  (variable_assignment
+    (variable_name)
+    (string
+      (expansion
+        (variable_name)
+        (regex))))
   (variable_assignment
     (variable_name)
     (string
@@ -274,6 +273,99 @@ J=${K^^[L]}
     (expansion
       (variable_name)
       (regex))))
+
+================================================================================
+More Variable expansions with operators
+================================================================================
+
+${parameter-default}
+${parameter:-default}
+${parameter=default}
+${parameter:=default}
+${parameter+alt_value}
+${parameter:+alt_value}
+${parameter?err_msg}
+${parameter:?err_msg}
+${var%Pattern}
+${var%%Pattern}
+${var:pos}
+${var:pos:len}
+${MATRIX:$(($RANDOM%${#MATRIX})):1}
+
+--------------------------------------------------------------------------------
+
+(program
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (word))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (regex))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (regex))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (variable_name))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (variable_name)
+        (variable_name))))
+  (command
+    (command_name
+      (expansion
+        (variable_name)
+        (arithmetic_expansion
+          (binary_expression
+            (variable_name)
+            (expansion
+              (variable_name))))
+        (number)))))
 
 ================================================================================
 Variable expansions in strings
@@ -322,7 +414,8 @@ C=${D/;\ *;|}
     (variable_name)
     (expansion
       (variable_name)
-      (regex)))
+      (regex)
+      (ansi_c_string)))
   (comment)
   (variable_assignment
     (variable_name)
@@ -359,10 +452,7 @@ cat ${BAR} ${ABC=def} ${GHI:?jkl}
       (string
         (expansion
           (variable_name)
-          (concatenation
-            (word)
-            (word)
-            (word)))))))
+          (regex))))))
 
 ================================================================================
 Words ending with '$'

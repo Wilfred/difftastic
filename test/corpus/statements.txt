@@ -1347,7 +1347,7 @@ export "$(echo ${key} | tr [:lower:] [:upper:])=${p_key#*=}"
               (word)))))
       (expansion
         (variable_name)
-        (word)))))
+        (regex)))))
 
 ================================================================================
 Unset commands

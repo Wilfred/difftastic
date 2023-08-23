@@ -321,7 +321,7 @@ usage() {
     (compound_statement
       (redirected_statement
         (command (command_name (word)))
-        (heredoc_redirect (heredoc_start) (heredoc_body (expansion (special_variable_name) (word))) (heredoc_end))))))
+        (heredoc_redirect (heredoc_start) (heredoc_body (expansion (special_variable_name) (regex))) (heredoc_end))))))
 
 ==========================================
 Heredocs with empty bodies

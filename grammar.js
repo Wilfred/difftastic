@@ -31,6 +31,7 @@ module.exports = grammar({
     [$.compound_statement],
     [$.redirected_statement, $.command],
     [$.redirected_statement, $.command_substitution],
+    [$._expansion_body],
   ],
 
   inline: $ => [
@@ -57,6 +58,7 @@ module.exports = grammar({
     $._concat,
     $.variable_name, // Variable name followed by an operator like '=' or '+='
     $.regex,
+    $._regex_no_slash,
     $.extglob_pattern,
     $._bare_dollar,
     $._brace_start,
@@ -718,9 +720,45 @@ module.exports = grammar({
     ),
     _expansion_body: $ => choice(
       seq(
-        $.variable_name,
-        '=',
-        optional($._literal),
+        choice($.variable_name, $._special_variable_name),
+        choice(
+          seq(
+            field('operator', choice('=', ':=', '-', ':-', '+', ':+', '?', ':?')),
+            repeat(choice($._literal, $.array)),
+          ),
+          seq(
+            field('operator', choice('#', '##', '%', '%%')),
+            choice($.regex, alias(')', $.regex), $.string, $.raw_string),
+          ),
+          seq(
+            choice('/', '//', '/#', '/%'),
+            alias($._regex_no_slash, $.regex),
+            // This can be elided
+            optional(seq(
+              '/',
+              optional(seq(
+                $._literal,
+                optional('/'),
+              )),
+            )),
+          ),
+          seq(
+            choice(',', ',,', '^', '^^'),
+            $.regex,
+          ),
+          seq(
+            ':',
+            choice($._simple_variable_name, $.number, $.arithmetic_expansion, $.expansion, '\n'),
+            optional(seq(
+              ':',
+              optional(choice($._simple_variable_name, $.number, $.arithmetic_expansion, '\n')),
+            )),
+          ),
+          seq(
+            '@',
+            field('operator', choice('U', 'u', 'L', 'Q', 'E', 'P', 'A', 'K', 'a', 'k')),
+          ),
+        ),
       ),
       seq(
         choice(
@@ -731,7 +769,6 @@ module.exports = grammar({
         ),
         optional(seq(
           choice(
-            alias(token(prec(1, '/')), '/'),
             alias(token(prec(1, ',')), ','),
             alias(token(prec(1, ',,')), ',,'),
             alias(token(prec(1, '^')), '^'),

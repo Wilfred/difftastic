@@ -48,6 +48,7 @@ enum TokenType {
     CONCAT,
     VARIABLE_NAME,
     REGEX,
+    REGEX_NO_SLASH,
     EXTGLOB_PATTERN,
     BARE_DOLLAR,
     BRACE_START,
@@ -359,8 +360,9 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         return scan_heredoc_start(scanner, lexer);
     }
 
-    if (valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR] ||
-        valid_symbols[HEREDOC_ARROW]) {
+    if ((valid_symbols[VARIABLE_NAME] || valid_symbols[FILE_DESCRIPTOR] ||
+         valid_symbols[HEREDOC_ARROW]) &&
+        !valid_symbols[REGEX_NO_SLASH]) {
         for (;;) {
             if (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
                 lexer->lookahead == '\r' ||
@@ -379,6 +381,20 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             } else {
                 break;
             }
+        }
+
+        // no '*', '@', '?', '-', '$', '0', '_'
+        if (lexer->lookahead == '*' || lexer->lookahead == '@' ||
+            lexer->lookahead == '?' || lexer->lookahead == '-' ||
+            lexer->lookahead == '$' || lexer->lookahead == '0' ||
+            lexer->lookahead == '_') {
+            lexer->mark_end(lexer);
+            advance(lexer);
+            if (lexer->lookahead == '=' || lexer->lookahead == '[' ||
+                lexer->lookahead == ':' || lexer->lookahead == '-' ||
+                lexer->lookahead == '%' || lexer->lookahead == '#' ||
+                lexer->lookahead == '/')
+                return false;
         }
 
         if (valid_symbols[HEREDOC_ARROW] && lexer->lookahead == '<') {
@@ -434,30 +450,46 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             if (lexer->lookahead == '+') {
                 lexer->mark_end(lexer);
                 advance(lexer);
-                if (lexer->lookahead == '=') {
+                if (lexer->lookahead == '=' || lexer->lookahead == ':' ||
+                    valid_symbols[CLOSING_BRACE]) {
                     lexer->result_symbol = VARIABLE_NAME;
                     return true;
                 }
                 return false;
             }
-            if (lexer->lookahead == '=' || lexer->lookahead == '[') {
+            if (lexer->lookahead == '=' || lexer->lookahead == '[' ||
+                lexer->lookahead == ':' || lexer->lookahead == '%' ||
+                (lexer->lookahead == '#' && !is_number) ||
+                lexer->lookahead == '/') {
+                lexer->mark_end(lexer);
                 lexer->result_symbol = VARIABLE_NAME;
                 return true;
+            }
+
+            if (lexer->lookahead == '?') {
+                lexer->mark_end(lexer);
+                advance(lexer);
+                lexer->result_symbol = VARIABLE_NAME;
+                return isalpha(lexer->lookahead);
             }
         }
 
         return false;
     }
 
-    if (valid_symbols[REGEX]) {
-        while (iswspace(lexer->lookahead)) {
-            skip(lexer);
+    if (valid_symbols[REGEX] ||
+        valid_symbols[REGEX_NO_SLASH] && !in_error_recovery(valid_symbols)) {
+        if (valid_symbols[REGEX]) {
+            while (iswspace(lexer->lookahead)) {
+                skip(lexer);
+            }
         }
 
-        if (lexer->lookahead != '"' && lexer->lookahead != '\'' &&
-            lexer->lookahead != '$') {
+        if (lexer->lookahead != '"' && lexer->lookahead != '\'' ||
+            (lexer->lookahead == '$' && valid_symbols[REGEX_NO_SLASH])) {
             typedef struct {
                 bool done;
+                bool advanced_once;
                 uint32_t paren_depth;
                 uint32_t bracket_depth;
                 uint32_t brace_depth;
@@ -465,7 +497,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
             lexer->mark_end(lexer);
 
-            State state = {false, 0, 0, 0};
+            State state = {false, false, 0, 0, 0};
             while (!state.done) {
                 switch (lexer->lookahead) {
                     case '\0':
@@ -500,15 +532,40 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                 }
 
                 if (!state.done) {
-                    bool was_space = iswspace(lexer->lookahead);
-                    advance(lexer);
-                    if (!was_space) {
-                        lexer->mark_end(lexer);
+                    if (valid_symbols[REGEX]) {
+                        bool was_space = iswspace(lexer->lookahead);
+                        advance(lexer);
+                        state.advanced_once = true;
+                        if (!was_space) {
+                            lexer->mark_end(lexer);
+                        }
+                    } else if (valid_symbols[REGEX_NO_SLASH]) {
+                        if (lexer->lookahead == '/') {
+                            lexer->mark_end(lexer);
+                            lexer->result_symbol = REGEX_NO_SLASH;
+                            return true;
+                        }
+                        if (lexer->lookahead == '\\') {
+                            advance(lexer);
+                            if (!lexer->eof(lexer)) {
+                                advance(lexer);
+                            }
+                        } else {
+                            bool was_space = iswspace(lexer->lookahead);
+                            advance(lexer);
+                            if (!was_space) {
+                                lexer->mark_end(lexer);
+                            }
+                        }
                     }
                 }
             }
 
-            lexer->result_symbol = REGEX;
+            lexer->result_symbol =
+                valid_symbols[REGEX_NO_SLASH] ? REGEX_NO_SLASH : REGEX;
+            if (valid_symbols[REGEX] && !state.advanced_once) {
+                return false;
+            }
             return true;
         }
     }
