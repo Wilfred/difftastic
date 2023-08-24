@@ -154,7 +154,7 @@ fn main() {
             use_color,
             language_overrides,
         } => {
-            for (glob, lang_override) in language_overrides {
+            for (lang_override, globs) in language_overrides {
                 let mut name = match lang_override {
                     LanguageOverride::Language(lang) => language_name(lang),
                     LanguageOverride::PlainText => "Text",
@@ -164,7 +164,10 @@ fn main() {
                     name = name.bold().to_string();
                 }
                 println!("{} (from override)", name);
-                println!(" {}", glob.as_str());
+                for glob in globs {
+                    print!(" {}", glob.as_str());
+                }
+                println!();
             }
 
             for language in Language::iter() {
@@ -328,7 +331,7 @@ fn diff_file(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     missing_as_empty: bool,
-    overrides: &[(glob::Pattern, LanguageOverride)],
+    overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     let (lhs_src, rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
@@ -367,7 +370,7 @@ fn diff_conflicts_file(
     path: &FileArgument,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
-    overrides: &[(glob::Pattern, LanguageOverride)],
+    overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let bytes = read_file_or_die(path);
     let src = match guess_content(&bytes) {
@@ -452,7 +455,7 @@ fn diff_file_content(
     rhs_src: &str,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
-    overrides: &[(glob::Pattern, LanguageOverride)],
+    overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let (guess_src, guess_path) = match rhs_path {
         FileArgument::NamedPath(path) => (&rhs_src, Path::new(path)),
@@ -686,7 +689,7 @@ fn diff_directories<'a>(
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
-    overrides: &[(glob::Pattern, LanguageOverride)],
+    overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
     let display_options = display_options.clone();

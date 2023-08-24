@@ -365,16 +365,18 @@ fn looks_like_hacklang(path: &Path, src: &str) -> bool {
 pub fn guess(
     path: &Path,
     src: &str,
-    overrides: &[(glob::Pattern, LanguageOverride)],
+    overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> Option<Language> {
     if let Some(file_name) = path.file_name() {
         let file_name = file_name.to_string_lossy();
-        for (pattern, lang_override) in overrides {
-            if pattern.matches(&file_name) {
-                match lang_override {
-                    LanguageOverride::Language(lang) => return Some(*lang),
-                    LanguageOverride::PlainText => {
-                        return None;
+        for (lang_override, patterns) in overrides {
+            for pattern in patterns {
+                if pattern.matches(&file_name) {
+                    match lang_override {
+                        LanguageOverride::Language(lang) => return Some(*lang),
+                        LanguageOverride::PlainText => {
+                            return None;
+                        }
                     }
                 }
             }
@@ -596,8 +598,8 @@ mod tests {
                 path,
                 "",
                 &[(
-                    glob::Pattern::new("*.el").unwrap(),
-                    LanguageOverride::Language(Css)
+                    LanguageOverride::Language(Css),
+                    vec![glob::Pattern::new("*.el").unwrap()],
                 )]
             ),
             Some(Css)
