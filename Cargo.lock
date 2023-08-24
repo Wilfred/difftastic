@@ -248,7 +248,7 @@ dependencies = [
  "glob",
  "hashbrown 0.12.3",
  "humansize",
- "itertools",
+ "itertools 0.11.0",
  "lazy_static",
  "libc",
  "libmimalloc-sys",
@@ -401,6 +401,15 @@ name = "itertools"
 version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a9a9d19fa1e79b6215ff29b9d6880b706147f16e9b1dbb1e4e5947b5b02bc5e3"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1c173a5686ce8bfa551b3563d0c2170bf24ca44da99c7ca4bfdab5418c3fe57"
 dependencies = [
  "either",
 ]
@@ -602,7 +611,7 @@ checksum = "a5aab5be6e4732b473071984b3164dbbfb7a3674d30ea5ff44410b6bcd960c3c"
 dependencies = [
  "difflib",
  "float-cmp",
- "itertools",
+ "itertools 0.10.3",
  "normalize-line-endings",
  "predicates-core",
  "regex",
