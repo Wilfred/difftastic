@@ -70,6 +70,10 @@ while something happens; do
   echo b
 done
 
+while local name="$1" val="$2"; shift 2; do
+  printf "%s (%s)\n" "$val" "$name"
+done
+
 --------------------------------------------------------------------------------
 
 (program
@@ -86,7 +90,34 @@ done
       (command
         name: (command_name
           (word))
-        argument: (word)))))
+        argument: (word))))
+  (while_statement
+    condition: (declaration_command
+      (variable_assignment
+        name: (variable_name)
+        value: (string
+          (simple_expansion
+            (variable_name))))
+      (variable_assignment
+        name: (variable_name)
+        value: (string
+          (simple_expansion
+            (variable_name)))))
+    condition: (command
+      name: (command_name
+        (word))
+      argument: (number))
+    body: (do_group
+      (command
+        name: (command_name
+          (word))
+        argument: (string)
+        argument: (string
+          (simple_expansion
+            (variable_name)))
+        argument: (string
+          (simple_expansion
+            (variable_name)))))))
 
 ================================================================================
 Until statements
@@ -270,6 +301,21 @@ for ((cx = 0; c = $cx / $pf, c < $wc - $k; )); do
 		echo "$cx"
 done
 
+for (( i = 4;;i--)) ; do echo $i; if (( $i == 0 )); then break; fi; done
+
+# added post-bash-4.2
+for (( i = j = k = 1; i % 9 || (j *= -1, $( ((i%9)) || printf " " >&2; echo 0), k++ <= 10); i += j ))
+do
+printf "$i"
+done
+
+echo
+
+( for (( i = j = k = 1; i % 9 || (j *= -1, $( ((i%9)) || printf " " >&2; echo 0), k++ <= 10); i += j ))
+do
+printf "$i"
+done )
+
 --------------------------------------------------------------------------------
 
 (program
@@ -333,7 +379,133 @@ done
           (word))
         (string
           (simple_expansion
-            (variable_name)))))))
+            (variable_name))))))
+  (c_style_for_statement
+    (variable_assignment
+      (variable_name)
+      (number))
+    (postfix_expression
+      (word))
+    (do_group
+      (command
+        (command_name
+          (word))
+        (simple_expansion
+          (variable_name)))
+      (if_statement
+        (command
+          (command_name
+            (arithmetic_expansion
+              (binary_expression
+                (simple_expansion
+                  (variable_name))
+                (number)))))
+        (command
+          (command_name
+            (word))))))
+  (comment)
+  (c_style_for_statement
+    (variable_assignment
+      (variable_name)
+      (variable_assignment
+        (variable_name)
+        (variable_assignment
+          (variable_name)
+          (number))))
+    (binary_expression
+      (word)
+      (binary_expression
+        (number)
+        (parenthesized_expression
+          (binary_expression
+            (word)
+            (number))
+          (command_substitution
+            (redirected_statement
+              (list
+                (command
+                  (command_name
+                    (arithmetic_expansion
+                      (binary_expression
+                        (variable_name)
+                        (number)))))
+                (command
+                  (command_name
+                    (word))
+                  (string)))
+              (file_redirect
+                (number)))
+            (command
+              (command_name
+                (word))
+              (number)))
+          (binary_expression
+            (postfix_expression
+              (word))
+            (number)))))
+    (binary_expression
+      (word)
+      (word))
+    (do_group
+      (command
+        (command_name
+          (word))
+        (string
+          (simple_expansion
+            (variable_name))))))
+  (command
+    (command_name
+      (word)))
+  (subshell
+    (c_style_for_statement
+      (variable_assignment
+        (variable_name)
+        (variable_assignment
+          (variable_name)
+          (variable_assignment
+            (variable_name)
+            (number))))
+      (binary_expression
+        (word)
+        (binary_expression
+          (number)
+          (parenthesized_expression
+            (binary_expression
+              (word)
+              (number))
+            (command_substitution
+              (redirected_statement
+                (list
+                  (command
+                    (command_name
+                      (arithmetic_expansion
+                        (binary_expression
+                          (variable_name)
+                          (number)))))
+                  (command
+                    (command_name
+                      (word))
+                    (string)))
+                (file_redirect
+                  (number)))
+              (command
+                (command_name
+                  (word))
+                (number)))
+            (binary_expression
+              (postfix_expression
+                (word))
+              (number)))))
+      (binary_expression
+        (word)
+        (word))
+      (do_group
+        (command
+          (command_name
+            (word))
+          (string
+            (simple_expansion
+              (variable_name))))))))
 
 ================================================================================
 If statements
@@ -463,7 +635,8 @@ fi
         argument: (word)
         argument: (word)))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -484,7 +657,8 @@ fi
       argument: (word)
       argument: (word))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -500,10 +674,15 @@ fi
 (program
   (if_statement
     condition: (variable_assignment
-          name: (variable_name)
-          value: (command_substitution (command name: (command_name (word)) argument: (raw_string))))
+      name: (variable_name)
+      value: (command_substitution
+        (command
+          name: (command_name
+            (word))
+          argument: (raw_string))))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -518,7 +697,7 @@ fi
 
 (program
   (if_statement
-    condition: (negated_command 
+    condition: (negated_command
       (variable_assignment
         name: (variable_name)
         value: (command_substitution
@@ -527,7 +706,8 @@ fi
               (word))
             argument: (raw_string)))))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -543,10 +723,11 @@ fi
 (program
   (if_statement
     condition: (variable_assignment
-          name: (variable_name)
-          value: (number))
+      name: (variable_name)
+      value: (number))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -566,7 +747,8 @@ fi
         name: (variable_name)
         value: (number)))
     (command
-      name: (command_name (word))
+      name: (command_name
+        (word))
       argument: (raw_string))))
 
 ================================================================================
@@ -612,7 +794,11 @@ esac
 case x in x) echo meow ;; esac
 
 case foo in
-    bar\ baz) : ;;
+  bar\ baz) : ;;
+esac
+
+case "$arg" in
+  *([0-9])([0-9])) echo "$arg"
 esac
 
 --------------------------------------------------------------------------------
@@ -674,7 +860,9 @@ esac
     (case_item
       (concatenation
         (word)
-        (number))
+        (word)
+        (number)
+        (word))
       (command
         (command_name
           (word))
@@ -694,7 +882,19 @@ esac
       (word)
       (command
         (command_name
-          (word))))))
+          (word)))))
+  (case_statement
+    (string
+      (simple_expansion
+        (variable_name)))
+    (case_item
+      (extglob_pattern)
+      (command
+        (command_name
+          (word))
+        (string
+          (simple_expansion
+            (variable_name)))))))
 
 ================================================================================
 Test commands
@@ -745,13 +945,15 @@ fi
 
 (program
   (if_statement
-    (test_command
-      (ternary_expression
-        (binary_expression
-          (number)
-          (number))
-        (number)
-        (number)))
+    (command
+      (command_name
+        (arithmetic_expansion
+          (ternary_expression
+            (binary_expression
+              (number)
+              (number))
+            (number)
+            (number)))))
     (command
       (command_name
         (word))
@@ -773,9 +975,9 @@ $((${n} < 10 ? ${n} : 10))
       (arithmetic_expansion
         (ternary_expression
           (binary_expression
-            (word)
+            (variable_name)
             (number))
-          (word)
+          (variable_name)
           (number)))))
   (command
     (command_name
@@ -913,6 +1115,8 @@ function do_yet_another_thing {
   echo ok
 } 2>&1
 
+do_nothing() { return 0; }
+
 --------------------------------------------------------------------------------
 
 (program
@@ -946,23 +1150,33 @@ function do_yet_another_thing {
           (command_name
             (word))
           (concatenation
+            (word)
+            (word)
             (word))
           (word)
           (concatenation
+            (word)
+            (word)
             (word))
           (word)
           (word)))))
-  (redirected_statement
-    (function_definition
-      (word)
-      (compound_statement
-        (command
-          (command_name
-            (word))
-          (word))))
+  (function_definition
+    (word)
+    (compound_statement
+      (command
+        (command_name
+          (word))
+        (word)))
     (file_redirect
       (file_descriptor)
-      (number))))
+      (number)))
+  (function_definition
+    (word)
+    (compound_statement
+      (command
+        (command_name
+          (word))
+        (number)))))
 
 ================================================================================
 Variable declaration: declare & typeset
@@ -1124,12 +1338,16 @@ export "$(echo ${key} | tr [:lower:] [:upper:])=${p_key#*=}"
             (command_name
               (word))
             (concatenation
+              (word)
+              (word)
               (word))
             (concatenation
+              (word)
+              (word)
               (word)))))
       (expansion
         (variable_name)
-        (word)))))
+        (regex)))))
 
 ================================================================================
 Unset commands

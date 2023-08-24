@@ -1,0 +1,93 @@
+name: Pack
+
+on:
+  release:
+    types:
+      - released
+
+env:
+  NODE_PREBUILD_CMD: npx prebuild -t 10.0.0 -t 12.0.0 -t 14.0.0 -t 16.0.0 -t 18.0.0 -t 20.0.0 --strip -u ${{ secrets.GH_TOKEN }}
+  ELECTRON_PREBUILD_CMD: npx prebuild -r electron -t 3.0.0 -t 4.0.0 -t 5.0.0 -t 6.0.0 -t 7.0.0 -t 8.0.0 -t 9.0.0 -t 10.0.0 -t 11.0.0 -t 12.0.0 -t 13.0.0 -t 14.0.0 -t 15.0.0 -t 16.0.0 -t 17.0.0 -t 18.0.0 -t 19.0.0 -t 20.0.0 -t 21.0.0 -t 22.0.0 -t 23.0.0 -t 24.0.0 -t 25.0.0 --strip -u ${{ secrets.GH_TOKEN }}
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+        node:
+          - 10
+          - 12
+          - 14
+          - 16
+          - 18
+          - 20
+      fail-fast: false
+    name: Testing Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: npm install
+      - run: npm test
+
+  test-windows:
+    strategy:
+      matrix:
+        os:
+          - windows-2019
+        node:
+          - 10
+          - 12
+          - 14
+          - 16
+          - 18
+          - 20
+      fail-fast: false
+    name: Testing Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: npm install
+      - run: npm run test-windows
+
+  prebuild:
+    strategy:
+      matrix:
+        os:
+          - windows-2019
+          - macos-latest
+          - ubuntu-latest
+      fail-fast: false
+    name: Prebuild for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: [test, test-windows]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm install
+      - if: runner.os == 'macOS'
+        run: ${{ env.NODE_PREBUILD_CMD }} --arch arm64
+      - if: runner.os == 'macOS'
+        run: ${{ env.ELECTRON_PREBUILD_CMD }} --arch arm64
+      - run: ${{ env.NODE_PREBUILD_CMD }}
+      - run: ${{ env.ELECTRON_PREBUILD_CMD }}

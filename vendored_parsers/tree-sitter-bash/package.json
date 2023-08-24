@@ -1,11 +1,12 @@
 {
   "name": "tree-sitter-bash",
-  "version": "0.20.0",
+  "version": "0.20.2",
   "description": "Bash grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
     "parser",
-    "lexer"
+    "lexer",
+    "bash"
   ],
   "author": "Max Brunsfeld",
   "license": "MIT",

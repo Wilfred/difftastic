@@ -15,5 +15,8 @@
         "-std=c99",
       ]
     }
-  ]
+  ],
+  'variables': {
+    'openssl_fips': '',
+  }
 }
