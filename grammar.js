@@ -8,7 +8,7 @@ function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
 function content($) {
-  return zebra(choice($.break, $._new_line), choice($._indented, $.heading, $.item, repeat1($._markup)));
+  return zebra(seq(optional($._redent), choice($.break, $._new_line)), choice($._indented, $.heading, $.item, repeat1($._markup)));
 }
 function inside($) {
   return zebra($._new_line, choice(seq($.heading, $._new_line), prec.left(repeat1($._markup))));
@@ -19,6 +19,9 @@ module.exports = grammar({
   externals: $ => [
     $._indent,
     $._dedent,
+    $._redent,
+    $._content_l,
+    $._content_r,
   ],
   conflicts: $ => [
     [$.item],
@@ -215,7 +218,7 @@ module.exports = grammar({
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
-    content: $ => seq('[', content($), ']'),
+    content: $ => seq($._content_l, content($), $._content_r),
     group: $ => seq(
       '(',
       repeat(seq(

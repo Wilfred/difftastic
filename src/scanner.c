@@ -3,6 +3,9 @@
 enum TokenType {
   INDENT,
   DEDENT,
+	REDENT,
+	CONTENT_L,
+	CONTENT_R,
 };
 
 struct Scanner {
@@ -21,6 +24,22 @@ static void scanner_capacity(struct Scanner* self, unsigned cap) {
 		self->len = 0;
 		self->cap = 0;
 	}
+}
+static void scanner_debug(struct Scanner* self) {
+	if (self == NULL) {
+		printf("NULL\n");
+		return;
+	}
+	printf("[");
+	bool sep = false;
+	for (unsigned i = 0; i < self->len; i++) {
+		if (sep) {
+			printf(", ");
+		}
+		sep = true;
+		printf("%d", self->vec[i]);
+	}
+	printf("]\n");
 }
 static unsigned char scanner_current(struct Scanner* self) {
 	if (self == NULL || self->len < 1) {
@@ -119,6 +138,19 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
+	if (valid_symbols[CONTENT_L] && lexer->lookahead == '[') {
+		lexer->advance(lexer, false);
+		scanner_indent(self, lexer->get_column(lexer));
+		lexer->result_symbol = CONTENT_L;
+		return true;
+	}
+	if (valid_symbols[CONTENT_R] && lexer->lookahead == ']') {
+		lexer->advance(lexer, false);
+		scanner_dedent(self);
+		lexer->result_symbol = CONTENT_R;
+		return true;
+	}
+
 	if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
 		lexer->mark_end(lexer);
 
@@ -128,7 +160,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 
 		if (valid_symbols[DEDENT]) {
-			if (lexer->eof(lexer)) {
+			if (lexer->eof(lexer) || lexer->lookahead == ']') {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
 				return true;
@@ -150,14 +182,15 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->advance(lexer, false);
 		}
 
+		unsigned char current = scanner_current(self);
+		unsigned char previous = scanner_previous(self);
+
 		if (valid_symbols[DEDENT]) {
 			if (lexer->eof(lexer)) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
 				return true;
 			}
-			unsigned char current = scanner_current(self);
-			unsigned char previous = scanner_previous(self);
 			if (col < current && col <= previous) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
@@ -165,19 +198,17 @@ bool tree_sitter_typst_external_scanner_scan(
 			}
 		}
 
-		if (valid_symbols[INDENT]) {
-			unsigned char current = scanner_current(self);
-			// printf("%d %d\n", current, col);
+		if (valid_symbols[REDENT] && col < current) {
+			scanner_redent(self, col);
+			lexer->result_symbol = REDENT;
+			return true;
+		}
 
-			if (col > current) {
-				scanner_indent(self, col);
-				lexer->result_symbol = INDENT;
-				// printf("  indent\n");
-				return true;
-			}
-			if (col < current) {
-				scanner_redent(self, col);
-			}
+		if (valid_symbols[INDENT] && col > current) {
+			scanner_indent(self, col);
+			lexer->result_symbol = INDENT;
+			// printf("  indent\n");
+			return true;
 		}
 	}
 
