@@ -20,7 +20,8 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 ## TODO
 
-- [ ] Scanner for indent and dedent.
+- [X] Scanner for indent and dedent.
+  - [ ] Cover all cases in tests
 - [ ] Markups
   - [X] Heading
   - [X] Url
