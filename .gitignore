@@ -1,6 +1,8 @@
-binding.gyp
-bindings
 log.html
 node_modules
 package-lock.json
-src
+target
+src/grammar.json
+src/node-types.json
+src/tree_sitter/parser.h
+src/parser.c

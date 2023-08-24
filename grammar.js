@@ -1,11 +1,14 @@
 function zebra(zeb, ra) {
   return seq(optional(ra), (repeat(seq(zeb, ra))), optional(zeb));
 }
+function joined(elem, sep) {
+  return seq(repeat(seq(elem, sep)), elem);
+}
 function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
 function content($) {
-  return zebra(choice($.break, $._new_line), choice($.heading, repeat1($._markup)));
+  return zebra(choice($.break, $._new_line), choice($._indented, $.heading, $.item, repeat1($._markup)));
 }
 function inside($) {
   return zebra($._new_line, choice(seq($.heading, $._new_line), prec.left(repeat1($._markup))));
@@ -13,7 +16,12 @@ function inside($) {
 module.exports = grammar({
   name: 'typst',
   extras: $ => [],
+  externals: $ => [
+    $._indent,
+    $._dedent,
+  ],
   conflicts: $ => [
+    [$.item],
     [$._code],
     [$.let],
     [$.import],
@@ -47,6 +55,7 @@ module.exports = grammar({
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
 
+    _token_list: $ => /-[ \t\n]+/,
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
@@ -88,6 +97,14 @@ module.exports = grammar({
       $.escape,
       $.line,
     ))),
+
+    _indented: $ => seq($._indent, content($), $._dedent),
+    item: $ => prec.right(1, seq(
+      optional($._space),
+      $._token_list,
+      repeat($._markup),
+      optional($._indented)
+    )),
 
     heading: $ => seq($._token_head, repeat($._markup)),
     strong: $ => prec.left(seq('*', inside($), '*')),
