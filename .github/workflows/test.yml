@@ -3,66 +3,65 @@ on: [push, pull_request]
 name: Continuous integration
 
 jobs:
-  test_linux:
-    name: Test Linux
-    runs-on: ubuntu-20.04
+  build:
+    name: ${{ matrix.job.target }} (${{ matrix.job.os }})
+    runs-on: ${{ matrix.job.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
+          - { target: x86_64-apple-darwin, os: macos-latest }
+          - { target: x86_64-pc-windows-gnu, os: windows-latest }
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true }
+          - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
+          - { target: aarch64-apple-darwin, os: ubuntu-20.04, use-cross: true }
+    env:
+      BUILD_CMD: cargo
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
-      - run: cargo test
-      # This also runs tests that rely on the MIME database being
-      # present.
-      - run: cargo test -- --ignored
+    - name: Checkout source code
+      uses: actions/checkout@v3
 
-  test_linux_latest_stable:
-    name: Test Linux (latest stable Rust)
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo +stable test
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@1.59.0
+      with:
+        targets: ${{ matrix.job.target }}
 
-  test_linux_musl_build:
-    name: Test Linux (musl)
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-        # https://github.com/rust-lang/rust/issues/95926
-      - uses: dtolnay/rust-toolchain@1.70.0
-        with:
-          targets: x86_64-unknown-linux-musl
+    - name: Install cross
+      if: matrix.job.use-cross
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cross
 
-      - name: Install cross-compilation tools
-        uses: taiki-e/setup-cross-toolchain-action@v1
-        with:
-          target: x86_64-unknown-linux-musl
-      - run: cargo test
+    - name: Overwrite build command env variable
+      if: matrix.job.use-cross
+      shell: bash
+      run: echo "BUILD_CMD=cross" >> $GITHUB_ENV
 
-  # test_linux_arm64:
-  #   name: Test Linux arm64 (build only)
+
+    - name: Build
+      shell: bash
+      run: $BUILD_CMD test
+
+  # test_linux:
+  #   name: Test Linux
   #   runs-on: ubuntu-20.04
   #   steps:
   #     - uses: actions/checkout@v3
   #     - uses: dtolnay/rust-toolchain@1.59.0
-  #     - run: rustup target add aarch64-unknown-linux-gnu
-  #     - run: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-  #     - run: cargo build --target=aarch64-unknown-linux-gnu
+  #     - run: cargo test
+  #     # This also runs tests that rely on the MIME database being
+  #     # present.
+  #     - run: cargo test -- --ignored
 
-  # test_mac:
-  #   name: Test macOS
-  #   runs-on: macos-latest
+  # test_linux_latest_stable:
+  #   name: Test Linux (latest stable Rust)
+  #   runs-on: ubuntu-20.04
   #   steps:
   #     - uses: actions/checkout@v3
-  #     - uses: dtolnay/rust-toolchain@1.59.0
-  #     - run: cargo test
-
-  # test_windows:
-  #   name: Test Windows
-  #   runs-on: windows-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: dtolnay/rust-toolchain@1.59.0
-  #     - run: cargo test
+  #     - uses: dtolnay/rust-toolchain@stable
+  #     - run: cargo +stable test
 
   # regression_test:
   #   name: Output Regression Test
