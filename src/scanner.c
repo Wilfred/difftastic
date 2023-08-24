@@ -119,14 +119,43 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	if (valid_symbols[DEDENT]) {
+	if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
+		lexer->mark_end(lexer);
+
+
 		if (lexer->lookahead == '\n') {
-			lexer->mark_end(lexer);
 			lexer->advance(lexer, false);
-			while (lexer->lookahead == ' ') {
-				lexer->advance(lexer, false);
+		}
+
+		if (valid_symbols[DEDENT]) {
+			if (lexer->eof(lexer)) {
+				scanner_dedent(self);
+				lexer->result_symbol = DEDENT;
+				return true;
 			}
-			unsigned char col = lexer->get_column(lexer);
+		}
+
+		if (lexer->get_column(lexer) != 0) {
+			// printf("hoho\n");
+			return false;
+		}
+		unsigned char col = 0;
+		while (lexer->lookahead == ' ' || lexer->lookahead == '\n') {
+			if (lexer->lookahead == '\n') {
+				col = 0;
+			}
+			else {
+				col++;
+			}
+			lexer->advance(lexer, false);
+		}
+
+		if (valid_symbols[DEDENT]) {
+			if (lexer->eof(lexer)) {
+				scanner_dedent(self);
+				lexer->result_symbol = DEDENT;
+				return true;
+			}
 			unsigned char current = scanner_current(self);
 			unsigned char previous = scanner_previous(self);
 			if (col < current && col <= previous) {
@@ -135,39 +164,20 @@ bool tree_sitter_typst_external_scanner_scan(
 				return true;
 			}
 		}
-		if (lexer->lookahead == 0) {
-			scanner_dedent(self);
-			lexer->result_symbol = DEDENT;
-			return true;
-		}
-	}
 
-	if (valid_symbols[INDENT]) {
+		if (valid_symbols[INDENT]) {
+			unsigned char current = scanner_current(self);
+			// printf("%d %d\n", current, col);
 
-		if (lexer->lookahead == '\n') {
-			lexer->advance(lexer, false);
-			lexer->mark_end(lexer);
-		}
-		if (lexer->get_column(lexer) != 0) {
-			return false;
-		}
-
-		while (lexer->lookahead == ' ') {
-			lexer->advance(lexer, false);
-		}
-		unsigned char col = lexer->get_column(lexer);
-		unsigned char current = scanner_current(self);
-
-		if (col < current) {
-			scanner_redent(self, col);
-		}
-		else if (col > current) {
-			if (!valid_symbols[INDENT]) {
-				return false;
+			if (col > current) {
+				scanner_indent(self, col);
+				lexer->result_symbol = INDENT;
+				// printf("  indent\n");
+				return true;
 			}
-			scanner_indent(self, col);
-			lexer->result_symbol = INDENT;
-			return true;
+			if (col < current) {
+				scanner_redent(self, col);
+			}
 		}
 	}
 

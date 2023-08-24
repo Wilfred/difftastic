@@ -55,7 +55,7 @@ module.exports = grammar({
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
 
-    _token_list: $ => /-[ \t\n]+/,
+    _token_list: $ => prec(1, /-/),
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
@@ -103,6 +103,7 @@ module.exports = grammar({
       optional($._space),
       $._token_list,
       repeat($._markup),
+      // optional($._new_line),
       optional($._indented)
     )),
 
