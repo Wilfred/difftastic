@@ -27,8 +27,10 @@ I publish this grammar because I hope for help from other involved enthousiasts.
   - [X] List
   - [ ] Label
   - [ ] Reference
-- [ ] Math mode.
-- [ ] Check Typst specification about `ident` and `label` character classes like `XID_Start` and `XID_Continue`.
+- [ ] Math mode
+- [ ] Unicode characters
+  - [X] `ident` and `label` (unicode property `XID`)
+  - [ ] White spaces
 - [ ] Increase by an order of magnitude the number of tests
 
 ## DONE

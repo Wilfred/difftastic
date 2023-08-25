@@ -144,15 +144,11 @@ static void scanner_redent(struct Scanner* self, uint32_t col) {
 	if (self->indentation.len == 0) {
 		fprintf(stderr, "redent on base line\n");
 		exit(EXIT_FAILURE);
-		// return;
 	}
 	vec_u32_set(&self->indentation, self->indentation.len - 1, col);
 }
 static void scanner_dedent(struct Scanner* self) {
 	if (self->indentation.len == 0) {
-		// fprintf(stderr, "dedent without indent\n");
-		// TODO: why does it occur some times?
-		//  when trying hipothetic branches (conflicts)
 		return;
 	}
 	vec_u32_pop(&self->indentation);
@@ -175,12 +171,6 @@ static bool scanner_termination(struct Scanner* self, TSLexer* lexer) {
 	}
 	fprintf(stderr, "unreachable\n");
 	exit(EXIT_FAILURE);
-}
-static void scanner_is_inside(struct Scanner* self, enum container container) {
-	if (self->containers.len == 0) {
-		return false;
-	}
-	return self->containers.vec[self->containers.len - 1] == container;
 }
 static void scanner_container(struct Scanner* self, enum container container) {
 	vec_u32_push(&self->containers, container);
@@ -248,8 +238,6 @@ bool tree_sitter_typst_external_scanner_scan(
 
 	// highest precedence
 	if (valid_symbols[TERMINATION] && scanner_termination(self, lexer)) {
-		// printf("termination\n");
-		// vec_u32_debug(&self->containers);
 		lexer->advance(lexer, false);
 		scanner_dedent(self);
 		scanner_out(self);
@@ -277,18 +265,6 @@ bool tree_sitter_typst_external_scanner_scan(
 		lexer->result_symbol = EMPH_TOKEN;
 		return true;
 	}
-	// if (valid_symbols[STRONG_L] && lexer->lookahead == '*') {
-	// 	lexer->advance(lexer, false);
-	// 	scanner_indent(self, lexer->get_column(lexer));
-	// 	lexer->result_symbol = STRONG_L;
-	// 	return true;
-	// }
-	// if (valid_symbols[STRONG_R] && lexer->lookahead == '*') {
-	// 	lexer->advance(lexer, false);
-	// 	scanner_dedent(self);
-	// 	lexer->result_symbol = STRONG_R;
-	// 	return true;
-	// }
 
 	if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
 		lexer->mark_end(lexer);
