@@ -101,6 +101,8 @@ module.exports = grammar({
       $.raw_span,
       $.math,
       $.url,
+      $.label,
+      $.ref,
     ),
     _markup_inside: $ => choice(
       $._code,
@@ -114,6 +116,8 @@ module.exports = grammar({
       $.raw_span,
       $.math,
       $.url,
+      $.label,
+      $.ref,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -251,6 +255,7 @@ module.exports = grammar({
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
+    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/),
     content: $ => seq($._content_token, content($), $._termination),
     group: $ => seq(
       '(',

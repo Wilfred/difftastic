@@ -21,12 +21,15 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 ## TODO
 
 - [ ] Markups
-  - [X] Strong/Emph
+  - [X] Strong
+  - [X] Emph
   - [X] Heading
   - [X] Url
   - [X] List
-  - [ ] Label
-  - [ ] Reference
+  - [X] Label
+  - [X] Reference
+  - [ ] Symbol
+  - [ ] Quote
 - [ ] Math mode
 - [ ] Unicode characters
   - [X] `ident` and `label` (unicode property `XID`)
@@ -37,6 +40,7 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 - [X] Code
 - [X] Indentation
+- [X] Comments
 
 ## Particularity
 
