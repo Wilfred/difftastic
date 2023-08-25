@@ -2488,7 +2488,140 @@ $2 ^ 4 * 8$
 (source_file
 	(math
 		(mul
-			(supscript
+			(attach
 				(number)
-				(number))
+				sup: (number))
 			(number))))
+
+
+=====================
+Test 180
+=====================
+$2 ^ 4 _ 8$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(attach
+				(number)
+				sup: (number))
+			sub: (number))))
+
+
+=====================
+Test 181
+=====================
+$1_2_3$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sub: (attach
+				(number)
+				sub: (number)))))
+
+
+=====================
+Test 182
+=====================
+$(3  )$
+---------------------
+
+(source_file
+	(math
+		(group
+			(number))))
+
+
+=====================
+Test 183
+=====================
+$3  $
+---------------------
+
+(source_file
+	(math
+		(number)))
+
+
+=====================
+Test 184
+=====================
+$lim  $
+---------------------
+
+(source_file
+	(math
+		(ident)))
+
+
+=====================
+Test 185
+=====================
+$x + 2$
+---------------------
+
+(source_file
+	(math
+		(add
+			(variable)
+			(number))))
+
+
+=====================
+Test 186
+=====================
+$x + ($
+---------------------
+
+(source_file
+	(math
+		(add
+			(variable)
+			(group))))
+
+
+=====================
+Test 187
+=====================
+$x + (  $
+---------------------
+
+(source_file
+	(math
+		(add
+			(variable)
+			(group))))
+
+
+=====================
+Test 188
+=====================
+$2^[4 * 2$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+				sup: (group
+					(mul
+						(number)
+						(number))))))
+
+
+=====================
+Test 189
+=====================
+$2^+2$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (symbol))
+		(number)))

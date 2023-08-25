@@ -278,6 +278,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (scanner_termination(self, lexer)) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
+				// printf("Hey\n");
 				return true;
 			}
 		}
