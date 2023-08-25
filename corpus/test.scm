@@ -2648,7 +2648,7 @@ $eq.not(0)$
 
 (source_file
 	(math
-		(call
+		(item_call
 			(field
 				(ident)
 				(ident))

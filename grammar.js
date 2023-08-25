@@ -46,7 +46,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub],
     [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub, $._math_group],
-    [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub, $._math_group, $._math_call],
+    [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub, $._math_group, $._math_item_call],
+    [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
     [$.math],
     [$._math_group],
@@ -166,7 +167,7 @@ module.exports = grammar({
     _math_expr: $ => choice(
       alias($._math_group, $.group),
       alias($._math_letter, $.variable),
-      alias($._math_ident, $.ident),
+      // alias($._math_ident, $.ident),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
       alias($._math_mul, $.mul),
@@ -175,10 +176,13 @@ module.exports = grammar({
       alias($._math_sub, $.sub),
       alias($._math_attach_sup, $.attach),
       alias($._math_attach_sub, $.attach),
+      alias($._math_item_call, $.item_call),
       alias($._math_call, $.call),
-      alias($._math_field, $.field),
+      // alias($._math_field, $.field),
+      $._math_item,
     ),
     _math_group: $ => prec(-1, seq(choice('(', '['), zebra(ws($), $._math_expr), optional(choice(')', ']')))),
+    _math_item: $ => choice(alias($._math_ident, $.ident), alias($._math_field, $.field)),
     // FIXME: exclude `_` from math ident
     _math_ident: $ => /[\p{XID_Start}][\p{XID_Continue}]+/,
     _math_letter: $ => /[\p{XID_Start}]/,
@@ -194,8 +198,9 @@ module.exports = grammar({
     _math_attach_sub: $ => prec.right(4,
       seq($._math_expr, ws($), '_', ws($), field('sub', $._math_expr))
     ),
-    _math_field: $ => prec.left(7, seq(choice(alias($._math_field, $.field), alias($._math_ident, $.ident)), '.', alias($._math_ident, $.ident))),
-    _math_call: $ => prec(6, seq(choice(alias($._math_ident, $.ident), alias($._math_field, $.field)), '(', zebra(ws($), $._math_expr), ')')),
+    _math_field: $ => prec.left(7, seq($._math_item, '.', alias($._math_ident, $.ident))),
+    _math_item_call: $ => prec(6, seq($._math_item, '(', zebra(ws($), $._math_expr), ')')),
+    _math_call: $ => prec(5, seq($._math_expr, $._math_group)),
     _math_symbol: $ => choice(
       token(prec(-1 , '+')),
       token(prec(-1 , '-')),
