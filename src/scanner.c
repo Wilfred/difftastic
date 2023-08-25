@@ -48,7 +48,8 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 
       if (lexer->lookahead == '/') {
         skip(lexer);
-        while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
+        while (lexer->lookahead != 0 && lexer->lookahead != '\n' && lexer->lookahead != 0x2028 &&
+			   lexer->lookahead != 0x2029) {
           skip(lexer);
         }
       } else if (lexer->lookahead == '*') {
@@ -81,7 +82,7 @@ static bool scan_automatic_semicolon(TSLexer *lexer) {
     if (lexer->lookahead == 0) return true;
     if (lexer->lookahead == '}') return true;
     if (lexer->is_at_included_range_start(lexer)) return true;
-    if (lexer->lookahead == '\n') break;
+    if (lexer->lookahead == '\n' || lexer->lookahead == 0x2028 || lexer->lookahead == 0x2029) break;
     if (!iswspace(lexer->lookahead)) return false;
     skip(lexer);
   }
