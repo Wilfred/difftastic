@@ -604,6 +604,10 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "private_property_identifier",
+            "named": true
           }
         ]
       },
@@ -3493,6 +3497,10 @@
   },
   {
     "type": "static",
+    "named": false
+  },
+  {
+    "type": "static get",
     "named": false
   },
   {
