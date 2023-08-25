@@ -460,13 +460,25 @@ class Foo {
 	static foo = 2
 }
 
+class Bar {
+  static get
+  baz() { return 1; }
+}
+
 ---
 
 (program
   (class_declaration
     (identifier)
     (class_body
-      (field_definition (property_identifier) (number)))))
+      (field_definition (property_identifier) (number))))
+  (class_declaration
+    (identifier)
+    (class_body
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block (return_statement (number)))))))
 
 ============================================
 Private Class Property Fields
