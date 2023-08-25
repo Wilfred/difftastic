@@ -8,10 +8,26 @@ function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
 function content($) {
-  return zebra(seq(optional($._redent), choice($.break, $._new_line)), choice($._indented, $.heading, $.item, repeat1($._markup)));
+  return zebra(
+    seq(optional($._redent), choice($.break, $._new_line)),
+    choice(
+      $._indented,
+      $.heading,
+      $.item,
+      repeat1($._markup)
+    )
+  );
 }
 function inside($) {
-  return zebra($._new_line, choice(seq($.heading, $._new_line), prec.left(repeat1($._markup))));
+  return zebra(
+    seq(optional($._redent), choice($.break, $._new_line)),
+    choice(
+      seq($.heading, $._new_line),
+      $._indented,
+      $.item,
+      prec.left(repeat1($._markup))
+    )
+  );
 }
 module.exports = grammar({
   name: 'typst',
@@ -20,8 +36,10 @@ module.exports = grammar({
     $._indent,
     $._dedent,
     $._redent,
-    $._content_l,
-    $._content_r,
+    $._content_token,
+    $._strong_token,
+    $._emph_token,
+    $._termination,
   ],
   conflicts: $ => [
     [$.item],
@@ -58,7 +76,7 @@ module.exports = grammar({
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
 
-    _token_list: $ => prec(1, /-/),
+    _token_list: $ => prec(1, /-|\+|[0-9]+\./),
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
@@ -102,6 +120,7 @@ module.exports = grammar({
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),
+    // _indented_tail: $ => seq($._indent, content($), $._dedent),
     item: $ => prec.right(1, seq(
       optional($._space),
       $._token_list,
@@ -111,8 +130,8 @@ module.exports = grammar({
     )),
 
     heading: $ => seq($._token_head, repeat($._markup)),
-    strong: $ => prec.left(seq('*', inside($), '*')),
-    emph: $ => prec.left(seq('_', inside($), '_')),
+    strong: $ => prec.left(seq($._strong_token, inside($), $._termination)),
+    emph: $ => prec.left(seq($._emph_token, inside($), $._termination)),
     math: $ => seq('$', /[^\$]*/, '$'),
     raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
@@ -218,7 +237,7 @@ module.exports = grammar({
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
     tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
-    content: $ => seq($._content_l, content($), $._content_r),
+    content: $ => seq($._content_token, content($), $._termination),
     group: $ => seq(
       '(',
       repeat(seq(

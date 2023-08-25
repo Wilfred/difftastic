@@ -20,12 +20,11 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 ## TODO
 
-- [X] Scanner for indent and dedent.
-  - [ ] Cover all cases in tests
 - [ ] Markups
+  - [X] Strong/Emph
   - [X] Heading
   - [X] Url
-  - [ ] List
+  - [X] List
   - [ ] Label
   - [ ] Reference
 - [ ] Math mode.
@@ -35,6 +34,7 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 ## DONE
 
 - [X] Code
+- [X] Indentation
 
 ## Particularity
 

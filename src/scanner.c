@@ -1,100 +1,212 @@
 #include <tree_sitter/parser.h>
+#include <stdio.h>
+#include <string.h>
 
 enum TokenType {
   INDENT,
   DEDENT,
 	REDENT,
-	CONTENT_L,
-	CONTENT_R,
+	CONTENT_TOKEN,
+	STRONG_TOKEN,
+	EMPH_TOKEN,
+	TERMINATION,
+	// STRONG_L,
+	// STRONG_R,
 };
 
-struct Scanner {
-	unsigned cap;
-	unsigned len;
-	unsigned char* vec;
+enum container {
+	CONTENT,
+	STRONG,
+	EMPH,
+	// HEADING,
 };
 
-static void scanner_capacity(struct Scanner* self, unsigned cap) {
-	if (self->cap >= cap) {
-		return;
-	}
-	self->vec = realloc(self->vec, sizeof(unsigned char) * cap);
-	self->cap = cap;
-	if (self->vec == NULL) {
-		self->len = 0;
-		self->cap = 0;
+struct vec_u32 {
+	size_t cap;
+	size_t len;
+	uint32_t* vec;
+};
+static struct vec_u32 vec_u32_new() {
+	return (struct vec_u32) {.cap = 0, .len = 0, .vec = NULL};
+}
+static void vec_u32_drop(struct vec_u32 self) {
+	if (self.vec != NULL) {
+		free(self.vec);
 	}
 }
-static void scanner_debug(struct Scanner* self) {
+static void vec_u32_debug(struct vec_u32* self) {
+	fprintf(stderr, "(struct vec_u32*)");
 	if (self == NULL) {
-		printf("NULL\n");
+		fprintf(stderr, "NULL\n");
 		return;
 	}
-	printf("[");
+	fprintf(stderr, "[");
 	bool sep = false;
-	for (unsigned i = 0; i < self->len; i++) {
+	for (size_t i = 0; i < self->len; i++) {
 		if (sep) {
-			printf(", ");
+			fprintf(stderr, ", ");
 		}
 		sep = true;
-		printf("%d", self->vec[i]);
+		fprintf(stderr, "%d", self->vec[i]);
 	}
-	printf("]\n");
+	fprintf(stderr, "]\n");
 }
-static unsigned char scanner_current(struct Scanner* self) {
-	if (self == NULL || self->len < 1) {
+static void vec_u32_push(struct vec_u32* self, uint32_t value) {
+	if (self->len + 1 > self->cap) {
+		self->cap = self->len + 8;
+		self->vec = realloc(self->vec, sizeof(uint32_t) * self->cap);
+		if (self->vec == NULL) {
+			fprintf(stderr, "vec_u32_push: malloc failed\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+	self->vec[self->len] = value;
+	self->len += 1;
+}
+static uint32_t vec_u32_pop(struct vec_u32* self) {
+	if (self->len < 1) {
+			fprintf(stderr, "vec_u32_pop: empty vec\n");
+			exit(EXIT_FAILURE);
+	}
+	self->len -= 1;
+	return self->vec[self->len];
+}
+static uint32_t vec_u32_get(struct vec_u32* self, size_t index) {
+	if (index >= self->len) {
+			fprintf(stderr, "vec_u32_get: index out of bound\n");
+			exit(EXIT_FAILURE);
+	}
+	return self->vec[index];
+}
+static uint32_t vec_u32_get_or(struct vec_u32* self, size_t index, uint32_t value) {
+	if (index >= self->len) {
+			return value;
+	}
+	return self->vec[index];
+}
+static uint32_t vec_u32_set(struct vec_u32* self, size_t index, uint32_t value) {
+	if (index >= self->len) {
+			fprintf(stderr, "vec_u32_set: index out of bound\n");
+			exit(EXIT_FAILURE);
+	}
+	self->vec[index] = value;
+}
+static size_t vec_u32_last(struct vec_u32* self) {
+	if (self->len < 1) {
+			fprintf(stderr, "vec_u32_last: empty vec\n");
+		exit(EXIT_FAILURE);
+	}
+	return self->len - 1;
+}
+static size_t vec_u32_serialize(struct vec_u32* self, const char* buffer) {
+	size_t written = 0;
+	memcpy(buffer, &self->len, sizeof self->len);
+	written += sizeof self->len;
+	memcpy(buffer + written, self->vec, self->len * sizeof *self->vec);
+	written += self->len * sizeof *self->vec;
+	return written;
+}
+static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
+	size_t read = 0;
+	memcpy(&self->len, buffer, sizeof self->len);
+	read += sizeof self->len;
+	if (self->len > self->cap) {
+		self->cap = self->len;
+		self->vec = realloc(self->vec, sizeof(uint32_t) * self->cap);
+		if (self->vec == NULL) {
+			fprintf(stderr, "vec_u32_deserialize: malloc failed\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+	memcpy(self->vec, buffer + read, self->len * sizeof *self->vec);
+	read += self->len * sizeof *self->vec;
+	return read;
+}
+
+struct Scanner {
+	struct vec_u32 indentation;
+	struct vec_u32 containers;
+};
+
+static uint32_t scanner_current(struct Scanner* self) {
+	if (self->indentation.len < 1) {
 		return 0;
 	}
-	return self->vec[self->len - 1];
+	return vec_u32_get(&self->indentation, self->indentation.len - 1);
 }
 static unsigned char scanner_previous(struct Scanner* self) {
-	if (self == NULL || self->len < 2) {
+	if (self->indentation.len < 2) {
 		return 0;
 	}
-	return self->vec[self->len - 2];
+	return vec_u32_get(&self->indentation, self->indentation.len - 2);
 }
-static void scanner_redent(struct Scanner* self, unsigned char col) {
-	if (self == NULL || self->len == 0) {
-		return;
+static void scanner_redent(struct Scanner* self, uint32_t col) {
+	if (self->indentation.len == 0) {
+		fprintf(stderr, "redent on base line\n");
+		exit(EXIT_FAILURE);
+		// return;
 	}
-	self->vec[self->len - 1] = col;
+	vec_u32_set(&self->indentation, self->indentation.len - 1, col);
 }
 static void scanner_dedent(struct Scanner* self) {
-	if (self == NULL || self->len == 0) {
+	if (self->indentation.len == 0) {
+		// fprintf(stderr, "dedent without indent\n");
+		// TODO: why does it occur some times?
+		//  when trying hipothetic branches (conflicts)
 		return;
 	}
-	self->len--;
+	vec_u32_pop(&self->indentation);
 }
-static void scanner_indent(struct Scanner* self, unsigned char col) {
-	if (self == NULL) {
+static void scanner_indent(struct Scanner* self, uint32_t col) {
+	vec_u32_push(&self->indentation, col);
+}
+static bool scanner_termination(struct Scanner* self, TSLexer* lexer) {
+	if (self->containers.len == 0) {
+		return lexer->eof(lexer);
+	}
+	enum container container = vec_u32_get(&self->containers, vec_u32_last(&self->containers));
+	switch (container) {
+		case CONTENT:
+		return lexer->lookahead == ']';
+		case STRONG:
+		return lexer->lookahead == '*';
+		case EMPH:
+		return lexer->lookahead == '_';
+	}
+	fprintf(stderr, "unreachable\n");
+	exit(EXIT_FAILURE);
+}
+static void scanner_is_inside(struct Scanner* self, enum container container) {
+	if (self->containers.len == 0) {
+		return false;
+	}
+	return self->containers.vec[self->containers.len - 1] == container;
+}
+static void scanner_container(struct Scanner* self, enum container container) {
+	vec_u32_push(&self->containers, container);
+}
+static void scanner_out(struct Scanner* self) {
+	if (self->containers.len == 0) {
 		return;
 	}
-	if (self->len + 1 > self->cap) {
-		scanner_capacity(self, self->len + 8);
-	}
-	self->vec[self->len] = col;
-	self->len++;
+	vec_u32_pop(&self->containers);
 }
 
 void * tree_sitter_typst_external_scanner_create() {
   struct Scanner* self = malloc(sizeof(struct Scanner));
 	if (self == NULL) {
-		return NULL;
+		fprintf(stderr, "malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
-	self->cap = 0;
-	self->len = 0;
-	self->vec = NULL;
+	self->indentation = vec_u32_new();
+	self->containers = vec_u32_new();
 	return self;
 }
 
 void tree_sitter_typst_external_scanner_destroy(void *payload) {
 	struct Scanner* self = payload;
-	if (self == NULL) {
-		return;
-	}
-	if (self->vec != NULL) {
-		free(self->vec);
-	}
+	vec_u32_drop(self->indentation);
+	vec_u32_drop(self->containers);
 	free(self);
 }
 
@@ -103,13 +215,10 @@ unsigned tree_sitter_typst_external_scanner_serialize(
   char *buffer
 ) {
 	struct Scanner* self = payload;
-	if (self == NULL) {
-		return 0;
-	}
-  for (unsigned i = 0; i < self->len; i++) {
-		buffer[i] = self->vec[i];
-	}
-	return self->len;
+	size_t written = 0;
+	written += vec_u32_serialize(&self->indentation, buffer + written);
+	written += vec_u32_serialize(&self->containers, buffer + written);
+	return written;
 }
 
 void tree_sitter_typst_external_scanner_deserialize(
@@ -118,13 +227,12 @@ void tree_sitter_typst_external_scanner_deserialize(
   unsigned length
 ) {
 	struct Scanner* self = payload;
-  if (self == NULL) {
-		return;
-	}
-	scanner_capacity(self, length);
-	self->len = length;
-	for (unsigned i = 0; i < length; i++) {
-		self->vec[i] = buffer[i];
+	self->indentation.len = 0;
+	self->containers.len = 0;
+	if (length != 0) {
+		size_t read = 0;
+		read += vec_u32_deserialize(&self->indentation, buffer + read);
+		read += vec_u32_deserialize(&self->containers, buffer + read);
 	}
 }
 
@@ -138,18 +246,49 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	if (valid_symbols[CONTENT_L] && lexer->lookahead == '[') {
-		lexer->advance(lexer, false);
-		scanner_indent(self, lexer->get_column(lexer));
-		lexer->result_symbol = CONTENT_L;
-		return true;
-	}
-	if (valid_symbols[CONTENT_R] && lexer->lookahead == ']') {
+	// highest precedence
+	if (valid_symbols[TERMINATION] && scanner_termination(self, lexer)) {
+		// printf("termination\n");
+		// vec_u32_debug(&self->containers);
 		lexer->advance(lexer, false);
 		scanner_dedent(self);
-		lexer->result_symbol = CONTENT_R;
+		scanner_out(self);
+		lexer->result_symbol = TERMINATION;
 		return true;
 	}
+	if (valid_symbols[CONTENT_TOKEN] && lexer->lookahead == '[') {
+		lexer->advance(lexer, false);
+		scanner_indent(self, lexer->get_column(lexer));
+		scanner_container(self, CONTENT);
+		lexer->result_symbol = CONTENT_TOKEN;
+		return true;
+	}
+	if (valid_symbols[STRONG_TOKEN] && lexer->lookahead == '*') {
+		lexer->advance(lexer, false);
+		scanner_indent(self, lexer->get_column(lexer));
+		scanner_container(self, STRONG);
+		lexer->result_symbol = STRONG_TOKEN;
+		return true;
+	}
+	if (valid_symbols[EMPH_TOKEN] && lexer->lookahead == '_') {
+		lexer->advance(lexer, false);
+		scanner_indent(self, lexer->get_column(lexer));
+		scanner_container(self, EMPH);
+		lexer->result_symbol = EMPH_TOKEN;
+		return true;
+	}
+	// if (valid_symbols[STRONG_L] && lexer->lookahead == '*') {
+	// 	lexer->advance(lexer, false);
+	// 	scanner_indent(self, lexer->get_column(lexer));
+	// 	lexer->result_symbol = STRONG_L;
+	// 	return true;
+	// }
+	// if (valid_symbols[STRONG_R] && lexer->lookahead == '*') {
+	// 	lexer->advance(lexer, false);
+	// 	scanner_dedent(self);
+	// 	lexer->result_symbol = STRONG_R;
+	// 	return true;
+	// }
 
 	if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
 		lexer->mark_end(lexer);
@@ -160,7 +299,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 
 		if (valid_symbols[DEDENT]) {
-			if (lexer->eof(lexer) || lexer->lookahead == ']') {
+			if (scanner_termination(self, lexer)) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
 				return true;
@@ -182,6 +321,8 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->advance(lexer, false);
 		}
 
+		// uint32_t current = vec_u32_get(&self->indentation, vec_u32_last(&self->indentation));
+		// uint32_t previous = vec_u32_get(&self->indentation, vec_u32_last(&self->indentation) - 1);
 		unsigned char current = scanner_current(self);
 		unsigned char previous = scanner_previous(self);
 
