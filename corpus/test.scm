@@ -2625,3 +2625,44 @@ $2^+2$
 			(number)
 			sup: (symbol))
 		(number)))
+
+
+=====================
+Test 190
+=====================
+$eq.not$
+---------------------
+
+(source_file
+	(math
+		(field
+			(ident)
+			(ident))))
+
+
+=====================
+Test 191
+=====================
+$eq.not(0)$
+---------------------
+
+(source_file
+	(math
+		(call
+			(field
+				(ident)
+				(ident))
+			(number))))
+
+
+=====================
+Test 192
+=====================
+$y[5)$
+---------------------
+
+(source_file
+	(math
+		(call
+			(variable)
+			(number))))
