@@ -476,13 +476,27 @@ class Foo {
 	static #FOO = 2
 }
 
+class Bar {
+  #BAZ; static foo(quux) { return #BAZ in quux; }
+}
+
 ---
 
 (program
   (class_declaration
     (identifier)
     (class_body
-      (field_definition (private_property_identifier) (number)))))
+      (field_definition (private_property_identifier) (number))))
+  (class_declaration
+    (identifier)
+    (class_body
+      (field_definition (private_property_identifier))
+      (method_definition
+        (property_identifier)
+        (formal_parameters (identifier))
+        (statement_block
+          (return_statement
+            (binary_expression (private_property_identifier) (identifier))))))))
 
 ============================================
 Class Decorators
