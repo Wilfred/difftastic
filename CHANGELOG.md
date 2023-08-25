@@ -1,4 +1,13 @@
-## 0.51 (unreleased)
+## 0.52 (unreleased)
+
+## 0.51.1 (released 25th August 2023)
+
+Fixed an issue with GitHub actions that prevented prebuilt binaries
+being attached to the release.
+
+This is the same code as 0.51.0 otherwise.
+
+## 0.51.0 (released 25th August 2023)
 
 ### Parsing
 
