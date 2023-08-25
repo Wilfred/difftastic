@@ -152,10 +152,22 @@ module.exports = grammar({
     heading: $ => seq($._token_head, repeat($._markup)),
     strong: $ => prec.left(seq($._strong_token, inside($), $._termination)),
     emph: $ => prec.left(seq($._emph_token, inside($), $._termination)),
-    math: $ => seq('$', /[^\$]*/, '$'),
     raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
     symbol: $ => choice('--', '---', '-?', '~', '...'),
+
+    math: $ => seq('$', joined(ws($), $._math_expr), '$'),
+    _math_expr: $ => choice(
+      alias($._math_letter, $.variable),
+      alias($._math_number, $.number),
+      alias($._math_mul, $.mul),
+      alias($._math_supscript, $.supscript),
+    ),
+    // _math_letter: $ => /[\p{XID_Start}]/,
+    _math_letter: $ => /[\p{XID_Start}]/,
+    _math_number: $ => /[0-9]+/,
+    _math_mul: $ => prec.left(2, seq($._math_expr, ws($), '*', ws($), $._math_expr)),
+    _math_supscript: $ => prec.left(3, seq($._math_expr, ws($), '^', ws($), $._math_expr)),
 
     _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
 

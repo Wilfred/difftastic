@@ -1553,7 +1553,8 @@ $a$
 ---------------------
 
 (source_file
-	(math))
+	(math
+		(variable)))
 
 
 =====================
@@ -2476,3 +2477,18 @@ Hello-?World
 	(text)
 	(symbol)
 	(text))
+
+
+=====================
+Test 179
+=====================
+$2 ^ 4 * 8$
+---------------------
+
+(source_file
+	(math
+		(mul
+			(supscript
+				(number)
+				(number))
+			(number))))
