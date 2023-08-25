@@ -2464,3 +2464,15 @@ Test 177
 
 (source_file
 	(ref))
+
+
+=====================
+Test 178
+=====================
+Hello-?World
+---------------------
+
+(source_file
+	(text)
+	(symbol)
+	(text))

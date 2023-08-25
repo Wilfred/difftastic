@@ -28,9 +28,11 @@ I publish this grammar because I hope for help from other involved enthousiasts.
   - [X] List
   - [X] Label
   - [X] Reference
-  - [ ] Symbol
-  - [ ] Quote
+  - [X] Symbol
+  - [ ] Quote (not sure about how it works)
 - [ ] Math mode
+  - [ ] Symbol
+  - [ ] Code
 - [ ] Unicode characters
   - [X] `ident` and `label` (unicode property `XID`)
   - [ ] White spaces

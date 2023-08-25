@@ -103,6 +103,7 @@ module.exports = grammar({
       $.url,
       $.label,
       $.ref,
+      $.symbol,
     ),
     _markup_inside: $ => choice(
       $._code,
@@ -118,6 +119,7 @@ module.exports = grammar({
       $.url,
       $.label,
       $.ref,
+      $.symbol,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -153,6 +155,7 @@ module.exports = grammar({
     math: $ => seq('$', /[^\$]*/, '$'),
     raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
+    symbol: $ => choice('--', '---', '-?', '~', '...'),
 
     _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
 
