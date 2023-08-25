@@ -1,10 +1,7 @@
 Cargo.lock
+package-lock.json
 node_modules
-.node-version
 build
 *.log
-/test.js
-/examples/npm
-package-lock.json
+/examples/*/
 /target/
-.build/

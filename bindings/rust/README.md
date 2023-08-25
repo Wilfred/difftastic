@@ -8,8 +8,8 @@ way.)
 
 ``` toml
 [dependencies]
-tree-sitter = "0.20"
-tree-sitter-javascript = "0.20"
+tree-sitter = "~0.20.10"
+tree-sitter-javascript = "~0.20.1"
 ```
 
 Typically, you will use the [language][language func] function to add this
@@ -39,7 +39,6 @@ fn main() {
 If you have any questions, please reach out to us in the [tree-sitter
 discussions] page.
 
-[Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
 [language func]: https://docs.rs/tree-sitter-javascript/*/tree_sitter_javascript/fn.language.html
 [Parser]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html
 [tree-sitter]: https://tree-sitter.github.io/
