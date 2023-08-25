@@ -29,6 +29,7 @@ jobs:
 
   upload-assets:
     strategy:
+      fail-fast: false
       matrix:
         include:
           # Targets that match the OS of the runner.
