@@ -14,6 +14,7 @@ function content($) {
       $._indented,
       $.heading,
       $.item,
+      $.term,
       repeat1($._markup)
     )
   );
@@ -25,6 +26,7 @@ function inside($) {
       seq($.heading, $._new_line),
       $._indented,
       $.item,
+      $.term,
       prec.left(repeat1($._markup))
     )
   );
@@ -75,8 +77,10 @@ module.exports = grammar({
 
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
+    _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^ \t\n]/),
 
-    _token_list: $ => prec(1, /-|\+|[0-9]+\./),
+    _token_item: $ => prec(1, /-|\+|[0-9]+\./),
+    _token_term: $ => prec(1, /\/[ \t]+/),
     _token_head: $ => /=+/,
     _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
@@ -113,6 +117,7 @@ module.exports = grammar({
     text: $ => prec.right(repeat1(choice(
       $._anti_else,
       $._anti_markup,
+      $._anti_item,
       $._token_dot,
       $._char_any,
       $.escape,
@@ -120,12 +125,18 @@ module.exports = grammar({
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),
-    // _indented_tail: $ => seq($._indent, content($), $._dedent),
     item: $ => prec.right(1, seq(
       optional($._space),
-      $._token_list,
+      $._token_item,
       repeat($._markup),
-      // optional($._new_line),
+      optional($._indented)
+    )),
+    term: $ => prec.right(1, seq(
+      optional($._space),
+      $._token_term,
+      field('term', repeat($._markup)),
+      ':',
+      repeat($._markup),
       optional($._indented)
     )),
 
