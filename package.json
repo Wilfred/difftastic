@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-commonlisp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Tree-sitter grammar for Common Lisp",
   "tree-sitter": [
     {
@@ -17,7 +17,7 @@
   "author": "Stephan Seitz",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.15.0",
+    "nan": "^2.17.0",
     "tree-sitter-clojure": "git@github.com:theHamsta/tree-sitter-clojure-1.git#95c7959c461406381b42113dcf4591008c663d21"
   },
   "repository": {
@@ -25,6 +25,6 @@
     "url": "git://github.com/theHamsta/tree-sitter-commonlisp"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.4"
+    "tree-sitter-cli": "^0.20.8"
   }
 }
