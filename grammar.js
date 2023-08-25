@@ -74,10 +74,12 @@ module.exports = grammar({
     _space_expr: $ => /[ \n\t]+/,
     _new_line: $ => /\n/,
     _space: $ => /[ \t]+/,
+    _token_eq: $ => token(prec(1, /=/)),
 
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
     _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^ \t\n]/),
+    _anti_head: $ => /=+[^ \t\n=]/,
 
     _token_item: $ => prec(1, /-|\+|[0-9]+\./),
     _token_term: $ => prec(1, /\/[ \t]+/),
@@ -118,6 +120,7 @@ module.exports = grammar({
       $._anti_else,
       $._anti_markup,
       $._anti_item,
+      $._anti_head,
       $._token_dot,
       $._char_any,
       $.escape,
@@ -290,7 +293,7 @@ module.exports = grammar({
       field('pattern', choice($._pattern, $.call)),
       optional(seq(
         ws($),
-        '=',
+        $._token_eq,
         ws($),
         field('value', $._expr)
       )),
