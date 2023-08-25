@@ -5,6 +5,7 @@ use std::{env, ffi::OsStr, path::Path, path::PathBuf};
 use clap::{crate_authors, crate_description, Arg, Command};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
+use itertools::Itertools;
 
 use crate::{
     display::style::BackgroundColor,
@@ -467,7 +468,18 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
         std::process::exit(EXIT_BAD_ARGUMENTS);
     }
 
-    res
+    res.into_iter()
+        .coalesce(
+            |(prev_lang, mut prev_globs), (current_lang, current_globs)| {
+                if prev_lang == current_lang {
+                    prev_globs.extend(current_globs);
+                    Ok((prev_lang, prev_globs))
+                } else {
+                    Err(((prev_lang, prev_globs), (current_lang, current_globs)))
+                }
+            },
+        )
+        .collect()
 }
 
 /// Parse CLI arguments passed to the binary.

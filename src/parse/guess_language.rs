@@ -73,7 +73,7 @@ pub enum Language {
     Zig,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum LanguageOverride {
     Language(Language),
     PlainText,
