@@ -151,6 +151,15 @@ fn app() -> clap::Command {
                 .required(false),
         )
         .arg(
+            Arg::new("label").short('L')
+                .long("label")
+                .takes_value(true)
+                .value_name("LABEL")
+                .max_occurrences(2)
+                .allow_invalid_utf8(true)
+                .help("Label of file(s) which should be used for printing instead of PATH(s).")
+        )
+        .arg(
             Arg::new("width")
                 .long("width")
                 .value_name("COLUMNS")
@@ -791,7 +800,25 @@ pub(crate) fn parse_args() -> Mode {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
-            let display_path = build_display_path(&lhs_arg, &rhs_arg);
+            let display_path = if matches.is_present("label") {
+                let labels: Vec<_> = matches.values_of_os("label").unwrap_or_default().collect();
+                let (_lhs_display_path, rhs_display_path) = match &labels[..] {
+                    [lhs_display_path, rhs_display_path] => (
+                        lhs_display_path.to_string_lossy().to_string(),
+                        rhs_display_path.to_string_lossy().to_string(),
+                    ),
+                    [display_path] => (
+                        display_path.to_string_lossy().to_string(),
+                        display_path.to_string_lossy().to_string(),
+                    ),
+                    _ => {
+                        unreachable!("clap has already validated label")
+                    }
+                };
+                rhs_display_path
+            } else {
+                build_display_path(&lhs_arg, &rhs_arg)
+            };
 
             let lhs_permissions = lhs_arg.permissions();
             let rhs_permissions = rhs_arg.permissions();
