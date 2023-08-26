@@ -2132,120 +2132,120 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
 (program
   (variable_declaration
     (variable_declarator
-      (identifier)
-      (jsx_element
-        (jsx_opening_element
-          (identifier))
-        (jsx_closing_element
-          (identifier)))))
+      name: (identifier)
+      value: (jsx_element
+        open_tag: (jsx_opening_element
+          name: (identifier))
+        close_tag: (jsx_closing_element
+          name: (identifier)))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_element
-        (jsx_opening_element
-          (member_expression
-            (identifier)
-            (property_identifier)))
-        (jsx_closing_element
-          (member_expression
-            (identifier)
-            (property_identifier))))))
+      left: (identifier)
+      right: (jsx_element
+        open_tag: (jsx_opening_element
+          name: (member_expression
+            object: (identifier)
+            property: (property_identifier)))
+        close_tag: (jsx_closing_element
+          name: (member_expression
+            object: (identifier)
+            property: (property_identifier))))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_element
-        (jsx_opening_element)
+      left: (identifier)
+      right: (jsx_element
+        open_tag: (jsx_opening_element)
         (jsx_self_closing_element
-          (identifier))
-        (jsx_closing_element))))
+          name: (identifier))
+        close_tag: (jsx_closing_element))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_element
-        (jsx_opening_element
-          (identifier))
+      left: (identifier)
+      right: (jsx_element
+        open_tag: (jsx_opening_element
+          name: (identifier))
         (jsx_self_closing_element
-          (identifier))
-        (jsx_closing_element
-          (identifier)))))
+          name: (identifier))
+        close_tag: (jsx_closing_element
+          name: (identifier)))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_self_closing_element
-        (identifier)
-        (jsx_attribute
+      left: (identifier)
+      right: (jsx_self_closing_element
+        name: (identifier)
+        attribute: (jsx_attribute
           (property_identifier)))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_self_closing_element
-        (identifier)
-        (jsx_attribute
+      left: (identifier)
+      right: (jsx_self_closing_element
+        name: (identifier)
+        attribute: (jsx_attribute
           (property_identifier)
           (string
             (string_fragment)))
-        (jsx_attribute
+        attribute: (jsx_attribute
           (property_identifier)
           (jsx_expression
             (number)))
-        (jsx_attribute
+        attribute: (jsx_attribute
           (property_identifier)
           (string
             (string_fragment)))
-        (jsx_attribute
+        attribute: (jsx_attribute
           (property_identifier)))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_self_closing_element
-        (identifier)
-        (jsx_attribute
+      left: (identifier)
+      right: (jsx_self_closing_element
+        name: (identifier)
+        attribute: (jsx_attribute
           (property_identifier)
           (jsx_expression
             (member_expression
-              (identifier)
-              (property_identifier)))))))
+              object: (identifier)
+              property: (property_identifier)))))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_element
-        (jsx_opening_element
-          (identifier)
-          (jsx_attribute
+      left: (identifier)
+      right: (jsx_element
+        open_tag: (jsx_opening_element
+          name: (identifier)
+          attribute: (jsx_attribute
             (property_identifier)
             (jsx_expression
               (binary_expression
-                (binary_expression
-                  (member_expression
-                    (member_expression
-                      (this)
-                      (property_identifier))
-                    (property_identifier))
-                  (string
+                left: (binary_expression
+                  left: (member_expression
+                    object: (member_expression
+                      object: (this)
+                      property: (property_identifier))
+                    property: (property_identifier))
+                  right: (string
                     (string_fragment)))
-                (unary_expression
-                  (member_expression
-                    (member_expression
-                      (this)
-                      (property_identifier))
-                    (property_identifier)))))))
-        (jsx_closing_element
-          (identifier)))))
+                right: (unary_expression
+                  argument: (member_expression
+                    object: (member_expression
+                      object: (this)
+                      property: (property_identifier))
+                    property: (property_identifier)))))))
+        close_tag: (jsx_closing_element
+          name: (identifier)))))
   (expression_statement
     (assignment_expression
-      (identifier)
-      (jsx_element
-        (jsx_opening_element
-          (jsx_namespace_name
+      left: (identifier)
+      right: (jsx_element
+        open_tag: (jsx_opening_element
+          name: (jsx_namespace_name
             (identifier)
             (identifier))
-          (jsx_attribute
+          attribute: (jsx_attribute
             (property_identifier)
             (jsx_expression)))
         (jsx_expression
           (spread_element
             (identifier)))
-        (jsx_closing_element
-          (jsx_namespace_name
+        close_tag: (jsx_closing_element
+          name: (jsx_namespace_name
             (identifier)
             (identifier)))))))

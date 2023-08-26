@@ -650,9 +650,9 @@ module.exports = grammar({
     ),
 
     nested_identifier: $ => prec('member', seq(
-      choice($.identifier, alias($.nested_identifier, $.member_expression)),
+      field('object', choice($.identifier, alias($.nested_identifier, $.member_expression))),
       '.',
-      alias($.identifier, $.property_identifier),
+      field('property', alias($.identifier, $.property_identifier)),
     )),
 
     jsx_namespace_name: $ => seq($._jsx_identifier, ':', $._jsx_identifier),
