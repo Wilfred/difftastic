@@ -3,12 +3,14 @@
 use crate::{
     constants::Side,
     hash::DftHashMap,
-    lines::{byte_len, LineNumber},
+    lines::byte_len,
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-    positions::SingleLineSpan,
     summary::FileFormat,
 };
+
+use line_numbers::LineNumber;
+use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 use std::cmp::{max, min};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};

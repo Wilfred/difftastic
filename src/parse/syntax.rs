@@ -2,6 +2,8 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
+use line_numbers::LinePositions as NewlinePositions;
+use line_numbers::SingleLineSpan;
 use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
 
@@ -10,8 +12,7 @@ use crate::{
     diff::changes::{ChangeKind::*, ChangeMap},
     diff::myers_diff,
     hash::DftHashMap,
-    lines::{is_all_whitespace, NewlinePositions},
-    positions::SingleLineSpan,
+    lines::is_all_whitespace,
 };
 use Syntax::*;
 
@@ -312,7 +313,7 @@ impl<'a> Syntax<'a> {
             } => {
                 let line = open_position
                     .first()
-                    .map(|p| format!("{}", p.line.one_indexed()))
+                    .map(|p| p.line.display())
                     .unwrap_or_else(|| "?".to_owned());
 
                 format!("line:{} {} ... {}", line, open_content, close_content)
@@ -322,7 +323,7 @@ impl<'a> Syntax<'a> {
             } => {
                 let line = position
                     .first()
-                    .map_or_else(|| "?".to_owned(), |p| p.line.one_indexed().to_string());
+                    .map_or_else(|| "?".to_owned(), |p| p.line.display());
 
                 format!("line:{} {}", line, content)
             }

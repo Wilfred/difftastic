@@ -1,11 +1,11 @@
 //! A fallback "parser" for plain text.
 
 use lazy_static::lazy_static;
+use line_numbers::LinePositions as NewlinePositions;
 use regex::Regex;
 
 use crate::{
     diff::myers_diff,
-    lines::NewlinePositions,
     parse::syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
@@ -194,9 +194,8 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
 
 #[cfg(test)]
 mod tests {
-    use crate::positions::SingleLineSpan;
-
     use super::*;
+    use line_numbers::SingleLineSpan;
     use pretty_assertions::assert_eq;
 
     #[test]

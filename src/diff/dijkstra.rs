@@ -249,15 +249,16 @@ pub fn mark_syntax<'a>(
 #[cfg(test)]
 mod tests {
     use super::*;
+
     use crate::{
         diff::changes::ChangeKind,
         diff::graph::Edge::*,
         options::DEFAULT_GRAPH_LIMIT,
-        positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
     };
 
     use itertools::Itertools;
+    use line_numbers::SingleLineSpan;
     use typed_arena::Arena;
 
     fn pos_helper(line: u32) -> Vec<SingleLineSpan> {

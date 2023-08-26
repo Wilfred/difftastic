@@ -3,11 +3,11 @@
 use std::cmp::Ordering;
 use std::collections::HashSet;
 
+use line_numbers::LineNumber;
 use rustc_hash::FxHashSet;
 
 use crate::{
     hash::DftHashMap,
-    lines::LineNumber,
     parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
@@ -729,9 +729,10 @@ fn compact_gaps(
 mod tests {
     use std::iter::FromIterator;
 
-    use crate::{positions::SingleLineSpan, syntax::TokenKind};
+    use crate::syntax::TokenKind;
 
     use super::*;
+    use line_numbers::SingleLineSpan;
     use pretty_assertions::assert_eq;
 
     #[test]

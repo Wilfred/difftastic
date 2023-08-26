@@ -4,10 +4,11 @@ use crate::{
         hunks::{matched_lines_indexes_for_hunk, matched_pos_to_hunks, merge_adjacent},
         side_by_side::lines_with_novel,
     },
-    lines::{LineNumber, MaxLine},
+    lines::MaxLine,
     parse::syntax::{self, MatchedPos},
     summary::{DiffResult, FileContent, FileFormat},
 };
+use line_numbers::LineNumber;
 use serde::{ser::SerializeStruct, Serialize, Serializer};
 use std::collections::HashMap;
 

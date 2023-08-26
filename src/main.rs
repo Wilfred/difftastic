@@ -34,7 +34,6 @@ mod line_parser;
 mod lines;
 mod options;
 mod parse;
-mod positions;
 mod summary;
 mod version;
 

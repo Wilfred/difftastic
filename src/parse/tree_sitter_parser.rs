@@ -7,9 +7,9 @@ use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
 use tree_sitter as ts;
 use typed_arena::Arena;
+use line_numbers::LinePositions as NewlinePositions;
 
 use crate::{
-    lines::NewlinePositions,
     parse::syntax::{AtomKind, Syntax},
 };
 

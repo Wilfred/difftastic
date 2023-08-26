@@ -6,13 +6,13 @@
 const MAX_DISTANCE: u32 = 4;
 
 use std::collections::HashSet;
+use line_numbers::LineNumber;
 
 use crate::{
     constants::Side,
     display::context::{add_context, opposite_positions},
     display::side_by_side::lines_with_novel,
     hash::DftHashMap,
-    lines::LineNumber,
     parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos},
 };
 
@@ -679,11 +679,11 @@ pub fn matched_lines_indexes_for_hunk(
 #[cfg(test)]
 mod tests {
     use std::iter::FromIterator;
+    use line_numbers::SingleLineSpan;
 
     use super::*;
     use crate::{
         hash::DftHashMap,
-        positions::SingleLineSpan,
         syntax::{MatchKind, TokenKind},
     };
     use pretty_assertions::assert_eq;

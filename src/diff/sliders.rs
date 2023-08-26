@@ -29,11 +29,12 @@
 //! can change which item is marked as novel (e.g. either `B` in the
 //! example above) whilst still showing a valid, minimal diff.
 
+use line_numbers::SingleLineSpan;
+
 use crate::{
     diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
     parse::guess_language,
     parse::syntax::Syntax,
-    positions::SingleLineSpan,
 };
 use Syntax::*;
 

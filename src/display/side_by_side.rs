@@ -1,5 +1,7 @@
 //! Side-by-side (two column) display of diffs.
 
+use line_numbers::LineNumber;
+use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 
 use std::{
@@ -16,10 +18,9 @@ use crate::{
         BackgroundColor,
     },
     hash::DftHashMap,
-    lines::{codepoint_len, format_line_num, LineNumber},
+    lines::{codepoint_len, format_line_num},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
-    positions::SingleLineSpan,
     summary::FileFormat,
 };
 
@@ -28,7 +29,7 @@ const SPACER: &str = " ";
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!(
         "{:width$} ",
-        line_num.one_indexed(),
+        line_num.as_usize() + 1,
         width = column_width - 1
     )
 }
@@ -54,7 +55,7 @@ fn format_missing_line_num(
         style = style.dimmed();
     }
 
-    let num_digits = format!("{}", prev_num.one_indexed()).len();
+    let num_digits = prev_num.display().len();
     format!(
         "{:>width$} ",
         (if after_end { " " } else { "." }).repeat(num_digits),
