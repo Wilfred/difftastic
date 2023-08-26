@@ -1,5 +1,10 @@
+// any sequence alternating `zeb` and `ra`, like the black and white of a zebra
+// in theory, `zeb` and `ra` are equivalent, in practice, the order matters
+// for instance, in a math group, the `zeb` must be `expr` and `ra` must be `ws`
+// the reason why it behaves this way is unclear, although I suspect the `ws` in
+// math operators to mislead the parser when a `ws` is found after an `expr`
 function zebra(zeb, ra) {
-  return seq(optional(ra), (repeat(seq(zeb, ra))), optional(zeb));
+  return seq(optional(ra), repeat(seq(zeb, ra)), optional(zeb));
 }
 function joined(elem, sep) {
   return seq(repeat(seq(elem, sep)), elem);
@@ -45,8 +50,6 @@ module.exports = grammar({
   ],
   conflicts: $ => [
     [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub],
-    [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub, $._math_group],
-    [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub, $._math_group, $._math_item_call],
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
     [$.math],
@@ -163,11 +166,13 @@ module.exports = grammar({
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
     symbol: $ => choice('--', '---', '-?', '~', '...'),
 
-    math: $ => seq('$', zebra(ws($), $._math_expr), '$'),
+    math: $ => seq('$', zebra($._math_expr, ws($)), '$'),
+    _math_code: $ => prec(8, seq('#', choice($._item, $._stmt), optional($._token_dlim))),
     _math_expr: $ => choice(
+      $._math_code,
+      $.line,
       alias($._math_group, $.group),
       alias($._math_letter, $.variable),
-      // alias($._math_ident, $.ident),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
       alias($._math_mul, $.mul),
@@ -178,14 +183,13 @@ module.exports = grammar({
       alias($._math_attach_sub, $.attach),
       alias($._math_item_call, $.item_call),
       alias($._math_call, $.call),
-      // alias($._math_field, $.field),
       $._math_item,
     ),
-    _math_group: $ => prec(-1, seq(choice('(', '['), zebra(ws($), $._math_expr), optional(choice(')', ']')))),
+    _math_group: $ => prec(-1, seq(choice('(', '[', '{'), zebra($._math_expr, ws($)), optional(choice(')', ']', '}')))),
     _math_item: $ => choice(alias($._math_ident, $.ident), alias($._math_field, $.field)),
     // FIXME: exclude `_` from math ident
     _math_ident: $ => /[\p{XID_Start}][\p{XID_Continue}]+/,
-    _math_letter: $ => /[\p{XID_Start}]/,
+    _math_letter: $ => choice(/[\p{XID_Start}]/, $.escape, $.string),
     _math_number: $ => /[0-9]+/,
     _math_mul: $ => prec.left(3, seq($._math_expr, ws($), '*', ws($), $._math_expr)),
     _math_div: $ => prec.left(3, seq($._math_expr, ws($), '/', ws($), $._math_expr)),
@@ -200,13 +204,14 @@ module.exports = grammar({
     ),
     _math_field: $ => prec.left(7, seq($._math_item, '.', alias($._math_ident, $.ident))),
     _math_item_call: $ => prec(6, seq($._math_item, '(', zebra(ws($), $._math_expr), ')')),
-    _math_call: $ => prec(5, seq($._math_expr, $._math_group)),
+    _math_call: $ => prec(5, seq(choice(alias($._math_letter, $.variable), $._math_item), $._math_group)),
     _math_symbol: $ => choice(
       token(prec(-1 , '+')),
       token(prec(-1 , '-')),
       token(prec(-1 , '*')),
       token(prec(-1 , '/')),
       token(prec(-1 , '=')),
+      token(prec(-1 , ':=')),
       token(prec(-1 , '=>')),
       token(prec(-1 , '!=')),
       token(prec(-1 , '!')),
@@ -216,6 +221,10 @@ module.exports = grammar({
       token(prec(-1 , '>')),
       token(prec(-1 , ')')),
       token(prec(-1 , ']')),
+      token(prec(-1 , '}')),
+      token(prec(-1 , '&')),
+      token(prec(-1 , '|')),
+      token(prec(-1 , '...')),
     ),
 
     _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
@@ -294,7 +303,7 @@ module.exports = grammar({
     ),
 
     ident: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
-    unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in'),
+    unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in', 'deg', 'rad'),
     bool: $ => choice('true', 'false'),
     number: $ => prec.right(seq(/[0-9]+(\.[0-9]+)?/, optional($.unit))),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
@@ -425,13 +434,16 @@ module.exports = grammar({
     none: $ => 'none',
     builtin: $ => choice(
       'align',
+      'assert',
       'black',
       'blue',
       'bottom',
       'box',
       'center',
+      'circle',
       'cmyk',
       'emph',
+      'eval',
       'gray',
       'green',
       'grid',
@@ -442,24 +454,32 @@ module.exports = grammar({
       'left',
       'link',
       'list',
+      'locate',
       'luma',
       'max',
+      'metadata',
       'min',
       'navy',
       'page',
       'pagebreak',
+      'panic',
       'par',
       'parbreak',
       'purple',
+      'query',
       'rect',
       'red',
       'regex',
+      'repr',
       'rgb',
       'right',
+      'rotate',
       'scale',
+      'squate',
       'strong',
       'text',
       'top',
+      'type',
       'v',
       'white',
     ),

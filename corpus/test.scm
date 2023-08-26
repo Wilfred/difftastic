@@ -2666,3 +2666,110 @@ $y[5)$
 		(call
 			(variable)
 			(number))))
+
+
+=====================
+Test 193
+=====================
+$3[5)$
+---------------------
+
+(source_file
+	(math
+		(number)
+		(group
+			(number))))
+
+
+=====================
+Test 194
+=====================
+$1^\=()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (call
+				(variable
+					(escape))))))
+
+
+=====================
+Test 195
+=====================
+$1^"hello"()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (call
+				(variable
+					(string))))))
+
+
+=====================
+Test 196
+=====================
+$
+  #let x = 0
+  #x
+$
+---------------------
+
+(source_file
+	(math
+		(let
+			pattern: (ident)
+			value: (number))
+		(ident)))
+
+
+=====================
+Test 197
+=====================
+$ x $
+---------------------
+
+(source_file
+	(math
+		(variable)))
+
+
+=====================
+Test 198
+=====================
+$ cal(A) :=
+    { x in RR | x "is natural" } $
+---------------------
+
+(source_file
+	(math
+		(item_call
+			(ident)
+			(variable))
+		(symbol)
+		(group
+			(variable)
+			(ident)
+			(ident)
+			(symbol)
+			(variable)
+			(variable
+				(string)))))
+
+
+; =====================
+; Test 199
+; =====================
+; $ sum_(k=0)^n k
+;     &= 1 + ... + n \
+;     &= (n(n+1)) / 2 $
+; ---------------------
+
+; (source_file
+; 	(math
+; 		(variable)))
