@@ -2762,14 +2762,125 @@ $ cal(A) :=
 				(string)))))
 
 
-; =====================
-; Test 199
-; =====================
-; $ sum_(k=0)^n k
-;     &= 1 + ... + n \
-;     &= (n(n+1)) / 2 $
-; ---------------------
+=====================
+Test 199
+=====================
+#(
+ )
+---------------------
 
-; (source_file
-; 	(math
-; 		(variable)))
+(source_file
+	(group))
+
+
+=====================
+Test 200
+=====================
+#( "e e": ())
+---------------------
+
+(source_file
+	(group
+		(tagged
+			field: (string)
+			(group))))
+
+
+=====================
+Test 201
+=====================
+Hello "World"
+---------------------
+
+(source_file
+	(text)
+	(quote)
+	(text)
+	(quote))
+
+
+=====================
+Test 202
+=====================
+Hello"World"
+---------------------
+
+(source_file
+	(text)
+	(quote))
+
+
+=====================
+Test 203
+=====================
+#(a: b
+ )
+---------------------
+; FIXME: recurrent problem caused by spaces
+
+(source_file
+	(group
+		(tagged
+			field: (ident)
+			(ident))))
+
+
+=====================
+Test 204
+=====================
+$1 + n n$
+---------------------
+; FIXME: recurrent problem caused by spaces
+
+(source_file
+	(math
+		(add
+			(number)
+			(variable))
+		(variable)))
+
+
+=====================
+Test 205
+=====================
+#import "a." + "typ": b, c
+---------------------
+; FIXME: the path can be an expression
+; but changing it breaks other parts
+
+(source_file
+	(import
+		(add
+			(string)
+			(string)
+		(ident)
+		(ident))))
+
+
+=====================
+Test 206
+=====================
+$lim_3$
+---------------------
+; FIXME: ident in math cannot contain `_`
+
+(source_file
+	(math
+		(attach
+			(ident)
+			sub: (number))))
+
+
+=====================
+Test 207
+=====================
+#(a not  /* hey */ in b)
+---------------------
+; FIXME: spaces and comment between `not` and `in`
+; but adding it breaks other parts
+
+(source_file
+	(math
+		(attach
+			(ident)
+			sub: (number))))

@@ -87,7 +87,7 @@ module.exports = grammar({
     _token_eq: $ => token(prec(1, /=/)),
 
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
-    _anti_markup: $ => /[\p{L}0-9][_\*][\p{L}0-9]/,
+    _anti_markup: $ => /[\p{L}0-9][_\*\"][\p{L}0-9]/,
     _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^ \t\n]/),
     _anti_head: $ => /=+[^ \t\n=]/,
 
@@ -97,6 +97,7 @@ module.exports = grammar({
     _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
     line: $ => /\\/,
+    quote: $ => choice('"', '\''),
 
     _char_any: $ => /./,
 
@@ -114,6 +115,7 @@ module.exports = grammar({
       $.label,
       $.ref,
       $.symbol,
+      $.quote,
     ),
     _markup_inside: $ => choice(
       $._code,
@@ -130,6 +132,7 @@ module.exports = grammar({
       $.label,
       $.ref,
       $.symbol,
+      $.quote,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -326,7 +329,7 @@ module.exports = grammar({
 
     call:   $ => seq(field('item', $._item), choice($.content, $.group)),
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
-    tagged: $ => seq(field('field', $.ident), ws($), ':', ws($), $._expr),
+    tagged: $ => seq(field('field', choice($.ident, $.string)), ws($), ':', ws($), $._expr),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
     ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/),
     content: $ => seq($._content_token, content($), $._termination),
