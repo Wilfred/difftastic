@@ -4505,16 +4505,12 @@
     "type": "use",
     "named": true,
     "fields": {
-      "assign": {
-        "multiple": true,
+      "assignments": {
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "identifier",
+            "type": "use_assignments",
             "named": true
           }
         ]
@@ -4609,10 +4605,56 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "use_assignment",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      }
     },
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -4652,6 +4694,21 @@
         },
         {
           "type": "tuple_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "use_assignments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "use_assignment",
           "named": true
         }
       ]
