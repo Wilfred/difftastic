@@ -1,42 +1,47 @@
-# A Typst tree-sitter grammar for syntax highlighting in Helix and Neovim editors
+# A TreeSitter grammar for the Typst language
 
-Typst doesn't have yet an official tree-sitter grammar. This grammar is work-in-progress. It is the first time I write a Tree-Sitter grammar. There are so many things I don't understand about Tree-Sitter. I have been refactoring the code several time after unlocking some understanding about this tool.
+https://typst.app
+https://tree-sitter.github.io
 
-The two following alternative projects should be mentioned:
+Typst doesn't have yet an official tree-sitter grammar. This grammar is work-in-progress. It is the first time I write a TreeSitter grammar. There are so many things I don't understand about TreeSitter.
+
+There are two equivalent projects that I know of:
 
 - https://github.com/frozolotl/tree-sitter-typst
 - https://github.com/SeniorMars/tree-sitter-typst
 
 ## Participation
 
-I publish this grammar because I hope for help from other involved enthousiasts. As I said before, this is the first time I am dealing with tree-sitter, and up until know it has been a pain in the moon.
+I publish this grammar because I hope for help from other involved enthousiasts. As I said before, this is the first time I am dealing with tree-sitter, and up until know it has been a pain. I hope to receive indications to improve this grammar about things I am doing wrong.
 
-I hope to solve the following failing tests (201, 202, 203, 204 and 205). If you can make one of them pass, I'd be happy to accept your pull request !
+I hope to receive solutions for the following failing tests (201, 202, 203, 204 and 205). If you can make one of them pass, I'd be happy to accept your pull request !
 
-My grammar suffers from handling manually comments and white spaces (not using extras). I have different ideas for improving on this:
+My grammar suffers a lot from handling manually comments and white spaces (not using extras). I have different ideas for improving on this:
 - Make a operator which consist of a comment or space followed by an expression.
-- Or, make spaces and comments as extras and protect function calls with `token.immediate`.
+- Or, make use of the *extra* feature along with the `token.immediate`.
 
 ## FIXME
 
 - [X] ~Multiline vs singleline expressions~
 - [X] ~Comments before operators~
-- [ ] Test 201: Spaces break parsing in code mode
-- [ ] Test 202: Spaces break parsing in math mode
-- [ ] Test 203: Import and include have expression as file path
-- [ ] Test 204: Idents in math mode can't contain `_`
-- [ ] Test 205: Comments and spaces in `not in` between the `not` and the `in`
+- [ ] Test E01: Group termination
+- [ ] Test E02: Spaces break parsing in code mode
+- [ ] Test E03: Spaces break parsing in math mode
+- [ ] Test E04: Import and include have expression as file path
+- [ ] Test E05: Idents in math mode can't contain `_`
+- [ ] Test E06: Comments and spaces in `not in` between the `not` and the `in`
 
 ## TODO
 
 - [ ] Math mode
-  - [ ] Expr
-  - [ ] Symbol
-  - [ ] Code
+  - [X] Expr
+  - [X] Symbol
+  - [X] Code
 - [ ] Unicode characters
-  - [X] `ident` and `label` (unicode property `XID`)
+  - [X] `ident` and `label`
   - [ ] White spaces
-- [ ] Increase by an order of magnitude the number of tests
+  - [ ] math `ident`
+- [ ] More tests
 
 ## DONE
 

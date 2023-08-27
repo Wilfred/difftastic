@@ -1,17 +1,20 @@
 // any sequence alternating `zeb` and `ra`, like the black and white of a zebra
-// in theory, `zeb` and `ra` are equivalent, in practice, the order matters
+// in theory, `zeb` and `ra` are interchangeable, in practice, the order matters
 // for instance, in a math group, the `zeb` must be `expr` and `ra` must be `ws`
 // the reason why it behaves this way is unclear, although I suspect the `ws` in
 // math operators to mislead the parser when a `ws` is found after an `expr`
 function zebra(zeb, ra) {
   return seq(optional(ra), repeat(seq(zeb, ra)), optional(zeb));
 }
+// a list
 function joined(elem, sep) {
   return seq(repeat(seq(elem, sep)), elem);
 }
+// extras
 function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
+
 function content($) {
   return zebra(
     seq(optional($._redent), choice($.break, $._new_line)),
@@ -24,6 +27,9 @@ function content($) {
     )
   );
 }
+
+// content but inside markup like emph or strong
+// TODO: maybe the distinction is not necessary
 function inside($) {
   return zebra(
     seq(optional($._redent), choice($.break, $._new_line)),
@@ -36,24 +42,29 @@ function inside($) {
     )
   );
 }
+
 module.exports = grammar({
   name: 'typst',
   extras: $ => [],
   externals: $ => [
+    // identation
     $._indent,
     $._dedent,
     $._redent,
+
+    // delimited contexts
     $._content_token,
     $._strong_token,
     $._emph_token,
     $._termination,
   ],
   conflicts: $ => [
-    [$._math_add, $._math_sub, $._math_mul, $._math_div, $._math_attach_sup, $._math_attach_sub],
+    [$._math_add, $._math_sub, $._math_mul, $._math_fac, $._math_div, $._math_attach_sup, $._math_attach_sub],
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
     [$.math],
     [$._math_group],
+    [$._math_abs],
     [$.item],
     [$._code],
     [$.let],
@@ -71,8 +82,13 @@ module.exports = grammar({
   rules: {
     source_file: $ => content($),
 
+    // ends an expression
     _token_dlim: $ => /[ ]*(\n|;)/,
+    // ends an expression in a block
+    // the precedence of 1 is required
+    // TODO: check if it is ok to use it also as token_dlim
     _token_dlim_blck: $ => token(prec(1, /[ ]*(\n|;)/)),
+
     break: $ => /\n([ \t]*\n)+/,
     escape: $ => /\\[^\nu]|\\u\{[0-9a-fA-F]*\}/,
     comment: $ => choice(
@@ -86,6 +102,7 @@ module.exports = grammar({
     _space: $ => /[ \t]+/,
     _token_eq: $ => token(prec(1, /=/)),
 
+    // those are used to avoid matching the wrong input
     _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*\"][\p{L}0-9]/,
     _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^ \t\n]/),
@@ -99,6 +116,7 @@ module.exports = grammar({
     line: $ => /\\/,
     quote: $ => choice('"', '\''),
 
+    // this regex is placed at the end to let all the previous ones match in priority
     _char_any: $ => /./,
 
     _markup: $ => choice(
@@ -175,9 +193,11 @@ module.exports = grammar({
       $._math_code,
       $.line,
       alias($._math_group, $.group),
+      alias($._math_abs, $.group),
       alias($._math_letter, $.variable),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
+      alias($._math_fac, $.fac),
       alias($._math_mul, $.mul),
       alias($._math_div, $.div),
       alias($._math_add, $.add),
@@ -188,12 +208,14 @@ module.exports = grammar({
       alias($._math_call, $.call),
       $._math_item,
     ),
-    _math_group: $ => prec(-1, seq(choice('(', '[', '{'), zebra($._math_expr, ws($)), optional(choice(')', ']', '}')))),
+    _math_group: $ => prec(-1, seq(choice('(', '[', '{', '[|'), zebra($._math_expr, ws($)), optional(choice(')', ']', '}', '|]')))),
+    _math_abs: $ => prec(-1, seq(choice('||', '|'), zebra($._math_expr, ws($)), optional(token(prec(1, choice('||', '|')))))),
     _math_item: $ => choice(alias($._math_ident, $.ident), alias($._math_field, $.field)),
     // FIXME: exclude `_` from math ident
     _math_ident: $ => /[\p{XID_Start}][\p{XID_Continue}]+/,
     _math_letter: $ => choice(/[\p{XID_Start}]/, $.escape, $.string),
     _math_number: $ => /[0-9]+/,
+    _math_fac: $ => prec.left(4, seq($._math_expr, ws($), '!')),
     _math_mul: $ => prec.left(3, seq($._math_expr, ws($), '*', ws($), $._math_expr)),
     _math_div: $ => prec.left(3, seq($._math_expr, ws($), '/', ws($), $._math_expr)),
     _math_add: $ => prec.left(2, seq($._math_expr, ws($), '+', ws($), $._math_expr)),
@@ -208,27 +230,28 @@ module.exports = grammar({
     _math_field: $ => prec.left(7, seq($._math_item, '.', alias($._math_ident, $.ident))),
     _math_item_call: $ => prec(6, seq($._math_item, '(', zebra(ws($), $._math_expr), ')')),
     _math_call: $ => prec(5, seq(choice(alias($._math_letter, $.variable), $._math_item), $._math_group)),
-    _math_symbol: $ => choice(
-      token(prec(-1 , '+')),
-      token(prec(-1 , '-')),
-      token(prec(-1 , '*')),
-      token(prec(-1 , '/')),
-      token(prec(-1 , '=')),
-      token(prec(-1 , ':=')),
-      token(prec(-1 , '=>')),
-      token(prec(-1 , '!=')),
-      token(prec(-1 , '!')),
-      token(prec(-1 , '<=')),
-      token(prec(-1 , '>=')),
-      token(prec(-1 , '<')),
-      token(prec(-1 , '>')),
-      token(prec(-1 , ')')),
-      token(prec(-1 , ']')),
-      token(prec(-1 , '}')),
-      token(prec(-1 , '&')),
-      token(prec(-1 , '|')),
-      token(prec(-1 , '...')),
-    ),
+    _math_symbol: $ => token(prec(-1, choice(
+      // ops
+      '+', '-', '*', '/', '!',
+      // arrow
+      //   right
+      '=>', '->', '|->', '->>', '-->', '~>', '~~>',
+      //   left
+      '<==', '<-', '<<-', '<--',
+      //   both
+      '<->', '<-->', '<=>', '<==>',
+      // cmp
+      //   eq
+      '=', ':=', '::=', '=:', '!=',
+      //   less
+      '<=', '<', '<<', '<<<',
+      //   greater
+      '>=', '>', '>>', '>>>',
+      // group
+      ')', ']', '}', '|]', '||', '|',
+      // other
+      '&', '...', '@', '\'', '"', '?',
+    ))),
 
     _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
 

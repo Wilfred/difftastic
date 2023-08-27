@@ -2756,10 +2756,10 @@ $ cal(A) :=
 			(variable)
 			(ident)
 			(ident)
-			(symbol)
-			(variable)
-			(variable
-				(string)))))
+			(group
+				(variable)
+				(variable
+					(string))))))
 
 
 =====================
@@ -2813,74 +2813,39 @@ Hello"World"
 =====================
 Test 203
 =====================
-#(a: b
- )
+$||a|b$
 ---------------------
-; FIXME: recurrent problem caused by spaces
-
-(source_file
-	(group
-		(tagged
-			field: (ident)
-			(ident))))
-
-
-=====================
-Test 204
-=====================
-$1 + n n$
----------------------
-; FIXME: recurrent problem caused by spaces
 
 (source_file
 	(math
-		(add
-			(number)
+		(group
 			(variable))
 		(variable)))
 
 
 =====================
+Test 204
+=====================
+$||a b$
+---------------------
+
+(source_file
+	(math
+		(group
+			(variable)
+			(variable))))
+
+
+=====================
 Test 205
 =====================
-#import "a." + "typ": b, c
+$2^3!a$
 ---------------------
-; FIXME: the path can be an expression
-; but changing it breaks other parts
-
-(source_file
-	(import
-		(add
-			(string)
-			(string)
-		(ident)
-		(ident))))
-
-
-=====================
-Test 206
-=====================
-$lim_3$
----------------------
-; FIXME: ident in math cannot contain `_`
 
 (source_file
 	(math
 		(attach
-			(ident)
-			sub: (number))))
-
-
-=====================
-Test 207
-=====================
-#(a not  /* hey */ in b)
----------------------
-; FIXME: spaces and comment between `not` and `in`
-; but adding it breaks other parts
-
-(source_file
-	(math
-		(attach
-			(ident)
-			sub: (number))))
+			(number)
+			sup: (fac
+				(number)))
+		(variable)))
