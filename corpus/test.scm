@@ -828,7 +828,7 @@ Test 060
 
 (source_file
 	(let
-		(comment)
+		pattern: (comment)
 		pattern: (ident)
 		value: (number)))
 
@@ -1880,17 +1880,15 @@ Test 134
 =====================
 Test 135
 =====================
-#(import
-"a"
-:
-b)
+#(a: b
+ )
 ---------------------
 
 (source_file
 	(group
-		(import
-		(string)
-		(ident))))
+		(tagged
+			field: (ident)
+			(ident))))
 
 
 =====================
@@ -2849,3 +2847,18 @@ $2^3!a$
 			sup: (fac
 				(number)))
 		(variable)))
+
+
+=====================
+Test 206
+=====================
+#import "a." + "typ": b, c
+---------------------
+
+(source_file
+	(import
+		(add
+			(string)
+			(string))
+		(ident)
+		(ident)))

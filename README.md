@@ -17,20 +17,15 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 I hope to receive solutions for the following failing tests in `"corpus/fixme.scm"`. If you can make one of them pass, I'd be happy to accept your pull request !
 
-My grammar suffers a lot from handling manually comments and white spaces (not using extras). I have different ideas for improving on this:
-- Make a operator which consist of a comment or space followed by an expression.
-- Or, make use of the *extra* feature along with the `token.immediate`.
-
 ## FIXME
 
 - [X] ~Multiline vs singleline expressions~
 - [X] ~Comments before operators~
-- [ ] Test E01: Group termination
-- [ ] Test E02: Spaces break parsing in code mode
+- [ ] Test E01: Group termination in math
+- [ ] Test E02: Import looses precedence to tagged
 - [ ] Test E03: Spaces break parsing in math mode
-- [ ] Test E04: Import and include have expression as file path
-- [ ] Test E05: Idents in math mode can't contain `_`
-- [ ] Test E06: Comments and spaces in `not in` between the `not` and the `in`
+- [ ] Test E04: Idents in math mode can't contain `_`
+- [ ] Test E05: Comments and spaces in `not in` between the `not` and the `in`
 
 ## TODO
 

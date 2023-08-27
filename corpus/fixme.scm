@@ -14,15 +14,17 @@ $||)$
 =====================
 Fixme E02
 =====================
-#(a: b
- )
+#(import
+"a"
+:
+b)
 ---------------------
-; FIXME: recurrent problem caused by spaces
+; FIXME: should not match `tagged`
 
 (source_file
 	(group
-		(tagged
-			field: (ident)
+		(import
+			(string)
 			(ident))))
 
 
@@ -44,23 +46,6 @@ $1 + n n$
 =====================
 Fixme E04
 =====================
-#import "a." + "typ": b, c
----------------------
-; FIXME: the path can be an expression
-; but changing it breaks other parts
-
-(source_file
-	(import
-		(add
-			(string)
-			(string)
-		(ident)
-		(ident))))
-
-
-=====================
-Fixme E05
-=====================
 $lim_3$
 ---------------------
 ; FIXME: ident in math cannot contain `_`
@@ -73,7 +58,7 @@ $lim_3$
 
 
 =====================
-Fixme E06
+Fixme E05
 =====================
 #(a not  /* hey */ in b)
 ---------------------

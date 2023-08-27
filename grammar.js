@@ -59,6 +59,7 @@ module.exports = grammar({
     $._termination,
   ],
   conflicts: $ => [
+    [$.tagged, $.import],
     [$._math_add, $._math_sub, $._math_mul, $._math_fac, $._math_div, $._math_attach_sup, $._math_attach_sub],
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
@@ -68,13 +69,9 @@ module.exports = grammar({
     [$.item],
     [$._code],
     [$.let],
-    [$.import],
     [$.elude],
     [$.return],
     [$.return_inline],
-    [$.tagged, $._expr],
-    [$.tagged, $._expr, $._pattern],
-    [$._expr, $._pattern],
     [$._code, $.field],
   ],
   rules: {
@@ -319,13 +316,9 @@ module.exports = grammar({
       $.while,
       $.show,
       $.return,
+      $.tagged,
       $._expr_ws_prefix,
       $._expr_ws_sufix,
-    ),
-
-    _pattern: $ => choice(
-      $.ident,
-      $.group,
     ),
 
     _expr_ws_prefix: $ => prec(14, seq(choice($._space_expr, $.comment), $._expr)),
@@ -354,27 +347,22 @@ module.exports = grammar({
 
     call:   $ => seq(field('item', $._item), choice($.content, $.group)),
     field:  $ => seq($._item, $._token_dot, field('field', $.ident)),
-    tagged: $ => seq(field('field', $._expr), ':', $._expr),
+    tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
     ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/),
     content: $ => seq($._content_token, content($), $._termination),
     group: $ => seq(
       '(',
-      repeat(seq(
-        ws($),
-        choice($.tagged, $._expr),
-        ws($),
-        ','
-      )),
+      repeat(seq($._expr, ',')),
       ws($),
-      optional(seq(choice($.tagged, $._expr), ws($))),
+      optional($._expr),
       ')'
     ),
     block: $ => seq(
       '{',
       repeat(seq(
         prec.left(optional(choice($._expr, $.comment))),
-        // this token as the precedence over regular new lines inside expression
+        // this token has the precedence over regular new lines inside expression
         // that way, a new line is a separator between expressions
         $._token_dlim_blck,
         optional($._space_expr),
@@ -393,8 +381,7 @@ module.exports = grammar({
     )),
     let: $ => prec.right(3, seq(
       'let',
-      ws($),
-      field('pattern', choice($._pattern, $.call)),
+      field('pattern', $._expr),
       optional(seq(
         ws($),
         $._token_eq,
@@ -407,15 +394,14 @@ module.exports = grammar({
       ws($),
       $.call,
     )),
-    import: $ => prec(0, seq(
+    import: $ => prec.right(1, seq(
       'import',
-      ws($),
-      $.string,
+      $._expr,
       optional(seq(
         ws($),
         ':',
-        repeat(seq(ws($), $.ident, ws($), ',')),
-        optional(seq(ws($), $.ident)),
+        repeat(seq($._expr,',')),
+        optional($._expr),
       )),
     )),
     include: $ => prec(0, seq(
