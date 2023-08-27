@@ -160,9 +160,9 @@ module.exports = {
     braces(sep1($.comma, $.exp_field_assignment))
   ),
 
-  exp_record: $ => choice(
+  exp_record: $ => prec(1, choice(
     braces(sep($.comma, $.exp_field)),
-  ),
+  )),
 
   exp_name: $ => choice(
     $._qvar,

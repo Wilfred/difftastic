@@ -33,6 +33,6 @@ module.exports = {
     field('name', $.qualified_module),
     field('exports', optional($.exports)),
     $.where,
-    optional($._topdecl),
+    optional(layouted($, $._topdecl)),
   ),
 }
