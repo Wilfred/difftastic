@@ -15,11 +15,6 @@ module.exports = grammar({
     [
       $._maybe_record_expression,
       $._maybe_tuple_expression,
-      $.remote_type_identifier,
-    ],
-    [
-      $._maybe_record_expression,
-      $._maybe_tuple_expression,
       $.remote_constructor_name,
     ],
     [$.case_subjects],
