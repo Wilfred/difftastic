@@ -14,13 +14,11 @@ module.exports = {
 
   import_con_names: $ => parens(optional(choice(alias('..', $.all_names), sep1($.comma, $._import_name)))),
 
-  import_item: $ => seq(
-    choice(
-      $.class_import,
-      $.type_operator_import,
-      $.type_import,
-      $.var_import,
-    ),
+  import_item: $ => choice(
+    $.class_import,
+    $.type_operator_import,
+    $.type_import,
+    $.var_import,
   ),
 
   class_import: $ => seq('class', $.type_name),
