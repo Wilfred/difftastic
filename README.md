@@ -25,7 +25,10 @@ I hope to receive solutions for the following failing tests in `"corpus/fixme.sc
 - [ ] Test E02: Import looses precedence to tagged
 - [ ] Test E03: Spaces break parsing in math mode
 - [ ] Test E04: Idents in math mode can't contain `_`
-- [ ] Test E05: Comments and spaces in `not in` between the `not` and the `in`
+
+Spaces in math mode can be solved using the same technique as in code mode.
+
+Idents in math mode without `_` could be solved by external scanner.
 
 ## TODO
 

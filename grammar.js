@@ -338,7 +338,7 @@ module.exports = grammar({
     and:    $ => prec.left(7, seq($._expr, 'and', $._expr)),
     cmp:    $ => prec.left(8, seq($._expr, choice('<', '>', '<=', '>=', '==', '!='), $._expr)),
     // FIXME: `not in` with comments and spaces
-    in:     $ => prec.left(9, seq($._expr, choice('not in', 'in'), $._expr)), 
+    in:     $ => prec.left(9, seq($._expr, optional(seq('not', ws($))), 'in', $._expr)), 
     add:    $ => prec.left(10, seq($._expr, '+', $._expr)),
     sub:    $ => prec.left(10, seq($._expr, '-', $._expr)),
     mul:    $ => prec.left(11, seq($._expr, '*', $._expr)),

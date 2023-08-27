@@ -2862,3 +2862,17 @@ Test 206
 			(string))
 		(ident)
 		(ident)))
+
+
+=====================
+Test 207
+=====================
+#(a not  /* hey */ in b)
+---------------------
+
+(source_file
+	(group
+		(in
+			(ident)
+			(comment)
+			(ident))))

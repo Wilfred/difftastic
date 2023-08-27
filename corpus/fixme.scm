@@ -55,18 +55,3 @@ $lim_3$
 		(attach
 			(ident)
 			sub: (number))))
-
-
-=====================
-Fixme E05
-=====================
-#(a not  /* hey */ in b)
----------------------
-; FIXME: spaces and comment between `not` and `in`
-; but adding it breaks other parts
-
-(source_file
-	(math
-		(attach
-			(ident)
-			sub: (number))))
