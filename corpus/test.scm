@@ -816,7 +816,7 @@ Test 059
 (source_file
 	(let
 		pattern: (ident)
-		(comment)
+		value: (comment)
 		value: (number)))
 
 
