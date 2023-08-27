@@ -20,28 +20,40 @@ use x : OfType <- f()
       (identifier)
       (arguments)))
   (use
-    (identifier)
+    (use_assignments
+      (use_assignment
+        (identifier)))
     (function_call
       (identifier)
       (arguments)))
   (use
-    (identifier)
-    (identifier)
-    (identifier)
-    (identifier)
-    (identifier)
+    (use_assignments
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier))
+      (use_assignment
+        (identifier)))
     (function_call
       (identifier)
       (arguments)))
   (use
-    (tuple_pattern
-      (identifier)
-      (identifier))
+    (use_assignments
+      (use_assignment
+        (tuple_pattern
+          (identifier)
+          (identifier))))
     (identifier))
   (use
-    (identifier)
-    (type
-      (type_identifier))
-    (function_call
+    (use_assignments
+      (use_assignment
         (identifier)
-        (arguments))))
+        (type
+          (type_identifier))))
+    (function_call
+      (identifier)
+      (arguments))))

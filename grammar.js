@@ -448,10 +448,12 @@ module.exports = grammar({
     use: ($) =>
       seq(
         "use",
-        optional(series_of(seq($._pattern, optional($._type_annotation)), ",")),
+        optional(field("assignments", $.use_assignments)),
         "<-",
         field("value", $._expression)
       ),
+    use_assignments: ($) => series_of($.use_assignment, ","),
+    use_assignment: ($) => seq($._pattern, optional($._type_annotation)),
     assert: ($) => seq("assert", $._assignment),
     boolean_negation: ($) => seq("!", $._expression_unit),
     integer_negation: ($) => seq("-", $._expression_unit),
