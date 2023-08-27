@@ -52,8 +52,6 @@ pub fn is_all_whitespace(s: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use line_numbers::LinePositions as NewlinePositions;
-    use line_numbers::SingleLineSpan;
     use pretty_assertions::assert_eq;
 
     #[test]
@@ -78,27 +76,6 @@ mod tests {
     fn str_max_line_extra_trailing_newline() {
         let line: String = "foo\nbar\n\n".into();
         assert_eq!(line.max_line().0, 1);
-    }
-
-    #[test]
-    fn from_offsets_relative_to() {
-        let newline_positions: NewlinePositions = "foo\nbar".into();
-
-        let pos = SingleLineSpan {
-            line: 1.into(),
-            start_col: 1,
-            end_col: 1,
-        };
-
-        let line_spans = newline_positions.from_offsets_relative_to(pos, 1, 2);
-        assert_eq!(
-            line_spans,
-            vec![SingleLineSpan {
-                line: 1.into(),
-                start_col: 2,
-                end_col: 3
-            }]
-        );
     }
 
     #[test]

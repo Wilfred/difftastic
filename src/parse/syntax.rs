@@ -2,7 +2,7 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use line_numbers::LinePositions as NewlinePositions;
+use line_numbers::LinePositions;
 use line_numbers::SingleLineSpan;
 use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
@@ -729,8 +729,8 @@ fn split_atom_words(
             .collect();
     }
 
-    let content_newlines = NewlinePositions::from(content);
-    let opposite_content_newlines = NewlinePositions::from(opposite_content);
+    let content_newlines = LinePositions::from(content);
+    let opposite_content_newlines = LinePositions::from(opposite_content);
 
     let mut offset = 0;
     let mut opposite_offset = 0;

@@ -1,7 +1,7 @@
 //! A fallback "parser" for plain text.
 
 use lazy_static::lazy_static;
-use line_numbers::LinePositions as NewlinePositions;
+use line_numbers::LinePositions;
 use regex::Regex;
 
 use crate::{
@@ -108,8 +108,8 @@ fn line_len_in_bytes(line: &str) -> usize {
 pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
     // TODO: If either side is "", don't split each line by words
     // pointlessly. This is common for file additions/removals.
-    let lhs_nlp = NewlinePositions::from(lhs_src);
-    let rhs_nlp = NewlinePositions::from(rhs_src);
+    let lhs_lp = LinePositions::from(lhs_src);
+    let rhs_lp = LinePositions::from(rhs_src);
 
     let mut lhs_offset = 0;
     let mut rhs_offset = 0;
@@ -120,9 +120,9 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
             TextChangeKind::Unchanged => {
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
                     let lhs_pos =
-                        lhs_nlp.from_offsets(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
+                        lhs_lp.from_offsets(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
                     let rhs_pos =
-                        rhs_nlp.from_offsets(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
+                        rhs_lp.from_offsets(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
 
                     res.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
@@ -149,7 +149,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                         myers_diff::DiffResult::Left(lhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
-                                    lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                    lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
                                 res.push(MatchedPos {
                                     kind: MatchKind::NovelWord {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
@@ -163,9 +163,9 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                         myers_diff::DiffResult::Both(lhs_word, rhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
-                                    lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                    lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
                                 let rhs_pos =
-                                    rhs_nlp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
+                                    rhs_lp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
 
                                 res.push(MatchedPos {
                                     kind: MatchKind::NovelLinePart {

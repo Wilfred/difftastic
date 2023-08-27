@@ -5,13 +5,11 @@ use std::collections::HashSet;
 use crate::hash::DftHashMap;
 use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
+use line_numbers::LinePositions;
 use tree_sitter as ts;
 use typed_arena::Arena;
-use line_numbers::LinePositions as NewlinePositions;
 
-use crate::{
-    parse::syntax::{AtomKind, Syntax},
-};
+use crate::parse::syntax::{AtomKind, Syntax};
 
 use super::syntax;
 use super::syntax::MatchedPos;
@@ -1309,7 +1307,7 @@ pub fn to_syntax<'a>(
     // highlighting and for more precise Syntax nodes where applicable.
     let subtrees = parse_subtrees(src, config, tree);
 
-    let nl_pos = NewlinePositions::from(src);
+    let nl_pos = LinePositions::from(src);
     let mut cursor = tree.walk();
 
     let mut error_count: usize = 0;
@@ -1409,7 +1407,7 @@ pub struct HighlightedNodeIds {
 fn all_syntaxes_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &NewlinePositions,
+    nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
     error_count: &mut usize,
     config: &TreeSitterConfig,
@@ -1445,7 +1443,7 @@ fn all_syntaxes_from_cursor<'a>(
 fn syntax_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &NewlinePositions,
+    nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
     error_count: &mut usize,
     config: &TreeSitterConfig,
@@ -1502,7 +1500,7 @@ fn syntax_from_cursor<'a>(
 fn list_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &NewlinePositions,
+    nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
     error_count: &mut usize,
     config: &TreeSitterConfig,
@@ -1639,7 +1637,7 @@ fn list_from_cursor<'a>(
 fn atom_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    nl_pos: &NewlinePositions,
+    nl_pos: &LinePositions,
     cursor: &mut ts::TreeCursor,
     highlights: &HighlightedNodeIds,
     ignore_comments: bool,
