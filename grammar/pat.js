@@ -6,7 +6,7 @@ module.exports = {
     seq($._qvar, optional(seq(':', $._nested_pat))),
   ),
 
-  pat_fields: $ => braces(optional(sep1($.comma, $.pat_field))),
+  pat_fields: $ => prec(1, braces(optional(sep1($.comma, $.pat_field)))),
 
   pat_name: $ => $._var,
 

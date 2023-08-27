@@ -543,3 +543,94 @@ f = case 1 + 1 of
             (integer))
           (exp_literal
             (integer)))))))
+
+================================================================================
+Basic record syntax
+================================================================================
+module A where
+
+a a = { a: 1 }
+
+b b = { a: 1, b: 1 + 1, c }
+
+c c = b { a = 1 }
+
+d d = {}
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (function
+    (variable)
+    (patterns
+      (pat_name
+        (variable)))
+    (exp_apply
+      (exp_record
+        (exp_field
+          (variable)
+          (exp_literal
+            (integer))))
+      (exp_name
+        (variable))
+      (exp_name
+        (variable))
+      (ERROR)
+      (exp_record
+        (exp_field
+          (variable)
+          (exp_literal
+            (integer)))
+        (comma)
+        (exp_field
+          (variable)
+          (exp_infix
+            (exp_literal
+              (integer))
+            (operator)
+            (exp_literal
+              (integer))))
+        (comma)
+        (exp_field
+          (variable)))
+      (exp_name
+        (variable))
+      (exp_name
+        (variable))
+      (ERROR)
+      (exp_record_mutation
+        (variable)
+        (exp_field_assignment
+          (variable)
+          (exp_literal
+            (integer))))
+      (exp_name
+        (variable))
+      (exp_name
+        (variable))
+      (ERROR)
+      (exp_record))))
+
+================================================================================
+Foreign imports
+================================================================================
+module A where
+
+foreign import f :: A -> A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (foreign_import
+    (variable)
+    (fun
+      (type_name
+        (type))
+      (type_name
+        (type)))))
