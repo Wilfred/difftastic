@@ -70,6 +70,7 @@ module.exports = grammar({
     [$.if_expression],
     [$.match_expression],
     [$._function_constructor, $._type_identifier],
+    [$._given_constructor, $._type_identifier],
     [$.instance_expression],
     // In case of: 'extension'  _indent  '{'  'case'  operator_identifier  'if'  operator_identifier  •  '=>'  …
     // we treat `operator_identifier` as `simple_expression`
@@ -583,7 +584,7 @@ module.exports = grammar({
           repeat($.annotation),
           optional($.modifiers),
           "given",
-          optional(seq($._function_constructor, ":")),
+          optional($._given_constructor),
           choice(
             field("return_type", $._structural_instance),
             seq(
@@ -592,6 +593,20 @@ module.exports = grammar({
               field("body", $._indentable_expression),
             ),
           ),
+        ),
+      ),
+
+    _given_constructor: $ =>
+      prec.right(
+        seq(
+          field("name", optional($._identifier)),
+          field("type_parameters", optional($.type_parameters)),
+          field(
+            "parameters",
+            repeat(seq(optional($._automatic_semicolon), $.parameters)),
+          ),
+          optional($._automatic_semicolon),
+          ":",
         ),
       ),
 
