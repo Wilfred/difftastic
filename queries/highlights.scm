@@ -81,6 +81,7 @@
   "assert"
   "case"
   "const"
+  ; DEPRECATED: 'external' was removed in v0.30.
   "external"
   "fn"
   "if"

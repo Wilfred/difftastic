@@ -197,7 +197,15 @@ module.exports = grammar({
     constant_type_argument: ($) => $._constant_type,
 
     external_type: ($) =>
-      seq(optional($.visibility_modifier), "external", "type", $.type_name),
+      prec.right(
+        seq(
+          optional($.visibility_modifier),
+          // DEPRECATED: the external token was removed in v0.30.
+          optional("external"),
+          "type",
+          $.type_name
+        )
+      ),
 
     /* External function */
     external_function: ($) =>
