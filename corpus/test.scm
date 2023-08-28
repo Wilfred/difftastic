@@ -2918,3 +2918,16 @@ b)
 		(import
 			(string)
 			(ident))))
+
+
+=====================
+Test 211
+=====================
+$lim_3$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(ident)
+			sub: (number))))

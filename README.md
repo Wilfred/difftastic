@@ -23,21 +23,16 @@ I hope to receive solutions for the following failing tests in `"corpus/fixme.sc
 - [X] ~Comments before operators~
 - [ ] Test E01: Group termination in math
 - [ ] Test E02: Import looses precedence to list with `,`
-- [ ] Test E03: Idents in math mode can't contain `_`
-
-Idents in math mode without `_` could be solved by external scanner.
 
 ## TODO
 
-- [ ] Math mode
-  - [X] Expr
-  - [X] Symbol
-  - [X] Code
 - [ ] Unicode characters
-  - [X] `ident` and `label`
+  - [X] Ident and label
   - [ ] White spaces
-  - [ ] math `ident`
+  - [X] Math ident
 - [ ] More tests
+- [ ] Optimization
+  - [ ] Math ident
 
 ## DONE
 
@@ -51,6 +46,10 @@ Idents in math mode without `_` could be solved by external scanner.
   - [X] Reference
   - [X] Symbol
   - [X] Quote
+- [X] Math mode
+  - [X] Expr
+  - [X] Symbol
+  - [X] Code
 - [X] Code
 - [X] Indentation
 - [X] Comments

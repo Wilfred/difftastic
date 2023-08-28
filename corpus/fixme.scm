@@ -27,17 +27,3 @@ b, c)
 			(string)
 			(ident)
 			(ident))))
-
-
-=====================
-Fixme E03
-=====================
-$lim_3$
----------------------
-; FIXME: ident in math cannot contain `_`
-
-(source_file
-	(math
-		(attach
-			(ident)
-			sub: (number))))

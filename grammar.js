@@ -218,21 +218,22 @@ module.exports = grammar({
     _math_group_open: $ => prec.right(0, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr))),
     _math_abs:        $ => prec(-1, seq(choice('||', '|'), ws($), repeat($._math_expr), optional(token(prec(1, choice('||', '|')))))),
     _math_item:       $ => choice(alias($._math_ident, $.ident), alias($._math_field, $.field)),
-    // FIXME: exclude `_` from math ident
-    _math_ident: $ => /[\p{XID_Start}][\p{XID_Continue}]+/,
-    _math_letter: $ => choice(/[\p{XID_Start}]/, $.escape, $.string),
+    _math_token_sub: $ => token(prec(1, '_')),
+    _math_ident_continue: $ => /\p{XID_Continue}/,
+    _math_ident_start: $ => /\p{XID_Start}/,
+    _math_ident: $ => prec.right(20, seq($._math_ident_start, repeat1(choice($._math_ident_start, $._math_ident_continue)))),
+    _math_letter: $ => choice($._math_ident_start, $.escape, $.string),
     _math_number: $ => /[0-9]+/,
     _math_fac: $ => prec.left(4, seq($._math_expr, '!')),
     _math_mul: $ => prec.left(3, seq($._math_expr, '*', $._math_expr)),
     _math_div: $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
     _math_add: $ => prec.left(2, seq($._math_expr, '+', $._math_expr)),
     _math_sub: $ => prec.left(2, seq($._math_expr, '-', $._math_expr)),
-    // TODO: support for dual attach (both sub and sup on a single syntax node)
     _math_attach_sup: $ => prec.right(4,
-      seq($._math_expr, '^', field('sup', $._math_expr), optional(seq('_', field('sub', $._math_expr))))
+      seq($._math_expr, '^', field('sup', $._math_expr), optional(seq($._math_token_sub, field('sub', $._math_expr))))
     ),
     _math_attach_sub: $ => prec.right(4,
-      seq($._math_expr, '_', field('sub', $._math_expr), optional(seq('^', field('sup', $._math_expr))))
+      seq($._math_expr, $._math_token_sub, field('sub', $._math_expr), optional(seq('^', field('sup', $._math_expr))))
     ),
     _math_field: $ => prec.left(7, seq($._math_item, '.', alias($._math_ident, $.ident))),
     _math_item_call: $ => prec(6, seq($._math_item, '(', ws($), repeat($._math_expr), ')')),
@@ -340,8 +341,6 @@ module.exports = grammar({
     bool: $ => choice('true', 'false'),
     number: $ => prec.right(seq(/[0-9]+(\.[0-9]+)?/, optional($.unit))),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    // elude, assign and lambda have strange behavior if no optional space place at the end
-    // see test 139, 140 and 142
     elude:  $ =>      prec(2, seq('..', optional($._expr), ws($))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), choice('=', '+=', '-=', '*=', '/='), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
@@ -349,7 +348,6 @@ module.exports = grammar({
     not:    $ => prec.left(7, seq('not', $._expr)),
     and:    $ => prec.left(7, seq($._expr, 'and', $._expr)),
     cmp:    $ => prec.left(8, seq($._expr, choice('<', '>', '<=', '>=', '==', '!='), $._expr)),
-    // FIXME: `not in` with comments and spaces
     in:     $ => prec.left(9, seq($._expr, optional(seq('not', ws($))), 'in', $._expr)), 
     add:    $ => prec.left(10, seq($._expr, '+', $._expr)),
     sub:    $ => prec.left(10, seq($._expr, '-', $._expr)),
