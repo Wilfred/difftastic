@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-gleam"
 description = "gleam grammar for the tree-sitter parsing library"
-version = "0.29.0"
+version = "0.30.0"
 keywords = ["incremental", "parsing", "gleam"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-gleam"
