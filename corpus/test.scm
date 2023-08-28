@@ -2501,9 +2501,8 @@ $2 ^ 4 _ 8$
 (source_file
 	(math
 		(attach
-			(attach
-				(number)
-				sup: (number))
+			(number)
+			sup: (number)
 			sub: (number))))
 
 
@@ -2875,4 +2874,47 @@ Test 207
 		(in
 			(ident)
 			(comment)
+			(ident))))
+
+
+=====================
+Test 208
+=====================
+$1 + n n$
+---------------------
+
+(source_file
+	(math
+		(add
+			(number)
+			(variable))
+		(variable)))
+
+
+=====================
+Test 209
+=====================
+$ := { | } $
+---------------------
+
+(source_file
+	(math
+		(symbol)
+		(group
+			(group))))
+
+
+=====================
+Test 210
+=====================
+#(import
+"a"
+:
+b)
+---------------------
+
+(source_file
+	(group
+		(import
+			(string)
 			(ident))))

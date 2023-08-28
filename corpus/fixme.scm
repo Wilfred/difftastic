@@ -17,34 +17,20 @@ Fixme E02
 #(import
 "a"
 :
-b)
+b, c)
 ---------------------
-; FIXME: should not match `tagged`
+; FIXME: comma precedence to import over list
 
 (source_file
 	(group
 		(import
 			(string)
+			(ident)
 			(ident))))
 
 
 =====================
 Fixme E03
-=====================
-$1 + n n$
----------------------
-; FIXME: recurrent problem caused by spaces
-
-(source_file
-	(math
-		(add
-			(number)
-			(variable))
-		(variable)))
-
-
-=====================
-Fixme E04
 =====================
 $lim_3$
 ---------------------

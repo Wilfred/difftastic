@@ -9,16 +9,17 @@ enum TokenType {
 	CONTENT_TOKEN,
 	STRONG_TOKEN,
 	EMPH_TOKEN,
+	// MATH_GROUP_TOKEN,
+	// MATH_BAR_TOKEN,
 	TERMINATION,
-	// STRONG_L,
-	// STRONG_R,
 };
 
 enum container {
 	CONTENT,
 	STRONG,
 	EMPH,
-	// HEADING,
+	// MATH_GROUP,
+	// MATH_BAR,
 };
 
 struct vec_u32 {

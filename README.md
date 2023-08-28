@@ -22,11 +22,8 @@ I hope to receive solutions for the following failing tests in `"corpus/fixme.sc
 - [X] ~Multiline vs singleline expressions~
 - [X] ~Comments before operators~
 - [ ] Test E01: Group termination in math
-- [ ] Test E02: Import looses precedence to tagged
-- [ ] Test E03: Spaces break parsing in math mode
-- [ ] Test E04: Idents in math mode can't contain `_`
-
-Spaces in math mode can be solved using the same technique as in code mode.
+- [ ] Test E02: Import looses precedence to list with `,`
+- [ ] Test E03: Idents in math mode can't contain `_`
 
 Idents in math mode without `_` could be solved by external scanner.
 
