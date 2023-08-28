@@ -2908,23 +2908,45 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "("
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "("
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "message",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "string"
+                      }
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ")"
+                    }
+                  ]
                 },
                 {
-                  "type": "FIELD",
-                  "name": "message",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "string"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": ")"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "as"
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "message",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_expression"
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -2941,6 +2963,31 @@
         {
           "type": "STRING",
           "value": "panic"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "as"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "message",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
