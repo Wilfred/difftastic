@@ -10,3 +10,7 @@ case "12345" {
    -x
 // ^ operator
 //  ^ variable
+panic as "aaah!"
+// <- keyword
+//    ^ keyword
+//         ^ string

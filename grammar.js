@@ -370,8 +370,18 @@ module.exports = grammar({
         optional(field("arguments", $.arguments))
       ),
     todo: ($) =>
-      seq("todo", optional(seq("(", field("message", $.string), ")"))),
-    panic: (_$) => seq("panic"),
+      seq(
+        "todo",
+        optional(
+          choice(
+            // DEPRECATED: The 'as' syntax was introduced in v0.30.
+            seq("(", field("message", $.string), ")"),
+            seq("as", field("message", $._expression))
+          )
+        )
+      ),
+    panic: ($) =>
+      seq("panic", optional(seq("as", field("message", $._expression)))),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
     list: ($) =>
       seq(
