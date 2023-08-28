@@ -1,0 +1,48 @@
+================================================================================
+Target attribute
+================================================================================
+
+@target(erlang)
+pub fn main() { todo }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute
+    name: (identifier)
+    arguments: (arguments
+      (attribute_value
+        (identifier))))
+  (function
+    (visibility_modifier)
+    name: (identifier)
+    parameters: (function_parameters)
+    body: (function_body
+      (todo))))
+
+================================================================================
+Attribute with multiple values
+================================================================================
+
+@deprecated(since: "1.2.0", replacement: wobble)
+pub fn wibble() { todo }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute
+    name: (identifier)
+    arguments: (arguments
+      (attribute_value
+        label: (label)
+        value: (string
+          (quoted_content)))
+      (attribute_value
+        label: (label)
+        value: (identifier))))
+  (function
+    (visibility_modifier)
+    name: (identifier)
+    parameters: (function_parameters)
+    body: (function_body
+      (todo))))

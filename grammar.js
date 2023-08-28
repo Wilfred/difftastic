@@ -35,7 +35,8 @@ module.exports = grammar({
         $.external_function,
         $.function,
         $.type_definition,
-        $.type_alias
+        $.type_alias,
+        $.attribute
       ),
 
     /* Comments */
@@ -43,7 +44,9 @@ module.exports = grammar({
     statement_comment: ($) => token(seq("///", /.*/)),
     comment: ($) => token(seq("//", /.*/)),
 
-    /* Target groups */
+    /* Target groups
+     * DEPRECATED: This syntax was replaced with attributes in v0.30.
+     */
     target_group: ($) =>
       seq(
         "if",
@@ -53,6 +56,23 @@ module.exports = grammar({
         "}"
       ),
     target: ($) => choice("erlang", "javascript"),
+
+    /* Attributes */
+    attribute: ($) =>
+      seq(
+        "@",
+        field("name", $.identifier),
+        field("arguments", alias($._attribute_arguments, $.arguments))
+      ),
+
+    _attribute_arguments: ($) =>
+      seq("(", series_of($.attribute_value, ","), ")"),
+
+    attribute_value: ($) =>
+      choice(
+        $._constant_value,
+        seq(field("label", $.label), ":", field("value", $._constant_value))
+      ),
 
     /* Import statements */
     import: ($) =>

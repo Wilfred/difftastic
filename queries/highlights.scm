@@ -43,6 +43,13 @@
 (tuple_access
   index: (integer) @property)
 
+; Attributes
+(attribute
+  "@" @attribute
+  name: (identifier) @attribute)
+
+(attribute_value (identifier) @constant)
+
 ; Type names
 (remote_type_identifier) @type
 (type_identifier) @type

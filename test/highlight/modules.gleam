@@ -48,3 +48,27 @@ fn make_cat() -> kitty.Cat {
   // ^ module
   //    ^ constructor
 }
+
+@target(erlang)
+// <- attribute
+// ^ attribute
+//        ^ constant
+pub external fn display() -> Bool = "erlang" "display"
+
+@target(erlang)
+@external(erlang, "wobble", "main")
+// <- attribute
+// ^ attribute
+//         ^ constant
+//                   ^ string
+//                            string
+pub fn main() -> Int
+
+@deprecated(since: "1.2.0", replacement: wobble)
+// <- attribute
+// ^ attribute
+//           ^ property
+//                  ^ string
+//                            ^ property
+//                                        ^constant
+pub fn wibble() { todo }
