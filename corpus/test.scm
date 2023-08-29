@@ -1618,8 +1618,8 @@ World
 
 (source_file
 	(heading
-		(text
-			(line)))
+		(text)
+		(line))
 	(text))
 
 
@@ -2028,8 +2028,7 @@ https://example.com
 ---------------------
 
 (source_file
-	(url
-		(text)))
+	(url))
 
 
 =====================
@@ -2039,9 +2038,9 @@ https://hello\ world.com
 ---------------------
 
 (source_file
-	(url
-		(text
-			(escape))))
+	(url)
+	(line)
+	(text))
 
 
 =====================
@@ -2051,9 +2050,9 @@ https://hello\ world.com Hey
 ---------------------
 
 (source_file
-	(url
-		(text
-			(escape)))
+	(url)
+	(line)
+	(text)
 	(text))
 
 
@@ -2931,3 +2930,57 @@ $lim_3$
 		(attach
 			(ident)
 			sub: (number))))
+
+
+=====================
+Test 212
+=====================
+https://typst.app/
+---------------------
+
+(source_file
+	(url))
+
+
+=====================
+Test 213
+=====================
+https://www.youtube.com/watch?v=sWmlbMh3ol8
+---------------------
+
+(source_file
+	(url))
+
+
+=====================
+Test 214
+=====================
+https://www.youtube.com/watch?v=sWmlbMh3ol8 Hello
+---------------------
+
+(source_file
+	(url)
+	(text))
+
+
+=====================
+Test 215
+=====================
+*https://example.org* Hello*
+---------------------
+
+(source_file
+	(strong
+		(url)
+		(text)))
+
+
+=====================
+Test 216
+=====================
+https://[)
+---------------------
+
+(source_file
+	(url)
+	(text))

@@ -52,6 +52,9 @@ module.exports = grammar({
     $._dedent,
     $._redent,
 
+    // other
+    $._url_token,    
+
     // delimited contexts
     $._content_token,
     $._strong_token,
@@ -91,12 +94,12 @@ module.exports = grammar({
     _token_dlim_blck: $ => token(prec(1, /[ ]*(\n|;)/)),
 
     break: $ => /\n([ \t]*\n)+/,
-    escape: $ => /\\[^\nu]|\\u\{[0-9a-fA-F]*\}/,
+    escape: $ => /\\[^ \t\nu]|\\u\{[0-9a-fA-F]*\}/,
     comment: $ => choice(
       seq('//', /[^\n]*\n?/),
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
-    url: $ => prec.right(seq(/http(s?):\/\//, $.text)),
+    url: $ => seq(/http(s?):\/\//, $._url_token),
 
     _space_expr: $ => /[ \n\t]+/,
     _new_line: $ => /\n/,
@@ -135,6 +138,7 @@ module.exports = grammar({
       $.ref,
       $.symbol,
       $.quote,
+      $.line,
     ),
     _markup_inside: $ => choice(
       $._code,
@@ -152,6 +156,7 @@ module.exports = grammar({
       $.ref,
       $.symbol,
       $.quote,
+      $.line,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -162,7 +167,6 @@ module.exports = grammar({
       $._token_dot,
       $._char_any,
       $.escape,
-      $.line,
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),

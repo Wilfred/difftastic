@@ -1,10 +1,10 @@
 # A TreeSitter grammar for the Typst language
 
-https://typst.app
+Typst official page https://typst.app
 
-https://tree-sitter.github.io
+TreeSitter documentation page https://tree-sitter.github.io
 
-Typst doesn't have yet an official tree-sitter grammar. This grammar is work-in-progress. It is the first time I write a TreeSitter grammar. There are so many things I don't understand about TreeSitter.
+Typst doesn't have yet an official TreeSitter grammar. This grammar is work-in-progress. It is the first time I write a TreeSitter grammar. There are so many things I don't understand about TreeSitter.
 
 There are two equivalent projects that I know of:
 

@@ -6,6 +6,9 @@ enum TokenType {
   INDENT,
   DEDENT,
 	REDENT,
+
+	URL_TOKEN,
+
 	CONTENT_TOKEN,
 	STRONG_TOKEN,
 	EMPH_TOKEN,
@@ -99,7 +102,7 @@ static size_t vec_u32_last(struct vec_u32* self) {
 	}
 	return self->len - 1;
 }
-static size_t vec_u32_serialize(struct vec_u32* self, const char* buffer) {
+static size_t vec_u32_serialize(struct vec_u32* self, char* buffer) {
 	size_t written = 0;
 	memcpy(buffer, &self->len, sizeof self->len);
 	written += sizeof self->len;
@@ -127,6 +130,7 @@ static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
 struct Scanner {
 	struct vec_u32 indentation;
 	struct vec_u32 containers;
+	struct vec_u32 worker;
 };
 
 static uint32_t scanner_current(struct Scanner* self) {
@@ -191,6 +195,7 @@ void * tree_sitter_typst_external_scanner_create() {
 	}
 	self->indentation = vec_u32_new();
 	self->containers = vec_u32_new();
+	self->worker = vec_u32_new();
 	return self;
 }
 
@@ -198,6 +203,7 @@ void tree_sitter_typst_external_scanner_destroy(void *payload) {
 	struct Scanner* self = payload;
 	vec_u32_drop(self->indentation);
 	vec_u32_drop(self->containers);
+	vec_u32_drop(self->worker);
 	free(self);
 }
 
@@ -265,6 +271,57 @@ bool tree_sitter_typst_external_scanner_scan(
 		scanner_container(self, EMPH);
 		lexer->result_symbol = EMPH_TOKEN;
 		return true;
+	}
+
+	if (valid_symbols[URL_TOKEN]) {
+		self->worker.len = 0;
+		const uint32_t BRACKET = 0;
+		const uint32_t PARENTHESIS = 1;
+		for (; true; lexer->advance(lexer, false)) {
+			uint32_t c = lexer->lookahead;
+			size_t len = self->worker.len;
+			if (
+				(c >= 'a' && c <= 'z') ||
+			  (c >= 'A' && c <= 'Z') ||
+			  (c >= '0' && c <= '9') ||
+			  (c == '!') ||
+			  (c == '#') ||
+			  (c == '$') ||
+			  (c == '%') || 
+			  (c == '&') || 
+			  (c == '*') || 
+			  (c == '+') || 
+			  (c == ',') || 
+			  (c == '-') || 
+			  (c == '.') || 
+			  (c == '/') || 
+			  (c == ':') || 
+			  (c == ';') || 
+			  (c == '=') || 
+			  (c == '?') || 
+			  (c == '@') || 
+			  (c == '_') || 
+			  (c == '~') || 
+			  (c == '\'')
+			) {
+			}
+			else if (c == '[') {
+				vec_u32_push(&self->worker, BRACKET);
+			}
+			else if (c == '(') {
+				vec_u32_push(&self->worker, PARENTHESIS);
+			}
+			else if (c == ']' && len > 0 && self->worker.vec[len - 1] == BRACKET) {
+				vec_u32_pop(&self->worker);
+			}
+			else if (c == ')' && len > 0 && self->worker.vec[len - 1] == PARENTHESIS) {
+				vec_u32_pop(&self->worker);
+			}
+			else {
+				lexer->result_symbol = URL_TOKEN;
+				return true;
+			}
+		}
 	}
 
 	if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
