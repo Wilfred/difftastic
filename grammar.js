@@ -59,6 +59,7 @@ module.exports = grammar({
     $._content_token,
     $._strong_token,
     $._emph_token,
+    // $._head_token,
     // $._math_group_token,
     // $._math_bar_token,
     $._termination,
@@ -140,24 +141,6 @@ module.exports = grammar({
       $.quote,
       $.line,
     ),
-    _markup_inside: $ => choice(
-      $._code,
-      $.text,
-      $.strong,
-      $.emph,
-      $._space,
-      $._new_line,
-      $.comment,
-      $.raw_blck,
-      $.raw_span,
-      $.math,
-      $.url,
-      $.label,
-      $.ref,
-      $.symbol,
-      $.quote,
-      $.line,
-    ),
 
     text: $ => prec.right(repeat1(choice(
       $._anti_else,
@@ -185,7 +168,7 @@ module.exports = grammar({
       optional($._indented)
     )),
 
-    heading: $ => seq($._token_head, repeat($._markup)),
+    heading: $ => prec.right(1, seq($._token_head, repeat($._markup))),
     strong: $ => prec.left(seq($._strong_token, inside($), $._termination)),
     emph: $ => prec.left(seq($._emph_token, inside($), $._termination)),
     raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),

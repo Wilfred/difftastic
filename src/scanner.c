@@ -12,6 +12,7 @@ enum TokenType {
 	CONTENT_TOKEN,
 	STRONG_TOKEN,
 	EMPH_TOKEN,
+	// HEADING_TOKEN,
 	// MATH_GROUP_TOKEN,
 	// MATH_BAR_TOKEN,
 	TERMINATION,
@@ -161,18 +162,18 @@ static void scanner_dedent(struct Scanner* self) {
 static void scanner_indent(struct Scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
-static bool scanner_termination(struct Scanner* self, TSLexer* lexer) {
+static unsigned scanner_termination(struct Scanner* self, TSLexer* lexer) {
 	if (self->containers.len == 0) {
-		return lexer->eof(lexer);
+		return lexer->eof(lexer) ? 2 : 0;
 	}
 	enum container container = vec_u32_get(&self->containers, vec_u32_last(&self->containers));
 	switch (container) {
 		case CONTENT:
-		return lexer->lookahead == ']';
+		return lexer->lookahead == ']' ? 1 : 0;
 		case STRONG:
-		return lexer->lookahead == '*';
+		return lexer->lookahead == '*' ? 1 : 0;
 		case EMPH:
-		return lexer->lookahead == '_';
+		return lexer->lookahead == '_' ? 1 : 0;
 	}
 	fprintf(stderr, "unreachable\n");
 	exit(EXIT_FAILURE);
@@ -245,12 +246,19 @@ bool tree_sitter_typst_external_scanner_scan(
 
 	// highest precedence
 	if (valid_symbols[TERMINATION] && scanner_termination(self, lexer)) {
-		lexer->advance(lexer, false);
+		switch (scanner_termination(self, lexer)) {
+			case 0: break;
+			case 1: lexer->advance(lexer, false);
+			default:
+		}
 		scanner_dedent(self);
 		scanner_out(self);
 		lexer->result_symbol = TERMINATION;
 		return true;
 	}
+	// if (valid_symbols[TERMINATION] && self->container.len > 0 && self->container.vec[self->container.len - 1] == HEADING) {
+		
+	// }
 	if (valid_symbols[CONTENT_TOKEN] && lexer->lookahead == '[') {
 		lexer->advance(lexer, false);
 		scanner_indent(self, lexer->get_column(lexer));
