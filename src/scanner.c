@@ -9,6 +9,9 @@ enum TokenType {
 
 	URL_TOKEN,
 
+	// BARRIER_IN,
+	// BARRIER_OUT,
+
 	CONTENT_TOKEN,
 	STRONG_TOKEN,
 	EMPH_TOKEN,
@@ -16,14 +19,23 @@ enum TokenType {
 	// MATH_GROUP_TOKEN,
 	// MATH_BAR_TOKEN,
 	TERMINATION,
+
+	// RECOVERY,
 };
 
 enum container {
 	CONTENT,
 	STRONG,
 	EMPH,
+	// BARRIER,
 	// MATH_GROUP,
 	// MATH_BAR,
+};
+
+enum termination {
+	TERMINATION_NONE,
+	TERMINATION_INCLUSIVE,
+	TERMINATION_EXCLUSIVE,
 };
 
 struct vec_u32 {
@@ -128,60 +140,68 @@ static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
 	return read;
 }
 
-struct Scanner {
+struct scanner {
 	struct vec_u32 indentation;
 	struct vec_u32 containers;
 	struct vec_u32 worker;
 };
 
-static uint32_t scanner_current(struct Scanner* self) {
+static uint32_t scanner_current(struct scanner* self) {
 	if (self->indentation.len < 1) {
 		return 0;
 	}
 	return vec_u32_get(&self->indentation, self->indentation.len - 1);
 }
-static unsigned char scanner_previous(struct Scanner* self) {
+static unsigned char scanner_previous(struct scanner* self) {
 	if (self->indentation.len < 2) {
 		return 0;
 	}
 	return vec_u32_get(&self->indentation, self->indentation.len - 2);
 }
-static void scanner_redent(struct Scanner* self, uint32_t col) {
+static void scanner_redent(struct scanner* self, uint32_t col) {
 	if (self->indentation.len == 0) {
 		fprintf(stderr, "redent on base line\n");
 		exit(EXIT_FAILURE);
 	}
 	vec_u32_set(&self->indentation, self->indentation.len - 1, col);
 }
-static void scanner_dedent(struct Scanner* self) {
+static void scanner_dedent(struct scanner* self) {
 	if (self->indentation.len == 0) {
 		return;
 	}
 	vec_u32_pop(&self->indentation);
 }
-static void scanner_indent(struct Scanner* self, uint32_t col) {
+static void scanner_indent(struct scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
-static unsigned scanner_termination(struct Scanner* self, TSLexer* lexer) {
+static enum termination scanner_termination(struct scanner* self, TSLexer* lexer) {
 	if (self->containers.len == 0) {
-		return lexer->eof(lexer) ? 2 : 0;
+		return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 	}
 	enum container container = vec_u32_get(&self->containers, vec_u32_last(&self->containers));
 	switch (container) {
+		// case BARRIER:
+		// return TERMINATION_NONE;
 		case CONTENT:
-		return lexer->lookahead == ']' ? 1 : 0;
+		return lexer->lookahead == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 		case STRONG:
-		return lexer->lookahead == '*' ? 1 : 0;
+		return lexer->lookahead == '*' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 		case EMPH:
-		return lexer->lookahead == '_' ? 1 : 0;
+		return lexer->lookahead == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 	}
 	fprintf(stderr, "unreachable\n");
 	exit(EXIT_FAILURE);
 }
-static void scanner_container(struct Scanner* self, enum container container) {
+static bool scanner_is_contained_by(struct scanner* self, enum container container) {
+	if (self->containers.len == 0) {
+		return false;
+	}
+	return vec_u32_get(&self->containers, vec_u32_last(&self->containers)) == container;
+}
+static void scanner_container(struct scanner* self, enum container container) {
 	vec_u32_push(&self->containers, container);
 }
-static void scanner_out(struct Scanner* self) {
+static void scanner_out(struct scanner* self) {
 	if (self->containers.len == 0) {
 		return;
 	}
@@ -189,7 +209,7 @@ static void scanner_out(struct Scanner* self) {
 }
 
 void * tree_sitter_typst_external_scanner_create() {
-  struct Scanner* self = malloc(sizeof(struct Scanner));
+  struct scanner* self = malloc(sizeof(struct scanner));
 	if (self == NULL) {
 		fprintf(stderr, "malloc failed\n");
 		exit(EXIT_FAILURE);
@@ -201,7 +221,7 @@ void * tree_sitter_typst_external_scanner_create() {
 }
 
 void tree_sitter_typst_external_scanner_destroy(void *payload) {
-	struct Scanner* self = payload;
+	struct scanner* self = payload;
 	vec_u32_drop(self->indentation);
 	vec_u32_drop(self->containers);
 	vec_u32_drop(self->worker);
@@ -212,7 +232,7 @@ unsigned tree_sitter_typst_external_scanner_serialize(
   void *payload,
   char *buffer
 ) {
-	struct Scanner* self = payload;
+	struct scanner* self = payload;
 	size_t written = 0;
 	written += vec_u32_serialize(&self->indentation, buffer + written);
 	written += vec_u32_serialize(&self->containers, buffer + written);
@@ -224,9 +244,10 @@ void tree_sitter_typst_external_scanner_deserialize(
   const char *buffer,
   unsigned length
 ) {
-	struct Scanner* self = payload;
+	struct scanner* self = payload;
 	self->indentation.len = 0;
 	self->containers.len = 0;
+	self->worker.len = 0;
 	if (length != 0) {
 		size_t read = 0;
 		read += vec_u32_deserialize(&self->indentation, buffer + read);
@@ -234,33 +255,55 @@ void tree_sitter_typst_external_scanner_deserialize(
 	}
 }
 
+// SCAN ////////////////////////////////////////////////////////////////////////
 bool tree_sitter_typst_external_scanner_scan(
   void *payload,
   TSLexer *lexer,
   const bool *valid_symbols
 ) {
-	struct Scanner* self = payload;
+	struct scanner* self = payload;
   if (self == NULL) {
 		return false;
 	}
 
+	// if (valid_symbols[BARRIER_IN] && !valid_symbols[RECOVERY]) {
+	// 	scanner_container(self, BARRIER);
+	// 	// lexer->mark_end(lexer);
+	// 	lexer->result_symbol = BARRIER_IN;
+	// 	printf("barrier in\n");
+	// 	return true;
+	// }
+
+	// if (valid_symbols[BARRIER_OUT] && scanner_is_contained_by(self, BARRIER)) {
+	// 	scanner_out(self);
+	// 	// lexer->mark_end(lexer);
+	// 	lexer->result_symbol = BARRIER_OUT;
+	// 	printf("barrier out\n");
+	// 		return true;
+	// }
+
 	// highest precedence
-	if (valid_symbols[TERMINATION] && scanner_termination(self, lexer)) {
+	if (valid_symbols[TERMINATION]) {
 		switch (scanner_termination(self, lexer)) {
-			case 0: break;
-			case 1: lexer->advance(lexer, false);
-			default:
+			case TERMINATION_NONE: break;
+			case TERMINATION_INCLUSIVE:
+			lexer->advance(lexer, false);
+			scanner_dedent(self);
+			printf("hod!\n");
+			case TERMINATION_EXCLUSIVE:
+			scanner_out(self);
+			// lexer->mark_end(lexer);
+			lexer->result_symbol = TERMINATION;
+			printf("hoy!\n");
+			return true;
 		}
-		scanner_dedent(self);
-		scanner_out(self);
-		lexer->result_symbol = TERMINATION;
-		return true;
 	}
 	// if (valid_symbols[TERMINATION] && self->container.len > 0 && self->container.vec[self->container.len - 1] == HEADING) {
 		
 	// }
 	if (valid_symbols[CONTENT_TOKEN] && lexer->lookahead == '[') {
 		lexer->advance(lexer, false);
+		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
 		scanner_container(self, CONTENT);
 		lexer->result_symbol = CONTENT_TOKEN;
@@ -268,6 +311,7 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 	if (valid_symbols[STRONG_TOKEN] && lexer->lookahead == '*') {
 		lexer->advance(lexer, false);
+		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
 		scanner_container(self, STRONG);
 		lexer->result_symbol = STRONG_TOKEN;
@@ -275,6 +319,7 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 	if (valid_symbols[EMPH_TOKEN] && lexer->lookahead == '_') {
 		lexer->advance(lexer, false);
+		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
 		scanner_container(self, EMPH);
 		lexer->result_symbol = EMPH_TOKEN;
@@ -327,29 +372,35 @@ bool tree_sitter_typst_external_scanner_scan(
 			}
 			else {
 				lexer->result_symbol = URL_TOKEN;
+				// lexer->mark_end(lexer);
 				return true;
 			}
 		}
 	}
 
-	if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
+	if (valid_symbols[INDENT] || valid_symbols[DEDENT] || valid_symbols[REDENT]) {
 		lexer->mark_end(lexer);
+		uint32_t column = lexer->get_column(lexer);
 
 
 		if (lexer->lookahead == '\n') {
 			lexer->advance(lexer, false);
+			column = 0;
 		}
 
 		if (valid_symbols[DEDENT]) {
-			if (scanner_termination(self, lexer)) {
+			if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
-				// printf("Hey\n");
+				printf("dedent1\n");
 				return true;
 			}
 		}
+		if (lexer->eof(lexer)) {
+			return false;
+		}
 
-		if (lexer->get_column(lexer) != 0) {
+		if (column != 0) {
 			// printf("hoho\n");
 			return false;
 		}
@@ -373,11 +424,13 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (lexer->eof(lexer)) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
+				printf("dedent2\n");
 				return true;
 			}
 			if (col < current && col <= previous) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
+				printf("dedent3\n");
 				return true;
 			}
 		}
@@ -385,13 +438,15 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (valid_symbols[REDENT] && col < current) {
 			scanner_redent(self, col);
 			lexer->result_symbol = REDENT;
+			printf("redent\n");
 			return true;
 		}
 
 		if (valid_symbols[INDENT] && col > current) {
 			scanner_indent(self, col);
 			lexer->result_symbol = INDENT;
-			// printf("  indent\n");
+			printf("indent\n");
+			// exit(EXIT_FAILURE);
 			return true;
 		}
 	}

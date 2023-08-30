@@ -17,30 +17,48 @@ function ws($) {
 
 function content($) {
   return zebra(
+    choice($._line_content, $._indented),
     seq(optional($._redent), choice($.break, $._new_line)),
-    choice(
-      $._indented,
-      $.heading,
-      $.item,
-      $.term,
-      repeat1($._markup)
-    )
   );
+}
+function new_line($) {
+  return seq(optional($._redent), choice($.break, $._new_line));
 }
 
 // content but inside markup like emph or strong
 // TODO: maybe the distinction is not necessary
 function inside($) {
-  return zebra(
-    seq(optional($._redent), choice($.break, $._new_line)),
-    choice(
-      seq($.heading, $._new_line),
-      $._indented,
-      $.item,
-      $.term,
-      prec.left(repeat1($._markup))
-    )
+  // return zebra(
+  //   seq(optional($._redent), choice($.break, $._new_line)),
+  //   choice(
+  //     seq(choice($.heading, $.item, $.term), $._new_line),
+  //     $._indented,
+  //     repeat1($._markup)
+  //   )
+  // );
+
+  return seq(
+    repeat(choice($._space, $.comment, $._markup)),
+    optional(seq(new_line($), zebra(
+      choice($._line_inside, $._indented),
+      new_line($),
+    ))),
   );
+  // return zebra(
+  //   choice($._line, $._indented),
+  //   seq(optional($._redent), choice($.break, $._new_line)),
+  // );
+  // return repeat(choice(
+  //   $._indented,
+  //   $._space,
+  //   $.comment,
+  //   $._markup,
+  //   seq(
+  //     optional($._redent),
+  //     choice($.break, $._new_line),
+  //     optional(seq(choice($.heading, $.item, $.term), $._new_line))
+  //   ),
+  // ));
 }
 
 module.exports = grammar({
@@ -53,7 +71,9 @@ module.exports = grammar({
     $._redent,
 
     // other
-    $._url_token,    
+    $._url_token,
+    // $._barrier_in,
+    // $._barrier_out,
 
     // delimited contexts
     $._content_token,
@@ -63,8 +83,15 @@ module.exports = grammar({
     // $._math_group_token,
     // $._math_bar_token,
     $._termination,
+    // $._recovery,
   ],
   conflicts: $ => [
+    // [$.source_file],
+    // [$._indented],
+    // [$.content],
+    // [$.item, $.term, $.heading, $._markup],
+    [$.strong],
+    [$.emph],
     [$.tagged, $.import],
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
@@ -86,6 +113,29 @@ module.exports = grammar({
   ],
   rules: {
     source_file: $ => content($),
+
+    _preline: $ => repeat1(choice($._space, $.comment)),
+    _line_content: $ => choice(
+      seq($._preline, optional($._theline_content)),
+      $._theline_content
+    ),
+    _line_inside: $ => choice(
+      seq($._preline, optional($._theline_inside)),
+      $._theline_inside
+    ),
+    _theline_content: $ => choice(
+      $.heading,
+      $.item,
+      $.term,
+      seq($._markup, repeat(choice($._space, $.comment, $._markup))),
+    ),
+    _theline_inside: $ => choice(
+      seq(
+        choice($.heading, $.item, $.term),
+        new_line($),
+      ),
+      seq($._markup, repeat(choice($._space, $.comment, $._markup))),
+    ),
 
     // ends an expression
     _token_dlim: $ => /[ ]*(\n|;)/,
@@ -129,8 +179,8 @@ module.exports = grammar({
       $.text,
       $.strong,
       $.emph,
-      $._space,
-      $.comment,
+      // $._space,
+      // $.comment,
       $.raw_blck,
       $.raw_span,
       $.math,
@@ -154,21 +204,29 @@ module.exports = grammar({
 
     _indented: $ => seq($._indent, content($), $._dedent),
     item: $ => prec.right(1, seq(
-      optional($._space),
+      // TODO: move this space/comment to `content` repeat
+      // repeat(choice($.comment, $._space)),
       $._token_item,
-      repeat($._markup),
-      optional($._indented)
+      // $._barrier_in,
+      repeat(choice($._markup, $.comment, $._space)),
+      optional($._indented),
+      // $._barrier_out,
     )),
     term: $ => prec.right(1, seq(
-      optional($._space),
+      // repeat(choice($.comment, $._space)),
       $._token_term,
       field('term', repeat($._markup)),
       ':',
-      repeat($._markup),
+      repeat(choice($._markup, $.comment, $._space)),
       optional($._indented)
     )),
 
-    heading: $ => prec.right(1, seq($._token_head, repeat($._markup))),
+    // TODO: try again barrier
+    heading: $ => prec.right(1, seq(
+      // repeat(choice($.comment, $._space)),
+      $._token_head,
+      repeat(choice($._markup, $.comment, $._space)),
+    )),
     strong: $ => prec.left(seq($._strong_token, inside($), $._termination)),
     emph: $ => prec.left(seq($._emph_token, inside($), $._termination)),
     raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),

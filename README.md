@@ -34,6 +34,8 @@ I hope to receive solutions for the following failing tests in `"corpus/fixme.sc
 - [ ] Optimization
   - [ ] Math ident
 
+- Investigate the behavior of `lexer->get_column`, because it seems to backtrack the lexer's cursor, which could be very interesting to simplify the indent-dedent mechnism.
+
 ## DONE
 
 - [X] Markups
