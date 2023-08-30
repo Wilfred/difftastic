@@ -27,3 +27,27 @@ b, c)
 			(string)
 			(ident)
 			(ident))))
+
+
+=====================
+Fixme E03
+=====================
+*
+  *
+---------------------
+; FIXME: indentation detected when not present
+
+(source_file
+	(strong))
+
+
+=====================
+Fixme E04
+=====================
+*
+ -
+ *
+---------------------
+
+(source_file
+	(strong))

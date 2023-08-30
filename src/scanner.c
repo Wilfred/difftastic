@@ -289,12 +289,12 @@ bool tree_sitter_typst_external_scanner_scan(
 			case TERMINATION_INCLUSIVE:
 			lexer->advance(lexer, false);
 			scanner_dedent(self);
-			printf("hod!\n");
+			// printf("hod!\n");
 			case TERMINATION_EXCLUSIVE:
 			scanner_out(self);
 			// lexer->mark_end(lexer);
 			lexer->result_symbol = TERMINATION;
-			printf("hoy!\n");
+			// printf("hoy!\n");
 			return true;
 		}
 	}
@@ -392,7 +392,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
-				printf("dedent1\n");
+				// printf("dedent1\n");
 				return true;
 			}
 		}
@@ -424,13 +424,13 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (lexer->eof(lexer)) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
-				printf("dedent2\n");
+				// printf("dedent2\n");
 				return true;
 			}
 			if (col < current && col <= previous) {
 				scanner_dedent(self);
 				lexer->result_symbol = DEDENT;
-				printf("dedent3\n");
+				// printf("dedent3\n");
 				return true;
 			}
 		}
@@ -438,14 +438,14 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (valid_symbols[REDENT] && col < current) {
 			scanner_redent(self, col);
 			lexer->result_symbol = REDENT;
-			printf("redent\n");
+			// printf("redent\n");
 			return true;
 		}
 
 		if (valid_symbols[INDENT] && col > current) {
 			scanner_indent(self, col);
 			lexer->result_symbol = INDENT;
-			printf("indent\n");
+			// printf("indent\n");
 			// exit(EXIT_FAILURE);
 			return true;
 		}

@@ -17,12 +17,15 @@ I publish this grammar because I hope for help from other involved enthousiasts.
 
 I hope to receive solutions for the following failing tests in `"corpus/fixme.scm"`. If you can make one of them pass, I'd be happy to accept your pull request !
 
+If you find a bug not yet documented in the `fixme.scm`, send it!
+
+My contact: eddie.gerbais-nief@proton.me
+
 ## FIXME
 
-- [X] ~Multiline vs singleline expressions~
-- [X] ~Comments before operators~
 - [ ] Test E01: Group termination in math
 - [ ] Test E02: Import looses precedence to list with `,`
+- [ ] Test E03: Indentation detected at markup end
 
 ## TODO
 

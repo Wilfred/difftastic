@@ -25,40 +25,15 @@ function new_line($) {
   return seq(optional($._redent), choice($.break, $._new_line));
 }
 
-// content but inside markup like emph or strong
-// TODO: maybe the distinction is not necessary
 function inside($) {
-  // return zebra(
-  //   seq(optional($._redent), choice($.break, $._new_line)),
-  //   choice(
-  //     seq(choice($.heading, $.item, $.term), $._new_line),
-  //     $._indented,
-  //     repeat1($._markup)
-  //   )
-  // );
-
   return seq(
     repeat(choice($._space, $.comment, $._markup)),
-    optional(seq(new_line($), zebra(
-      choice($._line_inside, $._indented),
+    optional(seq(
       new_line($),
-    ))),
+      repeat(seq(choice($._line_inside, $._indented), new_line($))),
+      optional(choice($._line_inside, $._indented)),
+    )),
   );
-  // return zebra(
-  //   choice($._line, $._indented),
-  //   seq(optional($._redent), choice($.break, $._new_line)),
-  // );
-  // return repeat(choice(
-  //   $._indented,
-  //   $._space,
-  //   $.comment,
-  //   $._markup,
-  //   seq(
-  //     optional($._redent),
-  //     choice($.break, $._new_line),
-  //     optional(seq(choice($.heading, $.item, $.term), $._new_line))
-  //   ),
-  // ));
 }
 
 module.exports = grammar({
@@ -115,6 +90,7 @@ module.exports = grammar({
     source_file: $ => content($),
 
     _preline: $ => repeat1(choice($._space, $.comment)),
+
     _line_content: $ => choice(
       seq($._preline, optional($._theline_content)),
       $._theline_content
@@ -123,6 +99,7 @@ module.exports = grammar({
       seq($._preline, optional($._theline_inside)),
       $._theline_inside
     ),
+
     _theline_content: $ => choice(
       $.heading,
       $.item,
