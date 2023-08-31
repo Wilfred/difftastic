@@ -17,8 +17,10 @@ Delete nodes
         (labeled_item
             label: (identifier)
             item: (node name: (identifier)))
-        (delete_node (identifier))
-        (delete_node (reference label: (identifier)))
+        (delete_node
+            name: (identifier))
+        (delete_node
+            name: (reference label: (identifier)))
     )
 )
 
@@ -39,6 +41,7 @@ Delete properties
         (property
             name: (identifier)
             value: (string_literal))
-        (delete_property (identifier))
+        (delete_property
+            name: (identifier))
     )
 )

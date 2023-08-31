@@ -571,17 +571,21 @@
           "value": "/delete-node/"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "node_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "reference"
-            }
-          ]
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "node_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reference"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
@@ -597,8 +601,12 @@
           "value": "/delete-property/"
         },
         {
-          "type": "SYMBOL",
-          "name": "property_identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "property_identifier"
+          }
         },
         {
           "type": "STRING",

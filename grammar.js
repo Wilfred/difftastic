@@ -164,10 +164,14 @@ module.exports = grammar({
 
 		// TODO: is delete-node allowed at top level?
 		delete_node: ($) =>
-			seq('/delete-node/', choice($.node_identifier, $.reference), ';'),
+			seq(
+				'/delete-node/',
+				field('name', choice($.node_identifier, $.reference)),
+				';'
+			),
 
 		delete_property: ($) =>
-			seq('/delete-property/', $.property_identifier, ';'),
+			seq('/delete-property/', field('name', $.property_identifier), ';'),
 
 		incbin: ($) =>
 			seq(
