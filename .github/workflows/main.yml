@@ -1,6 +1,8 @@
 name: Build/release
 on:
   workflow_dispatch:
+permissions:
+  contents: write
 
 jobs:
   test:
