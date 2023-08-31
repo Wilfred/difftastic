@@ -1,0 +1,156 @@
+================================================================================
+basic anonymous module
+================================================================================
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (int)))))
+
+================================================================================
+basic named module
+================================================================================
+
+module Test
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+named module with whitespace
+================================================================================
+
+module     Test
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+named module lowercase
+================================================================================
+
+module test
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+basic namespace
+================================================================================
+
+namespace test
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+basic global namespace
+================================================================================
+
+namespace global test
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (ERROR
+      (UNEXPECTED 'e')
+      (UNEXPECTED '\n'))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+basic long namespace
+================================================================================
+
+namespace test.val
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier)
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))

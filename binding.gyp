@@ -13,7 +13,16 @@
       ],
       "cflags_c": [
         "-std=c99",
-      ]
+      ],
+      'actions': [
+        {
+          'action_name': 'generate parser',
+          'inputs': ['grammar.js'],
+          'outputs': ['src'],
+          'action': ['tree-sitter', 'generate'],
+          'message': 'generated parser'
+        }
+      ],
     }
   ]
 }
