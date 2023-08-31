@@ -22,29 +22,29 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout develop branch
+        uses: actions/checkout@v3
         with:
           ref: "develop"
-          path: /dev
-      - uses: actions/checkout@v3
-        with:
-          ref: "main"
-          path: /main
+      - name: Fetch main branch
+        run: |
+          git fetch origin main
+          git branch -t main origin/main
+      - name: "remove src/parser.c from .gitignore"
+        run: sed -i '/src\/parser.c/d' .gitignore
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: "copy grammar to main branch"
-        run: |
-          cp /dev/grammar.js /main/grammar.js
-          cp /dev/src/scanner.cc /main/scanner.cc
       - name: "compile main branch" 
-        working-directory: /app
         run: |
           npm install
           npm run build
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "release"
-          file_pattern: '!.gitignore !README.md'
-          repository: /main
-          push_options: '--force'
+      - name: Merge into main branch and publish
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          tree=$(git write-tree)
+          commit=$(git commit-tree -p main -p develop -m "release" $tree)
+          git update-ref refs/heads/main $commit
+          git push origin main
