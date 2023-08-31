@@ -37,13 +37,12 @@ The `E04` issue is the priority.
 
 - [ ] More tests 230/1000
 - [ ] Optimization
+  - [ ] Benchmark
   - [ ] Math ident
 
 - Investigate the behavior of `lexer->get_column`, because it seems to backtrack the lexer's cursor, which could be very interesting to simplify the indent-dedent mechnism.
 
-- Integrate a unicode library to the scanner (maybe `icu`) and clean the scanner code base.
-
-- When a delimiter like `_` or `*` is directly between two letters, it is no longer considered a markup token, I call this "anti markup". But I don't know which character are considered as letters. At the moment, the `Letter` unicode property is used, but verification with the Typst implementation should be done.
+- Use the unicode database to implement a test based on binary search to find math identifier.
 
 ## DONE
 
@@ -51,7 +50,7 @@ The `E04` issue is the priority.
   - [X] Ident and label
   - [X] White spaces
   - [X] Math ident
-  - [ ] Anti markup
+  - [X] Anti markup
 - [X] Markups
   - [X] Strong
   - [X] Emph

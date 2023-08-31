@@ -69,16 +69,11 @@ module.exports = grammar({
     // $._recovery,
   ],
   conflicts: $ => [
-    // [$.source_file],
-    // [$._indented],
-    // [$.content],
-    // [$.item, $.term, $.heading, $._markup],
     [$.strong],
     [$.emph],
     [$.tagged, $.import],
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
-    // [$._math_group, $._math_group_open],
     [$._math_attach_sup, $._math_attach_sub],
     [$.math],
     [$.math, $._math_ws_prefix],
@@ -140,7 +135,7 @@ module.exports = grammar({
     _token_eq: $ => token(prec(1, /=/)),
 
     // those are used to avoid matching the wrong input
-    _anti_markup: $ => /[\p{L}0-9][_\*\"][\p{L}0-9]/,
+    _anti_markup: $ => /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}][_\*\"][\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/,
     _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^\r\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/),
     _anti_head: $ => /=+[^=\r\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/,
 
@@ -217,6 +212,7 @@ module.exports = grammar({
       alias($._math_letter, $.variable),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
+      alias($._math_other, $.symbol),
       alias($._math_fac, $.fac),
       alias($._math_mul, $.mul),
       alias($._math_div, $.div),
@@ -276,8 +272,9 @@ module.exports = grammar({
       // group
       ')', ']', '}', '|]', '||', '|',
       // other
-      '&', '...', '@', '\'', '"', '?',
+      '...',
     ))),
+    _math_other: $ => token(prec(-2, /./)),
 
     _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
 
