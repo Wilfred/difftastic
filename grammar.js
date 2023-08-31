@@ -14,15 +14,15 @@ function joined(elem, sep) {
 function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
+function new_line($) {
+  return seq(optional($._redent), choice($.break, $._new_line));
+}
 
 function content($) {
   return zebra(
     choice($._line_content, $._indented),
-    seq(optional($._redent), choice($.break, $._new_line)),
+    new_line($),
   );
-}
-function new_line($) {
-  return seq(optional($._redent), choice($.break, $._new_line));
 }
 
 function inside($) {
@@ -30,9 +30,11 @@ function inside($) {
     repeat(choice($._space, $.comment, $._markup)),
     optional(seq(
       new_line($),
-      repeat(seq(choice($._line_inside, $._indented), new_line($))),
-      optional(choice($._line_inside, $._indented)),
-    )),
+      zebra(
+        choice($._line_inside, $._indented),
+        new_line($),
+      ),
+    ))
   );
 }
 

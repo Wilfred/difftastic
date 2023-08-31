@@ -30,24 +30,30 @@ b, c)
 
 
 =====================
-Fixme E03
-=====================
-*
-  *
----------------------
-; FIXME: indentation detected when not present
-
-(source_file
-	(strong))
-
-
-=====================
 Fixme E04
 =====================
 *
  -
  *
 ---------------------
+; FIXME: last space not predicted by syntax
 
 (source_file
-	(strong))
+	(strong
+		(item)))
+
+
+=====================
+Fixme E05
+=====================
+- Hello #a
+World
+---------------------
+; FIXME: code delim should count as new line
+; Maybe use the external scanner
+
+(source_file
+	(item
+		(text)
+		(ident))
+	(text))

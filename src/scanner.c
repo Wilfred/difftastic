@@ -24,20 +24,37 @@ enum TokenType {
 };
 
 enum container {
+	// `[`
 	CONTENT,
+
+	// `*`
 	STRONG,
+
+	// `_`
 	EMPH,
+
+	// dummy container to prevent upper container from ending
 	// BARRIER,
+
+	// `(` `{` `[` `[|`
 	// MATH_GROUP,
+
+	// `|` `||`
 	// MATH_BAR,
 };
 
+// when a container ends
 enum termination {
+	// not the end
 	TERMINATION_NONE,
+	// termination character found
 	TERMINATION_INCLUSIVE,
+	// termination found without character
 	TERMINATION_EXCLUSIVE,
 };
 
+
+// vec<u32> ////////////////////////////////////////////////////////////////////
 struct vec_u32 {
 	size_t cap;
 	size_t len;
@@ -139,6 +156,9 @@ static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
 	read += self->len * sizeof *self->vec;
 	return read;
 }
+//////////////////////////////////////////////////////////////////// vec<u32> //
+
+
 
 struct scanner {
 	struct vec_u32 indentation;
@@ -175,8 +195,11 @@ static void scanner_indent(struct scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
 static enum termination scanner_termination(struct scanner* self, TSLexer* lexer) {
+	if (lexer->eof(lexer)) {
+		return TERMINATION_EXCLUSIVE;
+	}
 	if (self->containers.len == 0) {
-		return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
+		return TERMINATION_NONE;
 	}
 	enum container container = vec_u32_get(&self->containers, vec_u32_last(&self->containers));
 	switch (container) {
@@ -207,6 +230,8 @@ static void scanner_out(struct scanner* self) {
 	}
 	vec_u32_pop(&self->containers);
 }
+
+
 
 void * tree_sitter_typst_external_scanner_create() {
   struct scanner* self = malloc(sizeof(struct scanner));
@@ -379,6 +404,7 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	if (valid_symbols[INDENT] || valid_symbols[DEDENT] || valid_symbols[REDENT]) {
+		// indentation tokens have 0 size
 		lexer->mark_end(lexer);
 		uint32_t column = lexer->get_column(lexer);
 
@@ -396,7 +422,8 @@ bool tree_sitter_typst_external_scanner_scan(
 				return true;
 			}
 		}
-		if (lexer->eof(lexer)) {
+		// TODO: fuse with above
+		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 			return false;
 		}
 
@@ -415,8 +442,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->advance(lexer, false);
 		}
 
-		// uint32_t current = vec_u32_get(&self->indentation, vec_u32_last(&self->indentation));
-		// uint32_t previous = vec_u32_get(&self->indentation, vec_u32_last(&self->indentation) - 1);
+
 		unsigned char current = scanner_current(self);
 		unsigned char previous = scanner_previous(self);
 
@@ -442,6 +468,9 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 
+		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
+			return false;
+		}
 		if (valid_symbols[INDENT] && col > current) {
 			scanner_indent(self, col);
 			lexer->result_symbol = INDENT;

@@ -25,7 +25,8 @@ My contact: eddie.gerbais-nief@proton.me
 
 - [ ] Test E01: Group termination in math
 - [ ] Test E02: Import looses precedence to list with `,`
-- [ ] Test E03: Indentation detected at markup end
+- [ ] Test E04: Leading space not recognized
+- [ ] Test E05: Inlined code absorbs new line
 
 ## TODO
 
