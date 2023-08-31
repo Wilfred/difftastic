@@ -1,3 +1,7 @@
+const new_line_regex = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
+const white_space_regex = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
+const only_space_regex = /([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])/;
+
 // any sequence alternating `zeb` and `ra`, like the black and white of a zebra
 // in theory, `zeb` and `ra` are interchangeable, in practice, the order matters
 // for instance, in a math group, the `zeb` must be `expr` and `ra` must be `ws`
@@ -120,32 +124,29 @@ module.exports = grammar({
 
     // ends an expression in a block
     // the precedence of 1 is required
-    _token_dlim_blck: $ => token(prec(1, /[ ]*(\n|;)/)),
+    _token_dlim_blck: $ => token(prec(1, /([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*(([\n\v\f\x85\u2028\u2029]|\r\n?)|;)/)),
 
-    break: $ => /\n([ \t]*\n)+/,
-    escape: $ => /\\[^ \t\nu]|\\u\{[0-9a-fA-F]*\}/,
+    break: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)(([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*([\n\v\f\x85\u2028\u2029]|\r\n?))+/,
+    escape: $ => /\\[^u\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\\u\{[0-9a-fA-F]*\}/,
     comment: $ => choice(
-      seq('//', /[^\n]*\n?/),
+      seq('//', /[^\n\v\f\x85\u2028\u2029]*([\n\v\f\x85\u2028\u2029]|\r\n?)?/),
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
     url: $ => seq(/http(s?):\/\//, $._url_token),
 
-    _space_expr: $ => /[ \n\t]+/,
-    _new_line: $ => /\n/,
-    _space: $ => /[ \t]+/,
+    _space_expr: $ => /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)+/,
+    _new_line: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)/,
+    _space: $ => /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]+/,
     _token_eq: $ => token(prec(1, /=/)),
 
     // those are used to avoid matching the wrong input
-    _anti_else: $ => /[ \n\t]*else[^ \t\{\[]/,
     _anti_markup: $ => /[\p{L}0-9][_\*\"][\p{L}0-9]/,
-    _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^ \t\n]/),
-    _anti_head: $ => /=+[^ \t\n=]/,
+    _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^\r\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/),
+    _anti_head: $ => /=+[^=\r\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/,
 
     _token_item: $ => prec(1, /-|\+|[0-9]+\./),
-    _token_term: $ => prec(1, /\/[ \t]+/),
+    _token_term: $ => prec(1, /\/[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]+/),
     _token_head: $ => /=+/,
-    // transfered to external scanner
-    // _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
     line: $ => /\\/,
     quote: $ => choice('"', '\''),
@@ -158,8 +159,6 @@ module.exports = grammar({
       $.text,
       $.strong,
       $.emph,
-      // $._space,
-      // $.comment,
       $.raw_blck,
       $.raw_span,
       $.math,
@@ -172,7 +171,6 @@ module.exports = grammar({
     ),
 
     text: $ => prec.right(repeat1(choice(
-      $._anti_else,
       $._anti_markup,
       $._anti_item,
       $._anti_head,
@@ -182,9 +180,8 @@ module.exports = grammar({
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),
+    // TODO: try barrier again to see if it simplifies the grammar
     item: $ => prec.right(1, seq(
-      // TODO: move this space/comment to `content` repeat
-      // repeat(choice($.comment, $._space)),
       $._token_item,
       // $._barrier_in,
       repeat(choice($._markup, $.comment, $._space)),
@@ -192,7 +189,6 @@ module.exports = grammar({
       // $._barrier_out,
     )),
     term: $ => prec.right(1, seq(
-      // repeat(choice($.comment, $._space)),
       $._token_term,
       field('term', repeat($._markup)),
       ':',
@@ -200,9 +196,7 @@ module.exports = grammar({
       optional($._indented)
     )),
 
-    // TODO: try again barrier
     heading: $ => prec.right(1, seq(
-      // repeat(choice($.comment, $._space)),
       $._token_head,
       repeat(choice($._markup, $.comment, $._space)),
     )),

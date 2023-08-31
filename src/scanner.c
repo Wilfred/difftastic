@@ -284,8 +284,27 @@ void tree_sitter_typst_external_scanner_deserialize(
 
 // SCAN ////////////////////////////////////////////////////////////////////////
 static bool is_white_space(uint32_t c) {
-	// TODO: consider all white spaces recognised by Typst
-	return c == ' ' || c == '\t';
+	return (
+		c == ' ' ||
+	  c == '\t' ||
+	  c == 0x20 ||
+	  c == 0x1680 ||
+	  (c >= 0x2000 && c <= 0x200a) ||
+	  c == 0x202f ||
+	  c == 0x205f ||
+	  c == 0x3000
+	);
+}
+static bool is_new_line(uint32_t c) {
+	return (
+		c == '\n' ||
+		c == '\r' ||
+	  c == '\v' ||
+	  c == '\f' ||
+	  c == 0x85 ||
+	  c == 0x2028 ||
+	  c == 0x2029
+	);
 }
 bool tree_sitter_typst_external_scanner_scan(
   void *payload,
@@ -420,11 +439,11 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 
 		bool dlim = valid_symbols[TOKEN_DLIM] && (
-			lexer->lookahead == '\n' ||
+			is_new_line(lexer->lookahead) ||
 			scanner_termination(self, lexer)
 		);
 
-		while (is_white_space(lexer->lookahead) || lexer->lookahead == '\n') {
+		while (is_white_space(lexer->lookahead) || is_new_line(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 		}
 		if (valid_symbols[TOKEN_ELSE] && lexer->lookahead == 'e') {
@@ -465,7 +484,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		uint32_t column = lexer->get_column(lexer);
 
 
-		if (lexer->lookahead == '\n') {
+		if (is_new_line(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 			column = 0;
 		}
@@ -478,7 +497,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				return true;
 			}
 		}
-		// TODO: fuse with above
+		// TODO: merge with above
 		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 			return false;
 		}
@@ -488,8 +507,8 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 		unsigned char col = 0;
-		while (lexer->lookahead == ' ' || lexer->lookahead == '\n') {
-			if (lexer->lookahead == '\n') {
+		while (is_white_space(lexer->lookahead) || is_new_line(lexer->lookahead)) {
+			if (is_new_line(lexer->lookahead)) {
 				col = 0;
 			}
 			else {

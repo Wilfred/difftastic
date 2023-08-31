@@ -35,10 +35,6 @@ The `E04` issue is the priority.
 
 ## TODO
 
-- [ ] Unicode characters
-  - [X] Ident and label
-  - [ ] White spaces
-  - [X] Math ident
 - [ ] More tests 230/1000
 - [ ] Optimization
   - [ ] Math ident
@@ -47,8 +43,15 @@ The `E04` issue is the priority.
 
 - Integrate a unicode library to the scanner (maybe `icu`) and clean the scanner code base.
 
+- When a delimiter like `_` or `*` is directly between two letters, it is no longer considered a markup token, I call this "anti markup". But I don't know which character are considered as letters. At the moment, the `Letter` unicode property is used, but verification with the Typst implementation should be done.
+
 ## DONE
 
+- [X] Unicode characters
+  - [X] Ident and label
+  - [X] White spaces
+  - [X] Math ident
+  - [ ] Anti markup
 - [X] Markups
   - [X] Strong
   - [X] Emph
