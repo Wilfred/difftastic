@@ -8,6 +8,8 @@ enum TokenType {
 	REDENT,
 
 	URL_TOKEN,
+	TOKEN_DLIM,
+	TOKEN_ELSE,
 
 	// BARRIER_IN,
 	// BARRIER_OUT,
@@ -281,6 +283,10 @@ void tree_sitter_typst_external_scanner_deserialize(
 }
 
 // SCAN ////////////////////////////////////////////////////////////////////////
+static bool is_white_space(uint32_t c) {
+	// TODO: consider all white spaces recognised by Typst
+	return c == ' ' || c == '\t';
+}
 bool tree_sitter_typst_external_scanner_scan(
   void *payload,
   TSLexer *lexer,
@@ -323,9 +329,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 	}
-	// if (valid_symbols[TERMINATION] && self->container.len > 0 && self->container.vec[self->container.len - 1] == HEADING) {
-		
-	// }
+
 	if (valid_symbols[CONTENT_TOKEN] && lexer->lookahead == '[') {
 		lexer->advance(lexer, false);
 		lexer->mark_end(lexer);
@@ -401,6 +405,58 @@ bool tree_sitter_typst_external_scanner_scan(
 				return true;
 			}
 		}
+	}
+
+	if (valid_symbols[TOKEN_DLIM] || valid_symbols[TOKEN_ELSE]) {
+		lexer->mark_end(lexer);
+		while (is_white_space(lexer->lookahead)) {
+			lexer->advance(lexer, false);
+		}
+		if (valid_symbols[TOKEN_DLIM] && lexer->lookahead == ';') {
+			lexer->advance(lexer, false);
+			lexer->mark_end(lexer);
+			lexer->result_symbol = TOKEN_DLIM;
+			return true;
+		}
+
+		bool dlim = valid_symbols[TOKEN_DLIM] && (
+			lexer->lookahead == '\n' ||
+			scanner_termination(self, lexer)
+		);
+
+		while (is_white_space(lexer->lookahead) || lexer->lookahead == '\n') {
+			lexer->advance(lexer, false);
+		}
+		if (valid_symbols[TOKEN_ELSE] && lexer->lookahead == 'e') {
+			lexer->advance(lexer, false);
+			if (lexer->lookahead != 'l') {
+				return false;
+			}
+			lexer->advance(lexer, false);
+			if (lexer->lookahead != 's') {
+				return false;
+			}
+			lexer->advance(lexer, false);
+			if (lexer->lookahead != 'e') {
+				return false;
+			}
+			lexer->advance(lexer, false);
+			if (
+				is_white_space(lexer->lookahead) ||
+				lexer->lookahead == '[' ||
+				lexer->lookahead == '{'
+			) {
+				lexer->mark_end(lexer);
+				lexer->result_symbol = TOKEN_ELSE;
+				return true;
+			}
+			return false;
+		}
+		if (dlim) {
+			lexer->result_symbol = TOKEN_DLIM;
+			return true;
+		}
+		return false;
 	}
 
 	if (valid_symbols[INDENT] || valid_symbols[DEDENT] || valid_symbols[REDENT]) {

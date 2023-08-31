@@ -41,19 +41,3 @@ Fixme E04
 (source_file
 	(strong
 		(item)))
-
-
-=====================
-Fixme E05
-=====================
-- Hello #a
-World
----------------------
-; FIXME: code delim should count as new line
-; Maybe use the external scanner
-
-(source_file
-	(item
-		(text)
-		(ident))
-	(text))

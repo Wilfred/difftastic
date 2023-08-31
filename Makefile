@@ -1,7 +1,12 @@
-test: build
-	tree-sitter test
+test: src/parser.c
+	tree-sitter test -f Test
 
-build:
+fixme: src/parser.c
+	tree-sitter test -f Fixme
+
+src/parser.c: grammar.js
 	tree-sitter generate
 
-.PHONY: test build
+build: src/parser.c
+
+.PHONY: fixme test build

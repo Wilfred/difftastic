@@ -4,29 +4,34 @@ Typst official page https://typst.app
 
 TreeSitter documentation page https://tree-sitter.github.io
 
-Typst doesn't have yet an official TreeSitter grammar. This grammar is work-in-progress. It is the first time I write a TreeSitter grammar. There are so many things I don't understand about TreeSitter.
+Typst doesn't have yet an official TreeSitter grammar. This grammar is work-in-progress but is already quite complete.
 
-There are two equivalent projects that I know of:
+Two other TreeSitter grammars for Typst are in development:
 
 - https://github.com/frozolotl/tree-sitter-typst
 - https://github.com/SeniorMars/tree-sitter-typst
 
 ## Participation
 
-I publish this grammar because I hope for help from other involved enthousiasts. As I said before, this is the first time I am dealing with tree-sitter, and up until know it has been a pain. I hope to receive indications to improve this grammar about things I am doing wrong.
+I publish this grammar because I hope for help from other involved enthousiasts. This is the first time I am dealing with tree-sitter, and up until know it has been quite a challenge as TreeSitter is not the more clear nor predictable tool.
 
-I hope to receive solutions for the following failing tests in `"corpus/fixme.scm"`. If you can make one of them pass, I'd be happy to accept your pull request !
+Participate by:
+- Indicating improvements to this grammar.
+- Finding solution for the bugs corresponding to failing tests.
+- Finding new bug and send corresponding test
 
-If you find a bug not yet documented in the `fixme.scm`, send it!
+Failing test are found in `corpus/fixme.scm`.
 
-My contact: eddie.gerbais-nief@proton.me
+Don't esitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
-- [ ] Test E01: Group termination in math
-- [ ] Test E02: Import looses precedence to list with `,`
-- [ ] Test E04: Leading space not recognized
-- [ ] Test E05: Inlined code absorbs new line
+- [ ] Test `E01`: Group termination in math
+- [ ] Test `E02`: Import looses precedence to list with `,`
+- [ ] Test `E04`: Leading space not recognized
+- [X] ~Test `E05`: Inlined code absorbs new line~
+
+The `E04` issue is the priority.
 
 ## TODO
 
@@ -34,11 +39,13 @@ My contact: eddie.gerbais-nief@proton.me
   - [X] Ident and label
   - [ ] White spaces
   - [X] Math ident
-- [ ] More tests
+- [ ] More tests 230/1000
 - [ ] Optimization
   - [ ] Math ident
 
 - Investigate the behavior of `lexer->get_column`, because it seems to backtrack the lexer's cursor, which could be very interesting to simplify the indent-dedent mechnism.
+
+- Integrate a unicode library to the scanner (maybe `icu`) and clean the scanner code base.
 
 ## DONE
 

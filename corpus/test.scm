@@ -1873,8 +1873,8 @@ Test 134
 (source_file
 	(let
 		pattern: (ident))
-	(text)
-	(text))
+	(heading
+		(text)))
 
 
 =====================
@@ -3136,6 +3136,46 @@ Test 227
 
 (source_file
 	(strong))
+
+
+=====================
+Test 228
+=====================
+- Hello #a
+World
+---------------------
+
+(source_file
+	(item
+		(text)
+		(ident))
+	(text))
+
+
+=====================
+Test 229
+=====================
+#a /* Hello */   ;
+---------------------
+
+(source_file
+	(ident)
+	(comment)
+	(text))
+
+
+=====================
+Test 230
+=====================
+Hello
+#a
+World
+---------------------
+
+(source_file
+	(text)
+	(ident)
+	(text))
 
 
 =====================

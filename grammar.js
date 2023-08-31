@@ -49,6 +49,8 @@ module.exports = grammar({
 
     // other
     $._url_token,
+    $._token_dlim,
+    $._token_else,
     // $._barrier_in,
     // $._barrier_out,
 
@@ -116,11 +118,8 @@ module.exports = grammar({
       seq($._markup, repeat(choice($._space, $.comment, $._markup))),
     ),
 
-    // ends an expression
-    _token_dlim: $ => /[ ]*(\n|;)/,
     // ends an expression in a block
     // the precedence of 1 is required
-    // TODO: check if it is ok to use it also as token_dlim
     _token_dlim_blck: $ => token(prec(1, /[ ]*(\n|;)/)),
 
     break: $ => /\n([ \t]*\n)+/,
@@ -145,7 +144,8 @@ module.exports = grammar({
     _token_item: $ => prec(1, /-|\+|[0-9]+\./),
     _token_term: $ => prec(1, /\/[ \t]+/),
     _token_head: $ => /=+/,
-    _token_else: $ => /[ \n\t]*else/,
+    // transfered to external scanner
+    // _token_else: $ => /[ \n\t]*else/,
     _token_dot: $ => /\./,
     line: $ => /\\/,
     quote: $ => choice('"', '\''),
