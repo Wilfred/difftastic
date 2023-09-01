@@ -27,17 +27,3 @@ b, c)
 			(string)
 			(ident)
 			(ident))))
-
-
-=====================
-Fixme E04
-=====================
-*
- -
- *
----------------------
-; FIXME: last space not predicted by syntax
-
-(source_file
-	(strong
-		(item)))

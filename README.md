@@ -28,10 +28,10 @@ Don't esitate to contact me: eddie.gerbais-nief@proton.me
 
 - [ ] Test `E01`: Group termination in math
 - [ ] Test `E02`: Import looses precedence to list with `,`
-- [ ] Test `E04`: Leading space not recognized
+- [X] ~Test `E04`: Leading space not recognized~
 - [X] ~Test `E05`: Inlined code absorbs new line~
 
-The `E04` issue is the priority.
+Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 

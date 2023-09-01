@@ -34,10 +34,10 @@ function inside($) {
     repeat(choice($._space, $.comment, $._markup)),
     optional(seq(
       new_line($),
-      zebra(
+      repeat(choice(
         choice($._line_inside, $._indented),
         new_line($),
-      ),
+      )),
     ))
   );
 }
@@ -98,10 +98,10 @@ module.exports = grammar({
       seq($._preline, optional($._theline_content)),
       $._theline_content
     ),
-    _line_inside: $ => choice(
+    _line_inside: $ => prec.right(choice(
       seq($._preline, optional($._theline_inside)),
       $._theline_inside
-    ),
+    )),
 
     _theline_content: $ => choice(
       $.heading,
@@ -109,13 +109,13 @@ module.exports = grammar({
       $.term,
       seq($._markup, repeat(choice($._space, $.comment, $._markup))),
     ),
-    _theline_inside: $ => choice(
+    _theline_inside: $ => prec.right(choice(
       seq(
         choice($.heading, $.item, $.term),
         new_line($),
       ),
       seq($._markup, repeat(choice($._space, $.comment, $._markup))),
-    ),
+    )),
 
     // ends an expression in a block
     // the precedence of 1 is required
