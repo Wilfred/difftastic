@@ -71,7 +71,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.strong],
     [$.emph],
-    [$.tagged, $.import],
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
     [$._math_attach_sup, $._math_attach_sub],
