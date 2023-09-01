@@ -1219,15 +1219,20 @@ object A:
   given foo(using ev: Foo)
     : Foo = ev
 
-  given [T: Ordering]: Ordering[List[T]] with
-    def x = ()
-
   given Context = ctx
 
   given Context[T] = ctx
 
   given Foo[Int] =
     case n => "123"
+
+  given (using a: Int): Int = a
+
+  given [A: Foo]: Foo[List[A]] with
+    def x = ()
+
+  given [A](using Foo[A]): Foo[List[A]] with
+    def x = ()
 
 --------------------------------------------------------------------------------
 
@@ -1309,24 +1314,6 @@ object A:
         (type_identifier)
         (identifier))
       (given_definition
-        (identifier
-          (MISSING _alpha_identifier))
-        (type_parameters
-          (identifier)
-          (context_bound
-            (type_identifier)))
-        (generic_type
-          (type_identifier)
-          (type_arguments
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (type_identifier)))))
-        (with_template_body
-          (function_definition
-            (identifier)
-            (unit))))
-      (given_definition
         (type_identifier)
         (identifier))
       (given_definition
@@ -1343,7 +1330,49 @@ object A:
         (indented_cases
           (case_clause
             (identifier)
-            (string)))))))
+              (string))))
+      (given_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (type_parameters
+          (identifier)
+          (context_bound
+            (type_identifier)))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (unit))))
+      (given_definition
+        (type_parameters
+          (identifier))
+        (parameters
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (unit)))))))
 
 ================================================================================
 Top-level Definitions (Scala 3 syntax)
