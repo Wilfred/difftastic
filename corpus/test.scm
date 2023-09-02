@@ -1554,7 +1554,7 @@ $a$
 
 (source_file
 	(math
-		(variable)))
+		(letter)))
 
 
 =====================
@@ -2563,7 +2563,7 @@ $x + 2$
 (source_file
 	(math
 		(add
-			(variable)
+			(letter)
 			(number))))
 
 
@@ -2576,7 +2576,7 @@ $x + ($
 (source_file
 	(math
 		(add
-			(variable)
+			(letter)
 			(group))))
 
 
@@ -2589,7 +2589,7 @@ $x + (  $
 (source_file
 	(math
 		(add
-			(variable)
+			(letter)
 			(group))))
 
 
@@ -2645,9 +2645,9 @@ $eq.not(0)$
 (source_file
 	(math
 		(item_call
-			(field
+			item: (field
 				(ident)
-				(ident))
+				field: (ident))
 			(number))))
 
 
@@ -2660,7 +2660,7 @@ $y[5)$
 (source_file
 	(math
 		(call
-			(variable)
+			(letter)
 			(number))))
 
 
@@ -2688,8 +2688,7 @@ $1^\=()$
 		(attach
 			(number)
 			sup: (call
-				(variable
-					(escape))))))
+				(escape)))))
 
 
 =====================
@@ -2703,8 +2702,7 @@ $1^"hello"()$
 		(attach
 			(number)
 			sup: (call
-				(variable
-					(string))))))
+				(string)))))
 
 
 =====================
@@ -2732,7 +2730,7 @@ $ x $
 
 (source_file
 	(math
-		(variable)))
+		(letter)))
 
 
 =====================
@@ -2745,17 +2743,16 @@ $ cal(A) :=
 (source_file
 	(math
 		(item_call
-			(ident)
-			(variable))
+			item: (ident)
+			(letter))
 		(symbol)
 		(group
-			(variable)
+			(letter)
 			(ident)
 			(ident)
 			(group
-				(variable)
-				(variable
-					(string))))))
+				(letter)
+				(string)))))
 
 
 =====================
@@ -2815,8 +2812,8 @@ $||a|b$
 (source_file
 	(math
 		(group
-			(variable))
-		(variable)))
+			(letter))
+		(letter)))
 
 
 =====================
@@ -2828,8 +2825,8 @@ $||a b$
 (source_file
 	(math
 		(group
-			(variable)
-			(variable))))
+			(letter)
+			(letter))))
 
 
 =====================
@@ -2844,7 +2841,7 @@ $2^3!a$
 			(number)
 			sup: (fac
 				(number)))
-		(variable)))
+		(letter)))
 
 
 =====================
@@ -2886,8 +2883,8 @@ $1 + n n$
 	(math
 		(add
 			(number)
-			(variable))
-		(variable)))
+			(letter))
+		(letter)))
 
 
 =====================
@@ -3187,7 +3184,7 @@ $e^1»2$
 (source_file
 	(math
 		(attach
-			(variable)
+			(letter)
 			sup: (number))
 		(symbol)
 		(number)))
@@ -3227,7 +3224,10 @@ $lim(1, 3)$
 
 (source_file
 	(math
-		(call)))
+		(item_call
+			item: (ident)
+			(number)
+			(number))))
 
 
 =====================
@@ -3237,7 +3237,244 @@ $lim(1, 3; 5, 9)$
 ---------------------
 
 (source_file
-	)
+	(math
+		(item_call
+			item: (ident)
+			(number)
+			(number)
+			(number)
+			(number))))
+
+
+=====================
+Test 236
+=====================
+$(3^))$
+---------------------
+
+(source_file
+	(math
+		(group
+			(attach
+				(number)
+				sup: (symbol)))))
+
+
+=====================
+Test 237
+=====================
+$2a$
+---------------------
+
+(source_file
+	(math
+		(number)
+		(letter)))
+
+
+=====================
+Test 238
+=====================
+$2^√4!$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (root
+				(fac
+					(number))))))
+
+
+=====================
+Test 239
+=====================
+$√2^2!$
+---------------------
+
+(source_file
+	(math
+		(root
+			(attach
+				(number)
+				sup: (fac
+					(number))))))
+
+
+=====================
+Test 240
+=====================
+$√( 3 dot 4)$
+---------------------
+
+(source_file
+	(math
+		(root
+			(group
+				(number)
+				(ident)
+				(number)))))
+
+
+=====================
+Test 241
+=====================
+$√ 3 dot 4$
+---------------------
+
+(source_file
+	(math
+		(root
+			(number))
+		(ident)
+		(number)))
+
+
+=====================
+Test 242
+=====================
+$mt( dl: 0)$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(tagged
+				field: (ident)
+				(number)))))
+
+
+=====================
+Test 243
+=====================
+$mat(2, 2, delim: "[")$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(number)
+			(number)
+			(tagged
+				field: (ident)
+				(string)))))
+
+
+=====================
+Test 244
+=====================
+$ap(av:0)$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(tagged
+				field: (ident)
+				(number)))))
+
+
+=====================
+Test 245
+=====================
+$e^2.0$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(letter)
+			sup: (number))))
+
+
+=====================
+Test 246
+=====================
+$ mat.a $
+---------------------
+
+(source_file
+	(math
+		(field
+			(ident)
+			field: (ident))))
+
+
+=====================
+Test 247
+=====================
+$ mat(
+  dots.v,
+) $
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(field
+				(ident)
+				field: (ident)))))
+
+
+=====================
+Test 248
+=====================
+$mat(a)$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(letter))))
+
+
+=====================
+Test 249
+=====================
+$mat(avvv)$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(ident))))
+
+
+=====================
+Test 250
+=====================
+$mat(/* hello */ avvv)$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(comment)
+			(ident))))
+
+
+=====================
+Test 251
+=====================
+$mat(/* hello */ delim: "[")$
+---------------------
+
+(source_file
+	(math
+		(item_call
+			item: (ident)
+			(tagged
+				field: (comment)
+				field: (ident)
+				(string)))))
 
 
 =====================

@@ -35,7 +35,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 
-- [ ] More tests 230/1000
+- [ ] More tests 251/1000 (current/objectif)
 - [ ] Optimization
   - [ ] Benchmark
   - [ ] Math ident
@@ -46,11 +46,16 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## DONE
 
-- [X] Unicode characters
-  - [X] Ident and label
-  - [X] White spaces
-  - [X] Math ident
-  - [X] Anti markup
+- [X] Code
+- [X] Indentation
+- [X] Comments
+- [X] Math mode
+  - [X] Precedence
+  - [X] Call
+    - [X] Tagged
+    - [X] Separator
+  - [X] Symbol
+  - [X] Code
 - [X] Markups
   - [X] Strong
   - [X] Emph
@@ -61,10 +66,8 @@ Failing test are found in `corpus/fixme.scm`.
   - [X] Reference
   - [X] Symbol
   - [X] Quote
-- [X] Math mode
-  - [X] Expr
-  - [X] Symbol
-  - [X] Code
-- [X] Code
-- [X] Indentation
-- [X] Comments
+- [X] Unicode characters
+  - [X] Ident and label
+  - [X] White spaces
+  - [X] Math ident
+  - [X] Anti markup
