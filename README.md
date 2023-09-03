@@ -74,9 +74,9 @@ Failing test are found in `corpus/fixme.scm`.
 
 # Installation
 
-To build this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli
+To build this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, build the grammar with `tree-sitter generate`.
 
-Build the grammar with `make build`.
+The already built grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v1.0-beta.0/tree-sitter-typst.tar.xz
 
 ## Helix
 
@@ -112,7 +112,9 @@ source = { path = "path/to/the/tree-sitter's/grammar" }
 
 And finally execute:
 ```sh
-make build
+tree-sitter generate
 hx --grammar fetch
 hx --grammar build
 ```
+
+If you downloaded the pre-built grammar, the `tree-sitter generate` step is unecessary.
