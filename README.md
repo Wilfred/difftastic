@@ -35,7 +35,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 
-- [ ] More tests 251/1000 (current/objectif)
+- [ ] More tests 264/1000 (current/objectif)
 - [ ] Optimization
   - [ ] Benchmark
   - [ ] Math ident
@@ -71,3 +71,11 @@ Failing test are found in `corpus/fixme.scm`.
   - [X] White spaces
   - [X] Math ident
   - [X] Anti markup
+
+# Installation
+
+To build this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli
+
+## Helix
+
+

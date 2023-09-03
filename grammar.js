@@ -19,7 +19,7 @@ function ws($) {
   return repeat(choice($._space_expr, $.comment));
 }
 function new_line($) {
-  return seq(optional($._redent), choice($.break, $._new_line));
+  return seq(optional($._redent), choice($.parbreak, $._new_line));
 }
 
 function content($) {
@@ -74,7 +74,6 @@ module.exports = grammar({
     [$._math_group, $._math_item_call],
     [$._math_group, $._math_call],
     [$._math_attach_sup, $._math_attach_sub],
-    // [$._math_ident1, $._math_ident2],
     [$.math],
     [$.math, $._math_ws_prefix],
     [$._math_group, $._math_ws_prefix],
@@ -121,7 +120,7 @@ module.exports = grammar({
     // the precedence of 1 is required
     _token_dlim_blck: $ => token(prec(1, /([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*(([\n\v\f\x85\u2028\u2029]|\r\n?)|;)/)),
 
-    break: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)(([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*([\n\v\f\x85\u2028\u2029]|\r\n?))+/,
+    parbreak: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)(([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*([\n\v\f\x85\u2028\u2029]|\r\n?))+/,
     escape: $ => /\\[^u\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\\u\{[0-9a-fA-F]*\}/,
     comment: $ => choice(
       seq('//', /[^\n\v\f\x85\u2028\u2029]*([\n\v\f\x85\u2028\u2029]|\r\n?)?/),
@@ -143,7 +142,7 @@ module.exports = grammar({
     _token_term: $ => prec(1, /\/[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]+/),
     _token_head: $ => /=+/,
     _token_dot: $ => /\./,
-    line: $ => /\\/,
+    linebreak: $ => /\\/,
     quote: $ => choice('"', '\''),
 
     // this regex is placed at the end to let all the previous ones match in priority
@@ -162,7 +161,7 @@ module.exports = grammar({
       $.ref,
       $.symbol,
       $.quote,
-      $.line,
+      $.linebreak,
     ),
 
     text: $ => prec.right(repeat1(choice(
@@ -203,40 +202,46 @@ module.exports = grammar({
 
     math: $ => seq('$', ws($), repeat($._math_expr), '$'),
     _math_code: $ => prec(8, seq('#', choice($._item, $._stmt), optional($._token_dlim))),
-    _math_expr: $ => choice(
+    _math_atom: $ => choice(
       $._math_code,
-      $.line,
       alias($._math_group, $.group),
-      alias($._math_group_open, $.group),
       alias($._math_bar, $.group),
       alias($._math_letter, $.letter),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
       alias($._math_token_colon, $.symbol),
-      alias($._math_other, $.symbol),
+      alias($._math_symbol, $.symbol),
       alias($._math_fac, $.fac),
+      alias($._math_item_call, $.item_call),
+      alias($._math_call, $.call),
+      $._math_item,
+      $.escape,
+      $.string,
+    ),
+    _math_expr: $ => choice(
+      $._math_atom,
+      $.linebreak,
+      alias($._math_group_open, $.group),
       alias($._math_mul, $.mul),
       alias($._math_div, $.div),
       alias($._math_add, $.add),
       alias($._math_sub, $.sub),
       alias($._math_root, $.root),
+      alias($._math_prime, $.prime),
       alias($._math_attach_sup, $.attach),
       alias($._math_attach_sub, $.attach),
-      alias($._math_item_call, $.item_call),
-      alias($._math_call, $.call),
       $._math_ws_prefix,
       $._math_ws_suffix,
-      $._math_item,
-      $.escape,
-      $.string,
+      alias($._math_align, $.align),
     ),
+    _math_align:       $ => '&',
     _math_token_colon: $ => token(prec(-2, ':')),
-    _math_ws_prefix:  $ => prec(8, seq(choice($.comment, $._space_expr), $._math_expr)),
-    _math_ws_suffix:  $ => prec(7, seq($._math_expr, choice($.comment, $._space_expr))),
-    _math_group:      $ => prec(1, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr), choice(')', ']', '}', '|]'))),
-    _math_group_open: $ => prec.right(0, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr))),
-    _math_bar:        $ => prec(-1, seq(choice('||', '|'), ws($), repeat($._math_expr), optional(token(prec(1, choice('||', '|')))))),
-    _math_item:       $ => prec(8, choice(
+    _math_ws_prefix:   $ => prec(8, seq(choice($.comment, $._space_expr), $._math_expr)),
+    _math_ws_suffix:   $ => prec(7, seq($._math_expr, choice($.comment, $._space_expr))),
+    _math_group:       $ => prec(1, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr), choice(')', ']', '}', '|]'))),
+    _math_group_open:  $ => prec.right(0, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr))),
+    _math_bar:         $ => prec(-1, seq(choice('||', '|'), ws($), repeat($._math_expr), optional(token(prec(1, choice('||', '|')))))),
+    _math_item:        $ => prec(8, choice(
       alias($._math_ident2, $.ident),
       alias($._math_field, $.field),
     )),
@@ -247,11 +252,12 @@ module.exports = grammar({
     _math_ident2: $ => prec.right(20, seq($._math_ident_start, repeat1(choice($._math_ident_start, $._math_ident_continue)))),
     _math_letter: $ => $._math_ident_start,
     _math_number: $ => /[0-9]+(\.[0-9]+)?/,
-    _math_fac: $ => prec.left(6, seq($._math_expr, '!')),
-    _math_mul: $ => prec.left(3, seq($._math_expr, '*', $._math_expr)),
-    _math_div: $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
-    _math_add: $ => prec.left(2, seq($._math_expr, '+', $._math_expr)),
-    _math_sub: $ => prec.left(2, seq($._math_expr, '-', $._math_expr)),
+    _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
+    _math_prime:  $ => prec.left(6, seq($._math_atom, /'+/)),
+    _math_mul:    $ => prec.left(3, seq($._math_expr, '*', $._math_expr)),
+    _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
+    _math_add:    $ => prec.left(2, seq($._math_expr, '+', $._math_expr)),
+    _math_sub:    $ => prec.left(2, seq($._math_expr, '-', $._math_expr)),
     _math_attach_sup: $ => prec.right(5,
       seq($._math_expr, '^', field('sup', $._math_expr), optional(seq($._math_token_sub, field('sub', $._math_expr))))
     ),
@@ -278,10 +284,7 @@ module.exports = grammar({
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_call: $ => prec(7, seq(choice(alias($._math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
-    // TODO: distinction between shorthand and symbols
-    _math_symbol: $ => token(prec(-1, choice(
-      // ops
-      '+', '-', '*', '/', '!',
+    _math_shorthand: $ => token(prec(-1, choice(
       // arrow
       //   right
       '=>', '->', '|->', '->>', '-->', '~>', '~~>',
@@ -291,17 +294,17 @@ module.exports = grammar({
       '<->', '<-->', '<=>', '<==>',
       // cmp
       //   eq
-      '=', ':=', '::=', '=:', '!=',
+      ':=', '::=', '=:', '!=',
       //   less
-      '<=', '<', '<<', '<<<',
+      '<=', '<<', '<<<',
       //   greater
-      '>=', '>', '>>', '>>>',
+      '>=', '>>', '>>>',
       // group
-      ')', ']', '}', '|]', '||', '|',
+      '|]', '||',
       // other
       '...',
     ))),
-    _math_other: $ => token(prec(-2, /./)),
+    _math_symbol: $ => choice(alias($._math_shorthand, $.shorthand), token(prec(-2, /./))),
 
     _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
 
@@ -486,15 +489,22 @@ module.exports = grammar({
     none: $ => 'none',
     builtin: $ => choice(
       'align',
+      'array',
       'assert',
       'black',
       'blue',
       'bottom',
       'box',
+      'btt',
+      'bytes',
+      'calc',
       'center',
       'circle',
       'cmyk',
+      'datetime',
+      'emoji',
       'emph',
+      'enum',
       'eval',
       'gray',
       'green',
@@ -507,6 +517,7 @@ module.exports = grammar({
       'link',
       'list',
       'locate',
+      'ltr',
       'luma',
       'max',
       'metadata',
@@ -519,6 +530,7 @@ module.exports = grammar({
       'parbreak',
       'purple',
       'query',
+      'read',
       'rect',
       'red',
       'regex',
@@ -526,11 +538,17 @@ module.exports = grammar({
       'rgb',
       'right',
       'rotate',
+      'rtl',
       'scale',
       'squate',
+      'stack',
+      'str',
       'strong',
+      'sym',
+      'table',
       'text',
       'top',
+      'ttb',
       'type',
       'v',
       'white',

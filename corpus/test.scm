@@ -345,7 +345,7 @@ d e
 	(text)
 	(text)
 	(text)
-	(break)
+	(parbreak)
 	(text)
 	(text))
 
@@ -609,7 +609,7 @@ W
 (source_file
 	(text)
 	(ident)
-	(break)
+	(parbreak)
 	(text))
 
 
@@ -640,7 +640,7 @@ World
 (source_file
 	(text)
 	(ident)
-	(break)
+	(parbreak)
 	(text))
 
 
@@ -717,10 +717,10 @@ a b
 ---------------------
 
 (source_file
-	(break)
+	(parbreak)
 	(text)
 	(text)
-	(break))
+	(parbreak))
 
 
 =====================
@@ -736,9 +736,9 @@ b
 (source_file
 	(text)
 	(content
-		(break)
+		(parbreak)
 		(text)
-		(break))
+		(parbreak))
 	(text))
 
 
@@ -755,7 +755,7 @@ b
 	(text)
 	(content
 		(text)
-		(break))
+		(parbreak))
 	(text))
 
 
@@ -1619,7 +1619,7 @@ World
 (source_file
 	(heading
 		(text)
-		(line))
+		(linebreak))
 	(text))
 
 
@@ -2039,7 +2039,7 @@ https://hello\ world.com
 
 (source_file
 	(url)
-	(line)
+	(linebreak)
 	(text))
 
 
@@ -2051,7 +2051,7 @@ https://hello\ world.com Hey
 
 (source_file
 	(url)
-	(line)
+	(linebreak)
 	(text)
 	(text))
 
@@ -2198,7 +2198,7 @@ Test 157
 (source_file
 	(item
 		(text)
-		(break)
+		(parbreak)
 		(text)))
 
 
@@ -2745,7 +2745,8 @@ $ cal(A) :=
 		(item_call
 			item: (ident)
 			(letter))
-		(symbol)
+		(symbol
+			(shorthand))
 		(group
 			(letter)
 			(ident)
@@ -2895,7 +2896,8 @@ $ := { | } $
 
 (source_file
 	(math
-		(symbol)
+		(symbol
+			(shorthand))
 		(group
 			(group))))
 
@@ -3475,6 +3477,226 @@ $mat(/* hello */ delim: "[")$
 				field: (comment)
 				field: (ident)
 				(string)))))
+
+
+=====================
+Test 252
+=====================
+ - @ééé
+---------------------
+
+(source_file
+	(item
+		(ref)))
+
+
+=====================
+Test 253
+=====================
+$a'''$
+---------------------
+
+(source_file
+	(math
+		(prime
+			(letter))))
+
+
+=====================
+Test 254
+=====================
+$a&$
+---------------------
+
+(source_file
+	(math
+		(letter)
+		(align)))
+
+
+=====================
+Test 255
+=====================
+$#let a = 0$
+---------------------
+
+(source_file
+	(math
+		(let
+			pattern: (ident)
+			value: (number))))
+
+
+=====================
+Test 256
+=====================
+$2^(#ab')$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (group
+				(prime
+					(ident))))))
+
+
+=====================
+Test 257
+=====================
+
+// Named arguments and trailing
+// content blocks.
+#enum(start: 2)[A][B]
+---------------------
+
+(source_file
+	(comment)
+	(comment)
+	(call
+		item: (call
+			item: (call
+				item: (builtin)
+				(group
+					(tagged
+						field: (ident)
+						(number))))
+			(content
+				(text)))
+		(content
+			(text))))
+
+
+=====================
+Test 258
+=====================
+#rect(
+  fill: fill,
+  inset: 8pt,
+  radius: 4pt,
+  [*Warning:\ #body*],
+)
+---------------------
+
+(source_file
+	(call
+		item: (builtin)
+		(group
+			(tagged
+				field: (ident)
+				(ident))
+			(tagged
+				field: (ident)
+				(number
+					(unit)))
+			(tagged
+				field: (ident)
+				(number
+					(unit)))
+			(content
+				(strong
+					(text)
+					(linebreak)
+					(ident))))))
+
+
+=====================
+Test 259
+=====================
+$e^mat()'$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(letter)
+			sup: (prime
+				(item_call
+					item: (ident))))))
+
+
+=====================
+Test 260
+=====================
+$2^e '$
+---------------------
+
+(source_file
+	(math
+		(attach
+				(number)
+				sup: (letter))
+		(symbol)))
+
+
+=====================
+Test 261
+=====================
+$2^e'$
+---------------------
+
+(source_file
+	(math
+		(attach
+				(number)
+				sup: (prime
+					(letter)))))
+
+
+=====================
+Test 262
+=====================
+$#let a = 0; #a
+$
+---------------------
+
+(source_file
+	(math
+		(let
+			pattern: (ident)
+			value: (number))
+		(ident)))
+
+
+=====================
+Test 263
+=====================
+$#let ab = 0;x
+ab
+$
+---------------------
+
+(source_file
+	(math
+		(let
+			pattern: (ident)
+			value: (number))
+		(letter)
+		(ident)))
+
+
+=====================
+Test 264
+=====================
+#let array = (2, 3, 5)
+#calc.min(..array)
+---------------------
+
+(source_file
+	(let
+		pattern: (builtin)
+		value: (group
+			(number)
+			(number)
+			(number)))
+	(call
+		item: (field
+			(builtin)
+			field: (ident))
+		(group
+			(elude
+				(builtin)))))
 
 
 =====================
