@@ -76,6 +76,43 @@ Failing test are found in `corpus/fixme.scm`.
 
 To build this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli
 
+Build the grammar with `make build`.
+
 ## Helix
 
+Locate the installation directory:
 
+- Global `/usr/share/helix`
+- Local `/.config/helix`
+
+Copy the `helix/queries/typst` directory inside your corresponding `runtime/queries` directory.
+
+Append the following configuration to the `languages.toml` file. And indicate the path to this grammar.
+
+```toml
+[[language]]
+name = "typst"
+scope = "text.typst"
+file-types = ["typst", "typ"]
+indent = { tab-width = 2, unit = "  " }
+comment-token = "//"
+injection-regex = "^typst|typ$"
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'$' = '$'
+'"' = '"'
+
+[[grammar]]
+name = "typst"
+source = { path = "path/to/the/tree-sitter's/grammar" }
+```
+
+And finally execute:
+```sh
+make build
+hx --grammar fetch
+hx --grammar build
+```

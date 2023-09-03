@@ -1,0 +1,18 @@
+[[language]]
+name = "typst"
+scope = "text.typst"
+file-types = ["typst", "typ"]
+indent = { tab-width = 2, unit = "  " }
+comment-token = "//"
+injection-regex = "typst|typ"
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'$' = '$'
+'"' = '"'
+
+[[grammar]]
+name = "typst"
+source = { path = "path/to/the/tree-sitter's/grammar" }
