@@ -1128,6 +1128,7 @@ fn tree_highlights(
             || name.starts_with("storage.type.")
             || name.starts_with("keyword.type.")
             || name == "tag"
+            || name == "constructor"
         {
             // TODO: this doesn't capture (type_ref) in Elm as that
             // applies to the parent node.
