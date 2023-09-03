@@ -3699,10 +3699,102 @@ Test 264
 				(builtin)))))
 
 
-=====================
-Test ___
-=====================
----------------------
+; =====================
+; Test 265
+; =====================
+; #(sym
 
-(source_file
-	)
+; /*Hey */
+
+; .arrow)
+; ---------------------
+
+; (source_file
+; 	(group
+; 		(field
+; 			(builtin)
+; 			(comment)
+; 			field: (ident))))
+
+
+; =====================
+; Test 266
+; =====================
+; #sym. arrow
+; #sym .arrow
+; ---------------------
+
+; (source_file
+; 	(builtin)
+; 	(text)
+; 	(text)
+; 	(builtin)
+; 	(text))
+
+
+; =====================
+; Test 267
+; =====================
+; #(
+; 	sym
+; 	/* Hello */
+; 	.
+; 	/* World */
+
+; 	arrow
+; )
+; ---------------------
+
+; (source_file
+; 	(group
+; 		(field
+; 			(builtin)
+; 			(comment)
+; 			field: (comment)
+; 			field: (ident))))
+
+
+; =====================
+; Test ___
+; =====================
+; #let format(title, ..authors) = {
+;   let by = authors
+;     .pos()
+;     .join(", ", last: " and ")
+
+;   [*#title* \ _Written by #by;_]
+; }
+; ---------------------
+
+; (source_file
+; 	(let
+; 		pattern: (call
+; 			item: (ident)
+; 			(group
+; 				(ident)
+; 				(elude
+; 					(ident))))
+; 		value: (block
+; 			(let
+; 				pattern: (ident)
+; 				value: (call
+; 					item: (field
+; 						(call
+; 							item: (field
+; 								(ident)
+; 								field: (ident))
+; 							(group))
+; 						field: (ident))
+; 					(group
+; 						(string)
+; 						(tagged
+; 							field: (ident)
+; 							(string)))))
+; 			(content
+; 				(strong
+; 					(ident))
+; 				(linebreak)
+; 				(emph
+; 					(text)
+; 					(text)
+; 					(ident))))))
