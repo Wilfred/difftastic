@@ -16,7 +16,7 @@ function joined(elem, sep) {
 }
 // extras
 function ws($) {
-  return repeat(choice($._space_expr, $.comment));
+  return optional($._ws);
 }
 function new_line($) {
   return seq(optional($._redent), choice($.parbreak, $._new_line));
@@ -144,6 +144,7 @@ module.exports = grammar({
     _token_dot: $ => /\./,
     linebreak: $ => /\\/,
     quote: $ => choice('"', '\''),
+    _ws: $ => repeat1(choice($.comment, $._space_expr)),
 
     // this regex is placed at the end to let all the previous ones match in priority
     _char_any: $ => /./,
@@ -236,11 +237,11 @@ module.exports = grammar({
     ),
     _math_align:       $ => '&',
     _math_token_colon: $ => token(prec(-2, ':')),
-    _math_ws_prefix:   $ => prec(8, seq(choice($.comment, $._space_expr), $._math_expr)),
-    _math_ws_suffix:   $ => prec(7, seq($._math_expr, choice($.comment, $._space_expr))),
-    _math_group:       $ => prec(1, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr), choice(')', ']', '}', '|]'))),
-    _math_group_open:  $ => prec.right(0, seq(choice('(', '[', '{', '[|'), ws($), repeat($._math_expr))),
-    _math_bar:         $ => prec(-1, seq(choice('||', '|'), ws($), repeat($._math_expr), optional(token(prec(1, choice('||', '|')))))),
+    _math_ws_prefix:   $ => prec(8, seq($._ws, $._math_expr)),
+    _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._ws)),
+    _math_group:       $ => prec(1, seq(choice('(', '[', '{', '[|'), repeat($._math_expr), ws($), choice(')', ']', '}', '|]'))),
+    _math_group_open:  $ => prec.right(0, seq(choice('(', '[', '{', '[|'), repeat($._math_expr), ws($))),
+    _math_bar:         $ => prec(-1, seq(choice('||', '|'), repeat($._math_expr), ws($), optional(token(prec(1, choice('||', '|')))))),
     _math_item:        $ => prec(8, choice(
       alias($._math_ident2, $.ident),
       alias($._math_field, $.field),
@@ -279,8 +280,7 @@ module.exports = grammar({
     _math_tag: $ =>prec(9, choice(
       alias($._math_ident1, $.ident),
       alias($._math_ident2, $.ident),
-      seq($.comment, $._math_tag),
-      seq($._space_expr, $._math_tag),
+      seq($._ws, $._math_tag),
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_call: $ => prec(7, seq(choice(alias($._math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
@@ -379,8 +379,8 @@ module.exports = grammar({
       $._expr_ws_suffix,
     ),
 
-    _expr_ws_prefix: $ => prec(14, seq(choice($._space_expr, $.comment), $._expr)),
-    _expr_ws_suffix: $ => prec(13, seq($._expr, choice($._space_expr, $.comment))),
+    _expr_ws_prefix: $ => prec(14, seq(choice($.comment, $._space_expr), $._expr)),
+    _expr_ws_suffix: $ => prec(13, seq($._expr, choice($.comment, $._space_expr))),
     ident: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in', 'deg', 'rad'),
     bool: $ => choice('true', 'false'),
