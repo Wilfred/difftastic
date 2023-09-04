@@ -144,7 +144,7 @@ module.exports = grammar({
     _token_dot: $ => /\./,
     linebreak: $ => /\\/,
     quote: $ => choice('"', '\''),
-    _ws: $ => repeat1(choice($.comment, $._space_expr)),
+    _ws: $ => prec(40, repeat1(choice($.comment, $._space_expr))),
 
     // this regex is placed at the end to let all the previous ones match in priority
     _char_any: $ => /./,
@@ -379,8 +379,8 @@ module.exports = grammar({
       $._expr_ws_suffix,
     ),
 
-    _expr_ws_prefix: $ => prec(14, seq(choice($.comment, $._space_expr), $._expr)),
-    _expr_ws_suffix: $ => prec(13, seq($._expr, choice($.comment, $._space_expr))),
+    _expr_ws_prefix: $ => prec(14, seq($._ws, $._expr)),
+    _expr_ws_suffix: $ => prec(13, seq($._expr, $._ws)),
     ident: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     unit: $ => choice('cm', 'mm', 'em', '%', 'fr', 'pt', 'in', 'deg', 'rad'),
     bool: $ => choice('true', 'false'),
