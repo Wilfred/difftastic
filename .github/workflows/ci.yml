@@ -11,7 +11,7 @@ jobs:
     name: Generate parser
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           cache: "npm"
@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: Run test suite on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -60,7 +60,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: Run rust test build on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
