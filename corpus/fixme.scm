@@ -27,3 +27,20 @@ b, c)
 			(string)
 			(ident)
 			(ident))))
+
+
+=====================
+Fixme E03
+=====================
+#(a .b())
+---------------------
+; FIXME: spaces and comments around method notation
+; fix is already written but crashes gcc
+
+(source_file
+	(group
+		(call
+			item: (field
+				(ident)
+				field: (ident))
+			(group))))

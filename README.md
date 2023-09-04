@@ -27,16 +27,20 @@ Don't esitate to contact me: eddie.gerbais-nief@proton.me
 ## FIXME
 
 - [ ] Test `E01`: Group termination in math
-- [ ] Test `E02`: Import looses precedence to list with `,`
+- [ ] Test `E02`: Import precedence over list
+- [ ] Test `E03`: Spaces in method notation
 - [X] ~Test `E04`: Leading space not recognized~
 - [X] ~Test `E05`: Inlined code absorbs new line~
 
 Failing test are found in `corpus/fixme.scm`.
 
+Test `E03` can't be solved due to strange behavior from the grammar generator and C compiler. When adding the syntax to fix `E03`, either the grammar don't accept any input, or the c compiler is stuck in an infinite loop.
+
 ## TODO
 
 - [ ] More tests 264/1000 (current/objectif)
 - [ ] Optimization
+  - [ ] Parser size
   - [ ] Benchmark
   - [ ] Math ident
 
@@ -74,9 +78,11 @@ Failing test are found in `corpus/fixme.scm`.
 
 # Installation
 
-To build this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, build the grammar with `tree-sitter generate`.
+To generate this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, build the grammar with `tree-sitter generate`.
 
-The already built grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v1.0-beta.0/tree-sitter-typst.tar.xz
+The already generated grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v1.0-beta.0/tree-sitter-typst.tar.xz
+
+The grammar takes around 2 minutes to generate, and around 30 seconds to compile.
 
 ## Helix
 
