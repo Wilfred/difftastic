@@ -3699,59 +3699,59 @@ Test 264
 				(builtin)))))
 
 
-; =====================
-; Test 265
-; =====================
-; #(sym
+=====================
+Test 265
+=====================
+#(sym
 
-; /*Hey */
+/*Hey */
 
-; .arrow)
-; ---------------------
+.arrow)
+---------------------
 
-; (source_file
-; 	(group
-; 		(field
-; 			(builtin)
-; 			(comment)
-; 			field: (ident))))
-
-
-; =====================
-; Test 266
-; =====================
-; #sym. arrow
-; #sym .arrow
-; ---------------------
-
-; (source_file
-; 	(builtin)
-; 	(text)
-; 	(text)
-; 	(builtin)
-; 	(text))
+(source_file
+	(group
+		(field
+			(builtin)
+			(comment)
+			field: (ident))))
 
 
-; =====================
-; Test 267
-; =====================
-; #(
-; 	sym
-; 	/* Hello */
-; 	.
-; 	/* World */
+=====================
+Test 266
+=====================
+#sym. arrow
+#sym .arrow
+---------------------
 
-; 	arrow
-; )
-; ---------------------
+(source_file
+	(builtin)
+	(text)
+	(text)
+	(builtin)
+	(text))
 
-; (source_file
-; 	(group
-; 		(field
-; 			(builtin)
-; 			(comment)
-; 			field: (comment)
-; 			field: (ident))))
+
+=====================
+Test 267
+=====================
+#(
+	sym
+	/* Hello */
+	.
+	/* World */
+
+	arrow
+)
+---------------------
+
+(source_file
+	(group
+		(field
+			(builtin)
+			(comment)
+			(comment)
+			field: (ident))))
 
 
 ; =====================
