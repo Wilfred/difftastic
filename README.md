@@ -13,7 +13,7 @@ Two other TreeSitter grammars for Typst are in development:
 
 ## Participation
 
-I publish this grammar because I hope for help from other involved enthousiasts. This is the first time I am dealing with tree-sitter, and up until know it has been quite a challenge as TreeSitter is not the more clear nor predictable tool.
+I publish this grammar because I hope for help from other involved enthousiasts. This is the first time I am dealing with tree-sitter, and up until know it has been quite a challenge.
 
 Participate by:
 - Indicating improvements to this grammar.
@@ -26,6 +26,7 @@ Don't esitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
+- [ ] Reduce parser size
 - [ ] Test `E01`: Group termination in math
 - [ ] Test `E02`: Import precedence over list
 - [ ] Test `E03`: Spaces in method notation
@@ -34,11 +35,13 @@ Don't esitate to contact me: eddie.gerbais-nief@proton.me
 
 Failing test are found in `corpus/fixme.scm`.
 
-Test `E03` can't be solved due to strange behavior from the grammar generator and C compiler. When adding the syntax to fix `E03`, either the grammar don't accept any input, or the c compiler is stuck in an infinite loop.
+Test `E03` can't be solved due to strange behavior from the grammar generator and C compiler. When adding the syntax to fix `E03`, either the grammar don't accept any input, or the c compiler is stuck in an infinite loop. My guess is that the generated grammar is too large. The generated `parser.c` have a size around 100M.
+
+The priority is to simplify the grammar to reduce the size of generated parser.
 
 ## TODO
 
-- [ ] More tests 264/1000 (current/objectif)
+- [ ] More tests 264 / 1000 (current / objectif)
 - [ ] Optimization
   - [ ] Parser size
   - [ ] Benchmark
