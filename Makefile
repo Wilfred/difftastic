@@ -12,4 +12,8 @@ src/parser.c: grammar.js
 
 build: src/parser.c
 
-.PHONY: fixme test build all
+size:
+	du -b src/parser.c
+	du -b src/parser.c > size.txt
+
+.PHONY: fixme test build all size
