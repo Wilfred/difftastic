@@ -53,8 +53,8 @@ module.exports = grammar({
 
     // other
     $._url_token,
-    $._token_dlim,
-    $._token_else,
+    // $._token_dlim,
+    // $._token_else,
 
     // barrier
     // $._barrier_in,
@@ -70,6 +70,10 @@ module.exports = grammar({
     // $._math_group_token,
     // $._math_bar_token,
     $._termination,
+
+    $._token_inlined_else,
+    $._token_inlined_item_end,
+    $._token_inlined_stmt_end,
 
     $._recovery,
   ],
@@ -201,7 +205,10 @@ module.exports = grammar({
     symbol: $ => choice('--', '---', '-?', '~', '...'),
 
     math: $ => seq('$', ws($), repeat($._math_expr), '$'),
-    _math_code: $ => prec(8, seq('#', choice($._item, $._stmt), optional($._token_dlim))),
+    _math_code: $ => prec(8, seq('#', choice(
+      seq($._item, $._token_inlined_item_end),
+      seq($._stmt, $._token_inlined_stmt_end)
+    ))),
     _math_atom: $ => choice(
       $._math_code,
       alias($._math_group, $.group),
@@ -305,7 +312,10 @@ module.exports = grammar({
     ))),
     _math_symbol: $ => choice(alias($._math_shorthand, $.shorthand), token(prec(-2, /./))),
 
-    _code: $ => seq('#', choice($._item, $._stmt), optional($._token_dlim)),
+    _code: $ => seq('#', choice(
+      seq($._item, $._token_inlined_item_end),
+      seq($._stmt, $._token_inlined_stmt_end)
+    )),
 
     _item: $ => prec(1, choice(
       $.auto,
@@ -448,7 +458,7 @@ module.exports = grammar({
       'if',
       field('test', $._expr), 
       choice($.block, $.content),
-      optional(seq(alias($._token_else, 'else'),
+      optional(seq(alias($._token_inlined_else, 'else'),
         ws($),
         choice($.block, $.content, $.branch)
       )),
