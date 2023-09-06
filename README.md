@@ -39,6 +39,8 @@ Test `E03` can't be solved due to strange behavior from the grammar generator an
 
 The priority is to simplify the grammar to reduce the size of generated parser.
 
+Update: I managed to drastically reduce the parser size, but I run into an edge case with inlined return statement.
+
 ## TODO
 
 - [ ] More tests 264 / 1000 (current / objectif)
