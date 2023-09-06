@@ -45,31 +45,6 @@ module.exports = {
     optional(field('to', $._exp)),
   ),
 
-  /**
-   * TransformListComp.
-   *
-   * These have to be spelled out because the keywords are valid varids when the extension is disabled and it causes
-   * errors if they are used individually.
-   */
-  transform: $ => choice(
-    seq('then group by', $._exp, 'using', $._exp),
-    seq('then group using', $._exp),
-    seq('then', $._exp),
-  ),
-
-  qual: $ => choice(
-    $.bind_pattern,
-    $.let,
-    $.transform,
-    $._exp,
-  ),
-
-  exp_list_comprehension: $ => brackets(
-    $._exp,
-    '|',
-    sep1($.comma, $.qual),
-  ),
-
   exp_section_left: $ => parens(
     $._exp_infix,
     $._qop,
@@ -86,10 +61,8 @@ module.exports = {
   ),
 
   exp_field: $ => choice(
-    alias('..', $.wildcard),
     seq(
       field('field', $._qvar),
-      optional(repeat(seq($._immediate_dot, field('subfield', $._immediate_variable)))),
       optional(seq(':', $._exp))
     ),
   ),
@@ -187,9 +160,9 @@ module.exports = {
     braces(sep1($.comma, $.exp_field_assignment))
   ),
 
-  exp_record: $ => choice(
-    braces(sep1($.comma, $.exp_field)),
-  ),
+  exp_record: $ => prec(1, choice(
+    braces(sep($.comma, $.exp_field)),
+  )),
 
   exp_name: $ => choice(
     $._qvar,
@@ -243,7 +216,6 @@ module.exports = {
     $.exp_record,
     $.exp_record_mutation,
     $.exp_arithmetic_sequence,
-    $.exp_list_comprehension,
     $.exp_section_left,
     $.exp_section_right,
     $.exp_unboxed_sum,

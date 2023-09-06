@@ -1,11 +1,3 @@
-const foreign = ($, kw, pent) => seq(
-    'foreign',
-    kw,
-    $._foreign_pre,
-    optional(pent),
-    $.signature,
-  )
-
 module.exports = {
   // ------------------------------------------------------------------------
   // decl
@@ -90,33 +82,14 @@ module.exports = {
   // foreign
   // ------------------------------------------------------------------------
 
-  calling_convention: _ => choice(
-    'ccall',
-    'stdcall',
-    'cplusplus',
-    'jvm',
-    'dotnet',
-    'prim',
-    'capi',
+  decl_foreign_import: $ => seq(
+    'foreign',
+    'import',
+    $._fun_name,
+    $._colon2,
+    $._type,
   ),
 
-  safety: _ => choice('unsafe', 'safe', 'interruptible'),
 
-  impent: $ => $.string,
-
-  expent: $ => $.string,
-
-  _foreign_pre: $ => seq(
-    $.calling_convention,
-    optional($.safety),
-  ),
-
-  decl_foreign_import: $ => foreign($, 'import', $.impent),
-
-  decl_foreign_export: $ => foreign($, 'export', $.expent),
-
-  _decl_foreign: $ => choice(
-    alias($.decl_foreign_import, $.foreign_import),
-    alias($.decl_foreign_export, $.foreign_export)
-  ),
+  _decl_foreign: $ => alias($.decl_foreign_import, $.foreign_import),
 }

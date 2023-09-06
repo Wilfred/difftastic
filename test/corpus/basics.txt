@@ -63,45 +63,44 @@ fun a = a { a = 1 }
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_apply
-      (exp_name
-        (variable))
-      (exp_name
-        (variable))
-      (exp_name
-        (variable))
-      (ERROR)
-      (exp_literal
-        (integer))
-      (exp_name
-        (variable))
-      (exp_name
-        (variable))
-      (ERROR)
-      (exp_record
-        (exp_field
-          field: (variable)))
-      (exp_name
-        (variable))
-      (exp_name
-        (variable))
-      (ERROR)
-      (exp_record
-        (exp_field
-          field: (variable)
-          (exp_literal
-            (integer))))
-      (exp_name
-        (variable))
-      (exp_name
-        (variable))
-      (ERROR)
-      (exp_record_mutation
-        (variable)
-        (exp_field_assignment
-          field: (variable)
-          (exp_literal
-            (integer)))))))
+    rhs: (exp_name
+      (variable)))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_literal
+      (integer)))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_record
+      (exp_field
+        field: (variable))))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_record
+      (exp_field
+        field: (variable)
+        (exp_literal
+          (integer)))))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_record_mutation
+      (variable)
+      (exp_field_assignment
+        field: (variable)
+        (exp_literal
+          (integer))))))
 
 ================================================================================
 data definition
@@ -367,8 +366,6 @@ import G hiding (h)
 import G hiding ()
 import G ()
 
-f = f
-
 --------------------------------------------------------------------------------
 
 (purescript
@@ -377,55 +374,71 @@ f = f
   (where)
   (import
     (qualified_module
+      (module)))
+  (import
+    (qualified_module
       (module))
-    (ERROR
-      (constructor)
-      (import_list
-        (import_item
-          (var_import
-            (variable)))
-        (comma)
-        (import_item
-          (type_import
-            (type)))
-        (comma)
-        (import_item
-          (class_import
-            (type_name
-              (type))))
-        (comma)
-        (import_item
-          (type_import
-            (type)
-            (import_con_names
-              (all_names)))))
-      (constructor)
-      (import_list
-        (import_item
-          (var_import
-            (variable)))
-        (comma)
-        (import_item
-          (type_import
-            (type)))
-        (comma)
-        (import_item
-          (class_import
-            (type_name
-              (type))))
-        (comma)
-        (import_item
-          (type_import
-            (type)
-            (import_con_names
-              (all_names)))))
-      (import_list
-        (import_item
-          (var_import
-            (variable))))
-      (import_list))
+    (module))
+  (import
+    (qualified_module
+      (module))
+    (import_list
+      (import_item
+        (var_import
+          (variable)))
+      (comma)
+      (import_item
+        (type_import
+          (type)))
+      (comma)
+      (import_item
+        (class_import
+          (type_name
+            (type))))
+      (comma)
+      (import_item
+        (type_import
+          (type)
+          (import_con_names
+            (all_names)))))
+    (module))
+  (import
+    (qualified_module
+      (module))
+    (import_list
+      (import_item
+        (var_import
+          (variable)))
+      (comma)
+      (import_item
+        (type_import
+          (type)))
+      (comma)
+      (import_item
+        (class_import
+          (type_name
+            (type))))
+      (comma)
+      (import_item
+        (type_import
+          (type)
+          (import_con_names
+            (all_names))))))
+  (import
+    (qualified_module
+      (module))
+    (import_list
+      (import_item
+        (var_import
+          (variable)))))
+  (import
+    (qualified_module
+      (module))
     (import_list))
-  (ERROR))
+  (import
+    (qualified_module
+      (module))
+    (import_list)))
 
 ================================================================================
 module with imports - constructors
@@ -543,3 +556,117 @@ f = case 1 + 1 of
             (integer))
           (exp_literal
             (integer)))))))
+
+================================================================================
+Basic record syntax
+================================================================================
+module A where
+
+a a = { a: 1 }
+
+b b = { a: 1, b: 1 + 1, c }
+
+c c = b { a = 1 }
+
+d d = {}
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (function
+    (variable)
+    (patterns
+      (pat_name
+        (variable)))
+    (exp_record
+      (exp_field
+        (variable)
+        (exp_literal
+          (integer)))))
+  (function
+    (variable)
+    (patterns
+      (pat_name
+        (variable)))
+    (exp_record
+      (exp_field
+        (variable)
+        (exp_literal
+          (integer)))
+      (comma)
+      (exp_field
+        (variable)
+        (exp_infix
+          (exp_literal
+            (integer))
+          (operator)
+          (exp_literal
+            (integer))))
+      (comma)
+      (exp_field
+        (variable))))
+  (function
+    (variable)
+    (patterns
+      (pat_name
+        (variable)))
+    (exp_record_mutation
+      (variable)
+      (exp_field_assignment
+        (variable)
+        (exp_literal
+          (integer)))))
+  (function
+    (variable)
+    (patterns
+      (pat_name
+        (variable)))
+    (exp_record)))
+
+================================================================================
+Foreign imports
+================================================================================
+module A where
+
+foreign import f :: A -> A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (foreign_import
+    (variable)
+    (fun
+      (type_name
+        (type))
+      (type_name
+        (type)))))
+
+================================================================================
+Just two decls
+================================================================================
+module A where
+
+f = 1;
+
+g = 2;
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (function
+    (variable)
+    (exp_literal
+      (integer)))
+  (function
+    (variable)
+    (exp_literal
+      (integer))))
