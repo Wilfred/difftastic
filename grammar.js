@@ -264,7 +264,7 @@ module.exports = grammar({
     _math_attach_sub: $ => prec.right(5,
       seq($._math_expr, $._math_token_sub, field('sub', $._math_expr), optional(seq('^', field('sup', $._math_expr))))
     ),
-    _math_root: $ => prec.left(4, seq(choice('√', '∛', '∜'), $._math_expr)),
+    _math_root: $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
     _math_field: $ => prec.left(9, seq($._math_item, '.', field('field', alias($._math_ident1, $.ident)))),
     _math_item_call: $ => prec(8, seq(
       field('item', $._math_item),
