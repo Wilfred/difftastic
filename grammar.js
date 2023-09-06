@@ -34,10 +34,10 @@ function inside($) {
     repeat(choice($._space, $.comment, $._markup)),
     optional(seq(
       new_line($),
-      repeat(choice(
-        choice($._line_inside, $._indented),
+      zebra(
+        choice($._line_content, $._indented),
         new_line($),
-      )),
+      ),
     ))
   );
 }
@@ -55,8 +55,12 @@ module.exports = grammar({
     $._url_token,
     $._token_dlim,
     $._token_else,
+
+    // barrier
     // $._barrier_in,
     // $._barrier_out,
+    $._barrier_in,
+    // $._heading_out,
 
     // delimited contexts
     $._content_token,
@@ -66,7 +70,8 @@ module.exports = grammar({
     // $._math_group_token,
     // $._math_bar_token,
     $._termination,
-    // $._recovery,
+
+    $._recovery,
   ],
   conflicts: $ => [
     [$.strong],
@@ -97,10 +102,6 @@ module.exports = grammar({
       seq($._preline, optional($._theline_content)),
       $._theline_content
     ),
-    _line_inside: $ => prec.right(choice(
-      seq($._preline, optional($._theline_inside)),
-      $._theline_inside
-    )),
 
     _theline_content: $ => choice(
       $.heading,
@@ -108,13 +109,6 @@ module.exports = grammar({
       $.term,
       seq($._markup, repeat(choice($._space, $.comment, $._markup))),
     ),
-    _theline_inside: $ => prec.right(choice(
-      seq(
-        choice($.heading, $.item, $.term),
-        new_line($),
-      ),
-      seq($._markup, repeat(choice($._space, $.comment, $._markup))),
-    )),
 
     // ends an expression in a block
     // the precedence of 1 is required
@@ -179,22 +173,26 @@ module.exports = grammar({
     // TODO: try barrier again to see if it simplifies the grammar
     item: $ => prec.right(1, seq(
       $._token_item,
-      // $._barrier_in,
+      $._barrier_in,
       repeat(choice($._markup, $.comment, $._space)),
+      $._termination,
       optional($._indented),
-      // $._barrier_out,
     )),
     term: $ => prec.right(1, seq(
       $._token_term,
       field('term', repeat($._markup)),
       ':',
+      $._barrier_in,
       repeat(choice($._markup, $.comment, $._space)),
+      $._termination,
       optional($._indented)
     )),
 
     heading: $ => prec.right(1, seq(
       $._token_head,
+      $._barrier_in,
       repeat(choice($._markup, $.comment, $._space)),
+      $._termination,
     )),
     strong: $ => prec.left(seq($._strong_token, inside($), $._termination)),
     emph: $ => prec.left(seq($._emph_token, inside($), $._termination)),

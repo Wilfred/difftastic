@@ -10,9 +10,9 @@ fixme: src/parser.c
 src/parser.c: grammar.js
 	tree-sitter generate
 
-build: src/parser.c
+build: src/parser.c size
 
-size:
+size: src/parser.c
 	du -b src/parser.c
 	du -b src/parser.c > size.txt
 

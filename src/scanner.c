@@ -11,20 +11,16 @@ enum TokenType {
 	TOKEN_DLIM,
 	TOKEN_ELSE,
 
-	// BARRIER_IN,
-	// BARRIER_OUT,
-
+	BARRIER_IN,
 	CONTENT_TOKEN,
 	STRONG_TOKEN,
 	EMPH_TOKEN,
-	// HEADING_TOKEN,
-	// MATH_GROUP_TOKEN,
-	// MATH_BAR_TOKEN,
 	TERMINATION,
 
-	// RECOVERY,
+	RECOVERY,
 };
 
+// TODO: rename with CONTAINER prefix
 enum container {
 	// `[`
 	CONTENT,
@@ -34,6 +30,8 @@ enum container {
 
 	// `_`
 	EMPH,
+
+	BARRIER,
 
 	// dummy container to prevent upper container from ending
 	// BARRIER,
@@ -49,12 +47,39 @@ enum container {
 enum termination {
 	// not the end
 	TERMINATION_NONE,
+	// syntax error
+	TERMINATION_ERROR,
 	// termination character found
 	TERMINATION_INCLUSIVE,
 	// termination found without character
 	TERMINATION_EXCLUSIVE,
 };
 
+#define UNREACHABLE() fprintf(stderr, "unreachable %d:%s\n", __FILE__, __LINE__)
+
+static bool is_white_space(uint32_t c) {
+	return (
+		c == ' ' ||
+	  c == '\t' ||
+	  c == 0x20 ||
+	  c == 0x1680 ||
+	  (c >= 0x2000 && c <= 0x200a) ||
+	  c == 0x202f ||
+	  c == 0x205f ||
+	  c == 0x3000
+	);
+}
+static bool is_new_line(uint32_t c) {
+	return (
+		c == '\n' ||
+		c == '\r' ||
+	  c == '\v' ||
+	  c == '\f' ||
+	  c == 0x85 ||
+	  c == 0x2028 ||
+	  c == 0x2029
+	);
+}
 
 // vec<u32> ////////////////////////////////////////////////////////////////////
 struct vec_u32 {
@@ -197,32 +222,55 @@ static void scanner_indent(struct scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
 static enum termination scanner_termination(struct scanner* self, TSLexer* lexer) {
-	if (lexer->eof(lexer)) {
-		return TERMINATION_EXCLUSIVE;
-	}
 	if (self->containers.len == 0) {
-		return TERMINATION_NONE;
+		// no container
+		return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 	}
-	enum container container = vec_u32_get(&self->containers, vec_u32_last(&self->containers));
-	switch (container) {
-		// case BARRIER:
-		// return TERMINATION_NONE;
-		case CONTENT:
+	switch (self->containers.vec[self->containers.len - 1]) {
+
+		case CONTENT: 
 		return lexer->lookahead == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
-		case STRONG:
+
+		case STRONG: 
 		return lexer->lookahead == '*' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
-		case EMPH:
+
+		case EMPH: 
 		return lexer->lookahead == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
+
+		case BARRIER: {
+			if (is_new_line(lexer->lookahead)) {
+				return TERMINATION_EXCLUSIVE;
+			}
+			if (self->containers.len == 1) {
+				// the heading isn't contained
+				return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
+			}
+			else {
+				// the heading is contained
+				switch (self->containers.vec[self->containers.len - 2]) {
+					case EMPH:
+					case STRONG:
+					// inside emph or strong, a new line is mandatory
+					return TERMINATION_NONE;
+
+					case BARRIER:
+					// not supposed to happen
+					UNREACHABLE();
+					return TERMINATION_ERROR;
+
+					case CONTENT:
+					return lexer->lookahead == ']' ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
+				}
+				UNREACHABLE();
+				return TERMINATION_ERROR;
+			}
+		} break;
 	}
-	fprintf(stderr, "unreachable\n");
-	exit(EXIT_FAILURE);
+	UNREACHABLE();
+	return TERMINATION_ERROR;
 }
-static bool scanner_is_contained_by(struct scanner* self, enum container container) {
-	if (self->containers.len == 0) {
-		return false;
-	}
-	return vec_u32_get(&self->containers, vec_u32_last(&self->containers)) == container;
-}
+
+// TODO: rename container_push and container_pop
 static void scanner_container(struct scanner* self, enum container container) {
 	vec_u32_push(&self->containers, container);
 }
@@ -283,29 +331,6 @@ void tree_sitter_typst_external_scanner_deserialize(
 }
 
 // SCAN ////////////////////////////////////////////////////////////////////////
-static bool is_white_space(uint32_t c) {
-	return (
-		c == ' ' ||
-	  c == '\t' ||
-	  c == 0x20 ||
-	  c == 0x1680 ||
-	  (c >= 0x2000 && c <= 0x200a) ||
-	  c == 0x202f ||
-	  c == 0x205f ||
-	  c == 0x3000
-	);
-}
-static bool is_new_line(uint32_t c) {
-	return (
-		c == '\n' ||
-		c == '\r' ||
-	  c == '\v' ||
-	  c == '\f' ||
-	  c == 0x85 ||
-	  c == 0x2028 ||
-	  c == 0x2029
-	);
-}
 bool tree_sitter_typst_external_scanner_scan(
   void *payload,
   TSLexer *lexer,
@@ -316,21 +341,10 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	// if (valid_symbols[BARRIER_IN] && !valid_symbols[RECOVERY]) {
-	// 	scanner_container(self, BARRIER);
-	// 	// lexer->mark_end(lexer);
-	// 	lexer->result_symbol = BARRIER_IN;
-	// 	printf("barrier in\n");
-	// 	return true;
-	// }
-
-	// if (valid_symbols[BARRIER_OUT] && scanner_is_contained_by(self, BARRIER)) {
-	// 	scanner_out(self);
-	// 	// lexer->mark_end(lexer);
-	// 	lexer->result_symbol = BARRIER_OUT;
-	// 	printf("barrier out\n");
-	// 		return true;
-	// }
+	if (valid_symbols[RECOVERY]) {
+		lexer->result_symbol = RECOVERY;
+		return true;
+	}
 
 	// highest precedence
 	if (valid_symbols[TERMINATION]) {
@@ -347,6 +361,12 @@ bool tree_sitter_typst_external_scanner_scan(
 			// printf("hoy!\n");
 			return true;
 		}
+	}
+
+	if (valid_symbols[BARRIER_IN]) {
+		scanner_container(self, BARRIER);
+		lexer->result_symbol = BARRIER_IN;
+		return true;
 	}
 
 	if (valid_symbols[CONTENT_TOKEN] && lexer->lookahead == '[') {
