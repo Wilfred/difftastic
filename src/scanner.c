@@ -2,45 +2,29 @@
 #include <stdio.h>
 #include <string.h>
 
-enum TokenType {
-  INDENT,
-  DEDENT,
-	REDENT,
+enum token_type {
+  TOKEN_INDENT,
+  TOKEN_DEDENT,
+	TOKEN_REDENT,
 
-	URL_TOKEN,
+	TOKEN_URL,
 	TOKEN_DLIM,
 	TOKEN_ELSE,
 
-	BARRIER_IN,
-	CONTENT_TOKEN,
-	STRONG_TOKEN,
-	EMPH_TOKEN,
-	TERMINATION,
+	TOKEN_BARRIER,
+	TOKEN_CONTENT,
+	TOKEN_STRONG,
+	TOKEN_EMPH,
+	TOKEN_TERMINATION,
 
-	RECOVERY,
+	TOKEN_RECOVERY,
 };
 
-// TODO: rename with CONTAINER prefix
 enum container {
-	// `[`
-	CONTENT,
-
-	// `*`
-	STRONG,
-
-	// `_`
-	EMPH,
-
-	BARRIER,
-
-	// dummy container to prevent upper container from ending
-	// BARRIER,
-
-	// `(` `{` `[` `[|`
-	// MATH_GROUP,
-
-	// `|` `||`
-	// MATH_BAR,
+	CONTAINER_CONTENT,
+	CONTAINER_STRONG,
+	CONTAINER_EMPH,
+	CONTAINER_BARRIER,
 };
 
 // when a container ends
@@ -228,16 +212,16 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 	}
 	switch (self->containers.vec[self->containers.len - 1]) {
 
-		case CONTENT: 
+		case CONTAINER_CONTENT: 
 		return lexer->lookahead == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
-		case STRONG: 
+		case CONTAINER_STRONG: 
 		return lexer->lookahead == '*' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
-		case EMPH: 
+		case CONTAINER_EMPH: 
 		return lexer->lookahead == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
-		case BARRIER: {
+		case CONTAINER_BARRIER: {
 			if (is_new_line(lexer->lookahead)) {
 				return TERMINATION_EXCLUSIVE;
 			}
@@ -248,17 +232,17 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 			else {
 				// the heading is contained
 				switch (self->containers.vec[self->containers.len - 2]) {
-					case EMPH:
-					case STRONG:
+					case CONTAINER_EMPH:
+					case CONTAINER_STRONG:
 					// inside emph or strong, a new line is mandatory
 					return TERMINATION_NONE;
 
-					case BARRIER:
+					case CONTAINER_BARRIER:
 					// not supposed to happen
 					UNREACHABLE();
 					return TERMINATION_ERROR;
 
-					case CONTENT:
+					case CONTAINER_CONTENT:
 					return lexer->lookahead == ']' ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 				}
 				UNREACHABLE();
@@ -270,11 +254,10 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 	return TERMINATION_ERROR;
 }
 
-// TODO: rename container_push and container_pop
-static void scanner_container(struct scanner* self, enum container container) {
+static void scanner_container_push(struct scanner* self, enum container container) {
 	vec_u32_push(&self->containers, container);
 }
-static void scanner_out(struct scanner* self) {
+static void scanner_container_pop(struct scanner* self) {
 	if (self->containers.len == 0) {
 		return;
 	}
@@ -341,13 +324,13 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	if (valid_symbols[RECOVERY]) {
-		lexer->result_symbol = RECOVERY;
+	if (valid_symbols[TOKEN_RECOVERY]) {
+		lexer->result_symbol = TOKEN_RECOVERY;
 		return true;
 	}
 
 	// highest precedence
-	if (valid_symbols[TERMINATION]) {
+	if (valid_symbols[TOKEN_TERMINATION]) {
 		switch (scanner_termination(self, lexer)) {
 			case TERMINATION_NONE: break;
 			case TERMINATION_INCLUSIVE:
@@ -355,46 +338,46 @@ bool tree_sitter_typst_external_scanner_scan(
 			scanner_dedent(self);
 			// printf("hod!\n");
 			case TERMINATION_EXCLUSIVE:
-			scanner_out(self);
+			scanner_container_pop(self);
 			// lexer->mark_end(lexer);
-			lexer->result_symbol = TERMINATION;
+			lexer->result_symbol = TOKEN_TERMINATION;
 			// printf("hoy!\n");
 			return true;
 		}
 	}
 
-	if (valid_symbols[BARRIER_IN]) {
-		scanner_container(self, BARRIER);
-		lexer->result_symbol = BARRIER_IN;
+	if (valid_symbols[TOKEN_BARRIER]) {
+		scanner_container_push(self, CONTAINER_BARRIER);
+		lexer->result_symbol = TOKEN_BARRIER;
 		return true;
 	}
 
-	if (valid_symbols[CONTENT_TOKEN] && lexer->lookahead == '[') {
+	if (valid_symbols[TOKEN_CONTENT] && lexer->lookahead == '[') {
 		lexer->advance(lexer, false);
 		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
-		scanner_container(self, CONTENT);
-		lexer->result_symbol = CONTENT_TOKEN;
+		scanner_container_push(self, CONTAINER_CONTENT);
+		lexer->result_symbol = TOKEN_CONTENT;
 		return true;
 	}
-	if (valid_symbols[STRONG_TOKEN] && lexer->lookahead == '*') {
+	if (valid_symbols[TOKEN_STRONG] && lexer->lookahead == '*') {
 		lexer->advance(lexer, false);
 		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
-		scanner_container(self, STRONG);
-		lexer->result_symbol = STRONG_TOKEN;
+		scanner_container_push(self, CONTAINER_STRONG);
+		lexer->result_symbol = TOKEN_STRONG;
 		return true;
 	}
-	if (valid_symbols[EMPH_TOKEN] && lexer->lookahead == '_') {
+	if (valid_symbols[TOKEN_EMPH] && lexer->lookahead == '_') {
 		lexer->advance(lexer, false);
 		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
-		scanner_container(self, EMPH);
-		lexer->result_symbol = EMPH_TOKEN;
+		scanner_container_push(self, CONTAINER_EMPH);
+		lexer->result_symbol = TOKEN_EMPH;
 		return true;
 	}
 
-	if (valid_symbols[URL_TOKEN]) {
+	if (valid_symbols[TOKEN_URL]) {
 		self->worker.len = 0;
 		const uint32_t BRACKET = 0;
 		const uint32_t PARENTHESIS = 1;
@@ -439,7 +422,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				vec_u32_pop(&self->worker);
 			}
 			else {
-				lexer->result_symbol = URL_TOKEN;
+				lexer->result_symbol = TOKEN_URL;
 				// lexer->mark_end(lexer);
 				return true;
 			}
@@ -498,7 +481,11 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	if (valid_symbols[INDENT] || valid_symbols[DEDENT] || valid_symbols[REDENT]) {
+	if (
+		valid_symbols[TOKEN_INDENT] ||
+		valid_symbols[TOKEN_DEDENT] ||
+		valid_symbols[TOKEN_REDENT]
+	) {
 		// indentation tokens have 0 size
 		lexer->mark_end(lexer);
 		uint32_t column = lexer->get_column(lexer);
@@ -509,21 +496,16 @@ bool tree_sitter_typst_external_scanner_scan(
 			column = 0;
 		}
 
-		if (valid_symbols[DEDENT]) {
-			if (scanner_termination(self, lexer) != TERMINATION_NONE) {
+		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
+			if (valid_symbols[TOKEN_DEDENT]) {
 				scanner_dedent(self);
-				lexer->result_symbol = DEDENT;
-				// printf("dedent1\n");
+				lexer->result_symbol = TOKEN_DEDENT;
 				return true;
 			}
-		}
-		// TODO: merge with above
-		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 			return false;
 		}
 
 		if (column != 0) {
-			// printf("hoho\n");
 			return false;
 		}
 		unsigned char col = 0;
@@ -541,24 +523,24 @@ bool tree_sitter_typst_external_scanner_scan(
 		unsigned char current = scanner_current(self);
 		unsigned char previous = scanner_previous(self);
 
-		if (valid_symbols[DEDENT]) {
+		if (valid_symbols[TOKEN_DEDENT]) {
 			if (lexer->eof(lexer)) {
 				scanner_dedent(self);
-				lexer->result_symbol = DEDENT;
+				lexer->result_symbol = TOKEN_DEDENT;
 				// printf("dedent2\n");
 				return true;
 			}
 			if (col < current && col <= previous) {
 				scanner_dedent(self);
-				lexer->result_symbol = DEDENT;
+				lexer->result_symbol = TOKEN_DEDENT;
 				// printf("dedent3\n");
 				return true;
 			}
 		}
 
-		if (valid_symbols[REDENT] && col < current) {
+		if (valid_symbols[TOKEN_REDENT] && col < current) {
 			scanner_redent(self, col);
-			lexer->result_symbol = REDENT;
+			lexer->result_symbol = TOKEN_REDENT;
 			// printf("redent\n");
 			return true;
 		}
@@ -566,9 +548,9 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 			return false;
 		}
-		if (valid_symbols[INDENT] && col > current) {
+		if (valid_symbols[TOKEN_INDENT] && col > current) {
 			scanner_indent(self, col);
-			lexer->result_symbol = INDENT;
+			lexer->result_symbol = TOKEN_INDENT;
 			// printf("indent\n");
 			// exit(EXIT_FAILURE);
 			return true;
