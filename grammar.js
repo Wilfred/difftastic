@@ -489,7 +489,7 @@ module.exports = grammar({
     flow: $ => choice('break', 'continue'),
     auto: $ => 'auto',
     none: $ => 'none',
-    builtin: $ => choice(
+    builtin: $ => token(choice(
       'align',
       'aqua',
       'array',
@@ -508,6 +508,7 @@ module.exports = grammar({
       'counter',
       'datetime',
       'eastern',
+      'ellipse',
       'emoji',
       'emph',
       'enum',
@@ -522,6 +523,7 @@ module.exports = grammar({
       'image',
       'left',
       'lime',
+      'line',
       'link',
       'list',
       'locate',
@@ -539,6 +541,8 @@ module.exports = grammar({
       'panic',
       'par',
       'parbreak',
+      'path',
+      'polygon',
       'purple',
       'query',
       'read',
@@ -552,7 +556,7 @@ module.exports = grammar({
       'rtl',
       'scale',
       'silver',
-      'squate',
+      'square',
       'stack',
       'str',
       'strong',
@@ -566,7 +570,7 @@ module.exports = grammar({
       'v',
       'white',
       'yellow',
-    ),
+    )),
   },
 });
 
