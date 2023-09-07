@@ -20,6 +20,8 @@ enum token_type {
 	TOKEN_INLINED_ELSE,
 	TOKEN_INLINED_ITEM_END,
 	TOKEN_INLINED_STMT_END,
+	TOKEN_MATH_LETTER,
+	TOKEN_MATH_IDENT,
 
 	// error recovery state detection
 	TOKEN_RECOVERY,
@@ -1903,57 +1905,30 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
-	// if (valid_symbols[TOKEN_DLIM] || valid_symbols[TOKEN_ELSE]) {
-	// 	lexer->mark_end(lexer);
-	// 	while (is_white_space(lexer->lookahead)) {
-	// 		lexer->advance(lexer, false);
-	// 	}
-	// 	if (valid_symbols[TOKEN_DLIM] && lexer->lookahead == ';') {
-	// 		lexer->advance(lexer, false);
-	// 		lexer->mark_end(lexer);
-	// 		lexer->result_symbol = TOKEN_DLIM;
-	// 		return true;
-	// 	}
-
-	// 	bool dlim = valid_symbols[TOKEN_DLIM] && (
-	// 		is_new_line(lexer->lookahead) ||
-	// 		scanner_termination(self, lexer)
-	// 	);
-
-	// 	while (is_white_space(lexer->lookahead) || is_new_line(lexer->lookahead)) {
-	// 		lexer->advance(lexer, false);
-	// 	}
-	// 	if (valid_symbols[TOKEN_ELSE] && lexer->lookahead == 'e') {
-	// 		lexer->advance(lexer, false);
-	// 		if (lexer->lookahead != 'l') {
-	// 			return false;
-	// 		}
-	// 		lexer->advance(lexer, false);
-	// 		if (lexer->lookahead != 's') {
-	// 			return false;
-	// 		}
-	// 		lexer->advance(lexer, false);
-	// 		if (lexer->lookahead != 'e') {
-	// 			return false;
-	// 		}
-	// 		lexer->advance(lexer, false);
-	// 		if (
-	// 			is_white_space(lexer->lookahead) ||
-	// 			lexer->lookahead == '[' ||
-	// 			lexer->lookahead == '{'
-	// 		) {
-	// 			lexer->mark_end(lexer);
-	// 			lexer->result_symbol = TOKEN_ELSE;
-	// 			return true;
-	// 		}
-	// 		return false;
-	// 	}
-	// 	if (dlim) {
-	// 		lexer->result_symbol = TOKEN_DLIM;
-	// 		return true;
-	// 	}
-	// 	return false;
-	// }
+	if (valid_symbols[TOKEN_MATH_IDENT] && IS_ID_START(lexer->lookahead)) {
+		lexer->advance(lexer, false);
+		if (
+			valid_symbols[TOKEN_MATH_LETTER] && (
+				lexer->lookahead == '_' ||
+				!IS_ID_CONTINUE(lexer->lookahead)
+			)
+		) {
+			lexer->mark_end(lexer);
+			lexer->result_symbol = TOKEN_MATH_LETTER;
+			return true;
+		}
+		while (lexer->lookahead != '_' && IS_ID_CONTINUE(lexer->lookahead)) {
+			lexer->advance(lexer, false);
+		}
+		lexer->mark_end(lexer);
+		lexer->result_symbol = TOKEN_MATH_IDENT;
+		return true;
+	}
+	if (valid_symbols[TOKEN_MATH_LETTER] && !valid_symbols[TOKEN_MATH_IDENT]) {
+		// not supposed to happen
+		UNREACHABLE();
+		return false;
+	}
 
 	if (valid_symbols[TOKEN_INLINED_ELSE]) {
 		enum token_type end;

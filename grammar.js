@@ -74,6 +74,8 @@ module.exports = grammar({
     $._token_inlined_else,
     $._token_inlined_item_end,
     $._token_inlined_stmt_end,
+    $._token_math_letter,
+    $._token_math_ident,
 
     $._recovery,
   ],
@@ -213,7 +215,7 @@ module.exports = grammar({
       $._math_code,
       alias($._math_group, $.group),
       alias($._math_bar, $.group),
-      alias($._math_letter, $.letter),
+      alias($._token_math_letter, $.letter),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
       alias($._math_token_colon, $.symbol),
@@ -249,15 +251,15 @@ module.exports = grammar({
     _math_group_open:  $ => prec.right(0, seq(choice('(', '[', '{', '[|'), repeat($._math_expr), ws($))),
     _math_bar:         $ => prec(-1, seq(choice('||', '|'), repeat($._math_expr), ws($), optional(token(prec(1, choice('||', '|')))))),
     _math_item:        $ => prec(8, choice(
-      alias($._math_ident2, $.ident),
+      alias($._token_math_ident, $.ident),
       alias($._math_field, $.field),
     )),
     _math_token_sub: $ => token(prec(1, '_')),
-    _math_ident_continue: $ => /\p{XID_Continue}/,
-    _math_ident_start: $ => /\p{XID_Start}/,
-    _math_ident1: $ => prec.right(21, seq($._math_ident_start, repeat(choice($._math_ident_start, $._math_ident_continue)))),
-    _math_ident2: $ => prec.right(20, seq($._math_ident_start, repeat1(choice($._math_ident_start, $._math_ident_continue)))),
-    _math_letter: $ => $._math_ident_start,
+    // _math_ident_continue: $ => /\p{XID_Continue}/,
+    // _math_ident_start: $ => /\p{XID_Start}/,
+    // _math_ident1: $ => prec.right(21, seq($._math_ident_start, repeat(choice($._math_ident_start, $._math_ident_continue)))),
+    // _math_ident2: $ => prec.right(20, seq($._math_ident_start, repeat1(choice($._math_ident_start, $._math_ident_continue)))),
+    // _math_letter: $ => $._math_ident_start,
     _math_number: $ => /[0-9]+(\.[0-9]+)?/,
     _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
     _math_prime:  $ => prec.left(6, seq($._math_atom, /'+/)),
@@ -272,7 +274,7 @@ module.exports = grammar({
       seq($._math_expr, $._math_token_sub, field('sub', $._math_expr), optional(seq('^', field('sup', $._math_expr))))
     ),
     _math_root: $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
-    _math_field: $ => prec.left(9, seq($._math_item, '.', field('field', alias($._math_ident1, $.ident)))),
+    _math_field: $ => prec.left(9, seq($._math_item, '.', field('field', alias($._token_math_ident, $.ident)))),
     _math_item_call: $ => prec(8, seq(
       field('item', $._math_item),
       '(',
@@ -284,12 +286,12 @@ module.exports = grammar({
       ')'
     )),
     _math_tag: $ =>prec(9, choice(
-      alias($._math_ident1, $.ident),
-      alias($._math_ident2, $.ident),
+      alias($._token_math_ident, $.ident),
+      alias($._token_math_letter, $.ident),
       seq($._ws, $._math_tag),
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
-    _math_call: $ => prec(7, seq(choice(alias($._math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
+    _math_call: $ => prec(7, seq(choice(alias($._token_math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
     _math_shorthand: $ => token(prec(-1, choice(
       // arrow
       //   right
