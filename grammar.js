@@ -489,7 +489,7 @@ module.exports = grammar({
     flow: $ => choice('break', 'continue'),
     auto: $ => 'auto',
     none: $ => 'none',
-    builtin: $ => token(choice(
+    builtin: $ => token(prec(1, choice(
       'align',
       'aqua',
       'array',
@@ -570,7 +570,7 @@ module.exports = grammar({
       'v',
       'white',
       'yellow',
-    )),
+    ))),
   },
 });
 
