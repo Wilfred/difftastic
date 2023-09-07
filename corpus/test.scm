@@ -3843,14 +3843,14 @@ Test 271
 					(ident))))))
 
 
-; =====================
-; Test 272
-; =====================
-; #(if true [])
-; ---------------------
+=====================
+Test 272
+=====================
+#(if true [])
+---------------------
 
-; (source_file
-; 	(group
-; 		(branch
-; 			test: (bool)
-; 			(content))))
+(source_file
+	(group
+		(branch
+			test: (bool)
+			(content))))

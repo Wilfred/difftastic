@@ -40,3 +40,19 @@ Fixme E06
 	(return
 		(number))
 	(text))
+
+
+=====================
+Fixme E07
+=====================
+#if true []  /* Hello */
+
+else {}
+---------------------
+; FIXME: trailing comments should not trigger expression end
+
+(source_file
+	(branch
+		test: (bool)
+		(content)
+		(block)))

@@ -40,6 +40,7 @@ enum termination {
 	// not the end
 	TERMINATION_NONE,
 	// syntax error
+	// TODO: maybe remove this variant
 	TERMINATION_ERROR,
 	// termination character found
 	TERMINATION_INCLUSIVE,
@@ -47,7 +48,7 @@ enum termination {
 	TERMINATION_EXCLUSIVE,
 };
 
-#define UNREACHABLE() fprintf(stderr, "unreachable %d:%s\n", __FILE__, __LINE__)
+#define UNREACHABLE() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
 
 static bool is_white_space(uint32_t c) {
 	return (
