@@ -3771,7 +3771,34 @@ Test 268
 
 
 =====================
-Test 267
+Test 269
+=====================
+#{a
+.b}
+---------------------
+
+(source_file
+	(block
+		(field
+			(ident)
+			field: (ident))))
+
+
+=====================
+Test 270
+=====================
+#{a
+ b}
+---------------------
+
+(source_file
+	(block
+		(ident)
+		(ident)))
+
+
+=====================
+Test 271
 =====================
 #let format(title, ..authors) = {
   let by = authors
@@ -3814,3 +3841,16 @@ Test 267
 					(text)
 					(text)
 					(ident))))))
+
+
+; =====================
+; Test 272
+; =====================
+; #(if true [])
+; ---------------------
+
+; (source_file
+; 	(group
+; 		(branch
+; 			test: (bool)
+; 			(content))))

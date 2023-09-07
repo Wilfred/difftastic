@@ -74,6 +74,7 @@ module.exports = grammar({
     $._token_inlined_else,
     $._token_inlined_item_end,
     $._token_inlined_stmt_end,
+    $._token_blocked_expr_end,
     $._token_math_letter,
     $._token_math_ident,
 
@@ -102,6 +103,7 @@ module.exports = grammar({
   rules: {
     source_file: $ => content($),
 
+    // TODO: check if still necessary (because of barrier)
     _preline: $ => repeat1(choice($._space, $.comment)),
 
     _line_content: $ => choice(
@@ -115,10 +117,6 @@ module.exports = grammar({
       $.term,
       seq($._markup, repeat(choice($._space, $.comment, $._markup))),
     ),
-
-    // ends an expression in a block
-    // the precedence of 1 is required
-    _token_dlim_blck: $ => token(prec(1, /([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*(([\n\v\f\x85\u2028\u2029]|\r\n?)|;)/)),
 
     parbreak: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)(([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*([\n\v\f\x85\u2028\u2029]|\r\n?))+/,
     escape: $ => /\\[^u\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\\u\{[0-9a-fA-F]*\}/,
@@ -141,8 +139,6 @@ module.exports = grammar({
     _token_item: $ => prec(1, /-|\+|[0-9]+\./),
     _token_term: $ => prec(1, /\/[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]+/),
     _token_head: $ => /=+/,
-    _token_dot: $ => /\./,
-    _token_dot_ws: $ => /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)*\./,
     linebreak: $ => /\\/,
     quote: $ => choice('"', '\''),
     _ws: $ => prec(40, repeat1(choice($.comment, $._space_expr))),
@@ -170,7 +166,6 @@ module.exports = grammar({
       $._anti_markup,
       $._anti_item,
       $._anti_head,
-      $._token_dot,
       $._char_any,
       $.escape,
     ))),
@@ -357,27 +352,11 @@ module.exports = grammar({
       $.field,
       $.block,
       $.group,
-      // alias($.call_inlined, $.call),
       $.call,
       $.content,
     ),
     _expr: $ => choice(
       $._atom,
-      // $.auto,
-      // $.none,
-      // $.flow,
-      // $.builtin,
-      // $.ident,
-      // $.label,
-      // $.bool,
-      // $.number,
-      // $.string,
-      // $.branch,
-      // $.field,
-      // $.block,
-      // $.group,
-      // alias($.call_inlined, $.call),
-      // $.content,
       $.elude,
       $.assign,
       $.lambda,
@@ -427,8 +406,8 @@ module.exports = grammar({
 
     call_inlined:  $ => seq(field('item', $._item), choice($.content, $.group)),
     call:   $ => prec(13, seq(field('item', $._atom), choice($.content, $.group))),
-    field_inlined: $ => seq($._item, $._token_dot, field('field', $.ident)),
-    field:  $ => prec(13, seq($._expr, $._token_dot_ws, ws($), field('field', $.ident))),
+    field_inlined: $ => seq($._item, '.', field('field', $.ident)),
+    field:  $ => prec(13, seq($._expr, '.', ws($), field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
     ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/),
@@ -442,14 +421,7 @@ module.exports = grammar({
     ),
     block: $ => seq(
       '{',
-      repeat(seq(
-        prec.left(optional(choice($._expr, $.comment))),
-        // this token has the precedence over regular new lines inside expression
-        // that way, a new line is a separator between expressions
-        $._token_dlim_blck,
-        optional($._space_expr),
-      )),
-      optional(choice($._expr, $.comment, $._space_expr)),
+      repeat(choice($._ws, seq($._expr, $._token_blocked_expr_end))),
       '}'
     ),
     branch: $ => prec.left(2, seq(

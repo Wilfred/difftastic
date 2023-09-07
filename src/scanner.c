@@ -20,6 +20,7 @@ enum token_type {
 	TOKEN_INLINED_ELSE,
 	TOKEN_INLINED_ITEM_END,
 	TOKEN_INLINED_STMT_END,
+	TOKEN_BLOCKED_EXPR_END,
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
 
@@ -1927,6 +1928,32 @@ bool tree_sitter_typst_external_scanner_scan(
 	if (valid_symbols[TOKEN_MATH_LETTER] && !valid_symbols[TOKEN_MATH_IDENT]) {
 		// not supposed to happen
 		UNREACHABLE();
+		return false;
+	}
+
+	if (valid_symbols[TOKEN_BLOCKED_EXPR_END]) {
+		if (lexer->lookahead == '}') {
+			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
+			return true;
+		}
+		if (lexer->lookahead == ';') {
+			lexer->advance(lexer, false);
+			lexer->mark_end(lexer);
+			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
+			return true;
+		}
+		if (is_new_line(lexer->lookahead)) {
+			lexer->mark_end(lexer);
+			lexer->advance(lexer, false);
+			while (is_new_line(lexer->lookahead) || is_white_space(lexer->lookahead)) {
+				lexer->advance(lexer, false);
+			}
+			if (lexer->lookahead == '.') {
+				return false;
+			}
+			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
+			return true;
+		}
 		return false;
 	}
 

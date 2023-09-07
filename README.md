@@ -29,6 +29,7 @@ Don't esitate to contact me: eddie.gerbais-nief@proton.me
 - [ ] Test `E02`: Import precedence over list
 - [ ] Test `E01`: Group termination in math
 - [ ] Test `E06`: Inlined return statement
+- [ ] Test `272`: Segmentation fault
 - [X] ~Test `E03`: Spaces in method notation~
 - [X] ~Test `E04`: Leading space not recognized~
 - [X] ~Test `E05`: Inlined code absorbs new line~
@@ -40,13 +41,11 @@ Failing test are found in `corpus/fixme.scm`.
 
 - [ ] More tests 264 / 1000 (current / objectif)
 - [ ] Optimization
-  - [ ] Parser size
+  - [X] Parser size
   - [ ] Benchmark
-  - [ ] Math ident
+  - [X] Math ident
 
-- Investigate the behavior of `lexer->get_column`, because it seems to backtrack the lexer's cursor, which could be very interesting to simplify the indent-dedent mechnism.
-
-- Use the unicode database to implement a test based on binary search to find math identifier.
+- [X] ~Use the unicode database to implement a test based on binary search to find math identifier.~
 
 ## DONE
 
