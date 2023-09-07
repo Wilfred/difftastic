@@ -99,7 +99,7 @@ scope = "text.typst"
 file-types = ["typst", "typ"]
 indent = { tab-width = 2, unit = "  " }
 comment-token = "//"
-injection-regex = "^typst|typ$"
+injection-regex = "^typ(st)?$"
 
 [language.auto-pairs]
 '(' = ')'

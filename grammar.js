@@ -45,6 +45,7 @@ function inside($) {
 module.exports = grammar({
   name: 'typst',
   extras: $ => [],
+  word: $ => $.ident,
   externals: $ => [
     // identation
     $._indent,
@@ -450,6 +451,7 @@ module.exports = grammar({
       'set',
       ws($),
       alias($.call_inlined, $.call),
+      // TODO: have optional `if` condition
     )),
     import: $ => prec.right(1, seq(
       'import',
