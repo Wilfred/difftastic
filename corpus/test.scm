@@ -3854,3 +3854,43 @@ Test 272
 		(branch
 			test: (bool)
 			(content))))
+
+
+=====================
+Test 273
+=====================
+#(`x += 1`)
+---------------------
+
+(source_file
+	(group
+		(raw_span
+			(blob))))
+
+
+=====================
+Test 274
+=====================
+#(```rust enum Tag {}```)
+---------------------
+
+(source_file
+	(group
+		(raw_blck
+			lang: (ident)
+			(blob))))
+
+
+=====================
+Test 275
+=====================
+#`x += 1`.len()
+---------------------
+
+(source_file
+	(call
+		item: (field
+			(raw_span
+				(blob))
+			field: (ident))
+		(group)))

@@ -171,7 +171,6 @@ module.exports = grammar({
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),
-    // TODO: try barrier again to see if it simplifies the grammar
     item: $ => prec.right(1, seq(
       $._token_item,
       $._barrier_in,
@@ -312,6 +311,8 @@ module.exports = grammar({
     _item: $ => prec(1, choice(
       $.auto,
       $.none,
+      $.raw_span,
+      $.raw_blck,
       $.flow,
       $.builtin,
       $.ident,
@@ -341,6 +342,8 @@ module.exports = grammar({
     _atom: $ => choice(
       $.auto,
       $.none,
+      $.raw_span,
+      $.raw_blck,
       $.flow,
       $.builtin,
       $.ident,
