@@ -2087,13 +2087,16 @@ Test 149
 =====================
 Test 150
 =====================
-#return 0 Hello
+#(a .b())
 ---------------------
 
 (source_file
-	(return
-		(number))
-	(text))
+	(group
+		(call
+			item: (field
+				(ident)
+				field: (ident))
+			(group))))
 
 
 =====================
@@ -3767,47 +3770,47 @@ Test 268
 	(text))
 
 
-; =====================
-; Test ___
-; =====================
-; #let format(title, ..authors) = {
-;   let by = authors
-;     .pos()
-;     .join(", ", last: " and ")
+=====================
+Test 267
+=====================
+#let format(title, ..authors) = {
+  let by = authors
+    .pos()
+    .join(", ", last: " and ")
 
-;   [*#title* \ _Written by #by;_]
-; }
-; ---------------------
+  [*#title* \ _Written by #by;_]
+}
+---------------------
 
-; (source_file
-; 	(let
-; 		pattern: (call
-; 			item: (ident)
-; 			(group
-; 				(ident)
-; 				(elude
-; 					(ident))))
-; 		value: (block
-; 			(let
-; 				pattern: (ident)
-; 				value: (call
-; 					item: (field
-; 						(call
-; 							item: (field
-; 								(ident)
-; 								field: (ident))
-; 							(group))
-; 						field: (ident))
-; 					(group
-; 						(string)
-; 						(tagged
-; 							field: (ident)
-; 							(string)))))
-; 			(content
-; 				(strong
-; 					(ident))
-; 				(linebreak)
-; 				(emph
-; 					(text)
-; 					(text)
-; 					(ident))))))
+(source_file
+	(let
+		pattern: (call
+			item: (ident)
+			(group
+				(ident)
+				(elude
+					(ident))))
+		value: (block
+			(let
+				pattern: (ident)
+				value: (call
+					item: (field
+						(call
+							item: (field
+								(ident)
+								field: (ident))
+							(group))
+						field: (ident))
+					(group
+						(string)
+						(tagged
+							field: (ident)
+							(string)))))
+			(content
+				(strong
+					(ident))
+				(linebreak)
+				(emph
+					(text)
+					(text)
+					(ident))))))

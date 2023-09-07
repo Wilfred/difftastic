@@ -30,17 +30,13 @@ b, c)
 
 
 =====================
-Fixme E03
+Fixme E06
 =====================
-#(a .b())
+#return 0 Hello
 ---------------------
-; FIXME: spaces and comments around method notation
-; fix is already written but crashes gcc
+; FIXME: inlined return accepts an optional expression
 
 (source_file
-	(group
-		(call
-			item: (field
-				(ident)
-				field: (ident))
-			(group))))
+	(return
+		(number))
+	(text))

@@ -26,13 +26,13 @@ Don't esitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
-- [ ] Reduce parser size
-- [ ] Inlined return statement
-- [ ] Test `E01`: Group termination in math
 - [ ] Test `E02`: Import precedence over list
-- [ ] Test `E03`: Spaces in method notation
+- [ ] Test `E01`: Group termination in math
+- [ ] Test `E06`: Inlined return statement
+- [X] ~Test `E03`: Spaces in method notation~
 - [X] ~Test `E04`: Leading space not recognized~
 - [X] ~Test `E05`: Inlined code absorbs new line~
+- [X] ~Reduce parser size~
 
 Failing test are found in `corpus/fixme.scm`.
 
@@ -78,11 +78,9 @@ Failing test are found in `corpus/fixme.scm`.
 
 # Installation
 
-To generate this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, build the grammar with `tree-sitter generate`.
+To generate this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, generate the grammar with `tree-sitter generate`. To "generate" the grammar means the tool will generate C source as `parser.c` from `grammar.js`.
 
-The already generated grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v1.0-beta.0/tree-sitter-typst.tar.xz
-
-The grammar takes around 2 minutes to generate, and around 30 seconds to compile.
+The already generated grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v1.0-beta.0/tree-sitter-typst.tar.xz. You will only need a C compiler.
 
 ## Helix
 
@@ -91,9 +89,9 @@ Locate the installation directory:
 - Global `/usr/share/helix`
 - Local `/.config/helix`
 
-Copy the `helix/queries/typst` directory inside your corresponding `runtime/queries` directory.
+Copy the `helix/queries/typst` directory inside your corresponding `runtime/queries` directory. This will provide theming indication to the text editor.
 
-Append the following configuration to the `languages.toml` file. And indicate the path to this grammar.
+Append the following configuration to the `languages.toml` file. And indicate the path to this grammar. This will make the text editor able to recognized the Typst source files and offer the desired functionalities.
 
 ```toml
 [[language]]
@@ -123,4 +121,4 @@ hx --grammar fetch
 hx --grammar build
 ```
 
-If you downloaded the pre-built grammar, the `tree-sitter generate` step is unecessary.
+If you downloaded the already generated grammar, the `tree-sitter generate` step is unecessary. If syntax highlighting doesn't work, you may open Helix's log file with the `:log-open` command and obtain helpful error message.
