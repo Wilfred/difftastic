@@ -3904,3 +3904,39 @@ Test 276
 
 (source_file
 	(ident))
+
+
+=====================
+Test 277
+=====================
+#let a = b => b
+  .c
+---------------------
+
+(source_file
+	(let
+		pattern: (ident)
+		value: (lambda
+			pattern: (ident)
+			value: (field
+				(ident)
+				field: (ident)))))
+
+
+=====================
+Test 278
+=====================
+#{
+	if true [] /* Hello */
+
+	else []
+}
+---------------------
+
+(source_file
+	(block
+		(branch
+			test: (bool)
+			(content)
+			(comment)
+			(content))))

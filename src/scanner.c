@@ -21,6 +21,8 @@ enum token_type {
 	TOKEN_INLINED_ITEM_END,
 	TOKEN_INLINED_STMT_END,
 	TOKEN_BLOCKED_EXPR_END,
+	// TOKEN_IF_END,
+	// TOKEN_INLINED_BRANCH_END,
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
 
@@ -48,7 +50,9 @@ enum termination {
 	TERMINATION_EXCLUSIVE,
 };
 
+// TODO: all error messages should be turned off in release
 #define UNREACHABLE() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
+// #define UNREACHABLE() void
 
 static bool is_white_space(uint32_t c) {
 	return (
@@ -1950,6 +1954,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				lexer->advance(lexer, false);
 			}
 			if (lexer->lookahead == '.') {
+				// TODO: add case for `else`
 				return false;
 			}
 			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
@@ -1958,7 +1963,22 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
+	// if (valid_symbols[TOKEN_IF_END]) {
+		
+	// }
+	// if (valid_symbols[TOKEN_INLINED_BRANCH_END]) {
+	// 	lexer->mark_end(lexer);
+	// }
+
 	if (valid_symbols[TOKEN_INLINED_ELSE]) {
+		lexer->mark_end(lexer);
+		// enum token_type end = TOKEN_INLINED_BRANCH_END;
+		// if (!valid_symbols[TOKEN_INLINED_BRANCH_END]) {
+		// 	// when an optional `else` can be tokenized, it means
+		// 	// it can also be the end of the inlined expression
+		// 	UNREACHABLE();
+		// 	return false;
+		// }
 		enum token_type end;
 		if (valid_symbols[TOKEN_INLINED_ITEM_END]) {
 			end = TOKEN_INLINED_ITEM_END;
@@ -1986,6 +2006,12 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 		if (lexer->lookahead != 'e') {
+			if (lexer->lookahead == '/') {
+				lexer->advance(lexer, false);
+				if (lexer->lookahead == '/' || lexer->lookahead == '*') {
+					return false;
+				}
+			}
 			lexer->result_symbol = end;
 			return true;
 		}
@@ -2020,6 +2046,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 	if (valid_symbols[TOKEN_INLINED_STMT_END]) {
+		lexer->mark_end(lexer);
 		while (is_white_space(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 		}
@@ -2029,11 +2056,18 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
 			return true;
 		}
-		if (
-			is_new_line(lexer->lookahead) ||
-			lexer->eof(lexer) ||
-			lexer->lookahead == ']'
-		) {
+		if (lexer->eof(lexer) || lexer->lookahead == ']') {
+			lexer->result_symbol = TOKEN_INLINED_STMT_END;
+			return true;
+		}
+		if (is_new_line(lexer->lookahead)) {
+			lexer->advance(lexer, false);
+			while (is_new_line(lexer->lookahead) || is_white_space(lexer->lookahead)) {
+				lexer->advance(lexer, false);
+			}
+			if (lexer->lookahead == '.') {
+				return false;
+			}
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
 			return true;
 		}

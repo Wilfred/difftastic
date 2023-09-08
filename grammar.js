@@ -76,6 +76,8 @@ module.exports = grammar({
     $._token_inlined_item_end,
     $._token_inlined_stmt_end,
     $._token_blocked_expr_end,
+    // $._token_if_end,
+    // $._token_inlined_branch_end,
     $._token_math_letter,
     $._token_math_ident,
 
@@ -304,9 +306,11 @@ module.exports = grammar({
     ))),
     _math_symbol: $ => choice(alias($._math_shorthand, $.shorthand), token(prec(-2, /./))),
 
+    // TODO: modify it also for math
     _code: $ => seq('#', choice(
       seq($._item, $._token_inlined_item_end),
-      seq($._stmt, $._token_inlined_stmt_end)
+      seq($._stmt, $._token_inlined_stmt_end),
+      // seq($.branch, $._token_inlined_branch_end),
     )),
 
     _item: $ => prec(1, choice(
@@ -436,6 +440,15 @@ module.exports = grammar({
         ws($),
         choice($.block, $.content, $.branch)
       )),
+      // ws($),
+      // choice(
+      //   $._token_if_end,
+      //   seq(
+      //     'else',
+      //     ws($),
+      //     choice($.block, $.content, $.branch)
+      //   )
+      // ),
     )),
     let: $ => prec.right(3, seq(
       'let',
