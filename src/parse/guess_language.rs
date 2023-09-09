@@ -349,6 +349,8 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "*.resx",
             "*.svg",
             "*.xml",
+            "*.xsl",
+            "*.xslt",
             "App.config",
             "nuget.config",
             ".classpath",
