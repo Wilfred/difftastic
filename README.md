@@ -40,7 +40,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 282
+- [ ] More tests, objectif 1000, current 298
 - [ ] Optimization
   - [X] Parser size
   - [ ] Benchmark
@@ -80,7 +80,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 To generate this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, generate the grammar with `tree-sitter generate`. To "generate" the grammar means the tool will generate C source as `parser.c` from `grammar.js`.
 
-The already generated grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v1.0-beta.0/tree-sitter-typst.tar.xz. You will only need a C compiler.
+The already generated grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v0.7.0-beta.1/tree-sitter-typst.tar.xz. You will only need a C compiler.
 
 ## Helix
 
