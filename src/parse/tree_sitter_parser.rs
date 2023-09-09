@@ -112,6 +112,7 @@ extern "C" {
     fn tree_sitter_toml() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
+    fn tree_sitter_xml() -> ts::Language;
     fn tree_sitter_yaml() -> ts::Language;
     fn tree_sitter_zig() -> ts::Language;
 }
@@ -992,6 +993,23 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                         include_str!("../../vendored_parsers/highlights/javascript.scm"),
                         include_str!("../../vendored_parsers/highlights/typescript.scm"),
                     ),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Xml => {
+            let language = unsafe { tree_sitter_xml() };
+            TreeSitterConfig {
+                language,
+                // XMLDecl is the <?xml ...?> header, but the parser
+                // just treats it as a sequence of tokens rather than
+                // e.g. string subexpressions, so flatten.
+                atom_nodes: vec!["AttValue", "XMLDecl"].into_iter().collect(),
+                delimiter_tokens: (vec![("<", ">")]),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/xml.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

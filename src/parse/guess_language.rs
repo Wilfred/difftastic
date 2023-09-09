@@ -69,6 +69,7 @@ pub enum Language {
     Toml,
     TypeScript,
     TypeScriptTsx,
+    Xml,
     Yaml,
     Zig,
 }
@@ -153,6 +154,7 @@ pub fn language_name(language: Language) -> &'static str {
         Toml => "TOML",
         TypeScript => "TypeScript",
         TypeScriptTsx => "TypeScript TSX",
+        Xml => "XML",
         Yaml => "YAML",
         Zig => "Zig",
     }
@@ -340,6 +342,19 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         TypeScript => &["*.ts"],
         TypeScriptTsx => &["*.tsx"],
+        Xml => &[
+            "*.ant",
+            "*.csproj",
+            "*.plist",
+            "*.resx",
+            "*.svg",
+            "*.xml",
+            "App.config",
+            "nuget.config",
+            ".classpath",
+            ".cproject",
+            ".project",
+        ],
         Yaml => &["*.yaml", "*.yml"],
         Zig => &["*.zig"],
     };
@@ -438,6 +453,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "java" => Some(Java),
             "js" | "js2" => Some(JavaScript),
             "lisp" => Some(CommonLisp),
+            "nxml" => Some(Xml),
             "perl" => Some(Perl),
             "python" => Some(Python),
             "racket" => Some(Racket),

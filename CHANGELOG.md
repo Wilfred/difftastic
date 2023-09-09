@@ -1,5 +1,9 @@
 ## 0.52 (unreleased)
 
+### Parsing
+
+Added support for XML.
+
 ### Display
 
 Improved syntax highlighting of constructors (i.e. type names when
