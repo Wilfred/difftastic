@@ -348,6 +348,7 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "*.plist",
             "*.resx",
             "*.svg",
+            "*.ui",
             "*.xml",
             "*.xsl",
             "*.xslt",
