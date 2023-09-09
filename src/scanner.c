@@ -1954,11 +1954,40 @@ bool tree_sitter_typst_external_scanner_scan(
 				lexer->advance(lexer, false);
 			}
 			if (lexer->lookahead == '.') {
-				// TODO: add case for `else`
 				return false;
 			}
+			if (lexer->lookahead == '/') {
+				lexer->advance(lexer, false);
+				if (lexer->lookahead == '*' || lexer->lookahead == '/') {
+					return false;
+				}
+			}
 			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
-			return true;
+
+			// token `else`
+			if (lexer->lookahead != 'e') {
+				return true;
+			}
+			lexer->advance(lexer, false);
+			if (lexer->lookahead != 'l') {
+				return true;
+			}
+			lexer->advance(lexer, false);
+			if (lexer->lookahead != 's') {
+				return true;
+			}
+			lexer->advance(lexer, false);
+			if (lexer->lookahead != 'e') {
+				return true;
+			}
+			lexer->advance(lexer, false);
+			if (
+				lexer->lookahead != '{' &&
+				lexer->lookahead != '[' &&
+				!is_white_space(lexer->lookahead)
+			) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -1992,6 +2021,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			UNREACHABLE();
 			return false;
 		}
+		// FIXME: comments before line are allowed, but after, no
 		while (
 			is_new_line(lexer->lookahead) ||
 			is_white_space(lexer->lookahead)

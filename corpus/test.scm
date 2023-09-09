@@ -3940,3 +3940,19 @@ Test 278
 			(content)
 			(comment)
 			(content))))
+
+
+=====================
+Test 279
+=====================
+#if true []  /* Hello */
+
+else {}
+---------------------
+
+(source_file
+	(branch
+		test: (bool)
+		(content)
+		(comment)
+		(block)))

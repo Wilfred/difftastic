@@ -325,7 +325,7 @@ module.exports = grammar({
       $.bool,
       $.number,
       $.string,
-      $.branch,
+      alias($.branch_inlined, $.branch),
       alias($.field_inlined, $.field),
       $.block,
       $.group,
@@ -432,23 +432,27 @@ module.exports = grammar({
       repeat(choice($._ws, seq($._expr, $._token_blocked_expr_end))),
       '}'
     ),
-    branch: $ => prec.left(2, seq(
+    branch: $ => prec.right(2, seq(
       'if',
       field('test', $._expr), 
       choice($.block, $.content),
-      optional(seq(alias($._token_inlined_else, 'else'),
+      ws($),
+      optional(seq(
+        'else',
         ws($),
         choice($.block, $.content, $.branch)
       )),
-      // ws($),
-      // choice(
-      //   $._token_if_end,
-      //   seq(
-      //     'else',
-      //     ws($),
-      //     choice($.block, $.content, $.branch)
-      //   )
-      // ),
+    )),
+    branch_inlined: $ => prec.right(2, seq(
+      'if',
+      field('test', $._expr), 
+      choice($.block, $.content),
+      ws($),
+      optional(seq(
+        alias($._token_inlined_else, 'else'),
+        ws($),
+        choice($.block, $.content, alias($.branch_inlined, $.branch))
+      )),
     )),
     let: $ => prec.right(3, seq(
       'let',
