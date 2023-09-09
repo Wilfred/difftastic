@@ -22,14 +22,15 @@ Participate by:
 
 Failing test are found in `corpus/fixme.scm`.
 
-Don't esitate to contact me: eddie.gerbais-nief@proton.me
+Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
 - [ ] Test `E02`: Import precedence over list
 - [ ] Test `E01`: Group termination in math
 - [ ] Test `E06`: Inlined return statement
-- [ ] Test `E07`: Trailing comments before `else`
+- [ ] Test `E08`: Condition if set statement
+- [X] ~Test `E07`: Trailing comments before `else`~
 - [X] ~Test `E03`: Spaces in method notation~
 - [X] ~Test `E04`: Leading space not recognized~
 - [X] ~Test `E05`: Inlined code absorbs new line~
@@ -39,7 +40,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 
-- [ ] More tests 264 / 1000 (current / objectif)
+- [ ] More tests, objectif 1000, current 280
 - [ ] Optimization
   - [X] Parser size
   - [ ] Benchmark

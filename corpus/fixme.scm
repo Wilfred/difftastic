@@ -40,3 +40,19 @@ Fixme E06
 	(return
 		(number))
 	(text))
+
+
+=====================
+Fixme E08
+=====================
+#set text(red) if critical
+---------------------
+; FIXME: add condition of set statement
+
+(source_file
+	(set
+		(call
+			item: (ident)
+			(group
+				(builtin)))
+		test: (ident)))
