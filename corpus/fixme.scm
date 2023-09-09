@@ -12,24 +12,6 @@ $||)$
 
 
 =====================
-Fixme E02
-=====================
-#(import
-"a"
-:
-b, c)
----------------------
-; FIXME: comma precedence to import over list
-
-(source_file
-	(group
-		(import
-			(string)
-			(ident)
-			(ident))))
-
-
-=====================
 Fixme E06
 =====================
 #return 0 Hello

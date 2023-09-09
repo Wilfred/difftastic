@@ -26,9 +26,9 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
-- [ ] Test `E02`: Import precedence over list
 - [ ] Test `E01`: Group termination in math
 - [ ] Test `E06`: Inlined return statement
+- [X] ~Test `E02`: Import precedence over list~
 - [X] ~Test `E08`: Condition if set statement~
 - [X] ~Test `E07`: Trailing comments before `else`~
 - [X] ~Test `E03`: Spaces in method notation~

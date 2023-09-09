@@ -101,7 +101,7 @@ module.exports = grammar({
     [$.let],
     [$.elude],
     [$.return],
-    [$.return_inline],
+    [$.return_inlined],
     [$._code, $.field_inlined],
   ],
   rules: {
@@ -337,12 +337,12 @@ module.exports = grammar({
     _stmt: $ => choice(
       $.let,
       $.set,
-      $.import,
+      alias($.import_inlined, $.import),
       $.include,
       $.for,
       $.while,
       $.show,
-      alias($.return_inline, $.return),
+      alias($.return_inlined, $.return),
     ),
 
     _atom: $ => choice(
@@ -482,7 +482,17 @@ module.exports = grammar({
       ws($),
       optional(seq(
         token(prec(10, ':')),
-        repeat(seq($._expr, ',')),
+        repeat(seq($._expr, token(prec(1, ',')), ws($), $._token_ws_greedy)),
+        optional($._expr),
+      )),
+    )),
+    import_inlined: $ => prec.right(1, seq(
+      'import',
+      $._expr,
+      ws($),
+      optional(seq(
+        token(prec(10, ':')),
+        repeat(seq($._expr, token(prec(1, ',')))),
         optional($._expr),
       )),
     )),
@@ -510,7 +520,7 @@ module.exports = grammar({
       field('value', $._expr),
     ),
     return: $ => seq('return', optional($._expr)),
-    return_inline: $ => prec(-1, seq('return', optional(seq(ws($), choice($._stmt, $._item))))),
+    return_inlined: $ => prec(-1, seq('return', optional(seq(ws($), choice($._stmt, $._item))))),
     flow: $ => choice('break', 'continue'),
     auto: $ => 'auto',
     none: $ => 'none',

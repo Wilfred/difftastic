@@ -3988,3 +3988,20 @@ if critical
 				(builtin))))
 	(text)
 	(text))
+
+
+=====================
+Test 282
+=====================
+#(import
+"a"
+:
+b, c)
+---------------------
+
+(source_file
+	(group
+		(import
+			(string)
+			(ident)
+			(ident))))
