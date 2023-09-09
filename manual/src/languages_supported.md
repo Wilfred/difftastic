@@ -53,14 +53,15 @@ with `difft --list-languages`.
 
 ## Structured Text Formats
 
-| Language | Parser Used                                                                       |
-|----------|-----------------------------------------------------------------------------------|
-| CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)     |
-| HCL      | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl) |
-| HTML     | [tree-sitter/tree-sitter-html](https://github.com/tree-sitter/tree-sitter-html)   |
-| JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)   |
-| LaTeX    | [latex-lsp/tree-sitter-latex](https://github.com/latex-lsp/tree-sitter-latex)     |
-| Newick   | [delehef/tree-sitter-newick](https://github.com/delehef/tree-sitter-newick)       |
-| TOML     | [ikatyang/tree-sitter-toml](https://github.com/ikatyang/tree-sitter-toml)         |
-| YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)         |
+| Language | Parser Used                                                                         |
+|----------|-------------------------------------------------------------------------------------|
+| CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)       |
+| HCL      | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl)   |
+| HTML     | [tree-sitter/tree-sitter-html](https://github.com/tree-sitter/tree-sitter-html)     |
+| JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)     |
+| LaTeX    | [latex-lsp/tree-sitter-latex](https://github.com/latex-lsp/tree-sitter-latex)       |
+| Newick   | [delehef/tree-sitter-newick](https://github.com/delehef/tree-sitter-newick)         |
+| TOML     | [ikatyang/tree-sitter-toml](https://github.com/ikatyang/tree-sitter-toml)           |
+| XML      | [ObserverOfTime/tree-sitter-xml](https://github.com/ObserverOfTime/tree-sitter-xml) |
+| YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)           |
 
