@@ -80,6 +80,7 @@ module.exports = grammar({
     // $._token_inlined_branch_end,
     $._token_math_letter,
     $._token_math_ident,
+    $._token_ws_greedy,
 
     $._recovery,
   ],
@@ -434,9 +435,10 @@ module.exports = grammar({
     ),
     branch: $ => prec.right(2, seq(
       'if',
-      field('test', $._expr), 
+      field('test', $._expr),
       choice($.block, $.content),
       ws($),
+      $._token_ws_greedy,
       optional(seq(
         'else',
         ws($),

@@ -25,6 +25,7 @@ enum token_type {
 	// TOKEN_INLINED_BRANCH_END,
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
+	TOKEN_WS_GREEDY,
 
 	// error recovery state detection
 	TOKEN_RECOVERY,
@@ -1909,6 +1910,21 @@ bool tree_sitter_typst_external_scanner_scan(
 				return true;
 			}
 		}
+	}
+
+	if (valid_symbols[TOKEN_WS_GREEDY]) {
+		lexer->mark_end(lexer);
+		if (is_white_space(lexer->lookahead) || is_new_line(lexer->lookahead)) {
+			return false;
+		}
+		if (lexer->lookahead == '/') {
+			lexer->advance(lexer, false);
+			if (lexer->lookahead == '*' || lexer->lookahead == '/') {
+				return false;
+			}
+		}
+		lexer->result_symbol = TOKEN_WS_GREEDY;
+		return true;
 	}
 
 	if (valid_symbols[TOKEN_MATH_IDENT] && IS_ID_START(lexer->lookahead)) {
