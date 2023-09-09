@@ -337,7 +337,7 @@ fn main() {
         },
         TreeSitterParser {
             name: "tree-sitter-xml",
-            src_dir: "vendored_parsers/tree-sitter-xml-src",
+            src_dir: "vendored_parsers/tree-sitter-xml-src/tree-sitter-xml/src",
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
