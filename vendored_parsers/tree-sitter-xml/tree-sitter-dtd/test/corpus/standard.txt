@@ -1,0 +1,214 @@
+================================================================================
+Element Declarations
+================================================================================
+
+<!ELEMENT br EMPTY>
+<!ELEMENT p (#PCDATA|emph)* >
+<!ELEMENT %name.para; %content.para; >
+<!ELEMENT container ANY>
+
+<!ELEMENT spec (front, body, back?)>
+<!ELEMENT div1 (head, (p | list | note)*, div2*)>
+<!ELEMENT dictionary-body (%div.mix; | %dict.mix;)*>
+
+<!ELEMENT p (#PCDATA|a|ul|b|i|em)*>
+<!ELEMENT p (#PCDATA | %font; | %phrase; | %special; | %form;)* >
+<!ELEMENT b (#PCDATA)>
+
+--------------------------------------------------------------------------------
+
+(document
+  (elementdecl
+    (Name)
+    (contentspec))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed
+        (Name))))
+  (elementdecl
+    (PEReference
+      (Name))
+    (contentspec
+      (PEReference
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec))
+  (elementdecl
+    (Name)
+    (contentspec
+      (children
+        (Name)
+        (Name)
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (children
+        (Name)
+        (Name)
+        (Name)
+        (Name)
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed
+        (PEReference
+          (Name))
+        (PEReference
+          (Name)))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed
+        (Name)
+        (Name)
+        (Name)
+        (Name)
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed
+        (PEReference
+          (Name))
+        (PEReference
+          (Name))
+        (PEReference
+          (Name))
+        (PEReference
+          (Name)))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed))))
+
+================================================================================
+Attribute-List Declarations
+================================================================================
+
+<!ATTLIST termdef
+          id      ID      #REQUIRED
+          name    CDATA   #IMPLIED>
+<!ATTLIST list
+          type    (bullets|ordered|glossary)  "ordered">
+<!ATTLIST form
+          method  CDATA   #FIXED "POST">
+
+--------------------------------------------------------------------------------
+
+(document
+  (AttlistDecl
+    (Name)
+    (AttDef
+      (Name)
+      (TokenizedType)
+      (DefaultDecl))
+    (AttDef
+      (Name)
+      (StringType)
+      (DefaultDecl)))
+  (AttlistDecl
+    (Name)
+    (AttDef
+      (Name)
+      (Enumeration
+        (Nmtoken)
+        (Nmtoken)
+        (Nmtoken))
+      (DefaultDecl
+        (AttValue))))
+  (AttlistDecl
+    (Name)
+    (AttDef
+      (Name)
+      (StringType)
+      (DefaultDecl
+        (AttValue)))))
+
+================================================================================
+Entity Declarations
+================================================================================
+
+<!ENTITY Pub-Status "This is a pre-release of the
+  specification.">
+
+<!ENTITY open-hatch
+         SYSTEM "http://www.textuality.com/boilerplate/OpenHatch.xml">
+<!ENTITY open-hatch
+         PUBLIC "-//Textuality//TEXT Standard open-hatch boilerplate//EN"
+         "http://www.textuality.com/boilerplate/OpenHatch.xml">
+<!ENTITY hatch-pic
+         SYSTEM "../grafix/OpenHatch.gif"
+         NDATA gif >
+
+--------------------------------------------------------------------------------
+
+(document
+  (GEDecl
+    (Name)
+    (EntityValue))
+  (GEDecl
+    (Name)
+    (ExternalID
+      (SystemLiteral
+        (URI))))
+  (GEDecl
+    (Name)
+    (ExternalID
+      (PubidLiteral)
+      (SystemLiteral
+        (URI))))
+  (GEDecl
+    (Name)
+    (ExternalID
+      (SystemLiteral
+        (URI)))
+    (NDataDecl
+      (Name))))
+
+================================================================================
+Conditional Sections
+================================================================================
+
+<!ENTITY % draft 'INCLUDE' >
+<!ENTITY % final 'IGNORE' >
+<![%draft;[
+<!ELEMENT book (comments*, title, body, supplements?)>
+]]>
+<![%final;[
+<!ELEMENT book (title, body, supplements?)>
+]]>
+
+--------------------------------------------------------------------------------
+
+(document
+  (PEDecl
+    (Name)
+    (EntityValue))
+  (PEDecl
+    (Name)
+    (EntityValue))
+  (conditionalSect
+    (PEReference
+      (Name))
+    (elementdecl
+      (Name)
+      (contentspec
+        (children
+          (Name)
+          (Name)
+          (Name)
+          (Name)))))
+  (conditionalSect
+    (PEReference
+      (Name))
+    (elementdecl
+      (Name)
+      (contentspec
+        (children
+          (Name)
+          (Name)
+          (Name))))))

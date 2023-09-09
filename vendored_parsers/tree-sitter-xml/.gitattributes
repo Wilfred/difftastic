@@ -1,0 +1,5 @@
+* text=auto
+
+**/src/*.json linguist-generated
+**/src/parser.c linguist-generated
+**/src/tree_sitter/parser.h linguist-generated

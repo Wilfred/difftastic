@@ -1,0 +1,117 @@
+================================================================================
+Prolog and Document Type
+================================================================================
+
+<?xml version="1.1" encoding="UTF-8" ?>
+<!DOCTYPE greeting [
+  <!ELEMENT greeting (#PCDATA)>
+]>
+<greeting>Hello, world!</greeting>
+
+--------------------------------------------------------------------------------
+
+(document
+  (prolog
+    (XMLDecl
+      (VersionNum)
+      (EncName))
+    (doctypedecl
+      (Name)
+      (elementdecl
+        (Name)
+        (contentspec
+          (Mixed)))))
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData))
+    (ETag
+      (Name))))
+
+================================================================================
+Comment
+================================================================================
+
+<!-- declarations for <head> & <body> -->
+<greeting/>
+
+--------------------------------------------------------------------------------
+
+(document
+  (prolog
+    (Comment))
+  (element
+    (EmptyElemTag
+      (Name))))
+
+================================================================================
+CDATA Section
+================================================================================
+
+<greeting>
+<![CDATA[<greeting>Hello, world!</greeting>]]>
+</greeting>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData)
+      (CDSect
+        (CDStart)
+        (CData))
+      (CharData))
+    (ETag
+      (Name))))
+
+================================================================================
+Element Tags
+================================================================================
+
+<termdef id="dt-dog" term="dog">
+<IMG align="left"
+ src="http://www.w3.org/Icons/WWW/w3c_home" />
+<br></br>
+<br/>
+</termdef>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name)
+      (Attribute
+        (Name)
+        (AttValue))
+      (Attribute
+        (Name)
+        (AttValue)))
+    (content
+      (CharData)
+      (element
+        (EmptyElemTag
+          (Name)
+          (Attribute
+            (Name)
+            (AttValue))
+          (Attribute
+            (Name)
+            (AttValue))))
+      (CharData)
+      (element
+        (STag
+          (Name))
+        (ETag
+          (Name)))
+      (CharData)
+      (element
+        (EmptyElemTag
+          (Name)))
+      (CharData))
+    (ETag
+      (Name))))
