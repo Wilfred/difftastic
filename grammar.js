@@ -52,36 +52,24 @@ module.exports = grammar({
     $._dedent,
     $._redent,
 
-    // other
-    $._url_token,
-    // $._token_dlim,
-    // $._token_else,
-
     // barrier
-    // $._barrier_in,
-    // $._barrier_out,
     $._barrier_in,
-    // $._heading_out,
 
     // delimited contexts
     $._content_token,
     $._strong_token,
     $._emph_token,
-    // $._head_token,
-    // $._math_group_token,
-    // $._math_bar_token,
     $._termination,
 
     $._token_inlined_else,
     $._token_inlined_item_end,
     $._token_inlined_stmt_end,
     $._token_blocked_expr_end,
-    // $._token_if_end,
-    // $._token_inlined_branch_end,
     $._token_math_letter,
     $._token_math_ident,
     $._token_ws_greedy,
     $._token_unit,
+    $._url_token,
 
     $._recovery,
   ],
@@ -308,11 +296,9 @@ module.exports = grammar({
     ))),
     _math_symbol: $ => choice(alias($._math_shorthand, $.shorthand), token(prec(-2, /./))),
 
-    // TODO: modify it also for math
     _code: $ => seq('#', choice(
       seq($._item, $._token_inlined_item_end),
       seq($._stmt, $._token_inlined_stmt_end),
-      // seq($.branch, $._token_inlined_branch_end),
     )),
 
     _item: $ => prec(1, choice(
@@ -436,7 +422,7 @@ module.exports = grammar({
     ),
     branch: $ => prec.right(2, seq(
       'if',
-      field('test', $._expr),
+      field('condition', $._expr),
       choice($.block, $.content),
       ws($),
       $._token_ws_greedy,
@@ -448,7 +434,7 @@ module.exports = grammar({
     )),
     branch_inlined: $ => prec.right(2, seq(
       'if',
-      field('test', $._expr), 
+      field('condition', $._expr), 
       choice($.block, $.content),
       ws($),
       optional(seq(
@@ -474,7 +460,7 @@ module.exports = grammar({
       ws($),
       optional(seq(
         'if',
-        field('test', $._expr),
+        field('condition', $._expr),
       )),
     )),
     import: $ => prec.right(1, seq(
@@ -510,7 +496,7 @@ module.exports = grammar({
     ),
     while: $ => seq(
       'while',
-      field('test', $._expr),
+      field('condition', $._expr),
       choice($.block, $.content),
     ),
     show: $ => seq(

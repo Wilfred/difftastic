@@ -298,7 +298,7 @@ else {}
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block)
 		(block)))
 
@@ -312,7 +312,7 @@ elsa {}
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block))
 	(text)
 	(text))
@@ -326,7 +326,7 @@ Test 023
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block))
 	(text)
 	(text))
@@ -361,7 +361,7 @@ else[]
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block)
 		(content)))
 
@@ -374,7 +374,7 @@ Test 026
 
 (source_file
 	(branch
-		test: (call
+		condition: (call
 			item: (ident)
 			(content))
 		(block)))
@@ -388,7 +388,7 @@ Test 027
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(content))
 	(text))
 
@@ -401,7 +401,7 @@ Test 028
 
 (source_file
 	(branch
-		test: (call
+		condition: (call
 			item: (group
 				(ident))
 			(content))
@@ -416,7 +416,7 @@ Test 029
 
 (source_file
 	(branch
-		test: (add
+		condition: (add
 			(group
 				(ident))
 			(call
@@ -482,7 +482,7 @@ Test 034
 (source_file
 	(call
 		item: (branch
-			test: (ident)
+			condition: (ident)
 			(block)
 			(block))
 		(group)))
@@ -1122,7 +1122,7 @@ Test 081
 
 (source_file
 	(branch
-		test: (cmp
+		condition: (cmp
 			(number)
 			(number))
 		(content)))
@@ -1207,7 +1207,7 @@ Test 086
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block)))
 
 
@@ -1461,10 +1461,10 @@ else {}
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block)
 		(branch
-			test: (ident)
+			condition: (ident)
 			(block)
 			(block))))
 
@@ -1479,7 +1479,7 @@ Test 104
 
 (source_file
 	(while
-		test: (cmp
+		condition: (cmp
 			(ident)
 			(number))
 		(block
@@ -1900,10 +1900,10 @@ else if b {}
 
 (source_file
 	(branch
-		test: (ident)
+		condition: (ident)
 		(block)
 		(branch
-			test: (ident)
+			condition: (ident)
 			(block))))
 
 
@@ -2077,7 +2077,7 @@ Test 149
 
 (source_file
 	(branch
-		test: (bool)
+		condition: (bool)
 		(block))
 	(comment)
 	(text)
@@ -3852,7 +3852,7 @@ Test 272
 (source_file
 	(group
 		(branch
-			test: (bool)
+			condition: (bool)
 			(content))))
 
 
@@ -3936,7 +3936,7 @@ Test 278
 (source_file
 	(block
 		(branch
-			test: (bool)
+			condition: (bool)
 			(content)
 			(comment)
 			(content))))
@@ -3952,7 +3952,7 @@ else {}
 
 (source_file
 	(branch
-		test: (bool)
+		condition: (bool)
 		(content)
 		(comment)
 		(block)))
@@ -3970,7 +3970,7 @@ Test 280
 			item: (builtin)
 			(group
 				(builtin)))
-		test: (ident)))
+		condition: (ident)))
 
 
 =====================
@@ -4100,7 +4100,7 @@ else []
 (source_file
 	(group
 		(branch
-			test: (bool)
+			condition: (bool)
 			(content)
 			(comment)
 			(comment)
@@ -4132,3 +4132,38 @@ Test 287
 (source_file
 	(number
 		(unit)))
+
+
+=====================
+Test 288
+=====================
+$#if true [] /* Hello */ else /* World */ []$
+---------------------
+
+(source_file
+	(math
+		(branch
+			condition: (bool)
+			(content)
+			(comment)
+			(comment)
+			(content))))
+
+
+=====================
+Test 289
+=====================
+$#if true [] /* Hello */
+
+
+else /* World */ []$
+---------------------
+
+(source_file
+	(math
+		(branch
+			condition: (bool)
+			(content)
+			(comment)
+			(comment)
+			(content))))
