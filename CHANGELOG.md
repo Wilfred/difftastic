@@ -9,6 +9,8 @@ Added support for XML.
 Improved syntax highlighting of constructors (i.e. type names when
 values are constructed, such as `Foo {}`).
 
+Improved syntax highlighting for C#.
+
 ## 0.51.1 (released 25th August 2023)
 
 Fixed an issue with GitHub actions that prevented prebuilt binaries

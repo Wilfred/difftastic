@@ -243,6 +243,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     "string_literal",
                     "verbatim_string_literal",
                     "character_literal",
+                    "modifier",
                 ]
                 .into_iter()
                 .collect(),
