@@ -475,7 +475,6 @@ module.exports = grammar({
         'if',
         field('test', $._expr),
       )),
-      // TODO: have optional `if` condition
     )),
     import: $ => prec.right(1, seq(
       'import',

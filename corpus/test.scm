@@ -3971,3 +3971,20 @@ Test 280
 			(group
 				(builtin)))
 		test: (ident)))
+
+
+=====================
+Test 281
+=====================
+#set text(red)
+if critical
+---------------------
+
+(source_file
+	(set
+		(call
+			item: (builtin)
+			(group
+				(builtin))))
+	(text)
+	(text))

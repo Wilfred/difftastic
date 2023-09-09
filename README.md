@@ -40,7 +40,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 280
+- [ ] More tests, objectif 1000, current 282
 - [ ] Optimization
   - [X] Parser size
   - [ ] Benchmark
