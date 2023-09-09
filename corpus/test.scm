@@ -4167,3 +4167,97 @@ else /* World */ []$
 			(comment)
 			(comment)
 			(content))))
+
+
+=====================
+Test 290
+=====================
+#1.005e4in
+---------------------
+
+(source_file
+	(number
+		(unit)))
+
+
+=====================
+Test 291
+=====================
+#1.005e+4in
+---------------------
+
+(source_file
+	(number
+		(unit)))
+
+
+=====================
+Test 292
+=====================
+= This will be found
+== So will this
+=== But this will not.
+---------------------
+
+(source_file
+	(heading
+		(text)
+		(text)
+		(text)
+		(text))
+	(heading
+		(text)
+		(text)
+		(text))
+	(heading
+		(text)
+		(text)
+		(text)
+		(text)))
+
+
+=====================
+Test 293
+=====================
+$ lim_x =
+    op("lim", limits: #true)_x $
+---------------------
+
+(source_file
+	(math
+		(attach
+			(ident)
+			sub: (letter))
+		(symbol)
+		(attach
+			(item_call
+				item: (ident)
+				(string)
+				(tagged
+					field: (ident)
+					(bool)))
+			sub: (letter))))
+
+
+=====================
+Test 294
+=====================
+$ op("custom",
+     limits: #true)_(n->oo) n $
+---------------------
+
+(source_file
+	(math
+		(attach
+			(item_call
+				item: (ident)
+				(string)
+				(tagged
+					field: (ident)
+					(bool)))
+			sub: (group
+				(letter)
+				(symbol
+					(shorthand))
+				(ident)))
+		(letter)))

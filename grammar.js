@@ -274,7 +274,7 @@ module.exports = grammar({
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_call: $ => prec(7, seq(choice(alias($._token_math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
-    _math_shorthand: $ => token(prec(-1, choice(
+    _math_shorthand: $ => token(prec(1, choice(
       // arrow
       //   right
       '=>', '->', '|->', '->>', '-->', '~>', '~~>',
@@ -289,12 +289,11 @@ module.exports = grammar({
       '<=', '<<', '<<<',
       //   greater
       '>=', '>>', '>>>',
-      // group
-      '|]', '||',
       // other
       '...',
     ))),
-    _math_symbol: $ => choice(alias($._math_shorthand, $.shorthand), token(prec(-2, /./))),
+    _math_unpair: $ => token(prec(-1, choice('|]', '||'))),
+    _math_symbol: $ => choice(alias($._math_shorthand, $.shorthand), $._math_unpair, token(prec(-2, /./))),
 
     _code: $ => seq('#', choice(
       seq($._item, $._token_inlined_item_end),
@@ -384,7 +383,7 @@ module.exports = grammar({
     ident: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     unit: $ => $._token_unit,
     bool: $ => choice('true', 'false'),
-    number: $ => prec.right(seq(/0x[0-9a-fA-F]+|0o[0-7]+|0b[01]+|[0-9]+(\.[0-9]+)?/, optional($.unit))),
+    number: $ => prec.right(seq(/0x[0-9a-fA-F]+|0o[0-7]+|0b[01]+|[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?/, optional($.unit))),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
     elude:  $ =>      prec(2, seq('..', optional($._expr), ws($))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), choice('=', '+=', '-=', '*=', '/='), field('value', $._expr))),
@@ -549,6 +548,8 @@ module.exports = grammar({
       'link',
       'list',
       'locate',
+      'lorem',
+      'lower',
       'ltr',
       'luma',
       'maroon',
@@ -558,6 +559,7 @@ module.exports = grammar({
       'navy',
       'olive',
       'orange',
+      'overline',
       'page',
       'pagebreak',
       'panic',
@@ -567,6 +569,7 @@ module.exports = grammar({
       'polygon',
       'purple',
       'query',
+      'raw',
       'read',
       'rect',
       'red',
@@ -579,10 +582,14 @@ module.exports = grammar({
       'scale',
       'silver',
       'smallcaps',
+      'smartquote',
       'square',
       'stack',
       'str',
+      'strike',
       'strong',
+      'sub',
+      'super',
       'sym',
       'table',
       'teal',
@@ -590,6 +597,8 @@ module.exports = grammar({
       'top',
       'ttb',
       'type',
+      'underline',
+      'upper',
       'v',
       'white',
       'yellow',
