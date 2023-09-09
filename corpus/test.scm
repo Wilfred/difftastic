@@ -4005,3 +4005,130 @@ b, c)
 			(string)
 			(ident)
 			(ident))))
+
+
+=====================
+Test 283
+=====================
+This list is affected: #[
+  #set list(marker: [--])
+  - Dash
+]
+---------------------
+
+(source_file
+	(text)
+	(text)
+	(text)
+	(text)
+	(content
+		(set
+			(call
+				item: (builtin)
+				(group
+					(tagged
+						field: (ident)
+						(content
+							(symbol))))))
+		(item
+			(text))))
+
+
+=====================
+Test 284
+=====================
+#show heading: it => block[
+  #set align(center)
+  #set text(font: "Inria Serif")
+  \~ #emph(it.body)
+     #counter(heading).display() \~
+]
+---------------------
+
+(source_file
+	(show
+		pattern: (builtin)
+		value: (lambda
+			pattern: (ident)
+			value: (call
+				item: (builtin)
+				(content
+					(set
+						(call
+							item: (builtin)
+							(group
+								(builtin))))
+					(set
+						(call
+							item: (builtin)
+							(group
+								(tagged
+									field: (ident)
+									(string)))))
+					(text
+						(escape))
+					(call
+						item: (builtin)
+						(group
+							(field
+								(ident)
+								field: (ident))))
+					(call
+						item: (field
+							(call
+								item: (builtin)
+								(group
+									(builtin)))
+							field: (ident))
+						(group))
+					(text
+						(escape)))))))
+
+
+=====================
+Test 285
+=====================
+#(if false []
+
+/* Hello */
+
+/* World */
+else []
+)
+---------------------
+
+(source_file
+	(group
+		(branch
+			test: (bool)
+			(content)
+			(comment)
+			(comment)
+			(content))))
+
+
+=====================
+Test 286
+=====================
+#0xff \
+#0o10 \
+#0b1001
+---------------------
+
+(source_file
+	(number)
+	(linebreak)
+	(number)
+	(linebreak)
+	(number))
+
+
+=====================
+Test 287
+=====================
+#0xff%
+---------------------
+
+(source_file
+	(number
+		(unit)))

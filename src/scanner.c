@@ -26,6 +26,7 @@ enum token_type {
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
 	TOKEN_WS_GREEDY,
+	TOKEN_UNIT,
 
 	// error recovery state detection
 	TOKEN_RECOVERY,
@@ -1909,6 +1910,24 @@ bool tree_sitter_typst_external_scanner_scan(
 				// lexer->mark_end(lexer);
 				return true;
 			}
+		}
+	}
+
+	if (valid_symbols[TOKEN_UNIT]) {
+		if (lexer->lookahead == '%') {
+			lexer->advance(lexer, false);
+			lexer->mark_end(lexer);
+			lexer->result_symbol = TOKEN_UNIT;
+			return true;
+		}
+		if (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') {
+			lexer->advance(lexer, false);
+			while (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') {
+				lexer->advance(lexer, false);
+			}
+			lexer->mark_end(lexer);
+			lexer->result_symbol = TOKEN_UNIT;
+			return true;
 		}
 	}
 
