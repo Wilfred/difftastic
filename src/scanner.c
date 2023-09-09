@@ -2037,7 +2037,24 @@ bool tree_sitter_typst_external_scanner_scan(
 			UNREACHABLE();
 			return false;
 		}
-		// FIXME: comments before line are allowed, but after, no
+		while (is_white_space(lexer->lookahead)) {
+			lexer->advance(lexer, false);
+		}
+		if (lexer->lookahead == ';') {
+			// the semi colon has to be included inside
+			lexer->advance(lexer, false);
+			lexer->mark_end(lexer);
+			lexer->result_symbol = end;
+			return true;
+		}
+		if (lexer->lookahead == '/') {
+			lexer->advance(lexer, false);
+			if (lexer->lookahead == '/' || lexer->lookahead == '*') {
+				return false;
+			}
+			lexer->result_symbol = end;
+			return true;
+		}
 		while (
 			is_new_line(lexer->lookahead) ||
 			is_white_space(lexer->lookahead)
@@ -2052,12 +2069,6 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 		if (lexer->lookahead != 'e') {
-			if (lexer->lookahead == '/') {
-				lexer->advance(lexer, false);
-				if (lexer->lookahead == '/' || lexer->lookahead == '*') {
-					return false;
-				}
-			}
 			lexer->result_symbol = end;
 			return true;
 		}
