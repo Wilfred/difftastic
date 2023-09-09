@@ -2487,11 +2487,11 @@ $2 ^ 4 * 8$
 
 (source_file
 	(math
-		(mul
-			(attach
-				(number)
-				sup: (number))
-			(number))))
+		(attach
+			(number)
+			sup: (number))
+		(symbol)
+		(number)))
 
 
 =====================
@@ -2565,9 +2565,9 @@ $x + 2$
 
 (source_file
 	(math
-		(add
-			(letter)
-			(number))))
+		(letter)
+		(symbol)
+		(number)))
 
 
 =====================
@@ -2578,9 +2578,9 @@ $x + ($
 
 (source_file
 	(math
-		(add
-			(letter)
-			(group))))
+		(letter)
+		(symbol)
+		(group)))
 
 
 =====================
@@ -2591,9 +2591,9 @@ $x + (  $
 
 (source_file
 	(math
-		(add
-			(letter)
-			(group))))
+		(letter)
+		(symbol)
+		(group)))
 
 
 =====================
@@ -2607,9 +2607,9 @@ $2^[4 * 2$
 		(attach
 			(number)
 				sup: (group
-					(mul
-						(number)
-						(number))))))
+					(number)
+					(symbol)
+					(number)))))
 
 
 =====================
@@ -2647,7 +2647,7 @@ $eq.not(0)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (field
 				(ident)
 				field: (ident))
@@ -2662,7 +2662,7 @@ $y[5)$
 
 (source_file
 	(math
-		(call
+		(apply
 			(letter)
 			(number))))
 
@@ -2690,7 +2690,7 @@ $1^\=()$
 	(math
 		(attach
 			(number)
-			sup: (call
+			sup: (apply
 				(escape)))))
 
 
@@ -2704,7 +2704,7 @@ $1^"hello"()$
 	(math
 		(attach
 			(number)
-			sup: (call
+			sup: (apply
 				(string)))))
 
 
@@ -2745,7 +2745,7 @@ $ cal(A) :=
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(letter))
 		(symbol
@@ -2885,9 +2885,9 @@ $1 + n n$
 
 (source_file
 	(math
-		(add
-			(number)
-			(letter))
+		(number)
+		(symbol)
+		(letter)
 		(letter)))
 
 
@@ -3229,7 +3229,7 @@ $lim(1, 3)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(number)
 			(number))))
@@ -3243,7 +3243,7 @@ $lim(1, 3; 5, 9)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(number)
 			(number)
@@ -3344,7 +3344,7 @@ $mt( dl: 0)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(tagged
 				field: (ident)
@@ -3359,7 +3359,7 @@ $mat(2, 2, delim: "[")$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(number)
 			(number)
@@ -3376,7 +3376,7 @@ $ap(av:0)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(tagged
 				field: (ident)
@@ -3419,7 +3419,7 @@ $ mat(
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(field
 				(ident)
@@ -3434,7 +3434,7 @@ $mat(a)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(letter))))
 
@@ -3447,7 +3447,7 @@ $mat(avvv)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(ident))))
 
@@ -3460,7 +3460,7 @@ $mat(/* hello */ avvv)$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(comment)
 			(ident))))
@@ -3474,7 +3474,7 @@ $mat(/* hello */ delim: "[")$
 
 (source_file
 	(math
-		(item_call
+		(call
 			item: (ident)
 			(tagged
 				field: (comment)
@@ -3615,7 +3615,7 @@ $e^mat()'$
 		(attach
 			(letter)
 			sup: (prime
-				(item_call
+				(call
 					item: (ident))))))
 
 
@@ -4230,7 +4230,7 @@ $ lim_x =
 			sub: (letter))
 		(symbol)
 		(attach
-			(item_call
+			(call
 				item: (ident)
 				(string)
 				(tagged
@@ -4249,7 +4249,7 @@ $ op("custom",
 (source_file
 	(math
 		(attach
-			(item_call
+			(call
 				item: (ident)
 				(string)
 				(tagged
@@ -4261,3 +4261,60 @@ $ op("custom",
 					(shorthand))
 				(ident)))
 		(letter)))
+
+
+=====================
+Test 295
+=====================
+$ vec(a, b, c) dot vec(1, 2, 3)
+    = a + 2b + 3c $
+---------------------
+
+(source_file
+	(math
+		(call
+			item: (ident)
+			(letter)
+			(letter)
+			(letter))
+		(ident)
+		(call
+			item: (ident)
+			(number)
+			(number)
+			(number))
+		(symbol)
+		(letter)
+		(symbol)
+		(number)
+		(letter)
+		(symbol)
+		(number)
+		(letter)))
+
+
+=====================
+Test 296
+=====================
+$1^2.0e3$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (number))
+		(ident)))
+
+
+=====================
+Test 297
+=====================
+$1 / 3$
+---------------------
+
+(source_file
+	(math
+		(fraction
+			(number)
+			(number))))
