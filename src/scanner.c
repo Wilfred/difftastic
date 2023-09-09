@@ -22,6 +22,8 @@ enum token_type {
 	TOKEN_WS_GREEDY,
 	TOKEN_UNIT,
 	TOKEN_URL,
+	TOKEN_ITEM,
+	TOKEN_HEAD,
 
 	// error recovery state detection
 	TOKEN_RECOVERY,
@@ -1884,6 +1886,59 @@ bool tree_sitter_typst_external_scanner_scan(
 				lexer->mark_end(lexer);
 				return true;
 			}
+		}
+	}
+
+	if (valid_symbols[TOKEN_HEAD]) {
+		if (lexer->lookahead == '=') {
+			lexer->advance(lexer, false);
+			while (lexer->lookahead == '=') {
+				lexer->advance(lexer, false);
+			}
+			if (
+				is_white_space(lexer->lookahead) ||
+				is_new_line(lexer->lookahead) ||
+				lexer->eof(lexer)
+			) {
+				lexer->mark_end(lexer);
+				lexer->result_symbol = TOKEN_HEAD;
+				return true;
+			}
+			return false;
+		}
+	}
+	if (valid_symbols[TOKEN_ITEM]) {
+		if (lexer->lookahead == '-' || lexer->lookahead == '+') {
+			lexer->advance(lexer, false);
+			if (
+				is_white_space(lexer->lookahead) ||
+				is_new_line(lexer->lookahead) ||
+				lexer->eof(lexer)
+			) {
+				lexer->mark_end(lexer);
+				lexer->result_symbol = TOKEN_ITEM;
+				return true;
+			}
+			return false;
+		}
+		if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+			lexer->advance(lexer, false);
+			while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+				lexer->advance(lexer, false);
+			}
+			if (lexer->lookahead == '.') {
+				lexer->advance(lexer, false);
+				if (
+					is_white_space(lexer->lookahead) ||
+					is_new_line(lexer->lookahead) ||
+					lexer->eof(lexer)
+				) {
+					lexer->mark_end(lexer);
+					lexer->result_symbol = TOKEN_ITEM;
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 

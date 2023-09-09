@@ -1,6 +1,13 @@
-const new_line_regex = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
-const white_space_regex = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
-const only_space_regex = /([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])/;
+// new lines (any character which is a line break)
+const LB = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
+const NOT_LB = /[^\r\n\v\f\x85\u2028\u2029]/;
+// any white space (new lines included)
+const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
+const NOT_WS = /[^\f\r\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/;
+// only spaces (no new line)
+const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
+const NOT_SP = /[^\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
+const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
 
 // any sequence alternating `zeb` and `ra`, like the black and white of a zebra
 // in theory, `zeb` and `ra` are interchangeable, in practice, the order matters
@@ -55,6 +62,8 @@ module.exports = grammar({
     // barrier
     $._barrier_in,
 
+    // TODO: consistant naming
+
     // delimited contexts
     $._content_token,
     $._strong_token,
@@ -70,6 +79,8 @@ module.exports = grammar({
     $._token_ws_greedy,
     $._token_unit,
     $._url_token,
+    $._token_item,
+    $._token_head,
 
     $._recovery,
   ],
@@ -112,33 +123,30 @@ module.exports = grammar({
     ),
 
     // TODO: use token() function to decompose those regex
-    parbreak: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)(([\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000])*([\n\v\f\x85\u2028\u2029]|\r\n?))+/,
-    escape: $ => /\\[^u\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\\u\{[0-9a-fA-F]*\}/,
+    parbreak: $ => token(seq(LB, repeat1(seq(repeat(SP), LB)))),
+    escape: $ => choice(
+      seq(/\\u/, /\{[0-9a-fA-F]*\}/),
+      token(seq(/\\/, NOT_WS)),
+    ),
     comment: $ => choice(
-      seq('//', /[^\n\v\f\x85\u2028\u2029]*([\n\v\f\x85\u2028\u2029]|\r\n?)?/),
+      seq('//', token(seq(repeat(NOT_LB), optional(LB)))),
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
     url: $ => seq(/http(s?):\/\//, $._url_token),
 
-    _space_expr: $ => /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)+/,
-    _new_line: $ => /([\n\v\f\x85\u2028\u2029]|\r\n?)/,
-    _space: $ => /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]+/,
+    _space_expr: $ => token(repeat1(WS)),
+    _new_line: $ => LB,
+    _space: $ => token(repeat1(SP)),
     _token_eq: $ => token(prec(1, /=/)),
 
-    // those are used to avoid matching the wrong input
-    _anti_markup: $ => /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}][_\*\"][\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/,
-    _anti_item: $ => prec(1, /(-|\+|[0-9]+\.)[^\r\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/),
-    _anti_head: $ => /=+[^=\r\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/,
+    // this token mathes `_` and `*` when they are between alphanumeric characters
+    // because, in that case, the do not count as delimiters
+    _anti_markup: $ => token(seq(ALPHANUM, /[_*"]/, ALPHANUM)),
 
-    _token_item: $ => prec(1, /-|\+|[0-9]+\./),
-    _token_term: $ => prec(1, /\/[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]+/),
-    _token_head: $ => /=+/,
+    _token_term: $ => token(seq('/', SP)),
     linebreak: $ => /\\/,
-    quote: $ => choice('"', '\''),
+    quote: $ => /"|'/,
     _ws: $ => prec(40, repeat1(choice($.comment, $._space_expr))),
-
-    // this regex is placed at the end to let all the previous ones match in priority
-    _char_any: $ => /./,
 
     _markup: $ => choice(
       $._code,
@@ -158,10 +166,8 @@ module.exports = grammar({
 
     text: $ => prec.right(repeat1(choice(
       $._anti_markup,
-      $._anti_item,
-      $._anti_head,
-      $._char_any,
       $.escape,
+      /./,
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),
@@ -190,7 +196,12 @@ module.exports = grammar({
     )),
     strong: $ => prec.left(seq($._strong_token, inside($), $._termination)),
     emph: $ => prec.left(seq($._emph_token, inside($), $._termination)),
-    raw_blck: $ => seq('```', field('lang', optional($.ident)), alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob), '```'),
+    raw_blck: $ => seq(
+      '```',
+      field('lang', optional($.ident)),
+      alias(/[^`a-zA-Z](``[^`]|`[^`]|[^`])*/, $.blob),
+      '```'
+    ),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
     symbol: $ => choice('--', '---', '-?', '~', '...'),
 
@@ -219,37 +230,34 @@ module.exports = grammar({
       $._math_atom,
       $.linebreak,
       alias($._math_group_open, $.group),
-      // alias($._math_mul, $.mul),
       alias($._math_div, $.fraction),
-      // alias($._math_add, $.add),
-      // alias($._math_sub, $.sub),
       alias($._math_root, $.root),
       alias($._math_prime, $.prime),
       alias($._math_attach_sup, $.attach),
       alias($._math_attach_sub, $.attach),
       $._math_ws_prefix,
       $._math_ws_suffix,
-      alias($._math_align, $.align),
+      alias($._math_token_align, $.align),
     ),
-    _math_align:       $ => '&',
-    _math_token_colon: $ => token(prec(-2, ':')),
-    _math_ws_prefix:   $ => prec(8, seq($._ws, $._math_expr)),
-    _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._ws)),
-    _math_group:       $ => prec(1, seq(choice('(', '[', '{', '[|'), repeat($._math_expr), ws($), choice(')', ']', '}', '|]'))),
-    _math_group_open:  $ => prec.right(0, seq(choice('(', '[', '{', '[|'), repeat($._math_expr), ws($))),
-    _math_bar:         $ => prec(-1, seq(choice('||', '|'), repeat($._math_expr), ws($), optional(token(prec(1, choice('||', '|')))))),
-    _math_item:        $ => prec(8, choice(
+
+    _math_token_align:  $ => '&',
+    _math_token_colon:  $ => ':',
+    _math_token_sub:    $ => '_',
+    _math_token_lparen: $ => token(choice('(', '[', '{', '[|')),
+
+    _math_ws_prefix:    $ => prec(8, seq($._ws, $._math_expr)),
+    _math_ws_suffix:    $ => prec(7, seq($._math_expr, $._ws)),
+    _math_group:        $ => prec(1, seq($._math_token_lparen, repeat($._math_expr), ws($), choice(')', ']', '}', '|]'))),
+    _math_group_open:   $ => prec.right(0, seq($._math_token_lparen, repeat($._math_expr), ws($))),
+    _math_bar:          $ => prec(-1, seq(choice('||', '|'), repeat($._math_expr), ws($), optional(token(prec(1, choice('||', '|')))))),
+    _math_item:         $ => prec(8, choice(
       alias($._token_math_ident, $.ident),
       alias($._math_field, $.field),
     )),
-    _math_token_sub: $ => token(prec(1, '_')),
     _math_number: $ => /[0-9]+(\.[0-9]+)?/,
     _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
     _math_prime:  $ => prec.left(6, seq($._math_atom, /'+/)),
-    // _math_mul:    $ => prec.left(3, seq($._math_expr, '*', $._math_expr)),
     _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
-    // _math_add:    $ => prec.left(2, seq($._math_expr, '+', $._math_expr)),
-    // _math_sub:    $ => prec.left(2, seq($._math_expr, '-', $._math_expr)),
     _math_attach_sup: $ => prec.right(5,
       seq($._math_expr, '^', field('sup', $._math_expr), optional(seq($._math_token_sub, field('sub', $._math_expr))))
     ),
@@ -276,19 +284,17 @@ module.exports = grammar({
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_call: $ => prec(7, seq(choice(alias($._token_math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
     _math_shorthand: $ => token(prec(1, choice(
-      // arrow
-      //   right
+      // arrow right
       '=>', '->', '|->', '->>', '-->', '~>', '~~>',
-      //   left
+      // arrow left
       '<==', '<-', '<<-', '<--',
-      //   both
+      // arrow both
       '<->', '<-->', '<=>', '<==>',
-      // cmp
-      //   eq
+      // cmp eq
       ':=', '::=', '=:', '!=',
-      //   less
+      // cmp less
       '<=', '<<', '<<<',
-      //   greater
+      // cmp greater
       '>=', '>>', '>>>',
       // other
       '...',
@@ -381,18 +387,26 @@ module.exports = grammar({
 
     _expr_ws_prefix: $ => prec(14, seq($._ws, $._expr)),
     _expr_ws_suffix: $ => prec(13, seq($._expr, $._ws)),
-    ident: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
-    unit: $ => $._token_unit,
-    bool: $ => choice('true', 'false'),
-    number: $ => prec.right(seq(/0x[0-9a-fA-F]+|0o[0-7]+|0b[01]+|[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?/, optional($.unit))),
+    ident:  $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
+    unit:   $ => $._token_unit,
+    bool:   $ => choice('true', 'false'),
+    number: $ => prec.right(seq(
+      token(choice(
+        /0x[0-9a-fA-F]+/,
+        /0o[0-7]+/,
+        /0b[01]+/,
+        /[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?/,
+      )),
+      optional($.unit))
+    ),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
-    elude:  $ =>      prec(2, seq('..', optional($._expr), ws($))),
-    assign: $ => prec.right(4, seq(field('pattern', $._expr), choice('=', '+=', '-=', '*=', '/='), field('value', $._expr))),
+    elude:  $ => prec(2, seq('..', optional($._expr), ws($))),
+    assign: $ => prec.right(4, seq(field('pattern', $._expr), token(choice('=', '+=', '-=', '*=', '/=')), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(6, seq($._expr, 'or', $._expr)),
     not:    $ => prec.left(7, seq('not', $._expr)),
     and:    $ => prec.left(7, seq($._expr, 'and', $._expr)),
-    cmp:    $ => prec.left(8, seq($._expr, choice('<', '>', '<=', '>=', '==', '!='), $._expr)),
+    cmp:    $ => prec.left(8, seq($._expr, token(choice('<', '>', '<=', '>=', '==', '!=')), $._expr)),
     in:     $ => prec.left(9, seq($._expr, optional(seq('not', ws($))), 'in', $._expr)), 
     add:    $ => prec.left(10, seq($._expr, '+', $._expr)),
     sub:    $ => prec.left(10, seq($._expr, '-', $._expr)),
