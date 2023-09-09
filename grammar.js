@@ -466,10 +466,15 @@ module.exports = grammar({
       )),
       ws($),
     )),
-    set: $ => prec(0, seq(
+    set: $ => prec.right(0, seq(
       'set',
       ws($),
       alias($.call_inlined, $.call),
+      ws($),
+      optional(seq(
+        'if',
+        field('test', $._expr),
+      )),
       // TODO: have optional `if` condition
     )),
     import: $ => prec.right(1, seq(

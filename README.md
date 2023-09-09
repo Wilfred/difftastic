@@ -29,7 +29,7 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 - [ ] Test `E02`: Import precedence over list
 - [ ] Test `E01`: Group termination in math
 - [ ] Test `E06`: Inlined return statement
-- [ ] Test `E08`: Condition if set statement
+- [X] ~Test `E08`: Condition if set statement~
 - [X] ~Test `E07`: Trailing comments before `else`~
 - [X] ~Test `E03`: Spaces in method notation~
 - [X] ~Test `E04`: Leading space not recognized~

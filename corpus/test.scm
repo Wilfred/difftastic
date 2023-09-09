@@ -3956,3 +3956,18 @@ else {}
 		(content)
 		(comment)
 		(block)))
+
+
+=====================
+Test 280
+=====================
+#set text(red) if critical
+---------------------
+
+(source_file
+	(set
+		(call
+			item: (builtin)
+			(group
+				(builtin)))
+		test: (ident)))
