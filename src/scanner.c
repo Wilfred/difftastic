@@ -7,10 +7,10 @@ enum token_type {
   TOKEN_DEDENT,
 	TOKEN_REDENT,
 
-	TOKEN_BARRIER,
 	TOKEN_CONTENT,
 	TOKEN_STRONG,
 	TOKEN_EMPH,
+	TOKEN_BARRIER,
 	TOKEN_TERMINATION,
 
 	TOKEN_INLINED_ELSE,
@@ -49,7 +49,7 @@ enum termination {
 #define UNREACHABLE() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
 // #define UNREACHABLE() void
 
-static bool is_white_space(uint32_t c) {
+static bool is_sp(uint32_t c) {
 	return (
 		c == ' ' ||
 	  c == '\t' ||
@@ -61,7 +61,7 @@ static bool is_white_space(uint32_t c) {
 	  c == 0x3000
 	);
 }
-static bool is_new_line(uint32_t c) {
+static bool is_lb(uint32_t c) {
 	return (
 		c == '\n' ||
 		c == '\r' ||
@@ -1575,33 +1575,6 @@ static uint32_t vec_u32_pop(struct vec_u32* self) {
 	self->len -= 1;
 	return self->vec[self->len];
 }
-static uint32_t vec_u32_get(struct vec_u32* self, size_t index) {
-	if (index >= self->len) {
-			fprintf(stderr, "vec_u32_get: index out of bound\n");
-			exit(EXIT_FAILURE);
-	}
-	return self->vec[index];
-}
-static uint32_t vec_u32_get_or(struct vec_u32* self, size_t index, uint32_t value) {
-	if (index >= self->len) {
-			return value;
-	}
-	return self->vec[index];
-}
-static uint32_t vec_u32_set(struct vec_u32* self, size_t index, uint32_t value) {
-	if (index >= self->len) {
-			fprintf(stderr, "vec_u32_set: index out of bound\n");
-			exit(EXIT_FAILURE);
-	}
-	self->vec[index] = value;
-}
-static size_t vec_u32_last(struct vec_u32* self) {
-	if (self->len < 1) {
-			fprintf(stderr, "vec_u32_last: empty vec\n");
-		exit(EXIT_FAILURE);
-	}
-	return self->len - 1;
-}
 static size_t vec_u32_serialize(struct vec_u32* self, char* buffer) {
 	size_t written = 0;
 	memcpy(buffer, &self->len, sizeof self->len);
@@ -1640,13 +1613,13 @@ static uint32_t scanner_current(struct scanner* self) {
 	if (self->indentation.len < 1) {
 		return 0;
 	}
-	return vec_u32_get(&self->indentation, self->indentation.len - 1);
+	return self->indentation.vec[self->indentation.len - 1];
 }
 static unsigned char scanner_previous(struct scanner* self) {
 	if (self->indentation.len < 2) {
 		return 0;
 	}
-	return vec_u32_get(&self->indentation, self->indentation.len - 2);
+	return self->indentation.vec[self->indentation.len - 2];
 }
 static void scanner_redent(struct scanner* self, uint32_t col) {
 	if (self->indentation.len == 0) {
@@ -1654,7 +1627,7 @@ static void scanner_redent(struct scanner* self, uint32_t col) {
 		UNREACHABLE();
 		return;
 	}
-	vec_u32_set(&self->indentation, self->indentation.len - 1, col);
+	self->indentation.vec[self->indentation.len - 1] = col;
 }
 static void scanner_dedent(struct scanner* self) {
 	if (self->indentation.len == 0) {
@@ -1682,7 +1655,7 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 		return lexer->lookahead == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
 		case CONTAINER_BARRIER: {
-			if (is_new_line(lexer->lookahead)) {
+			if (is_lb(lexer->lookahead)) {
 				return TERMINATION_EXCLUSIVE;
 			}
 			if (self->containers.len == 1) {
@@ -1791,7 +1764,6 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 
-	// highest precedence
 	if (valid_symbols[TOKEN_TERMINATION]) {
 		switch (scanner_termination(self, lexer)) {
 			case TERMINATION_NONE: break;
@@ -1839,8 +1811,7 @@ bool tree_sitter_typst_external_scanner_scan(
 
 	if (valid_symbols[TOKEN_URL]) {
 		self->worker.len = 0;
-		const uint32_t BRACKET = 0;
-		const uint32_t PARENTHESIS = 1;
+		enum { BRACK, PAREN, };
 		for (; true; lexer->advance(lexer, false)) {
 			uint32_t c = lexer->lookahead;
 			size_t len = self->worker.len;
@@ -1870,15 +1841,15 @@ bool tree_sitter_typst_external_scanner_scan(
 			) {
 			}
 			else if (c == '[') {
-				vec_u32_push(&self->worker, BRACKET);
+				vec_u32_push(&self->worker, BRACK);
 			}
 			else if (c == '(') {
-				vec_u32_push(&self->worker, PARENTHESIS);
+				vec_u32_push(&self->worker, PAREN);
 			}
-			else if (c == ']' && len > 0 && self->worker.vec[len - 1] == BRACKET) {
+			else if (c == ']' && len > 0 && self->worker.vec[len - 1] == BRACK) {
 				vec_u32_pop(&self->worker);
 			}
-			else if (c == ')' && len > 0 && self->worker.vec[len - 1] == PARENTHESIS) {
+			else if (c == ')' && len > 0 && self->worker.vec[len - 1] == PAREN) {
 				vec_u32_pop(&self->worker);
 			}
 			else {
@@ -1896,8 +1867,8 @@ bool tree_sitter_typst_external_scanner_scan(
 				lexer->advance(lexer, false);
 			}
 			if (
-				is_white_space(lexer->lookahead) ||
-				is_new_line(lexer->lookahead) ||
+				is_sp(lexer->lookahead) ||
+				is_lb(lexer->lookahead) ||
 				lexer->eof(lexer)
 			) {
 				lexer->mark_end(lexer);
@@ -1911,8 +1882,8 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (lexer->lookahead == '-' || lexer->lookahead == '+') {
 			lexer->advance(lexer, false);
 			if (
-				is_white_space(lexer->lookahead) ||
-				is_new_line(lexer->lookahead) ||
+				is_sp(lexer->lookahead) ||
+				is_lb(lexer->lookahead) ||
 				lexer->eof(lexer)
 			) {
 				lexer->mark_end(lexer);
@@ -1929,8 +1900,8 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (lexer->lookahead == '.') {
 				lexer->advance(lexer, false);
 				if (
-					is_white_space(lexer->lookahead) ||
-					is_new_line(lexer->lookahead) ||
+					is_sp(lexer->lookahead) ||
+					is_lb(lexer->lookahead) ||
 					lexer->eof(lexer)
 				) {
 					lexer->mark_end(lexer);
@@ -1961,7 +1932,7 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	if (valid_symbols[TOKEN_WS_GREEDY]) {
-		if (is_white_space(lexer->lookahead) || is_new_line(lexer->lookahead)) {
+		if (is_sp(lexer->lookahead) || is_lb(lexer->lookahead)) {
 			return false;
 		}
 		if (lexer->lookahead == '/') {
@@ -2010,10 +1981,10 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
 			return true;
 		}
-		if (is_new_line(lexer->lookahead)) {
+		if (is_lb(lexer->lookahead)) {
 			lexer->mark_end(lexer);
 			lexer->advance(lexer, false);
-			while (is_new_line(lexer->lookahead) || is_white_space(lexer->lookahead)) {
+			while (is_lb(lexer->lookahead) || is_sp(lexer->lookahead)) {
 				lexer->advance(lexer, false);
 			}
 			if (lexer->lookahead == '.') {
@@ -2047,7 +2018,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (
 				lexer->lookahead != '{' &&
 				lexer->lookahead != '[' &&
-				!is_white_space(lexer->lookahead)
+				!is_sp(lexer->lookahead)
 			) {
 				return true;
 			}
@@ -2083,7 +2054,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			UNREACHABLE();
 			return false;
 		}
-		while (is_white_space(lexer->lookahead)) {
+		while (is_sp(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 		}
 		if (lexer->lookahead == ';') {
@@ -2102,8 +2073,8 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 		while (
-			is_new_line(lexer->lookahead) ||
-			is_white_space(lexer->lookahead)
+			is_lb(lexer->lookahead) ||
+			is_sp(lexer->lookahead)
 		) {
 			lexer->advance(lexer, false);
 		}
@@ -2137,7 +2108,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (
 			lexer->lookahead == '[' ||
 			lexer->lookahead == '{' ||
-			is_white_space(lexer->lookahead)
+			is_sp(lexer->lookahead)
 		) {
 			lexer->mark_end(lexer);
 			lexer->result_symbol = TOKEN_INLINED_ELSE;
@@ -2149,7 +2120,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 	if (valid_symbols[TOKEN_INLINED_STMT_END]) {
-		while (is_white_space(lexer->lookahead)) {
+		while (is_sp(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 		}
 		if (lexer->lookahead == ';') {
@@ -2162,9 +2133,9 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
 			return true;
 		}
-		if (is_new_line(lexer->lookahead)) {
+		if (is_lb(lexer->lookahead)) {
 			lexer->advance(lexer, false);
-			while (is_new_line(lexer->lookahead) || is_white_space(lexer->lookahead)) {
+			while (is_lb(lexer->lookahead) || is_sp(lexer->lookahead)) {
 				lexer->advance(lexer, false);
 			}
 			if (lexer->lookahead == '.') {
@@ -2202,7 +2173,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			}
 		}
 
-		while (is_white_space(lexer->lookahead)) {
+		while (is_sp(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 		}
 		if (lexer->lookahead == ';') {
@@ -2213,6 +2184,8 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 
+
+
 	if (
 		valid_symbols[TOKEN_INDENT] ||
 		valid_symbols[TOKEN_DEDENT] ||
@@ -2220,7 +2193,7 @@ bool tree_sitter_typst_external_scanner_scan(
 	) {
 		uint32_t column = lexer->get_column(lexer);
 
-		if (is_new_line(lexer->lookahead)) {
+		if (is_lb(lexer->lookahead)) {
 			lexer->advance(lexer, false);
 			column = 0;
 		}
@@ -2238,8 +2211,8 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 		unsigned char col = 0;
-		while (is_white_space(lexer->lookahead) || is_new_line(lexer->lookahead)) {
-			if (is_new_line(lexer->lookahead)) {
+		while (is_sp(lexer->lookahead) || is_lb(lexer->lookahead)) {
+			if (is_lb(lexer->lookahead)) {
 				col = 0;
 			}
 			else {
