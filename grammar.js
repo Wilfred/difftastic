@@ -1,7 +1,7 @@
 // abreviations:
-//   LB                  line breack character
-//   SP                  space only character
-//   WS  = LB+SP         line break and space combined
+//   LB  = line breack character
+//   SP  = space only character
+//   WS  = LB+SP
 //   CSP = SP+comments
 //   CWS = WS+comments
 
@@ -103,15 +103,15 @@ module.exports = grammar({
     ),
     comment: $ => choice(
       seq('//', token(repeat(NOT_LB))),
-      seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
+      seq('/*', repeat(choice(/[^\*]|\*[^\/]/, $.comment)), '*/'),
     ),
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
     _ws: $ => token(repeat1(WS)),
     _sp: $ => token(repeat1(SP)),
 
-    // this token mathes `_` and `*` when they are between alphanumeric characters
-    // because, in that case, the do not count as delimiters
+    // this token matches `_`, `*` and `"` when they are between alphanumeric
+    // characters because, in that case, they do not count as markup
     _anti_markup: $ => token(seq(ALPHANUM, /[_*"]/, ALPHANUM)),
 
     // _token_term: $ => token(seq('/', SP)),
