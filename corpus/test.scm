@@ -4318,3 +4318,148 @@ $1 / 3$
 		(fraction
 			(number)
 			(number))))
+
+
+=====================
+Test 298
+=====================
+$|]$
+---------------------
+
+(source_file
+	(math
+		(symbol)))
+
+
+=====================
+Test 299
+=====================
+$|)$
+---------------------
+
+(source_file
+	(math
+		(group)
+		(symbol)))
+
+
+=====================
+Test 300
+=====================
+$|) / )|$
+---------------------
+
+(source_file
+	(math
+		(group)
+		(fraction
+			(symbol)
+			(symbol))
+		(group)))
+
+
+=====================
+Test 301
+=====================
+$|) + )|$
+---------------------
+
+(source_file
+	(math
+		(group)
+		(symbol)
+		(symbol)
+		(symbol)
+		(group)))
+
+
+=====================
+Test 302
+=====================
+$2^|) + )|$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (group))
+		(symbol)
+		(symbol)
+		(symbol)
+		(group)))
+
+
+=====================
+Test 303
+=====================
+$ { | x } $
+---------------------
+
+(source_file
+	(math
+		(group
+			(group
+				(letter)))))
+
+
+=====================
+Test 304
+=====================
+$2^|) / )|$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (group))
+		(fraction
+			(symbol)
+			(symbol))
+		(group)))
+
+
+=====================
+Test 305
+=====================
+$2^||]$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (group))
+		(symbol)))
+
+
+=====================
+Test 306
+=====================
+$2^|||]$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (group))
+		(symbol)))
+
+
+=====================
+Test 307
+=====================
+$2^|a b c)$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (group
+				(letter)
+				(letter)
+				(letter)))
+		(symbol)))

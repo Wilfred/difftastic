@@ -26,8 +26,8 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
-- [ ] Test `E01`: Group termination in math
-- [ ] Test `E06`: Inlined return statement
+- [ ] Test `E06`: Inlined return followed by text
+- [X] ~Test `E01`: Group termination in math~
 - [X] ~Test `E02`: Import precedence over list~
 - [X] ~Test `E08`: Condition if set statement~
 - [X] ~Test `E07`: Trailing comments before `else`~
@@ -40,7 +40,7 @@ Failing test are found in `corpus/fixme.scm`.
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 298
+- [ ] More tests, objectif 1000, current 308
 - [ ] Optimization
   - [X] Parser size
   - [ ] Benchmark
