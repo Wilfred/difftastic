@@ -2476,7 +2476,7 @@ Hello-?World
 
 (source_file
 	(text)
-	(symbol)
+	(shorthand)
 	(text))
 
 
@@ -4030,7 +4030,7 @@ This list is affected: #[
 					(tagged
 						field: (ident)
 						(content
-							(symbol))))))
+							(shorthand))))))
 		(item
 			(text))))
 
@@ -4710,3 +4710,13 @@ Test 322
 		(add
 			(number)
 			(ident))))
+
+
+=====================
+Test 323
+=====================
+<hello.world>
+---------------------
+
+(source_file
+	(label))

@@ -131,7 +131,7 @@ module.exports = grammar({
       $.url,
       $.label,
       $.ref,
-      $.symbol,
+      $.shorthand,
       $.quote,
       $.linebreak,
     ),
@@ -166,8 +166,8 @@ module.exports = grammar({
       repeat(choice($._markup, $.comment, $._sp)),
       $._termination,
     )),
-    strong: $ => prec.left(seq($._token_strong, inside($), $._termination)),
-    emph: $ => prec.left(seq($._token_emph, inside($), $._termination)),
+    strong: $ => prec.left(seq(alias($._token_strong, '*'), inside($), alias($._termination, '*'))),
+    emph: $ => prec.left(seq(alias($._token_emph, '_'), inside($), alias($._termination, '_'))),
     raw_blck: $ => seq(
       '```',
       field('lang', optional($.ident)),
@@ -175,15 +175,15 @@ module.exports = grammar({
       '```'
     ),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
-    symbol: $ => token(choice('--', '---', '-?', '~', '...')),
+    shorthand: $ => token(choice('--', '---', '-?', '~', '...')),
 
     math: $ => seq('$', ws($), repeat($._math_expr), '$'),
     _math_code: $ => prec(8, seq('#', choice(
-      seq($._item, $._token_inlined_item_end),
-      seq($._stmt, $._token_inlined_stmt_end),
+      seq($._item, alias($._token_inlined_item_end, 'end')),
+      seq($._stmt, alias($._token_inlined_stmt_end, 'end')),
 
       // FIXME: this makes return statement properly parsed
-      // but multiplies bu 6 the size of the parser
+      // but multiplies by 6 the size of the parser
 
       // seq($._stmt, optional($._token_inlined_stmt_end)),
     ))),
@@ -242,15 +242,15 @@ module.exports = grammar({
     _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
     _math_attach_sup: $ => prec.right(5, seq(
       $._math_expr,
-      $._math_token_sup,
+      alias($._math_token_sup, '^'),
       field('sup', $._math_expr),
-      optional(seq($._math_token_sub, field('sub', $._math_expr)))
+      optional(seq(alias($._math_token_sub, '_'), field('sub', $._math_expr)))
     )),
     _math_attach_sub: $ => prec.right(5, seq(
       $._math_expr,
-      $._math_token_sub,
+      alias($._math_token_sub, '_'),
       field('sub', $._math_expr),
-      optional(seq($._math_token_sup, field('sup', $._math_expr)))
+      optional(seq(alias($._math_token_sup, '^'), field('sup', $._math_expr)))
     )),
     _math_root: $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
     _math_field: $ => prec.left(9, seq($._math_item, '.', field('field', alias($._token_math_ident, $.ident)))),
@@ -259,7 +259,7 @@ module.exports = grammar({
       $._math_token_lpar,
       repeat(seq(
         choice(alias($._math_tagged, $.tagged), repeat($._math_expr), ws($)),
-        token(choice(',', ';'))
+        choice(',', ';')
       )),
       choice(alias($._math_tagged, $.tagged), repeat($._math_expr), ws($)),
       $._math_token_rpar,
@@ -295,11 +295,11 @@ module.exports = grammar({
     ),
 
     _code: $ => seq('#', choice(
-      seq($._item, $._token_inlined_item_end),
-      seq($._stmt, $._token_inlined_stmt_end),
+      seq($._item, alias($._token_inlined_item_end, 'end')),
+      seq($._stmt, alias($._token_inlined_stmt_end, 'end')),
 
       // FIXME: this makes return statement properly parsed
-      // but multiplies bu 6 the size of the parser
+      // but multiplies by 6 the size of the parser
 
       // seq($._stmt, optional($._token_inlined_stmt_end)),
     )),
@@ -398,12 +398,12 @@ module.exports = grammar({
     ),
     string: $ => seq('"', repeat(choice(/[^\"\\]/, $.escape)), '"'),
     elude:  $ => prec.left(2, seq('..', optional($._expr), ws($))),
-    assign: $ => prec.right(4, seq(field('pattern', $._expr), token(choice('=', '+=', '-=', '*=', '/=')), field('value', $._expr))),
+    assign: $ => prec.right(4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(6, seq($._expr, 'or', $._expr)),
     not:    $ => prec.left(7, seq('not', $._expr)),
     and:    $ => prec.left(7, seq($._expr, 'and', $._expr)),
-    cmp:    $ => prec.left(8, seq($._expr, token(choice('<', '>', '<=', '>=', '==', '!=')), $._expr)),
+    cmp:    $ => prec.left(8, seq($._expr, choice('<', '>', '<=', '>=', '==', '!='), $._expr)),
     in:     $ => prec.left(9, seq($._expr, optional(seq('not', ws($))), 'in', $._expr)), 
     add:    $ => prec.left(10, seq($._expr, '+', $._expr)),
     sub:    $ => prec.left(10, seq($._expr, '-', $._expr)),
@@ -416,9 +416,9 @@ module.exports = grammar({
     field_inlined: $ => seq($._item, '.', field('field', $.ident)),
     field:  $ => prec(13, seq($._expr, '.', ws($), field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
-    label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/, '>'),
-    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_]*/),
-    content: $ => seq($._token_content, content($), $._termination),
+    label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, '>'),
+    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/),
+    content: $ => seq(alias($._token_content, '['), content($), alias($._termination, ']')),
     group: $ => seq(
       '(',
       repeat(seq($._expr, ',')),
@@ -518,7 +518,7 @@ module.exports = grammar({
       field('value', $._expr),
     ),
     return: $ => seq('return', optional($._expr)),
-    flow: $ => token(choice('break', 'continue')),
+    flow: $ => choice('break', 'continue'),
     auto: $ => 'auto',
     none: $ => 'none',
     builtin: $ => token(prec(1, choice(

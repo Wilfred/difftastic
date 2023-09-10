@@ -47,7 +47,7 @@ To have it correctly recognized by the grammar, the termination token of a state
 
 At the moment, I chose performance over correctness due to the very unlikelyhood of a return statement to be followed by text or markup. Finding a solution to have both performance and correctness would be truly awesome.
 
-I open a thread on Typst's github discussion [#2103](https://github.com/typst/typst/discussions/2103)
+I open a thread on Typst's github discussion [#2103](https://github.com/typst/typst/discussions/2103), and an issue [#2104](https://github.com/typst/typst/issues/2104)
 
 ## TODO
 
@@ -100,18 +100,18 @@ Locate the installation directory:
 - Global `/usr/share/helix`
 - Local `/.config/helix`
 
-Copy the `helix/queries/typst` directory inside your corresponding `runtime/queries` directory. This will provide theming indication to the text editor.
+Copy the content of the `queries` directory inside your corresponding `runtime/queries/typst` directory. This will provide hightlight indications.
 
 Append the following configuration to the `languages.toml` file. And indicate the path to this grammar. This will make the text editor able to recognized the Typst source files and offer the desired functionalities.
 
 ```toml
 [[language]]
 name = "typst"
-scope = "text.typst"
+scope = "source.typst"
 file-types = ["typst", "typ"]
 indent = { tab-width = 2, unit = "  " }
 comment-token = "//"
-injection-regex = "^typ(st)?$"
+injection-regex = "typ(st)?"
 
 [language.auto-pairs]
 '(' = ')'

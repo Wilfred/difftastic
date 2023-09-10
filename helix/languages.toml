@@ -1,10 +1,11 @@
 [[language]]
 name = "typst"
-scope = "text.typst"
+scope = "source.typst"
 file-types = ["typst", "typ"]
 indent = { tab-width = 2, unit = "  " }
 comment-token = "//"
-injection-regex = "^typ(st)?$"
+injection-regex = "typ(st)?"
+language-server = { command = "typst-lsp" }
 
 [language.auto-pairs]
 '(' = ')'
