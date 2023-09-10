@@ -20,7 +20,7 @@ Participate by:
 - Finding solution for the bugs corresponding to failing tests.
 - Finding new bug and send corresponding test
 
-Failing test are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
+Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 
 Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
@@ -37,7 +37,17 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 - [X] ~Test `E05`: Inlined code absorbs new line~
 - [X] ~Reduce parser size~
 
-Failing test are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
+Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
+
+### Inlined `return`
+
+An inlined `return` statement, for some obscur reasons, is allowed to be followed by text and markup on the same line. So, the following code is valid Typst code: `#return a + b Hello World`
+
+To have it correctly recognized by the grammar, the termination token of a statement must be optional. But this modification forces the parser to detect by himself where an expression ends, when followed by text or markup. This result in a huge parser size inscrease of +600%.
+
+At the moment, I chose performance over correctness due to the very unlikelyhood of a return statement to be followed by text or markup. Finding a solution to have both performance and correctness would be truly awesome.
+
+I open a thread on Typst's github discussion [#2103](https://github.com/typst/typst/discussions/2103)
 
 ## TODO
 

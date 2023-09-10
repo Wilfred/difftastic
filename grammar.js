@@ -180,7 +180,12 @@ module.exports = grammar({
     math: $ => seq('$', ws($), repeat($._math_expr), '$'),
     _math_code: $ => prec(8, seq('#', choice(
       seq($._item, $._token_inlined_item_end),
-      seq($._stmt, $._token_inlined_stmt_end)
+      seq($._stmt, $._token_inlined_stmt_end),
+
+      // FIXME: this makes return statement properly parsed
+      // but multiplies bu 6 the size of the parser
+
+      // seq($._stmt, optional($._token_inlined_stmt_end)),
     ))),
     _math_atom: $ => choice(
       $._math_code,
@@ -292,6 +297,11 @@ module.exports = grammar({
     _code: $ => seq('#', choice(
       seq($._item, $._token_inlined_item_end),
       seq($._stmt, $._token_inlined_stmt_end),
+
+      // FIXME: this makes return statement properly parsed
+      // but multiplies bu 6 the size of the parser
+
+      // seq($._stmt, optional($._token_inlined_stmt_end)),
     )),
 
     _item: $ => prec(1, choice(
