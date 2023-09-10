@@ -1710,6 +1710,8 @@ void * tree_sitter_typst_external_scanner_create() {
 	self->indentation = vec_u32_new();
 	self->containers = vec_u32_new();
 	self->worker = vec_u32_new();
+	// TODO: this is probably useless;
+	vec_u32_push(&self->indentation, 0);
 	return self;
 }
 
@@ -1745,6 +1747,9 @@ void tree_sitter_typst_external_scanner_deserialize(
 		size_t read = 0;
 		read += vec_u32_deserialize(&self->indentation, buffer + read);
 		read += vec_u32_deserialize(&self->containers, buffer + read);
+	}
+	else {
+		vec_u32_push(&self->indentation, 0);
 	}
 }
 
@@ -1886,11 +1891,13 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 	if (valid_symbols[TOKEN_ITEM] || valid_symbols[TOKEN_TERM]) {
 		if (lexer->lookahead == '/') {
+			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);
 			if (
 				is_sp(lexer->lookahead) ||
 				is_lb(lexer->lookahead)
 			) {
+				scanner_redent(self, column);
 				lexer->mark_end(lexer);
 				lexer->result_symbol = TOKEN_TERM;
 				return true;
@@ -1898,12 +1905,14 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 		if (lexer->lookahead == '-' || lexer->lookahead == '+') {
+			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);
 			if (
 				is_sp(lexer->lookahead) ||
 				is_lb(lexer->lookahead) ||
 				lexer->eof(lexer)
 			) {
+				scanner_redent(self, column);
 				lexer->mark_end(lexer);
 				lexer->result_symbol = TOKEN_ITEM;
 				return true;
@@ -1911,6 +1920,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 		if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);
 			while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
 				lexer->advance(lexer, false);
@@ -1922,6 +1932,7 @@ bool tree_sitter_typst_external_scanner_scan(
 					is_lb(lexer->lookahead) ||
 					lexer->eof(lexer)
 				) {
+					scanner_redent(self, column);
 					lexer->mark_end(lexer);
 					lexer->result_symbol = TOKEN_ITEM;
 					return true;
@@ -2070,21 +2081,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	// if (valid_symbols[TOKEN_IF_END]) {
-		
-	// }
-	// if (valid_symbols[TOKEN_INLINED_BRANCH_END]) {
-	// 	lexer->mark_end(lexer);
-	// }
-
 	if (valid_symbols[TOKEN_INLINED_ELSE]) {
-		// enum token_type end = TOKEN_INLINED_BRANCH_END;
-		// if (!valid_symbols[TOKEN_INLINED_BRANCH_END]) {
-		// 	// when an optional `else` can be tokenized, it means
-		// 	// it can also be the end of the inlined expression
-		// 	UNREACHABLE();
-		// 	return false;
-		// }
 		enum token_type end;
 		if (valid_symbols[TOKEN_INLINED_ITEM_END]) {
 			end = TOKEN_INLINED_ITEM_END;
