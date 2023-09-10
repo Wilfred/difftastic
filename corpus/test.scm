@@ -4575,3 +4575,97 @@ World
 	(comment)
 	(parbreak)
 	(text))
+
+
+=====================
+Test 315
+=====================
+#(c, d, import "a.typ": a, b   )
+---------------------
+
+(source_file
+	(group
+		(ident)
+		(ident)
+		(import
+			(string)
+			(ident)
+			(ident))))
+
+
+=====================
+Test 316
+=====================
+/* // */\
+*/
+---------------------
+
+(source_file
+	(comment
+		(comment)))
+
+
+=====================
+Test 317
+=====================
+$   0.000007e+3$
+---------------------
+
+(source_file
+	(math
+		(number)
+		(letter)
+		(symbol)
+		(number)))
+
+
+=====================
+Test 318
+=====================
++ The climate
+  - Temperature
+  - Precipitation
++ The topography
++ The geology
+---------------------
+
+(source_file
+	(item
+		(text)
+		(text)
+		(item
+			(text))
+		(item
+			(text)))
+	(item
+		(text)
+		(text))
+	(item
+		(text)
+		(text)))
+
+
+=====================
+Test 319
+=====================
+ + The climate #let a
+  /* Hello */ - Temperature // World
+  - Precipitation
++ The topography
+---------------------
+
+(source_file
+	(item
+		(text)
+		(text)
+		(let
+			pattern: (ident))
+		(comment)
+		(item
+			(text)
+			(comment))
+		(item
+			(text)))
+	(item
+		(text)
+		(text)))

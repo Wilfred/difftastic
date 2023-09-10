@@ -26,6 +26,7 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
+- [ ] Test `E09`: Indentation and comments
 - [ ] Test `E06`: Inlined return followed by text
 - [X] ~Test `E01`: Group termination in math~
 - [X] ~Test `E02`: Import precedence over list~
