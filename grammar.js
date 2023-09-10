@@ -1,7 +1,9 @@
 // abreviations:
-//   LB           line breack character
-//   SP           space only character
-//   WS = LB+SP   line break and space combined
+//   LB                  line breack character
+//   SP                  space only character
+//   WS  = LB+SP         line break and space combined
+//   CSP = SP+comments
+//   CWS = WS+comments
 
 const LB = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
 const NOT_LB = /[^\r\n\v\f\x85\u2028\u2029]/;
@@ -11,14 +13,6 @@ const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
 const NOT_SP = /[^\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
 const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
 
-// any sequence alternating `zeb` and `ra`, like the black and white of a zebra
-// in theory, `zeb` and `ra` are interchangeable, in practice, the order matters
-// for instance, in a math group, the `zeb` must be `expr` and `ra` must be `ws`
-// the reason why it behaves this way is unclear, although I suspect the `ws` in
-// math operators to mislead the parser when a `ws` is found after an `expr`
-function zebra(zeb, ra) {
-  return seq(optional(ra), repeat(seq(zeb, ra)), optional(zeb));
-}
 // extras
 function ws($) {
   return optional($._cws);
@@ -31,10 +25,9 @@ function content_lb($) {
 
 // document as a whole, or what is inside content delimiter
 function content($) {
-  return zebra(
-    choice($._line_content, $._indented),
-    content_lb($),
-  );
+  const elem = choice($._line_content, $._indented);
+  const sep = content_lb($);
+  return seq(optional(sep), repeat(seq(elem, sep)), optional(elem));
 }
 
 // content inside emph or strong delimiters
@@ -179,7 +172,7 @@ module.exports = grammar({
       '```'
     ),
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`'),
-    symbol: $ => choice('--', '---', '-?', '~', '...'),
+    symbol: $ => token(choice('--', '---', '-?', '~', '...')),
 
     math: $ => seq('$', ws($), repeat($._math_expr), '$'),
     _math_code: $ => prec(8, seq('#', choice(
