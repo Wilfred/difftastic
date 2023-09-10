@@ -25,9 +25,10 @@ function content_lb($) {
 
 // document as a whole, or what is inside content delimiter
 function content($) {
-  const elem = choice($._line_content, $._indented);
+  const elem = $._line_content;
   const sep = content_lb($);
   return seq(optional(sep), repeat(seq(elem, sep)), optional(elem));
+  // return repeat(choice($._line_content, content_lb($)));
 }
 
 // content inside emph or strong delimiters

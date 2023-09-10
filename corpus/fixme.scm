@@ -9,19 +9,3 @@ Fixme E06
 	(return
 		(number))
 	(text))
-
-
-=====================
-Fixme E09
-=====================
-+
-/**/ -
- -
----------------------
-; FIXME: indent/dedent are sensible to comments, but not redent
-
-(source_file
-	(item)
-	(comment)
-	(item)
-	(item))

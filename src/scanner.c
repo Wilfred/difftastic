@@ -1710,8 +1710,6 @@ void * tree_sitter_typst_external_scanner_create() {
 	self->indentation = vec_u32_new();
 	self->containers = vec_u32_new();
 	self->worker = vec_u32_new();
-	// TODO: this is probably useless;
-	vec_u32_push(&self->indentation, 0);
 	return self;
 }
 
@@ -2226,19 +2224,13 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 
+	if (valid_symbols[TOKEN_INDENT] || valid_symbols[TOKEN_DEDENT]) {
 
-	if (
-		valid_symbols[TOKEN_INDENT] ||
-		valid_symbols[TOKEN_DEDENT] ||
-		valid_symbols[TOKEN_REDENT]
-	) {
-		uint32_t column = lexer->get_column(lexer);
-
-		if (is_lb(lexer->lookahead)) {
+		while (is_lb(lexer->lookahead) || is_sp(lexer->lookahead)) {
 			lexer->advance(lexer, false);
-			column = 0;
 		}
 
+		// when a container terminates
 		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 			if (valid_symbols[TOKEN_DEDENT]) {
 				scanner_dedent(self);
@@ -2248,51 +2240,39 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 
-		if (column != 0) {
+		uint32_t column = lexer->get_column(lexer);
+		if (self->indentation.len == 0) {
+			UNREACHABLE();
+			return 0;
+		}
+		uint32_t indentation = self->indentation.vec[self->indentation.len - 1];
+		// this is an indent
+		if (column > indentation) {
+			if (valid_symbols[TOKEN_INDENT]) {
+				scanner_indent(self, column);
+				lexer->result_symbol = TOKEN_INDENT;
+				return true;
+			}
 			return false;
 		}
-		unsigned char col = 0;
-		while (is_sp(lexer->lookahead) || is_lb(lexer->lookahead)) {
-			if (is_lb(lexer->lookahead)) {
-				col = 0;
+		if (column < indentation) {
+			// if this is a redent
+			if (self->indentation.len > 1 && valid_symbols[TOKEN_REDENT]) {
+				if (column > self->indentation.vec[self->indentation.len - 2]) {
+					scanner_redent(self, column);
+					lexer->result_symbol = TOKEN_REDENT;
+					return true;
+				}
 			}
-			else {
-				col++;
-			}
-			lexer->advance(lexer, false);
-		}
-
-
-		unsigned char current = scanner_current(self);
-		unsigned char previous = scanner_previous(self);
-
-		if (valid_symbols[TOKEN_DEDENT]) {
-			if (lexer->eof(lexer)) {
+			// this is a dedent
+			if (valid_symbols[TOKEN_DEDENT]) {
 				scanner_dedent(self);
 				lexer->result_symbol = TOKEN_DEDENT;
 				return true;
 			}
-			if (col < current && col <= previous) {
-				scanner_dedent(self);
-				lexer->result_symbol = TOKEN_DEDENT;
-				return true;
-			}
-		}
-
-		if (valid_symbols[TOKEN_REDENT] && col < current) {
-			scanner_redent(self, col);
-			lexer->result_symbol = TOKEN_REDENT;
-			return true;
-		}
-
-		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
 			return false;
 		}
-		if (valid_symbols[TOKEN_INDENT] && col > current) {
-			scanner_indent(self, col);
-			lexer->result_symbol = TOKEN_INDENT;
-			return true;
-		}
+		return false;
 	}
 
 	return false;

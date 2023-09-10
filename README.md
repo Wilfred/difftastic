@@ -26,8 +26,8 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
-- [ ] Test `E09`: Indentation and comments
-- [ ] Test `E06`: Inlined return followed by text
+- [ ] Test `E06`: Inlined return followed by text [here](https://github.com/uben0/tree-sitter-typst/blob/9a365cde46596fd64cd04c71ed5106faccdcc827/corpus/fixme.scm#L2C10-L2C10)
+- [X] ~Test `E09`: Indentation and comments~
 - [X] ~Test `E01`: Group termination in math~
 - [X] ~Test `E02`: Import precedence over list~
 - [X] ~Test `E08`: Condition if set statement~
