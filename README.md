@@ -20,13 +20,13 @@ Participate by:
 - Finding solution for the bugs corresponding to failing tests.
 - Finding new bug and send corresponding test
 
-Failing test are found in `corpus/fixme.scm`.
+Failing test are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 
 Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## FIXME
 
-- [ ] Test `E06`: Inlined return followed by text [here](https://github.com/uben0/tree-sitter-typst/blob/9a365cde46596fd64cd04c71ed5106faccdcc827/corpus/fixme.scm#L2C10-L2C10)
+- [ ] Test `E06`: Inlined return followed by text ([here](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm#L2C10-L2C10))
 - [X] ~Test `E09`: Indentation and comments~
 - [X] ~Test `E01`: Group termination in math~
 - [X] ~Test `E02`: Import precedence over list~
@@ -37,11 +37,11 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 - [X] ~Test `E05`: Inlined code absorbs new line~
 - [X] ~Reduce parser size~
 
-Failing test are found in `corpus/fixme.scm`.
+Failing test are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 308
+- [ ] More tests, objectif 1000, current 321
 - [ ] Optimization
   - [X] Parser size
   - [ ] Benchmark
