@@ -24,6 +24,7 @@ enum token_type {
 	TOKEN_UNIT,
 	TOKEN_URL,
 	TOKEN_ITEM,
+	TOKEN_TERM,
 	TOKEN_HEAD,
 
 	// error recovery state detection
@@ -1879,7 +1880,23 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 	}
-	if (valid_symbols[TOKEN_ITEM]) {
+	if (valid_symbols[TOKEN_ITEM] != valid_symbols[TOKEN_TERM]) {
+		UNREACHABLE();
+		return false;
+	}
+	if (valid_symbols[TOKEN_ITEM] || valid_symbols[TOKEN_TERM]) {
+		if (lexer->lookahead == '/') {
+			lexer->advance(lexer, false);
+			if (
+				is_sp(lexer->lookahead) ||
+				is_lb(lexer->lookahead)
+			) {
+				lexer->mark_end(lexer);
+				lexer->result_symbol = TOKEN_TERM;
+				return true;
+			}
+			return false;
+		}
 		if (lexer->lookahead == '-' || lexer->lookahead == '+') {
 			lexer->advance(lexer, false);
 			if (

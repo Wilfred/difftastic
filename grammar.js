@@ -71,6 +71,7 @@ module.exports = grammar({
     $._token_unit,
     $._token_url,
     $._token_item,
+    $._token_term,
     $._token_head,
 
     $._recovery,
@@ -112,7 +113,7 @@ module.exports = grammar({
     // because, in that case, the do not count as delimiters
     _anti_markup: $ => token(seq(ALPHANUM, /[_*"]/, ALPHANUM)),
 
-    _token_term: $ => token(seq('/', SP)),
+    // _token_term: $ => token(seq('/', SP)),
     linebreak: $ => /\\/,
     quote: $ => /"|'/,
     _cws: $ => prec(40, repeat1(choice($.comment, $._ws))),
