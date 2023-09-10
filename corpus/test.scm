@@ -804,7 +804,8 @@ Test 058
 ---------------------
 
 (source_file
-	(comment))
+	(comment)
+	(parbreak))
 
 
 =====================
@@ -4463,3 +4464,114 @@ $2^|a b c)$
 				(letter)
 				(letter)))
 		(symbol)))
+
+
+=====================
+Test 308
+=====================
+$a^b|h]$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(letter)
+			sup: (letter))
+		(group
+			(letter))
+		(symbol)))
+
+
+=====================
+Test 309
+=====================
+$a^)^0$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(letter)
+			sup: (attach
+				(symbol)
+				sup: (number)))))
+
+=====================
+Test 310
+=====================
+$1 + (a+b)/5$
+---------------------
+
+(source_file
+	(math
+		(number)
+		(symbol)
+		(fraction
+			(group
+				(letter)
+				(symbol)
+				(letter))
+			(number))))
+
+
+=====================
+Test 311
+=====================
+  -$#é$
+---------------------
+
+(source_file
+	(text)
+	(math
+		(ident)))
+
+
+=====================
+Test 312
+=====================
+$x\^2   /*hello  /* world*/*/$
+---------------------
+
+(source_file
+	(math
+		(letter)
+		(escape)
+		(number)
+		(comment
+			(comment))))
+
+
+=====================
+Test 313
+=====================
+#if false []
+
+
+else /*Hello*/ if true [] /* World */ Hello
+---------------------
+
+(source_file
+	(branch
+		condition: (bool)
+		(content)
+		(comment)
+		(branch
+			condition: (bool)
+			(content)
+			(comment)))
+	(text))
+
+
+=====================
+Test 314
+=====================
+Hello//
+
+World
+---------------------
+
+(source_file
+	(text)
+	(comment)
+	(parbreak)
+	(text))

@@ -100,7 +100,7 @@ module.exports = grammar({
       token(seq(/\\/, NOT_WS)),
     ),
     comment: $ => choice(
-      seq('//', token(seq(repeat(NOT_LB), optional(LB)))),
+      seq('//', token(repeat(NOT_LB))),
       seq('/*', repeat(choice(/[^\*\/]|\*[^\/]|\/[^\/\*]/, $.comment)), '*/'),
     ),
     url: $ => seq(/http(s?):\/\//, $._token_url),
