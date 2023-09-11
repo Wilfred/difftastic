@@ -10,6 +10,21 @@ $ GIT_EXTERNAL_DIFF=difft git log -p --ext-diff
 $ GIT_EXTERNAL_DIFF=difft git show e96a7241760319 --ext-diff
 ```
 
+A wrapper function makes these one-off commands more convenient:
+```sh
+# add to ~/.bashrc
+gitt() {
+    GIT_EXTERNAL_DIFF=difft git $1 --ext-diff $@[2,-1]
+}
+```
+
+Then use `gitt` instead of `git`:
+```
+$ gitt diff
+$ gitt log -p
+$ gitt show e96a7241760319
+```
+
 If you want to use difftastic by default, use `git config`.
 
 ```
