@@ -136,3 +136,40 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
         (quoted_content))
       (string
         (quoted_content)))))
+
+================================================================================
+External function with attribute syntax
+================================================================================
+
+@external(erlang, "erlang", "integer_to_list")
+fn integer_to_list(int int: Int, base base: Int) -> String
+
+---
+
+(source_file
+  (attribute
+    (identifier)
+    (arguments
+      (attribute_value
+        (identifier))
+      (attribute_value
+        (string
+          (quoted_content)))
+      (attribute_value
+        (string
+          (quoted_content)))))
+  (function
+    (identifier)
+    (function_parameters
+      (function_parameter
+        (label)
+        (identifier)
+        (type
+          (type_identifier)))
+      (function_parameter
+        (label)
+        (identifier)
+        (type
+          (type_identifier))))
+    (type
+      (type_identifier))))
