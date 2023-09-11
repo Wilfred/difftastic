@@ -30,7 +30,7 @@ Test 002
 
 (source_file
 	(branch
-		(ident)
+		condition: (ident)
 		(block)
 		(block)))
 
@@ -43,7 +43,7 @@ Test 003
 
 (source_file
 	(branch
-		(ident)
+		condition: (ident)
 		(block))
 	(text)
 	(text))
@@ -4720,3 +4720,21 @@ Test 323
 
 (source_file
 	(label))
+
+
+=====================
+Test 324
+=====================
+#if true {} /* Hello */
+
+
+else/* World */ {}
+---------------------
+
+(source_file
+	(branch
+		condition: (bool)
+		(block)
+		(comment)
+		(comment)
+		(block)))

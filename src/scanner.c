@@ -2147,6 +2147,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (
 			lexer->lookahead == '[' ||
 			lexer->lookahead == '{' ||
+			lexer->lookahead == '/' ||
 			is_sp(lexer->lookahead)
 		) {
 			lexer->mark_end(lexer);
