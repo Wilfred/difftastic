@@ -60,7 +60,7 @@ const Templates = {
   proc_type_tail: $ =>
     seq(
       field("parameters", optional($.parameter_declaration_list)),
-      field("return_type", optional(seq(":", $._type_expression))),
+      field("return_type", optional(seq(":", $.type_expression))),
       field("pragmas", optional($.pragma_list))
     ),
 
@@ -261,7 +261,7 @@ module.exports = grammar({
       "binary_0",
       $._expression,
       $._simple_expression_command_start,
-      $._type_expression,
+      $.type_expression,
       $.pragma_expression,
     ],
     ["proc_type"],
@@ -378,10 +378,10 @@ module.exports = grammar({
     ["proc_expr", $._basic_expression],
 
     // Conflict:
-    // 'type' type_symbol_declaration '=' 'distinct' _type_expression
+    // 'type' type_symbol_declaration '=' 'distinct' type_expression
     //
-    // _type_expression -> _type_definition
-    // 'distinct' _type_expression -> distinct_type
+    // type_expression -> _type_definition
+    // 'distinct' type_expression -> distinct_type
     //
     // Prefer former since it's more flexible
     [$._type_definition, "type_modifiers"],
@@ -523,7 +523,7 @@ module.exports = grammar({
       choice(
         seq(
           $.symbol_declaration_list,
-          field("type", seq(":", $._type_expression)),
+          field("type", seq(":", $.type_expression)),
           field("value", optional(seq("=", $._expression_with_post_block)))
         ),
         seq(
@@ -543,7 +543,7 @@ module.exports = grammar({
       ),
     _type_definition: $ =>
       choice(
-        $._type_expression,
+        $.type_expression,
         $.enum_declaration,
         $.object_declaration,
         $.concept_declaration,
@@ -590,7 +590,7 @@ module.exports = grammar({
       seq(
         keyword("object"),
         optional(field("pragma", $.pragma_list)),
-        optional(seq(keyword("of"), field("inherits", $._type_expression))),
+        optional(seq(keyword("of"), field("inherits", $.type_expression))),
         optional(
           alias($._object_field_declaration_list, $.field_declaration_list)
         )
@@ -685,7 +685,7 @@ module.exports = grammar({
         optional(seq(keyword("of"), field("refines", $.refinement_list))),
         field("body", alias($._block_statement_list, $.statement_list))
       ),
-    refinement_list: $ => sep1($._type_expression, ","),
+    refinement_list: $ => sep1($.type_expression, ","),
     _concept_parameter_list: $ => sep1($._concept_parameter, ","),
     _concept_parameter: $ =>
       choice(
@@ -845,7 +845,7 @@ module.exports = grammar({
       seq(
         keyword("do"),
         field("parameters", optional($.parameter_declaration_list)),
-        field("return_type", optional(seq("->", $._type_expression))),
+        field("return_type", optional(seq("->", $.type_expression))),
         field("pragmas", optional($.pragma_list)),
         ":",
         field("body", $.statement_list)
@@ -987,7 +987,7 @@ module.exports = grammar({
       ),
 
     /* Type expressions */
-    _type_expression: $ => choice($._simple_expression),
+    type_expression: $ => choice($._simple_expression),
     object_type: () => keyword("object"),
     enum_type: () => keyword("enum"),
     tuple_type: $ =>
@@ -1002,27 +1002,27 @@ module.exports = grammar({
     var_type: $ =>
       prec.right(
         "type_modifiers",
-        seq(keyword("var"), optional($._type_expression))
+        seq(keyword("var"), optional($.type_expression))
       ),
     out_type: $ =>
       prec.right(
         "type_modifiers",
-        seq(keyword("out"), optional($._type_expression))
+        seq(keyword("out"), optional($.type_expression))
       ),
     distinct_type: $ =>
       prec.right(
         "type_modifiers",
-        seq(keyword("distinct"), optional($._type_expression))
+        seq(keyword("distinct"), optional($.type_expression))
       ),
     ref_type: $ =>
       prec.right(
         "type_modifiers",
-        seq(keyword("ref"), optional($._type_expression))
+        seq(keyword("ref"), optional($.type_expression))
       ),
     pointer_type: $ =>
       prec.right(
         "type_modifiers",
-        seq(keyword("ptr"), optional($._type_expression))
+        seq(keyword("ptr"), optional($.type_expression))
       ),
     _tuple_field_declaration_list: $ =>
       seq(choice("[", token.immediate("[")), $._field_declaration_list, "]"),
@@ -1148,7 +1148,7 @@ module.exports = grammar({
     cast: $ =>
       seq(
         keyword("cast"),
-        field("type", optional(seq("[", $._type_expression, "]"))),
+        field("type", optional(seq("[", $.type_expression, "]"))),
         field("value", seq("(", choice($._expression, $.colon_expression), ")"))
       ),
     parenthesized: $ =>
@@ -1285,7 +1285,7 @@ module.exports = grammar({
       prec.right(
         seq(
           $.symbol_declaration_list,
-          field("type", optional(seq(":", $._type_expression))),
+          field("type", optional(seq(":", $.type_expression))),
           field("value", optional(seq("=", $._expression_with_post_block)))
         )
       ),

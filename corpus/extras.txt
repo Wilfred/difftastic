@@ -37,7 +37,8 @@ echo x,
       (symbol_declaration_list
         (symbol_declaration
           (identifier)))
-      (identifier)
+      (type_expression
+        (identifier))
       (integer_literal))
     (comment)
     (comment)
