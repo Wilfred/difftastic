@@ -507,8 +507,10 @@ collect(for x in s:
                 name: (identifier))
               (symbol_declaration
                 name: (identifier)))
-            type: (identifier)))
-        return_type: (identifier)
+            type: (type_expression
+              (identifier))))
+        return_type: (type_expression
+          (identifier))
         body: (statement_list
           (infix_expression
             left: (identifier)
@@ -523,8 +525,10 @@ collect(for x in s:
             (symbol_declaration_list
               (symbol_declaration
                 name: (identifier)))
-            type: (identifier)))
-        return_type: (identifier)
+            type: (type_expression
+              (identifier))))
+        return_type: (type_expression
+          (identifier))
         pragmas: (pragma_list
           (identifier))
         body: (statement_list
@@ -1355,17 +1359,23 @@ ptr ptr char
 
 (source_file
   (ref_type
-    (identifier))
-  (distinct_type
-    (identifier))
-  (pointer_type
-    (pointer_type
+    (type_expression
       (identifier)))
+  (distinct_type
+    (type_expression
+      (identifier)))
+  (pointer_type
+    (type_expression
+      (pointer_type
+        (type_expression
+          (identifier)))))
   (tuple_construction
     (var_type
-      (identifier))
+      (type_expression
+        (identifier)))
     (var_type
-      (identifier))))
+      (type_expression
+        (identifier)))))
 
 ================================================================================
 Routine expressions
@@ -1392,19 +1402,22 @@ iterator: T
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier))
+        type: (type_expression
+          (identifier)))
       (parameter_declaration
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier))))
+        type: (type_expression
+          (identifier)))))
   (proc_expression
     parameters: (parameter_declaration_list
       (parameter_declaration
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier)))
+        type: (type_expression
+          (identifier))))
     pragmas: (pragma_list
       (identifier))
     body: (statement_list
@@ -1418,7 +1431,8 @@ iterator: T
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier)))
+        type: (type_expression
+          (identifier))))
     body: (statement_list
       (for
         left: (symbol_declaration_list
@@ -1430,7 +1444,8 @@ iterator: T
             (identifier))))))
   (proc_type)
   (iterator_type
-    return_type: (identifier)))
+    return_type: (type_expression
+      (identifier))))
 
 ================================================================================
 Array construction
@@ -1580,7 +1595,8 @@ cast(raises: [])
 
 (source_file
   (cast
-    type: (identifier)
+    type: (type_expression
+      (identifier))
     value: (identifier))
   (cast
     value: (identifier))

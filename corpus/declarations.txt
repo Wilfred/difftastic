@@ -40,7 +40,8 @@ const Test* {.importc: "TEST".}: int
       (symbol_declaration_list
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)
+      type: (type_expression
+        (identifier))
       value: (integer_literal)))
   (const_section
     (variable_declaration
@@ -52,7 +53,8 @@ const Test* {.importc: "TEST".}: int
       (symbol_declaration_list
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)
+      type: (type_expression
+        (identifier))
       value: (integer_literal)))
   (const_section
     (variable_declaration
@@ -117,7 +119,8 @@ const Test* {.importc: "TEST".}: int
             (colon_expression
               left: (identifier)
               right: (string_literal)))))
-      type: (identifier))))
+      type: (type_expression
+        (identifier)))))
 
 ================================================================================
 Let declarations
@@ -147,7 +150,8 @@ l_e_t
       (symbol_declaration_list
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)
+      type: (type_expression
+        (identifier))
       value: (float_literal)))
   (let_section
     (variable_declaration
@@ -163,7 +167,8 @@ l_e_t
       (symbol_declaration_list
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)
+      type: (type_expression
+        (identifier))
       value: (integer_literal))
     (variable_declaration
       (symbol_declaration_list
@@ -207,7 +212,8 @@ var (x, ) = (1, )
       (symbol_declaration_list
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)
+      type: (type_expression
+        (identifier))
       value: (float_literal)))
   (var_section
     (variable_declaration
@@ -219,7 +225,8 @@ var (x, ) = (1, )
       (symbol_declaration_list
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)
+      type: (type_expression
+        (identifier))
       value: (integer_literal)))
   (var_section
     (variable_declaration
@@ -228,7 +235,8 @@ var (x, ) = (1, )
           name: (identifier))
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)))
+      type: (type_expression
+        (identifier))))
   (var_section
     (variable_declaration
       (symbol_declaration_list
@@ -236,7 +244,8 @@ var (x, ) = (1, )
           name: (identifier))
         (symbol_declaration
           name: (identifier)))
-      type: (identifier)))
+      type: (type_expression
+        (identifier))))
   (var_section
     (variable_declaration
       (symbol_declaration_list
@@ -273,13 +282,15 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (identifier)))
+      (type_expression
+        (identifier))))
   (type_section
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
       (distinct_type
-        (identifier)))
+        (type_expression
+          (identifier))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier)
@@ -289,7 +300,8 @@ type
               (symbol_declaration
                 name: (identifier))))))
       (ref_type
-        (identifier)))))
+        (type_expression
+          (identifier))))))
 
 ================================================================================
 Object declarations
@@ -356,15 +368,17 @@ type
             (symbol_declaration_list
               (symbol_declaration
                 name: (identifier)))
-            type: (identifier))
+            type: (type_expression
+              (identifier)))
           (field_declaration
             (symbol_declaration_list
               (symbol_declaration
                 name: (identifier)))
-            type: (bracket_expression
-              left: (identifier)
-              right: (argument_list
-                (identifier)))))))
+            type: (type_expression
+              (bracket_expression
+                left: (identifier)
+                right: (argument_list
+                  (identifier))))))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
@@ -375,7 +389,8 @@ type
               (symbol_declaration_list
                 (symbol_declaration
                   name: (identifier)))
-              type: (identifier))
+              type: (type_expression
+                (identifier)))
             (of_branch
               values: (expression_list
                 (identifier))
@@ -399,7 +414,8 @@ type
                   (symbol_declaration_list
                     (symbol_declaration
                       name: (identifier)))
-                  type: (identifier))))
+                  type: (type_expression
+                    (identifier)))))
             (of_branch
               values: (expression_list
                 (infix_expression
@@ -411,7 +427,8 @@ type
                   (symbol_declaration_list
                     (symbol_declaration
                       name: (identifier)))
-                  type: (identifier))))
+                  type: (type_expression
+                    (identifier)))))
             (of_branch
               values: (expression_list
                 (infix_expression
@@ -426,17 +443,19 @@ type
                   (symbol_declaration_list
                     (symbol_declaration
                       name: (identifier)))
-                  type: (identifier))))
+                  type: (type_expression
+                    (identifier)))))
             (else_branch
               (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
                     (symbol_declaration
                       name: (identifier)))
-                  type: (bracket_expression
-                    left: (identifier)
-                    right: (argument_list
-                      (identifier))))))))))
+                  type: (type_expression
+                    (bracket_expression
+                      left: (identifier)
+                      right: (argument_list
+                        (identifier)))))))))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
@@ -447,7 +466,8 @@ type
               (symbol_declaration_list
                 (symbol_declaration
                   name: (identifier)))
-              type: (identifier))
+              type: (type_expression
+                (identifier)))
             (of_branch
               values: (expression_list
                 (identifier))
@@ -458,7 +478,8 @@ type
       (type_symbol_declaration
         name: (identifier))
       (object_declaration
-        inherits: (identifier))))
+        inherits: (type_expression
+          (identifier)))))
   (type_section
     (type_declaration
       (type_symbol_declaration
@@ -476,7 +497,8 @@ type
                     (identifier)))
                 (symbol_declaration
                   name: (identifier)))
-              type: (identifier))
+              type: (type_expression
+                (identifier)))
             (field_declaration
               (symbol_declaration_list
                 (symbol_declaration
@@ -485,7 +507,8 @@ type
                   name: (identifier))
                 (symbol_declaration
                   name: (identifier)))
-              type: (identifier))))))
+              type: (type_expression
+                (identifier)))))))
     (type_declaration
       (type_symbol_declaration
         name: (exported_symbol
@@ -497,7 +520,8 @@ type
             right: (string_literal))))
       (ref_type
         (object_declaration
-          inherits: (identifier)
+          inherits: (type_expression
+            (identifier))
           (field_declaration_list
             (field_declaration
               (symbol_declaration_list
@@ -506,7 +530,8 @@ type
                     (identifier))
                   (pragma_list
                     (identifier))))
-              type: (identifier))
+              type: (type_expression
+                (identifier)))
             (field_declaration
               (symbol_declaration_list
                 (symbol_declaration
@@ -516,10 +541,11 @@ type
                     (colon_expression
                       left: (identifier)
                       right: (string_literal)))))
-              type: (bracket_expression
-                left: (identifier)
-                right: (argument_list
-                  (identifier)))))))))
+              type: (type_expression
+                (bracket_expression
+                  left: (identifier)
+                  right: (argument_list
+                    (identifier))))))))))
   (type_section
     (type_declaration
       (type_symbol_declaration
@@ -542,7 +568,8 @@ type
                 (symbol_declaration_list
                   (symbol_declaration
                     name: (identifier)))
-                type: (identifier)))))))))
+                type: (type_expression
+                  (identifier))))))))))
 
 ================================================================================
 Tuple declarations
@@ -563,15 +590,17 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (tuple_type
-        (field_declaration_list
-          (field_declaration
-            (symbol_declaration_list
-              (symbol_declaration
-                name: (identifier))
-              (symbol_declaration
-                name: (identifier)))
-            type: (identifier)))))
+      (type_expression
+        (tuple_type
+          (field_declaration_list
+            (field_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier))
+                (symbol_declaration
+                  name: (identifier)))
+              type: (type_expression
+                (identifier)))))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
@@ -580,16 +609,19 @@ type
           (symbol_declaration_list
             (symbol_declaration
               name: (identifier)))
-          type: (identifier))
+          type: (type_expression
+            (identifier)))
         (field_declaration
           (symbol_declaration_list
             (symbol_declaration
               name: (identifier)))
-          type: (identifier))))
+          type: (type_expression
+            (identifier)))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (tuple_type))))
+      (type_expression
+        (tuple_type)))))
 
 ================================================================================
 Concept declarations
@@ -673,22 +705,26 @@ type
           (type_parameter
             (identifier)))
         refines: (refinement_list
-          (identifier)
-          (identifier))
+          (type_expression
+            (identifier))
+          (type_expression
+            (identifier)))
         body: (statement_list
           (type_section
             (type_declaration
               (type_symbol_declaration
                 name: (identifier))
-              (dot_expression
-                left: (identifier)
-                right: (identifier)))
+              (type_expression
+                (dot_expression
+                  left: (identifier)
+                  right: (identifier))))
             (type_declaration
               (type_symbol_declaration
                 name: (identifier))
-              (dot_expression
-                left: (identifier)
-                right: (identifier))))
+              (type_expression
+                (dot_expression
+                  left: (identifier)
+                  right: (identifier)))))
           (infix_expression
             left: (identifier)
             right: (identifier))
@@ -700,18 +736,21 @@ type
               (symbol_declaration_list
                 (symbol_declaration
                   name: (identifier)))
-              type: (identifier))
+              type: (type_expression
+                (identifier)))
             (variable_declaration
               (symbol_declaration_list
                 (symbol_declaration
                   name: (identifier)))
-              type: (identifier))))))
+              type: (type_expression
+                (identifier)))))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
       (concept_declaration
         refines: (refinement_list
-          (identifier))
+          (type_expression
+            (identifier)))
         (comment)
         (comment)
         body: (statement_list
@@ -779,7 +818,8 @@ proc foo =
   (proc_declaration
     name: (identifier)
     parameters: (parameter_declaration_list)
-    return_type: (identifier)
+    return_type: (type_expression
+      (identifier))
     body: (statement_list
       (discard_statement)))
   (proc_declaration
@@ -801,8 +841,10 @@ proc foo =
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier)))
-    return_type: (identifier)
+        type: (type_expression
+          (identifier))))
+    return_type: (type_expression
+      (identifier))
     body: (statement_list
       (infix_expression
         left: (identifier)
@@ -815,7 +857,8 @@ proc foo =
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))))
-    return_type: (identifier)
+    return_type: (type_expression
+      (identifier))
     body: (statement_list
       (discard_statement)))
   (method_declaration
@@ -825,7 +868,8 @@ proc foo =
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier)))
+        type: (type_expression
+          (identifier))))
     pragmas: (pragma_list
       (identifier))
     body: (statement_list
@@ -840,13 +884,15 @@ proc foo =
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (bracket_expression
-          left: (identifier)
-          right: (argument_list
-            (identifier)))))
-    return_type: (tuple_construction
-      (identifier)
-      (identifier))
+        type: (type_expression
+          (bracket_expression
+            left: (identifier)
+            right: (argument_list
+              (identifier))))))
+    return_type: (type_expression
+      (tuple_construction
+        (identifier)
+        (identifier)))
     body: (statement_list
       (for
         left: (symbol_declaration_list
@@ -865,8 +911,10 @@ proc foo =
         (symbol_declaration_list
           (symbol_declaration
             name: (identifier)))
-        type: (identifier)))
-    return_type: (identifier)
+        type: (type_expression
+          (identifier))))
+    return_type: (type_expression
+      (identifier))
     body: (statement_list
       (call
         function: (identifier)

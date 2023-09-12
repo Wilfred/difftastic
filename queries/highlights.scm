@@ -32,12 +32,12 @@
 (_
   [
     type: [
-      (identifier)
-      (accent_quoted (identifier))
+      (type_expression (identifier))
+      (type_expression (accent_quoted (identifier)))
     ] @type
     return_type: [
-      (identifier)
-      (accent_quoted (identifier))
+      (type_expression (identifier))
+      (type_expression (accent_quoted (identifier)))
     ] @type
   ])
 
