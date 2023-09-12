@@ -114,9 +114,7 @@ If you downloaded the already generated grammar, the `tree-sitter generate` step
 
 ## FIXME
 
-- [ ] Math: call ignored on non-function builtin
-- [ ] Math: Non letter symbols and non shorthand symbols can't be call item
-- [ ] Test `E06`: Inlined return followed by text ([here](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm#L2C10-L2C10))
+- [X] ~Test `E10`: Math shorthand and letter can applied~
 - [X] ~Test `E09`: Indentation and comments~
 - [X] ~Test `E01`: Group termination in math~
 - [X] ~Test `E02`: Import precedence over list~
@@ -125,9 +123,6 @@ If you downloaded the already generated grammar, the `tree-sitter generate` step
 - [X] ~Test `E03`: Spaces in method notation~
 - [X] ~Test `E04`: Leading space not recognized~
 - [X] ~Test `E05`: Inlined code absorbs new line~
-- [X] ~Reduce parser size~
-
-The remaining known issues have minimal importance. The 3 of them could be considered inconscistencies in Typst implementation.
 
 Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 

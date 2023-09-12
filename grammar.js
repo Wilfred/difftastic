@@ -144,14 +144,14 @@ module.exports = grammar({
 
     _indented: $ => seq($._indent, content($), $._dedent),
     item: $ => prec.right(1, seq(
-      $._token_item,
+      alias($._token_item, 'item'),
       $._barrier,
       repeat(choice($._markup, $.comment, $._sp)),
       $._termination,
       optional($._indented),
     )),
     term: $ => prec.right(1, seq(
-      $._token_term,
+      alias($._token_term, 'item'),
       field('term', repeat($._markup)),
       ':',
       $._barrier,
@@ -198,6 +198,7 @@ module.exports = grammar({
       alias($._math_fac, $.fac),
       alias($._math_call, $.call),
       alias($._math_apply, $.apply),
+      alias($._math_shorthand, $.shorthand),
       $._math_item,
       $.escape,
       $.string,
@@ -270,7 +271,13 @@ module.exports = grammar({
       seq($._cws, $._math_tag),
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
-    _math_apply: $ => prec(7, seq(choice(alias($._token_math_letter, $.letter), $.escape, $.string, $._math_item), $._math_group)),
+    _math_apply: $ => prec(7, seq(choice(
+      alias($._token_math_letter, $.letter),
+      alias($._math_shorthand, $.shorthand),
+      $.escape,
+      $.string,
+      $._math_item,
+    ), $._math_group)),
     _math_shorthand: $ => token(prec(1, choice(
       // arrow right
       '=>', '->', '|->', '->>', '-->', '~>', '~~>',
@@ -288,7 +295,6 @@ module.exports = grammar({
       '...',
     ))),
     _math_symbol: $ => choice(
-      alias($._math_shorthand, $.shorthand),
       $._math_token_colon,
       $._math_token_orph,
       token(prec(-1, /./)),

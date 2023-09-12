@@ -34,30 +34,29 @@
 (attach ["^" "_"] @operator)
 
 ; VALUE
+(raw_blck "```" @operator) @markup.raw.block
+(raw_span "`" @operator) @markup.raw.block
+(raw_blck lang: (ident) @tag)
 (label) @tag
 (ref) @tag
 (number) @constant.numeric
 (string) @string
-; (content ["[" "]"] @ponctuatoin.special)
 (content ["[" "]"] @operator)
 (bool) @constant.builtin.boolean
 (builtin) @constant.builtin
 (none) @constant.builtin
 (auto) @constant.builtin
 (ident) @variable
-(raw_blck) @markup.raw.block
-(raw_span) @markup.raw.inline
-(raw_blck
-  lang: (ident) @label)
 (call
   item: (builtin) @function.builtin)
 
 ; MARKUP
+(item "item" @operator)
+(term ["item" ":"] @operator)
 (heading) @markup.heading
 (url) @tag
 (emph) @markup.italic
 (strong) @markup.bold
-; (text) @string
 (item) @markup.list
 (term) @markup.list
 (symbol) @tag
@@ -76,4 +75,3 @@
 ["," ";" ".."] @ponctuation.delimiter
 "assign" @ponctuation
 (field "." @ponctuation)
-

@@ -2749,8 +2749,7 @@ $ cal(A) :=
 		(call
 			item: (ident)
 			(letter))
-		(symbol
-			(shorthand))
+		(shorthand)
 		(group
 			(letter)
 			(ident)
@@ -2900,8 +2899,7 @@ $ := { | } $
 
 (source_file
 	(math
-		(symbol
-			(shorthand))
+		(shorthand)
 		(group
 			(group))))
 
@@ -4258,8 +4256,7 @@ $ op("custom",
 					(bool)))
 			sub: (group
 				(letter)
-				(symbol
-					(shorthand))
+				(shorthand)
 				(ident)))
 		(letter)))
 
@@ -4738,3 +4735,73 @@ else/* World */ {}
 		(comment)
 		(comment)
 		(block)))
+
+
+=====================
+Test 325
+=====================
+$2^:=()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (apply
+				(shorthand)))))
+
+
+=====================
+Test 326
+=====================
+$2^:= ()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (shorthand))
+		(group)))
+
+
+=====================
+Test 327
+=====================
+$2^Ⅷ()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (apply
+				(letter)))))
+
+
+=====================
+Test 328
+=====================
+$2^〇()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (apply
+				(letter)))))
+
+
+=====================
+Test 329
+=====================
+$2^∆()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (symbol))
+		(group)))
