@@ -572,6 +572,8 @@ pub enum StringKind {
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
     Normal,
+    // TODO: We should either have a AtomWithWords(HighlightKind) or a
+    // separate String, Text and Comment kind.
     String(StringKind),
     Type,
     Comment,
