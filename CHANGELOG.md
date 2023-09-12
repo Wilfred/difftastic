@@ -4,6 +4,12 @@
 
 Added support for XML.
 
+### Diffing
+
+Text nodes now get word diffing, consistent with string literals and
+comments. This is used in languages like HTML and XML that have
+separate text nodes.
+
 ### Display
 
 Improved syntax highlighting of constructors (i.e. type names when

@@ -10,7 +10,7 @@ use crate::{
         side_by_side::lines_with_novel,
     },
     lines::MaxLine,
-    parse::syntax::{self, MatchedPos},
+    parse::syntax::{self, MatchedPos, StringKind},
     summary::{DiffResult, FileContent, FileFormat},
 };
 
@@ -261,7 +261,8 @@ impl Highlight {
         match highlight {
             TokenKind::Delimiter => Highlight::Delimiter,
             TokenKind::Atom(atom) => match atom {
-                AtomKind::String => Highlight::String,
+                AtomKind::String(StringKind::StringLiteral) => Highlight::String,
+                AtomKind::String(StringKind::Text) => Highlight::Normal,
                 AtomKind::Keyword => Highlight::Keyword,
                 AtomKind::Comment => Highlight::Comment,
                 AtomKind::Type => Highlight::Type,

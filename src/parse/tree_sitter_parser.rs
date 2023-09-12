@@ -6,8 +6,8 @@ use line_numbers::LinePositions;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
-use super::syntax;
 use super::syntax::MatchedPos;
+use super::syntax::{self, StringKind};
 use crate::hash::DftHashMap;
 use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
@@ -1701,9 +1701,11 @@ fn atom_from_cursor<'a>(
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
     } else if highlights.string_ids.contains(&node.id()) {
-        AtomKind::String
+        AtomKind::String(StringKind::StringLiteral)
     } else if highlights.type_ids.contains(&node.id()) {
         AtomKind::Type
+    } else if node.kind() == "CharData" || node.kind() == "text" {
+        AtomKind::String(StringKind::Text)
     } else {
         AtomKind::Normal
     };

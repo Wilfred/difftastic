@@ -559,10 +559,20 @@ impl<'a> PartialEq for Syntax<'a> {
 }
 impl<'a> Eq for Syntax<'a> {}
 
+/// Different types of strings. We want to diff these the same way,
+/// but highlight them differently.
+#[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
+pub enum StringKind {
+    /// A string literal, such as `"foo"`.
+    StringLiteral,
+    /// Plain text, such as the content of `<p>foo</p>`.
+    Text,
+}
+
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
     Normal,
-    String,
+    String(StringKind),
     Type,
     Comment,
     Keyword,
@@ -709,7 +719,7 @@ fn split_atom_words(
     opposite_pos: &[SingleLineSpan],
     kind: AtomKind,
 ) -> Vec<MatchedPos> {
-    debug_assert!(kind == AtomKind::Comment || kind == AtomKind::String);
+    debug_assert!(kind == AtomKind::Comment || matches!(kind, AtomKind::String(_)));
 
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
@@ -837,10 +847,17 @@ impl MatchedPos {
                         content, position, ..
                     } => (content, position),
                 };
-                let kind = if let ReplacedComment(_, _) = ck {
-                    AtomKind::Comment
+
+                let kind = if let ReplacedString(this, _) = ck {
+                    match this {
+                        Atom {
+                            kind: AtomKind::String(StringKind::Text),
+                            ..
+                        } => AtomKind::String(StringKind::Text),
+                        _ => AtomKind::String(StringKind::StringLiteral),
+                    }
                 } else {
-                    AtomKind::String
+                    AtomKind::Comment
                 };
 
                 split_atom_words(this_content, pos, opposite_content, opposite_pos, kind)

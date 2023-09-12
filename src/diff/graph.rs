@@ -585,12 +585,12 @@ pub fn set_neighbours<'s, 'b>(
         if let (
             Syntax::Atom {
                 content: lhs_content,
-                kind: lhs_kind @ AtomKind::Comment | lhs_kind @ AtomKind::String,
+                kind: lhs_kind @ AtomKind::Comment | lhs_kind @ AtomKind::String(_),
                 ..
             },
             Syntax::Atom {
                 content: rhs_content,
-                kind: rhs_kind @ AtomKind::Comment | rhs_kind @ AtomKind::String,
+                kind: rhs_kind @ AtomKind::Comment | rhs_kind @ AtomKind::String(_),
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)

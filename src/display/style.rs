@@ -7,6 +7,7 @@ use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
+use crate::parse::syntax::StringKind;
 use crate::{
     constants::Side,
     hash::DftHashMap,
@@ -325,13 +326,14 @@ pub fn color_positions(
                 if syntax_highlight {
                     if let TokenKind::Atom(atom_kind) = highlight {
                         match atom_kind {
-                            AtomKind::String => {
+                            AtomKind::String(StringKind::StringLiteral) => {
                                 style = if background.is_dark() {
                                     style.bright_magenta()
                                 } else {
                                     style.magenta()
                                 };
                             }
+                            AtomKind::String(StringKind::Text) => {}
                             AtomKind::Comment => {
                                 style = style.italic();
                                 style = if background.is_dark() {
