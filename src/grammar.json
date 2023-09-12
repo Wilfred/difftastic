@@ -924,6 +924,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "using_section"
+        },
+        {
+          "type": "SYMBOL",
           "name": "const_section"
         },
         {
@@ -1287,6 +1291,31 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "using_section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "u_?[sS]_?[iI]_?[nN]_?[gG]"
+              }
+            }
+          },
+          "named": false,
+          "value": "using"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_declaration_section"
         }
       ]
     },

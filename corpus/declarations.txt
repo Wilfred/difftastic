@@ -1,4 +1,45 @@
 ================================================================================
+Using declarations
+================================================================================
+
+using
+  c: int
+  n: int
+  counter: int
+
+using c: int
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (using_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (type_expression
+        (identifier)))
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (type_expression
+        (identifier)))
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (type_expression
+        (identifier))))
+  (using_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (type_expression
+        (identifier)))))
+
+================================================================================
 Constant declarations
 ================================================================================
 

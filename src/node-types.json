@@ -7682,6 +7682,10 @@
           "named": true
         },
         {
+          "type": "using_section",
+          "named": true
+        },
+        {
           "type": "var_section",
           "named": true
         },
@@ -9281,6 +9285,10 @@
           "named": true
         },
         {
+          "type": "using_section",
+          "named": true
+        },
+        {
           "type": "var_section",
           "named": true
         },
@@ -9573,6 +9581,10 @@
         },
         {
           "type": "type_section",
+          "named": true
+        },
+        {
+          "type": "using_section",
           "named": true
         },
         {
@@ -10075,6 +10087,10 @@
         },
         {
           "type": "type_section",
+          "named": true
+        },
+        {
+          "type": "using_section",
           "named": true
         },
         {
@@ -10630,6 +10646,21 @@
       "types": [
         {
           "type": "generic_parameter_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "using_section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -12010,6 +12041,10 @@
   },
   {
     "type": "type",
+    "named": false
+  },
+  {
+    "type": "using",
     "named": false
   },
   {

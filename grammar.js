@@ -487,6 +487,7 @@ module.exports = grammar({
         $.macro_declaration,
         $.template_declaration,
         $.converter_declaration,
+        $.using_section,
         $.const_section,
         $.let_section,
         $.var_section,
@@ -513,6 +514,7 @@ module.exports = grammar({
     generic_parameter_list: $ => seq("[", $._parameter_declaration_list, "]"),
     term_rewriting_pattern: $ => seq("{", $._statement, "}"),
 
+    using_section: $ => seq(keyword("using"), $._variable_declaration_section),
     const_section: $ => seq(keyword("const"), $._variable_declaration_section),
     let_section: $ => seq(keyword("let"), $._variable_declaration_section),
     var_section: $ =>
