@@ -15,7 +15,7 @@ use super::syntax;
 use super::syntax::MatchedPos;
 
 /// A language may contain certain nodes that are in other languages
-/// and should be parsed as such (e.g. HTML <script> nodes containing
+/// and should be parsed as such (e.g. HTML `<script>` nodes containing
 /// JavaScript). This contains how to identify such nodes, and what
 /// languages we should parse them as.
 ///

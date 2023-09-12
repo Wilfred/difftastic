@@ -272,7 +272,7 @@ impl<'s, 'b> Vertex<'s, 'b> {
 /// at least a NovelFoo edge. Depending on the syntax nodes of the
 /// current [`Vertex`], other edges may also be available.
 ///
-/// See [`neighbours`] for all the edges available for a given `Vertex`.
+/// See [`set_neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
     UnchangedNode {
