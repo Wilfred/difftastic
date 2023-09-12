@@ -39,6 +39,24 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 
+### Optimization with extras
+
+When searching ways to optimize the parser and simplify the grammar, I thought about using the *extras* feature for spaces and comments. I don't know if it will significantly reduce parser size, but I want to try it to see. The only problem arises with function calls and, in inline code, field access. They must be directly joined (no space nor comment in between). The use of the *immediate* feature won't solve the problem as it only takes in acount inline regex (which would be ok with spaces but not comments, as they have to appear in output tree).
+
+The solution is to rely on external scanner when parsing spaces or comments. If a space or comment is followed by `'['`, `'('` or `'.'`, it sets a flag to `false` (this flag is stored in scanner's state).
+
+This way when a token has to be immediate, an external token can be required and will only match if flag is `true`. Another external token is necessary to reset the flag to `true`, because the flag is set to `false` every time a space or comment is followed by `'['`, `'('` or `'.'`, and we need to reset it when the immediateness is not required and when it is detected in text mode.
+
+Spaces and comments must have precedence over two marker tokens (`required` and `reset`).
+
+- [ ] Space and comments as externals
+- [ ] Detection of non-immediate tokens
+- [ ] `require` and `reset` token
+- [ ] Enable extras
+- [ ] Remove explicit extras
+
+A diffictult case arises with `$ .hello()$`, where flag will be set to `false` on `'.'`, but has to be reset to `true` with `'hello'`, otherwise, the `'('` won't be considered immediate.
+
 ### Inlined `return`
 
 An inlined `return` statement, for some obscur reasons, is allowed to be followed by text and markup on the same line. So, the following code is valid Typst code: `#return a + b Hello World`
