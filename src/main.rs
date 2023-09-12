@@ -40,24 +40,24 @@ mod version;
 #[macro_use]
 extern crate log;
 
+use crate::conflicts::apply_conflict_markers;
 use crate::conflicts::START_LHS_MARKER;
+use crate::diff::changes::ChangeMap;
+use crate::diff::dijkstra::ExceededGraphLimit;
 use crate::diff::{dijkstra, unchanged};
+use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
-use crate::parse::guess_language::language_globs;
-use crate::parse::syntax;
-use conflicts::apply_conflict_markers;
-use diff::changes::ChangeMap;
-use diff::dijkstra::ExceededGraphLimit;
-use display::context::opposite_positions;
-use exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
-use files::{
+use crate::exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
+use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
+use crate::parse::guess_language::language_globs;
+use crate::parse::guess_language::{guess, language_name, Language, LanguageOverride};
+use crate::parse::syntax;
 use log::info;
 use mimalloc::MiMalloc;
-use parse::guess_language::{guess, language_name, Language, LanguageOverride};
 
 /// The global allocator used by difftastic.
 ///
@@ -66,17 +66,17 @@ use parse::guess_language::{guess, language_name, Language, LanguageOverride};
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use diff::sliders::fix_all_sliders;
+use crate::diff::sliders::fix_all_sliders;
+use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
+use crate::summary::{DiffResult, FileContent, FileFormat};
+use crate::syntax::init_next_prev;
 use humansize::{format_size, BINARY};
-use options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::{env, path::Path};
 use strum::IntoEnumIterator;
-use summary::{DiffResult, FileContent, FileFormat};
-use syntax::init_next_prev;
 use typed_arena::Arena;
 
 use crate::{
