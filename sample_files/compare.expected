@@ -241,6 +241,9 @@ bbf22d2c5003b638c0f8d08f21bbbb66  -
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 53017b74523e203817d64189142b26ed  -
 
+sample_files/xml_before.xml sample_files/xml_after.xml
+56cae800a4fb612ac5c1e0b5cb9c43b8  -
+
 sample_files/yaml_before.yaml sample_files/yaml_after.yaml
 9a94455c22d827576c73d8a8238dd55d  -
 
