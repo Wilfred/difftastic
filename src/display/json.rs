@@ -1,3 +1,8 @@
+use std::collections::HashMap;
+
+use line_numbers::LineNumber;
+use serde::{ser::SerializeStruct, Serialize, Serializer};
+
 use crate::{
     display::{
         context::{all_matched_lines_filled, opposite_positions},
@@ -8,9 +13,6 @@ use crate::{
     parse::syntax::{self, MatchedPos},
     summary::{DiffResult, FileContent, FileFormat},
 };
-use line_numbers::LineNumber;
-use serde::{ser::SerializeStruct, Serialize, Serializer};
-use std::collections::HashMap;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "lowercase")]

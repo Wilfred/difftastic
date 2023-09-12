@@ -40,6 +40,9 @@ mod version;
 #[macro_use]
 extern crate log;
 
+use log::info;
+use mimalloc::MiMalloc;
+
 use crate::conflicts::apply_conflict_markers;
 use crate::conflicts::START_LHS_MARKER;
 use crate::diff::changes::ChangeMap;
@@ -56,8 +59,6 @@ use crate::files::{
 use crate::parse::guess_language::language_globs;
 use crate::parse::guess_language::{guess, language_name, Language, LanguageOverride};
 use crate::parse::syntax;
-use log::info;
-use mimalloc::MiMalloc;
 
 /// The global allocator used by difftastic.
 ///
@@ -66,19 +67,20 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+use std::{env, path::Path};
+
+use humansize::{format_size, BINARY};
+use owo_colors::OwoColorize;
+use rayon::prelude::*;
+use strum::IntoEnumIterator;
+use typed_arena::Arena;
+
 use crate::diff::sliders::fix_all_sliders;
 use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
 use crate::summary::{DiffResult, FileContent, FileFormat};
 use crate::syntax::init_next_prev;
-use humansize::{format_size, BINARY};
-use owo_colors::OwoColorize;
-use rayon::prelude::*;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Arc;
-use std::{env, path::Path};
-use strum::IntoEnumIterator;
-use typed_arena::Arena;
-
 use crate::{
     dijkstra::mark_syntax, lines::MaxLine, parse::syntax::init_all_info,
     parse::tree_sitter_parser as tsp,

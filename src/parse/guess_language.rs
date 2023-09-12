@@ -8,9 +8,10 @@
 //! Difftastic does not reuse languages.yml directly. Linguist has a
 //! larger set of language detection strategies.
 
+use std::{borrow::Borrow, path::Path};
+
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::{borrow::Borrow, path::Path};
 use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
@@ -549,8 +550,9 @@ fn from_glob(path: &Path) -> Option<Language> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn test_guess_by_extension() {

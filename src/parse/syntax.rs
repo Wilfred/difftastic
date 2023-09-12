@@ -2,11 +2,13 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
+use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
+
 use line_numbers::LinePositions;
 use line_numbers::SingleLineSpan;
-use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
 
+use self::Syntax::*;
 use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
@@ -14,7 +16,6 @@ use crate::{
     hash::DftHashMap,
     lines::is_all_whitespace,
 };
-use Syntax::*;
 
 /// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will
@@ -1030,8 +1031,9 @@ pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     /// Consider comment atoms as distinct to other atoms even if the
     /// content matches otherwise.

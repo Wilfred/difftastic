@@ -1,7 +1,8 @@
 //! A fast diff for linear content, using Myer's diff algorithm.
 
-use rustc_hash::FxHashSet;
 use std::hash::Hash;
+
+use rustc_hash::FxHashSet;
 
 use crate::hash::DftHashMap;
 

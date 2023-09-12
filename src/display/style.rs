@@ -1,5 +1,12 @@
 //! Apply colours and styling to strings.
 
+use std::cmp::{max, min};
+
+use line_numbers::LineNumber;
+use line_numbers::SingleLineSpan;
+use owo_colors::{OwoColorize, Style};
+use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
+
 use crate::{
     constants::Side,
     hash::DftHashMap,
@@ -8,12 +15,6 @@ use crate::{
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     summary::FileFormat,
 };
-
-use line_numbers::LineNumber;
-use line_numbers::SingleLineSpan;
-use owo_colors::{OwoColorize, Style};
-use std::cmp::{max, min};
-use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
@@ -496,8 +497,9 @@ pub fn header(
 mod tests {
     const TAB_WIDTH: usize = 2;
 
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn split_string_simple() {

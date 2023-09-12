@@ -729,11 +729,11 @@ fn compact_gaps(
 mod tests {
     use std::iter::FromIterator;
 
-    use crate::syntax::TokenKind;
-
-    use super::*;
     use line_numbers::SingleLineSpan;
     use pretty_assertions::assert_eq;
+
+    use super::*;
+    use crate::syntax::TokenKind;
 
     #[test]
     fn test_calculate_before_context() {

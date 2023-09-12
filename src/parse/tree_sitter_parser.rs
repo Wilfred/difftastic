@@ -2,17 +2,16 @@
 
 use std::collections::HashSet;
 
-use crate::hash::DftHashMap;
-use crate::options::DiffOptions;
-use crate::parse::guess_language as guess;
 use line_numbers::LinePositions;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
-use crate::parse::syntax::{AtomKind, Syntax};
-
 use super::syntax;
 use super::syntax::MatchedPos;
+use crate::hash::DftHashMap;
+use crate::options::DiffOptions;
+use crate::parse::guess_language as guess;
+use crate::parse::syntax::{AtomKind, Syntax};
 
 /// A language may contain certain nodes that are in other languages
 /// and should be parsed as such (e.g. HTML `<script>` nodes containing

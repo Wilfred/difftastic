@@ -5,8 +5,9 @@
 /// If we exceed this, the lines are stored in separate hunks.
 const MAX_DISTANCE: u32 = 4;
 
-use line_numbers::LineNumber;
 use std::collections::HashSet;
+
+use line_numbers::LineNumber;
 
 use crate::{
     constants::Side,
@@ -678,15 +679,16 @@ pub fn matched_lines_indexes_for_hunk(
 
 #[cfg(test)]
 mod tests {
-    use line_numbers::SingleLineSpan;
     use std::iter::FromIterator;
+
+    use line_numbers::SingleLineSpan;
+    use pretty_assertions::assert_eq;
 
     use super::*;
     use crate::{
         hash::DftHashMap,
         syntax::{MatchKind, TokenKind},
     };
-    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_sorted_novel_positions_simple() {
