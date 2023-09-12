@@ -1,5 +1,5 @@
 default:
-  @just --list
+    @just --list
 
 doc:
     cd manual && mdbook serve --open
