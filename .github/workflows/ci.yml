@@ -16,7 +16,7 @@ jobs:
         with:
           cache: "npm"
           node-version: "16"
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - name: Check for differences between commit and built file
         run: |
@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
-      - run: npm install
+      - run: npm ci
       - name: Run test suite
         run: |
           if [[ "$RUNNER_OS" == macOS ]]; then
