@@ -75,6 +75,8 @@ module.exports = grammar({
     $._token_term,
     $._token_head,
 
+    $.comment,
+
     $._recovery,
   ],
   conflicts: $ => [
@@ -100,10 +102,6 @@ module.exports = grammar({
     escape: $ => choice(
       seq(/\\u/, /\{[0-9a-fA-F]*\}/),
       token(seq(/\\/, NOT_WS)),
-    ),
-    comment: $ => choice(
-      seq('//', token(repeat(NOT_LB))),
-      seq('/*', repeat(choice(/[^\*]|\*[^\/]/, $.comment)), '*/'),
     ),
     url: $ => seq(/http(s?):\/\//, $._token_url),
 

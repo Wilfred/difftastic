@@ -27,6 +27,8 @@ enum token_type {
 	TOKEN_TERM,
 	TOKEN_HEAD,
 
+	TOKEN_COMMENT,
+
 	// error recovery state detection
 	TOKEN_RECOVERY,
 };
@@ -1752,6 +1754,7 @@ void tree_sitter_typst_external_scanner_deserialize(
 }
 
 // SCAN ////////////////////////////////////////////////////////////////////////
+
 bool tree_sitter_typst_external_scanner_scan(
   void *payload,
   TSLexer *lexer,
@@ -1883,25 +1886,78 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 	}
-	if (valid_symbols[TOKEN_ITEM] != valid_symbols[TOKEN_TERM]) {
-		UNREACHABLE();
-		return false;
-	}
-	if (valid_symbols[TOKEN_ITEM] || valid_symbols[TOKEN_TERM]) {
-		if (lexer->lookahead == '/') {
-			uint32_t column = lexer->get_column(lexer);
-			lexer->advance(lexer, false);
-			if (
-				is_sp(lexer->lookahead) ||
-				is_lb(lexer->lookahead)
-			) {
-				scanner_redent(self, column);
+
+	if (lexer->lookahead == '/') {
+		uint32_t column = lexer->get_column(lexer);
+		lexer->advance(lexer, false);
+
+		if (
+			valid_symbols[TOKEN_TERM] &&
+			(is_sp(lexer->lookahead) || is_lb(lexer->lookahead))
+		) {
+			scanner_redent(self, column);
+			lexer->mark_end(lexer);
+			lexer->result_symbol = TOKEN_TERM;
+			return true;
+		}
+
+		if (valid_symbols[TOKEN_COMMENT]) {
+			if (lexer->lookahead == '/') {
+				lexer->advance(lexer, false);
+				while (!lexer->eof(lexer) && !is_lb(lexer->lookahead)) {
+					lexer->advance(lexer, false);
+				}
 				lexer->mark_end(lexer);
-				lexer->result_symbol = TOKEN_TERM;
+				lexer->result_symbol = TOKEN_COMMENT;
+				return true;
+			}
+			if (lexer->lookahead == '*') {
+				lexer->advance(lexer, false);
+				size_t level = 0;
+				while (!lexer->eof(lexer)) {
+					if (lexer->lookahead == '/') {
+						lexer->advance(lexer, false);
+						if (lexer->lookahead == '/') {
+							lexer->advance(lexer, false);
+							while (!lexer->eof(lexer) && !is_lb(lexer->lookahead)) {
+								lexer->advance(lexer, false);
+							}
+						}
+						else if (lexer->lookahead == '*') {
+							lexer->advance(lexer, false);
+							level += 1;
+						}
+						else {
+							lexer->advance(lexer, false);
+						}
+					}
+					else if (lexer->lookahead == '*') {
+						lexer->advance(lexer, false);
+						if (lexer->lookahead == '/') {
+							lexer->advance(lexer, false);
+							if (level == 0) {
+								break;
+							}
+							else {
+								level -= 1;
+							}
+						}
+						else {
+							lexer->advance(lexer, false);
+						}
+					}
+					else {
+						lexer->advance(lexer, false);
+					}
+				}
+				lexer->mark_end(lexer);
+				lexer->result_symbol = TOKEN_COMMENT;
 				return true;
 			}
 			return false;
 		}
+	}
+	if (valid_symbols[TOKEN_ITEM]) {
 		if (lexer->lookahead == '-' || lexer->lookahead == '+') {
 			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);

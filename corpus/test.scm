@@ -4534,8 +4534,7 @@ $x\^2   /*hello  /* world*/*/$
 		(letter)
 		(escape)
 		(number)
-		(comment
-			(comment))))
+		(comment)))
 
 
 =====================
@@ -4598,8 +4597,7 @@ Test 316
 ---------------------
 
 (source_file
-	(comment
-		(comment)))
+	(comment))
 
 
 =====================
