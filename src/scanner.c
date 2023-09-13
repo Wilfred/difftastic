@@ -28,6 +28,7 @@ enum token_type {
 	TOKEN_HEAD,
 
 	TOKEN_COMMENT,
+	TOKEN_SPACE,
 
 	// error recovery state detection
 	TOKEN_RECOVERY,
@@ -1885,6 +1886,16 @@ bool tree_sitter_typst_external_scanner_scan(
 			}
 			return false;
 		}
+	}
+
+	if (is_sp(lexer->lookahead) && valid_symbols[TOKEN_SPACE]) {
+		lexer->advance(lexer, false);
+		while (is_sp(lexer->lookahead)) {
+			lexer->advance(lexer, false);
+		}
+		lexer->mark_end(lexer);
+		lexer->result_symbol = TOKEN_SPACE;
+		return true;
 	}
 
 	if (lexer->lookahead == '/') {

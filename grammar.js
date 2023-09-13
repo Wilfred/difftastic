@@ -76,6 +76,7 @@ module.exports = grammar({
     $._token_head,
 
     $.comment,
+    $._sp,
 
     $._recovery,
   ],
@@ -106,13 +107,11 @@ module.exports = grammar({
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
     _ws: $ => token(repeat1(WS)),
-    _sp: $ => token(repeat1(SP)),
 
     // this token matches `_`, `*` and `"` when they are between alphanumeric
     // characters because, in that case, they do not count as markup
     _anti_markup: $ => token(seq(ALPHANUM, /[_*"]/, ALPHANUM)),
 
-    // _token_term: $ => token(seq('/', SP)),
     linebreak: $ => /\\/,
     quote: $ => /"|'/,
     _cws: $ => prec(40, repeat1(choice($.comment, $._ws))),
