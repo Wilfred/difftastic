@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-sfapex",
-  "version": "0.0.9-beta2",
+  "version": "0.0.9",
   "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
   "homepage": "https://github.com/aheber/tree-sitter-sfapex",
   "bugs": {
