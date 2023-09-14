@@ -4803,3 +4803,85 @@ $2^∆()$
 			(number)
 			sup: (symbol))
 		(group)))
+
+
+=====================
+Test 330
+=====================
+/*
+---------------------
+
+(source_file
+	(comment))
+
+
+=====================
+Test 331
+=====================
+$=>a->a|->a>a$
+---------------------
+
+(source_file
+	(math
+		(shorthand)
+		(letter)
+		(shorthand)
+		(letter)
+		(shorthand)
+		(letter)
+		(symbol)
+		(letter)))
+
+
+=====================
+Test 332
+=====================
+$~~>>a:=a=:a>==a$
+---------------------
+
+(source_file
+	(math
+		(shorthand)
+		(symbol)
+		(letter)
+		(shorthand)
+		(letter)
+		(shorthand)
+		(letter)
+		(shorthand)
+		(symbol)
+		(letter)))
+
+
+=====================
+Test 333
+=====================
+#a ()
+---------------------
+
+(source_file
+	(ident)
+	(text))
+
+
+=====================
+Test 334
+=====================
+```_é∆```
+---------------------
+
+(source_file
+	(raw_blck
+		lang: (ident)
+		(blob)))
+
+
+=====================
+Test 335
+=====================
+```∆```
+---------------------
+
+(source_file
+	(raw_blck
+		(blob)))

@@ -130,9 +130,21 @@ Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-si
 
 When searching ways to optimize the parser and simplify the grammar, I thought about using the *extras* feature for spaces and comments. I don't know if it will significantly reduce parser size, but I want to try it to see. The only problem arises with function calls and, in inline code, field access. They must be directly joined (no space nor comment in between). The use of the *immediate* feature won't solve the problem as it only takes in acount inline regex (which would be ok with spaces but not comments, as they have to appear in output tree).
 
-The solution is to rely on external scanner when parsing spaces or comments. When a token susceptible to be followed by immediate token is parsed, it sets a flag to `true`, and when a space or comment is parsed, it resets the flag to `false` (this flag is stored in scanner's state as a boolean).
+The solution is to rely on external scanner when parsing spaces or comments. Lets call a "pre-immediate" token, a token susceptible to be followed by immediate token. When a pre-immediate token is parsed, it sets a flag to `true`, and when a space or comment is parsed, it resets the flag to `false` (this flag is stored in scanner's state as a boolean).
 
-This way when a token has to be immediate, an external token can be required and will only match if flag is `true`. It means, any token that may occur before an immediate one, must be parsed by the external scanner.
+This way when a token has to be immediate, an external token can be required and will only match if flag is `true`. It means, any pre-immediate token have to be preceded by a token that will set to `true` the flag.
+
+- [X] `string`
+- [X] `number`
+- [X] `ident`
+- [X] `']'`
+- [X] `'}'`
+- [X] `')'`
+- [X] math shorthand
+- [X] math ident
+- [X] math letter
+
+The immediate token has to be parsed by external scanner because the use of `immediate_get` is impossible.
 
 Spaces and comments must have precedence over the marker token (called `_is_immediate`).
 
