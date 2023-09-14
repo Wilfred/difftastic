@@ -6,17 +6,12 @@
 //   CWS = WS+comments
 
 const LB = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
-const NOT_LB = /[^\r\n\v\f\x85\u2028\u2029]/;
-const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
+// const NOT_LB = /[^\r\n\v\f\x85\u2028\u2029]/;
+// const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
 const NOT_WS = /[^\f\r\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/;
 const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
-const NOT_SP = /[^\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
+// const NOT_SP = /[^\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
 const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
-
-// extras
-function ws($) {
-  return optional($._ws);
-}
 
 // a line break in a content context
 function content_lb($) {
@@ -33,7 +28,7 @@ function content($) {
 // content inside emph or strong delimiters
 function inside($) {
   return seq(
-    // the first line can't contain markup like headings or items
+    // the first line can't contain headings or items
     repeat($._markup),
     optional(seq(
       content_lb($),
@@ -114,7 +109,6 @@ module.exports = grammar({
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
     _lb: $ => LB,
-    _ws: $ => prec(40, repeat1($._lb)),
 
     // this token matches `_`, `*` and `"` when they are between alphanumeric
     // characters because, in that case, they do not count as markup
@@ -122,7 +116,6 @@ module.exports = grammar({
 
     linebreak: $ => /\\/,
     quote: $ => /"|'/,
-    // _cws: $ => prec(40, repeat1($._ws)),
 
     _markup: $ => choice(
       $._code,
@@ -218,12 +211,8 @@ module.exports = grammar({
       alias($._math_prime, $.prime),
       alias($._math_attach_sup, $.attach),
       alias($._math_attach_sub, $.attach),
-      // $._math_ws_prefix,
-      // $._math_ws_suffix,
       alias($._math_token_align, $.align),
     ),
-    // _math_ws_prefix:   $ => prec(8, seq($._ws, $._math_expr)),
-    // _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._ws)),
 
     _math_token_align: $ => '&',
     _math_token_colon: $ => ':',
@@ -237,7 +226,7 @@ module.exports = grammar({
     _math_token_lbar:  $ => token(prec(0, choice('||', '|'))),
 
     _math_group:       $ => prec(1, seq($._math_token_ldlm, repeat($._math_expr), $._math_token_rdlm)),
-    _math_group_open:  $ => prec.right(0, seq($._math_token_ldlm, repeat($._math_expr), ws($))),
+    _math_group_open:  $ => prec.right(0, seq($._math_token_ldlm, repeat($._math_expr))),
     _math_bar:         $ => prec(-1, seq($._math_token_lbar, repeat($._math_expr), $._token_math_bar_end)),
     _math_item:        $ => prec(8, choice(
       alias($._token_math_ident, $.ident),
@@ -275,7 +264,6 @@ module.exports = grammar({
     _math_tag: $ =>prec(9, choice(
       alias($._token_math_ident, $.ident),
       alias($._token_math_letter, $.ident),
-      // seq($._ws, $._math_tag),
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_apply: $ => prec(7, seq(
@@ -344,7 +332,7 @@ module.exports = grammar({
     _stmt: $ => choice(
       $.let,
       $.set,
-      alias($.import_inlined, $.import),
+      $.import,
       $.include,
       $.for,
       $.while,
@@ -395,12 +383,8 @@ module.exports = grammar({
       $.show,
       $.return,
       $.tagged,
-      $._expr_ws_prefix,
-      $._expr_ws_suffix,
     ),
 
-    _expr_ws_prefix: $ => prec(14, seq($._ws, $._expr)),
-    _expr_ws_suffix: $ => prec(13, seq($._expr, $._ws)),
     _identifier: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     ident:  $ => seq($._identifier, $._token_immediate_set),
     unit:   $ => $._token_unit,
@@ -416,14 +400,14 @@ module.exports = grammar({
       optional(seq($.unit, $._token_immediate_set))
     )),
     string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._token_immediate_set),
-    elude:  $ => prec.left(2, seq('..', optional(choice($._expr, $._ws)))),
+    elude:  $ => prec.left(2, seq('..', optional($._expr))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(6, seq($._expr, 'or', $._expr)),
     not:    $ => prec.left(7, seq('not', $._expr)),
     and:    $ => prec.left(7, seq($._expr, 'and', $._expr)),
     cmp:    $ => prec.left(8, seq($._expr, choice('<', '>', '<=', '>=', '==', '!='), $._expr)),
-    in:     $ => prec.left(9, seq($._expr, optional(seq('not', ws($))), 'in', $._expr)), 
+    in:     $ => prec.left(9, seq($._expr, optional('not'), 'in', $._expr)), 
     add:    $ => prec.left(10, seq($._expr, '+', $._expr)),
     sub:    $ => prec.left(10, seq($._expr, '-', $._expr)),
     mul:    $ => prec.left(11, seq($._expr, '*', $._expr)),
@@ -433,7 +417,7 @@ module.exports = grammar({
     call_inlined:  $ => seq(field('item', $._item), $._token_immediate_call, choice($.content, $.group)),
     call:   $ => prec(13, seq(field('item', $._atom), $._token_immediate_call, choice($.content, $.group))),
     field_inlined: $ => seq($._item, $._token_immediate_field, '.', field('field', $.ident)),
-    field:  $ => prec(13, seq($._expr, '.', ws($), field('field', $.ident))),
+    field:  $ => prec(13, seq($._expr, '.', field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, '>'),
     ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/),
@@ -446,14 +430,13 @@ module.exports = grammar({
     group: $ => seq(
       '(',
       repeat(seq($._expr, ',')),
-      ws($),
       optional($._expr),
       ')',
       $._token_immediate_set,
     ),
     block: $ => seq(
       '{',
-      repeat(choice($._ws, seq($._expr, $._token_blocked_expr_end))),
+      repeat(seq($._expr, $._token_blocked_expr_end)),
       '}',
       $._token_immediate_set,
     ),
@@ -461,11 +444,8 @@ module.exports = grammar({
       'if',
       field('condition', $._expr),
       choice($.block, $.content),
-      ws($),
-      $._token_ws_greedy,
       optional(seq(
         'else',
-        ws($),
         choice($.block, $.content, $.branch)
       )),
     )),
@@ -473,10 +453,8 @@ module.exports = grammar({
       'if',
       field('condition', $._expr), 
       choice($.block, $.content),
-      ws($),
       optional(seq(
         alias($._token_inlined_else, 'else'),
-        ws($),
         choice($.block, $.content, alias($.branch_inlined, $.branch))
       )),
     )),
@@ -484,17 +462,13 @@ module.exports = grammar({
       'let',
       field('pattern', $._expr),
       optional(seq(
-        ws($),
-        token(prec(1, /=/)),
+        token(prec(1, '=')),
         field('value', $._expr)
       )),
-      ws($),
     )),
     set: $ => prec.right(0, seq(
       'set',
-      ws($),
       alias($.call_inlined, $.call),
-      ws($),
       optional(seq(
         'if',
         field('condition', $._expr),
@@ -503,17 +477,6 @@ module.exports = grammar({
     import: $ => prec.right(1, seq(
       'import',
       $._expr,
-      ws($),
-      optional(seq(
-        token(prec(10, ':')),
-        repeat(seq($._expr, token(prec(1, ',')), ws($), $._token_ws_greedy)),
-        optional($._expr),
-      )),
-    )),
-    import_inlined: $ => prec.right(1, seq(
-      'import',
-      $._expr,
-      ws($),
       optional(seq(
         token(prec(10, ':')),
         repeat(seq($._expr, token(prec(1, ',')))),
@@ -538,7 +501,6 @@ module.exports = grammar({
     ),
     show: $ => seq(
       'show',
-      ws($),
       optional(field('pattern', $._expr)),
       ':',
       field('value', $._expr),
