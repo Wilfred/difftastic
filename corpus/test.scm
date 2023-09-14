@@ -5,7 +5,6 @@ a b
 ---------------------
 
 (source_file
-	(text)
 	(text))
 
 
@@ -16,7 +15,6 @@ a b#a b
 ---------------------
 
 (source_file
-	(text)
 	(text)
 	(ident)
 	(text))
@@ -45,7 +43,6 @@ Test 003
 	(branch
 		condition: (ident)
 		(block))
-	(text)
 	(text))
 
 
@@ -103,8 +100,6 @@ Hello #a + b World!
 (source_file
 	(text)
 	(ident)
-	(text)
-	(text)
 	(text))
 
 
@@ -198,7 +193,6 @@ Test 014
 
 (source_file
 	(content
-		(text)
 		(text)))
 
 
@@ -314,7 +308,6 @@ elsa {}
 	(branch
 		condition: (ident)
 		(block))
-	(text)
 	(text))
 
 
@@ -328,7 +321,6 @@ Test 023
 	(branch
 		condition: (ident)
 		(block))
-	(text)
 	(text))
 
 
@@ -344,9 +336,7 @@ d e
 (source_file
 	(text)
 	(text)
-	(text)
 	(parbreak)
-	(text)
 	(text))
 
 
@@ -719,7 +709,6 @@ a b
 (source_file
 	(parbreak)
 	(text)
-	(text)
 	(parbreak))
 
 
@@ -817,7 +806,7 @@ Test 059
 (source_file
 	(let
 		pattern: (ident)
-		value: (comment)
+		(comment)
 		value: (number)))
 
 
@@ -829,7 +818,7 @@ Test 060
 
 (source_file
 	(let
-		pattern: (comment)
+		(comment)
 		pattern: (ident)
 		value: (number)))
 
@@ -1313,7 +1302,6 @@ Sum is #add(2, 3).
 			(ident)
 			(ident)))
 	(text)
-	(text)
 	(call
 		item: (ident)
 		(group
@@ -1330,7 +1318,6 @@ Test 095
 
 (source_file
 	(ident)
-	(text)
 	(text))
 
 
@@ -1860,7 +1847,6 @@ c, d
 	(import
 		(string)
 		(ident))
-	(text)
 	(text))
 
 
@@ -2053,7 +2039,6 @@ https://hello\ world.com Hey
 (source_file
 	(url)
 	(linebreak)
-	(text)
 	(text))
 
 
@@ -2081,7 +2066,6 @@ Test 149
 		condition: (bool)
 		(block))
 	(comment)
-	(text)
 	(text))
 
 
@@ -2108,7 +2092,6 @@ Test 151
 
 (source_file
 	(return)
-	(text)
 	(text))
 
 
@@ -2324,7 +2307,6 @@ Test 165
 
 (source_file
 	(content)
-	(text)
 	(text))
 
 
@@ -3041,7 +3023,6 @@ _ + e _
 
 (source_file
 	(emph
-		(text)
 		(text)))
 
 
@@ -3054,7 +3035,6 @@ _ #e + Hello _
 (source_file
 	(emph
 		(ident)
-		(text)
 		(text)))
 
 
@@ -3475,8 +3455,8 @@ $mat(/* hello */ delim: "[")$
 	(math
 		(call
 			item: (ident)
+			(comment)
 			(tagged
-				field: (comment)
 				field: (ident)
 				(string)))))
 
@@ -3729,7 +3709,6 @@ Test 266
 (source_file
 	(builtin)
 	(text)
-	(text)
 	(builtin)
 	(text))
 
@@ -3837,7 +3816,6 @@ Test 271
 					(ident))
 				(linebreak)
 				(emph
-					(text)
 					(text)
 					(ident))))))
 
@@ -3985,7 +3963,6 @@ if critical
 			item: (builtin)
 			(group
 				(builtin))))
-	(text)
 	(text))
 
 
@@ -4016,9 +3993,6 @@ This list is affected: #[
 ---------------------
 
 (source_file
-	(text)
-	(text)
-	(text)
 	(text)
 	(content
 		(set
@@ -4553,8 +4527,8 @@ else /*Hello*/ if true [] /* World */ Hello
 		(comment)
 		(branch
 			condition: (bool)
-			(content)
-			(comment)))
+			(content)))
+	(comment)
 	(text))
 
 
@@ -4885,3 +4859,15 @@ Test 335
 (source_file
 	(raw_blck
 		(blob)))
+
+
+=====================
+Test 336
+=====================
+/* Hello */ = World
+---------------------
+
+(source_file
+	(comment)
+	(heading
+		(text)))

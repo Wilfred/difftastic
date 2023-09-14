@@ -15,7 +15,7 @@ const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
 
 // extras
 function ws($) {
-  return optional($._cws);
+  return optional($._ws);
 }
 
 // a line break in a content context
@@ -25,17 +25,16 @@ function content_lb($) {
 
 // document as a whole, or what is inside content delimiter
 function content($) {
-  const elem = $._line_content;
+  const elem = $._theline_content;
   const sep = content_lb($);
-  return seq(optional(sep), repeat(seq(elem, sep)), optional(elem));
-  // return repeat(choice($._line_content, content_lb($)));
+  return seq(optional(elem), repeat(seq(sep, optional(elem))));
 }
 
 // content inside emph or strong delimiters
 function inside($) {
   return seq(
     // the first line can't contain markup like headings or items
-    repeat(choice($._sp, $.comment, $._markup)),
+    repeat($._markup),
     optional(seq(
       content_lb($),
       // after the first new line, it is just regular content
@@ -89,11 +88,6 @@ module.exports = grammar({
     $._token_immediate_math_apply,
     $._token_immediate_math_field,
     $._token_immediate_math_prime,
-    // $._token_immediate_lbrk,
-    // $._token_immediate_lpar,
-    // $._token_immediate_dot,
-    // $._token_immediate_ident,
-    // $._token_immediate_math_ident,
 
     $._recovery,
   ],
@@ -105,15 +99,11 @@ module.exports = grammar({
   rules: {
     source_file: $ => content($),
 
-    _line_content: $ => choice(
-      seq($._csp, optional($._theline_content)),
-      $._theline_content
-    ),
     _theline_content: $ => choice(
       $.heading,
       $.item,
       $.term,
-      seq($._markup, repeat(choice($._sp, $.comment, $._markup))),
+      repeat1($._markup),
     ),
 
     parbreak: $ => token(seq(LB, repeat1(seq(repeat(SP), LB)))),
@@ -123,7 +113,7 @@ module.exports = grammar({
     ), $._token_immediate_set),
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
-    _ws: $ => token(repeat1(WS)),
+    _ws: $ => prec(40, repeat1(LB)),
 
     // this token matches `_`, `*` and `"` when they are between alphanumeric
     // characters because, in that case, they do not count as markup
@@ -131,8 +121,7 @@ module.exports = grammar({
 
     linebreak: $ => /\\/,
     quote: $ => /"|'/,
-    _cws: $ => prec(40, repeat1(choice($.comment, $._ws))),
-    _csp: $ => prec(40, repeat1(choice($.comment, $._sp))),
+    // _cws: $ => prec(40, repeat1($._ws)),
 
     _markup: $ => choice(
       $._code,
@@ -232,8 +221,8 @@ module.exports = grammar({
       $._math_ws_suffix,
       alias($._math_token_align, $.align),
     ),
-    _math_ws_prefix:   $ => prec(8, seq($._cws, $._math_expr)),
-    _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._cws)),
+    _math_ws_prefix:   $ => prec(8, seq($._ws, $._math_expr)),
+    _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._ws)),
 
     _math_token_align: $ => '&',
     _math_token_colon: $ => ':',
@@ -285,7 +274,7 @@ module.exports = grammar({
     _math_tag: $ =>prec(9, choice(
       alias($._token_math_ident, $.ident),
       alias($._token_math_letter, $.ident),
-      seq($._cws, $._math_tag),
+      seq($._ws, $._math_tag),
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_apply: $ => prec(7, seq(
@@ -409,8 +398,8 @@ module.exports = grammar({
       $._expr_ws_suffix,
     ),
 
-    _expr_ws_prefix: $ => prec(14, seq($._cws, $._expr)),
-    _expr_ws_suffix: $ => prec(13, seq($._expr, $._cws)),
+    _expr_ws_prefix: $ => prec(14, seq($._ws, $._expr)),
+    _expr_ws_suffix: $ => prec(13, seq($._expr, $._ws)),
     _identifier: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     ident:  $ => seq($._identifier, $._token_immediate_set),
     unit:   $ => $._token_unit,
@@ -426,7 +415,7 @@ module.exports = grammar({
       optional(seq($.unit, $._token_immediate_set))
     )),
     string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._token_immediate_set),
-    elude:  $ => prec.left(2, seq('..', optional($._expr), ws($))),
+    elude:  $ => prec.left(2, seq('..', optional(choice($._expr, $._ws)))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(6, seq($._expr, 'or', $._expr)),
@@ -463,7 +452,7 @@ module.exports = grammar({
     ),
     block: $ => seq(
       '{',
-      repeat(choice($._cws, seq($._expr, $._token_blocked_expr_end))),
+      repeat(choice($._ws, seq($._expr, $._token_blocked_expr_end))),
       '}',
       $._token_immediate_set,
     ),
