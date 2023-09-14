@@ -20,7 +20,7 @@ function ws($) {
 
 // a line break in a content context
 function content_lb($) {
-  return seq(optional($._redent), choice($.parbreak, LB));
+  return seq(optional($._redent), choice($.parbreak, $._lb));
 }
 
 // document as a whole, or what is inside content delimiter
@@ -45,7 +45,7 @@ function inside($) {
 
 module.exports = grammar({
   name: 'typst',
-  extras: $ => [$.comment, $._sp],
+  extras: $ => [$.comment, $._sp, $._lb],
   word: $ => $._identifier,
   externals: $ => [
     // identation
@@ -113,7 +113,8 @@ module.exports = grammar({
     ), $._token_immediate_set),
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
-    _ws: $ => prec(40, repeat1(LB)),
+    _lb: $ => LB,
+    _ws: $ => prec(40, repeat1($._lb)),
 
     // this token matches `_`, `*` and `"` when they are between alphanumeric
     // characters because, in that case, they do not count as markup
@@ -149,7 +150,7 @@ module.exports = grammar({
     item: $ => prec.right(1, seq(
       alias($._token_item, 'item'),
       $._barrier,
-      repeat(choice($._markup, $.comment, $._sp)),
+      repeat($._markup),
       $._termination,
       optional($._indented),
     )),
@@ -158,7 +159,7 @@ module.exports = grammar({
       field('term', repeat($._markup)),
       ':',
       $._barrier,
-      repeat(choice($._markup, $.comment, $._sp)),
+      repeat($._markup),
       $._termination,
       optional($._indented)
     )),
@@ -166,7 +167,7 @@ module.exports = grammar({
     heading: $ => prec.right(1, seq(
       $._token_head,
       $._barrier,
-      repeat(choice($._markup, $.comment, $._sp)),
+      repeat($._markup),
       $._termination,
     )),
     strong: $ => prec.left(seq(alias($._token_strong, '*'), inside($), alias($._termination, '*'))),
@@ -182,7 +183,7 @@ module.exports = grammar({
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`', $._token_immediate_set),
     shorthand: $ => token(choice('--', '---', '-?', '~', '...')),
 
-    math: $ => seq('$', ws($), repeat($._math_expr), '$'),
+    math: $ => seq('$', repeat($._math_expr), '$'),
     _math_code: $ => prec(8, seq('#', choice(
       seq($._item, alias($._token_inlined_item_end, 'end')),
       seq($._stmt, alias($._token_inlined_stmt_end, 'end')),
@@ -217,12 +218,12 @@ module.exports = grammar({
       alias($._math_prime, $.prime),
       alias($._math_attach_sup, $.attach),
       alias($._math_attach_sub, $.attach),
-      $._math_ws_prefix,
-      $._math_ws_suffix,
+      // $._math_ws_prefix,
+      // $._math_ws_suffix,
       alias($._math_token_align, $.align),
     ),
-    _math_ws_prefix:   $ => prec(8, seq($._ws, $._math_expr)),
-    _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._ws)),
+    // _math_ws_prefix:   $ => prec(8, seq($._ws, $._math_expr)),
+    // _math_ws_suffix:   $ => prec(7, seq($._math_expr, $._ws)),
 
     _math_token_align: $ => '&',
     _math_token_colon: $ => ':',
@@ -235,9 +236,9 @@ module.exports = grammar({
     _math_token_orph:  $ => token(prec(0, choice(')', ']', '}', '|]'))),
     _math_token_lbar:  $ => token(prec(0, choice('||', '|'))),
 
-    _math_group:       $ => prec(1, seq($._math_token_ldlm, repeat($._math_expr), ws($), $._math_token_rdlm)),
+    _math_group:       $ => prec(1, seq($._math_token_ldlm, repeat($._math_expr), $._math_token_rdlm)),
     _math_group_open:  $ => prec.right(0, seq($._math_token_ldlm, repeat($._math_expr), ws($))),
-    _math_bar:         $ => prec(-1, seq($._math_token_lbar, repeat($._math_expr), ws($), $._token_math_bar_end)),
+    _math_bar:         $ => prec(-1, seq($._math_token_lbar, repeat($._math_expr), $._token_math_bar_end)),
     _math_item:        $ => prec(8, choice(
       alias($._token_math_ident, $.ident),
       alias($._math_field, $.field),
@@ -265,16 +266,16 @@ module.exports = grammar({
       $._token_immediate_math_call,
       $._math_token_lpar,
       repeat(seq(
-        choice(alias($._math_tagged, $.tagged), repeat($._math_expr), ws($)),
+        choice(alias($._math_tagged, $.tagged), repeat($._math_expr)),
         choice(',', ';')
       )),
-      choice(alias($._math_tagged, $.tagged), repeat($._math_expr), ws($)),
+      choice(alias($._math_tagged, $.tagged), repeat($._math_expr)),
       $._math_token_rpar,
     )),
     _math_tag: $ =>prec(9, choice(
       alias($._token_math_ident, $.ident),
       alias($._token_math_letter, $.ident),
-      seq($._ws, $._math_tag),
+      // seq($._ws, $._math_tag),
     )),
     _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
     _math_apply: $ => prec(7, seq(

@@ -1578,7 +1578,6 @@ Hey
 
 (source_file
 	(heading
-		(text)
 		(text))
 	(text))
 
@@ -1592,7 +1591,6 @@ Hey
 
 (source_file
 	(heading
-		(text)
 		(text))
 	(text))
 
@@ -2293,8 +2291,6 @@ Hello
 	(text)
 	(content
 		(item
-			(text)
-			(text)
 			(text))))
 
 
@@ -4174,18 +4170,10 @@ Test 292
 
 (source_file
 	(heading
-		(text)
-		(text)
-		(text)
 		(text))
 	(heading
-		(text)
-		(text)
 		(text))
 	(heading
-		(text)
-		(text)
-		(text)
 		(text)))
 
 
@@ -4601,16 +4589,13 @@ Test 318
 (source_file
 	(item
 		(text)
-		(text)
 		(item
 			(text))
 		(item
 			(text)))
 	(item
-		(text)
 		(text))
 	(item
-		(text)
 		(text)))
 
 
@@ -4626,7 +4611,6 @@ Test 319
 (source_file
 	(item
 		(text)
-		(text)
 		(let
 			pattern: (ident))
 		(comment)
@@ -4636,7 +4620,6 @@ Test 319
 		(item
 			(text)))
 	(item
-		(text)
 		(text)))
 
 
@@ -4870,4 +4853,16 @@ Test 336
 (source_file
 	(comment)
 	(heading
+		(text)))
+
+
+=====================
+Test 337
+=====================
+/ /* Hello */World :
+---------------------
+
+(source_file
+	(term
+		(comment)
 		(text)))
