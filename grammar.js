@@ -2,15 +2,11 @@
 //   LB  = line breack character
 //   SP  = space only character
 //   WS  = LB+SP
-//   CSP = SP+comments
-//   CWS = WS+comments
 
 const LB = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
-// const NOT_LB = /[^\r\n\v\f\x85\u2028\u2029]/;
 // const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
 const NOT_WS = /[^\f\r\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/;
 const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
-// const NOT_SP = /[^\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
 const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
 
 // a line break in a content context
@@ -59,9 +55,9 @@ module.exports = grammar({
     $._token_inlined_item_end,
     $._token_inlined_stmt_end,
     $._token_blocked_expr_end,
-    $._token_math_bar_end,
     $._token_math_letter,
     $._token_math_ident,
+    $._token_math_group_end,
     $._token_ws_greedy,
     $._token_unit,
     $._token_url,
@@ -72,11 +68,12 @@ module.exports = grammar({
 
     $.comment,
     $._sp,
-    // $._math_shorthand,
 
     // immediate
     $._token_immediate_set,
-    $._token_immediate_call,
+    // $._token_immediate_call,
+    $._token_immediate_paren,
+    $._token_immediate_brack,
     $._token_immediate_field,
     $._token_immediate_ident,
     $._token_immediate_math_call,
@@ -88,7 +85,6 @@ module.exports = grammar({
   ],
   conflicts: $ => [
     [$._math_attach_sup, $._math_attach_sub],
-    [$._math_bar],
     [$.return],
   ],
   rules: {
@@ -102,10 +98,10 @@ module.exports = grammar({
     ),
 
     parbreak: $ => token(seq(LB, repeat1(seq(repeat(SP), LB)))),
-    escape: $ => seq(choice(
+    escape: $ => seq(token(choice(
       seq(/\\u/, /\{[0-9a-fA-F]*\}/),
-      token(seq(/\\/, NOT_WS)),
-    ), $._token_immediate_set),
+      seq(/\\/, NOT_WS),
+    )), $._token_immediate_set),
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
     _lb: $ => LB,
@@ -177,19 +173,9 @@ module.exports = grammar({
     shorthand: $ => token(choice('--', '---', '-?', '~', '...')),
 
     math: $ => seq('$', repeat($._math_expr), '$'),
-    _math_code: $ => prec(8, seq('#', choice(
-      seq($._item, alias($._token_inlined_item_end, 'end')),
-      seq($._stmt, alias($._token_inlined_stmt_end, 'end')),
-
-      // FIXME: this makes return statement properly parsed
-      // but multiplies by 6 the size of the parser
-
-      // seq($._stmt, optional($._token_inlined_stmt_end)),
-    ))),
     _math_atom: $ => choice(
-      $._math_code,
+      $._code,
       alias($._math_group, $.group),
-      alias($._math_bar, $.group),
       alias($._token_math_letter, $.letter),
       alias($._math_number, $.number),
       alias($._math_symbol, $.symbol),
@@ -205,7 +191,6 @@ module.exports = grammar({
     _math_expr: $ => choice(
       $._math_atom,
       $.linebreak,
-      alias($._math_group_open, $.group),
       alias($._math_div, $.fraction),
       alias($._math_root, $.root),
       alias($._math_prime, $.prime),
@@ -216,40 +201,42 @@ module.exports = grammar({
 
     _math_token_align: $ => '&',
     _math_token_colon: $ => ':',
-    _math_token_sub:   $ => '_',
-    _math_token_sup:   $ => '^',
     _math_token_rpar:  $ => token(prec(2, ')')),
     _math_token_lpar:  $ => token(prec(1, '(')),
-    _math_token_rdlm:  $ => token(prec(1, choice(')', ']', '}', '|]'))),
     _math_token_ldlm:  $ => token(prec(0, choice('(', '[', '{', '[|'))),
-    _math_token_orph:  $ => token(prec(0, choice(')', ']', '}', '|]'))),
-    _math_token_lbar:  $ => token(prec(0, choice('||', '|'))),
+    _math_token_orph:  $ => token(prec(0, choice(')', ']', '}', '|]', '||', '|'))),
 
-    _math_group:       $ => prec(1, seq($._math_token_ldlm, repeat($._math_expr), $._math_token_rdlm)),
-    _math_group_open:  $ => prec.right(0, seq($._math_token_ldlm, repeat($._math_expr))),
-    _math_bar:         $ => prec(-1, seq($._math_token_lbar, repeat($._math_expr), $._token_math_bar_end)),
-    _math_item:        $ => prec(8, choice(
+    _math_group: $ => prec(1, seq(
+      $._math_token_ldlm,
+      repeat($._math_expr),
+      $._token_math_group_end
+    )),
+    _math_item: $ => prec(8, choice(
       alias($._token_math_ident, $.ident),
       alias($._math_field, $.field),
     )),
     _math_number: $ => /[0-9]+(\.[0-9]+)?/,
+    _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
+    _math_root:   $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
     _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
     _math_prime:  $ => prec.left(6, seq($._math_atom, $._token_immediate_math_prime)),
-    _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
     _math_attach_sup: $ => prec.right(5, seq(
       $._math_expr,
-      alias($._math_token_sup, '^'),
+      '^',
       field('sup', $._math_expr),
-      optional(seq(alias($._math_token_sub, '_'), field('sub', $._math_expr)))
+      optional(seq('_', field('sub', $._math_expr)))
     )),
     _math_attach_sub: $ => prec.right(5, seq(
       $._math_expr,
-      alias($._math_token_sub, '_'),
+      '_',
       field('sub', $._math_expr),
-      optional(seq(alias($._math_token_sup, '^'), field('sup', $._math_expr)))
+      optional(seq('^', field('sup', $._math_expr)))
     )),
-    _math_root: $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
-    _math_field: $ => prec.left(9, seq($._math_item, '.', field('field', alias($._token_math_ident, $.ident)))),
+    _math_field: $ => prec.left(9, seq(
+      $._math_item,
+      '.',
+      field('field', alias($._token_math_ident, $.ident))
+    )),
     _math_call: $ => prec(8, seq(
       field('item', $._math_item),
       $._token_immediate_math_call,
@@ -265,7 +252,11 @@ module.exports = grammar({
       alias($._token_math_ident, $.ident),
       alias($._token_math_letter, $.ident),
     )),
-    _math_tagged: $ => prec(9, seq(field('field', $._math_tag), $._math_token_colon, repeat1($._math_expr))),
+    _math_tagged: $ => prec(9, seq(
+      field('field', $._math_tag),
+      $._math_token_colon,
+      repeat1($._math_expr)
+    )),
     _math_apply: $ => prec(7, seq(
       choice(
         alias($._token_math_letter, $.letter),
@@ -302,11 +293,6 @@ module.exports = grammar({
     _code: $ => seq('#', choice(
       seq($._item, alias($._token_inlined_item_end, 'end')),
       seq($._stmt, alias($._token_inlined_stmt_end, 'end')),
-
-      // FIXME: this makes return statement properly parsed
-      // but multiplies by 6 the size of the parser
-
-      // seq($._stmt, optional($._token_inlined_stmt_end)),
     )),
 
     _item: $ => prec(1, choice(
@@ -361,6 +347,7 @@ module.exports = grammar({
     ),
     _expr: $ => choice(
       $._atom,
+      $.as,
       $.elude,
       $.assign,
       $.lambda,
@@ -401,6 +388,7 @@ module.exports = grammar({
     )),
     string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._token_immediate_set),
     elude:  $ => prec.left(2, seq('..', optional($._expr))),
+    as:     $ => prec.left(2, seq($._expr, 'as', field('into', $._expr))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(6, seq($._expr, 'or', $._expr)),
@@ -414,13 +402,19 @@ module.exports = grammar({
     div:    $ => prec.left(11, seq($._expr, '/', $._expr)),
     sign:   $ =>      prec(12, seq(choice('+', '-'), $._expr)),
 
-    call_inlined:  $ => seq(field('item', $._item), $._token_immediate_call, choice($.content, $.group)),
-    call:   $ => prec(13, seq(field('item', $._atom), $._token_immediate_call, choice($.content, $.group))),
+    call_inlined:  $ => seq(field('item', $._item), choice(
+      seq($._token_immediate_brack, $.content),
+      seq($._token_immediate_paren, $.group)
+    )),
+    call:   $ => prec(13, seq(field('item', $._expr), choice(
+      seq($._token_immediate_brack, $.content),
+      seq($._token_immediate_paren, $.group)
+    ))),
     field_inlined: $ => seq($._item, $._token_immediate_field, '.', field('field', $.ident)),
     field:  $ => prec(13, seq($._expr, '.', field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, '>'),
-    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/),
+    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, $._token_immediate_set, optional(seq($._token_immediate_brack, $.content))),
     content: $ => seq(
       alias($._token_content, '['),
       content($),
@@ -511,53 +505,81 @@ module.exports = grammar({
     none: $ => 'none',
     builtin: $ => seq(token(prec(1, choice(
       'align',
+      'alignement',
+      'angle',
       'aqua',
       'array',
       'assert',
+      'bibliography',
       'black',
       'blue',
       'block',
+      'bool',
       'bottom',
       'box',
       'btt',
       'bytes',
       'calc',
+      'cbor',
       'center',
       'circle',
+      'cite',
       'cmyk',
+      'color',
+      'content',
       'counter',
       'datetime',
+      'dictionary',
+      'direction',
+      'document',
+      'duration',
       'eastern',
       'ellipse',
       'emoji',
       'emph',
       'enum',
       'eval',
+      'figure',
+      'float',
+      'footnote',
+      'fraction',
       'fuchsia',
+      'function',
       'gray',
       'green',
       'grid',
       'h',
       'heading',
+      'highlight',
       'horizon',
       'image',
+      'int',
+      'json',
+      'label',
+      'layout',
       'left',
+      'length',
       'lime',
       'line',
       'link',
       'list',
       'locate',
+      'location',
       'lorem',
       'lower',
       'ltr',
       'luma',
       'maroon',
+      'math',
       'max',
+      'measure',
       'metadata',
       'min',
       'navy',
+      'numbering',
       'olive',
       'orange',
+      'outline',
       'overline',
       'page',
       'pagebreak',
@@ -565,34 +587,46 @@ module.exports = grammar({
       'par',
       'parbreak',
       'path',
+      'plugin',
       'polygon',
       'purple',
       'query',
+      'range',
+      'ratio',
       'raw',
       'read',
       'rect',
       'red',
+      'ref',
       'regex',
+      'relative',
+      'repeat',
       'repr',
       'rgb',
       'right',
       'rotate',
       'rtl',
       'scale',
+      'selector',
       'silver',
       'smallcaps',
       'smartquote',
       'square',
       'stack',
+      'state',
       'str',
       'strike',
+      'stroke',
       'strong',
+      'style',
       'sub',
       'super',
       'sym',
       'table',
       'teal',
+      'terms',
       'text',
+      'toml',
       'top',
       'ttb',
       'type',
@@ -600,6 +634,8 @@ module.exports = grammar({
       'upper',
       'v',
       'white',
+      'xml',
+      'yaml',
       'yellow',
     ))), $._token_immediate_set),
   },

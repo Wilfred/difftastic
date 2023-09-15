@@ -17,9 +17,9 @@ enum token_type {
 	TOKEN_INLINED_ITEM_END,
 	TOKEN_INLINED_STMT_END,
 	TOKEN_BLOCKED_EXPR_END,
-	TOKEN_MATH_BAR_END,
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
+	TOKEN_MATH_GROUP_END,
 	TOKEN_WS_GREEDY,
 	TOKEN_UNIT,
 	TOKEN_URL,
@@ -30,10 +30,11 @@ enum token_type {
 
 	TOKEN_COMMENT,
 	TOKEN_SPACE,
-	// TOKEN_MATH_SHORTHAND,
 
 	TOKEN_IMMEDIATE_SET,
-  TOKEN_IMMEDIATE_CALL,
+  // TOKEN_IMMEDIATE_CALL,
+  TOKEN_IMMEDIATE_PAREN,
+  TOKEN_IMMEDIATE_BRACK,
   TOKEN_IMMEDIATE_FIELD,
   TOKEN_IMMEDIATE_IDENT,
   TOKEN_IMMEDIATE_MATH_CALL,
@@ -1989,15 +1990,23 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 	if (valid_symbols[TOKEN_INLINED_ITEM_END]) {
-		if (
-			valid_symbols[TOKEN_IMMEDIATE_CALL] &&
-			self->immediate && (
-				lexer->lookahead == '[' ||
-				lexer->lookahead == '('
-			)
-		) {
-			lex_accept(TOKEN_IMMEDIATE_CALL);
+		if (self->immediate) {
+			if (valid_symbols[TOKEN_IMMEDIATE_BRACK] && lex_next == '[') {
+				lex_accept(TOKEN_IMMEDIATE_BRACK);  
+			}
+			if (valid_symbols[TOKEN_IMMEDIATE_PAREN] && lex_next == '(') {
+				lex_accept(TOKEN_IMMEDIATE_PAREN);  
+			}
 		}
+		// if (
+		// 	valid_symbols[TOKEN_IMMEDIATE_CALL] &&
+		// 	self->immediate && (
+		// 		lexer->lookahead == '[' ||
+		// 		lexer->lookahead == '('
+		// 	)
+		// ) {
+		// 	lex_accept(TOKEN_IMMEDIATE_CALL);
+		// }
 
 		if (lex_next == '/') {
 			lexer->mark_end(lexer);
@@ -2078,8 +2087,12 @@ bool tree_sitter_typst_external_scanner_scan(
 	// 	return true;
 	// }
 	if (self->immediate) {
-		if (valid_symbols[TOKEN_IMMEDIATE_CALL] && (lex_next == '[' || lex_next == '(')) {
-			lexer->result_symbol = TOKEN_IMMEDIATE_CALL;
+		if (valid_symbols[TOKEN_IMMEDIATE_BRACK] && lex_next == '[') {
+			lexer->result_symbol = TOKEN_IMMEDIATE_BRACK;
+			return true;
+		}
+		if (valid_symbols[TOKEN_IMMEDIATE_PAREN] && lex_next == '(') {
+			lexer->result_symbol = TOKEN_IMMEDIATE_PAREN;
 			return true;
 		}
 		if (valid_symbols[TOKEN_IMMEDIATE_IDENT] && (IS_ID_START(lex_next) || lex_next == '_')) {
@@ -2322,157 +2335,20 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	// if (valid_symbols[TOKEN_MATH_SHORTHAND]) {
-	// 	if (lex_next == '=') {
-	// 		lex_advance();
-	// 		lex_advance_if(lex_next == ':' || lex_next == '>');
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// 	else if (lex_next == '-') {
-	// 		lex_advance();
-	// 		if (lex_next == '-') {
-	// 			lex_advance_if(lex_next == '>');
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		lex_advance_if(lex_next == '>');
-	// 		if (lex_next == '>') {
-	// 			lex_advance();
-	// 		}
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// 	else if (lex_next == '<') {
-	// 		lex_advance();
-	// 		if (lex_next == '<') {
-	// 			lex_advance();
-	// 			if (lex_next == '<' || lex_next == '-') {
-	// 				lex_advance();
-	// 			}
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		if (lex_next == '=') {
-	// 			if (lex_next == '=') {
-	// 				lex_advance();
-	// 			}
-	// 			if (lex_next == '>') {
-	// 				lex_advance();
-	// 			}
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		lex_advance_if(lex_next == '-');
-	// 		if (lex_next == '-') {
-	// 			lex_advance();
-	// 		}
-	// 		if (lex_next == '>') {
-	// 			lex_advance();
-	// 		}
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// 	else if (lex_next == ':') {
-	// 		if (lex_next == ':') {
-	// 			lexer->advance(lexer, false);
-	// 		}
-	// 		lex_advance_if(lex_next == '=');
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// 	else if (lex_next == '>') {
-	// 		lex_advance();
-	// 		if (lex_next == '=') {
-	// 			lex_advance();
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		if (lex_next == '>') {
-	// 			lex_advance();
-	// 			if (lex_next == '>') {
-	// 				lex_advance();
-	// 			}
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		return false;
-	// 	}
-	// 	else if (lex_next == '~') {
-	// 		lex_advance();
-	// 		if (lex_next == '>') {
-	// 			lex_advance();
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		if (lex_next == '~') {
-	// 			lex_advance();
-	// 			lex_advance_if(lex_next == '>');
-	// 			lex_accept(TOKEN_MATH_SHORTHAND);
-	// 		}
-	// 		return false;
-	// 	}
-	// 	else if (lex_next == '!') {
-	// 		lex_advance();
-	// 		lex_advance_if(lex_next == '=');
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// 	else if (lex_next == '.') {
-	// 		lex_advance();
-	// 		lex_advance_if(lex_next == '.');
-	// 		lex_advance_if(lex_next == '.');
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// }
-
-	// if (valid_symbols[TOKEN_MATH_BAR_END]) {
-	// 	if (
-	// 		lex_next == '$' ||
-	// 		lex_next == ')' ||
-	// 		lex_next == ']' ||
-	// 		lex_next == '}'
-	// 	) {
-	// 		lexer->result_symbol = TOKEN_MATH_BAR_END;
-	// 		return true;
-	// 	}
-	// }
-
-	if (valid_symbols[TOKEN_MATH_BAR_END]) {
-		if (
-			lex_next == '$' ||
-			lex_next == ')' ||
-			lex_next == ']' ||
-			lex_next == '}'
-		) {
-			lexer->result_symbol = TOKEN_MATH_BAR_END;
-			return true;
+	if (valid_symbols[TOKEN_MATH_GROUP_END]) {
+		if (lex_next == ')' || lex_next == ']' || lex_next == '}') {
+			lex_advance();
+			lex_accept(TOKEN_MATH_GROUP_END);
+		}
+		if (lex_next == '$') {
+			lex_accept(TOKEN_MATH_GROUP_END);
 		}
 		if (lex_next == '|') {
 			lex_advance();
-			if (lexer->lookahead == ']') {
-				lexer->result_symbol = TOKEN_MATH_BAR_END;
-				return true;
-			}
-			if (lexer->lookahead == '|') {
-				lexer->advance(lexer, false);
-			}
-			lexer->mark_end(lexer);
-			lexer->result_symbol = TOKEN_MATH_BAR_END;
-			return true;
+			lex_advance_if(lex_next == ']');
+			lex_accept(TOKEN_MATH_GROUP_END);
 		}
 	}
-
-	// if (valid_symbols[TOKEN_MATH_SHORTHAND] && lex_next == '|') {
-	// 	lex_advance();
-	// 	if (lex_next == '-') {
-	// 		lex_advance();
-	// 		lex_advance_if(lex_next == '>');
-	// 		lex_accept(TOKEN_MATH_SHORTHAND);
-	// 	}
-	// 	if (valid_symbols[TOKEN_MATH_BAR_END]) {
-	// 		if (lexer->lookahead == ']') {
-	// 			lexer->result_symbol = TOKEN_MATH_BAR_END;
-	// 			return true;
-	// 		}
-	// 		if (lexer->lookahead == '|') {
-	// 			lexer->advance(lexer, false);
-	// 		}
-	// 		lexer->mark_end(lexer);
-	// 		lexer->result_symbol = TOKEN_MATH_BAR_END;
-	// 		return true;
-	// 	}
-	// 	return false;
-	// }
 
 	if (valid_symbols[TOKEN_BLOCKED_EXPR_END]) {
 		if (lexer->lookahead == '}') {

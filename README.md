@@ -27,6 +27,9 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## TODO
 
+- [ ] Update 0.8.0
+  - [X] `as` notation
+  - [X] no more math bar
 - [X] Fixme
 - [ ] More tests, objectif 1000, current 338
 - [ ] Optimization

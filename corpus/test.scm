@@ -1183,7 +1183,7 @@ Test 085
 (source_file
 	(field
 		(call
-			item: (ident)
+			item: (builtin)
 			(group))
 		field: (ident)))
 
@@ -2732,9 +2732,9 @@ $ cal(A) :=
 			(letter)
 			(ident)
 			(ident)
-			(group
-				(letter)
-				(string)))))
+			(symbol)
+			(letter)
+			(string))))
 
 
 =====================
@@ -2793,8 +2793,9 @@ $||a|b$
 
 (source_file
 	(math
-		(group
-			(letter))
+		(symbol)
+		(letter)
+		(symbol)
 		(letter)))
 
 
@@ -2806,9 +2807,9 @@ $||a b$
 
 (source_file
 	(math
-		(group
-			(letter)
-			(letter))))
+		(symbol)
+		(letter)
+		(letter)))
 
 
 =====================
@@ -2879,7 +2880,7 @@ $ := { | } $
 	(math
 		(shorthand)
 		(group
-			(group))))
+			(symbol))))
 
 
 =====================
@@ -4299,7 +4300,7 @@ $|)$
 
 (source_file
 	(math
-		(group)
+		(symbol)
 		(symbol)))
 
 
@@ -4311,11 +4312,11 @@ $|) / )|$
 
 (source_file
 	(math
-		(group)
+		(symbol)
 		(fraction
 			(symbol)
 			(symbol))
-		(group)))
+		(symbol)))
 
 
 =====================
@@ -4326,11 +4327,11 @@ $|) + )|$
 
 (source_file
 	(math
-		(group)
 		(symbol)
 		(symbol)
 		(symbol)
-		(group)))
+		(symbol)
+		(symbol)))
 
 
 =====================
@@ -4343,11 +4344,11 @@ $2^|) + )|$
 	(math
 		(attach
 			(number)
-			sup: (group))
+			sup: (symbol))
 		(symbol)
 		(symbol)
 		(symbol)
-		(group)))
+		(symbol)))
 
 
 =====================
@@ -4359,8 +4360,8 @@ $ { | x } $
 (source_file
 	(math
 		(group
-			(group
-				(letter)))))
+			(symbol)
+			(letter))))
 
 
 =====================
@@ -4373,11 +4374,11 @@ $2^|) / )|$
 	(math
 		(attach
 			(number)
-			sup: (group))
+			sup: (symbol))
 		(fraction
 			(symbol)
 			(symbol))
-		(group)))
+		(symbol)))
 
 
 =====================
@@ -4390,7 +4391,7 @@ $2^||]$
 	(math
 		(attach
 			(number)
-			sup: (group))
+			sup: (symbol))
 		(symbol)))
 
 
@@ -4404,7 +4405,7 @@ $2^|||]$
 	(math
 		(attach
 			(number)
-			sup: (group))
+			sup: (symbol))
 		(symbol)))
 
 
@@ -4418,10 +4419,10 @@ $2^|a b c)$
 	(math
 		(attach
 			(number)
-			sup: (group
-				(letter)
-				(letter)
-				(letter)))
+			sup: (symbol))
+		(letter)
+		(letter)
+		(letter)
 		(symbol)))
 
 
@@ -4436,8 +4437,8 @@ $a^b|h]$
 		(attach
 			(letter)
 			sup: (letter))
-		(group
-			(letter))
+		(symbol)
+		(letter)
 		(symbol)))
 
 
@@ -4866,3 +4867,112 @@ Test 337
 	(term
 		(comment)
 		(text)))
+
+
+=====================
+Test 338
+=====================
+#bool #stroke #dictionary
+---------------------
+
+(source_file
+	(builtin)
+	(builtin)
+	(builtin))
+
+
+=====================
+Test 339
+=====================
+#alignement #content #plugin
+---------------------
+
+(source_file
+	(builtin)
+	(builtin)
+	(builtin))
+
+
+=====================
+Test 340
+=====================
+@hello[World]
+---------------------
+
+(source_file
+	(ref
+		(content
+			(text))))
+
+
+=====================
+Test 341
+=====================
+@hello(World)
+---------------------
+
+(source_file
+	(ref)
+	(text))
+
+
+=====================
+Test 342
+=====================
+#import "a.lib" as b
+---------------------
+
+(source_file
+	(import
+		(as
+			(string)
+			into: (ident))))
+
+
+=====================
+Test 343
+=====================
+#import "a" + ".typ" as b: e as i, r as l
+---------------------
+
+(source_file
+	(import
+		(as
+			(add
+				(string)
+				(string))
+			into: (ident))
+		(as
+			(ident)
+			into: (ident))
+		(as
+			(ident)
+			into: (ident))))
+
+
+=====================
+Test 344
+=====================
+$2^|()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (symbol))
+		(group)))
+
+
+=====================
+Test 345
+=====================
+$2^||()$
+---------------------
+
+(source_file
+	(math
+		(attach
+			(number)
+			sup: (symbol))
+		(group)))
