@@ -1537,6 +1537,8 @@ fn list_from_cursor<'a>(
     let outer_close_content = "";
     let outer_close_position = nl_pos.from_offsets(root_node.end_byte(), root_node.end_byte());
 
+    // TODO: this should probably only allow the delimiters to be the
+    // first and last child in the list.
     let (i, j) = match find_delim_positions(src, cursor, &config.delimiter_tokens) {
         Some((i, j)) => (i as isize, j as isize),
         None => (-1, root_node.child_count() as isize),
