@@ -20,6 +20,8 @@ Participate by:
 - Finding solution for the bugs corresponding to failing tests.
 - Finding new bug and send corresponding test
 
+Any inconsistance between this syntax and Typst's one is considered a bug.
+
 Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 
 Don't hesitate to contact me: eddie.gerbais-nief@proton.me
@@ -27,14 +29,13 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
 ## TODO
 
-- [ ] Update 0.8.0
+- [ ] More tests, objectif 1000, current 347
+- [X] Update 0.8.0
   - [X] `as` notation
   - [X] no more math bar
 - [X] Fixme
-- [ ] More tests, objectif 1000, current 338
-- [ ] Optimization
+- [X] Optimization
   - [X] Parser size
-  - [ ] Benchmark
   - [X] Math ident
   - [X] Extras
 

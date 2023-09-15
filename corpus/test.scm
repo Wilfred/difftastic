@@ -4924,9 +4924,9 @@ Test 342
 
 (source_file
 	(import
+		import: (string)
 		(as
-			(string)
-			into: (ident))))
+			(ident))))
 
 
 =====================
@@ -4937,17 +4937,17 @@ Test 343
 
 (source_file
 	(import
+		import: (add
+			(string)
+			(string))
 		(as
-			(add
-				(string)
-				(string))
-			into: (ident))
+			(ident))
+		(ident)
 		(as
-			(ident)
-			into: (ident))
+			(ident))
+		(ident)
 		(as
-			(ident)
-			into: (ident))))
+			(ident))))
 
 
 =====================
@@ -4976,3 +4976,14 @@ $2^||()$
 			(number)
 			sup: (symbol))
 		(group)))
+
+
+=====================
+Test 346
+=====================
+#a ;
+---------------------
+
+(source_file
+	(ident)
+	(text))

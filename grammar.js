@@ -34,9 +34,12 @@ function inside($) {
   );
 }
 
+// function
+
 module.exports = grammar({
   name: 'typst',
   extras: $ => [$.comment, $._sp, $._lb],
+  inline: $ => [$._pattern],
   word: $ => $._identifier,
   externals: $ => [
     // identation
@@ -71,7 +74,6 @@ module.exports = grammar({
 
     // immediate
     $._token_immediate_set,
-    // $._token_immediate_call,
     $._token_immediate_paren,
     $._token_immediate_brack,
     $._token_immediate_field,
@@ -307,11 +309,11 @@ module.exports = grammar({
       $.bool,
       $.number,
       $.string,
-      alias($.branch_inlined, $.branch),
-      alias($.field_inlined, $.field),
+      $.branch,
+      $.field,
       $.block,
       $.group,
-      alias($.call_inlined, $.call),
+      $.call,
       $.content,
     )),
 
@@ -326,7 +328,7 @@ module.exports = grammar({
       $.return,
     ),
 
-    _atom: $ => choice(
+    _expr: $ => choice(
       $.auto,
       $.none,
       $.raw_span,
@@ -344,10 +346,6 @@ module.exports = grammar({
       $.group,
       $.call,
       $.content,
-    ),
-    _expr: $ => choice(
-      $._atom,
-      $.as,
       $.elude,
       $.assign,
       $.lambda,
@@ -372,6 +370,7 @@ module.exports = grammar({
       $.tagged,
     ),
 
+    _pattern: $ => choice($.ident, $.group),
     _identifier: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
     ident:  $ => seq($._identifier, $._token_immediate_set),
     unit:   $ => $._token_unit,
@@ -388,7 +387,6 @@ module.exports = grammar({
     )),
     string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._token_immediate_set),
     elude:  $ => prec.left(2, seq('..', optional($._expr))),
-    as:     $ => prec.left(2, seq($._expr, 'as', field('into', $._expr))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(6, seq($._expr, 'or', $._expr)),
@@ -402,15 +400,10 @@ module.exports = grammar({
     div:    $ => prec.left(11, seq($._expr, '/', $._expr)),
     sign:   $ =>      prec(12, seq(choice('+', '-'), $._expr)),
 
-    call_inlined:  $ => seq(field('item', $._item), choice(
-      seq($._token_immediate_brack, $.content),
-      seq($._token_immediate_paren, $.group)
-    )),
     call:   $ => prec(13, seq(field('item', $._expr), choice(
       seq($._token_immediate_brack, $.content),
       seq($._token_immediate_paren, $.group)
     ))),
-    field_inlined: $ => seq($._item, $._token_immediate_field, '.', field('field', $.ident)),
     field:  $ => prec(13, seq($._expr, '.', field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, '>'),
@@ -439,17 +432,8 @@ module.exports = grammar({
       field('condition', $._expr),
       choice($.block, $.content),
       optional(seq(
-        'else',
-        choice($.block, $.content, $.branch)
-      )),
-    )),
-    branch_inlined: $ => prec.right(2, seq(
-      'if',
-      field('condition', $._expr), 
-      choice($.block, $.content),
-      optional(seq(
         alias($._token_inlined_else, 'else'),
-        choice($.block, $.content, alias($.branch_inlined, $.branch))
+        choice($.block, $.content, $.branch)
       )),
     )),
     let: $ => prec.right(3, seq(
@@ -460,21 +444,23 @@ module.exports = grammar({
         field('value', $._expr)
       )),
     )),
-    set: $ => prec.right(0, seq(
+    set: $ => prec.right(1, seq(
       'set',
-      alias($.call_inlined, $.call),
+      $.call,
       optional(seq(
         'if',
         field('condition', $._expr),
       )),
     )),
+    as: $ => seq('as', $.ident),
     import: $ => prec.right(1, seq(
       'import',
-      $._expr,
+      field('import', $._expr),
+      optional($.as),
       optional(seq(
         token(prec(10, ':')),
-        repeat(seq($._expr, token(prec(1, ',')))),
-        optional($._expr),
+        repeat(seq($.ident, optional($.as), token(prec(1, ',')))),
+        optional(seq($.ident, optional($.as))),
       )),
     )),
     include: $ => prec(0, seq(
@@ -483,7 +469,7 @@ module.exports = grammar({
     )),
     for: $ => seq(
       'for',
-      field('pattern', $._expr),
+      field('pattern', $._pattern),
       'in',
       field('value', $._expr),
       choice($.block, $.content),
