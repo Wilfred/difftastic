@@ -30,9 +30,8 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 ## TODO
 
 - [ ] More tests, objectif 1000, current 347
+- [ ] Documentation
 - [X] Update 0.8.0
-  - [X] `as` notation
-  - [X] no more math bar
 - [X] Fixme
 - [X] Optimization
   - [X] Parser size

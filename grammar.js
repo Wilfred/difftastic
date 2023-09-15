@@ -4,21 +4,18 @@
 //   WS  = LB+SP
 
 const LB = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
-// const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
+const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
 const NOT_WS = /[^\f\r\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/;
 const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
 const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
 
-// a line break in a content context
-function content_lb($) {
-  return seq(optional($._redent), choice($.parbreak, $._lb));
-}
-
 // document as a whole, or what is inside content delimiter
 function content($) {
   const elem = $._theline_content;
-  const sep = content_lb($);
-  return seq(optional(elem), repeat(seq(sep, optional(elem))));
+  return seq(
+    optional(elem),
+    repeat(seq($._content_lb, optional(elem)))
+  );
 }
 
 // content inside emph or strong delimiters
@@ -26,15 +23,9 @@ function inside($) {
   return seq(
     // the first line can't contain headings or items
     repeat($._markup),
-    optional(seq(
-      content_lb($),
-      // after the first new line, it is just regular content
-      content($),
-    ))
+    repeat(seq($._content_lb, optional($._theline_content))),
   );
 }
-
-// function
 
 module.exports = grammar({
   name: 'typst',
@@ -76,7 +67,6 @@ module.exports = grammar({
     $._token_immediate_set,
     $._token_immediate_paren,
     $._token_immediate_brack,
-    $._token_immediate_field,
     $._token_immediate_ident,
     $._token_immediate_math_call,
     $._token_immediate_math_apply,
@@ -87,7 +77,6 @@ module.exports = grammar({
   ],
   conflicts: $ => [
     [$._math_attach_sup, $._math_attach_sub],
-    [$.return],
   ],
   rules: {
     source_file: $ => content($),
@@ -107,6 +96,8 @@ module.exports = grammar({
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
     _lb: $ => LB,
+    // a line break in a content context
+    _content_lb: $ => seq(optional($._redent), choice($.parbreak, $._lb)),
 
     // this token matches `_`, `*` and `"` when they are between alphanumeric
     // characters because, in that case, they do not count as markup
@@ -175,7 +166,7 @@ module.exports = grammar({
     shorthand: $ => token(choice('--', '---', '-?', '~', '...')),
 
     math: $ => seq('$', repeat($._math_expr), '$'),
-    _math_atom: $ => choice(
+    _math_expr: $ => choice(
       $._code,
       alias($._math_group, $.group),
       alias($._token_math_letter, $.letter),
@@ -189,9 +180,6 @@ module.exports = grammar({
       $._math_item,
       $.escape,
       $.string,
-    ),
-    _math_expr: $ => choice(
-      $._math_atom,
       $.linebreak,
       alias($._math_div, $.fraction),
       alias($._math_root, $.root),
@@ -221,7 +209,7 @@ module.exports = grammar({
     _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
     _math_root:   $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
     _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
-    _math_prime:  $ => prec.left(6, seq($._math_atom, $._token_immediate_math_prime)),
+    _math_prime:  $ => prec.left(6, seq($._math_expr, $._token_immediate_math_prime)),
     _math_attach_sup: $ => prec.right(5, seq(
       $._math_expr,
       '^',
@@ -236,7 +224,7 @@ module.exports = grammar({
     )),
     _math_field: $ => prec.left(9, seq(
       $._math_item,
-      '.',
+      $._token_immediate_math_field,
       field('field', alias($._token_math_ident, $.ident))
     )),
     _math_call: $ => prec(8, seq(
@@ -485,7 +473,7 @@ module.exports = grammar({
       ':',
       field('value', $._expr),
     ),
-    return: $ => seq('return', optional($._expr)),
+    return: $ => prec.right(seq('return', optional($._expr))),
     flow: $ => choice('break', 'continue'),
     auto: $ => 'auto',
     none: $ => 'none',

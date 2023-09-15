@@ -32,10 +32,8 @@ enum token_type {
 	TOKEN_SPACE,
 
 	TOKEN_IMMEDIATE_SET,
-  // TOKEN_IMMEDIATE_CALL,
   TOKEN_IMMEDIATE_PAREN,
   TOKEN_IMMEDIATE_BRACK,
-  TOKEN_IMMEDIATE_FIELD,
   TOKEN_IMMEDIATE_IDENT,
   TOKEN_IMMEDIATE_MATH_CALL,
   TOKEN_IMMEDIATE_MATH_APPLY,
@@ -1678,16 +1676,16 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 	switch (self->containers.vec[self->containers.len - 1]) {
 
 		case CONTAINER_CONTENT: 
-		return lexer->lookahead == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
+		return lex_next == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
 		case CONTAINER_STRONG: 
-		return lexer->lookahead == '*' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
+		return lex_next == '*' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
 		case CONTAINER_EMPH: 
-		return lexer->lookahead == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
+		return lex_next == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
 		case CONTAINER_BARRIER: {
-			if (is_lb(lexer->lookahead)) {
+			if (is_lb(lex_next)) {
 				return TERMINATION_EXCLUSIVE;
 			}
 			if (self->containers.len == 1) {
@@ -1708,7 +1706,7 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 					return TERMINATION_NONE;
 
 					case CONTAINER_CONTENT:
-					return lexer->lookahead == ']' ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
+					return lex_next == ']' ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 				}
 				UNREACHABLE();
 				return TERMINATION_NONE;
@@ -1896,15 +1894,15 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	if (valid_symbols[TOKEN_UNIT] && self->immediate) {
-		if (lexer->lookahead == '%') {
+		if (lex_next == '%') {
 			lexer->advance(lexer, false);
 			lexer->mark_end(lexer);
 			lexer->result_symbol = TOKEN_UNIT;
 			return true;
 		}
-		if (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') {
+		if (lex_next >= 'a' && lex_next <= 'z') {
 			lexer->advance(lexer, false);
-			while (lexer->lookahead >= 'a' && lexer->lookahead <= 'z') {
+			while (lex_next >= 'a' && lex_next <= 'z') {
 				lexer->advance(lexer, false);
 			}
 			lexer->mark_end(lexer);
@@ -1952,10 +1950,10 @@ bool tree_sitter_typst_external_scanner_scan(
 			}
 			lex_advance();
 			if (
-				lexer->lookahead == '[' ||
-				lexer->lookahead == '{' ||
-				lexer->lookahead == '/' ||
-				is_sp(lexer->lookahead)
+				lex_next == '[' ||
+				lex_next == '{' ||
+				lex_next == '/' ||
+				is_sp(lex_next)
 			) {
 				lex_accept(TOKEN_INLINED_ELSE);
 			}
@@ -1975,7 +1973,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 
-		if (lexer->lookahead == ';') {
+		if (lex_next == ';') {
 			lexer->advance(lexer, false);
 			lexer->mark_end(lexer);
 		}
@@ -1984,18 +1982,11 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 
-	if (is_sp(lexer->lookahead) && valid_symbols[TOKEN_SPACE]) {
-		lexer->advance(lexer, false);
-		while (is_sp(lexer->lookahead)) {
-			lexer->advance(lexer, false);
-		}
-		lexer->mark_end(lexer);
-		self->immediate = false;
-		lexer->result_symbol = TOKEN_SPACE;
+	if (parse_space(self, lexer)) {
 		return true;
 	}
 
-	if (lexer->lookahead == '/') {
+	if (lex_next == '/') {
 		uint32_t column = lexer->get_column(lexer);
 
 		if (parse_comment(self, lexer)) {
@@ -2004,7 +1995,7 @@ bool tree_sitter_typst_external_scanner_scan(
 
 		if (
 			valid_symbols[TOKEN_TERM] &&
-			(is_sp(lexer->lookahead) || is_lb(lexer->lookahead))
+			(is_sp(lex_next) || is_lb(lex_next))
 		) {
 			scanner_redent(self, column);
 			lexer->mark_end(lexer);
@@ -2014,10 +2005,6 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	// must be after SPACE and COMMENT
-	// if (valid_symbols[TOKEN_IMMEDIATE_GET] && self->immediate) {
-	// 	lexer->result_symbol = TOKEN_IMMEDIATE_GET;
-	// 	return true;
-	// }
 	if (self->immediate) {
 		if (valid_symbols[TOKEN_IMMEDIATE_BRACK] && lex_next == '[') {
 			lexer->result_symbol = TOKEN_IMMEDIATE_BRACK;
@@ -2029,30 +2016,6 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 		if (valid_symbols[TOKEN_IMMEDIATE_IDENT] && (IS_ID_START(lex_next) || lex_next == '_')) {
 			lexer->result_symbol = TOKEN_IMMEDIATE_IDENT;
-			return true;
-		}
-		if (valid_symbols[TOKEN_IMMEDIATE_FIELD] && lex_next == '.') {
-			lex_advance();
-			if (!valid_symbols[TOKEN_INLINED_ITEM_END]) {
-				UNREACHABLE();
-				return false;
-			}
-			if (lex_next == '_') {
-				lex_advance();
-				if (IS_ID_CONTINUE(lex_next)) {
-					lexer->result_symbol = TOKEN_IMMEDIATE_FIELD;
-					return true;
-				}
-				else {
-					lexer->result_symbol = TOKEN_INLINED_ITEM_END;
-					return true;
-				}
-			}
-			if (IS_ID_START(lex_next)) {
-				lexer->result_symbol = TOKEN_IMMEDIATE_FIELD;
-				return true;
-			}
-			lexer->result_symbol = TOKEN_INLINED_ITEM_END;
 			return true;
 		}
 		if (valid_symbols[TOKEN_IMMEDIATE_MATH_CALL] && lex_next == '(') {
@@ -2076,12 +2039,9 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 		if (valid_symbols[TOKEN_IMMEDIATE_MATH_FIELD] && lex_next == '.') {
 			lex_advance();
-			lexer->mark_end(lexer);
 			if (IS_ID_START(lex_next)) {
-				lexer->result_symbol = TOKEN_IMMEDIATE_MATH_FIELD;
-				return true;
+				lex_accept(TOKEN_IMMEDIATE_MATH_FIELD);
 			}
-			printf("hoho\n");
 			return false;
 		}
 	}
@@ -2092,36 +2052,30 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 
-	if (valid_symbols[TOKEN_CONTENT] && lexer->lookahead == '[') {
+	if (valid_symbols[TOKEN_CONTENT] && lex_next == '[') {
 		lexer->advance(lexer, false);
-		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
 		scanner_container_push(self, CONTAINER_CONTENT);
-		lexer->result_symbol = TOKEN_CONTENT;
-		return true;
+		lex_accept(TOKEN_CONTENT);
 	}
-	if (valid_symbols[TOKEN_STRONG] && lexer->lookahead == '*') {
+	if (valid_symbols[TOKEN_STRONG] && lex_next == '*') {
 		lexer->advance(lexer, false);
-		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
 		scanner_container_push(self, CONTAINER_STRONG);
-		lexer->result_symbol = TOKEN_STRONG;
-		return true;
+		lex_accept(TOKEN_STRONG);
 	}
-	if (valid_symbols[TOKEN_EMPH] && lexer->lookahead == '_') {
+	if (valid_symbols[TOKEN_EMPH] && lex_next == '_') {
 		lexer->advance(lexer, false);
-		lexer->mark_end(lexer);
 		scanner_indent(self, lexer->get_column(lexer));
 		scanner_container_push(self, CONTAINER_EMPH);
-		lexer->result_symbol = TOKEN_EMPH;
-		return true;
+		lex_accept(TOKEN_EMPH);
 	}
 
 	if (valid_symbols[TOKEN_URL]) {
 		self->worker.len = 0;
 		enum { BRACK, PAREN, };
 		for (; true; lexer->advance(lexer, false)) {
-			uint32_t c = lexer->lookahead;
+			uint32_t c = lex_next;
 			size_t len = self->worker.len;
 			if (
 				(c >= 'a' && c <= 'z') ||
@@ -2161,65 +2115,55 @@ bool tree_sitter_typst_external_scanner_scan(
 				vec_u32_pop(&self->worker);
 			}
 			else {
-				lexer->result_symbol = TOKEN_URL;
-				lexer->mark_end(lexer);
-				return true;
+				lex_accept(TOKEN_URL);
 			}
 		}
 	}
 
-	if (valid_symbols[TOKEN_HEAD]) {
-		if (lexer->lookahead == '=') {
-			lexer->advance(lexer, false);
-			while (lexer->lookahead == '=') {
-				lexer->advance(lexer, false);
-			}
-			if (
-				is_sp(lexer->lookahead) ||
-				is_lb(lexer->lookahead) ||
-				lexer->eof(lexer)
-			) {
-				lexer->mark_end(lexer);
-				lexer->result_symbol = TOKEN_HEAD;
-				return true;
-			}
-			return false;
+	if (valid_symbols[TOKEN_HEAD] && lex_next == '=') {
+		lex_advance();
+		while (lex_next == '=') {
+			lex_advance();
 		}
+		if (
+			is_sp(lex_next) ||
+			is_lb(lex_next) ||
+			lexer->eof(lexer)
+		) {
+			lex_accept(TOKEN_HEAD);
+		}
+		return false;
 	}
 
 	if (valid_symbols[TOKEN_ITEM]) {
-		if (lexer->lookahead == '-' || lexer->lookahead == '+') {
+		if (lex_next == '-' || lex_next == '+') {
 			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);
 			if (
-				is_sp(lexer->lookahead) ||
-				is_lb(lexer->lookahead) ||
+				is_sp(lex_next) ||
+				is_lb(lex_next) ||
 				lexer->eof(lexer)
 			) {
 				scanner_redent(self, column);
-				lexer->mark_end(lexer);
-				lexer->result_symbol = TOKEN_ITEM;
-				return true;
+				lex_accept(TOKEN_ITEM);
 			}
 			return false;
 		}
-		if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+		if (lex_next >= '0' && lex_next <= '9') {
 			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);
-			while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+			while (lex_next >= '0' && lex_next <= '9') {
 				lexer->advance(lexer, false);
 			}
-			if (lexer->lookahead == '.') {
+			if (lex_next == '.') {
 				lexer->advance(lexer, false);
 				if (
-					is_sp(lexer->lookahead) ||
-					is_lb(lexer->lookahead) ||
+					is_sp(lex_next) ||
+					is_lb(lex_next) ||
 					lexer->eof(lexer)
 				) {
 					scanner_redent(self, column);
-					lexer->mark_end(lexer);
-					lexer->result_symbol = TOKEN_ITEM;
-					return true;
+					lex_accept(TOKEN_ITEM);
 				}
 			}
 			return false;
@@ -2227,12 +2171,12 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	if (valid_symbols[TOKEN_WS_GREEDY]) {
-		if (is_sp(lexer->lookahead) || is_lb(lexer->lookahead)) {
+		if (is_sp(lex_next) || is_lb(lex_next)) {
 			return false;
 		}
-		if (lexer->lookahead == '/') {
+		if (lex_next == '/') {
 			lexer->advance(lexer, false);
-			if (lexer->lookahead == '*' || lexer->lookahead == '/') {
+			if (lex_next == '*' || lex_next == '/') {
 				return false;
 			}
 		}
@@ -2240,31 +2184,22 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 
-	if (valid_symbols[TOKEN_MATH_IDENT] && IS_ID_START(lexer->lookahead)) {
+	if (valid_symbols[TOKEN_MATH_IDENT] && IS_ID_START(lex_next)) {
 		lexer->advance(lexer, false);
 		if (
 			valid_symbols[TOKEN_MATH_LETTER] && (
-				lexer->lookahead == '_' ||
-				!IS_ID_CONTINUE(lexer->lookahead)
+				lex_next == '_' ||
+				!IS_ID_CONTINUE(lex_next)
 			)
 		) {
-			lexer->mark_end(lexer);
-			lexer->result_symbol = TOKEN_MATH_LETTER;
 			self->immediate = true;
-			return true;
+			lex_accept(TOKEN_MATH_LETTER);
 		}
-		while (lexer->lookahead != '_' && IS_ID_CONTINUE(lexer->lookahead)) {
+		while (lex_next != '_' && IS_ID_CONTINUE(lex_next)) {
 			lexer->advance(lexer, false);
 		}
-		lexer->mark_end(lexer);
 		self->immediate = true;
-		lexer->result_symbol = TOKEN_MATH_IDENT;
-		return true;
-	}
-	if (valid_symbols[TOKEN_MATH_LETTER] && !valid_symbols[TOKEN_MATH_IDENT]) {
-		// not supposed to happen
-		UNREACHABLE();
-		return false;
+			lex_accept(TOKEN_MATH_IDENT);
 	}
 
 	if (valid_symbols[TOKEN_MATH_GROUP_END]) {
@@ -2299,30 +2234,22 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	if (valid_symbols[TOKEN_BLOCKED_EXPR_END]) {
-		if (lexer->lookahead == '}') {
+		if (lex_next == '}') {
 			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
 			return true;
 		}
-		if (lexer->lookahead == ';') {
-			lexer->advance(lexer, false);
-			lexer->mark_end(lexer);
-			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
-			return true;
+		if (lex_next == ';') {
+			lex_advance();
+			lex_accept(TOKEN_BLOCKED_EXPR_END);
 		}
-		if (is_lb(lexer->lookahead)) {
+		if (is_lb(lex_next)) {
 			lexer->mark_end(lexer);
-			lexer->advance(lexer, false);
-			while (is_lb(lexer->lookahead) || is_sp(lexer->lookahead)) {
+			lex_advance();
+			while (is_lb(lex_next) || is_sp(lex_next)) {
 				lexer->advance(lexer, false);
 			}
-			if (lexer->lookahead == '.') {
+			if (lex_next == '.') {
 				return false;
-			}
-			if (lexer->lookahead == '/') {
-				lexer->advance(lexer, false);
-				if (lexer->lookahead == '*' || lexer->lookahead == '/') {
-					return false;
-				}
 			}
 			lexer->result_symbol = TOKEN_BLOCKED_EXPR_END;
 			return true;
@@ -2331,25 +2258,25 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	if (valid_symbols[TOKEN_INLINED_STMT_END]) {
-		while (is_sp(lexer->lookahead)) {
+		while (is_sp(lex_next)) {
 			lexer->advance(lexer, false);
 		}
-		if (lexer->lookahead == ';') {
+		if (lex_next == ';') {
 			lexer->advance(lexer, false);
 			lexer->mark_end(lexer);
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
 			return true;
 		}
-		if (lexer->eof(lexer) || lexer->lookahead == ']') {
+		if (lexer->eof(lexer) || lex_next == ']') {
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
 			return true;
 		}
-		if (is_lb(lexer->lookahead)) {
+		if (is_lb(lex_next)) {
 			lexer->advance(lexer, false);
-			while (is_lb(lexer->lookahead) || is_sp(lexer->lookahead)) {
+			while (is_lb(lex_next) || is_sp(lex_next)) {
 				lexer->advance(lexer, false);
 			}
-			if (lexer->lookahead == '.') {
+			if (lex_next == '.') {
 				return false;
 			}
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
@@ -2360,7 +2287,7 @@ bool tree_sitter_typst_external_scanner_scan(
 
 	if (valid_symbols[TOKEN_INDENT] || valid_symbols[TOKEN_DEDENT]) {
 
-		while (is_lb(lexer->lookahead) || is_sp(lexer->lookahead)) {
+		while (is_lb(lex_next) || is_sp(lex_next)) {
 			lexer->advance(lexer, false);
 		}
 

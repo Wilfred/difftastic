@@ -4987,3 +4987,16 @@ Test 346
 (source_file
 	(ident)
 	(text))
+
+
+=====================
+Test 347
+=====================
+$ab .c$
+---------------------
+
+(source_file
+	(math
+		(ident)
+		(symbol)
+		(letter)))
