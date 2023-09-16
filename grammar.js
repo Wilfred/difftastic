@@ -92,6 +92,8 @@ module.exports = grammar({
     // 'for'  operator_identifier  ':'  _annotated_type  •  ':'  …
     [$._type, $.compound_type],
     [$.lambda_expression, $.modifiers],
+    // 'if'  parenthesized_expression  •  '{'  …
+    [$._if_condition, $._simple_expression],
   ],
 
   word: $ => $._alpha_identifier,
@@ -1104,22 +1106,25 @@ module.exports = grammar({
       ),
 
     if_expression: $ =>
-      prec.right(
-        PREC.control,
-        seq(
-          optional($.inline_modifier),
-          "if",
-          field(
-            "condition",
-            choice(
-              $.parenthesized_expression,
-              seq($._indentable_expression, "then"),
-            ),
-          ),
-          field("consequence", $._indentable_expression),
-          optional(seq("else", field("alternative", $._indentable_expression))),
+      prec.right(PREC.control, seq(
+        optional($.inline_modifier),
+        "if",
+        field(
+          "condition",
+          $._if_condition,
         ),
-      ),
+        field("consequence", $._indentable_expression),
+        optional(seq("else", field("alternative", $._indentable_expression))),
+      )),
+
+    // NOTE(susliko): _if_condition and its magic dynamic precedence were introduced as a fix to
+    // https://github.com/tree-sitter/tree-sitter-scala/issues/263 and
+    // https://github.com/tree-sitter/tree-sitter-scala/issues/342 
+    // Neither do I understand why this works, nor have I found a better solution
+    _if_condition: $ => prec.dynamic(4, choice(
+      $.parenthesized_expression,
+      seq($._indentable_expression, "then"),
+    )),
 
     /*
      *   MatchClause       ::=  'match' <<< CaseClauses >>>

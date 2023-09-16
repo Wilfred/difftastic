@@ -404,6 +404,11 @@ class C:
     else
       ()
 
+    if (a) || b(c) then return true
+
+    if (a) && b.c then
+      ()
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -445,6 +450,27 @@ class C:
             (indented_block
               (unit)
               (comment))
+            (indented_block
+              (unit)))
+          (if_expression
+            (infix_expression
+              (parenthesized_expression
+                (identifier))
+              (operator_identifier)
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))
+            (return_expression
+              (boolean_literal)))
+          (if_expression
+            (infix_expression
+              (parenthesized_expression
+                (identifier))
+              (operator_identifier)
+              (field_expression
+                (identifier)
+                (identifier)))
             (indented_block
               (unit))))))))
 
