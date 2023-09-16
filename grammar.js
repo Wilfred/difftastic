@@ -45,14 +45,13 @@ module.exports = grammar({
     $._barrier,
     $._termination,
 
-    $._token_inlined_else,
     $._token_inlined_item_end,
     $._token_inlined_stmt_end,
     $._token_blocked_expr_end,
     $._token_math_letter,
     $._token_math_ident,
     $._token_math_group_end,
-    $._token_ws_greedy,
+    $._token_else,
     $._token_unit,
     $._token_url,
     $._token_item,
@@ -64,14 +63,14 @@ module.exports = grammar({
     $._sp,
 
     // immediate
-    $._token_immediate_set,
-    $._token_immediate_paren,
-    $._token_immediate_brack,
-    $._token_immediate_ident,
-    $._token_immediate_math_call,
-    $._token_immediate_math_apply,
-    $._token_immediate_math_field,
-    $._token_immediate_math_prime,
+    $._immediate_set,
+    $._immediate_paren,
+    $._immediate_brack,
+    $._immediate_ident,
+    $._immediate_math_call,
+    $._immediate_math_apply,
+    $._immediate_math_field,
+    $._immediate_math_prime,
 
     $._recovery,
   ],
@@ -92,7 +91,7 @@ module.exports = grammar({
     escape: $ => seq(token(choice(
       seq(/\\u/, /\{[0-9a-fA-F]*\}/),
       seq(/\\/, NOT_WS),
-    )), $._token_immediate_set),
+    )), $._immediate_set),
     url: $ => seq(/http(s?):\/\//, $._token_url),
 
     _lb: $ => LB,
@@ -156,14 +155,14 @@ module.exports = grammar({
     emph: $ => prec.left(seq(alias($._token_emph, '_'), inside($), alias($._termination, '_'))),
     raw_blck: $ => seq(
       '```',
-      $._token_immediate_set,
-      optional(seq($._token_immediate_ident, field('lang', $.ident))),
+      $._immediate_set,
+      optional(seq($._immediate_ident, field('lang', $.ident))),
       alias(/(``[^`]|`[^`]|[^`])*/, $.blob),
       '```',
-      $._token_immediate_set,
+      $._immediate_set,
     ),
-    raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`', $._token_immediate_set),
-    shorthand: $ => token(choice('--', '---', '-?', '~', '...')),
+    raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`', $._immediate_set),
+    shorthand: $ => token(prec(1, choice('--', '---', '-?', '~', '...'))),
 
     math: $ => seq('$', optional($.formula), '$'),
 
@@ -211,7 +210,7 @@ module.exports = grammar({
     _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
     _math_root:   $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
     _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
-    _math_prime:  $ => prec.left(6, seq($._math_expr, $._token_immediate_math_prime)),
+    _math_prime:  $ => prec.left(6, seq($._math_expr, $._immediate_math_prime)),
     _math_attach_sup: $ => prec.right(5, seq(
       $._math_expr,
       '^',
@@ -226,12 +225,12 @@ module.exports = grammar({
     )),
     _math_field: $ => prec.left(9, seq(
       $._math_item,
-      $._token_immediate_math_field,
+      $._immediate_math_field,
       field('field', alias($._token_math_ident, $.ident))
     )),
     _math_call: $ => prec(8, seq(
       field('item', $._math_item),
-      $._token_immediate_math_call,
+      $._immediate_math_call,
       $._math_token_lpar,
       repeat(seq(
         choice(alias($._math_tagged, $.tagged), optional($.formula)),
@@ -257,7 +256,7 @@ module.exports = grammar({
         $.string,
         $._math_item,
       )),
-      $._token_immediate_math_apply,
+      $._immediate_math_apply,
       $._math_group
     )),
     _math_shorthand: $ => seq(token(prec(1, choice(
@@ -275,7 +274,7 @@ module.exports = grammar({
       '>=', '>>', '>>>',
       // other
       '...',
-    ))), $._token_immediate_set),
+    ))), $._immediate_set),
     _math_symbol: $ => choice(
       $._math_token_colon,
       $._math_token_orph,
@@ -362,7 +361,7 @@ module.exports = grammar({
 
     _pattern: $ => choice($.ident, $.group),
     _identifier: $ => /[\p{XID_Start}_][\p{XID_Continue}\-]*/,
-    ident:  $ => seq($._identifier, $._token_immediate_set),
+    ident:  $ => seq($._identifier, $._immediate_set),
     unit:   $ => $._token_unit,
     bool:   $ => choice('true', 'false'),
     number: $ => prec.right(seq(
@@ -372,10 +371,10 @@ module.exports = grammar({
         /0b[01]+/,
         /[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?/,
       )),
-      $._token_immediate_set,
-      optional(seq($.unit, $._token_immediate_set))
+      $._immediate_set,
+      optional(seq($.unit, $._immediate_set))
     )),
-    string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._token_immediate_set),
+    string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._immediate_set),
     elude:  $ => prec.left(2, seq('..', optional($._expr))),
     assign: $ => prec.right(4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right(5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
@@ -391,38 +390,38 @@ module.exports = grammar({
     sign:   $ =>      prec(12, seq(choice('+', '-'), $._expr)),
 
     call:   $ => prec(13, seq(field('item', $._expr), choice(
-      seq($._token_immediate_brack, $.content),
-      seq($._token_immediate_paren, $.group)
+      seq($._immediate_brack, $.content),
+      seq($._immediate_paren, $.group)
     ))),
     field:  $ => prec(13, seq($._expr, '.', field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, '>'),
-    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, $._token_immediate_set, optional(seq($._token_immediate_brack, $.content))),
+    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, $._immediate_set, optional(seq($._immediate_brack, $.content))),
     content: $ => seq(
       alias($._token_content, '['),
       content($),
       alias($._termination, ']'),
-      $._token_immediate_set,
+      $._immediate_set,
     ),
     group: $ => seq(
       '(',
       repeat(seq($._expr, ',')),
       optional($._expr),
       ')',
-      $._token_immediate_set,
+      $._immediate_set,
     ),
     block: $ => seq(
       '{',
       repeat(seq($._expr, alias($._token_blocked_expr_end, 'sep'))),
       '}',
-      $._token_immediate_set,
+      $._immediate_set,
     ),
     branch: $ => prec.right(2, seq(
       'if',
       field('condition', $._expr),
       choice($.block, $.content),
       optional(seq(
-        alias($._token_inlined_else, 'else'),
+        alias($._token_else, 'else'),
         choice($.block, $.content, $.branch)
       )),
     )),
@@ -613,7 +612,7 @@ module.exports = grammar({
       'xml',
       'yaml',
       'yellow',
-    ))), $._token_immediate_set),
+    ))), $._immediate_set),
   },
 });
 

@@ -56,8 +56,8 @@
 (term ["item" ":"] @operator)
 (heading) @markup.heading
 (url) @tag
-(emph) @markup.italic
-(strong) @markup.bold
+(emph "_" @operator) @markup.italic
+(strong "*" @operator) @markup.bold
 (item) @markup.list
 (term) @markup.list
 (symbol) @constant.character
@@ -73,6 +73,6 @@
 
 (escape) @constant.character.escape
 ["(" ")" "{" "}"] @ponctuation.bracket
-["," ";" ".." "sep"] @ponctuation.delimiter
+["," ";" ".." ":" "sep"] @ponctuation.delimiter
 "assign" @ponctuation
 (field "." @ponctuation)

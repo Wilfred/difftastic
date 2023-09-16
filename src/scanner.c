@@ -13,14 +13,13 @@ enum token_type {
 	TOKEN_BARRIER,
 	TOKEN_TERMINATION,
 
-	TOKEN_INLINED_ELSE,
 	TOKEN_INLINED_ITEM_END,
 	TOKEN_INLINED_STMT_END,
 	TOKEN_BLOCKED_EXPR_END,
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
 	TOKEN_MATH_GROUP_END,
-	TOKEN_WS_GREEDY,
+	TOKEN_ELSE,
 	TOKEN_UNIT,
 	TOKEN_URL,
 	TOKEN_ITEM,
@@ -1919,7 +1918,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				lex_accept(TOKEN_IMMEDIATE_PAREN);  
 			}
 		}
-		if (valid_symbols[TOKEN_INLINED_ELSE]) {
+		if (valid_symbols[TOKEN_ELSE]) {
 			if (parse_space(self, lexer)) {
 				return true;
 			}
@@ -1955,7 +1954,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				lex_next == '/' ||
 				is_sp(lex_next)
 			) {
-				lex_accept(TOKEN_INLINED_ELSE);
+				lex_accept(TOKEN_ELSE);
 			}
 			lexer->result_symbol = TOKEN_INLINED_ITEM_END;
 			return true;
@@ -2170,20 +2169,6 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
-	if (valid_symbols[TOKEN_WS_GREEDY]) {
-		if (is_sp(lex_next) || is_lb(lex_next)) {
-			return false;
-		}
-		if (lex_next == '/') {
-			lexer->advance(lexer, false);
-			if (lex_next == '*' || lex_next == '/') {
-				return false;
-			}
-		}
-		lexer->result_symbol = TOKEN_WS_GREEDY;
-		return true;
-	}
-
 	if (valid_symbols[TOKEN_MATH_IDENT] && IS_ID_START(lex_next)) {
 		lexer->advance(lexer, false);
 		if (
@@ -2217,7 +2202,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
-	if (valid_symbols[TOKEN_INLINED_ELSE]) {
+	if (valid_symbols[TOKEN_ELSE]) {
 		lex_advance_if(lex_next == 'e');
 		lex_advance_if(lex_next == 'l');
 		lex_advance_if(lex_next == 's');
@@ -2228,7 +2213,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			lex_next == '/' ||
 			is_sp(lex_next)
 		) {
-			lex_accept(TOKEN_INLINED_ELSE);
+			lex_accept(TOKEN_ELSE);
 		}
 		return false;
 	}
