@@ -79,7 +79,7 @@ equivalent to the one-off commands shown above.
 If you want to use difftastic as your default diff tool, add the
 following to your `~/.gitconfig`.
 
-```init
+```ini
 [diff]
 	external = difft
 ```
