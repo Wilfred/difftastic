@@ -1542,7 +1542,8 @@ $a$
 
 (source_file
 	(math
-		(letter)))
+		(formula
+			(letter))))
 
 
 =====================
@@ -2466,11 +2467,12 @@ $2 ^ 4 * 8$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (number))
-		(symbol)
-		(number)))
+		(formula
+			(attach
+				(number)
+				sup: (number))
+			(symbol)
+			(number))))
 
 
 =====================
@@ -2481,10 +2483,11 @@ $2 ^ 4 _ 8$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (number)
-			sub: (number))))
+		(formula
+			(attach
+				(number)
+				sup: (number)
+				sub: (number)))))
 
 
 =====================
@@ -2495,11 +2498,12 @@ $1_2_3$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sub: (attach
+		(formula
+			(attach
 				(number)
-				sub: (number)))))
+				sub: (attach
+					(number)
+					sub: (number))))))
 
 
 =====================
@@ -2510,8 +2514,10 @@ $(3  )$
 
 (source_file
 	(math
-		(group
-			(number))))
+		(formula
+			(group
+				(formula
+					(number))))))
 
 
 =====================
@@ -2522,7 +2528,8 @@ $3  $
 
 (source_file
 	(math
-		(number)))
+		(formula
+			(number))))
 
 
 =====================
@@ -2533,7 +2540,8 @@ $lim  $
 
 (source_file
 	(math
-		(ident)))
+		(formula
+			(ident))))
 
 
 =====================
@@ -2544,9 +2552,10 @@ $x + 2$
 
 (source_file
 	(math
-		(letter)
-		(symbol)
-		(number)))
+		(formula
+			(letter)
+			(symbol)
+			(number))))
 
 
 =====================
@@ -2557,9 +2566,10 @@ $x + ($
 
 (source_file
 	(math
-		(letter)
-		(symbol)
-		(group)))
+		(formula
+			(letter)
+			(symbol)
+			(group))))
 
 
 =====================
@@ -2570,9 +2580,10 @@ $x + (  $
 
 (source_file
 	(math
-		(letter)
-		(symbol)
-		(group)))
+		(formula
+			(letter)
+			(symbol)
+			(group))))
 
 
 =====================
@@ -2583,12 +2594,14 @@ $2^[4 * 2$
 
 (source_file
 	(math
-		(attach
-			(number)
-				sup: (group
-					(number)
-					(symbol)
-					(number)))))
+		(formula
+			(attach
+				(number)
+					sup: (group
+						(formula
+							(number)
+							(symbol)
+							(number)))))))
 
 
 =====================
@@ -2599,10 +2612,11 @@ $2^+2$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(number)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(number))))
 
 
 =====================
@@ -2613,9 +2627,10 @@ $eq.not$
 
 (source_file
 	(math
-		(field
-			(ident)
-			(ident))))
+		(formula
+			(field
+				(ident)
+				(ident)))))
 
 
 =====================
@@ -2626,11 +2641,13 @@ $eq.not(0)$
 
 (source_file
 	(math
-		(call
-			item: (field
-				(ident)
-				field: (ident))
-			(number))))
+		(formula
+			(call
+				item: (field
+					(ident)
+					field: (ident))
+				(formula
+					(number))))))
 
 
 =====================
@@ -2641,9 +2658,11 @@ $y[5)$
 
 (source_file
 	(math
-		(apply
-			(letter)
-			(number))))
+		(formula
+			(apply
+				item: (letter)
+				(formula
+					(number))))))
 
 
 =====================
@@ -2654,9 +2673,11 @@ $3[5)$
 
 (source_file
 	(math
-		(number)
-		(group
-			(number))))
+		(formula
+			(number)
+			(group
+				(formula
+					(number))))))
 
 
 =====================
@@ -2667,10 +2688,11 @@ $1^\=()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (apply
-				(escape)))))
+		(formula
+			(attach
+				(number)
+				sup: (apply
+					item: (escape))))))
 
 
 =====================
@@ -2681,10 +2703,11 @@ $1^"hello"()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (apply
-				(string)))))
+		(formula
+			(attach
+				(number)
+				sup: (apply
+					item: (string))))))
 
 
 =====================
@@ -2698,10 +2721,11 @@ $
 
 (source_file
 	(math
-		(let
-			pattern: (ident)
-			value: (number))
-		(ident)))
+		(formula
+			(let
+				pattern: (ident)
+				value: (number))
+			(ident))))
 
 
 =====================
@@ -2712,7 +2736,8 @@ $ x $
 
 (source_file
 	(math
-		(letter)))
+		(formula
+			(letter))))
 
 
 =====================
@@ -2724,17 +2749,20 @@ $ cal(A) :=
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(letter))
-		(shorthand)
-		(group
-			(letter)
-			(ident)
-			(ident)
-			(symbol)
-			(letter)
-			(string))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(letter)))
+			(shorthand)
+			(group
+				(formula
+					(letter)
+					(ident)
+					(ident)
+					(symbol)
+					(letter)
+					(string))))))
 
 
 =====================
@@ -2793,10 +2821,11 @@ $||a|b$
 
 (source_file
 	(math
-		(symbol)
-		(letter)
-		(symbol)
-		(letter)))
+		(formula
+			(symbol)
+			(letter)
+			(symbol)
+			(letter))))
 
 
 =====================
@@ -2807,9 +2836,10 @@ $||a b$
 
 (source_file
 	(math
-		(symbol)
-		(letter)
-		(letter)))
+		(formula
+			(symbol)
+			(letter)
+			(letter))))
 
 
 =====================
@@ -2820,11 +2850,12 @@ $2^3!a$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (fac
-				(number)))
-		(letter)))
+		(formula
+			(attach
+				(number)
+				sup: (fac
+					(number)))
+			(letter))))
 
 
 =====================
@@ -2864,10 +2895,11 @@ $1 + n n$
 
 (source_file
 	(math
-		(number)
-		(symbol)
-		(letter)
-		(letter)))
+		(formula
+			(number)
+			(symbol)
+			(letter)
+			(letter))))
 
 
 =====================
@@ -2878,9 +2910,11 @@ $ := { | } $
 
 (source_file
 	(math
-		(shorthand)
-		(group
-			(symbol))))
+		(formula
+			(shorthand)
+			(group
+				(formula
+					(symbol))))))
 
 
 =====================
@@ -2907,9 +2941,10 @@ $lim_3$
 
 (source_file
 	(math
-		(attach
-			(ident)
-			sub: (number))))
+		(formula
+			(attach
+				(ident)
+				sub: (number)))))
 
 
 =====================
@@ -3164,11 +3199,12 @@ $e^1»2$
 
 (source_file
 	(math
-		(attach
-			(letter)
-			sup: (number))
-		(symbol)
-		(number)))
+		(formula
+			(attach
+				(letter)
+				sup: (number))
+			(symbol)
+			(number))))
 
 
 =====================
@@ -3205,10 +3241,13 @@ $lim(1, 3)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(number)
-			(number))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(number))
+				(formula
+					(number))))))
 
 
 =====================
@@ -3219,12 +3258,17 @@ $lim(1, 3; 5, 9)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(number)
-			(number)
-			(number)
-			(number))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(number))
+				(formula
+					(number))
+				(formula
+					(number))
+				(formula
+					(number))))))
 
 
 =====================
@@ -3235,10 +3279,12 @@ $(3^))$
 
 (source_file
 	(math
-		(group
-			(attach
-				(number)
-				sup: (symbol)))))
+		(formula
+			(group
+				(formula
+					(attach
+						(number)
+						sup: (symbol)))))))
 
 
 =====================
@@ -3249,8 +3295,9 @@ $2a$
 
 (source_file
 	(math
-		(number)
-		(letter)))
+		(formula
+			(number)
+			(letter))))
 
 
 =====================
@@ -3261,11 +3308,12 @@ $2^√4!$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (root
-				(fac
-					(number))))))
+		(formula
+			(attach
+				(number)
+				sup: (root
+					(fac
+						(number)))))))
 
 
 =====================
@@ -3276,11 +3324,12 @@ $√2^2!$
 
 (source_file
 	(math
-		(root
-			(attach
-				(number)
-				sup: (fac
-					(number))))))
+		(formula
+			(root
+				(attach
+					(number)
+					sup: (fac
+						(number)))))))
 
 
 =====================
@@ -3291,11 +3340,13 @@ $√( 3 dot 4)$
 
 (source_file
 	(math
-		(root
-			(group
-				(number)
-				(ident)
-				(number)))))
+		(formula
+			(root
+				(group
+					(formula
+						(number)
+						(ident)
+						(number)))))))
 
 
 =====================
@@ -3306,10 +3357,11 @@ $√ 3 dot 4$
 
 (source_file
 	(math
-		(root
-			(number))
-		(ident)
-		(number)))
+		(formula
+			(root
+				(number))
+			(ident)
+			(number))))
 
 
 =====================
@@ -3320,11 +3372,13 @@ $mt( dl: 0)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(tagged
-				field: (ident)
-				(number)))))
+		(formula
+			(call
+				item: (ident)
+				(tagged
+					field: (ident)
+					(formula
+						(number)))))))
 
 
 =====================
@@ -3335,13 +3389,17 @@ $mat(2, 2, delim: "[")$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(number)
-			(number)
-			(tagged
-				field: (ident)
-				(string)))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(number))
+				(formula
+					(number))
+				(tagged
+					field: (ident)
+					(formula
+						(string)))))))
 
 
 =====================
@@ -3352,11 +3410,13 @@ $ap(av:0)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(tagged
-				field: (ident)
-				(number)))))
+		(formula
+			(call
+				item: (ident)
+				(tagged
+					field: (ident)
+					(formula
+						(number)))))))
 
 
 =====================
@@ -3367,9 +3427,10 @@ $e^2.0$
 
 (source_file
 	(math
-		(attach
-			(letter)
-			sup: (number))))
+		(formula
+			(attach
+				(letter)
+				sup: (number)))))
 
 
 =====================
@@ -3380,9 +3441,10 @@ $ mat.a $
 
 (source_file
 	(math
-		(field
-			(ident)
-			field: (ident))))
+		(formula
+			(field
+				(ident)
+				field: (ident)))))
 
 
 =====================
@@ -3395,11 +3457,13 @@ $ mat(
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(field
-				(ident)
-				field: (ident)))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(field
+						(ident)
+						field: (ident)))))))
 
 
 =====================
@@ -3410,9 +3474,11 @@ $mat(a)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(letter))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(letter))))))
 
 
 =====================
@@ -3423,9 +3489,11 @@ $mat(avvv)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(ident))))
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(ident))))))
 
 
 =====================
@@ -3436,10 +3504,12 @@ $mat(/* hello */ avvv)$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(comment)
-			(ident))))
+		(formula
+			(call
+				item: (ident)
+				(comment)
+				(formula
+					(ident))))))
 
 
 =====================
@@ -3450,12 +3520,14 @@ $mat(/* hello */ delim: "[")$
 
 (source_file
 	(math
-		(call
-			item: (ident)
-			(comment)
-			(tagged
-				field: (ident)
-				(string)))))
+		(formula
+			(call
+				item: (ident)
+				(comment)
+				(tagged
+					field: (ident)
+					(formula
+						(string)))))))
 
 
 =====================
@@ -3477,8 +3549,9 @@ $a'''$
 
 (source_file
 	(math
-		(prime
-			(letter))))
+		(formula
+			(prime
+				(letter)))))
 
 
 =====================
@@ -3489,8 +3562,9 @@ $a&$
 
 (source_file
 	(math
-		(letter)
-		(align)))
+		(formula
+			(letter)
+			(align))))
 
 
 =====================
@@ -3501,9 +3575,10 @@ $#let a = 0;$
 
 (source_file
 	(math
-		(let
-			pattern: (ident)
-			value: (number))))
+		(formula
+			(let
+				pattern: (ident)
+				value: (number)))))
 
 
 =====================
@@ -3514,11 +3589,13 @@ $2^(#ab')$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (group
-				(prime
-					(ident))))))
+		(formula
+			(attach
+				(number)
+				sup: (group
+					(formula
+						(prime
+							(ident))))))))
 
 
 =====================
@@ -3588,11 +3665,12 @@ $e^mat()'$
 
 (source_file
 	(math
-		(attach
-			(letter)
-			sup: (prime
-				(call
-					item: (ident))))))
+		(formula
+			(attach
+				(letter)
+				sup: (prime
+					(call
+						item: (ident)))))))
 
 
 =====================
@@ -3603,10 +3681,11 @@ $2^e '$
 
 (source_file
 	(math
-		(attach
-				(number)
-				sup: (letter))
-		(symbol)))
+		(formula
+			(attach
+					(number)
+					sup: (letter))
+			(symbol))))
 
 
 =====================
@@ -3617,10 +3696,11 @@ $2^e'$
 
 (source_file
 	(math
-		(attach
-				(number)
-				sup: (prime
-					(letter)))))
+		(formula
+			(attach
+					(number)
+					sup: (prime
+						(letter))))))
 
 
 =====================
@@ -3632,10 +3712,11 @@ $
 
 (source_file
 	(math
-		(let
-			pattern: (ident)
-			value: (number))
-		(ident)))
+		(formula
+			(let
+				pattern: (ident)
+				value: (number))
+			(ident))))
 
 
 =====================
@@ -3648,11 +3729,12 @@ $
 
 (source_file
 	(math
-		(let
-			pattern: (ident)
-			value: (number))
-		(letter)
-		(ident)))
+		(formula
+			(let
+				pattern: (ident)
+				value: (number))
+			(letter)
+			(ident))))
 
 
 =====================
@@ -4112,12 +4194,13 @@ $#if true [] /* Hello */ else /* World */ []$
 
 (source_file
 	(math
-		(branch
-			condition: (bool)
-			(content)
-			(comment)
-			(comment)
-			(content))))
+		(formula
+			(branch
+				condition: (bool)
+				(content)
+				(comment)
+				(comment)
+				(content)))))
 
 
 =====================
@@ -4131,12 +4214,13 @@ else /* World */ []$
 
 (source_file
 	(math
-		(branch
-			condition: (bool)
-			(content)
-			(comment)
-			(comment)
-			(content))))
+		(formula
+			(branch
+				condition: (bool)
+				(content)
+				(comment)
+				(comment)
+				(content)))))
 
 
 =====================
@@ -4187,18 +4271,21 @@ $ lim_x =
 
 (source_file
 	(math
-		(attach
-			(ident)
-			sub: (letter))
-		(symbol)
-		(attach
-			(call
-				item: (ident)
-				(string)
-				(tagged
-					field: (ident)
-					(bool)))
-			sub: (letter))))
+		(formula
+			(attach
+				(ident)
+				sub: (letter))
+			(symbol)
+			(attach
+				(call
+					item: (ident)
+					(formula
+						(string))
+					(tagged
+						field: (ident)
+						(formula
+							(bool))))
+				sub: (letter)))))
 
 
 =====================
@@ -4210,18 +4297,22 @@ $ op("custom",
 
 (source_file
 	(math
-		(attach
-			(call
-				item: (ident)
-				(string)
-				(tagged
-					field: (ident)
-					(bool)))
-			sub: (group
-				(letter)
-				(shorthand)
-				(ident)))
-		(letter)))
+		(formula
+			(attach
+				(call
+					item: (ident)
+					(formula
+						(string))
+					(tagged
+						field: (ident)
+						(formula
+							(bool))))
+				sub: (group
+					(formula
+						(letter)
+						(shorthand)
+						(ident))))
+			(letter))))
 
 
 =====================
@@ -4233,25 +4324,32 @@ $ vec(a, b, c) dot vec(1, 2, 3)
 
 (source_file
 	(math
-		(call
-			item: (ident)
+		(formula
+			(call
+				item: (ident)
+				(formula
+					(letter))
+				(formula
+					(letter))
+				(formula
+					(letter)))
+			(ident)
+			(call
+				item: (ident)
+				(formula
+					(number))
+				(formula
+					(number))
+				(formula
+					(number)))
+			(symbol)
 			(letter)
+			(symbol)
+			(number)
 			(letter)
-			(letter))
-		(ident)
-		(call
-			item: (ident)
+			(symbol)
 			(number)
-			(number)
-			(number))
-		(symbol)
-		(letter)
-		(symbol)
-		(number)
-		(letter)
-		(symbol)
-		(number)
-		(letter)))
+			(letter))))
 
 
 =====================
@@ -4262,10 +4360,11 @@ $1^2.0e3$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (number))
-		(ident)))
+		(formula
+			(attach
+				(number)
+				sup: (number))
+			(ident))))
 
 
 =====================
@@ -4276,9 +4375,10 @@ $1 / 3$
 
 (source_file
 	(math
-		(fraction
-			(number)
-			(number))))
+		(formula
+			(fraction
+				(number)
+				(number)))))
 
 
 =====================
@@ -4289,7 +4389,8 @@ $|]$
 
 (source_file
 	(math
-		(symbol)))
+		(formula
+			(symbol))))
 
 
 =====================
@@ -4300,8 +4401,9 @@ $|)$
 
 (source_file
 	(math
-		(symbol)
-		(symbol)))
+		(formula
+			(symbol)
+			(symbol))))
 
 
 =====================
@@ -4312,11 +4414,12 @@ $|) / )|$
 
 (source_file
 	(math
-		(symbol)
-		(fraction
+		(formula
 			(symbol)
-			(symbol))
-		(symbol)))
+			(fraction
+				(symbol)
+				(symbol))
+			(symbol))))
 
 
 =====================
@@ -4327,11 +4430,12 @@ $|) + )|$
 
 (source_file
 	(math
-		(symbol)
-		(symbol)
-		(symbol)
-		(symbol)
-		(symbol)))
+		(formula
+			(symbol)
+			(symbol)
+			(symbol)
+			(symbol)
+			(symbol))))
 
 
 =====================
@@ -4342,13 +4446,14 @@ $2^|) + )|$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(symbol)
-		(symbol)
-		(symbol)
-		(symbol)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(symbol)
+			(symbol)
+			(symbol)
+			(symbol))))
 
 
 =====================
@@ -4359,9 +4464,11 @@ $ { | x } $
 
 (source_file
 	(math
-		(group
-			(symbol)
-			(letter))))
+		(formula
+			(group
+				(formula
+					(symbol)
+					(letter))))))
 
 
 =====================
@@ -4372,13 +4479,14 @@ $2^|) / )|$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(fraction
-			(symbol)
-			(symbol))
-		(symbol)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(fraction
+				(symbol)
+				(symbol))
+			(symbol))))
 
 
 =====================
@@ -4389,10 +4497,11 @@ $2^||]$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(symbol)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(symbol))))
 
 
 =====================
@@ -4403,10 +4512,11 @@ $2^|||]$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(symbol)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(symbol))))
 
 
 =====================
@@ -4417,13 +4527,14 @@ $2^|a b c)$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(letter)
-		(letter)
-		(letter)
-		(symbol)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(letter)
+			(letter)
+			(letter)
+			(symbol))))
 
 
 =====================
@@ -4434,12 +4545,13 @@ $a^b|h]$
 
 (source_file
 	(math
-		(attach
+		(formula
+			(attach
+				(letter)
+				sup: (letter))
+			(symbol)
 			(letter)
-			sup: (letter))
-		(symbol)
-		(letter)
-		(symbol)))
+			(symbol))))
 
 
 =====================
@@ -4450,11 +4562,12 @@ $a^)^0$
 
 (source_file
 	(math
-		(attach
-			(letter)
-			sup: (attach
-				(symbol)
-				sup: (number)))))
+		(formula
+			(attach
+				(letter)
+				sup: (attach
+					(symbol)
+					sup: (number))))))
 
 =====================
 Test 310
@@ -4464,14 +4577,16 @@ $1 + (a+b)/5$
 
 (source_file
 	(math
-		(number)
-		(symbol)
-		(fraction
-			(group
-				(letter)
-				(symbol)
-				(letter))
-			(number))))
+		(formula
+			(number)
+			(symbol)
+			(fraction
+				(group
+					(formula
+						(letter)
+						(symbol)
+						(letter)))
+				(number)))))
 
 
 =====================
@@ -4483,7 +4598,8 @@ Test 311
 (source_file
 	(text)
 	(math
-		(ident)))
+		(formula
+			(ident))))
 
 
 =====================
@@ -4494,9 +4610,10 @@ $x\^2   /*hello  /* world*/*/$
 
 (source_file
 	(math
-		(letter)
-		(escape)
-		(number)
+		(formula
+			(letter)
+			(escape)
+			(number))
 		(comment)))
 
 
@@ -4571,10 +4688,11 @@ $   0.000007e+3$
 
 (source_file
 	(math
-		(number)
-		(letter)
-		(symbol)
-		(number)))
+		(formula
+			(number)
+			(letter)
+			(symbol)
+			(number))))
 
 
 =====================
@@ -4701,10 +4819,11 @@ $2^:=()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (apply
-				(shorthand)))))
+		(formula
+			(attach
+				(number)
+				sup: (apply
+					item: (shorthand))))))
 
 
 =====================
@@ -4715,10 +4834,11 @@ $2^:= ()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (shorthand))
-		(group)))
+		(formula
+			(attach
+				(number)
+				sup: (shorthand))
+			(group))))
 
 
 =====================
@@ -4729,10 +4849,11 @@ $2^Ⅷ()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (apply
-				(letter)))))
+		(formula
+			(attach
+				(number)
+				sup: (apply
+					item: (letter))))))
 
 
 =====================
@@ -4743,10 +4864,11 @@ $2^〇()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (apply
-				(letter)))))
+		(formula
+			(attach
+				(number)
+				sup: (apply
+					item: (letter))))))
 
 
 =====================
@@ -4757,10 +4879,11 @@ $2^∆()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(group)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(group))))
 
 
 =====================
@@ -4781,14 +4904,15 @@ $=>a->a|->a>a$
 
 (source_file
 	(math
-		(shorthand)
-		(letter)
-		(shorthand)
-		(letter)
-		(shorthand)
-		(letter)
-		(symbol)
-		(letter)))
+		(formula
+			(shorthand)
+			(letter)
+			(shorthand)
+			(letter)
+			(shorthand)
+			(letter)
+			(symbol)
+			(letter))))
 
 
 =====================
@@ -4799,16 +4923,17 @@ $~~>>a:=a=:a>==a$
 
 (source_file
 	(math
-		(shorthand)
-		(symbol)
-		(letter)
-		(shorthand)
-		(letter)
-		(shorthand)
-		(letter)
-		(shorthand)
-		(symbol)
-		(letter)))
+		(formula
+			(shorthand)
+			(symbol)
+			(letter)
+			(shorthand)
+			(letter)
+			(shorthand)
+			(letter)
+			(shorthand)
+			(symbol)
+			(letter))))
 
 
 =====================
@@ -4958,10 +5083,11 @@ $2^|()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(group)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(group))))
 
 
 =====================
@@ -4972,10 +5098,11 @@ $2^||()$
 
 (source_file
 	(math
-		(attach
-			(number)
-			sup: (symbol))
-		(group)))
+		(formula
+			(attach
+				(number)
+				sup: (symbol))
+			(group))))
 
 
 =====================
@@ -4997,6 +5124,146 @@ $ab .c$
 
 (source_file
 	(math
-		(ident)
-		(symbol)
-		(letter)))
+		(formula
+			(ident)
+			(symbol)
+			(letter))))
+
+
+=====================
+Test 348
+=====================
+#set page(header: locate(loc => {
+  let elems = query(
+    selector(heading).before(loc),
+    loc,
+  )
+  let academy = smallcaps[
+    Typst Academy
+  ]
+  if elems == () {
+    align(right, academy)
+  } else {
+    let body = elems.last().body
+    academy + h(1fr) + emph(body)
+  }
+}))
+---------------------
+
+(source_file
+	(set
+		(call
+			item: (builtin)
+			(group
+				(tagged
+					field: (ident)
+					(call
+						item: (builtin)
+						(group
+							(lambda
+								pattern: (ident)
+								value: (block
+									(let
+										pattern: (ident)
+										value: (call
+											item: (builtin)
+											(group
+												(call
+													item: (field
+														(call
+															item: (builtin)
+															(group
+																(builtin)))
+														field: (ident))
+													(group
+														(ident)))
+												(ident))))
+									(let
+										pattern: (ident)
+										value: (call
+											item: (builtin)
+											(content
+												(text))))
+									(branch
+										condition: (cmp
+											(ident)
+											(group))
+										(block
+											(call
+												item: (builtin)
+												(group
+													(builtin)
+													(ident))))
+										(block
+											(let
+												pattern: (ident)
+												value: (field
+													(call
+														item: (field
+															(ident)
+															field: (ident))
+														(group))
+													field: (ident)))
+											(add
+												(add
+													(ident)
+													(call
+														item: (builtin)
+														(group
+															(number
+																(unit)))))
+												(call
+													item: (builtin)
+													(group
+														(ident)))))))))))))))
+
+
+=====================
+Test 349
+=====================
+$ f(x, y) := cases(
+  1 "if" (x dot y)/2 <= 0,
+  2 "if" x "is even",
+  3 "if" x in NN,
+  4 "else",
+) $
+---------------------
+
+(source_file
+	(math
+		(formula
+			(apply
+				item: (letter)
+				(formula
+					(letter)
+					(symbol)
+					(letter)))
+			(shorthand)
+			(call
+				item: (ident)
+				(formula
+					(number)
+					(string)
+					(fraction
+						(group
+							(formula
+								(letter)
+								(ident)
+								(letter)))
+						(number))
+					(shorthand)
+					(number))
+				(formula
+					(number)
+					(string)
+					(letter)
+					(string))
+				(formula
+					(number)
+					(string)
+					(letter)
+					(ident)
+					(ident))
+				(formula
+					(number)
+					(string))))))

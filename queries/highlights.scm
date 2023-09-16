@@ -12,6 +12,7 @@
 (while "while" @keyword.control.repeat)
 (for ["for" "in"] @keyword.control.repeat)
 (import "import" @keyword.control.import)
+(as "as" @keyword.operator)
 (include "include" @keyword.control.import)
 (show "show" @keyword.control)
 (set "set" @keyword.control)
@@ -59,11 +60,11 @@
 (strong) @markup.bold
 (item) @markup.list
 (term) @markup.list
-(symbol) @tag
+(symbol) @constant.character
 (shorthand) @constant.builtin
 (quote) @markup.quote
 (align) @operator
-(letter) @tag
+(letter) @constant.character
 (linebreak) @constant.builtin
 
 (math "$" @operator)
@@ -72,6 +73,6 @@
 
 (escape) @constant.character.escape
 ["(" ")" "{" "}"] @ponctuation.bracket
-["," ";" ".."] @ponctuation.delimiter
+["," ";" ".." "sep"] @ponctuation.delimiter
 "assign" @ponctuation
 (field "." @ponctuation)

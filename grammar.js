@@ -165,7 +165,9 @@ module.exports = grammar({
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`', $._token_immediate_set),
     shorthand: $ => token(choice('--', '---', '-?', '~', '...')),
 
-    math: $ => seq('$', repeat($._math_expr), '$'),
+    math: $ => seq('$', optional($.formula), '$'),
+
+    formula: $ => repeat1($._math_expr),
     _math_expr: $ => choice(
       $._code,
       alias($._math_group, $.group),
@@ -198,7 +200,7 @@ module.exports = grammar({
 
     _math_group: $ => prec(1, seq(
       $._math_token_ldlm,
-      repeat($._math_expr),
+      optional($.formula),
       $._token_math_group_end
     )),
     _math_item: $ => prec(8, choice(
@@ -232,10 +234,10 @@ module.exports = grammar({
       $._token_immediate_math_call,
       $._math_token_lpar,
       repeat(seq(
-        choice(alias($._math_tagged, $.tagged), repeat($._math_expr)),
+        choice(alias($._math_tagged, $.tagged), optional($.formula)),
         choice(',', ';')
       )),
-      choice(alias($._math_tagged, $.tagged), repeat($._math_expr)),
+      choice(alias($._math_tagged, $.tagged), optional($.formula)),
       $._math_token_rpar,
     )),
     _math_tag: $ =>prec(9, choice(
@@ -245,16 +247,16 @@ module.exports = grammar({
     _math_tagged: $ => prec(9, seq(
       field('field', $._math_tag),
       $._math_token_colon,
-      repeat1($._math_expr)
+      $.formula,
     )),
     _math_apply: $ => prec(7, seq(
-      choice(
+      field('item', choice(
         alias($._token_math_letter, $.letter),
         alias($._math_shorthand, $.shorthand),
         $.escape,
         $.string,
         $._math_item,
-      ),
+      )),
       $._token_immediate_math_apply,
       $._math_group
     )),
@@ -411,7 +413,7 @@ module.exports = grammar({
     ),
     block: $ => seq(
       '{',
-      repeat(seq($._expr, $._token_blocked_expr_end)),
+      repeat(seq($._expr, alias($._token_blocked_expr_end, 'sep'))),
       '}',
       $._token_immediate_set,
     ),
