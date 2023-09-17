@@ -5306,3 +5306,15 @@ Test 351
 			condition: (bool)
 			(block))
 		(ident)))
+
+
+=====================
+Test 352
+=====================
+#import "a": *
+---------------------
+
+(source_file
+	(import
+		import: (string)
+		(wildcard)))

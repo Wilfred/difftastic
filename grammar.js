@@ -448,8 +448,13 @@ module.exports = grammar({
       optional($.as),
       optional(seq(
         token(prec(10, ':')),
-        repeat(seq($.ident, optional($.as), token(prec(1, ',')))),
-        optional(seq($.ident, optional($.as))),
+        choice(
+          alias('*', $.wildcard),
+          seq(
+            repeat(seq($.ident, optional($.as), token(prec(1, ',')))),
+            optional(seq($.ident, optional($.as))),
+          ),
+        ),
       )),
     )),
     include: $ => prec(0, seq(
