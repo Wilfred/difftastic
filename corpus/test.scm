@@ -5267,3 +5267,42 @@ $ f(x, y) := cases(
 				(formula
 					(number)
 					(string))))))
+
+
+=====================
+Test 350
+=====================
+- a
+  - b *
+ - c
+ *
+  - d
+---------------------
+
+(source_file
+	(item
+		(text)
+		(item
+			(text)
+			(strong
+				(item
+					(text))))
+		(item
+			(text))))
+
+
+=====================
+Test 351
+=====================
+#{
+  if true {}
+  a
+}
+---------------------
+
+(source_file
+	(block
+		(branch
+			condition: (bool)
+			(block))
+		(ident)))
