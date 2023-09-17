@@ -33,6 +33,7 @@
 (fraction "/" @operator)
 (fac "!" @operator)
 (attach ["^" "_"] @operator)
+(wildcard) @operator
 
 ; VALUE
 (raw_blck "```" @operator) @markup.raw.block
