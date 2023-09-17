@@ -131,7 +131,6 @@ const InfixOperators = {
   L9: token(
     seq(
       choice(
-        "*",
         "%",
         "\\",
         "/"
@@ -152,6 +151,7 @@ const InfixOperators = {
       repeat(choice(...Operators))
     )
   ),
+  L9Star: token(seq("*", repeat(choice(...Operators.filter(x => x != ":"))))),
   L8: token(
     seq(
       choice(
@@ -208,6 +208,7 @@ module.exports = grammar({
     $._invalid_layout,
     $._sigil_operator,
     $._prefix_operator,
+    $._symbol_export_marker,
     $._case_of,
   ],
 
@@ -1042,6 +1043,7 @@ module.exports = grammar({
           [$._infix_operator_10r, "binary_10", prec.right],
           [$._infix_operator_10l, "binary_10", prec.left],
           [$._infix_operator_9, "binary_9", prec.left],
+          [$._infix_operator_9_star, "binary_9", prec.left],
           [
             choice(...WordOperators[9].map(x => keyword(x))),
             "binary_9",
@@ -1087,6 +1089,7 @@ module.exports = grammar({
     _infix_operator_10r: $ => alias(InfixOperators.R10, $.operator),
     _infix_operator_10l: $ => alias(InfixOperators.L10, $.operator),
     _infix_operator_9: $ => alias(InfixOperators.L9, $.operator),
+    _infix_operator_9_star: $ => alias(InfixOperators.L9Star, $.operator),
     _infix_operator_8: $ => alias(InfixOperators.L8, $.operator),
     _infix_operator_7: $ => alias(InfixOperators.L7, $.operator),
     _infix_operator_6: $ => alias(InfixOperators.L6, $.operator),
@@ -1310,7 +1313,8 @@ module.exports = grammar({
         field("name", choice($._symbol, $.exported_symbol)),
         optional($.pragma_list)
       ),
-    exported_symbol: $ => seq($._symbol, "*"),
+    exported_symbol: $ => seq($._symbol, alias($._symbol_export_marker, "*")),
+    _symbol_export_marker: () => "*",
 
     /* Literals */
     _literal: $ =>

@@ -53,6 +53,8 @@ not a.c
 
 echo $a
 
+*:bar
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -97,7 +99,11 @@ echo $a
     (argument_list
       (prefix_expression
         operator: (operator)
-        (identifier)))))
+        (identifier))))
+  (prefix_expression
+    operator: (operator)
+    (ERROR)
+    (identifier)))
 
 ================================================================================
 Infix expressions

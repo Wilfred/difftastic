@@ -44,6 +44,7 @@ enum class TokenType : TSSymbol {
   InvalidLayout,
   SigilOp,
   UnaryOp,
+  SymExportMarker,
   Of,
   TokenTypeLen
 };
@@ -431,6 +432,7 @@ TokenType scan_operator(Context& ctx, bool immediate)
     Dot,
     Equal,
     Minus,
+    Star,
     Regular,
   };
 
@@ -461,31 +463,51 @@ TokenType scan_operator(Context& ctx, bool immediate)
     ctx.advance();
     state = State::Minus;
     break;
+  case '*':
+    ctx.advance();
+    state = State::Star;
+    break;
   default:
     state = State::Regular;
     break;
   }
 
   while (is_op_char(ctx.lookahead())) {
+    // Need goto to break out of loop
+    // NOLINTBEGIN(*-avoid-goto)
     switch (state) {
-    case State::Colon:
-    case State::ColonColon:
-    case State::Dot:
-    case State::Equal:
-    case State::Minus:
-    case State::Regular:
+    case State::Star:
       switch (ctx.lookahead()) {
       case ':':
-        state = state == State::Colon ? State::ColonColon : State::Regular;
+        goto loop_end;
+      default:
+        state = State::Regular;
+        break;
+      }
+      break;
+    case State::Colon:
+      switch (ctx.lookahead()) {
+      case ':':
+        state = State::ColonColon;
+        ctx.advance();
         break;
       default:
         state = State::Regular;
         break;
       }
+      break;
+    case State::ColonColon:
+    case State::Dot:
+    case State::Equal:
+    case State::Minus:
+    case State::Regular:
+      state = State::Regular;
       ctx.advance();
       break;
     }
+    // NOLINTEND(*-avoid-goto)
   }
+loop_end:
 
   switch (state) {
   case State::Equal:
@@ -495,6 +517,11 @@ TokenType scan_operator(Context& ctx, bool immediate)
     return TokenType::TokenTypeLen;
   case State::Minus:
     if (is_digit(ctx.lookahead())) {
+      return TokenType::TokenTypeLen;
+    }
+    break;
+  case State::Star:
+    if (ctx.valid(TokenType::SymExportMarker)) {
       return TokenType::TokenTypeLen;
     }
     break;

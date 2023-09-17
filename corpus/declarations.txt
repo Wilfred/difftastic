@@ -239,6 +239,9 @@ var z, w: float
 var (c, d) = (2, 3)
 var (x, ) = (1, )
 
+var x*:int
+var y *: float
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -305,7 +308,23 @@ var (x, ) = (1, )
           (symbol_declaration
             name: (identifier))))
       value: (tuple_construction
-        (integer_literal)))))
+        (integer_literal))))
+  (var_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (exported_symbol
+            (identifier))))
+      type: (type_expression
+        (identifier))))
+  (var_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (exported_symbol
+            (identifier))))
+      type: (type_expression
+        (identifier)))))
 
 ================================================================================
 Type aliases
