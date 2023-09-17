@@ -18,6 +18,7 @@ enum token_type {
 	TOKEN_BLOCKED_EXPR_END,
 	TOKEN_MATH_LETTER,
 	TOKEN_MATH_IDENT,
+	TOKEN_MATH_FRAC,
 	TOKEN_MATH_GROUP_END,
 	TOKEN_ELSE,
 	TOKEN_UNIT,
@@ -1965,6 +1966,10 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 
+		if (valid_symbols[TOKEN_MATH_FRAC]) {
+			lex_accept(TOKEN_MATH_FRAC);
+		}
+
 		if (
 			valid_symbols[TOKEN_TERM] &&
 			(is_sp(lex_next) || is_lb(lex_next))
@@ -2151,7 +2156,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			lexer->advance(lexer, false);
 		}
 		self->immediate = true;
-			lex_accept(TOKEN_MATH_IDENT);
+		lex_accept(TOKEN_MATH_IDENT);
 	}
 
 	if (valid_symbols[TOKEN_MATH_GROUP_END]) {

@@ -50,6 +50,7 @@ module.exports = grammar({
     $._token_blocked_expr_end,
     $._token_math_letter,
     $._token_math_ident,
+    $._token_math_frac,
     $._token_math_group_end,
     $._token_else,
     $._token_unit,
@@ -164,7 +165,7 @@ module.exports = grammar({
     raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`', $._immediate),
     shorthand: $ => token(prec(1, choice('--', '---', '-?', '~', '...'))),
 
-    math: $ => seq('$', optional($.formula), '$'),
+    math: $ => seq('$', optional($.formula), '$', $._immediate),
 
     formula: $ => repeat1($._math_expr),
     _math_expr: $ => choice(
@@ -207,7 +208,7 @@ module.exports = grammar({
       alias($._math_field, $.field),
     )),
     _math_number: $ => /[0-9]+(\.[0-9]+)?/,
-    _math_div:    $ => prec.left(3, seq($._math_expr, '/', $._math_expr)),
+    _math_div:    $ => prec.left(3, seq($._math_expr, alias($._token_math_frac, '/'), $._math_expr)),
     _math_root:   $ => prec.left(4, seq(/√|∛|∜/, $._math_expr)),
     _math_fac:    $ => prec.left(6, seq($._math_expr, '!')),
     _math_prime:  $ => prec.left(6, seq($._math_expr, $._immediate_math_prime)),
@@ -289,6 +290,7 @@ module.exports = grammar({
     _item: $ => prec(1, choice(
       $.auto,
       $.none,
+      $.math,
       $.raw_span,
       $.raw_blck,
       $.flow,
@@ -320,6 +322,7 @@ module.exports = grammar({
     _expr: $ => choice(
       $.auto,
       $.none,
+      $.math,
       $.raw_span,
       $.raw_blck,
       $.flow,

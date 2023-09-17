@@ -5318,3 +5318,130 @@ Test 352
 	(import
 		import: (string)
 		(wildcard)))
+
+
+=====================
+Test 353
+=====================
+$1/x$
+---------------------
+
+(source_file
+	(math
+		(formula
+			(fraction
+				(number)
+				(letter)))))
+
+
+=====================
+Test 354
+=====================
+$1/(x+y) = 1/x + 1/y$
+---------------------
+
+(source_file
+	(math
+		(formula
+			(fraction
+				(number)
+				(group
+					(formula
+						(letter)
+						(symbol)
+						(letter))))
+			(symbol)
+			(fraction
+				(number)
+				(letter))
+			(symbol)
+			(fraction
+				(number)
+				(letter)))))
+
+
+=====================
+Test 355
+=====================
+$ (x+y)^n=sum_(k=0)^n binom(n, k) x^k y^(n-k). $
+---------------------
+
+(source_file
+	(math
+		(formula
+			(attach
+				(group
+					(formula
+						(letter)
+						(symbol)
+						(letter)))
+				sup: (letter))
+			(symbol)
+			(attach
+				(ident)
+				sub: (group
+					(formula
+						(letter)
+						(symbol)
+						(number)))
+				sup: (letter))
+			(call
+				item: (ident)
+				(formula
+					(letter))
+				(formula
+					(letter)))
+			(attach
+				(letter)
+				sup: (letter))
+			(attach
+				(letter)
+				sup: (group
+					(formula
+						(letter)
+						(symbol)
+						(letter))))
+			(symbol))))
+
+
+=====================
+Test 356
+=====================
+#($a$)
+---------------------
+
+(source_file
+	(group
+		(math
+			(formula
+				(letter)))))
+
+
+=====================
+Test 357
+=====================
+#$e^s$.func()
+---------------------
+
+(source_file
+	(call
+		item: (field
+			(math
+				(formula
+					(attach
+						(letter)
+						sup: (letter))))
+			field: (ident))
+		(group)))
+
+
+=====================
+Test 358
+=====================
+ #$$()
+---------------------
+
+(source_file
+	(call
+		item: (math)
+		(group)))
