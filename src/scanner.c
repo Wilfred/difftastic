@@ -1555,8 +1555,8 @@ static struct unicode_range id_continue_table[ID_CONTINUE_LEN] = {
 	{0x000e0100, 0x000e01ef},
 };
 
-#define IS_ID_START(c) unicode_class(id_start_table, 0, ID_START_LEN, c)
-#define IS_ID_CONTINUE(c) unicode_class(id_continue_table, 0, ID_CONTINUE_LEN, c)
+#define is_id_start(c) unicode_class(id_start_table, 0, ID_START_LEN, c)
+#define is_id_continue(c) unicode_class(id_continue_table, 0, ID_CONTINUE_LEN, c)
 static bool unicode_class(struct unicode_range t[], size_t min, size_t max, uint32_t c) {
 	while (max - min > 1) {
 		size_t mid = (min + max) / 2;
@@ -1979,7 +1979,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (lex_next == '_') {
 				lex_advance();
 			}
-			if (IS_ID_START(lex_next)) {
+			if (is_id_start(lex_next)) {
 				return false;
 			}
 			lexer->result_symbol = TOKEN_INLINED_ITEM_END;
@@ -2030,7 +2030,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			lex_accept(TOKEN_IMMEDIATE_PAREN);
 		}
 		if (valid_symbols[TOKEN_IMMEDIATE_IDENT] && (
-			IS_ID_START(lex_next) || lex_next == '_'
+			is_id_start(lex_next) || lex_next == '_'
 		)) {
 			lex_accept(TOKEN_IMMEDIATE_IDENT);
 		}
@@ -2053,7 +2053,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 		if (valid_symbols[TOKEN_IMMEDIATE_MATH_FIELD] && lex_next == '.') {
 			lex_advance();
-			if (IS_ID_START(lex_next)) {
+			if (is_id_start(lex_next)) {
 				lex_accept(TOKEN_IMMEDIATE_MATH_FIELD);
 			}
 			return false;
@@ -2134,18 +2134,18 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
-	if (valid_symbols[TOKEN_MATH_IDENT] && IS_ID_START(lex_next)) {
+	if (valid_symbols[TOKEN_MATH_IDENT] && is_id_start(lex_next)) {
 		lexer->advance(lexer, false);
 		if (
 			valid_symbols[TOKEN_MATH_LETTER] && (
 				lex_next == '_' ||
-				!IS_ID_CONTINUE(lex_next)
+				!is_id_continue(lex_next)
 			)
 		) {
 			self->immediate = true;
 			lex_accept(TOKEN_MATH_LETTER);
 		}
-		while (lex_next != '_' && IS_ID_CONTINUE(lex_next)) {
+		while (lex_next != '_' && is_id_continue(lex_next)) {
 			lexer->advance(lexer, false);
 		}
 		self->immediate = true;

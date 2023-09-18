@@ -39,3 +39,51 @@ When searching ways to optimize the parser and simplify the grammar, I thought a
 The solution is to rely on external scanner when parsing spaces or comments. Lets call a "pre-immediate" token, a token susceptible to be followed by immediate token. When a pre-immediate token is parsed, it sets a flag to `true`, and when a space or comment is parsed, it resets the flag to `false` (this flag is stored in scanner's state as a boolean).
 
 This way when a token has to be immediate, an external token can be required and will only match if flag is `true`. It means, any pre-immediate token have to be preceded by a token that will set to `true` the flag.
+
+# Scanner
+
+## Containers
+
+The scanner uses a stack of "containers" as internal states in order to simplify the parsing of some nodes like `emph`, `strong` and `content`. At any moment, the scanner knows what are the containing nodes. For instance:
+
+```typst
+* _ #[Hello *World*] _ *
+```
+
+Here, when the scanner will be called at the beginning of "World", the container stack will be `stron/emph/content/strong`. When a '*' is encountered while the top of the stack is `strong`, it will be interpreted as the end of this container. If the top of the stack was `emph`, it would be the start of a `strong` container, and it would be pushed on the stack.
+
+It is mandatory to use the external scanner for the containers because of indentation.
+
+## Indentation
+
+Three distinct token are dedicated to indentation:
+
+- `indent`: When the following line start further than the current one
+- `dedent`: When the following line start at a column previously set as indentation column
+- `redent`: When the following line start at the same column as current one, or before, but further than the previous indentation.
+
+The concept of redent can be seen here:
+```typst
+- 1
+  - 2
+ - 3
+  - 4
+```
+Which have the same hierarchy as:
+```typst
+- 1
+  - 2
+  - 3
+    - 4
+```
+
+## Character class
+
+Four character classes are defined in the external scanner:
+
+- space (`is_sp`)
+- line break (`is_lb`)
+- xid start (`is_id_start`)
+- xid continue (`is_id_continue`)
+
+The two function `is_id_start` and `is_id_continue` are implemented as binary search. The character list is based on the Unicode database which can be found [here](unicode.txt).

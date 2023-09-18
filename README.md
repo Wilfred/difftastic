@@ -16,7 +16,7 @@ Any inconsistance between this syntax and Typst's one is considered a bug. In He
 
 Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
-The documentation of this implementation is available in `DOC.md`.
+The documentation of this implementation is available in [DOC](DOC.md).
 
 ## TODO
 
