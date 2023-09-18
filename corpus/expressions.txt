@@ -1067,6 +1067,7 @@ object O {
    if (c) d.e }
   { a => implicit b => b }
   { (a: Int) ?=> (b: Int) => b }
+  { (_, a) => a }
 }
 
 --------------------------------------------------------------------------------
@@ -1157,7 +1158,15 @@ object O {
               (binding
                 (identifier)
                 (type_identifier)))
-            (identifier)))))))
+            (identifier))))
+      (block
+        (lambda_expression
+          (bindings
+            (binding
+              (wildcard))
+            (binding
+              (identifier)))
+          (identifier))))))
 
 ================================================================================
 Unit expressions
