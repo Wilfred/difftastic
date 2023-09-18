@@ -1640,18 +1640,6 @@ struct scanner {
 	bool immediate;
 };
 
-static uint32_t scanner_current(struct scanner* self) {
-	if (self->indentation.len < 1) {
-		return 0;
-	}
-	return self->indentation.vec[self->indentation.len - 1];
-}
-static unsigned char scanner_previous(struct scanner* self) {
-	if (self->indentation.len < 2) {
-		return 0;
-	}
-	return self->indentation.vec[self->indentation.len - 2];
-}
 static void scanner_redent(struct scanner* self, uint32_t col) {
 	if (self->indentation.len == 0) {
 		// redent on base line
