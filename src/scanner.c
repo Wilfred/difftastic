@@ -1675,13 +1675,13 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 	}
 	switch (self->containers.vec[self->containers.len - 1]) {
 
-		case CONTAINER_CONTENT: 
+		case CONTAINER_CONTENT:
 		return lex_next == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
-		case CONTAINER_STRONG: 
+		case CONTAINER_STRONG:
 		return lex_next == '*' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
-		case CONTAINER_EMPH: 
+		case CONTAINER_EMPH:
 		return lex_next == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
 		case CONTAINER_BARRIER: {
@@ -1837,6 +1837,55 @@ bool tree_sitter_typst_external_scanner_scan(
 		// the external scanner don't try any recovery
 		lexer->result_symbol = TOKEN_RECOVERY;
 		return true;
+	}
+
+	if (valid_symbols[TOKEN_URL]) {
+		self->worker.len = 0;
+		enum { BRACK, PAREN, };
+		for (; true; lexer->advance(lexer, false)) {
+			uint32_t c = lex_next;
+			size_t len = self->worker.len;
+			if (
+				(c >= 'a' && c <= 'z') ||
+				(c >= 'A' && c <= 'Z') ||
+				(c >= '0' && c <= '9') ||
+				(c == '!') ||
+				(c == '#') ||
+				(c == '$') ||
+				(c == '%') ||
+				(c == '&') ||
+				(c == '*') ||
+				(c == '+') ||
+				(c == ',') ||
+				(c == '-') ||
+				(c == '.') ||
+				(c == '/') ||
+				(c == ':') ||
+				(c == ';') ||
+				(c == '=') ||
+				(c == '?') ||
+				(c == '@') ||
+				(c == '_') ||
+				(c == '~') ||
+				(c == '\'')
+			) {
+			}
+			else if (c == '[') {
+				vec_u32_push(&self->worker, BRACK);
+			}
+			else if (c == '(') {
+				vec_u32_push(&self->worker, PAREN);
+			}
+			else if (c == ']' && len > 0 && self->worker.vec[len - 1] == BRACK) {
+				vec_u32_pop(&self->worker);
+			}
+			else if (c == ')' && len > 0 && self->worker.vec[len - 1] == PAREN) {
+				vec_u32_pop(&self->worker);
+			}
+			else {
+				lex_accept(TOKEN_URL);
+			}
+		}
 	}
 
 	if (valid_symbols[TOKEN_TERMINATION]) {
@@ -2040,55 +2089,6 @@ bool tree_sitter_typst_external_scanner_scan(
 		scanner_indent(self, 0);
 		scanner_container_push(self, CONTAINER_EMPH);
 		lex_accept(TOKEN_EMPH);
-	}
-
-	if (valid_symbols[TOKEN_URL]) {
-		self->worker.len = 0;
-		enum { BRACK, PAREN, };
-		for (; true; lexer->advance(lexer, false)) {
-			uint32_t c = lex_next;
-			size_t len = self->worker.len;
-			if (
-				(c >= 'a' && c <= 'z') ||
-				(c >= 'A' && c <= 'Z') ||
-				(c >= '0' && c <= '9') ||
-				(c == '!') ||
-				(c == '#') ||
-				(c == '$') ||
-				(c == '%') || 
-				(c == '&') || 
-				(c == '*') || 
-				(c == '+') || 
-				(c == ',') || 
-				(c == '-') || 
-				(c == '.') || 
-				(c == '/') || 
-				(c == ':') || 
-				(c == ';') || 
-				(c == '=') || 
-				(c == '?') || 
-				(c == '@') || 
-				(c == '_') || 
-				(c == '~') || 
-				(c == '\'')
-			) {
-			}
-			else if (c == '[') {
-				vec_u32_push(&self->worker, BRACK);
-			}
-			else if (c == '(') {
-				vec_u32_push(&self->worker, PAREN);
-			}
-			else if (c == ']' && len > 0 && self->worker.vec[len - 1] == BRACK) {
-				vec_u32_pop(&self->worker);
-			}
-			else if (c == ')' && len > 0 && self->worker.vec[len - 1] == PAREN) {
-				vec_u32_pop(&self->worker);
-			}
-			else {
-				lex_accept(TOKEN_URL);
-			}
-		}
 	}
 
 	if (valid_symbols[TOKEN_HEAD] && lex_next == '=') {
