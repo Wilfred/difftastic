@@ -87,3 +87,7 @@ Four character classes are defined in the external scanner:
 - xid continue (`is_id_continue`)
 
 The two function `is_id_start` and `is_id_continue` are implemented as binary search. The character list is based on the Unicode database which can be found [here](unicode.txt).
+
+## Barrier
+
+The `heading`, `item` and `term` nodes are technically delimited contexts, but because thay behave similarly, they have the same external token as container, which is `barrier`.

@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define DEBUG
+
 enum token_type {
 	TOKEN_INDENT,
 	TOKEN_DEDENT,
@@ -61,8 +63,17 @@ enum termination {
 	TERMINATION_EXCLUSIVE,
 };
 
-// #define UNREACHABLE() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
-#define UNREACHABLE() void
+#ifdef DEBUG
+	#define unreachable() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
+	#define assert(a, ...) \
+		if (!a) {\
+			fprintf(stderr, __VA_ARGS__);\
+			exit(EXIT_FAILURE);\
+		}
+#else
+	#define unreachable() while (false);
+	#define assert(a, ...) while (false);
+#endif
 
 #define lex_accept(a) \
 	lexer->result_symbol = a;\
@@ -1558,6 +1569,9 @@ static struct unicode_range id_continue_table[ID_CONTINUE_LEN] = {
 #define is_id_start(c) unicode_class(id_start_table, 0, ID_START_LEN, c)
 #define is_id_continue(c) unicode_class(id_continue_table, 0, ID_CONTINUE_LEN, c)
 static bool unicode_class(struct unicode_range t[], size_t min, size_t max, uint32_t c) {
+	// #ifdef DEBUG
+	// printf("unicode_class: enter\n");
+	// #endif
 	while (max - min > 1) {
 		size_t mid = (min + max) / 2;
 		if (c < t[mid].min) {
@@ -1567,6 +1581,9 @@ static bool unicode_class(struct unicode_range t[], size_t min, size_t max, uint
 			min = mid;
 		}
 	}
+	// #ifdef DEBUG
+	// printf("unicode_class: leave\n");
+	// #endif
 	return t[min].min <= c && c <= t[min].max;
 }
 
@@ -1585,6 +1602,7 @@ static void vec_u32_drop(struct vec_u32 self) {
 	}
 }
 static void vec_u32_push(struct vec_u32* self, uint32_t value) {
+	assert(self != NULL, "vec_u32_push");
 	if (self->len + 1 > self->cap) {
 		self->cap = self->len + 8;
 		self->vec = realloc(self->vec, sizeof(uint32_t) * self->cap);
@@ -1593,26 +1611,29 @@ static void vec_u32_push(struct vec_u32* self, uint32_t value) {
 			exit(EXIT_FAILURE);
 		}
 	}
-	self->vec[self->len] = value;
-	self->len += 1;
+	self->vec[self->len++] = value;
 }
 static uint32_t vec_u32_pop(struct vec_u32* self) {
+	assert(self != NULL, "vec_u32_pop");
 	if (self->len < 1) {
 			fprintf(stderr, "vec_u32_pop: empty vec\n");
 			exit(EXIT_FAILURE);
 	}
-	self->len -= 1;
-	return self->vec[self->len];
+	return self->vec[self->len--];
 }
 static size_t vec_u32_serialize(struct vec_u32* self, char* buffer) {
+	assert(self != NULL, "vec_u32_serialize");
 	size_t written = 0;
 	memcpy(buffer, &self->len, sizeof self->len);
 	written += sizeof self->len;
-	memcpy(buffer + written, self->vec, self->len * sizeof *self->vec);
-	written += self->len * sizeof *self->vec;
+	if (self->len > 0) {
+		memcpy(buffer + written, self->vec, self->len * sizeof(uint32_t));
+		written += self->len * sizeof(uint32_t);
+	}
 	return written;
 }
 static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
+	assert(self != NULL, "vec_u32_deserialize");
 	size_t read = 0;
 	memcpy(&self->len, buffer, sizeof self->len);
 	read += sizeof self->len;
@@ -1624,12 +1645,13 @@ static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
 			exit(EXIT_FAILURE);
 		}
 	}
-	memcpy(self->vec, buffer + read, self->len * sizeof *self->vec);
-	read += self->len * sizeof *self->vec;
+	if (self->len > 0) {
+		memcpy(self->vec, buffer + read, self->len * sizeof *self->vec);
+		read += self->len * sizeof *self->vec;
+	}
 	return read;
 }
 //////////////////////////////////////////////////////////////////// vec<u32> //
-
 
 
 struct scanner {
@@ -1646,7 +1668,7 @@ static void scanner_redent(struct scanner* self, uint32_t col) {
 	if (self->indentation.len == 0) {
 		// redent on base line
 		// not supposed to happen
-		UNREACHABLE();
+		unreachable();
 		return;
 	}
 	self->indentation.vec[self->indentation.len - 1] = col;
@@ -1694,18 +1716,18 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 
 					case CONTAINER_BARRIER:
 					// not supposed to happen
-					UNREACHABLE();
+					unreachable();
 					return TERMINATION_NONE;
 
 					case CONTAINER_CONTENT:
 					return lex_next == ']' ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 				}
-				UNREACHABLE();
+				unreachable();
 				return TERMINATION_NONE;
 			}
 		} break;
 	}
-	UNREACHABLE();
+	unreachable();
 	return TERMINATION_NONE;
 }
 
@@ -2276,9 +2298,13 @@ bool tree_sitter_typst_external_scanner_scan(
 			return false;
 		}
 
+		// fprintf(stderr, "marker: %d\n", __LINE__);
+		// FIXME: this is causing SEGFAULT
+		// why????
 		uint32_t column = lexer->get_column(lexer);
+		// fprintf(stderr, "marker: %d\n", __LINE__);
 		if (self->indentation.len == 0) {
-			UNREACHABLE();
+			unreachable();
 			return 0;
 		}
 		uint32_t indentation = self->indentation.vec[self->indentation.len - 1];
