@@ -42,6 +42,7 @@ module.exports = grammar({
     "catch",
     "finally",
     "extends",
+    "derives",
     "with",
   ],
 
