@@ -13,19 +13,13 @@ Two other TreeSitter grammars for Typst are in development:
 
 ## Participation
 
-I publish this grammar because I hope for help from other involved enthousiasts. This is the first time I am dealing with tree-sitter, and up until know it has been quite a challenge.
+I publish this grammar because I hope for help from other involved enthousiasts. You don't have to know anything about tree-sitter to help.
 
-Participate by:
-- Indicating improvements to this grammar.
-- Finding solution for the bugs corresponding to failing tests.
-- Finding new bug and send corresponding test
+Find a bug by using this grammar. If you find an incorrect highlighting of your Typst files, then you found a bug. You can open an issue or simply send me by mail the Typst code causing the bug. See below installation instruction for this grammar.
 
-Any inconsistance between this syntax and Typst's one is considered a bug.
-
-Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
+Any inconsistance between this syntax and Typst's one is considered a bug. In Helix editor, the syntax tree of selected text can be displayed with `:tree-sitter-subtree` command.
 
 Don't hesitate to contact me: eddie.gerbais-nief@proton.me
-
 
 ## TODO
 
@@ -67,6 +61,14 @@ Don't hesitate to contact me: eddie.gerbais-nief@proton.me
   - [X] White spaces
   - [X] Math ident
   - [X] Anti markup
+
+# Tricky Typst
+
+List of tests exposing particular behaviors from Typst
+
+- Test `320`: indent takes in account comments, but redent is done at item, term or heading token.
+- Tests `328` and `329`: math function don't work with symbol.
+- Test `330`: Comment block don't need closing end.
 
 # Installation
 

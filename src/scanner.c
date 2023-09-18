@@ -5,6 +5,7 @@
 enum token_type {
 	TOKEN_INDENT,
 	TOKEN_DEDENT,
+	// necessary when partial dedent, which don't cound as dedent
 	TOKEN_REDENT,
 
 	TOKEN_CONTENT,
