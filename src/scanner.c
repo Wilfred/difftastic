@@ -5,7 +5,6 @@
 enum token_type {
 	TOKEN_INDENT,
 	TOKEN_DEDENT,
-	// necessary when partial dedent, which don't cound as dedent
 	TOKEN_REDENT,
 
 	TOKEN_CONTENT,
@@ -1636,13 +1635,17 @@ static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
 struct scanner {
 	struct vec_u32 indentation;
 	struct vec_u32 containers;
+	// this is used in URL parsing, as a stack to remember matching delimiters
+	// so, it does not hold states between tokens
 	struct vec_u32 worker;
+	// if directly after a token which is not space or comment token
 	bool immediate;
 };
 
 static void scanner_redent(struct scanner* self, uint32_t col) {
 	if (self->indentation.len == 0) {
 		// redent on base line
+		// not supposed to happen
 		UNREACHABLE();
 		return;
 	}
@@ -1678,7 +1681,7 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 				return TERMINATION_EXCLUSIVE;
 			}
 			if (self->containers.len == 1) {
-				// the heading isn't contained
+				// if container isn't contained
 				return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 			}
 			else {
@@ -1817,9 +1820,6 @@ bool tree_sitter_typst_external_scanner_scan(
 	const bool *valid_symbols
 ) {
 	struct scanner* self = payload;
-	if (self == NULL) {
-		return false;
-	}
 	lexer->mark_end(lexer);
 
 	if (valid_symbols[TOKEN_RECOVERY]) {
@@ -1877,6 +1877,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
+	// the end of strong, emph, content, item line, term line, heading line
 	if (valid_symbols[TOKEN_TERMINATION]) {
 		switch (scanner_termination(self, lexer)) {
 			case TERMINATION_NONE: break;
@@ -1892,6 +1893,7 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	// must be before SPACE and COMMENT
+	// character in a string literal
 	if (valid_symbols[TOKEN_STRING_BLOB]) {
 		if (!lexer->eof(lexer) && lex_next != '\\' && lex_next != '"') {
 			lex_advance();
@@ -1900,12 +1902,14 @@ bool tree_sitter_typst_external_scanner_scan(
 	}
 
 	// must be before SPACE and COMMENT
+	// this set the immediate flag to true
 	if (valid_symbols[TOKEN_IMMEDIATE_SET]) {
 		self->immediate = true;
 		lexer->result_symbol = TOKEN_IMMEDIATE_SET;
 		return true;
 	}
 
+	// suffix to number literal
 	if (valid_symbols[TOKEN_UNIT] && self->immediate) {
 		if (lex_next == '%') {
 			lex_advance();
