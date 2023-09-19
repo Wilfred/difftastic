@@ -5246,26 +5246,8 @@
             "type": "FIELD",
             "name": "condition",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "parenthesized_expression"
-                },
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_indentable_expression"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "then"
-                    }
-                  ]
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_if_condition"
             }
           },
           {
@@ -5298,6 +5280,32 @@
               },
               {
                 "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_if_condition": {
+      "type": "PREC_DYNAMIC",
+      "value": 4,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "parenthesized_expression"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_indentable_expression"
+              },
+              {
+                "type": "STRING",
+                "value": "then"
               }
             ]
           }
@@ -5474,12 +5482,21 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "FIELD",
-            "name": "name",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_identifier"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_identifier"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "wildcard"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -7867,6 +7884,14 @@
     [
       "lambda_expression",
       "modifiers"
+    ],
+    [
+      "_if_condition",
+      "_simple_expression"
+    ],
+    [
+      "binding",
+      "_simple_type"
     ]
   ],
   "precedences": [
