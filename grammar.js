@@ -301,7 +301,7 @@ module.exports = grammar({
         $._class_constructor,
         field("extend", optional($.extends_clause)),
         field("derive", optional($.derives_clause)),
-        optional($._definition_body),
+        field("body", optional($._definition_body)),
       ),
 
     _definition_body: $ =>
@@ -329,9 +329,7 @@ module.exports = grammar({
           repeat($.annotation),
           optional($.modifiers),
           "trait",
-          $._class_constructor,
-          field("extend", optional($.extends_clause)),
-          field("body", optional($._definition_body)),
+          $._class_definition,
         ),
       ),
 

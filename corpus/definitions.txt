@@ -786,7 +786,7 @@ Trait definitions
 
 trait A extends B
 
-trait A extends B with C
+trait A extends B with C derives D
 
 trait T[U] {
 }
@@ -805,6 +805,8 @@ trait T[U] extends V.W[U] {
     (identifier)
     (extends_clause
       (type_identifier)
+      (type_identifier))
+    (derives_clause
       (type_identifier)))
   (trait_definition
     (identifier)
@@ -1330,7 +1332,7 @@ object A:
         (indented_cases
           (case_clause
             (identifier)
-              (string))))
+            (string))))
       (given_definition
         (parameters
           (parameter
