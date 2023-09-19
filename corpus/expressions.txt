@@ -323,7 +323,7 @@ class C {
 def other() {
   if (a) {
     b
-  }
+  };
   else c()
 }
 
