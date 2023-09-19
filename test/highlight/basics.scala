@@ -26,19 +26,19 @@ object Hello {
   trait Test {
 // ^ keyword 
 //       ^ type
-     def meth(i: Int)(implicit x: Boolean) = ???
+    def meth(i: Int)(implicit x: Boolean) = ???
 //    ^keyword.function  
 //                       ^keyword    
 //                                  ^type    
 //        ^method
-//                             ^parameter 
+//                            ^parameter 
   
-  val anonFun: Int => Int = (a: Int) => a
-//      ^variable
-//             ^type
-//                 ^operator
-//                    ^type
-//                           ^parameter
+    val anonFun: Int => Int = (a: Int) => a
+  //      ^variable
+  //             ^type
+  //                 ^operator
+  //                    ^type
+  //                           ^parameter
   }
 
   protected abstract class Bla(test: String)
