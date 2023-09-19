@@ -92,6 +92,8 @@ module.exports = grammar({
     // 'for'  operator_identifier  ':'  _annotated_type  •  ':'  …
     [$._type, $.compound_type],
     [$.lambda_expression, $.modifiers],
+    // _postfix_expression_choice  ':'  '('  wildcard  •  ':'  …
+    [$.binding, $._simple_type],
   ],
 
   word: $ => $._alpha_identifier,
@@ -1159,11 +1161,14 @@ module.exports = grammar({
 
     finally_clause: $ => prec.right(seq("finally", $._indentable_expression)),
 
+    /*
+     * Binding           ::=  (id | ‘_’) [‘:’ Type]
+     */
     binding: $ =>
       prec.dynamic(
         PREC.binding,
         seq(
-          field("name", $._identifier),
+          choice(field("name", $._identifier), $.wildcard),
           optional(seq(":", field("type", $._param_type))),
         ),
       ),
