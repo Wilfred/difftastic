@@ -18,6 +18,7 @@ enum TokenType {
   CATCH,
   FINALLY,
   EXTENDS,
+  DERIVES,
   WITH,
 };
 
@@ -255,25 +256,33 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     }
 
     if (valid_symbols[CATCH]) {
-      if (lexer->lookahead == 'c') {
-        return !scan_word(lexer, "catch");
+      if (scan_word(lexer, "catch")) {
+        return false;
       }
-      if (lexer->lookahead == 'f') {
-        return !scan_word(lexer, "finally");
-      }
-      return true;
     }
 
     if (valid_symbols[FINALLY]) {
-      return !scan_word(lexer, "finally");
+      if  (scan_word(lexer, "finally")) {
+        return false;
+      }
     }
 
     if (valid_symbols[EXTENDS]) {
-      return !scan_word(lexer, "extends");
+      if (scan_word(lexer, "extends")) {
+        return false;
+      }
     }
 
     if (valid_symbols[WITH]) {
-      return !scan_word(lexer, "with");
+      if (scan_word(lexer, "with")) {
+        return false;
+      }
+    }
+
+    if (valid_symbols[DERIVES]) {
+      if (scan_word(lexer, "derives")) {
+        return false;
+      }
     }
 
     if (newline_count > 1) {
