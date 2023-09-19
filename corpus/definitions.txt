@@ -418,6 +418,12 @@ object O4 extends {
   val a: A = b
 }
 
+object O5 {
+  ;;
+  ;
+  ;
+}
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -440,7 +446,10 @@ object O4 extends {
         (val_definition
           (identifier)
           (type_identifier)
-          (identifier))))))
+          (identifier)))))
+  (object_definition
+    (identifier)
+    (template_body)))
 
 ================================================================================
 Object definitions

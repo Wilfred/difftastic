@@ -780,7 +780,7 @@ module.exports = grammar({
         seq(
           sep1(
             $._semicolon,
-            choice($.expression, $._definition, $._end_marker),
+            choice($.expression, $._definition, $._end_marker, ";"),
           ),
           optional($._semicolon),
         ),
