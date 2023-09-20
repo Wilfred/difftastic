@@ -5343,7 +5343,7 @@
         }
       ]
     },
-    "decl_data": {
+    "decl_datatype": {
       "type": "SEQ",
       "members": [
         {
@@ -5370,6 +5370,32 @@
               "name": "_type_sum"
             }
           ]
+        }
+      ]
+    },
+    "decl_datakind": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "data"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simpletype"
+        }
+      ]
+    },
+    "decl_data": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "decl_datakind"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "decl_datatype"
         }
       ]
     },
