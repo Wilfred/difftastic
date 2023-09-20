@@ -243,6 +243,8 @@ module.exports = grammar({
       $._decl_foreign,
       alias($.decl_deriving, $.deriving_declaration),
       $._decl,
+      $._decl_kind,
+      $._decl_kind_value,
       alias($.decl_pattern, $.pattern_synonym),
       $.top_splice,
     ),

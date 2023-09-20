@@ -80,11 +80,9 @@ module.exports = {
 
   // ------------------------------------------------------------------------
   // foreign
-  // includes kinds' values declarations because they share the same (almost)
-  // syntax with actual foreign imports of values
   // ------------------------------------------------------------------------
 
-  decl_foreign_import_value: $ => seq(
+  decl_foreign_import: $ => seq(
     'foreign',
     'import',
     $._fun_name,
@@ -92,7 +90,18 @@ module.exports = {
     $._type,
   ),
 
-  decl_foreign_import_data: $ => seq(
+  _decl_foreign: $ => alias($.decl_foreign_import, $.foreign_import),
+
+  // ------------------------------------------------------------------------
+  // kinds and kind values
+  // ------------------------------------------------------------------------
+
+  decl_new_kind: $ => seq(
+    'data',
+    $._simpletype,
+  ),
+
+  decl_new_kind_value: $ => seq(
     'foreign',
     'import',
     'data',
@@ -101,10 +110,7 @@ module.exports = {
     $._type,
   ),
 
-  decl_foreign_import: $ => choice(
-    $.decl_foreign_import_data,
-    $.decl_foreign_import_value,
-  ),
+  _decl_kind: $ => alias($.decl_new_kind, $.kind),
+  _decl_kind_value: $ => alias($.decl_new_kind_value, $.kind_value),
 
-  _decl_foreign: $ => alias($.decl_foreign_import, $.foreign_import),
 }
