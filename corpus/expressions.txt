@@ -323,7 +323,7 @@ class C {
 def other() {
   if (a) {
     b
-  }
+  };
   else c()
 }
 
@@ -669,6 +669,8 @@ def matchTest(x: Int): String = x match {
   case 3 => {
     "3"
   }
+  case 4 => 
+    ;
   case A if a == 1 =>
   case A if a == 2 => 2
   case ((i, _)) => i
@@ -706,6 +708,8 @@ def matchTest(x: Int): String = x match {
           (integer_literal)
           (block
             (string)))
+        (case_clause
+          (integer_literal))
         (case_clause
           (identifier)
           (guard

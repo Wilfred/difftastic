@@ -780,7 +780,7 @@ module.exports = grammar({
         seq(
           sep1(
             $._semicolon,
-            choice($.expression, $._definition, $._end_marker),
+            choice($.expression, $._definition, $._end_marker, ";"),
           ),
           optional($._semicolon),
         ),
@@ -1106,16 +1106,20 @@ module.exports = grammar({
         ),
       ),
 
+    /*
+     *  ::=  [‘inline’] ‘if’ ‘(’ Expr ‘)’ {nl} Expr [[semi] ‘else’ Expr]
+     *    |  [‘inline’] ‘if’  Expr ‘then’ Expr [[semi] ‘else’ Expr]
+     */
     if_expression: $ =>
-      prec.right(
-        PREC.control,
-        seq(
-          optional($.inline_modifier),
-          "if",
-          field("condition", $._if_condition),
-          field("consequence", $._indentable_expression),
-          optional(seq("else", field("alternative", $._indentable_expression))),
-        ),
+      seq(
+        optional($.inline_modifier),
+        "if",
+        field("condition", $._if_condition),
+        field("consequence", $._indentable_expression),
+        optional(seq(
+          optional(";"),
+          "else",
+          field("alternative", $._indentable_expression))),
       ),
 
     // NOTE(susliko): _if_condition and its magic dynamic precedence were introduced as a fix to
