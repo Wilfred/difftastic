@@ -6343,7 +6343,7 @@
         }
       ]
     },
-    "decl_foreign_import": {
+    "decl_foreign_import_value": {
       "type": "SEQ",
       "members": [
         {
@@ -6365,6 +6365,48 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        }
+      ]
+    },
+    "decl_foreign_import_data": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "foreign"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "data"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simpletype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_colon2"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
+    "decl_foreign_import": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "decl_foreign_import_data"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "decl_foreign_import_value"
         }
       ]
     },
