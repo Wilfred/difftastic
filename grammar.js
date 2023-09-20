@@ -1116,10 +1116,13 @@ module.exports = grammar({
         "if",
         field("condition", $._if_condition),
         field("consequence", $._indentable_expression),
-        optional(seq(
-          optional(";"),
-          "else",
-          field("alternative", $._indentable_expression))),
+        optional(
+          seq(
+            optional(";"),
+            "else",
+            field("alternative", $._indentable_expression),
+          ),
+        ),
       ),
 
     // NOTE(susliko): _if_condition and its magic dynamic precedence were introduced as a fix to
