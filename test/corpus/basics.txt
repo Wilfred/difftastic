@@ -670,3 +670,31 @@ g = 2;
     (variable)
     (exp_literal
       (integer))))
+
+================================================================================
+Strings and triple-quoted strings don't conflict
+================================================================================
+
+module A where
+
+a = "a"
+
+b = """
+  b
+"""
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (function
+    (variable)
+    (exp_literal
+      (string)))
+  (function
+    (variable)
+    (exp_literal
+      (triple_quote_string))))
+
