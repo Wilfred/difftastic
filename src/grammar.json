@@ -163,6 +163,14 @@
           "name": "_decl"
         },
         {
+          "type": "SYMBOL",
+          "name": "_decl_kind"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_decl_kind_value"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
@@ -5343,7 +5351,7 @@
         }
       ]
     },
-    "decl_datatype": {
+    "decl_data": {
       "type": "SEQ",
       "members": [
         {
@@ -5370,32 +5378,6 @@
               "name": "_type_sum"
             }
           ]
-        }
-      ]
-    },
-    "decl_datakind": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "data"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_simpletype"
-        }
-      ]
-    },
-    "decl_data": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "decl_datakind"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "decl_datatype"
         }
       ]
     },
@@ -6343,7 +6325,7 @@
         }
       ]
     },
-    "decl_foreign_import_value": {
+    "decl_foreign_import": {
       "type": "SEQ",
       "members": [
         {
@@ -6368,7 +6350,29 @@
         }
       ]
     },
-    "decl_foreign_import_data": {
+    "_decl_foreign": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "decl_foreign_import"
+      },
+      "named": true,
+      "value": "foreign_import"
+    },
+    "decl_new_kind": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "data"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simpletype"
+        }
+      ]
+    },
+    "decl_new_kind_value": {
       "type": "SEQ",
       "members": [
         {
@@ -6397,27 +6401,23 @@
         }
       ]
     },
-    "decl_foreign_import": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "decl_foreign_import_data"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "decl_foreign_import_value"
-        }
-      ]
-    },
-    "_decl_foreign": {
+    "_decl_kind": {
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "decl_foreign_import"
+        "name": "decl_new_kind"
       },
       "named": true,
-      "value": "foreign_import"
+      "value": "kind"
+    },
+    "_decl_kind_value": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "decl_new_kind_value"
+      },
+      "named": true,
+      "value": "kind_value"
     },
     "_pattern_type": {
       "type": "SEQ",
