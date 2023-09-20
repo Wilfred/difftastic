@@ -31,19 +31,27 @@ module.exports = {
     $.data_constructor,
   ),
 
-
-  decl_data: $ => seq(
+  decl_datatype: $ => seq(
     'data',
     $._simpletype,
     '=',
     choice($.data_constructor, $._type_sum),
   ),
 
+  decl_datakind: $ => seq(
+    'data',
+    $._simpletype,
+  ),
+
+  decl_data: $ => choice(
+    $.decl_datakind,
+    $.decl_datatype,
+  ),
+
   newtype_constructor: $ => seq(
     $.constructor,
     $._atype,
   ),
-
 
   decl_newtype: $ => seq(
     'newtype',
