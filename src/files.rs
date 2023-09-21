@@ -81,10 +81,10 @@ fn read_file_arg(file_arg: &FileArgument) -> std::io::Result<Vec<u8>> {
 /// Write a human-friendly description of `e` to stderr.
 fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
     match e.kind() {
-        NotFound => {
+        std::io::ErrorKind::NotFound => {
             eprintln!("No such file: {}", file_arg.display());
         }
-        PermissionDenied => {
+        std::io::ErrorKind::PermissionDenied => {
             eprintln!(
                 "Permission denied when reading file: {}",
                 file_arg.display()
@@ -188,7 +188,7 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // to be valid UTF-16. Decoding these as UTF-16 leads to garbage
     // ("mojibake").
     //
-    // To avoid this, we only try UTF-16 after we've done MIME type
+    // To avoid this, we only try UTF-16 after we'vedone MIME type
     // checks for binary, and we conservatively require an explicit
     // byte order mark.
     let u16_values = u16_from_bytes(bytes);
@@ -241,12 +241,15 @@ fn relative_file_paths_in_dir(dir: &Path, ignored_dirs: &Option<Vec<PathBuf>>) -
         .filter_map(Result::ok)
         .map(|entry| entry.into_path())
         .filter(|path| !path.is_dir())
-        .filter(|path| ignored_dirs.is_none() | !is_ignored(ignored_dirs.unwrap(), path))
+        .filter(|path| !is_ignored(ignored_dirs, path))
         .map(|path| path.strip_prefix(dir).unwrap().to_path_buf())
         .collect()
 }
 
-fn is_ignored(ignored_dirs: Vec<PathBuf>, path: &PathBuf) -> bool {
+fn is_ignored(ignored_dirs: &Option<Vec<PathBuf>>, path: &PathBuf) -> bool {
+    if ignored_dirs.is_none() {
+        return false;
+    }
     let optional_path_str = path.to_str();
     if optional_path_str.is_none() {
         return false;
@@ -257,7 +260,7 @@ fn is_ignored(ignored_dirs: Vec<PathBuf>, path: &PathBuf) -> bool {
     for ignored in ignored_dirs.clone().unwrap().iter() {
         let ignored_str = ignored.clone().into_os_string().into_string().unwrap();
         if ignored_str.contains("*") {
-            let re = Regex::new(&*("^".to_string() + &*ignored.to_str().unwrap().replace("**", ".*").replace("*", "[^/]*"))).unwrap();
+            let re = Regex::new(&*("^".to_string() + &*ignored.to_str().unwrap().replace("*", "[^/]*").replace("[^/]*[^/]*", ".*"))).unwrap();
             let _re_str = re.as_str();
             if re.is_match(path_str) {
                 return true;
@@ -392,7 +395,7 @@ mod tests {
     fn test_is_ignored_simple() {
         let ignored_paths: Vec<PathBuf> = vec![".idea", "target/", "**/*.zip"].iter()
             .map(|s| PathBuf::from(s)).collect();
-        let res = is_ignored(ignored_paths, &PathBuf::from(".idea/.gitignore"));
+        let res = is_ignored(&Some(ignored_paths), &PathBuf::from(".idea/.gitignore"));
         assert!(res);
     }
 
@@ -400,7 +403,7 @@ mod tests {
     fn test_is_ignored_dont_ignore() {
         let ignored_paths: Vec<PathBuf> = vec![".idea", "target/", "**/*.zip"].iter()
             .map(|s| PathBuf::from(s)).collect();
-        let res = is_ignored(ignored_paths, &PathBuf::from(".gitignore"));
+        let res = is_ignored(&Some(ignored_paths), &PathBuf::from(".gitignore"));
         assert!(!res);
     }
 
@@ -408,7 +411,7 @@ mod tests {
     fn test_is_ignored_inner_path() {
         let ignored_paths: Vec<PathBuf> = vec![".idea", "debug/", "**/*.zip"].iter()
             .map(|s| PathBuf::from(s)).collect();
-        let res = is_ignored(ignored_paths, &PathBuf::from("target/debug/build/some/path"));
+        let res = is_ignored(&Some(ignored_paths), &PathBuf::from("target/debug/build/some/path"));
         assert!(res);
     }
 
@@ -416,7 +419,7 @@ mod tests {
     fn test_is_ignored_regex() {
         let ignored_paths: Vec<PathBuf> = vec![".idea", "debug/", "**/*.zip"].iter()
             .map(|s| PathBuf::from(s)).collect();
-        let res = is_ignored(ignored_paths, &PathBuf::from("target/build/some/path.zip"));
+        let res = is_ignored(&Some(ignored_paths), &PathBuf::from("target/build/some/path.zip"));
         assert!(res);
     }
 
@@ -424,7 +427,7 @@ mod tests {
     fn test_is_not_ignored_regex() {
         let ignored_paths: Vec<PathBuf> = vec![".idea", "debug/", "*.zip"].iter()
             .map(|s| PathBuf::from(s)).collect();
-        let res = is_ignored(ignored_paths, &PathBuf::from("target/build/some/path.zip"));
+        let res = is_ignored(&Some(ignored_paths), &PathBuf::from("target/build/some/path.zip"));
         assert!(!res);
     }
 }
