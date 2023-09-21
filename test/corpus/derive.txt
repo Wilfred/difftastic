@@ -1,0 +1,395 @@
+================================================================================
+derive instance
+================================================================================
+
+derive instance Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (single constraint, no parens)
+================================================================================
+
+derive instance Eq a => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (single constraint, parens)
+================================================================================
+
+derive instance (Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (multiple constraints)
+================================================================================
+
+derive instance (Eq a, Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (comma)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (named)
+================================================================================
+
+derive instance eqId :: Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (named, single constraint, no parens)
+================================================================================
+
+derive instance eqId :: Eq a => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (named, single constraint, parens)
+================================================================================
+
+derive instance eqId :: (Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive instance (named, multiple constraints)
+================================================================================
+
+derive instance eqId :: (Eq a, Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (comma)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance
+================================================================================
+
+derive newtype instance Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (single constraint, no parens)
+================================================================================
+
+derive newtype instance Eq a => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (single constraint, parens)
+================================================================================
+
+derive newtype instance (Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (multiple constraints)
+================================================================================
+
+derive newtype instance (Eq a, Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (comma)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (named)
+================================================================================
+
+derive newtype instance eqId :: Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (named, single constraint, no parens)
+================================================================================
+
+derive newtype instance eqId :: Eq a => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (named, single constraint, parens)
+================================================================================
+
+derive newtype instance eqId :: (Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))
+
+================================================================================
+derive newtype instance (named, multiple constraints)
+================================================================================
+
+derive newtype instance eqId :: (Eq a, Eq a) => Eq (Id a)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (derive_declaration
+    (instance_name)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (comma)
+    (constraint
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (type_name
+      (type))
+    (type_parens
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))))))

@@ -54,11 +54,4 @@ module.exports = {
     $._instance,
     optional(where($, $._idecl)),
   ),
-
-  decl_deriving: $ => seq(
-    'derive',
-    'instance',
-    $.type_name,
-    repeat($._atype),
-  ),
 }
