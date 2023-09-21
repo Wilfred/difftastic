@@ -87,7 +87,8 @@ impl Default for DiffOptions {
 
 impl DiffOptions {
     fn parse_ignored_paths(contents: String) -> Vec<PathBuf> {
-        let paths = contents.split('\n')
+        let paths = contents
+            .split('\n')
             .filter(|e| e.trim().len() > 0 && !e.trim().starts_with("#"))
             .map(|s| PathBuf::from(s.clone()))
             .collect();
@@ -788,7 +789,8 @@ mod tests {
             sample_files/compare.result
 
             notes.md
-        "#.to_string();
+        "#
+        .to_string();
         let r: Vec<PathBuf> = DiffOptions::parse_ignored_paths(contents);
         assert_eq!(r.len(), 7);
     }
@@ -808,7 +810,8 @@ sample_files/compare.result
 
 notes.md
 **/*.zip
-        "#.to_string();
+        "#
+        .to_string();
         let r: Vec<PathBuf> = DiffOptions::parse_ignored_paths(contents);
         assert_eq!(r.len(), 8);
     }

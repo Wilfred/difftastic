@@ -697,7 +697,8 @@ fn diff_directories<'a>(
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
     // enumerating files, so it benefits more from parallelism.
-    let paths = relative_paths_in_either(lhs_dir, rhs_dir, Some(diff_options.ignored_paths.clone()));
+    let paths =
+        relative_paths_in_either(lhs_dir, rhs_dir, Some(diff_options.ignored_paths.clone()));
 
     paths.into_par_iter().map(move |rel_path| {
         info!("Relative path is {:?} inside {:?}", rel_path, lhs_dir);
