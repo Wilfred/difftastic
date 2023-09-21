@@ -262,9 +262,7 @@ fn is_ignored(ignored_dirs: &Option<Vec<PathBuf>>, path: &PathBuf) -> bool {
         if ignored_str.contains("*") {
             let mut re_string = "^".to_string();
             re_string.push_str(ignored.to_str().unwrap());
-            re_string = re_string
-                .replace("*", "[^/]*")
-                .replace("[^/]*[^/]*", ".*");
+            re_string = re_string.replace("*", "[^/]*").replace("[^/]*[^/]*", ".*");
             let re = Regex::new(re_string.as_str());
             if re.is_ok() && re.unwrap().is_match(path_str) {
                 return true;
