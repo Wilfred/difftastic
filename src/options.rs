@@ -1,6 +1,6 @@
 //! CLI option parsing.
 
-use std::{env, ffi::OsStr, path::Path, path::PathBuf};
+use std::{env, ffi::OsStr, fs, path::Path, path::PathBuf};
 
 use clap::{crate_authors, crate_description, Arg, Command};
 use const_format::formatcp;
@@ -68,17 +68,41 @@ pub struct DiffOptions {
     pub parse_error_limit: usize,
     pub check_only: bool,
     pub ignore_comments: bool,
+    pub ignored_paths: Vec<PathBuf>,
 }
 
 impl Default for DiffOptions {
     fn default() -> Self {
+        let ignored_paths = Self::fetch_git_ignore_paths();
         Self {
             graph_limit: DEFAULT_GRAPH_LIMIT,
             byte_limit: DEFAULT_BYTE_LIMIT,
             parse_error_limit: DEFAULT_PARSE_ERROR_LIMIT,
             check_only: false,
             ignore_comments: false,
+            ignored_paths,
         }
+    }
+}
+
+impl DiffOptions {
+    fn parse_ignored_paths(contents: String) -> Vec<PathBuf> {
+        let paths = contents.split('\n')
+            .filter(|e| e.trim().len() > 0 && !e.trim().starts_with("#"))
+            .map(|s| PathBuf::from(s.clone()))
+            .collect();
+        paths
+    }
+
+    fn fetch_git_ignore_paths() -> Vec<PathBuf> {
+        let cwd = env::current_dir();
+        let gitignore_path = cwd.unwrap().as_path().join(Path::new(".gitignore"));
+        let mut ignored_paths: Vec<PathBuf> = vec![];
+        if gitignore_path.exists() && gitignore_path.is_file() {
+            let contents = fs::read_to_string(gitignore_path).unwrap();
+            ignored_paths = Self::parse_ignored_paths(contents);
+        }
+        ignored_paths
     }
 }
 
@@ -604,12 +628,15 @@ pub fn parse_args() -> Mode {
 
     let check_only = matches.is_present("check-only");
 
+    let ignored_paths = DiffOptions::fetch_git_ignore_paths();
+
     let diff_options = DiffOptions {
         graph_limit,
         byte_limit,
         parse_error_limit,
         check_only,
         ignore_comments,
+        ignored_paths,
     };
 
     let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
@@ -748,5 +775,41 @@ mod tests {
     fn test_detect_display_width() {
         // Basic smoke test.
         assert!(detect_display_width() > 10);
+    }
+
+    #[test]
+    fn test_gitignore_parsing() {
+        let contents = r#"/target
+            **/*.rs.bk
+            perf.data*
+            flamegraph.svg
+            .idea
+
+            sample_files/compare.result
+
+            notes.md
+        "#.to_string();
+        let r: Vec<PathBuf> = DiffOptions::parse_ignored_paths(contents);
+        assert_eq!(r.len(), 7);
+    }
+
+    #[test]
+    fn test_gitignore_parsing_with_comments() {
+        let contents = r#"
+/target
+**/*.rs.bk
+perf.data*
+flamegraph.svg
+
+ # Standard IDE directory for intellij
+.idea
+
+sample_files/compare.result
+
+notes.md
+**/*.zip
+        "#.to_string();
+        let r: Vec<PathBuf> = DiffOptions::parse_ignored_paths(contents);
+        assert_eq!(r.len(), 8);
     }
 }
