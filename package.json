@@ -5,7 +5,8 @@
   "main": "bindings/node",
   "keywords": [
     "parser",
-    "lexer"
+    "lexer",
+    "python"
   ],
   "author": "Max Brunsfeld",
   "license": "MIT",

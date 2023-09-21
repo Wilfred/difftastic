@@ -1,8 +1,9 @@
+#include "tree_sitter/parser.h"
+
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <tree_sitter/parser.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
@@ -173,9 +174,9 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                            valid_symbols[CLOSE_PAREN] ||
                            valid_symbols[CLOSE_BRACKET];
 
-	bool advanced_once = false;
+    bool advanced_once = false;
     if (valid_symbols[ESCAPE_INTERPOLATION] && scanner->delimiters.len > 0 &&
-		(lexer->lookahead == '{' || lexer->lookahead == '}') &&
+        (lexer->lookahead == '{' || lexer->lookahead == '}') &&
         !error_recovery_mode) {
         Delimiter delimiter = VEC_BACK(scanner->delimiters);
         if (is_format(&delimiter)) {
@@ -200,7 +201,8 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
         int32_t end_char = end_character(&delimiter);
         bool has_content = advanced_once;
         while (lexer->lookahead) {
-            if ((advanced_once || lexer->lookahead == '{' || lexer->lookahead == '}') &&
+            if ((advanced_once || lexer->lookahead == '{' ||
+                 lexer->lookahead == '}') &&
                 is_format(&delimiter)) {
                 lexer->mark_end(lexer);
                 lexer->result_symbol = STRING_CONTENT;
@@ -216,12 +218,12 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
                         advance(lexer);
                     }
                     // Step over newlines
-                    if (lexer -> lookahead == '\r') {
+                    if (lexer->lookahead == '\r') {
                         advance(lexer);
-                        if (lexer -> lookahead == '\n') {
-                        advance(lexer);
+                        if (lexer->lookahead == '\n') {
+                            advance(lexer);
                         }
-                    } else if (lexer -> lookahead == '\n') {
+                    } else if (lexer->lookahead == '\n') {
                         advance(lexer);
                     }
                     continue;
@@ -309,7 +311,9 @@ bool tree_sitter_python_external_scanner_scan(void *payload, TSLexer *lexer,
         } else if (lexer->lookahead == '\t') {
             indent_length += 8;
             skip(lexer);
-        } else if (lexer->lookahead == '#') {
+        } else if (lexer->lookahead == '#' &&
+                   (valid_symbols[INDENT] || valid_symbols[DEDENT] ||
+                    valid_symbols[NEWLINE])) {
             // If we haven't found an EOL yet,
             // then this is a comment after an expression:
             //   foo = bar # comment

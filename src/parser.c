@@ -1,4 +1,4 @@
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -16,7 +16,7 @@
 #define MAX_ALIAS_SEQUENCE_LENGTH 10
 #define PRODUCTION_ID_COUNT 140
 
-enum {
+enum ts_symbol_identifiers {
   sym_identifier = 1,
   anon_sym_SEMI = 2,
   anon_sym_import = 3,
@@ -288,8 +288,8 @@ enum {
   aux_sym_format_specifier_repeat1 = 269,
   alias_sym_as_pattern_target = 270,
   alias_sym_format_expression = 271,
-  anon_alias_sym_is_SPACEnot = 272,
-  anon_alias_sym_not_SPACEin = 273,
+  anon_alias_sym_isnot = 272,
+  anon_alias_sym_notin = 273,
 };
 
 static const char * const ts_symbol_names[] = {
@@ -565,8 +565,8 @@ static const char * const ts_symbol_names[] = {
   [aux_sym_format_specifier_repeat1] = "format_specifier_repeat1",
   [alias_sym_as_pattern_target] = "as_pattern_target",
   [alias_sym_format_expression] = "format_expression",
-  [anon_alias_sym_is_SPACEnot] = "is not",
-  [anon_alias_sym_not_SPACEin] = "not in",
+  [anon_alias_sym_isnot] = "is not",
+  [anon_alias_sym_notin] = "not in",
 };
 
 static const TSSymbol ts_symbol_map[] = {
@@ -842,8 +842,8 @@ static const TSSymbol ts_symbol_map[] = {
   [aux_sym_format_specifier_repeat1] = aux_sym_format_specifier_repeat1,
   [alias_sym_as_pattern_target] = alias_sym_as_pattern_target,
   [alias_sym_format_expression] = alias_sym_format_expression,
-  [anon_alias_sym_is_SPACEnot] = anon_alias_sym_is_SPACEnot,
-  [anon_alias_sym_not_SPACEin] = anon_alias_sym_not_SPACEin,
+  [anon_alias_sym_isnot] = anon_alias_sym_isnot,
+  [anon_alias_sym_notin] = anon_alias_sym_notin,
 };
 
 static const TSSymbolMetadata ts_symbol_metadata[] = {
@@ -1939,17 +1939,17 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [anon_alias_sym_is_SPACEnot] = {
+  [anon_alias_sym_isnot] = {
     .visible = true,
     .named = false,
   },
-  [anon_alias_sym_not_SPACEin] = {
+  [anon_alias_sym_notin] = {
     .visible = true,
     .named = false,
   },
 };
 
-enum {
+enum ts_field_identifiers {
   field_alias = 1,
   field_alternative = 2,
   field_argument = 3,
@@ -2650,12 +2650,12 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
     [3] = sym_block,
   },
   [49] = {
-    [0] = anon_alias_sym_not_SPACEin,
-    [1] = anon_alias_sym_not_SPACEin,
+    [0] = anon_alias_sym_notin,
+    [1] = anon_alias_sym_notin,
   },
   [50] = {
-    [0] = anon_alias_sym_is_SPACEnot,
-    [1] = anon_alias_sym_is_SPACEnot,
+    [0] = anon_alias_sym_isnot,
+    [1] = anon_alias_sym_isnot,
   },
   [51] = {
     [0] = alias_sym_format_expression,
@@ -12749,119 +12749,6 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [2816] = {.lex_state = 54, .external_lex_state = 12},
   [2817] = {.lex_state = 54, .external_lex_state = 13},
   [2818] = {.lex_state = 54, .external_lex_state = 11},
-};
-
-enum {
-  ts_external_token__newline = 0,
-  ts_external_token__indent = 1,
-  ts_external_token__dedent = 2,
-  ts_external_token_string_start = 3,
-  ts_external_token__string_content = 4,
-  ts_external_token_escape_interpolation = 5,
-  ts_external_token_string_end = 6,
-  ts_external_token_comment = 7,
-  ts_external_token_RBRACK = 8,
-  ts_external_token_RPAREN = 9,
-  ts_external_token_RBRACE = 10,
-};
-
-static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
-  [ts_external_token__newline] = sym__newline,
-  [ts_external_token__indent] = sym__indent,
-  [ts_external_token__dedent] = sym__dedent,
-  [ts_external_token_string_start] = sym_string_start,
-  [ts_external_token__string_content] = sym__string_content,
-  [ts_external_token_escape_interpolation] = sym_escape_interpolation,
-  [ts_external_token_string_end] = sym_string_end,
-  [ts_external_token_comment] = sym_comment,
-  [ts_external_token_RBRACK] = anon_sym_RBRACK,
-  [ts_external_token_RPAREN] = anon_sym_RPAREN,
-  [ts_external_token_RBRACE] = anon_sym_RBRACE,
-};
-
-static const bool ts_external_scanner_states[17][EXTERNAL_TOKEN_COUNT] = {
-  [1] = {
-    [ts_external_token__newline] = true,
-    [ts_external_token__indent] = true,
-    [ts_external_token__dedent] = true,
-    [ts_external_token_string_start] = true,
-    [ts_external_token__string_content] = true,
-    [ts_external_token_escape_interpolation] = true,
-    [ts_external_token_string_end] = true,
-    [ts_external_token_comment] = true,
-    [ts_external_token_RBRACK] = true,
-    [ts_external_token_RPAREN] = true,
-    [ts_external_token_RBRACE] = true,
-  },
-  [2] = {
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-  },
-  [3] = {
-    [ts_external_token__dedent] = true,
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-  },
-  [4] = {
-    [ts_external_token__newline] = true,
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-  },
-  [5] = {
-    [ts_external_token__newline] = true,
-    [ts_external_token__indent] = true,
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-  },
-  [6] = {
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-    [ts_external_token_RBRACE] = true,
-  },
-  [7] = {
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-    [ts_external_token_RPAREN] = true,
-  },
-  [8] = {
-    [ts_external_token_string_start] = true,
-    [ts_external_token_comment] = true,
-    [ts_external_token_RBRACK] = true,
-  },
-  [9] = {
-    [ts_external_token__newline] = true,
-    [ts_external_token_comment] = true,
-  },
-  [10] = {
-    [ts_external_token_comment] = true,
-    [ts_external_token_RBRACE] = true,
-  },
-  [11] = {
-    [ts_external_token_comment] = true,
-    [ts_external_token_RPAREN] = true,
-  },
-  [12] = {
-    [ts_external_token_comment] = true,
-  },
-  [13] = {
-    [ts_external_token_comment] = true,
-    [ts_external_token_RBRACK] = true,
-  },
-  [14] = {
-    [ts_external_token__string_content] = true,
-    [ts_external_token_escape_interpolation] = true,
-    [ts_external_token_string_end] = true,
-    [ts_external_token_comment] = true,
-  },
-  [15] = {
-    [ts_external_token__dedent] = true,
-    [ts_external_token_comment] = true,
-  },
-  [16] = {
-    [ts_external_token__newline] = true,
-    [ts_external_token__indent] = true,
-    [ts_external_token_comment] = true,
-  },
 };
 
 static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
@@ -132803,6 +132690,119 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [5067] = {.entry = {.count = 1, .reusable = true}}, SHIFT(725),
   [5069] = {.entry = {.count = 1, .reusable = true}}, SHIFT(1169),
   [5071] = {.entry = {.count = 1, .reusable = true}}, SHIFT(2540),
+};
+
+enum ts_external_scanner_symbol_identifiers {
+  ts_external_token__newline = 0,
+  ts_external_token__indent = 1,
+  ts_external_token__dedent = 2,
+  ts_external_token_string_start = 3,
+  ts_external_token__string_content = 4,
+  ts_external_token_escape_interpolation = 5,
+  ts_external_token_string_end = 6,
+  ts_external_token_comment = 7,
+  ts_external_token_RBRACK = 8,
+  ts_external_token_RPAREN = 9,
+  ts_external_token_RBRACE = 10,
+};
+
+static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
+  [ts_external_token__newline] = sym__newline,
+  [ts_external_token__indent] = sym__indent,
+  [ts_external_token__dedent] = sym__dedent,
+  [ts_external_token_string_start] = sym_string_start,
+  [ts_external_token__string_content] = sym__string_content,
+  [ts_external_token_escape_interpolation] = sym_escape_interpolation,
+  [ts_external_token_string_end] = sym_string_end,
+  [ts_external_token_comment] = sym_comment,
+  [ts_external_token_RBRACK] = anon_sym_RBRACK,
+  [ts_external_token_RPAREN] = anon_sym_RPAREN,
+  [ts_external_token_RBRACE] = anon_sym_RBRACE,
+};
+
+static const bool ts_external_scanner_states[17][EXTERNAL_TOKEN_COUNT] = {
+  [1] = {
+    [ts_external_token__newline] = true,
+    [ts_external_token__indent] = true,
+    [ts_external_token__dedent] = true,
+    [ts_external_token_string_start] = true,
+    [ts_external_token__string_content] = true,
+    [ts_external_token_escape_interpolation] = true,
+    [ts_external_token_string_end] = true,
+    [ts_external_token_comment] = true,
+    [ts_external_token_RBRACK] = true,
+    [ts_external_token_RPAREN] = true,
+    [ts_external_token_RBRACE] = true,
+  },
+  [2] = {
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+  },
+  [3] = {
+    [ts_external_token__dedent] = true,
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+  },
+  [4] = {
+    [ts_external_token__newline] = true,
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+  },
+  [5] = {
+    [ts_external_token__newline] = true,
+    [ts_external_token__indent] = true,
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+  },
+  [6] = {
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+    [ts_external_token_RBRACE] = true,
+  },
+  [7] = {
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+    [ts_external_token_RPAREN] = true,
+  },
+  [8] = {
+    [ts_external_token_string_start] = true,
+    [ts_external_token_comment] = true,
+    [ts_external_token_RBRACK] = true,
+  },
+  [9] = {
+    [ts_external_token__newline] = true,
+    [ts_external_token_comment] = true,
+  },
+  [10] = {
+    [ts_external_token_comment] = true,
+    [ts_external_token_RBRACE] = true,
+  },
+  [11] = {
+    [ts_external_token_comment] = true,
+    [ts_external_token_RPAREN] = true,
+  },
+  [12] = {
+    [ts_external_token_comment] = true,
+  },
+  [13] = {
+    [ts_external_token_comment] = true,
+    [ts_external_token_RBRACK] = true,
+  },
+  [14] = {
+    [ts_external_token__string_content] = true,
+    [ts_external_token_escape_interpolation] = true,
+    [ts_external_token_string_end] = true,
+    [ts_external_token_comment] = true,
+  },
+  [15] = {
+    [ts_external_token__dedent] = true,
+    [ts_external_token_comment] = true,
+  },
+  [16] = {
+    [ts_external_token__newline] = true,
+    [ts_external_token__indent] = true,
+    [ts_external_token_comment] = true,
+  },
 };
 
 #ifdef __cplusplus
