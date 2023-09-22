@@ -9814,42 +9814,59 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "symbol_declaration"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "symbol_declaration"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "tuple_deconstruct_declaration"
+                  }
+                ]
               },
               {
-                "type": "SYMBOL",
-                "name": "tuple_deconstruct_declaration"
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "symbol_declaration"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "tuple_deconstruct_declaration"
+                        }
+                      ]
+                    }
+                  ]
+                }
               }
             ]
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ","
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "symbol_declaration"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "tuple_deconstruct_declaration"
-                    }
-                  ]
-                }
-              ]
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }

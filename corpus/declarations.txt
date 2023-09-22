@@ -872,6 +872,10 @@ proc bar =
 proc foo =
   ## comment
 
+proc trailing(x,)
+
+proc trailing_fun(x, y,: float)
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -989,7 +993,25 @@ proc foo =
   (proc_declaration
     name: (identifier)
     (documentation_comment)
-    body: (statement_list)))
+    body: (statement_list))
+  (proc_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier))))))
+  (proc_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier)))
+        type: (type_expression
+          (identifier))))))
 
 ================================================================================
 Enum declarations
