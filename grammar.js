@@ -1296,7 +1296,13 @@ module.exports = grammar({
       ),
     symbol_declaration_list: $ =>
       prec.right(
-        sep1(choice($.symbol_declaration, $.tuple_deconstruct_declaration), ",")
+        seq(
+          sep1(
+            choice($.symbol_declaration, $.tuple_deconstruct_declaration),
+            ","
+          ),
+          optional(",")
+        )
       ),
     tuple_deconstruct_declaration: $ =>
       seq(
