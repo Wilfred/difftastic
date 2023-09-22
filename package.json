@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-nim",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Tree-sitter grammar for Nim",
   "main": "bindings/node",
   "scripts": {
