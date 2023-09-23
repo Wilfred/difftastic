@@ -4,6 +4,9 @@ Salesforce grammars for [tree-sitter](https://github.com/tree-sitter/tree-sitter
 
 Try it out using our [playground](https://aheber.github.io/tree-sitter-sfapex/playground/)
 
+If you are a Neo-vim user, the parsers and syntax highlights are part of nvim-treesitter
+plugin already, [guidance](nvim-treesitter-setup.md).
+
 ## Status
 
 Most of the parsers are built and tested on large corpus of Apex, I still intend to write automated tests that parse large Apex libraries as part of evaluating the grammar.

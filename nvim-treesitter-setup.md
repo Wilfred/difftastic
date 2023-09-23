@@ -7,9 +7,11 @@ Any parser new version in this repo is automatically syned in nvim-treesitter.
 Note. Nvim-treesitter maintains its own version of `scm` [query files](https://github.com/nvim-treesitter/nvim-treesitter/tree/master/queries).
 It means that the query files stored in this repo is not used by nvim-treesitter.
 
-# How to install
+# How to install and use
 
-Installing the nvim-treesitter plugin with whatever package manage you use. 
+Installing the nvim-treesitter plugin with whatever package manager you use. 
+I use `Lazy`, and you can find my Nvim dotfiles
+[here](https://github.com/xixiaofinland/dotfiles/tree/main/.config/nvim).
 
 Once the plugin is installed, the parsers and query files are part of the plugin in your
 local installed version.
@@ -37,9 +39,11 @@ Now when you open a `.cls` file, Nvim should use the `Apex` parser to parse the 
 
 # Troubleshoot
 
-Are the parsers successfully installed?
+1. Are the parsers successfully installed?
+
 Run `:TSInstallInfo` to see the parser installation information
 
-No syntax highlight in Apex?
+2. No syntax highlight in Apex?
+
 Sometimes the syntax higlight module is disabled, open an Apex file and run `:TSEnable highlight` to enable it.
 
