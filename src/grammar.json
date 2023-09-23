@@ -2078,6 +2078,10 @@
         {
           "type": "SYMBOL",
           "name": "_object_field_declaration_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_layout_empty"
         }
       ]
     },
@@ -2331,7 +2335,7 @@
             ]
           },
           {
-            "type": "REPEAT1",
+            "type": "REPEAT",
             "content": {
               "type": "ALIAS",
               "content": {
