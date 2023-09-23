@@ -814,7 +814,11 @@ bool lex_indent(Context& ctx)
     return ctx.finish(TokenType::LayoutStart);
   }
 
-  if (ctx.valid(TokenType::LayoutEmpty) &&
+  // LayoutEmpty has to be explicitly requested, and errors generally
+  // don't happen within the contexts it would be requested.
+  //
+  // Don't emit them on errors to prevent mangling error recovery.
+  if (!ctx.error() && ctx.valid(TokenType::LayoutEmpty) &&
       ctx.state().test_flag(Flag::AfterNewline) &&
       (current_layout >= line_indent || ctx.eof())) {
     ctx.mark_end();

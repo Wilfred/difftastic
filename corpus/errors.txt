@@ -1,0 +1,25 @@
+================================================================================
+Error within variant object declaration
+================================================================================
+
+type
+  E = object
+    case foo
+    of bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        (identifier))
+      (object_declaration
+        (field_declaration_list
+          (variant_declaration
+            (variant_discriminator_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  (identifier)))))
+          (ERROR
+            (identifier)))))))
