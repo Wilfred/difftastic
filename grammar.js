@@ -600,7 +600,11 @@ module.exports = grammar({
       ),
 
     _object_field_declaration_branch_list: $ =>
-      choice($._object_field_declaration, $._object_field_declaration_list),
+      choice(
+        $._object_field_declaration,
+        $._object_field_declaration_list,
+        $._layout_empty
+      ),
     _object_field_declaration_list: $ =>
       seq(
         $._layout_start,
@@ -659,7 +663,7 @@ module.exports = grammar({
         seq(
           $.variant_discriminator_declaration,
           optional(":"),
-          repeat1(alias($._of_declaration_branch, $.of_branch)),
+          repeat(alias($._of_declaration_branch, $.of_branch)),
           optional(alias($._else_declaration_branch, $.else_branch))
         )
       ),

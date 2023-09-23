@@ -410,6 +410,13 @@ type
   E = object
     when foo: x: int
 
+type
+  Unfinished = object
+    when x:
+
+    case foo: bar
+    of a: string
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -629,7 +636,31 @@ type
                   (symbol_declaration
                     name: (identifier)))
                 type: (type_expression
-                  (identifier))))))))))
+                  (identifier)))))))))
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (object_declaration
+        (field_declaration_list
+          (conditional_declaration
+            condition: (identifier)
+            consequence: (field_declaration_list))
+          (variant_declaration
+            (variant_discriminator_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier)))
+              type: (type_expression
+                (identifier)))
+            (of_branch
+              values: (expression_list
+                (identifier))
+              (field_declaration_list
+                (field_declaration
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      name: (identifier))))))))))))
 
 ================================================================================
 Tuple declarations
