@@ -1687,9 +1687,7 @@ module.exports = grammar({
     // https://perldoc.perl.org/perlop#Quote-and-Quote-like-Operators
     escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(
       '\\',
-      token.immediate(
-        /[tnrfbae]/,
-      ),
+      /[tnrfbae]/,
     )),
 
     // escape_character: $ => '\\[.]+',
