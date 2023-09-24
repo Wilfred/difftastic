@@ -103,10 +103,11 @@ module.exports = grammar({
 
   rules: {
     // TopStats          ::=  TopStat {semi TopStat}
-    compilation_unit: $ => seq(
-      optional($._shebang),
-      optional(trailingSep1($._semicolon, $._top_level_definition)),
-    ),
+    compilation_unit: $ =>
+      seq(
+        optional($._shebang),
+        optional(trailingSep1($._semicolon, $._top_level_definition)),
+      ),
 
     _top_level_definition: $ =>
       choice(
