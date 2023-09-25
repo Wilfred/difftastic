@@ -8,6 +8,7 @@ const module_ = require('./grammar/module.js')
 const data = require('./grammar/data.js')
 const class_ = require('./grammar/class.js')
 const decl = require('./grammar/decl.js')
+const derive = require('./grammar/derive.js')
 const pattern = require('./grammar/pattern.js')
 const misc = require('./grammar/misc.js')
 
@@ -241,7 +242,7 @@ module.exports = grammar({
       alias($.decl_instance, $.instance),
       alias($.decl_default, $.default_declaration),
       $._decl_foreign,
-      alias($.decl_deriving, $.deriving_declaration),
+      alias($.decl_derive, $.derive_declaration),
       $._decl,
       $._decl_kind,
       $._decl_kind_value,
@@ -259,6 +260,7 @@ module.exports = grammar({
     ...data,
     ...class_,
     ...decl,
+    ...derive,
     ...pattern,
     ...misc,
   }
