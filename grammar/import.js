@@ -42,6 +42,9 @@ module.exports = {
     // optional(alias($.string, $.import_package)),
     field('module', $.qualified_module),
     field('imports', optional($.import_list)),
-    field('import_rename', optional(seq('as', $._modid))),
+    field(
+      'import_rename',
+      optional(seq('as', choice($._modid, qualified($, $._modid))))
+    ),
   ),
 }
