@@ -31,7 +31,6 @@ module.exports = {
     $.data_constructor,
   ),
 
-
   decl_data: $ => seq(
     'data',
     $._simpletype,
@@ -43,7 +42,6 @@ module.exports = {
     $.constructor,
     $._atype,
   ),
-
 
   decl_newtype: $ => seq(
     'newtype',

@@ -90,6 +90,27 @@ module.exports = {
     $._type,
   ),
 
-
   _decl_foreign: $ => alias($.decl_foreign_import, $.foreign_import),
+
+  // ------------------------------------------------------------------------
+  // kinds and kind values
+  // ------------------------------------------------------------------------
+
+  decl_new_kind: $ => seq(
+    'data',
+    $._simpletype,
+  ),
+
+  decl_new_kind_value: $ => seq(
+    'foreign',
+    'import',
+    'data',
+    $._simpletype,
+    $._colon2,
+    $._type,
+  ),
+
+  _decl_kind: $ => alias($.decl_new_kind, $.kind),
+  _decl_kind_value: $ => alias($.decl_new_kind_value, $.kind_value),
+
 }

@@ -163,6 +163,14 @@
           "name": "_decl"
         },
         {
+          "type": "SYMBOL",
+          "name": "_decl_kind"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_decl_kind_value"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
@@ -6350,6 +6358,66 @@
       },
       "named": true,
       "value": "foreign_import"
+    },
+    "decl_new_kind": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "data"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simpletype"
+        }
+      ]
+    },
+    "decl_new_kind_value": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "foreign"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "data"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simpletype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_colon2"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
+    "_decl_kind": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "decl_new_kind"
+      },
+      "named": true,
+      "value": "kind"
+    },
+    "_decl_kind_value": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "decl_new_kind_value"
+      },
+      "named": true,
+      "value": "kind_value"
     },
     "_pattern_type": {
       "type": "SEQ",
