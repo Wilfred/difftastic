@@ -606,6 +606,8 @@ c c = b { a = 1 }
 
 d d = {}
 
+e = A.a { b = 1 }
+
 --------------------------------------------------------------------------------
 
 (purescript
@@ -660,7 +662,17 @@ d d = {}
     (patterns
       (pat_name
         (variable)))
-    (exp_record)))
+    (exp_record))
+  (function
+    (variable)
+    (exp_record_mutation
+      (qualified_variable
+        (module)
+        (variable))
+      (exp_field_assignment
+        (variable)
+        (exp_literal
+          (integer))))))
 
 ================================================================================
 Foreign imports

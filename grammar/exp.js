@@ -156,7 +156,7 @@ module.exports = {
   exp_negation: $ => seq('-', $._aexp),
 
   exp_record_mutation: $ => seq(
-    $.variable,
+    choice($.qualified_variable, $.variable,),
     braces(sep1($.comma, $.exp_field_assignment))
   ),
 
