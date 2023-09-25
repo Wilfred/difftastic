@@ -40,6 +40,14 @@ module.exports = {
     ),
   ),
 
+  triple_quote_string: _ => magic_hash(
+    seq(
+      '"""',
+      repeat(/[^"""]*/),
+      '"""',
+    ),
+  ),
+
   _integer_literal: _ => magic_hash(decimal),
   _binary_literal: _ => magic_hash(/0[bB][01_]+/),
   _octal_literal: _ => magic_hash(/0[oO][0-7]+/),
@@ -61,6 +69,7 @@ module.exports = {
 
   _stringly: $ => choice(
     $.string,
+    $.triple_quote_string,
     $.char,
   ),
 
