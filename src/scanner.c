@@ -602,7 +602,7 @@ static Symbolic s_symop(wchar_vec s, State *state) {
       default: return con_or_var(c);
     }
   } else {
-    bool is_comment = (s.data[0] == '-') & (s.data[1] == '-');
+    bool is_comment = (s.data[0] == '-') && (s.data[1] == '-');
     if (is_comment) return S_COMMENT;
     if (s.len == 2) {
       if (s.data[0] == '$' && s.data[1] == '$' && valid_splice(state)) return S_SPLICE;
