@@ -60,15 +60,16 @@ module.exports = {
     seq(quote + quote, $._atype),
   ),
 
+  exp_field_name: $ => prec(1, $._var),
+  exp_field_quoted_name: $ => $.string,
+
   exp_field: $ => choice(
-    seq(
-      field('field', $._qvar),
-      optional(seq(':', $._exp))
-    ),
+    seq($.exp_field_quoted_name, ':', $._exp),
+    seq($.exp_field_name, optional(seq(':', $._exp))),
   ),
 
   exp_field_assignment: $ => seq(
-    field('field', $._qvar),
+    choice($.exp_field_quoted_name, $.exp_field_name),
     '=',
     $._exp,
   ),
@@ -95,10 +96,8 @@ module.exports = {
   exp_cond: $ => seq(
     'if',
     field('if', $._exp),
-    optional(';'),
     'then',
     field('then', $._exp),
-    optional(';'),
     'else',
     field('else', $._exp),
   ),

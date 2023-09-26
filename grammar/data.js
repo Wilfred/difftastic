@@ -3,7 +3,10 @@ const {parens} = require('./util.js')
 module.exports = {
 
   field: $ => seq(
-    $.variable,
+    choice(
+      alias($.variable, $.field_name),
+      alias($.string, $.field_quoted_name),
+    ),
     $._colon2,
     $._type,
   ),

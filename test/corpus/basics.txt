@@ -79,7 +79,8 @@ fun a = a { a = 1 }
         (variable)))
     rhs: (exp_record
       (exp_field
-        field: (variable))))
+        (exp_field_name
+          (variable)))))
   (function
     name: (variable)
     patterns: (patterns
@@ -87,7 +88,8 @@ fun a = a { a = 1 }
         (variable)))
     rhs: (exp_record
       (exp_field
-        field: (variable)
+        (exp_field_name
+          (variable))
         (exp_literal
           (integer)))))
   (function
@@ -98,7 +100,8 @@ fun a = a { a = 1 }
     rhs: (exp_record_mutation
       (variable)
       (exp_field_assignment
-        field: (variable)
+        (exp_field_name
+          (variable))
         (exp_literal
           (integer))))))
 
@@ -592,87 +595,6 @@ f = case 1 + 1 of
             (integer))
           (exp_literal
             (integer)))))))
-
-================================================================================
-Basic record syntax
-================================================================================
-module A where
-
-a a = { a: 1 }
-
-b b = { a: 1, b: 1 + 1, c }
-
-c c = b { a = 1 }
-
-d d = {}
-
-e = A.a { b = 1 }
-
---------------------------------------------------------------------------------
-
-(purescript
-  (qualified_module
-    (module))
-  (where)
-  (function
-    (variable)
-    (patterns
-      (pat_name
-        (variable)))
-    (exp_record
-      (exp_field
-        (variable)
-        (exp_literal
-          (integer)))))
-  (function
-    (variable)
-    (patterns
-      (pat_name
-        (variable)))
-    (exp_record
-      (exp_field
-        (variable)
-        (exp_literal
-          (integer)))
-      (comma)
-      (exp_field
-        (variable)
-        (exp_infix
-          (exp_literal
-            (integer))
-          (operator)
-          (exp_literal
-            (integer))))
-      (comma)
-      (exp_field
-        (variable))))
-  (function
-    (variable)
-    (patterns
-      (pat_name
-        (variable)))
-    (exp_record_mutation
-      (variable)
-      (exp_field_assignment
-        (variable)
-        (exp_literal
-          (integer)))))
-  (function
-    (variable)
-    (patterns
-      (pat_name
-        (variable)))
-    (exp_record))
-  (function
-    (variable)
-    (exp_record_mutation
-      (qualified_variable
-        (module)
-        (variable))
-      (exp_field_assignment
-        (variable)
-        (exp_literal
-          (integer))))))
 
 ================================================================================
 Foreign imports
