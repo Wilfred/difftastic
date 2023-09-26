@@ -19,7 +19,7 @@ jobs:
 
   deploy:
     needs: pre_deploy
-    if: needs.pre_job.outputs.should_skip != 'true'
+    if: needs.pre_deploy.outputs.should_skip != 'true'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
