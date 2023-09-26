@@ -6,7 +6,7 @@
  (exp_literal (float)) @constant.numeric.float
  (char) @constant.character
  (string) @string
- (triple_quote_string) @string
+ ; (triple_quote_string) @string
 
  (con_unit) @constant.builtin ; unit, as in ()
 
