@@ -32,3 +32,79 @@ case value {}
   (case
     (case_subjects
       (identifier))))
+
+================================================================================
+Case examples
+================================================================================
+
+// From https://gleam.run/news/v0.31-keeping-dependencies-explicit/#quality-of-life-improvements
+pub fn listed(names: List(String), person: Person) -> String {
+  case names {
+    [name, ..names] if name == person.name -> True
+    [_, ..names] -> listed(names, person)
+    [] -> False
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters
+      (function_parameter
+        (identifier)
+        (type
+          (type_identifier)
+          (type_arguments
+            (type_argument
+              (type
+                (type_identifier))))))
+      (function_parameter
+        (identifier)
+        (type
+          (type_identifier))))
+    (type
+      (type_identifier))
+    (function_body
+      (case
+        (case_subjects
+          (identifier))
+        (case_clauses
+          (case_clause
+            (case_clause_patterns
+              (case_clause_pattern
+                (list_pattern
+                  (identifier)
+                  (list_pattern_tail
+                    (identifier)))))
+            (case_clause_guard
+              (binary_expression
+                (identifier)
+                (field_access
+                  (identifier)
+                  (label))))
+            (record
+              (constructor_name)))
+          (case_clause
+            (case_clause_patterns
+              (case_clause_pattern
+                (list_pattern
+                  (discard)
+                  (list_pattern_tail
+                    (identifier)))))
+            (function_call
+              (identifier)
+              (arguments
+                (argument
+                  (identifier))
+                (argument
+                  (identifier)))))
+          (case_clause
+            (case_clause_patterns
+              (case_clause_pattern
+                (list_pattern)))
+            (record
+              (constructor_name))))))))

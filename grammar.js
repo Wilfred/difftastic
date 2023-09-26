@@ -142,10 +142,8 @@ module.exports = grammar({
         optional(seq(field("label", $.label), ":")),
         field("value", $._constant_value)
       ),
-    // This is definitely a misnomer at this time as field access are actually
-    // not allowed as constant values (yet). This rule exists to parse remote
-    // function references which are generally indistinguishable from field
-    // accesses and so share an AST node.
+    // This rule exists to parse remote function references which are generally
+    // indistinguishable from field accesses and so share an AST node.
     constant_field_access: ($) =>
       seq(field("record", $.identifier), ".", field("field", $.label)),
 
