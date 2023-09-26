@@ -61,7 +61,8 @@ where = ($, rule) => seq(
   optional(layouted($, rule)),
 )
 
-varid_pattern = /[_\p{Ll}](\w|')*#?/u
+// see the documentation references in `./id.js`
+varid_pattern = /[\p{Ll}_][\p{L}0-9_']*/u
 
 module.exports = {
   parens,

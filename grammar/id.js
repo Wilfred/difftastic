@@ -5,11 +5,8 @@ module.exports = {
   // var
   // ------------------------------------------------------------------------
 
-  // https://www.haskell.org/onlinereport/lexemes.html
-  //
-  // varid: "small { small | large | digit | ' }" per the report,
-  // where small: ascSmall | uniSmall | _ (and uniSmall is a superset of ascSmall)
-  // Then, uniSmall is implemented as the unicode class "Ll": letter lowercase
+  // https://github.com/purescript/documentation/blob/09859e0d53d2b08ee7e63686a083c1a45423005f/language/Syntax.md#function-and-value-names
+  // https://github.com/natefaubion/purescript-language-cst-parser/blob/main/src/PureScript/CST/Lexer.purs#L500
   _varid: _ => varid_pattern,
   _immediate_varid: _ => token.immediate(varid_pattern),
   label: _ => /#[_\p{Ll}](\w|')*/u,
