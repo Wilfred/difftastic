@@ -67,12 +67,6 @@
 (identifier) @variable
 (discard) @comment.unused
 
-; Operators
-(binary_expression
-  operator: _ @operator)
-(boolean_negation "!" @operator)
-(integer_negation "-" @operator)
-
 ; Keywords
 [
   (visibility_modifier) ; "pub"
@@ -92,6 +86,12 @@
   "type"
   "use"
 ] @keyword
+
+; Operators
+(binary_expression
+  operator: _ @operator)
+(boolean_negation "!" @operator)
+(integer_negation "-" @operator)
 
 ; Punctuation
 [
