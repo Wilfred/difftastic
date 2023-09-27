@@ -500,9 +500,9 @@ fn diff_file_content(
             let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
             (file_format, lhs_positions, rhs_positions)
         }
-        Some(ts_lang) => {
+        Some(lang_config) => {
             let arena = Arena::new();
-            match tsp::to_tree_with_limit(diff_options, &ts_lang, lhs_src, rhs_src) {
+            match tsp::to_tree_with_limit(diff_options, &lang_config, lhs_src, rhs_src) {
                 Ok((lhs_tree, rhs_tree)) => {
                     match tsp::to_syntax_with_limit(
                         lhs_src,
@@ -510,7 +510,7 @@ fn diff_file_content(
                         &lhs_tree,
                         &rhs_tree,
                         &arena,
-                        &ts_lang,
+                        &lang_config,
                         diff_options,
                     ) {
                         Ok((lhs, rhs)) => {
@@ -585,11 +585,11 @@ fn diff_file_content(
 
                                 if diff_options.ignore_comments {
                                     let lhs_comments =
-                                        tsp::comment_positions(&lhs_tree, lhs_src, &ts_lang);
+                                        tsp::comment_positions(&lhs_tree, lhs_src, &lang_config);
                                     lhs_positions.extend(lhs_comments);
 
                                     let rhs_comments =
-                                        tsp::comment_positions(&rhs_tree, rhs_src, &ts_lang);
+                                        tsp::comment_positions(&rhs_tree, rhs_src, &lang_config);
                                     rhs_positions.extend(rhs_comments);
                                 }
 
