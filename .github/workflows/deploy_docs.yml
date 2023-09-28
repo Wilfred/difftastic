@@ -50,7 +50,7 @@ jobs:
         run: cp -r translation/zh-CN/manual-zh-CN/book manual/book/zh-CN
 
       - name: Deploy to GitHub pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: gh-pages
           folder: manual/book
