@@ -594,8 +594,9 @@ fn diff_file_content(
                         Err(tsp::ExceededParseErrorLimit(error_count)) => {
                             let file_format = FileFormat::TextFallback {
                                 reason: format!(
-                                    "{} error{}, exceeded DFT_PARSE_ERROR_LIMIT",
+                                    "{} {} parse error{}, exceeded DFT_PARSE_ERROR_LIMIT",
                                     error_count,
+                                    language_name(language),
                                     if error_count == 1 { "" } else { "s" }
                                 ),
                             };
