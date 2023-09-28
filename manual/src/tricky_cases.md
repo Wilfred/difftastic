@@ -89,7 +89,7 @@ This case is similar to the expanding delimiter case.
 (foo (novel) (bar))
 ```
 
-Desired result: <code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar)</code>
+Desired result: <code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar))</code>
 
 It is easy to end up with
 <code>(foo (<span style="background-color:PaleGreen; color: #000">novel</span>) <span style="background-color:PaleGreen; color: #000">(</span>bar<span style="background-color:PaleGreen; color: #000">)</span>)</code>,
