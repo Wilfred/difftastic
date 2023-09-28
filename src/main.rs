@@ -465,7 +465,7 @@ fn diff_file_content(
     };
 
     let language = guess(guess_path, guess_src, overrides);
-    let lang_config = language.map(tsp::from_language);
+    let lang_config = language.map(|lang| (lang.clone(), tsp::from_language(lang)));
 
     if lhs_src == rhs_src {
         let file_format = match language {
@@ -500,7 +500,7 @@ fn diff_file_content(
             let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
             (file_format, lhs_positions, rhs_positions)
         }
-        Some(lang_config) => {
+        Some((language, lang_config)) => {
             let arena = Arena::new();
             match tsp::to_tree_with_limit(diff_options, &lang_config, lhs_src, rhs_src) {
                 Ok((lhs_tree, rhs_tree)) => {
@@ -515,16 +515,11 @@ fn diff_file_content(
                     ) {
                         Ok((lhs, rhs)) => {
                             if diff_options.check_only {
-                                let file_format = match language {
-                                    Some(language) => FileFormat::SupportedLanguage(language),
-                                    None => FileFormat::PlainText,
-                                };
-
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
                                     extra_info,
                                     display_path: display_path.to_string(),
-                                    file_format,
+                                    file_format: FileFormat::SupportedLanguage(language),
                                     lhs_src: FileContent::Text(lhs_src.to_owned()),
                                     rhs_src: FileContent::Text(rhs_src.to_owned()),
                                     lhs_positions: vec![],
@@ -573,10 +568,6 @@ fn diff_file_content(
                                     rhs_positions,
                                 )
                             } else {
-                                // TODO: Make this .expect() unnecessary.
-                                let language = language.expect(
-                                    "If we had a ts_lang, we must have guessed the language",
-                                );
                                 fix_all_sliders(language, &lhs, &mut change_map);
                                 fix_all_sliders(language, &rhs, &mut change_map);
 
