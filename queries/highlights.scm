@@ -55,7 +55,7 @@
 ; MARKUP
 (item "-" @markup.list)
 (term ["/" ":"] @markup.list)
-(heading) @markup.heading
+(heading ["=" "==" "===" "====" "====="] @markup.heading.marker) @markup.heading
 (url) @tag
 (emph) @markup.italic
 (strong) @markup.bold

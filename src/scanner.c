@@ -27,7 +27,11 @@ enum token_type {
 	TOKEN_URL,
 	TOKEN_ITEM,
 	TOKEN_TERM,
-	TOKEN_HEAD,
+	TOKEN_HEAD_1,
+	TOKEN_HEAD_2,
+	TOKEN_HEAD_3,
+	TOKEN_HEAD_4,
+	TOKEN_HEAD_P,
 	TOKEN_STRING_BLOB,
 
 	TOKEN_COMMENT,
@@ -2106,17 +2110,25 @@ bool tree_sitter_typst_external_scanner_scan(
 		lex_accept(TOKEN_EMPH);
 	}
 
-	if (valid_symbols[TOKEN_HEAD] && lex_next == '=') {
+	if (valid_symbols[TOKEN_HEAD_1] && lex_next == '=') {
 		lex_advance();
+		size_t count = 1;
 		while (lex_next == '=') {
 			lex_advance();
+			count += 1;
 		}
 		if (
 			is_sp(lex_next) ||
 			is_lb(lex_next) ||
 			lexer->eof(lexer)
 		) {
-			lex_accept(TOKEN_HEAD);
+			switch (count) {
+				case 1: lex_accept(TOKEN_HEAD_1);
+				case 2: lex_accept(TOKEN_HEAD_2);
+				case 3: lex_accept(TOKEN_HEAD_3);
+				case 4: lex_accept(TOKEN_HEAD_4);
+				default: lex_accept(TOKEN_HEAD_P);
+			}
 		}
 		return false;
 	}

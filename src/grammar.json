@@ -463,8 +463,54 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_token_head"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_token_head_1"
+                },
+                "named": false,
+                "value": "="
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_token_head_2"
+                },
+                "named": false,
+                "value": "=="
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_token_head_3"
+                },
+                "named": false,
+                "value": "==="
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_token_head_4"
+                },
+                "named": false,
+                "value": "===="
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_token_head_p"
+                },
+                "named": false,
+                "value": "====="
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -3933,7 +3979,23 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_token_head"
+      "name": "_token_head_1"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_head_2"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_head_3"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_head_4"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_head_p"
     },
     {
       "type": "SYMBOL",

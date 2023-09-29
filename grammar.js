@@ -57,7 +57,11 @@ module.exports = grammar({
     $._token_url,
     $._token_item,
     $._token_term,
-    $._token_head,
+    $._token_head_1,
+    $._token_head_2,
+    $._token_head_3,
+    $._token_head_4,
+    $._token_head_p,
     $._token_string_blob,
 
     $.comment,
@@ -147,7 +151,13 @@ module.exports = grammar({
     )),
 
     heading: $ => prec.right(1, seq(
-      $._token_head,
+      choice(
+        alias($._token_head_1, '='),
+        alias($._token_head_2, '=='),
+        alias($._token_head_3, '==='),
+        alias($._token_head_4, '===='),
+        alias($._token_head_p, '====='),
+      ),
       $._barrier,
       repeat($._markup),
       $._termination,
