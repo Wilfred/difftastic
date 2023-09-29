@@ -130,14 +130,14 @@ module.exports = grammar({
 
     _indented: $ => seq($._indent, content($), $._dedent),
     item: $ => prec.right(1, seq(
-      alias($._token_item, 'item'),
+      alias($._token_item, '-'),
       $._barrier,
       repeat($._markup),
       $._termination,
       optional($._indented),
     )),
     term: $ => prec.right(1, seq(
-      alias($._token_term, 'item'),
+      alias($._token_term, '/'),
       field('term', repeat($._markup)),
       ':',
       $._barrier,
@@ -544,6 +544,7 @@ module.exports = grammar({
       'length',
       'lime',
       'line',
+      'linebreak',
       'link',
       'list',
       'locate',
