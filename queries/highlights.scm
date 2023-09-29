@@ -52,7 +52,10 @@
    (tycon_arrow)
    (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
    (all_names)
-   (wildcard) ; wildcard in if then else & case of expression, as well as record updates and operator sections
+
+   ; `_` wildcards in if-then-else and case-of expressions,
+   ; as well as record updates and operator sections
+   (wildcard)
    "="
    "|"
    "::"
