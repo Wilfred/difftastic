@@ -1,5 +1,8 @@
 const { parens, braces } = require('./util.js')
-const { with_field_name } = require('./rows_util.js')
+const
+  { with_field_name
+  , maybe_with_row_variable
+  } = require('./rows_util.js')
 
 module.exports = {
   /** Terminology:
@@ -39,22 +42,12 @@ module.exports = {
       $._type
     ),
 
-  row_variable: $ => alias($.type_variable, $.row_variable),
-
   row_type: $ => parens(
-    seq(
-      sep($.comma, $.row_field),
-      optional(seq('|', $.row_variable))
-    ),
+    maybe_with_row_variable(sep($.comma, $.row_field))($)
   ),
 
-  // this is identical to `row_type` except for the braces vs parens, but
-  // can't be lifted into a common `_row` because it could match an empty string
   record_type_literal: $ => braces(
-    seq(
-      sep($.comma, $.row_field),
-      optional(seq('|', $.row_variable))
-    ),
+    maybe_with_row_variable(sep($.comma, $.row_field))($)
   ),
 
   // -----------------------------------------------------------------

@@ -242,8 +242,7 @@ a :: forall r. { a :: Unit, b :: Unit | r }
           (field_name)
           (type_name
             (type)))
-        (row_variable
-          (row_variable))))))
+        (row_variable)))))
 
 ================================================================================
 type-level record literal with quoted labels 
@@ -359,8 +358,7 @@ type R r = (a :: A | r)
         (field_name)
         (type_name
           (type)))
-      (row_variable
-        (row_variable)))))
+      (row_variable))))
 
 ================================================================================
 row type -- quoted labels
