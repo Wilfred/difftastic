@@ -60,20 +60,6 @@ module.exports = {
     seq(quote + quote, $._atype),
   ),
 
-  exp_field_name: $ => prec(1, $._var),
-  exp_field_quoted_name: $ => $.string,
-
-  exp_field: $ => choice(
-    seq($.exp_field_quoted_name, ':', $._exp),
-    seq($.exp_field_name, optional(seq(':', $._exp))),
-  ),
-
-  exp_field_assignment: $ => seq(
-    choice($.exp_field_quoted_name, $.exp_field_name),
-    '=',
-    $._exp,
-  ),
-
   exp_type_application: $ => seq('@', $._atype),
 
   exp_lambda: $ => seq(
@@ -154,15 +140,6 @@ module.exports = {
 
   exp_negation: $ => seq('-', $._aexp),
 
-  exp_record_mutation: $ => seq(
-    choice($.qualified_variable, $.variable,),
-    braces(sep1($.comma, $.exp_field_assignment))
-  ),
-
-  exp_record: $ => prec(1, choice(
-    braces(sep($.comma, $.exp_field)),
-  )),
-
   exp_name: $ => choice(
     $._qvar,
     $._qcon,
@@ -212,8 +189,8 @@ module.exports = {
     $.exp_parens,
     $.exp_list,
     $.exp_th_quoted_name,
-    $.exp_record,
-    $.exp_record_mutation,
+    $.record_literal,
+    $.record_update,
     $.exp_arithmetic_sequence,
     $.exp_section_left,
     $.exp_section_right,

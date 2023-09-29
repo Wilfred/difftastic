@@ -93,6 +93,8 @@ module.exports = {
 
   _colon2: _ => choice('∷', '::'),
 
+  wildcard: _ => '_',
+
   /**
    * Field projection dot-syntax requires the dot to follow a varid without any whitespace.
    */

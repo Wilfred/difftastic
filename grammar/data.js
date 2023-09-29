@@ -1,23 +1,10 @@
-const {parens} = require('./util.js')
+const { parens } = require('./util.js')
 
 module.exports = {
-
-  field: $ => seq(
-    choice(
-      alias($.variable, $.field_name),
-      alias($.string, $.field_quoted_name),
-    ),
-    $._colon2,
-    $._type,
-  ),
 
   data_constructor: $ => choice(
     $.constructor,
     $._type,
-  ),
-
-  record_fields: $ => braces(
-    seq(sep($.comma, $.field), optional(seq('|', $.type_variable)))
   ),
 
   data_constructor_record: $ => seq(

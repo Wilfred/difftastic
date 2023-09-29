@@ -1,5 +1,6 @@
 const basic = require('./grammar/basic.js')
 const id = require('./grammar/id.js')
+const rows = require('./grammar/rows.js')
 const type = require('./grammar/type.js')
 const exp = require('./grammar/exp.js')
 const pat = require('./grammar/pat.js')
@@ -106,6 +107,15 @@ module.exports = grammar({
 
   conflicts: $ => [
     /**
+     * Records in patterns conflict with record literals in expressions.
+     *
+     * … = { a: b }
+     * fun { a: b } = …
+     */
+    [$.record_literal, $.pat_fields],
+    [$.field_wildcard, $.pat_wildcard],
+  
+    /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
      * constructors.
      * Needs more investigation.
@@ -160,13 +170,10 @@ module.exports = grammar({
      */
     [$._fun_name, $.exp_name],
     [$._fun_name, $.pat_name],
-    [$._fun_name, $.exp_name, $.exp_record_mutation],
-    [$.exp_name, $.exp_record_mutation],
     [$._fun_name, $.pat_name, $.exp_name],
     [$.signature, $.pat_name],
     [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
-    [$.exp_field, $.pat_field],
     [$._aexp_projection, $._apat],
     [$.exp_type_application, $.pat_type_binder],
 
@@ -252,6 +259,7 @@ module.exports = grammar({
 
     ...basic,
     ...id,
+    ...rows,
     ...type,
     ...exp,
     ...pat,

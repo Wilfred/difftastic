@@ -1,12 +1,12 @@
-const {parens} = require('./util.js')
+const { parens } = require('./util.js')
+const { with_field_name } = require('./rows_util.js')
 
 module.exports = {
-  pat_field: $ => choice(
-    // alias('..', $.wildcard),
-    seq($._qvar, optional(seq(':', $._nested_pat))),
-  ),
 
-  pat_fields: $ => braces(optional(sep1($.comma, $.pat_field))),
+  pat_field: $ =>
+    with_field_name(optional(seq(':', $._nested_pat)))($),
+
+  pat_fields: $ => braces(sep($.comma, $.pat_field)),
 
   pat_name: $ => $._var,
 
@@ -19,7 +19,7 @@ module.exports = {
 
   pat_record: $ => field('fields', $.pat_fields),
 
-  pat_wildcard: _ => '_',
+  pat_wildcard: $ => alias($.wildcard, $.pat_wildcard),
 
   pat_parens: $ => parens($._nested_pat),
 

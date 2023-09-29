@@ -77,33 +77,30 @@ fun a = a { a = 1 }
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_record
-      (exp_field
-        (exp_field_name
-          (variable)))))
+    rhs: (record_literal
+      (record_field
+        (field_pun))))
   (function
     name: (variable)
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_record
-      (exp_field
-        (exp_field_name
-          (variable))
-        (exp_literal
-          (integer)))))
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_value
+          (exp_literal
+            (integer))))))
   (function
     name: (variable)
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_record_mutation
+    rhs: (record_update
       (variable)
-      (exp_field_assignment
-        (exp_field_name
-          (variable))
-        (exp_literal
-          (integer))))))
+      (field_name)
+      (exp_literal
+        (integer)))))
 
 ================================================================================
 data definition
