@@ -613,7 +613,10 @@ module.exports = grammar({
         alias($._pattern_binary_expression, $.binary_expression)
       ),
     _pattern_binary_expression: ($) =>
-      binaryExpr(prec.left, 1, "<>", $._pattern_expression),
+      choice(
+        binaryExpr(prec.left, 1, "<>", $._pattern_expression),
+        binaryExpr(prec.left, 1, "as", $.string, $.identifier)
+      ),
     _pattern: ($) =>
       seq(
         $._pattern_expression,
@@ -859,9 +862,13 @@ function series_of(rule, separator) {
 
 // A binary expression with a left-hand side, infix operator, and then right-hand-side
 // https://github.com/elixir-lang/tree-sitter-elixir/blob/de20391afe5cb03ef1e8a8e43167e7b58cc52869/grammar.js#L850-L859
-function binaryExpr(assoc, precedence, operator, expr) {
+function binaryExpr(assoc, precedence, operator, left, right = null) {
   return assoc(
     precedence,
-    seq(field("left", expr), field("operator", operator), field("right", expr))
+    seq(
+      field("left", left),
+      field("operator", operator),
+      field("right", right || left)
+    )
   );
 }
