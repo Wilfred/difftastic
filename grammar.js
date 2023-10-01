@@ -583,6 +583,7 @@ module.exports = grammar({
       'par',
       'parbreak',
       'path',
+      'place',
       'plugin',
       'polygon',
       'purple',

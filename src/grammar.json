@@ -3670,6 +3670,10 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "place"
+                },
+                {
+                  "type": "STRING",
                   "value": "plugin"
                 },
                 {
