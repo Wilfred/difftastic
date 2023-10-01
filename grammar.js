@@ -518,6 +518,7 @@ module.exports = grammar({
       'circle',
       'cite',
       'cmyk',
+      'colbreak',
       'color',
       'content',
       'counter',
