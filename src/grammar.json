@@ -153,10 +153,10 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "decl_deriving"
+            "name": "decl_derive"
           },
           "named": true,
-          "value": "deriving_declaration"
+          "value": "derive_declaration"
         },
         {
           "type": "SYMBOL",
@@ -318,6 +318,49 @@
               {
                 "type": "STRING",
                 "value": "\""
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "##?"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "triple_quote_string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\"\"\""
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[^\"\"\"]*"
+                }
+              },
+              {
+                "type": "STRING",
+                "value": "\"\"\""
               }
             ]
           },
@@ -506,6 +549,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "triple_quote_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "char"
         }
       ]
@@ -610,13 +657,13 @@
     },
     "_varid": {
       "type": "PATTERN",
-      "value": "[_\\p{Ll}](\\w|')*#?"
+      "value": "[\\p{Ll}_][\\p{L}0-9_']*"
     },
     "_immediate_varid": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "[_\\p{Ll}](\\w|')*#?"
+        "value": "[\\p{Ll}_][\\p{L}0-9_']*"
       }
     },
     "label": {
@@ -3558,8 +3605,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "qualified_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "variable"
+            }
+          ]
         },
         {
           "type": "SEQ",
@@ -4815,8 +4871,26 @@
                     "value": "as"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_modid"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_modid"
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_qualifying_module"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_modid"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
@@ -5827,30 +5901,6 @@
         }
       ]
     },
-    "decl_deriving": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "derive"
-        },
-        {
-          "type": "STRING",
-          "value": "instance"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_name"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_atype"
-          }
-        }
-      ]
-    },
     "_funpat_infix": {
       "type": "SEQ",
       "members": [
@@ -6418,6 +6468,84 @@
       },
       "named": true,
       "value": "kind_value"
+    },
+    "decl_derive": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "derive"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "newtype"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "instance"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_tyvar"
+                    },
+                    "named": true,
+                    "value": "instance_name"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_colon2"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_context"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_name"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_atype"
+            }
+          }
+        ]
+      }
     },
     "_pattern_type": {
       "type": "SEQ",

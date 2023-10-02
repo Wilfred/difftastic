@@ -1337,13 +1337,37 @@
     }
   },
   {
-    "type": "deriving_declaration",
+    "type": "derive_declaration",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "constraint",
+          "named": true
+        },
+        {
+          "type": "context",
+          "named": true
+        },
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "implicit_param",
+          "named": true
+        },
+        {
+          "type": "instance_name",
+          "named": true
+        },
         {
           "type": "promoted",
           "named": true
@@ -4728,6 +4752,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "triple_quote_string",
+          "named": true
         }
       ]
     }
@@ -5183,6 +5211,10 @@
         },
         {
           "type": "exp_field_assignment",
+          "named": true
+        },
+        {
+          "type": "qualified_variable",
           "named": true
         },
         {
@@ -8558,6 +8590,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "triple_quote_string",
+          "named": true
         }
       ]
     }
@@ -9690,7 +9726,7 @@
           "named": true
         },
         {
-          "type": "deriving_declaration",
+          "type": "derive_declaration",
           "named": true
         },
         {
@@ -10880,6 +10916,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "triple_quote_string",
+          "named": true
         }
       ]
     }
@@ -11546,6 +11586,10 @@
   {
     "type": "then",
     "named": false
+  },
+  {
+    "type": "triple_quote_string",
+    "named": true
   },
   {
     "type": "type",
