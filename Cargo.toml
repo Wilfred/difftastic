@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-kotlin"
 description = "Kotlin grammar for the tree-sitter parsing library"
-version = "0.3.0"
+version = "0.3.1"
 keywords = ["incremental", "parsing", "kotlin"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/fwcd/tree-sitter-kotlin"
