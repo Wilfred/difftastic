@@ -4,8 +4,19 @@ Bits may be missing and/or inaccurate :)
 
 ### Future?
 
+* Handle zero bytes?
 * Decide about inline use (e.g. add some \_bare\_\* constructs? stop using?)
   ([#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41))
+
+### v0.0.13 - 2024-02-XX
+
+* Features and Fixes
+  * Increase API number from 13 to 14
+  * Remove Node and Rust Bindings
+  * Update version info in package.json
+
+* Docs
+  * What and why doc - update bindings info
 
 ### v0.0.12 - 2023-05-07
 
