@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-clojure",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Clojure grammar for tree-sitter",
   "tree-sitter": [
     {
