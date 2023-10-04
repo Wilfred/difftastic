@@ -10556,8 +10556,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[rR]\""
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "r\""
+            },
+            {
+              "type": "STRING",
+              "value": "R\""
+            }
+          ]
         },
         {
           "type": "SYMBOL",

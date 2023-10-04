@@ -1395,7 +1395,7 @@ module.exports = grammar({
         )
       ),
 
-    _raw_string_literal: $ => seq(/[rR]"/, $._raw_string_body),
+    _raw_string_literal: $ => seq(choice('r"', 'R"'), $._raw_string_body),
 
     _raw_string_body: $ =>
       seq(
