@@ -1,0 +1,93 @@
+FIND {Test 123 AND "AND" foo OR Bar \}} IN ALL FIELDS RETURNING
+/// <- keyword
+///   ^ string
+///                                     ^ keyword
+///                                        ^ keyword
+///                                            ^ keyword
+///                                                   ^ keyword
+
+Account(AnnualRevenue, convertCurrency(AnnualRevenue) AliasCurrency),
+/// <- type
+///    ^ punctuation
+///     ^ property
+///                  ^ punctuation
+///                    ^ function
+///                                   ^ punctuation
+///                                    ^ property
+///                                                 ^ punctuation
+///                                                   ^ label
+///                                                                ^ punctuation
+///                                                                 ^ punctuation
+
+Contact,
+/// <- type
+
+Case(Id, CaseNumber WHERE Name < 7 LIMIT 10)
+/// <- type
+/// ^ punctuation
+///  ^ property
+///    ^ punctuation
+///      ^ property
+///                 ^ keyword
+///                       ^ property
+///                            ^ operator
+///                              ^ number
+///                                ^ keyword
+///                                      ^ number
+
+WITH HIGHLIGHT
+/// <- keyword
+///  ^ keyword
+
+WITH division = '1234'
+/// <- keyword
+///  ^ keyword
+///           ^ operator
+///             ^ string
+
+WITH METADATA = 'labels'
+/// <- keyword
+///  ^ keyword
+///           ^ operator
+///             ^ string
+
+WITH NETWORK = 'thenetwork'
+/// <- keyword
+///  ^ keyword
+///          ^ operator
+///            ^ string
+
+WITH PricebookId = '12345'
+/// <- keyword
+///  ^ keyword
+///              ^ operator
+///                ^ string
+
+WITH SNIPPET(target_length = 7)
+/// <- keyword
+///  ^ keyword
+///         ^ punctuation
+///          ^ keyword
+///                        ^ operator
+///                          ^ number
+///                           ^ punctuation
+
+WITH SPELL_CORRECTION = false
+/// <- keyword
+///  ^ keyword
+///                   ^ operator
+///                     ^ variable.readonly.defaultLibrary
+
+LIMIT 10
+/// <- keyword
+///   ^ number
+
+OFFSET 17
+/// <- keyword
+///    ^ number
+
+UPDATE TRACKING, viewstat
+/// <- keyword
+///    ^ keyword
+///            ^ punctuation
+///              ^ keyword

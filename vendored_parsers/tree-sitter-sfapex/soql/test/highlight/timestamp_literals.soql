@@ -1,0 +1,8 @@
+// SYNTAX TEST "source.soql" "timestamp literals"
+
+SELECT UserId FROM LoginHistory WHERE LoginTime >
+2010-09-20T22:16:30-03:00 AND LoginTime < 2021-09-21T22:16:30Z
+/// <- variable.readonly
+///                       ^ operator
+///                           ^ property
+///                                       ^ variable.readonly

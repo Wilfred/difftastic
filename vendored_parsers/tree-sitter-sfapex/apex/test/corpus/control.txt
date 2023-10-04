@@ -1,0 +1,429 @@
+================================================================================
+CONTROL if with braces
+================================================================================
+
+public class Me {
+    {
+        if(true){
+            Integer i = 1;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (if_statement
+          (parenthesized_expression
+            (boolean))
+          (block
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int)))))))))
+
+================================================================================
+CONTROL if without braces
+================================================================================
+
+public class Me {
+    {
+        if(true)
+            Integer i = 1;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (if_statement
+          (parenthesized_expression
+            (boolean))
+          (local_variable_declaration
+            (type_identifier)
+            (variable_declarator
+              (identifier)
+              (assignment_operator)
+              (int))))))))
+
+================================================================================
+CONTROL if else with braces
+================================================================================
+
+public class Me {
+    {
+        if(true) {
+            Integer i = 1;
+        } else {
+            Integer j = 2;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (if_statement
+          (parenthesized_expression
+            (boolean))
+          (block
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int))))
+          (block
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int)))))))))
+
+================================================================================
+CONTROL if else without braces
+================================================================================
+
+public class Me {
+    {
+        if(true)
+            Integer i = 1;
+        else
+            Integer j = 2;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (if_statement
+          (parenthesized_expression
+            (boolean))
+          (local_variable_declaration
+            (type_identifier)
+            (variable_declarator
+              (identifier)
+              (assignment_operator)
+              (int)))
+          (local_variable_declaration
+            (type_identifier)
+            (variable_declarator
+              (identifier)
+              (assignment_operator)
+              (int))))))))
+
+================================================================================
+CONTROL if else without braces
+================================================================================
+
+public class Me {
+    {
+        if(true)
+            Integer i = 1;
+        else if(false)
+            Integer l = 3;
+        else
+            Integer j = 2;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (if_statement
+          (parenthesized_expression
+            (boolean))
+          (local_variable_declaration
+            (type_identifier)
+            (variable_declarator
+              (identifier)
+              (assignment_operator)
+              (int)))
+          (if_statement
+            (parenthesized_expression
+              (boolean))
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int)))
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int)))))))))
+
+================================================================================
+CONTROL else if
+================================================================================
+
+public class Me {
+    {
+        if(true) {
+            Integer i = 1;
+        } else if(false) {
+            Integer l = 3;
+        } else {
+            Integer j = 2;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (if_statement
+          (parenthesized_expression
+            (boolean))
+          (block
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int))))
+          (if_statement
+            (parenthesized_expression
+              (boolean))
+            (block
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (int))))
+            (block
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (int))))))))))
+
+================================================================================
+CONTROL do while
+================================================================================
+
+public class Me {
+    {
+        do {
+            Integer i = 1;
+        } while(true);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (do_statement
+          (block
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int))))
+          (parenthesized_expression
+            (boolean)))))))
+
+================================================================================
+CONTROL while
+================================================================================
+
+public class Me {
+    {
+        while (true) {
+            Integer i = 1;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (while_statement
+          (parenthesized_expression
+            (boolean))
+          (block
+            (local_variable_declaration
+              (type_identifier)
+              (variable_declarator
+                (identifier)
+                (assignment_operator)
+                (int)))))))))
+
+================================================================================
+CONTROL for loop with steps
+================================================================================
+
+public class Me {
+    {
+        for(Integer i = 0; i < 3; i++){
+            System.debug(i);
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (for_statement
+          (local_variable_declaration
+            (type_identifier)
+            (variable_declarator
+              (identifier)
+              (assignment_operator)
+              (int)))
+          (binary_expression
+            (identifier)
+            (int))
+          (update_expression
+            (identifier))
+          (block
+            (expression_statement
+              (method_invocation
+                (identifier)
+                (identifier)
+                (argument_list
+                  (identifier))))))))))
+
+================================================================================
+CONTROL for loop with iterator
+================================================================================
+
+public class Me {
+    {
+        List<Account> accs = new List<Account>();
+        for(Account a : accs){
+            System.debug(a);
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (argument_list))))
+        (enhanced_for_statement
+          (type_identifier)
+          (identifier)
+          (identifier)
+          (block
+            (expression_statement
+              (method_invocation
+                (identifier)
+                (identifier)
+                (argument_list
+                  (identifier))))))))))
+
+================================================================================
+CONTROL runAs
+================================================================================
+
+public class Me {
+  {
+    System.runAs(new User(Id = UserInfo.getUserId())) {}
+  }
+}
+
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (run_as_statement
+          (parenthesized_expression
+            (object_creation_expression
+              (type_identifier)
+              (argument_list
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list))))))
+          (block))))))

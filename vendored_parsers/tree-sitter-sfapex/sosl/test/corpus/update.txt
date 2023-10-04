@@ -1,0 +1,80 @@
+================================================================================
+UPDATE TRACKING
+================================================================================
+
+FIND {Keyword}
+RETURNING KnowledgeArticleVersion (Title WHERE PublishStatus='Online' and language='en_US')
+UPDATE TRACKING
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))))))
+        (update_clause
+          (update_type))))
+
+================================================================================
+UPDATE Viewstat
+================================================================================
+
+FIND {Title}
+RETURNING FAQ__kav (Title WHERE PublishStatus='Online' and
+language='en_US' and
+KnowledgeArticleVersion = 'ka230000000PCiy')
+UPDATE VIEWSTAT
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))))))
+        (update_clause
+          (update_type))))

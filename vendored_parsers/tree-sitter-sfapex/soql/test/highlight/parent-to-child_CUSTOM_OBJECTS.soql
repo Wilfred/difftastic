@@ -1,0 +1,13 @@
+SELECT Name, (SELECT Name FROM Line_Items__r) FROM Merchandise__c WHERE Name LIKE 'Acme%'
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^ punctuation
+///           ^^^^^^ keyword
+///                       ^^^^ keyword
+///                            ^^^^^^^^^^^^^ type
+///                                         ^ punctuation
+///                                                ^^^^ type
+///                                                               ^^^^ keyword
+///                                                                     ^^^^ property
+///                                                                                ^ string

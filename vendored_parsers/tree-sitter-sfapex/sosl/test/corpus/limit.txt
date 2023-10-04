@@ -1,0 +1,51 @@
+================================================================================
+LIMIT on overall query
+================================================================================
+
+FIND {test} RETURNING Account(id), Contact LIMIT 20
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))))
+          (sobject_return
+            (identifier)))
+        (limit_clause
+          (int))))
+
+================================================================================
+LIMIT on Object
+================================================================================
+
+FIND {test} RETURNING Account(id LIMIT 20), Contact LIMIT 100
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (limit_clause
+              (int)))
+          (sobject_return
+            (identifier)))
+        (limit_clause
+          (int))))

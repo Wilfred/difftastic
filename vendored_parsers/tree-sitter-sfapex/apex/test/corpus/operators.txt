@@ -1,0 +1,1267 @@
+================================================================================
+OPERATOR assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Addition Assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i += 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Multiplication assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i *= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Subtraction assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i -= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Division assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i /= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR OR assignment
+================================================================================
+
+public class Me {
+   {
+        Boolean test = false;
+        test |= false;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (boolean)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (boolean)))))))
+
+================================================================================
+OPERATOR AND assignment
+================================================================================
+
+public class Me {
+   {
+        Boolean test = false;
+        test &= false;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (boolean)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (boolean)))))))
+
+================================================================================
+OPERATOR Bitwise shift left assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i <<= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Bitwise shift right signed assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i >>= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Bitwise shift right unsigned assignment
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i >>>= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Ternary
+================================================================================
+
+public class Me {
+   {
+        String test = true ? 't' : 'f';
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (ternary_expression
+              (boolean)
+              (string_literal)
+              (string_literal))))))))
+
+================================================================================
+OPERATOR AND logical
+================================================================================
+
+public class Me {
+   {
+        Boolean test = true && false;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (boolean)
+              (boolean))))))))
+
+================================================================================
+OPERATOR OR logical
+================================================================================
+
+public class Me {
+   {
+        Boolean test = true || false;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (boolean)
+              (boolean))))))))
+
+================================================================================
+OPERATOR Equality
+================================================================================
+
+public class Me {
+   {
+        Boolean test = true == false;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (boolean)
+              (boolean))))))))
+
+================================================================================
+OPERATOR Exact equality
+================================================================================
+
+public class Me {
+   {
+        Boolean test = true === false;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (boolean)
+              (boolean))))))))
+
+================================================================================
+OPERATOR Less than
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 < 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Greater than
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 > 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Less than or equal
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 <= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Greater than or equal
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 >= 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Inequality
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 != 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Inequality ltgt
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 <> 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Exact inequality
+================================================================================
+
+public class Me {
+   {
+        Boolean test = 1 !== 2;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Addition
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1 + 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Subtraction
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1 - 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Multiplication
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1 * 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Division
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1 / 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Logical complement
+================================================================================
+
+public class Me {
+   {
+        Boolean test = !true;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (unary_expression
+              (boolean))))))))
+
+================================================================================
+OPERATOR Unary negation
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = -i;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (unary_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Unary positive
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = +i;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (unary_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Increment 1
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = i++;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (update_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Increment 2
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = ++i;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (update_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Decrement 1
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = i--;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (update_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Decrement 2
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = --i;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (update_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Bitwise AND
+================================================================================
+
+public class Me {
+   {
+        Integer i = 2 & 3;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Bitwise OR
+================================================================================
+
+public class Me {
+   {
+        Integer i = 2 | 3;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Bitwise exclusive OR 1
+================================================================================
+
+public class Me {
+   {
+        Integer i = 2 ^ 3;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (int)
+              (int))))))))
+
+================================================================================
+OPERATOR Bitwise exclusive OR 2 (TODO: Review)
+================================================================================
+
+public class Me {
+   {
+      Integer i = 2;
+      i ^= 3;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+OPERATOR Bitwise shift left
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i << 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (binary_expression
+            (identifier)
+            (int)))))))
+
+================================================================================
+OPERATOR Bitwise shift right signed
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i >> 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (binary_expression
+            (identifier)
+            (int)))))))
+
+================================================================================
+OPERATOR Bitwise shift right unsigned
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i >>> 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (binary_expression
+            (identifier)
+            (int)))))))
+
+================================================================================
+OPERATOR Bitwise Not or Complement
+================================================================================
+
+public class Me {
+   {
+        Integer i = 1;
+        i = ~i;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (unary_expression
+              (identifier))))))))
+
+================================================================================
+OPERATOR Safe Navigation
+================================================================================
+
+public class Me {
+   {
+        Integer i = ref?.maybe;
+        Integer i = ref?.maybeNot();
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (field_access
+              (identifier)
+              (identifier))))
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (method_invocation
+              (identifier)
+              (identifier)
+              (argument_list))))))))

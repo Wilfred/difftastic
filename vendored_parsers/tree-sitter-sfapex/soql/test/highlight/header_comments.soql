@@ -1,0 +1,13 @@
+// SYNTAX TEST "source.soql" "Line comments allowed at top of file only"
+
+   // Header comments
+// ^^^^^^^^^^^^^^^^^^ comment.line
+     // may have leading spaces
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+
+   // and empty lines
+// ^^^^^^^^^^^^^^^^^^ comment.line
+
+   SELECT Id, Name
+   FROM Account
+   WHERE Name != 'Booh'

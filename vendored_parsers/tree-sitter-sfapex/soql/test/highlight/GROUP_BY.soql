@@ -1,0 +1,12 @@
+SELECT LeadSource, COUNT(Name) FROM Lead GROUP BY LeadSource
+/// <- keyword
+///    ^ property
+///              ^ punctuation
+///                 ^ function
+///                     ^ punctuation
+///                      ^ property
+///                          ^ punctuation
+///                            ^ keyword
+///                                 ^ type
+///                                      ^ keyword
+///                                               ^ property

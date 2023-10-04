@@ -1,0 +1,15 @@
+{
+  "main": "../bindings/node/soql",
+  "tree-sitter": [
+    {
+      "scope": "source.soql",
+      "file-types": [
+        "soql"
+      ],
+      "highlights": [
+        "queries/highlights-distinct.scm",
+        "queries/highlights.scm"
+      ]
+    }
+  ]
+}

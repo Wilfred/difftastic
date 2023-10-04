@@ -1,0 +1,95 @@
+{
+  "name": "tree-sitter-sfapex",
+  "version": "0.0.9",
+  "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
+  "homepage": "https://github.com/aheber/tree-sitter-sfapex",
+  "bugs": {
+    "url": "https://github.com/aheber/tree-sitter-sfapex/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Anthony Heber"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aheber/tree-sitter-sfapex.git"
+  },
+  "dependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.10",
+    "nan": "^2.16.0",
+    "node-pre-gyp-github": "^1.4.4"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "0.20.6"
+  },
+  "main": "bindings/node",
+  "scripts": {
+    "build": "npm run build-generate && npm run build-wasm",
+    "build-generate": "npm run build-apex && npm run build-soql && npm run build-sosl",
+    "build-apex": "cd apex && npx tree-sitter generate --no-bindings",
+    "build-soql": "cd soql && npx tree-sitter generate --no-bindings",
+    "build-sosl": "cd sosl && npx tree-sitter generate --no-bindings",
+    "build-wasm": "npm run build-apex-wasm && npm run build-soql-wasm && npm run build-sosl-wasm",
+    "build-apex-wasm": "cd apex && npx tree-sitter build-wasm && cp tree-sitter-apex.wasm ../docs/playground/js/",
+    "build-soql-wasm": "cd soql && npx tree-sitter build-wasm && cp tree-sitter-soql.wasm ../docs/playground/js/",
+    "build-sosl-wasm": "cd sosl && npx tree-sitter build-wasm && cp tree-sitter-sosl.wasm ../docs/playground/js/",
+    "test-load": "node -e \"require('./apex').then(apex => console.log(apex.name)), require('./soql').then(soql => console.log(soql.name)), require('./sosl').then(sosl => console.log(sosl.name))\"",
+    "test": "npm run test-apex && npm run test-soql && npm run test-sosl && npm run test-load",
+    "test-apex": "cd apex && npx tree-sitter test",
+    "test-soql": "cd soql && npx tree-sitter test",
+    "test-sosl": "cd sosl && npx tree-sitter test",
+    "install": "node-pre-gyp install --fallback-to-build"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.apex",
+      "path": "apex",
+      "file-types": [
+        "cls",
+        "trigger",
+        "apex"
+      ],
+      "highlights": [
+        "soql/queries/highlights.scm",
+        "sosl/queries/highlights.scm",
+        "apex/queries/highlights.scm"
+      ],
+      "tags": [
+        "apex/queries/tags.scm"
+      ]
+    },
+    {
+      "scope": "source.soql",
+      "path": "soql",
+      "file-types": [
+        "soql"
+      ],
+      "highlights": "soql/queries/highlights.scm"
+    },
+    {
+      "scope": "source.sosl",
+      "path": "sosl",
+      "file-types": [
+        "sosl"
+      ],
+      "highlights": [
+        "soql/queries/highlights.scm",
+        "sosl/queries/highlights.scm"
+      ]
+    }
+  ],
+  "files": [
+    "*/queries/*",
+    "*/src/grammar.json",
+    "*/src/node-types.json",
+    "*/src/parser.c",
+    "*/src/tree_sitter/parser.h",
+    "binding.gyp"
+  ],
+  "binary": {
+    "module_name": "tree_sitter_sfapex_binding",
+    "module_path": "./build/Release/",
+    "host": "https://github.com/aheber/tree-sitter-sfapex/releases/download/",
+    "remote_path": "{version}"
+  }
+}

@@ -1,0 +1,230 @@
+================================================================================
+FIND Convert Currency
+================================================================================
+
+FIND {test} RETURNING Opportunity(Name, convertCurrency(Amount))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (function_expression
+                (function_name)
+                (field_identifier
+                  (identifier))))))))
+
+================================================================================
+FIND WHERE Amount CurrencyLiteral
+================================================================================
+
+FIND {test} IN ALL FIELDS RETURNING Opportunity(Name WHERE Amount>USD5000)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (currency_literal)))))))
+
+================================================================================
+FIND WHERE Converted Currency with Alias
+================================================================================
+
+FIND {Acme} RETURNING
+Account(AnnualRevenue, convertCurrency(AnnualRevenue) AliasCurrency)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (alias_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier)))
+                (identifier)))))))
+
+================================================================================
+FIND Format
+================================================================================
+
+FIND {Acme}
+RETURNING Account(Id, LastModifiedDate, FORMAT(LastModifiedDate) FormattedDate)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier))
+              (alias_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier)))
+                (identifier)))))))
+
+================================================================================
+FIND Format convertCurrency
+================================================================================
+
+FIND {Acme}
+RETURNING Account(AnnualRevenue, FORMAT(convertCurrency(AnnualRevenue)) convertedCurrency)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (alias_expression
+                (function_expression
+                  (function_name)
+                  (function_expression
+                    (function_name)
+                    (field_identifier
+                      (identifier))))
+                (identifier)))))))
+
+================================================================================
+FUNCTION toLabel
+================================================================================
+
+FIND {Joe} RETURNING Lead(company, toLabel(Recordtype.Name))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (function_expression
+                (function_name)
+                (field_identifier
+                  (dotted_identifier
+                    (identifier)
+                    (identifier)))))))))
+
+================================================================================
+FUNCTION WHERE toLabel
+================================================================================
+
+FIND {test} RETURNING Lead(company, toLabel(Status) WHERE toLabel(Status) = 'le Draft' )
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (function_expression
+                (function_name)
+                (field_identifier
+                  (identifier))))
+            (where_clause
+              (comparison_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier)))
+                (value_comparison_operator)
+                (string_literal)))))))
+
+================================================================================
+FUNCTION toLabel aliased
+================================================================================
+
+FIND {Joe} RETURNING Lead(company, toLabel(Recordtype.Name) AliasName)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (alias_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (dotted_identifier
+                      (identifier)
+                      (identifier))))
+                (identifier)))))))

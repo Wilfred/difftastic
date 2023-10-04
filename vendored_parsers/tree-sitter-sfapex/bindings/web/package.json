@@ -1,0 +1,15 @@
+{
+  "name": "web-tree-sitter-sfapex",
+  "version": "0.0.9",
+  "description": "tree-sitter-sfapex WASM",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anthony Heber",
+  "license": "ISC",
+  "dependencies": {
+    "web-tree-sitter": "^0.20.8"
+  }
+}

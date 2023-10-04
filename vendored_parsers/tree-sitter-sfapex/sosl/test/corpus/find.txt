@@ -1,0 +1,229 @@
+================================================================================
+FIND Single Term
+================================================================================
+
+FIND {MyProspect}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Single phrase
+================================================================================
+
+FIND {John Smith}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Term OR Term
+================================================================================
+
+FIND {MyProspect OR MyCompany}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Term AND Term
+================================================================================
+
+FIND {MyProspect AND MyCompany}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Term AND Phrase
+================================================================================
+
+FIND {MyProspect AND "John Smith"}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Term OR Phrase
+================================================================================
+
+FIND {MyProspect OR "John Smith"}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Complex query using AND/OR 1
+================================================================================
+
+FIND {MyProspect AND "John Smith" OR MyCompany}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Complex query using AND/OR 2
+================================================================================
+
+FIND {MyProspect AND "John Smith" OR MyCompany}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Complex query using AND/OR 3
+================================================================================
+
+FIND {MyProspect AND ("John Smith" OR MyCompany)}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Complex query using AND NOT
+================================================================================
+
+FIND {MyProspect AND NOT MyCompany}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Wildcard search
+================================================================================
+
+FIND {My*}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND Escape sequences
+================================================================================
+
+FIND {Why not\?}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+
+================================================================================
+FIND API Example
+================================================================================
+
+FIND {map*} IN ALL FIELDS
+RETURNING Account (Id, Name), Contact, Opportunity, Lead
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier))))
+          (sobject_return
+            (identifier))
+          (sobject_return
+            (identifier))
+          (sobject_return
+            (identifier)))))
+
+================================================================================
+FIND with Header Comment
+================================================================================
+
+// header comment test
+FIND {map}
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (header_comment)
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))))
+

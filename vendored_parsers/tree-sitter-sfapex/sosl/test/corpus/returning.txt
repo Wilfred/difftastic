@@ -1,0 +1,319 @@
+================================================================================
+RETURNING One sObject, no fields
+================================================================================
+
+FIND {MyProspect} RETURNING Contact
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)))))
+
+================================================================================
+RETURNING Multiple sObject objects, no fields
+================================================================================
+
+FIND {MyProspect} RETURNING Contact, Lead
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier))
+          (sobject_return
+            (identifier)))))
+
+================================================================================
+RETURNING One sObject, one or more fields
+================================================================================
+
+FIND {MyProspect} RETURNING Account(Name)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))))))
+
+================================================================================
+RETURNING One sObject, one or more fields 2
+================================================================================
+
+FIND {MyProspect} RETURNING Contact(FirstName, LastName)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))))))
+
+================================================================================
+RETURNING Custom sObject
+================================================================================
+
+FIND {MyProspect} RETURNING CustomObject__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)))))
+
+================================================================================
+RETURNING Custom sObject 2
+================================================================================
+
+FIND {MyProspect} RETURNING CustomObject__c(CustomField__c)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))))))
+
+================================================================================
+RETURNING parent fields
+================================================================================
+
+FIND {MyProspect} RETURNING CustomObject__c(Account__r.Name)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (dotted_identifier
+                  (identifier)
+                  (identifier))))))))
+
+================================================================================
+RETURNING Multiple sObject objects, one or more fields, limits
+================================================================================
+
+FIND {MyProspect}
+RETURNING Contact(FirstName, LastName LIMIT 10), Account(Name, Industry)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (limit_clause
+              (int)))
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))))))
+
+================================================================================
+RETURNING Multiple sObject objects, mixed number of fields
+================================================================================
+
+FIND {MyProspect} RETURNING Contact(FirstName, LastName), Account, Lead(FirstName)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier))))
+          (sobject_return
+            (identifier))
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))))))
+
+================================================================================
+RETURNING Multiple object limits and a query limit
+================================================================================
+
+FIND {MyProspect} RETURNING Contact(FirstName, LastName LIMIT 10)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (limit_clause
+              (int))))))
+
+================================================================================
+RETURNING Single object offset
+================================================================================
+
+FIND {MyProspect} RETURNING Contact(FirstName, LastName OFFSET 10)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (offset_clause
+              (int))))))
+
+================================================================================
+RETURNING List view
+================================================================================
+
+FIND {MyAcccount} IN ALL FIELDS
+RETURNING Account(Id, Name USING ListView=ListViewName)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (using_clause
+              (identifier))))))
+
+================================================================================
+RETURNING Nested Query
+================================================================================
+
+FIND {hello} RETURNING
+    Account(Id WHERE Id IN (SELECT AccountId FROM Contact))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (set_comparison_operator)
+                (subquery
+                  (soql_query_body
+                    (select_clause
+                      (field_identifier
+                        (identifier)))
+                    (from_clause
+                      (storage_identifier
+                        (identifier)))))))))))

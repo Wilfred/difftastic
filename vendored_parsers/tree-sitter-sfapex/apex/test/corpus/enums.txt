@@ -1,0 +1,48 @@
+================================================================================
+ENUM declare
+================================================================================
+
+public class Me {
+   public enum Season {WINTER, SPRING, SUMMER, FALL}
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (enum_declaration
+        (modifiers
+          (modifier))
+        (identifier)
+        (enum_body
+          (enum_constant
+            (identifier))
+          (enum_constant
+            (identifier))
+          (enum_constant
+            (identifier))
+          (enum_constant
+            (identifier)))))))
+
+================================================================================
+ENUM class
+================================================================================
+
+public enum MyEnumClass { X, Y }
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (enum_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (enum_body
+      (enum_constant
+        (identifier))
+      (enum_constant
+        (identifier)))))

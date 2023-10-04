@@ -1,0 +1,148 @@
+// Hello this is a comment
+SELECT Id, Name, Hello__r.World,
+/// <- keyword
+///    ^ property
+///      ^ punctuation
+///         ^ property
+///            ^ punctuation
+///              ^ property
+///                      ^ punctuation
+///                       ^ property
+
+COUNT(Id), COUNT(CampaignId), (SELECT Id FROM test),
+/// <- function
+///  ^ punctuation
+///   ^ property
+///     ^ punctuation
+///      ^ punctuation
+///        ^ function
+///             ^ punctuation
+///              ^ property
+///                        ^ punctuation
+///                         ^ punctuation
+///                           ^ punctuation
+///                            ^ keyword
+///                                   ^ property
+///                                      ^ keyword
+///                                           ^ type
+///                                               ^ punctuation
+///                                                ^ punctuation
+
+TYPEOF Blarg WHEN Account THEN test123, field2.blarg
+/// <- keyword
+///     ^ property
+///           ^ keyword
+///                ^ type
+///                        ^ keyword
+///                             ^ property
+
+WHEN Opportunity THEN test123 ELSE Id END,
+/// <- keyword
+///  ^ type
+///              ^ keyword
+///                   ^ property
+///                           ^ keyword
+///                                ^ property
+///                                   ^ keyword
+///                                      ^ punctuation
+
+TYPEOF What WHEN Task THEN test123
+/// <- keyword
+///    ^ property
+///         ^ keyword
+///              ^ type
+///                    ^ keyword
+///                        ^ property
+
+WHEN Opportunity THEN test123 ELSE Id, Field__c.Yeppers END
+/// <- keyword
+///  ^ type
+///              ^ keyword
+///                   ^ property
+///                           ^ keyword
+///                                ^ property
+///                                  ^ punctuation
+///                                    ^ property
+///                                            ^ punctuation
+///                                             ^ property
+///                                                     ^ keyword
+
+FROM Opportunity
+/// <- keyword
+///  ^ type
+
+WHERE IsActive = TRUE AND IsActive = FALSE AND (Name LIKE '%hello' OR Name > 1) AND
+/// <- keyword
+///   ^ property
+///            ^ operator
+///                   ^ operator
+///                       ^ property
+///                                ^ operator
+///                                        ^ operator
+///                                            ^ punctuation
+///                                             ^ property
+///                                                    ^ operator
+///                                                       ^ string
+///                                                                ^ operator
+///                                                                   ^ property
+///                                                                        ^ operator
+///                                                                          ^ number
+///                                                                           ^ punctuation
+
+CreatedDate = TODAY AND CreatedDate = LAST_N_DAYS:1
+/// <- property
+///         ^ operator
+///           ^ variable.readonly.defaultLibrary
+///                 ^ operator
+///                     ^ property
+///                                 ^ operator
+///                                   ^ variable.readonly.defaultLibrary
+///                                              ^ punctuation
+///                                               ^ number
+
+AND CreatedDate = 2010-09-20T22:16:30.000Z AND CreatedDate = 2010-09-21T22:16:30.000-02:00
+/// <- operator
+/// ^ property
+///             ^ operator
+///               ^ variable.readonly
+///                                        ^ operator
+///                                            ^ property
+///                                                        ^ operator
+///                                                          ^ variable.readonly
+
+GROUP BY DAY_ONLY(CreatedDate), Status HAVING COUNT(Id) > 2
+/// <- keyword
+///      ^ function
+///              ^ punctuation
+///               ^ property
+///                          ^ punctuation
+///                             ^ property
+///                                    ^ keyword
+///                                           ^ function
+///                                                ^ punctuation
+///                                                 ^ property
+///                                                   ^ punctuation
+///                                                     ^ operator
+///                                                       ^ number
+
+LIMIT 1
+/// <- keyword
+///   ^ number
+
+OFFSET 1
+/// <- keyword
+///    ^ number
+
+FOR VIEW, REFERENCE, UPDATE
+/// <- keyword
+/// ^ keyword
+///     ^ punctuation
+///       ^ keyword
+///                ^ punctuation
+///                  ^ keyword
+
+UPDATE VIEWSTAT, TRACKING
+/// <- keyword
+///    ^ keyword
+///            ^ punctuation
+///              ^ keyword

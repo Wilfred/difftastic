@@ -1,0 +1,187 @@
+================================================================================
+EXCEPTION full
+================================================================================
+
+public class Me {
+   {
+        Account a = new Account(Name='Acme');
+        try {
+            insert a;
+        } catch(DmlException e) {
+            // Process exception here
+            Boolean failed = true;
+        } catch(Exception e) {
+            // Process exception here
+            Boolean failed = true;
+        } finally {
+            Boolean finallyRan = true;
+        }
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (type_identifier)
+              (argument_list
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (string_literal))))))
+        (try_statement
+          (block
+            (expression_statement
+              (dml_expression
+                (dml_type)
+                (identifier))))
+          (catch_clause
+            (catch_formal_parameter
+              (type_identifier)
+              (identifier))
+            (block
+              (line_comment)
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (boolean)))))
+          (catch_clause
+            (catch_formal_parameter
+              (type_identifier)
+              (identifier))
+            (block
+              (line_comment)
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (boolean)))))
+          (finally_clause
+            (block
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (boolean))))))))))
+
+================================================================================
+EXCEPTION catch
+================================================================================
+
+public class Me {
+   {
+        Account a = new Account(Name='Acme');
+        try {
+            insert a;
+        } catch(DmlException e) {
+            // Process exception here
+            Boolean failed = true;
+        }
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (type_identifier)
+              (argument_list
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (string_literal))))))
+        (try_statement
+          (block
+            (expression_statement
+              (dml_expression
+                (dml_type)
+                (identifier))))
+          (catch_clause
+            (catch_formal_parameter
+              (type_identifier)
+              (identifier))
+            (block
+              (line_comment)
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (boolean))))))))))
+
+================================================================================
+EXCEPTION finally
+================================================================================
+
+public class Me {
+   {
+        Account a = new Account(Name='Acme');
+        try {
+            insert a;
+        } finally {
+            Boolean finallyRan = true;
+        }
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (type_identifier)
+              (argument_list
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (string_literal))))))
+        (try_statement
+          (block
+            (expression_statement
+              (dml_expression
+                (dml_type)
+                (identifier))))
+          (finally_clause
+            (block
+              (local_variable_declaration
+                (type_identifier)
+                (variable_declarator
+                  (identifier)
+                  (assignment_operator)
+                  (boolean))))))))))

@@ -1,0 +1,139 @@
+================================================================================
+Using Scope delegated
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE delegated
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))
+
+================================================================================
+Using Scope everything
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE everything
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))
+
+================================================================================
+Using Scope mine
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE mine
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))
+
+================================================================================
+Using Scope mine_and_my_groups
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE mine_and_my_groups
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))
+
+================================================================================
+Using Scope my_territory
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE my_territory
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))
+
+================================================================================
+Using Scope my_team_territory
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE my_team_territory
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))
+
+================================================================================
+Using Scope team
+================================================================================
+
+SELECT Id
+ FROM User USING SCOPE team
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (using_clause
+          (using_scope_type))))

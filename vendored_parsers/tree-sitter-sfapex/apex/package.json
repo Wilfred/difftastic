@@ -1,0 +1,21 @@
+{
+  "main": "../bindings/node/apex",
+  "tree-sitter": [
+    {
+      "scope": "source.apex",
+      "file-types": [
+        "cls",
+        "trigger",
+        "apex"
+      ],
+      "highlights": [
+        "../soql/queries/highlights.scm",
+        "../sosl/queries/highlights.scm",
+        "queries/highlights.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,651 @@
+================================================================================
+WHERE Equals
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate = THIS_FISCAL_QUARTER)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))))))
+
+================================================================================
+WHERE Not Equals
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate != THIS_FISCAL_QUARTER)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))))))
+
+================================================================================
+WHERE Less Than
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate < THIS_FISCAL_QUARTER)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))))))
+
+================================================================================
+WHERE Less or equal
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate <= THIS_FISCAL_QUARTER)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))))))
+
+================================================================================
+WHERE Greater than
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate > THIS_FISCAL_QUARTER)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))))))
+
+================================================================================
+WHERE Greater or equal
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate >= THIS_FISCAL_QUARTER)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))))))
+
+================================================================================
+WHERE Like
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE lastname LIKE 'appl%')
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))))
+
+================================================================================
+WHERE IN
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE BillingState IN ('California', 'New York'))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (set_comparison_operator)
+                (string_literal)
+                (string_literal)))))))
+
+================================================================================
+WHERE NOT IN
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE BillingState NOT IN ('California', 'New York'))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (set_comparison_operator)
+                (string_literal)
+                (string_literal)))))))
+
+================================================================================
+WHERE INCLUDES
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE AccountType INCLUDES ('California', 'New York'))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (set_comparison_operator)
+                (string_literal)
+                (string_literal)))))))
+
+================================================================================
+WHERE EXCLUDES
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE AccountType EXCLUDES ('California', 'New York'))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (set_comparison_operator)
+                (string_literal)
+                (string_literal)))))))
+
+================================================================================
+WHERE AND
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate = TODAY AND CreatedDate = YESTERDAY)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (date_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (date_literal))))))))
+
+================================================================================
+WHERE OR
+================================================================================
+
+FIND {test}
+    RETURNING Account (Id WHERE CreatedDate = TODAY OR CreatedDate = YESTERDAY)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (or_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (date_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (date_literal))))))))
+
+================================================================================
+WHERE NOT
+================================================================================
+
+
+FIND {test}
+    RETURNING Account (Id WHERE NOT CreatedDate = TODAY)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (not_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (date_literal))))))))
+
+================================================================================
+WHERE AND OR
+================================================================================
+
+FIND {test}
+    RETURNING Account
+        (Id WHERE Name = 'Test' AND
+            (CreatedDate = TODAY OR CreatedDate = YESTERDAY))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (or_expression
+                  (comparison_expression
+                    (field_identifier
+                      (identifier))
+                    (value_comparison_operator)
+                    (date_literal))
+                  (comparison_expression
+                    (field_identifier
+                      (identifier))
+                    (value_comparison_operator)
+                    (date_literal)))))))))
+
+================================================================================
+WHERE OR AND
+================================================================================
+
+FIND {test}
+    RETURNING Account
+        (Id WHERE Name = 'Test' OR
+            (CreatedDate = TODAY AND CreatedDate = YESTERDAY))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (or_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (and_expression
+                  (comparison_expression
+                    (field_identifier
+                      (identifier))
+                    (value_comparison_operator)
+                    (date_literal))
+                  (comparison_expression
+                    (field_identifier
+                      (identifier))
+                    (value_comparison_operator)
+                    (date_literal)))))))))
+
+================================================================================
+WHERE AND NOT
+================================================================================
+
+FIND {test}
+    RETURNING Account
+        (Id WHERE Name = 'Test' AND
+            (NOT CreatedDate = TODAY))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (not_expression
+                  (comparison_expression
+                    (field_identifier
+                      (identifier))
+                    (value_comparison_operator)
+                    (date_literal)))))))))
+
+================================================================================
+WHERE Escaped
+================================================================================
+
+FIND {test}
+    RETURNING Account
+        (Id WHERE Name = 'hello\nworld'
+          OR Name = 'hello\rworld'
+          OR Name = 'hello\tworld'
+          OR Name = 'hello\bworld'
+          OR Name = 'hello\fworld'
+          OR Name = 'hello\"world'
+          OR Name = 'hello\'world'
+          OR Name = 'hello\\world'
+          OR Name = 'hello\_world'
+          OR Name = 'hello\%world')
+
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (or_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))))))))
+
+================================================================================
+WHERE Distance
+================================================================================
+
+FIND {San Francisco}
+    RETURNING My_Custom_Object__c (Id
+        WHERE DISTANCE(My_Location_Field__c,GEOLOCATION(37,122),'mi') < 100)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier))
+                  (geo_location_type
+                    (function_name)
+                    (decimal)
+                    (decimal))
+                  (string_literal))
+                (value_comparison_operator)
+                (int)))))))

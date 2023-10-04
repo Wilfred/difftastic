@@ -1,0 +1,16 @@
+{
+  "main": "../bindings/node/sosl",
+  "tree-sitter": [
+    {
+      "scope": "source.sosl",
+      "file-types": [
+        "sosl"
+      ],
+      "highlights": [
+        "../soql/queries/highlights-distinct.scm",
+        "../soql/queries/highlights.scm",
+        "queries/highlights.scm"
+      ]
+    }
+  ]
+}

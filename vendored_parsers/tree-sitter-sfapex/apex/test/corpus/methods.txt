@@ -1,0 +1,175 @@
+================================================================================
+METHOD public
+================================================================================
+
+public class Me {
+    public void method1(String param1, Integer param2){
+        param1 = '1';
+        param2 = 2;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        (void_type)
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (type_identifier)
+            (identifier))
+          (formal_parameter
+            (type_identifier)
+            (identifier)))
+        (block
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (assignment_operator)
+              (string_literal)))
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (assignment_operator)
+              (int))))))))
+
+================================================================================
+METHOD private return
+================================================================================
+
+public class Me {
+    private Integer method1(Integer param1){
+        return param1;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (type_identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier)))))))
+
+================================================================================
+METHOD global static
+================================================================================
+
+public class Me {
+    global static Integer method1(Integer param1){
+        return param1;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        (type_identifier)
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (type_identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier)))))))
+
+================================================================================
+METHOD Modifier on parameter
+================================================================================
+
+public class Me {
+    public void helloWorld(final Integer i){
+        System.debug(i);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        (void_type)
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (modifiers
+              (modifier))
+            (type_identifier)
+            (identifier)))
+        (block
+          (expression_statement
+            (method_invocation
+              (identifier)
+              (identifier)
+              (argument_list
+                (identifier)))))))))
+
+================================================================================
+METHOD testMethod modifier
+================================================================================
+
+public class Me {
+    public testMethod void helloWorld(){
+        System.debug(i);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        (void_type)
+        (identifier)
+        (formal_parameters)
+        (block
+          (expression_statement
+            (method_invocation
+              (identifier)
+              (identifier)
+              (argument_list
+                (identifier)))))))))

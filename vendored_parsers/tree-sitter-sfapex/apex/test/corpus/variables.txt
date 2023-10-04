@@ -1,0 +1,428 @@
+================================================================================
+VARIABLE list initialized with new list
+================================================================================
+
+public class Me {
+   {
+      List<Integer> ints = new List<Integer>();
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (argument_list))))))))
+
+================================================================================
+VARIABLE list initialized with populated list
+================================================================================
+
+public class Me {
+   {
+      List<Integer> ints = new List<Integer>{1,2,3};
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (array_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (array_initializer
+                (int)
+                (int)
+                (int)))))))))
+
+================================================================================
+VARIABLE list initialized with new array
+================================================================================
+
+public class Me {
+   {
+        List<Integer> ints = new Integer[0];
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (array_creation_expression
+              (type_identifier)
+              (dimensions_expr
+                (int)))))))))
+
+================================================================================
+VARIABLE list initialized with populated array
+================================================================================
+
+public class Me {
+   {
+        List<Integer> ints = new Integer[]{1,2,3};
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (array_creation_expression
+              (type_identifier)
+              (dimensions)
+              (array_initializer
+                (int)
+                (int)
+                (int)))))))))
+
+================================================================================
+VARIABLE array filled with new array
+================================================================================
+
+public class Me {
+   {
+        Integer[] ints = new Integer[0];
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (array_type
+            (type_identifier)
+            (dimensions))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (array_creation_expression
+              (type_identifier)
+              (dimensions_expr
+                (int)))))))))
+
+================================================================================
+VARIABLE Set with new
+================================================================================
+
+public class Me {
+   {
+        Set<Integer> ints = new Set<Integer>();
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (argument_list))))))))
+
+================================================================================
+VARIABLE Set with populated
+================================================================================
+
+public class Me {
+   {
+        Set<Integer> ints = new Set<Integer>{1,2,3};
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (array_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (array_initializer
+                (int)
+                (int)
+                (int)))))))))
+
+================================================================================
+VARIABLE Map with new
+================================================================================
+
+public class Me {
+   {
+        Map<String,Integer> intsBymap = new Map<String,Integer>();
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)
+                  (type_identifier)))
+              (argument_list))))))))
+
+================================================================================
+VARIABLE Map with populated
+================================================================================
+
+public class Me {
+   {
+        Map<String,Integer> intsBymap = new Map<String,Integer>{'hello' => 1, 'world' => 2};
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (map_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)
+                  (type_identifier)))
+              (map_initializer
+                (string_literal)
+                (int)
+                (string_literal)
+                (int)))))))))
+
+================================================================================
+VARIABLE initialize multiple on a line
+================================================================================
+
+public class Me {
+   {
+        Integer i,j,k;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier))
+          (variable_declarator
+            (identifier))
+          (variable_declarator
+            (identifier)))))))
+
+================================================================================
+VARIABLE initialize multiple on a line sparse values
+================================================================================
+
+public class Me {
+   {
+        Integer i = 0, j, k = 1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int))
+          (variable_declarator
+            (identifier))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))))))
+
+================================================================================
+VARIABLE unicode in string
+================================================================================
+
+public class Me {
+   {
+        String v = 'Hello\u2019 from world\U2019';
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (string_literal)))))))
+
+================================================================================
+VARIABLE negative int
+================================================================================
+
+public class Me {
+   {
+        Integer i = -1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (unary_expression
+              (int))))))))

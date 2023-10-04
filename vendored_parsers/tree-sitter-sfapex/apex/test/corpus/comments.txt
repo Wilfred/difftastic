@@ -1,0 +1,174 @@
+================================================================================
+COMMENTS line comment above
+================================================================================
+// test comment
+public class Me {}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (line_comment)
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+COMMENTS line comment after
+================================================================================
+
+public class Me {} // test comment
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body))
+  (line_comment))
+
+================================================================================
+COMMENTS line comment below
+================================================================================
+
+public class Me {}
+// test comment
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body))
+  (line_comment))
+
+================================================================================
+COMMENTS block comment before
+================================================================================
+/* test comment */
+public class Me {}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (block_comment)
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+COMMENTS block comment inside
+================================================================================
+
+public class Me {/* test comment */}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block_comment))))
+
+================================================================================
+COMMENTS block comment after
+================================================================================
+
+public class Me {}/* test comment */
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body))
+  (block_comment))
+
+================================================================================
+COMMENTS block comment below
+================================================================================
+
+public class Me {}
+/* test comment */
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body))
+  (block_comment))
+
+================================================================================
+COMMENTS block comment empty
+================================================================================
+
+/**/
+public class Me {}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (block_comment)
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+COMMENTS block comment multi line
+================================================================================
+
+/* line 1
+line 2
+line 3 */
+public class Me {}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (block_comment)
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+COMMENTS block comment more control chars
+================================================================================
+
+/***/
+/* **/
+/** */
+/* * /*/
+/*/ /* *-/**/
+public class Me {}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (block_comment)
+  (block_comment)
+  (block_comment)
+  (block_comment)
+  (block_comment)
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body)))

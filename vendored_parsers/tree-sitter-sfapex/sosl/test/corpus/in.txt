@@ -1,0 +1,84 @@
+================================================================================
+FIND IN ALL FIELDS
+================================================================================
+
+FIND {MyProspect} IN ALL FIELDS
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))))
+
+================================================================================
+FIND IN EMAIL FIELDS
+================================================================================
+
+FIND {mylogin@mycompany.com} IN EMAIL FIELDS
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))))
+
+================================================================================
+FIND IN NAME FIELDS
+================================================================================
+
+FIND {MyProspect} IN NAME FIELDS
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))))
+
+================================================================================
+FIND IN PHONE FIELDS
+================================================================================
+
+FIND {MyProspect} IN PHONE FIELDS
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))))
+
+================================================================================
+FIND IN SIDEBAR FIELDS
+================================================================================
+
+FIND {MyProspect} IN SIDEBAR FIELDS
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))))

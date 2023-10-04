@@ -1,0 +1,489 @@
+================================================================================
+SWITCH
+================================================================================
+
+public class Me {
+    {
+        Integer i = 0;
+
+        switch on i {
+            when 2 {
+                System.debug('when block 2');
+            }
+            when null {
+                System.debug('bad integer');
+            }
+            when else {
+                System.debug('default ' + i);
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (switch_expression
+          (identifier)
+          (switch_block
+            (switch_rule
+              (switch_label
+                (int))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label
+                (null_literal))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label)
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (binary_expression
+                        (string_literal)
+                        (identifier)))))))))))))
+
+================================================================================
+SWITCH multiple
+================================================================================
+
+public class Me {
+    {
+        Integer i = 0;
+
+        switch on i {
+            when 2, 3, 4 {
+                System.debug('when block 2 and 3 and 4');
+            }
+            when 5, 6 {
+                System.debug('when block 5 and 6');
+            }
+            when 7 {
+                System.debug('when block 7');
+            }
+            when else {
+                System.debug('default');
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (switch_expression
+          (identifier)
+          (switch_block
+            (switch_rule
+              (switch_label
+                (int)
+                (int)
+                (int))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label
+                (int)
+                (int))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label
+                (int))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label)
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))))))))
+
+================================================================================
+SWITCH method results
+================================================================================
+
+public class Me {
+    {
+        Integer i = 0;
+
+        switch on someInteger(i) {
+            when 2 {
+                System.debug('when block 2');
+            }
+            when 3 {
+                System.debug('when block 3');
+            }
+            when else {
+                System.debug('default');
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (switch_expression
+          (method_invocation
+            (identifier)
+            (argument_list
+              (identifier)))
+          (switch_block
+            (switch_rule
+              (switch_label
+                (int))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label
+                (int))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label)
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))))))))
+
+================================================================================
+SWITCH sObject
+================================================================================
+
+public class Me {
+    {
+        SObject s = new Account();
+
+        switch on s {
+            when Account a {
+                System.debug('account ' + a);
+            }
+            when Contact c {
+                System.debug('contact ' + c);
+            }
+            when null {
+                System.debug('null');
+            }
+            when else {
+                System.debug('default');
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (type_identifier)
+              (argument_list))))
+        (switch_expression
+          (identifier)
+          (switch_block
+            (switch_rule
+              (switch_label
+                (type_identifier)
+                (identifier))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (binary_expression
+                        (string_literal)
+                        (identifier)))))))
+            (switch_rule
+              (switch_label
+                (type_identifier)
+                (identifier))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (binary_expression
+                        (string_literal)
+                        (identifier)))))))
+            (switch_rule
+              (switch_label
+                (null_literal))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label)
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))))))))
+
+================================================================================
+SWITCH Enum
+================================================================================
+
+public class Me {
+    {
+        SObject s = new Account();
+
+        switch on season {
+            when WINTER {
+                System.debug('boots');
+            }
+            when SPRING, SUMMER {
+                System.debug('sandals');
+            }
+            when else {
+                System.debug('none of the above');
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (type_identifier)
+              (argument_list))))
+        (switch_expression
+          (identifier)
+          (switch_block
+            (switch_rule
+              (switch_label
+                (identifier))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label
+                (identifier)
+                (identifier))
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))
+            (switch_rule
+              (switch_label)
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (string_literal))))))))))))
+
+================================================================================
+SWITCH With Parens
+================================================================================
+
+public class Me {
+    {
+        switch on (x) {
+            when 1 { return 1; }
+            when ((2)) { return 2; }
+            when (3), (4) { return 3; }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (switch_expression
+          (parenthesized_expression
+            (identifier))
+          (switch_block
+            (switch_rule
+              (switch_label
+                (int))
+              (block
+                (return_statement
+                  (int))))
+            (switch_rule
+              (switch_label
+                (parenthesized_expression
+                  (parenthesized_expression
+                    (int))))
+              (block
+                (return_statement
+                  (int))))
+            (switch_rule
+              (switch_label
+                (parenthesized_expression
+                  (int))
+                (parenthesized_expression
+                  (int)))
+              (block
+                (return_statement
+                  (int))))))))))
+
+================================================================================
+SWITCH on values
+================================================================================
+
+public class Me {
+  {
+    switch on monthsSinceFiscalStart {
+      when 1, 2, 3, -9, -10, -11 {
+        fiscalQuarter = 1;
+      }
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (switch_expression
+          (identifier)
+          (switch_block
+            (switch_rule
+              (switch_label
+                (int)
+                (int)
+                (int)
+                (unary_expression
+                  (int))
+                (unary_expression
+                  (int))
+                (unary_expression
+                  (int)))
+              (block
+                (expression_statement
+                  (assignment_expression
+                    (identifier)
+                    (assignment_operator)
+                    (int)))))))))))
