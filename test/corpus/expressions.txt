@@ -671,6 +671,10 @@ int main() {
   sizeof(x.a);
   sizeof(const char **);
   sizeof(char * ());
+  sizeof(1) + 1;
+  sizeof((1) + 1);
+  sizeof(int) + 1;
+  sizeof(struct foo) + sizeof(struct bar) + 1;
 }
 
 --------------------------------------------------------------------------------
@@ -706,7 +710,38 @@ int main() {
             (primitive_type)
             (abstract_pointer_declarator
               (abstract_function_declarator
-                (parameter_list)))))))))
+                (parameter_list))))))
+      (expression_statement
+        (binary_expression
+          (sizeof_expression
+            (parenthesized_expression
+              (number_literal)))
+              (number_literal)))
+      (expression_statement
+        (sizeof_expression
+          (parenthesized_expression
+            (binary_expression
+              (parenthesized_expression
+                (number_literal))
+              (number_literal)))))
+      (expression_statement
+        (binary_expression
+          (sizeof_expression
+            (type_descriptor
+              (primitive_type)))
+          (number_literal)))
+      (expression_statement
+        (binary_expression
+          (binary_expression
+            (sizeof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier))))
+            (sizeof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier)))))
+          (number_literal))))))
 
 ================================================================================
 Alignof expressions
@@ -758,6 +793,7 @@ Offsetof expressions
 int main() {
   offsetof( struct x, a );
   offsetof( x, a );
+  offsetof( x, a ) + 1;
 }
 
 --------------------------------------------------------------------------------
@@ -779,7 +815,14 @@ int main() {
         (offsetof_expression
           (type_descriptor
             (type_identifier))
-          (field_identifier))))))
+              (field_identifier)))
+      (expression_statement
+        (binary_expression
+          (offsetof_expression
+            (type_descriptor
+              (type_identifier))
+            (field_identifier))
+          (number_literal))))))
 
 ================================================================================
 Compound literals
@@ -1256,3 +1299,34 @@ void fn (int *__restrict__ rptr) {
           (pointer_expression
             (identifier))
           (number_literal))))))
+
+================================================================================
+Ternary
+================================================================================
+
+void f() {
+  0 ? 1 : 2;
+  a = 0 ? 1 : 2;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (conditional_expression
+          (number_literal)
+          (number_literal)
+          (number_literal)))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (conditional_expression
+            (number_literal)
+            (number_literal)
+            (number_literal)))))))
