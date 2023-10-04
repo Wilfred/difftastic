@@ -19,6 +19,7 @@ use strum::{EnumIter, IntoEnumIterator};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
 pub enum Language {
     Ada,
+    Apex,
     Bash,
     C,
     Clojure,
@@ -104,6 +105,7 @@ pub fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
 pub fn language_name(language: Language) -> &'static str {
     match language {
         Ada => "Ada",
+        Apex => "Apex",
         Bash => "Bash",
         C => "C",
         Clojure => "Clojure",
@@ -215,6 +217,7 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "zshenv",
             "zshrc",
         ],
+        Apex => &["*.cls", "*.apexc", "*.trigger"],
         C => &["*.c"],
         Clojure => &[
             "*.bb", "*.boot", "*.clj", "*.cljc", "*.clje", "*.cljs", "*.cljx", "*.edn", "*.joke",

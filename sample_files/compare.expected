@@ -7,6 +7,9 @@ sample_files/ada_before.adb sample_files/ada_after.adb
 sample_files/added_line_before.txt sample_files/added_line_after.txt
 5996d2f9cc7c1e3acfdeafcf0f5e43c1  -
 
+sample_files/apex_before.cls sample_files/apex_after.cls
+fde5c2cb739fb8bb42a592f64190137e  -
+
 sample_files/b2_math_before.h sample_files/b2_math_after.h
 e1391702d8059d127110017bf6e9ef85  -
 

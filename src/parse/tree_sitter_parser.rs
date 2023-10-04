@@ -61,6 +61,7 @@ pub struct TreeSitterConfig {
 
 extern "C" {
     fn tree_sitter_ada() -> ts::Language;
+    fn tree_sitter_apex() -> ts::Language;
     fn tree_sitter_bash() -> ts::Language;
     fn tree_sitter_c() -> ts::Language;
     fn tree_sitter_c_sharp() -> ts::Language;
@@ -140,6 +141,30 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/ada.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Apex => {
+            let language = unsafe { tree_sitter_apex() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec![
+                    "string_literal",
+                    "null_literal",
+                    "boolean",
+                    "int",
+                    "decimal_floating_point_literal",
+                    "date_literal",
+                    "currency_literal",
+                ]
+                .into_iter()
+                .collect(),
+                delimiter_tokens: vec![("[", "]"), ("(", ")"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/apex.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
