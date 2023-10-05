@@ -1580,6 +1580,7 @@ Parenthesized expressions
 
 (10)
 ("string")
+(discard; 1;)
 
 --------------------------------------------------------------------------------
 
@@ -1587,7 +1588,10 @@ Parenthesized expressions
   (parenthesized
     (integer_literal))
   (parenthesized
-    (string_literal)))
+    (string_literal))
+  (parenthesized
+    (discard_statement)
+    (integer_literal)))
 
 ================================================================================
 Cast expressions
