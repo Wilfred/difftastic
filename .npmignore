@@ -1,4 +1,5 @@
-corpus
-build
-script
-target
+/test
+/examples
+/build
+/script
+/target
