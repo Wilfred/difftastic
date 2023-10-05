@@ -13,6 +13,8 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
+    "eslint": ">=5.16.0",
+    "eslint-config-google": "^0.14.0",
     "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
