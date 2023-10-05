@@ -54,3 +54,21 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish
+
+  create-release:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          body: |
+            Find tree-sitter-typescript ${{ github.ref_name }} on [crates.io](https://crates.io/crates/tree-sitter-typescript) or [NPM](https://www.npmjs.com/package/tree-sitter-typescript).
+          token: ${{ secrets.GITHUB_TOKEN }}
