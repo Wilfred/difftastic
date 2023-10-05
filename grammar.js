@@ -1174,9 +1174,10 @@ module.exports = grammar({
             $.while
           ),
           repeat(seq(";", $._statement)),
+          optional(";"),
           ")"
         ),
-        seq("(", ";", sep1($._statement, ";"), ")")
+        seq("(", ";", sep1($._statement, ";"), optional(";"), ")")
       ),
     dot_expression: $ =>
       prec(
