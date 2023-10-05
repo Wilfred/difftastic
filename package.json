@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build": "tree-sitter generate",
-    "parse-basic": "tree-sitter parse ./examples/Basic.elm",
+    "parse-basic": "tree-sitter parse ./examples/basic.elm",
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
     "test": "tree-sitter test && script/parse-examples",
     "test-skip-download": "tree-sitter test && script/parse-examples -s",
