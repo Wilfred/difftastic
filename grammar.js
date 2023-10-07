@@ -11,7 +11,6 @@ const class_ = require('./grammar/class.js')
 const decl = require('./grammar/decl.js')
 const derive = require('./grammar/derive.js')
 const pattern = require('./grammar/pattern.js')
-const misc = require('./grammar/misc.js')
 
 module.exports = grammar({
   name: 'purescript',
@@ -244,7 +243,6 @@ module.exports = grammar({
       alias($.decl_import, $.import),
       alias($.decl_class, $.class),
       alias($.decl_instance, $.instance),
-      alias($.decl_default, $.default_declaration),
       $._decl_foreign,
       alias($.decl_derive, $.derive_declaration),
       $._decl,
@@ -266,6 +264,5 @@ module.exports = grammar({
     ...decl,
     ...derive,
     ...pattern,
-    ...misc,
   }
 })
