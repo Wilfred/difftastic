@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for XML.
+Added support for XML and JSONL.
 
 ### Diffing
 
