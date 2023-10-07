@@ -53,10 +53,12 @@ module.exports = {
   // -----------------------------------------------------------------
   // Value-level
 
-  field_wildcard: $ => $.wildcard,
+  field_wildcard: $ =>
+    // higher precedence because of the conflict with patterns
+    prec(1, $.wildcard),
 
   record_field: $ => {
-    // higher precedence because it conflicts with `pat_field`
+    // higher precedence because of the conflict with patterns
     const field_pun =
       prec(1, alias($.variable, $.field_pun))
 
@@ -69,7 +71,9 @@ module.exports = {
     return choice(field_pun, pair)
   },
 
-  record_literal: $ => braces(sep($.comma, $.record_field)),
+  record_literal: $ =>
+    // higher precedence because of the conflict with patterns
+    prec(1, braces(sep($.comma, $.record_field))),
 
   _record_field_update: $ => {
     const nested_update =

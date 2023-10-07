@@ -40,6 +40,7 @@ module.exports = grammar({
     $._dot,
     $._arith_dotdot,
     $.where,
+    // TODO: Splices were removed from the JS grammar but not from the scanner yet.
     $._splice_dollar,
     $._varsym,
     $._consym,
@@ -47,6 +48,7 @@ module.exports = grammar({
     $.comment,
     $.cpp,
     $.comma,
+    // TODO: Quasiquotes were removed from the JS grammar but not from the scanner yet.
     $.quasiquote_start,
     $.quasiquote_bar,
     $.quasiquote_body,
@@ -119,8 +121,8 @@ module.exports = grammar({
      * … = { a: b }
      * fun { a: b } = …
      */
-    [$.record_literal, $.pat_fields],
-    [$.field_wildcard, $.pat_wildcard],
+    // [$.record_literal, $.pat_fields],
+    // [$.field_wildcard, $.pat_wildcard],
   
     /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
@@ -158,6 +160,8 @@ module.exports = grammar({
      */
     [$._type_infix, $.constraint],
 
+    // TODO: Some of this were resolved by removing `top_splice` symbol.
+    // Need to check each of these for whether they can be removed from the list.
     /**
      * Top-level expression splices fundamentally conflict with decls, and since decls start with either `var` or `pat`,
      * they cannot be disambiguated.
@@ -261,7 +265,6 @@ module.exports = grammar({
       $._decl_kind,
       $._decl_kind_value,
       alias($.decl_pattern, $.pattern_synonym),
-      $.top_splice,
     ),
 
     ...basic,

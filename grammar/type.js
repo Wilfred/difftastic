@@ -73,8 +73,6 @@ module.exports = {
     $.type_parens,
     $.type_unboxed_tuple,
     $.type_unboxed_sum,
-    $.splice,
-    $.quasiquote,
     $.row_type,
     $.record_type_literal,
   ),

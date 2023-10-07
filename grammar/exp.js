@@ -171,7 +171,6 @@ module.exports = {
    * - `[a, b].name`
    * - `(,).name`
    * - `[e|a|].name`
-   * - `$splice.name`
    * - `Animal {name = "cat"}.name`
    * - `(.name).name`
    * - `(# 1, 2 #).name` (doesn't typecheck, but might in the future?)
@@ -196,7 +195,6 @@ module.exports = {
     $.exp_section_right,
     $.exp_unboxed_sum,
     $.exp_projection_selector,
-    $.splice,
     $.quasiquote,
     alias($.literal, $.exp_literal),
   ),
