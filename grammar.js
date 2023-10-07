@@ -107,6 +107,13 @@ module.exports = grammar({
 
   conflicts: $ => [
     /**
+     * Rows and records conflict with parenthesized types.
+     * Seems to be related to visible type application specifically.
+     */
+    [$.row_type, $.type_name],
+    [$.record_type_literal, $.type_name],
+
+    /**
      * Records in patterns conflict with record literals in expressions.
      *
      * … = { a: b }

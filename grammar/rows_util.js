@@ -7,9 +7,8 @@ const with_field_name = (...rule) => $ =>
 
 // lifted into a higher-order rule to avoid extra nesting like (row_variable (row_variable))
 const maybe_with_row_variable = (...rule) => $ =>
-  { const maybe_row_variable =
-      optional(seq('|', alias($.type_variable, $.row_variable)))
-  ; return seq(...rule, maybe_row_variable)
+  { const row_var = seq('|', choice($._type, $.type_variable))
+  ; return seq(...rule, optional(row_var))
   }
 
 module.exports =
