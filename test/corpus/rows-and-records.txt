@@ -198,6 +198,216 @@ a = { a, b: _, c }
         (field_pun)))))
 
 ================================================================================
+record literal in a top-level function pattern
+================================================================================
+
+f { a: b, c: d, f } = ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_record
+        fields: (pat_fields
+          (pat_field
+            (field_name)
+            (pat_name
+              (variable)))
+          (comma)
+          (pat_field
+            (field_name)
+            (pat_name
+              (variable)))
+          (comma)
+          (pat_field
+            (field_name)))))
+    rhs: (exp_name
+      (variable))))
+
+================================================================================
+record literal in a where-block function pattern
+================================================================================
+
+f = ok where ok { a: b, c: d, f } = ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_name
+      (variable))
+    (where)
+    (decls
+      (function
+        name: (variable)
+        patterns: (patterns
+          (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)))))
+        rhs: (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a case-alternative pattern
+================================================================================
+
+f = case f of { a: b, c: d, f } -> ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      condition: (exp_name
+        (variable))
+      (alts
+        (alt
+          pat: (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name))))
+          exp: (exp_name
+            (variable)))))))
+
+================================================================================
+record literal in a let-in binding pattern
+================================================================================
+
+f = let g { a: b, c: d, f } = ok in g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_let_in
+      (exp_let
+        (decls
+          (function
+            name: (variable)
+            patterns: (patterns
+              (pat_record
+                fields: (pat_fields
+                  (pat_field
+                    (field_name)
+                    (pat_name
+                      (variable)))
+                  (comma)
+                  (pat_field
+                    (field_name)
+                    (pat_name
+                      (variable)))
+                  (comma)
+                  (pat_field
+                    (field_name)))))
+            rhs: (exp_name
+              (variable)))))
+      (exp_in
+        (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a let binding pattern
+================================================================================
+
+f = do
+  let g { a: b, c: d, f } = ok
+  g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (let
+          (decls
+            (function
+              name: (variable)
+              patterns: (patterns
+                (pat_record
+                  fields: (pat_fields
+                    (pat_field
+                      (field_name)
+                      (pat_name
+                        (variable)))
+                    (comma)
+                    (pat_field
+                      (field_name)
+                      (pat_name
+                        (variable)))
+                    (comma)
+                    (pat_field
+                      (field_name)))))
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a let binding pattern
+================================================================================
+
+f = do
+  { a: b, c: d, f } ← ok
+  ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (bind_pattern
+          (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name))))
+          (exp_name
+            (variable))))
+      (stmt
+        (exp_name
+          (variable))))))
+
+================================================================================
 type-level record literal -- closed row
 ================================================================================
 
@@ -242,7 +452,7 @@ a :: forall r. { a :: Unit, b :: Unit | r }
           (field_name)
           (type_name
             (type)))
-        (row_variable)))))
+        (type_variable)))))
 
 ================================================================================
 type-level record literal with quoted labels 
@@ -358,7 +568,7 @@ type R r = (a :: A | r)
         (field_name)
         (type_name
           (type)))
-      (row_variable))))
+      (type_variable))))
 
 ================================================================================
 row type -- quoted labels

@@ -1,6 +1,6 @@
 const basic = require('./grammar/basic.js')
 const id = require('./grammar/id.js')
-const rows = require('./grammar/rows.js')
+const rows = require('./grammar/rows_and_records.js')
 const type = require('./grammar/type.js')
 const exp = require('./grammar/exp.js')
 const pat = require('./grammar/pat.js')

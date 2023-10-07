@@ -2,7 +2,7 @@ const { parens, braces } = require('./util.js')
 const
   { with_field_name
   , maybe_with_row_variable
-  } = require('./rows_util.js')
+  } = require('./rows_and_records_utils.js')
 
 module.exports = {
   /** Terminology:
