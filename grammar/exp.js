@@ -195,7 +195,6 @@ module.exports = {
     $.exp_section_right,
     $.exp_unboxed_sum,
     $.exp_projection_selector,
-    $.quasiquote,
     alias($.literal, $.exp_literal),
   ),
 

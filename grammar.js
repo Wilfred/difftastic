@@ -94,10 +94,6 @@ module.exports = grammar({
 
   precedences: _ => [
     [
-      'context-empty',
-      'con_unit',
-    ],
-    [
       'infix-type',
       'btype',
     ],
@@ -115,15 +111,6 @@ module.exports = grammar({
     [$.row_type, $.type_name],
     [$.record_type_literal, $.type_name],
 
-    /**
-     * Records in patterns conflict with record literals in expressions.
-     *
-     * … = { a: b }
-     * fun { a: b } = …
-     */
-    // [$.record_literal, $.pat_fields],
-    // [$.field_wildcard, $.pat_wildcard],
-  
     /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
      * constructors.
@@ -160,8 +147,6 @@ module.exports = grammar({
      */
     [$._type_infix, $.constraint],
 
-    // TODO: Some of this were resolved by removing `top_splice` symbol.
-    // Need to check each of these for whether they can be removed from the list.
     /**
      * Top-level expression splices fundamentally conflict with decls, and since decls start with either `var` or `pat`,
      * they cannot be disambiguated.
@@ -179,9 +164,7 @@ module.exports = grammar({
      * The disambiguation can clearly be made from the `=`, but my impression is that the conflict check only considers
      * immediate lookahead.
      */
-    [$._fun_name, $.exp_name],
     [$._fun_name, $.pat_name],
-    [$._fun_name, $.pat_name, $.exp_name],
     [$.signature, $.pat_name],
     [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
@@ -255,6 +238,9 @@ module.exports = grammar({
       alias($.decl_type, $.type_alias),
       alias($.decl_data, $.data),
       alias($.decl_newtype, $.newtype),
+      // TODO: Imports cannot come in random places,
+      // the structure of a module is always `module M [exports] where [imports] …`
+      // should group these together to remove extra parser overhead and simplify it for all other symbols
       alias($.decl_import, $.import),
       alias($.decl_class, $.class),
       alias($.decl_instance, $.instance),

@@ -127,7 +127,7 @@ module.exports = {
   _context_constraints: $ => seq(
     choice(
       $.constraint,
-      prec('context-empty', parens(optional(sep1($.comma, choice($._constraint, $.implicit_param))))),
+      parens(optional(sep1($.comma, choice($._constraint, $.implicit_param)))),
     ),
   ),
 

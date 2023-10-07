@@ -48,7 +48,6 @@ module.exports = {
     $.pat_strict,
     $.pat_irrefutable,
     $.pat_type_binder,
-    $.quasiquote,
   ),
 
   pat_negation: $ => seq('-', $._apat),
