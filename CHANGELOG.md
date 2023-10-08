@@ -17,6 +17,16 @@ values are constructed, such as `Foo {}`).
 
 Improved syntax highlighting for C#.
 
+### Build
+
+This release does not provide a prebuilt musl binary, due
+to [a dynamic linking
+issue](https://github.com/Wilfred/difftastic/issues/563) with binaries
+in the release script.
+
+musl remains tested in CI and supported for users, but you will need
+to compile difftastic from source.
+
 ## 0.51.1 (released 25th August 2023)
 
 Fixed an issue with GitHub actions that prevented prebuilt binaries

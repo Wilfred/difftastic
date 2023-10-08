@@ -34,8 +34,12 @@ jobs:
 
           # Targets using cross-compilation (upload-rust-binary-action
           # detects that they need cross).
-          - target: x86_64-unknown-linux-musl
-            os: ubuntu-20.04
+
+          # TODO: fix musl so it statically links during release, see
+          # https://github.com/Wilfred/difftastic/issues/563
+          #
+          # - target: x86_64-unknown-linux-musl
+          #   os: ubuntu-20.04
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-20.04
           - target: aarch64-apple-darwin
@@ -63,4 +67,3 @@ jobs:
       - uses: katyo/publish-crates@v1
         with:
           registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-
