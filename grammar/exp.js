@@ -1,4 +1,4 @@
-const {parens, brackets, braces, sep1, layouted, qualified, varid_pattern} = require('./util.js')
+const { parens, brackets, sep1, layouted, qualified } = require('./util.js')
 
 module.exports = {
   // ------------------------------------------------------------------------

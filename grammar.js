@@ -111,6 +111,15 @@ module.exports = grammar({
     [$.record_type_literal, $.type_name],
 
     /**
+     * Record updates `f { x = x }` conflict with function application `f { x: x }`.
+     * In PureScript record updates in fact do have higher precedence than function
+     * application, such that `identity { a: 1 } { a = 2 }` is a valid expression,
+     * but this doesn't work for parsing them correctly.
+     */
+    [$.record_update, $.exp_name],
+    [$.record_update, $._aexp_projection],
+
+    /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
      * constructors.
      * Needs more investigation.

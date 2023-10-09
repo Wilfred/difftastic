@@ -47,7 +47,7 @@ a = { "α-": unit, "β+": unit }
             (variable)))))))
 
 ================================================================================
-record literal updates
+record updates
 ================================================================================
 
 a = a { a = 1 }
@@ -59,6 +59,28 @@ a = a { a = 1 }
     name: (variable)
     rhs: (record_update
       (variable)
+      (field_name)
+      (exp_literal
+        (integer)))))
+
+================================================================================
+record literal updates
+================================================================================
+
+a = { a: 1 } { a = 1 }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (record_update
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_literal
+              (integer)))))
       (field_name)
       (exp_literal
         (integer)))))
@@ -372,7 +394,7 @@ f = do
           (variable))))))
 
 ================================================================================
-record literal in a let binding pattern
+record literal in a (<-) binding pattern
 ================================================================================
 
 f = do
@@ -406,6 +428,52 @@ f = do
       (stmt
         (exp_name
           (variable))))))
+
+================================================================================
+record updates don't conflict with function application
+================================================================================
+
+f = r { l = v }
+g = f { l: v }
+h = id r { l = v } { l: v }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_update
+      (variable)
+      (field_name)
+      (exp_name
+        (variable))))
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_name
+              (variable)))))))
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (record_update
+        (variable)
+        (field_name)
+        (exp_name
+          (variable)))
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_name
+              (variable))))))))
 
 ================================================================================
 type-level record literal -- closed row

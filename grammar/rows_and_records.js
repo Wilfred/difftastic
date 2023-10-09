@@ -91,10 +91,10 @@ module.exports = {
   },
 
   record_update: $ =>
-    prec(1, seq(
-      choice($.wildcard, $.qualified_variable, $.variable),
+    seq(
+      choice($.wildcard, $.qualified_variable, $.variable, $.record_literal),
       braces(sep($.comma, $._record_field_update))
-    )),
+    ),
 
 }
 
