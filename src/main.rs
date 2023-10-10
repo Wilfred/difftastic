@@ -335,7 +335,7 @@ fn diff_file(
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
-    let (lhs_src, rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
+    let (mut lhs_src, mut rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
                 extra_info,
@@ -352,6 +352,11 @@ fn diff_file(
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
     };
+
+    if diff_options.strip_cr {
+        lhs_src.retain(|c| c != '\r');
+        rhs_src.retain(|c| c != '\r');
+    }
 
     diff_file_content(
         display_path,
@@ -374,13 +379,17 @@ fn diff_conflicts_file(
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let bytes = read_file_or_die(path);
-    let src = match guess_content(&bytes) {
+    let mut src = match guess_content(&bytes) {
         ProbableFileKind::Text(src) => src,
         ProbableFileKind::Binary => {
             eprintln!("error: Expected a text file with conflict markers, got a binary file.");
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
+
+    if diff_options.strip_cr {
+        src.retain(|c| c != '\r');
+    }
 
     let conflict_files = match apply_conflict_markers(&src) {
         Ok(cf) => cf,

@@ -1,8 +1,16 @@
-## 0.52 (unreleased)
+## 0.53 (unreleased)
+
+### Command Line Interface
+
+Added the option `--strip-cr`. This removes all carriage return
+characters before diffing, which is helpful when dealing with a mix of
+Windows and non-Windows flies.
+
+## 0.52 (released 8th October 2023)
 
 ### Parsing
 
-Added support for XML.
+Added support for XML and JSONL.
 
 ### Diffing
 
@@ -16,6 +24,16 @@ Improved syntax highlighting of constructors (i.e. type names when
 values are constructed, such as `Foo {}`).
 
 Improved syntax highlighting for C#.
+
+### Build
+
+This release does not provide a prebuilt musl binary, due
+to [a dynamic linking
+issue](https://github.com/Wilfred/difftastic/issues/563) with binaries
+in the release script.
+
+musl remains tested in CI and supported for users, but you will need
+to compile difftastic from source.
 
 ## 0.51.1 (released 25th August 2023)
 

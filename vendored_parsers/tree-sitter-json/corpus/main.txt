@@ -94,7 +94,7 @@ Comments
 
 {
   "a": 1,
-  
+
   // we allow comments, because several
   // commonly used tools allow comments in
   // files with the extension `.json`
@@ -127,3 +127,16 @@ Comments
       (string
         (string_content))
       (number))))
+
+===========================================
+Multiple top-level objects
+==========================================
+
+{}
+{}
+
+---
+
+(document
+  (object)
+  (object))
