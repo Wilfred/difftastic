@@ -986,7 +986,8 @@ module.exports = grammar({
       "sealed",
       "annotation",
       "data",
-      "inner"
+      "inner",
+      "value",
     ),
 
     member_modifier: $ => choice(
@@ -1086,6 +1087,7 @@ module.exports = grammar({
       "expect",
       "data",
       "inner",
+      "value",
       "actual",
       "set",
       "get"
