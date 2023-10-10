@@ -1,5 +1,11 @@
 ## 0.53 (unreleased)
 
+### Command Line Interface
+
+Added the option `--strip-cr`. This removes all carriage return
+characters before diffing, which is helpful when dealing with a mix of
+Windows and non-Windows flies.
+
 ## 0.52 (released 8th October 2023)
 
 ### Parsing
