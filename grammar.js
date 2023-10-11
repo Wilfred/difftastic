@@ -1,5 +1,6 @@
 const basic = require('./grammar/basic.js')
 const id = require('./grammar/id.js')
+const rows = require('./grammar/rows_and_records.js')
 const type = require('./grammar/type.js')
 const exp = require('./grammar/exp.js')
 const pat = require('./grammar/pat.js')
@@ -10,7 +11,6 @@ const class_ = require('./grammar/class.js')
 const decl = require('./grammar/decl.js')
 const derive = require('./grammar/derive.js')
 const pattern = require('./grammar/pattern.js')
-const misc = require('./grammar/misc.js')
 
 module.exports = grammar({
   name: 'purescript',
@@ -39,6 +39,7 @@ module.exports = grammar({
     $._dot,
     $._arith_dotdot,
     $.where,
+    // TODO: Splices were removed from the JS grammar but not from the scanner yet.
     $._splice_dollar,
     $._varsym,
     $._consym,
@@ -46,6 +47,7 @@ module.exports = grammar({
     $.comment,
     $.cpp,
     $.comma,
+    // TODO: Quasiquotes were removed from the JS grammar but not from the scanner yet.
     $.quasiquote_start,
     $.quasiquote_bar,
     $.quasiquote_body,
@@ -91,10 +93,6 @@ module.exports = grammar({
 
   precedences: _ => [
     [
-      'context-empty',
-      'con_unit',
-    ],
-    [
       'infix-type',
       'btype',
     ],
@@ -105,6 +103,22 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
+    /**
+     * Rows and records conflict with parenthesized types.
+     * Seems to be related to visible type application specifically.
+     */
+    [$.row_type, $.type_name],
+    [$.record_type_literal, $.type_name],
+
+    /**
+     * Record updates `f { x = x }` conflict with function application `f { x: x }`.
+     * In PureScript record updates in fact do have higher precedence than function
+     * application, such that `identity { a: 1 } { a = 2 }` is a valid expression,
+     * but this doesn't work for parsing them correctly.
+     */
+    [$.record_update, $.exp_name],
+    [$.record_update, $._aexp_projection],
+
     /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
      * constructors.
@@ -158,15 +172,10 @@ module.exports = grammar({
      * The disambiguation can clearly be made from the `=`, but my impression is that the conflict check only considers
      * immediate lookahead.
      */
-    [$._fun_name, $.exp_name],
     [$._fun_name, $.pat_name],
-    [$._fun_name, $.exp_name, $.exp_record_mutation],
-    [$.exp_name, $.exp_record_mutation],
-    [$._fun_name, $.pat_name, $.exp_name],
     [$.signature, $.pat_name],
     [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
-    [$.exp_field, $.pat_field],
     [$._aexp_projection, $._apat],
     [$.exp_type_application, $.pat_type_binder],
 
@@ -237,21 +246,23 @@ module.exports = grammar({
       alias($.decl_type, $.type_alias),
       alias($.decl_data, $.data),
       alias($.decl_newtype, $.newtype),
+      // TODO: Imports cannot come in random places,
+      // the structure of a module is always `module M [exports] where [imports] …`
+      // should group these together to remove extra parser overhead and simplify it for all other symbols
       alias($.decl_import, $.import),
       alias($.decl_class, $.class),
       alias($.decl_instance, $.instance),
-      alias($.decl_default, $.default_declaration),
       $._decl_foreign,
       alias($.decl_derive, $.derive_declaration),
       $._decl,
       $._decl_kind,
       $._decl_kind_value,
       alias($.decl_pattern, $.pattern_synonym),
-      $.top_splice,
     ),
 
     ...basic,
     ...id,
+    ...rows,
     ...type,
     ...exp,
     ...pat,
@@ -262,6 +273,5 @@ module.exports = grammar({
     ...decl,
     ...derive,
     ...pattern,
-    ...misc,
   }
 })

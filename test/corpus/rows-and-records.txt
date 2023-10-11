@@ -1,0 +1,667 @@
+================================================================================
+basic value-level record literal
+================================================================================
+
+a = { a: unit, b: unit }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable))))
+      (comma)
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable)))))))
+
+================================================================================
+value-level record literal with quoted labels 
+================================================================================
+
+a = { "α-": unit, "β+": unit }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable))))
+      (comma)
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable)))))))
+
+================================================================================
+record updates
+================================================================================
+
+a = a { a = 1 }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_update
+      (variable)
+      (field_name)
+      (exp_literal
+        (integer)))))
+
+================================================================================
+record literal updates
+================================================================================
+
+a = { a: 1 } { a = 1 }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (record_update
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_literal
+              (integer)))))
+      (field_name)
+      (exp_literal
+        (integer)))))
+
+================================================================================
+qualified record updates
+================================================================================
+
+a = A.a { a = 1 }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_update
+      (qualified_variable
+        (module)
+        (variable))
+      (field_name)
+      (exp_literal
+        (integer)))))
+
+================================================================================
+nested record updates
+================================================================================
+
+a = a { a { a = 1 } }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_update
+      (variable)
+      (field_name)
+      (record_update
+        (field_name)
+        (exp_literal
+          (integer))))))
+
+================================================================================
+record literal with 1 wildcard
+================================================================================
+
+a = { a: _ }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_wildcard
+          (wildcard))))))
+
+================================================================================
+record literal with 3 wildcards
+================================================================================
+
+a = { a: _, b: _, c: _ }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_wildcard
+          (wildcard)))
+      (comma)
+      (record_field
+        (field_name)
+        (field_wildcard
+          (wildcard)))
+      (comma)
+      (record_field
+        (field_name)
+        (field_wildcard
+          (wildcard))))))
+
+================================================================================
+record literal with a wildcard and provided fields
+================================================================================
+
+a = { a: a, b: _, c: c }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable))))
+      (comma)
+      (record_field
+        (field_name)
+        (field_wildcard
+          (wildcard)))
+      (comma)
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable)))))))
+
+================================================================================
+record literal with a wildcard and row puns
+================================================================================
+
+a = { a, b: _, c }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_pun))
+      (comma)
+      (record_field
+        (field_name)
+        (field_wildcard
+          (wildcard)))
+      (comma)
+      (record_field
+        (field_pun)))))
+
+================================================================================
+record literal in a top-level function pattern
+================================================================================
+
+f { a: b, c: d, f } = ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_record
+        fields: (pat_fields
+          (pat_field
+            (field_name)
+            (pat_name
+              (variable)))
+          (comma)
+          (pat_field
+            (field_name)
+            (pat_name
+              (variable)))
+          (comma)
+          (pat_field
+            (field_name)))))
+    rhs: (exp_name
+      (variable))))
+
+================================================================================
+record literal in a where-block function pattern
+================================================================================
+
+f = ok where ok { a: b, c: d, f } = ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_name
+      (variable))
+    (where)
+    (decls
+      (function
+        name: (variable)
+        patterns: (patterns
+          (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)))))
+        rhs: (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a case-alternative pattern
+================================================================================
+
+f = case f of { a: b, c: d, f } -> ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      condition: (exp_name
+        (variable))
+      (alts
+        (alt
+          pat: (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name))))
+          exp: (exp_name
+            (variable)))))))
+
+================================================================================
+record literal in a let-in binding pattern
+================================================================================
+
+f = let g { a: b, c: d, f } = ok in g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_let_in
+      (exp_let
+        (decls
+          (function
+            name: (variable)
+            patterns: (patterns
+              (pat_record
+                fields: (pat_fields
+                  (pat_field
+                    (field_name)
+                    (pat_name
+                      (variable)))
+                  (comma)
+                  (pat_field
+                    (field_name)
+                    (pat_name
+                      (variable)))
+                  (comma)
+                  (pat_field
+                    (field_name)))))
+            rhs: (exp_name
+              (variable)))))
+      (exp_in
+        (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a let binding pattern
+================================================================================
+
+f = do
+  let g { a: b, c: d, f } = ok
+  g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (let
+          (decls
+            (function
+              name: (variable)
+              patterns: (patterns
+                (pat_record
+                  fields: (pat_fields
+                    (pat_field
+                      (field_name)
+                      (pat_name
+                        (variable)))
+                    (comma)
+                    (pat_field
+                      (field_name)
+                      (pat_name
+                        (variable)))
+                    (comma)
+                    (pat_field
+                      (field_name)))))
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a (<-) binding pattern
+================================================================================
+
+f = do
+  { a: b, c: d, f } ← ok
+  ok
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (bind_pattern
+          (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name))))
+          (exp_name
+            (variable))))
+      (stmt
+        (exp_name
+          (variable))))))
+
+================================================================================
+record updates don't conflict with function application
+================================================================================
+
+f = r { l = v }
+g = f { l: v }
+h = id r { l = v } { l: v }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_update
+      (variable)
+      (field_name)
+      (exp_name
+        (variable))))
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_name
+              (variable)))))))
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (record_update
+        (variable)
+        (field_name)
+        (exp_name
+          (variable)))
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_name
+              (variable))))))))
+
+================================================================================
+type-level record literal -- closed row
+================================================================================
+
+a :: { a :: Unit, b :: Unit }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (signature
+    name: (variable)
+    type: (record_type_literal
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_name
+          (type))))))
+
+================================================================================
+type-level record literal -- open row
+================================================================================
+
+a :: forall r. { a :: Unit, b :: Unit | r }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (signature
+    name: (variable)
+    type: (forall
+      (type_variable)
+      (record_type_literal
+        (row_field
+          (field_name)
+          (type_name
+            (type)))
+        (comma)
+        (row_field
+          (field_name)
+          (type_name
+            (type)))
+        (type_variable)))))
+
+================================================================================
+type-level record literal with quoted labels 
+================================================================================
+
+a :: { "#α" :: Unit, "$β" :: Unit }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (signature
+    name: (variable)
+    type: (record_type_literal
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_name
+          (type))))))
+
+================================================================================
+row type in isolation -- closed row
+================================================================================
+
+type R = (a :: A, b :: B, c :: C d (e f))
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (type_alias
+    name: (type)
+    (row_type
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable))
+          (type_parens
+            (type_apply
+              (type_name
+                (type_variable))
+              (type_name
+                (type_variable)))))))))
+
+================================================================================
+row type application -- closed row
+================================================================================
+
+type R = Record (a :: A, b :: B, c :: C D (E F))
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (type_alias
+    name: (type)
+    (type_apply
+      (type_name
+        (type))
+      (row_type
+        (row_field
+          (field_name)
+          (type_name
+            (type)))
+        (comma)
+        (row_field
+          (field_name)
+          (type_name
+            (type)))
+        (comma)
+        (row_field
+          (field_name)
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type))
+            (type_parens
+              (type_apply
+                (type_name
+                  (type))
+                (type_name
+                  (type))))))))))
+
+================================================================================
+row type -- open row
+================================================================================
+
+type R r = (a :: A | r)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (type_alias
+    name: (type)
+    (type_variable)
+    (row_type
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (type_variable))))
+
+================================================================================
+row type -- quoted labels
+================================================================================
+
+type R = ( ":)" :: A, "×" :: A, "@@" :: A )
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (type_alias
+    name: (type)
+    (row_type
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_name
+          (type))))))
+

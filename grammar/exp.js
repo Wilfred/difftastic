@@ -1,4 +1,4 @@
-const {parens, brackets, braces, sep1, layouted, qualified, varid_pattern} = require('./util.js')
+const { parens, brackets, sep1, layouted, qualified } = require('./util.js')
 
 module.exports = {
   // ------------------------------------------------------------------------
@@ -60,19 +60,6 @@ module.exports = {
     seq(quote + quote, $._atype),
   ),
 
-  exp_field: $ => choice(
-    seq(
-      field('field', $._qvar),
-      optional(seq(':', $._exp))
-    ),
-  ),
-
-  exp_field_assignment: $ => seq(
-    field('field', $._qvar),
-    '=',
-    $._exp,
-  ),
-
   exp_type_application: $ => seq('@', $._atype),
 
   exp_lambda: $ => seq(
@@ -95,10 +82,8 @@ module.exports = {
   exp_cond: $ => seq(
     'if',
     field('if', $._exp),
-    optional(';'),
     'then',
     field('then', $._exp),
-    optional(';'),
     'else',
     field('else', $._exp),
   ),
@@ -155,15 +140,6 @@ module.exports = {
 
   exp_negation: $ => seq('-', $._aexp),
 
-  exp_record_mutation: $ => seq(
-    choice($.qualified_variable, $.variable,),
-    braces(sep1($.comma, $.exp_field_assignment))
-  ),
-
-  exp_record: $ => prec(1, choice(
-    braces(sep($.comma, $.exp_field)),
-  )),
-
   exp_name: $ => choice(
     $._qvar,
     $._qcon,
@@ -195,7 +171,6 @@ module.exports = {
    * - `[a, b].name`
    * - `(,).name`
    * - `[e|a|].name`
-   * - `$splice.name`
    * - `Animal {name = "cat"}.name`
    * - `(.name).name`
    * - `(# 1, 2 #).name` (doesn't typecheck, but might in the future?)
@@ -213,15 +188,13 @@ module.exports = {
     $.exp_parens,
     $.exp_list,
     $.exp_th_quoted_name,
-    $.exp_record,
-    $.exp_record_mutation,
+    $.record_literal,
+    $.record_update,
     $.exp_arithmetic_sequence,
     $.exp_section_left,
     $.exp_section_right,
     $.exp_unboxed_sum,
     $.exp_projection_selector,
-    $.splice,
-    $.quasiquote,
     alias($.literal, $.exp_literal),
   ),
 

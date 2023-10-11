@@ -57,12 +57,10 @@ module.exports = {
 
   _qop_nominus: $ => choice($._qvarop_nominus, $._qconop),
 
-  con_unit: _ => prec('con_unit', parens()),
   con_list: _ => brackets(),
   con_tuple: $ => parens(repeat1($.comma)),
 
   _gcon_literal: $ => choice(
-    $.con_unit,
     $.con_list,
     $.con_tuple,
   ),
@@ -107,7 +105,6 @@ module.exports = {
 
   type_literal: $ => choice(
     $._literal,
-    $.con_unit,
     $.con_list,
     $.con_tuple,
   ),

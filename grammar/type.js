@@ -64,6 +64,8 @@ module.exports = {
 
   type_unboxed_sum: $ => seq($._unboxed_open, $._type_sum, $._unboxed_close),
 
+  // TODO: this kitchen-sink bag hurts the rest of the code by disregarding context and introducing ambiguity.
+  // should be removed in favor of local, more specific definitions.
   _atype: $ => choice(
     $.type_name,
     $.type_star,
@@ -71,9 +73,8 @@ module.exports = {
     $.type_parens,
     $.type_unboxed_tuple,
     $.type_unboxed_sum,
-    $.splice,
-    $.quasiquote,
-    $.record_fields,
+    $.row_type,
+    $.record_type_literal,
   ),
 
   type_invisible: $ => seq('@', $._atype),
@@ -126,7 +127,7 @@ module.exports = {
   _context_constraints: $ => seq(
     choice(
       $.constraint,
-      prec('context-empty', parens(optional(sep1($.comma, choice($._constraint, $.implicit_param))))),
+      parens(optional(sep1($.comma, choice($._constraint, $.implicit_param)))),
     ),
   ),
 

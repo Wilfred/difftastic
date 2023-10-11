@@ -10,8 +10,6 @@
    (triple_quote_string)
  ] @string
 
- (con_unit) @constant.builtin ; unit, as in ()
-
  (comment) @comment
 
 
@@ -56,6 +54,10 @@
    (tycon_arrow)
    (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
    (all_names)
+
+   ; `_` wildcards in if-then-else and case-of expressions,
+   ; as well as record updates and operator sections
+   (wildcard)
    "="
    "|"
    "::"
