@@ -1,0 +1,30 @@
+[package]
+name = "tree-sitter-xml"
+description = "XML grammar for tree-sitter"
+version = "0.2.0"
+license = "MIT"
+readme = "README.md"
+keywords = ["incremental", "parsing", "dtd", "xml"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/ObserverOfTime/tree-sitter-xml"
+edition = "2021"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "tree-sitter-dtd/grammar.js",
+  "tree-sitter-dtd/src/*",
+  "tree-sitter-dtd/queries/*",
+  "tree-sitter-xml/grammar.js",
+  "tree-sitter-xml/src/*",
+  "tree-sitter-xml/queries/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "~0.20.10"
+
+[build-dependencies]
+cc = "1.0"

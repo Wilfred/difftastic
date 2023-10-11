@@ -1,0 +1,119 @@
+================================================================================
+XML Model
+================================================================================
+
+<?xml version="1.0"?>
+<?xml-model href="http://www.docbook.org/xml/5.0/rng/docbook.rng"?>
+<?xml-model href="http://www.docbook.org/xml/5.0/xsd/docbook.xsd"?>
+<book xmlns="http://docbook.org/ns/docbook">
+ …
+</book>
+
+--------------------------------------------------------------------------------
+
+(document
+  (prolog
+    (XMLDecl
+      (VersionNum))
+    (XmlModelPI
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue)))
+    (XmlModelPI
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue))))
+  (element
+    (STag
+      (Name)
+      (Attribute
+        (Name)
+        (AttValue)))
+    (content
+      (CharData))
+    (ETag
+      (Name))))
+
+================================================================================
+XML Stylesheet
+================================================================================
+
+<?xml-stylesheet href="common.css"?>
+<?xml-stylesheet href="default.css" title="Default style"?>
+<?xml-stylesheet alternate="yes" href="alt.css" title="Alternative style"?>
+<?xml-stylesheet href="single-col.css" media="all and (max-width: 30em)"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>Example with xml-stylesheet processing instructions</title>
+ </head>
+ <body>
+  ...
+ </body>
+</html>
+
+--------------------------------------------------------------------------------
+
+(document
+  (prolog
+    (StyleSheetPI
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue)))
+    (StyleSheetPI
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue))
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue)))
+    (StyleSheetPI
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue))
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue))
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue)))
+    (StyleSheetPI
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue))
+      (PseudoAtt
+        (Name)
+        (PseudoAttValue))))
+  (element
+    (STag
+      (Name)
+      (Attribute
+        (Name)
+        (AttValue)))
+    (content
+      (CharData)
+      (element
+        (STag
+          (Name))
+        (content
+          (CharData)
+          (element
+            (STag
+              (Name))
+            (content
+              (CharData))
+            (ETag
+              (Name)))
+          (CharData))
+        (ETag
+          (Name)))
+      (CharData)
+      (element
+        (STag
+          (Name))
+        (content
+          (CharData))
+        (ETag
+          (Name)))
+      (CharData))
+    (ETag
+      (Name))))

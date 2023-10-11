@@ -1,0 +1,1114 @@
+[
+  {
+    "type": "_AttType",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "PEReference",
+        "named": true
+      },
+      {
+        "type": "StringType",
+        "named": true
+      },
+      {
+        "type": "TokenizedType",
+        "named": true
+      },
+      {
+        "type": "_EnumeratedType",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_EntityDecl",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "GEDecl",
+        "named": true
+      },
+      {
+        "type": "PEDecl",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_EnumeratedType",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "Enumeration",
+        "named": true
+      },
+      {
+        "type": "NotationType",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_Reference",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "CharRef",
+        "named": true
+      },
+      {
+        "type": "EntityRef",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_markupdecl",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "AttlistDecl",
+        "named": true
+      },
+      {
+        "type": "Comment",
+        "named": true
+      },
+      {
+        "type": "NotationDecl",
+        "named": true
+      },
+      {
+        "type": "PI",
+        "named": true
+      },
+      {
+        "type": "_EntityDecl",
+        "named": true
+      },
+      {
+        "type": "elementdecl",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "AttDef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "DefaultDecl",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "_AttType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AttValue",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "AttlistDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AttDef",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AttValue",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CDSect",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "CDStart",
+          "named": true
+        },
+        {
+          "type": "CData",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CDStart",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "CharRef",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "DefaultDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "AttValue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ETag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "EmptyElemTag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Attribute",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "EntityRef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "EntityValue",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "PEReference",
+            "named": true
+          },
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Enumeration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Nmtoken",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ExternalID",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "PubidLiteral",
+          "named": true
+        },
+        {
+          "type": "SystemLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "GEDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "EntityValue",
+          "named": true
+        },
+        {
+          "type": "ExternalID",
+          "named": true
+        },
+        {
+          "type": "NDataDecl",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Mixed",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "NDataDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "NotationDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ExternalID",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "PublicID",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "NotationType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PEDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "EntityValue",
+          "named": true
+        },
+        {
+          "type": "ExternalID",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PEReference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PI",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "PITarget",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PseudoAtt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PseudoAttValue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PseudoAttValue",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_Reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "PubidLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "PublicID",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "PubidLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "STag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Attribute",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "StringType",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "StyleSheetPI",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "PseudoAtt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SystemLiteral",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "URI",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "XMLDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "EncName",
+          "named": true
+        },
+        {
+          "type": "VersionNum",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "XmlModelPI",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "PseudoAtt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "children",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "CDSect",
+          "named": true
+        },
+        {
+          "type": "CharData",
+          "named": true
+        },
+        {
+          "type": "Comment",
+          "named": true
+        },
+        {
+          "type": "PI",
+          "named": true
+        },
+        {
+          "type": "_Reference",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contentspec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "Mixed",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "children",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "doctypedecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ExternalID",
+          "named": true
+        },
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "_markupdecl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "document",
+    "named": true,
+    "fields": {
+      "root": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "element",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Comment",
+          "named": true
+        },
+        {
+          "type": "PI",
+          "named": true
+        },
+        {
+          "type": "StyleSheetPI",
+          "named": true
+        },
+        {
+          "type": "XmlModelPI",
+          "named": true
+        },
+        {
+          "type": "prolog",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ETag",
+          "named": true
+        },
+        {
+          "type": "EmptyElemTag",
+          "named": true
+        },
+        {
+          "type": "STag",
+          "named": true
+        },
+        {
+          "type": "content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "elementdecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Name",
+          "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "contentspec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prolog",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Comment",
+          "named": true
+        },
+        {
+          "type": "PI",
+          "named": true
+        },
+        {
+          "type": "StyleSheetPI",
+          "named": true
+        },
+        {
+          "type": "XMLDecl",
+          "named": true
+        },
+        {
+          "type": "XmlModelPI",
+          "named": true
+        },
+        {
+          "type": "doctypedecl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#FIXED",
+    "named": false
+  },
+  {
+    "type": "#IMPLIED",
+    "named": false
+  },
+  {
+    "type": "#PCDATA",
+    "named": false
+  },
+  {
+    "type": "#REQUIRED",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&#",
+    "named": false
+  },
+  {
+    "type": "&#x",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "/>",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<!",
+    "named": false
+  },
+  {
+    "type": "<![",
+    "named": false
+  },
+  {
+    "type": "</",
+    "named": false
+  },
+  {
+    "type": "<?",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "?>",
+    "named": false
+  },
+  {
+    "type": "ANY",
+    "named": false
+  },
+  {
+    "type": "ATTLIST",
+    "named": false
+  },
+  {
+    "type": "CDATA",
+    "named": false
+  },
+  {
+    "type": "CData",
+    "named": true
+  },
+  {
+    "type": "CharData",
+    "named": true
+  },
+  {
+    "type": "Comment",
+    "named": true
+  },
+  {
+    "type": "DOCTYPE",
+    "named": false
+  },
+  {
+    "type": "ELEMENT",
+    "named": false
+  },
+  {
+    "type": "EMPTY",
+    "named": false
+  },
+  {
+    "type": "ENTITY",
+    "named": false
+  },
+  {
+    "type": "EncName",
+    "named": true
+  },
+  {
+    "type": "IGNORE",
+    "named": false
+  },
+  {
+    "type": "INCLUDE",
+    "named": false
+  },
+  {
+    "type": "NDATA",
+    "named": false
+  },
+  {
+    "type": "NOTATION",
+    "named": false
+  },
+  {
+    "type": "Name",
+    "named": true
+  },
+  {
+    "type": "Nmtoken",
+    "named": true
+  },
+  {
+    "type": "PITarget",
+    "named": true
+  },
+  {
+    "type": "PUBLIC",
+    "named": false
+  },
+  {
+    "type": "SYSTEM",
+    "named": false
+  },
+  {
+    "type": "TokenizedType",
+    "named": true
+  },
+  {
+    "type": "URI",
+    "named": true
+  },
+  {
+    "type": "VersionNum",
+    "named": true
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "]]>",
+    "named": false
+  },
+  {
+    "type": "encoding",
+    "named": false
+  },
+  {
+    "type": "no",
+    "named": false
+  },
+  {
+    "type": "standalone",
+    "named": false
+  },
+  {
+    "type": "version",
+    "named": false
+  },
+  {
+    "type": "xml",
+    "named": false
+  },
+  {
+    "type": "xml-model",
+    "named": false
+  },
+  {
+    "type": "xml-stylesheet",
+    "named": false
+  },
+  {
+    "type": "yes",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  }
+]

@@ -1,0 +1,104 @@
+================================================================================
+Invalid comment
+================================================================================
+
+<error>
+<!-- invalid -- -->
+</error>
+
+--------------------------------------------------------------------------------
+
+(ERROR
+  (STag
+    (Name))
+  (content
+    (CharData)
+    (element
+      (STag
+        (ERROR
+          (Nmtoken))
+        (Name)
+        (ERROR
+          (Nmtoken)
+          (Nmtoken)))
+      (content
+        (CharData))
+      (ETag
+        (Name)))
+    (CharData)))
+
+================================================================================
+Invalid processing instructions
+================================================================================
+
+<?xml is invalid?>
+<error>
+<?bar is ?> invalid?>
+</error>
+
+--------------------------------------------------------------------------------
+
+(document
+  (ERROR
+    (Name)
+    (Name))
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData))
+    (ERROR
+      (PITarget)
+      (Name)
+      (Name))
+    (ETag
+      (Name))))
+
+================================================================================
+Invalid character data
+================================================================================
+
+<error>
+<raw>
+This is not valid: ]]>
+</raw>
+<cdata>
+<![CDATA[ ]]> is invalid ]]>
+</cdata>
+</error>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData)
+      (element
+        (STag
+          (Name))
+        (ERROR
+          (Name)
+          (Name)
+          (Name)
+          (Name))
+        (ETag
+          (Name)))
+      (CharData)
+      (element
+        (STag
+          (Name))
+        (content
+          (CharData)
+          (CDSect
+            (CDStart)
+            (CData)))
+        (ERROR
+          (Name)
+          (Name))
+        (ETag
+          (Name)))
+      (CharData))
+    (ETag
+      (Name))))

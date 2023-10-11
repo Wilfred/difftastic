@@ -40,24 +40,25 @@ mod version;
 #[macro_use]
 extern crate log;
 
+use log::info;
+use mimalloc::MiMalloc;
+
+use crate::conflicts::apply_conflict_markers;
 use crate::conflicts::START_LHS_MARKER;
+use crate::diff::changes::ChangeMap;
+use crate::diff::dijkstra::ExceededGraphLimit;
 use crate::diff::{dijkstra, unchanged};
+use crate::display::context::opposite_positions;
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
-use crate::parse::guess_language::language_globs;
-use crate::parse::syntax;
-use conflicts::apply_conflict_markers;
-use diff::changes::ChangeMap;
-use diff::dijkstra::ExceededGraphLimit;
-use display::context::opposite_positions;
-use exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
-use files::{
+use crate::exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
+use crate::files::{
     guess_content, read_file_or_die, read_files_or_die, read_or_die, relative_paths_in_either,
     ProbableFileKind,
 };
-use log::info;
-use mimalloc::MiMalloc;
-use parse::guess_language::{guess, language_name, Language, LanguageOverride};
+use crate::parse::guess_language::language_globs;
+use crate::parse::guess_language::{guess, language_name, Language, LanguageOverride};
+use crate::parse::syntax;
 
 /// The global allocator used by difftastic.
 ///
@@ -66,19 +67,20 @@ use parse::guess_language::{guess, language_name, Language, LanguageOverride};
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use diff::sliders::fix_all_sliders;
-use humansize::{format_size, BINARY};
-use options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
-use owo_colors::OwoColorize;
-use rayon::prelude::*;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::{env, path::Path};
+
+use humansize::{format_size, BINARY};
+use owo_colors::OwoColorize;
+use rayon::prelude::*;
 use strum::IntoEnumIterator;
-use summary::{DiffResult, FileContent, FileFormat};
-use syntax::init_next_prev;
 use typed_arena::Arena;
 
+use crate::diff::sliders::fix_all_sliders;
+use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
+use crate::summary::{DiffResult, FileContent, FileFormat};
+use crate::syntax::init_next_prev;
 use crate::{
     dijkstra::mark_syntax, lines::MaxLine, parse::syntax::init_all_info,
     parse::tree_sitter_parser as tsp,
@@ -333,7 +335,7 @@ fn diff_file(
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
-    let (lhs_src, rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
+    let (mut lhs_src, mut rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
                 extra_info,
@@ -350,6 +352,11 @@ fn diff_file(
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
     };
+
+    if diff_options.strip_cr {
+        lhs_src.retain(|c| c != '\r');
+        rhs_src.retain(|c| c != '\r');
+    }
 
     diff_file_content(
         display_path,
@@ -372,13 +379,17 @@ fn diff_conflicts_file(
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> DiffResult {
     let bytes = read_file_or_die(path);
-    let src = match guess_content(&bytes) {
+    let mut src = match guess_content(&bytes) {
         ProbableFileKind::Text(src) => src,
         ProbableFileKind::Binary => {
             eprintln!("error: Expected a text file with conflict markers, got a binary file.");
             std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
+
+    if diff_options.strip_cr {
+        src.retain(|c| c != '\r');
+    }
 
     let conflict_files = match apply_conflict_markers(&src) {
         Ok(cf) => cf,
@@ -463,7 +474,7 @@ fn diff_file_content(
     };
 
     let language = guess(guess_path, guess_src, overrides);
-    let lang_config = language.map(tsp::from_language);
+    let lang_config = language.map(|lang| (lang.clone(), tsp::from_language(lang)));
 
     if lhs_src == rhs_src {
         let file_format = match language {
@@ -498,9 +509,9 @@ fn diff_file_content(
             let rhs_positions = line_parser::change_positions(rhs_src, lhs_src);
             (file_format, lhs_positions, rhs_positions)
         }
-        Some(ts_lang) => {
+        Some((language, lang_config)) => {
             let arena = Arena::new();
-            match tsp::to_tree_with_limit(diff_options, &ts_lang, lhs_src, rhs_src) {
+            match tsp::to_tree_with_limit(diff_options, &lang_config, lhs_src, rhs_src) {
                 Ok((lhs_tree, rhs_tree)) => {
                     match tsp::to_syntax_with_limit(
                         lhs_src,
@@ -508,21 +519,16 @@ fn diff_file_content(
                         &lhs_tree,
                         &rhs_tree,
                         &arena,
-                        &ts_lang,
+                        &lang_config,
                         diff_options,
                     ) {
                         Ok((lhs, rhs)) => {
                             if diff_options.check_only {
-                                let file_format = match language {
-                                    Some(language) => FileFormat::SupportedLanguage(language),
-                                    None => FileFormat::PlainText,
-                                };
-
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
                                     extra_info,
                                     display_path: display_path.to_string(),
-                                    file_format,
+                                    file_format: FileFormat::SupportedLanguage(language),
                                     lhs_src: FileContent::Text(lhs_src.to_owned()),
                                     rhs_src: FileContent::Text(rhs_src.to_owned()),
                                     lhs_positions: vec![],
@@ -571,10 +577,6 @@ fn diff_file_content(
                                     rhs_positions,
                                 )
                             } else {
-                                // TODO: Make this .expect() unnecessary.
-                                let language = language.expect(
-                                    "If we had a ts_lang, we must have guessed the language",
-                                );
                                 fix_all_sliders(language, &lhs, &mut change_map);
                                 fix_all_sliders(language, &rhs, &mut change_map);
 
@@ -583,11 +585,11 @@ fn diff_file_content(
 
                                 if diff_options.ignore_comments {
                                     let lhs_comments =
-                                        tsp::comment_positions(&lhs_tree, lhs_src, &ts_lang);
+                                        tsp::comment_positions(&lhs_tree, lhs_src, &lang_config);
                                     lhs_positions.extend(lhs_comments);
 
                                     let rhs_comments =
-                                        tsp::comment_positions(&rhs_tree, rhs_src, &ts_lang);
+                                        tsp::comment_positions(&rhs_tree, rhs_src, &lang_config);
                                     rhs_positions.extend(rhs_comments);
                                 }
 
@@ -601,8 +603,9 @@ fn diff_file_content(
                         Err(tsp::ExceededParseErrorLimit(error_count)) => {
                             let file_format = FileFormat::TextFallback {
                                 reason: format!(
-                                    "{} error{}, exceeded DFT_PARSE_ERROR_LIMIT",
+                                    "{} {} parse error{}, exceeded DFT_PARSE_ERROR_LIMIT",
                                     error_count,
+                                    language_name(language),
                                     if error_count == 1 { "" } else { "s" }
                                 ),
                             };

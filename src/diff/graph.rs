@@ -1,15 +1,17 @@
 //! A graph representation for computing tree diffs.
 
-use bumpalo::Bump;
-use hashbrown::hash_map::RawEntryMut;
 use std::{
     cell::{Cell, RefCell},
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
 };
+
+use bumpalo::Bump;
+use hashbrown::hash_map::RawEntryMut;
 use strsim::normalized_levenshtein;
 
+use self::Edge::*;
 use crate::{
     diff::{
         changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
@@ -18,7 +20,6 @@ use crate::{
     hash::DftHashMap,
     parse::syntax::{AtomKind, Syntax, SyntaxId},
 };
-use Edge::*;
 
 /// A vertex in a directed acyclic graph that represents a diff.
 ///
@@ -272,7 +273,7 @@ impl<'s, 'b> Vertex<'s, 'b> {
 /// at least a NovelFoo edge. Depending on the syntax nodes of the
 /// current [`Vertex`], other edges may also be available.
 ///
-/// See [`neighbours`] for all the edges available for a given `Vertex`.
+/// See [`set_neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
     UnchangedNode {
@@ -584,12 +585,12 @@ pub fn set_neighbours<'s, 'b>(
         if let (
             Syntax::Atom {
                 content: lhs_content,
-                kind: lhs_kind @ AtomKind::Comment | lhs_kind @ AtomKind::String,
+                kind: lhs_kind @ AtomKind::Comment | lhs_kind @ AtomKind::String(_),
                 ..
             },
             Syntax::Atom {
                 content: rhs_content,
-                kind: rhs_kind @ AtomKind::Comment | rhs_kind @ AtomKind::String,
+                kind: rhs_kind @ AtomKind::Comment | rhs_kind @ AtomKind::String(_),
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)

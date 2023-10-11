@@ -1,3 +1,8 @@
+use std::collections::HashMap;
+
+use line_numbers::LineNumber;
+use serde::{ser::SerializeStruct, Serialize, Serializer};
+
 use crate::{
     display::{
         context::{all_matched_lines_filled, opposite_positions},
@@ -5,12 +10,9 @@ use crate::{
         side_by_side::lines_with_novel,
     },
     lines::MaxLine,
-    parse::syntax::{self, MatchedPos},
+    parse::syntax::{self, MatchedPos, StringKind},
     summary::{DiffResult, FileContent, FileFormat},
 };
-use line_numbers::LineNumber;
-use serde::{ser::SerializeStruct, Serialize, Serializer};
-use std::collections::HashMap;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "lowercase")]
@@ -259,7 +261,8 @@ impl Highlight {
         match highlight {
             TokenKind::Delimiter => Highlight::Delimiter,
             TokenKind::Atom(atom) => match atom {
-                AtomKind::String => Highlight::String,
+                AtomKind::String(StringKind::StringLiteral) => Highlight::String,
+                AtomKind::String(StringKind::Text) => Highlight::Normal,
                 AtomKind::Keyword => Highlight::Keyword,
                 AtomKind::Comment => Highlight::Comment,
                 AtomKind::Type => Highlight::Type,

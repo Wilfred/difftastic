@@ -2,11 +2,13 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
+use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
+
 use line_numbers::LinePositions;
 use line_numbers::SingleLineSpan;
-use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
 
+use self::Syntax::*;
 use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
@@ -14,7 +16,6 @@ use crate::{
     hash::DftHashMap,
     lines::is_all_whitespace,
 };
-use Syntax::*;
 
 /// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will
@@ -558,10 +559,22 @@ impl<'a> PartialEq for Syntax<'a> {
 }
 impl<'a> Eq for Syntax<'a> {}
 
+/// Different types of strings. We want to diff these the same way,
+/// but highlight them differently.
+#[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
+pub enum StringKind {
+    /// A string literal, such as `"foo"`.
+    StringLiteral,
+    /// Plain text, such as the content of `<p>foo</p>`.
+    Text,
+}
+
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
     Normal,
-    String,
+    // TODO: We should either have a AtomWithWords(HighlightKind) or a
+    // separate String, Text and Comment kind.
+    String(StringKind),
     Type,
     Comment,
     Keyword,
@@ -708,7 +721,7 @@ fn split_atom_words(
     opposite_pos: &[SingleLineSpan],
     kind: AtomKind,
 ) -> Vec<MatchedPos> {
-    debug_assert!(kind == AtomKind::Comment || kind == AtomKind::String);
+    debug_assert!(kind == AtomKind::Comment || matches!(kind, AtomKind::String(_)));
 
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
@@ -836,10 +849,17 @@ impl MatchedPos {
                         content, position, ..
                     } => (content, position),
                 };
-                let kind = if let ReplacedComment(_, _) = ck {
-                    AtomKind::Comment
+
+                let kind = if let ReplacedString(this, _) = ck {
+                    match this {
+                        Atom {
+                            kind: AtomKind::String(StringKind::Text),
+                            ..
+                        } => AtomKind::String(StringKind::Text),
+                        _ => AtomKind::String(StringKind::StringLiteral),
+                    }
                 } else {
-                    AtomKind::String
+                    AtomKind::Comment
                 };
 
                 split_atom_words(this_content, pos, opposite_content, opposite_pos, kind)
@@ -1030,8 +1050,9 @@ pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     /// Consider comment atoms as distinct to other atoms even if the
     /// content matches otherwise.

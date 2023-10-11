@@ -69,6 +69,7 @@ pub struct DiffOptions {
     pub check_only: bool,
     pub ignore_comments: bool,
     pub ignored_paths: Vec<PathBuf>,
+    pub strip_cr: bool,
 }
 
 impl Default for DiffOptions {
@@ -81,6 +82,7 @@ impl Default for DiffOptions {
             check_only: false,
             ignore_comments: false,
             ignored_paths,
+            strip_cr: false,
         }
     }
 }
@@ -223,6 +225,11 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("exit-code").long("exit-code")
                 .env("DFT_EXIT_CODE")
                 .help("Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.")
+        )
+        .arg(
+            Arg::new("strip-cr").long("strip-cr")
+                .env("DFT_STRIP_CR")
+                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
@@ -627,6 +634,8 @@ pub fn parse_args() -> Mode {
 
     let set_exit_code = matches.is_present("exit-code");
 
+    let strip_cr = matches.is_present("strip-cr");
+
     let check_only = matches.is_present("check-only");
 
     let ignored_paths = DiffOptions::fetch_git_ignore_paths();
@@ -638,6 +647,7 @@ pub fn parse_args() -> Mode {
         check_only,
         ignore_comments,
         ignored_paths,
+        strip_cr,
     };
 
     let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();

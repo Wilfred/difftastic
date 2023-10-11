@@ -1,13 +1,13 @@
 //! Side-by-side (two column) display of diffs.
 
-use line_numbers::LineNumber;
-use line_numbers::SingleLineSpan;
-use owo_colors::{OwoColorize, Style};
-
 use std::{
     cmp::{max, min},
     collections::HashSet,
 };
+
+use line_numbers::LineNumber;
+use line_numbers::SingleLineSpan;
+use owo_colors::{OwoColorize, Style};
 
 use crate::{
     constants::Side,
@@ -595,13 +595,13 @@ pub fn print(
 
 #[cfg(test)]
 mod tests {
+    use pretty_assertions::assert_eq;
+
+    use super::*;
     use crate::{
         parse::guess_language::Language,
         syntax::{AtomKind, MatchKind, TokenKind},
     };
-
-    use super::*;
-    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_width_calculations() {

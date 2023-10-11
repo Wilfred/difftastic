@@ -3,15 +3,16 @@
 
 use std::{cmp::Reverse, env};
 
+use bumpalo::Bump;
+use itertools::Itertools;
+use radix_heap::RadixHeapMap;
+
 use crate::{
     diff::changes::ChangeMap,
     diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
     hash::DftHashMap,
     parse::syntax::Syntax,
 };
-use bumpalo::Bump;
-use itertools::Itertools;
-use radix_heap::RadixHeapMap;
 
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
@@ -248,18 +249,17 @@ pub fn mark_syntax<'a>(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use itertools::Itertools;
+    use line_numbers::SingleLineSpan;
+    use typed_arena::Arena;
 
+    use super::*;
     use crate::{
         diff::changes::ChangeKind,
         diff::graph::Edge::*,
         options::DEFAULT_GRAPH_LIMIT,
         syntax::{init_all_info, AtomKind},
     };
-
-    use itertools::Itertools;
-    use line_numbers::SingleLineSpan;
-    use typed_arena::Arena;
 
     fn pos_helper(line: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {

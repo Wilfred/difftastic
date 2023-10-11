@@ -1,0 +1,22 @@
+name: Test grammars
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+      - uses: actions/setup-node@v3
+        name: Set up NodeJS
+        with:
+          node-version: 16
+      - run: npm install
+        name: Install dependencies
+      - run: npm test
+        name: Run tests

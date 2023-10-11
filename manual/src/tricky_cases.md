@@ -89,7 +89,7 @@ This case is similar to the expanding delimiter case.
 (foo (novel) (bar))
 ```
 
-Desired result: <code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar)</code>
+Desired result: <code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar))</code>
 
 It is easy to end up with
 <code>(foo (<span style="background-color:PaleGreen; color: #000">novel</span>) <span style="background-color:PaleGreen; color: #000">(</span>bar<span style="background-color:PaleGreen; color: #000">)</span>)</code>,
@@ -432,5 +432,17 @@ There's no guarantee that the input we're given is valid syntax. Even
 if the code is valid, it might use syntax that isn't supported by the
 parser.
 
-Tree-sitter provided explicit error nodes, and difftastic treats them
-as atoms so it can run the same tree diff algorithm regardless.
+**Difftastic**: Difftastic will fall back to a text-based diff if any
+parse errors occur, to avoid diffing incomplete syntax trees. When
+this occurs, the file header reports the error count.
+
+```
+$ difft sample_files/syntax_error_before.js sample_files/syntax_error_after.js
+sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+...
+```
+
+Users may opt-in to syntactic diffing by setting
+`DFT_PARSE_ERROR_LIMIT` to a larger value. In this mode, difftastic
+treats tree-sitter error nodes as atoms and performs a tree diff as
+normal.

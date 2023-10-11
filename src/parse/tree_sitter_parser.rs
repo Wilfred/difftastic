@@ -2,20 +2,19 @@
 
 use std::collections::HashSet;
 
-use crate::hash::DftHashMap;
-use crate::options::DiffOptions;
-use crate::parse::guess_language as guess;
 use line_numbers::LinePositions;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
+use super::syntax::MatchedPos;
+use super::syntax::{self, StringKind};
+use crate::hash::DftHashMap;
+use crate::options::DiffOptions;
+use crate::parse::guess_language as guess;
 use crate::parse::syntax::{AtomKind, Syntax};
 
-use super::syntax;
-use super::syntax::MatchedPos;
-
 /// A language may contain certain nodes that are in other languages
-/// and should be parsed as such (e.g. HTML <script> nodes containing
+/// and should be parsed as such (e.g. HTML `<script>` nodes containing
 /// JavaScript). This contains how to identify such nodes, and what
 /// languages we should parse them as.
 ///
@@ -112,6 +111,7 @@ extern "C" {
     fn tree_sitter_toml() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
+    fn tree_sitter_xml() -> ts::Language;
     fn tree_sitter_yaml() -> ts::Language;
     fn tree_sitter_zig() -> ts::Language;
 }
@@ -242,6 +242,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     "string_literal",
                     "verbatim_string_literal",
                     "character_literal",
+                    "modifier",
                 ]
                 .into_iter()
                 .collect(),
@@ -997,6 +998,23 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Xml => {
+            let language = unsafe { tree_sitter_xml() };
+            TreeSitterConfig {
+                language,
+                // XMLDecl is the <?xml ...?> header, but the parser
+                // just treats it as a sequence of tokens rather than
+                // e.g. string subexpressions, so flatten.
+                atom_nodes: vec!["AttValue", "XMLDecl"].into_iter().collect(),
+                delimiter_tokens: (vec![("<", ">")]),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/xml.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Yaml => {
             let language = unsafe { tree_sitter_yaml() };
             TreeSitterConfig {
@@ -1519,6 +1537,8 @@ fn list_from_cursor<'a>(
     let outer_close_content = "";
     let outer_close_position = nl_pos.from_offsets(root_node.end_byte(), root_node.end_byte());
 
+    // TODO: this should probably only allow the delimiters to be the
+    // first and last child in the list.
     let (i, j) = match find_delim_positions(src, cursor, &config.delimiter_tokens) {
         Some((i, j)) => (i as isize, j as isize),
         None => (-1, root_node.child_count() as isize),
@@ -1683,9 +1703,11 @@ fn atom_from_cursor<'a>(
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
     } else if highlights.string_ids.contains(&node.id()) {
-        AtomKind::String
+        AtomKind::String(StringKind::StringLiteral)
     } else if highlights.type_ids.contains(&node.id()) {
         AtomKind::Type
+    } else if node.kind() == "CharData" || node.kind() == "text" {
+        AtomKind::String(StringKind::Text)
     } else {
         AtomKind::Normal
     };

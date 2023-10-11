@@ -19,7 +19,7 @@ jobs:
 
   deploy:
     needs: pre_deploy
-    if: needs.pre_job.outputs.should_skip != 'true'
+    if: needs.pre_deploy.outputs.should_skip != 'true'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
-          mdbook-version: '0.4.18'
+          mdbook-version: '0.4.34'
 
       - name: Build manual
         run: mdbook build
@@ -50,7 +50,7 @@ jobs:
         run: cp -r translation/zh-CN/manual-zh-CN/book manual/book/zh-CN
 
       - name: Deploy to GitHub pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: gh-pages
           folder: manual/book

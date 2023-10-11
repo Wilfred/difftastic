@@ -34,9 +34,8 @@ use line_numbers::SingleLineSpan;
 use crate::{
     diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
     parse::guess_language,
-    parse::syntax::Syntax,
+    parse::syntax::Syntax::{self, *},
 };
-use Syntax::*;
 
 pub fn fix_all_sliders<'a>(
     language: guess_language::Language,
@@ -672,14 +671,15 @@ impl<'a> Syntax<'a> {
 
 #[cfg(test)]
 mod tests {
+    use pretty_assertions::assert_eq;
+    use typed_arena::Arena;
+
     use super::*;
     use crate::{
         parse::guess_language,
         parse::tree_sitter_parser::{from_language, parse},
         syntax::{init_all_info, AtomKind},
     };
-    use pretty_assertions::assert_eq;
-    use typed_arena::Arena;
 
     /// Test that we slide at the start if the unchanged node is
     /// closer than the trailing novel node.

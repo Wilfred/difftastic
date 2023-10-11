@@ -1,7 +1,8 @@
 //! Manipulate lines of text and groups of lines.
 
-use line_numbers::LineNumber;
 use std::ops::Sub;
+
+use line_numbers::LineNumber;
 
 pub fn format_line_num(line_num: LineNumber) -> String {
     format!("{} ", line_num.display())
@@ -51,8 +52,9 @@ pub fn is_all_whitespace(s: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn str_max_line() {

@@ -1,6 +1,6 @@
 //! Apply conflict markers to obtain the original file contents.
 //!
-//! https://git-scm.com/docs/git-merge#Documentation/git-merge.txt-mergeconflictStyle
+//! <https://git-scm.com/docs/git-merge#Documentation/git-merge.txt-mergeconflictStyle>
 
 use ConflictState::*;
 

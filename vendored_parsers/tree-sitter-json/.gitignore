@@ -1,6 +1,6 @@
+Cargo.lock
 node_modules
 build
-target
-*.log
 package-lock.json
-Cargo.lock
+/target/
+.build/

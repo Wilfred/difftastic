@@ -6,7 +6,6 @@ use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::myers_diff;
-
 use crate::parse::syntax::Syntax;
 
 const TINY_TREE_THRESHOLD: u32 = 10;
@@ -461,13 +460,14 @@ fn shrink_unchanged_at_ends<'a>(
 
 #[cfg(test)]
 mod tests {
+    use typed_arena::Arena;
+
     use super::*;
     use crate::{
         parse::guess_language,
         parse::tree_sitter_parser::{from_language, parse},
         syntax::init_all_info,
     };
-    use typed_arena::Arena;
 
     #[test]
     fn test_shrink_unchanged_at_start() {

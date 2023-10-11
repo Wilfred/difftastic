@@ -8,9 +8,10 @@
 //! Difftastic does not reuse languages.yml directly. Linguist has a
 //! larger set of language detection strategies.
 
+use std::{borrow::Borrow, path::Path};
+
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::{borrow::Borrow, path::Path};
 use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
@@ -69,6 +70,7 @@ pub enum Language {
     Toml,
     TypeScript,
     TypeScriptTsx,
+    Xml,
     Yaml,
     Zig,
 }
@@ -153,6 +155,7 @@ pub fn language_name(language: Language) -> &'static str {
         Toml => "TOML",
         TypeScript => "TypeScript",
         TypeScriptTsx => "TypeScript TSX",
+        Xml => "XML",
         Yaml => "YAML",
         Zig => "Zig",
     }
@@ -340,6 +343,25 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         TypeScript => &["*.ts"],
         TypeScriptTsx => &["*.tsx"],
+        Xml => &[
+            "*.ant",
+            "*.csproj",
+            "*.plist",
+            "*.resx",
+            "*.svg",
+            "*.ui",
+            "*.vbproj",
+            "*.xaml",
+            "*.xml",
+            "*.xsl",
+            "*.xslt",
+            "App.config",
+            "nuget.config",
+            "packages.config",
+            ".classpath",
+            ".cproject",
+            ".project",
+        ],
         Yaml => &["*.yaml", "*.yml"],
         Zig => &["*.zig"],
     };
@@ -438,6 +460,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "java" => Some(Java),
             "js" | "js2" => Some(JavaScript),
             "lisp" => Some(CommonLisp),
+            "nxml" => Some(Xml),
             "perl" => Some(Perl),
             "python" => Some(Python),
             "racket" => Some(Racket),
@@ -527,8 +550,9 @@ fn from_glob(path: &Path) -> Option<Language> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn test_guess_by_extension() {

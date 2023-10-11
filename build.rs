@@ -6,8 +6,9 @@
 // body for readability.
 #![allow(clippy::if_same_then_else)]
 
-use rayon::prelude::*;
 use std::{path::PathBuf, process::Command};
+
+use rayon::prelude::*;
 use version_check as rustc;
 
 struct TreeSitterParser {
@@ -333,6 +334,11 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-typescript",
             src_dir: "vendored_parsers/tree-sitter-typescript-src/typescript/src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-xml",
+            src_dir: "vendored_parsers/tree-sitter-xml-src/tree-sitter-xml/src",
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {

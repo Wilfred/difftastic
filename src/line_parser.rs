@@ -194,9 +194,10 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use line_numbers::SingleLineSpan;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn test_split_newlines() {
