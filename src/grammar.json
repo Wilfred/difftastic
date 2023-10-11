@@ -6260,6 +6260,10 @@
     {
       "type": "STRING",
       "value": "}"
+    },
+    {
+      "type": "STRING",
+      "value": "except"
     }
   ],
   "inline": [

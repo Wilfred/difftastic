@@ -88,6 +88,7 @@ module.exports = grammar({
     ']',
     ')',
     '}',
+    'except',
   ],
 
   inline: $ => [
