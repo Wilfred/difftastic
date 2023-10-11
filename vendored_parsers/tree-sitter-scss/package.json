@@ -1,0 +1,33 @@
+{
+  "name": "tree-sitter-scss",
+  "version": "0.0.1",
+  "description": "SCSS grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Serenade Labs, Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.11.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.4"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "build-test": "tree-sitter generate && node-gyp build && tree-sitter test",
+    "test": "tree-sitter test && tree-sitter parse examples/*.scss --quiet --time",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.scss",
+      "file-types": [
+        "scss"
+      ],
+      "injection-regex": "^scss$"
+    }
+  ]
+}

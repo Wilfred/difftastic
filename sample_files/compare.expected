@@ -187,6 +187,9 @@ sample_files/scala_before.scala sample_files/scala_after.scala
 sample_files/simple_before.js sample_files/simple_after.js
 c9c5d1c61b7e8a953a361343bcd13c95  -
 
+sample_files/simple_before.scss sample_files/simple_after.scss
+1bef0ac0550e0cf2c8839446bd05d98e  -
+
 sample_files/simple_before.txt sample_files/simple_after.txt
 8b88ed3d752ca7ae72ed2a44e3cfc9df  -
 

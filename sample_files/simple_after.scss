@@ -1,0 +1,28 @@
+@mixin buttons($basicBorder:1px, $gradient1:#333, $gradient2:#d8dee7){
+  button{
+    border:$basicBorder dotted #acbed3;
+    //brings in Compass' background-image mixin:  http://compass-style.org/reference/compass/css3/images/
+    @include background-image(linear-gradient($gradient1, $gradient2));
+    padding:3px 14px;
+    font-size:1rem;
+    color:#3b557d;
+    //brings in Compass' border-radius mixin: http://compass-style.org/reference/compass/css3/border_radius/
+    @include border-radius($border-radius, $border-radius);
+    cursor:pointer;
+    
+    //& attribute adds 
+    
+    &.primary {
+      border:2px dotted #3b557d; 
+      padding:5px 15px; 
+      //requires a $border-radius variable
+      @include border-radius($border-radius + 2, $border-radius + 2); 
+    }
+    &.disabled {
+      opacity: .6;
+    }
+    &:hover {
+      @include background-image(linear-gradient($gradient2, $gradient1));
+    }  
+  } 
+}
