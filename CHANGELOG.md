@@ -1,5 +1,9 @@
 ## 0.53 (unreleased)
 
+### Parsing
+
+Added support for SCSS.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
