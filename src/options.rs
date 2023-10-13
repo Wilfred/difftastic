@@ -218,6 +218,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
+                .env("DFT_SKIP_UNCHANGED")
                 .help("Don't display anything if a file is unchanged.")
         )
         .arg(

@@ -10,6 +10,9 @@ Added the option `--strip-cr`. This removes all carriage return
 characters before diffing, which is helpful when dealing with a mix of
 Windows and non-Windows flies.
 
+The option `--skip-unchanged` now has a corresponding environment
+option `DFT_SKIP_UNCHANGED`.
+
 ## 0.52 (released 8th October 2023)
 
 ### Parsing
