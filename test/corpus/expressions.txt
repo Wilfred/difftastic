@@ -53,6 +53,7 @@ Identifiers
 int main() {
   _abc;
   d_EG123;
+  $f;
 }
 
 --------------------------------------------------------------------------------
@@ -64,6 +65,8 @@ int main() {
       (identifier)
       (parameter_list))
     (compound_statement
+      (expression_statement
+        (identifier))
       (expression_statement
         (identifier))
       (expression_statement
