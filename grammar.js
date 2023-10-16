@@ -705,6 +705,8 @@ module.exports = grammar({
       $.break_statement,
       $.continue_statement,
       $.goto_statement,
+      $.seh_try_statement,
+      $.seh_leave_statement,
     ),
 
     _top_level_statement: $ => choice(
@@ -821,6 +823,27 @@ module.exports = grammar({
       'goto',
       field('label', $._statement_identifier),
       ';',
+    ),
+
+    seh_try_statement: $ => seq(
+      '__try',
+      field('body', $.compound_statement),
+      choice($.seh_except_clause, $.seh_finally_clause),
+    ),
+
+    seh_except_clause: $ => seq(
+      '__except',
+      field('filter', $.parenthesized_expression),
+      field('body', $.compound_statement),
+    ),
+
+    seh_finally_clause: $ => seq(
+      '__finally',
+      field('body', $.compound_statement),
+    ),
+
+    seh_leave_statement: _ => seq(
+      '__leave', ';',
     ),
 
     // Expressions

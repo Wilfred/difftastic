@@ -185,3 +185,69 @@ __fastcall void mymethod(){
       parameters: (parameter_list))
     body: (compound_statement
       (return_statement))))
+
+
+================================
+SEH exception handling
+================================
+
+int main() {
+    int arg;
+    __try {
+        __try {
+            arg = 1;
+            __leave;
+        } __except (-1) {
+            arg = 2;
+        }
+        __leave;
+        arg = 3;
+    } __finally {
+        printf("arg: %d\n", arg);
+    }
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (identifier))
+      (seh_try_statement
+        (compound_statement
+          (seh_try_statement
+            (compound_statement
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (number_literal)))
+              (seh_leave_statement))
+            (seh_except_clause
+              (parenthesized_expression
+                (number_literal))
+              (compound_statement
+                (expression_statement
+                  (assignment_expression
+                    (identifier)
+                    (number_literal))))))
+          (seh_leave_statement)
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (number_literal))))
+        (seh_finally_clause
+          (compound_statement
+            (expression_statement
+              (call_expression
+                (identifier)
+                (argument_list
+                  (string_literal
+                    (string_content)
+                    (escape_sequence))
+                  (identifier))))))))))

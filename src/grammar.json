@@ -4543,6 +4543,14 @@
         {
           "type": "SYMBOL",
           "name": "goto_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "seh_try_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "seh_leave_statement"
         }
       ]
     },
@@ -5085,6 +5093,91 @@
             "type": "SYMBOL",
             "name": "_statement_identifier"
           }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "seh_try_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__try"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "compound_statement"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "seh_except_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "seh_finally_clause"
+            }
+          ]
+        }
+      ]
+    },
+    "seh_except_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__except"
+        },
+        {
+          "type": "FIELD",
+          "name": "filter",
+          "content": {
+            "type": "SYMBOL",
+            "name": "parenthesized_expression"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "compound_statement"
+          }
+        }
+      ]
+    },
+    "seh_finally_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__finally"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "compound_statement"
+          }
+        }
+      ]
+    },
+    "seh_leave_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__leave"
         },
         {
           "type": "STRING",
