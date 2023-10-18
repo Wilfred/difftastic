@@ -2004,8 +2004,11 @@ bool tree_sitter_typst_external_scanner_scan(
 			lex_advance();
 			if (lex_next == '_') {
 				lex_advance();
+				if (is_id_continue(lex_next) || lex_next == '-') {
+					return false;
+				}
 			}
-			if (is_id_start(lex_next)) {
+			else if (is_id_start(lex_next)) {
 				return false;
 			}
 			lexer->result_symbol = TOKEN_INLINED_ITEM_END;
