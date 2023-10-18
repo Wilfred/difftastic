@@ -3334,10 +3334,6 @@
                 },
                 {
                   "type": "STRING",
-                  "value": "angle"
-                },
-                {
-                  "type": "STRING",
                   "value": "aqua"
                 },
                 {

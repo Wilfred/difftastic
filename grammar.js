@@ -499,7 +499,6 @@ module.exports = grammar({
     builtin: $ => seq(token(prec(1, choice(
       'align',
       'alignement',
-      'angle',
       'aqua',
       'array',
       'assert',
