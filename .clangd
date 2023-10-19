@@ -4,11 +4,20 @@
 
 ---
 CompileFlags:
-  Add: 
+  Add:
     - -Wall
+    - -Wextra
+    - -Wpedantic
     - -Wimplicit-fallthrough
-    - -std=c++14
+    - -Wwrite-strings
+    - -Wshadow
+    - -Wundef
+    - -Wformat=2
+    - -Wnull-dereference
+    - -Wno-gnu-zero-variadic-macro-arguments
     - -fno-exceptions
+    - -xc
+    - -DTREE_SITTER_INTERNAL_BUILD
 
 Diagnostics:
   ClangTidy:
@@ -25,19 +34,16 @@ Diagnostics:
     - performance-*
     - readability-*
     Remove: modernize-use-trailing-return-type
-    CheckOptions: 
+    CheckOptions:
       cppcoreguidelines-avoid-do-while.IgnoreMacros: true
       readability-function-cognitive-complexity.IgnoreMacros: true
       readability-implicit-bool-conversion.AllowPointerConditions: true
-      readability-identifier-naming.ClassCase: CamelCase
-      readability-identifier-naming.ClassMemberSuffix: _
-      readability-identifier-naming.ConstantCase: CamelCase
+      readability-identifier-naming.ConstantCase: UPPER_CASE
       readability-identifier-naming.LocalConstantCase: lower_case
-      readability-identifier-naming.EnumConstantCase: CamelCase
+      readability-identifier-naming.EnumConstantCase: UPPER_CASE
       readability-identifier-naming.FunctionCase: lower_case
       readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
       readability-identifier-naming.VariableCase: lower_case
-      misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic: true
   UnusedIncludes: Strict
-    
+
 # vim: set ft=yaml et:
