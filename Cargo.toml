@@ -5,7 +5,7 @@
 [package]
 name = "tree-sitter-nim"
 description = "nim grammar for the tree-sitter parsing library"
-version = "0.0.3"
+version = "0.2.0"
 keywords = ["incremental", "parsing", "nim"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-nim"
@@ -13,12 +13,7 @@ edition = "2018"
 license = "MPL-2.0"
 
 build = "bindings/rust/build.rs"
-include = [
-  "bindings/rust/*",
-  "grammar.js",
-  "queries/*",
-  "src/*",
-]
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 
 [lib]
 path = "bindings/rust/lib.rs"
