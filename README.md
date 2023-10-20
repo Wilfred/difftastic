@@ -20,7 +20,7 @@ The documentation of this implementation is available in [DOC](DOC.md).
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 347
+- [ ] More tests, objectif 1000, current 364
 - [ ] Documentation
 - [X] Update 0.8.0
 - [X] Fixme

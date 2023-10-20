@@ -70,7 +70,7 @@ enum termination {
 #ifdef DEBUG
 	#define unreachable() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
 	#define assert(a, ...) \
-		if (!a) {\
+		if (!(a)) {\
 			fprintf(stderr, __VA_ARGS__);\
 			exit(EXIT_FAILURE);\
 		}
@@ -2003,6 +2003,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		if (lex_next == '.') {
 			lex_advance();
 			if (lex_next == '_') {
+				// Test 361 and 362
 				lex_advance();
 				if (is_id_continue(lex_next) || lex_next == '-') {
 					return false;
