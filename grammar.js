@@ -204,6 +204,7 @@ module.exports = grammar({
     $._layout_terminator,
     $._layout_empty,
     $._inhibit_layout_end,
+    $._inhibit_keyword_termination,
     // @ts-ignore: DSL not updated for literals
     ",",
     $._synchronize,
@@ -438,7 +439,12 @@ module.exports = grammar({
     import_statement: $ => Templates.import($, keyword("import")),
     export_statement: $ => Templates.import($, keyword("export")),
     _import_body: $ => choice($.expression_list, $._import_except),
-    _import_except: $ => seq($._expression, $.except_clause),
+    _import_except: $ =>
+      seq(
+        $._expression,
+        optional($._inhibit_keyword_termination),
+        $.except_clause
+      ),
     except_clause: $ => seq(keyword("except"), $.expression_list),
 
     include_statement: $ => seq(keyword("include"), $.expression_list),
@@ -641,7 +647,8 @@ module.exports = grammar({
               "alternative",
               choice(
                 alias($._elif_declaration_branch, $.elif_branch),
-                alias($._else_declaration_branch, $.else_branch)
+                alias($._else_declaration_branch, $.else_branch),
+                $._inhibit_keyword_termination
               )
             )
           )
@@ -667,6 +674,7 @@ module.exports = grammar({
           $.variant_discriminator_declaration,
           optional(":"),
           repeat(alias($._of_declaration_branch, $.of_branch)),
+          optional($._inhibit_keyword_termination),
           optional(alias($._else_declaration_branch, $.else_branch))
         )
       ),
@@ -806,7 +814,10 @@ module.exports = grammar({
         seq(
           ":",
           field("consequence", $.statement_list),
-          field("alternative", repeat($._if_branch))
+          field(
+            "alternative",
+            repeat(choice($._inhibit_keyword_termination, $._if_branch))
+          )
         )
       ),
     _if_branch: $ => choice($.elif_branch, $.else_branch),
@@ -818,14 +829,18 @@ module.exports = grammar({
           field("value", $._expression),
           optional(":"),
           repeat($.of_branch),
-          repeat($.elif_branch),
+          repeat(seq(optional($._inhibit_keyword_termination), $.elif_branch)),
+          optional($._inhibit_keyword_termination),
           optional($.else_branch)
         )
       ),
 
     try: $ =>
       seq(keyword("try"), ":", field("body", $.statement_list), $._try_tail),
-    _try_tail: $ => prec.right(repeat1($._try_branch)),
+    _try_tail: $ =>
+      prec.right(
+        repeat1(choice($._inhibit_keyword_termination, $._try_branch))
+      ),
     _try_branch: $ => choice($.except_branch, $.finally_branch),
 
     of_branch: $ =>
@@ -980,7 +995,15 @@ module.exports = grammar({
       ),
     _post_expression_block_tail: $ =>
       repeat1(
-        seq(choice($._if_branch, $.of_branch, $._try_branch, $.do_block))
+        seq(
+          choice(
+            $._if_branch,
+            $.of_branch,
+            $._try_branch,
+            $.do_block,
+            $._inhibit_keyword_termination
+          )
+        )
       ),
 
     /* Routine expressions */

@@ -219,6 +219,7 @@ enum token_type {
   LAYOUT_TERMINATOR,
   LAYOUT_EMPTY,
   INHIBIT_LAYOUT_END,
+  INHIBIT_KEYWORD_TERMINATION,
   COMMA,
   SYNCHRONIZE,
   INVALID_LAYOUT,
@@ -240,6 +241,7 @@ const char* const TOKEN_TYPE_STR[TOKEN_TYPE_LEN] = {
     "LAYOUT_TERMINATOR",
     "LAYOUT_EMPTY",
     "INHIBIT_LAYOUT_END",
+    "INHIBIT_KEYWORD_TERMINATION",
     "COMMA",
     "SYNCHRONIZE",
     "INVALID_LAYOUT",
@@ -251,7 +253,7 @@ const char* const TOKEN_TYPE_STR[TOKEN_TYPE_LEN] = {
 #endif
 
 struct valid_tokens {
-  uint16_t bits : TOKEN_TYPE_LEN;
+  uint32_t bits : TOKEN_TYPE_LEN;
 };
 
 #define TO_VT_BIT(value) 1U << (enum token_type)(value)
@@ -576,27 +578,31 @@ exit_short_comment_loop:
   }
 
   uint32_t nesting = 0;
-  for (; !context_eof(ctx); context_advance(ctx, false)) {
+  while (!context_eof(ctx)) {
     if (context_lookahead(ctx) == '#' && context_advance(ctx, false) == '[') {
       nesting++;
       DBG_F("block comment nest level: %" PRIu32 "\n", nesting);
     }
     context_mark_end(ctx);
-    if (context_lookahead(ctx) == ']' && context_advance(ctx, false) == '#') {
-      if (nesting > 0) {
-        DBG_F("block comment terminate nest level: %" PRIu32 "\n", nesting);
-        nesting--;
-      }
-      else if (valid_tokens_test(
-                   ctx->valid_tokens, BLOCK_DOC_COMMENT_CONTENT)) {
-        if (context_advance(ctx, false) == '#') {
-          return context_finish(ctx, BLOCK_DOC_COMMENT_CONTENT);
+    if (context_lookahead(ctx) == ']') {
+      if (context_advance(ctx, false) == '#') {
+        if (nesting > 0) {
+          DBG_F("block comment terminate nest level: %" PRIu32 "\n", nesting);
+          nesting--;
+        }
+        else if (valid_tokens_test(
+                     ctx->valid_tokens, BLOCK_DOC_COMMENT_CONTENT)) {
+          if (context_advance(ctx, false) == '#') {
+            return context_finish(ctx, BLOCK_DOC_COMMENT_CONTENT);
+          }
+        }
+        else {
+          return context_finish(ctx, BLOCK_COMMENT_CONTENT);
         }
       }
-      else {
-        return context_finish(ctx, BLOCK_COMMENT_CONTENT);
-      }
+      continue;
     }
+    context_advance(ctx, false);
   }
 
   return false;
@@ -636,7 +642,7 @@ static bool chrcaseeq(uint32_t lhs, uint32_t rhs)
   return to_upper(lhs) == to_upper(rhs);
 }
 
-LEX_FN(scan_continuing_keyword)
+LEX_FN(scan_continuing_keyword, bool scan_do)
 {
 #define NEXT_OR_FAIL(chr)                          \
   do {                                             \
@@ -695,9 +701,11 @@ LEX_FN(scan_continuing_keyword)
     FINISH_IF_END;
   }
 
-  if (context_lookahead(ctx) == 'd') {
-    NEXT_OR_FAIL('o');
-    FINISH_IF_END;
+  if (scan_do) {
+    if (context_lookahead(ctx) == 'd') {
+      NEXT_OR_FAIL('o');
+      FINISH_IF_END;
+    }
   }
 
   return false;
@@ -783,7 +791,8 @@ LEX_FN(lex_indent)
     if (current_indent <= current_layout) {
       uint32_t last_count = ctx->advance_counter;
       if (current_indent == current_layout) {
-        if (scan_continuing_keyword(ctx)) {
+        if (valid_tokens_test(ctx->valid_tokens, INHIBIT_KEYWORD_TERMINATION) &&
+            scan_continuing_keyword(ctx, true)) {
           DBG("found continuing keyword");
           return false;
         }
@@ -836,7 +845,8 @@ LEX_FN(lex_indent)
 
 LEX_FN(lex_inline_layout)
 {
-  if (ctx->state->layout_stack.len == 0) {
+  if (ctx->state->layout_stack.len == 0 ||
+      (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
     return false;
   }
 
@@ -862,16 +872,20 @@ LEX_FN(lex_inline_layout)
     }
     return false;
   default:
+    if (!valid_tokens_test(ctx->valid_tokens, INHIBIT_KEYWORD_TERMINATION) &&
+        scan_continuing_keyword(ctx, false)) {
+      break;
+    }
     return false;
   }
   if (valid_tokens_test(ctx->valid_tokens, LAYOUT_TERMINATOR)) {
-    DBG("terminate via delimiter");
+    DBG("terminate via inline element");
     return context_finish(ctx, LAYOUT_TERMINATOR);
   }
 
   if (valid_tokens_test(ctx->valid_tokens, LAYOUT_END) &&
       ctx->state->layout_stack.len > 1) {
-    DBG("end layout via delimiter");
+    DBG("end layout via inline element");
     indent_vec_pop(&ctx->state->layout_stack);
     return context_finish(ctx, LAYOUT_END);
   }

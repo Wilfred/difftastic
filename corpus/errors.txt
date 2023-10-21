@@ -77,3 +77,21 @@ a
       (ERROR
         (identifier))))
   (identifier))
+
+================================================================================
+Continuing keyword at wrong places
+================================================================================
+
+let a = 5
+finally
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
+      (integer_literal)))
+  (identifier))
