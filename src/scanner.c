@@ -187,12 +187,13 @@ _nonnull_(1, 2) static unsigned indent_vec_serialize(
 _nonnull_(1, 2) static void indent_vec_deserialize(
     struct indent_vec* self, const uint8_t* buffer, unsigned buffer_len)
 {
-  int32_t n_items = (int32_t)MIN(buffer_len / sizeof(indent_value), INT32_MAX);
+  int32_t n_items = (int32_t)MIN(buffer_len / sizeof(*self->data), INT32_MAX);
   if (indent_vec_set_len(self, n_items) < 0) {
+    DBG("cannot deserialize: set_len failed");
     return;
   }
   if (n_items > 0) {
-    memcpy(self->data, buffer, n_items * sizeof(indent_value));
+    memcpy(self->data, buffer, n_items * sizeof(*self->data));
   }
 }
 
@@ -360,7 +361,7 @@ _nonnull_(1) static void state_deserialize(
   state_clear(self);
   if (buffer_len >= 2) {
     self->current_indent = buffer[idx++];
-    self->state_flags = buffer[idx++] & ~(~0U << STATE_FLAG_LEN);
+    self->state_flags = buffer[idx++] & ((1U << STATE_FLAG_LEN) - 1);
     indent_vec_deserialize(&self->layout_stack, &buffer[idx], buffer_len - idx);
   }
 }
@@ -589,7 +590,11 @@ LEX_FN(lex_init)
   }
 
   context_mark_end(ctx);
-  indent_vec_push(&ctx->state->layout_stack, ctx->state->current_indent);
+  if (indent_vec_push(&ctx->state->layout_stack, ctx->state->current_indent) <
+      0) {
+    DBG("could not extend layout stack");
+    return false;
+  };
   return context_finish(ctx, SYNCHRONIZE);
 }
 
