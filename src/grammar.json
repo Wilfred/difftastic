@@ -5830,6 +5830,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -5924,6 +6008,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6029,6 +6197,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6130,6 +6382,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6161,6 +6497,58 @@
                 {
                   "type": "STRING",
                   "value": "/"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∙"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∘"
+                },
+                {
+                  "type": "STRING",
+                  "value": "×"
+                },
+                {
+                  "type": "STRING",
+                  "value": "★"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊗"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊘"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊙"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊛"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊠"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊡"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∩"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∧"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊓"
                 }
               ]
             },
@@ -6244,6 +6632,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6341,6 +6813,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6376,6 +6932,38 @@
                 {
                   "type": "STRING",
                   "value": "|"
+                },
+                {
+                  "type": "STRING",
+                  "value": "±"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊕"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊖"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊞"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊟"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∪"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∨"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊔"
                 }
               ]
             },
@@ -6459,6 +7047,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6560,6 +7232,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6661,6 +7417,90 @@
                   {
                     "type": "STRING",
                     "value": "\\"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "×"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "★"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊗"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊘"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊙"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊛"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊠"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊡"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∩"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∧"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊓"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "±"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊕"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊖"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊞"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊟"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∪"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "∨"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "⊔"
                   }
                 ]
               }
@@ -6765,6 +7605,90 @@
                       {
                         "type": "STRING",
                         "value": "\\"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "×"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "★"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊗"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊛"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊠"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊡"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∩"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∧"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊓"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "±"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊕"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊖"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊞"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊟"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∪"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∨"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊔"
                       }
                     ]
                   }
@@ -6871,6 +7795,90 @@
                       {
                         "type": "STRING",
                         "value": "\\"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "×"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "★"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊗"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊛"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊠"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊡"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∩"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∧"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊓"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "±"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊕"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊖"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊞"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊟"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∪"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∨"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊔"
                       }
                     ]
                   }
@@ -6977,6 +7985,90 @@
                       {
                         "type": "STRING",
                         "value": "\\"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "×"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "★"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊗"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊛"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊠"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊡"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∩"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∧"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊓"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "±"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊕"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊖"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊞"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊟"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∪"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∨"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊔"
                       }
                     ]
                   }
@@ -7079,6 +8171,90 @@
                       {
                         "type": "STRING",
                         "value": "\\"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "×"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "★"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊗"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊛"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊠"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊡"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∩"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∧"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊓"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "±"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊕"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊖"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊞"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊟"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∪"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∨"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊔"
                       }
                     ]
                   }
@@ -7572,6 +8748,90 @@
                 {
                   "type": "STRING",
                   "value": "\\"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∙"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∘"
+                },
+                {
+                  "type": "STRING",
+                  "value": "×"
+                },
+                {
+                  "type": "STRING",
+                  "value": "★"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊗"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊘"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊙"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊛"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊠"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊡"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∩"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∧"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊓"
+                },
+                {
+                  "type": "STRING",
+                  "value": "±"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊕"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊖"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊞"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊟"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∪"
+                },
+                {
+                  "type": "STRING",
+                  "value": "∨"
+                },
+                {
+                  "type": "STRING",
+                  "value": "⊔"
                 }
               ]
             }
@@ -7676,6 +8936,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -7772,6 +9116,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -7798,6 +9226,58 @@
                       {
                         "type": "STRING",
                         "value": "/"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "×"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "★"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊗"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊘"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊙"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊛"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊠"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊡"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∩"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∧"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊓"
                       }
                     ]
                   },
@@ -7881,6 +9361,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -7973,6 +9537,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -8003,6 +9651,38 @@
                       {
                         "type": "STRING",
                         "value": "|"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "±"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊕"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊖"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊞"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊟"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∪"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "∨"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "⊔"
                       }
                     ]
                   },
@@ -8086,6 +9766,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -8182,6 +9946,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -8278,6 +10126,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -8377,6 +10309,90 @@
                             {
                               "type": "STRING",
                               "value": "\\"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "×"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "★"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊗"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊛"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊠"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊡"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∩"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∧"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊓"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "±"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊕"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊖"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊞"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊟"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∪"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∨"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊔"
                             }
                           ]
                         }
@@ -8483,6 +10499,90 @@
                             {
                               "type": "STRING",
                               "value": "\\"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "×"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "★"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊗"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊛"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊠"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊡"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∩"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∧"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊓"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "±"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊕"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊖"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊞"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊟"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∪"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∨"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊔"
                             }
                           ]
                         }
@@ -8584,6 +10684,90 @@
                             {
                               "type": "STRING",
                               "value": "\\"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "×"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "★"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊗"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊛"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊠"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊡"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∩"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∧"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊓"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "±"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊕"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊖"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊞"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊟"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∪"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∨"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊔"
                             }
                           ]
                         }
@@ -8686,6 +10870,90 @@
                             {
                               "type": "STRING",
                               "value": "\\"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "×"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "★"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊗"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊘"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊙"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊛"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊠"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊡"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∩"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∧"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊓"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "±"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊕"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊖"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊞"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊟"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∪"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "∨"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "⊔"
                             }
                           ]
                         }
@@ -8756,6 +11024,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -8852,6 +11204,90 @@
                         {
                           "type": "STRING",
                           "value": "\\"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "×"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "★"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊗"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊘"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊙"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊛"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊠"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊡"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∩"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∧"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊓"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "±"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊕"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊖"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊞"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊟"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∪"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "∨"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "⊔"
                         }
                       ]
                     }
@@ -10555,7 +12991,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[a-zA-Z\\x80-\\xff](_?[a-zA-Z0-9\\x80-\\xff])*"
+            "value": "[a-zA-Z\\U00000080-\\U0010FFFF&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]](_?[a-zA-Z0-9\\U00000080-\\U0010FFFF&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]])*"
           }
         ]
       }
@@ -10917,7 +13353,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z\\x80-\\xff](_?[a-zA-Z0-9\\x80-\\xff])*"
+      "value": "[a-zA-Z\\U00000080-\\U0010FFFF&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]](_?[a-zA-Z0-9\\U00000080-\\U0010FFFF&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]])*"
     },
     "_paren_close": {
       "type": "SEQ",

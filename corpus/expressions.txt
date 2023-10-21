@@ -55,6 +55,8 @@ echo $a
 
 *:bar
 
+±10
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -103,7 +105,10 @@ echo $a
   (prefix_expression
     operator: (operator)
     (ERROR)
-    (identifier)))
+    (identifier))
+  (prefix_expression
+    operator: (operator)
+    (integer_literal)))
 
 ================================================================================
 Infix expressions
@@ -141,6 +146,9 @@ else: 4
 1+1
 
 1+ 1
+
+1 * 2 ⊛ 4 ∨ 5
+
 
 --------------------------------------------------------------------------------
 
@@ -254,6 +262,16 @@ else: 4
     right: (integer_literal))
   (infix_expression
     left: (integer_literal)
+    operator: (operator)
+    right: (integer_literal))
+  (infix_expression
+    left: (infix_expression
+      left: (infix_expression
+        left: (integer_literal)
+        operator: (operator)
+        right: (integer_literal))
+      operator: (operator)
+      right: (integer_literal))
     operator: (operator)
     right: (integer_literal)))
 

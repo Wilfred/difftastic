@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 #include "tree_sitter/parser.h"
 
@@ -910,12 +911,25 @@ const char OPERATOR_CHARS[] = {
     /* 12 */ '=', '<', '>', '!',
     // OP2
     /* 16 */ ':', '?', '@'};
+const uint16_t UNICODE_OPERATOR_CHARS[] = {
+    L'∙', L'∘', L'×', L'★', L'⊗', L'⊘', L'⊙', L'⊛', L'⊠', L'⊡', L'∩',
+    L'∧', L'⊓', L'±', L'⊕', L'⊖', L'⊞', L'⊟', L'∪', L'∨', L'⊔',
+};
 
 _const_ static bool is_operator(uint32_t character)
 {
   for (unsigned i = 0; i < sizeof(OPERATOR_CHARS); i++) {
     if ((uint32_t)OPERATOR_CHARS[i] == character) {
       return true;
+    }
+  }
+  if (character > UINT8_MAX) {
+    for (unsigned i = 0;
+         i < sizeof(UNICODE_OPERATOR_CHARS) / sizeof(*UNICODE_OPERATOR_CHARS);
+         i++) {
+      if ((uint32_t)UNICODE_OPERATOR_CHARS[i] == character) {
+        return true;
+      }
     }
   }
 

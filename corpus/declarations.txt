@@ -176,6 +176,8 @@ l_e_t
   b: uint32 = 42
   (e, f) = (1, 2)
 
+let 😂 = fun
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -221,7 +223,13 @@ l_e_t
             name: (identifier))))
       value: (tuple_construction
         (integer_literal)
-        (integer_literal)))))
+        (integer_literal))))
+  (let_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      value: (identifier))))
 
 ================================================================================
 Var declarations
