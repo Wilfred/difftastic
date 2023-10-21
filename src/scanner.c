@@ -14,14 +14,15 @@
 #include "tree_sitter/parser.h"
 
 #ifdef __GNUC__
-#  define NONNULL(...) __attribute__((nonnull(__VA_ARGS__)))
-#  define NONNULL_RET(...) \
-    __attribute__((nonnull(__VA_ARGS__), returns_nonnull))
-#  define CONSTFN __attribute__((const))
+#  define _nonnull_(...) __attribute__((nonnull(__VA_ARGS__)))
+#  define _returns_nonnull_ __attribute__((returns_nonnull))
+#  define _const_ __attribute__((const))
+#  define _pure_ __attribute__((pure))
 #else
-#  define NONNULL(...)
-#  define NONNULL_RET(...)
-#  define CONSTFN
+#  define _nonnull_(...)
+#  define _returns_nonnull_
+#  define _const_
+#  define _pure_
 #endif
 
 #ifdef TREE_SITTER_INTERNAL_BUILD
@@ -69,34 +70,34 @@ struct indent_vec {
     .len = 0, .capacity = 0, .data = NULL \
   }
 
-static void NONNULL(1) indent_vec_destroy(struct indent_vec* self)
+_nonnull_(1) static void indent_vec_destroy(struct indent_vec* self)
 {
   free(self->data);
   memset(self, 0, sizeof(*self));
 }
 
-static indent_value* NONNULL_RET(1)
-    indent_vec_at(struct indent_vec* self, int32_t idx)
+_nonnull_(1) _returns_nonnull_ static indent_value* indent_vec_at(
+    struct indent_vec* self, int32_t idx)
 {
   RUNTIME_ASSERT(idx >= 0 && idx < self->len);
   return &self->data[idx];
 }
 
-static indent_value NONNULL(1)
+_nonnull_(1) static indent_value
     indent_vec_get(const struct indent_vec* self, int32_t idx)
 {
   return *indent_vec_at((struct indent_vec*)self, idx);
 }
 
-static indent_value* NONNULL_RET(1)
-    indent_vec_at_capacity(struct indent_vec* self, int32_t idx)
+_nonnull_(1) _returns_nonnull_ static indent_value* indent_vec_at_capacity(
+    struct indent_vec* self, int32_t idx)
 {
   RUNTIME_ASSERT(idx >= 0 && idx < self->capacity);
   return &self->data[idx];
 }
 
-static int NONNULL(1)
-    indent_vec_set_capacity(struct indent_vec* self, int32_t size)
+_nonnull_(1) static int indent_vec_set_capacity(
+    struct indent_vec* self, int32_t size)
 {
   if (size < 0) {
     return -1;
@@ -116,7 +117,8 @@ static int NONNULL(1)
   return 0;
 }
 
-static int NONNULL(1) indent_vec_set_len(struct indent_vec* self, int32_t size)
+_nonnull_(1) static int indent_vec_set_len(
+    struct indent_vec* self, int32_t size)
 {
   if (size < 0) {
     return -1;
@@ -135,8 +137,8 @@ static int NONNULL(1) indent_vec_set_len(struct indent_vec* self, int32_t size)
   return 0;
 }
 
-static int NONNULL(1)
-    indent_vec_push(struct indent_vec* self, indent_value value)
+_nonnull_(1) static int indent_vec_push(
+    struct indent_vec* self, indent_value value)
 {
   if (self->len >= self->capacity) {
     int32_t new_capacity = self->len >= 2 ? self->len * 3 / 2 : self->len + 1;
@@ -151,17 +153,17 @@ static int NONNULL(1)
   return 0;
 }
 
-static void NONNULL(1) indent_vec_pop(struct indent_vec* self)
+_nonnull_(1) static void indent_vec_pop(struct indent_vec* self)
 {
   indent_vec_set_len(self, MAX(0, self->len - 1));
 }
 
-static indent_value NONNULL(1) indent_vec_back(const struct indent_vec* self)
+_nonnull_(1) static indent_value indent_vec_back(const struct indent_vec* self)
 {
   return indent_vec_get(self, self->len - 1);
 }
 
-static unsigned NONNULL(1, 2) indent_vec_serialize(
+_nonnull_(1, 2) static unsigned indent_vec_serialize(
     const struct indent_vec* self, uint8_t* buffer, unsigned buffer_len)
 {
   size_t n_bytes = self->len * sizeof(*self->data);
@@ -182,7 +184,7 @@ static unsigned NONNULL(1, 2) indent_vec_serialize(
   return serialize_len;
 }
 
-static void NONNULL(1, 2) indent_vec_deserialize(
+_nonnull_(1, 2) static void indent_vec_deserialize(
     struct indent_vec* self, const uint8_t* buffer, unsigned buffer_len)
 {
   int32_t n_items = (int32_t)MIN(buffer_len / sizeof(indent_value), INT32_MAX);
@@ -194,7 +196,7 @@ static void NONNULL(1, 2) indent_vec_deserialize(
   }
 }
 
-static void NONNULL(1) indent_vec_debug(const struct indent_vec* self)
+_nonnull_(1) static void indent_vec_debug(const struct indent_vec* self)
 {
   if (debug_mode) {
     DBG_F("current layout stack: [");
@@ -253,7 +255,7 @@ struct valid_tokens {
     .bits = (bits_)         \
   }
 
-static struct valid_tokens NONNULL(1)
+_nonnull_(1) _pure_ static struct valid_tokens
     valid_tokens_from_array(const bool* valid_tokens)
 {
   struct valid_tokens result = {0};
@@ -263,18 +265,19 @@ static struct valid_tokens NONNULL(1)
   return result;
 }
 
-static bool valid_tokens_test(struct valid_tokens self, enum token_type type)
+_const_ static bool valid_tokens_test(
+    struct valid_tokens self, enum token_type type)
 {
   return (self.bits & TO_VT_BIT(type)) != 0;
 }
 
-static bool valid_tokens_any_valid(
+_const_ static bool valid_tokens_any_valid(
     struct valid_tokens left, struct valid_tokens right)
 {
   return (left.bits & right.bits) != 0;
 }
 
-static bool valid_tokens_is_error(struct valid_tokens self)
+_const_ static bool valid_tokens_is_error(struct valid_tokens self)
 {
   return self.bits == ~(~0U << (enum token_type)TOKEN_TYPE_LEN);
 }
@@ -320,14 +323,14 @@ static void state_destroy(struct state* self)
   }
 }
 
-static void NONNULL(1) state_clear(struct state* self)
+_nonnull_(1) static void state_clear(struct state* self)
 {
   self->current_indent = 0;
   self->state_flags = 0;
   indent_vec_set_len(&self->layout_stack, 0);
 }
 
-static unsigned NONNULL(1, 2) state_serialize(
+_nonnull_(1, 2) static unsigned state_serialize(
     const struct state* self, uint8_t* buffer, unsigned buffer_len)
 {
   unsigned serialize_len = 0;
@@ -345,7 +348,7 @@ static unsigned NONNULL(1, 2) state_serialize(
   return serialize_len;
 }
 
-static void NONNULL(1) state_deserialize(
+_nonnull_(1) static void state_deserialize(
     struct state* self, const uint8_t* buffer, unsigned buffer_len)
 {
   if (!buffer && buffer_len > 0) {
@@ -362,7 +365,7 @@ static void NONNULL(1) state_deserialize(
   }
 }
 
-static void NONNULL(1) state_debug(struct state* self)
+_nonnull_(1) static void state_debug(struct state* self)
 {
   if (debug_mode) {
     DBG_F("current flags: [");
@@ -382,22 +385,22 @@ struct context {
   struct valid_tokens valid_tokens;
 };
 
-static void NONNULL(1) context_mark_end(struct context* self)
+_nonnull_(1) static void context_mark_end(struct context* self)
 {
   self->_lexer->mark_end(self->_lexer);
 }
 
-static uint32_t NONNULL(1) context_lookahead(struct context* self)
+_nonnull_(1) _pure_ static uint32_t context_lookahead(struct context* self)
 {
   return self->_lexer->lookahead;
 }
 
-static bool NONNULL(1) context_eof(struct context* self)
+_nonnull_(1) _pure_ static bool context_eof(struct context* self)
 {
   return self->_lexer->eof(self->_lexer);
 }
 
-static uint32_t NONNULL(1) context_advance(struct context* self, bool skip)
+_nonnull_(1) static uint32_t context_advance(struct context* self, bool skip)
 {
   self->counter += (int)!context_eof(self);
   if (!context_eof(self) && self->state->state_flags & STATE_AFTER_NEWLINE) {
@@ -408,15 +411,15 @@ static uint32_t NONNULL(1) context_advance(struct context* self, bool skip)
   return self->_lexer->lookahead;
 }
 
-static uint32_t NONNULL(1) context_consume(struct context* self, bool skip)
+_nonnull_(1) static uint32_t context_consume(struct context* self, bool skip)
 {
   uint32_t result = context_advance(self, skip);
   context_mark_end(self);
   return result;
 }
 
-static bool NONNULL(1)
-    context_finish(struct context* self, enum token_type type)
+_nonnull_(1) static bool context_finish(
+    struct context* self, enum token_type type)
 {
   DBG_F("finished scanning token: %s\n", TOKEN_TYPE_STR[type]);
   self->_lexer->result_symbol = (TSSymbol)type;
@@ -441,30 +444,32 @@ static bool NONNULL(1)
     }                                               \
     if ((ctx)->counter != last_count) return false; \
   } while (false)
+#define LEX_FN(name, ...) \
+  _nonnull_(1) static bool name(struct context* ctx, ##__VA_ARGS__)
 
-static bool is_digit(uint32_t chr) { return chr >= '0' && chr <= '9'; }
+_const_ static bool is_digit(uint32_t chr) { return chr >= '0' && chr <= '9'; }
 
-static bool is_lower(uint32_t chr) { return chr >= 'a' && chr <= 'z'; }
+_const_ static bool is_lower(uint32_t chr) { return chr >= 'a' && chr <= 'z'; }
 
-static bool is_upper(uint32_t chr) { return chr >= 'A' && chr <= 'Z'; }
+_const_ static bool is_upper(uint32_t chr) { return chr >= 'A' && chr <= 'Z'; }
 
-static bool is_keyword(uint32_t chr)
+_const_ static bool is_keyword(uint32_t chr)
 {
   return is_lower(chr) || is_upper(chr) || chr == '_';
 }
 
-static bool is_identifier(uint32_t chr)
+_const_ static bool is_identifier(uint32_t chr)
 {
   return is_keyword(chr) || is_digit(chr);
 }
 
-static uint32_t to_upper(uint32_t chr)
+_const_ static uint32_t to_upper(uint32_t chr)
 {
   const uint32_t lower_case_bit = 1U << 5U;
   return is_lower(chr) ? chr & ~lower_case_bit : chr;
 }
 
-static size_t NONNULL(1) scan_spaces(struct context* ctx, bool force_update)
+_nonnull_(1) static size_t scan_spaces(struct context* ctx, bool force_update)
 {
   bool update_indent = force_update;
   uint8_t indent = 0;
@@ -507,7 +512,7 @@ loop_end:
   return spaces;
 }
 
-static bool NONNULL(1) lex_long_string_quote(struct context* ctx)
+LEX_FN(lex_long_string_quote)
 {
   if (context_lookahead(ctx) != '"' ||
       !valid_tokens_test(ctx->valid_tokens, LONG_STRING_QUOTE)) {
@@ -536,7 +541,7 @@ static bool NONNULL(1) lex_long_string_quote(struct context* ctx)
 static const struct valid_tokens COMMENT_TOKENS = VALID_TOKENS(
     TO_VT_BIT(BLOCK_COMMENT_CONTENT) | TO_VT_BIT(BLOCK_DOC_COMMENT_CONTENT));
 
-static bool NONNULL(1) lex_comment_content(struct context* ctx)
+LEX_FN(lex_comment_content)
 {
   if (!valid_tokens_any_valid(ctx->valid_tokens, COMMENT_TOKENS) ||
       valid_tokens_is_error(ctx->valid_tokens)) {
@@ -570,7 +575,7 @@ static bool NONNULL(1) lex_comment_content(struct context* ctx)
   return false;
 }
 
-static bool NONNULL(1) lex_init(struct context* ctx)
+LEX_FN(lex_init)
 {
   if (ctx->state->layout_stack.len > 0 ||
       valid_tokens_is_error(ctx->valid_tokens) ||
@@ -588,7 +593,7 @@ static bool NONNULL(1) lex_init(struct context* ctx)
   return context_finish(ctx, SYNCHRONIZE);
 }
 
-static void NONNULL(1) skip_underscore(struct context* ctx)
+_nonnull_(1) static void skip_underscore(struct context* ctx)
 {
   if (context_lookahead(ctx) == '_') {
     context_advance(ctx, false);
@@ -600,7 +605,7 @@ static bool chrcaseeq(uint32_t lhs, uint32_t rhs)
   return to_upper(lhs) == to_upper(rhs);
 }
 
-static bool NONNULL(1) scan_continuing_keyword(struct context* ctx)
+LEX_FN(scan_continuing_keyword)
 {
 #define NEXT_OR_FAIL(chr)                          \
   do {                                             \
@@ -672,7 +677,7 @@ static bool NONNULL(1) scan_continuing_keyword(struct context* ctx)
 #undef FINISH_IF_END
 }
 
-static bool NONNULL(1) lex_case_of(struct context* ctx)
+LEX_FN(lex_case_of)
 {
   if (context_lookahead(ctx) != 'o' ||
       !valid_tokens_test(ctx->valid_tokens, OF)) {
@@ -693,7 +698,7 @@ static bool NONNULL(1) lex_case_of(struct context* ctx)
   }
 }
 
-static bool NONNULL(1) lex_indent(struct context* ctx)
+LEX_FN(lex_indent)
 {
   if (context_lookahead(ctx) == '#' || ctx->state->layout_stack.len == 0) {
     return false;
@@ -776,7 +781,7 @@ static bool NONNULL(1) lex_indent(struct context* ctx)
   return false;
 }
 
-static bool NONNULL(1) lex_inline_layout(struct context* ctx)
+LEX_FN(lex_inline_layout)
 {
   if (ctx->state->layout_stack.len == 0) {
     return false;
@@ -839,7 +844,7 @@ const char OPERATOR_CHARS[] = {
     // OP2
     /* 16 */ ':', '?', '@'};
 
-static bool is_operator(uint32_t character)
+_const_ static bool is_operator(uint32_t character)
 {
   for (unsigned i = 0; i < sizeof(OPERATOR_CHARS); i++) {
     if ((uint32_t)OPERATOR_CHARS[i] == character) {
@@ -871,9 +876,8 @@ const char* const OPERATOR_SCAN_STATE_STR[] = {
     "STAR"};
 #endif
 
-static enum token_type NONNULL(1)
+_nonnull_(1) static enum token_type
     scan_operator(struct context* ctx, bool immediate)
-
 {
   if (immediate) {
     return TOKEN_TYPE_LEN;
@@ -973,7 +977,7 @@ loop_end:
   }
 }
 
-static bool lex_operators(struct context* ctx, bool immediate)
+LEX_FN(lex_operators, bool immediate)
 {
   if (!valid_tokens_any_valid(ctx->valid_tokens, UNARY_OPS)) {
     return false;
@@ -999,7 +1003,7 @@ static bool lex_operators(struct context* ctx, bool immediate)
   return context_finish(ctx, result);
 }
 
-static bool NONNULL(1) lex_main(struct context* ctx)
+LEX_FN(lex_main)
 {
   TRY_LEX(ctx, lex_init);
 
