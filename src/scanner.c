@@ -297,7 +297,8 @@ static void valid_tokens_debug(struct valid_tokens self)
 }
 
 #define STATE_AFTER_NEWLINE 1U
-#define STATE_FLAG_LEN 1U
+#define STATE_EMIT_EMPTY_ERROR (1U << 1U)
+#define STATE_FLAG_LEN 2U
 
 typedef uint8_t state_flags_storage;
 
@@ -373,6 +374,9 @@ _nonnull_(1) static void state_debug(struct state* self)
     if (self->state_flags & STATE_AFTER_NEWLINE) {
       (void)dputs(" AFTER_NEWLINE");
     }
+    if (self->state_flags & STATE_EMIT_EMPTY_ERROR) {
+      (void)dputs(" EMIT_EMPTY_ERROR");
+    }
     (void)dputs(" ]\n");
     DBG_F("current indentation: %" PRIu8 "\n", self->current_indent);
     indent_vec_debug(&self->layout_stack);
@@ -382,7 +386,7 @@ _nonnull_(1) static void state_debug(struct state* self)
 struct context {
   TSLexer* _lexer;
   struct state* state;
-  uint32_t counter;
+  uint32_t advance_counter;
   struct valid_tokens valid_tokens;
 };
 
@@ -403,7 +407,7 @@ _nonnull_(1) _pure_ static bool context_eof(struct context* self)
 
 _nonnull_(1) static uint32_t context_advance(struct context* self, bool skip)
 {
-  self->counter += (int)!context_eof(self);
+  self->advance_counter += (int)!context_eof(self);
   if (!context_eof(self) && self->state->state_flags & STATE_AFTER_NEWLINE) {
     DBG("invalidating flag AFTER_NEWLINE");
     self->state->state_flags &= ~STATE_AFTER_NEWLINE;
@@ -427,13 +431,13 @@ _nonnull_(1) static bool context_finish(
   return true;
 }
 
-#define TRY_LEX_INNER(cnt, ctx, fn, ...)                  \
-  do {                                                    \
-    const uint32_t last_count_##cnt = (ctx)->counter;     \
-    if (fn((ctx), ##__VA_ARGS__)) {                       \
-      return true;                                        \
-    }                                                     \
-    if ((ctx)->counter != last_count_##cnt) return false; \
+#define TRY_LEX_INNER(cnt, ctx, fn, ...)                          \
+  do {                                                            \
+    const uint32_t last_count_##cnt = (ctx)->advance_counter;     \
+    if (fn((ctx), ##__VA_ARGS__)) {                               \
+      return true;                                                \
+    }                                                             \
+    if ((ctx)->advance_counter != last_count_##cnt) return false; \
   } while (false)
 /// Try lexing with the given function.
 ///
@@ -704,6 +708,9 @@ LEX_FN(lex_case_of)
   }
 }
 
+// This function is big by design.
+//
+// NOLINTNEXTLINE(*-cognitive-complexity)
 LEX_FN(lex_indent)
 {
   if (context_lookahead(ctx) == '#' || ctx->state->layout_stack.len == 0) {
@@ -719,65 +726,81 @@ LEX_FN(lex_indent)
 
   indent_value current_layout = indent_vec_back(&ctx->state->layout_stack);
 
-  if (ctx->state->state_flags & STATE_AFTER_NEWLINE) {
-    if (valid_tokens_test(ctx->valid_tokens, LAYOUT_START) &&
-        current_layout < current_indent) {
+  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_START) &&
+      (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
+    if (current_indent > current_layout) {
       if (indent_vec_push(&ctx->state->layout_stack, current_indent) < 0) {
         DBG("could not extend layout stack");
         return false;
       }
-      context_mark_end(ctx);
       ctx->state->state_flags &= ~STATE_AFTER_NEWLINE;
       return context_finish(ctx, LAYOUT_START);
     }
   }
 
-  // LayoutEmpty has to be explicitly requested, and errors generally
-  // don't happen within the contexts it would be requested.
-  //
-  // Don't emit them on errors to prevent mangling error recovery.
-  if (!valid_tokens_is_error(ctx->valid_tokens) &&
-      valid_tokens_test(ctx->valid_tokens, LAYOUT_EMPTY)) {
-    if ((ctx->state->state_flags & STATE_AFTER_NEWLINE) &&
-        ((current_layout >= current_indent) || context_eof(ctx))) {
-      context_mark_end(ctx);
-      return context_finish(ctx, LAYOUT_EMPTY);
+  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_EMPTY)) {
+    switch (0) {
+    default:
+      if (valid_tokens_is_error(ctx->valid_tokens)) {
+        break;
+      }
+      if (current_indent <= current_layout &&
+          (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
+        return context_finish(ctx, LAYOUT_EMPTY);
+      }
+      if (context_eof(ctx)) {
+        return context_finish(ctx, LAYOUT_EMPTY);
+      }
     }
   }
 
-  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_TERMINATOR)) {
-    if ((ctx->state->state_flags & STATE_AFTER_NEWLINE) &&
-        current_layout >= current_indent) {
-      context_mark_end(ctx);
-      if (current_layout == current_indent) {
-        uint32_t last_count = ctx->counter;
+  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_TERMINATOR) &&
+      (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
+    if (current_indent <= current_layout) {
+      uint32_t last_count = ctx->advance_counter;
+      if (current_indent == current_layout) {
         if (scan_continuing_keyword(ctx)) {
+          DBG("found continuing keyword");
           return false;
         }
-        if (ctx->counter == last_count && lex_case_of(ctx)) {
-          return true;
+        if (last_count == ctx->advance_counter) {
+          if (lex_case_of(ctx)) {
+            return true;
+          }
         }
+      }
+      // In error condition, terminator is usually disregarded by the parser due
+      // to the token not changing the parser state. This is done to prevent
+      // infinite loop of empty tokens.
+      //
+      // However, terminator can be a valid solution to a broken piece of code,
+      // so emit this once to see if it solves the problem.
+      if (valid_tokens_is_error(ctx->valid_tokens)) {
+        ctx->state->state_flags |= STATE_EMIT_EMPTY_ERROR;
       }
       ctx->state->state_flags &= ~STATE_AFTER_NEWLINE;
       return context_finish(ctx, LAYOUT_TERMINATOR);
     }
   }
 
-  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_END) &&
-      ctx->state->layout_stack.len > 1) {
-    if (current_layout > current_indent || context_eof(ctx)) {
-      ctx->state->state_flags |= STATE_AFTER_NEWLINE;
-      indent_vec_pop(&ctx->state->layout_stack);
-      context_mark_end(ctx);
-      return context_finish(ctx, LAYOUT_END);
+  // Implicit layout changes
+  if (!valid_tokens_test(ctx->valid_tokens, LONG_STRING_QUOTE) ||
+      valid_tokens_is_error(ctx->valid_tokens)) {
+    // LAYOUT_END
+    if (current_indent < current_layout || context_eof(ctx)) {
+      if (ctx->state->layout_stack.len > 1) {
+        indent_vec_pop(&ctx->state->layout_stack);
+        return context_finish(ctx, LAYOUT_END);
+      }
     }
-  }
 
-  if (current_layout > current_indent && context_eof(ctx) &&
-      // In long string context
-      !valid_tokens_test(ctx->valid_tokens, LONG_STRING_QUOTE)) {
-    context_mark_end(ctx);
-    return context_finish(ctx, INVALID_LAYOUT);
+    // INVALID_LAYOUT
+    //
+    // XXX: Need more data to reliably distinguish
+    //
+    // if (current_indent > current_layout && !context_eof(ctx)) {
+    //   return context_finish(ctx, INVALID_LAYOUT);
+    // }
   }
 
   if (ctx->state->state_flags & STATE_AFTER_NEWLINE) {
@@ -1080,16 +1103,26 @@ bool tree_sitter_nim_external_scanner_scan(
 
   valid_tokens_debug(ctx.valid_tokens);
   state_debug(ctx.state);
+  context_mark_end(&ctx);
 
-  uint32_t last_count = ctx.counter;
+  uint32_t last_count = ctx.advance_counter;
   state_flags_storage last_flags = ctx.state->state_flags;
   bool found = lex_main(&ctx);
 
-  if (!found && !context_eof(&ctx) && ctx.counter == last_count) {
+  // Once the error status passed, reset the flag.
+  if (!valid_tokens_is_error(ctx.valid_tokens)) {
+    if (ctx.state->state_flags & STATE_EMIT_EMPTY_ERROR) {
+      DBG("resetting emit empty error flag");
+    }
+    ctx.state->state_flags &= ~STATE_EMIT_EMPTY_ERROR;
+  }
+
+  if (!found && !context_eof(&ctx) && ctx.advance_counter == last_count) {
     if (ctx.state->state_flags & STATE_AFTER_NEWLINE) {
       DBG("resetting after newline flag");
     }
     ctx.state->state_flags &= ~STATE_AFTER_NEWLINE;
+
     if (last_flags != ctx.state->state_flags) {
       found = context_finish(&ctx, SYNCHRONIZE);
     }
