@@ -14,14 +14,14 @@ r"string
 --------------------------------------------------------------------------------
 
 (source_file
-  (string_literal
+  (interpreted_string_literal
     (string_content)
     (block_comment
       (comment_content)))
   (char_literal
     (block_comment
       (comment_content)))
-  (string_literal
+  (raw_string_literal
     (string_content)
     (block_comment
       (comment_content))))
@@ -41,16 +41,14 @@ a.b #[]#"c"
     (identifier)
     (block_comment
       (comment_content))
-    (string_literal
-      (string_content)))
+    (string_content))
   (generalized_string
     (dot_expression
       (identifier)
       (identifier))
     (block_comment
       (comment_content))
-    (string_literal
-      (string_content))))
+    (string_content)))
 
 ================================================================================
 Except deviations

@@ -190,7 +190,7 @@ include X
   (include_statement
     (expression_list
       (identifier)
-      (string_literal
+      (interpreted_string_literal
         (string_content))))
   (include_statement
     (expression_list
@@ -214,7 +214,7 @@ discard foo as bar
 
 (source_file
   (discard_statement
-    (string_literal
+    (interpreted_string_literal
       (string_content)))
   (discard_statement)
   (discard_statement
@@ -245,10 +245,10 @@ asm "ret"
 
 (source_file
   (assembly_statement
-    (string_literal
+    (long_string_literal
       (string_content)))
   (assembly_statement
-    (string_literal
+    (interpreted_string_literal
       (string_content))))
 
 ================================================================================
@@ -412,7 +412,7 @@ static:
         function: (identifier)
         (argument_list
           (identifier)
-          (string_literal
+          (interpreted_string_literal
             (string_content)))))))
 
 ================================================================================
@@ -468,5 +468,5 @@ defer:
         (identifier)
         (argument_list
           (identifier)
-          (string_literal
+          (interpreted_string_literal
             (string_content)))))))

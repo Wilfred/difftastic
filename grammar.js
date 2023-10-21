@@ -451,7 +451,7 @@ module.exports = grammar({
       seq(
         keyword("asm"),
         optional(field("pragma", $.pragma_list)),
-        $.string_literal
+        $._string_literal
       ),
     bind_statement: $ => seq(keyword("bind"), $.expression_list),
     mixin_statement: $ => seq(keyword("mixin"), $.expression_list),
@@ -1226,8 +1226,8 @@ module.exports = grammar({
       choice(seq("(", optional($._colon_equal_expression_list), ")")),
     generalized_string: $ =>
       seq(
-        choice($.identifier, $.dot_expression),
-        alias($._generalized_string_literal, $.string_literal)
+        field("function", choice($.identifier, $.dot_expression)),
+        $._generalized_string_literal
       ),
     _generalized_string_literal: $ =>
       choice(
@@ -1344,7 +1344,7 @@ module.exports = grammar({
         $.float_literal,
         $.custom_numeric_literal,
         $.char_literal,
-        $.string_literal
+        $._string_literal
       ),
 
     nil_literal: () => keyword("nil"),
@@ -1377,14 +1377,14 @@ module.exports = grammar({
       ),
     _char_escape_sequence: () => token.immediate(seq("\\", CharEscapeSequence)),
 
-    string_literal: $ =>
+    _string_literal: $ =>
       choice(
-        $._interpreted_string_literal,
-        $._raw_string_literal,
-        $._long_string_literal
+        $.interpreted_string_literal,
+        $.raw_string_literal,
+        $.long_string_literal
       ),
 
-    _interpreted_string_literal: $ =>
+    interpreted_string_literal: $ =>
       seq(
         '"',
         optional(alias($._interpreted_string_body, $.string_content)),
@@ -1407,7 +1407,7 @@ module.exports = grammar({
         )
       ),
 
-    _raw_string_literal: $ =>
+    raw_string_literal: $ =>
       seq(
         choice('r"', 'R"'),
         optional(alias($._raw_string_body, $.string_content)),
@@ -1423,7 +1423,7 @@ module.exports = grammar({
       ),
     _raw_string_escape: () => token.immediate('""'),
 
-    _long_string_literal: $ =>
+    long_string_literal: $ =>
       seq(
         choice('"""', 'r"""', 'R"""'),
         optional(alias($._long_string_body, $.string_content)),

@@ -651,7 +651,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string_literal"
+          "name": "_string_literal"
         }
       ]
     },
@@ -9272,26 +9272,25 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "dot_expression"
-            }
-          ]
+          "type": "FIELD",
+          "name": "function",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "dot_expression"
+              }
+            ]
+          }
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_generalized_string_literal"
-          },
-          "named": true,
-          "value": "string_literal"
+          "type": "SYMBOL",
+          "name": "_generalized_string_literal"
         }
       ]
     },
@@ -10096,7 +10095,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string_literal"
+          "name": "_string_literal"
         }
       ]
     },
@@ -10539,24 +10538,24 @@
         ]
       }
     },
-    "string_literal": {
+    "_string_literal": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_interpreted_string_literal"
+          "name": "interpreted_string_literal"
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_string_literal"
+          "name": "raw_string_literal"
         },
         {
           "type": "SYMBOL",
-          "name": "_long_string_literal"
+          "name": "long_string_literal"
         }
       ]
     },
-    "_interpreted_string_literal": {
+    "interpreted_string_literal": {
       "type": "SEQ",
       "members": [
         {
@@ -10641,7 +10640,7 @@
         ]
       }
     },
-    "_raw_string_literal": {
+    "raw_string_literal": {
       "type": "SEQ",
       "members": [
         {
@@ -10718,7 +10717,7 @@
         "value": "\"\""
       }
     },
-    "_long_string_literal": {
+    "long_string_literal": {
       "type": "SEQ",
       "members": [
         {

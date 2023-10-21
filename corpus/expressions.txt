@@ -297,17 +297,16 @@ a(
       left: (identifier)
       right: (identifier)))
   (generalized_string
-    (dot_expression
+    function: (dot_expression
       left: (identifier)
       right: (identifier))
-    (string_literal
-      (string_content)))
+    (string_content))
   (call
     function: (dot_expression
       left: (identifier)
       right: (identifier))
     (argument_list
-      (string_literal
+      (interpreted_string_literal
         (string_content))))
   (dot_expression
     left: (call
@@ -443,14 +442,14 @@ collect(for x in s:
   (call
     function: (identifier)
     (argument_list
-      (string_literal
+      (interpreted_string_literal
         (string_content))
-      (string_literal
+      (interpreted_string_literal
         (string_content))))
   (call
     function: (identifier)
     (argument_list
-      (string_literal
+      (long_string_literal
         (string_content))))
   (call
     function: (identifier)
@@ -458,14 +457,14 @@ collect(for x in s:
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content))))
-      (string_literal
+      (interpreted_string_literal
         (string_content))
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content))))))
   (call
     function: (identifier)
@@ -644,7 +643,7 @@ foo {x}
         function: (identifier)
         (argument_list
           (integer_literal)))
-      (string_literal
+      (interpreted_string_literal
         (string_content))
       (call
         function: (identifier)
@@ -655,7 +654,7 @@ foo {x}
     (argument_list
       (identifier)
       (identifier)
-      (string_literal
+      (interpreted_string_literal
         (string_content))
       (call
         function: (identifier)
@@ -700,12 +699,12 @@ foo {x}
   (call
     function: (identifier)
     (argument_list
-      (string_literal
+      (interpreted_string_literal
         (string_content))))
   (call
     function: (identifier)
     (argument_list
-      (string_literal
+      (long_string_literal
         (string_content))))
   (call
     function: (identifier)
@@ -922,7 +921,7 @@ else: expr2
       (if
         condition: (identifier)
         consequence: (statement_list
-          (string_literal
+          (interpreted_string_literal
             (string_content)))
         alternative: (elif_branch
           condition: (identifier)
@@ -947,7 +946,7 @@ else: expr2
         alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
-            (string_literal
+            (interpreted_string_literal
               (string_content))))
         alternative: (else_branch
           (statement_list
@@ -1034,7 +1033,7 @@ else: expr2
       (when
         condition: (identifier)
         consequence: (statement_list
-          (string_literal
+          (interpreted_string_literal
             (string_content)))
         alternative: (elif_branch
           condition: (identifier)
@@ -1062,7 +1061,7 @@ else: expr2
         alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
-            (string_literal
+            (interpreted_string_literal
               (string_content))))
         alternative: (else_branch
           (statement_list
@@ -1172,7 +1171,7 @@ let x = case something(10)
         (call
           function: (identifier)
           (argument_list
-            (string_literal))))))
+            (interpreted_string_literal))))))
   (case
     value: (call
       function: (identifier)
@@ -1253,12 +1252,12 @@ except: echo y
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content))))
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content)))))
     (except_branch
       values: (expression_list
@@ -1273,12 +1272,12 @@ except: echo y
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content))))
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content)))))
     (except_branch
       values: (expression_list
@@ -1592,7 +1591,7 @@ Tuple construction
   (tuple_construction
     (colon_expression
       left: (identifier)
-      right: (string_literal
+      right: (interpreted_string_literal
         (string_content)))))
 
 ================================================================================
@@ -1609,7 +1608,7 @@ Parenthesized expressions
   (parenthesized
     (integer_literal))
   (parenthesized
-    (string_literal
+    (interpreted_string_literal
       (string_content)))
   (parenthesized
     (discard_statement)
@@ -1649,10 +1648,8 @@ foobar""""extra spicy""""
 
 (source_file
   (generalized_string
-    (identifier)
-    (string_literal
-      (string_content)))
+    function: (identifier)
+    (string_content))
   (generalized_string
-    (identifier)
-    (string_literal
-      (string_content))))
+    function: (identifier)
+    (string_content)))

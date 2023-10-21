@@ -5,3 +5,7 @@
 # <- number
 #  ^ operator
 #    ^ number
+
+foo"string"
+# <- function.call
+#  ^ string

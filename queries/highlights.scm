@@ -15,6 +15,12 @@
     (dot_expression
       right: (identifier) @function.call)
   ])
+(generalized_string
+  function: [
+    (identifier) @function.call
+    (dot_expression
+      right: (identifier) @function.call)
+  ])
 
 ; Declarations
 (exported_symbol "*" @type.qualifier)
@@ -73,7 +79,10 @@
   (block_documentation_comment)
 ] @comment.documentation
 
-(string_literal) @string
+(interpreted_string_literal) @string
+(long_string_literal) @string
+(raw_string_literal) @string
+(generalized_string) @string
 (char_literal) @character
 (escape_sequence) @string.escape
 (integer_literal) @number

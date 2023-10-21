@@ -159,7 +159,7 @@ const Test* {.importc: "TEST".}: int
           (pragma_list
             (colon_expression
               left: (identifier)
-              right: (string_literal
+              right: (interpreted_string_literal
                 (string_content))))))
       type: (type_expression
         (identifier)))))
@@ -585,7 +585,7 @@ type
           (identifier)
           (colon_expression
             left: (identifier)
-            right: (string_literal
+            right: (interpreted_string_literal
               (string_content)))))
       (ref_type
         (object_declaration
@@ -609,7 +609,7 @@ type
                   (pragma_list
                     (colon_expression
                       left: (identifier)
-                      right: (string_literal
+                      right: (interpreted_string_literal
                         (string_content))))))
               type: (type_expression
                 (bracket_expression
@@ -976,7 +976,7 @@ proc trailing_fun(x, y,: float)
       (call
         function: (identifier)
         (argument_list
-          (string_literal
+          (interpreted_string_literal
             (string_content))))))
   (iterator_declaration
     name: (identifier)
@@ -1103,12 +1103,12 @@ type
         (enum_field_declaration
           (symbol_declaration
             name: (identifier))
-          value: (string_literal
+          value: (interpreted_string_literal
             (string_content)))
         (enum_field_declaration
           (symbol_declaration
             name: (identifier))
-          value: (string_literal
+          value: (interpreted_string_literal
             (string_content)))))
     (type_declaration
       (type_symbol_declaration
@@ -1123,7 +1123,7 @@ type
         (enum_field_declaration
           (symbol_declaration
             name: (identifier))
-          value: (string_literal
+          value: (interpreted_string_literal
             (string_content)))))
     (type_declaration
       (type_symbol_declaration
