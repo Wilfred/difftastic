@@ -28,10 +28,13 @@ echo x,
 ##  this
 ##   that
 
+# #[]# should not induce a block comment
+
 --------------------------------------------------------------------------------
 
 (source_file
-  (comment)
+  (comment
+    (comment_content))
   (let_section
     (variable_declaration
       (symbol_declaration_list
@@ -40,9 +43,12 @@ echo x,
       (type_expression
         (identifier))
       (integer_literal))
-    (comment)
-    (comment)
-    (comment)
+    (comment
+      (comment_content))
+    (comment
+      (comment_content))
+    (comment
+      (comment_content))
     (variable_declaration
       (symbol_declaration_list
         (symbol_declaration
@@ -52,11 +58,17 @@ echo x,
     (identifier)
     (argument_list
       (identifier)
-      (comment)
+      (comment
+        (comment_content))
       (identifier)))
-  (documentation_comment)
-  (documentation_comment)
-  (documentation_comment))
+  (documentation_comment
+    (comment_content))
+  (documentation_comment
+    (comment_content))
+  (documentation_comment
+    (comment_content))
+  (comment
+    (comment_content)))
 
 ================================================================================
 Block comments
@@ -81,13 +93,18 @@ Block doc is not ##[self-nesting]#, though
 --------------------------------------------------------------------------------
 
 (source_file
-  (block_comment)
+  (block_comment
+    (comment_content))
   (call
     (identifier)
     (argument_list
       (identifier)
-      (block_comment)
+      (block_comment
+        (comment_content))
       (identifier)))
-  (block_comment)
-  (block_comment)
-  (block_documentation_comment))
+  (block_comment
+    (comment_content))
+  (block_comment
+    (comment_content))
+  (block_documentation_comment
+    (comment_content)))

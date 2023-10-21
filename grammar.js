@@ -197,6 +197,7 @@ module.exports = grammar({
   externals: $ => [
     $._block_comment_content,
     $._block_documentation_comment_content,
+    $.comment_content, // used to notify the scanner
     $._long_string_quote,
     $._layout_start,
     $._layout_end,
@@ -450,7 +451,7 @@ module.exports = grammar({
       seq(
         keyword("asm"),
         optional(field("pragma", $.pragma_list)),
-        $.string_literal
+        $._string_literal
       ),
     bind_statement: $ => seq(keyword("bind"), $.expression_list),
     mixin_statement: $ => seq(keyword("mixin"), $.expression_list),
@@ -1225,13 +1226,21 @@ module.exports = grammar({
       choice(seq("(", optional($._colon_equal_expression_list), ")")),
     generalized_string: $ =>
       seq(
-        choice($.identifier, $.dot_expression),
-        alias($._generalized_string_literal, $.string_literal)
+        field("function", choice($.identifier, $.dot_expression)),
+        $._generalized_string_literal
       ),
     _generalized_string_literal: $ =>
       choice(
-        seq(token.immediate('"""'), $._long_string_body),
-        seq(token.immediate('"'), $._raw_string_body)
+        seq(
+          token.immediate('"""'),
+          optional(alias($._long_string_body, $.string_content)),
+          token.immediate('"""')
+        ),
+        seq(
+          token.immediate('"'),
+          optional(alias($._raw_string_body, $.string_content)),
+          token.immediate('"')
+        )
       ),
 
     /* Supporting expressions */
@@ -1335,7 +1344,7 @@ module.exports = grammar({
         $.float_literal,
         $.custom_numeric_literal,
         $.char_literal,
-        $.string_literal
+        $._string_literal
       ),
 
     nil_literal: () => keyword("nil"),
@@ -1368,20 +1377,22 @@ module.exports = grammar({
       ),
     _char_escape_sequence: () => token.immediate(seq("\\", CharEscapeSequence)),
 
-    string_literal: $ =>
+    _string_literal: $ =>
       choice(
-        $._interpreted_string_literal,
-        $._raw_string_literal,
-        $._long_string_literal
+        $.interpreted_string_literal,
+        $.raw_string_literal,
+        $.long_string_literal
       ),
 
-    _interpreted_string_literal: $ =>
+    interpreted_string_literal: $ =>
       seq(
         '"',
-        repeat(
-          choice(token.immediate(prec(2, /[^\n\r"\\]+/)), $.escape_sequence)
-        ),
+        optional(alias($._interpreted_string_body, $.string_content)),
         token.immediate('"')
+      ),
+    _interpreted_string_body: $ =>
+      repeat1(
+        choice(token.immediate(prec(2, /[^\n\r"\\]+/)), $.escape_sequence)
       ),
 
     escape_sequence: () =>
@@ -1396,28 +1407,30 @@ module.exports = grammar({
         )
       ),
 
-    _raw_string_literal: $ => seq(choice('r"', 'R"'), $._raw_string_body),
+    raw_string_literal: $ =>
+      seq(
+        choice('r"', 'R"'),
+        optional(alias($._raw_string_body, $.string_content)),
+        token.immediate('"')
+      ),
 
     _raw_string_body: $ =>
-      seq(
-        repeat(
-          choice(
-            token.immediate(prec(2, /[^\n\r"]/)),
-            alias($._raw_string_escape, $.escape_sequence)
-          )
-        ),
-        token.immediate('"')
+      repeat1(
+        choice(
+          token.immediate(prec(2, /[^\n\r"]/)),
+          alias($._raw_string_escape, $.escape_sequence)
+        )
       ),
     _raw_string_escape: () => token.immediate('""'),
 
-    _long_string_literal: $ =>
-      seq(choice('"""', 'r"""', 'R"""'), $._long_string_body),
-
-    _long_string_body: $ =>
+    long_string_literal: $ =>
       seq(
-        repeat(choice(token.immediate(prec(2, /[^"]+/)), $._long_string_quote)),
+        choice('"""', 'r"""', 'R"""'),
+        optional(alias($._long_string_body, $.string_content)),
         token.immediate('"""')
       ),
+    _long_string_body: $ =>
+      repeat1(choice(token.immediate(prec(2, /[^"]+/)), $._long_string_quote)),
 
     /* Identifiers and related shenanigans */
     _symbol: $ => choice($.accent_quoted, $.identifier, $.blank_identifier),
@@ -1429,11 +1442,19 @@ module.exports = grammar({
     identifier: () => Identifier,
 
     block_documentation_comment: $ =>
-      seq(token(prec(1, "##[")), $._block_documentation_comment_content, "]##"),
+      seq(
+        token(prec(1, "##[")),
+        alias($._block_documentation_comment_content, $.comment_content),
+        "]##"
+      ),
     block_comment: $ =>
-      seq(token(prec(1, "#[")), $._block_comment_content, "]#"),
-    documentation_comment: () => /##[^\n\r]*/,
-    comment: () => /#[^\n\r]*/,
+      seq(
+        token(prec(1, "#[")),
+        alias($._block_comment_content, $.comment_content),
+        "]#"
+      ),
+    documentation_comment: $ => seq("##", $.comment_content),
+    comment: $ => seq("#", $.comment_content),
   },
 });
 

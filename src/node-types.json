@@ -147,11 +147,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -195,15 +203,15 @@
           "named": true
         },
         {
+          "type": "raw_string_literal",
+          "named": true
+        },
+        {
           "type": "ref_type",
           "named": true
         },
         {
           "type": "statement_list",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -342,11 +350,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -386,11 +402,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -436,7 +452,15 @@
       "required": true,
       "types": [
         {
-          "type": "string_literal",
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
+          "named": true
+        },
+        {
+          "type": "raw_string_literal",
           "named": true
         }
       ]
@@ -527,7 +551,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -563,11 +595,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -685,11 +717,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -729,11 +769,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -812,12 +852,32 @@
   {
     "type": "block_comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "block_documentation_comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "bracket_expression",
@@ -900,7 +960,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -936,11 +1004,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -1074,11 +1142,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -1118,11 +1194,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -1229,7 +1305,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -1265,11 +1349,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -1363,7 +1447,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -1399,11 +1491,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -1547,11 +1639,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -1591,11 +1691,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -1775,11 +1875,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -1819,11 +1927,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -1950,7 +2058,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -1986,11 +2102,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -2108,11 +2224,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -2152,11 +2276,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -2181,6 +2305,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2338,11 +2477,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -2382,11 +2529,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -2543,11 +2690,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -2587,11 +2742,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -2826,11 +2981,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -2870,11 +3033,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -2981,7 +3144,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -3017,11 +3188,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -3171,11 +3342,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -3215,11 +3394,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -3343,6 +3522,21 @@
     }
   },
   {
+    "type": "documentation_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "dot_expression",
     "named": true,
     "fields": {
@@ -3423,7 +3617,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -3459,11 +3661,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -3581,7 +3783,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -3617,11 +3827,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -3783,11 +3993,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -3827,11 +4045,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -4011,11 +4229,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -4055,11 +4281,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -4186,7 +4412,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -4222,11 +4456,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -4344,11 +4578,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -4388,11 +4630,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -4573,11 +4815,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -4617,11 +4867,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -4775,11 +5025,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -4819,11 +5077,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -4972,11 +5230,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -5016,11 +5282,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -5228,11 +5494,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -5272,11 +5546,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -5452,21 +5726,28 @@
   {
     "type": "generalized_string",
     "named": true,
-    "fields": {},
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string_literal",
+          "type": "string_content",
           "named": true
         }
       ]
@@ -5577,11 +5858,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -5621,11 +5910,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -5785,11 +6074,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -5829,11 +6126,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -5975,11 +6272,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -6019,11 +6324,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -6173,11 +6478,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -6217,11 +6530,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -6347,7 +6660,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -6383,11 +6704,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -6551,7 +6872,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -6587,11 +6916,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -6639,6 +6968,21 @@
         },
         {
           "type": "statement_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interpreted_string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -6840,6 +7184,21 @@
       "types": [
         {
           "type": "variable_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "long_string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -7266,11 +7625,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -7310,11 +7677,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -7570,6 +7937,10 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_declaration",
           "named": true
         },
@@ -7583,6 +7954,10 @@
         },
         {
           "type": "let_section",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -7646,6 +8021,10 @@
           "named": true
         },
         {
+          "type": "raw_string_literal",
+          "named": true
+        },
+        {
           "type": "ref_type",
           "named": true
         },
@@ -7655,10 +8034,6 @@
         },
         {
           "type": "static_statement",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -7859,7 +8234,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -7895,11 +8278,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -8041,11 +8424,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -8085,11 +8476,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -8317,7 +8708,15 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -8357,15 +8756,15 @@
           "named": true
         },
         {
+          "type": "raw_string_literal",
+          "named": true
+        },
+        {
           "type": "ref_type",
           "named": true
         },
         {
           "type": "statement_list",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -8674,11 +9073,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -8718,11 +9125,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -8743,6 +9150,21 @@
         },
         {
           "type": "when",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "raw_string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
           "named": true
         }
       ]
@@ -8938,11 +9360,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -8982,11 +9412,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -9173,6 +9603,10 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_declaration",
           "named": true
         },
@@ -9186,6 +9620,10 @@
         },
         {
           "type": "let_section",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -9249,6 +9687,10 @@
           "named": true
         },
         {
+          "type": "raw_string_literal",
+          "named": true
+        },
+        {
           "type": "ref_type",
           "named": true
         },
@@ -9258,10 +9700,6 @@
         },
         {
           "type": "static_statement",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -9472,6 +9910,10 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_declaration",
           "named": true
         },
@@ -9485,6 +9927,10 @@
         },
         {
           "type": "let_section",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -9548,6 +9994,10 @@
           "named": true
         },
         {
+          "type": "raw_string_literal",
+          "named": true
+        },
+        {
           "type": "ref_type",
           "named": true
         },
@@ -9557,10 +10007,6 @@
         },
         {
           "type": "static_statement",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -9650,7 +10096,7 @@
     }
   },
   {
-    "type": "string_literal",
+    "type": "string_content",
     "named": true,
     "fields": {},
     "children": {
@@ -9978,6 +10424,10 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_declaration",
           "named": true
         },
@@ -9991,6 +10441,10 @@
         },
         {
           "type": "let_section",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -10054,6 +10508,10 @@
           "named": true
         },
         {
+          "type": "raw_string_literal",
+          "named": true
+        },
+        {
           "type": "ref_type",
           "named": true
         },
@@ -10063,10 +10521,6 @@
         },
         {
           "type": "static_statement",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -10259,11 +10713,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -10303,11 +10765,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -10507,7 +10969,15 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -10543,11 +11013,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -10842,11 +11312,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -10886,11 +11364,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -11073,11 +11551,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -11117,11 +11603,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -11277,11 +11763,19 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_expression",
             "named": true
           },
           {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -11321,11 +11815,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -11457,7 +11951,15 @@
             "named": true
           },
           {
+            "type": "interpreted_string_literal",
+            "named": true
+          },
+          {
             "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "long_string_literal",
             "named": true
           },
           {
@@ -11493,11 +11995,11 @@
             "named": true
           },
           {
-            "type": "ref_type",
+            "type": "raw_string_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "ref_type",
             "named": true
           },
           {
@@ -11621,11 +12123,19 @@
           "named": true
         },
         {
+          "type": "interpreted_string_literal",
+          "named": true
+        },
+        {
           "type": "iterator_expression",
           "named": true
         },
         {
           "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "long_string_literal",
           "named": true
         },
         {
@@ -11665,11 +12175,11 @@
           "named": true
         },
         {
-          "type": "ref_type",
+          "type": "raw_string_literal",
           "named": true
         },
         {
-          "type": "string_literal",
+          "type": "ref_type",
           "named": true
         },
         {
@@ -11701,6 +12211,14 @@
   },
   {
     "type": "\"\"\"",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "##",
     "named": false
   },
   {
@@ -11824,7 +12342,7 @@
     "named": false
   },
   {
-    "type": "comment",
+    "type": "comment_content",
     "named": true
   },
   {
@@ -11866,10 +12384,6 @@
   {
     "type": "do",
     "named": false
-  },
-  {
-    "type": "documentation_comment",
-    "named": true
   },
   {
     "type": "elif",

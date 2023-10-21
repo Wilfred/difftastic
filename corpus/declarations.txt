@@ -159,7 +159,8 @@ const Test* {.importc: "TEST".}: int
           (pragma_list
             (colon_expression
               left: (identifier)
-              right: (string_literal)))))
+              right: (interpreted_string_literal
+                (string_content))))))
       type: (type_expression
         (identifier)))))
 
@@ -584,7 +585,8 @@ type
           (identifier)
           (colon_expression
             left: (identifier)
-            right: (string_literal))))
+            right: (interpreted_string_literal
+              (string_content)))))
       (ref_type
         (object_declaration
           inherits: (type_expression
@@ -607,7 +609,8 @@ type
                   (pragma_list
                     (colon_expression
                       left: (identifier)
-                      right: (string_literal)))))
+                      right: (interpreted_string_literal
+                        (string_content))))))
               type: (type_expression
                 (bracket_expression
                   left: (identifier)
@@ -842,8 +845,10 @@ type
         refines: (refinement_list
           (type_expression
             (identifier)))
-        (comment)
-        (comment)
+        (comment
+          (comment_content))
+        (comment
+          (comment_content))
         body: (statement_list
           (infix_expression
             left: (call
@@ -971,7 +976,8 @@ proc trailing_fun(x, y,: float)
       (call
         function: (identifier)
         (argument_list
-          (string_literal)))))
+          (interpreted_string_literal
+            (string_content))))))
   (iterator_declaration
     name: (identifier)
     parameters: (parameter_declaration_list
@@ -1019,11 +1025,13 @@ proc trailing_fun(x, y,: float)
     name: (identifier))
   (proc_declaration
     name: (identifier)
-    (documentation_comment)
+    (documentation_comment
+      (comment_content))
     body: (statement_list))
   (proc_declaration
     name: (identifier)
-    (documentation_comment)
+    (documentation_comment
+      (comment_content))
     body: (statement_list))
   (proc_declaration
     name: (identifier)
@@ -1095,11 +1103,13 @@ type
         (enum_field_declaration
           (symbol_declaration
             name: (identifier))
-          value: (string_literal))
+          value: (interpreted_string_literal
+            (string_content)))
         (enum_field_declaration
           (symbol_declaration
             name: (identifier))
-          value: (string_literal))))
+          value: (interpreted_string_literal
+            (string_content)))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
@@ -1113,7 +1123,8 @@ type
         (enum_field_declaration
           (symbol_declaration
             name: (identifier))
-          value: (string_literal))))
+          value: (interpreted_string_literal
+            (string_content)))))
     (type_declaration
       (type_symbol_declaration
         name: (identifier))

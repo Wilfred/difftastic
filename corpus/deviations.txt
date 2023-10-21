@@ -14,12 +14,17 @@ r"string
 --------------------------------------------------------------------------------
 
 (source_file
-  (string_literal
-    (block_comment))
+  (interpreted_string_literal
+    (string_content)
+    (block_comment
+      (comment_content)))
   (char_literal
-    (block_comment))
-  (string_literal
-    (block_comment)))
+    (block_comment
+      (comment_content)))
+  (raw_string_literal
+    (string_content)
+    (block_comment
+      (comment_content))))
 
 ================================================================================
 Generalized string deviations
@@ -34,14 +39,16 @@ a.b #[]#"c"
 (source_file
   (generalized_string
     (identifier)
-    (block_comment)
-    (string_literal))
+    (block_comment
+      (comment_content))
+    (string_content))
   (generalized_string
     (dot_expression
       (identifier)
       (identifier))
-    (block_comment)
-    (string_literal)))
+    (block_comment
+      (comment_content))
+    (string_content)))
 
 ================================================================================
 Except deviations
