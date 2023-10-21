@@ -197,6 +197,7 @@ module.exports = grammar({
   externals: $ => [
     $._block_comment_content,
     $._block_documentation_comment_content,
+    $.comment_content, // used to notify the scanner
     $._long_string_quote,
     $._layout_start,
     $._layout_end,
@@ -1441,11 +1442,19 @@ module.exports = grammar({
     identifier: () => Identifier,
 
     block_documentation_comment: $ =>
-      seq(token(prec(1, "##[")), $._block_documentation_comment_content, "]##"),
+      seq(
+        token(prec(1, "##[")),
+        alias($._block_documentation_comment_content, $.comment_content),
+        "]##"
+      ),
     block_comment: $ =>
-      seq(token(prec(1, "#[")), $._block_comment_content, "]#"),
-    documentation_comment: () => /##[^\n\r]*/,
-    comment: () => /#[^\n\r]*/,
+      seq(
+        token(prec(1, "#[")),
+        alias($._block_comment_content, $.comment_content),
+        "]#"
+      ),
+    documentation_comment: $ => seq("##", $.comment_content),
+    comment: $ => seq("#", $.comment_content),
   },
 });
 

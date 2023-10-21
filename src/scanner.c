@@ -212,6 +212,7 @@ enum token_type {
   TOKEN_TYPE_START,
   BLOCK_COMMENT_CONTENT = TOKEN_TYPE_START,
   BLOCK_DOC_COMMENT_CONTENT,
+  COMMENT_CONTENT,
   LONG_STRING_QUOTE,
   LAYOUT_START,
   LAYOUT_END,
@@ -231,6 +232,7 @@ enum token_type {
 const char* const TOKEN_TYPE_STR[TOKEN_TYPE_LEN] = {
     "BLOCK_COMMENT_CONTENT",
     "BLOCK_DOC_COMMENT_CONTENT",
+    "COMMENT_CONTENT",
     "LONG_STRING_QUOTE",
     "LAYOUT_START",
     "LAYOUT_END",
@@ -545,13 +547,30 @@ LEX_FN(lex_long_string_quote)
 }
 
 static const struct valid_tokens COMMENT_TOKENS = VALID_TOKENS(
-    TO_VT_BIT(BLOCK_COMMENT_CONTENT) | TO_VT_BIT(BLOCK_DOC_COMMENT_CONTENT));
+    TO_VT_BIT(BLOCK_COMMENT_CONTENT) | TO_VT_BIT(BLOCK_DOC_COMMENT_CONTENT) |
+    TO_VT_BIT(COMMENT_CONTENT));
 
 LEX_FN(lex_comment_content)
 {
   if (!valid_tokens_any_valid(ctx->valid_tokens, COMMENT_TOKENS) ||
       valid_tokens_is_error(ctx->valid_tokens)) {
     return false;
+  }
+
+  if (valid_tokens_test(ctx->valid_tokens, COMMENT_CONTENT)) {
+    while (!context_eof(ctx)) {
+      switch (context_lookahead(ctx)) {
+      case '\n':
+      case '\r':
+        goto exit_short_comment_loop;
+      default:
+        context_advance(ctx, false);
+      }
+    }
+
+exit_short_comment_loop:
+    context_mark_end(ctx);
+    return context_finish(ctx, COMMENT_CONTENT);
   }
 
   uint32_t nesting = 0;

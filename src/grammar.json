@@ -10856,8 +10856,13 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_block_documentation_comment_content"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block_documentation_comment_content"
+          },
+          "named": true,
+          "value": "comment_content"
         },
         {
           "type": "STRING",
@@ -10880,8 +10885,13 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_block_comment_content"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block_comment_content"
+          },
+          "named": true,
+          "value": "comment_content"
         },
         {
           "type": "STRING",
@@ -10890,12 +10900,30 @@
       ]
     },
     "documentation_comment": {
-      "type": "PATTERN",
-      "value": "##[^\\n\\r]*"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "##"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "comment_content"
+        }
+      ]
     },
     "comment": {
-      "type": "PATTERN",
-      "value": "#[^\\n\\r]*"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "comment_content"
+        }
+      ]
     }
   },
   "extras": [
@@ -11264,6 +11292,10 @@
     {
       "type": "SYMBOL",
       "name": "_block_documentation_comment_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment_content"
     },
     {
       "type": "SYMBOL",

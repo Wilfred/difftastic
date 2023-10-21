@@ -812,12 +812,32 @@
   {
     "type": "block_comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "block_documentation_comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "bracket_expression",
@@ -2184,6 +2204,21 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "concept_declaration",
     "named": true,
     "fields": {
@@ -3340,6 +3375,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "documentation_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_content",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -11719,6 +11769,14 @@
     "named": false
   },
   {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "##",
+    "named": false
+  },
+  {
     "type": "##[",
     "named": false
   },
@@ -11839,7 +11897,7 @@
     "named": false
   },
   {
-    "type": "comment",
+    "type": "comment_content",
     "named": true
   },
   {
@@ -11881,10 +11939,6 @@
   {
     "type": "do",
     "named": false
-  },
-  {
-    "type": "documentation_comment",
-    "named": true
   },
   {
     "type": "elif",

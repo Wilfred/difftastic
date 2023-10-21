@@ -845,8 +845,10 @@ type
         refines: (refinement_list
           (type_expression
             (identifier)))
-        (comment)
-        (comment)
+        (comment
+          (comment_content))
+        (comment
+          (comment_content))
         body: (statement_list
           (infix_expression
             left: (call
@@ -1023,11 +1025,13 @@ proc trailing_fun(x, y,: float)
     name: (identifier))
   (proc_declaration
     name: (identifier)
-    (documentation_comment)
+    (documentation_comment
+      (comment_content))
     body: (statement_list))
   (proc_declaration
     name: (identifier)
-    (documentation_comment)
+    (documentation_comment
+      (comment_content))
     body: (statement_list))
   (proc_declaration
     name: (identifier)
