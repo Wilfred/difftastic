@@ -920,6 +920,8 @@ proc trailing(x,)
 
 proc trailing_fun(x, y,: float)
 
+proc generic[]() = discard
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1058,7 +1060,13 @@ proc trailing_fun(x, y,: float)
           (symbol_declaration
             name: (identifier)))
         type: (type_expression
-          (identifier))))))
+          (identifier)))))
+  (proc_declaration
+    name: (identifier)
+    generic_parameters: (generic_parameter_list)
+    parameters: (parameter_declaration_list)
+    body: (statement_list
+      (discard_statement))))
 
 ================================================================================
 Enum declarations

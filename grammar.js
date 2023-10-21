@@ -518,7 +518,7 @@ module.exports = grammar({
         field("body", optional(seq("=", $.statement_list)))
       ),
     generic_parameter_list: $ =>
-      seq("[", $._parameter_declaration_list, $._bracket_close),
+      seq("[", optional($._parameter_declaration_list), $._bracket_close),
     term_rewriting_pattern: $ => seq("{", $._statement, $._curly_close),
 
     using_section: $ => seq(keyword("using"), $._variable_declaration_section),
