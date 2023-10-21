@@ -24,4 +24,10 @@ SeparateDefinitionBlocks: Always
 SpaceAfterTemplateKeyword: false
 SpacesInContainerLiterals: false
 UseCRLF: false
+BreakAfterAttributes: Always
+AttributeMacros:
+  - "_nonnull_"
+  - "_returns_nonnull_"
+  - "_const_"
+  - "_pure_"
 # vim: set ft=yaml et:
