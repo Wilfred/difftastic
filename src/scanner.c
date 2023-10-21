@@ -218,6 +218,7 @@ enum token_type {
   LAYOUT_END,
   LAYOUT_TERMINATOR,
   LAYOUT_EMPTY,
+  INHIBIT_LAYOUT_END,
   COMMA,
   SYNCHRONIZE,
   INVALID_LAYOUT,
@@ -238,6 +239,7 @@ const char* const TOKEN_TYPE_STR[TOKEN_TYPE_LEN] = {
     "LAYOUT_END",
     "LAYOUT_TERMINATOR",
     "LAYOUT_EMPTY",
+    "INHIBIT_LAYOUT_END",
     "COMMA",
     "SYNCHRONIZE",
     "INVALID_LAYOUT",
@@ -727,6 +729,9 @@ LEX_FN(lex_case_of)
   }
 }
 
+const struct valid_tokens NO_LAYOUT_END_CTX =
+    VALID_TOKENS(TO_VT_BIT(INHIBIT_LAYOUT_END) | TO_VT_BIT(LONG_STRING_QUOTE));
+
 // This function is big by design.
 //
 // NOLINTNEXTLINE(*-cognitive-complexity)
@@ -803,7 +808,7 @@ LEX_FN(lex_indent)
   }
 
   // Implicit layout changes
-  if (!valid_tokens_test(ctx->valid_tokens, LONG_STRING_QUOTE) ||
+  if (!valid_tokens_any_valid(ctx->valid_tokens, NO_LAYOUT_END_CTX) ||
       valid_tokens_is_error(ctx->valid_tokens)) {
     // LAYOUT_END
     if (current_indent < current_layout || context_eof(ctx)) {
