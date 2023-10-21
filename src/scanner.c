@@ -427,6 +427,14 @@ _nonnull_(1) static bool context_finish(
   return true;
 }
 
+#define TRY_LEX_INNER(cnt, ctx, fn, ...)                  \
+  do {                                                    \
+    const uint32_t last_count_##cnt = (ctx)->counter;     \
+    if (fn((ctx), ##__VA_ARGS__)) {                       \
+      return true;                                        \
+    }                                                     \
+    if ((ctx)->counter != last_count_##cnt) return false; \
+  } while (false)
 /// Try lexing with the given function.
 ///
 /// If the function succeed, the lexer returns immediately.
@@ -437,14 +445,7 @@ _nonnull_(1) static bool context_finish(
 ///
 /// @param ctx - The context to monitor state with, and as input to `fn`.
 /// @param fn - The lexing function
-#define TRY_LEX(ctx, fn, ...)                       \
-  do {                                              \
-    const uint32_t last_count = (ctx)->counter;     \
-    if (fn((ctx), ##__VA_ARGS__)) {                 \
-      return true;                                  \
-    }                                               \
-    if ((ctx)->counter != last_count) return false; \
-  } while (false)
+#define TRY_LEX(ctx, fn, ...) TRY_LEX_INNER(__COUNTER__, ctx, fn, ##__VA_ARGS__)
 #define LEX_FN(name, ...) \
   _nonnull_(1) static bool name(struct context* ctx, ##__VA_ARGS__)
 
