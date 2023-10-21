@@ -1230,8 +1230,16 @@ module.exports = grammar({
       ),
     _generalized_string_literal: $ =>
       choice(
-        seq(token.immediate('"""'), $._long_string_body),
-        seq(token.immediate('"'), $._raw_string_body)
+        seq(
+          token.immediate('"""'),
+          optional(alias($._long_string_body, $.string_content)),
+          token.immediate('"""')
+        ),
+        seq(
+          token.immediate('"'),
+          optional(alias($._raw_string_body, $.string_content)),
+          token.immediate('"')
+        )
       ),
 
     /* Supporting expressions */
@@ -1378,10 +1386,12 @@ module.exports = grammar({
     _interpreted_string_literal: $ =>
       seq(
         '"',
-        repeat(
-          choice(token.immediate(prec(2, /[^\n\r"\\]+/)), $.escape_sequence)
-        ),
+        optional(alias($._interpreted_string_body, $.string_content)),
         token.immediate('"')
+      ),
+    _interpreted_string_body: $ =>
+      repeat1(
+        choice(token.immediate(prec(2, /[^\n\r"\\]+/)), $.escape_sequence)
       ),
 
     escape_sequence: () =>
@@ -1396,28 +1406,30 @@ module.exports = grammar({
         )
       ),
 
-    _raw_string_literal: $ => seq(choice('r"', 'R"'), $._raw_string_body),
+    _raw_string_literal: $ =>
+      seq(
+        choice('r"', 'R"'),
+        optional(alias($._raw_string_body, $.string_content)),
+        token.immediate('"')
+      ),
 
     _raw_string_body: $ =>
-      seq(
-        repeat(
-          choice(
-            token.immediate(prec(2, /[^\n\r"]/)),
-            alias($._raw_string_escape, $.escape_sequence)
-          )
-        ),
-        token.immediate('"')
+      repeat1(
+        choice(
+          token.immediate(prec(2, /[^\n\r"]/)),
+          alias($._raw_string_escape, $.escape_sequence)
+        )
       ),
     _raw_string_escape: () => token.immediate('""'),
 
     _long_string_literal: $ =>
-      seq(choice('"""', 'r"""', 'R"""'), $._long_string_body),
-
-    _long_string_body: $ =>
       seq(
-        repeat(choice(token.immediate(prec(2, /[^"]+/)), $._long_string_quote)),
+        choice('"""', 'r"""', 'R"""'),
+        optional(alias($._long_string_body, $.string_content)),
         token.immediate('"""')
       ),
+    _long_string_body: $ =>
+      repeat1(choice(token.immediate(prec(2, /[^"]+/)), $._long_string_quote)),
 
     /* Identifiers and related shenanigans */
     _symbol: $ => choice($.accent_quoted, $.identifier, $.blank_identifier),

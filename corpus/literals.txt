@@ -154,37 +154,53 @@ r"C:\"
 (source_file
   (string_literal)
   (string_literal)
-  (string_literal)
+  (string_literal
+    (string_content))
+  (string_literal
+    (string_content))
+  (string_literal
+    (string_content
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)))
+  (string_literal
+    (string_content
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)))
+  (string_literal
+    (string_content))
+  (string_literal
+    (string_content))
+  (string_literal
+    (string_content
+      (escape_sequence)
+      (escape_sequence)))
+  (string_literal
+    (string_content
+      (escape_sequence)))
+  (string_literal
+    (string_content
+      (escape_sequence)))
   (string_literal)
   (string_literal
-    (escape_sequence)
-    (escape_sequence)
-    (escape_sequence))
+    (string_content))
   (string_literal
-    (escape_sequence)
-    (escape_sequence)
-    (escape_sequence)
-    (escape_sequence)
-    (escape_sequence))
-  (string_literal)
-  (string_literal)
+    (string_content))
   (string_literal
-    (escape_sequence)
-    (escape_sequence))
-  (string_literal
-    (escape_sequence))
-  (string_literal
-    (escape_sequence))
-  (string_literal)
-  (string_literal)
-  (string_literal)
-  (string_literal)
+    (string_content))
   (block
     body: (statement_list
-      (string_literal)))
-  (string_literal)
-  (string_literal)
-  (string_literal))
+      (string_literal
+        (string_content))))
+  (string_literal
+    (string_content))
+  (string_literal
+    (string_content))
+  (string_literal
+    (string_content)))
 
 ================================================================================
 Character literals

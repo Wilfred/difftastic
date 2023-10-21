@@ -15,10 +15,12 @@ r"string
 
 (source_file
   (string_literal
+    (string_content)
     (block_comment))
   (char_literal
     (block_comment))
   (string_literal
+    (string_content)
     (block_comment)))
 
 ================================================================================
@@ -35,13 +37,15 @@ a.b #[]#"c"
   (generalized_string
     (identifier)
     (block_comment)
-    (string_literal))
+    (string_literal
+      (string_content)))
   (generalized_string
     (dot_expression
       (identifier)
       (identifier))
     (block_comment)
-    (string_literal)))
+    (string_literal
+      (string_content))))
 
 ================================================================================
 Except deviations
