@@ -922,6 +922,13 @@ proc trailing_fun(x, y,: float)
 
 proc generic[]() = discard
 
+template foo{x; y += 10}() = discard
+
+template foo{
+  var x = 100;
+  x * x + 100
+}() = discard
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -940,12 +947,13 @@ proc generic[]() = discard
   (template_declaration
     name: (identifier)
     rewrite_pattern: (term_rewriting_pattern
-      (call
-        function: (accent_quoted
-          (identifier))
-        (argument_list
-          (identifier)
-          (integer_literal))))
+      (statement_list
+        (call
+          function: (accent_quoted
+            (identifier))
+          (argument_list
+            (identifier)
+            (integer_literal)))))
     parameters: (parameter_declaration_list
       (parameter_declaration
         (symbol_declaration_list
@@ -1064,6 +1072,38 @@ proc generic[]() = discard
   (proc_declaration
     name: (identifier)
     generic_parameters: (generic_parameter_list)
+    parameters: (parameter_declaration_list)
+    body: (statement_list
+      (discard_statement)))
+  (template_declaration
+    name: (identifier)
+    rewrite_pattern: (term_rewriting_pattern
+      (statement_list
+        (identifier)
+        (infix_expression
+          left: (identifier)
+          operator: (operator)
+          right: (integer_literal))))
+    parameters: (parameter_declaration_list)
+    body: (statement_list
+      (discard_statement)))
+  (template_declaration
+    name: (identifier)
+    rewrite_pattern: (term_rewriting_pattern
+      (statement_list
+        (var_section
+          (variable_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier)))
+            value: (integer_literal)))
+        (infix_expression
+          left: (infix_expression
+            left: (identifier)
+            operator: (operator)
+            right: (identifier))
+          operator: (operator)
+          right: (integer_literal))))
     parameters: (parameter_declaration_list)
     body: (statement_list
       (discard_statement))))

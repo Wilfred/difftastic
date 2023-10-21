@@ -1313,8 +1313,13 @@
           "value": "{"
         },
         {
-          "type": "SYMBOL",
-          "name": "_statement"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_semi_statement_list"
+          },
+          "named": true,
+          "value": "statement_list"
         },
         {
           "type": "SYMBOL",
