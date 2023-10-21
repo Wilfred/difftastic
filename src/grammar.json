@@ -68,8 +68,16 @@
           "name": "_layout_start"
         },
         {
-          "type": "SYMBOL",
-          "name": "_semi_statement_list"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_semi_statement_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

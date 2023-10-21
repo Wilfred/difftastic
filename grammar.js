@@ -397,7 +397,7 @@ module.exports = grammar({
 
     _line_statement_list: $ => prec.right(sep1($._simple_statement, ";")),
     _block_statement_list: $ =>
-      seq($._layout_start, $._semi_statement_list, $._layout_end),
+      seq($._layout_start, optional($._semi_statement_list), $._layout_end),
 
     _semi_statement_list: $ =>
       repeat1(seq($._statement, choice(";", $._layout_terminator))),

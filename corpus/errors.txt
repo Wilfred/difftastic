@@ -22,4 +22,38 @@ type
                 (symbol_declaration
                   (identifier)))))
           (ERROR
-            (identifier)))))))
+            (identifier)))))
+    (MISSING _layout_end)))
+
+================================================================================
+Error within statements with body
+================================================================================
+
+if true:
+  while
+
+if true:
+  while true:
+    try: x
+    except:
+      let
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (if
+    (identifier)
+    (statement_list
+      (ERROR)))
+  (if
+    (identifier)
+    (statement_list
+      (while
+        (identifier)
+        (statement_list
+          (try
+            (statement_list
+              (identifier))
+            (except_branch
+              (statement_list
+                (ERROR)))))))))
