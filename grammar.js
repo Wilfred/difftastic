@@ -1061,7 +1061,7 @@ module.exports = grammar({
     _tuple_field_declaration_list: $ =>
       seq(
         choice("[", token.immediate("[")),
-        $._field_declaration_list,
+        optional($._field_declaration_list),
         $._bracket_close
       ),
 

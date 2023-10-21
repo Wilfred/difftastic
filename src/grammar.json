@@ -4728,8 +4728,16 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_field_declaration_list"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_field_declaration_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

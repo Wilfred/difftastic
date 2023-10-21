@@ -1454,6 +1454,8 @@ ptr ptr char
 
 (var int, var int)
 
+tuple[]
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1474,7 +1476,9 @@ ptr ptr char
         (identifier)))
     (var_type
       (type_expression
-        (identifier)))))
+        (identifier))))
+  (tuple_type
+    (field_declaration_list)))
 
 ================================================================================
 Routine expressions
