@@ -16,17 +16,35 @@ jobs:
         with:
           cache: "npm"
           node-version: "16"
+
       - run: npm ci
       - run: npm run build
-      - name: Check for differences between commit and built file
+
+      - name: Upload built parser to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: parser
+          path: src/parser.c
+
+  compare-parser:
+    needs: [generate]
+    name: Check if generated parser is the same as the PR's
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download generated parser
+        uses: actions/download-artifact@v3
+        with:
+          name: parser
+          path: src/
+      - name: Check for differences with git
         run: |
-          if ! git diff --exit-code; then
-            echo '::error::There are differences between commit and code built. Make sure that `npm run build` is run before commiting. Check log for more details.'
-            git diff
-            exit 1
+          if ! git diff --exit-code src/parser.c; then
+            echo "::warning file=grammar.js,line=1,title=The generated parser is different from the commit's::Currently this is just a reminder for the repo owner to double check the PR"
           fi
 
   tests:
+    needs: [generate]
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -38,6 +56,11 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
+      - name: Download generated parser
+        uses: actions/download-artifact@v3
+        with:
+          name: parser
+          path: src/
       - run: npm ci
       - name: Run test suite
         run: npm test
@@ -47,6 +70,7 @@ jobs:
         shell: bash
 
   rust:
+    needs: [generate]
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -54,6 +78,11 @@ jobs:
     name: Run rust test build on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Download generated parser
+        uses: actions/download-artifact@v3
+        with:
+          name: parser
+          path: src/
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -65,6 +94,7 @@ jobs:
 
   success:
     needs:
+      - compare-parser
       - generate
       - tests
       - rust
