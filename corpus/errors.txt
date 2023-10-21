@@ -57,3 +57,23 @@ if true:
             (except_branch
               (statement_list
                 (ERROR)))))))))
+
+================================================================================
+Hanging dot error
+================================================================================
+
+func main() =
+  f.
+
+a
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (func_declaration
+    (identifier)
+    (parameter_declaration_list)
+    (statement_list
+      (ERROR
+        (identifier))))
+  (identifier))
