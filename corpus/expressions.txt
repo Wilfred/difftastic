@@ -911,6 +911,13 @@ block:
 if true: expr1
 else: expr2
 
+if true:
+  foo else: bar
+
+if true:
+  proc foo =
+    discard else: bar
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -982,6 +989,23 @@ else: expr2
     condition: (identifier)
     consequence: (statement_list
       (identifier))
+    alternative: (else_branch
+      (statement_list
+        (identifier))))
+  (if
+    condition: (identifier)
+    consequence: (statement_list
+      (identifier))
+    alternative: (else_branch
+      (statement_list
+        (identifier))))
+  (if
+    condition: (identifier)
+    consequence: (statement_list
+      (proc_declaration
+        name: (identifier)
+        body: (statement_list
+          (discard_statement))))
     alternative: (else_branch
       (statement_list
         (identifier)))))
@@ -1257,6 +1281,10 @@ finally:
 try: echo x
 except: echo y
 
+try:
+  echo x except: echo y
+finally: bar
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1326,7 +1354,22 @@ except: echo y
         (call
           function: (identifier)
           (argument_list
-            (identifier)))))))
+            (identifier))))))
+  (try
+    body: (statement_list
+      (call
+        function: (identifier)
+        (argument_list
+          (identifier))))
+    (except_branch
+      (statement_list
+        (call
+          function: (identifier)
+          (argument_list
+            (identifier)))))
+    (finally_branch
+      (statement_list
+        (identifier)))))
 
 ================================================================================
 Pragma statements
