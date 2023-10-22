@@ -95,3 +95,21 @@ finally
           (identifier)))
       (integer_literal)))
   (identifier))
+
+================================================================================
+Incomplete try statements
+================================================================================
+
+if x:
+  try:
+    discard
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (if
+    (identifier)
+    (statement_list
+      (try
+        (statement_list
+          (discard_statement))))))

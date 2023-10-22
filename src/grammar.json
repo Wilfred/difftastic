@@ -3467,60 +3467,56 @@
       }
     },
     "try": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": 1,
-              "content": {
-                "type": "PATTERN",
-                "value": "t_?[rR]_?[yY]"
-              }
-            }
-          },
-          "named": false,
-          "value": "try"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "FIELD",
-          "name": "body",
-          "content": {
-            "type": "SYMBOL",
-            "name": "statement_list"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_try_tail"
-        }
-      ]
-    },
-    "_try_tail": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_inhibit_keyword_termination"
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "t_?[rR]_?[yY]"
+                }
+              }
             },
-            {
+            "named": false,
+            "value": "try"
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
               "type": "SYMBOL",
-              "name": "_try_branch"
+              "name": "statement_list"
             }
-          ]
-        }
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_inhibit_keyword_termination"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_try_branch"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "_try_branch": {

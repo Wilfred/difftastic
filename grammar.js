@@ -834,10 +834,13 @@ module.exports = grammar({
       ),
 
     try: $ =>
-      seq(keyword("try"), ":", field("body", $.statement_list), $._try_tail),
-    _try_tail: $ =>
       prec.right(
-        repeat1(choice($._inhibit_keyword_termination, $._try_branch))
+        seq(
+          keyword("try"),
+          ":",
+          field("body", $.statement_list),
+          repeat(choice($._inhibit_keyword_termination, $._try_branch))
+        )
       ),
     _try_branch: $ => choice($.except_branch, $.finally_branch),
 
