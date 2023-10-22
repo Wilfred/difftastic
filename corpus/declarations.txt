@@ -176,6 +176,8 @@ l_e_t
   b: uint32 = 42
   (e, f) = (1, 2)
 
+let 😂 = fun
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -221,7 +223,13 @@ l_e_t
             name: (identifier))))
       value: (tuple_construction
         (integer_literal)
-        (integer_literal)))))
+        (integer_literal))))
+  (let_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      value: (identifier))))
 
 ================================================================================
 Var declarations
@@ -912,6 +920,15 @@ proc trailing(x,)
 
 proc trailing_fun(x, y,: float)
 
+proc generic[]() = discard
+
+template foo{x; y += 10}() = discard
+
+template foo{
+  var x = 100;
+  x * x + 100
+}() = discard
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -930,12 +947,13 @@ proc trailing_fun(x, y,: float)
   (template_declaration
     name: (identifier)
     rewrite_pattern: (term_rewriting_pattern
-      (call
-        function: (accent_quoted
-          (identifier))
-        (argument_list
-          (identifier)
-          (integer_literal))))
+      (statement_list
+        (call
+          function: (accent_quoted
+            (identifier))
+          (argument_list
+            (identifier)
+            (integer_literal)))))
     parameters: (parameter_declaration_list
       (parameter_declaration
         (symbol_declaration_list
@@ -1050,7 +1068,45 @@ proc trailing_fun(x, y,: float)
           (symbol_declaration
             name: (identifier)))
         type: (type_expression
-          (identifier))))))
+          (identifier)))))
+  (proc_declaration
+    name: (identifier)
+    generic_parameters: (generic_parameter_list)
+    parameters: (parameter_declaration_list)
+    body: (statement_list
+      (discard_statement)))
+  (template_declaration
+    name: (identifier)
+    rewrite_pattern: (term_rewriting_pattern
+      (statement_list
+        (identifier)
+        (infix_expression
+          left: (identifier)
+          operator: (operator)
+          right: (integer_literal))))
+    parameters: (parameter_declaration_list)
+    body: (statement_list
+      (discard_statement)))
+  (template_declaration
+    name: (identifier)
+    rewrite_pattern: (term_rewriting_pattern
+      (statement_list
+        (var_section
+          (variable_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier)))
+            value: (integer_literal)))
+        (infix_expression
+          left: (infix_expression
+            left: (identifier)
+            operator: (operator)
+            right: (identifier))
+          operator: (operator)
+          right: (integer_literal))))
+    parameters: (parameter_declaration_list)
+    body: (statement_list
+      (discard_statement))))
 
 ================================================================================
 Enum declarations

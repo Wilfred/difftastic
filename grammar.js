@@ -27,7 +27,10 @@ const NumericLiteral = token(
     )
   )
 );
-const Identifier = /[a-zA-Z\x80-\xff](_?[a-zA-Z0-9\x80-\xff])*/;
+
+// Nim doesn't define any unicode categories, so let's just pick them all
+const Identifier =
+  /[a-zA-Z\U00000080-\U0010FFFF&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]](_?[a-zA-Z0-9\U00000080-\U0010FFFF&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]])*/;
 const CharEscapeSequence = /[rRcCnNlLfFtTvV\\"'aAbBeE]|\d+|[xX][0-9a-fA-F]{2}/;
 
 const Templates = {
@@ -103,27 +106,27 @@ const Operators = [
   ".",
   ":",
   "\\",
-  // "∙",
-  // "∘",
-  // "×",
-  // "★",
-  // "⊗",
-  // "⊘",
-  // "⊙",
-  // "⊛",
-  // "⊠",
-  // "⊡",
-  // "∩",
-  // "∧",
-  // "⊓",
-  // "±",
-  // "⊕",
-  // "⊖",
-  // "⊞",
-  // "⊟",
-  // "∪",
-  // "∨",
-  // "⊔",
+  "∙",
+  "∘",
+  "×",
+  "★",
+  "⊗",
+  "⊘",
+  "⊙",
+  "⊛",
+  "⊠",
+  "⊡",
+  "∩",
+  "∧",
+  "⊓",
+  "±",
+  "⊕",
+  "⊖",
+  "⊞",
+  "⊟",
+  "∪",
+  "∨",
+  "⊔",
 ];
 const InfixOperators = {
   R10: token(seq("^", repeat(choice(...Operators)))),
@@ -133,20 +136,20 @@ const InfixOperators = {
       choice(
         "%",
         "\\",
-        "/"
-        // "∙",
-        // "∘",
-        // "×",
-        // "★",
-        // "⊗",
-        // "⊘",
-        // "⊙",
-        // "⊛",
-        // "⊠",
-        // "⊡",
-        // "∩",
-        // "∧",
-        // "⊓"
+        "/",
+        "∙",
+        "∘",
+        "×",
+        "★",
+        "⊗",
+        "⊘",
+        "⊙",
+        "⊛",
+        "⊠",
+        "⊡",
+        "∩",
+        "∧",
+        "⊓"
       ),
       repeat(choice(...Operators))
     )
@@ -154,13 +157,7 @@ const InfixOperators = {
   L9Star: token(seq("*", repeat(choice(...Operators.filter(x => x != ":"))))),
   L8: token(
     seq(
-      choice(
-        "+",
-        "-",
-        "~",
-        "|"
-        // "±", "⊕", "⊖", "⊞", "⊟", "∪", "∨", "⊔"
-      ),
+      choice("+", "-", "~", "|", "±", "⊕", "⊖", "⊞", "⊟", "∪", "∨", "⊔"),
       repeat(choice(...Operators))
     )
   ),
@@ -521,8 +518,9 @@ module.exports = grammar({
         field("body", optional(seq("=", $.statement_list)))
       ),
     generic_parameter_list: $ =>
-      seq("[", $._parameter_declaration_list, $._bracket_close),
-    term_rewriting_pattern: $ => seq("{", $._statement, $._curly_close),
+      seq("[", optional($._parameter_declaration_list), $._bracket_close),
+    term_rewriting_pattern: $ =>
+      seq("{", alias($._semi_statement_list, $.statement_list), $._curly_close),
 
     using_section: $ => seq(keyword("using"), $._variable_declaration_section),
     const_section: $ => seq(keyword("const"), $._variable_declaration_section),
@@ -1064,7 +1062,7 @@ module.exports = grammar({
     _tuple_field_declaration_list: $ =>
       seq(
         choice("[", token.immediate("[")),
-        $._field_declaration_list,
+        optional($._field_declaration_list),
         $._bracket_close
       ),
 
