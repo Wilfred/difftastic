@@ -203,6 +203,7 @@ module.exports = grammar({
     $._layout_end,
     $._layout_terminator,
     $._layout_empty,
+    $._inhibit_layout_end,
     // @ts-ignore: DSL not updated for literals
     ",",
     $._synchronize,
@@ -513,8 +514,9 @@ module.exports = grammar({
         Templates.proc_type_tail($),
         field("body", optional(seq("=", $.statement_list)))
       ),
-    generic_parameter_list: $ => seq("[", $._parameter_declaration_list, "]"),
-    term_rewriting_pattern: $ => seq("{", $._statement, "}"),
+    generic_parameter_list: $ =>
+      seq("[", $._parameter_declaration_list, $._bracket_close),
+    term_rewriting_pattern: $ => seq("{", $._statement, $._curly_close),
 
     using_section: $ => seq(keyword("using"), $._variable_declaration_section),
     const_section: $ => seq(keyword("const"), $._variable_declaration_section),
@@ -929,7 +931,11 @@ module.exports = grammar({
         )
       ),
     _call_argument_list: $ =>
-      seq(token.immediate("("), optional($._colon_equal_expression_list), ")"),
+      seq(
+        token.immediate("("),
+        optional($._colon_equal_expression_list),
+        $._paren_close
+      ),
     _command_complex_expression: $ =>
       seq(
         field("function", $._basic_expression),
@@ -964,7 +970,7 @@ module.exports = grammar({
         )
       ),
     _dot_generic_argument_list: $ =>
-      seq(token.immediate("[:"), sep1($._expression, ","), "]"),
+      seq(token.immediate("[:"), sep1($._expression, ","), $._bracket_close),
     _post_expression_block: $ =>
       prec.right(
         seq(
@@ -1033,7 +1039,11 @@ module.exports = grammar({
         seq(keyword("ptr"), optional($.type_expression))
       ),
     _tuple_field_declaration_list: $ =>
-      seq(choice("[", token.immediate("[")), $._field_declaration_list, "]"),
+      seq(
+        choice("[", token.immediate("[")),
+        $._field_declaration_list,
+        $._bracket_close
+      ),
 
     _proc_type: $ => Templates.proc_type($, keyword("proc")),
     _iterator_type: $ => Templates.proc_type($, keyword("iterator")),
@@ -1158,8 +1168,11 @@ module.exports = grammar({
     cast: $ =>
       seq(
         keyword("cast"),
-        field("type", optional(seq("[", $.type_expression, "]"))),
-        field("value", seq("(", choice($._expression, $.colon_expression), ")"))
+        field("type", optional(seq("[", $.type_expression, $._bracket_close))),
+        field(
+          "value",
+          seq("(", choice($._expression, $.colon_expression), $._paren_close)
+        )
       ),
     parenthesized: $ =>
       choice(
@@ -1176,9 +1189,9 @@ module.exports = grammar({
           ),
           repeat(seq(";", $._statement)),
           optional(";"),
-          ")"
+          $._paren_close
         ),
-        seq("(", ";", sep1($._statement, ";"), optional(";"), ")")
+        seq("(", ";", sep1($._statement, ";"), optional(";"), $._paren_close)
       ),
     dot_expression: $ =>
       prec(
@@ -1195,7 +1208,7 @@ module.exports = grammar({
             "right",
             optional(alias($._colon_equal_expression_list, $.argument_list))
           ),
-          "]"
+          $._bracket_close
         )
       ),
     curly_expression: $ =>
@@ -1208,7 +1221,7 @@ module.exports = grammar({
             "right",
             optional(alias($._colon_equal_expression_list, $.argument_list))
           ),
-          "}"
+          $._curly_close
         )
       ),
     pragma_expression: $ =>
@@ -1216,14 +1229,16 @@ module.exports = grammar({
 
     /* Literal construction */
     array_construction: $ =>
-      seq("[", optional($._colon_equal_expression_list), "]"),
+      seq("[", optional($._colon_equal_expression_list), $._bracket_close),
     curly_construction: $ =>
       choice(
-        seq("{", $._colon_equal_expression_list, "}"),
-        seq("{", optional(":"), "}")
+        seq("{", $._colon_equal_expression_list, $._curly_close),
+        seq("{", optional(":"), $._curly_close)
       ),
     tuple_construction: $ =>
-      choice(seq("(", optional($._colon_equal_expression_list), ")")),
+      choice(
+        seq("(", optional($._colon_equal_expression_list), $._paren_close)
+      ),
     generalized_string: $ =>
       seq(
         field("function", choice($.identifier, $.dot_expression)),
@@ -1245,7 +1260,11 @@ module.exports = grammar({
 
     /* Supporting expressions */
     pragma_list: $ =>
-      seq("{.", optional($._colon_equal_expression_list), choice(".}", "}")),
+      seq(
+        "{.",
+        optional($._colon_equal_expression_list),
+        choice($._dot_curly_close, $._curly_close)
+      ),
     expression_list: $ => prec.right(sep1(choice($._expression), ",")),
     _equal_expression_list: $ =>
       prec.right(
@@ -1282,7 +1301,7 @@ module.exports = grammar({
       seq(
         choice("(", token.immediate("(")),
         optional($._parameter_declaration_list),
-        ")"
+        $._paren_close
       ),
     _parameter_declaration_list: $ =>
       seq(
@@ -1326,7 +1345,7 @@ module.exports = grammar({
           ","
         ),
         optional(","),
-        ")"
+        $._paren_close
       ),
     symbol_declaration: $ =>
       seq(
@@ -1440,6 +1459,11 @@ module.exports = grammar({
     _accent_quoted_identifier: () => /[^\x00-\x1f\r\n\t` ]+/,
     blank_identifier: () => "_",
     identifier: () => Identifier,
+
+    _paren_close: $ => seq(optional($._inhibit_layout_end), ")"),
+    _bracket_close: $ => seq(optional($._inhibit_layout_end), "]"),
+    _curly_close: $ => seq(optional($._inhibit_layout_end), "}"),
+    _dot_curly_close: $ => seq(optional($._inhibit_layout_end), ".}"),
 
     block_documentation_comment: $ =>
       seq(

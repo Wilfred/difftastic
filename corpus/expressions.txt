@@ -426,6 +426,10 @@ test(
 collect(for x in s:
   {s: x})
 
+block:
+  foo(a, b,
+"string")
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -591,7 +595,16 @@ collect(for x in s:
           (curly_construction
             (colon_expression
               left: (identifier)
-              right: (identifier))))))))
+              right: (identifier)))))))
+  (block
+    body: (statement_list
+      (call
+        function: (identifier)
+        (argument_list
+          (identifier)
+          (identifier)
+          (interpreted_string_literal
+            (string_content)))))))
 
 ================================================================================
 Command calls
@@ -1491,6 +1504,10 @@ y, z, 10,
 [c: if c:
   d]
 
+block:
+  [a, b,
+c, d]
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1521,7 +1538,14 @@ y, z, 10,
       (if
         (identifier)
         (statement_list
-          (identifier))))))
+          (identifier)))))
+  (block
+    (statement_list
+      (array_construction
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Set/Table construction
@@ -1536,6 +1560,10 @@ Set/Table construction
 
 {a: when c:
   d}
+
+block:
+  {a, b,
+c, d}
 
 --------------------------------------------------------------------------------
 
@@ -1560,7 +1588,14 @@ Set/Table construction
       (when
         (identifier)
         (statement_list
-          (identifier))))))
+          (identifier)))))
+  (block
+    (statement_list
+      (curly_construction
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Tuple construction
@@ -1571,6 +1606,10 @@ Tuple construction
 (20,)
 (x: 1, 2,)
 (a: "string")
+
+block:
+  (a: "string",
+b: 42)
 
 --------------------------------------------------------------------------------
 
@@ -1592,7 +1631,17 @@ Tuple construction
     (colon_expression
       left: (identifier)
       right: (interpreted_string_literal
-        (string_content)))))
+        (string_content))))
+  (block
+    body: (statement_list
+      (tuple_construction
+        (colon_expression
+          left: (identifier)
+          right: (interpreted_string_literal
+            (string_content)))
+        (colon_expression
+          left: (identifier)
+          right: (integer_literal))))))
 
 ================================================================================
 Parenthesized expressions
@@ -1601,6 +1650,10 @@ Parenthesized expressions
 (10)
 ("string")
 (discard; 1;)
+
+block:
+  ("may extend outside of indent",
+expr)
 
 --------------------------------------------------------------------------------
 
@@ -1612,7 +1665,13 @@ Parenthesized expressions
       (string_content)))
   (parenthesized
     (discard_statement)
-    (integer_literal)))
+    (integer_literal))
+  (block
+    (statement_list
+      (tuple_construction
+        (interpreted_string_literal
+          (string_content))
+        (identifier)))))
 
 ================================================================================
 Cast expressions
