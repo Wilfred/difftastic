@@ -418,6 +418,7 @@ module.exports = grammar({
     ),
     group: $ => seq(
       '(',
+      optional(':'),
       repeat(seq($._expr, ',')),
       optional($._expr),
       ')',
