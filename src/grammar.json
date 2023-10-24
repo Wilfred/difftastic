@@ -5068,6 +5068,10 @@
         {
           "type": "STRING",
           "value": "inner"
+        },
+        {
+          "type": "STRING",
+          "value": "value"
         }
       ]
     },
@@ -5377,6 +5381,10 @@
         {
           "type": "STRING",
           "value": "inner"
+        },
+        {
+          "type": "STRING",
+          "value": "value"
         },
         {
           "type": "STRING",
