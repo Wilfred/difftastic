@@ -1,5 +1,5 @@
 sample_files/Session_before.kt sample_files/Session_after.kt
-7b0c38d1fcc9b4e20c5fcf0070cb1620  -
+80c53658ee849d38f397863803677a02  -
 
 sample_files/ada_before.adb sample_files/ada_after.adb
 626e22f4f256ae591ece3f280176b3f7  -
@@ -150,6 +150,9 @@ sample_files/newick_before.nwk sample_files/newick_after.nwk
 
 sample_files/nix_before.nix sample_files/nix_after.nix
 e00b95a4cf3fa3edf994155d8656063f  -
+
+sample_files/nullable_before.kt sample_files/nullable_after.kt
+66da628a2c20e18059b8669aaa14a163  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 2113c6c7959b8099f678d13953f7f44a  -

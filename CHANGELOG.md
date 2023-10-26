@@ -4,7 +4,8 @@
 
 Added support for SCSS.
 
-Updated the Kotlin parser.
+Updated the Kotlin parser and improved handling of Kotlin nullable
+types.
 
 ### Command Line Interface
 

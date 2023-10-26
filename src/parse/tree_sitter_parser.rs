@@ -615,7 +615,11 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_kotlin() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["line_string_literal", "character_literal"]
+                // Flattening nullable type means we can't diff the
+                // structure of complex types within, but it beats
+                // ignoring nullable changes.
+                // https://github.com/Wilfred/difftastic/issues/411
+                atom_nodes: vec!["line_string_literal", "character_literal", "nullable_type"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]
