@@ -4,6 +4,8 @@
 
 Added support for SCSS.
 
+Updated the Kotlin parser.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return

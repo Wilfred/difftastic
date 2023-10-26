@@ -9520,6 +9520,10 @@
     "named": false
   },
   {
+    "type": "value",
+    "named": false
+  },
+  {
     "type": "var",
     "named": false
   },
