@@ -278,36 +278,7 @@ module.exports = grammar({
     _labeled_name_param: ($) =>
       seq(field("label", $.label), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
-    // This method diverges from the parser's `parse_expression_seq` somewhat.
-    // The parser considers all expressions after a `try` to be part of its AST
-    // node, namely the "then" section. Gleam code like this:
-    //
-    //    try int_a = parse(a)
-    //    try int_b = parse(b)
-    //    Ok(int_a + int_b)
-    //
-    // is parsed as:
-    //
-    // (try
-    //   pattern: (pattern)
-    //   value: (call (identifier))
-    //   then: (try
-    //     pattern: (pattern)
-    //     value: (call (identifier))
-    //     then: (record (...))))
-    //
-    // This makes sense for the parser, but (IMO) would be more confusing for
-    // users and tooling which don't think about `try`s as having a "then". Thus,
-    // `try`s are essentially treated the same as any other expression.
-    _statement_seq: ($) => repeat1(choice($._statement, $.try)),
-    try: ($) =>
-      seq(
-        "try",
-        field("pattern", $._pattern),
-        optional($._type_annotation),
-        "=",
-        field("value", $._expression)
-      ),
+    _statement_seq: ($) => repeat1($._statement),
     _statement: ($) => choice($._expression, $.let, $.let_assert, $.use),
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
