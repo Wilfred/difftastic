@@ -703,6 +703,10 @@
             "named": false
           },
           {
+            "type": "as",
+            "named": false
+          },
+          {
             "type": "|>",
             "named": false
           },
