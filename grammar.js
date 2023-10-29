@@ -92,6 +92,7 @@ module.exports = grammar({
           optional(seq("as", field("alias", $.identifier)))
         ),
         seq(
+          optional("type"),
           field("name", $.type_identifier),
           optional(seq("as", field("alias", $.type_identifier)))
         )

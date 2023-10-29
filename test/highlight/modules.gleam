@@ -6,6 +6,11 @@ import animal/cat as kitty
 //      ^ module
 //                    ^ module
 
+import animal/cat.{Cat, type Cat}
+//                  ^ constructor
+//                        ^ keyword
+//                            ^ type
+
 pub fn main() {
   io.println("hello world")
   // <- module

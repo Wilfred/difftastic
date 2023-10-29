@@ -86,3 +86,25 @@ import animal.{}
   (import
     module: (module)
     imports: (unqualified_imports)))
+
+================================================================================
+Type imports
+================================================================================
+
+import a/b.{type C}
+import animal.{type Cat as Kitty}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (type_identifier))))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (type_identifier)
+        alias: (type_identifier)))))

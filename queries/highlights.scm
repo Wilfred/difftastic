@@ -21,6 +21,8 @@
 
 ; Functions
 (unqualified_import (identifier) @function)
+(unqualified_import "type" (type_identifier) @type)
+(unqualified_import (type_identifier) @constructor)
 (function
   name: (identifier) @function)
 (external_function
