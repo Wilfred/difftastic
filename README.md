@@ -103,7 +103,8 @@ runtime
         └── injections.scm
 ```
 
-And finally execute:
+4. And finally execute:
+
 ```sh
 hx --grammar fetch
 hx --grammar build
