@@ -22,7 +22,13 @@ The documentation of this implementation is available in [DOC](DOC.md).
 
 - [ ] More tests, objectif 1000, current 364
 - [ ] Documentation
-- [X] Update 0.8.0
+  - [ ] Installation
+    - [X] Helix
+    - [ ] Emacs
+    - [ ] NeoVim
+- [ ] Update
+  - [X] 0.8
+  - [ ] 0.9
 - [X] Fixme
 - [X] Optimization
   - [X] Parser size
@@ -87,10 +93,8 @@ injection-regex = "typ(st)?"
 
 [[grammar]]
 name = "typst"
-source = {
-  git = "https://github.com/uben0/tree-sitter-typst",
-  rev = "e35aa22395fdde82bbc4b5700c324ce346dfc9e5"
-}
+source.git = "https://github.com/uben0/tree-sitter-typst"
+source.rev = "e35aa22395fdde82bbc4b5700c324ce346dfc9e5"
 ```
 
 3. Copy the content of the `queries` directory (`highlights.scm` and `injections.scm`) inside your corresponding `runtime/queries/typst` directory. You should have the following structure:
