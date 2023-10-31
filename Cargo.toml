@@ -43,7 +43,7 @@ lazy_static = "1.4.0"
 tree-sitter = "0.20.9"
 libc = "0.2.108"
 log = "0.4.14"
-pretty_env_logger = "0.4.0"
+pretty_env_logger = "0.5.0"
 mimalloc = { version = "0.1.28", default-features = false }
 # Pin libmimalloc-sys due to 0.1.25 producing a huge slowdown in very
 # large textual files, as discussed in #297.
