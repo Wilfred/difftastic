@@ -31,8 +31,8 @@ pkg-url = "{ repo }/releases/download/{ version }/difft-{ target }.{ archive-for
 pkg-fmt = "zip"
 
 [dependencies]
-# regex 1.8 requires rust 1.60.
-regex = ">= 1.7, < 1.8"
+# regex 1.10 requires rust 1.65.
+regex = "1.9.6"
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
