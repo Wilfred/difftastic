@@ -16,6 +16,10 @@ Windows and non-Windows flies.
 The option `--skip-unchanged` now has a corresponding environment
 option `DFT_SKIP_UNCHANGED`.
 
+### Build
+
+Difftastic now requires Rust 1.60 to build.
+
 ## 0.52 (released 8th October 2023)
 
 ### Parsing
