@@ -5,7 +5,6 @@ file-types = ["typst", "typ"]
 indent = { tab-width = 2, unit = "  " }
 comment-token = "//"
 injection-regex = "typ(st)?"
-language-server = { command = "typst-lsp" }
 
 [language.auto-pairs]
 '(' = ')'
@@ -16,4 +15,7 @@ language-server = { command = "typst-lsp" }
 
 [[grammar]]
 name = "typst"
-source = { path = "path/to/the/tree-sitter's/grammar" }
+source = {
+  git = "https://github.com/uben0/tree-sitter-typst",
+  rev = "e35aa22395fdde82bbc4b5700c324ce346dfc9e5"
+}
