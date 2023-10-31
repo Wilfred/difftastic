@@ -3370,11 +3370,11 @@
                 },
                 {
                   "type": "STRING",
-                  "value": "blue"
+                  "value": "block"
                 },
                 {
                   "type": "STRING",
-                  "value": "block"
+                  "value": "blue"
                 },
                 {
                   "type": "STRING",

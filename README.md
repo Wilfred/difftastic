@@ -59,20 +59,15 @@ The documentation of this implementation is available in [DOC](DOC.md).
 
 # Installation
 
-To generate this grammar from source, the `tree-sitter` command line tool is required. Installation instructions are available here https://github.com/tree-sitter/tree-sitter/tree/master/cli. Then, generate the grammar with `tree-sitter generate`. To "generate" the grammar means the tool will generate C source as `parser.c` from `grammar.js`.
-
-The already generated grammar is available here https://github.com/uben0/tree-sitter-typst/releases/download/v0.7.0-beta.1/tree-sitter-typst.tar.xz. You will only need a C compiler.
-
 ## Helix
 
-Locate the installation directory:
+1. Locate the configuration directory:
 
 - Global `/usr/share/helix`
-- Local `/.config/helix`
+- Local `~/.config/helix`
 
-Copy the content of the `queries` directory inside your corresponding `runtime/queries/typst` directory. This will provide hightlight indications.
 
-Append the following configuration to the `languages.toml` file. And indicate the path to this grammar. This will make the text editor able to recognized the Typst source files and offer the desired functionalities.
+2. Append the following configuration to the `languages.toml` file.
 
 ```toml
 [[language]]
@@ -92,14 +87,26 @@ injection-regex = "typ(st)?"
 
 [[grammar]]
 name = "typst"
-source = { path = "path/to/the/tree-sitter's/grammar" }
+source = {
+  git = "https://github.com/uben0/tree-sitter-typst",
+  rev = "e35aa22395fdde82bbc4b5700c324ce346dfc9e5"
+}
+```
+
+3. Copy the content of the `queries` directory (`highlights.scm` and `injections.scm`) inside your corresponding `runtime/queries/typst` directory. You should have the following structure:
+
+```
+runtime
+└── queries
+    └── typst
+        ├── highlights.scm
+        └── injections.scm
 ```
 
 And finally execute:
 ```sh
-tree-sitter generate
 hx --grammar fetch
 hx --grammar build
 ```
 
-If you downloaded the already generated grammar, the `tree-sitter generate` step is unecessary. If syntax highlighting doesn't work, you may open Helix's log file with the `:log-open` command and obtain helpful error message.
+The fetch command will clone the git repository, and the build command will compile the grammar.
