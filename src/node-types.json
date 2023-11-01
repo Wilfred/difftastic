@@ -80,10 +80,6 @@
             "named": true
           },
           {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
             "type": "exp_type_application",
             "named": true
           },
@@ -499,10 +495,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -1234,10 +1226,6 @@
             "named": true
           },
           {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
             "type": "exp_type_application",
             "named": true
           },
@@ -1546,10 +1534,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -1700,10 +1684,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -1796,10 +1776,6 @@
           },
           {
             "type": "exp_section_right",
-            "named": true
-          },
-          {
-            "type": "exp_th_quoted_name",
             "named": true
           },
           {
@@ -2046,10 +2022,6 @@
             "named": true
           },
           {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
             "type": "exp_type_application",
             "named": true
           },
@@ -2196,10 +2168,6 @@
             "named": true
           },
           {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
             "type": "exp_type_application",
             "named": true
           },
@@ -2343,10 +2311,6 @@
           },
           {
             "type": "exp_section_right",
-            "named": true
-          },
-          {
-            "type": "exp_th_quoted_name",
             "named": true
           },
           {
@@ -2611,10 +2575,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -2699,10 +2659,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -2861,10 +2817,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -3075,10 +3027,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -3225,10 +3173,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -3292,10 +3236,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -3398,7 +3338,7 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
+          "type": "exp_ticked",
           "named": true
         },
         {
@@ -3419,6 +3359,10 @@
         },
         {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -3497,7 +3441,7 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
+          "type": "exp_ticked",
           "named": true
         },
         {
@@ -3519,76 +3463,9 @@
         {
           "type": "record_update",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exp_th_quoted_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "constructor",
-          "named": true
         },
         {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "operator",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_variable",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
-          "named": true
-        },
-        {
-          "type": "variable",
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -3664,10 +3541,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -3987,10 +3860,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -4428,10 +4297,6 @@
             "named": true
           },
           {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
             "type": "exp_type_application",
             "named": true
           },
@@ -4741,10 +4606,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -4833,10 +4694,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -4991,10 +4848,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -6761,10 +6614,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -6924,10 +6773,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -7560,10 +7405,6 @@
           "named": true
         },
         {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
           "type": "exp_type_application",
           "named": true
         },
@@ -7995,10 +7836,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
           "named": true
         },
         {
@@ -8557,10 +8394,6 @@
   },
   {
     "type": "'",
-    "named": false
-  },
-  {
-    "type": "''",
     "named": false
   },
   {
