@@ -20,10 +20,6 @@
             "named": true
           },
           {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
             "type": "exp_array",
             "named": true
           },
@@ -443,10 +439,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -1249,10 +1241,6 @@
             "named": true
           },
           {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
             "type": "exp_array",
             "named": true
           },
@@ -1573,10 +1561,6 @@
       "required": true,
       "types": [
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -1642,530 +1626,6 @@
         },
         {
           "type": "record_update",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exp_arithmetic_sequence",
-    "named": true,
-    "fields": {
-      "from": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "::",
-            "named": false
-          },
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "exp_apply",
-            "named": true
-          },
-          {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
-            "type": "exp_array",
-            "named": true
-          },
-          {
-            "type": "exp_case",
-            "named": true
-          },
-          {
-            "type": "exp_do",
-            "named": true
-          },
-          {
-            "type": "exp_if",
-            "named": true
-          },
-          {
-            "type": "exp_infix",
-            "named": true
-          },
-          {
-            "type": "exp_lambda",
-            "named": true
-          },
-          {
-            "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_literal",
-            "named": true
-          },
-          {
-            "type": "exp_name",
-            "named": true
-          },
-          {
-            "type": "exp_negation",
-            "named": true
-          },
-          {
-            "type": "exp_parens",
-            "named": true
-          },
-          {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
-            "named": true
-          },
-          {
-            "type": "exp_section_left",
-            "named": true
-          },
-          {
-            "type": "exp_section_right",
-            "named": true
-          },
-          {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
-            "type": "exp_type_application",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_literal",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "record_update",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "∷",
-            "named": false
-          }
-        ]
-      },
-      "step": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "::",
-            "named": false
-          },
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "exp_apply",
-            "named": true
-          },
-          {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
-            "type": "exp_array",
-            "named": true
-          },
-          {
-            "type": "exp_case",
-            "named": true
-          },
-          {
-            "type": "exp_do",
-            "named": true
-          },
-          {
-            "type": "exp_if",
-            "named": true
-          },
-          {
-            "type": "exp_infix",
-            "named": true
-          },
-          {
-            "type": "exp_lambda",
-            "named": true
-          },
-          {
-            "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_literal",
-            "named": true
-          },
-          {
-            "type": "exp_name",
-            "named": true
-          },
-          {
-            "type": "exp_negation",
-            "named": true
-          },
-          {
-            "type": "exp_parens",
-            "named": true
-          },
-          {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
-            "named": true
-          },
-          {
-            "type": "exp_section_left",
-            "named": true
-          },
-          {
-            "type": "exp_section_right",
-            "named": true
-          },
-          {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
-            "type": "exp_type_application",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_literal",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "record_update",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "∷",
-            "named": false
-          }
-        ]
-      },
-      "to": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "::",
-            "named": false
-          },
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "exp_apply",
-            "named": true
-          },
-          {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
-            "type": "exp_array",
-            "named": true
-          },
-          {
-            "type": "exp_case",
-            "named": true
-          },
-          {
-            "type": "exp_do",
-            "named": true
-          },
-          {
-            "type": "exp_if",
-            "named": true
-          },
-          {
-            "type": "exp_infix",
-            "named": true
-          },
-          {
-            "type": "exp_lambda",
-            "named": true
-          },
-          {
-            "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_literal",
-            "named": true
-          },
-          {
-            "type": "exp_name",
-            "named": true
-          },
-          {
-            "type": "exp_negation",
-            "named": true
-          },
-          {
-            "type": "exp_parens",
-            "named": true
-          },
-          {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
-            "named": true
-          },
-          {
-            "type": "exp_section_left",
-            "named": true
-          },
-          {
-            "type": "exp_section_right",
-            "named": true
-          },
-          {
-            "type": "exp_th_quoted_name",
-            "named": true
-          },
-          {
-            "type": "exp_type_application",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_literal",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "record_update",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          },
-          {
-            "type": "∷",
-            "named": false
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "comma",
           "named": true
         }
       ]
@@ -2244,10 +1704,6 @@
         },
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -2347,10 +1803,6 @@
           },
           {
             "type": "exp_apply",
-            "named": true
-          },
-          {
-            "type": "exp_arithmetic_sequence",
             "named": true
           },
           {
@@ -2601,10 +2053,6 @@
             "named": true
           },
           {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
             "type": "exp_array",
             "named": true
           },
@@ -2755,10 +2203,6 @@
             "named": true
           },
           {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
             "type": "exp_array",
             "named": true
           },
@@ -2906,10 +2350,6 @@
           },
           {
             "type": "exp_apply",
-            "named": true
-          },
-          {
-            "type": "exp_arithmetic_sequence",
             "named": true
           },
           {
@@ -3178,10 +2618,6 @@
           "named": true
         },
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -3270,10 +2706,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -3436,10 +2868,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -3678,10 +3106,6 @@
       "required": true,
       "types": [
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -3808,10 +3232,6 @@
           "named": true
         },
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -3910,10 +3330,6 @@
       "required": true,
       "types": [
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -3986,10 +3402,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -4089,10 +3501,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -4263,10 +3671,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -4649,10 +4053,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -5094,10 +4494,6 @@
             "named": true
           },
           {
-            "type": "exp_arithmetic_sequence",
-            "named": true
-          },
-          {
             "type": "exp_array",
             "named": true
           },
@@ -5411,10 +4807,6 @@
           "named": true
         },
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -5507,10 +4899,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -5669,10 +5057,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -7404,10 +6788,6 @@
           "named": true
         },
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -7571,10 +6951,6 @@
       "types": [
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -8211,10 +7587,6 @@
           "named": true
         },
         {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
           "type": "exp_array",
           "named": true
         },
@@ -8650,10 +8022,6 @@
         },
         {
           "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
           "named": true
         },
         {
@@ -9304,10 +8672,6 @@
   },
   {
     "type": ".",
-    "named": false
-  },
-  {
-    "type": "..",
     "named": false
   },
   {

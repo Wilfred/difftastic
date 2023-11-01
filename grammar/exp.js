@@ -15,29 +15,6 @@ module.exports = {
     $._exp,
   ),
 
-  /**
-    * An expression like `[1,2..20]`.
-    *
-    * The two dots are handled in the scanner to disambiguate module and projection dots:
-    *
-    * - `[A.b]`
-    * - `[a.b]`
-    *
-    * The reason for `choice($._arith_dotdot, '..')` is simply to avoid having to add another case to the scanner.
-    * The disambiguation is only performed when the first dot occurs immediately after the identifier, since succeeding
-    * whitespace is not allowed for module/projection dots.
-    * When the scanner encounters two dots with no further symbolic characters, it rejects the token, deferring to the
-    * grammar.
-    * We could instead check for the `_arith_dotdot` symbol, but we have to reject the token anyway for record
-    * wildcards, so we can just fall back to the grammar for this as well.
-    */
-  exp_arithmetic_sequence: $ => brackets(
-    field('from', $._exp),
-    optional(seq($.comma, field('step', $._exp))),
-    choice($._arith_dotdot, '..'),
-    optional(field('to', $._exp)),
-  ),
-
   exp_section_left: $ => parens(
     $._exp_infix,
     $._q_op,
@@ -182,7 +159,6 @@ module.exports = {
     $.exp_th_quoted_name,
     $.record_literal,
     $.record_update,
-    $.exp_arithmetic_sequence,
     $.exp_section_left,
     $.exp_section_right,
     $.exp_projection_selector,

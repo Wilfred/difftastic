@@ -2419,81 +2419,6 @@
         }
       ]
     },
-    "exp_arithmetic_sequence": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "FIELD",
-          "name": "from",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_exp"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "comma"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "step",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_exp"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_arith_dotdot"
-            },
-            {
-              "type": "STRING",
-              "value": ".."
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "to",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_exp"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        }
-      ]
-    },
     "exp_section_left": {
       "type": "SEQ",
       "members": [
@@ -3406,10 +3331,6 @@
         {
           "type": "SYMBOL",
           "name": "record_update"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_arithmetic_sequence"
         },
         {
           "type": "SYMBOL",
