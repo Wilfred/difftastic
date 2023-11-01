@@ -38,15 +38,15 @@ f = case a b, c d, e f of g -> h
         (exp_name
           (variable))
         (exp_name
-          (variable))
-        (ERROR
-          (UNEXPECTED ','))
+          (variable)))
+      (comma)
+      condition: (exp_apply
         (exp_name
           (variable))
         (exp_name
-          (variable))
-        (ERROR
-          (UNEXPECTED ','))
+          (variable)))
+      (comma)
+      condition: (exp_apply
         (exp_name
           (variable))
         (exp_name
@@ -102,19 +102,16 @@ f = case _ of
 --------------------------------------------------------------------------------
 
 (purescript
-  (ERROR
+  (function
     name: (variable)
-    (ERROR
-      (wildcard))
-    (exp_infix
-      (exp_name
-        (variable))
-      (operator)
-      (ERROR
-        (UNEXPECTED '>'))
-      (exp_name
-        (variable))))
-  (empty_file))
+    rhs: (exp_case
+      condition: (wildcard)
+      (alts
+        (alt
+          pat: (pat_name
+            (variable))
+          exp: (exp_name
+            (variable)))))))
 
 ================================================================================
 case lambda, multi-slot
@@ -126,26 +123,26 @@ f = case _, _, _ of
 --------------------------------------------------------------------------------
 
 (purescript
-  (ERROR
+  (function
     name: (variable)
-    (ERROR
-      (wildcard)
-      (UNEXPECTED ',')
-      (wildcard)
-      (UNEXPECTED ',')
-      (wildcard))
-    (exp_name
-      (variable))
-    (ERROR
-      (UNEXPECTED ','))
-    (exp_name
-      (variable))
-    (ERROR
-      (UNEXPECTED ',')
-      (wildcard))
-    (exp_name
-      (variable)))
-  (empty_file))
+    rhs: (exp_case
+      condition: (wildcard)
+      (comma)
+      condition: (wildcard)
+      (comma)
+      condition: (wildcard)
+      (alts
+        (alt
+          pat: (pat_name
+            (variable))
+          (comma)
+          pat: (pat_name
+            (variable))
+          (comma)
+          pat: (pat_wildcard
+            (pat_wildcard))
+          exp: (exp_name
+            (variable)))))))
 
 ================================================================================
 case exp, with guards

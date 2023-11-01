@@ -104,11 +104,23 @@ module.exports = {
     repeat1($.gdpat),
   ),
 
-  alt: $ => seq(field('pat', $._pat), $._alt_variants),
+  alt: $ => seq(
+    sep1($.comma, field('pat', $._pat)),
+    $._alt_variants
+  ),
 
   alts: $ => layouted($, $.alt),
 
-  exp_case: $ => seq('case', field('condition', $._exp), 'of', optional($.alts)),
+  _exp_case_slots: $ => sep1($.comma,
+    field('condition', choice($.wildcard, $._exp))
+  ),
+
+  exp_case: $ => seq(
+    'case',
+    $._exp_case_slots,
+    'of',
+    $.alts
+  ),
 
   /**
    * left associative because the alts are optional

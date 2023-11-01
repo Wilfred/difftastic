@@ -162,7 +162,7 @@
         ]
       },
       "pat": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -282,6 +282,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
         {
           "type": "gdpat",
           "named": true
@@ -2542,13 +2546,17 @@
             "named": true
           },
           {
+            "type": "wildcard",
+            "named": true
+          },
+          {
             "type": "∷",
             "named": false
           }
         ]
       },
       "type": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -2607,11 +2615,15 @@
       }
     },
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "alts",
+          "named": true
+        },
+        {
+          "type": "comma",
           "named": true
         }
       ]
