@@ -72,13 +72,13 @@ module.exports = {
 
   exp_let_in: $ => seq($.exp_let, $.exp_in),
 
-  exp_cond: $ => seq(
+  exp_if: $ => seq(
     'if',
-    field('if', $._exp),
+    field('if', choice($.wildcard, $._exp)),
     'then',
-    field('then', $._exp),
+    field('then', choice($.wildcard, $._exp)),
     'else',
-    field('else', $._exp),
+    field('else', choice($.wildcard, $._exp)),
   ),
 
   pattern_guard: $ => seq(
@@ -96,8 +96,6 @@ module.exports = {
   guards: $ => seq('|', sep1($.comma, $.guard)),
 
   gdpat: $ => seq($.guards, $._arrow, $._exp),
-
-  exp_if_guard: $ => seq('if', repeat1($.gdpat)),
 
   _alt_variants: $ => choice(
     seq($._arrow, field('exp', $._exp)),
@@ -230,7 +228,7 @@ module.exports = {
     seq($._aexp, $._exp_apply),
     seq($._aexp, $.exp_lambda),
     seq($._aexp, $.exp_let_in),
-    seq($._aexp, $.exp_cond),
+    seq($._aexp, $.exp_if),
     seq($._aexp, $.exp_case),
   ),
 
@@ -245,8 +243,7 @@ module.exports = {
 
   _lexp: $ => choice(
     $.exp_let_in,
-    $.exp_cond,
-    $.exp_if_guard,
+    $.exp_if,
     $.exp_case,
     $.exp_negation,
     $._fexp,

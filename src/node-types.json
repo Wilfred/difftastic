@@ -32,15 +32,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -466,15 +462,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -1277,15 +1269,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -1609,11 +1597,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
+          "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_do",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -1708,15 +1696,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -1866,15 +1850,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -2024,15 +2004,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -2311,15 +2287,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -2422,15 +2394,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -2630,7 +2598,26 @@
     }
   },
   {
-    "type": "exp_cond",
+    "type": "exp_do",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "do_module",
+          "named": true
+        },
+        {
+          "type": "stmt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exp_if",
     "named": true,
     "fields": {
       "else": {
@@ -2662,15 +2649,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -2783,6 +2766,10 @@
           },
           {
             "type": "type_star",
+            "named": true
+          },
+          {
+            "type": "wildcard",
             "named": true
           },
           {
@@ -2820,15 +2807,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -2941,6 +2924,10 @@
           },
           {
             "type": "type_star",
+            "named": true
+          },
+          {
+            "type": "wildcard",
             "named": true
           },
           {
@@ -2978,15 +2965,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -3099,6 +3082,10 @@
           },
           {
             "type": "type_star",
+            "named": true
+          },
+          {
+            "type": "wildcard",
             "named": true
           },
           {
@@ -3165,40 +3152,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "exp_do",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "do_module",
-          "named": true
-        },
-        {
-          "type": "stmt",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exp_if_guard",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "gdpat",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3285,15 +3238,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -3388,15 +3337,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -3562,15 +3507,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -3958,15 +3899,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -4147,15 +4084,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -4258,15 +4191,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -4440,15 +4369,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -4834,15 +4759,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -5284,15 +5205,11 @@
             "named": true
           },
           {
-            "type": "exp_cond",
-            "named": true
-          },
-          {
             "type": "exp_do",
             "named": true
           },
           {
-            "type": "exp_if_guard",
+            "type": "exp_if",
             "named": true
           },
           {
@@ -5609,15 +5526,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -5716,15 +5629,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -5886,15 +5795,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -7626,15 +7531,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -7804,15 +7705,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -8449,15 +8346,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {
@@ -8899,15 +8792,11 @@
           "named": true
         },
         {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
           "type": "exp_do",
           "named": true
         },
         {
-          "type": "exp_if_guard",
+          "type": "exp_if",
           "named": true
         },
         {

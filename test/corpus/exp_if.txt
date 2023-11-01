@@ -9,7 +9,7 @@ f = if a then b else c
 (purescript
   (function
     name: (variable)
-    rhs: (exp_cond
+    rhs: (exp_if
       if: (exp_name
         (variable))
       then: (exp_name
@@ -26,17 +26,14 @@ f = if _ then b else c
 --------------------------------------------------------------------------------
 
 (purescript
-  (ERROR
+  (function
     name: (variable)
-    (ERROR
-      (wildcard))
-    (exp_name
-      (variable))
-    (exp_name
-      (variable))
-    (exp_name
-      (variable)))
-  (empty_file))
+    rhs: (exp_if
+      if: (wildcard)
+      then: (exp_name
+        (variable))
+      else: (exp_name
+        (variable)))))
 
 ================================================================================
 if-then-else lambda expression, second slot
@@ -47,12 +44,14 @@ f = if a then _ else c
 --------------------------------------------------------------------------------
 
 (purescript
-  (ERROR
+  (function
     name: (variable)
-    (exp_name
-      (variable))
-    (wildcard))
-  (empty_file))
+    rhs: (exp_if
+      if: (exp_name
+        (variable))
+      then: (wildcard)
+      else: (exp_name
+        (variable)))))
 
 ================================================================================
 if-then-else lambda expression, third slot
@@ -62,13 +61,15 @@ f = if a then b else _
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  name: (variable)
-  (exp_name
-    (variable))
-  (exp_name
-    (variable))
-  (wildcard))
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_if
+      if: (exp_name
+        (variable))
+      then: (exp_name
+        (variable))
+      else: (wildcard))))
 
 ================================================================================
 if-then-else lambda expression, all slots
@@ -79,9 +80,9 @@ f = if _ then _ else _
 --------------------------------------------------------------------------------
 
 (purescript
-  (ERROR
+  (function
     name: (variable)
-    (wildcard)
-    (wildcard)
-    (wildcard))
-  (empty_file))
+    rhs: (exp_if
+      if: (wildcard)
+      then: (wildcard)
+      else: (wildcard))))

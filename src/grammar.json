@@ -2772,7 +2772,7 @@
         }
       ]
     },
-    "exp_cond": {
+    "exp_if": {
       "type": "SEQ",
       "members": [
         {
@@ -2783,8 +2783,17 @@
           "type": "FIELD",
           "name": "if",
           "content": {
-            "type": "SYMBOL",
-            "name": "_exp"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "wildcard"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_exp"
+              }
+            ]
           }
         },
         {
@@ -2795,8 +2804,17 @@
           "type": "FIELD",
           "name": "then",
           "content": {
-            "type": "SYMBOL",
-            "name": "_exp"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "wildcard"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_exp"
+              }
+            ]
           }
         },
         {
@@ -2807,8 +2825,17 @@
           "type": "FIELD",
           "name": "else",
           "content": {
-            "type": "SYMBOL",
-            "name": "_exp"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "wildcard"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_exp"
+              }
+            ]
           }
         }
       ]
@@ -2895,22 +2922,6 @@
         {
           "type": "SYMBOL",
           "name": "_exp"
-        }
-      ]
-    },
-    "exp_if_guard": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "if"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "gdpat"
-          }
         }
       ]
     },
@@ -3558,7 +3569,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "exp_cond"
+              "name": "exp_if"
             }
           ]
         },
@@ -3604,11 +3615,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "exp_cond"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_if_guard"
+          "name": "exp_if"
         },
         {
           "type": "SYMBOL",
@@ -6378,9 +6385,6 @@
     [
       "annotated_type_variable",
       "type_name"
-    ],
-    [
-      "exp_if_guard"
     ]
   ],
   "precedences": [

@@ -236,10 +236,6 @@ module.exports = grammar({
      */
     [$.annotated_type_variable, $.type_name],
 
-    /**
-     * A multi-way `if` in a list conflicts with list comprehension: `[if | condition -> expr]`
-     */
-    [$.exp_if_guard],
   ],
 
   word: $ => $._varid,
