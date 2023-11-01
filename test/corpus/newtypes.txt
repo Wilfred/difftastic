@@ -1,79 +1,129 @@
-================================================================================
-Simple newtype definition
-================================================================================
+===
+Simple newtype
+===
 
-newtype A = A Unit
+newtype A = A Int
 
---------------------------------------------------------------------------------
+---
 
 (purescript
   (newtype
-    (ERROR)
+    name: (type)
     (newtype_constructor
       (constructor)
       (type_name
         (type)))))
 
-================================================================================
-Simple newtype definition with type signature
-================================================================================
+===
+Parameterized newtype
+===
 
-newtype A :: Type
-newtype A = A Unit
+newtype A b = A (Array b)
+newtype B a = B { a :: a }
 
---------------------------------------------------------------------------------
+---
 
 (purescript
-  (ERROR)
-  (function
-    pattern: (pat_typed
-      pattern: (pat_name
-        (constructor))
-      type: (type_apply
-        (type_name
-          (type))
-        (type_name
-          (type_variable))
-        (type_name
-          (type))))
-    rhs: (exp_apply
-      (exp_name
-        (constructor))
-      (exp_name
-        (constructor)))))
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_parens
+        (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable))))))
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (record_type_literal
+        (row_field
+          (field_name)
+          (type_name
+            (type_variable)))))))
 
-================================================================================
-Newtype with a type parameter definition with type signature
-================================================================================
+===
+Phantom type newtype
+===
+
+newtype A b = A Int
+
+---
+
+(purescript
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+===
+Newtype with explicit kind signature
+===
 
 newtype A :: forall k. k -> Type
-newtype A a = A Unit
+newtype A b = A Int
 
---------------------------------------------------------------------------------
+---
 
 (purescript
-  (ERROR)
-  (function
-    pattern: (pat_typed
-      pattern: (pat_name
-        (constructor))
-      type: (forall
-        (type_variable)
-        (fun
-          (type_name
+  (newtype
+    (ERROR
+      name: (type)
+      name: (type)
+      (type_variable))
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+===
+Newtype with parameterized type with type annotation
+===
+
+newtype A (b :: Int) = A Int
+
+---
+
+(purescript
+  (newtype
+    name: (type)
+    (annotated_type_variable
+      (type_variable)
+      type: (type_name
+        (type)))
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+===
+Newtype over an infix type constructor
+===
+
+newtype A b = A (b ~ Int)
+
+---
+
+(purescript
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_parens
+        (type_infix
+          left: (type_name
             (type_variable))
-          (type_apply
-            (type_name
-              (type))
-            (type_name
-              (type_variable))
-            (type_name
-              (type))
-            (type_name
-              (type_variable))))))
-    rhs: (exp_apply
-      (exp_name
-        (constructor))
-      (exp_name
-        (constructor)))))
+          op: (type_operator)
+          right: (type_name
+            (type)))))))
 

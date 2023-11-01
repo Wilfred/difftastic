@@ -9,12 +9,9 @@ data A = A | B | C
 (purescript
   (data
     name: (type)
-    (type_name
-      (type))
-    (type_name
-      (type))
-    (type_name
-      (type))))
+    (constructor)
+    (constructor)
+    (constructor)))
 
 ================================================================================
 Data definition with parameters
@@ -74,5 +71,4 @@ data A a = A
   (data
     name: (type)
     (type_variable)
-    (data_constructor
-      (constructor))))
+    (constructor)))

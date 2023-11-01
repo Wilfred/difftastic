@@ -198,16 +198,6 @@ module.exports = grammar({
     [$.pat_name, $._q_op],
 
     /**
-     * Ambiguity between symbolic and regular constructors:
-     *
-     * data A = Maybe Int :+ Int
-     * data A = Name Int
-     *
-     * both start with two tycons.
-     */
-    [$.type_name, $.data_constructor],
-
-    /**
      * For getting a node for function application, and no extra node if the expression only consists of one term.
      */
     [$._exp_apply, $._fexp],
