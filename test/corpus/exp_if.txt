@@ -25,9 +25,11 @@ f = if _ then b else c
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  name: (variable)
-  (wildcard))
+(purescript
+  (ERROR
+    name: (variable)
+    (wildcard))
+  (empty_file))
 
 ================================================================================
 if-then-else lambda expression, second slot
@@ -37,11 +39,13 @@ f = if a then _ else c
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  name: (variable)
-  (exp_name
-    (variable))
-  (wildcard))
+(purescript
+  (ERROR
+    name: (variable)
+    (exp_name
+      (variable))
+    (wildcard))
+  (empty_file))
 
 ================================================================================
 if-then-else lambda expression, third slot
@@ -67,11 +71,13 @@ f = if _ then _ else _
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  name: (variable)
+(purescript
   (ERROR
+    name: (variable)
+    (ERROR
+      (wildcard))
+    (exp_name
+      (variable))
+    (wildcard)
     (wildcard))
-  (exp_name
-    (variable))
-  (wildcard)
-  (wildcard))
+  (empty_file))

@@ -53,13 +53,6 @@ module A (fun1, fun2, Ctor(..), (+)) where
     (export
       (type_operator)))
   (where))
-(purescript
-  (qualified_module
-    (module)
-    (module)
-    (module)
-    (module))
-  (where))
 
 ================================================================================
 Module with open, closed, qualified and unqualified imports

@@ -29,30 +29,30 @@ data A a
 --------------------------------------------------------------------------------
 
 (purescript
-  (data
+  (kind
     name: (type)
-    (type_variable)
-    (type_apply
-      (type_name
-        (type))
-      (type_name
-        (type_variable))
-      (type_name
-        (type_variable)))
-    (type_apply
-      (type_name
-        (type))
-      (type_name
-        (type_variable)))
-    (type_apply
-      (type_name
-        (type))
-      (type_name
-        (type_variable))
-      (type_name
-        (type_variable)))
-    (type_name
-      (type))))
+    (type_variable))
+  (ERROR
+    (pat_apply
+      (pat_name
+        (constructor))
+      (pat_name
+        (variable))
+      (pat_name
+        (variable)))
+    (pat_name
+      (constructor))
+    (pat_name
+      (variable))
+    (ERROR)
+    (pat_name
+      (constructor))
+    (pat_name
+      (variable))
+    (pat_name
+      (variable))
+    (ERROR)
+    (module)))
 
 ================================================================================
 Data definition with signature
@@ -76,4 +76,3 @@ data A a = A
     (type_variable)
     (data_constructor
       (constructor))))
-

@@ -198,19 +198,19 @@ class A b c d | b c -> d, c d -> b, b d -> c where
         (type_variable)
         (type_variable)))
     (class_body
-      (where)
-      (signature
-        name: (variable)
-        type: (fun
-          (type_name
-            (type_variable))
-          (type_apply
-            (type_name
-              (type))
-            (type_name
-              (type_variable))
-            (type_name
-              (type_variable))))))))
+      (where)))
+  (signature
+    name: (variable)
+    type: (fun
+      (type_name
+        (type_variable))
+      (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))
+        (type_name
+          (type_variable))))))
 
 ================================================================================
 Class and instance - no parens in superclass
@@ -247,4 +247,3 @@ instance A a => B a
         (type))
       (type_name
         (type_variable)))))
-

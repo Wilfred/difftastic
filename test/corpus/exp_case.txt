@@ -40,13 +40,13 @@ f = case a b, c d, e f of g -> h
         (exp_name
           (variable))
         (ERROR
-          (ERROR))
+          (UNEXPECTED ','))
         (exp_name
           (variable))
         (exp_name
           (variable))
         (ERROR
-          (ERROR))
+          (UNEXPECTED ','))
         (exp_name
           (variable))
         (exp_name
@@ -101,9 +101,11 @@ f = case _ of
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  name: (variable)
-  (wildcard))
+(purescript
+  (ERROR
+    name: (variable)
+    (wildcard))
+  (empty_file))
 
 ================================================================================
 case lambda, multi-slot
@@ -120,9 +122,9 @@ f = case _, _, _ of
     rhs: (exp_case
       (ERROR
         (wildcard)
-        (ERROR)
+        (UNEXPECTED ',')
         (wildcard)
-        (ERROR)
+        (UNEXPECTED ',')
         (wildcard))
       condition: (exp_apply
         (exp_name
@@ -130,14 +132,15 @@ f = case _, _, _ of
         (exp_name
           (variable))
         (ERROR
-          (ERROR))
+          (UNEXPECTED ','))
         (exp_name
           (variable))
         (ERROR
-          (ERROR)
+          (UNEXPECTED ',')
           (wildcard))
         (exp_name
-          (variable))))))
+          (variable)))
+      (MISSING "of"))))
 
 ================================================================================
 case exp, with guards
