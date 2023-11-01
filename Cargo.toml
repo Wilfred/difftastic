@@ -44,6 +44,9 @@ tree-sitter = "0.20.9"
 libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"
+# is-terminal is a dependency of env_logger, but 0.4.8 requires rust 1.63.
+is-terminal = ">= 0.4, < 0.4.8"
+
 mimalloc = { version = "0.1.28", default-features = false }
 # Pin libmimalloc-sys due to 0.1.25 producing a huge slowdown in very
 # large textual files, as discussed in #297.
