@@ -2412,11 +2412,24 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_exp_infix"
+          "name": "wildcard"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_q_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exp_ticked"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "_q_op"
+          "name": "_exp_infix"
         },
         {
           "type": "STRING",
@@ -2433,55 +2446,28 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_q_op_nominus"
+          "name": "_exp_infix"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_q_op"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exp_ticked"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "_exp_infix"
+          "name": "wildcard"
         },
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "exp_th_quoted_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "'"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_qvar"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_qcon"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "''"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_atype"
-            }
-          ]
         }
       ]
     },
@@ -3303,10 +3289,6 @@
         {
           "type": "SYMBOL",
           "name": "exp_array"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_th_quoted_name"
         },
         {
           "type": "SYMBOL",
@@ -6146,6 +6128,10 @@
     [
       "_exp_infix",
       "exp_infix"
+    ],
+    [
+      "exp_section_left",
+      "pat_wildcard"
     ],
     [
       "exp_ticked"

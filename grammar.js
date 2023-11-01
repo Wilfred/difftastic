@@ -134,6 +134,12 @@ module.exports = grammar({
      */
     [$._exp_infix, $.exp_infix],
 
+    /*
+     * Wildcards in expression sections and pattern wildcards.
+     * They should be easily disambiguable but currently the grammar isn't capable of this.
+     */
+    [$.exp_section_left, $.pat_wildcard],
+
     /**
      * The definition of an infix expression is rather simple and as such
      * it allows things which wouldn't be possible in reality:

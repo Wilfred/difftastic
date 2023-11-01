@@ -16,18 +16,15 @@ module.exports = {
   ),
 
   exp_section_left: $ => parens(
-    $._exp_infix,
-    $._q_op,
+    $.wildcard,
+    choice($._q_op, $.exp_ticked),
+    $._exp_infix
   ),
 
   exp_section_right: $ => parens(
-    $._q_op_nominus,
     $._exp_infix,
-  ),
-
-  exp_th_quoted_name: $ => choice(
-    seq(quote, choice($._qvar, $._qcon)),
-    seq(quote + quote, $._atype),
+    choice($._q_op, $.exp_ticked),
+    $.wildcard
   ),
 
   exp_type_application: $ => seq('@', $._atype),
@@ -156,7 +153,6 @@ module.exports = {
     $.exp_name,
     $.exp_parens,
     $.exp_array,
-    $.exp_th_quoted_name,
     $.record_literal,
     $.record_update,
     $.exp_section_left,
