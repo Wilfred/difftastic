@@ -3,7 +3,7 @@ module.exports = {
   // decl
   // ------------------------------------------------------------------------
 
-  _funpat_infix: $ => seq(field('lhs', $._pat), field('op', $.varop), field('rhs', $._pat)),
+  _funpat_infix: $ => seq(field('lhs', $._pat), field('op', $._operator_or_minus), field('rhs', $._pat)),
 
   _funpat: $ => seq(
     field('pattern', $._typed_pat),
@@ -14,7 +14,7 @@ module.exports = {
     * The `implicit_parid` here is for:
     * g = let ?par = Impy 5 in f
     */
-  _fun_name: $ => field('name', choice($._var, $.implicit_parid)),
+  _fun_name: $ => field('name', $._var),
 
   guard_equation: $ => seq($.guards, '=', $._exp),
 
@@ -42,10 +42,12 @@ module.exports = {
     $._funrhs,
   ),
 
-  fixity: $ => seq(
+  operator_declaration: $ => seq(
     choice('infixl', 'infixr', 'infix'),
-    optional($.integer),
-    sep1($.comma, $._op),
+    field('precedence', $.integer),
+    choice(seq('type', $._qtyconid), $._qvarid),
+    'as',
+    $.operator
   ),
 
   signature: $ => seq(
@@ -55,7 +57,7 @@ module.exports = {
 
   _gendecl: $ => choice(
     $.signature,
-    $.fixity,
+    $.operator_declaration,
   ),
 
   /**

@@ -185,11 +185,10 @@ c = [ f a, g b, c { d }, \e -> h ]
 (purescript
   (function
     name: (variable)
-    rhs: (exp_literal
-      (con_list)))
+    rhs: (exp_array))
   (function
     name: (variable)
-    rhs: (exp_list
+    rhs: (exp_array
       (exp_literal
         (integer))
       (comma)
@@ -203,7 +202,7 @@ c = [ f a, g b, c { d }, \e -> h ]
         (integer))))
   (function
     name: (variable)
-    rhs: (exp_list
+    rhs: (exp_array
       (exp_apply
         (exp_name
           (variable))

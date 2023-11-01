@@ -1,4 +1,4 @@
-const { parens, brackets, sep1, layouted, qualified } = require('./util.js')
+const { parens, brackets, sep1, layouted, qualified, ticked } = require('./util.js')
 
 module.exports = {
   // ------------------------------------------------------------------------
@@ -7,7 +7,7 @@ module.exports = {
 
   exp_parens: $ => parens($._exp),
 
-  exp_list: $ => brackets(sep1($.comma, $._exp)),
+  exp_array: $ => brackets(sep($.comma, $._exp)),
 
   bind_pattern: $ => seq(
     $._typed_pat,
@@ -40,11 +40,11 @@ module.exports = {
 
   exp_section_left: $ => parens(
     $._exp_infix,
-    $._qop,
+    $._q_op,
   ),
 
   exp_section_right: $ => parens(
-    $._qop_nominus,
+    $._q_op_nominus,
     $._exp_infix,
   ),
 
@@ -136,8 +136,6 @@ module.exports = {
   exp_name: $ => choice(
     $._qvar,
     $._qcon,
-    $.implicit_parid,
-    $.label,
   ),
 
   /**
@@ -179,7 +177,7 @@ module.exports = {
   _aexp_projection: $ => choice(
     $.exp_name,
     $.exp_parens,
-    $.exp_list,
+    $.exp_array,
     $.exp_th_quoted_name,
     $.record_literal,
     $.record_update,
@@ -243,12 +241,21 @@ module.exports = {
     $.exp_lambda,
   ),
 
+  exp_ticked: $ => ticked($._exp_infix),
+
   /**
    * This is left-associative, although in reality this would depend on the fixity declaration for the operator.
    * The default is left, even though the reference specifies it the other way around.
    * In any case, this seems to be more stable.
    */
-  exp_infix: $ => seq($._exp_infix, $._qop, $._lexp),
+  exp_infix: $ => seq(
+    $._exp_infix,
+    choice(
+      $._q_op,
+      $.exp_ticked
+      ),
+    $._lexp
+  ),
 
   _exp_infix: $ => choice(
     $.exp_infix,

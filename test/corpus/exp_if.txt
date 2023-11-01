@@ -28,7 +28,14 @@ f = if _ then b else c
 (purescript
   (ERROR
     name: (variable)
-    (wildcard))
+    (ERROR
+      (wildcard))
+    (exp_name
+      (variable))
+    (exp_name
+      (variable))
+    (exp_name
+      (variable)))
   (empty_file))
 
 ================================================================================
@@ -74,10 +81,7 @@ f = if _ then _ else _
 (purescript
   (ERROR
     name: (variable)
-    (ERROR
-      (wildcard))
-    (exp_name
-      (variable))
+    (wildcard)
     (wildcard)
     (wildcard))
   (empty_file))

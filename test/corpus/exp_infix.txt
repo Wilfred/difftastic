@@ -1,0 +1,138 @@
+===
+Simple operator usage
+===
+
+f = a + b
+
+---
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_infix
+      (exp_name
+        (variable))
+      (operator)
+      (exp_name
+        (variable)))))
+
+===
+Multiple operators
+===
+
+f = a + b * c
+
+---
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_infix
+      (exp_infix
+        (exp_name
+          (variable))
+        (operator)
+        (exp_name
+          (variable)))
+      (operator)
+      (exp_name
+        (variable)))))
+
+===
+Infix expression, single variable
+===
+
+f = a `b` c
+
+---
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_infix
+      (exp_name
+        (variable))
+      (exp_ticked
+        (exp_name
+          (variable)))
+      (exp_name
+        (variable)))))
+
+===
+Infix expression, compound
+===
+
+f = a `b c + d` e
+
+---
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_infix
+      (exp_name
+        (variable))
+      (exp_ticked
+        (exp_infix
+          (exp_apply
+            (exp_name
+              (variable))
+            (exp_name
+              (variable)))
+          (operator)
+          (exp_name
+            (variable))))
+      (exp_name
+        (variable)))))
+
+===
+Multiple infix expressions
+===
+
+f = a `b` c `d` e
+
+---
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_infix
+      (exp_name
+        (variable))
+      (exp_ticked
+        (exp_infix
+          (exp_name
+            (variable))
+          (exp_ticked
+            (exp_name
+              (variable)))
+          (exp_name
+            (variable))))
+      (exp_name
+        (variable)))))
+
+===
+Infix expressions have highest precedence
+===
+
+-- should be equivalent to (1 `add` 2) * 3
+f = 1 `add` 2 * 3
+
+---
+
+(purescript
+  (comment)
+  (function
+    name: (variable)
+    rhs: (exp_infix
+      (exp_infix
+        (exp_literal
+          (integer))
+        (exp_ticked
+          (exp_name
+            (variable)))
+        (exp_literal
+          (integer)))
+      (operator)
+      (exp_literal
+        (integer)))))

@@ -128,6 +128,20 @@ module.exports = grammar({
     [$._type_infix, $.type_infix],
 
     /**
+     * Same as above, but for expressions.
+     */
+    [$._exp_infix, $.exp_infix],
+
+    /**
+     * The definition of an infix expression is rather simple and as such
+     * it allows things which wouldn't be possible in reality:
+     *
+     * a ``b`` c
+     * (note the double '`' ticks)
+     */
+    [$.exp_ticked],
+
+    /**
      * Optional context for a data/newtype decl with infix types:
      *
      * data a ~ b => A a b
@@ -179,6 +193,7 @@ module.exports = grammar({
     [$.exp_name, $.pat_name],
     [$._aexp_projection, $._apat],
     [$.exp_type_application, $.pat_type_binder],
+    [$.pat_name, $._q_op],
 
     /**
      * Ambiguity between symbolic and regular constructors:
@@ -189,7 +204,6 @@ module.exports = grammar({
      * both start with two tycons.
      */
     [$.type_name, $.data_constructor],
-
 
     /**
      * For getting a node for function application, and no extra node if the expression only consists of one term.

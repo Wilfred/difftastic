@@ -91,6 +91,7 @@
    "newtype"
    "type"
    "as"
+   "hiding"
    "do"
    "ado"
    "forall"
@@ -111,12 +112,16 @@
 ((variable) @constant.builtin.boolean
  (#match? @constant.builtin.boolean "^(true|false)$"))
 
+ ; The former one works for `tree-sitter highlight` but not in Helix/Kakoune.
+ ; The latter two work in Helix (but not Kakoune) and are a good compromise between not highlighting anything at all
+ ; as an operator and leaving it to the child nodes, and highlighting everything as an operator.
+ (exp_ticked (_) @operator)
+ (exp_ticked (exp_name (variable) @operator))
+ (exp_ticked (exp_name (qualified_variable (variable) @operator)))
+
  (variable) @variable
 
- (exp_infix (variable) @operator)  ; consider infix functions as operators
-
  ("@" @namespace)  ; "as" pattern operator, e.g. x@Constructor
-
 
 ; ----------------------------------------------------------------------------
 ; Types

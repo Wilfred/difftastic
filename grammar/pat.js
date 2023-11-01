@@ -58,7 +58,7 @@ module.exports = {
     $.pat_apply,
   ),
 
-  pat_infix: $ => seq($._lpat, $._qconop, $._pat),
+  pat_infix: $ => seq($._lpat, $._qconsym, $._pat),
 
   /**
    * Without the precs, a conflict is needed.

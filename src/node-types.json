@@ -24,6 +24,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -53,10 +57,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -454,6 +454,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -483,10 +487,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -632,11 +632,11 @@
           "named": true
         },
         {
-          "type": "fixity",
+          "type": "function",
           "named": true
         },
         {
-          "type": "function",
+          "type": "operator_declaration",
           "named": true
         },
         {
@@ -736,10 +736,6 @@
           "named": true
         },
         {
-          "type": "promoted",
-          "named": true
-        },
-        {
           "type": "qualified_constructor_operator",
           "named": true
         },
@@ -765,26 +761,6 @@
         },
         {
           "type": "type_variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "con_list",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "con_tuple",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
           "named": true
         }
       ]
@@ -1099,11 +1075,11 @@
       "required": false,
       "types": [
         {
-          "type": "fixity",
+          "type": "function",
           "named": true
         },
         {
-          "type": "function",
+          "type": "operator_declaration",
           "named": true
         },
         {
@@ -1289,6 +1265,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -1318,10 +1298,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -1621,6 +1597,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -1642,10 +1622,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -1720,6 +1696,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -1749,10 +1729,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -1878,6 +1854,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -1907,10 +1887,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -2036,6 +2012,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -2065,10 +2045,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -2244,6 +2220,172 @@
     }
   },
   {
+    "type": "exp_array",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "context",
+            "named": true
+          },
+          {
+            "type": "forall",
+            "named": true
+          },
+          {
+            "type": "fun",
+            "named": true
+          },
+          {
+            "type": "implicit_param",
+            "named": true
+          },
+          {
+            "type": "promoted",
+            "named": true
+          },
+          {
+            "type": "record_type_literal",
+            "named": true
+          },
+          {
+            "type": "row_type",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_star",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "exp_apply",
+          "named": true
+        },
+        {
+          "type": "exp_arithmetic_sequence",
+          "named": true
+        },
+        {
+          "type": "exp_array",
+          "named": true
+        },
+        {
+          "type": "exp_case",
+          "named": true
+        },
+        {
+          "type": "exp_cond",
+          "named": true
+        },
+        {
+          "type": "exp_do",
+          "named": true
+        },
+        {
+          "type": "exp_if_guard",
+          "named": true
+        },
+        {
+          "type": "exp_infix",
+          "named": true
+        },
+        {
+          "type": "exp_lambda",
+          "named": true
+        },
+        {
+          "type": "exp_lambda_case",
+          "named": true
+        },
+        {
+          "type": "exp_let_in",
+          "named": true
+        },
+        {
+          "type": "exp_literal",
+          "named": true
+        },
+        {
+          "type": "exp_name",
+          "named": true
+        },
+        {
+          "type": "exp_negation",
+          "named": true
+        },
+        {
+          "type": "exp_parens",
+          "named": true
+        },
+        {
+          "type": "exp_projection",
+          "named": true
+        },
+        {
+          "type": "exp_projection_selector",
+          "named": true
+        },
+        {
+          "type": "exp_section_left",
+          "named": true
+        },
+        {
+          "type": "exp_section_right",
+          "named": true
+        },
+        {
+          "type": "exp_th_quoted_name",
+          "named": true
+        },
+        {
+          "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "record_literal",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "exp_case",
     "named": true,
     "fields": {
@@ -2265,6 +2407,10 @@
           },
           {
             "type": "exp_arithmetic_sequence",
+            "named": true
+          },
+          {
+            "type": "exp_array",
             "named": true
           },
           {
@@ -2297,10 +2443,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -2500,6 +2642,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -2529,10 +2675,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -2658,6 +2800,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -2687,10 +2833,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -2816,6 +2958,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -2845,10 +2991,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -3123,6 +3265,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -3152,10 +3298,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -3218,19 +3360,15 @@
       "required": true,
       "types": [
         {
-          "type": "constructor",
-          "named": true
-        },
-        {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
           "type": "exp_apply",
           "named": true
         },
         {
           "type": "exp_arithmetic_sequence",
+          "named": true
+        },
+        {
+          "type": "exp_array",
           "named": true
         },
         {
@@ -3263,10 +3401,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -3306,6 +3440,10 @@
           "named": true
         },
         {
+          "type": "exp_ticked",
+          "named": true
+        },
+        {
           "type": "exp_type_application",
           "named": true
         },
@@ -3314,19 +3452,7 @@
           "named": true
         },
         {
-          "type": "qualified_constructor",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
-          "named": true
-        },
-        {
           "type": "qualified_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_variable",
           "named": true
         },
         {
@@ -3335,10 +3461,6 @@
         },
         {
           "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
@@ -3420,6 +3542,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -3449,10 +3575,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -3596,172 +3718,6 @@
     }
   },
   {
-    "type": "exp_list",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_arithmetic_sequence",
-          "named": true
-        },
-        {
-          "type": "exp_case",
-          "named": true
-        },
-        {
-          "type": "exp_cond",
-          "named": true
-        },
-        {
-          "type": "exp_do",
-          "named": true
-        },
-        {
-          "type": "exp_if_guard",
-          "named": true
-        },
-        {
-          "type": "exp_infix",
-          "named": true
-        },
-        {
-          "type": "exp_lambda",
-          "named": true
-        },
-        {
-          "type": "exp_lambda_case",
-          "named": true
-        },
-        {
-          "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
-          "named": true
-        },
-        {
-          "type": "exp_literal",
-          "named": true
-        },
-        {
-          "type": "exp_name",
-          "named": true
-        },
-        {
-          "type": "exp_negation",
-          "named": true
-        },
-        {
-          "type": "exp_parens",
-          "named": true
-        },
-        {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
-          "named": true
-        },
-        {
-          "type": "exp_section_left",
-          "named": true
-        },
-        {
-          "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_th_quoted_name",
-          "named": true
-        },
-        {
-          "type": "exp_type_application",
-          "named": true
-        },
-        {
-          "type": "record_literal",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "exp_literal",
     "named": true,
     "fields": {},
@@ -3771,14 +3727,6 @@
       "types": [
         {
           "type": "char",
-          "named": true
-        },
-        {
-          "type": "con_list",
-          "named": true
-        },
-        {
-          "type": "con_tuple",
           "named": true
         },
         {
@@ -3814,14 +3762,6 @@
         },
         {
           "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "implicit_parid",
-          "named": true
-        },
-        {
-          "type": "label",
           "named": true
         },
         {
@@ -3864,15 +3804,15 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_do",
           "named": true
         },
         {
           "type": "exp_lambda_case",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -3998,6 +3938,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -4027,10 +3971,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -4108,7 +4048,7 @@
           "named": true
         },
         {
-          "type": "exp_list",
+          "type": "exp_array",
           "named": true
         },
         {
@@ -4179,19 +4119,15 @@
       "required": true,
       "types": [
         {
-          "type": "constructor",
-          "named": true
-        },
-        {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
           "type": "exp_apply",
           "named": true
         },
         {
           "type": "exp_arithmetic_sequence",
+          "named": true
+        },
+        {
+          "type": "exp_array",
           "named": true
         },
         {
@@ -4224,10 +4160,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -4275,19 +4207,7 @@
           "named": true
         },
         {
-          "type": "qualified_constructor",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
-          "named": true
-        },
-        {
           "type": "qualified_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_variable",
           "named": true
         },
         {
@@ -4296,10 +4216,6 @@
         },
         {
           "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
@@ -4314,19 +4230,15 @@
       "required": true,
       "types": [
         {
-          "type": "constructor",
-          "named": true
-        },
-        {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
           "type": "exp_apply",
           "named": true
         },
         {
           "type": "exp_arithmetic_sequence",
+          "named": true
+        },
+        {
+          "type": "exp_array",
           "named": true
         },
         {
@@ -4359,10 +4271,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -4410,19 +4318,7 @@
           "named": true
         },
         {
-          "type": "qualified_constructor",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
-          "named": true
-        },
-        {
           "type": "qualified_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_variable",
           "named": true
         },
         {
@@ -4431,10 +4327,6 @@
         },
         {
           "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
@@ -4506,6 +4398,109 @@
         },
         {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exp_ticked",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "exp_apply",
+          "named": true
+        },
+        {
+          "type": "exp_arithmetic_sequence",
+          "named": true
+        },
+        {
+          "type": "exp_array",
+          "named": true
+        },
+        {
+          "type": "exp_case",
+          "named": true
+        },
+        {
+          "type": "exp_cond",
+          "named": true
+        },
+        {
+          "type": "exp_do",
+          "named": true
+        },
+        {
+          "type": "exp_if_guard",
+          "named": true
+        },
+        {
+          "type": "exp_infix",
+          "named": true
+        },
+        {
+          "type": "exp_lambda",
+          "named": true
+        },
+        {
+          "type": "exp_lambda_case",
+          "named": true
+        },
+        {
+          "type": "exp_let_in",
+          "named": true
+        },
+        {
+          "type": "exp_literal",
+          "named": true
+        },
+        {
+          "type": "exp_name",
+          "named": true
+        },
+        {
+          "type": "exp_negation",
+          "named": true
+        },
+        {
+          "type": "exp_parens",
+          "named": true
+        },
+        {
+          "type": "exp_projection",
+          "named": true
+        },
+        {
+          "type": "exp_projection_selector",
+          "named": true
+        },
+        {
+          "type": "exp_section_left",
+          "named": true
+        },
+        {
+          "type": "exp_section_right",
+          "named": true
+        },
+        {
+          "type": "exp_th_quoted_name",
+          "named": true
+        },
+        {
+          "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "record_literal",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         }
       ]
@@ -4819,6 +4814,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -4848,10 +4847,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -4915,37 +4910,6 @@
       "types": [
         {
           "type": "wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "fixity",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "constructor",
-          "named": true
-        },
-        {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "varop",
           "named": true
         }
       ]
@@ -5041,10 +5005,6 @@
           {
             "type": ")",
             "named": false
-          },
-          {
-            "type": "implicit_parid",
-            "named": true
           },
           {
             "type": "operator",
@@ -5202,10 +5162,6 @@
             "named": false
           },
           {
-            "type": "implicit_parid",
-            "named": true
-          },
-          {
             "type": "operator",
             "named": true
           },
@@ -5308,6 +5264,10 @@
             "named": true
           },
           {
+            "type": "exp_array",
+            "named": true
+          },
+          {
             "type": "exp_case",
             "named": true
           },
@@ -5337,10 +5297,6 @@
           },
           {
             "type": "exp_let_in",
-            "named": true
-          },
-          {
-            "type": "exp_list",
             "named": true
           },
           {
@@ -5633,6 +5589,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -5662,10 +5622,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -5740,6 +5696,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -5769,10 +5729,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -5910,6 +5866,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -5939,10 +5899,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -6081,16 +6037,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "implicit_parid",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -6300,7 +6246,7 @@
         "required": true,
         "types": [
           {
-            "type": "varop",
+            "type": "operator",
             "named": true
           }
         ]
@@ -6723,6 +6669,48 @@
     "fields": {}
   },
   {
+    "type": "operator_declaration",
+    "named": true,
+    "fields": {
+      "precedence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "qualified_type",
+          "named": true
+        },
+        {
+          "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pat_apply",
     "named": true,
     "fields": {},
@@ -6938,10 +6926,6 @@
       "required": true,
       "types": [
         {
-          "type": "constructor",
-          "named": true
-        },
-        {
           "type": "constructor_operator",
           "named": true
         },
@@ -6995,10 +6979,6 @@
         },
         {
           "type": "pat_wildcard",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor",
           "named": true
         },
         {
@@ -7144,14 +7124,6 @@
       "types": [
         {
           "type": "char",
-          "named": true
-        },
-        {
-          "type": "con_list",
-          "named": true
-        },
-        {
-          "type": "con_tuple",
           "named": true
         },
         {
@@ -7634,6 +7606,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -7663,10 +7639,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -7812,6 +7784,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -7841,10 +7817,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -8029,35 +8001,7 @@
       "required": true,
       "types": [
         {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_type",
-          "named": true
-        },
-        {
-          "type": "qualified_type_operator",
-          "named": true
-        },
-        {
-          "type": "ticked",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
           "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_operator",
           "named": true
         }
       ]
@@ -8109,10 +8053,6 @@
           "named": true
         },
         {
-          "type": "fixity",
-          "named": true
-        },
-        {
           "type": "foreign_import",
           "named": true
         },
@@ -8138,6 +8078,10 @@
         },
         {
           "type": "newtype",
+          "named": true
+        },
+        {
+          "type": "operator_declaration",
           "named": true
         },
         {
@@ -8485,6 +8429,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -8514,10 +8462,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -8935,6 +8879,10 @@
           "named": true
         },
         {
+          "type": "exp_array",
+          "named": true
+        },
+        {
           "type": "exp_case",
           "named": true
         },
@@ -8964,10 +8912,6 @@
         },
         {
           "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_list",
           "named": true
         },
         {
@@ -9020,25 +8964,6 @@
         },
         {
           "type": "record_update",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ticked",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "qualified_type",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         }
       ]
@@ -9269,10 +9194,6 @@
             "named": true
           },
           {
-            "type": "ticked",
-            "named": true
-          },
-          {
             "type": "type_operator",
             "named": true
           }
@@ -9287,19 +9208,11 @@
             "named": true
           },
           {
-            "type": "promoted",
-            "named": true
-          },
-          {
             "type": "qualified_constructor_operator",
             "named": true
           },
           {
             "type": "qualified_type_operator",
-            "named": true
-          },
-          {
-            "type": "ticked",
             "named": true
           },
           {
@@ -9414,23 +9327,7 @@
       "required": true,
       "types": [
         {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "con_list",
-          "named": true
-        },
-        {
-          "type": "con_tuple",
-          "named": true
-        },
-        {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -9458,10 +9355,6 @@
         },
         {
           "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -9606,25 +9499,6 @@
     "type": "variable",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "varop",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "operator",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "%",
@@ -9787,10 +9661,6 @@
     "named": false
   },
   {
-    "type": "implicit_parid",
-    "named": true
-  },
-  {
     "type": "import",
     "named": false
   },
@@ -9813,10 +9683,6 @@
   {
     "type": "instance",
     "named": false
-  },
-  {
-    "type": "label",
-    "named": true
   },
   {
     "type": "let",

@@ -104,7 +104,16 @@ f = case _ of
 (purescript
   (ERROR
     name: (variable)
-    (wildcard))
+    (ERROR
+      (wildcard))
+    (exp_infix
+      (exp_name
+        (variable))
+      (operator)
+      (ERROR
+        (UNEXPECTED '>'))
+      (exp_name
+        (variable))))
   (empty_file))
 
 ================================================================================
@@ -117,30 +126,26 @@ f = case _, _, _ of
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (ERROR
     name: (variable)
-    rhs: (exp_case
-      (ERROR
-        (wildcard)
-        (UNEXPECTED ',')
-        (wildcard)
-        (UNEXPECTED ',')
-        (wildcard))
-      condition: (exp_apply
-        (exp_name
-          (variable))
-        (exp_name
-          (variable))
-        (ERROR
-          (UNEXPECTED ','))
-        (exp_name
-          (variable))
-        (ERROR
-          (UNEXPECTED ',')
-          (wildcard))
-        (exp_name
-          (variable)))
-      (MISSING "of"))))
+    (ERROR
+      (wildcard)
+      (UNEXPECTED ',')
+      (wildcard)
+      (UNEXPECTED ',')
+      (wildcard))
+    (exp_name
+      (variable))
+    (ERROR
+      (UNEXPECTED ','))
+    (exp_name
+      (variable))
+    (ERROR
+      (UNEXPECTED ',')
+      (wildcard))
+    (exp_name
+      (variable)))
+  (empty_file))
 
 ================================================================================
 case exp, with guards

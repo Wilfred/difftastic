@@ -84,13 +84,12 @@ module.exports = {
   ),
 
   implicit_param: $ => seq(
-    $.implicit_parid,
     $._type_annotation,
   ),
 
   type_infix: $ => seq(
     field('left', $._btype),
-    field('op', $._qtyconop),
+    field('op', $._qtyconsym),
     field('right', $._type_infix),
   ),
 
@@ -160,7 +159,7 @@ module.exports = {
 
   _simpletype_infix: $ => seq(
     $._tyvar,
-    field('name', $._simple_tyconop),
+    field('name', $._type_operator),
     $._tyvar,
   ),
 
