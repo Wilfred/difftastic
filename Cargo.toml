@@ -32,7 +32,10 @@ pkg-fmt = "zip"
 
 [dependencies]
 # regex 1.10 requires rust 1.65.
-regex = "1.9.6"
+# regex 1.9.5 depends on memchr 2.6, which requires rust 1.61.
+regex = ">= 1.9, < 1.9.5"
+memchr = ">= 2, < 2.6"
+
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
