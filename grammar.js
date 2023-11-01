@@ -111,6 +111,8 @@ module.exports = grammar({
     [$.row_type, $.type_name],
     [$.record_type_literal, $.type_name],
 
+    [$._field_name, $.pat_field],
+
     /**
      * Record updates `f { x = x }` conflict with function application `f { x: x }`.
      * In PureScript record updates in fact do have higher precedence than function

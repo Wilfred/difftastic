@@ -1,8 +1,4 @@
 const { parens, braces } = require('./util.js')
-const
-  { with_field_name
-  , maybe_with_row_variable
-  } = require('./rows_and_records_utils.js')
 
 module.exports = {
   /** Terminology:
@@ -30,10 +26,8 @@ module.exports = {
     choice(
       // higher precedence because it conflicts with `annotated_type_variable`
       alias(prec(1, $.type_variable), $.field_name),
-      alias($.string, $.field_name)
+      alias(choice($.string, $.triple_quote_string), $.field_name)
     ),
-
-  field_type: $ => alias($._type, $.field_type),
 
   row_field: $ =>
     seq(
@@ -42,16 +36,32 @@ module.exports = {
       $._type
     ),
 
-  row_type: $ => parens(
-    maybe_with_row_variable(sep($.comma, $.row_field))($)
-  ),
+  _row_variable: $ =>
+    prec(1, seq(
+      '|',
+      choice($._type, $.type_variable)
+    )),
 
-  record_type_literal: $ => braces(
-    maybe_with_row_variable(sep($.comma, $.row_field))($)
-  ),
+  row_type: $ =>
+    parens(seq(
+      sep($.comma, $.row_field),
+      optional($._row_variable)
+    )),
+
+  record_type_literal: $ =>
+    braces(seq(
+      sep($.comma, $.row_field),
+      optional($._row_variable)
+    )),
 
   // -----------------------------------------------------------------
   // Value-level
+
+  _field_name: $ =>
+    alias(
+      choice($.string, $.triple_quote_string, $.variable),
+      $.field_name
+    ),
 
   field_wildcard: $ =>
     // higher precedence because of the conflict with patterns
@@ -66,7 +76,7 @@ module.exports = {
       choice($.field_wildcard, alias($._exp, $.field_value))
 
     const pair =
-      with_field_name(':', wildcard_or_field)($)
+      seq($._field_name, ':', wildcard_or_field)
 
     return choice(field_pun, pair)
   },
@@ -87,7 +97,7 @@ module.exports = {
         nested_update
       )
 
-    return with_field_name(update_or_nested_update)($)
+    return seq($._field_name, update_or_nested_update)
   },
 
   record_update: $ =>
