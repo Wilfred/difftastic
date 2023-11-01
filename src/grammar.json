@@ -3158,31 +3158,6 @@
         }
       ]
     },
-    "exp_lambda_case": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\\"
-        },
-        {
-          "type": "STRING",
-          "value": "case"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "alts"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
     "stmt": {
       "type": "CHOICE",
       "members": [
@@ -3499,10 +3474,6 @@
         {
           "type": "SYMBOL",
           "name": "exp_type_application"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_lambda_case"
         },
         {
           "type": "SYMBOL",
@@ -6378,9 +6349,6 @@
     [
       "_type_or_implicit",
       "_context_constraints"
-    ],
-    [
-      "exp_lambda_case"
     ],
     [
       "annotated_type_variable",

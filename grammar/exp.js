@@ -120,15 +120,6 @@ module.exports = {
     $.alts
   ),
 
-  /**
-   * left associative because the alts are optional
-   */
-  exp_lambda_case: $ => seq(
-    '\\',
-    'case',
-    optional($.alts),
-  ),
-
   stmt: $ => choice(
     $._exp,
     $.bind_pattern,
@@ -211,7 +202,6 @@ module.exports = {
   _aexp: $ => choice(
     $._aexp_projection,
     $.exp_type_application,
-    $.exp_lambda_case,
     $.exp_do,
     $.exp_projection,
   ),

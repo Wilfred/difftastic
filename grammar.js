@@ -228,8 +228,6 @@ module.exports = grammar({
      */
     [$._type_or_implicit, $._context_constraints],
 
-    [$.exp_lambda_case],
-
     /**
      * General kind signatures cause `(a :: k)` to be ambiguous.
      * This problem might be solvable if `type.js` were to be refactored.
