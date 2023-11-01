@@ -1,0 +1,250 @@
+================================================================================
+Simple class
+================================================================================
+
+class A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class
+    (class_head
+      class: (class_name
+        (type)))))
+
+================================================================================
+Simple class instance
+================================================================================
+
+instance A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (instance
+    (instance_head
+      class: (class_name
+        (type)))))
+
+================================================================================
+Simple class with a member
+================================================================================
+
+class A where
+  a :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class
+    (class_head
+      class: (class_name
+        (type)))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        type: (type_name
+          (type))))))
+
+================================================================================
+Simple class instance with a member
+================================================================================
+
+instance A where
+  a = top
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (instance
+    (instance_head
+      class: (class_name
+        (type)))
+    (where)
+    (function
+      name: (variable)
+      rhs: (exp_name
+        (variable)))))
+
+================================================================================
+Simple class with two members
+================================================================================
+
+class B a where
+  a :: a -> Int
+  b :: b -> Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class
+    (class_head
+      class: (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        type: (fun
+          (type_name
+            (type_variable))
+          (type_name
+            (type))))
+      (signature
+        name: (variable)
+        type: (fun
+          (type_name
+            (type_variable))
+          (type_name
+            (type)))))))
+
+================================================================================
+Class with a superclass
+================================================================================
+
+class (A a) <= B a where
+  a :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class
+    (class_head
+      (type_infix
+        left: (type_parens
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type_variable))))
+        op: (type_operator)
+        right: (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable)))))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        type: (type_name
+          (type))))))
+
+================================================================================
+Instance with a superclass
+================================================================================
+
+instance (A a) => B a where
+  a = top
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (instance
+    (ERROR
+      (type_parens
+        (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable))))
+      (ERROR)
+      (module))
+    (instance_head
+      class: (class_name
+        (type_variable)))
+    (where)
+    (function
+      name: (variable)
+      rhs: (exp_name
+        (variable)))))
+
+================================================================================
+Class with fundeps
+================================================================================
+
+class A b c d | b c -> d, c d -> b, b d -> c where
+  a :: b -> Tuple c d
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class
+    (class_head
+      class: (class_name
+        (type))
+      (type_name
+        (type_variable))
+      (type_name
+        (type_variable))
+      (type_name
+        (type_variable)))
+    (fundeps
+      (fundep
+        (type_variable)
+        (type_variable)
+        (type_variable))
+      (comma)
+      (fundep
+        (type_variable)
+        (type_variable)
+        (type_variable))
+      (comma)
+      (fundep
+        (type_variable)
+        (type_variable)
+        (type_variable)))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        type: (fun
+          (type_name
+            (type_variable))
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type_variable))
+            (type_name
+              (type_variable))))))))
+
+================================================================================
+Class and instance - no parens in superclass
+================================================================================
+
+class A a <= B a
+instance A a => B a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class
+    (class_head
+      (type_infix
+        left: (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable)))
+        op: (type_operator)
+        right: (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable))))))
+  (instance
+    (instance_head
+      class: (class_name
+        (type))
+      (type_name
+        (type_variable))
+      (ERROR)
+      (type_name
+        (type))
+      (type_name
+        (type_variable)))))
+

@@ -1,0 +1,292 @@
+================================================================================
+Do-notation
+================================================================================
+
+f = do
+  pure 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_literal
+            (integer)))))))
+
+================================================================================
+Do-notation, bind-binders
+================================================================================
+
+f = do
+  a <- b
+  C d <- f
+  G h i <- j
+  pure 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (bind_pattern
+          (pat_name
+            (variable))
+          (exp_name
+            (variable))))
+      (stmt
+        (bind_pattern
+          (pat_apply
+            (pat_name
+              (constructor))
+            (pat_name
+              (variable)))
+          (exp_name
+            (variable))))
+      (stmt
+        (bind_pattern
+          (pat_apply
+            (pat_name
+              (constructor))
+            (pat_name
+              (variable))
+            (pat_name
+              (variable)))
+          (exp_name
+            (variable))))
+      (stmt
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_literal
+            (integer)))))))
+
+================================================================================
+Do-notation, let-binders
+================================================================================
+
+f = do
+  let a = b
+  let C d = f
+  let G h i = j
+  pure 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (let
+          (decls
+            (function
+              name: (variable)
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (let
+          (decls
+            (function
+              pattern: (pat_apply
+                (pat_name
+                  (constructor))
+                (pat_name
+                  (variable)))
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (let
+          (decls
+            (function
+              pattern: (pat_apply
+                (pat_name
+                  (constructor))
+                (pat_name
+                  (variable))
+                (pat_name
+                  (variable)))
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_literal
+            (integer)))))))
+
+================================================================================
+Do-notation, nested do-notation
+================================================================================
+
+f = do
+  do
+    pure 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (exp_do
+          (stmt
+            (exp_apply
+              (exp_name
+                (variable))
+              (exp_literal
+                (integer)))))))))
+
+================================================================================
+Ado-notation
+================================================================================
+
+f = ado
+  in 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_literal
+            (integer)))))))
+
+================================================================================
+Ado-notation, bind-binders
+================================================================================
+
+f = do
+  a <- b
+  C d <- f
+  G h i <- j
+  in 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (bind_pattern
+          (pat_name
+            (variable))
+          (exp_name
+            (variable))))
+      (stmt
+        (bind_pattern
+          (pat_apply
+            (pat_name
+              (constructor))
+            (pat_name
+              (variable)))
+          (exp_name
+            (variable))))
+      (stmt
+        (bind_pattern
+          (pat_apply
+            (pat_name
+              (constructor))
+            (pat_name
+              (variable))
+            (pat_name
+              (variable)))
+          (exp_name
+            (variable))))
+      (stmt
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_literal
+            (integer)))))))
+
+================================================================================
+Ado-notation, let-binders
+================================================================================
+
+f = do
+  let a = b
+  let C d = f
+  let G h i = j
+  in 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (let
+          (decls
+            (function
+              name: (variable)
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (let
+          (decls
+            (function
+              pattern: (pat_apply
+                (pat_name
+                  (constructor))
+                (pat_name
+                  (variable)))
+              rhs: (exp_name
+                (variable))))))
+      (stmt
+        (exp_let_in
+          (exp_let
+            (decls
+              (function
+                pattern: (pat_apply
+                  (pat_name
+                    (constructor))
+                  (pat_name
+                    (variable))
+                  (pat_name
+                    (variable)))
+                rhs: (exp_name
+                  (variable)))))
+          (exp_in
+            (exp_literal
+              (integer))))))))
+
+================================================================================
+Ado-notation, nested do-notation
+================================================================================
+
+f = ado
+  in ado
+    in 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_do
+            (stmt
+              (exp_apply
+                (exp_name
+                  (variable))
+                (exp_literal
+                  (integer))))))))))

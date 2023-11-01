@@ -1,0 +1,213 @@
+================================================================================
+case expression, one slot
+================================================================================
+
+f = case a b of c -> d
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      condition: (exp_apply
+        (exp_name
+          (variable))
+        (exp_name
+          (variable)))
+      (alts
+        (alt
+          pat: (pat_name
+            (variable))
+          exp: (exp_name
+            (variable)))))))
+
+================================================================================
+case expression, multi-slot
+================================================================================
+
+f = case a b, c d, e f of g -> h
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      condition: (exp_apply
+        (exp_name
+          (variable))
+        (exp_name
+          (variable))
+        (ERROR
+          (ERROR))
+        (exp_name
+          (variable))
+        (exp_name
+          (variable))
+        (ERROR
+          (ERROR))
+        (exp_name
+          (variable))
+        (exp_name
+          (variable)))
+      (alts
+        (alt
+          pat: (pat_name
+            (variable))
+          exp: (exp_name
+            (variable)))))))
+
+================================================================================
+case expression, multiple alternatives
+================================================================================
+
+f = case a of
+  b -> c
+  d -> e
+  _ -> f
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      condition: (exp_name
+        (variable))
+      (alts
+        (alt
+          pat: (pat_name
+            (variable))
+          exp: (exp_name
+            (variable)))
+        (alt
+          pat: (pat_name
+            (variable))
+          exp: (exp_name
+            (variable)))
+        (alt
+          pat: (pat_wildcard
+            (pat_wildcard))
+          exp: (exp_name
+            (variable)))))))
+
+================================================================================
+case lambda, one slot
+================================================================================
+
+f = case _ of
+  b -> c
+
+--------------------------------------------------------------------------------
+
+(ERROR
+  name: (variable)
+  (wildcard))
+
+================================================================================
+case lambda, multi-slot
+================================================================================
+
+f = case _, _, _ of
+  b, c, _ -> d
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      (ERROR
+        (wildcard)
+        (ERROR)
+        (wildcard)
+        (ERROR)
+        (wildcard))
+      condition: (exp_apply
+        (exp_name
+          (variable))
+        (exp_name
+          (variable))
+        (ERROR
+          (ERROR))
+        (exp_name
+          (variable))
+        (ERROR
+          (ERROR)
+          (wildcard))
+        (exp_name
+          (variable))))))
+
+================================================================================
+case exp, with guards
+================================================================================
+
+f = case a of
+  b
+    | c <- d
+    , e f -> 1
+
+  C c
+    | d <- e
+    , f g -> 1
+
+  _ -> 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_case
+      condition: (exp_name
+        (variable))
+      (alts
+        (alt
+          pat: (pat_name
+            (variable))
+          (gdpat
+            (guards
+              (guard
+                (pattern_guard
+                  (pat_name
+                    (variable))
+                  (exp_name
+                    (variable))))
+              (comma)
+              (guard
+                (exp_apply
+                  (exp_name
+                    (variable))
+                  (exp_name
+                    (variable)))))
+            (exp_literal
+              (integer))))
+        (alt
+          pat: (pat_apply
+            (pat_name
+              (constructor))
+            (pat_name
+              (variable)))
+          (gdpat
+            (guards
+              (guard
+                (pattern_guard
+                  (pat_name
+                    (variable))
+                  (exp_name
+                    (variable))))
+              (comma)
+              (guard
+                (exp_apply
+                  (exp_name
+                    (variable))
+                  (exp_name
+                    (variable)))))
+            (exp_literal
+              (integer))))
+        (alt
+          pat: (pat_wildcard
+            (pat_wildcard))
+          exp: (exp_literal
+            (integer)))))))

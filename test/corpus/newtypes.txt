@@ -1,0 +1,79 @@
+================================================================================
+Simple newtype definition
+================================================================================
+
+newtype A = A Unit
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    (ERROR)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+================================================================================
+Simple newtype definition with type signature
+================================================================================
+
+newtype A :: Type
+newtype A = A Unit
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (ERROR)
+  (function
+    pattern: (pat_typed
+      pattern: (pat_name
+        (constructor))
+      type: (type_apply
+        (type_name
+          (type))
+        (type_name
+          (type_variable))
+        (type_name
+          (type))))
+    rhs: (exp_apply
+      (exp_name
+        (constructor))
+      (exp_name
+        (constructor)))))
+
+================================================================================
+Newtype with a type parameter definition with type signature
+================================================================================
+
+newtype A :: forall k. k -> Type
+newtype A a = A Unit
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (ERROR)
+  (function
+    pattern: (pat_typed
+      pattern: (pat_name
+        (constructor))
+      type: (forall
+        (type_variable)
+        (fun
+          (type_name
+            (type_variable))
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type_variable))
+            (type_name
+              (type))
+            (type_name
+              (type_variable))))))
+    rhs: (exp_apply
+      (exp_name
+        (constructor))
+      (exp_name
+        (constructor)))))
+

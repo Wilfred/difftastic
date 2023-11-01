@@ -1,0 +1,81 @@
+================================================================================
+Type application, simple
+================================================================================
+
+f = a @Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (exp_type_application
+        (type_name
+          (type))))))
+
+================================================================================
+Type application, parens
+================================================================================
+
+f = a @(A B Int)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (exp_type_application
+        (type_parens
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type))
+            (type_name
+              (type))))))))
+
+================================================================================
+Type application, multiple applications
+================================================================================
+
+f = a @Int @String @Char
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_apply
+      (exp_name
+        (variable))
+      (exp_type_application
+        (type_name
+          (type)))
+      (exp_type_application
+        (type_name
+          (type)))
+      (exp_type_application
+        (type_name
+          (type))))))
+
+================================================================================
+Type annotation, simple
+================================================================================
+
+f = a :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_name
+      (variable))
+    type: (type_name
+      (type))))
