@@ -57,13 +57,6 @@ module.exports = {
 
   type_star: _ => choice('*', '★'),
 
-  /**
-  * The `(##)` format of the unit tuple is parsed as an operator, see `exp_unboxed_tuple`.
-  */
-  type_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, $._type_with_kind), $._unboxed_close),
-
-  type_unboxed_sum: $ => seq($._unboxed_open, $._type_sum, $._unboxed_close),
-
   // TODO: this kitchen-sink bag hurts the rest of the code by disregarding context and introducing ambiguity.
   // should be removed in favor of local, more specific definitions.
   _atype: $ => choice(
@@ -71,8 +64,6 @@ module.exports = {
     $.type_star,
     $._type_literal,
     $.type_parens,
-    $.type_unboxed_tuple,
-    $.type_unboxed_sum,
     $.row_type,
     $.record_type_literal,
   ),

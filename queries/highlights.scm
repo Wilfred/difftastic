@@ -3,7 +3,7 @@
 
  (integer) @constant.numeric.integer
  (exp_negation) @constant.numeric.integer
- (exp_literal (float)) @constant.numeric.float
+ (exp_literal (number)) @constant.numeric.float
  (char) @constant.character
  [
    (string)

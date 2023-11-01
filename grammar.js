@@ -53,6 +53,7 @@ module.exports = grammar({
     $.quasiquote_body,
     $._strict,
     $._lazy,
+    // TODO: Unboxed types were removed from the JS grammar but not from the scanner yet.
     $._unboxed_close,
     '|',
     'in',
@@ -212,12 +213,6 @@ module.exports = grammar({
      * Implicit parameters have slightly weird restrictions.
      */
     [$._type_or_implicit, $._context_constraints],
-
-    /**
-     * `(# | | ...` can start both `pat` and `exp`.
-     */
-    [$._pat_unboxed_sum, $._exp_unboxed_sum],
-
 
     [$.exp_lambda_case],
 

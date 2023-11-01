@@ -79,12 +79,12 @@ f = -1.1_1
   (function
     name: (variable)
     rhs: (exp_literal
-      (float)))
+      (number)))
   (function
     name: (variable)
     rhs: (exp_negation
       (exp_literal
-        (float)))))
+        (number)))))
 
 ================================================================================
 Numbers, exponent
@@ -100,15 +100,15 @@ f = 1_000e199
   (function
     name: (variable)
     rhs: (exp_literal
-      (float)))
+      (number)))
   (function
     name: (variable)
     rhs: (exp_literal
-      (float)))
+      (number)))
   (function
     name: (variable)
     rhs: (exp_literal
-      (float))))
+      (number))))
 
 ================================================================================
 Char
@@ -284,4 +284,3 @@ b = false
     name: (variable)
     rhs: (exp_name
       (variable))))
-

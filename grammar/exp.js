@@ -7,13 +7,6 @@ module.exports = {
 
   exp_parens: $ => parens($._exp),
 
-  /**
-  * Unboxed sums must have at least one separating `|`, otherwise the expression would be a unary or nullary tuple.
-  */
-  _exp_unboxed_sum: $ => sep2('|', optional($._exp)),
-
-  exp_unboxed_sum: $ => seq($._unboxed_open, $._exp_unboxed_sum, $._unboxed_close),
-
   exp_list: $ => brackets(sep1($.comma, $._exp)),
 
   bind_pattern: $ => seq(
@@ -193,7 +186,6 @@ module.exports = {
     $.exp_arithmetic_sequence,
     $.exp_section_left,
     $.exp_section_right,
-    $.exp_unboxed_sum,
     $.exp_projection_selector,
     alias($.literal, $.exp_literal),
   ),
