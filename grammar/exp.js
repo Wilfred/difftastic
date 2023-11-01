@@ -150,6 +150,7 @@ module.exports = {
    * We simply keep them out to reduce complexity.
    */
   _aexp_projection: $ => choice(
+    $.hole,
     $.exp_name,
     $.exp_parens,
     $.exp_array,

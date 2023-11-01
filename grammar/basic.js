@@ -79,6 +79,12 @@ module.exports = {
   wildcard: _ => '_',
 
   /**
+   * Same as varid_pattern except it's preceded by `?` plus `'` and `_` are allowed
+   * to be the first and only characters after `?`.
+   */
+  hole: _ => /\?[\p{L}0-9_']+/u,
+
+  /**
    * Field projection dot-syntax requires the dot to follow a varid without any whitespace.
    */
   _immediate_dot: _ => token.immediate('.'),

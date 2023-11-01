@@ -55,13 +55,11 @@ module.exports = {
     $._gtycon,
   ),
 
-  type_star: _ => choice('*', '★'),
-
   // TODO: this kitchen-sink bag hurts the rest of the code by disregarding context and introducing ambiguity.
   // should be removed in favor of local, more specific definitions.
   _atype: $ => choice(
+    $.hole,
     $.type_name,
-    $.type_star,
     $._type_literal,
     $.type_parens,
     $.row_type,

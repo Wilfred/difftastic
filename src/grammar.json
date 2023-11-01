@@ -415,6 +415,10 @@
       "type": "STRING",
       "value": "_"
     },
+    "hole": {
+      "type": "PATTERN",
+      "value": "\\?[\\p{L}0-9_']+"
+    },
     "_immediate_dot": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
@@ -1686,29 +1690,16 @@
         }
       ]
     },
-    "type_star": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "STRING",
-          "value": "★"
-        }
-      ]
-    },
     "_atype": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "type_name"
+          "name": "hole"
         },
         {
           "type": "SYMBOL",
-          "name": "type_star"
+          "name": "type_name"
         },
         {
           "type": "SYMBOL",
@@ -3278,6 +3269,10 @@
     "_aexp_projection": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "hole"
+        },
         {
           "type": "SYMBOL",
           "name": "exp_name"

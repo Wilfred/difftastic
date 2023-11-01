@@ -92,6 +92,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -133,10 +137,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           },
           {
@@ -220,6 +220,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -253,10 +257,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -313,6 +313,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -346,10 +350,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -387,6 +387,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -420,10 +424,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -499,6 +499,10 @@
         },
         {
           "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -642,6 +646,10 @@
       "required": false,
       "types": [
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -667,10 +675,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -758,6 +762,10 @@
       "required": false,
       "types": [
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -783,10 +791,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -831,6 +835,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "implicit_param",
           "named": true
         },
@@ -864,10 +872,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -929,6 +933,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -958,10 +966,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         },
         {
@@ -1034,6 +1038,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "implicit_param",
           "named": true
         },
@@ -1063,10 +1071,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -1238,6 +1242,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -1334,10 +1342,6 @@
             "named": true
           },
           {
-            "type": "type_star",
-            "named": true
-          },
-          {
             "type": "∷",
             "named": false
           }
@@ -1357,6 +1361,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -1393,10 +1401,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -1538,6 +1542,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -1566,6 +1574,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -1602,10 +1614,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -1685,6 +1693,10 @@
         },
         {
           "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -1791,6 +1803,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -1835,10 +1851,6 @@
             "named": true
           },
           {
-            "type": "type_star",
-            "named": true
-          },
-          {
             "type": "wildcard",
             "named": true
           },
@@ -1862,6 +1874,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -1898,10 +1914,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -2034,6 +2046,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -2075,10 +2091,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           },
           {
@@ -2180,6 +2192,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -2221,10 +2237,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           },
           {
@@ -2326,6 +2338,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -2370,10 +2386,6 @@
             "named": true
           },
           {
-            "type": "type_star",
-            "named": true
-          },
-          {
             "type": "wildcard",
             "named": true
           },
@@ -2397,6 +2409,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -2433,10 +2449,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -2464,6 +2476,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -2497,10 +2513,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -2576,6 +2588,10 @@
         },
         {
           "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -2670,6 +2686,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "operator",
           "named": true
         },
@@ -2709,6 +2729,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -2742,10 +2766,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -2821,6 +2841,10 @@
         },
         {
           "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -3031,6 +3055,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -3059,6 +3087,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -3095,10 +3127,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -3177,6 +3205,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -3236,6 +3268,10 @@
         },
         {
           "type": "exp_section_right",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -3346,6 +3382,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "operator",
           "named": true
         },
@@ -3449,6 +3489,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "operator",
           "named": true
         },
@@ -3548,6 +3592,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -3566,6 +3614,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "hole",
+          "named": true
+        },
         {
           "type": "promoted",
           "named": true
@@ -3588,10 +3640,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -3752,6 +3800,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -3785,10 +3837,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -3867,6 +3915,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -3921,6 +3973,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "inferred_type_variable",
           "named": true
         },
@@ -3954,10 +4010,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         },
         {
@@ -4011,6 +4063,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -4041,10 +4097,6 @@
         {
           "type": "type_parens",
           "named": true
-        },
-        {
-          "type": "type_star",
-          "named": true
         }
       ]
     }
@@ -4067,6 +4119,10 @@
         },
         {
           "type": "fun",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -4103,10 +4159,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -4309,6 +4361,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -4353,10 +4409,6 @@
             "named": true
           },
           {
-            "type": "type_star",
-            "named": true
-          },
-          {
             "type": "∷",
             "named": false
           }
@@ -4376,6 +4428,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -4412,10 +4468,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -4495,6 +4547,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -4528,10 +4584,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -4611,6 +4663,10 @@
         },
         {
           "type": "guards",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -4701,6 +4757,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "let",
           "named": true
         },
@@ -4740,6 +4800,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -4773,10 +4837,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -4859,6 +4919,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -4909,6 +4973,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -4942,10 +5010,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -5271,6 +5335,10 @@
       "required": false,
       "types": [
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -5296,10 +5364,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -5412,6 +5476,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -5441,10 +5509,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         },
         {
@@ -5478,6 +5542,10 @@
       "required": true,
       "types": [
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -5499,10 +5567,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -5585,6 +5649,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -5606,10 +5674,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -6330,6 +6394,10 @@
       "required": true,
       "types": [
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -6351,10 +6419,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -6439,6 +6503,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -6472,10 +6540,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -6503,6 +6567,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -6536,10 +6604,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -6615,6 +6679,10 @@
         },
         {
           "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -6777,6 +6845,10 @@
         },
         {
           "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -7223,6 +7295,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -7259,10 +7335,6 @@
           "named": true
         },
         {
-          "type": "type_star",
-          "named": true
-        },
-        {
           "type": "type_variable",
           "named": true
         }
@@ -7287,6 +7359,10 @@
           },
           {
             "type": "fun",
+            "named": true
+          },
+          {
+            "type": "hole",
             "named": true
           },
           {
@@ -7323,10 +7399,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -7413,6 +7485,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "qualified_variable",
           "named": true
         },
@@ -7460,6 +7536,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -7490,10 +7570,6 @@
         {
           "type": "type_parens",
           "named": true
-        },
-        {
-          "type": "type_star",
-          "named": true
         }
       ]
     }
@@ -7520,6 +7596,10 @@
         },
         {
           "type": "fun",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -7556,10 +7636,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         },
         {
@@ -7642,6 +7718,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -7675,10 +7755,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           },
           {
@@ -7724,6 +7800,10 @@
             "named": true
           },
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "implicit_param",
             "named": true
           },
@@ -7757,10 +7837,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -7843,6 +7919,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "let",
           "named": true
         },
@@ -7919,6 +7999,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -7951,10 +8035,6 @@
           "named": true
         },
         {
-          "type": "type_star",
-          "named": true
-        },
-        {
           "type": "type_variable",
           "named": true
         }
@@ -7969,6 +8049,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "hole",
+          "named": true
+        },
         {
           "type": "promoted",
           "named": true
@@ -7995,10 +8079,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -8040,6 +8120,10 @@
         "required": false,
         "types": [
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "promoted",
             "named": true
           },
@@ -8065,10 +8149,6 @@
           },
           {
             "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_star",
             "named": true
           }
         ]
@@ -8114,6 +8194,10 @@
         "required": false,
         "types": [
           {
+            "type": "hole",
+            "named": true
+          },
+          {
             "type": "promoted",
             "named": true
           },
@@ -8144,10 +8228,6 @@
           {
             "type": "type_parens",
             "named": true
-          },
-          {
-            "type": "type_star",
-            "named": true
           }
         ]
       }
@@ -8176,6 +8256,10 @@
       "required": true,
       "types": [
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "promoted",
           "named": true
         },
@@ -8197,10 +8281,6 @@
         },
         {
           "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_star",
           "named": true
         }
       ]
@@ -8312,6 +8392,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "implicit_param",
           "named": true
         },
@@ -8346,18 +8430,9 @@
         {
           "type": "type_parens",
           "named": true
-        },
-        {
-          "type": "type_star",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "type_star",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "type_variable",
@@ -8402,10 +8477,6 @@
   },
   {
     "type": ")",
-    "named": false
-  },
-  {
-    "type": "*",
     "named": false
   },
   {
@@ -8537,6 +8608,10 @@
     "named": false
   },
   {
+    "type": "hole",
+    "named": true
+  },
+  {
     "type": "if",
     "named": false
   },
@@ -8646,10 +8721,6 @@
   },
   {
     "type": "∷",
-    "named": false
-  },
-  {
-    "type": "★",
     "named": false
   }
 ]
