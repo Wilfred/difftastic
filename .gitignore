@@ -1,5 +1,7 @@
 Cargo.toml
 bindings/
 
+.psc-ide-port
+
 # For small snippets of PS code to parse when debugging
 parse/
