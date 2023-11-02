@@ -7,9 +7,9 @@ f = 1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))))
 
 ================================================================================
@@ -21,9 +21,9 @@ f = 0x1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))))
 
 ================================================================================
@@ -36,14 +36,14 @@ g = -0x1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_negation
+    body: (exp_negation
       (exp_literal
         (integer))))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_negation
+    body: (exp_negation
       (exp_literal
         (integer)))))
 
@@ -57,13 +57,13 @@ g = 0x1_F_1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (integer)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))))
 
 ================================================================================
@@ -76,13 +76,13 @@ f = -1.1_1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (number)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_negation
+    body: (exp_negation
       (exp_literal
         (number)))))
 
@@ -97,17 +97,17 @@ f = 1_000e199
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (number)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (number)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (number))))
 
 ================================================================================
@@ -119,9 +119,9 @@ f = 'C'
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (char))))
 
 ================================================================================
@@ -133,9 +133,9 @@ a = "b c d e"
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (string))))
 
 ================================================================================
@@ -153,9 +153,9 @@ a =
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (triple_quote_string))))
 
 ================================================================================
@@ -167,9 +167,9 @@ a = """b c d e"""
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (triple_quote_string))))
 
 ================================================================================
@@ -183,12 +183,12 @@ c = [ f a, g b, c { d }, \e -> h ]
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_array))
-  (function
+    body: (exp_array))
+  (declaration
     name: (variable)
-    rhs: (exp_array
+    body: (exp_array
       (exp_literal
         (integer))
       (comma)
@@ -200,9 +200,9 @@ c = [ f a, g b, c { d }, \e -> h ]
       (comma)
       (exp_literal
         (integer))))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_array
+    body: (exp_array
       (exp_apply
         (exp_name
           (variable))
@@ -239,12 +239,12 @@ c = { d, e }
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (record_literal))
-  (function
+    body: (record_literal))
+  (declaration
     name: (variable)
-    rhs: (record_literal
+    body: (record_literal
       (record_field
         (field_name)
         (field_value
@@ -256,9 +256,9 @@ c = { d, e }
         (field_value
           (exp_name
             (variable))))))
-  (function
+  (declaration
     name: (variable)
-    rhs: (record_literal
+    body: (record_literal
       (record_field
         (field_pun))
       (comma)
@@ -275,11 +275,11 @@ b = false
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_name
+    body: (exp_name
       (variable)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_name
+    body: (exp_name
       (variable))))

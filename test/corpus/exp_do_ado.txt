@@ -8,9 +8,9 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (exp_apply
           (exp_name
@@ -31,9 +31,9 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (bind_pattern
           (pat_name
@@ -80,30 +80,29 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (let
-          (decls
-            (function
-              name: (variable)
-              rhs: (exp_name
-                (variable))))))
+          (declaration
+            name: (variable)
+            body: (exp_name
+              (variable)))))
       (stmt
         (let
-          (decls
+          (declaration
             (function
               pattern: (pat_apply
                 (pat_name
                   (constructor))
                 (pat_name
                   (variable)))
-              rhs: (exp_name
+              body: (exp_name
                 (variable))))))
       (stmt
         (let
-          (decls
+          (declaration
             (function
               pattern: (pat_apply
                 (pat_name
@@ -112,7 +111,7 @@ f = do
                   (variable))
                 (pat_name
                   (variable)))
-              rhs: (exp_name
+              body: (exp_name
                 (variable))))))
       (stmt
         (exp_apply
@@ -132,9 +131,9 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (exp_do
           (stmt
@@ -154,9 +153,9 @@ f = ado
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (exp_apply
           (exp_name
@@ -177,9 +176,9 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (bind_pattern
           (pat_name
@@ -226,31 +225,30 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (let
-          (decls
-            (function
-              name: (variable)
-              rhs: (exp_name
-                (variable))))))
+          (declaration
+            name: (variable)
+            body: (exp_name
+              (variable)))))
       (stmt
         (let
-          (decls
+          (declaration
             (function
               pattern: (pat_apply
                 (pat_name
                   (constructor))
                 (pat_name
                   (variable)))
-              rhs: (exp_name
+              body: (exp_name
                 (variable))))))
       (stmt
         (exp_let_in
           (exp_let
-            (decls
+            (declaration
               (function
                 pattern: (pat_apply
                   (pat_name
@@ -259,7 +257,7 @@ f = do
                     (variable))
                   (pat_name
                     (variable)))
-                rhs: (exp_name
+                body: (exp_name
                   (variable)))))
           (exp_in
             (exp_literal
@@ -276,9 +274,9 @@ f = ado
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (exp_apply
           (exp_name

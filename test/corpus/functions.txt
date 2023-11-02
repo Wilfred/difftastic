@@ -7,9 +7,9 @@ f = 1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))))
 
 ================================================================================
@@ -21,12 +21,12 @@ f a = 1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))))
 
 ================================================================================
@@ -39,22 +39,22 @@ f a = 1
 --------------------------------------------------------------------------------
 
 (purescript
-  (signature
-    lhs: (variable)
-    type: (forall
-      (type_variable))
-    type: (type_infix
-      left: (type_name
+  (declaration
+    (type_signature
+      name: (variable)
+      (forall
         (type_variable))
-      (type_operator)
-      right: (type_name
-        (type))))
-  (function
+      (type_infix
+        left: (type_name
+          (type_variable))
+        (type_operator)
+        right: (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable)))))
     name: (variable)
-    patterns: (patterns
-      (pat_name
-        (variable)))
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))))
 
 ================================================================================
@@ -70,27 +70,26 @@ f a = 1
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_literal
+    body: (exp_literal
       (integer))
     (where)
-    (decls
-      (function
-        name: (variable)
-        rhs: (exp_literal
-          (integer)))
-      (function
-        name: (variable)
-        rhs: (exp_literal
-          (integer)))
-      (function
-        name: (variable)
-        rhs: (exp_literal
-          (integer))))))
+    (declaration
+      name: (variable)
+      body: (exp_literal
+        (integer)))
+    (declaration
+      name: (variable)
+      body: (exp_literal
+        (integer)))
+    (declaration
+      name: (variable)
+      body: (exp_literal
+        (integer)))))
 
 ================================================================================
 Function as a let-in binder
@@ -101,21 +100,20 @@ f a = let g b = 1 in g
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_let_in
+    body: (exp_let_in
       (exp_let
-        (decls
-          (function
-            name: (variable)
-            patterns: (patterns
-              (pat_name
-                (variable)))
-            rhs: (exp_literal
-              (integer)))))
+        (declaration
+          name: (variable)
+          patterns: (patterns
+            (pat_name
+              (variable)))
+          body: (exp_literal
+            (integer))))
       (exp_in
         (exp_name
           (variable))))))
@@ -131,22 +129,21 @@ f a = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
     patterns: (patterns
       (pat_name
         (variable)))
-    rhs: (exp_do
+    body: (exp_do
       (stmt
         (let
-          (decls
-            (function
-              name: (variable)
-              patterns: (patterns
-                (pat_name
-                  (variable)))
-              rhs: (exp_literal
-                (integer))))))
+          (declaration
+            name: (variable)
+            patterns: (patterns
+              (pat_name
+                (variable)))
+            body: (exp_literal
+              (integer)))))
       (stmt
         (exp_name
           (variable))))))
@@ -169,7 +166,7 @@ f a
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
     patterns: (patterns
       (pat_name
@@ -234,7 +231,7 @@ f a
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
     patterns: (patterns
       (pat_name

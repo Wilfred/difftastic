@@ -42,10 +42,11 @@ class A where
         (type)))
     (class_body
       (where)
-      (signature
-        lhs: (variable)
-        type: (type_name
-          (type))))))
+      (class_member
+        (type_signature
+          name: (variable)
+          (type_name
+            (type)))))))
 
 ================================================================================
 Simple class instance with a member
@@ -62,9 +63,9 @@ instance A where
       (class_name
         (type)))
     (where)
-    (function
+    (declaration
       name: (variable)
-      rhs: (exp_name
+      body: (exp_name
         (variable)))))
 
 ================================================================================
@@ -85,22 +86,24 @@ class B a where
       (type_variable))
     (class_body
       (where)
-      (signature
-        lhs: (variable)
-        type: (type_infix
-          left: (type_name
-            (type_variable))
-          (type_operator)
-          right: (type_name
-            (type))))
-      (signature
-        lhs: (variable)
-        type: (type_infix
-          left: (type_name
-            (type_variable))
-          (type_operator)
-          right: (type_name
-            (type)))))))
+      (class_member
+        (type_signature
+          name: (variable)
+          (type_infix
+            left: (type_name
+              (type_variable))
+            (type_operator)
+            right: (type_name
+              (type)))))
+      (class_member
+        (type_signature
+          name: (variable)
+          (type_infix
+            left: (type_name
+              (type_variable))
+            (type_operator)
+            right: (type_name
+              (type))))))))
 
 ================================================================================
 Class with a superclass
@@ -125,10 +128,11 @@ class (A a) <= B a where
       (type_variable))
     (class_body
       (where)
-      (signature
-        lhs: (variable)
-        type: (type_name
-          (type))))))
+      (class_member
+        (type_signature
+          name: (variable)
+          (type_name
+            (type)))))))
 
 ================================================================================
 Instance with a superclass
@@ -153,9 +157,9 @@ instance (A a) => B a where
       (type_name
         (type_variable)))
     (where)
-    (function
+    (declaration
       name: (variable)
-      rhs: (exp_name
+      body: (exp_name
         (variable)))))
 
 ================================================================================
@@ -192,19 +196,20 @@ class A b c d | b c -> d, c d -> b, b d -> c where
           (type_variable))))
     (class_body
       (where)
-      (signature
-        lhs: (variable)
-        type: (type_infix
-          left: (type_name
-            (type_variable))
-          (type_operator)
-          right: (type_apply
-            (type_name
-              (type))
-            (type_name
+      (class_member
+        (type_signature
+          name: (variable)
+          (type_infix
+            left: (type_name
               (type_variable))
-            (type_name
-              (type_variable))))))))
+            (type_operator)
+            right: (type_apply
+              (type_name
+                (type))
+              (type_name
+                (type_variable))
+              (type_name
+                (type_variable)))))))))
 
 ================================================================================
 Class and instance - no parens in superclass

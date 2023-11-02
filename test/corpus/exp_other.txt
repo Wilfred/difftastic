@@ -7,9 +7,9 @@ f = a @Int
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_apply
+    body: (exp_apply
       (exp_name
         (variable))
       (exp_type_application
@@ -25,9 +25,9 @@ f = a @(A B Int)
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_apply
+    body: (exp_apply
       (exp_name
         (variable))
       (exp_type_application
@@ -49,9 +49,9 @@ f = a @Int @String @Char
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_apply
+    body: (exp_apply
       (exp_name
         (variable))
       (exp_type_application
@@ -73,9 +73,9 @@ f = a :: Int
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_name
+    body: (exp_name
       (variable))
-    rhs: (type_name
+    body: (type_name
       (type))))

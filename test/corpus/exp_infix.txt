@@ -7,9 +7,9 @@ f = a + b
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_infix
+    body: (exp_infix
       (exp_name
         (variable))
       (operator)
@@ -25,9 +25,9 @@ f = a + b * c
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_infix
+    body: (exp_infix
       (exp_infix
         (exp_name
           (variable))
@@ -47,9 +47,9 @@ f = a `b` c
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_infix
+    body: (exp_infix
       (exp_name
         (variable))
       (exp_ticked
@@ -67,9 +67,9 @@ f = a `b c + d` e
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_infix
+    body: (exp_infix
       (exp_name
         (variable))
       (exp_ticked
@@ -94,9 +94,9 @@ f = a `b` c `d` e
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_infix
+    body: (exp_infix
       (exp_name
         (variable))
       (exp_ticked
@@ -122,9 +122,9 @@ f = 1 `add` 2 * 3
 
 (purescript
   (comment)
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_infix
+    body: (exp_infix
       (exp_infix
         (exp_literal
           (integer))
@@ -147,16 +147,16 @@ f = (_ >>= pure)
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_left
+    body: (exp_section_left
       (wildcard)
       (operator)
       (exp_literal
         (integer))))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_left
+    body: (exp_section_left
       (wildcard)
       (operator)
       (exp_name
@@ -172,18 +172,18 @@ f = (_ `flip bind` pure)
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_left
+    body: (exp_section_left
       (wildcard)
       (exp_ticked
         (exp_name
           (variable)))
       (exp_literal
         (integer))))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_left
+    body: (exp_section_left
       (wildcard)
       (exp_ticked
         (exp_apply
@@ -204,16 +204,16 @@ f = (pure =<< _)
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_right
+    body: (exp_section_right
       (exp_literal
         (integer))
       (operator)
       (wildcard)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_right
+    body: (exp_section_right
       (exp_name
         (variable))
       (operator)
@@ -229,18 +229,18 @@ f = (pure `identity bind` _)
 --------------------------------------------------------------------------------
 
 (purescript
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_right
+    body: (exp_section_right
       (exp_literal
         (integer))
       (exp_ticked
         (exp_name
           (variable)))
       (wildcard)))
-  (function
+  (declaration
     name: (variable)
-    rhs: (exp_section_right
+    body: (exp_section_right
       (exp_name
         (variable))
       (exp_ticked
