@@ -38,11 +38,11 @@ module.exports = {
 
   exp_in: $ => seq('in', $._exp),
 
-  let: $ => seq('let', optional($.decls)),
+  let: $ => seq('let', $._decls),
 
-  _let_decls: $ => layouted_without_end($, $._decl),
+  _let_decls: $ => layouted_without_end($, $.declaration),
 
-  exp_let: $ => seq('let', optional(alias($._let_decls, $.decls))),
+  exp_let: $ => seq('let', optional($._let_decls)),
 
   exp_let_in: $ => seq($.exp_let, $.exp_in),
 

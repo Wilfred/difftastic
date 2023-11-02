@@ -50,15 +50,10 @@ module.exports = {
 
   // ----- Aggregation --------------------------------------------------------
 
-  type_parens: $ => parens(seq(optional($.forall), $._type)),
+  type_parens: $ => parens($._type),
 
   // This is the parser to be used in signatures for functions, classes, types, newtypes and data.
-  _type_annotation: $ =>
-    seq(
-      $._colon2,
-      optional($.forall),
-      $._type
-    ),
+  _type_annotation: $ => seq($._colon2, $._type),
 
   _fun_signature: $ =>
     seq(
@@ -98,7 +93,11 @@ module.exports = {
       field('right', $._type)
     ),
 
-  _type: $ => choice($.type_infix, $._btype),
+  _type: $ =>
+    seq(
+      optional($.forall),
+      choice($.type_infix, $._btype),
+    ),
 
   _simpletype: $ =>
     seq(field('name', $._tyconid), repeat($._tyvar)),

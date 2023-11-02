@@ -178,7 +178,7 @@ module.exports = grammar({
      * immediate lookahead.
      */
     [$._fun_name, $.pat_name],
-    [$.signature, $.pat_name],
+    [$._value_type_signature, $.pat_name],
     [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
     [$._aexp_projection, $._apat],
@@ -229,6 +229,7 @@ module.exports = grammar({
       alias($.decl_type, $.type_alias),
       alias($.decl_data, $.data),
       alias($.decl_newtype, $.newtype),
+      $.operator_declaration,
       // TODO: Imports cannot come in random places,
       // the structure of a module is always `module M [exports] where [imports] …`
       // should group these together to remove extra parser overhead and simplify it for all other symbols
@@ -237,7 +238,7 @@ module.exports = grammar({
       $.class_instance,
       $._decl_foreign,
       alias($.decl_derive, $.derive_declaration),
-      $._decl,
+      $.declaration,
       $.kind_declaration,
       $.kind_value_declaration,
       alias($.decl_pattern, $.pattern_synonym),

@@ -17,7 +17,7 @@ module.exports = {
 
   // ----- Class --------------------------------------------------------------
 
-  _cdecl: $ => choice($._gendecl, $.function,),
+  class_member: $ => alias($._value_type_signature, $.type_signature),
 
   fundep: $ =>
     seq(
@@ -28,7 +28,7 @@ module.exports = {
 
   fundeps: $ => seq('|', sep1($.comma, $.fundep)),
 
-  class_body: $ => where($, $._cdecl),
+  class_body: $ => where($, $.class_member),
 
   _class_kind_declaration: $ =>
     seq(
@@ -55,11 +55,6 @@ module.exports = {
 
   // ----- Instance -----------------------------------------------------------
 
-  _idecl: $ => choice(
-    $.function,
-    $.signature,
-  ),
-
   instance_head: $ =>
     seq(
       optional(seq($.constraints, $._rcarrow)),
@@ -71,7 +66,7 @@ module.exports = {
     seq(
       'instance',
       $.instance_head,
-      optional(where($, $._idecl))
+      optional(where($, $.declaration))
     ),
 
 }
