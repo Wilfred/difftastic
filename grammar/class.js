@@ -62,9 +62,16 @@ module.exports = {
       repeat($._type)
     ),
 
+  instance_name: $ =>
+    seq(
+      alias($._varid, $.instance_name),
+      $._colon2
+    ),
+
   class_instance: $ =>
     seq(
       'instance',
+      optional($.instance_name),
       $.instance_head,
       optional(where($, $.declaration))
     ),
