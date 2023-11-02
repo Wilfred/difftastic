@@ -12,10 +12,6 @@
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "exp_apply",
             "named": true
           },
@@ -88,19 +84,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -137,6 +121,10 @@
           },
           {
             "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
             "named": true
           },
           {
@@ -202,64 +190,6 @@
             "named": true
           }
         ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
       }
     },
     "children": {
@@ -293,142 +223,9 @@
     }
   },
   {
-    "type": "annotated_type_variable",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "type_variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "bind_pattern",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -502,6 +299,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -566,30 +367,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "class",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
+        },
         {
-          "type": "class_body",
+          "type": "row_type",
           "named": true
         },
         {
-          "type": "class_head",
+          "type": "type_apply",
           "named": true
         },
         {
-          "type": "fundeps",
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -603,10 +413,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "default_signature",
-          "named": true
-        },
         {
           "type": "function",
           "named": true
@@ -627,54 +433,50 @@
     }
   },
   {
-    "type": "class_head",
+    "type": "class_declaration",
     "named": true,
-    "fields": {
-      "class": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "class_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "hole",
+          "type": "class_body",
           "named": true
         },
         {
-          "type": "promoted",
+          "type": "class_head",
           "named": true
         },
         {
-          "type": "record_type_literal",
+          "type": "kind_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_head",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_name",
           "named": true
         },
         {
-          "type": "row_type",
+          "type": "constraints",
           "named": true
         },
         {
-          "type": "type_infix",
+          "type": "fundeps",
           "named": true
         },
         {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
+          "type": "type_variable",
           "named": true
         }
       ]
@@ -696,6 +498,33 @@
     }
   },
   {
+    "type": "class_instance",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "instance_head",
+          "named": true
+        },
+        {
+          "type": "signature",
+          "named": true
+        },
+        {
+          "type": "where",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "class_name",
     "named": true,
     "fields": {},
@@ -704,39 +533,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_type",
-          "named": true
-        },
-        {
-          "type": "qualified_type_operator",
-          "named": true
-        },
-        {
-          "type": "tycon_arrow",
-          "named": true
-        },
-        {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_operator",
-          "named": true
-        },
-        {
-          "type": "type_variable",
           "named": true
         }
       ]
@@ -745,28 +542,17 @@
   {
     "type": "constraint",
     "named": true,
-    "fields": {
-      "class": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "class_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "hole",
+          "type": "class_name",
           "named": true
         },
         {
-          "type": "promoted",
+          "type": "hole",
           "named": true
         },
         {
@@ -775,6 +561,10 @@
         },
         {
           "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
           "named": true
         },
         {
@@ -791,6 +581,29 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constraints",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "constraint",
           "named": true
         }
       ]
@@ -807,102 +620,15 @@
     "fields": {}
   },
   {
-    "type": "context",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "constraint",
-          "named": true
-        },
-        {
-          "type": "context",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "implicit_param",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "data",
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "constructor_operator",
-            "named": true
-          },
-          {
             "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_operator",
             "named": true
           }
         ]
@@ -913,15 +639,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
           "type": "constructor",
-          "named": true
-        },
-        {
-          "type": "context",
           "named": true
         },
         {
@@ -929,15 +647,7 @@
           "named": true
         },
         {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -969,7 +679,15 @@
           "named": true
         },
         {
+          "type": "type_signature",
+          "named": true
+        },
+        {
           "type": "type_variable",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -999,21 +717,6 @@
     }
   },
   {
-    "type": "default_signature",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "signature",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "derive_declaration",
     "named": true,
     "fields": {},
@@ -1022,19 +725,7 @@
       "required": true,
       "types": [
         {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "constraint",
-          "named": true
-        },
-        {
-          "type": "context",
-          "named": true
-        },
-        {
-          "type": "forall",
+          "type": "constraints",
           "named": true
         },
         {
@@ -1042,15 +733,7 @@
           "named": true
         },
         {
-          "type": "implicit_param",
-          "named": true
-        },
-        {
           "type": "instance_name",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -1071,6 +754,10 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -1162,10 +849,6 @@
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "exp_apply",
             "named": true
           },
@@ -1238,15 +921,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
             "named": true
           },
           {
@@ -1302,10 +977,6 @@
             "named": true
           },
           {
-            "type": "promoted",
-            "named": true
-          },
-          {
             "type": "record_literal",
             "named": true
           },
@@ -1342,66 +1013,12 @@
             "named": true
           },
           {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
             "type": "∷",
             "named": false
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
           }
         ]
       }
@@ -1559,66 +1176,7 @@
   {
     "type": "exp_array",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -1696,6 +1254,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -1704,7 +1266,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -1721,10 +1315,6 @@
           {
             "type": "::",
             "named": false
-          },
-          {
-            "type": "context",
-            "named": true
           },
           {
             "type": "exp_apply",
@@ -1799,19 +1389,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -1851,70 +1429,16 @@
             "named": true
           },
           {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           },
           {
             "type": "∷",
             "named": false
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
           }
         ]
       }
@@ -1966,10 +1490,6 @@
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "exp_apply",
             "named": true
           },
@@ -2042,19 +1562,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -2091,6 +1599,10 @@
           },
           {
             "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
             "named": true
           },
           {
@@ -2112,10 +1624,6 @@
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "exp_apply",
             "named": true
           },
@@ -2188,19 +1696,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -2237,6 +1733,10 @@
           },
           {
             "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
             "named": true
           },
           {
@@ -2258,10 +1758,6 @@
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "exp_apply",
             "named": true
           },
@@ -2334,19 +1830,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -2386,6 +1870,10 @@
             "named": true
           },
           {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           },
@@ -2394,132 +1882,15 @@
             "named": false
           }
         ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
       }
     }
   },
   {
     "type": "exp_in",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -2591,6 +1962,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -2599,7 +1974,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -2711,66 +2118,7 @@
   {
     "type": "exp_lambda",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -2844,6 +2192,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -2892,7 +2244,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -3072,68 +2456,9 @@
   {
     "type": "exp_parens",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -3205,6 +2530,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -3213,7 +2542,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -3619,10 +2980,6 @@
           "named": true
         },
         {
-          "type": "promoted",
-          "named": true
-        },
-        {
           "type": "record_type_literal",
           "named": true
         },
@@ -3640,6 +2997,10 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -3782,68 +3143,9 @@
   {
     "type": "field_value",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -3915,6 +3217,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -3923,7 +3229,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -3950,38 +3288,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "constraint",
-          "named": true
-        },
-        {
-          "type": "context",
-          "named": true
-        },
         {
           "type": "forall",
           "named": true
         },
         {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "inferred_type_variable",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -4015,6 +3329,10 @@
         {
           "type": "type_variable",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -4047,90 +3365,15 @@
       }
     },
     "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "context",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "fun",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "context",
-          "named": true
-        },
-        {
           "type": "forall",
           "named": true
         },
         {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "modifier",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -4159,6 +3402,10 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -4168,16 +3415,6 @@
     "type": "function",
     "named": true,
     "fields": {
-      "infix": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "infix",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": true,
         "required": false,
@@ -4281,10 +3518,6 @@
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "exp_apply",
             "named": true
           },
@@ -4357,19 +3590,7 @@
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -4409,66 +3630,12 @@
             "named": true
           },
           {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
             "type": "∷",
             "named": false
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
           }
         ]
       }
@@ -4529,66 +3696,7 @@
   {
     "type": "gdpat",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -4662,6 +3770,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "guards",
           "named": true
         },
@@ -4674,7 +3786,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -4782,66 +3926,7 @@
   {
     "type": "guard_equation",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -4915,6 +4000,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "guards",
           "named": true
         },
@@ -4927,7 +4016,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -4950,70 +4071,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "implicit_param",
-    "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -5138,208 +4195,23 @@
     }
   },
   {
-    "type": "inferred_type_variable",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "type_variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "infix",
-    "named": true,
-    "fields": {
-      "lhs": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "pat_apply",
-            "named": true
-          },
-          {
-            "type": "pat_as",
-            "named": true
-          },
-          {
-            "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
-            "named": true
-          },
-          {
-            "type": "pat_literal",
-            "named": true
-          },
-          {
-            "type": "pat_name",
-            "named": true
-          },
-          {
-            "type": "pat_negation",
-            "named": true
-          },
-          {
-            "type": "pat_parens",
-            "named": true
-          },
-          {
-            "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
-            "named": true
-          },
-          {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
-            "type": "pat_wildcard",
-            "named": true
-          }
-        ]
-      },
-      "op": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "operator",
-            "named": true
-          }
-        ]
-      },
-      "rhs": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "pat_apply",
-            "named": true
-          },
-          {
-            "type": "pat_as",
-            "named": true
-          },
-          {
-            "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
-            "named": true
-          },
-          {
-            "type": "pat_literal",
-            "named": true
-          },
-          {
-            "type": "pat_name",
-            "named": true
-          },
-          {
-            "type": "pat_negation",
-            "named": true
-          },
-          {
-            "type": "pat_parens",
-            "named": true
-          },
-          {
-            "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
-            "named": true
-          },
-          {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
-            "type": "pat_wildcard",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "instance",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "instance_head",
-          "named": true
-        },
-        {
-          "type": "signature",
-          "named": true
-        },
-        {
-          "type": "where",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "instance_head",
     "named": true,
-    "fields": {
-      "class": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "class_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "hole",
+          "type": "class_name",
           "named": true
         },
         {
-          "type": "promoted",
+          "type": "constraints",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -5348,6 +4220,10 @@
         },
         {
           "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
           "named": true
         },
         {
@@ -5365,6 +4241,10 @@
         {
           "type": "type_parens",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -5375,31 +4255,15 @@
     "fields": {}
   },
   {
-    "type": "kind",
+    "type": "kind_declaration",
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "constructor_operator",
-            "named": true
-          },
-          {
             "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_operator",
             "named": true
           }
         ]
@@ -5410,61 +4274,7 @@
       "required": false,
       "types": [
         {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "kind_value",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "constructor_operator",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_operator",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "class_name",
           "named": true
         },
         {
@@ -5472,15 +4282,7 @@
           "named": true
         },
         {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -5514,6 +4316,76 @@
         {
           "type": "type_variable",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "kind_value_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_variable",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -5534,45 +4406,6 @@
     }
   },
   {
-    "type": "modifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "module",
     "named": true,
     "fields": {}
@@ -5587,27 +4420,11 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "constructor_operator",
-            "named": true
-          },
-          {
             "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_operator",
             "named": true
           }
         ]
@@ -5618,7 +4435,11 @@
       "required": true,
       "types": [
         {
-          "type": "annotated_type_variable",
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
           "named": true
         },
         {
@@ -5626,11 +4447,43 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
           "type": "type_infix",
           "named": true
         },
         {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_signature",
+          "named": true
+        },
+        {
           "type": "type_variable",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -5653,10 +4506,6 @@
           "named": true
         },
         {
-          "type": "promoted",
-          "named": true
-        },
-        {
           "type": "record_type_literal",
           "named": true
         },
@@ -5674,6 +4523,10 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -6398,10 +5251,6 @@
           "named": true
         },
         {
-          "type": "promoted",
-          "named": true
-        },
-        {
           "type": "record_type_literal",
           "named": true
         },
@@ -6419,6 +5268,10 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -6485,130 +5338,59 @@
             "named": true
           }
         ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "pat_view",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -6682,6 +5464,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -6750,7 +5536,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -6985,21 +5803,6 @@
     }
   },
   {
-    "type": "promoted",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "type_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "purescript",
     "named": true,
     "fields": {
@@ -7029,7 +5832,11 @@
       "required": true,
       "types": [
         {
-          "type": "class",
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "class_instance",
           "named": true
         },
         {
@@ -7057,15 +5864,11 @@
           "named": true
         },
         {
-          "type": "instance",
+          "type": "kind_declaration",
           "named": true
         },
         {
-          "type": "kind",
-          "named": true
-        },
-        {
-          "type": "kind_value",
+          "type": "kind_value_declaration",
           "named": true
         },
         {
@@ -7283,23 +6086,7 @@
           "named": true
         },
         {
-          "type": "context",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -7337,6 +6124,10 @@
         {
           "type": "type_variable",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -7344,66 +6135,7 @@
   {
     "type": "record_update",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -7485,6 +6217,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -7497,7 +6233,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         },
         {
@@ -7520,27 +6288,11 @@
       "required": true,
       "types": [
         {
-          "type": "context",
-          "named": true
-        },
-        {
           "type": "field_name",
           "named": true
         },
         {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -7570,6 +6322,10 @@
         {
           "type": "type_parens",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -7587,23 +6343,7 @@
           "named": true
         },
         {
-          "type": "context",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -7641,6 +6381,10 @@
         {
           "type": "type_variable",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -7662,32 +6406,6 @@
             "named": false
           },
           {
-            "type": "comma",
-            "named": true
-          },
-          {
-            "type": "operator",
-            "named": true
-          },
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "operator",
             "named": true
           },
@@ -7699,34 +6417,18 @@
       },
       "type": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "::",
             "named": false
           },
           {
-            "type": "context",
-            "named": true
-          },
-          {
             "type": "forall",
             "named": true
           },
           {
-            "type": "fun",
-            "named": true
-          },
-          {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -7755,6 +6457,10 @@
           },
           {
             "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
             "named": true
           },
           {
@@ -7765,7 +6471,7 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -7775,6 +6481,46 @@
         {
           "type": "constructor_operator",
           "named": true
+        },
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
@@ -7782,68 +6528,9 @@
   {
     "type": "stmt",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "fun",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "implicit_param",
-            "named": true
-          },
-          {
-            "type": "promoted",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -7919,6 +6606,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -7931,7 +6622,39 @@
           "named": true
         },
         {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -7952,27 +6675,11 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "constructor_operator",
-            "named": true
-          },
-          {
             "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_operator",
             "named": true
           }
         ]
@@ -7983,27 +6690,11 @@
       "required": true,
       "types": [
         {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "context",
-          "named": true
-        },
-        {
           "type": "forall",
           "named": true
         },
         {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -8035,7 +6726,15 @@
           "named": true
         },
         {
+          "type": "type_signature",
+          "named": true
+        },
+        {
           "type": "type_variable",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -8054,19 +6753,11 @@
           "named": true
         },
         {
-          "type": "promoted",
-          "named": true
-        },
-        {
           "type": "record_type_literal",
           "named": true
         },
         {
           "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_invisible",
           "named": true
         },
         {
@@ -8079,6 +6770,10 @@
         },
         {
           "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -8117,14 +6812,10 @@
     "fields": {
       "left": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -8150,55 +6841,19 @@
           {
             "type": "type_parens",
             "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "constructor_operator",
-            "named": true
           },
           {
-            "type": "type_operator",
-            "named": true
-          }
-        ]
-      },
-      "op": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "constructor_operator",
-            "named": true
-          },
-          {
-            "type": "qualified_constructor_operator",
-            "named": true
-          },
-          {
-            "type": "qualified_type_operator",
-            "named": true
-          },
-          {
-            "type": "type_operator",
+            "type": "type_wildcard",
             "named": true
           }
         ]
       },
       "right": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "hole",
-            "named": true
-          },
-          {
-            "type": "promoted",
             "named": true
           },
           {
@@ -8228,59 +6883,20 @@
           {
             "type": "type_parens",
             "named": true
+          },
+          {
+            "type": "type_wildcard",
+            "named": true
           }
         ]
       }
     },
     "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
-          "type": "type_variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type_invisible",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "promoted",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
+          "type": "type_operator",
           "named": true
         }
       ]
@@ -8318,10 +6934,6 @@
       "required": true,
       "types": [
         {
-          "type": "annotated_type_variable",
-          "named": true
-        },
-        {
           "type": "constructor_operator",
           "named": true
         },
@@ -8338,10 +6950,6 @@
           "named": true
         },
         {
-          "type": "tycon_arrow",
-          "named": true
-        },
-        {
           "type": "type",
           "named": true
         },
@@ -8355,6 +6963,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "type_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "type_operator_import",
@@ -8376,31 +6989,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "context",
-          "named": true
-        },
         {
           "type": "forall",
           "named": true
         },
         {
-          "type": "fun",
-          "named": true
-        },
-        {
           "type": "hole",
-          "named": true
-        },
-        {
-          "type": "implicit_param",
-          "named": true
-        },
-        {
-          "type": "promoted",
           "named": true
         },
         {
@@ -8430,12 +7027,76 @@
         {
           "type": "type_parens",
           "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
         }
       ]
     }
   },
   {
     "type": "type_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "type_wildcard",
     "named": true,
     "fields": {}
   },
@@ -8464,12 +7125,9 @@
     "fields": {}
   },
   {
-    "type": "%",
-    "named": false
-  },
-  {
-    "type": "'",
-    "named": false
+    "type": "wildcard",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "(",
@@ -8508,6 +7166,10 @@
     "named": false
   },
   {
+    "type": "<=",
+    "named": false
+  },
+  {
     "type": "=",
     "named": false
   },
@@ -8529,6 +7191,10 @@
   },
   {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "_",
     "named": false
   },
   {
@@ -8573,10 +7239,6 @@
   },
   {
     "type": "data",
-    "named": false
-  },
-  {
-    "type": "default",
     "named": false
   },
   {
@@ -8640,6 +7302,10 @@
     "named": false
   },
   {
+    "type": "instance_name",
+    "named": true
+  },
+  {
     "type": "let",
     "named": false
   },
@@ -8680,15 +7346,7 @@
     "named": false
   },
   {
-    "type": "type_operator",
-    "named": true
-  },
-  {
     "type": "where",
-    "named": true
-  },
-  {
-    "type": "wildcard",
     "named": true
   },
   {
@@ -8709,6 +7367,10 @@
   },
   {
     "type": "→",
+    "named": false
+  },
+  {
+    "type": "⇐",
     "named": false
   },
   {
