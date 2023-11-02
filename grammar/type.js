@@ -1,4 +1,4 @@
-const { parens } = require('./util.js')
+const { parens, qualified } = require('./util.js')
 
 module.exports = {
 
@@ -48,6 +48,14 @@ module.exports = {
 
   type_operator: $ => $._operator,
 
+  qualified_type_operator: $ => qualified($, $.type_operator),
+
+  _type_qoperator: $ =>
+    choice(
+      $.type_operator,
+      $.qualified_type_operator
+    ),
+
   // ----- Aggregation --------------------------------------------------------
 
   type_parens: $ => parens($._type),
@@ -89,7 +97,7 @@ module.exports = {
   type_infix: $ =>
     seq(
       field('left', $._btype),
-      $.type_operator,
+      $._type_qoperator,
       field('right', $._type)
     ),
 

@@ -214,6 +214,11 @@ module.exports = grammar({
      */
     [$.type_name, $.class_name],
 
+    /**
+     * Same as above, but for operators.
+     */
+    [$.operator, $.type_operator],
+
   ],
 
   word: $ => $._varid,
