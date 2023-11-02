@@ -63,6 +63,8 @@
    "∷"
    "=>"
    "⇒"
+   "<="
+   "⇐"
    "->"
    "→"
    "<-"
@@ -107,6 +109,8 @@
 
  (type_signature name: (variable) @type)
  (declaration name: (variable) @function)
+ (class_instance (instance_name) @function)
+ (derive_declaration (instance_name) @function)
 
  ; true or false
 ((variable) @constant.builtin.boolean
