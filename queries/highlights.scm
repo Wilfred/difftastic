@@ -51,7 +51,6 @@
    (operator)
    (constructor_operator)
    (type_operator)
-   (tycon_arrow)
    (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
    (all_names)
 
@@ -106,7 +105,7 @@
 ; ----------------------------------------------------------------------------
 ; Functions and variables
 
- (signature name: (variable) @type)
+ (signature lhs: (variable) @type)
  (function name: (variable) @function)
 
  ; true or false
