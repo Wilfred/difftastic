@@ -506,6 +506,10 @@
           "named": true
         },
         {
+          "type": "instance_name",
+          "named": true
+        },
+        {
           "type": "where",
           "named": true
         }
@@ -6986,6 +6990,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "qualified_type_operator",
+          "named": true
+        },
         {
           "type": "type_operator",
           "named": true
