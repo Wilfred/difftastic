@@ -414,15 +414,7 @@
       "required": true,
       "types": [
         {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "operator_declaration",
-          "named": true
-        },
-        {
-          "type": "signature",
+          "type": "class_member",
           "named": true
         },
         {
@@ -506,7 +498,7 @@
       "required": true,
       "types": [
         {
-          "type": "function",
+          "type": "declaration",
           "named": true
         },
         {
@@ -514,11 +506,22 @@
           "named": true
         },
         {
-          "type": "signature",
-          "named": true
-        },
-        {
           "type": "where",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_signature",
           "named": true
         }
       ]
@@ -549,6 +552,10 @@
       "types": [
         {
           "type": "class_name",
+          "named": true
+        },
+        {
+          "type": "forall",
           "named": true
         },
         {
@@ -694,155 +701,12 @@
     }
   },
   {
-    "type": "decls",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "operator_declaration",
-          "named": true
-        },
-        {
-          "type": "signature",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "derive_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "constraints",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "instance_name",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "do_module",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "module",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "equation",
+    "type": "declaration",
     "named": true,
     "fields": {
-      "lhs": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "pat_apply",
-            "named": true
-          },
-          {
-            "type": "pat_as",
-            "named": true
-          },
-          {
-            "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
-            "named": true
-          },
-          {
-            "type": "pat_literal",
-            "named": true
-          },
-          {
-            "type": "pat_name",
-            "named": true
-          },
-          {
-            "type": "pat_negation",
-            "named": true
-          },
-          {
-            "type": "pat_parens",
-            "named": true
-          },
-          {
-            "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
-            "named": true
-          },
-          {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
-            "type": "pat_wildcard",
-            "named": true
-          }
-        ]
-      },
-      "rhs": {
+      "body": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "::",
@@ -925,6 +789,312 @@
             "named": true
           },
           {
+            "type": "record_literal",
+            "named": true
+          },
+          {
+            "type": "record_type_literal",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "row_type",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
+            "type": "∷",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "operator",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "guard_equation",
+          "named": true
+        },
+        {
+          "type": "type_signature",
+          "named": true
+        },
+        {
+          "type": "where",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "derive_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constraints",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "instance_name",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "do_module",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "equation",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "::",
+            "named": false
+          },
+          {
+            "type": "exp_apply",
+            "named": true
+          },
+          {
+            "type": "exp_array",
+            "named": true
+          },
+          {
+            "type": "exp_case",
+            "named": true
+          },
+          {
+            "type": "exp_do",
+            "named": true
+          },
+          {
+            "type": "exp_if",
+            "named": true
+          },
+          {
+            "type": "exp_infix",
+            "named": true
+          },
+          {
+            "type": "exp_lambda",
+            "named": true
+          },
+          {
+            "type": "exp_let_in",
+            "named": true
+          },
+          {
+            "type": "exp_literal",
+            "named": true
+          },
+          {
+            "type": "exp_name",
+            "named": true
+          },
+          {
+            "type": "exp_negation",
+            "named": true
+          },
+          {
+            "type": "exp_parens",
+            "named": true
+          },
+          {
+            "type": "exp_projection",
+            "named": true
+          },
+          {
+            "type": "exp_projection_selector",
+            "named": true
+          },
+          {
+            "type": "exp_section_left",
+            "named": true
+          },
+          {
+            "type": "exp_section_right",
+            "named": true
+          },
+          {
+            "type": "exp_type_application",
+            "named": true
+          },
+          {
+            "type": "forall",
+            "named": true
+          },
+          {
+            "type": "hole",
+            "named": true
+          },
+          {
+            "type": "record_literal",
+            "named": true
+          },
+          {
+            "type": "record_type_literal",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "row_type",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
+            "type": "∷",
+            "named": false
+          }
+        ]
+      },
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
             "type": "pat_apply",
             "named": true
           },
@@ -975,50 +1145,64 @@
           {
             "type": "pat_wildcard",
             "named": true
-          },
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "record_literal",
+            "type": "pat_apply",
             "named": true
           },
           {
-            "type": "record_type_literal",
+            "type": "pat_as",
             "named": true
           },
           {
-            "type": "record_update",
+            "type": "pat_infix",
             "named": true
           },
           {
-            "type": "row_type",
+            "type": "pat_irrefutable",
             "named": true
           },
           {
-            "type": "type_apply",
+            "type": "pat_list",
             "named": true
           },
           {
-            "type": "type_infix",
+            "type": "pat_literal",
             "named": true
           },
           {
-            "type": "type_literal",
+            "type": "pat_name",
             "named": true
           },
           {
-            "type": "type_name",
+            "type": "pat_negation",
             "named": true
           },
           {
-            "type": "type_parens",
+            "type": "pat_parens",
             "named": true
           },
           {
-            "type": "type_wildcard",
+            "type": "pat_record",
             "named": true
           },
           {
-            "type": "∷",
-            "named": false
+            "type": "pat_strict",
+            "named": true
+          },
+          {
+            "type": "pat_type_binder",
+            "named": true
+          },
+          {
+            "type": "pat_wildcard",
+            "named": true
           }
         ]
       }
@@ -1028,7 +1212,7 @@
       "required": false,
       "types": [
         {
-          "type": "decls",
+          "type": "declaration",
           "named": true
         },
         {
@@ -2287,11 +2471,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "decls",
+          "type": "declaration",
           "named": true
         }
       ]
@@ -3366,7 +3550,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "forall",
@@ -3415,101 +3599,7 @@
     "type": "function",
     "named": true,
     "fields": {
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "operator",
-            "named": true
-          },
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "pattern": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "pat_apply",
-            "named": true
-          },
-          {
-            "type": "pat_as",
-            "named": true
-          },
-          {
-            "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
-            "named": true
-          },
-          {
-            "type": "pat_literal",
-            "named": true
-          },
-          {
-            "type": "pat_name",
-            "named": true
-          },
-          {
-            "type": "pat_negation",
-            "named": true
-          },
-          {
-            "type": "pat_parens",
-            "named": true
-          },
-          {
-            "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
-            "named": true
-          },
-          {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
-            "type": "pat_typed",
-            "named": true
-          },
-          {
-            "type": "pat_wildcard",
-            "named": true
-          }
-        ]
-      },
-      "patterns": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "patterns",
-            "named": true
-          }
-        ]
-      },
-      "rhs": {
+      "body": {
         "multiple": true,
         "required": false,
         "types": [
@@ -3638,6 +3728,68 @@
             "named": false
           }
         ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pat_apply",
+            "named": true
+          },
+          {
+            "type": "pat_as",
+            "named": true
+          },
+          {
+            "type": "pat_infix",
+            "named": true
+          },
+          {
+            "type": "pat_irrefutable",
+            "named": true
+          },
+          {
+            "type": "pat_list",
+            "named": true
+          },
+          {
+            "type": "pat_literal",
+            "named": true
+          },
+          {
+            "type": "pat_name",
+            "named": true
+          },
+          {
+            "type": "pat_negation",
+            "named": true
+          },
+          {
+            "type": "pat_parens",
+            "named": true
+          },
+          {
+            "type": "pat_record",
+            "named": true
+          },
+          {
+            "type": "pat_strict",
+            "named": true
+          },
+          {
+            "type": "pat_type_binder",
+            "named": true
+          },
+          {
+            "type": "pat_typed",
+            "named": true
+          },
+          {
+            "type": "pat_wildcard",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -3645,7 +3797,7 @@
       "required": false,
       "types": [
         {
-          "type": "decls",
+          "type": "declaration",
           "named": true
         },
         {
@@ -4211,6 +4363,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -4341,7 +4497,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "forall",
@@ -4395,11 +4551,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "decls",
+          "type": "declaration",
           "named": true
         }
       ]
@@ -5342,7 +5498,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "forall",
@@ -5844,6 +6000,10 @@
           "named": true
         },
         {
+          "type": "declaration",
+          "named": true
+        },
+        {
           "type": "derive_declaration",
           "named": true
         },
@@ -5853,10 +6013,6 @@
         },
         {
           "type": "foreign_import",
-          "named": true
-        },
-        {
-          "type": "function",
           "named": true
         },
         {
@@ -5881,10 +6037,6 @@
         },
         {
           "type": "pattern_synonym",
-          "named": true
-        },
-        {
-          "type": "signature",
           "named": true
         },
         {
@@ -6083,6 +6235,10 @@
       "types": [
         {
           "type": "comma",
+          "named": true
+        },
+        {
+          "type": "forall",
           "named": true
         },
         {
@@ -6292,6 +6448,10 @@
           "named": true
         },
         {
+          "type": "forall",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -6340,6 +6500,10 @@
       "types": [
         {
           "type": "comma",
+          "named": true
+        },
+        {
+          "type": "forall",
           "named": true
         },
         {
@@ -6392,87 +6556,10 @@
   {
     "type": "signature",
     "named": true,
-    "fields": {
-      "lhs": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "operator",
-            "named": true
-          },
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "::",
-            "named": false
-          },
-          {
-            "type": "forall",
-            "named": true
-          },
-          {
-            "type": "hole",
-            "named": true
-          },
-          {
-            "type": "record_type_literal",
-            "named": true
-          },
-          {
-            "type": "row_type",
-            "named": true
-          },
-          {
-            "type": "type_apply",
-            "named": true
-          },
-          {
-            "type": "type_infix",
-            "named": true
-          },
-          {
-            "type": "type_literal",
-            "named": true
-          },
-          {
-            "type": "type_name",
-            "named": true
-          },
-          {
-            "type": "type_parens",
-            "named": true
-          },
-          {
-            "type": "type_wildcard",
-            "named": true
-          },
-          {
-            "type": "∷",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "constructor",
@@ -6849,9 +6936,13 @@
         ]
       },
       "right": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "forall",
+            "named": true
+          },
           {
             "type": "hole",
             "named": true
@@ -7038,10 +7129,33 @@
   {
     "type": "type_signature",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "operator",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "forall",
