@@ -105,8 +105,8 @@
 ; ----------------------------------------------------------------------------
 ; Functions and variables
 
- (signature lhs: (variable) @type)
- (function name: (variable) @function)
+ (type_signature name: (variable) @type)
+ (declaration name: (variable) @function)
 
  ; true or false
 ((variable) @constant.builtin.boolean
