@@ -17,8 +17,8 @@ module.exports = {
     'derive',
     optional('newtype'),
     'instance',
-    optional(seq(alias($._tyvar, $.instance_name), $._colon2)),
-    optional($._context),
+    optional(seq(alias($._varid, $.instance_name), $._colon2)),
+    optional(seq($.constraints, $._rcarrow)),
     $.type_name,
     repeat($._atype)
   )),

@@ -68,7 +68,9 @@ module.exports = {
     $._numeric,
   ),
 
-  _carrow: _ => choice('⇒', '=>'),
+  _rcarrow: _ => choice('⇒', '=>'),
+
+  _lcarrow: _ => choice('⇐', '<='),
 
   _arrow: _ => choice('→', '->'),
 

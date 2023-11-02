@@ -127,7 +127,7 @@ module.exports = grammar({
      * constructors.
      * Needs more investigation.
      */
-    [$._type_infix, $.type_infix],
+    [$.type_infix, $._type],
 
     /**
      * Same as above, but for expressions.
@@ -155,7 +155,7 @@ module.exports = grammar({
      * data a ~ b => A a b
      * data a + b
      */
-    [$.type_name, $._simpletype_infix],
+    // [$.type_name, $._simpletype_infix],
 
     /**
      * Same as above, but with regular types:
@@ -176,7 +176,7 @@ module.exports = grammar({
      *
      * After the `a`, the closing paren is ambiguous.
      */
-    [$._type_infix, $.constraint],
+    // [$._type_infix, $.constraint],
 
     /**
      * Top-level expression splices fundamentally conflict with decls, and since decls start with either `var` or `pat`,
@@ -222,15 +222,21 @@ module.exports = grammar({
     [$.type_apply],
 
     /**
-     * Implicit parameters have slightly weird restrictions.
-     */
-    [$._type_or_implicit, $._context_constraints],
-
-    /**
      * General kind signatures cause `(a :: k)` to be ambiguous.
      * This problem might be solvable if `type.js` were to be refactored.
      */
-    [$.annotated_type_variable, $.type_name],
+    // [$.annotated_type_variable, $.type_name],
+
+    /**
+     * A weird conflict involving fundeps and type variables in class heads,
+     * despite the fact that fundeps are delimited by `|`.
+     */
+    [$.type_name, $.class_head],
+
+    /**
+     * Type names and class names both alias `$.constructor`.
+     */
+    [$.type_name, $.class_name],
 
   ],
 
@@ -251,8 +257,8 @@ module.exports = grammar({
       // the structure of a module is always `module M [exports] where [imports] …`
       // should group these together to remove extra parser overhead and simplify it for all other symbols
       alias($.decl_import, $.import),
-      alias($.decl_class, $.class),
-      alias($.decl_instance, $.instance),
+      $.class_declaration,
+      $.class_instance,
       $._decl_foreign,
       alias($.decl_derive, $.derive_declaration),
       $._decl,

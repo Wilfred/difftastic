@@ -15,7 +15,12 @@ module.exports = {
   _qvarid: $ => choice($.qualified_variable, $.variable),
 
   // `_varsym` comes from the scanner.
-  operator: $ => $._varsym,
+  // operator: $ => $._varsym,
+  // Scanner doesn't let us use -> <- => <= and their unicode counterparts,
+  // which complicates the grammar, so just using regex here.
+  // Look-around isn't allowed, so this is slightly modified.
+  // https://github.com/natefaubion/purescript-language-cst-parser/blob/bf5623e08e1f43f923d4ff3c29cafbda25128768/src/PureScript/CST/Lexer.purs#L503
+  operator: _ => /(?:[:!#$%&*+./<=>?@\\^|~-]|\p{S})+/u,
   _minus: $ => alias('-', $.operator),
 
   // Any operator including `-`

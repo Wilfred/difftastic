@@ -1,19 +1,13 @@
 module.exports = {
   // ------------------------------------------------------------------------
-  // decl
+  // Declarations
   // ------------------------------------------------------------------------
-
-  _funpat_infix: $ => seq(field('lhs', $._pat), field('op', $._operator_or_minus), field('rhs', $._pat)),
 
   _funpat: $ => seq(
     field('pattern', $._typed_pat),
     $._funrhs,
   ),
 
-  /**
-    * The `implicit_parid` here is for:
-    * g = let ?par = Impy 5 in f
-    */
   _fun_name: $ => field('name', $._var),
 
   guard_equation: $ => seq($.guards, '=', $._exp),
@@ -32,10 +26,7 @@ module.exports = {
 
   _funvar: $ => seq($._fun_name, field('patterns', optional(alias($._fun_patterns, $.patterns)))),
 
-  _funlhs: $ => choice(
-    prec.dynamic(2, $._funvar),
-    prec.dynamic(1, field('infix', alias($._funpat_infix, $.infix))),
-  ),
+  _funlhs: $ => prec.dynamic(2, $._funvar),
 
   function: $ => seq(
     $._funlhs,
@@ -51,7 +42,7 @@ module.exports = {
   ),
 
   signature: $ => seq(
-    field('lhs', sep1($.comma, field('name', $._var))),
+    field('lhs', field('name', $._var)),
     field('type', $._type_annotation),
   ),
 
@@ -61,7 +52,7 @@ module.exports = {
   ),
 
   /**
-    * in the reference, `apat` is a choice in `lpat`, but this creates a conflict:
+    * In the reference, `apat` is a choice in `lpat`, but this creates a conflict:
     * `decl` allows the lhs to be a `pat`, as in:
     * let Just 5 = prog
     * let a = prog
@@ -81,7 +72,7 @@ module.exports = {
   decls: $ => layouted($, $._decl),
 
   // ------------------------------------------------------------------------
-  // foreign
+  // Foreign
   // ------------------------------------------------------------------------
 
   decl_foreign_import: $ => seq(
@@ -95,7 +86,7 @@ module.exports = {
   _decl_foreign: $ => alias($.decl_foreign_import, $.foreign_import),
 
   // ------------------------------------------------------------------------
-  // kinds and kind values
+  // Kinds and kind values
   // ------------------------------------------------------------------------
 
   decl_new_kind: $ => seq(
