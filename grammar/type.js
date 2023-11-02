@@ -46,7 +46,7 @@ module.exports = {
 
   type_wildcard: _ => '_',
 
-  type_operator: $ => $._q_op,
+  type_operator: $ => $._operator,
 
   // ----- Aggregation --------------------------------------------------------
 
