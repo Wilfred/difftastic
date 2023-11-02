@@ -1,10 +1,10 @@
-===
+================================================================================
 Simple newtype
-===
+================================================================================
 
 newtype A = A Int
 
----
+--------------------------------------------------------------------------------
 
 (purescript
   (newtype
@@ -14,14 +14,14 @@ newtype A = A Int
       (type_name
         (type)))))
 
-===
+================================================================================
 Parameterized newtype
-===
+================================================================================
 
 newtype A b = A (Array b)
 newtype B a = B { a :: a }
 
----
+--------------------------------------------------------------------------------
 
 (purescript
   (newtype
@@ -46,13 +46,13 @@ newtype B a = B { a :: a }
           (type_name
             (type_variable)))))))
 
-===
+================================================================================
 Phantom type newtype
-===
+================================================================================
 
 newtype A b = A Int
 
----
+--------------------------------------------------------------------------------
 
 (purescript
   (newtype
@@ -63,21 +63,27 @@ newtype A b = A Int
       (type_name
         (type)))))
 
-===
+================================================================================
 Newtype with explicit kind signature
-===
+================================================================================
 
 newtype A :: forall k. k -> Type
 newtype A b = A Int
 
----
+--------------------------------------------------------------------------------
 
 (purescript
   (newtype
-    (ERROR
-      name: (type)
-      name: (type)
-      (type_variable))
+    (type_signature
+      (type)
+      (forall
+        (type_variable))
+      (type_infix
+        left: (type_name
+          (type_variable))
+        (type_operator)
+        right: (type_name
+          (type))))
     name: (type)
     (type_variable)
     (newtype_constructor
@@ -85,33 +91,32 @@ newtype A b = A Int
       (type_name
         (type)))))
 
-===
+================================================================================
 Newtype with parameterized type with type annotation
-===
+================================================================================
 
 newtype A (b :: Int) = A Int
 
----
+--------------------------------------------------------------------------------
 
 (purescript
   (newtype
     name: (type)
-    (annotated_type_variable
-      (type_variable)
-      type: (type_name
-        (type)))
+    (type_variable)
+    (type_name
+      (type))
     (newtype_constructor
       (constructor)
       (type_name
         (type)))))
 
-===
+================================================================================
 Newtype over an infix type constructor
-===
+================================================================================
 
 newtype A b = A (b ~ Int)
 
----
+--------------------------------------------------------------------------------
 
 (purescript
   (newtype
@@ -123,7 +128,6 @@ newtype A b = A (b ~ Int)
         (type_infix
           left: (type_name
             (type_variable))
-          op: (type_operator)
+          (type_operator)
           right: (type_name
             (type)))))))
-

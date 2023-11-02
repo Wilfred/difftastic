@@ -7,9 +7,9 @@ class A
 --------------------------------------------------------------------------------
 
 (purescript
-  (class
+  (class_declaration
     (class_head
-      class: (class_name
+      (class_name
         (type)))))
 
 ================================================================================
@@ -21,9 +21,9 @@ instance A
 --------------------------------------------------------------------------------
 
 (purescript
-  (instance
+  (class_instance
     (instance_head
-      class: (class_name
+      (class_name
         (type)))))
 
 ================================================================================
@@ -36,14 +36,14 @@ class A where
 --------------------------------------------------------------------------------
 
 (purescript
-  (class
+  (class_declaration
     (class_head
-      class: (class_name
+      (class_name
         (type)))
     (class_body
       (where)
       (signature
-        name: (variable)
+        lhs: (variable)
         type: (type_name
           (type))))))
 
@@ -57,9 +57,9 @@ instance A where
 --------------------------------------------------------------------------------
 
 (purescript
-  (instance
+  (class_instance
     (instance_head
-      class: (class_name
+      (class_name
         (type)))
     (where)
     (function
@@ -78,27 +78,28 @@ class B a where
 --------------------------------------------------------------------------------
 
 (purescript
-  (class
+  (class_declaration
     (class_head
-      class: (class_name
+      (class_name
         (type))
-      (type_name
-        (type_variable)))
+      (type_variable))
     (class_body
       (where)
       (signature
-        name: (variable)
-        type: (fun
-          (type_name
+        lhs: (variable)
+        type: (type_infix
+          left: (type_name
             (type_variable))
-          (type_name
+          (type_operator)
+          right: (type_name
             (type))))
       (signature
-        name: (variable)
-        type: (fun
-          (type_name
+        lhs: (variable)
+        type: (type_infix
+          left: (type_name
             (type_variable))
-          (type_name
+          (type_operator)
+          right: (type_name
             (type)))))))
 
 ================================================================================
@@ -111,25 +112,21 @@ class (A a) <= B a where
 --------------------------------------------------------------------------------
 
 (purescript
-  (class
+  (class_declaration
     (class_head
-      (type_infix
-        left: (type_parens
-          (type_apply
-            (type_name
-              (type))
-            (type_name
-              (type_variable))))
-        op: (type_operator)
-        right: (type_apply
-          (type_name
+      (constraints
+        (constraint
+          (class_name
             (type))
           (type_name
-            (type_variable)))))
+            (type_variable))))
+      (class_name
+        (type))
+      (type_variable))
     (class_body
       (where)
       (signature
-        name: (variable)
+        lhs: (variable)
         type: (type_name
           (type))))))
 
@@ -143,18 +140,17 @@ instance (A a) => B a where
 --------------------------------------------------------------------------------
 
 (purescript
-  (instance
-    (ERROR
-      (type_parens
-        (type_apply
-          (type_name
+  (class_instance
+    (instance_head
+      (constraints
+        (constraint
+          (class_name
             (type))
           (type_name
             (type_variable))))
-      (ERROR)
-      (module))
-    (instance_head
-      class: (class_name
+      (class_name
+        (type))
+      (type_name
         (type_variable)))
     (where)
     (function
@@ -172,45 +168,43 @@ class A b c d | b c -> d, c d -> b, b d -> c where
 --------------------------------------------------------------------------------
 
 (purescript
-  (class
+  (class_declaration
     (class_head
-      class: (class_name
+      (class_name
         (type))
-      (type_name
-        (type_variable))
-      (type_name
-        (type_variable))
-      (type_name
-        (type_variable)))
-    (fundeps
-      (fundep
-        (type_variable)
-        (type_variable)
-        (type_variable))
-      (comma)
-      (fundep
-        (type_variable)
-        (type_variable)
-        (type_variable))
-      (comma)
-      (fundep
-        (type_variable)
-        (type_variable)
-        (type_variable)))
-    (class_body
-      (where)))
-  (signature
-    name: (variable)
-    type: (fun
-      (type_name
-        (type_variable))
-      (type_apply
-        (type_name
-          (type))
-        (type_name
+      (type_variable)
+      (type_variable)
+      (type_variable)
+      (fundeps
+        (fundep
+          (type_variable)
+          (type_variable)
           (type_variable))
-        (type_name
-          (type_variable))))))
+        (comma)
+        (fundep
+          (type_variable)
+          (type_variable)
+          (type_variable))
+        (comma)
+        (fundep
+          (type_variable)
+          (type_variable)
+          (type_variable))))
+    (class_body
+      (where)
+      (signature
+        lhs: (variable)
+        type: (type_infix
+          left: (type_name
+            (type_variable))
+          (type_operator)
+          right: (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type_variable))
+            (type_name
+              (type_variable))))))))
 
 ================================================================================
 Class and instance - no parens in superclass
@@ -222,28 +216,26 @@ instance A a => B a
 --------------------------------------------------------------------------------
 
 (purescript
-  (class
+  (class_declaration
     (class_head
-      (type_infix
-        left: (type_apply
-          (type_name
+      (constraints
+        (constraint
+          (class_name
             (type))
           (type_name
-            (type_variable)))
-        op: (type_operator)
-        right: (type_apply
-          (type_name
-            (type))
-          (type_name
-            (type_variable))))))
-  (instance
-    (instance_head
-      class: (class_name
+            (type_variable))))
+      (class_name
         (type))
-      (type_name
-        (type_variable))
-      (ERROR)
-      (type_name
+      (type_variable)))
+  (class_instance
+    (instance_head
+      (constraints
+        (constraint
+          (class_name
+            (type))
+          (type_name
+            (type_variable))))
+      (class_name
         (type))
       (type_name
         (type_variable)))))

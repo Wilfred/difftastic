@@ -23,7 +23,7 @@ a = { a: unit, b: unit }
             (variable)))))))
 
 ================================================================================
-value-level record literal with quoted labels 
+value-level record literal with quoted labels
 ================================================================================
 
 a = { "α-": unit, "β+": unit }
@@ -485,7 +485,7 @@ a :: { a :: Unit, b :: Unit }
 
 (purescript
   (signature
-    name: (variable)
+    lhs: (variable)
     type: (record_type_literal
       (row_field
         (field_name)
@@ -507,23 +507,23 @@ a :: forall r. { a :: Unit, b :: Unit | r }
 
 (purescript
   (signature
-    name: (variable)
+    lhs: (variable)
     type: (forall
-      (type_variable)
-      (record_type_literal
-        (row_field
-          (field_name)
-          (type_name
-            (type)))
-        (comma)
-        (row_field
-          (field_name)
-          (type_name
-            (type)))
-        (type_variable)))))
+      (type_variable))
+    type: (record_type_literal
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (comma)
+      (row_field
+        (field_name)
+        (type_name
+          (type)))
+      (type_variable))))
 
 ================================================================================
-type-level record literal with quoted labels 
+type-level record literal with quoted labels
 ================================================================================
 
 a :: { "#α" :: Unit, "$β" :: Unit }
@@ -532,7 +532,7 @@ a :: { "#α" :: Unit, "$β" :: Unit }
 
 (purescript
   (signature
-    name: (variable)
+    lhs: (variable)
     type: (record_type_literal
       (row_field
         (field_name)
@@ -664,4 +664,3 @@ type R = ( ":)" :: A, "×" :: A, "@@" :: A )
         (field_name)
         (type_name
           (type))))))
-

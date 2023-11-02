@@ -7,7 +7,7 @@ data Boolean
 --------------------------------------------------------------------------------
 
 (purescript
-  (kind
+  (kind_declaration
     name: (type)))
 
 ================================================================================
@@ -19,7 +19,7 @@ foreign import data True :: Boolean
 --------------------------------------------------------------------------------
 
 (purescript
-  (kind_value
+  (kind_value_declaration
     name: (type)
     (type_name
       (type))))

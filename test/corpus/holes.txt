@@ -52,9 +52,10 @@ g _ = "hole"
     (exp_array))
   (signature
     (variable)
-    (fun
+    (type_infix
       (type_name
         (type))
+      (type_operator)
       (hole)))
   (function
     (variable)
