@@ -150,14 +150,6 @@ module.exports = grammar({
     [$.exp_ticked],
 
     /**
-     * Optional context for a data/newtype decl with infix types:
-     *
-     * data a ~ b => A a b
-     * data a + b
-     */
-    // [$.type_name, $._simpletype_infix],
-
-    /**
      * Same as above, but with regular types:
      *
      * data A a b
@@ -167,16 +159,6 @@ module.exports = grammar({
      */
     [$.type_name, $._simpletype],
     [$._atype, $.constraint],
-
-    /**
-     * Constraints and parenthesized types.
-     *
-     * data (A a) => A
-     * data (A a) %% A => A
-     *
-     * After the `a`, the closing paren is ambiguous.
-     */
-    // [$._type_infix, $.constraint],
 
     /**
      * Top-level expression splices fundamentally conflict with decls, and since decls start with either `var` or `pat`,
@@ -222,12 +204,6 @@ module.exports = grammar({
     [$.type_apply],
 
     /**
-     * General kind signatures cause `(a :: k)` to be ambiguous.
-     * This problem might be solvable if `type.js` were to be refactored.
-     */
-    // [$.annotated_type_variable, $.type_name],
-
-    /**
      * A weird conflict involving fundeps and type variables in class heads,
      * despite the fact that fundeps are delimited by `|`.
      */
@@ -262,8 +238,8 @@ module.exports = grammar({
       $._decl_foreign,
       alias($.decl_derive, $.derive_declaration),
       $._decl,
-      $._decl_kind,
-      $._decl_kind_value,
+      $.kind_declaration,
+      $.kind_value_declaration,
       alias($.decl_pattern, $.pattern_synonym),
     ),
 

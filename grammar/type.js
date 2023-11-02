@@ -52,7 +52,7 @@ module.exports = {
 
   type_parens: $ => parens(seq(optional($.forall), $._type)),
 
-  // This is the parser to be used in signatures for functions, classes, types, newtypes and data
+  // This is the parser to be used in signatures for functions, classes, types, newtypes and data.
   _type_annotation: $ =>
     seq(
       $._colon2,

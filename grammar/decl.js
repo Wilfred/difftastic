@@ -33,6 +33,8 @@ module.exports = {
     $._funrhs,
   ),
 
+  // TODO: I don't see what it has to do with functions.
+  // Should be only used in `grammar.js` as a top-level declaration.
   operator_declaration: $ => seq(
     choice('infixl', 'infixr', 'infix'),
     field('precedence', $.integer),
@@ -79,8 +81,7 @@ module.exports = {
     'foreign',
     'import',
     $._fun_name,
-    $._colon2,
-    $._type,
+    $._type_annotation
   ),
 
   _decl_foreign: $ => alias($.decl_foreign_import, $.foreign_import),
@@ -89,21 +90,15 @@ module.exports = {
   // Kinds and kind values
   // ------------------------------------------------------------------------
 
-  decl_new_kind: $ => seq(
-    'data',
-    $._simpletype,
-  ),
+  kind_declaration: $ => seq('data', $._simpletype),
 
-  decl_new_kind_value: $ => seq(
-    'foreign',
-    'import',
-    'data',
-    $._simpletype,
-    $._colon2,
-    $._type,
-  ),
-
-  _decl_kind: $ => alias($.decl_new_kind, $.kind),
-  _decl_kind_value: $ => alias($.decl_new_kind_value, $.kind_value),
+  kind_value_declaration: $ =>
+    seq(
+      'foreign',
+      'import',
+      'data',
+      $._simpletype,
+      $._type_annotation
+    ),
 
 }

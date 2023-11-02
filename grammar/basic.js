@@ -81,7 +81,7 @@ module.exports = {
   wildcard: _ => '_',
 
   /**
-   * Same as varid_pattern except it's preceded by `?` plus `'` and `_` are allowed
+   * Same as varid_pattern except it's preceded by `?`, plus `'` and `_` are allowed
    * to be the first and only characters after `?`.
    */
   hole: _ => /\?[\p{L}0-9_']+/u,
