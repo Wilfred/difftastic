@@ -3438,6 +3438,10 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "csv"
+                },
+                {
+                  "type": "STRING",
                   "value": "datetime"
                 },
                 {
@@ -3642,6 +3646,10 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "oklab"
+                },
+                {
+                  "type": "STRING",
                   "value": "olive"
                 },
                 {
@@ -3699,6 +3707,10 @@
                 {
                   "type": "STRING",
                   "value": "query"
+                },
+                {
+                  "type": "STRING",
+                  "value": "quote"
                 },
                 {
                   "type": "STRING",
