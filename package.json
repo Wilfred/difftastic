@@ -31,7 +31,8 @@
   },
   "devDependencies": {
     "prettier": "^2.5.1",
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.20.6",
+    "node-gyp": "^10.0.1"
   },
   "tree-sitter": [
     {
