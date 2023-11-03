@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gleam",
-  "version": "0.32.0",
+  "version": "0.32.1",
   "description": "A tree-sitter grammar for the Gleam programming language",
   "main": "bindings/node",
   "scripts": {
