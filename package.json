@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/J3RN/tree-sitter-gleam#readme",
   "dependencies": {
-    "nan": "^2.15.0"
+    "nan": "^2.18.0"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
