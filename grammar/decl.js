@@ -3,9 +3,6 @@ module.exports = {
   // Declarations
   // ------------------------------------------------------------------------
 
-  guard_equation: $ => seq($.guards, '=', $._exp),
-  _fun_guards: $ => repeat1($.guard_equation),
-
   _funpat: $ => seq(
     field('pattern', $._typed_pat),
     $._funrhs,
@@ -13,32 +10,47 @@ module.exports = {
 
   _fun_name: $ => field('name', $._var),
 
+  guard_equation: $ => seq($.guards, '=', $._exp),
+
+  _fun_guards: $ => repeat1($.guard_equation),
+
   _funrhs: $ => seq(
     choice(
-      seq('=', field('body', $._exp)),
+      seq('=', field('rhs', $._exp)),
       $._fun_guards,
     ),
-    optional(seq($.where, optional($._decls))),
+    optional(seq($.where, optional($.decls))),
   ),
 
   _fun_patterns: $ => repeat1($._apat),
 
-  _funvar: $ =>
-    seq(
-      $._fun_name,
-      field('patterns', optional(alias($._fun_patterns, $.patterns)))
-    ),
+  _funvar: $ => seq($._fun_name, field('patterns', optional(alias($._fun_patterns, $.patterns)))),
 
   _funlhs: $ => prec.dynamic(2, $._funvar),
 
-  _function: $ => seq(
+  function: $ => seq(
     $._funlhs,
     $._funrhs,
   ),
 
-  _value_type_signature: $ => seq(
-    field('name', $._var),
-    $._type_annotation,
+  // TODO: I don't see what it has to do with functions.
+  // Should be only used in `grammar.js` as a top-level declaration.
+  operator_declaration: $ => seq(
+    choice('infixl', 'infixr', 'infix'),
+    field('precedence', $.integer),
+    choice(seq('type', $._qtyconid), $._qvarid),
+    'as',
+    $.operator
+  ),
+
+  signature: $ => seq(
+    field('lhs', field('name', $._var)),
+    field('type', $._type_annotation),
+  ),
+
+  _gendecl: $ => choice(
+    $.signature,
+    $.operator_declaration,
   ),
 
   /**
@@ -50,26 +62,16 @@ module.exports = {
     * The precedences here and in `_funlhs` solve this.
     */
   _decl_fun: $ => choice(
-    $._function,
+    $.function,
     prec.dynamic(1, alias($._funpat, $.function)),
   ),
 
-  declaration: $ => seq(
-    optional(alias($._value_type_signature, $.type_signature)),
+  _decl: $ => choice(
+    $._gendecl,
     $._decl_fun,
   ),
 
-  _decls: $ => layouted($, $.declaration),
-
-  // ----- Operators ----------------------------------------------------------
-
-  operator_declaration: $ => seq(
-    choice('infixl', 'infixr', 'infix'),
-    field('precedence', $.integer),
-    choice(seq('type', $._qtyconid), $._qvarid),
-    'as',
-    $.operator
-  ),
+  decls: $ => layouted($, $._decl),
 
   // ------------------------------------------------------------------------
   // Foreign
