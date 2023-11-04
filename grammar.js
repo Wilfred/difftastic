@@ -219,6 +219,20 @@ module.exports = grammar({
      */
     [$.operator, $.type_operator],
 
+    /**
+     * What a `forall` binds to is ambiguous from the parser's POV:
+     *
+     * `t :: forall a. Unit`         ← binds to the single type name
+     * `t :: forall a. Unit → Unit`  ← binds to the whole expression
+     *
+     * This is solvable in theory but likely not under the current
+     * implementation of `type.js`. Although, the costs of a more naive
+     * implementation are small; it'd work fine unless someone decided
+     * to write `t :: forall a. forall b. ...`, in which case it wouldn't
+     * parse the second `forall` correctly.
+     */
+    [$._type,],
+    [$._btype,],
   ],
 
   word: $ => $._varid,

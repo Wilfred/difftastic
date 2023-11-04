@@ -34,7 +34,9 @@ module.exports = {
 
   _quantifiers: $ => seq($._forall_kw, repeat1($._tyvar), '.'),
 
-  forall: $ => $._quantifiers,
+  // This could be simply `$._quantifiers` but we also handle
+  // the edge case of `f :: forall a. forall b. Unit`
+  forall: $ => prec.left(repeat1($._quantifiers)),
 
   // ----- Misc ---------------------------------------------------------------
 
@@ -94,19 +96,26 @@ module.exports = {
    * The point of this `choice` is to get a node for type application only if there is more than one atype present.
    */
   _btype: $ =>
-    choice(
-      $._atype,
-      $.type_apply
+    seq(
+      optional($.forall),
+      choice(
+        $._atype,
+        $.type_apply
+      ),
     ),
 
   type_infix: $ =>
     seq(
-      field('left', $._btype),
+      $._btype,
       $._type_qoperator,
-      field('right', $._type)
+      $._type
     ),
 
-  _type: $ => choice($.type_infix, $._btype),
+  _type: $ =>
+    seq(
+      optional($.forall),
+      choice($.type_infix, $._btype),
+    ),
 
   _simpletype: $ =>
     seq(field('name', $._tyconid), repeat($._tyvar)),

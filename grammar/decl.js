@@ -44,8 +44,8 @@ module.exports = {
   ),
 
   signature: $ => seq(
-    field('lhs', field('name', $._var)),
-    field('type', $._type_annotation),
+    field('name', $._var),
+    $._type_annotation,
   ),
 
   _gendecl: $ => choice(

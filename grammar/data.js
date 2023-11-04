@@ -21,6 +21,8 @@ module.exports = {
 
   // ----- Newtype ------------------------------------------------------------
 
+  // Using `_atype` here is a bit more loose than necessary since it also
+  // includes non-Type kinds as well as holes and wildcards
   newtype_constructor: $ => seq(
     $.constructor,
     $._atype,
