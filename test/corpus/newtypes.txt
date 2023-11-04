@@ -102,9 +102,10 @@ newtype A (b :: Int) = A Int
 (purescript
   (newtype
     name: (type)
-    (type_variable)
-    (type_name
-      (type))
+    (annotated_type_variable
+      (type_variable)
+      (type_name
+        (type)))
     (newtype_constructor
       (constructor)
       (type_name

@@ -25,7 +25,7 @@ module.exports = {
   _tyvar: $ =>
     choice(
       $._tyvar_no_annotation,
-      $._tyvar_annotated
+      alias($._tyvar_annotated, $.annotated_type_variable)
     ),
 
   // ----- Quantifiers --------------------------------------------------------
