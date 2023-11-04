@@ -43,13 +43,13 @@ type A a = a
   (type_alias
     (type_signature
       (type)
-      (forall
-        (type_variable))
       (type_infix
-        left: (type_name
+        (forall
+          (type_variable))
+        (type_name
           (type_variable))
         (type_operator)
-        right: (type_name
+        (type_name
           (type_variable))))
     name: (type)
     (type_variable)

@@ -485,8 +485,8 @@ a :: { a :: Unit, b :: Unit }
 
 (purescript
   (signature
-    lhs: (variable)
-    type: (record_type_literal
+    name: (variable)
+    (record_type_literal
       (row_field
         (field_name)
         (type_name
@@ -507,10 +507,10 @@ a :: forall r. { a :: Unit, b :: Unit | r }
 
 (purescript
   (signature
-    lhs: (variable)
-    type: (forall
+    name: (variable)
+    (forall
       (type_variable))
-    type: (record_type_literal
+    (record_type_literal
       (row_field
         (field_name)
         (type_name
@@ -532,8 +532,8 @@ a :: { "#α" :: Unit, "$β" :: Unit }
 
 (purescript
   (signature
-    lhs: (variable)
-    type: (record_type_literal
+    name: (variable)
+    (record_type_literal
       (row_field
         (field_name)
         (type_name

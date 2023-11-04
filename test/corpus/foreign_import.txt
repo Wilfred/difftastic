@@ -10,8 +10,8 @@ foreign import fun :: Int -> Int
   (foreign_import
     name: (variable)
     (type_infix
-      left: (type_name
+      (type_name
         (type))
       (type_operator)
-      right: (type_name
+      (type_name
         (type)))))

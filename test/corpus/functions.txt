@@ -40,14 +40,14 @@ f a = 1
 
 (purescript
   (signature
-    lhs: (variable)
-    type: (forall
-      (type_variable))
-    type: (type_infix
-      left: (type_name
+    name: (variable)
+    (type_infix
+      (forall
+        (type_variable))
+      (type_name
         (type_variable))
       (type_operator)
-      right: (type_name
+      (type_name
         (type))))
   (function
     name: (variable)

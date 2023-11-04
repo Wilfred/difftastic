@@ -43,8 +43,8 @@ class A where
     (class_body
       (where)
       (signature
-        lhs: (variable)
-        type: (type_name
+        name: (variable)
+        (type_name
           (type))))))
 
 ================================================================================
@@ -86,20 +86,20 @@ class B a where
     (class_body
       (where)
       (signature
-        lhs: (variable)
-        type: (type_infix
-          left: (type_name
+        name: (variable)
+        (type_infix
+          (type_name
             (type_variable))
           (type_operator)
-          right: (type_name
+          (type_name
             (type))))
       (signature
-        lhs: (variable)
-        type: (type_infix
-          left: (type_name
+        name: (variable)
+        (type_infix
+          (type_name
             (type_variable))
           (type_operator)
-          right: (type_name
+          (type_name
             (type)))))))
 
 ================================================================================
@@ -126,8 +126,8 @@ class (A a) <= B a where
     (class_body
       (where)
       (signature
-        lhs: (variable)
-        type: (type_name
+        name: (variable)
+        (type_name
           (type))))))
 
 ================================================================================
@@ -193,12 +193,12 @@ class A b c d | b c -> d, c d -> b, b d -> c where
     (class_body
       (where)
       (signature
-        lhs: (variable)
-        type: (type_infix
-          left: (type_name
+        name: (variable)
+        (type_infix
+          (type_name
             (type_variable))
           (type_operator)
-          right: (type_apply
+          (type_apply
             (type_name
               (type))
             (type_name
