@@ -4,7 +4,7 @@ module.exports = {
 
   // ----- Shared -------------------------------------------------------------
 
-  class_name: $ => $._tyconid,
+  class_name: $ => $._qtyconid,
 
   // Technically wrong as it doesn't exclude row types
   constraint: $ => seq($.class_name, repeat($._type)),
@@ -75,6 +75,7 @@ module.exports = {
 
   class_instance: $ =>
     seq(
+      optional('else'),
       'instance',
       optional($._instance_name),
       $.instance_head,

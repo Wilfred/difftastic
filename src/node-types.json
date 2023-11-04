@@ -223,6 +223,61 @@
     }
   },
   {
+    "type": "annotated_type_variable",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_variable",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bind_pattern",
     "named": true,
     "fields": {},
@@ -537,6 +592,10 @@
       "required": true,
       "types": [
         {
+          "type": "qualified_type",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         }
@@ -646,6 +705,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotated_type_variable",
+          "named": true
+        },
         {
           "type": "constructor",
           "named": true
@@ -3299,47 +3362,11 @@
       "required": false,
       "types": [
         {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
+          "type": "annotated_type_variable",
           "named": true
         },
         {
           "type": "type_variable",
-          "named": true
-        },
-        {
-          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -4286,6 +4313,10 @@
       "required": false,
       "types": [
         {
+          "type": "annotated_type_variable",
+          "named": true
+        },
+        {
           "type": "class_name",
           "named": true
         },
@@ -4355,6 +4386,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotated_type_variable",
+          "named": true
+        },
         {
           "type": "forall",
           "named": true
@@ -4447,43 +4482,11 @@
       "required": true,
       "types": [
         {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "hole",
+          "type": "annotated_type_variable",
           "named": true
         },
         {
           "type": "newtype_constructor",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
           "named": true
         },
         {
@@ -4492,10 +4495,6 @@
         },
         {
           "type": "type_variable",
-          "named": true
-        },
-        {
-          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -6659,6 +6658,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotated_type_variable",
+          "named": true
+        },
         {
           "type": "forall",
           "named": true

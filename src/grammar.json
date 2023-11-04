@@ -1530,8 +1530,13 @@
           "name": "_tyvar_no_annotation"
         },
         {
-          "type": "SYMBOL",
-          "name": "_tyvar_annotated"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_tyvar_annotated"
+          },
+          "named": true,
+          "value": "annotated_type_variable"
         }
       ]
     },
@@ -4440,7 +4445,7 @@
     },
     "class_name": {
       "type": "SYMBOL",
-      "name": "_tyconid"
+      "name": "_qtyconid"
     },
     "constraint": {
       "type": "SEQ",
@@ -4866,6 +4871,18 @@
     "class_instance": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "else"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "instance"
