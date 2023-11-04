@@ -40,13 +40,18 @@ type A a = a
 --------------------------------------------------------------------------------
 
 (purescript
-  (ERROR
-    name: (type))
   (type_alias
+    (type_signature
+      (type)
+      (type_infix
+        (forall
+          (type_variable))
+        (type_name
+          (type_variable))
+        (type_operator)
+        (type_name
+          (type_variable))))
     name: (type)
     (type_variable)
     (type_name
       (type_variable))))
-
-
-

@@ -34,6 +34,10 @@
 ; ----------------------------------------------------------------------------
 ; Keywords, operators, includes
 
+ ; This needs to come before the other "else" in
+ ; order to be highlighted correctly
+ (class_instance "else" @keyword)
+
  [
    "if"
    "then"
@@ -51,7 +55,6 @@
    (operator)
    (constructor_operator)
    (type_operator)
-   (tycon_arrow)
    (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
    (all_names)
 
@@ -64,6 +67,8 @@
    "∷"
    "=>"
    "⇒"
+   "<="
+   "⇐"
    "->"
    "→"
    "<-"
@@ -101,13 +106,24 @@
    "infixr"
  ] @keyword
 
+ (type_role_declaration
+   "role" @keyword
+   role: (type_role) @keyword)
+
  (hole) @label
 
 ; ----------------------------------------------------------------------------
 ; Functions and variables
 
+ (row_field (field_name) @variable.other.member)
+ (record_field (field_name) @variable.other.member)
+ (record_accessor (variable) @variable.other.member)
+ (exp_record_access (variable) @variable.other.member)
+
  (signature name: (variable) @type)
  (function name: (variable) @function)
+ (class_instance (instance_name) @function)
+ (derive_declaration (instance_name) @function)
 
  ; true or false
 ((variable) @constant.builtin.boolean

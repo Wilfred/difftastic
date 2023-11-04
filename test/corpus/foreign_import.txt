@@ -9,9 +9,9 @@ foreign import fun :: Int -> Int
 (purescript
   (foreign_import
     name: (variable)
-    (fun
+    (type_infix
       (type_name
         (type))
+      (type_operator)
       (type_name
         (type)))))
-

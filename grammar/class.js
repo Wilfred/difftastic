@@ -1,57 +1,85 @@
+const { parens, sep1 } = require("./util");
+
 module.exports = {
-  // ------------------------------------------------------------------------
-  // class
-  // ------------------------------------------------------------------------
 
-  default_signature: $ => seq('default', $.signature),
+  // ----- Shared -------------------------------------------------------------
 
-  _cdecl: $ => choice(
-    $._gendecl,
-    $.default_signature,
-    $.function,
-  ),
+  class_name: $ => $._qtyconid,
 
-  fundep: $ => seq(repeat1($.type_variable), $._arrow, repeat1($.type_variable)),
+  // Technically wrong as it doesn't exclude row types
+  constraint: $ => seq($.class_name, repeat($._type)),
+
+  constraints: $ =>
+    choice(
+      $.constraint,
+      parens(sep1($.comma, $.constraint))
+    ),
+
+  // ----- Class --------------------------------------------------------------
+
+  _cdecl: $ => choice($._gendecl, $.function,),
+
+  fundep: $ =>
+    seq(
+      repeat1($.type_variable),
+      $._arrow,
+      repeat1($.type_variable)
+    ),
 
   fundeps: $ => seq('|', sep1($.comma, $.fundep)),
 
   class_body: $ => where($, $._cdecl),
 
-  decl_class: $ => seq(
-    'class',
-    // optional($.context),
-    alias($.constraint, $.class_head),
-    optional($.fundeps),
-    optional($.class_body),
-  ),
+  _class_kind_declaration: $ =>
+    seq(
+      'class',
+      alias($._tyconid, $.class_name),
+      $._type_annotation
+    ),
 
-  // ------------------------------------------------------------------------
-  // instance
-  // ------------------------------------------------------------------------
+  class_head: $ =>
+    seq(
+      optional(seq($.constraints, $._lcarrow)),
+      $.class_name,
+      repeat($._tyvar),
+      optional($.fundeps)
+    ),
 
-  inst_tyinst: $ => seq(
-    'type',
-    optional('instance'),
-    $._tyinst,
-  ),
+  class_declaration: $ =>
+    seq(
+      optional(alias($._class_kind_declaration, $.kind_declaration)),
+      'class',
+      $.class_head,
+      optional($.class_body)
+    ),
+
+  // ----- Instance -----------------------------------------------------------
 
   _idecl: $ => choice(
     $.function,
     $.signature,
   ),
 
-  /**
-   * instances only allow single foralls and contexts
-   */
-  _instance: $ => seq(
-    'instance',
-    // optional($.forall),
-    // optional($.context),
-    alias($.constraint, $.instance_head),
-  ),
+  instance_head: $ =>
+    seq(
+      optional(seq($.constraints, $._rcarrow)),
+      $.class_name,
+      repeat($._type)
+    ),
 
-  decl_instance: $ => seq(
-    $._instance,
-    optional(where($, $._idecl)),
-  ),
+  _instance_name: $ =>
+    seq(
+      alias($._varid, $.instance_name),
+      $._colon2
+    ),
+
+  class_instance: $ =>
+    seq(
+      optional('else'),
+      'instance',
+      optional($._instance_name),
+      $.instance_head,
+      optional(where($, $._idecl))
+    ),
+
 }

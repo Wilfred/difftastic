@@ -978,7 +978,7 @@ static Result in(State *state) {
  * An `else` token may end a layout opened in the body of a `then`.
  */
 static Result else_(State *state) {
-  return token("else", state) ? end_or_semicolon("else", state) : res_cont;
+  return !token("else instance", state) && token("else", state) ? end_or_semicolon("else", state) : res_cont;
 }
 
 /**

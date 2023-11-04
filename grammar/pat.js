@@ -25,11 +25,7 @@ module.exports = {
 
   pat_parens: $ => parens($._nested_pat),
 
-  pat_list: $ => brackets(sep1($.comma, $._nested_pat)),
-
-  pat_strict: $ => seq($._strict, $._apat),
-
-  pat_irrefutable: $ => seq($._lazy, $._apat),
+  pat_array: $ => brackets(sep1($.comma, $._nested_pat)),
 
   pat_type_binder: $ => seq('@', $._atype),
 
@@ -41,9 +37,7 @@ module.exports = {
     alias($.literal, $.pat_literal),
     $.pat_wildcard,
     $.pat_parens,
-    $.pat_list,
-    $.pat_strict,
-    $.pat_irrefutable,
+    $.pat_array,
     $.pat_type_binder,
   ),
 
@@ -60,7 +54,7 @@ module.exports = {
     $.pat_apply,
   ),
 
-  pat_infix: $ => seq($._lpat, $._qconsym, $._pat),
+  pat_infix: $ => seq($._lpat, $._q_op, $._pat),
 
   /**
    * Without the precs, a conflict is needed.

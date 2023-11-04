@@ -27,11 +27,12 @@ derive instance Eq a => Eq (Id a)
 
 (purescript
   (derive_declaration
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -51,11 +52,12 @@ derive instance (Eq a) => Eq (Id a)
 
 (purescript
   (derive_declaration
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -75,17 +77,18 @@ derive instance (Eq a, Eq a) => Eq (Id a)
 
 (purescript
   (derive_declaration
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
-    (comma)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable)))
+      (comma)
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -126,11 +129,12 @@ derive instance eqId :: Eq a => Eq (Id a)
 (purescript
   (derive_declaration
     (instance_name)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -151,11 +155,12 @@ derive instance eqId :: (Eq a) => Eq (Id a)
 (purescript
   (derive_declaration
     (instance_name)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -176,17 +181,18 @@ derive instance eqId :: (Eq a, Eq a) => Eq (Id a)
 (purescript
   (derive_declaration
     (instance_name)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
-    (comma)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable)))
+      (comma)
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -225,11 +231,12 @@ derive newtype instance Eq a => Eq (Id a)
 
 (purescript
   (derive_declaration
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -249,11 +256,12 @@ derive newtype instance (Eq a) => Eq (Id a)
 
 (purescript
   (derive_declaration
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -273,17 +281,18 @@ derive newtype instance (Eq a, Eq a) => Eq (Id a)
 
 (purescript
   (derive_declaration
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
-    (comma)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable)))
+      (comma)
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -324,11 +333,12 @@ derive newtype instance eqId :: Eq a => Eq (Id a)
 (purescript
   (derive_declaration
     (instance_name)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -349,11 +359,12 @@ derive newtype instance eqId :: (Eq a) => Eq (Id a)
 (purescript
   (derive_declaration
     (instance_name)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens
@@ -374,17 +385,18 @@ derive newtype instance eqId :: (Eq a, Eq a) => Eq (Id a)
 (purescript
   (derive_declaration
     (instance_name)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
-    (comma)
-    (constraint
-      (class_name
-        (type))
-      (type_name
-        (type_variable)))
+    (constraints
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable)))
+      (comma)
+      (constraint
+        (class_name
+          (type))
+        (type_name
+          (type_variable))))
     (type_name
       (type))
     (type_parens

@@ -16,17 +16,15 @@ module.exports = {
   export: $ => choice(
     $._qvar,
     seq(
-      optional($.namespace),
       $._qtycon,
       optional($.export_names),
     ),
+    seq('type', parens($._q_op)),
+    seq('class', $.class_name),
     seq('module', field('module', $.qualified_module)),
   ),
 
-  exports: $ => parens(
-    optional(sep1($.comma, $.export)),
-    optional($.comma), // for trailing commas at the end of an export list
-  ),
+  exports: $ => parens(sep1($.comma, $.export)),
 
   _decl_module: $ => seq(
     'module',

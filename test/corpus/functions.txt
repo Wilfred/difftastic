@@ -41,13 +41,14 @@ f a = 1
 (purescript
   (signature
     name: (variable)
-    type: (forall
-      (type_variable)
-      (fun
-        (type_name
-          (type_variable))
-        (type_name
-          (type)))))
+    (type_infix
+      (forall
+        (type_variable))
+      (type_name
+        (type_variable))
+      (type_operator)
+      (type_name
+        (type))))
   (function
     name: (variable)
     patterns: (patterns

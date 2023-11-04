@@ -109,6 +109,9 @@ module.exports = grammar({
      * Seems to be related to visible type application specifically.
      */
     [$.row_type, $.type_name],
+    // [$.row_type, $._tyvar_no_annotation],
+    [$._field_name_ty, $._tyvar_no_annotation],
+    // [$._row_variable, $._tyvar_no_annotation],
     [$.record_type_literal, $.type_name],
 
     [$._field_name, $.pat_field],
@@ -122,12 +125,18 @@ module.exports = grammar({
     [$.record_update, $.exp_name],
     [$.record_update, $._aexp_projection],
 
+    // /**
+    //  * Type variables are aliased by 3 nodes:
+    //  * _tyvar*, type_name and _row_variable
+    //  */
+    // [$._tyvar_no_annotation, $.type_name],
+
     /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
      * constructors.
      * Needs more investigation.
      */
-    [$._type_infix, $.type_infix],
+    [$.type_infix, $._type],
 
     /**
      * Same as above, but for expressions.
@@ -150,14 +159,6 @@ module.exports = grammar({
     [$.exp_ticked],
 
     /**
-     * Optional context for a data/newtype decl with infix types:
-     *
-     * data a ~ b => A a b
-     * data a + b
-     */
-    [$.type_name, $._simpletype_infix],
-
-    /**
      * Same as above, but with regular types:
      *
      * data A a b
@@ -167,16 +168,6 @@ module.exports = grammar({
      */
     [$.type_name, $._simpletype],
     [$._atype, $.constraint],
-
-    /**
-     * Constraints and parenthesized types.
-     *
-     * data (A a) => A
-     * data (A a) %% A => A
-     *
-     * After the `a`, the closing paren is ambiguous.
-     */
-    [$._type_infix, $.constraint],
 
     /**
      * Top-level expression splices fundamentally conflict with decls, and since decls start with either `var` or `pat`,
@@ -222,16 +213,35 @@ module.exports = grammar({
     [$.type_apply],
 
     /**
-     * Implicit parameters have slightly weird restrictions.
+     * A weird conflict involving fundeps and type variables in class heads,
+     * despite the fact that fundeps are delimited by `|`.
      */
-    [$._type_or_implicit, $._context_constraints],
+    [$.type_name, $.class_head],
 
     /**
-     * General kind signatures cause `(a :: k)` to be ambiguous.
-     * This problem might be solvable if `type.js` were to be refactored.
+     * Type names and class names both alias `$.constructor`.
      */
-    [$.annotated_type_variable, $.type_name],
+    [$.type_name, $.class_name],
 
+    /**
+     * Same as above, but for operators.
+     */
+    [$.operator, $.type_operator],
+
+    /**
+     * What a `forall` binds to is ambiguous from the parser's POV:
+     *
+     * `t :: forall a. Unit`         ← binds to the single type name
+     * `t :: forall a. Unit → Unit`  ← binds to the whole expression
+     *
+     * This is solvable in theory but likely not under the current
+     * implementation of `type.js`. Although, the costs of a more naive
+     * implementation are small; it'd work fine unless someone decided
+     * to write `t :: forall a. forall b. ...`, in which case it wouldn't
+     * parse the second `forall` correctly.
+     */
+    [$._type,],
+    [$._btype,],
   ],
 
   word: $ => $._varid,
@@ -245,19 +255,20 @@ module.exports = grammar({
 
     _topdecl: $ => choice(
       alias($.decl_type, $.type_alias),
+      $.type_role_declaration,
       alias($.decl_data, $.data),
       alias($.decl_newtype, $.newtype),
       // TODO: Imports cannot come in random places,
       // the structure of a module is always `module M [exports] where [imports] …`
       // should group these together to remove extra parser overhead and simplify it for all other symbols
       alias($.decl_import, $.import),
-      alias($.decl_class, $.class),
-      alias($.decl_instance, $.instance),
+      $.class_declaration,
+      $.class_instance,
       $._decl_foreign,
       alias($.decl_derive, $.derive_declaration),
       $._decl,
-      $._decl_kind,
-      $._decl_kind_value,
+      $.kind_declaration,
+      $.kind_value_declaration,
       alias($.decl_pattern, $.pattern_synonym),
     ),
 
