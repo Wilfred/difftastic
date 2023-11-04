@@ -9,7 +9,7 @@ module.exports = {
   // the `choice` here is necessary to avoid integers being parsed as numbers
   number: _ => token(
     seq(
-      decimals1,
+      choice('0', decimals1),
       choice(
         seq(/\.[0-9][0-9_]*/, optional(exponent)),
         exponent,
@@ -44,7 +44,7 @@ module.exports = {
     ),
   ),
 
-  _integer_literal: _ => token(decimals1),
+  _integer_literal: _ => token(choice('0', decimals1)),
   _hex_literal: _ => token(/0x[0-9a-fA-F_]+/),
 
   integer: $ => choice(

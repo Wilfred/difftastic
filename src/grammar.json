@@ -168,8 +168,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "PATTERN",
-            "value": "[1-9][0-9_]*"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "0"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[1-9][0-9_]*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -282,8 +291,17 @@
     "_integer_literal": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "[1-9][0-9_]*"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "0"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[1-9][0-9_]*"
+          }
+        ]
       }
     },
     "_hex_literal": {
