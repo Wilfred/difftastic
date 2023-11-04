@@ -20,17 +20,16 @@ The documentation of this implementation is available in [DOC](DOC.md).
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 364
+- [ ] More tests, objectif 1000, current 372
 - [ ] Documentation
   - [ ] Installation
     - [X] Helix
     - [ ] Emacs
     - [ ] NeoVim
-- [ ] Update
+  - [X] Implementation
+- [X] Update
+  - [X] 0.9
   - [X] 0.8
-  - [ ] 0.9
-    - [X] builtin `oklab`
-    - [ ] other changes?
 - [X] Fixme
 - [X] Optimization
   - [X] Parser size
