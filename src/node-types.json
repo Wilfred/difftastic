@@ -3097,15 +3097,15 @@
       "required": false,
       "types": [
         {
+          "type": "class_name",
+          "named": true
+        },
+        {
           "type": "constructor_operator",
           "named": true
         },
         {
           "type": "export_names",
-          "named": true
-        },
-        {
-          "type": "namespace",
           "named": true
         },
         {
@@ -3188,7 +3188,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "comma",
@@ -4454,11 +4454,6 @@
   },
   {
     "type": "module",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "namespace",
     "named": true,
     "fields": {}
   },
