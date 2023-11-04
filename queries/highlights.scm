@@ -107,8 +107,9 @@
 ; ----------------------------------------------------------------------------
 ; Functions and variables
 
+ (signature lhs: (variable) @type)
+ (function name: (variable) @function)
  (type_signature name: (variable) @type)
- (declaration name: (variable) @function)
  (class_instance (instance_name) @function)
  (derive_declaration (instance_name) @function)
 
