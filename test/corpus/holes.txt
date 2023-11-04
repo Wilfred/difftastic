@@ -8,14 +8,14 @@ g = case ?x, ?x of _ -> true
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     (variable)
     (exp_infix
       (exp_literal
         (integer))
       (operator)
       (hole)))
-  (declaration
+  (function
     (variable)
     (exp_case
       (hole)
@@ -41,23 +41,23 @@ g _ = "hole"
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
-    (type_signature
-      (variable)
-      (type_apply
-        (type_name
-          (type))
-        (hole)))
+  (signature
+    (variable)
+    (type_apply
+      (type_name
+        (type))
+      (hole)))
+  (function
     (variable)
     (exp_array))
-  (declaration
-    (type_signature
-      (variable)
-      (type_infix
-        (type_name
-          (type))
-        (type_operator)
-        (hole)))
+  (signature
+    (variable)
+    (type_infix
+      (type_name
+        (type))
+      (type_operator)
+      (hole)))
+  (function
     (variable)
     (patterns
       (pat_wildcard

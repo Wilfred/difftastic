@@ -7,9 +7,9 @@ f = if a then b else c
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_if
+    rhs: (exp_if
       if: (exp_name
         (variable))
       then: (exp_name
@@ -26,9 +26,9 @@ f = if _ then b else c
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_if
+    rhs: (exp_if
       if: (wildcard)
       then: (exp_name
         (variable))
@@ -44,9 +44,9 @@ f = if a then _ else c
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_if
+    rhs: (exp_if
       if: (exp_name
         (variable))
       then: (wildcard)
@@ -62,9 +62,9 @@ f = if a then b else _
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_if
+    rhs: (exp_if
       if: (exp_name
         (variable))
       then: (exp_name
@@ -80,9 +80,9 @@ f = if _ then _ else _
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_if
+    rhs: (exp_if
       if: (wildcard)
       then: (wildcard)
       else: (wildcard))))

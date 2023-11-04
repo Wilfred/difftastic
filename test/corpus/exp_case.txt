@@ -7,9 +7,9 @@ f = case a b of c -> d
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (exp_apply
         (exp_name
           (variable))
@@ -31,9 +31,9 @@ f = case a b, c d, e f of g -> h
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (exp_apply
         (exp_name
           (variable))
@@ -70,9 +70,9 @@ f = case a of
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (exp_name
         (variable))
       (alts
@@ -102,9 +102,9 @@ f = case _ of
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (wildcard)
       (alts
         (alt
@@ -123,9 +123,9 @@ f = case _, _, _ of
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (wildcard)
       (comma)
       condition: (wildcard)
@@ -162,9 +162,9 @@ f = case a of
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (exp_name
         (variable))
       (alts

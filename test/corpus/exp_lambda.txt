@@ -7,9 +7,9 @@ f = \a -> a
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_name
         (variable))
       (exp_name
@@ -24,9 +24,9 @@ f = \a b c -> a
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_name
         (variable))
       (pat_name
@@ -45,9 +45,9 @@ f = \a -> \b -> \c -> a
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_name
         (variable))
       (exp_lambda
@@ -72,16 +72,16 @@ j = \(A b c) (D e f) -> a
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_wildcard
         (pat_wildcard))
       (exp_name
         (variable))))
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_parens
         (pat_apply
           (pat_name
@@ -90,9 +90,9 @@ j = \(A b c) (D e f) -> a
             (variable))))
       (exp_name
         (variable))))
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_record
         fields: (pat_fields
           (pat_field
@@ -101,18 +101,18 @@ j = \(A b c) (D e f) -> a
               (variable)))))
       (exp_name
         (variable))))
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_record
         fields: (pat_fields
           (pat_field
             (field_name))))
       (exp_name
         (variable))))
-  (declaration
+  (function
     name: (variable)
-    body: (exp_lambda
+    rhs: (exp_lambda
       (pat_parens
         (pat_apply
           (pat_name

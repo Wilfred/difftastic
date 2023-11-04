@@ -7,9 +7,9 @@ a = { a: unit, b: unit }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_literal
+    rhs: (record_literal
       (record_field
         (field_name)
         (field_value
@@ -31,9 +31,9 @@ a = { "α-": unit, "β+": unit }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_literal
+    rhs: (record_literal
       (record_field
         (field_name)
         (field_value
@@ -55,9 +55,9 @@ a = a { a = 1 }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_update
+    rhs: (record_update
       (variable)
       (field_name)
       (exp_literal
@@ -72,7 +72,7 @@ a = { a: 1 } { a = 1 }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     (variable)
     (record_update
       (record_literal
@@ -94,9 +94,9 @@ a = A.a { a = 1 }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_update
+    rhs: (record_update
       (qualified_variable
         (module)
         (variable))
@@ -113,9 +113,9 @@ a = a { a { a = 1 } }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_update
+    rhs: (record_update
       (variable)
       (field_name)
       (record_update
@@ -132,9 +132,9 @@ a = { a: _ }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_literal
+    rhs: (record_literal
       (record_field
         (field_name)
         (field_wildcard
@@ -149,9 +149,9 @@ a = { a: _, b: _, c: _ }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_literal
+    rhs: (record_literal
       (record_field
         (field_name)
         (field_wildcard
@@ -176,9 +176,9 @@ a = { a: a, b: _, c: c }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_literal
+    rhs: (record_literal
       (record_field
         (field_name)
         (field_value
@@ -205,9 +205,9 @@ a = { a, b: _, c }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_literal
+    rhs: (record_literal
       (record_field
         (field_pun))
       (comma)
@@ -228,7 +228,7 @@ f { a: b, c: d, f } = ok
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
     patterns: (patterns
       (pat_record
@@ -245,7 +245,7 @@ f { a: b, c: d, f } = ok
           (comma)
           (pat_field
             (field_name)))))
-    body: (exp_name
+    rhs: (exp_name
       (variable))))
 
 ================================================================================
@@ -257,30 +257,31 @@ f = ok where ok { a: b, c: d, f } = ok
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_name
+    rhs: (exp_name
       (variable))
     (where)
-    (declaration
-      name: (variable)
-      patterns: (patterns
-        (pat_record
-          fields: (pat_fields
-            (pat_field
-              (field_name)
-              (pat_name
-                (variable)))
-            (comma)
-            (pat_field
-              (field_name)
-              (pat_name
-                (variable)))
-            (comma)
-            (pat_field
-              (field_name)))))
-      body: (exp_name
-        (variable)))))
+    (decls
+      (function
+        name: (variable)
+        patterns: (patterns
+          (pat_record
+            fields: (pat_fields
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)
+                (pat_name
+                  (variable)))
+              (comma)
+              (pat_field
+                (field_name)))))
+        rhs: (exp_name
+          (variable))))))
 
 ================================================================================
 record literal in a case-alternative pattern
@@ -291,9 +292,9 @@ f = case f of { a: b, c: d, f } -> ok
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_case
+    rhs: (exp_case
       condition: (exp_name
         (variable))
       (alts
@@ -324,50 +325,12 @@ f = let g { a: b, c: d, f } = ok in g
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_let_in
+    rhs: (exp_let_in
       (exp_let
-        (declaration
-          name: (variable)
-          patterns: (patterns
-            (pat_record
-              fields: (pat_fields
-                (pat_field
-                  (field_name)
-                  (pat_name
-                    (variable)))
-                (comma)
-                (pat_field
-                  (field_name)
-                  (pat_name
-                    (variable)))
-                (comma)
-                (pat_field
-                  (field_name)))))
-          body: (exp_name
-            (variable))))
-      (exp_in
-        (exp_name
-          (variable))))))
-
-================================================================================
-record literal in a let binding pattern
-================================================================================
-
-f = do
-  let g { a: b, c: d, f } = ok
-  g
-
---------------------------------------------------------------------------------
-
-(purescript
-  (declaration
-    name: (variable)
-    body: (exp_do
-      (stmt
-        (let
-          (declaration
+        (decls
+          (function
             name: (variable)
             patterns: (patterns
               (pat_record
@@ -384,8 +347,48 @@ f = do
                   (comma)
                   (pat_field
                     (field_name)))))
-            body: (exp_name
+            rhs: (exp_name
               (variable)))))
+      (exp_in
+        (exp_name
+          (variable))))))
+
+================================================================================
+record literal in a let binding pattern
+================================================================================
+
+f = do
+  let g { a: b, c: d, f } = ok
+  g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_do
+      (stmt
+        (let
+          (decls
+            (function
+              name: (variable)
+              patterns: (patterns
+                (pat_record
+                  fields: (pat_fields
+                    (pat_field
+                      (field_name)
+                      (pat_name
+                        (variable)))
+                    (comma)
+                    (pat_field
+                      (field_name)
+                      (pat_name
+                        (variable)))
+                    (comma)
+                    (pat_field
+                      (field_name)))))
+              rhs: (exp_name
+                (variable))))))
       (stmt
         (exp_name
           (variable))))))
@@ -401,9 +404,9 @@ f = do
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (exp_do
+    rhs: (exp_do
       (stmt
         (bind_pattern
           (pat_record
@@ -437,16 +440,16 @@ h = id r { l = v } { l: v }
 --------------------------------------------------------------------------------
 
 (purescript
-  (declaration
+  (function
     name: (variable)
-    body: (record_update
+    rhs: (record_update
       (variable)
       (field_name)
       (exp_name
         (variable))))
-  (declaration
+  (function
     name: (variable)
-    body: (exp_apply
+    rhs: (exp_apply
       (exp_name
         (variable))
       (record_literal
@@ -455,9 +458,9 @@ h = id r { l = v } { l: v }
           (field_value
             (exp_name
               (variable)))))))
-  (declaration
+  (function
     name: (variable)
-    body: (exp_apply
+    rhs: (exp_apply
       (exp_name
         (variable))
       (record_update
@@ -476,14 +479,14 @@ h = id r { l = v } { l: v }
 type-level record literal -- closed row
 ================================================================================
 
-type A = { a :: Unit, b :: Unit }
+a :: { a :: Unit, b :: Unit }
 
 --------------------------------------------------------------------------------
 
 (purescript
-  (type_alias
-    name: (type)
-    (record_type_literal
+  (signature
+    lhs: (variable)
+    type: (record_type_literal
       (row_field
         (field_name)
         (type_name
@@ -498,16 +501,16 @@ type A = { a :: Unit, b :: Unit }
 type-level record literal -- open row
 ================================================================================
 
-type A = forall r. { a :: Unit, b :: Unit | r }
+a :: forall r. { a :: Unit, b :: Unit | r }
 
 --------------------------------------------------------------------------------
 
 (purescript
-  (type_alias
-    name: (type)
-    (forall
+  (signature
+    lhs: (variable)
+    type: (forall
       (type_variable))
-    (record_type_literal
+    type: (record_type_literal
       (row_field
         (field_name)
         (type_name
@@ -523,14 +526,14 @@ type A = forall r. { a :: Unit, b :: Unit | r }
 type-level record literal with quoted labels
 ================================================================================
 
-type A = { "#α" :: Unit, "$β" :: Unit }
+a :: { "#α" :: Unit, "$β" :: Unit }
 
 --------------------------------------------------------------------------------
 
 (purescript
-  (type_alias
-    name: (type)
-    (record_type_literal
+  (signature
+    lhs: (variable)
+    type: (record_type_literal
       (row_field
         (field_name)
         (type_name
