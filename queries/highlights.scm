@@ -111,6 +111,11 @@
 ; ----------------------------------------------------------------------------
 ; Functions and variables
 
+ (row_field (field_name) @variable.other.member)
+ (record_field (field_name) @variable.other.member)
+ (record_accessor (variable) @variable.other.member)
+ (exp_record_access (variable) @variable.other.member)
+
  (signature name: (variable) @type)
  (function name: (variable) @function)
  (class_instance (instance_name) @function)
