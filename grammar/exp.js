@@ -36,10 +36,17 @@ module.exports = {
     $._exp,
   ),
 
-  record_accessor: $ => prec.left(seq(
-    $.wildcard,
-    repeat1(seq($._immediate_dot, field('field', $._immediate_variable)))
-  )),
+  record_accessor: $ =>
+    prec.left(seq(
+      $.wildcard,
+      repeat1(seq($._immediate_dot, field('field', $._immediate_variable)))
+    )),
+
+  exp_record_access: $ =>
+    prec(1, seq(
+      choice($.record_literal, $.exp_parens),
+      repeat1(seq($._immediate_dot, field('field', $._immediate_variable)))
+    )),
 
   exp_in: $ => seq('in', $._exp),
 
@@ -119,19 +126,6 @@ module.exports = {
   ),
 
   /**
-    * Unlike module dot or projection dot, the projection selector dot can match in positions where any varsym can
-    * match: `(.name)` vs. `(.::+)`.
-    * Furthermore, it can have whitespace between the paren and the dot.
-    * Handling this with the dot logic in the scanner would require unreasonable complexity, and since record fields can
-    * only be varids, we simply hardcode that here.
-    */
-  exp_projection_selector: $ => parens(
-    '.',
-    field('field', $._immediate_variable),
-    repeat(seq($._immediate_dot, field('field', $._immediate_variable))),
-  ),
-
-  /**
    * The Report lists for `aexp` only expressions that don't have any unbracketed whitespace, except for record
    * construction/update.
    * The GHC parser, however, includes lambdas, let/in and extensions like lambda case in it.
@@ -162,27 +156,16 @@ module.exports = {
     $.record_literal,
     $.record_update,
     $.record_accessor,
+    $.exp_record_access,
     $.exp_section_left,
     $.exp_section_right,
-    $.exp_projection_selector,
     alias($.literal, $.exp_literal),
-  ),
-
-  /**
-    * A dot-syntax field projection like `var.name.othername`.
-    * Since fields can only be varids, we can just use `token.immediate` to enforce no whitespace between dot and ids.
-    */
-  exp_projection: $ => seq(
-    choice($._aexp_projection, $.exp_projection),
-    $._immediate_dot,
-    field('field', $._immediate_variable),
   ),
 
   _aexp: $ => choice(
     $._aexp_projection,
     $.exp_type_application,
     $.exp_do,
-    $.exp_projection,
   ),
 
   /**

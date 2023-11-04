@@ -60,11 +60,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -330,11 +326,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -952,11 +944,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -1182,11 +1170,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -1281,11 +1265,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -1416,11 +1396,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -1593,11 +1569,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -1731,11 +1703,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -1869,11 +1837,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -2009,11 +1973,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -2140,11 +2100,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -2247,11 +2203,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -2490,11 +2442,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -2585,11 +2533,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -2660,11 +2604,11 @@
     }
   },
   {
-    "type": "exp_projection",
+    "type": "exp_record_access",
     "named": true,
     "fields": {
       "field": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2679,70 +2623,14 @@
       "required": true,
       "types": [
         {
-          "type": "exp_array",
-          "named": true
-        },
-        {
-          "type": "exp_literal",
-          "named": true
-        },
-        {
-          "type": "exp_name",
-          "named": true
-        },
-        {
           "type": "exp_parens",
-          "named": true
-        },
-        {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
-          "named": true
-        },
-        {
-          "type": "exp_section_left",
-          "named": true
-        },
-        {
-          "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "record_accessor",
           "named": true
         },
         {
           "type": "record_literal",
           "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "exp_projection_selector",
-    "named": true,
-    "fields": {
-      "field": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -2802,11 +2690,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -2913,11 +2797,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -3024,11 +2904,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -3292,11 +3168,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -3621,11 +3493,7 @@
             "named": true
           },
           {
-            "type": "exp_projection",
-            "named": true
-          },
-          {
-            "type": "exp_projection_selector",
+            "type": "exp_record_access",
             "named": true
           },
           {
@@ -3809,11 +3677,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -3944,11 +3808,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -4047,11 +3907,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -5320,11 +5176,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -5518,11 +5370,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -6083,11 +5931,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {
@@ -6434,11 +6278,7 @@
           "named": true
         },
         {
-          "type": "exp_projection",
-          "named": true
-        },
-        {
-          "type": "exp_projection_selector",
+          "type": "exp_record_access",
           "named": true
         },
         {

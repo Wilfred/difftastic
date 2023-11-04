@@ -664,3 +664,109 @@ type R = ( ":)" :: A, "×" :: A, "@@" :: A )
         (field_name)
         (type_name
           (type))))))
+
+================================================================================
+record accessors - single field
+================================================================================
+
+a = _.field1 $ record
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_infix
+      (record_accessor
+        (wildcard)
+        (variable))
+      (operator)
+      (exp_name
+        (variable)))))
+
+================================================================================
+record accessors - nested fields
+================================================================================
+
+a = _.field1.field2.field3 $ record
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_infix
+      (record_accessor
+        (wildcard)
+        (variable)
+        (variable)
+        (variable))
+      (operator)
+      (exp_name
+        (variable)))))
+
+================================================================================
+record access - single field
+================================================================================
+
+a = ({} + {}).a
+a = { a: unit }.a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_record_access
+      (exp_parens
+        (exp_infix
+          (record_literal)
+          (operator)
+          (record_literal)))
+      (variable)))
+  (function
+    (variable)
+    (exp_record_access
+      (record_literal
+        (record_field
+          (field_name)
+          (field_value
+            (exp_name
+              (variable)))))
+      (variable))))
+
+================================================================================
+record access - nested fields
+================================================================================
+
+a = { a }.a.b.c
+a = (f g h unit).a.b.c
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_record_access
+      (record_literal
+        (record_field
+          (field_pun)))
+      (variable)
+      (variable)
+      (variable)))
+  (function
+    (variable)
+    (exp_record_access
+      (exp_parens
+        (exp_apply
+          (exp_name
+            (variable))
+          (exp_name
+            (variable))
+          (exp_name
+            (variable))
+          (exp_name
+            (variable))))
+      (variable)
+      (variable)
+      (variable))))

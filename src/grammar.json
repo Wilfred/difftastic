@@ -2131,6 +2131,48 @@
         ]
       }
     },
+    "exp_record_access": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "record_literal"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "exp_parens"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_immediate_dot"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "field",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_immediate_variable"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "exp_in": {
       "type": "SEQ",
       "members": [
@@ -2853,51 +2895,6 @@
         }
       ]
     },
-    "exp_projection_selector": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "FIELD",
-          "name": "field",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_immediate_variable"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_immediate_dot"
-              },
-              {
-                "type": "FIELD",
-                "name": "field",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_immediate_variable"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
     "_aexp_projection": {
       "type": "CHOICE",
       "members": [
@@ -2931,15 +2928,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "exp_record_access"
+        },
+        {
+          "type": "SYMBOL",
           "name": "exp_section_left"
         },
         {
           "type": "SYMBOL",
           "name": "exp_section_right"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_projection_selector"
         },
         {
           "type": "ALIAS",
@@ -2949,36 +2946,6 @@
           },
           "named": true,
           "value": "exp_literal"
-        }
-      ]
-    },
-    "exp_projection": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_aexp_projection"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "exp_projection"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_immediate_dot"
-        },
-        {
-          "type": "FIELD",
-          "name": "field",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_immediate_variable"
-          }
         }
       ]
     },
@@ -2996,10 +2963,6 @@
         {
           "type": "SYMBOL",
           "name": "exp_do"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "exp_projection"
         }
       ]
     },
