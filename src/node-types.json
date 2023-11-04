@@ -88,6 +88,10 @@
             "named": true
           },
           {
+            "type": "record_accessor",
+            "named": true
+          },
+          {
             "type": "record_literal",
             "named": true
           },
@@ -399,6 +403,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -1016,6 +1024,10 @@
             "named": true
           },
           {
+            "type": "record_accessor",
+            "named": true
+          },
+          {
             "type": "record_literal",
             "named": true
           },
@@ -1194,6 +1206,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -1290,6 +1306,10 @@
         },
         {
           "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -1421,6 +1441,10 @@
           },
           {
             "type": "hole",
+            "named": true
+          },
+          {
+            "type": "record_accessor",
             "named": true
           },
           {
@@ -1597,6 +1621,10 @@
             "named": true
           },
           {
+            "type": "record_accessor",
+            "named": true
+          },
+          {
             "type": "record_literal",
             "named": true
           },
@@ -1731,6 +1759,10 @@
             "named": true
           },
           {
+            "type": "record_accessor",
+            "named": true
+          },
+          {
             "type": "record_literal",
             "named": true
           },
@@ -1862,6 +1894,10 @@
           },
           {
             "type": "hole",
+            "named": true
+          },
+          {
+            "type": "record_accessor",
             "named": true
           },
           {
@@ -2001,6 +2037,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -2136,6 +2176,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -2260,6 +2304,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -2466,6 +2514,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -2558,6 +2610,10 @@
         },
         {
           "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -2656,6 +2712,10 @@
         },
         {
           "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -2778,6 +2838,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -2885,6 +2949,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -2977,6 +3045,10 @@
         },
         {
           "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -3245,6 +3317,10 @@
         },
         {
           "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -3573,6 +3649,10 @@
             "named": true
           },
           {
+            "type": "record_accessor",
+            "named": true
+          },
+          {
             "type": "record_literal",
             "named": true
           },
@@ -3761,6 +3841,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -3892,6 +3976,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -3988,6 +4076,10 @@
         },
         {
           "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -5308,6 +5400,10 @@
           "named": true
         },
         {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         },
@@ -5487,6 +5583,10 @@
         },
         {
           "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -5788,6 +5888,32 @@
     }
   },
   {
+    "type": "record_accessor",
+    "named": true,
+    "fields": {
+      "field": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "record_field",
     "named": true,
     "fields": {},
@@ -5990,6 +6116,10 @@
         },
         {
           "type": "qualified_variable",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {
@@ -6333,6 +6463,10 @@
         },
         {
           "type": "let",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
           "named": true
         },
         {

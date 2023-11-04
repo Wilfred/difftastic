@@ -2098,6 +2098,39 @@
         }
       ]
     },
+    "record_accessor": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "wildcard"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_immediate_dot"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "field",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_immediate_variable"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "exp_in": {
       "type": "SEQ",
       "members": [
@@ -2891,6 +2924,10 @@
         {
           "type": "SYMBOL",
           "name": "record_update"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "record_accessor"
         },
         {
           "type": "SYMBOL",

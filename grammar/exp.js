@@ -36,6 +36,11 @@ module.exports = {
     $._exp,
   ),
 
+  record_accessor: $ => prec.left(seq(
+    $.wildcard,
+    repeat1(seq($._immediate_dot, field('field', $._immediate_variable)))
+  )),
+
   exp_in: $ => seq('in', $._exp),
 
   let: $ => seq('let', optional($.decls)),
@@ -156,6 +161,7 @@ module.exports = {
     $.exp_array,
     $.record_literal,
     $.record_update,
+    $.record_accessor,
     $.exp_section_left,
     $.exp_section_right,
     $.exp_projection_selector,
