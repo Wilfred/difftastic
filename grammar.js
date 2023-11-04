@@ -38,73 +38,32 @@ const PRECEDENCE = {
   // end of operators
 };
 
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
 module.exports = grammar({
   name: 'perl',
 
+  inline: $ => [
+    // add semi_colon here
+  ],
+
   conflicts: $ => [
-    [$._boolean, $.call_expression],
+
     [$._auto_increment_decrement],
-    [$.binary_expression, $._bodmas_2, $._shift_expression],
-    [$.binary_expression, $._bodmas_2, $._equality_expression],
-    [$.binary_expression, $._bodmas_2, $._class_instance_exp],
-    [$.binary_expression, $._bodmas_2, $._bitwise_and_exp],
-    [$.binary_expression, $._bodmas_2, $._bitwise_or_xor_exp],
-    [$.binary_expression, $._bodmas_2, $._logical_and_exp],
-    [$.binary_expression, $._bodmas_2, $._logical_ors_exp],
-    [$.binary_expression, $._bodmas_2, $._range_exp],
-    [$.binary_expression, $._bodmas_2, $._assignment_exp],
-    [$.binary_expression, $._bodmas_2, $.ternary_expression],
-    [$.binary_expression, $._bodmas_2, $._unary_not],
-    [$.binary_expression, $._bodmas_2, $._unary_and],
-    [$.binary_expression, $._bodmas_2, $._logical_verbal_or_xor],
-    [$.binary_expression, $._bodmas_2, $.join_function],
-    [$.binary_expression, $._bodmas_2, $.push_function],
-    [$.binary_expression, $._bodmas_2, $.grep_or_map_function],
-    [$.binary_expression, $._bodmas_2, $.unpack_function],
-    [$.binary_expression, $._bodmas_2, $.arguments],
+    
     [$._range_exp],
     [$._class_instance_exp],
-    [$._primitive_expression, $._list],
-    [$.standalone_block, $.hash_ref],
-    [$.goto_expression, $._expression],
-    [$._expression],
-    [$._expression_without_bareword],
-    [$.bareword_import, $.package_name],
+
+    [$.function_signature],
+
     [$.package_name],
-    [$._list, $._variables],
-    [$._dereference],
-    [$._scalar_type, $.key_value_pair],
     [$.hash_ref],
-    [$.hash],
-    [$.hash_ref, $._dereference],
-    [$._expression_without_bareword, $.arguments],
-    [$.arguments, $.array],
-    [$._expression, $.method_invocation],
-    [$._expression, $.goto_expression, $.method_invocation],
-    [$._expression, $.scalar_dereference],
-    [$.special_scalar_variable, $.scalar_dereference],
-    [$.hash, $._dereference],
-    [$._variables, $.interpolation],
-    [$._variables, $.hash_ref],
-    [$.string_double_quoted],
-    [$.named_block_statement, $.hash_ref],
-    [$.variable_declarator, $._variables],
-    [$.loop_control_statement],
-    [$.variable_declarator, $.function_signature],
-    [$.array_access_variable, $.array_ref],
-    [$.named_block_statement, $.hash_access_variable],
-    [$.list_block, $.hash_ref],
-    [$._expression_without_bareword, $.sort_function],
-    [$._expression_without_bareword, $.goto_expression],
-    [$._expression_without_bareword, $.method_invocation],
-    [$._expression_without_bareword, $.goto_expression, $.method_invocation],
-    [$._expression_without_bareword, $._string],
-    [$.list_block],
-    [$.method_invocation, $.scalar_dereference],
-    [$.method_invocation, $.hash_dereference],
-    [$.method_invocation, $.array_dereference],
+
+    // [$.list_block, $.hash_ref],
+
+    // [$.list_block],
+
     [$.variable_declaration],
-    [$.variable_declaration, $.key_value_pair],
   ],
 
   externals: $ => [
@@ -140,6 +99,10 @@ module.exports = grammar({
   extras: $ => [
     $.comments,
     /[\s\uFEFF\u2060\u200B\u00A0]/,
+  ],
+
+  precedences: $ => [
+
   ],
 
   word: $ => $.identifier,
@@ -226,7 +189,7 @@ module.exports = grammar({
         commaSeparated($._string),
         $.word_list_qw,
       ),
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     use_constant_statement: $ => seq(
@@ -238,7 +201,7 @@ module.exports = grammar({
         ),
         field('value', $.hash_ref),
       ),
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     special_block: $ => seq(
@@ -254,14 +217,14 @@ module.exports = grammar({
       $.package_name,
       optional(field('version', $.version)),
       choice(
-        $.semi_colon,
+        $._semi_colon,
         field('body', $.block)
       )
     ),
 
     ellipsis_statement: $ => seq(
       '...',
-      optional($.semi_colon),
+      optional($._semi_colon),
     ),
 
     use_no_version: $ => seq(
@@ -270,7 +233,7 @@ module.exports = grammar({
         field('no', 'no'),
       ),
       field('version', $.version),
-      $.semi_colon,
+      $._semi_colon,
     ),
     
     use_no_feature_statement: $ => seq(
@@ -280,7 +243,7 @@ module.exports = grammar({
       ),
       'feature',
       optional(choice($._list, $._string)),
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     _expression_or_return_expression: $ => choice(
@@ -318,7 +281,7 @@ module.exports = grammar({
 
     _expression_statement: $ => seq(
       $._expression,
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     use_no_statement: $ => seq(
@@ -329,7 +292,7 @@ module.exports = grammar({
       choice($.package_name, $.module_name),
       optional($.version),
       optional(choice($._list, $._string)),
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     use_no_if_statement: $ => seq(
@@ -345,7 +308,7 @@ module.exports = grammar({
       optional($.version),
       optional($._comma_operator),
       optional(choice($._list, $._string)),
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     // Module->import( LIST );
@@ -354,7 +317,7 @@ module.exports = grammar({
       '->',
       'import',
       $._list,
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     use_no_subs_statement: $ => seq(
@@ -364,18 +327,18 @@ module.exports = grammar({
       ),
       'subs',
       $._list,
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     require_statement: $ => seq(
       'require',
       $.package_name,
-      $.semi_colon,
+      $._semi_colon,
     ),
 
     if_simple_statement: $ => prec.right(seq(
       $._if_simple,
-      $.semi_colon,
+      $._semi_colon,
     )),
     _if_simple: $ => prec.right(seq(
       'if',
@@ -384,27 +347,27 @@ module.exports = grammar({
     unless_simple_statement: $ => prec.right(seq(
       'unless',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $.semi_colon,
+      $._semi_colon,
     )),
     while_simple_statement: $ => prec.right(seq(
       'while',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $.semi_colon,
+      $._semi_colon,
     )),
     until_simple_statement: $ => prec.right(seq(
       'until',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $.semi_colon,
+      $._semi_colon,
     )),
     for_simple_statement: $ => prec.right(seq(
       choice('for', 'foreach'),
       field('list', with_or_without_brackets($._expression)),
-      $.semi_colon,
+      $._semi_colon,
     )),
     when_simple_statement: $ => prec.right(seq(
       'when',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $.semi_colon,
+      $._semi_colon,
     )),
 
     // TODO: should be a boolean expression and not the current one?
@@ -494,16 +457,16 @@ module.exports = grammar({
       seq(
         '(',
         field('initializer', $._expression),
-        $.semi_colon,
+        $._semi_colon,
         field('condition', $._expression),
-        $.semi_colon,
+        $._semi_colon,
         field('incrementor', $._expression),
         ')'
       ),
       seq(
         '(',
-        $.semi_colon,
-        $.semi_colon,
+        $._semi_colon,
+        $._semi_colon,
         ')'
       )
     ),
@@ -517,29 +480,19 @@ module.exports = grammar({
       $.scope,
       // multi declaration
       // or single declaration without brackets
-      choice($.multi_var_declaration, $.single_var_declaration, $.type_glob_declaration),
+      choice($.multi_var_declaration, $._variables),
       optional($._initializer),
     ),
 
     multi_var_declaration: $ => seq(
       '(',
-      commaSeparated($.variable_declarator),
+      commaSeparated($._variables),
       ')',
-    ),
-
-    single_var_declaration: $ => alias($.variable_declarator, 'single_var_declaration'),
-
-    variable_declarator: $ => seq(
-      field('name', $._variables),
     ),
 
     _initializer: $ => seq(
       '=',
       field('value', $._expression),
-    ),
-
-    type_glob_declaration: $ => seq(
-      $.type_glob,
     ),
     
     scope: $ => choice(
@@ -560,7 +513,7 @@ module.exports = grammar({
           optional($.function_prototype),
           optional($.function_attribute),
           optional($.function_signature),
-          $.semi_colon,
+          $._semi_colon,
         ),
         // and here is the function definition WITHOUT signatures
         seq(
@@ -620,14 +573,14 @@ module.exports = grammar({
         $.array_ref,
         alias(seq(
           optional($.scope),
-          choice($.single_var_declaration, $.type_glob_declaration),
+          $._variables,
           optional($._initializer),
         ), $.variable_declaration),
       )), // TODO: this is more
       ')',
     ),
 
-    standalone_block: $ => seq(
+    standalone_block: $ => prec(PRECEDENCE.BRACKETS, seq(
       optional(
         seq(field('label', $.identifier), ':'),
       ),
@@ -635,11 +588,11 @@ module.exports = grammar({
       optional(repeat($._block_statements)),
       '}',
       optional(field('flow', $.continue)),
-    ),
+    )),
 
     _block_statements: $ => choice(
       $._statement,
-      seq($.return_expression, $.semi_colon),
+      seq($.return_expression, $._semi_colon),
       $.loop_control_statement,
     ),
 
@@ -648,7 +601,7 @@ module.exports = grammar({
       optional(field('label', $.identifier)),
       choice(
         $._statement_modifiers,
-        $.semi_colon
+        $._semi_colon
       ),
     ),
 
@@ -660,11 +613,11 @@ module.exports = grammar({
         '{',
           repeat(choice(
             $._statement,
-            seq($.return_expression, $.semi_colon),
+            seq($.return_expression, $._semi_colon),
           )),
         '}'
       )),
-      $.semi_colon,
+      $._semi_colon,
     )),
 
     parenthesized_expression: $ => seq(
@@ -727,30 +680,28 @@ module.exports = grammar({
 
       $._i_o_operator,
 
-      $.type_glob,
-
       $.anonymous_function,
 
       // object oriented stuffs
       $.bless,
 
-      $.grep_or_map_function,
-      $.join_function,
-      $.sort_function,
-      $.unpack_function,
+      // $.grep_or_map_function,
+      // $.join_function,
+      // $.sort_function,
+      // $.unpack_function,
 
-      $.push_function,
+      // $.push_function,
 
-      $.array_function,
+      // $.array_function,
 
       $.variable_declaration,
     )),
 
-    array_function: $ => seq(
-      alias($.identifier, $.function),
-      $.list_block,
-      $._expression,
-    ),
+    // array_function: $ => seq(
+    //   alias($.identifier, $.function),
+    //   $.list_block,
+    //   $._expression,
+    // ),
 
     // TODO: the output tree is wrong for this. fix it.
     package_variable: $ => seq(
@@ -762,12 +713,12 @@ module.exports = grammar({
       alias($.identifier, $.scalar_variable),
     ),
 
-    push_function: $ => prec.right(seq(
+    push_function: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       alias('push', $.push),
       with_or_without_brackets(commaSeparated($._expression)),
     )),
 
-    grep_or_map_function: $ => prec.right(seq(
+    grep_or_map_function: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       choice(
         alias('grep', $.grep),
         alias('map', $.map),
@@ -785,12 +736,12 @@ module.exports = grammar({
       with_or_without_brackets(commaSeparated($._expression)),
     )),
 
-    reverse_function: $ => prec.right(seq(
+    reverse_function: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       alias('reverse', $.reverse),
       optional(with_or_without_brackets(commaSeparated($._expression))),
     )),
 
-    sort_function: $ => prec.right(seq(
+    sort_function: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       alias('sort', $.sort),
       choice(
         $._expression,
@@ -799,7 +750,7 @@ module.exports = grammar({
       ),
     )),
 
-    unpack_function: $ => prec.right(seq(
+    unpack_function: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       alias('unpack', $.alias),
       with_or_without_brackets(commaSeparated($._expression)),
     )),
@@ -1024,36 +975,18 @@ module.exports = grammar({
       ),
     )),
 
-    type_glob: $ => seq(
-      '\*',
-      choice(
-        // $.package_name,
-        $.identifier,
-      ),
-    ),
-
-    goto_expression: $ => seq(
+    goto_expression: $ => prec.right(PRECEDENCE.ASSIGNMENT_OPERATORS, seq(
       'goto',
       choice(
         seq(field('label', $.identifier), ':'),
         field('expression', $._expression),
         field('subroutine', $.call_expression),
       ),
-    ),
+    )),
 
     // begin of operators
 
     binary_expression: $ => choice(
-      ...[
-        ['+', 1],
-        ['-', 2]
-      ].map(([operator, precedence]) =>
-        prec.left(precedence, seq(
-          field('left', $._expression),
-          field('operator', operator),
-          field('right', $._expression)
-        ))
-      ),
       $._exponentiation,
       $._binding_expression,
       $._bodmas_1,
@@ -1533,11 +1466,12 @@ module.exports = grammar({
     // any characters or just bareword(s) and variables
     identifier_2: $ => /[a-zA-Z0-9_$:\.@%\^]+/,
 
-    loop_control_keyword: $ => choice(
+    // TODO: this should be operators. Check.
+    loop_control_keyword: $ => prec(PRECEDENCE.ASSIGNMENT_OPERATORS, choice(
       'next',
       'last',
       'redo',
-    ),
+    )),
 
     package_name: $ => choice(
       $.identifier,
@@ -1559,7 +1493,7 @@ module.exports = grammar({
       seq('\"', /.*pm/, '\"'), 
      ),
 
-    semi_colon: $ => ';',
+    _semi_colon: $ => ';',
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
@@ -1720,6 +1654,7 @@ module.exports = grammar({
       /\$[A-Z^_?\\]/,                 // checkout https://perldoc.perl.org/perldata#Identifier-parsing
       // /\$\{_?[a-zA-Z0-9_]+\}/,        // need to name this. eg print "${key}"
       /\$_?[a-zA-Z0-9_]+/,
+      /\*[a-zA-Z0-9_]+/,
     ),
 
     array_access_variable: $ => prec(PRECEDENCE.ARRAY, seq(
@@ -1790,7 +1725,7 @@ module.exports = grammar({
     ),
 
     // TODO: accept ('key', value, 'key2', value2) as hash
-    hash: $ => seq(
+    hash: $ => prec(PRECEDENCE.HASH, seq(
       '(',
       optional(binaryCommaSeparated(choice(
         $.ternary_expression,
@@ -1799,9 +1734,9 @@ module.exports = grammar({
         // $.hash_variable,
       ))),
       ')',
-    ),
+    )),
 
-    hash_ref: $ => seq(
+    hash_ref: $ => prec(PRECEDENCE.HASH, seq(
       optional('+'), // to make into a hash_ref rather than a block
       '{',
       optional(binaryCommaSeparated(choice(
@@ -1811,7 +1746,7 @@ module.exports = grammar({
         $.hash_variable,
       ))),
       '}'
-    ),
+    )),
 
     _reference: $ => choice(
       $.array_ref,
@@ -1836,26 +1771,22 @@ module.exports = grammar({
       with_or_without_curly_brackets($._expression_without_bareword),
     )),
 
-    array_dereference: $ => prec(PRECEDENCE.ARRAY, seq(
+    array_dereference: $ => prec.left(PRECEDENCE.ARRAY, seq(
       '@',
       with_or_without_curly_brackets($._expression),
     )),
 
-    hash_dereference: $ => prec(PRECEDENCE.HASH ,seq(
+    hash_dereference: $ => prec.right(PRECEDENCE.HASH ,seq(
       '%',
       with_or_without_curly_brackets($._expression),
     )),
 
     // cat => 'meow', meta => {}
-    key_value_pair: $ => prec.left(seq(
+    key_value_pair: $ => prec.left(PRECEDENCE.HASH, seq(
       field('key', choice(
         alias($.identifier, $.bareword),
         alias($.key_words_in_hash_key, $.bareword),
-        alias(seq(
-          optional($.scope),
-          choice($.single_var_declaration, $.type_glob_declaration),
-          optional($._initializer),
-        ), $.variable_declaration),
+        $.variable_declaration,
         $._expression_without_bareword,
       )),
       $.hash_arrow_operator,
@@ -1922,10 +1853,10 @@ function binaryCommaSeparated(rule) {
  * @returns choice of rules
  */
 function with_or_without_brackets(rule) {
-  return prec(PRECEDENCE.BRACKETS, choice(
+  return choice(
     rule,
-    seq('(', rule, ')'),
-  ));
+    prec.left(PRECEDENCE.BRACKETS, seq('(', rule, ')')),
+  );
 }
 // TODO: the above should be like this, test it
 // function with_or_without_brackets(rule) {
@@ -1945,10 +1876,10 @@ function with_or_without_brackets(rule) {
  * @returns choice of rules
  */
  function with_or_without_curly_brackets(rule) {
-  return prec(PRECEDENCE.BRACKETS, choice(
+  return choice(
     rule,
-    seq('{', rule, '}'),
-  ));
+    prec.left(PRECEDENCE.BRACKETS, seq('{', rule, '}')),
+  );
 }
 
 /**
