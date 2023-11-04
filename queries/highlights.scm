@@ -106,6 +106,10 @@
    "infixr"
  ] @keyword
 
+ (type_role_declaration
+   "role" @keyword
+   role: (type_role) @keyword)
+
  (hole) @label
 
 ; ----------------------------------------------------------------------------

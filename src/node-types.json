@@ -5735,6 +5735,10 @@
           "named": true
         },
         {
+          "type": "type_role_declaration",
+          "named": true
+        },
+        {
           "type": "where",
           "named": true
         }
@@ -6858,6 +6862,37 @@
     }
   },
   {
+    "type": "type_role",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "type_role_declaration",
+    "named": true,
+    "fields": {
+      "role": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "type_role",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_signature",
     "named": true,
     "fields": {},
@@ -7144,6 +7179,10 @@
     "named": false
   },
   {
+    "type": "nominal",
+    "named": false
+  },
+  {
     "type": "number",
     "named": true
   },
@@ -7153,6 +7192,18 @@
   },
   {
     "type": "pattern",
+    "named": false
+  },
+  {
+    "type": "phantom",
+    "named": false
+  },
+  {
+    "type": "representational",
+    "named": false
+  },
+  {
+    "type": "role",
     "named": false
   },
   {

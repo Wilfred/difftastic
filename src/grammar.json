@@ -92,6 +92,10 @@
           "value": "type_alias"
         },
         {
+          "type": "SYMBOL",
+          "name": "type_role_declaration"
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
@@ -1883,6 +1887,56 @@
           "content": {
             "type": "SYMBOL",
             "name": "_tyvar"
+          }
+        }
+      ]
+    },
+    "_role": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "nominal"
+        },
+        {
+          "type": "STRING",
+          "value": "representational"
+        },
+        {
+          "type": "STRING",
+          "value": "phantom"
+        }
+      ]
+    },
+    "type_role_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "role"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tyconid"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "FIELD",
+            "name": "role",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_role"
+              },
+              "named": true,
+              "value": "type_role"
+            }
           }
         }
       ]

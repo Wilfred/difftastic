@@ -23,3 +23,31 @@ foreign import data True :: Boolean
     name: (type)
     (type_name
       (type))))
+
+================================================================================
+type roles - one role
+================================================================================
+
+type role Type nominal
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (type_role_declaration
+    (type)
+    (type_role)))
+
+================================================================================
+type roles - multiple roles
+================================================================================
+
+type role Type nominal representational phantom
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (type_role_declaration
+    (type)
+    (type_role)
+    (type_role)
+    (type_role)))

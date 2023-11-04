@@ -255,6 +255,7 @@ module.exports = grammar({
 
     _topdecl: $ => choice(
       alias($.decl_type, $.type_alias),
+      $.type_role_declaration,
       alias($.decl_data, $.data),
       alias($.decl_newtype, $.newtype),
       // TODO: Imports cannot come in random places,
