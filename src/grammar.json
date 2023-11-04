@@ -3319,7 +3319,7 @@
         }
       ]
     },
-    "pat_list": {
+    "pat_array": {
       "type": "SEQ",
       "members": [
         {
@@ -3354,32 +3354,6 @@
         {
           "type": "STRING",
           "value": "]"
-        }
-      ]
-    },
-    "pat_strict": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_strict"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_apat"
-        }
-      ]
-    },
-    "pat_irrefutable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_lazy"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_apat"
         }
       ]
     },
@@ -3434,15 +3408,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pat_list"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "pat_strict"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "pat_irrefutable"
+          "name": "pat_array"
         },
         {
           "type": "SYMBOL",
@@ -3505,7 +3471,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_qconsym"
+          "name": "_q_op"
         },
         {
           "type": "SYMBOL",

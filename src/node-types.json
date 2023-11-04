@@ -142,19 +142,15 @@
             "named": true
           },
           {
+            "type": "pat_array",
+            "named": true
+          },
+          {
             "type": "pat_as",
             "named": true
           },
           {
             "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
             "named": true
           },
           {
@@ -175,10 +171,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
             "named": true
           },
           {
@@ -366,19 +358,15 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
           "named": true
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -399,10 +387,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -862,19 +846,15 @@
             "named": true
           },
           {
+            "type": "pat_array",
+            "named": true
+          },
+          {
             "type": "pat_as",
             "named": true
           },
           {
             "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
             "named": true
           },
           {
@@ -895,10 +875,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
             "named": true
           },
           {
@@ -1000,19 +976,15 @@
             "named": true
           },
           {
+            "type": "pat_array",
+            "named": true
+          },
+          {
             "type": "pat_as",
             "named": true
           },
           {
             "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
             "named": true
           },
           {
@@ -1033,10 +1005,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
             "named": true
           },
           {
@@ -1111,19 +1079,15 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
           "named": true
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -1144,10 +1108,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -2271,15 +2231,11 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -2296,10 +2252,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -3481,19 +3433,15 @@
             "named": true
           },
           {
+            "type": "pat_array",
+            "named": true
+          },
+          {
             "type": "pat_as",
             "named": true
           },
           {
             "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
             "named": true
           },
           {
@@ -3514,10 +3462,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
             "named": true
           },
           {
@@ -4594,15 +4538,11 @@
       "required": true,
       "types": [
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -4622,11 +4562,74 @@
           "named": true
         },
         {
-          "type": "pat_strict",
+          "type": "pat_type_binder",
+          "named": true
+        },
+        {
+          "type": "pat_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pat_array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "pat_apply",
+          "named": true
+        },
+        {
+          "type": "pat_array",
+          "named": true
+        },
+        {
+          "type": "pat_as",
+          "named": true
+        },
+        {
+          "type": "pat_infix",
+          "named": true
+        },
+        {
+          "type": "pat_literal",
+          "named": true
+        },
+        {
+          "type": "pat_name",
+          "named": true
+        },
+        {
+          "type": "pat_negation",
+          "named": true
+        },
+        {
+          "type": "pat_parens",
+          "named": true
+        },
+        {
+          "type": "pat_record",
           "named": true
         },
         {
           "type": "pat_type_binder",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_view",
           "named": true
         },
         {
@@ -4645,15 +4648,11 @@
         "required": true,
         "types": [
           {
+            "type": "pat_array",
+            "named": true
+          },
+          {
             "type": "pat_as",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
             "named": true
           },
           {
@@ -4670,10 +4669,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
             "named": true
           },
           {
@@ -4715,19 +4710,15 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
           "named": true
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -4748,10 +4739,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -4801,11 +4788,15 @@
       "required": true,
       "types": [
         {
-          "type": "constructor_operator",
+          "type": "operator",
           "named": true
         },
         {
           "type": "pat_apply",
+          "named": true
+        },
+        {
+          "type": "pat_array",
           "named": true
         },
         {
@@ -4814,14 +4805,6 @@
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -4845,10 +4828,6 @@
           "named": true
         },
         {
-          "type": "pat_strict",
-          "named": true
-        },
-        {
           "type": "pat_type_binder",
           "named": true
         },
@@ -4857,133 +4836,7 @@
           "named": true
         },
         {
-          "type": "qualified_constructor_operator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pat_irrefutable",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
-          "named": true
-        },
-        {
-          "type": "pat_literal",
-          "named": true
-        },
-        {
-          "type": "pat_name",
-          "named": true
-        },
-        {
-          "type": "pat_parens",
-          "named": true
-        },
-        {
-          "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
-          "type": "pat_wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pat_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comma",
-          "named": true
-        },
-        {
-          "type": "pat_apply",
-          "named": true
-        },
-        {
-          "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
-          "named": true
-        },
-        {
-          "type": "pat_literal",
-          "named": true
-        },
-        {
-          "type": "pat_name",
-          "named": true
-        },
-        {
-          "type": "pat_negation",
-          "named": true
-        },
-        {
-          "type": "pat_parens",
-          "named": true
-        },
-        {
-          "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
-          "type": "pat_typed",
-          "named": true
-        },
-        {
-          "type": "pat_view",
-          "named": true
-        },
-        {
-          "type": "pat_wildcard",
+          "type": "qualified_operator",
           "named": true
         }
       ]
@@ -5064,15 +4917,11 @@
       "required": true,
       "types": [
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -5089,10 +4938,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -5119,19 +4964,15 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
           "named": true
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -5152,10 +4993,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -5191,57 +5028,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "pat_strict",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
-          "named": true
-        },
-        {
-          "type": "pat_literal",
-          "named": true
-        },
-        {
-          "type": "pat_name",
-          "named": true
-        },
-        {
-          "type": "pat_parens",
-          "named": true
-        },
-        {
-          "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
-          "type": "pat_wildcard",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -5296,19 +5082,15 @@
             "named": true
           },
           {
+            "type": "pat_array",
+            "named": true
+          },
+          {
             "type": "pat_as",
             "named": true
           },
           {
             "type": "pat_infix",
-            "named": true
-          },
-          {
-            "type": "pat_irrefutable",
-            "named": true
-          },
-          {
-            "type": "pat_list",
             "named": true
           },
           {
@@ -5329,10 +5111,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_strict",
             "named": true
           },
           {
@@ -5482,19 +5260,15 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
           "named": true
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -5515,10 +5289,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -5680,19 +5450,15 @@
           "named": true
         },
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
           "named": true
         },
         {
           "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -5713,10 +5479,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
@@ -5766,15 +5528,11 @@
       "required": true,
       "types": [
         {
+          "type": "pat_array",
+          "named": true
+        },
+        {
           "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_irrefutable",
-          "named": true
-        },
-        {
-          "type": "pat_list",
           "named": true
         },
         {
@@ -5791,10 +5549,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_strict",
           "named": true
         },
         {
