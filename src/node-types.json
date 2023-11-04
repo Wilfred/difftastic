@@ -12,6 +12,10 @@
             "named": false
           },
           {
+            "type": "captured_type_operator",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -223,6 +227,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "forall",
           "named": true
         },
@@ -277,6 +285,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -445,6 +457,25 @@
     }
   },
   {
+    "type": "captured_type_operator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "qualified_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "class_body",
     "named": true,
     "fields": {},
@@ -502,6 +533,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotated_type_variable",
+          "named": true
+        },
         {
           "type": "class_name",
           "named": true
@@ -594,6 +629,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "class_name",
           "named": true
@@ -694,6 +733,10 @@
           "named": true
         },
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "constructor",
           "named": true
         },
@@ -779,6 +822,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "constraints",
           "named": true
@@ -894,6 +941,10 @@
           {
             "type": "::",
             "named": false
+          },
+          {
+            "type": "captured_type_operator",
+            "named": true
           },
           {
             "type": "exp_apply",
@@ -1213,6 +1264,10 @@
       "required": false,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "comma",
           "named": true
         },
@@ -1346,6 +1401,10 @@
           {
             "type": "::",
             "named": false
+          },
+          {
+            "type": "captured_type_operator",
+            "named": true
           },
           {
             "type": "exp_apply",
@@ -1521,6 +1580,10 @@
             "named": false
           },
           {
+            "type": "captured_type_operator",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -1655,6 +1718,10 @@
             "named": false
           },
           {
+            "type": "captured_type_operator",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -1787,6 +1854,10 @@
           {
             "type": "::",
             "named": false
+          },
+          {
+            "type": "captured_type_operator",
+            "named": true
           },
           {
             "type": "exp_apply",
@@ -1924,6 +1995,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -2154,6 +2229,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -2484,6 +2563,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -2947,6 +3030,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -3119,6 +3206,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -3304,6 +3395,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "forall",
           "named": true
         },
@@ -3443,6 +3538,10 @@
           {
             "type": "::",
             "named": false
+          },
+          {
+            "type": "captured_type_operator",
+            "named": true
           },
           {
             "type": "exp_apply",
@@ -3628,6 +3727,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -3858,6 +3961,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -4130,6 +4237,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "class_name",
           "named": true
         },
@@ -4209,6 +4320,10 @@
           "named": true
         },
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "class_name",
           "named": true
         },
@@ -4280,6 +4395,10 @@
       "types": [
         {
           "type": "annotated_type_variable",
+          "named": true
+        },
+        {
+          "type": "captured_type_operator",
           "named": true
         },
         {
@@ -4395,6 +4514,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "constructor",
           "named": true
@@ -4987,6 +5110,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "hole",
           "named": true
         },
@@ -5077,6 +5204,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "forall",
           "named": true
         },
@@ -5127,6 +5258,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -5816,6 +5951,10 @@
       "required": false,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "comma",
           "named": true
         },
@@ -5878,6 +6017,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "comma",
           "named": true
@@ -6026,6 +6169,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "field_name",
           "named": true
         },
@@ -6080,6 +6227,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "comma",
           "named": true
@@ -6167,6 +6318,10 @@
       "required": true,
       "types": [
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "constructor",
           "named": true
         },
@@ -6227,6 +6382,10 @@
       "types": [
         {
           "type": "bind_pattern",
+          "named": true
+        },
+        {
+          "type": "captured_type_operator",
           "named": true
         },
         {
@@ -6386,6 +6545,10 @@
           "named": true
         },
         {
+          "type": "captured_type_operator",
+          "named": true
+        },
+        {
           "type": "forall",
           "named": true
         },
@@ -6444,6 +6607,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "hole",
           "named": true
@@ -6510,6 +6677,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "forall",
           "named": true
@@ -6593,11 +6764,7 @@
       "required": true,
       "types": [
         {
-          "type": "constructor_operator",
-          "named": true
-        },
-        {
-          "type": "qualified_constructor_operator",
+          "type": "annotated_type_variable",
           "named": true
         },
         {
@@ -6605,15 +6772,7 @@
           "named": true
         },
         {
-          "type": "qualified_type_operator",
-          "named": true
-        },
-        {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_operator",
           "named": true
         },
         {
@@ -6651,6 +6810,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "forall",
           "named": true
@@ -6702,6 +6865,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "captured_type_operator",
+          "named": true
+        },
         {
           "type": "forall",
           "named": true

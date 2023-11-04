@@ -41,7 +41,7 @@ module.exports = {
     seq(
       optional(seq($.constraints, $._lcarrow)),
       $.class_name,
-      repeat($.type_variable),
+      repeat($._tyvar),
       optional($.fundeps)
     ),
 

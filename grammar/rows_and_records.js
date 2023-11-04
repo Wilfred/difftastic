@@ -24,8 +24,8 @@ module.exports = {
 
   _field_name_ty: $ =>
     choice(
-      // higher precedence because it conflicts with `annotated_type_variable`
-      alias(prec(1, $.type_variable), $.field_name),
+      // dynamic precedence because it conflicts with `annotated_type_variable`
+      alias(prec.dynamic(0, $.type_variable), $.field_name),
       alias(choice($.string, $.triple_quote_string), $.field_name)
     ),
 
@@ -42,11 +42,14 @@ module.exports = {
       choice($._type, $.type_variable)
     )),
 
+  // There is currently a rather fragile configuration of dynamic
+  // precedence levels between row_type, _field_name_ty and type_name.
+  // I'm not sure how it works, but thankfully it does.
   row_type: $ =>
-    parens(seq(
+    prec.dynamic(1, parens(seq(
       sep($.comma, $.row_field),
       optional($._row_variable)
-    )),
+    ))),
 
   record_type_literal: $ =>
     braces(seq(

@@ -41,10 +41,11 @@ module.exports = {
   // ----- Misc ---------------------------------------------------------------
 
   type_name: $ =>
-    choice(
-      $.type_variable,
-      $._qtycon,
-    ),
+    // conflicts with row types, see comments in that module
+    prec.dynamic(0, choice(
+      $._tyvar,
+      $._qtyconid,
+    )),
 
   type_wildcard: _ => '_',
 
@@ -57,6 +58,9 @@ module.exports = {
       $.type_operator,
       $.qualified_type_operator
     ),
+
+  captured_type_operator: $ =>
+    parens($._q_op),
 
   // ----- Aggregation --------------------------------------------------------
 
@@ -85,6 +89,7 @@ module.exports = {
       $.type_name,
       $.type_literal,
       $.type_parens,
+      $.captured_type_operator,
     ),
 
   /**

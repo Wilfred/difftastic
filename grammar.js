@@ -109,6 +109,9 @@ module.exports = grammar({
      * Seems to be related to visible type application specifically.
      */
     [$.row_type, $.type_name],
+    // [$.row_type, $._tyvar_no_annotation],
+    [$._field_name_ty, $._tyvar_no_annotation],
+    // [$._row_variable, $._tyvar_no_annotation],
     [$.record_type_literal, $.type_name],
 
     [$._field_name, $.pat_field],
@@ -121,6 +124,12 @@ module.exports = grammar({
      */
     [$.record_update, $.exp_name],
     [$.record_update, $._aexp_projection],
+
+    // /**
+    //  * Type variables are aliased by 3 nodes:
+    //  * _tyvar*, type_name and _row_variable
+    //  */
+    // [$._tyvar_no_annotation, $.type_name],
 
     /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
