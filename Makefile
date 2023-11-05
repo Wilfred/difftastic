@@ -85,15 +85,6 @@ install: all
 	ln -sf libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR)
 	ln -sf libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXT)
 	install -d '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter
-	install -m644 bindings/c/$(PARSER_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/
-	install -d '$(DESTDIR)$(PCLIBDIR)'
-	sed -e 's|@LIBDIR@|$(LIBDIR)|;s|@INCLUDEDIR@|$(INCLUDEDIR)|;s|@VERSION@|$(VERSION)|' \
-	    -e 's|=$(PREFIX)|=$${prefix}|' \
-	    -e 's|@PREFIX@|$(PREFIX)|' \
-	    -e 's|@ADDITIONALLIBS@|$(ADDITIONALLIBS)|' \
-		-e 's|@PARSERNAME@|$(PARSER_NAME)|' \
-		-e 's|@PARSERREPOURL@|$(PARSER_REPO_URL)|' \
-	    bindings/c/tree-sitter.pc.in > '$(DESTDIR)$(PCLIBDIR)'/tree-sitter-$(PARSER_NAME).pc
 
 clean:
 	rm -f $(OBJ) libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXT) libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR) libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/$(PARSER_NAME).h
