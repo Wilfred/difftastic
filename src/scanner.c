@@ -33,6 +33,9 @@ enum token_type {
 	TOKEN_HEAD_4,
 	TOKEN_HEAD_P,
 	TOKEN_STRING_BLOB,
+	TOKEN_RAW_SPAN_BLOB,
+	TOKEN_RAW_BLCK_BLOB,
+	TOKEN_RAW_LANG,
 
 	TOKEN_COMMENT,
 	TOKEN_SPACE,
@@ -1854,6 +1857,49 @@ bool tree_sitter_typst_external_scanner_scan(
 		return true;
 	}
 
+	// must be before SPACE and COMMENT
+	// this set the immediate flag to true
+	if (valid_symbols[TOKEN_IMMEDIATE_SET]) {
+		self->immediate = true;
+		lexer->result_symbol = TOKEN_IMMEDIATE_SET;
+		return true;
+	}
+
+
+	if (valid_symbols[TOKEN_RAW_SPAN_BLOB]) {
+		while (lex_next != '`' && !lexer->eof(lexer)) {
+			lex_advance();
+		}
+		lex_accept(TOKEN_RAW_SPAN_BLOB);
+	}
+
+	if (valid_symbols[TOKEN_RAW_LANG] && (lex_next == '_' || is_id_start(lex_next))) {
+		lex_advance();
+		while (lex_next == '-' || is_id_continue(lex_next)) {
+			lex_advance();
+		}
+		lex_accept(TOKEN_RAW_LANG);
+	}
+
+	if (valid_symbols[TOKEN_RAW_BLCK_BLOB]) {
+		while (!lexer->eof(lexer)) {
+			if (lex_next == '`') {
+				lex_advance();
+				if (lex_next == '`') {
+					lex_advance();
+					if (lex_next == '`') {
+						lex_advance();
+						lexer->result_symbol = TOKEN_RAW_BLCK_BLOB;
+						return true;
+					}
+				}
+			}
+			lex_advance();
+			lexer->mark_end(lexer);
+		}
+		return false;
+	}
+
 	if (valid_symbols[TOKEN_URL]) {
 		self->worker.len = 0;
 		enum { BRACK, PAREN, };
@@ -1925,14 +1971,6 @@ bool tree_sitter_typst_external_scanner_scan(
 			lex_advance();
 			lex_accept(TOKEN_STRING_BLOB);
 		}
-	}
-
-	// must be before SPACE and COMMENT
-	// this set the immediate flag to true
-	if (valid_symbols[TOKEN_IMMEDIATE_SET]) {
-		self->immediate = true;
-		lexer->result_symbol = TOKEN_IMMEDIATE_SET;
-		return true;
 	}
 
 	// suffix to number literal

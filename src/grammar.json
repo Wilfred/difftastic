@@ -664,28 +664,20 @@
           "value": "```"
         },
         {
-          "type": "SYMBOL",
-          "name": "_immediate"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
+              "type": "FIELD",
+              "name": "lang",
+              "content": {
+                "type": "ALIAS",
+                "content": {
                   "type": "SYMBOL",
-                  "name": "_immediate_ident"
+                  "name": "_token_raw_lang"
                 },
-                {
-                  "type": "FIELD",
-                  "name": "lang",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "ident"
-                  }
-                }
-              ]
+                "named": true,
+                "value": "ident"
+              }
             },
             {
               "type": "BLANK"
@@ -695,8 +687,8 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "(``[^`]|`[^`]|[^`])*"
+            "type": "SYMBOL",
+            "name": "_token_raw_blck_blob"
           },
           "named": true,
           "value": "blob"
@@ -721,8 +713,8 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "[^`]*"
+            "type": "SYMBOL",
+            "name": "_token_raw_span_blob"
           },
           "named": true,
           "value": "blob"
@@ -4032,6 +4024,18 @@
     {
       "type": "SYMBOL",
       "name": "_token_string_blob"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_raw_span_blob"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_raw_blck_blob"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_raw_lang"
     },
     {
       "type": "SYMBOL",

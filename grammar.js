@@ -63,6 +63,9 @@ module.exports = grammar({
     $._token_head_4,
     $._token_head_p,
     $._token_string_blob,
+    $._token_raw_span_blob,
+    $._token_raw_blck_blob,
+    $._token_raw_lang,
 
     $.comment,
     $._sp,
@@ -166,13 +169,12 @@ module.exports = grammar({
     emph: $ => prec.left(seq(alias($._token_emph, '_'), inside($), alias($._termination, '_'))),
     raw_blck: $ => seq(
       '```',
-      $._immediate,
-      optional(seq($._immediate_ident, field('lang', $.ident))),
-      alias(/(``[^`]|`[^`]|[^`])*/, $.blob),
+      optional(field('lang', alias($._token_raw_lang, $.ident))),
+      alias($._token_raw_blck_blob, $.blob),
       '```',
       $._immediate,
     ),
-    raw_span: $ => seq('`', alias(/[^`]*/, $.blob), '`', $._immediate),
+    raw_span: $ => seq('`', alias($._token_raw_span_blob, $.blob), '`', $._immediate),
     shorthand: $ => token(prec(1, choice('--', '---', '-?', '~', '...'))),
 
     math: $ => seq('$', optional($.formula), '$', $._immediate),
