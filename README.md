@@ -95,7 +95,7 @@ injection-regex = "typ(st)?"
 [[grammar]]
 name = "typst"
 source.git = "https://github.com/uben0/tree-sitter-typst"
-source.rev = "e35aa22395fdde82bbc4b5700c324ce346dfc9e5"
+source.rev = "60843a0604120c3014507f9635300264ba0e547e"
 ```
 
 3. Copy the content of the `queries` directory (`highlights.scm` and `injections.scm`) inside your corresponding `runtime/queries/typst` directory. You should have the following structure:

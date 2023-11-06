@@ -1058,8 +1058,13 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_math_token_ldlm"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_token_ldlm"
+            },
+            "named": false,
+            "value": "("
           },
           {
             "type": "CHOICE",
@@ -1074,8 +1079,13 @@
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_token_math_group_end"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_token_math_group_end"
+            },
+            "named": false,
+            "value": ")"
           }
         ]
       }
@@ -1337,8 +1347,13 @@
             "name": "_immediate_math_call"
           },
           {
-            "type": "SYMBOL",
-            "name": "_math_token_lpar"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_token_lpar"
+            },
+            "named": false,
+            "value": "("
           },
           {
             "type": "REPEAT",
@@ -1414,8 +1429,13 @@
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_math_token_rpar"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_token_rpar"
+            },
+            "named": false,
+            "value": ")"
           }
         ]
       }

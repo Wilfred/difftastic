@@ -211,9 +211,9 @@ module.exports = grammar({
     _math_token_orph:  $ => token(prec(0, choice(')', ']', '}', '|]', '||', '|'))),
 
     _math_group: $ => prec(1, seq(
-      $._math_token_ldlm,
+      alias($._math_token_ldlm, '('),
       optional($.formula),
-      $._token_math_group_end
+      alias($._token_math_group_end, ')')
     )),
     _math_item: $ => prec(8, choice(
       alias($._token_math_ident, $.ident),
@@ -244,13 +244,13 @@ module.exports = grammar({
     _math_call: $ => prec(8, seq(
       field('item', $._math_item),
       $._immediate_math_call,
-      $._math_token_lpar,
+      alias($._math_token_lpar, '('),
       repeat(seq(
         choice(alias($._math_tagged, $.tagged), optional($.formula)),
         choice(',', ';')
       )),
       choice(alias($._math_tagged, $.tagged), optional($.formula)),
-      $._math_token_rpar,
+      alias($._math_token_rpar, ')'),
     )),
     _math_tag: $ =>prec(9, choice(
       alias($._token_math_ident, $.ident),
