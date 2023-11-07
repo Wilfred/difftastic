@@ -5496,9 +5496,47 @@
       "named": true,
       "value": "foreign_import"
     },
+    "_newkind_type_signature": {
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "data"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_tyconid"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type_annotation"
+          }
+        ]
+      }
+    },
     "kind_declaration": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_newkind_type_signature"
+              },
+              "named": true,
+              "value": "kind_signature"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "data"
@@ -5892,6 +5930,10 @@
     [
       "record_update",
       "_aexp_projection"
+    ],
+    [
+      "_data_type_signature",
+      "_newkind_type_signature"
     ],
     [
       "type_infix",

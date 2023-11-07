@@ -91,7 +91,19 @@ module.exports = {
   // Kinds and kind values
   // ------------------------------------------------------------------------
 
-  kind_declaration: $ => seq('data', $._simpletype),
+  _newkind_type_signature: $ =>
+    prec.dynamic(1, seq(
+      'data',
+      $._tyconid,
+      $._type_annotation
+    )),
+
+  kind_declaration: $ =>
+    seq(
+      optional(alias($._newkind_type_signature, $.kind_signature)),
+      'data',
+      $._simpletype,
+    ),
 
   kind_value_declaration: $ =>
     seq(

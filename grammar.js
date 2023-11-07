@@ -125,11 +125,21 @@ module.exports = grammar({
     [$.record_update, $.exp_name],
     [$.record_update, $._aexp_projection],
 
-    // /**
-    //  * Type variables are aliased by 3 nodes:
-    //  * _tyvar*, type_name and _row_variable
-    //  */
-    // [$._tyvar_no_annotation, $.type_name],
+    /**
+     * Newkind's and data's signatures/declarations are in obvious conflict:
+     *
+     * data A :: Type -> Type
+     * data A a
+     *
+     * vs
+     *
+     * data B :: forall k. k -> Type
+     * data B a = B
+     *
+     * TODO: replace [almost] all distinct kinds of kind/type signatures
+     * with a single `type_signature` node.
+     */
+    [$._data_type_signature, $._newkind_type_signature],
 
     /**
      * This could be done with the second named precedence further up, but it somehow overrides symbolic infix
