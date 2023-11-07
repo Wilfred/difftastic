@@ -66,6 +66,8 @@ module.exports = grammar({
     $._token_raw_span_blob,
     $._token_raw_blck_blob,
     $._token_raw_lang,
+    $._token_identifier,
+    $._token_label,
 
     $.comment,
     $._sp,
@@ -411,8 +413,8 @@ module.exports = grammar({
     ))),
     field:  $ => prec(13, seq($._expr, '.', field('field', $.ident))),
     tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
-    label: $ => seq('<', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, '>'),
-    ref: $ => seq('@', /[\p{XID_Start}\-_][\p{XID_Continue}\-_\.]*/, $._immediate, optional(seq($._immediate_brack, $.content))),
+    label: $ => seq('<', $._token_label, '>'),
+    ref: $ => seq('@', $._token_label, optional(seq($._immediate_brack, $.content))),
     content: $ => seq(
       alias($._token_content, '['),
       content($),

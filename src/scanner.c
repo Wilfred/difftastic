@@ -36,6 +36,8 @@ enum token_type {
 	TOKEN_RAW_SPAN_BLOB,
 	TOKEN_RAW_BLCK_BLOB,
 	TOKEN_RAW_LANG,
+	TOKEN_IDENTIFIER,
+	TOKEN_LABEL,
 
 	TOKEN_COMMENT,
 	TOKEN_SPACE,
@@ -1863,6 +1865,27 @@ bool tree_sitter_typst_external_scanner_scan(
 		self->immediate = true;
 		lexer->result_symbol = TOKEN_IMMEDIATE_SET;
 		return true;
+	}
+
+	if (valid_symbols[TOKEN_IDENTIFIER] && (is_id_start(lex_next) || lex_next == '_')) {
+		lex_advance();
+		while (is_id_continue(lex_next) || lex_next == '-') {
+			lex_advance();
+		}
+		self->immediate = true;
+		lex_accept(TOKEN_IDENTIFIER);
+	}
+
+	if (
+		valid_symbols[TOKEN_LABEL] && (
+			is_id_start(lex_next) || lex_next == '-' || lex_next == '_'
+	)) {
+		lex_advance();
+		while (is_id_continue(lex_next) || lex_next == '-' || lex_next == '.' || lex_next == ':') {
+			lex_advance();
+		}
+		self->immediate = true;
+		lex_accept(TOKEN_LABEL);
 	}
 
 

@@ -2638,8 +2638,8 @@
           "value": "<"
         },
         {
-          "type": "PATTERN",
-          "value": "[\\p{XID_Start}\\-_][\\p{XID_Continue}\\-_\\.]*"
+          "type": "SYMBOL",
+          "name": "_token_label"
         },
         {
           "type": "STRING",
@@ -2655,12 +2655,8 @@
           "value": "@"
         },
         {
-          "type": "PATTERN",
-          "value": "[\\p{XID_Start}\\-_][\\p{XID_Continue}\\-_\\.]*"
-        },
-        {
           "type": "SYMBOL",
-          "name": "_immediate"
+          "name": "_token_label"
         },
         {
           "type": "CHOICE",
@@ -4056,6 +4052,14 @@
     {
       "type": "SYMBOL",
       "name": "_token_raw_lang"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_identifier"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_label"
     },
     {
       "type": "SYMBOL",
