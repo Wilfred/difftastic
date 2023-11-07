@@ -24,7 +24,7 @@ The documentation of this implementation is available in [DOC](DOC.md).
 - [ ] Documentation
   - [ ] Installation
     - [X] Helix
-    - [ ] Emacs
+    - [X] Emacs
     - [ ] NeoVim
   - [X] Implementation
 - [X] Update
@@ -116,3 +116,7 @@ hx --grammar build
 ```
 
 The fetch command will clone the git repository, and the build command will compile the grammar.
+
+## Emacs
+
+[typst-ts-mode](https://git.sr.ht/~meow_king/typst-ts-mode)
