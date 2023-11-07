@@ -5,7 +5,7 @@ module.exports = {
   pat_field: $ =>
     seq(
       $._field_name,
-      optional(seq(':', $._nested_pat))
+      optional(seq(':', $._typed_pat))
     ),
 
   pat_fields: $ => braces(sep($.comma, $.pat_field)),
@@ -23,9 +23,9 @@ module.exports = {
 
   pat_wildcard: $ => alias($.wildcard, $.pat_wildcard),
 
-  pat_parens: $ => parens($._nested_pat),
+  pat_parens: $ => parens($._typed_pat),
 
-  pat_array: $ => brackets(sep1($.comma, $._nested_pat)),
+  pat_array: $ => brackets(sep1($.comma, $._typed_pat)),
 
   _apat: $ => choice(
     $.pat_name,
@@ -68,13 +68,4 @@ module.exports = {
     $.pat_typed,
   ),
 
-  pat_view: $ => seq($._exp, $._arrow, $._nested_pat),
-
-  /**
-   * Patterns that occur inside parentheses, and thus can always have view patterns and type annotations.
-   */
-  _nested_pat: $ => choice(
-    $._typed_pat,
-    $.pat_view,
-  )
 }
