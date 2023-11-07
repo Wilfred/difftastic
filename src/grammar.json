@@ -3440,19 +3440,6 @@
         }
       ]
     },
-    "pat_type_binder": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_atype"
-        }
-      ]
-    },
     "_apat": {
       "type": "CHOICE",
       "members": [
@@ -3492,10 +3479,6 @@
         {
           "type": "SYMBOL",
           "name": "pat_array"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "pat_type_binder"
         }
       ]
     },
@@ -5977,10 +5960,6 @@
     [
       "_aexp_projection",
       "_apat"
-    ],
-    [
-      "exp_type_application",
-      "pat_type_binder"
     ],
     [
       "pat_name",

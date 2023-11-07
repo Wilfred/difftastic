@@ -27,8 +27,6 @@ module.exports = {
 
   pat_array: $ => brackets(sep1($.comma, $._nested_pat)),
 
-  pat_type_binder: $ => seq('@', $._atype),
-
   _apat: $ => choice(
     $.pat_name,
     $.pat_as,
@@ -38,7 +36,6 @@ module.exports = {
     $.pat_wildcard,
     $.pat_parens,
     $.pat_array,
-    $.pat_type_binder,
   ),
 
   pat_negation: $ => seq('-', $._apat),
