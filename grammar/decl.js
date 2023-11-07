@@ -38,7 +38,8 @@ module.exports = {
   operator_declaration: $ => seq(
     choice('infixl', 'infixr', 'infix'),
     field('precedence', $.integer),
-    choice(seq('type', $._qtyconid), $._qvarid),
+    optional('type'),
+    choice($._qtyconid, $._qvarid),
     'as',
     $.operator
   ),
