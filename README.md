@@ -12,7 +12,7 @@ The areas of potential improvement at the moment are cleaner, better structured 
 PureScript support works out of the box.
 
 ### Kakoune
-Consult your plugin of choice for guides on how to set up the grammar.
+Default configuration is present for [kak-tree-sitter](https://github.com/phaazon/kak-tree-sitter). Install the plugin and install PureScript grammar with `ktsctl -fci purescript`.
 
 ### (Neo)Vim
 TBA.
@@ -25,6 +25,9 @@ Please suggest your ideas via issues.
 
 ## Issues reporting and contributing
 If you notice something not working correctly or simply have a suggestion or request to make, don't hesitate to open an issue, or open a pull request if you have code to share.
+
+## Related projects
+- [purescript-language-cst-parser](https://github.com/natefaubion/purescript-language-cst-parser) - PureScript CST Parser written in PureScript.
 
 ## Acknowledgments
 - [tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell) contributors for developing the original grammar
