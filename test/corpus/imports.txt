@@ -108,3 +108,19 @@ import animal.{type Cat as Kitty}
       (unqualified_import
         name: (type_identifier)
         alias: (type_identifier)))))
+
+================================================================================
+Discard module imports
+================================================================================
+
+import wibble.{wobble} as _
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    (module)
+    (unqualified_imports
+      (unqualified_import
+        (identifier)))
+    (discard)))

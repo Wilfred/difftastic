@@ -80,7 +80,7 @@ module.exports = grammar({
         "import",
         field("module", $.module),
         optional(seq(".", field("imports", $.unqualified_imports))),
-        optional(seq("as", field("alias", $.identifier)))
+        optional(seq("as", field("alias", choice($.identifier, $.discard))))
       ),
     module: ($) => seq($._name, repeat(seq("/", $._name))),
     unqualified_imports: ($) =>

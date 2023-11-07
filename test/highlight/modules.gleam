@@ -11,6 +11,11 @@ import animal/cat.{Cat, type Cat}
 //                        ^ keyword
 //                            ^ type
 
+import wibble.{wobble} as _
+//      ^ module
+//              ^ function
+//                        ^ comment.unused
+
 pub fn main() {
   io.println("hello world")
   // <- module
