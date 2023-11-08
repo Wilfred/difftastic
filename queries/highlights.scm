@@ -134,8 +134,6 @@
  (row_field (field_name) @variable.other.member)
  (record_field (field_name) @variable.other.member)
  (record_field (field_pun) @field)
- (record_accessor field: (variable) @variable.other.member)
- (exp_record_access field: (variable) @variable.other.member)
 
  (signature name: (variable) @type)
  (function name: (variable) @function)
