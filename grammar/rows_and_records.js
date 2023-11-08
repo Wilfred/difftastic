@@ -112,6 +112,7 @@ module.exports = {
       $.hole,
       $._qvarid,
       $.record_literal,
+      $.exp_record_access,
       $.exp_parens,
     ),
 

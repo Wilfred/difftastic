@@ -2698,7 +2698,15 @@
           "named": true
         },
         {
+          "type": "qualified_variable",
+          "named": true
+        },
+        {
           "type": "record_literal",
+          "named": true
+        },
+        {
+          "type": "variable",
           "named": true
         }
       ]
