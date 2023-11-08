@@ -25,7 +25,7 @@ module.exports = {
 
   pat_parens: $ => parens($._typed_pat),
 
-  pat_array: $ => brackets(sep1($.comma, $._typed_pat)),
+  pat_array: $ => brackets(sep($.comma, $._typed_pat)),
 
   _apat: $ => choice(
     $.pat_name,

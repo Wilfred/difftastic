@@ -103,9 +103,21 @@ module.exports = {
     return seq($._field_name, update_or_nested_update)
   },
 
+  // It is easier to construct a specific set of options here:
+  // `_aexp` would be too permissive and bring potential problems
+  // such as precedence issues
+  _record_update_lhs: $ =>
+    choice(
+      $.wildcard,
+      $.hole,
+      $._qvarid,
+      $.record_literal,
+      $.exp_parens,
+    ),
+
   record_update: $ =>
     seq(
-      choice($.wildcard, $.qualified_variable, $.variable, $.record_literal),
+      $._record_update_lhs,
       braces(sep($.comma, $._record_field_update))
     ),
 

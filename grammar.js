@@ -122,8 +122,8 @@ module.exports = grammar({
      * application, such that `identity { a: 1 } { a = 2 }` is a valid expression,
      * but this doesn't work for parsing them correctly.
      */
-    [$.record_update, $.exp_name],
-    [$.record_update, $._aexp_projection],
+    [$._record_update_lhs, $._aexp_projection],
+    [$._record_update_lhs, $.exp_name],
 
     /**
      * Newkind's and data's signatures/declarations are in obvious conflict:
@@ -202,6 +202,7 @@ module.exports = grammar({
     [$.exp_name, $.pat_name],
     [$._aexp_projection, $._apat],
     [$.pat_name, $._q_op],
+    [$.exp_array, $.pat_array],
 
     /**
      * For getting a node for function application, and no extra node if the expression only consists of one term.

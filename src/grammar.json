@@ -1415,29 +1415,37 @@
         }
       ]
     },
+    "_record_update_lhs": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "wildcard"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hole"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_qvarid"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "record_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_parens"
+        }
+      ]
+    },
     "record_update": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "wildcard"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "qualified_variable"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "variable"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "record_literal"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_record_update_lhs"
         },
         {
           "type": "SEQ",
@@ -2223,6 +2231,10 @@
           {
             "type": "CHOICE",
             "members": [
+              {
+                "type": "SYMBOL",
+                "name": "hole"
+              },
               {
                 "type": "SYMBOL",
                 "name": "record_literal"
@@ -3410,27 +3422,35 @@
           "value": "["
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_typed_pat"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_typed_pat"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "comma"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_typed_pat"
+                      }
+                    ]
+                  }
+                }
+              ]
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "comma"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_typed_pat"
-                  }
-                ]
-              }
+              "type": "BLANK"
             }
           ]
         },
@@ -5877,12 +5897,12 @@
       "pat_field"
     ],
     [
-      "record_update",
-      "exp_name"
+      "_record_update_lhs",
+      "_aexp_projection"
     ],
     [
-      "record_update",
-      "_aexp_projection"
+      "_record_update_lhs",
+      "exp_name"
     ],
     [
       "_data_type_signature",
@@ -5934,6 +5954,10 @@
     [
       "pat_name",
       "_q_op"
+    ],
+    [
+      "exp_array",
+      "pat_array"
     ],
     [
       "_exp_apply",
