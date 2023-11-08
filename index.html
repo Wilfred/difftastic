@@ -20,9 +20,17 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
 
-  <!-- simple project description website, in the style of https://popper.js.org/ -->
+  <!-- simple project description website, in the style of
+       https://popper.js.org/ or
+       https://cdnjs.com/libraries/font-awesome TODO: Prefer a dark
+       theme. It feels more like code, and less like vanilla
+       boostrap. -->
 
   <body>
     <div class="container col-xxl-8 px-4 py-5">
@@ -38,7 +46,9 @@
           />
         </div>
         <div class="col-lg-6">
-          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+          <h1
+            class="display-5 fw-bold text-body-emphasis lh-1 mb-3 bg-background-tertiary"
+          >
             A Structural Diff
           </h1>
           <p class="lead">
@@ -46,11 +56,75 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
             <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
-              Primary
+              Install
             </button>
             <button type="button" class="btn btn-outline-secondary btn-lg px-4">
-              Default
+              Manual
             </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container px-4 py-5" id="icon-grid">
+        <h2 class="pb-2 border-bottom">Languages Supported</h2>
+
+        <div
+          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+        >
+          <div class="col d-flex align-items-start">
+            <i
+              class="fa-brands fa-python bi text-body-secondary flex-shrink-0 me-3"
+              style="font-size: 40px;"
+            ></i>
+            <div>
+              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+                Python
+              </h3>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <i
+              class="fa-brands fa-java bi text-body-secondary flex-shrink-0 me-3"
+              style="font-size: 40px;"
+            ></i>
+            <div>
+              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+                Java
+              </h3>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <i
+              class="fa-brands fa-golang bi text-body-secondary flex-shrink-0 me-3"
+              style="font-size: 40px;"
+            ></i>
+            <div>
+              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+                Go
+              </h3>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <i
+              class="fa-brands fa-js bi text-body-secondary flex-shrink-0 me-3"
+              style="font-size: 40px;"
+            ></i>
+            <div>
+              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+                JavaScript
+              </h3>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <i
+              class="fa-brands fa-php bi text-body-secondary flex-shrink-0 me-3"
+              style="font-size: 40px;"
+            ></i>
+            <div>
+              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+                PHP
+              </h3>
+            </div>
           </div>
         </div>
       </div>
