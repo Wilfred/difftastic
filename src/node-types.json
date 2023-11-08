@@ -178,10 +178,6 @@
             "named": true
           },
           {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
             "type": "pat_wildcard",
             "named": true
           }
@@ -395,10 +391,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
           "named": true
         },
         {
@@ -925,10 +917,6 @@
             "named": true
           },
           {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
             "type": "pat_wildcard",
             "named": true
           }
@@ -1055,10 +1043,6 @@
             "named": true
           },
           {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
             "type": "pat_wildcard",
             "named": true
           },
@@ -1159,10 +1143,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
           "named": true
         },
         {
@@ -2327,10 +2307,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
           "named": true
         },
         {
@@ -3509,10 +3485,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_type_binder",
             "named": true
           },
           {
@@ -4700,10 +4672,6 @@
           "named": true
         },
         {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
           "type": "pat_wildcard",
           "named": true
         }
@@ -4759,15 +4727,7 @@
           "named": true
         },
         {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
           "type": "pat_typed",
-          "named": true
-        },
-        {
-          "type": "pat_view",
           "named": true
         },
         {
@@ -4807,10 +4767,6 @@
           },
           {
             "type": "pat_record",
-            "named": true
-          },
-          {
-            "type": "pat_type_binder",
             "named": true
           },
           {
@@ -4880,15 +4836,7 @@
           "named": true
         },
         {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
           "type": "pat_typed",
-          "named": true
-        },
-        {
-          "type": "pat_view",
           "named": true
         },
         {
@@ -4963,10 +4911,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
           "named": true
         },
         {
@@ -5079,10 +5023,6 @@
           "named": true
         },
         {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
           "type": "pat_wildcard",
           "named": true
         }
@@ -5134,15 +5074,7 @@
           "named": true
         },
         {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
           "type": "pat_typed",
-          "named": true
-        },
-        {
-          "type": "pat_view",
           "named": true
         },
         {
@@ -5166,49 +5098,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "pat_type_binder",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "captured_type_operator",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_wildcard",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -5256,10 +5145,6 @@
             "named": true
           },
           {
-            "type": "pat_type_binder",
-            "named": true
-          },
-          {
             "type": "pat_wildcard",
             "named": true
           }
@@ -5284,189 +5169,6 @@
         },
         {
           "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pat_view",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "captured_type_operator",
-          "named": true
-        },
-        {
-          "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_array",
-          "named": true
-        },
-        {
-          "type": "exp_case",
-          "named": true
-        },
-        {
-          "type": "exp_do",
-          "named": true
-        },
-        {
-          "type": "exp_if",
-          "named": true
-        },
-        {
-          "type": "exp_infix",
-          "named": true
-        },
-        {
-          "type": "exp_lambda",
-          "named": true
-        },
-        {
-          "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_literal",
-          "named": true
-        },
-        {
-          "type": "exp_name",
-          "named": true
-        },
-        {
-          "type": "exp_negation",
-          "named": true
-        },
-        {
-          "type": "exp_parens",
-          "named": true
-        },
-        {
-          "type": "exp_record_access",
-          "named": true
-        },
-        {
-          "type": "exp_section_left",
-          "named": true
-        },
-        {
-          "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_type_application",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "pat_apply",
-          "named": true
-        },
-        {
-          "type": "pat_array",
-          "named": true
-        },
-        {
-          "type": "pat_as",
-          "named": true
-        },
-        {
-          "type": "pat_infix",
-          "named": true
-        },
-        {
-          "type": "pat_literal",
-          "named": true
-        },
-        {
-          "type": "pat_name",
-          "named": true
-        },
-        {
-          "type": "pat_negation",
-          "named": true
-        },
-        {
-          "type": "pat_parens",
-          "named": true
-        },
-        {
-          "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
-          "type": "pat_typed",
-          "named": true
-        },
-        {
-          "type": "pat_view",
-          "named": true
-        },
-        {
-          "type": "pat_wildcard",
-          "named": true
-        },
-        {
-          "type": "record_accessor",
-          "named": true
-        },
-        {
-          "type": "record_literal",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "record_update",
           "named": true
         },
         {
@@ -5628,10 +5330,6 @@
           "named": true
         },
         {
-          "type": "pat_type_binder",
-          "named": true
-        },
-        {
           "type": "pat_wildcard",
           "named": true
         },
@@ -5699,10 +5397,6 @@
         },
         {
           "type": "pat_record",
-          "named": true
-        },
-        {
-          "type": "pat_type_binder",
           "named": true
         },
         {
