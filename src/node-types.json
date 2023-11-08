@@ -2464,6 +2464,10 @@
         "required": false,
         "types": [
           {
+            "type": "discard",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
