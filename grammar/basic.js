@@ -36,10 +36,11 @@ module.exports = {
     ),
   ),
 
+  // https://github.com/natefaubion/purescript-language-cst-parser/blob/bf5623e08e1f43f923d4ff3c29cafbda25128768/src/PureScript/CST/Lexer.purs#L595
   triple_quote_string: _ => token(
     seq(
       '"""',
-      /[^(""")]*/s,
+      /"{0,2}([^"]+"{1,2})*[^"]*/,
       '"""'
     )
   ),
