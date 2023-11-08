@@ -39,8 +39,7 @@ module.exports = {
   triple_quote_string: _ => token(
     seq(
       '"""',
-      // Somehow /.*/s alone doesn't work and fails on newlines
-      repeat(choice(/.*/s, '\n', '\r')),
+      /[^(""")]*/s,
       '"""'
     )
   ),

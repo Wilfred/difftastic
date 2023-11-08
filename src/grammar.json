@@ -279,24 +279,8 @@
             "value": "\"\"\""
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": ".*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\n"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\r"
-                }
-              ]
-            }
+            "type": "PATTERN",
+            "value": "[^(\"\"\")]*"
           },
           {
             "type": "STRING",
