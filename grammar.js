@@ -201,7 +201,6 @@ module.exports = grammar({
     [$.exp_name, $._pat_constructor],
     [$.exp_name, $.pat_name],
     [$._aexp_projection, $._apat],
-    [$.exp_type_application, $.pat_type_binder],
     [$.pat_name, $._q_op],
     [$.exp_array, $.pat_array],
 

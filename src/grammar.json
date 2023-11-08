@@ -3311,7 +3311,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_nested_pat"
+                  "name": "_typed_pat"
                 }
               ]
             },
@@ -3435,7 +3435,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_nested_pat"
+          "name": "_typed_pat"
         },
         {
           "type": "STRING",
@@ -3458,7 +3458,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_nested_pat"
+                  "name": "_typed_pat"
                 },
                 {
                   "type": "REPEAT",
@@ -3471,7 +3471,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_nested_pat"
+                        "name": "_typed_pat"
                       }
                     ]
                   }
@@ -3486,19 +3486,6 @@
         {
           "type": "STRING",
           "value": "]"
-        }
-      ]
-    },
-    "pat_type_binder": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_atype"
         }
       ]
     },
@@ -3541,10 +3528,6 @@
         {
           "type": "SYMBOL",
           "name": "pat_array"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "pat_type_binder"
         }
       ]
     },
@@ -3659,36 +3642,6 @@
         {
           "type": "SYMBOL",
           "name": "pat_typed"
-        }
-      ]
-    },
-    "pat_view": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_exp"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_arrow"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_nested_pat"
-        }
-      ]
-    },
-    "_nested_pat": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_typed_pat"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "pat_view"
         }
       ]
     },
@@ -6026,10 +5979,6 @@
     [
       "_aexp_projection",
       "_apat"
-    ],
-    [
-      "exp_type_application",
-      "pat_type_binder"
     ],
     [
       "pat_name",
