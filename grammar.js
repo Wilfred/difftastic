@@ -122,8 +122,8 @@ module.exports = grammar({
      * application, such that `identity { a: 1 } { a = 2 }` is a valid expression,
      * but this doesn't work for parsing them correctly.
      */
-    [$.record_update, $.exp_name],
-    [$.record_update, $._aexp_projection],
+    [$._record_update_lhs, $._aexp_projection],
+    [$._record_update_lhs, $.exp_name],
 
     /**
      * Newkind's and data's signatures/declarations are in obvious conflict:

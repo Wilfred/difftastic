@@ -2710,6 +2710,10 @@
           "named": true
         },
         {
+          "type": "hole",
+          "named": true
+        },
+        {
           "type": "record_literal",
           "named": true
         }
