@@ -1433,6 +1433,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "exp_record_access"
+        },
+        {
+          "type": "SYMBOL",
           "name": "exp_parens"
         }
       ]
@@ -2239,6 +2243,10 @@
               {
                 "type": "SYMBOL",
                 "name": "exp_parens"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_qvarid"
               }
             ]
           },
