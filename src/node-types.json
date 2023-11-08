@@ -197,7 +197,15 @@
           "named": true
         },
         {
+          "type": "decls",
+          "named": true
+        },
+        {
           "type": "gdpat",
+          "named": true
+        },
+        {
+          "type": "where",
           "named": true
         }
       ]

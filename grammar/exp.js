@@ -90,7 +90,8 @@ module.exports = {
 
   alt: $ => seq(
     sep1($.comma, field('pat', $._pat)),
-    $._alt_variants
+    $._alt_variants,
+    optional(seq($.where, optional($.decls)))
   ),
 
   alts: $ => layouted($, $.alt),
