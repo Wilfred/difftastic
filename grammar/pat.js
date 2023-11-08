@@ -25,7 +25,7 @@ module.exports = {
 
   pat_parens: $ => parens($._nested_pat),
 
-  pat_array: $ => brackets(sep1($.comma, $._nested_pat)),
+  pat_array: $ => brackets(sep($.comma, $._nested_pat)),
 
   pat_type_binder: $ => seq('@', $._atype),
 
