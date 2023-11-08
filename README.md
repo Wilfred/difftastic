@@ -15,7 +15,14 @@ PureScript support works out of the box.
 Default configuration is present for [kak-tree-sitter](https://github.com/phaazon/kak-tree-sitter). Install the plugin and install PureScript grammar with `ktsctl -fci purescript`.
 
 ### (Neo)Vim
-TBA.
+PureScript support is available with [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) plugin. First of all, make sure your Neovim installation recognizes PureScript filetype. If you have [purescript-vim](https://github.com/purescript-contrib/purescript-vim) installed, this is already the case. If you haven't, you can either [install](https://github.com/purescript-contrib/purescript-vim#installation) it, or add PS filetype manually. To add it manually, add this to your `init.lua`:
+```vim
+vim.filetype.add({ extension = { purs = 'purescript' }})
+```
+After that, install the grammar with `:TSInstall purescript` and it's ready.
+
+##### Q: Should I use this or `purescript-vim`?
+Our grammar seems to provide more extensive highlighting, but these two do not conflict. If you enjoy the features that `purescript-vim` plugin provides, you can as well keep using both.
 
 ### Emacs
 TBA.
