@@ -123,8 +123,18 @@
  (row_field (field_name) @field)
  (record_field (field_name) @field)
  (record_field (field_pun) @field)
- (record_accessor field: (variable) @field)
- (exp_record_access field: (variable) @field)
+
+ (record_accessor
+    field: [ (variable)
+             (string)
+             (triple_quote_string)
+           ] @variable.other.member)
+
+ (exp_record_access
+    field: [ (variable)
+             (string)
+             (triple_quote_string)
+           ] @variable.other.member)
 
  (signature name: (variable) @type)
  (kind_declaration (class_name) @type)

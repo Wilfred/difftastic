@@ -2679,6 +2679,14 @@
         "required": true,
         "types": [
           {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "triple_quote_string",
+            "named": true
+          },
+          {
             "type": "variable",
             "named": true
           }
@@ -5659,6 +5667,14 @@
         "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "triple_quote_string",
+            "named": true
+          },
           {
             "type": "variable",
             "named": true

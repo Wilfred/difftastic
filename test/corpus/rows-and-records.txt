@@ -770,3 +770,62 @@ a = (f g h unit).a.b.c
       (variable)
       (variable)
       (variable))))
+
+================================================================================
+record accessor - quoted fields
+================================================================================
+
+a = _."β"
+a = _.b."c"."d"
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (record_accessor
+      (wildcard)
+      (string)))
+  (function
+    (variable)
+    (record_accessor
+      (wildcard)
+      (variable)
+      (string)
+      (string))))
+
+================================================================================
+record access - quoted fields
+================================================================================
+
+a = a."β"
+a = a."b"."c".d."e"
+a = C.d.e."e"."f".g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_record_access
+      (variable)
+      (string)))
+  (function
+    (variable)
+    (exp_record_access
+      (variable)
+      (string)
+      (string)
+      (variable)
+      (string)))
+  (function
+    (variable)
+    (exp_record_access
+      (qualified_variable
+        (module)
+        (variable))
+      (variable)
+      (string)
+      (string)
+      (variable))))
+

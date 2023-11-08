@@ -36,16 +36,23 @@ module.exports = {
     $._exp,
   ),
 
+  _record_access_field: $ =>
+    choice(
+      $._immediate_variable,
+      $.string,
+      $.triple_quote_string
+    ),
+
   record_accessor: $ =>
     prec.left(seq(
       $.wildcard,
-      repeat1(seq($._immediate_dot, field('field', $._immediate_variable)))
+      repeat1(seq($._immediate_dot, field('field', $._record_access_field)))
     )),
 
   exp_record_access: $ =>
     prec(1, seq(
       choice($.hole, $.record_literal, $.exp_parens, $._qvarid),
-      repeat1(seq($._immediate_dot, field('field', $._immediate_variable)))
+      repeat1(seq($._immediate_dot, field('field', $._record_access_field)))
     )),
 
   exp_in: $ => seq('in', $._exp),

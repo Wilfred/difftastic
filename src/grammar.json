@@ -2190,6 +2190,23 @@
         }
       ]
     },
+    "_record_access_field": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_immediate_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "triple_quote_string"
+        }
+      ]
+    },
     "record_accessor": {
       "type": "PREC_LEFT",
       "value": 0,
@@ -2214,7 +2231,7 @@
                   "name": "field",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_immediate_variable"
+                    "name": "_record_access_field"
                   }
                 }
               ]
@@ -2264,7 +2281,7 @@
                   "name": "field",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_immediate_variable"
+                    "name": "_record_access_field"
                   }
                 }
               ]

@@ -1,4 +1,20 @@
 ; ----------------------------------------------------------------------------
+; Record fields would need to come before literal strings in order to be captured correctly
+
+ (record_accessor
+    field: [ (variable)
+             (string)
+             (triple_quote_string)
+           ] @variable.other.member)
+
+ (exp_record_access
+    field: [ (variable)
+             (string)
+             (triple_quote_string)
+           ] @variable.other.member)
+
+
+; ----------------------------------------------------------------------------
 ; Literals and comments
 
  (integer) @constant.numeric.integer
