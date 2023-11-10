@@ -6061,8 +6061,15 @@
       ]
     },
     "_simple_string_char": {
-      "type": "PATTERN",
-      "value": "[^\\t\\r\\u0008\\a\\f\\v\\\\\"]"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\\t\\r\\u0008\\a\\f\\v\\\\\"]"
+        }
+      }
     },
     "_string_char": {
       "type": "CHOICE",
@@ -6264,22 +6271,6 @@
         }
       ]
     },
-    "_simple_or_escape_char": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_escape_char"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^'\\\\]"
-          }
-        }
-      ]
-    },
     "triple_quoted_string": {
       "type": "SEQ",
       "members": [
@@ -6291,7 +6282,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_simple_or_escape_char"
+            "name": "_string_char"
           }
         },
         {
@@ -7359,11 +7350,8 @@
             "value": "//"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^\\n\\r]"
-            }
+            "type": "PATTERN",
+            "value": "[^\\n\\r]*"
           }
         ]
       }

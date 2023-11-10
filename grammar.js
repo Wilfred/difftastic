@@ -50,6 +50,8 @@ module.exports = grammar({
   ],
 
   extras: $ => [
+    $.block_comment,
+    $.line_comment,
     /[ \s\f\uFEFF\u2060\u200B]|\\\r?n/,
   ],
 
@@ -97,8 +99,6 @@ module.exports = grammar({
 
     _module_elem: $ =>
       choice(
-        $.block_comment,
-        $.line_comment,
         $.value_declaration,
         $.module_defn,
         $.module_abbrev,
@@ -388,8 +388,6 @@ module.exports = grammar({
 
     _expression_inner: $ =>
       choice(
-        $.line_comment,
-        $.block_comment,
         $.const,
         $.paren_expression,
         $.begin_end_expression,
@@ -1580,7 +1578,7 @@ module.exports = grammar({
     ),
 
     // note: \n is allowed in strings
-    _simple_string_char: $ => /[^\t\r\u0008\a\f\v\\"]/,
+    _simple_string_char: $ => imm(prec(1, /[^\t\r\u0008\a\f\v\\"]/)),
     _string_char: $ => choice(
       $._simple_string_char,
       $._escape_char,
@@ -1605,8 +1603,7 @@ module.exports = grammar({
     bytechar: $ => seq("'", $._char_char, imm("'B")),
     bytearray: $ => seq('"', repeat($._string_char), imm('"B')),
     verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
-    _simple_or_escape_char: $ => choice($._escape_char, imm(/[^'\\]/)),
-    triple_quoted_string: $ => seq('"""', repeat($._simple_or_escape_char), imm('"""')),
+    triple_quoted_string: $ => seq('"""', repeat($._string_char), imm('"""')),
     _newline: $ => /\r?\n/,
 
     unit: $ => seq("(", optional(seq($._virtual_open_section, $._virtual_end_section)), ")"),
@@ -1733,7 +1730,7 @@ module.exports = grammar({
     //
 
     block_comment: $ => seq("(*", $.block_comment_content, "*)"),
-    line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
+    line_comment: $ => token(seq('//', /[^\n\r]*/)),
 
     identifier: $ => choice(
       /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
