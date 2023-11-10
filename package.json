@@ -13,15 +13,18 @@
   "author": "Nikolaj Sidorenco",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.16.0"
+    "nan": "^2.18.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.20.8"
   },
   "tree-sitter": [
     {
       "scope": "source.fsharp",
-      "file-types": [ "fs", "fsx"]
+      "file-types": [
+        "fs",
+        "fsx"
+      ]
     }
   ]
 }
