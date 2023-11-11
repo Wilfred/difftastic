@@ -474,7 +474,7 @@ fn diff_file_content(
     };
 
     let language = guess(guess_path, guess_src, overrides);
-    let lang_config = language.map(|lang| (lang.clone(), tsp::from_language(lang)));
+    let lang_config = language.map(|lang| (lang, tsp::from_language(lang)));
 
     if lhs_src == rhs_src {
         let file_format = match language {
