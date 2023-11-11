@@ -11,8 +11,8 @@ use crate::parse::syntax::Syntax;
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
-/// Set [`ChangeKind`] on nodes that are obviously unchanged, and return a
-/// vec of pairs that need proper diffing.
+/// Set [`ChangeKind`] on nodes that have exactly the same structure
+/// on both sides, and return a vec of pairs that need proper diffing.
 pub fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
