@@ -296,8 +296,12 @@ pub enum Edge {
     NovelAtomRHS {},
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
-    EnterNovelDelimiterLHS {},
-    EnterNovelDelimiterRHS {},
+    EnterNovelDelimiterLHS {
+        significant_whitespace: bool,
+    },
+    EnterNovelDelimiterRHS {
+        significant_whitespace: bool,
+    },
 }
 
 impl Edge {
@@ -668,7 +672,12 @@ pub fn set_neighbours<'s, 'b>(
                 ));
             }
             // Step into this partially/fully novel list.
-            Syntax::List { children, .. } => {
+            Syntax::List {
+                children,
+                open_content,
+                close_content,
+                ..
+            } => {
                 let lhs_next = children.get(0).copied();
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
@@ -683,7 +692,9 @@ pub fn set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    EnterNovelDelimiterLHS {},
+                    EnterNovelDelimiterLHS {
+                        significant_whitespace: open_content.is_empty() && close_content.is_empty(),
+                    },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
@@ -733,7 +744,12 @@ pub fn set_neighbours<'s, 'b>(
                 ));
             }
             // Step into this partially/fully novel list.
-            Syntax::List { children, .. } => {
+            Syntax::List {
+                children,
+                open_content,
+                close_content,
+                ..
+            } => {
                 let rhs_next = children.get(0).copied();
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
 
@@ -747,7 +763,9 @@ pub fn set_neighbours<'s, 'b>(
                     );
 
                 res.push((
-                    EnterNovelDelimiterRHS {},
+                    EnterNovelDelimiterRHS {
+                        significant_whitespace: open_content.is_empty() && close_content.is_empty(),
+                    },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
@@ -818,7 +836,13 @@ pub fn populate_change_map<'s, 'b>(
                 let lhs = v.lhs_syntax.unwrap();
                 change_map.insert(lhs, ChangeKind::Novel);
             }
-            NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
+            NovelAtomRHS { .. } => {
+                let rhs = v.rhs_syntax.unwrap();
+                change_map.insert(rhs, ChangeKind::Novel);
+            }
+            EnterNovelDelimiterRHS {
+                significant_whitespace,
+            } => {
                 let rhs = v.rhs_syntax.unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
             }

@@ -416,8 +416,12 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS {},
-                EnterNovelDelimiterLHS {},
+                EnterNovelDelimiterRHS {
+                    significant_whitespace: false
+                },
+                EnterNovelDelimiterLHS {
+                    significant_whitespace: false
+                },
                 UnchangedNode {
                     probably_punctuation: false,
                     depth_difference: 0

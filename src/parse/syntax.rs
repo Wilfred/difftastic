@@ -952,6 +952,7 @@ pub fn change_positions<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<MatchedPos> {
+    // here
     let mut positions = Vec::new();
     change_positions_(nodes, change_map, &mut positions);
     positions
