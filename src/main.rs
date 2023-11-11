@@ -23,6 +23,10 @@
 // correct.
 #![allow(clippy::mutable_key_type)]
 
+// Debugging features shouldn't be in checked-in code.
+#![warn(clippy::todo)]
+#![warn(clippy::dbg_macro)]
+
 mod conflicts;
 mod constants;
 mod diff;
