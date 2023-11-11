@@ -278,6 +278,9 @@ impl<'s, 'b> Vertex<'s, 'b> {
 pub enum Edge {
     UnchangedNode {
         depth_difference: u32,
+        /// Is this node just punctuation? We penalise this case,
+        /// because it's more useful to match e.g. a variable name
+        /// than a comma.
         probably_punctuation: bool,
     },
     EnterUnchangedDelimiter {
