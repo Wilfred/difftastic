@@ -29,6 +29,31 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
     />
+    <style>
+      html,
+      body,
+      .fw-bold {
+        color: #f8f8f2 !important;
+      }
+
+      html,
+      body {
+        background-color: #282a36;
+      }
+
+      object {
+        background-color: #e9ecef;
+        border-radius: 25% 25%;
+        padding: 5px;
+      }
+
+      .red {
+        color: #ff5555;
+      }
+      .green {
+        color: #50fa7b;
+      }
+    </style>
   </head>
 
   <!-- simple project description website, in the style of
@@ -40,38 +65,34 @@
   <!-- Use https://devicon.dev/ for PL icons. -->
 
   <body>
-    <div class="container col-xxl-8 px-4 py-5">
-      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-10 col-sm-8 col-lg-6">
-          <img
-            src="https://placekitten.com/g/700/500"
-            class="d-block mx-lg-auto img-fluid"
-            alt="Bootstrap Themes"
-            width="700"
-            height="500"
-            loading="lazy"
-          />
-        </div>
-        <div class="col-lg-6">
-          <h1
-            class="display-5 fw-bold text-body-emphasis lh-1 mb-3 bg-background-tertiary"
-          >
-            A Structural Diff
-          </h1>
-          <p class="lead">
-            Difftastic is a diff tool that understands syntax. Lorem ipsum.
-          </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
-              Install
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">
-              Manual
-            </button>
-          </div>
+    <div class="px-4 pt-5 my-5 text-center">
+      <h1 class="display-4 fw-bold text-body-emphasis">
+        <span class="red">diff</span><span class="green">tastic</span>
+      </h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+          a structural diff tool that understands syntax
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">
+            Install
+          </button>
+          <button type="button" class="btn btn-secondary btn-lg px-4">
+            Manual
+          </button>
         </div>
       </div>
 
+      <div class="container px-5">
+        <img
+          src="https://placekitten.com/g/700/500"
+          class="img-fluid rounded-3 shadow-lg mb-4"
+          alt="Example image"
+        />
+      </div>
+    </div>
+
+    <div class="container col-xxl-8 px-4 py-5">
       <div class="container px-4 py-5">
         <h2 class="pb-2 border-bottom">Languages Supported</h2>
 
@@ -79,16 +100,18 @@
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
         >
           <div class="col d-flex align-items-start">
-            <object
-              class="me-3"
-              width="40px"
-              height="40px"
-              data="cplusplus.svg"
-              type="image/svg+xml"
-            ></object>
+            <div class="foo">
+              <object
+                class="me-3"
+                width="45px"
+                height="45px"
+                data="cplusplus.svg"
+                type="image/svg+xml"
+              ></object>
+            </div>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 C++
               </h3>
             </div>
@@ -97,13 +120,13 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="csharp.svg"
               type="image/svg+xml"
             ></object>
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 C#
               </h3>
             </div>
@@ -112,14 +135,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="clojure.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Clojure
               </h3>
             </div>
@@ -128,14 +151,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="lisp.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Common Lisp
               </h3>
             </div>
@@ -144,14 +167,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="dart.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Dart
               </h3>
             </div>
@@ -160,14 +183,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="erlang.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Erlang
               </h3>
             </div>
@@ -176,14 +199,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="go.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Go
               </h3>
             </div>
@@ -192,14 +215,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="haskell.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Haskell
               </h3>
             </div>
@@ -208,14 +231,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="java.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Java
               </h3>
             </div>
@@ -224,14 +247,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="javascript.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 JavaScript
               </h3>
             </div>
@@ -240,14 +263,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="kotlin.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Kotlin
               </h3>
             </div>
@@ -256,14 +279,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="lua.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Lua
               </h3>
             </div>
@@ -272,14 +295,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="ocaml.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 OCaml
               </h3>
             </div>
@@ -288,14 +311,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="php.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 PHP
               </h3>
             </div>
@@ -304,13 +327,13 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="python.svg"
               type="image/svg+xml"
             ></object>
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Python
               </h3>
             </div>
@@ -319,14 +342,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="r.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 R
               </h3>
             </div>
@@ -335,14 +358,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="ruby.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Ruby
               </h3>
             </div>
@@ -351,34 +374,30 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="rust.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Rust
               </h3>
             </div>
           </div>
 
           <div class="col d-flex align-items-start">
-            <svg class="me-3" width="40px" height="40px" viewBox="0 0 128 128">
-              <path
-                d="M25 110.437V94.874h5.616c3.113 0 8.052-.203 11.03-.474l5.278-.406-7.038-1.894c-3.924-1.015-8.864-2.504-10.961-3.316L25 87.364V55.627h6.293c3.383 0 8.323-.203 10.894-.473l4.737-.406-8.323-2.233C34 51.366 29.128 49.809 27.639 49.2L25 47.982v-30.72l2.098-.473c1.15-.203 3.992-.406 6.293-.406 11.367 0 38.366-3.722 51.628-7.105 9.27-2.436 15.698-4.872 17.931-6.902 1.15-1.015 1.218-.406 1.218 14.548v15.63l-1.624 1.219-1.624 1.285 3.248 2.842v33.9l-1.624 1.218-1.624 1.286 3.248 2.842v33.9l-1.76 1.353c-1.894 1.489-9.202 3.993-17.524 6.09C71.892 121.737 40.157 126 29.33 126H25z"
-                fill="#390d09"
-              ></path>
-              <g fill="#de3423">
-                <path
-                  d="M25 110.572V95.077l11.842-.474c12.315-.473 21.45-1.488 34.847-3.789 15.225-2.639 30.246-7.375 31.803-10.082.406-.677.676 4.534.676 14.616v15.698l-1.76 1.353c-1.894 1.489-9.202 3.993-17.524 6.09C71.892 121.737 40.157 126 29.33 126H25zM25 71.327V55.83l11.842-.406c13.127-.541 23.344-1.691 36.877-4.195 15.157-2.842 28.96-7.443 29.976-9.947.203-.473.406 6.09.406 14.616.067 13.533-.068 15.698-1.083 16.78-2.368 2.64-20.638 7.376-39.449 10.286-11.435 1.76-30.381 3.79-35.66 3.79H25zM25 32.352V17.195l2.098-.406c1.15-.203 3.992-.406 6.293-.406 11.367 0 38.366-3.722 51.628-7.105 9.27-2.436 15.698-4.872 17.931-6.902 1.15-1.015 1.218-.406 1.218 14.48 0 14.548-.067 15.63-1.285 16.714-1.827 1.691-14.345 5.548-24.09 7.51-15.765 3.113-41.951 6.429-50.883 6.429H25z"
-                ></path>
-              </g>
-            </svg>
+            <object
+              class="me-3"
+              width="45px"
+              height="45px"
+              data="scala.svg"
+              type="image/svg+xml"
+            ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 Scala
               </h3>
             </div>
@@ -387,14 +406,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="typescript.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 TypeScript
               </h3>
             </div>
@@ -411,16 +430,17 @@
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
         >
           <div class="col d-flex align-items-start">
+            <!-- https://www.svgrepo.com/svg/371192/curly-brackets -->
             <object
               class="me-3"
-              width="40px"
-              height="40px"
-              data="cplusplus.svg"
+              width="45px"
+              height="45px"
+              data="braces.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 HCL
               </h3>
             </div>
@@ -429,14 +449,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="html5.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 HTML
               </h3>
             </div>
@@ -445,14 +465,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="json.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 JSON
               </h3>
             </div>
@@ -461,14 +481,14 @@
           <div class="col d-flex align-items-start">
             <object
               class="me-3"
-              width="40px"
-              height="40px"
+              width="45px"
+              height="45px"
               data="yaml.svg"
               type="image/svg+xml"
             ></object>
 
             <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+              <h3 class="fw-bold mb-0 fs-4">
                 YAML
               </h3>
             </div>
