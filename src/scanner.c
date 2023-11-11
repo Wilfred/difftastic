@@ -31,6 +31,7 @@ enum token_type {
 	TOKEN_HEAD_2,
 	TOKEN_HEAD_3,
 	TOKEN_HEAD_4,
+	TOKEN_HEAD_5,
 	TOKEN_HEAD_P,
 	TOKEN_STRING_BLOB,
 	TOKEN_RAW_SPAN_BLOB,
@@ -2192,6 +2193,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				case 2: lex_accept(TOKEN_HEAD_2);
 				case 3: lex_accept(TOKEN_HEAD_3);
 				case 4: lex_accept(TOKEN_HEAD_4);
+				case 5: lex_accept(TOKEN_HEAD_5);
 				default: lex_accept(TOKEN_HEAD_P);
 			}
 		}
