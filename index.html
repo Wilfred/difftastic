@@ -63,14 +63,21 @@
         color: #8be9fd;
       }
       .btn {
-        background-color: #ff5555;
-        border-color: #ff5555;
         color: #282a36;
       }
       .btn-secondary {
         background-color: #50fa7b;
         border-color: #50fa7b;
         color: #282a36;
+      }
+
+      .btn.red {
+        background-color: #ff5555;
+        border-color: #ff5555;
+      }
+
+      a {
+        color: #50fa7b;
       }
 
       @media only screen and (min-width: 900px) {
@@ -99,10 +106,10 @@
           a structural diff tool that understands syntax
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-          <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">
+          <button type="button" class="red btn btn-secondary btn-lg px-4">
             Install
           </button>
-          <button type="button" class="btn btn-secondary btn-lg px-4">
+          <button type="button" class="green btn btn-secondary btn-lg px-4">
             Manual
           </button>
         </div>
@@ -119,7 +126,7 @@
 
     <div class="container col-xxl-8 px-4 py-5">
       <div class="container px-4 py-5">
-        <h2 class="pb-2">Languages Supported</h2>
+        <h2 class="pb-2">Programming Languages</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
@@ -446,10 +453,18 @@
 
           <!-- end languages -->
         </div>
+
+        <p>
+          See the full
+          <a href="https://difftastic.wilfred.me.uk/languages_supported.html"
+            >list of supported languages</a
+          >
+          in the manual.
+        </p>
       </div>
 
       <div class="container px-4 py-5">
-        <h2 class="pb-2">Formats Supported</h2>
+        <h2 class="pb-2">File Formats</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
@@ -520,6 +535,15 @@
           </div>
           <!-- end formats -->
         </div>
+
+        <p>
+          See the full
+          <a
+            href="https://difftastic.wilfred.me.uk/languages_supported.html#structured-text-formats"
+            >list of supported file formats</a
+          >
+          in the manual.
+        </p>
       </div>
     </div>
 
