@@ -11165,6 +11165,7 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
       if (lookahead == 'e') ADVANCE(194);
       END_STATE();
     case 85:
+      if (lookahead == 'd') ADVANCE(21);
       if (lookahead == 'g') ADVANCE(195);
       if (lookahead == 'n') ADVANCE(196);
       if (lookahead == 'r') ADVANCE(197);
