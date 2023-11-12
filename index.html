@@ -44,6 +44,7 @@
 
       h1 {
         font-family: "Fontdiner Swanky", serif;
+        text-shadow: 5px 5px #1d1b22;
       }
 
       html,
@@ -68,13 +69,13 @@
       }
       .btn {
         color: #282a36;
-      }
-      .btn-secondary {
-        background-color: #50fa7b;
-        border-color: #50fa7b;
-        color: #282a36;
+        box-shadow: 5px 5px #1d1b22;
       }
 
+      .btn.green {
+        background-color: #50fa7b;
+        border-color: #50fa7b;
+      }
       .btn.red {
         background-color: #ff5555;
         border-color: #ff5555;
@@ -85,6 +86,10 @@
       }
       code {
         color: #ff5555;
+      }
+
+      h3 {
+        line-height: 45px;
       }
 
       @media only screen and (min-width: 900px) {
@@ -113,12 +118,18 @@
           a structural diff tool that understands syntax
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-          <a href="button" class="red btn btn-secondary btn-lg px-4">
+          <a
+            href="https://github.com/wilfred/difftastic"
+            class="btn btn-lg px-4"
+          >
+            GitHub
+          </a>
+          <a href="button" class="red btn btn-lg px-4">
+            Manual
+          </a>
+          <a href="button" class="green btn btn-lg px-4">
             Install
           </a>
-          <button type="button" class="green btn btn-secondary btn-lg px-4">
-            Manual
-          </button>
         </div>
       </div>
 
@@ -132,11 +143,19 @@
     </div>
 
     <div class="container col-xxl-8 px-4 py-5">
-      <div class="container border-top px-4 py-5">
+      <div class="container px-4 py-5">
         <h2>
           focus on <span class="red">what</span>
           <span class="green">changed</span>
         </h2>
+
+        <div class="container-sm">
+          <img
+            src="difft_screenshot.png"
+            class="screenshot img-fluid mb-4"
+            alt="screenshot"
+          />
+        </div>
       </div>
 
       <div class="container px-4 py-5">
@@ -144,6 +163,14 @@
           ignore <span class="red">formatting</span>
           <span class="green">changes</span>
         </h2>
+
+        <div class="container-sm">
+          <img
+            src="difft_screenshot.png"
+            class="screenshot img-fluid mb-4"
+            alt="screenshot"
+          />
+        </div>
       </div>
 
       <div class="container px-4 py-5">
@@ -151,6 +178,14 @@
           understand <span class="red">wrapping</span>
           <span class="green">changes</span>
         </h2>
+
+        <div class="container-sm">
+          <img
+            src="difft_screenshot.png"
+            class="screenshot img-fluid mb-4"
+            alt="screenshot"
+          />
+        </div>
       </div>
 
       <div class="container px-4 py-5">
@@ -159,13 +194,20 @@
           <span class="green">content</span>
         </h2>
 
+        <div class="container-sm">
+          <img
+            src="difft_screenshot.png"
+            class="screenshot img-fluid mb-4"
+            alt="screenshot"
+          />
+        </div>
         <p>
           difftastic uses real line numbers, not
           <code>@@ 123</code> syntax.
         </p>
       </div>
 
-      <div class="container border-top px-4 py-5">
+      <div class="container px-4 py-5">
         <h2>programming languages</h2>
 
         <div
@@ -503,7 +545,7 @@
         </p>
       </div>
 
-      <div class="container border-top px-4 py-5">
+      <div class="container px-4 py-5">
         <h2 class="pb-2">file formats</h2>
 
         <div
