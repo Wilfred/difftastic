@@ -16,4 +16,4 @@ injection-regex = "typ(st)?"
 [[grammar]]
 name = "typst"
 source.git = "https://github.com/uben0/tree-sitter-typst"
-source.rev = "60843a0604120c3014507f9635300264ba0e547e"
+source.rev = "master"
