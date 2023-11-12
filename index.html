@@ -42,6 +42,10 @@
         color: #f8f8f2 !important;
       }
 
+      h1 {
+        font-family: "Fontdiner Swanky", serif;
+      }
+
       html,
       body {
         background-color: #282a36;
@@ -79,6 +83,9 @@
       a {
         color: #50fa7b;
       }
+      code {
+        color: #ff5555;
+      }
 
       @media only screen and (min-width: 900px) {
         .screenshot {
@@ -97,8 +104,8 @@
   <!-- Use https://devicon.dev/ for PL icons. -->
 
   <body>
-    <div class="px-4 pt-5 my-5 text-center">
-      <h1 class="display-4 fw-bold text-body-emphasis">
+    <div class="px-4 pt-5 text-center">
+      <h1 class="display-4 text-body-emphasis">
         <span class="red">diff</span><span class="green">tastic</span>
       </h1>
       <div class="col-lg-6 mx-auto">
@@ -106,9 +113,9 @@
           a structural diff tool that understands syntax
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-          <button type="button" class="red btn btn-secondary btn-lg px-4">
+          <a href="button" class="red btn btn-secondary btn-lg px-4">
             Install
-          </button>
+          </a>
           <button type="button" class="green btn btn-secondary btn-lg px-4">
             Manual
           </button>
@@ -125,8 +132,41 @@
     </div>
 
     <div class="container col-xxl-8 px-4 py-5">
+      <div class="container border-top px-4 py-5">
+        <h2>
+          focus on <span class="red">what</span>
+          <span class="green">changed</span>
+        </h2>
+      </div>
+
       <div class="container px-4 py-5">
-        <h2 class="pb-2">Programming Languages</h2>
+        <h2>
+          ignore <span class="red">formatting</span>
+          <span class="green">changes</span>
+        </h2>
+      </div>
+
+      <div class="container px-4 py-5">
+        <h2>
+          understand <span class="red">wrapping</span>
+          <span class="green">changes</span>
+        </h2>
+      </div>
+
+      <div class="container px-4 py-5">
+        <h2>
+          <span class="red">align</span>
+          <span class="green">content</span>
+        </h2>
+
+        <p>
+          difftastic uses real line numbers, not
+          <code>@@ 123</code> syntax.
+        </p>
+      </div>
+
+      <div class="container border-top px-4 py-5">
+        <h2>programming languages</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
@@ -463,8 +503,8 @@
         </p>
       </div>
 
-      <div class="container px-4 py-5">
-        <h2 class="pb-2">File Formats</h2>
+      <div class="container border-top px-4 py-5">
+        <h2 class="pb-2">file formats</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
@@ -546,6 +586,11 @@
         </p>
       </div>
     </div>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky"
+    />
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
