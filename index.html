@@ -32,7 +32,13 @@
     <style>
       html,
       body,
-      .fw-bold {
+      .fw-bold,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         color: #f8f8f2 !important;
       }
 
@@ -42,7 +48,7 @@
       }
 
       object {
-        background-color: #e9ecef;
+        background-color: #f8f8f2;
         border-radius: 25% 25%;
         padding: 5px;
       }
@@ -52,6 +58,25 @@
       }
       .green {
         color: #50fa7b;
+      }
+      .cyan {
+        color: #8be9fd;
+      }
+      .btn {
+        background-color: #ff5555;
+        border-color: #ff5555;
+        color: #282a36;
+      }
+      .btn-secondary {
+        background-color: #50fa7b;
+        border-color: #50fa7b;
+        color: #282a36;
+      }
+
+      @media only screen and (min-width: 900px) {
+        .screenshot {
+          max-width: 800px;
+        }
       }
     </style>
   </head>
@@ -83,18 +108,18 @@
         </div>
       </div>
 
-      <div class="container px-5">
+      <div class="container-sm">
         <img
-          src="https://placekitten.com/g/700/500"
-          class="img-fluid rounded-3 shadow-lg mb-4"
-          alt="Example image"
+          src="difft_screenshot.png"
+          class="screenshot img-fluid mb-4"
+          alt="screenshot"
         />
       </div>
     </div>
 
     <div class="container col-xxl-8 px-4 py-5">
       <div class="container px-4 py-5">
-        <h2 class="pb-2 border-bottom">Languages Supported</h2>
+        <h2 class="pb-2">Languages Supported</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
@@ -424,7 +449,7 @@
       </div>
 
       <div class="container px-4 py-5">
-        <h2 class="pb-2 border-bottom">Formats Supported</h2>
+        <h2 class="pb-2">Formats Supported</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
