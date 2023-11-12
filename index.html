@@ -72,9 +72,14 @@
         box-shadow: 5px 5px #1d1b22;
       }
 
+      .btn:hover {
+        border-color: #f8f8f2 !important;
+        color: #f8f8f2 !important;
+      }
+
       .btn.gray {
         color: #f8f8f2;
-        background-color: #1d1b22;
+        background-color: #282a36;
         border-color: #1d1b22;
       }
       .btn.red {
@@ -156,11 +161,8 @@
           <span class="green">changed</span>
         </h2>
 
-        <img
-          src="difft_screenshot.png"
-          class="screenshot img-fluid mb-4"
-          alt="screenshot"
-        />
+        <img src="add_wrap.png" class="img-fluid mb-4" alt="screenshot" />
+        <img src="clojure_unwrap.png" class="img-fluid mb-4" alt="screenshot" />
       </div>
 
       <div class="container px-4 py-5">
@@ -169,13 +171,7 @@
           <span class="green">changes</span>
         </h2>
 
-        <div class="container-sm">
-          <img
-            src="difft_screenshot.png"
-            class="screenshot img-fluid mb-4"
-            alt="screenshot"
-          />
-        </div>
+        <img src="reformat.png" class="img-fluid mb-4" alt="screenshot" />
       </div>
 
       <div class="container px-4 py-5">
@@ -184,13 +180,8 @@
           <span class="green">changes</span>
         </h2>
 
-        <div class="container-sm">
-          <img
-            src="difft_screenshot.png"
-            class="screenshot img-fluid mb-4"
-            alt="screenshot"
-          />
-        </div>
+        <img src="change_wrap.png" class="img-fluid mb-4" alt="screenshot" />
+        <img src="wrap_struct.png" class="img-fluid mb-4" alt="screenshot" />
       </div>
 
       <div class="container px-4 py-5">
@@ -199,16 +190,10 @@
           <span class="green">content</span>
         </h2>
 
-        <div class="container-sm">
-          <img
-            src="difft_screenshot.png"
-            class="screenshot img-fluid mb-4"
-            alt="screenshot"
-          />
-        </div>
+        <img src="line_numbers.png" class="img-fluid mb-4" alt="screenshot" />
         <p>
           difftastic uses real line numbers, not
-          <code>@@ 123</code> syntax.
+          <code>@@ -5,6 +5,7 @@</code> syntax.
         </p>
       </div>
 
@@ -551,7 +536,7 @@
       </div>
 
       <div class="container px-4 py-5">
-        <h2 class="pb-2">file formats</h2>
+        <h2>file formats</h2>
 
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
