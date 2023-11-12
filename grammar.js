@@ -586,6 +586,7 @@ module.exports = grammar({
       'orange',
       'outline',
       'overline',
+      'pad',
       'page',
       'pagebreak',
       'panic',
