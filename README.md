@@ -35,6 +35,8 @@ The documentation of this implementation is available in [DOC](DOC.md).
   - [X] Parser size
   - [X] Math ident
   - [X] Extras
+- [ ] Features
+  - [ ] Foldable sections
 
 ## DONE
 
