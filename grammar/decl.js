@@ -19,7 +19,7 @@ module.exports = {
       seq('=', field('rhs', $._exp)),
       $._fun_guards,
     ),
-    optional(seq($.where, optional($.decls))),
+    optional(seq($.where, $.declarations)),
   ),
 
   _fun_patterns: $ => repeat1($._apat),
@@ -72,7 +72,7 @@ module.exports = {
     $._decl_fun,
   ),
 
-  decls: $ => layouted($, $._decl),
+  declarations: $ => layouted($, $._decl),
 
   // ------------------------------------------------------------------------
   // Foreign

@@ -65,17 +65,18 @@ where = ($, rule) => seq(
 varid_pattern = /[\p{Ll}_][\p{L}0-9_']*/u
 
 module.exports = {
-  parens,
   braces,
   brackets,
-  ticked,
-  quote,
+  layouted,
+  layouted_without_end,
+  parens,
   qualified,
+  quote,
   sep,
   sep1,
   sep2,
   terminated,
-  layouted,
-  where,
+  ticked,
   varid_pattern,
+  where,
 }

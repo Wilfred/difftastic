@@ -11,7 +11,7 @@ f = do
   (function
     name: (variable)
     rhs: (exp_do
-      (stmt
+      (statement
         (exp_apply
           (exp_name
             (variable))
@@ -34,13 +34,13 @@ f = do
   (function
     name: (variable)
     rhs: (exp_do
-      (stmt
+      (statement
         (bind_pattern
           (pat_name
             (variable))
           (exp_name
             (variable))))
-      (stmt
+      (statement
         (bind_pattern
           (pat_apply
             (pat_name
@@ -49,7 +49,7 @@ f = do
               (variable)))
           (exp_name
             (variable))))
-      (stmt
+      (statement
         (bind_pattern
           (pat_apply
             (pat_name
@@ -60,7 +60,7 @@ f = do
               (variable)))
           (exp_name
             (variable))))
-      (stmt
+      (statement
         (exp_apply
           (exp_name
             (variable))
@@ -83,16 +83,16 @@ f = do
   (function
     name: (variable)
     rhs: (exp_do
-      (stmt
+      (statement
         (let
-          (decls
+          (declarations
             (function
               name: (variable)
               rhs: (exp_name
                 (variable))))))
-      (stmt
+      (statement
         (let
-          (decls
+          (declarations
             (function
               pattern: (pat_apply
                 (pat_name
@@ -101,9 +101,9 @@ f = do
                   (variable)))
               rhs: (exp_name
                 (variable))))))
-      (stmt
+      (statement
         (let
-          (decls
+          (declarations
             (function
               pattern: (pat_apply
                 (pat_name
@@ -114,7 +114,7 @@ f = do
                   (variable)))
               rhs: (exp_name
                 (variable))))))
-      (stmt
+      (statement
         (exp_apply
           (exp_name
             (variable))
@@ -135,9 +135,9 @@ f = do
   (function
     name: (variable)
     rhs: (exp_do
-      (stmt
+      (statement
         (exp_do
-          (stmt
+          (statement
             (exp_apply
               (exp_name
                 (variable))
@@ -149,44 +149,39 @@ Ado-notation
 ================================================================================
 
 f = ado
-  in 1
+  in []
 
 --------------------------------------------------------------------------------
 
 (purescript
   (function
     name: (variable)
-    rhs: (exp_do
-      (stmt
-        (exp_apply
-          (exp_name
-            (variable))
-          (exp_literal
-            (integer)))))))
+    rhs: (exp_ado
+      in: (exp_array))))
 
 ================================================================================
 Ado-notation, bind-binders
 ================================================================================
 
-f = do
+f = ado
   a <- b
   C d <- f
   G h i <- j
-  in 1
+  in []
 
 --------------------------------------------------------------------------------
 
 (purescript
   (function
     name: (variable)
-    rhs: (exp_do
-      (stmt
+    rhs: (exp_ado
+      (statement
         (bind_pattern
           (pat_name
             (variable))
           (exp_name
             (variable))))
-      (stmt
+      (statement
         (bind_pattern
           (pat_apply
             (pat_name
@@ -195,7 +190,7 @@ f = do
               (variable)))
           (exp_name
             (variable))))
-      (stmt
+      (statement
         (bind_pattern
           (pat_apply
             (pat_name
@@ -206,18 +201,13 @@ f = do
               (variable)))
           (exp_name
             (variable))))
-      (stmt
-        (exp_apply
-          (exp_name
-            (variable))
-          (exp_literal
-            (integer)))))))
+      in: (exp_array))))
 
 ================================================================================
 Ado-notation, let-binders
 ================================================================================
 
-f = do
+f = ado
   let a = b
   let C d = f
   let G h i = j
@@ -227,46 +217,44 @@ f = do
 
 (purescript
   (function
-    name: (variable)
-    rhs: (exp_do
-      (stmt
+    (variable)
+    (exp_ado
+      (statement
         (let
-          (decls
+          (declarations
             (function
-              name: (variable)
-              rhs: (exp_name
+              (variable)
+              (exp_name
                 (variable))))))
-      (stmt
+      (statement
         (let
-          (decls
+          (declarations
             (function
-              pattern: (pat_apply
+              (pat_apply
                 (pat_name
                   (constructor))
                 (pat_name
                   (variable)))
-              rhs: (exp_name
+              (exp_name
                 (variable))))))
-      (stmt
-        (exp_let_in
-          (exp_let
-            (decls
-              (function
-                pattern: (pat_apply
-                  (pat_name
-                    (constructor))
-                  (pat_name
-                    (variable))
-                  (pat_name
-                    (variable)))
-                rhs: (exp_name
-                  (variable)))))
-          (exp_in
-            (exp_literal
-              (integer))))))))
+      (statement
+        (let
+          (declarations
+            (function
+              (pat_apply
+                (pat_name
+                  (constructor))
+                (pat_name
+                  (variable))
+                (pat_name
+                  (variable)))
+              (exp_name
+                (variable))))))
+      (exp_literal
+        (integer)))))
 
 ================================================================================
-Ado-notation, nested do-notation
+Ado-notation, nested ado-notation
 ================================================================================
 
 f = ado
@@ -277,16 +265,38 @@ f = ado
 
 (purescript
   (function
-    name: (variable)
-    rhs: (exp_do
-      (stmt
-        (exp_apply
-          (exp_name
-            (variable))
-          (exp_do
-            (stmt
-              (exp_apply
-                (exp_name
-                  (variable))
-                (exp_literal
-                  (integer))))))))))
+    (variable)
+    (exp_ado
+      (exp_ado
+        (exp_literal
+          (integer))))))
+
+================================================================================
+Ado-notation, single line
+================================================================================
+
+f = ado [] in []
+g = ado let a = [] in a
+
+--------------------------------------------------------------------------------
+
+(ERROR
+  (variable)
+  (statement
+    (exp_array))
+  (exp_apply
+    (exp_array)
+    (exp_name
+      (variable)))
+  (operator)
+  (statement
+    (let
+      (declarations
+        (function
+          (variable)
+          (exp_apply
+            (exp_array)
+            (exp_name
+              (variable))
+            (exp_name
+              (variable))))))))
