@@ -1,4 +1,4 @@
-const { brackets, layouted, layouted_without_end, parens, qualified, sep, sep1, ticked } = require('./util.js')
+const { brackets, layouted, layouted_without_end, parens, qualified, sep, sep1, ticked, terminated } = require('./util.js')
 
 /* ----- Composite expressions shared between do/ado and regular notation -----
 
@@ -203,14 +203,15 @@ module.exports = {
 
   _ado_kw: _ => 'ado',
   _ado: $ => choice('ado', qualified($, $._ado_kw)),
-  _ado_in: $ => seq('in', field('in', $._exp)),
+  _ado_in: $ => seq('in', field('in', layouted($, $._exp))),
 
   exp_ado: $ =>
     seq(
       $._ado,
-      layouted_without_end($, $.statement),
-      $._ado_in, // TODO try wrap it in `layouted_without_end` ?
-      $._layout_end,
+      $._layout_start,
+      optional(terminated($, $.statement)),
+      $._ado_in,
+      optional($._layout_end)
     ),
 
   _do_or_ado_block: $ => choice($.exp_do, $.exp_ado),

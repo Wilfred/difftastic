@@ -217,40 +217,40 @@ f = ado
 
 (purescript
   (function
-    (variable)
-    (exp_ado
+    name: (variable)
+    rhs: (exp_ado
       (statement
         (let
           (declarations
             (function
-              (variable)
-              (exp_name
+              name: (variable)
+              rhs: (exp_name
                 (variable))))))
       (statement
         (let
           (declarations
             (function
-              (pat_apply
+              pattern: (pat_apply
                 (pat_name
                   (constructor))
                 (pat_name
                   (variable)))
-              (exp_name
+              rhs: (exp_name
                 (variable))))))
       (statement
         (let
           (declarations
             (function
-              (pat_apply
+              pattern: (pat_apply
                 (pat_name
                   (constructor))
                 (pat_name
                   (variable))
                 (pat_name
                   (variable)))
-              (exp_name
+              rhs: (exp_name
                 (variable))))))
-      (exp_literal
+      in: (exp_literal
         (integer)))))
 
 ================================================================================
@@ -261,42 +261,107 @@ f = ado
   in ado
     in 1
 
+g = ado
+  a <- \_ → ado
+    b <- case c of d -> ado
+      e <- f
+      in e
+    in b
+  let aa = a
+  aaa <- aa
+  in aaa
+
 --------------------------------------------------------------------------------
 
 (purescript
   (function
-    (variable)
-    (exp_ado
-      (exp_ado
-        (exp_literal
-          (integer))))))
+    name: (variable)
+    rhs: (exp_ado
+      in: (exp_ado
+        in: (exp_literal
+          (integer)))))
+  (function
+    name: (variable)
+    rhs: (exp_ado
+      (statement
+        (bind_pattern
+          (pat_name
+            (variable))
+          (exp_lambda
+            (pat_wildcard
+              (pat_wildcard))
+            (exp_ado
+              (statement
+                (bind_pattern
+                  (pat_name
+                    (variable))
+                  (exp_case
+                    condition: (exp_name
+                      (variable))
+                    (alts
+                      (alt
+                        pat: (pat_name
+                          (variable))
+                        exp: (exp_ado
+                          (statement
+                            (bind_pattern
+                              (pat_name
+                                (variable))
+                              (exp_name
+                                (variable))))
+                          in: (exp_name
+                            (variable))))))))
+              in: (exp_name
+                (variable))))))
+      (statement
+        (let
+          (declarations
+            (function
+              name: (variable)
+              rhs: (exp_name
+                (variable))))))
+      (statement
+        (bind_pattern
+          (pat_name
+            (variable))
+          (exp_name
+            (variable))))
+      in: (exp_name
+        (variable)))))
 
 ================================================================================
 Ado-notation, single line
 ================================================================================
 
-f = ado [] in []
-g = ado let a = [] in a
+e = ado            in [] -- fine
+f = ado []         in [] -- fine
+g = ado let a = [] in [] -- can't handle yet
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  (variable)
-  (statement
-    (exp_array))
-  (exp_apply
-    (exp_array)
-    (exp_name
-      (variable)))
-  (operator)
-  (statement
-    (let
-      (declarations
-        (function
-          (variable)
-          (exp_apply
-            (exp_array)
-            (exp_name
-              (variable))
-            (exp_name
-              (variable))))))))
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_ado
+      in: (exp_array)
+      (comment)))
+  (function
+    name: (variable)
+    rhs: (exp_ado
+      (statement
+        (exp_array))
+      in: (exp_array)
+      (comment)))
+  (ERROR
+    name: (variable)
+    (statement
+      (let
+        (declarations
+          (function
+            name: (variable)
+            rhs: (exp_apply
+              (exp_array)
+              (exp_name
+                (variable))
+              (exp_array)))
+          (comment))))))
