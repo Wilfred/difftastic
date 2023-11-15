@@ -365,3 +365,50 @@ g = ado let a = [] in [] -- can't handle yet
                 (variable))
               (exp_array)))
           (comment))))))
+
+================================================================================
+Ado-notation, layout issues
+================================================================================
+
+module M
+  where
+
+a = ( ado
+  b <- c
+  in d )
+
+e = ( ado
+  f <- g
+  in h )
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module))
+  (where)
+  (ERROR
+    (function
+      (variable)
+      (exp_parens
+        (exp_ado
+          (statement
+            (bind_pattern
+              (pat_name
+                (variable))
+              (exp_name
+                (variable))))
+          (exp_name
+            (variable))))))
+  (function
+    (variable)
+    (exp_parens
+      (exp_ado
+        (statement
+          (bind_pattern
+            (pat_name
+              (variable))
+            (exp_name
+              (variable))))
+        (exp_name
+          (variable))))))
