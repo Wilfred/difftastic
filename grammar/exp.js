@@ -1,19 +1,53 @@
-const { parens, brackets, sep1, layouted, qualified, ticked } = require('./util.js')
+const { brackets, layouted, layouted_without_end, parens, qualified, sep, sep1, ticked, terminated } = require('./util.js')
+
+/* ----- Composite expressions shared between do/ado and regular notation -----
+
+The point of these is that we want them exactly the same for regular
+notation and `do`/`ado` notation, except the let-in expressions.
+These are not allowed in `do`/`ado` blocks, and are tricky to parse in
+`ado` blocks specifically due to ambiguity stemming from `ado` block
+terminator being `in`:
+
+f = ado
+  let a = []
+  in a
+
+But `do` and `ado` blocks have mutual dependency with all other expressions
+so they would have to be defined in the same module.
+*/
+
+const __lexp = ($, ...rule) =>
+  choice(
+    $.exp_if,
+    $.exp_case,
+    $.exp_negation,
+    $.exp_lambda,
+    $._fexp,
+    ...rule
+  )
 
 module.exports = {
-  // ------------------------------------------------------------------------
-  // expression
-  // ------------------------------------------------------------------------
+
+  // ----- Identifiers and modifiers ------------------------------------------
+
+  exp_name: $ => choice(
+    $._qvar,
+    $._qcon,
+  ),
+
+  exp_ticked: $ => ticked($._exp_infix),
+
+  exp_negation: $ => seq('-', $._aexp),
 
   exp_parens: $ => parens($._exp),
 
+  exp_type_application: $ => seq('@', $._atype),
+
+  // ----- Arrays -------------------------------------------------------------
+
   exp_array: $ => brackets(sep($.comma, $._exp)),
 
-  bind_pattern: $ => seq(
-    $._typed_pat,
-    $._larrow,
-    $._exp,
-  ),
+  // ----- Operator sections --------------------------------------------------
 
   exp_section_left: $ => parens(
     $.wildcard,
@@ -27,14 +61,7 @@ module.exports = {
     $.wildcard
   ),
 
-  exp_type_application: $ => seq('@', $._atype),
-
-  exp_lambda: $ => seq(
-    '\\',
-    repeat1($._apat),
-    $._arrow,
-    $._exp,
-  ),
+  // ----- Records ------------------------------------------------------------
 
   _record_access_field: $ =>
     choice(
@@ -55,15 +82,7 @@ module.exports = {
       repeat1(seq($._immediate_dot, field('field', $._record_access_field)))
     )),
 
-  exp_in: $ => seq('in', $._exp),
-
-  let: $ => seq('let', optional($.decls)),
-
-  _let_decls: $ => layouted_without_end($, $._decl),
-
-  exp_let: $ => seq('let', optional(alias($._let_decls, $.decls))),
-
-  exp_let_in: $ => seq($.exp_let, $.exp_in),
+  // ----- If-then-else -------------------------------------------------------
 
   exp_if: $ => seq(
     'if',
@@ -74,38 +93,45 @@ module.exports = {
     field('else', choice($.wildcard, $._exp)),
   ),
 
-  pattern_guard: $ => seq(
-    $._pat,
-    $._larrow,
-    $._exp_infix,
-  ),
+  // ----- Case-of ------------------------------------------------------------
 
-  guard: $ => choice(
-    $.pattern_guard,
-    $.let,
-    $._exp_infix,
-  ),
+  pattern_guard: $ =>
+    seq(
+      $._pat,
+      $._larrow,
+      $._exp_infix,
+    ),
+
+  guard: $ =>
+    choice(
+      $.pattern_guard,
+      $._exp_infix,
+    ),
 
   guards: $ => seq('|', sep1($.comma, $.guard)),
 
   gdpat: $ => seq($.guards, $._arrow, $._exp),
 
-  _alt_variants: $ => choice(
-    seq($._arrow, field('exp', $._exp)),
-    repeat1($.gdpat),
-  ),
+  _alt_variants: $ =>
+    choice(
+      seq($._arrow, field('exp', $._exp)),
+      repeat1($.gdpat),
+    ),
 
-  alt: $ => seq(
-    sep1($.comma, field('pat', $._pat)),
-    $._alt_variants,
-    optional(seq($.where, optional($.decls)))
-  ),
+  alt: $ =>
+    seq(
+      sep1($.comma, field('pat', $._pat)),
+      $._alt_variants,
+      optional(seq($.where, $.declarations))
+    ),
 
   alts: $ => layouted($, $.alt),
 
-  _exp_case_slots: $ => sep1($.comma,
-    field('condition', choice($.wildcard, $._exp))
-  ),
+  _exp_case_slots: $ =>
+    sep1(
+      $.comma,
+      field('condition', choice($.wildcard, $._exp))
+    ),
 
   exp_case: $ => seq(
     'case',
@@ -114,24 +140,83 @@ module.exports = {
     $.alts
   ),
 
-  stmt: $ => choice(
+  // ----- Let-in -------------------------------------------------------------
+
+  _let_decls: $ => layouted_without_end($, $._decl),
+
+  exp_let_in: $ =>
+    seq(
+      'let',
+      alias($._let_decls, $.declarations),
+      'in',
+      $._exp
+    ),
+
+  // ----- Lambdas ------------------------------------------------------------
+
+  exp_lambda: $ => seq(
+    '\\',
+    repeat1($._apat),
+    $._arrow,
     $._exp,
-    $.bind_pattern,
-    $.let,
   ),
 
-  _do_keyword: _ => choice('ado', 'do'),
+  // ----- do and ado notation ------------------------------------------------
 
-  do_module: $ => qualified($, $._do_keyword),
+  _statement_lexp: $ => __lexp($),
 
-  exp_do: $ => seq(choice($.do_module, $._do_keyword), layouted($, $.stmt)),
+  __statement_exp_infix: $ =>
+    seq(
+      $._statement_exp_infix,
+      choice($._q_op, $.exp_ticked),
+      $._lexp
+    ),
 
-  exp_negation: $ => seq('-', $._aexp),
+  _statement_exp_infix: $ =>
+    choice(
+      alias($.__statement_exp_infix, $.exp_infix),
+      $._statement_lexp
+    ),
 
-  exp_name: $ => choice(
-    $._qvar,
-    $._qcon,
-  ),
+  _statement_exp: $ =>
+    prec.right(seq($._statement_exp_infix, optional($._type_annotation))),
+
+  bind_pattern: $ =>
+    seq(
+      $._typed_pat,
+      $._larrow,
+      $._exp,
+    ),
+
+  let: $ => seq('let', $.declarations),
+
+  statement: $ =>
+    choice(
+      $._statement_exp,
+      $.bind_pattern,
+      $.let,
+    ),
+
+  _do_kw: _ => 'do',
+  _do: $ => choice('do', qualified($, $._do_kw)),
+  exp_do: $ => seq($._do, layouted($, $.statement)),
+
+  _ado_kw: _ => 'ado',
+  _ado: $ => choice('ado', qualified($, $._ado_kw)),
+  _ado_in: $ => seq('in', field('in', layouted($, $._exp))),
+
+  exp_ado: $ =>
+    seq(
+      $._ado,
+      $._layout_start,
+      optional(terminated($, $.statement)),
+      $._ado_in,
+      optional($._layout_end)
+    ),
+
+  _do_or_ado_block: $ => choice($.exp_do, $.exp_ado),
+
+  // ----- Composite expressions ----------------------------------------------
 
   /**
    * The Report lists for `aexp` only expressions that don't have any unbracketed whitespace, except for record
@@ -173,7 +258,7 @@ module.exports = {
   _aexp: $ => choice(
     $._aexp_projection,
     $.exp_type_application,
-    $.exp_do,
+    $._do_or_ado_block
   ),
 
   /**
@@ -183,14 +268,15 @@ module.exports = {
    * in the reference, it can only occur after an infix operator; if it is in `aexp`, it causes lots of problems.
    * Furthermore, the strange way the recursion is done here is to avoid local conflicts.
    */
-  _exp_apply: $ => choice(
-    $._aexp,
-    seq($._aexp, $._exp_apply),
-    seq($._aexp, $.exp_lambda),
-    seq($._aexp, $.exp_let_in),
-    seq($._aexp, $.exp_if),
-    seq($._aexp, $.exp_case),
-  ),
+  _exp_apply: $ =>
+    choice(
+      $._aexp,
+      seq($._aexp, $._exp_apply),
+      seq($._aexp, $.exp_lambda),
+      seq($._aexp, $.exp_if),
+      seq($._aexp, $.exp_case),
+      seq($._aexp, $.exp_let_in),
+    ),
 
   /**
    * The point of this `choice` is to get a node for function application only if there is more than one expression
@@ -201,16 +287,7 @@ module.exports = {
     alias($._exp_apply, $.exp_apply),
   ),
 
-  _lexp: $ => choice(
-    $.exp_let_in,
-    $.exp_if,
-    $.exp_case,
-    $.exp_negation,
-    $._fexp,
-    $.exp_lambda,
-  ),
-
-  exp_ticked: $ => ticked($._exp_infix),
+  _lexp: $ => __lexp($, $.exp_let_in),
 
   /**
    * This is left-associative, although in reality this would depend on the fixity declaration for the operator.
@@ -219,10 +296,7 @@ module.exports = {
    */
   exp_infix: $ => seq(
     $._exp_infix,
-    choice(
-      $._q_op,
-      $.exp_ticked
-      ),
+    choice($._q_op, $.exp_ticked),
     $._lexp
   ),
 

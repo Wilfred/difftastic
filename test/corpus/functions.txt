@@ -78,7 +78,7 @@ f a = 1
     rhs: (exp_literal
       (integer))
     (where)
-    (decls
+    (declarations
       (function
         name: (variable)
         rhs: (exp_literal
@@ -107,18 +107,16 @@ f a = let g b = 1 in g
       (pat_name
         (variable)))
     rhs: (exp_let_in
-      (exp_let
-        (decls
-          (function
-            name: (variable)
-            patterns: (patterns
-              (pat_name
-                (variable)))
-            rhs: (exp_literal
-              (integer)))))
-      (exp_in
-        (exp_name
-          (variable))))))
+      (declarations
+        (function
+          name: (variable)
+          patterns: (patterns
+            (pat_name
+              (variable)))
+          rhs: (exp_literal
+            (integer))))
+      (exp_name
+        (variable)))))
 
 ================================================================================
 Function as a let binder
@@ -137,9 +135,9 @@ f a = do
       (pat_name
         (variable)))
     rhs: (exp_do
-      (stmt
+      (statement
         (let
-          (decls
+          (declarations
             (function
               name: (variable)
               patterns: (patterns
@@ -147,7 +145,7 @@ f a = do
                   (variable)))
               rhs: (exp_literal
                 (integer))))))
-      (stmt
+      (statement
         (exp_name
           (variable))))))
 

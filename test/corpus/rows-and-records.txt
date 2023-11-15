@@ -262,7 +262,7 @@ f = ok where ok { a: b, c: d, f } = ok
     rhs: (exp_name
       (variable))
     (where)
-    (decls
+    (declarations
       (function
         name: (variable)
         patterns: (patterns
@@ -328,30 +328,28 @@ f = let g { a: b, c: d, f } = ok in g
   (function
     name: (variable)
     rhs: (exp_let_in
-      (exp_let
-        (decls
-          (function
-            name: (variable)
-            patterns: (patterns
-              (pat_record
-                fields: (pat_fields
-                  (pat_field
-                    (field_name)
-                    (pat_name
-                      (variable)))
-                  (comma)
-                  (pat_field
-                    (field_name)
-                    (pat_name
-                      (variable)))
-                  (comma)
-                  (pat_field
-                    (field_name)))))
-            rhs: (exp_name
-              (variable)))))
-      (exp_in
-        (exp_name
-          (variable))))))
+      (declarations
+        (function
+          name: (variable)
+          patterns: (patterns
+            (pat_record
+              fields: (pat_fields
+                (pat_field
+                  (field_name)
+                  (pat_name
+                    (variable)))
+                (comma)
+                (pat_field
+                  (field_name)
+                  (pat_name
+                    (variable)))
+                (comma)
+                (pat_field
+                  (field_name)))))
+          rhs: (exp_name
+            (variable))))
+      (exp_name
+        (variable)))))
 
 ================================================================================
 record literal in a let binding pattern
@@ -367,9 +365,9 @@ f = do
   (function
     name: (variable)
     rhs: (exp_do
-      (stmt
+      (statement
         (let
-          (decls
+          (declarations
             (function
               name: (variable)
               patterns: (patterns
@@ -389,7 +387,7 @@ f = do
                       (field_name)))))
               rhs: (exp_name
                 (variable))))))
-      (stmt
+      (statement
         (exp_name
           (variable))))))
 
@@ -407,7 +405,7 @@ f = do
   (function
     name: (variable)
     rhs: (exp_do
-      (stmt
+      (statement
         (bind_pattern
           (pat_record
             fields: (pat_fields
@@ -425,7 +423,7 @@ f = do
                 (field_name))))
           (exp_name
             (variable))))
-      (stmt
+      (statement
         (exp_name
           (variable))))))
 
@@ -828,4 +826,3 @@ a = C.d.e."e"."f".g
       (string)
       (string)
       (variable))))
-

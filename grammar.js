@@ -252,6 +252,16 @@ module.exports = grammar({
      */
     [$._type,],
     [$._btype,],
+
+    /**
+     * Ado-notation is currently tricky for two reasons:
+     * 1) It isn't natively supported by layout scanner, unlike do-notation.
+     * 2) It terminates with `in` keyword, which conflicts with `let … in …`-expressions.
+     *    This in turn prevents us from simply using the same rules as for do-notation.
+     * A future ideal solution would be to handle it at the scanner level.
+     */
+    [$.exp_ado],
+
   ],
 
   word: $ => $._varid,

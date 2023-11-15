@@ -16,6 +16,10 @@
             "named": true
           },
           {
+            "type": "exp_ado",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -193,7 +197,7 @@
           "named": true
         },
         {
-          "type": "decls",
+          "type": "declarations",
           "named": true
         },
         {
@@ -291,6 +295,10 @@
       "types": [
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -792,7 +800,7 @@
     }
   },
   {
-    "type": "decls",
+    "type": "declarations",
     "named": true,
     "fields": {},
     "children": {
@@ -866,21 +874,6 @@
     }
   },
   {
-    "type": "do_module",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "module",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "equation",
     "named": true,
     "fields": {
@@ -940,6 +933,10 @@
           },
           {
             "type": "captured_type_operator",
+            "named": true
+          },
+          {
+            "type": "exp_ado",
             "named": true
           },
           {
@@ -1110,7 +1107,7 @@
       "required": false,
       "types": [
         {
-          "type": "decls",
+          "type": "declarations",
           "named": true
         },
         {
@@ -1165,6 +1162,168 @@
     }
   },
   {
+    "type": "exp_ado",
+    "named": true,
+    "fields": {
+      "in": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "::",
+            "named": false
+          },
+          {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "captured_type_operator",
+            "named": true
+          },
+          {
+            "type": "exp_ado",
+            "named": true
+          },
+          {
+            "type": "exp_apply",
+            "named": true
+          },
+          {
+            "type": "exp_array",
+            "named": true
+          },
+          {
+            "type": "exp_case",
+            "named": true
+          },
+          {
+            "type": "exp_do",
+            "named": true
+          },
+          {
+            "type": "exp_if",
+            "named": true
+          },
+          {
+            "type": "exp_infix",
+            "named": true
+          },
+          {
+            "type": "exp_lambda",
+            "named": true
+          },
+          {
+            "type": "exp_let_in",
+            "named": true
+          },
+          {
+            "type": "exp_literal",
+            "named": true
+          },
+          {
+            "type": "exp_name",
+            "named": true
+          },
+          {
+            "type": "exp_negation",
+            "named": true
+          },
+          {
+            "type": "exp_parens",
+            "named": true
+          },
+          {
+            "type": "exp_record_access",
+            "named": true
+          },
+          {
+            "type": "exp_section_left",
+            "named": true
+          },
+          {
+            "type": "exp_section_right",
+            "named": true
+          },
+          {
+            "type": "exp_type_application",
+            "named": true
+          },
+          {
+            "type": "forall",
+            "named": true
+          },
+          {
+            "type": "hole",
+            "named": true
+          },
+          {
+            "type": "record_accessor",
+            "named": true
+          },
+          {
+            "type": "record_literal",
+            "named": true
+          },
+          {
+            "type": "record_type_literal",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "row_type",
+            "named": true
+          },
+          {
+            "type": "type_apply",
+            "named": true
+          },
+          {
+            "type": "type_infix",
+            "named": true
+          },
+          {
+            "type": "type_literal",
+            "named": true
+          },
+          {
+            "type": "type_name",
+            "named": true
+          },
+          {
+            "type": "type_parens",
+            "named": true
+          },
+          {
+            "type": "type_wildcard",
+            "named": true
+          },
+          {
+            "type": "∷",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "module",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "exp_apply",
     "named": true,
     "fields": {},
@@ -1172,6 +1331,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "exp_ado",
+          "named": true
+        },
         {
           "type": "exp_array",
           "named": true
@@ -1257,6 +1420,10 @@
         },
         {
           "type": "comma",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -1392,6 +1559,10 @@
           },
           {
             "type": "captured_type_operator",
+            "named": true
+          },
+          {
+            "type": "exp_ado",
             "named": true
           },
           {
@@ -1545,11 +1716,11 @@
       "required": false,
       "types": [
         {
-          "type": "do_module",
+          "type": "module",
           "named": true
         },
         {
-          "type": "stmt",
+          "type": "statement",
           "named": true
         }
       ]
@@ -1569,6 +1740,10 @@
           },
           {
             "type": "captured_type_operator",
+            "named": true
+          },
+          {
+            "type": "exp_ado",
             "named": true
           },
           {
@@ -1710,6 +1885,10 @@
             "named": true
           },
           {
+            "type": "exp_ado",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -1848,6 +2027,10 @@
             "named": true
           },
           {
+            "type": "exp_ado",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -1976,137 +2159,6 @@
     }
   },
   {
-    "type": "exp_in",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "captured_type_operator",
-          "named": true
-        },
-        {
-          "type": "exp_apply",
-          "named": true
-        },
-        {
-          "type": "exp_array",
-          "named": true
-        },
-        {
-          "type": "exp_case",
-          "named": true
-        },
-        {
-          "type": "exp_do",
-          "named": true
-        },
-        {
-          "type": "exp_if",
-          "named": true
-        },
-        {
-          "type": "exp_infix",
-          "named": true
-        },
-        {
-          "type": "exp_lambda",
-          "named": true
-        },
-        {
-          "type": "exp_let_in",
-          "named": true
-        },
-        {
-          "type": "exp_literal",
-          "named": true
-        },
-        {
-          "type": "exp_name",
-          "named": true
-        },
-        {
-          "type": "exp_negation",
-          "named": true
-        },
-        {
-          "type": "exp_parens",
-          "named": true
-        },
-        {
-          "type": "exp_record_access",
-          "named": true
-        },
-        {
-          "type": "exp_section_left",
-          "named": true
-        },
-        {
-          "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_type_application",
-          "named": true
-        },
-        {
-          "type": "forall",
-          "named": true
-        },
-        {
-          "type": "hole",
-          "named": true
-        },
-        {
-          "type": "record_accessor",
-          "named": true
-        },
-        {
-          "type": "record_literal",
-          "named": true
-        },
-        {
-          "type": "record_type_literal",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "row_type",
-          "named": true
-        },
-        {
-          "type": "type_apply",
-          "named": true
-        },
-        {
-          "type": "type_infix",
-          "named": true
-        },
-        {
-          "type": "type_literal",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_parens",
-          "named": true
-        },
-        {
-          "type": "type_wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "exp_infix",
     "named": true,
     "fields": {},
@@ -2114,6 +2166,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "exp_ado",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -2219,6 +2275,10 @@
       "types": [
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -2369,21 +2429,6 @@
     }
   },
   {
-    "type": "exp_let",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "decls",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "exp_let_in",
     "named": true,
     "fields": {},
@@ -2392,11 +2437,131 @@
       "required": true,
       "types": [
         {
-          "type": "exp_in",
+          "type": "captured_type_operator",
           "named": true
         },
         {
-          "type": "exp_let",
+          "type": "declarations",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
+          "type": "exp_apply",
+          "named": true
+        },
+        {
+          "type": "exp_array",
+          "named": true
+        },
+        {
+          "type": "exp_case",
+          "named": true
+        },
+        {
+          "type": "exp_do",
+          "named": true
+        },
+        {
+          "type": "exp_if",
+          "named": true
+        },
+        {
+          "type": "exp_infix",
+          "named": true
+        },
+        {
+          "type": "exp_lambda",
+          "named": true
+        },
+        {
+          "type": "exp_let_in",
+          "named": true
+        },
+        {
+          "type": "exp_literal",
+          "named": true
+        },
+        {
+          "type": "exp_name",
+          "named": true
+        },
+        {
+          "type": "exp_negation",
+          "named": true
+        },
+        {
+          "type": "exp_parens",
+          "named": true
+        },
+        {
+          "type": "exp_record_access",
+          "named": true
+        },
+        {
+          "type": "exp_section_left",
+          "named": true
+        },
+        {
+          "type": "exp_section_right",
+          "named": true
+        },
+        {
+          "type": "exp_type_application",
+          "named": true
+        },
+        {
+          "type": "forall",
+          "named": true
+        },
+        {
+          "type": "hole",
+          "named": true
+        },
+        {
+          "type": "record_accessor",
+          "named": true
+        },
+        {
+          "type": "record_literal",
+          "named": true
+        },
+        {
+          "type": "record_type_literal",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "row_type",
+          "named": true
+        },
+        {
+          "type": "type_apply",
+          "named": true
+        },
+        {
+          "type": "type_infix",
+          "named": true
+        },
+        {
+          "type": "type_literal",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "type_parens",
+          "named": true
+        },
+        {
+          "type": "type_wildcard",
           "named": true
         }
       ]
@@ -2485,6 +2650,10 @@
       "required": true,
       "types": [
         {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
           "type": "exp_array",
           "named": true
         },
@@ -2549,6 +2718,10 @@
       "types": [
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -2729,6 +2902,10 @@
       "required": true,
       "types": [
         {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
           "type": "exp_apply",
           "named": true
         },
@@ -2836,6 +3013,10 @@
       "required": true,
       "types": [
         {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
           "type": "exp_apply",
           "named": true
         },
@@ -2942,6 +3123,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "exp_ado",
+          "named": true
+        },
         {
           "type": "exp_apply",
           "named": true
@@ -3212,6 +3397,10 @@
       "types": [
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -3544,6 +3733,10 @@
             "named": true
           },
           {
+            "type": "exp_ado",
+            "named": true
+          },
+          {
             "type": "exp_apply",
             "named": true
           },
@@ -3671,7 +3864,7 @@
       "required": false,
       "types": [
         {
-          "type": "decls",
+          "type": "declarations",
           "named": true
         },
         {
@@ -3729,6 +3922,10 @@
       "types": [
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -3863,6 +4060,10 @@
       "required": true,
       "types": [
         {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
           "type": "exp_apply",
           "named": true
         },
@@ -3931,10 +4132,6 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "pattern_guard",
           "named": true
         },
@@ -3963,6 +4160,10 @@
       "types": [
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -4517,10 +4718,10 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "decls",
+          "type": "declarations",
           "named": true
         }
       ]
@@ -5250,6 +5451,10 @@
       "required": true,
       "types": [
         {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
           "type": "exp_apply",
           "named": true
         },
@@ -5823,6 +6028,10 @@
           "named": true
         },
         {
+          "type": "exp_ado",
+          "named": true
+        },
+        {
           "type": "exp_apply",
           "named": true
         },
@@ -6170,7 +6379,7 @@
     }
   },
   {
-    "type": "stmt",
+    "type": "statement",
     "named": true,
     "fields": {},
     "children": {
@@ -6183,6 +6392,10 @@
         },
         {
           "type": "captured_type_operator",
+          "named": true
+        },
+        {
+          "type": "exp_ado",
           "named": true
         },
         {
@@ -6211,10 +6424,6 @@
         },
         {
           "type": "exp_lambda",
-          "named": true
-        },
-        {
-          "type": "exp_let_in",
           "named": true
         },
         {
