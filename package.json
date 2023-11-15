@@ -4,8 +4,12 @@
   "description": "",
   "main": "grammar.js",
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "gypfile": true,
+  "scripts": {
+    "watch": "watchexec -N -r -e js -- tree-sitter generate &",
+    "watch-test": "watchexec -N -r -e js -- 'tree-sitter generate && tree-sitter test' &"
+  },
   "tree-sitter": [
     {
       "scope": "source.purescript",
