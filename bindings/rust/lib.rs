@@ -49,13 +49,13 @@ pub const GRAMMAR: &str = include_str!("../../grammar.js");
 /// The syntax highlighting query for this language.
 pub const HIGHLIGHT_QUERY: &str = include_str!("../../queries/highlights.scm");
 
+/// The symbol tagging query for this language.
+pub const TAGS_QUERY: &str = include_str!("../../queries/tags.scm");
+
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
 pub const NODE_TYPES: &str = include_str!("../../src/node-types.json");
-
-/// The symbol tagging query for this language.
-pub const TAGS_QUERY: &'static str = include_str!("../../queries/tags.scm");
 
 #[cfg(test)]
 mod tests {
