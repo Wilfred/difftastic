@@ -3,13 +3,17 @@ Preprocessor include
 ========================================================================
 
 #include "foo.h"
-#include <bar.h>
+# include <bar.h>
+ #	include "baz.dtsi"
+ #	include	"baz.dtsi"
 
 ---
 
 (document
     (preproc_include path: (string_literal))
     (preproc_include path: (system_lib_string))
+    (preproc_include path: (string_literal))
+    (preproc_include path: (string_literal))
 )
 
 ========================================================================
@@ -68,5 +72,26 @@ Macro expressions
                 )
             )
         )
+    )
+)
+
+========================================================================
+Preprocessor directives in node
+========================================================================
+
+/ {
+    #include "macros.dtsi"
+    #define FOO 0
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (preproc_include path: (string_literal))
+        (preproc_def
+          name: (identifier)
+          value: (preproc_arg))
     )
 )
