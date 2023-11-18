@@ -3,9 +3,9 @@ Preprocessor include
 ========================================================================
 
 #include "foo.h"
-# include <bar.h>
+#include <bar.h>
  #	include "baz.dtsi"
- #	include	"baz.dtsi"
+ #	include	<baz.dtsi>
 
 ---
 
@@ -13,7 +13,7 @@ Preprocessor include
     (preproc_include path: (string_literal))
     (preproc_include path: (system_lib_string))
     (preproc_include path: (string_literal))
-    (preproc_include path: (string_literal))
+    (preproc_include path: (system_lib_string))
 )
 
 ========================================================================
