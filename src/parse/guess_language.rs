@@ -257,7 +257,7 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Html => &["*.html", "*.htm", "*.xhtml"],
         Janet => &["*.janet", "*.jdn"],
         Java => &["*.java"],
-        JavaScript => &["*.cjs", "*.js", "*.mjs"],
+        JavaScript => &["*.cjs", "*.js", "*.mjs", "*.snap"],
         Json => &[
             "*.json",
             "*.avsc",

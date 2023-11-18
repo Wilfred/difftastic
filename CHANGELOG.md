@@ -7,6 +7,8 @@ Added support for SCSS.
 Updated the Kotlin parser and improved handling of Kotlin nullable
 types.
 
+`.snap` files (Jest snapshots) are now detected as JavaScript files.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
