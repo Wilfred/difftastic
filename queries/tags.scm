@@ -6,7 +6,7 @@
 
 (function_declarator declarator: (field_identifier) @name) @definition.function
 
-(function_declarator declarator: (qualified_identifier scope: (namespace_identifier) @scope name: (identifier) @name)) @definition.method
+(function_declarator declarator: (qualified_identifier scope: (namespace_identifier) @local.scope name: (identifier) @name)) @definition.method
 
 (type_definition declarator: (type_identifier) @name) @definition.type
 
