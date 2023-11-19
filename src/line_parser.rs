@@ -148,16 +148,14 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 ) {
                     match diff_res {
                         myers_diff::DiffResult::Left(lhs_word) => {
-                            if *lhs_word != "\n" {
-                                let lhs_pos =
-                                    lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
-                                res.push(MatchedPos {
-                                    kind: MatchKind::NovelWord {
-                                        highlight: TokenKind::Atom(AtomKind::Normal),
-                                    },
-                                    pos: lhs_pos[0],
-                                });
-                            }
+                            let lhs_pos =
+                                lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                            res.push(MatchedPos {
+                                kind: MatchKind::NovelWord {
+                                    highlight: TokenKind::Atom(AtomKind::Normal),
+                                },
+                                pos: lhs_pos[0],
+                            });
 
                             lhs_offset += lhs_word.len();
                         }
@@ -252,7 +250,7 @@ mod tests {
     fn test_novel_lhs_trailing_newlines() {
         let positions = change_positions("foo\n", "");
 
-        assert_eq!(positions.len(), 1);
+        assert_eq!(positions.len(), 2);
         assert!(positions[0].kind.is_novel());
     }
 
