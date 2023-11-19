@@ -121,9 +121,9 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
             TextChangeKind::Unchanged => {
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
                     let lhs_pos =
-                        lhs_lp.from_offsets(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
+                        lhs_lp.from_region(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
                     let rhs_pos =
-                        rhs_lp.from_offsets(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
+                        rhs_lp.from_region(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
 
                     res.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
@@ -149,7 +149,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                     match diff_res {
                         myers_diff::DiffResult::Left(lhs_word) => {
                             let lhs_pos =
-                                lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
                             res.push(MatchedPos {
                                 kind: MatchKind::NovelWord {
                                     highlight: TokenKind::Atom(AtomKind::Normal),
@@ -162,9 +162,9 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                         myers_diff::DiffResult::Both(lhs_word, rhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
-                                    lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                    lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
                                 let rhs_pos =
-                                    rhs_lp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
+                                    rhs_lp.from_region(rhs_offset, rhs_offset + rhs_word.len());
 
                                 res.push(MatchedPos {
                                     kind: MatchKind::NovelLinePart {

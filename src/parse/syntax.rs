@@ -677,7 +677,7 @@ fn split_atom_words(
                         kind: MatchKind::NovelWord {
                             highlight: TokenKind::Atom(kind),
                         },
-                        pos: content_newlines.from_offsets_relative_to(
+                        pos: content_newlines.from_region_relative_to(
                             // TODO: don't assume a single line atom.
                             pos[0],
                             offset,
@@ -691,9 +691,9 @@ fn split_atom_words(
                 // This word is present on both sides.
                 // TODO: don't assume this atom is on a single line.
                 let word_pos =
-                    content_newlines.from_offsets_relative_to(pos[0], offset, offset + word.len())
+                    content_newlines.from_region_relative_to(pos[0], offset, offset + word.len())
                         [0];
-                let opposite_word_pos = opposite_content_newlines.from_offsets_relative_to(
+                let opposite_word_pos = opposite_content_newlines.from_region_relative_to(
                     opposite_pos[0],
                     opposite_offset,
                     opposite_offset + opposite_word.len(),

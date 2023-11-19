@@ -1554,9 +1554,9 @@ fn list_from_cursor<'a>(
     // the delimiter text and the start/end of this node as the
     // delimiter positions.
     let outer_open_content = "";
-    let outer_open_position = nl_pos.from_offsets(root_node.start_byte(), root_node.start_byte());
+    let outer_open_position = nl_pos.from_region(root_node.start_byte(), root_node.start_byte());
     let outer_close_content = "";
-    let outer_close_position = nl_pos.from_offsets(root_node.end_byte(), root_node.end_byte());
+    let outer_close_position = nl_pos.from_region(root_node.end_byte(), root_node.end_byte());
 
     // TODO: this should probably only allow the delimiters to be the
     // first and last child in the list.
@@ -1604,7 +1604,7 @@ fn list_from_cursor<'a>(
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
-            inner_open_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+            inner_open_position = nl_pos.from_region(node.start_byte(), node.end_byte());
         } else if node_i < j {
             between_delim.extend(syntax_from_cursor(
                 arena,
@@ -1619,7 +1619,7 @@ fn list_from_cursor<'a>(
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
-            inner_close_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+            inner_close_position = nl_pos.from_region(node.start_byte(), node.end_byte());
         } else if node_i > j {
             after_delim.extend(syntax_from_cursor(
                 arena,
@@ -1685,7 +1685,7 @@ fn atom_from_cursor<'a>(
     ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
-    let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+    let position = nl_pos.from_region(node.start_byte(), node.end_byte());
     let mut content = &src[node.start_byte()..node.end_byte()];
 
     // The C and C++ grammars have a '\n' node with the
