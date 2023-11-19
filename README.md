@@ -15,7 +15,3 @@ Macros with special respresentation in syntax tree (when written with lowercase 
 - loop macro
 
 This grammar is used in https://github.com/Wilfred/difftastic to generate syntax-ware diffs for Common Lisp.
-
-## Additional Highlighting Support
-
-Install https://github.com/theHamsta/nvim-treesitter-commonlisp to get highlighting of all functions and macros in the `cl` namespace.
