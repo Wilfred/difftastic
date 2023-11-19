@@ -20,18 +20,18 @@ use crate::{
 /// A hunk represents a series of modified lines that are displayed
 /// together.
 #[derive(Debug, Clone)]
-pub struct Hunk {
+pub(crate) struct Hunk {
     /// The LHS line numbers that contain novel content.
-    pub novel_lhs: HashSet<LineNumber>,
+    pub(crate) novel_lhs: HashSet<LineNumber>,
     /// The RHS line numbers that contain novel content.
-    pub novel_rhs: HashSet<LineNumber>,
+    pub(crate) novel_rhs: HashSet<LineNumber>,
     /// Line pairs that contain modified lines. This does not include
     /// padding, so at least one of the two lines has novel content.
-    pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
+    pub(crate) lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 }
 
 impl Hunk {
-    pub fn merge(self, other: &Self) -> Self {
+    pub(crate) fn merge(self, other: &Self) -> Self {
         let mut lines = self.lines;
         lines.extend(other.lines.iter());
 
@@ -130,7 +130,7 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     relevant
 }
 
-pub fn merge_adjacent(
+pub(crate) fn merge_adjacent(
     hunks: &[Hunk],
     opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
@@ -599,7 +599,7 @@ fn matched_novel_lines(
     lines
 }
 
-pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
+pub(crate) fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
     lines_to_hunks(&matched_novel_lines(lhs_mps, rhs_mps), lhs_mps, rhs_mps)
 }
 
@@ -623,7 +623,7 @@ fn either_side_equal(
     false
 }
 
-pub fn matched_lines_indexes_for_hunk(
+pub(crate) fn matched_lines_indexes_for_hunk(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
     num_context_lines: usize,

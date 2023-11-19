@@ -17,7 +17,7 @@ use strum::{EnumIter, IntoEnumIterator};
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
-pub enum Language {
+pub(crate) enum Language {
     Ada,
     Bash,
     C,
@@ -77,14 +77,14 @@ pub enum Language {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub enum LanguageOverride {
+pub(crate) enum LanguageOverride {
     Language(Language),
     PlainText,
 }
 
 /// If there is a language called `name` (comparing case
 /// insensitively), return it. Treat `"text"` as an additional option.
-pub fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
+pub(crate) fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
     let name = name.trim().to_lowercase();
 
     if name == "text" {
@@ -102,7 +102,7 @@ pub fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
 }
 
 /// The language name shown to the user.
-pub fn language_name(language: Language) -> &'static str {
+pub(crate) fn language_name(language: Language) -> &'static str {
     match language {
         Ada => "Ada",
         Bash => "Bash",
@@ -166,7 +166,7 @@ pub fn language_name(language: Language) -> &'static str {
 use Language::*;
 
 /// File globs that identify languages based on the file path.
-pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
+pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
     let glob_strs: &'static [&'static str] = match language {
         Ada => &["*.ada", "*.adb", "*.ads"],
         Bash => &[
@@ -387,7 +387,7 @@ fn looks_like_hacklang(path: &Path, src: &str) -> bool {
     false
 }
 
-pub fn guess(
+pub(crate) fn guess(
     path: &Path,
     src: &str,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],

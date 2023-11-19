@@ -106,7 +106,7 @@ fn line_len_in_bytes(line: &str) -> usize {
 }
 
 // TODO: Prefer src/opposite_src nomenclature as this function is called from both sides.
-pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
+pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
     // TODO: If either side is "", don't split each line by words
     // pointlessly. This is common for file additions/removals.
     let lhs_lp = LinePositions::from(lhs_src);

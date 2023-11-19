@@ -13,7 +13,7 @@ const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
 /// Set [`ChangeKind`] on nodes that have exactly the same structure
 /// on both sides, and return a vec of pairs that need proper diffing.
-pub fn mark_unchanged<'a>(
+pub(crate) fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     change_map: &mut ChangeMap<'a>,

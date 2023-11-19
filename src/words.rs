@@ -6,7 +6,7 @@
 /// See also `split_words_and_numbers`. Both these functions are hot,
 /// so they are separate implementations rather than passing a bool to
 /// customise number handling.
-pub fn split_words(s: &str) -> Vec<&str> {
+pub(crate) fn split_words(s: &str) -> Vec<&str> {
     let mut res = vec![];
     let mut word_start: Option<usize> = None;
     for (idx, c) in s.char_indices() {
@@ -41,7 +41,7 @@ pub fn split_words(s: &str) -> Vec<&str> {
 /// non-word characters.
 ///
 /// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
-pub fn split_words_and_numbers(s: &str) -> Vec<&str> {
+pub(crate) fn split_words_and_numbers(s: &str) -> Vec<&str> {
     let mut res = vec![];
     let mut word_start: Option<(usize, char)> = None;
     for (idx, c) in s.char_indices() {

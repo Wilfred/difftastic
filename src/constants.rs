@@ -1,5 +1,5 @@
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub enum Side {
+pub(crate) enum Side {
     /// The left-hand side, or the 'before' file. Often abbreviated to
     /// LHS.
     Left,

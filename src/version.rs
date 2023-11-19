@@ -2,15 +2,15 @@ use std::fmt;
 
 use lazy_static::lazy_static;
 
-pub struct CommitInfo {
-    pub short_commit_hash: &'static str,
-    pub commit_hash: &'static str,
-    pub commit_date: &'static str,
+pub(crate) struct CommitInfo {
+    pub(crate) short_commit_hash: &'static str,
+    pub(crate) commit_hash: &'static str,
+    pub(crate) commit_date: &'static str,
 }
 
-pub struct VersionInfo {
-    pub version: &'static str,
-    pub commit_info: Option<CommitInfo>,
+pub(crate) struct VersionInfo {
+    pub(crate) version: &'static str,
+    pub(crate) commit_info: Option<CommitInfo>,
 }
 
 impl fmt::Display for VersionInfo {
@@ -25,10 +25,10 @@ impl fmt::Display for VersionInfo {
 }
 
 lazy_static! {
-    pub static ref VERSION: String = version().to_string();
+    pub(crate) static ref VERSION: String = version().to_string();
 }
 
-pub const fn version() -> VersionInfo {
+pub(crate) const fn version() -> VersionInfo {
     let version = env!("CARGO_PKG_VERSION");
     let commit_info = match (
         option_env!("DFT_COMMIT_SHORT_HASH"),

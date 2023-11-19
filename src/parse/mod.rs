@@ -1,3 +1,3 @@
-pub mod guess_language;
-pub mod syntax;
-pub mod tree_sitter_parser;
+pub(crate) mod guess_language;
+pub(crate) mod syntax;
+pub(crate) mod tree_sitter_parser;

@@ -231,7 +231,7 @@ impl SourceDimensions {
     }
 }
 
-pub fn lines_with_novel(
+pub(crate) fn lines_with_novel(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
@@ -317,7 +317,7 @@ fn highlight_as_novel(
     false
 }
 
-pub fn print(
+pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
     display_path: &str,

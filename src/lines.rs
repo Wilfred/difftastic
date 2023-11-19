@@ -4,7 +4,7 @@ use std::ops::Sub;
 
 use line_numbers::LineNumber;
 
-pub fn format_line_num(line_num: LineNumber) -> String {
+pub(crate) fn format_line_num(line_num: LineNumber) -> String {
     format!("{} ", line_num.display())
 }
 
@@ -12,13 +12,13 @@ pub fn format_line_num(line_num: LineNumber) -> String {
 #[derive(Debug, PartialEq, Clone, Copy)]
 struct LinePosition {
     /// Both zero-indexed.
-    pub line: LineNumber,
+    pub(crate) line: LineNumber,
     column: usize,
 }
 
 /// Return the length of `s` in codepoints. This is important when
 /// finding character boundaries for slicing without errors.
-pub fn codepoint_len(s: &str) -> usize {
+pub(crate) fn codepoint_len(s: &str) -> usize {
     s.chars().count()
 }
 
@@ -26,11 +26,11 @@ pub fn codepoint_len(s: &str) -> usize {
 ///
 /// This is a trivial wrapper to make it clear when we want bytes not
 /// codepoints.
-pub fn byte_len(s: &str) -> usize {
+pub(crate) fn byte_len(s: &str) -> usize {
     s.len()
 }
 
-pub trait MaxLine {
+pub(crate) trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }
 
@@ -46,7 +46,7 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
-pub fn is_all_whitespace(s: &str) -> bool {
+pub(crate) fn is_all_whitespace(s: &str) -> bool {
     s.chars().all(|c| c.is_whitespace())
 }
 
