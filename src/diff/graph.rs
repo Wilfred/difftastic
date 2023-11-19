@@ -253,7 +253,10 @@ impl<'s, 'b> Vertex<'s, 'b> {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
 
-    pub(crate) fn new(lhs_syntax: Option<&'s Syntax<'s>>, rhs_syntax: Option<&'s Syntax<'s>>) -> Self {
+    pub(crate) fn new(
+        lhs_syntax: Option<&'s Syntax<'s>>,
+        rhs_syntax: Option<&'s Syntax<'s>>,
+    ) -> Self {
         let parents = Stack::new();
         Vertex {
             neighbours: RefCell::new(None),

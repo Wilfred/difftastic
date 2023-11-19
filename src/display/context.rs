@@ -327,7 +327,9 @@ fn match_preceding_blanks(
     res
 }
 
-pub(crate) fn opposite_positions(mps: &[MatchedPos]) -> DftHashMap<LineNumber, HashSet<LineNumber>> {
+pub(crate) fn opposite_positions(
+    mps: &[MatchedPos],
+) -> DftHashMap<LineNumber, HashSet<LineNumber>> {
     let mut res: DftHashMap<LineNumber, HashSet<LineNumber>> = DftHashMap::default();
 
     for mp in mps {

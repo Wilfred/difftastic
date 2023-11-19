@@ -15,7 +15,10 @@ pub(crate) enum DiffResult<T> {
 
 /// Compute a linear diff between `lhs` and `rhs`. This is the
 /// traditional Myer's diff algorithm.
-pub(crate) fn slice<'a, T: PartialEq + Clone>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffResult<&'a T>> {
+pub(crate) fn slice<'a, T: PartialEq + Clone>(
+    lhs: &'a [T],
+    rhs: &'a [T],
+) -> Vec<DiffResult<&'a T>> {
     wu_diff::diff(lhs, rhs)
         .into_iter()
         .map(|result| match result {
@@ -35,7 +38,10 @@ pub(crate) fn slice<'a, T: PartialEq + Clone>(lhs: &'a [T], rhs: &'a [T]) -> Vec
 ///
 /// This is faster when equality checks on `T` are expensive, such as
 /// large strings.
-pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffResult<&'a T>> {
+pub(crate) fn slice_by_hash<'a, T: Eq + Hash>(
+    lhs: &'a [T],
+    rhs: &'a [T],
+) -> Vec<DiffResult<&'a T>> {
     // Compute a unique numeric value for each item, use that for
     // diffing, then return diff results in terms of the original
     // type.
