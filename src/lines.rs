@@ -16,12 +16,6 @@ struct LinePosition {
     column: usize,
 }
 
-/// Return the length of `s` in codepoints. This is important when
-/// finding character boundaries for slicing without errors.
-pub(crate) fn codepoint_len(s: &str) -> usize {
-    s.chars().count()
-}
-
 /// Return the length of `s` in bytes.
 ///
 /// This is a trivial wrapper to make it clear when we want bytes not
@@ -78,11 +72,6 @@ mod tests {
     fn str_max_line_extra_trailing_newline() {
         let line: String = "foo\nbar\n\n".into();
         assert_eq!(line.max_line().0, 1);
-    }
-
-    #[test]
-    fn codepoint_len_non_ascii() {
-        assert_eq!(codepoint_len("ƒoo"), 3);
     }
 
     #[test]
