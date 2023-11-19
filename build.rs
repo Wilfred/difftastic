@@ -390,7 +390,7 @@ fn commit_info() {
     let stdout = String::from_utf8(output.stdout).unwrap();
     let mut parts = stdout.split_whitespace();
     let mut next = || parts.next().unwrap();
-    println!("cargo:rustc-env=DFT_COMMIT_HASH={}", next());
+    let _commit_hash = next();
     println!("cargo:rustc-env=DFT_COMMIT_SHORT_HASH={}", next());
     println!("cargo:rustc-env=DFT_COMMIT_DATE={}", next())
 }

@@ -4,7 +4,6 @@ use lazy_static::lazy_static;
 
 pub(crate) struct CommitInfo {
     pub(crate) short_commit_hash: &'static str,
-    pub(crate) commit_hash: &'static str,
     pub(crate) commit_date: &'static str,
 }
 
@@ -32,12 +31,10 @@ pub(crate) const fn version() -> VersionInfo {
     let version = env!("CARGO_PKG_VERSION");
     let commit_info = match (
         option_env!("DFT_COMMIT_SHORT_HASH"),
-        option_env!("DFT_COMMIT_HASH"),
         option_env!("DFT_COMMIT_DATE"),
     ) {
-        (Some(short_commit_hash), Some(commit_hash), Some(commit_date)) => Some(CommitInfo {
+        (Some(short_commit_hash), Some(commit_date)) => Some(CommitInfo {
             short_commit_hash,
-            commit_hash,
             commit_date,
         }),
         _ => None,
