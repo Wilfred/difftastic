@@ -41,7 +41,6 @@ pub(crate) struct DisplayOptions {
     pub(crate) tab_width: usize,
     pub(crate) display_width: usize,
     pub(crate) num_context_lines: u32,
-    pub(crate) in_vcs: bool,
     pub(crate) syntax_highlight: bool,
 }
 
@@ -55,7 +54,6 @@ impl Default for DisplayOptions {
             tab_width: 8,
             display_width: 80,
             num_context_lines: 3,
-            in_vcs: false,
             syntax_highlight: true,
         }
     }
@@ -627,12 +625,12 @@ pub(crate) fn parse_args() -> Mode {
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
-    let (display_path, lhs_path, rhs_path, old_path, in_vcs) = match &args[..] {
+    let (display_path, lhs_path, rhs_path, old_path) = match &args[..] {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
             let display_path = build_display_path(&lhs_arg, &rhs_arg);
-            (display_path, lhs_arg, rhs_arg, None, false)
+            (display_path, lhs_arg, rhs_arg, None)
         }
         [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
@@ -641,7 +639,6 @@ pub(crate) fn parse_args() -> Mode {
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 None,
-                true,
             )
         }
         [old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
@@ -658,7 +655,6 @@ pub(crate) fn parse_args() -> Mode {
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 Some(renamed),
-                true,
             )
         }
         [path] => {
@@ -671,7 +667,6 @@ pub(crate) fn parse_args() -> Mode {
                 display_width,
                 num_context_lines,
                 syntax_highlight,
-                in_vcs: true,
             };
 
             let display_path = path.to_string_lossy().to_string();
@@ -708,7 +703,6 @@ pub(crate) fn parse_args() -> Mode {
         display_width,
         num_context_lines,
         syntax_highlight,
-        in_vcs,
     };
 
     Mode::Diff {
