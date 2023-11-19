@@ -39,6 +39,7 @@ mod options;
 mod parse;
 mod summary;
 mod version;
+mod words;
 
 #[macro_use]
 extern crate log;
