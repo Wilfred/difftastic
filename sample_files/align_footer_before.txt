@@ -1,0 +1,4 @@
+before
+ foo x
+y
+after

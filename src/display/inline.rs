@@ -11,7 +11,7 @@ use crate::{
     summary::FileFormat,
 };
 
-pub fn print(
+pub(crate) fn print(
     lhs_src: &str,
     rhs_src: &str,
     display_options: &DisplayOptions,

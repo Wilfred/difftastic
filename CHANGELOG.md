@@ -7,6 +7,13 @@ Added support for SCSS.
 Updated the Kotlin parser and improved handling of Kotlin nullable
 types.
 
+`.snap` files (Jest snapshots) are now detected as JavaScript files.
+
+### Diffing
+
+Fixed an issue where adding or removing blank lines would be ignored
+by the textual diffing logic.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
