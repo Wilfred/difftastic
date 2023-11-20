@@ -42,6 +42,7 @@ pub(crate) struct DisplayOptions {
     pub(crate) display_width: usize,
     pub(crate) num_context_lines: u32,
     pub(crate) syntax_highlight: bool,
+    pub(crate) sort_paths: bool,
 }
 
 impl Default for DisplayOptions {
@@ -55,6 +56,7 @@ impl Default for DisplayOptions {
             display_width: 80,
             num_context_lines: 3,
             syntax_highlight: true,
+            sort_paths: false,
         }
     }
 }
@@ -286,6 +288,14 @@ When multiple overrides are specified, the first matching override wins."))
                 .multiple_values(true)
                 .hide(true)
                 .allow_invalid_utf8(true),
+        )
+        .arg(
+            Arg::new("sort-paths").long("sort-paths")
+                .value_name("on/off")
+                .env("DFT_SORT_PATHS")
+                .possible_values(["on", "off"])
+                .default_value("off")
+                .help("Enable or disable sorting of paths when displaying results of directory diff.")
         )
         .arg_required_else_help(true)
 }
@@ -574,6 +584,8 @@ pub(crate) fn parse_args() -> Mode {
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
 
+    let sort_paths = matches.value_of("sort-paths") == Some("on");
+
     let graph_limit = matches
         .value_of("graph-limit")
         .expect("Always present as we've given clap a default")
@@ -667,6 +679,7 @@ pub(crate) fn parse_args() -> Mode {
                 display_width,
                 num_context_lines,
                 syntax_highlight,
+                sort_paths,
             };
 
             let display_path = path.to_string_lossy().to_string();
@@ -703,6 +716,7 @@ pub(crate) fn parse_args() -> Mode {
         display_width,
         num_context_lines,
         syntax_highlight,
+        sort_paths,
     };
 
     Mode::Diff {
