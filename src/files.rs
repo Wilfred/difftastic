@@ -248,10 +248,7 @@ fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
 /// that occur in at least one directory.
 ///
 /// Attempts to preserve the ordering of files in both directories.
-pub fn relative_paths_in_either(
-    lhs_dir: &Path,
-    rhs_dir: &Path,
-) -> Vec<PathBuf> {
+pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> {
     let lhs_paths = relative_file_paths_in_dir(lhs_dir);
     let rhs_paths = relative_file_paths_in_dir(rhs_dir);
 
