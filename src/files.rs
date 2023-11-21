@@ -7,8 +7,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use rustc_hash::FxHashSet;
 use ignore::Walk;
+use rustc_hash::FxHashSet;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::options::FileArgument;
