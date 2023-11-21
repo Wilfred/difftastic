@@ -7,9 +7,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use regex::Regex;
 use rustc_hash::FxHashSet;
-use walkdir::WalkDir;
+use ignore::Walk;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::options::FileArgument;
@@ -235,44 +234,14 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
 }
 
 /// All the files in `dir`, including subdirectories.
-fn relative_file_paths_in_dir(dir: &Path, ignored_dirs: &Option<Vec<PathBuf>>) -> Vec<PathBuf> {
-    WalkDir::new(dir)
+fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
+    Walk::new(dir)
         .into_iter()
         .filter_map(Result::ok)
-        .map(|entry| entry.into_path())
+        .map(|entry| Path::new(entry.path()).to_owned())
         .filter(|path| !path.is_dir())
-        .filter(|path| !is_ignored(ignored_dirs, path))
         .map(|path| path.strip_prefix(dir).unwrap().to_path_buf())
         .collect()
-}
-
-fn is_ignored(ignored_dirs: &Option<Vec<PathBuf>>, path: &PathBuf) -> bool {
-    if ignored_dirs.is_none() {
-        return false;
-    }
-    let optional_path_str = path.to_str();
-    if optional_path_str.is_none() {
-        return false;
-    }
-    let path_str = optional_path_str.unwrap();
-
-    // gitignore based filtering is based on https://git-scm.com/docs/gitignore#_pattern_format
-    for ignored in ignored_dirs.clone().unwrap().iter() {
-        let ignored_str = ignored.clone().into_os_string().into_string().unwrap();
-        if ignored_str.contains("*") {
-            let mut re_string = "^".to_string();
-            re_string.push_str(ignored.to_str().unwrap());
-            re_string = re_string.replace("*", "[^/]*").replace("[^/]*[^/]*", ".*");
-            let re = Regex::new(re_string.as_str());
-            if re.is_ok() && re.unwrap().is_match(path_str) {
-                return true;
-            }
-        }
-        if path_str.to_string().contains(ignored_str.as_str()) {
-            return true;
-        }
-    }
-    return false;
 }
 
 /// Walk `lhs_dir` and `rhs_dir`, and return relative paths of files
@@ -282,10 +251,9 @@ fn is_ignored(ignored_dirs: &Option<Vec<PathBuf>>, path: &PathBuf) -> bool {
 pub fn relative_paths_in_either(
     lhs_dir: &Path,
     rhs_dir: &Path,
-    ignored_dirs: Option<Vec<PathBuf>>,
 ) -> Vec<PathBuf> {
-    let lhs_paths = relative_file_paths_in_dir(lhs_dir, &ignored_dirs);
-    let rhs_paths = relative_file_paths_in_dir(rhs_dir, &ignored_dirs);
+    let lhs_paths = relative_file_paths_in_dir(lhs_dir);
+    let rhs_paths = relative_file_paths_in_dir(rhs_dir);
 
     let mut seen = FxHashSet::default();
     let mut res: Vec<PathBuf> = vec![];
@@ -395,64 +363,5 @@ mod tests {
             0xfc, 0x0c, 0x56, 0x1e, 0x93, 0xcb, 0x71, 0x92, 0x82, 0x60, 0x16, 0x37,
         ];
         assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);
-    }
-
-    #[test]
-    fn test_is_ignored_simple() {
-        let ignored_paths: Vec<PathBuf> = vec![".idea", "target/", "**/*.zip"]
-            .iter()
-            .map(|s| PathBuf::from(s))
-            .collect();
-        let res = is_ignored(&Some(ignored_paths), &PathBuf::from(".idea/.gitignore"));
-        assert!(res);
-    }
-
-    #[test]
-    fn test_is_ignored_dont_ignore() {
-        let ignored_paths: Vec<PathBuf> = vec![".idea", "target/", "**/*.zip"]
-            .iter()
-            .map(|s| PathBuf::from(s))
-            .collect();
-        let res = is_ignored(&Some(ignored_paths), &PathBuf::from(".gitignore"));
-        assert!(!res);
-    }
-
-    #[test]
-    fn test_is_ignored_inner_path() {
-        let ignored_paths: Vec<PathBuf> = vec![".idea", "debug/", "**/*.zip"]
-            .iter()
-            .map(|s| PathBuf::from(s))
-            .collect();
-        let res = is_ignored(
-            &Some(ignored_paths),
-            &PathBuf::from("target/debug/build/some/path"),
-        );
-        assert!(res);
-    }
-
-    #[test]
-    fn test_is_ignored_regex() {
-        let ignored_paths: Vec<PathBuf> = vec![".idea", "debug/", "**/*.zip"]
-            .iter()
-            .map(|s| PathBuf::from(s))
-            .collect();
-        let res = is_ignored(
-            &Some(ignored_paths),
-            &PathBuf::from("target/build/some/path.zip"),
-        );
-        assert!(res);
-    }
-
-    #[test]
-    fn test_is_not_ignored_regex() {
-        let ignored_paths: Vec<PathBuf> = vec![".idea", "debug/", "*.zip"]
-            .iter()
-            .map(|s| PathBuf::from(s))
-            .collect();
-        let res = is_ignored(
-            &Some(ignored_paths),
-            &PathBuf::from("target/build/some/path.zip"),
-        );
-        assert!(!res);
     }
 }
