@@ -560,6 +560,18 @@
         {
           "type": "SYMBOL",
           "name": "property"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_def"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_function_def"
         }
       ]
     },
@@ -1828,8 +1840,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*include"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*include"
+              }
+            }
           },
           "named": false,
           "value": "#include"
@@ -1867,8 +1886,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*define"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*define"
+              }
+            }
           },
           "named": false,
           "value": "#define"
@@ -1909,8 +1935,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "#[ \t]*define"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*define"
+              }
+            }
           },
           "named": false,
           "value": "#define"

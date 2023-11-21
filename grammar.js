@@ -159,7 +159,10 @@ module.exports = grammar({
 				$.omit_if_no_ref,
 				$.labeled_item,
 				$.node,
-				$.property
+				$.property,
+				$.preproc_include,
+				$.preproc_def,
+				$.preproc_function_def
 			),
 
 		// TODO: is delete-node allowed at top level?
@@ -391,7 +394,10 @@ module.exports = grammar({
 });
 
 function preprocessor(command) {
-	return alias(new RegExp('#[ \t]*' + command), '#' + command);
+	return alias(
+		token(prec(2, new RegExp('#[ \t]*' + command))),
+		'#' + command
+	);
 }
 
 function commaSep(rule) {
