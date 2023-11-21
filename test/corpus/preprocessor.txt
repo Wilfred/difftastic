@@ -39,6 +39,97 @@ Preprocessor define
     )
 )
 
+================================================================================
+Ifdefs
+================================================================================
+
+#ifndef DEFINE1
+/ {};
+#endif
+
+#ifdef DEFINE2
+/ {};
+#define c 32
+#elif defined DEFINE3
+#else
+/ {};
+#define c 16
+#endif
+
+#ifdef DEFINE2
+#else
+#  ifdef DEFINE3
+#  else
+#  endif
+#endif
+
+---
+
+(document
+  (preproc_ifdef
+    name: (identifier)
+    (node
+      name: (identifier)))
+  (preproc_ifdef
+    name: (identifier)
+    (node
+      name: (identifier))
+    (preproc_def
+      name: (identifier)
+      value: (preproc_arg))
+    alternative: (preproc_elif
+      condition: (preproc_defined
+        (identifier))
+      alternative: (preproc_else
+        (node
+          name: (identifier))
+        (preproc_def
+          name: (identifier)
+          value: (preproc_arg)))))
+  (preproc_ifdef
+    name: (identifier)
+    alternative: (preproc_else
+      (preproc_ifdef
+        name: (identifier)
+        alternative: (preproc_else)))))
+
+================================================================================
+Elifdefs
+================================================================================
+
+#ifndef DEFINE1
+/ {};
+#elifndef DEFINE2
+/ {};
+#endif
+
+#ifdef DEFINE2
+/ {};
+#elifdef DEFINE3
+/ {};
+#else
+/ {};
+#endif
+
+---
+
+(document
+  (preproc_ifdef
+    (identifier)
+    (node (identifier))
+    (preproc_elifdef
+      (identifier)
+      (node (identifier))))
+  (preproc_ifdef
+    (identifier)
+    (node (identifier))
+    (preproc_elifdef
+      (identifier)
+      (node (identifier))
+      (preproc_else
+        (node (identifier)))))
+)
+
 ========================================================================
 Macro expressions
 ========================================================================
@@ -82,6 +173,12 @@ Preprocessor directives in node
 / {
     #include "macros.dtsi"
     #define FOO 0
+    #ifdef FOO
+        value = <FOO>;
+    #endif
+    #ifndef BAR
+        value = <BAR>;
+    #endif
 };
 
 ---
@@ -93,5 +190,98 @@ Preprocessor directives in node
         (preproc_def
           name: (identifier)
           value: (preproc_arg))
+        (preproc_ifdef
+          name: (identifier)
+          (property
+            name: (identifier)
+            value: (integer_cells
+              (identifier))))
+        (preproc_ifdef
+          name: (identifier)
+          (property
+            name: (identifier)
+            value: (integer_cells
+              (identifier))))
     )
 )
+
+================================================================================
+Preprocessor conditionals in functions
+================================================================================
+
+/ {
+  #if d
+    foo = "foo";
+  #else
+    bar = "bar";
+  #endif
+
+  #if a
+    baz = "baz";
+  #elif b
+    spam = "spam";
+  #else
+    eggs = "eggs";
+  #endif
+};
+
+---
+
+(document
+  (node
+    (identifier)
+    (preproc_if
+      (identifier)
+      (property
+        (identifier)
+        (string_literal))
+      (preproc_else
+        (property
+          (identifier)
+          (string_literal))))
+    (preproc_if
+      (identifier)
+      (property
+        (identifier)
+        (string_literal))
+      (preproc_elif
+        (identifier)
+        (property
+          (identifier)
+          (string_literal))
+      (preproc_else
+        (property
+          (identifier)
+          (string_literal)))))
+  )
+)
+
+================================================================================
+Preprocessor expressions
+================================================================================
+
+#if A(B || C) && \
+    !D(F)
+
+/ {};
+
+#endif
+
+---
+
+(document
+  (preproc_if
+    (binary_expression
+      (call_expression
+        (identifier)
+        (argument_list
+          (binary_expression
+            (identifier)
+            (identifier))))
+      (unary_expression
+        (call_expression
+          (identifier)
+          (argument_list
+            (identifier)))))
+    (node
+      (identifier))))

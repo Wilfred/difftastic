@@ -28,6 +28,14 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "preproc_defined",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }
@@ -68,6 +76,14 @@
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "preproc_defined",
             "named": true
           },
           {
@@ -184,6 +200,14 @@
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "preproc_defined",
             "named": true
           },
           {
@@ -423,6 +447,14 @@
         },
         {
           "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
           "named": true
         },
         {
@@ -707,6 +739,14 @@
           "named": true
         },
         {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
+        },
+        {
           "type": "preproc_include",
           "named": true
         },
@@ -735,6 +775,45 @@
         },
         {
           "type": "reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesized_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "preproc_defined",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -772,6 +851,296 @@
     }
   },
   {
+    "type": "preproc_defined",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "preproc_elif",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "preproc_elif",
+            "named": true
+          },
+          {
+            "type": "preproc_else",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "preproc_defined",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "delete_node",
+          "named": true
+        },
+        {
+          "type": "delete_property",
+          "named": true
+        },
+        {
+          "type": "dtsi_include",
+          "named": true
+        },
+        {
+          "type": "file_version",
+          "named": true
+        },
+        {
+          "type": "labeled_item",
+          "named": true
+        },
+        {
+          "type": "memory_reservation",
+          "named": true
+        },
+        {
+          "type": "node",
+          "named": true
+        },
+        {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
+          "type": "plugin",
+          "named": true
+        },
+        {
+          "type": "preproc_def",
+          "named": true
+        },
+        {
+          "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
+        },
+        {
+          "type": "preproc_include",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "preproc_elifdef",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "preproc_elif",
+            "named": true
+          },
+          {
+            "type": "preproc_else",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dtsi_include",
+          "named": true
+        },
+        {
+          "type": "file_version",
+          "named": true
+        },
+        {
+          "type": "labeled_item",
+          "named": true
+        },
+        {
+          "type": "memory_reservation",
+          "named": true
+        },
+        {
+          "type": "node",
+          "named": true
+        },
+        {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
+          "type": "plugin",
+          "named": true
+        },
+        {
+          "type": "preproc_def",
+          "named": true
+        },
+        {
+          "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
+        },
+        {
+          "type": "preproc_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "preproc_else",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "delete_node",
+          "named": true
+        },
+        {
+          "type": "delete_property",
+          "named": true
+        },
+        {
+          "type": "dtsi_include",
+          "named": true
+        },
+        {
+          "type": "file_version",
+          "named": true
+        },
+        {
+          "type": "labeled_item",
+          "named": true
+        },
+        {
+          "type": "memory_reservation",
+          "named": true
+        },
+        {
+          "type": "node",
+          "named": true
+        },
+        {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
+          "type": "plugin",
+          "named": true
+        },
+        {
+          "type": "preproc_def",
+          "named": true
+        },
+        {
+          "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
+        },
+        {
+          "type": "preproc_include",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "preproc_function_def",
     "named": true,
     "fields": {
@@ -805,6 +1174,226 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "preproc_if",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "preproc_elif",
+            "named": true
+          },
+          {
+            "type": "preproc_else",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "preproc_defined",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "delete_node",
+          "named": true
+        },
+        {
+          "type": "delete_property",
+          "named": true
+        },
+        {
+          "type": "dtsi_include",
+          "named": true
+        },
+        {
+          "type": "file_version",
+          "named": true
+        },
+        {
+          "type": "labeled_item",
+          "named": true
+        },
+        {
+          "type": "memory_reservation",
+          "named": true
+        },
+        {
+          "type": "node",
+          "named": true
+        },
+        {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
+          "type": "plugin",
+          "named": true
+        },
+        {
+          "type": "preproc_def",
+          "named": true
+        },
+        {
+          "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
+        },
+        {
+          "type": "preproc_include",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "preproc_ifdef",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "preproc_elif",
+            "named": true
+          },
+          {
+            "type": "preproc_elifdef",
+            "named": true
+          },
+          {
+            "type": "preproc_else",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "delete_node",
+          "named": true
+        },
+        {
+          "type": "delete_property",
+          "named": true
+        },
+        {
+          "type": "dtsi_include",
+          "named": true
+        },
+        {
+          "type": "file_version",
+          "named": true
+        },
+        {
+          "type": "labeled_item",
+          "named": true
+        },
+        {
+          "type": "memory_reservation",
+          "named": true
+        },
+        {
+          "type": "node",
+          "named": true
+        },
+        {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
+          "type": "plugin",
+          "named": true
+        },
+        {
+          "type": "preproc_def",
+          "named": true
+        },
+        {
+          "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
+        },
+        {
+          "type": "preproc_include",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -998,6 +1587,14 @@
             "named": true
           },
           {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "preproc_defined",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           }
@@ -1045,6 +1642,38 @@
   },
   {
     "type": "#define",
+    "named": false
+  },
+  {
+    "type": "#elif",
+    "named": false
+  },
+  {
+    "type": "#elifdef",
+    "named": false
+  },
+  {
+    "type": "#elifndef",
+    "named": false
+  },
+  {
+    "type": "#else",
+    "named": false
+  },
+  {
+    "type": "#endif",
+    "named": false
+  },
+  {
+    "type": "#if",
+    "named": false
+  },
+  {
+    "type": "#ifdef",
+    "named": false
+  },
+  {
+    "type": "#ifndef",
     "named": false
   },
   {
@@ -1198,6 +1827,10 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "defined",
+    "named": false
   },
   {
     "type": "escape_sequence",
