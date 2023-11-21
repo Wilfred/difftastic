@@ -22,6 +22,9 @@
 // implementation does not consider the mutable fields, so it is still
 // correct.
 #![allow(clippy::mutable_key_type)]
+// Debugging features shouldn't be in checked-in code.
+#![warn(clippy::todo)]
+#![warn(clippy::dbg_macro)]
 
 mod conflicts;
 mod constants;
@@ -36,6 +39,7 @@ mod options;
 mod parse;
 mod summary;
 mod version;
+mod words;
 
 #[macro_use]
 extern crate log;
@@ -238,6 +242,8 @@ fn main() {
                     options::FileArgument::NamedPath(rhs_path),
                 ) if lhs_path.is_dir() && rhs_path.is_dir() => {
                     let encountered_changes = encountered_changes.clone();
+
+                    // Diffs in parallel when iterating this iterator.
                     let diff_iter = diff_directories(
                         lhs_path,
                         rhs_path,
@@ -259,32 +265,44 @@ fn main() {
 
                         display::json::print_directory(results);
                     } else {
-                        // We want to diff files in the directory in
-                        // parallel, but print the results serially (to
-                        // prevent display interleaving).
-                        // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
-                        let (send, recv) = std::sync::mpsc::sync_channel(1);
-
-                        let encountered_changes = encountered_changes.clone();
-                        let print_options = display_options.clone();
-
-                        let printing_thread = std::thread::spawn(move || {
-                            for diff_result in recv.into_iter() {
-                                print_diff_result(&print_options, &diff_result);
+                        if display_options.sort_paths {
+                            let mut result: Vec<DiffResult> = diff_iter.collect();
+                            result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
+                            for diff_result in result {
+                                print_diff_result(&display_options, &diff_result);
 
                                 if diff_result.has_reportable_change() {
                                     encountered_changes.store(true, Ordering::Relaxed);
                                 }
                             }
-                        });
+                        } else {
+                            // We want to diff files in the directory in
+                            // parallel, but print the results serially (to
+                            // prevent display interleaving).
+                            // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
+                            let (send, recv) = std::sync::mpsc::sync_channel(1);
 
-                        diff_iter
-                            .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                            .expect("Receiver should be connected");
+                            let encountered_changes = encountered_changes.clone();
+                            let print_options = display_options.clone();
 
-                        printing_thread
-                            .join()
-                            .expect("Printing thread should not panic");
+                            let printing_thread = std::thread::spawn(move || {
+                                for diff_result in recv.into_iter() {
+                                    print_diff_result(&print_options, &diff_result);
+
+                                    if diff_result.has_reportable_change() {
+                                        encountered_changes.store(true, Ordering::Relaxed);
+                                    }
+                                }
+                            });
+
+                            diff_iter
+                                .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                                .expect("Receiver should be connected");
+
+                            printing_thread
+                                .join()
+                                .expect("Printing thread should not panic");
+                        }
                     }
                 }
                 _ => {
@@ -474,7 +492,7 @@ fn diff_file_content(
     };
 
     let language = guess(guess_path, guess_src, overrides);
-    let lang_config = language.map(|lang| (lang.clone(), tsp::from_language(lang)));
+    let lang_config = language.map(|lang| (lang, tsp::from_language(lang)));
 
     if lhs_src == rhs_src {
         let file_format = match language {

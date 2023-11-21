@@ -9,4 +9,4 @@ use rustc_hash::FxHasher;
 /// benchmarks) in a hashbrown::HashMap rather than std HashMap is a
 /// little faster, and it also allows us to use the entry_ref API
 /// which is unavailable in stable Rust.
-pub type DftHashMap<K, V> = hashbrown::HashMap<K, V, BuildHasherDefault<FxHasher>>;
+pub(crate) type DftHashMap<K, V> = hashbrown::HashMap<K, V, BuildHasherDefault<FxHasher>>;

@@ -9,6 +9,7 @@ use line_numbers::SingleLineSpan;
 use typed_arena::Arena;
 
 use self::Syntax::*;
+use crate::words::split_words_and_numbers;
 use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
@@ -44,10 +45,10 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     }
 }
 
-pub type SyntaxId = NonZeroU32;
+pub(crate) type SyntaxId = NonZeroU32;
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
-pub struct SyntaxInfo<'a> {
+pub(crate) struct SyntaxInfo<'a> {
     /// The previous node with the same parent as this one.
     previous_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The next node with the same parent as this one.
@@ -59,7 +60,7 @@ pub struct SyntaxInfo<'a> {
     parent: Cell<Option<&'a Syntax<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
-    pub num_after: Cell<usize>,
+    pub(crate) num_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -74,7 +75,7 @@ pub struct SyntaxInfo<'a> {
 }
 
 impl<'a> SyntaxInfo<'a> {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Self {
             previous_sibling: Cell::new(None),
             next_sibling: Cell::new(None),
@@ -95,7 +96,7 @@ impl<'a> Default for SyntaxInfo<'a> {
     }
 }
 
-pub enum Syntax<'a> {
+pub(crate) enum Syntax<'a> {
     List {
         info: SyntaxInfo<'a>,
         open_position: Vec<SingleLineSpan>,
@@ -191,7 +192,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
 }
 
 impl<'a> Syntax<'a> {
-    pub fn new_list(
+    pub(crate) fn new_list(
         arena: &'a Arena<Syntax<'a>>,
         open_content: &str,
         open_position: Vec<SingleLineSpan>,
@@ -244,7 +245,7 @@ impl<'a> Syntax<'a> {
         })
     }
 
-    pub fn new_atom(
+    pub(crate) fn new_atom(
         arena: &'a Arena<Syntax<'a>>,
         mut position: Vec<SingleLineSpan>,
         mut content: &str,
@@ -269,42 +270,42 @@ impl<'a> Syntax<'a> {
         })
     }
 
-    pub fn info(&self) -> &SyntaxInfo<'a> {
+    pub(crate) fn info(&self) -> &SyntaxInfo<'a> {
         match self {
             List { info, .. } | Atom { info, .. } => info,
         }
     }
 
-    pub fn parent(&self) -> Option<&'a Syntax<'a>> {
+    pub(crate) fn parent(&self) -> Option<&'a Syntax<'a>> {
         self.info().parent.get()
     }
 
-    pub fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
+    pub(crate) fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
         self.info().next_sibling.get()
     }
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
-    pub fn id(&self) -> SyntaxId {
+    pub(crate) fn id(&self) -> SyntaxId {
         self.info().unique_id.get()
     }
 
     /// A content ID of this syntax node. Two nodes have the same
     /// content ID if they have the same content, regardless of
     /// position.
-    pub fn content_id(&self) -> u32 {
+    pub(crate) fn content_id(&self) -> u32 {
         self.info().content_id.get()
     }
 
-    pub fn content_is_unique(&self) -> bool {
+    pub(crate) fn content_is_unique(&self) -> bool {
         self.info().content_is_unique.get()
     }
 
-    pub fn num_ancestors(&self) -> u32 {
+    pub(crate) fn num_ancestors(&self) -> u32 {
         self.info().num_ancestors.get()
     }
 
-    pub fn dbg_content(&self) -> String {
+    pub(crate) fn dbg_content(&self) -> String {
         match self {
             List {
                 open_content,
@@ -332,7 +333,7 @@ impl<'a> Syntax<'a> {
     }
 }
 
-pub fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
+pub(crate) fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
     fn walk_comment_positions(node: &Syntax<'_>, positions: &mut Vec<SingleLineSpan>) {
         match node {
             List { children, .. } => {
@@ -357,7 +358,7 @@ pub fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
 }
 
 /// Initialise all the fields in `SyntaxInfo`.
-pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     init_info(lhs_roots, rhs_roots);
     init_next_prev(lhs_roots);
     init_next_prev(rhs_roots);
@@ -439,7 +440,7 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
         }
     }
 }
-pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
+pub(crate) fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
@@ -562,7 +563,7 @@ impl<'a> Eq for Syntax<'a> {}
 /// Different types of strings. We want to diff these the same way,
 /// but highlight them differently.
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
-pub enum StringKind {
+pub(crate) enum StringKind {
     /// A string literal, such as `"foo"`.
     StringLiteral,
     /// Plain text, such as the content of `<p>foo</p>`.
@@ -570,7 +571,7 @@ pub enum StringKind {
 }
 
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
-pub enum AtomKind {
+pub(crate) enum AtomKind {
     Normal,
     // TODO: We should either have a AtomWithWords(HighlightKind) or a
     // separate String, Text and Comment kind.
@@ -583,14 +584,14 @@ pub enum AtomKind {
 
 /// Unlike atoms, tokens can be delimiters like `{`.
 #[derive(PartialEq, Eq, Debug, Clone, Copy)]
-pub enum TokenKind {
+pub(crate) enum TokenKind {
     Delimiter,
     Atom(AtomKind),
 }
 
 /// A matched token (an atom, a delimiter, or a comment word).
 #[derive(PartialEq, Eq, Debug, Clone)]
-pub enum MatchKind {
+pub(crate) enum MatchKind {
     UnchangedToken {
         highlight: TokenKind,
         self_pos: Vec<SingleLineSpan>,
@@ -613,7 +614,7 @@ pub enum MatchKind {
 }
 
 impl MatchKind {
-    pub fn is_novel(&self) -> bool {
+    pub(crate) fn is_novel(&self) -> bool {
         matches!(
             self,
             MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }
@@ -622,91 +623,9 @@ impl MatchKind {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct MatchedPos {
-    pub kind: MatchKind,
-    pub pos: SingleLineSpan,
-}
-
-/// Split `s` into a vec of things that look like words and individual
-/// non-word characters.
-///
-/// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
-///
-/// See also `split_words_and_numbers`. Both these functions are hot,
-/// so they are separate implementations rather than passing a bool to
-/// customise number handling.
-pub fn split_words(s: &str) -> Vec<&str> {
-    let mut res = vec![];
-    let mut word_start: Option<usize> = None;
-    for (idx, c) in s.char_indices() {
-        match word_start {
-            Some(start) => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
-                    // Just carry on in this word.
-                } else {
-                    // Push the previous word, then this non-word character.
-                    res.push(&s[start..idx]);
-                    res.push(&s[idx..idx + c.len_utf8()]);
-                    word_start = None;
-                }
-            }
-            None => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
-                    word_start = Some(idx);
-                } else {
-                    res.push(&s[idx..idx + c.len_utf8()]);
-                }
-            }
-        }
-    }
-
-    if let Some(start) = word_start {
-        res.push(&s[start..]);
-    }
-    res
-}
-
-/// Split `s` into a vec of things that look like words and individual
-/// non-word characters.
-///
-/// "foo..bar23" -> vec!["foo", ".", ".", "bar23"]
-pub fn split_words_and_numbers(s: &str) -> Vec<&str> {
-    let mut res = vec![];
-    let mut word_start: Option<(usize, char)> = None;
-    for (idx, c) in s.char_indices() {
-        match word_start {
-            Some((start, start_c)) => {
-                if c.is_alphanumeric() || c == '_' {
-                    // Word character, add to the current word if it's
-                    // not a number.
-                    if c.is_ascii_digit() == start_c.is_ascii_digit() {
-                        // Just carry on in this word.
-                    } else {
-                        // Finish previous word, start a new one.
-                        res.push(&s[start..idx]);
-                        word_start = Some((idx, c));
-                    }
-                } else {
-                    // Push the previous word, then this non-word character.
-                    res.push(&s[start..idx]);
-                    res.push(&s[idx..idx + c.len_utf8()]);
-                    word_start = None;
-                }
-            }
-            None => {
-                if c.is_alphanumeric() || c == '-' || c == '_' {
-                    word_start = Some((idx, c));
-                } else {
-                    res.push(&s[idx..idx + c.len_utf8()]);
-                }
-            }
-        }
-    }
-
-    if let Some((start, _)) = word_start {
-        res.push(&s[start..]);
-    }
-    res
+pub(crate) struct MatchedPos {
+    pub(crate) kind: MatchKind,
+    pub(crate) pos: SingleLineSpan,
 }
 
 /// Given the text `content` from a comment or strings, split it into
@@ -758,7 +677,7 @@ fn split_atom_words(
                         kind: MatchKind::NovelWord {
                             highlight: TokenKind::Atom(kind),
                         },
-                        pos: content_newlines.from_offsets_relative_to(
+                        pos: content_newlines.from_region_relative_to(
                             // TODO: don't assume a single line atom.
                             pos[0],
                             offset,
@@ -772,9 +691,9 @@ fn split_atom_words(
                 // This word is present on both sides.
                 // TODO: don't assume this atom is on a single line.
                 let word_pos =
-                    content_newlines.from_offsets_relative_to(pos[0], offset, offset + word.len())
+                    content_newlines.from_region_relative_to(pos[0], offset, offset + word.len())
                         [0];
-                let opposite_word_pos = opposite_content_newlines.from_offsets_relative_to(
+                let opposite_word_pos = opposite_content_newlines.from_region_relative_to(
                     opposite_pos[0],
                     opposite_offset,
                     opposite_offset + opposite_word.len(),
@@ -948,7 +867,7 @@ impl MatchedPos {
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
-pub fn change_positions<'a>(
+pub(crate) fn change_positions<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
 ) -> Vec<MatchedPos> {
@@ -1002,7 +921,7 @@ fn change_positions_<'a>(
     }
 }
 
-pub fn zip_pad_shorter<Tx: Clone, Ty: Clone>(
+pub(crate) fn zip_pad_shorter<Tx: Clone, Ty: Clone>(
     lhs: &[Tx],
     rhs: &[Ty],
 ) -> Vec<(Option<Tx>, Option<Ty>)> {
@@ -1022,7 +941,7 @@ pub fn zip_pad_shorter<Tx: Clone, Ty: Clone>(
 
 /// Zip `lhs` with `rhs`, but repeat the last item from the shorter
 /// slice.
-pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
+pub(crate) fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
     let lhs_last: Tx = match lhs.last() {
         Some(last) => last.clone(),
         None => return vec![],
@@ -1338,68 +1257,5 @@ mod tests {
                 }
             ],
         );
-    }
-
-    #[test]
-    fn test_split_words() {
-        let s = "example.com";
-        let res = split_words(s);
-        assert_eq!(res, vec!["example", ".", "com"])
-    }
-
-    #[test]
-    fn test_split_words_punctuation() {
-        let s = "example..";
-        let res = split_words(s);
-        assert_eq!(res, vec!["example", ".", "."])
-    }
-
-    #[test]
-    fn test_split_words_numbers() {
-        let s = "foo123bar";
-        let res = split_words(s);
-        assert_eq!(res, vec!["foo123bar"])
-    }
-
-    #[test]
-    fn test_split_words_treats_newline_separately() {
-        let s = "example.\ncom";
-        let res = split_words(s);
-        assert_eq!(res, vec!["example", ".", "\n", "com"])
-    }
-
-    #[test]
-    fn test_split_words_single_unicode() {
-        let s = "a ö b";
-        let res = split_words(s);
-        assert_eq!(res, vec!["a", " ", "ö", " ", "b"])
-    }
-
-    #[test]
-    fn test_split_words_single_unicode_not_alphabetic() {
-        let s = "a 💝 b";
-        let res = split_words(s);
-        assert_eq!(res, vec!["a", " ", "💝", " ", "b"])
-    }
-
-    #[test]
-    fn test_split_words_unicode() {
-        let s = "a xöy b";
-        let res = split_words(s);
-        assert_eq!(res, vec!["a", " ", "xöy", " ", "b"])
-    }
-
-    #[test]
-    fn test_split_words_and_numbers() {
-        let s = "a123b";
-        let res = split_words_and_numbers(s);
-        assert_eq!(res, vec!["a", "123", "b"])
-    }
-
-    #[test]
-    fn test_split_words_and_numbers_spaces() {
-        let s = "foo bar";
-        let res = split_words_and_numbers(s);
-        assert_eq!(res, vec!["foo", " ", "bar"])
     }
 }

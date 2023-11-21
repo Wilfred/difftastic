@@ -12,22 +12,22 @@ enum ConflictState {
     Right,
 }
 
-pub const START_LHS_MARKER: &str = "<<<<<<<";
+pub(crate) const START_LHS_MARKER: &str = "<<<<<<<";
 const START_BASE_MARKER: &str = "|||||||";
 const START_RHS_MARKER: &str = "=======";
 const END_RHS_MARKER: &str = ">>>>>>>";
 
-pub struct ConflictFiles {
-    pub lhs_name: Option<String>,
-    pub lhs_content: String,
-    pub rhs_name: Option<String>,
-    pub rhs_content: String,
-    pub num_conflicts: usize,
+pub(crate) struct ConflictFiles {
+    pub(crate) lhs_name: Option<String>,
+    pub(crate) lhs_content: String,
+    pub(crate) rhs_name: Option<String>,
+    pub(crate) rhs_content: String,
+    pub(crate) num_conflicts: usize,
 }
 
 /// Convert a string with conflict markers into the two conflicting
 /// file contents.
-pub fn apply_conflict_markers(s: &str) -> Result<ConflictFiles, String> {
+pub(crate) fn apply_conflict_markers(s: &str) -> Result<ConflictFiles, String> {
     let mut lhs_name: Option<String> = None;
     let mut rhs_name: Option<String> = None;
 

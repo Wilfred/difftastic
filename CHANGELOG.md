@@ -1,10 +1,31 @@
 ## 0.53 (unreleased)
 
+### Parsing
+
+Added support for SCSS.
+
+Updated the Kotlin parser and improved handling of Kotlin nullable
+types.
+
+`.snap` files (Jest snapshots) are now detected as JavaScript files.
+
+### Diffing
+
+Fixed an issue where adding or removing blank lines would be ignored
+by the textual diffing logic.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
 characters before diffing, which is helpful when dealing with a mix of
 Windows and non-Windows flies.
+
+The option `--skip-unchanged` now has a corresponding environment
+option `DFT_SKIP_UNCHANGED`.
+
+### Build
+
+Difftastic now requires Rust 1.60 to build.
 
 ## 0.52 (released 8th October 2023)
 

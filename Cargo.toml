@@ -12,7 +12,7 @@ edition = "2021"
 # Goal: support at least 12 months of Rust versions, and also the Rust
 # version on Debian stable:
 # https://tracker.debian.org/pkg/rustc
-rust-version = "1.59.0"
+rust-version = "1.60.0"
 include = [
         "/build.rs",
         "/src/",
@@ -31,8 +31,11 @@ pkg-url = "{ repo }/releases/download/{ version }/difft-{ target }.{ archive-for
 pkg-fmt = "zip"
 
 [dependencies]
-# regex 1.8 requires rust 1.60.
-regex = ">= 1.7, < 1.8"
+# regex 1.10 requires rust 1.65.
+# regex 1.9.5 depends on memchr 2.6, which requires rust 1.61.
+regex = ">= 1.9, < 1.9.5"
+memchr = ">= 2, < 2.6"
+
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
@@ -43,7 +46,10 @@ lazy_static = "1.4.0"
 tree-sitter = "0.20.9"
 libc = "0.2.108"
 log = "0.4.14"
-pretty_env_logger = "0.4.0"
+pretty_env_logger = "0.5.0"
+# is-terminal is a dependency of env_logger, but 0.4.8 requires rust 1.63.
+is-terminal = ">= 0.4, < 0.4.8"
+
 mimalloc = { version = "0.1.28", default-features = false }
 # Pin libmimalloc-sys due to 0.1.25 producing a huge slowdown in very
 # large textual files, as discussed in #297.
@@ -58,7 +64,7 @@ tree_magic_mini = "3.0.2"
 # bumpalo 3.12 requires rust 1.60
 bumpalo = "3.11.1"
 unicode-width = "0.1.9"
-crossterm = { version = "0.26.1", features = [] }
+crossterm = { version = "0.27.0", features = [] }
 glob = "0.3.1"
 strum = { version = "0.25", features = ["derive"] }
 # hashbrown 0.13 requires rust 1.61
@@ -66,7 +72,7 @@ hashbrown = "0.12.3"
 humansize = "2.1.3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-line-numbers = "0.2.2"
+line-numbers = "0.3.0"
 
 [dev-dependencies]
 # assert_cmd 2.0.6 requires rust 1.60

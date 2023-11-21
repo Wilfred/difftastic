@@ -358,3 +358,28 @@ data class JwtConfiguration(
         (simple_identifier)
         (user_type
           (type_identifier))))))
+
+================================================================================
+Value class: https://kotlinlang.org/docs/inline-classes.html
+================================================================================
+
+@JvmInline
+value class Password(private val s: String)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (modifiers
+      (annotation
+        (user_type
+          (type_identifier)))
+      (class_modifier))
+    (type_identifier)
+    (primary_constructor
+      (class_parameter
+        (modifiers
+          (visibility_modifier))
+        (simple_identifier)
+        (user_type
+          (type_identifier))))))
