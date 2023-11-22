@@ -8,6 +8,9 @@
  * BSD 3-Clause license, Copyright (c) 2019, Nordic Semiconductor
  */
 
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 const PREC = {
 	PAREN_DECLARATOR: -10,
 	ASSIGNMENT: -1,
@@ -318,6 +321,7 @@ module.exports = grammar({
 			),
 
 		binary_expression: ($) => {
+			/** @type {[string, number][]} */
 			const table = [
 				['+', PREC.ADD],
 				['-', PREC.ADD],
@@ -393,6 +397,9 @@ module.exports = grammar({
 	},
 });
 
+/**
+ * @param {string} command
+ */
 function preprocessor(command) {
 	return alias(
 		token(prec(2, new RegExp('#[ \t]*' + command))),
@@ -400,10 +407,16 @@ function preprocessor(command) {
 	);
 }
 
+/**
+ * @param {RuleOrLiteral} rule
+ */
 function commaSep(rule) {
 	return optional(commaSep1(rule));
 }
 
+/**
+ * @param {RuleOrLiteral} rule
+ */
 function commaSep1(rule) {
 	return seq(rule, repeat(seq(',', rule)));
 }
