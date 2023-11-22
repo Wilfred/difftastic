@@ -30,7 +30,7 @@
         "dtsi",
         "overlay"
       ],
-      "injection-regex": "^(dt|devicetree)$"
+      "injection-regex": "^(dts|devicetree)$"
     }
   ]
 }
