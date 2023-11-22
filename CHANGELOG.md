@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.8.0
+
+-   Added `name` property to `/delete-node/` and `/delete-property/`.
+-   Added support for preprocessor commands inside nodes.
+
+## v0.7.1
+
+-   Updated to tree-sitter v0.20.8.
+
 ## v0.6.0
 
 -   Updated to tree-sitter v0.20.7
