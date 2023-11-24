@@ -291,11 +291,8 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("sort-paths").long("sort-paths")
-                .value_name("on/off")
                 .env("DFT_SORT_PATHS")
-                .possible_values(["on", "off"])
-                .default_value("off")
-                .help("Enable or disable sorting of paths when displaying results of directory diff.")
+                .help("When diffing a directory, output the results sorted by path. This is slower.")
         )
         .arg_required_else_help(true)
 }
@@ -584,7 +581,7 @@ pub(crate) fn parse_args() -> Mode {
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
 
-    let sort_paths = matches.value_of("sort-paths") == Some("on");
+    let sort_paths = matches.is_present("sort-paths");
 
     let graph_limit = matches
         .value_of("graph-limit")
