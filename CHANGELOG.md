@@ -14,6 +14,8 @@ types.
 Fixed an issue where adding or removing blank lines would be ignored
 by the textual diffing logic.
 
+Directory diffing now respects `.gitignore` files.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
