@@ -55,7 +55,8 @@ mimalloc = { version = "0.1.28", default-features = false }
 # large textual files, as discussed in #297.
 libmimalloc-sys = "=0.1.24"
 radix-heap = "0.4.2"
-ignore = "0.3.1"
+# ignore 0.4.19 requires scoped_threads, which was added in rust 1.63.
+ignore = ">= 0.4, < 0.4.19"
 const_format = "0.2.22"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
