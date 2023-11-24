@@ -150,7 +150,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Ruby => "Ruby",
         Rust => "Rust",
         Scala => "Scala",
-        Scss => "Scss",
+        Scss => "SCSS",
         Solidity => "Solidity",
         Sql => "SQL",
         Swift => "Swift",
