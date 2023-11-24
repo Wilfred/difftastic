@@ -16,6 +16,9 @@ by the textual diffing logic.
 
 Directory diffing now respects `.gitignore` files.
 
+Directory diffing can now be sorted by path with the `--sort-paths`
+option.
+
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
