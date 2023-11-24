@@ -2,6 +2,7 @@
 **/*.rs.bk
 perf.data*
 flamegraph.svg
+.idea
 
 sample_files/compare.result
 
