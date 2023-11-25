@@ -57,6 +57,13 @@ libmimalloc-sys = "=0.1.24"
 radix-heap = "0.4.2"
 # ignore 0.4.19 requires scoped_threads, which was added in rust 1.63.
 ignore = ">= 0.4, < 0.4.19"
+# aho-corasick is a dependency of regex and ignore. In 1.1.0 it added
+# usage of the target feature 'neon' on aarch64, which is unstable on
+# rust 1.60.
+# 
+# https://github.com/BurntSushi/aho-corasick/commit/0be6fe43822aeb193d8894fd1400c8b843320ef0
+# https://github.com/rust-lang/rust/pull/90621#issuecomment-1068998914
+aho-corasick = ">= 1.0, < 1.1.0"
 const_format = "0.2.22"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
