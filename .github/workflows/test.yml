@@ -35,7 +35,7 @@ jobs:
       if: matrix.job.use-cross
       uses: taiki-e/install-action@v2
       with:
-        tool: cross
+        tool: cross@0.2.5
 
     - name: Overwrite build command env variable
       if: matrix.job.use-cross
