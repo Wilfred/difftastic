@@ -1,5 +1,11 @@
 ## 0.54 (unreleased)
 
+## 0.53.1 (released 26th November 2023)
+
+### Build
+
+Fixed a dependency issue that broke aarch64 builds on older rustc versions.
+
 ## 0.53 (released 24th November 2023)
 
 ### Parsing
