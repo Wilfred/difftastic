@@ -3,9 +3,37 @@ use std::process::Command;
 use assert_cmd::prelude::*;
 use predicates::prelude::*;
 
+fn find_runner() -> Option<String> {
+    for (key, value) in std::env::vars() {
+        if key.starts_with("CARGO_TARGET_") && key.ends_with("_RUNNER") && !value.is_empty() {
+            return Some(value);
+        }
+    }
+    None
+}
+
+// Sample code from
+// https://github.com/assert-rs/assert_cmd/issues/139, supports
+// cross-compiled binaries.
+fn get_base_command() -> Command {
+    let mut cmd;
+    let path = assert_cmd::cargo::cargo_bin("difft");
+    if let Some(runner) = find_runner() {
+        let mut runner = runner.split_whitespace();
+        cmd = Command::new(runner.next().unwrap());
+        for arg in runner {
+            cmd.arg(arg);
+        }
+        cmd.arg(path);
+    } else {
+        cmd = Command::new(path);
+    }
+    cmd
+}
+
 #[test]
 fn no_such_files() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("no_such_file").arg("no_such_file_either");
     cmd.assert().failure().code(2);
@@ -13,7 +41,7 @@ fn no_such_files() {
 
 #[test]
 fn inline() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--display=inline")
         .arg("sample_files/simple_before.js")
@@ -23,7 +51,7 @@ fn inline() {
 
 #[test]
 fn binary_changed() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--display=inline")
         .arg("img/logo.png")
@@ -35,7 +63,7 @@ fn binary_changed() {
 
 #[test]
 fn has_changes_default_exit_code() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/simple_before.js")
         .arg("sample_files/simple_after.js");
@@ -44,7 +72,7 @@ fn has_changes_default_exit_code() {
 
 #[test]
 fn has_changes_requested_exit_code() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--exit-code")
         .arg("sample_files/simple_before.js")
@@ -54,7 +82,7 @@ fn has_changes_requested_exit_code() {
 
 #[test]
 fn ignore_comments() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--ignore-comments")
         .arg("sample_files/comma_and_comment_before.js")
@@ -66,7 +94,7 @@ fn ignore_comments() {
 
 #[test]
 fn check_only() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--check-only")
         .arg("sample_files/simple_before.js")
@@ -78,7 +106,7 @@ fn check_only() {
 
 #[test]
 fn check_only_text_file() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--check-only")
         .arg("sample_files/text_before.txt")
@@ -90,7 +118,7 @@ fn check_only_text_file() {
 
 #[test]
 fn makefile_text_as_atom() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/cli_tests/makefile_before.mk")
         .arg("sample_files/cli_tests/makefile_after.mk");
@@ -101,7 +129,7 @@ fn makefile_text_as_atom() {
 
 #[test]
 fn yaml_parse_errors() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/cli_tests/bad_yaml_before.yml")
         .arg("sample_files/cli_tests/bad_yaml_after.yml");
@@ -112,7 +140,7 @@ fn yaml_parse_errors() {
 
 #[test]
 fn list_languages() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--list-languages");
 
@@ -125,7 +153,7 @@ fn list_languages() {
 
 #[test]
 fn test_mime_type_false_positive() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/cli_tests/x_mod_false_positive.js")
         .arg("sample_files/cli_tests/empty.js");
@@ -136,7 +164,7 @@ fn test_mime_type_false_positive() {
 
 #[test]
 fn slightly_invalid_utf8() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/cli_tests/MainWindowViewModel.cs")
         .arg("/dev/null");
@@ -147,7 +175,7 @@ fn slightly_invalid_utf8() {
 
 #[test]
 fn directory_arguments() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/dir_before")
         .arg("sample_files/dir_after");
@@ -159,7 +187,7 @@ fn directory_arguments() {
 
 #[test]
 fn git_style_arguments_rename() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("elisp_oldname.el")
         .arg("sample_files/elisp_before.el")
@@ -176,7 +204,7 @@ fn git_style_arguments_rename() {
 
 #[test]
 fn drop_different_path_starts() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("sample_files/dir_before/clojure.clj")
         .arg("sample_files/dir_after/clojure.clj");
@@ -186,7 +214,7 @@ fn drop_different_path_starts() {
 
 #[test]
 fn dump_tree_sitter() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--dump-ts")
         .arg("sample_files/simple_before.js")
@@ -196,7 +224,7 @@ fn dump_tree_sitter() {
 
 #[test]
 fn dump_syntax() {
-    let mut cmd = Command::cargo_bin("difft").unwrap();
+    let mut cmd = get_base_command();
 
     cmd.arg("--dump-syntax")
         .arg("sample_files/simple_before.js")
