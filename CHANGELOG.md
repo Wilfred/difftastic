@@ -1,5 +1,9 @@
 ## 0.54 (unreleased)
 
+### Build
+
+Difftastic now requires Rust 1.63 to build.
+
 ## 0.53.1 (released 26th November 2023)
 
 ### Build

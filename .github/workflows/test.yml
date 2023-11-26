@@ -27,7 +27,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@1.60.0
+      uses: dtolnay/rust-toolchain@1.63.0
       with:
         targets: ${{ matrix.job.target }}
 
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.60.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
 
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.60.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.60.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - run: cargo package --allow-dirty
 
   fmt:
@@ -87,5 +87,5 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.60.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - run: cargo fmt --all -- --check

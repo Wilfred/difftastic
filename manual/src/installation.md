@@ -28,7 +28,7 @@ $ brew install difftastic
 
 Difftastic is written in Rust, so you will need Rust installed. I
 recommend [rustup](https://rustup.rs/) to install Rust. Difftastic
-requires Rust version 1.60 or later.
+requires Rust version 1.63 or later.
 
 You will also need a C++ compiler that supports C++14. If you're using
 GCC, you need at least version 8.
