@@ -1879,7 +1879,7 @@ bool tree_sitter_typst_external_scanner_scan(
 
 	if (
 		valid_symbols[TOKEN_LABEL] && (
-			is_id_start(lex_next) || lex_next == '-' || lex_next == '_'
+			is_id_continue(lex_next) || lex_next == '-' || lex_next == '.' || lex_next == ':'
 	)) {
 		lex_advance();
 		while (is_id_continue(lex_next) || lex_next == '-' || lex_next == '.' || lex_next == ':') {
