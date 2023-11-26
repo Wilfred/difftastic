@@ -266,7 +266,6 @@ dependencies = [
  "hashbrown 0.12.3",
  "humansize",
  "ignore",
- "is-terminal",
  "itertools 0.11.0",
  "lazy_static",
  "libc",
