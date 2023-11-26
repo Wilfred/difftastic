@@ -18,7 +18,7 @@ jobs:
           #
           # See also https://github.com/cross-rs/cross-toolchains#apple-targets
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
-          # - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
+          - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
     env:
       BUILD_CMD: cargo
 
