@@ -13,14 +13,19 @@ jobs:
           - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
           - { target: x86_64-apple-darwin, os: macos-latest }
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
-          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true }
-          # FIXME: these jobs are falling back to x86-64, so they're not testing anything.
-          #
-          # See also https://github.com/cross-rs/cross-toolchains#apple-targets
+
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
           - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
+
+          # musl binaries produced by GitHub actions segfault when run, see
+          # https://github.com/Wilfred/difftastic/issues/563
+          #
+          # musl builds seem to work fine elsewhere, so just verify
+          # that compilation works for now.
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true, build-only: true }
     env:
       BUILD_CMD: cargo
+      SUBCOMMAND: test
 
     steps:
     - name: Checkout source code
@@ -42,9 +47,14 @@ jobs:
       shell: bash
       run: echo "BUILD_CMD=cross" >> $GITHUB_ENV
 
+    - name: Overwrite build subcommand env variable
+      if: matrix.job.build_only
+      shell: bash
+      run: echo "SUBCOMMAND=build" >> $GITHUB_ENV
+
     - name: Test
       shell: bash
-      run: $BUILD_CMD test --target ${{ matrix.job.target }}
+      run: $BUILD_CMD $SUBCOMMAND --target ${{ matrix.job.target }}
 
   test_mime_db:
     name: Test with MIME database
