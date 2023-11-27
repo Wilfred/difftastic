@@ -58,6 +58,9 @@
         padding: 5px;
       }
 
+      .white {
+        color: #f8f8f2;
+      }
       .red {
         color: #ff5555;
       }
@@ -72,31 +75,18 @@
         box-shadow: 5px 5px #1d1b22;
       }
 
-      .btn:hover {
-        border-color: #f8f8f2 !important;
-        color: #f8f8f2 !important;
-        background-color: #282a36 !important;
+      img {
+        box-shadow: 10px 10px #1d1b22;
       }
 
-      .btn.gray {
-        color: #f8f8f2;
-        background-color: #282a36;
-        border-color: #1d1b22;
-      }
-      .btn.red {
-        color: #282a36;
-        background-color: #ff5555;
-        border-color: #ff5555;
-      }
-      .btn.green {
-        color: #282a36;
-        background-color: #50fa7b;
-        border-color: #50fa7b;
+      object {
+        box-shadow: 5px 5px #1d1b22;
       }
 
-      a {
-        color: #50fa7b;
+      img.screenshot {
+        box-shadow: none;
       }
+
       code {
         color: #ff5555;
       }
@@ -132,15 +122,18 @@
         </h2>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
           <a
-            href="https://github.com/wilfred/difftastic"
-            class="btn gray btn-lg px-4"
+            href="https://github.com/Wilfred/difftastic"
+            class="fs-4 mb-4 white"
           >
             GitHub
           </a>
-          <a href="button" class="red btn btn-lg px-4">
+          <a href="https://difftastic.wilfred.me.uk" class="fs-4 mb-4 red">
             Manual
           </a>
-          <a href="button" class="green btn btn-lg px-4">
+          <a
+            href="https://difftastic.wilfred.me.uk/installation.html"
+            class="fs-4 mb-4 green"
+          >
             Install
           </a>
         </div>
@@ -529,7 +522,9 @@
 
         <p>
           See the full
-          <a href="https://difftastic.wilfred.me.uk/languages_supported.html"
+          <a
+            href="https://difftastic.wilfred.me.uk/languages_supported.html"
+            class="green"
             >list of supported languages</a
           >
           in the manual.
@@ -613,6 +608,7 @@
           See the full
           <a
             href="https://difftastic.wilfred.me.uk/languages_supported.html#structured-text-formats"
+            class="green"
             >list of supported file formats</a
           >
           in the manual.
