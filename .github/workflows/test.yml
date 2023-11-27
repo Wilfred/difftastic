@@ -48,7 +48,7 @@ jobs:
       run: echo "BUILD_CMD=cross" >> $GITHUB_ENV
 
     - name: Overwrite build subcommand env variable
-      if: matrix.job.build_only
+      if: matrix.job.build-only
       shell: bash
       run: echo "SUBCOMMAND=build" >> $GITHUB_ENV
 
