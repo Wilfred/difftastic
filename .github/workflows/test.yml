@@ -15,7 +15,11 @@ jobs:
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
 
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
-          - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
+
+          # TODO: Support cross-compiling on macOS on CI, see
+          # https://github.com/cross-rs/cross-toolchains#apple-targets
+          #
+          # - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
 
           # musl binaries produced by GitHub actions segfault when run, see
           # https://github.com/Wilfred/difftastic/issues/563
