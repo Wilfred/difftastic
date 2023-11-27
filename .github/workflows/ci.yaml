@@ -17,6 +17,9 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
         node-version: [lts/*]
     steps:
+      # https://github.com/nodejs/node-gyp/issues/2869
+      - name: Install distutils
+        run: python3 -m pip install setuptools
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
