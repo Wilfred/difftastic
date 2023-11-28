@@ -119,6 +119,10 @@
           "named": true
         },
         {
+          "type": "important",
+          "named": true
+        },
+        {
           "type": "integer_value",
           "named": true
         },
@@ -332,6 +336,10 @@
           "named": true
         },
         {
+          "type": "important",
+          "named": true
+        },
+        {
           "type": "integer_value",
           "named": true
         },
@@ -404,6 +412,10 @@
         },
         {
           "type": "grid_value",
+          "named": true
+        },
+        {
+          "type": "important",
           "named": true
         },
         {
@@ -497,6 +509,10 @@
           "named": true
         },
         {
+          "type": "postcss_statement",
+          "named": true
+        },
+        {
           "type": "rule_set",
           "named": true
         },
@@ -552,6 +568,10 @@
         },
         {
           "type": "grid_value",
+          "named": true
+        },
+        {
+          "type": "important",
           "named": true
         },
         {
@@ -871,6 +891,10 @@
           "named": true
         },
         {
+          "type": "important",
+          "named": true
+        },
+        {
           "type": "integer_value",
           "named": true
         },
@@ -930,6 +954,10 @@
         },
         {
           "type": "grid_value",
+          "named": true
+        },
+        {
+          "type": "important",
           "named": true
         },
         {
@@ -1056,6 +1084,10 @@
         },
         {
           "type": "grid_value",
+          "named": true
+        },
+        {
+          "type": "important",
           "named": true
         },
         {
@@ -1363,6 +1395,65 @@
         },
         {
           "type": "grid_value",
+          "named": true
+        },
+        {
+          "type": "important",
+          "named": true
+        },
+        {
+          "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "parenthesized_value",
+          "named": true
+        },
+        {
+          "type": "plain_value",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "postcss_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "at_keyword",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "float_value",
+          "named": true
+        },
+        {
+          "type": "grid_value",
+          "named": true
+        },
+        {
+          "type": "important",
           "named": true
         },
         {
@@ -1751,6 +1842,11 @@
     }
   },
   {
+    "type": "string_value",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "stylesheet",
     "named": true,
     "fields": {},
@@ -1877,11 +1973,19 @@
     "fields": {}
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
   {
     "type": "$=",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -2013,6 +2117,10 @@
     "named": true
   },
   {
+    "type": "js_comment",
+    "named": true
+  },
+  {
     "type": "keyframes_name",
     "named": true
   },
@@ -2051,10 +2159,6 @@
   {
     "type": "selector",
     "named": false
-  },
-  {
-    "type": "string_value",
-    "named": true
   },
   {
     "type": "tag_name",
