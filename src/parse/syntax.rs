@@ -838,7 +838,7 @@ impl MatchedPos {
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut res = vec![];
                 for (i, line_pos) in pos.iter().enumerate() {
-                    // Don't create a MatchedPos for entirly empty positions. This
+                    // Don't create a MatchedPos for entirely empty positions. This
                     // occurs when we have lists with empty open/close
                     // delimiter positions, such as the top-level list of syntax items.
                     if pos.len() == 1 && line_pos.start_col == line_pos.end_col {
