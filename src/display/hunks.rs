@@ -138,7 +138,7 @@ pub(crate) fn merge_adjacent(
     max_rhs_src_line: LineNumber,
     num_context_lines: usize,
 ) -> Vec<Hunk> {
-    let mut res: Vec<Hunk> = vec![];
+    let mut merged_hunks: Vec<Hunk> = vec![];
     let mut prev_hunk: Option<Hunk> = None;
 
     let mut prev_lhs_lines: HashSet<LineNumber> = HashSet::new();
@@ -171,7 +171,7 @@ pub(crate) fn merge_adjacent(
                 if lhs_lines.is_disjoint(&prev_lhs_lines) && rhs_lines.is_disjoint(&prev_rhs_lines)
                 {
                     // No overlaps, start a new hunk.
-                    res.push(hunk_so_far.clone());
+                    merged_hunks.push(hunk_so_far.clone());
                     prev_hunk = Some(hunk.clone());
 
                     prev_lhs_lines = lhs_lines;
@@ -193,10 +193,10 @@ pub(crate) fn merge_adjacent(
     }
 
     if let Some(current_hunk) = prev_hunk {
-        res.push(current_hunk);
+        merged_hunks.push(current_hunk);
     }
 
-    res
+    merged_hunks
 }
 
 fn lines_are_close(
@@ -227,7 +227,7 @@ fn lines_are_close(
 fn enforce_increasing(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut res = vec![];
+    let mut ordered_lines = vec![];
 
     let mut max_lhs_line: Option<LineNumber> = None;
     let mut max_rhs_line: Option<LineNumber> = None;
@@ -264,11 +264,11 @@ fn enforce_increasing(
         }
 
         if lhs_line.is_some() || rhs_line.is_some() {
-            res.push((lhs_line, rhs_line));
+            ordered_lines.push((lhs_line, rhs_line));
         }
     }
 
-    res
+    ordered_lines
 }
 
 fn find_novel_lines(

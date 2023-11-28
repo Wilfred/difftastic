@@ -41,13 +41,13 @@ impl<T> Stack<T> {
 
     // O(n)
     pub(crate) fn size(&self) -> usize {
-        let mut res = 0;
+        let mut count = 0;
         let mut node = &self.head;
         while let Some(next) = node {
-            res += 1;
+            count += 1;
             node = &next.next;
         }
-        res
+        count
     }
 
     pub(crate) fn is_empty(&self) -> bool {

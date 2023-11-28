@@ -491,7 +491,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
     }
 
     // There are only seven pushes in this function, so that's sufficient.
-    let mut res: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
+    let mut neighbours: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
@@ -510,7 +510,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                 &v.parents,
             );
 
-            res.push((
+            neighbours.push((
                 UnchangedNode {
                     depth_difference,
                     probably_punctuation,
@@ -569,7 +569,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         &parents_next,
                     );
 
-                res.push((
+                neighbours.push((
                     EnterUnchangedDelimiter { depth_difference },
                     allocate_if_new(
                         Vertex {
@@ -620,7 +620,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.rhs_parent_id,
                         &v.parents,
                     );
-                res.push((
+                neighbours.push((
                     edge,
                     allocate_if_new(
                         Vertex {
@@ -653,7 +653,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         &v.parents,
                     );
 
-                res.push((
+                neighbours.push((
                     NovelAtomLHS {},
                     allocate_if_new(
                         Vertex {
@@ -685,7 +685,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         &parents_next,
                     );
 
-                res.push((
+                neighbours.push((
                     EnterNovelDelimiterLHS {},
                     allocate_if_new(
                         Vertex {
@@ -718,7 +718,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         &v.parents,
                     );
 
-                res.push((
+                neighbours.push((
                     NovelAtomRHS {},
                     allocate_if_new(
                         Vertex {
@@ -749,7 +749,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         &parents_next,
                     );
 
-                res.push((
+                neighbours.push((
                     EnterNovelDelimiterRHS {},
                     allocate_if_new(
                         Vertex {
@@ -769,11 +769,11 @@ pub(crate) fn set_neighbours<'s, 'b>(
         }
     }
     assert!(
-        !res.is_empty(),
+        !neighbours.is_empty(),
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(res));
+    v.neighbours.replace(Some(neighbours));
 }
 
 pub(crate) fn populate_change_map<'s, 'b>(

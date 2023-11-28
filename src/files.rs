@@ -253,7 +253,7 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
     let rhs_paths = relative_file_paths_in_dir(rhs_dir);
 
     let mut seen = FxHashSet::default();
-    let mut res: Vec<PathBuf> = vec![];
+    let mut paths: Vec<PathBuf> = vec![];
 
     let mut i = 0;
     let mut j = 0;
@@ -264,7 +264,7 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
                 if !seen.contains(lhs_path) {
                     // It should be impossible to get duplicates, but
                     // be defensive.
-                    res.push(lhs_path.clone());
+                    paths.push(lhs_path.clone());
                     seen.insert(lhs_path);
                 }
 
@@ -277,8 +277,8 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
                 } else if seen.contains(rhs_path) {
                     j += 1;
                 } else {
-                    res.push(lhs_path.clone());
-                    res.push(rhs_path.clone());
+                    paths.push(lhs_path.clone());
+                    paths.push(rhs_path.clone());
 
                     seen.insert(lhs_path);
                     seen.insert(rhs_path);
@@ -291,10 +291,10 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
         }
     }
 
-    res.extend(lhs_paths.into_iter().skip(i));
-    res.extend(rhs_paths.into_iter().skip(j));
+    paths.extend(lhs_paths.into_iter().skip(i));
+    paths.extend(rhs_paths.into_iter().skip(j));
 
-    res
+    paths
 }
 
 #[cfg(test)]

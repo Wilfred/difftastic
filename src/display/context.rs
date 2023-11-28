@@ -128,9 +128,9 @@ fn all_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
     for mp in mps {
         lines.insert(mp.pos.line);
     }
-    let mut res: Vec<LineNumber> = lines.into_iter().collect();
-    res.sort_unstable();
-    res
+    let mut line_nums: Vec<LineNumber> = lines.into_iter().collect();
+    line_nums.sort_unstable();
+    line_nums
 }
 
 fn matched_lines_from_unchanged(
@@ -418,7 +418,7 @@ fn before_with_opposites(
 }
 
 fn pad_before(ln: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
-    let mut res = vec![];
+    let mut line_nums = vec![];
 
     let mut current = ln;
     // Use one more line than num_context_lines so we merge
@@ -429,15 +429,15 @@ fn pad_before(ln: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
         }
 
         current = (current.0 - 1).into();
-        res.push(current);
+        line_nums.push(current);
     }
 
-    res.reverse();
-    res
+    line_nums.reverse();
+    line_nums
 }
 
 fn pad_after(ln: LineNumber, max_line: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
-    let mut res = vec![];
+    let mut line_nums = vec![];
 
     let mut current = ln;
     // Use one more line than num_context_lines so we merge
@@ -448,10 +448,10 @@ fn pad_after(ln: LineNumber, max_line: LineNumber, num_context_lines: usize) -> 
         }
 
         current = (current.0 + 1).into();
-        res.push(current);
+        line_nums.push(current);
     }
 
-    res
+    line_nums
 }
 
 pub(crate) fn flip_tuple<Tx: Copy, Ty: Copy>(pair: (Tx, Ty)) -> (Ty, Tx) {

@@ -449,7 +449,7 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
 }
 
 fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Vec<glob::Pattern>)> {
-    let mut res: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
+    let mut overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
     let mut invalid_syntax = false;
 
     for raw_override in raw_overrides {
@@ -457,7 +457,7 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
             match glob::Pattern::new(glob_str) {
                 Ok(pattern) => {
                     if let Some(language_override) = language_override_from_name(lang_name) {
-                        res.push((language_override, vec![pattern]));
+                        overrides.push((language_override, vec![pattern]));
                     } else {
                         eprintln!("No such language '{}'", lang_name);
                         eprintln!("See --list-languages for the names of all languages available. Language overrides are case insensitive.");
@@ -481,7 +481,7 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
         std::process::exit(EXIT_BAD_ARGUMENTS);
     }
 
-    res.into_iter()
+    overrides.into_iter()
         .coalesce(
             |(prev_lang, mut prev_globs), (current_lang, current_globs)| {
                 if prev_lang == current_lang {

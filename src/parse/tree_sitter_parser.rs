@@ -1455,10 +1455,10 @@ fn all_syntaxes_from_cursor<'a>(
     subtrees: &DftHashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
-    let mut result: Vec<&Syntax> = vec![];
+    let mut nodes: Vec<&Syntax> = vec![];
 
     loop {
-        result.extend(syntax_from_cursor(
+        nodes.extend(syntax_from_cursor(
             arena,
             src,
             nl_pos,
@@ -1475,7 +1475,7 @@ fn all_syntaxes_from_cursor<'a>(
         }
     }
 
-    result
+    nodes
 }
 
 /// Convert the tree-sitter node at `cursor` to a difftastic syntax

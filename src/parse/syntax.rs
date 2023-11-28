@@ -349,12 +349,12 @@ pub(crate) fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineS
         }
     }
 
-    let mut res = vec![];
+    let mut positions = vec![];
     for node in nodes {
-        walk_comment_positions(node, &mut res);
+        walk_comment_positions(node, &mut positions);
     }
 
-    res
+    positions
 }
 
 /// Initialise all the fields in `SyntaxInfo`.
@@ -667,13 +667,13 @@ fn split_atom_words(
     let mut offset = 0;
     let mut opposite_offset = 0;
 
-    let mut res = vec![];
+    let mut mps = vec![];
     for diff_res in word_diffs {
         match diff_res {
             myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
                 if !is_all_whitespace(word) {
-                    res.push(MatchedPos {
+                    mps.push(MatchedPos {
                         kind: MatchKind::NovelWord {
                             highlight: TokenKind::Atom(kind),
                         },
@@ -699,7 +699,7 @@ fn split_atom_words(
                     opposite_offset + opposite_word.len(),
                 );
 
-                res.push(MatchedPos {
+                mps.push(MatchedPos {
                     kind: MatchKind::NovelLinePart {
                         highlight: TokenKind::Atom(kind),
                         self_pos: word_pos,
@@ -717,7 +717,7 @@ fn split_atom_words(
         }
     }
 
-    res
+    mps
 }
 
 /// Are there sufficient common words that we should only highlight
@@ -828,9 +828,9 @@ impl MatchedPos {
                 };
 
                 // Create a MatchedPos for every line that `pos` covers.
-                let mut res = vec![];
+                let mut mps = vec![];
                 for line_pos in &pos {
-                    res.push(Self {
+                    mps.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
                     });
@@ -839,16 +839,16 @@ impl MatchedPos {
                     // MatchedPos on the LHS and RHS. This allows us
                     // to consider unchanged MatchedPos values
                     // pairwise.
-                    if res.len() == opposite_pos_len {
+                    if mps.len() == opposite_pos_len {
                         break;
                     }
                 }
-                res
+                mps
             }
             Novel => {
                 let kind = MatchKind::Novel { highlight };
                 // Create a MatchedPos for every line that `pos` covers.
-                let mut res = vec![];
+                let mut mps = vec![];
                 for line_pos in &pos {
                     // Don't create a MatchedPos for entirely empty positions. This
                     // occurs when we have lists with empty open/close
@@ -857,13 +857,13 @@ impl MatchedPos {
                         continue;
                     }
 
-                    res.push(Self {
+                    mps.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
                     });
                 }
 
-                res
+                mps
             }
         }
     }

@@ -16,17 +16,17 @@ fn split_lines_keep_newline(s: &str) -> Vec<&str> {
     }
 
     let mut offset = 0;
-    let mut res = vec![];
+    let mut lines = vec![];
     for newline_match in NEWLINE_RE.find_iter(s) {
-        res.push(s[offset..newline_match.end()].into());
+        lines.push(s[offset..newline_match.end()].into());
         offset = newline_match.end();
     }
 
     if offset < s.len() {
-        res.push(s[offset..].into());
+        lines.push(s[offset..].into());
     }
 
-    res
+    lines
 }
 
 #[derive(Debug)]
@@ -115,7 +115,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
     let mut lhs_offset = 0;
     let mut rhs_offset = 0;
 
-    let mut res = vec![];
+    let mut mps = vec![];
     for (kind, lhs_lines, rhs_lines) in changed_parts(lhs_src, rhs_src) {
         match kind {
             TextChangeKind::Unchanged => {
@@ -125,7 +125,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                     let rhs_pos =
                         rhs_lp.from_region(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
 
-                    res.push(MatchedPos {
+                    mps.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
                             highlight: TokenKind::Atom(AtomKind::Normal),
                             self_pos: lhs_pos.clone(),
@@ -150,7 +150,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                         myers_diff::DiffResult::Left(lhs_word) => {
                             let lhs_pos =
                                 lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
-                            res.push(MatchedPos {
+                            mps.push(MatchedPos {
                                 kind: MatchKind::NovelWord {
                                     highlight: TokenKind::Atom(AtomKind::Normal),
                                 },
@@ -166,7 +166,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                                 let rhs_pos =
                                     rhs_lp.from_region(rhs_offset, rhs_offset + rhs_word.len());
 
-                                res.push(MatchedPos {
+                                mps.push(MatchedPos {
                                     kind: MatchKind::NovelLinePart {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                         self_pos: lhs_pos[0],
@@ -188,7 +188,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
         }
     }
 
-    res
+    mps
 }
 
 #[cfg(test)]

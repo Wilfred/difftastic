@@ -76,7 +76,7 @@ fn display_single_column(
 ) -> Vec<String> {
     let column_width = format_line_num((src_lines.len() as u32).into()).len();
 
-    let mut result = Vec::with_capacity(src_lines.len());
+    let mut formatted_lines = Vec::with_capacity(src_lines.len());
 
     let mut header_line = String::new();
     header_line.push_str(&style::header(
@@ -88,7 +88,7 @@ fn display_single_column(
         display_options,
     ));
     header_line.push('\n');
-    result.push(header_line);
+    formatted_lines.push(header_line);
 
     let mut style = Style::new();
     if display_options.use_color {
@@ -103,10 +103,10 @@ fn display_single_column(
                 .to_string(),
         );
         formatted_line.push_str(line);
-        result.push(formatted_line);
+        formatted_lines.push(formatted_line);
     }
 
-    result
+    formatted_lines
 }
 
 fn display_line_nums(
