@@ -10,6 +10,7 @@ module.exports = grammar({
   externals: $ => [
     $._descendant_operator,
     $._pseudo_class_selector_colon,
+    $.__error_recovery,
   ],
 
   inline: $ => [

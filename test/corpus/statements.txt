@@ -70,6 +70,9 @@ Media statements
 @media (min-height: 680px), screen and (orientation: portrait) {}
 @media not all and (monochrome) {}
 @media only screen {}
+@media screen and (min-width: 0 0) {
+    .tooltipped-multiline: after {}
+}
 
 ---
 
@@ -88,7 +91,15 @@ Media statements
   (media_statement
     (binary_query (unary_query (keyword_query)) (parenthesized_query (keyword_query)))
     (block))
-  (media_statement (unary_query (keyword_query)) (block)))
+  (media_statement (unary_query (keyword_query)) (block))
+  (media_statement
+    (binary_query
+      (keyword_query)
+      (feature_query (feature_name) (integer_value) (integer_value)))
+    (block
+      (rule_set
+        (selectors (pseudo_class_selector (class_selector (class_name)) (class_name)))
+        (block)))))
 
 ==============================
 Supports statements

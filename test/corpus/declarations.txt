@@ -269,3 +269,23 @@ div {
       (declaration
         (property_name)
         (integer_value)))))
+
+=============================================
+No spaces after colons
+=============================================
+
+div {
+  all:unset;
+  display:flex;
+  justify-content:center;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (tag_name))
+    (block
+      (declaration (property_name) (plain_value))
+      (declaration (property_name) (plain_value))
+      (declaration (property_name) (plain_value)))))
