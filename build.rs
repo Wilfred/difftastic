@@ -9,7 +9,7 @@
 use std::{path::PathBuf, process::Command};
 
 use rayon::prelude::*;
-use version_check as rustc;
+// use version_check as rustc;
 
 struct TreeSitterParser {
     name: &'static str,
@@ -19,11 +19,6 @@ struct TreeSitterParser {
 
 impl TreeSitterParser {
     fn build(&self) {
-        // In rustc 1.61+, we need to specify +whole-archive.
-        // See https://github.com/rust-lang/rust/blob/1.61.0/RELEASES.md#compatibility-notes
-        // and https://github.com/Wilfred/difftastic/issues/339.
-        let rustc_supports_whole_archive = !rustc::is_max_version("1.60.0").unwrap_or(false);
-
         let dir = PathBuf::from(&self.src_dir);
 
         let mut c_files = vec!["parser.c"];
@@ -54,14 +49,11 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-unused-but-set-variable")
                 // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
                 // should be removed after fixed.
-                .flag_if_supported("-Wno-return-type");
+                .flag_if_supported("-Wno-return-type")
+                .link_lib_modifier("+whole-archive");
 
             for file in cpp_files {
                 cpp_build.file(dir.join(file));
-            }
-
-            if rustc_supports_whole_archive {
-                cpp_build.link_lib_modifier("+whole-archive");
             }
 
             cpp_build.compile(&format!("{}-cpp", self.name));
@@ -76,9 +68,7 @@ impl TreeSitterParser {
             build.file(dir.join(file));
         }
 
-        if rustc_supports_whole_archive {
-            build.link_lib_modifier("+whole-archive");
-        }
+        build.link_lib_modifier("+whole-archive");
 
         build.compile(self.name);
     }
