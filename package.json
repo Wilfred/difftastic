@@ -14,10 +14,12 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.1"
+    "nan": "^2.18.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.0"
+    "eslint": ">=5.16.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
     "test": "tree-sitter test && tree-sitter parse examples/*.css --quiet --time",
