@@ -500,7 +500,7 @@ fn diff_file_content(
             None => FileFormat::PlainText,
         };
 
-        // If the two files are completely identical, return early
+        // If the two files are byte-for-byte identical, return early
         // rather than doing any more work.
         return DiffResult {
             extra_info,
