@@ -754,7 +754,7 @@ impl MatchedPos {
         ck: ChangeKind,
         highlight: TokenKind,
         pos: &[SingleLineSpan],
-        is_close: bool,
+        is_close_delim: bool,
     ) -> Vec<Self> {
         match ck {
             ReplacedComment(this, opposite) | ReplacedString(this, opposite) => {
@@ -790,7 +790,7 @@ impl MatchedPos {
                         close_position,
                         ..
                     } => {
-                        if is_close {
+                        if is_close_delim {
                             close_position.clone()
                         } else {
                             open_position.clone()
