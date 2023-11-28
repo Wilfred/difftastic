@@ -1,5 +1,10 @@
 ## 0.54 (unreleased)
 
+### Display
+
+Fixed a rare crash when the last non-blank line had changes for
+certain parsers, particularly YAML.
+
 ### Build
 
 Difftastic now requires Rust 1.63 to build.

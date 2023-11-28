@@ -749,6 +749,21 @@ fn has_common_words(word_diffs: &Vec<myers_diff::DiffResult<&&str>>) -> bool {
     unchanged_count > 2 && unchanged_count * 2 >= novel_count
 }
 
+/// Skip line spans at the beginning or end that have zero width.
+fn filter_empty_ends(line_spans: &[SingleLineSpan]) -> Vec<SingleLineSpan> {
+    let mut spans: Vec<SingleLineSpan> = vec![];
+
+    for (i, span) in line_spans.iter().enumerate() {
+        if (i == 0 || i == line_spans.len() - 1) && span.start_col == span.end_col {
+            continue;
+        }
+
+        spans.push(*span);
+    }
+
+    spans
+}
+
 impl MatchedPos {
     fn new(
         ck: ChangeKind,
@@ -756,6 +771,12 @@ impl MatchedPos {
         pos: &[SingleLineSpan],
         is_close_delim: bool,
     ) -> Vec<Self> {
+        // Don't create a MatchedPos for empty positions at the start
+        // or end. We still want empty positions in the middle of
+        // multiline atoms, as a multiline string literal may include
+        // empty lines.
+        let pos = filter_empty_ends(pos);
+
         match ck {
             ReplacedComment(this, opposite) | ReplacedString(this, opposite) => {
                 let this_content = match this {
@@ -781,7 +802,7 @@ impl MatchedPos {
                     AtomKind::Comment
                 };
 
-                split_atom_words(this_content, pos, opposite_content, opposite_pos, kind)
+                split_atom_words(this_content, &pos, opposite_content, opposite_pos, kind)
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -808,16 +829,7 @@ impl MatchedPos {
 
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut res = vec![];
-                for (i, line_pos) in pos.iter().enumerate() {
-                    // Don't create a MatchedPos for empty positions
-                    // at the start or end. We still want empty
-                    // positions in the middle of multiline atoms, as
-                    // a multiline string literal may include empty
-                    // lines.
-                    if (i == 0 || i == pos.len() - 1) && line_pos.start_col == line_pos.end_col {
-                        continue;
-                    }
-
+                for line_pos in &pos {
                     res.push(Self {
                         kind: kind.clone(),
                         pos: *line_pos,
@@ -837,20 +849,11 @@ impl MatchedPos {
                 let kind = MatchKind::Novel { highlight };
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut res = vec![];
-                for (i, line_pos) in pos.iter().enumerate() {
+                for line_pos in &pos {
                     // Don't create a MatchedPos for entirely empty positions. This
                     // occurs when we have lists with empty open/close
                     // delimiter positions, such as the top-level list of syntax items.
                     if pos.len() == 1 && line_pos.start_col == line_pos.end_col {
-                        continue;
-                    }
-
-                    // Don't create a MatchedPos for empty positions
-                    // at the start or end. We still want empty
-                    // positions in the middle of multiline atoms, as
-                    // a multiline string literal may include empty
-                    // lines.
-                    if (i == 0 || i == pos.len() - 1) && line_pos.start_col == line_pos.end_col {
                         continue;
                     }
 

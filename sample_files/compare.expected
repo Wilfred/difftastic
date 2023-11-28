@@ -241,6 +241,9 @@ sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
 sample_files/toml_before.toml sample_files/toml_after.toml
 34fbe2ec9ff514cd53edfe8d961d5093  -
 
+sample_files/trailling_newline_before.yaml sample_files/trailling_newline_after.yaml
+6c2b9be2f28bac9d242f5145e4732c43  -
+
 sample_files/typescript_before.ts sample_files/typescript_after.ts
 27bc9e394d8119c7dd208a9d7985681e  -
 
