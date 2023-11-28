@@ -4,6 +4,7 @@ module.exports = grammar({
   extras: $ => [
     /\s/,
     $.comment,
+    $.js_comment,
   ],
 
   externals: $ => [
@@ -351,6 +352,8 @@ module.exports = grammar({
     identifier: $ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*/,
 
     at_keyword: $ => /@[a-zA-Z-_]+/,
+
+    js_comment: $ => token(prec(-1, seq('//', /.*/))),
 
     comment: $ => token(seq(
       '/*',
