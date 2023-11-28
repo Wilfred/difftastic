@@ -10,15 +10,28 @@ pub(crate) struct CommitInfo {
 pub(crate) struct VersionInfo {
     pub(crate) version: &'static str,
     pub(crate) commit_info: Option<CommitInfo>,
+    pub(crate) rustc_version: Option<&'static str>,
 }
 
 impl fmt::Display for VersionInfo {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.version)?;
 
-        if let Some(ref ci) = &self.commit_info {
-            write!(f, " ({} {})", ci.short_commit_hash, ci.commit_date)?;
+        match (&self.commit_info, self.rustc_version) {
+            (Some(commit_info), Some(rustc_version)) => write!(
+                f,
+                " ({} {}, built with rustc {})",
+                commit_info.short_commit_hash, commit_info.commit_date, rustc_version
+            )?,
+            (Some(commit_info), None) => write!(
+                f,
+                " ({} {})",
+                commit_info.short_commit_hash, commit_info.commit_date
+            )?,
+            (None, Some(rustc_version)) => write!(f, " (built with rustc {})", rustc_version)?,
+            (None, None) => {}
         }
+
         Ok(())
     }
 }
@@ -40,8 +53,11 @@ pub(crate) const fn version() -> VersionInfo {
         _ => None,
     };
 
+    let rustc_version = option_env!("DFT_RUSTC_VERSION");
+
     VersionInfo {
         version,
         commit_info,
+        rustc_version,
     }
 }

@@ -9,7 +9,7 @@
 use std::{path::PathBuf, process::Command};
 
 use rayon::prelude::*;
-// use version_check as rustc;
+use version_check as rustc;
 
 struct TreeSitterParser {
     name: &'static str,
@@ -360,6 +360,10 @@ fn main() {
 
     parsers.par_iter().for_each(|p| p.build());
     commit_info();
+
+    if let Some((version, _, _)) = rustc::triple() {
+        println!("cargo:rustc-env=DFT_RUSTC_VERSION={}", version);
+    }
 }
 
 fn commit_info() {
