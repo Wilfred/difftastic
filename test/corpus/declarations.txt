@@ -289,3 +289,45 @@ div {
       (declaration (property_name) (plain_value))
       (declaration (property_name) (plain_value))
       (declaration (property_name) (plain_value)))))
+
+=============================================
+PostCSS
+=============================================
+
+.selector {
+  @apply variable-a meta-variable-b lots-of-combined-properties-c !important;
+}
+
+@layer components {
+  .btn-blue {
+    @apply --mixin sm:space-x-0 left-[11%] border-foreground/20 !important;
+  }
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors (class_selector (class_name)))
+    (block
+      (postcss_statement
+        (at_keyword)
+        (plain_value)
+        (plain_value)
+        (plain_value)
+        (important))))
+  (at_rule
+    (at_keyword)
+    (keyword_query)
+    (block
+      (rule_set
+        (selectors (class_selector (class_name)))
+        (block
+          (postcss_statement
+            (at_keyword)
+            (plain_value)
+            (plain_value)
+            (plain_value)
+            (grid_value (integer_value (unit)))
+            (plain_value)
+            (important)))))))

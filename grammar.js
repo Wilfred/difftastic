@@ -90,6 +90,12 @@ module.exports = grammar({
       $.block
     ),
 
+    postcss_statement: $ => prec(-1, seq(
+      $.at_keyword,
+      repeat($._value),
+      ';'
+    )),
+
     at_rule: $ => seq(
       $.at_keyword,
       sep(',', $._query),
@@ -121,6 +127,7 @@ module.exports = grammar({
       $.namespace_statement,
       $.keyframes_statement,
       $.supports_statement,
+      $.postcss_statement,
       $.at_rule
     ),
 
@@ -288,7 +295,8 @@ module.exports = grammar({
       $.grid_value,
       $.binary_expression,
       $.parenthesized_value,
-      $.call_expression
+      $.call_expression,
+      $.important,
     )),
 
     parenthesized_value: $ => seq(
