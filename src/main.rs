@@ -216,6 +216,7 @@ fn main() {
         Mode::Diff {
             diff_options,
             display_options,
+            directory_options,
             set_exit_code,
             language_overrides,
             lhs_path,
@@ -264,7 +265,7 @@ fn main() {
                             .collect();
 
                         display::json::print_directory(results);
-                    } else if display_options.sort_paths {
+                    } else if directory_options.sort_paths {
                         let mut result: Vec<DiffResult> = diff_iter.collect();
                         result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
                         for diff_result in result {
