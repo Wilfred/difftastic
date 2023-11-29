@@ -47,7 +47,6 @@ pub(crate) struct DisplayOptions {
     pub(crate) display_width: usize,
     pub(crate) num_context_lines: u32,
     pub(crate) syntax_highlight: bool,
-    pub(crate) sort_paths: bool,
 }
 
 impl Default for DisplayOptions {
@@ -61,7 +60,6 @@ impl Default for DisplayOptions {
             display_width: 80,
             num_context_lines: 3,
             syntax_highlight: true,
-            sort_paths: false,
         }
     }
 }
@@ -87,6 +85,11 @@ impl Default for DiffOptions {
             strip_cr: false,
         }
     }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DirectoryOptions {
+    pub(crate) sort_paths: bool,
 }
 
 fn app() -> clap::Command<'static> {
@@ -442,6 +445,7 @@ pub(crate) enum Mode {
     Diff {
         diff_options: DiffOptions,
         display_options: DisplayOptions,
+        directory_options: DirectoryOptions,
         set_exit_code: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
         /// The path where we can read the LHS file. This is often a
@@ -801,7 +805,6 @@ pub(crate) fn parse_args() -> Mode {
                 display_width,
                 num_context_lines,
                 syntax_highlight,
-                sort_paths,
             };
 
             let display_path = path.to_string_lossy().to_string();
@@ -838,12 +841,13 @@ pub(crate) fn parse_args() -> Mode {
         display_width,
         num_context_lines,
         syntax_highlight,
-        sort_paths,
     };
+    let directory_options = DirectoryOptions { sort_paths };
 
     Mode::Diff {
         diff_options,
         display_options,
+        directory_options,
         set_exit_code,
         language_overrides,
         lhs_path,
