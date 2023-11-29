@@ -7,11 +7,11 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use ignore::Walk;
+use ignore::WalkBuilder;
 use rustc_hash::FxHashSet;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
-use crate::options::FileArgument;
+use crate::options::{DirectoryOptions, FileArgument};
 
 pub(crate) fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
     match read_file_arg(path) {
@@ -227,9 +227,16 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
 }
 
 /// All the files in `dir`, including subdirectories.
-fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
-    Walk::new(dir)
-        .filter_map(Result::ok)
+fn relative_file_paths_in_dir(dir: &Path, options: &DirectoryOptions) -> Vec<PathBuf> {
+    let walk = WalkBuilder::new(dir)
+        .hidden(!options.include_hidden)
+        .parents(!options.no_ignore)
+        .ignore(!options.no_ignore)
+        .git_global(!options.no_ignore)
+        .git_ignore(!options.no_ignore)
+        .git_exclude(!options.no_ignore)
+        .build();
+    walk.filter_map(Result::ok)
         .map(|entry| Path::new(entry.path()).to_owned())
         .filter(|path| !path.is_dir())
         .map(|path| path.strip_prefix(dir).unwrap().to_path_buf())
@@ -240,9 +247,13 @@ fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
 /// that occur in at least one directory.
 ///
 /// Attempts to preserve the ordering of files in both directories.
-pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> {
-    let lhs_paths = relative_file_paths_in_dir(lhs_dir);
-    let rhs_paths = relative_file_paths_in_dir(rhs_dir);
+pub(crate) fn relative_paths_in_either(
+    lhs_dir: &Path,
+    rhs_dir: &Path,
+    options: &DirectoryOptions,
+) -> Vec<PathBuf> {
+    let lhs_paths = relative_file_paths_in_dir(lhs_dir, options);
+    let rhs_paths = relative_file_paths_in_dir(rhs_dir, options);
 
     let mut seen = FxHashSet::default();
     let mut paths: Vec<PathBuf> = vec![];

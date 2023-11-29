@@ -89,6 +89,10 @@ impl Default for DiffOptions {
 
 #[derive(Debug, Clone)]
 pub(crate) struct DirectoryOptions {
+    /// Whether to search hidden files and directories.
+    pub(crate) include_hidden: bool,
+    /// Whether to not respect ignore file rules.
+    pub(crate) no_ignore: bool,
     pub(crate) sort_paths: bool,
 }
 
@@ -296,6 +300,14 @@ When multiple overrides are specified, the first matching override wins."))
                 .multiple_values(true)
                 .hide(true)
                 .allow_invalid_utf8(true),
+        )
+        .arg(
+            Arg::new("hidden").long("hidden")
+                .help("When diffing a directory, search hidden files and directories.")
+        )
+        .arg(
+            Arg::new("no-ignore").long("no-ignore")
+                .help("When diffing a directory, don't respect ignore files such as .gitignore.")
         )
         .arg(
             Arg::new("sort-paths").long("sort-paths")
@@ -685,6 +697,8 @@ pub(crate) fn parse_args() -> Mode {
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
 
+    let include_hidden = matches.is_present("hidden");
+    let no_ignore = matches.is_present("no-ignore");
     let sort_paths = matches.is_present("sort-paths");
 
     let graph_limit = matches
@@ -842,7 +856,11 @@ pub(crate) fn parse_args() -> Mode {
         num_context_lines,
         syntax_highlight,
     };
-    let directory_options = DirectoryOptions { sort_paths };
+    let directory_options = DirectoryOptions {
+        include_hidden,
+        no_ignore,
+        sort_paths,
+    };
 
     Mode::Diff {
         diff_options,

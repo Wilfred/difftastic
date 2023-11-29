@@ -14,6 +14,9 @@ Fixed an issue with line-based diffing where only the first line in a
 large changed region was highlighted. This was particularly noticeable
 when diffing brand new files.
 
+Added `--hidden` and `--no-ignore` options to not exclude ignored files from
+directory diffing.
+
 ### Display
 
 Fixed an issue when reporting changes in binary files, where trailing
