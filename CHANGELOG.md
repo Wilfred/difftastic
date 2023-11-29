@@ -1,5 +1,10 @@
 ## 0.54 (unreleased)
 
+### Diffing
+
+Added `--hidden` and `--no-ignore` options to not exclude ignored files from
+directory diffing.
+
 ### Display
 
 Fixed a rare crash when the last non-blank line had changes for
