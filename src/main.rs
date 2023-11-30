@@ -72,8 +72,6 @@ use crate::parse::syntax;
 static GLOBAL: MiMalloc = MiMalloc;
 
 use std::path::Path;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Arc;
 use std::{env, thread};
 
 use humansize::{format_size, BINARY};
@@ -236,14 +234,12 @@ fn main() {
                 );
             }
 
-            let encountered_changes = Arc::new(AtomicBool::new(false));
+            let mut encountered_changes = false;
             match (&lhs_path, &rhs_path) {
                 (
                     options::FileArgument::NamedPath(lhs_path),
                     options::FileArgument::NamedPath(rhs_path),
                 ) if lhs_path.is_dir() && rhs_path.is_dir() => {
-                    let encountered_changes = encountered_changes.clone();
-
                     // Diffs in parallel when iterating this iterator.
                     let diff_iter = diff_directories(
                         lhs_path,
@@ -254,16 +250,10 @@ fn main() {
                     );
 
                     if matches!(display_options.display_mode, DisplayMode::Json) {
-                        let results = diff_iter
-                            .map(|diff_result| {
-                                if diff_result.has_reportable_change() {
-                                    encountered_changes.store(true, Ordering::Relaxed);
-                                }
-
-                                diff_result
-                            })
-                            .collect();
-
+                        let results: Vec<_> = diff_iter.collect();
+                        encountered_changes = results
+                            .iter()
+                            .any(|diff_result| diff_result.has_reportable_change());
                         display::json::print_directory(results);
                     } else if display_options.sort_paths {
                         let mut result: Vec<DiffResult> = diff_iter.collect();
@@ -272,7 +262,7 @@ fn main() {
                             print_diff_result(&display_options, &diff_result);
 
                             if diff_result.has_reportable_change() {
-                                encountered_changes.store(true, Ordering::Relaxed);
+                                encountered_changes = true;
                             }
                         }
                     } else {
@@ -293,7 +283,7 @@ fn main() {
                                 print_diff_result(&display_options, &diff_result);
 
                                 if diff_result.has_reportable_change() {
-                                    encountered_changes.store(true, Ordering::Relaxed);
+                                    encountered_changes = true;
                                 }
                             }
                         });
@@ -311,7 +301,7 @@ fn main() {
                         &language_overrides,
                     );
                     if diff_result.has_reportable_change() {
-                        encountered_changes.store(true, Ordering::Relaxed);
+                        encountered_changes = true;
                     }
 
                     match display_options.display_mode {
@@ -325,7 +315,7 @@ fn main() {
                 }
             }
 
-            let exit_code = if set_exit_code && encountered_changes.load(Ordering::Relaxed) {
+            let exit_code = if set_exit_code && encountered_changes {
                 EXIT_FOUND_CHANGES
             } else {
                 EXIT_SUCCESS
