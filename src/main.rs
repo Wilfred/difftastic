@@ -291,8 +291,7 @@ fn main() {
                             .any(|diff_result| diff_result.has_reportable_change());
                         display::json::print_directory(results, display_options.print_unchanged);
                     } else if display_options.sort_paths {
-                        let mut result: Vec<DiffResult> = diff_iter.collect();
-                        result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
+                        let result: Vec<DiffResult> = diff_iter.collect();
                         for diff_result in result {
                             print_diff_result(&display_options, &diff_result);
 
@@ -779,7 +778,10 @@ fn diff_directories<'a>(
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
     // enumerating files, so it benefits more from parallelism.
-    let paths = relative_paths_in_either(lhs_dir, rhs_dir);
+    let mut paths = relative_paths_in_either(lhs_dir, rhs_dir);
+    if display_options.sort_paths {
+        paths.sort_unstable();
+    }
 
     paths.into_par_iter().map(move |rel_path| {
         info!("Relative path is {:?} inside {:?}", rel_path, lhs_dir);
