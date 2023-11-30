@@ -71,9 +71,10 @@ use crate::parse::syntax;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
+use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
-use std::{env, path::Path};
+use std::{env, thread};
 
 use humansize::{format_size, BINARY};
 use owo_colors::OwoColorize;
@@ -279,28 +280,26 @@ fn main() {
                         // parallel, but print the results serially
                         // (to prevent display interleaving).
                         // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
-                        let (send, recv) = std::sync::mpsc::sync_channel(1);
+                        thread::scope(|s| {
+                            let (send, recv) = std::sync::mpsc::sync_channel(1);
 
-                        let encountered_changes = encountered_changes.clone();
-                        let print_options = display_options.clone();
+                            let encountered_changes = encountered_changes.clone();
+                            let print_options = display_options.clone();
 
-                        let printing_thread = std::thread::spawn(move || {
-                            for diff_result in recv.into_iter() {
-                                print_diff_result(&print_options, &diff_result);
+                            s.spawn(move || {
+                                for diff_result in recv.into_iter() {
+                                    print_diff_result(&print_options, &diff_result);
 
-                                if diff_result.has_reportable_change() {
-                                    encountered_changes.store(true, Ordering::Relaxed);
+                                    if diff_result.has_reportable_change() {
+                                        encountered_changes.store(true, Ordering::Relaxed);
+                                    }
                                 }
-                            }
+                            });
+
+                            diff_iter
+                                .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                                .expect("Receiver should be connected");
                         });
-
-                        diff_iter
-                            .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                            .expect("Receiver should be connected");
-
-                        printing_thread
-                            .join()
-                            .expect("Printing thread should not panic");
                     }
                 }
                 _ => {
