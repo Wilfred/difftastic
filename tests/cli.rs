@@ -186,6 +186,37 @@ fn directory_arguments() {
 }
 
 #[test]
+fn directory_arguments_sorted() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--sort-paths")
+        .arg("--display=inline")
+        .arg("sample_files/dir_before")
+        .arg("sample_files/dir_after");
+
+    let expected_files = [
+        "clojure.clj",
+        "foo.js",
+        "has_many_hunk.py",
+        "only_in_after_dir.rs",
+        "only_in_before.c",
+    ];
+    let predicate_fn = predicate::function(|output: &str| {
+        let mut file_linenos = Vec::new();
+        for name in expected_files {
+            if let Some(lineno) = output.lines().position(|line| line.starts_with(name)) {
+                file_linenos.push(lineno);
+            } else {
+                return false; // All files should be emitted
+            }
+        }
+        // Output should be sorted
+        file_linenos.windows(2).all(|w| w[0] < w[1])
+    });
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
 fn git_style_arguments_rename() {
     let mut cmd = get_base_command();
 
