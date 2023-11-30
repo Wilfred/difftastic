@@ -283,22 +283,19 @@ fn main() {
                         thread::scope(|s| {
                             let (send, recv) = std::sync::mpsc::sync_channel(1);
 
-                            let encountered_changes = encountered_changes.clone();
-                            let print_options = display_options.clone();
-
                             s.spawn(move || {
-                                for diff_result in recv.into_iter() {
-                                    print_diff_result(&print_options, &diff_result);
-
-                                    if diff_result.has_reportable_change() {
-                                        encountered_changes.store(true, Ordering::Relaxed);
-                                    }
-                                }
+                                diff_iter
+                                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                                    .expect("Receiver should be connected")
                             });
 
-                            diff_iter
-                                .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                                .expect("Receiver should be connected");
+                            for diff_result in recv.into_iter() {
+                                print_diff_result(&display_options, &diff_result);
+
+                                if diff_result.has_reportable_change() {
+                                    encountered_changes.store(true, Ordering::Relaxed);
+                                }
+                            }
                         });
                     }
                 }
