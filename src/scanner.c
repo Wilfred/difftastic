@@ -67,7 +67,7 @@ match_escape(TSLexer *lexer)
 	case 'x':
 		for (int i = 0; i < 2; i++) { // expect two hex digits
 			lexer->advance(lexer, false);
-			if (!isascii(lexer->lookahead) ||
+			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
 			    !isxdigit(lexer->lookahead)) {
 				return (false);
 			}
@@ -78,7 +78,7 @@ match_escape(TSLexer *lexer)
 	case 'u':
 		for (int i = 0; i < 4; i++) {
 			lexer->advance(lexer, false);
-			if (!isascii(lexer->lookahead) ||
+			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
 			    !isxdigit(lexer->lookahead)) {
 				return (false);
 			}
@@ -89,7 +89,7 @@ match_escape(TSLexer *lexer)
 	case 'U':
 		for (int i = 0; i < 8; i++) {
 			lexer->advance(lexer, false);
-			if (!isascii(lexer->lookahead) ||
+			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
 			    !isxdigit(lexer->lookahead)) {
 				return (false);
 			}
@@ -123,7 +123,7 @@ match_escape(TSLexer *lexer)
 				}
 				break;
 			}
-			if (!isascii(lexer->lookahead) ||
+			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
 			    !isalnum(lexer->lookahead)) {
 				return (false);
 			}
