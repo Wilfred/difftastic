@@ -9,11 +9,15 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [macos-11, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
       - run: npm install
       - run: npm test
