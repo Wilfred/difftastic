@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node-version: [14, 16]
+        node-version: [18, 20]
 
     steps:
       - uses: actions/checkout@v4
