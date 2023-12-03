@@ -4,6 +4,7 @@ Pragma and imports
 
 pragma Singleton
 pragma ListPropertyAssignBehavior: Append
+pragma Translator: "myTranslationContext"
 pragma ValueTypeBehavior: Copy, Addressable
 import QtQuick
 import Qt.labs.platform as Platform
@@ -22,6 +23,10 @@ Item {}
   (ui_pragma
     name: (identifier)
     value: (identifier))
+  (ui_pragma
+    name: (identifier)
+    value: (string
+      (string_fragment)))
   (ui_pragma
     name: (identifier)
     value: (identifier)
@@ -718,6 +723,7 @@ import QtQml
 
 @Foo {}
 @Bar {}
+@Baz.Nested.Name {}
 QtObject {
     @Foo {}
     @Bar {}
@@ -735,6 +741,13 @@ QtObject {
       initializer: (ui_object_initializer))
     annotation: (ui_annotation
       type_name: (identifier)
+      initializer: (ui_object_initializer))
+    annotation: (ui_annotation
+      type_name: (nested_identifier
+        (nested_identifier
+          (identifier)
+          (identifier))
+        (identifier))
       initializer: (ui_object_initializer))
     definition: (ui_object_definition
       type_name: (identifier)

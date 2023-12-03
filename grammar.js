@@ -2,7 +2,7 @@
 // https://code.qt.io/cgit/qt/qtdeclarative.git/tree/src/qml/
 //   compiler/qqmlirbuilder.cpp
 //   parser/{qqmljs.g,qqmljsast_p.h,qqmljslexer.cpp}
-// 9f4ecf2a75e8570df6bb56549cccdc9a26888faa
+// 49ec094b7fb1eb6675fdc1db8348409cd3ff8184
 
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
@@ -21,6 +21,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_identifier,
+    $._ui_simple_qualified_id,
   ]),
 
   conflicts: ($, original) => original.concat([
@@ -46,7 +47,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       optional(seq(
         ':',
         // TODO: or insert 'values': (ui_pragma_value_list ..)?
-        sep1(field('value', $.identifier), ','),
+        sep1(field('value', choice($.identifier, $.string)), ','),
       )),
       $._semicolon,
     ),
@@ -55,9 +56,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'import',
       field('source', choice(
         $.string,
-        $.identifier,
-        $.nested_identifier,
-      )),  // ImportId
+        $._ui_qualified_id,
+      )),  // ImportId: MemberExpression
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
@@ -95,10 +95,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_annotation: $ => seq(
       '@',
-      field('type_name', choice(
-        $.identifier,
-        $.nested_identifier,
-      )),  // UiSimpleQualifiedId
+      field('type_name', $._ui_simple_qualified_id),
       field('initializer', $.ui_object_initializer),
     ),
 
@@ -292,6 +289,17 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_nested_identifier: $ => seq(
       $._ui_qualified_id,
+      '.',
+      $.identifier,
+    ),
+
+    _ui_simple_qualified_id: $ => choice(
+      $.identifier,
+      alias($.ui_simple_nested_identifier, $.nested_identifier),
+    ),
+
+    ui_simple_nested_identifier: $ => seq(
+      $._ui_simple_qualified_id,
       '.',
       $.identifier,
     ),
