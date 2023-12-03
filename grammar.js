@@ -56,9 +56,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'import',
       field('source', choice(
         $.string,
-        $.identifier,
-        $.nested_identifier,
-      )),  // ImportId
+        $._ui_qualified_id,
+      )),  // ImportId: MemberExpression
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
