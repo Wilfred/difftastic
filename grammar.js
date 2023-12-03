@@ -21,6 +21,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_identifier,
+    $._ui_simple_qualified_id,
   ]),
 
   conflicts: ($, original) => original.concat([
@@ -95,10 +96,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_annotation: $ => seq(
       '@',
-      field('type_name', choice(
-        $.identifier,
-        $.nested_identifier,
-      )),  // UiSimpleQualifiedId
+      field('type_name', $._ui_simple_qualified_id),
       field('initializer', $.ui_object_initializer),
     ),
 
@@ -292,6 +290,17 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_nested_identifier: $ => seq(
       $._ui_qualified_id,
+      '.',
+      $.identifier,
+    ),
+
+    _ui_simple_qualified_id: $ => choice(
+      $.identifier,
+      alias($.ui_simple_nested_identifier, $.nested_identifier),
+    ),
+
+    ui_simple_nested_identifier: $ => seq(
+      $._ui_simple_qualified_id,
       '.',
       $.identifier,
     ),
