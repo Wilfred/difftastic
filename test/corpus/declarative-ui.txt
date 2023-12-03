@@ -4,6 +4,7 @@ Pragma and imports
 
 pragma Singleton
 pragma ListPropertyAssignBehavior: Append
+pragma Translator: "myTranslationContext"
 pragma ValueTypeBehavior: Copy, Addressable
 import QtQuick
 import Qt.labs.platform as Platform
@@ -22,6 +23,10 @@ Item {}
   (ui_pragma
     name: (identifier)
     value: (identifier))
+  (ui_pragma
+    name: (identifier)
+    value: (string
+      (string_fragment)))
   (ui_pragma
     name: (identifier)
     value: (identifier)
