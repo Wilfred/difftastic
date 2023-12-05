@@ -481,7 +481,8 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
         std::process::exit(EXIT_BAD_ARGUMENTS);
     }
 
-    overrides.into_iter()
+    overrides
+        .into_iter()
         .coalesce(
             |(prev_lang, mut prev_globs), (current_lang, current_globs)| {
                 if prev_lang == current_lang {
