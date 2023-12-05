@@ -27,7 +27,7 @@ jobs:
       - name: Install jq
         run: sudo apt-get install -y jq
 
-      - uses: dtolnay/rust-toolchain@1.59.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - run: cargo doc
 
       - name: Setup mdBook

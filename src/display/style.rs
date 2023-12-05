@@ -18,13 +18,13 @@ use crate::{
 };
 
 #[derive(Clone, Copy, Debug)]
-pub enum BackgroundColor {
+pub(crate) enum BackgroundColor {
     Dark,
     Light,
 }
 
 impl BackgroundColor {
-    pub fn is_dark(self) -> bool {
+    pub(crate) fn is_dark(self) -> bool {
         matches!(self, BackgroundColor::Dark)
     }
 }
@@ -88,7 +88,7 @@ fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
 /// split_string_by_width("fooba", 3) // vec![("foo", 0), ("ba", 1)]
 /// ```
 fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&str, usize)> {
-    let mut res: Vec<(&str, usize)> = vec![];
+    let mut parts: Vec<(&str, usize)> = vec![];
     let mut s = s;
 
     while width_respecting_tabs(s, tab_width) > max_width {
@@ -103,19 +103,19 @@ fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&s
         } else {
             0
         };
-        res.push((part, padding));
+        parts.push((part, padding));
     }
 
-    if res.is_empty() || !s.is_empty() {
-        res.push((s, max_width - width_respecting_tabs(s, tab_width)));
+    if parts.is_empty() || !s.is_empty() {
+        parts.push((s, max_width - width_respecting_tabs(s, tab_width)));
     }
 
-    res
+    parts
 }
 
 /// Return a copy of `src` with all the tab characters replaced by
 /// `tab_width` strings.
-pub fn replace_tabs(src: &str, tab_width: usize) -> String {
+pub(crate) fn replace_tabs(src: &str, tab_width: usize) -> String {
     let tab_as_spaces = " ".repeat(tab_width);
     src.replace('\t', &tab_as_spaces)
 }
@@ -123,7 +123,7 @@ pub fn replace_tabs(src: &str, tab_width: usize) -> String {
 /// Split `line` (from the source code) into multiple lines of
 /// `max_len` (i.e. word wrapping), and apply `styles` to each part
 /// according to its original position in `line`.
-pub fn split_and_apply(
+pub(crate) fn split_and_apply(
     line: &str,
     max_len: usize,
     tab_width: usize,
@@ -147,13 +147,13 @@ pub fn split_and_apply(
             .map(|(part, pad)| {
                 let part = replace_tabs(part, tab_width);
 
-                let mut res = String::with_capacity(part.len() + pad);
-                res.push_str(&part);
+                let mut parts = String::with_capacity(part.len() + pad);
+                parts.push_str(&part);
 
                 if matches!(side, Side::Left) {
-                    res.push_str(&" ".repeat(pad));
+                    parts.push_str(&" ".repeat(pad));
                 }
-                res
+                parts
             })
             .collect();
     }
@@ -230,7 +230,7 @@ pub fn split_and_apply(
 /// specified.
 fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     let line_bytes = byte_len(line);
-    let mut res = String::with_capacity(line.len());
+    let mut styled_line = String::with_capacity(line.len());
     let mut i = 0;
     for (span, style) in styles {
         let start_col = span.start_col as usize;
@@ -244,21 +244,21 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
         // Unstyled text before the next span.
         if i < start_col {
-            res.push_str(substring_by_byte(line, i, start_col));
+            styled_line.push_str(substring_by_byte(line, i, start_col));
         }
 
         // Apply style to the substring in this span.
         let span_s = substring_by_byte(line, start_col, min(line_bytes, end_col));
-        res.push_str(&span_s.style(*style).to_string());
+        styled_line.push_str(&span_s.style(*style).to_string());
         i = end_col;
     }
 
     // Unstyled text after the last span.
     if i < line_bytes {
         let span_s = substring_by_byte(line, i, line_bytes);
-        res.push_str(span_s);
+        styled_line.push_str(span_s);
     }
-    res
+    styled_line
 }
 
 fn group_by_line(
@@ -283,7 +283,7 @@ fn group_by_line(
 fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String> {
     let mut ranges_by_line = group_by_line(styles);
 
-    let mut res = Vec::with_capacity(lines.len());
+    let mut styled_lines = Vec::with_capacity(lines.len());
     for (i, line) in lines.iter().enumerate() {
         let mut styled_line = String::with_capacity(line.len());
         let ranges = ranges_by_line
@@ -292,12 +292,12 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
 
         styled_line.push_str(&apply_line(line, &ranges));
         styled_line.push('\n');
-        res.push(styled_line);
+        styled_lines.push(styled_line);
     }
-    res
+    styled_lines
 }
 
-pub fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Style {
+pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Style {
     if background.is_dark() {
         match side {
             Side::Left => style.bright_red(),
@@ -311,7 +311,7 @@ pub fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Sty
     }
 }
 
-pub fn color_positions(
+pub(crate) fn color_positions(
     side: Side,
     background: BackgroundColor,
     syntax_highlight: bool,
@@ -392,7 +392,7 @@ pub fn color_positions(
     styles
 }
 
-pub fn apply_colors(
+pub(crate) fn apply_colors(
     s: &str,
     side: Side,
     syntax_highlight: bool,
@@ -454,7 +454,7 @@ pub(crate) fn apply_line_number_color(
     }
 }
 
-pub fn header(
+pub(crate) fn header(
     display_path: &str,
     extra_info: Option<&String>,
     hunk_num: usize,

@@ -12,19 +12,31 @@ jobs:
         job:
           - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
           - { target: x86_64-apple-darwin, os: macos-latest }
-          - { target: x86_64-pc-windows-gnu, os: windows-latest }
-          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true }
+          - { target: x86_64-pc-windows-msvc, os: windows-latest }
+
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
-          - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
+
+          # TODO: Support cross-compiling on macOS on CI, see
+          # https://github.com/cross-rs/cross-toolchains#apple-targets
+          #
+          # - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
+
+          # musl binaries produced by GitHub actions segfault when run, see
+          # https://github.com/Wilfred/difftastic/issues/563
+          #
+          # musl builds seem to work fine elsewhere, so just verify
+          # that compilation works for now.
+          - { target: x86_64-unknown-linux-musl, os: ubuntu-20.04, use-cross: true, build-only: true }
     env:
       BUILD_CMD: cargo
+      SUBCOMMAND: test
 
     steps:
     - name: Checkout source code
       uses: actions/checkout@v3
 
     - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@1.59.0
+      uses: dtolnay/rust-toolchain@1.63.0
       with:
         targets: ${{ matrix.job.target }}
 
@@ -32,23 +44,28 @@ jobs:
       if: matrix.job.use-cross
       uses: taiki-e/install-action@v2
       with:
-        tool: cross
+        tool: cross@0.2.5
 
     - name: Overwrite build command env variable
       if: matrix.job.use-cross
       shell: bash
       run: echo "BUILD_CMD=cross" >> $GITHUB_ENV
 
+    - name: Overwrite build subcommand env variable
+      if: matrix.job.build-only
+      shell: bash
+      run: echo "SUBCOMMAND=build" >> $GITHUB_ENV
+
     - name: Test
       shell: bash
-      run: $BUILD_CMD test
+      run: $BUILD_CMD $SUBCOMMAND --target ${{ matrix.job.target }}
 
   test_mime_db:
     name: Test with MIME database
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       # This runs tests that rely on the MIME database being present.
       - run: cargo test -- --ignored
 
@@ -65,7 +82,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -76,7 +93,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - run: cargo package --allow-dirty
 
   fmt:
@@ -84,5 +101,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.59.0
+      - uses: dtolnay/rust-toolchain@1.63.0
       - run: cargo fmt --all -- --check
+
+  actionlint:
+    name: Actionlint
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          shellcheck: false
+      - uses: raven-actions/actionlint@v1

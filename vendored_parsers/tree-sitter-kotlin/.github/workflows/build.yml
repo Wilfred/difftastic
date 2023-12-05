@@ -10,12 +10,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      EMSCRIPTEN_VERSION: '2.0.17'
     steps:
       - uses: actions/checkout@v3
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: Install Emscripten
+        uses: mymindstorm/setup-emsdk@v12
+        with:
+          version: ${{ env.EMSCRIPTEN_VERSION }}
       - name: Install dependencies
         run: npm install
       - name: Generate parser
@@ -27,6 +33,13 @@ jobs:
           test -z "$diff"
       - name: Run tests
         run: npm test
+      - name: Build WASM binary
+        run: npm run build-wasm
+      - name: Upload WASM binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: tree-sitter-kotlin.wasm
+          path: ./tree-sitter-kotlin.wasm
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:

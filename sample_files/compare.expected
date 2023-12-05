@@ -1,5 +1,5 @@
 sample_files/Session_before.kt sample_files/Session_after.kt
-7b0c38d1fcc9b4e20c5fcf0070cb1620  -
+80c53658ee849d38f397863803677a02  -
 
 sample_files/ada_before.adb sample_files/ada_after.adb
 626e22f4f256ae591ece3f280176b3f7  -
@@ -9,6 +9,9 @@ sample_files/added_line_before.txt sample_files/added_line_after.txt
 
 sample_files/apex_before.cls sample_files/apex_after.cls
 fde5c2cb739fb8bb42a592f64190137e  -
+
+sample_files/align_footer_before.txt sample_files/align_footer_after.txt
+202e1821f9214f74568578dbc12ca83e  -
 
 sample_files/b2_math_before.h sample_files/b2_math_after.h
 e1391702d8059d127110017bf6e9ef85  -
@@ -94,6 +97,9 @@ da6c8d397a9d3992b494d761d082366c  -
 sample_files/if_before.py sample_files/if_after.py
 4b25e3a7ae97516afa1064984754abe7  -
 
+sample_files/insert_blank_before.txt sample_files/insert_blank_after.txt
+a985e0bd8d728d59f71621de35552bed  -
+
 sample_files/janet_before.janet sample_files/janet_after.janet
 e02b243bbcce07d5b7cd68954bd5344d  -
 
@@ -154,6 +160,9 @@ sample_files/newick_before.nwk sample_files/newick_after.nwk
 sample_files/nix_before.nix sample_files/nix_after.nix
 e00b95a4cf3fa3edf994155d8656063f  -
 
+sample_files/nullable_before.kt sample_files/nullable_after.kt
+66da628a2c20e18059b8669aaa14a163  -
+
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 2113c6c7959b8099f678d13953f7f44a  -
 
@@ -189,6 +198,9 @@ sample_files/scala_before.scala sample_files/scala_after.scala
 
 sample_files/simple_before.js sample_files/simple_after.js
 c9c5d1c61b7e8a953a361343bcd13c95  -
+
+sample_files/simple_before.scss sample_files/simple_after.scss
+276a637404ace5617aadd09751cc0b07  -
 
 sample_files/simple_before.txt sample_files/simple_after.txt
 8b88ed3d752ca7ae72ed2a44e3cfc9df  -
@@ -231,6 +243,9 @@ sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
 
 sample_files/toml_before.toml sample_files/toml_after.toml
 34fbe2ec9ff514cd53edfe8d961d5093  -
+
+sample_files/trailling_newline_before.yaml sample_files/trailling_newline_after.yaml
+6c2b9be2f28bac9d242f5145e4732c43  -
 
 sample_files/typescript_before.ts sample_files/typescript_after.ts
 27bc9e394d8119c7dd208a9d7985681e  -

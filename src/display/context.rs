@@ -11,7 +11,7 @@ use crate::{
     parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
-pub fn all_matched_lines_filled(
+pub(crate) fn all_matched_lines_filled(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
     lhs_lines: &[&str],
@@ -128,9 +128,9 @@ fn all_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
     for mp in mps {
         lines.insert(mp.pos.line);
     }
-    let mut res: Vec<LineNumber> = lines.into_iter().collect();
-    res.sort_unstable();
-    res
+    let mut line_nums: Vec<LineNumber> = lines.into_iter().collect();
+    line_nums.sort_unstable();
+    line_nums
 }
 
 fn matched_lines_from_unchanged(
@@ -327,7 +327,9 @@ fn match_preceding_blanks(
     res
 }
 
-pub fn opposite_positions(mps: &[MatchedPos]) -> DftHashMap<LineNumber, HashSet<LineNumber>> {
+pub(crate) fn opposite_positions(
+    mps: &[MatchedPos],
+) -> DftHashMap<LineNumber, HashSet<LineNumber>> {
     let mut res: DftHashMap<LineNumber, HashSet<LineNumber>> = DftHashMap::default();
 
     for mp in mps {
@@ -416,7 +418,7 @@ fn before_with_opposites(
 }
 
 fn pad_before(ln: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
-    let mut res = vec![];
+    let mut line_nums = vec![];
 
     let mut current = ln;
     // Use one more line than num_context_lines so we merge
@@ -427,15 +429,15 @@ fn pad_before(ln: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
         }
 
         current = (current.0 - 1).into();
-        res.push(current);
+        line_nums.push(current);
     }
 
-    res.reverse();
-    res
+    line_nums.reverse();
+    line_nums
 }
 
 fn pad_after(ln: LineNumber, max_line: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
-    let mut res = vec![];
+    let mut line_nums = vec![];
 
     let mut current = ln;
     // Use one more line than num_context_lines so we merge
@@ -446,18 +448,18 @@ fn pad_after(ln: LineNumber, max_line: LineNumber, num_context_lines: usize) -> 
         }
 
         current = (current.0 + 1).into();
-        res.push(current);
+        line_nums.push(current);
     }
 
-    res
+    line_nums
 }
 
-pub fn flip_tuple<Tx: Copy, Ty: Copy>(pair: (Tx, Ty)) -> (Ty, Tx) {
+pub(crate) fn flip_tuple<Tx: Copy, Ty: Copy>(pair: (Tx, Ty)) -> (Ty, Tx) {
     let (x, y) = pair;
     (y, x)
 }
 
-pub fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
+pub(crate) fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
     items.iter().copied().map(flip_tuple).collect()
 }
 
@@ -513,7 +515,7 @@ fn after_with_opposites(
     res
 }
 
-pub fn calculate_before_context(
+pub(crate) fn calculate_before_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
     opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
@@ -535,7 +537,7 @@ pub fn calculate_before_context(
     }
 }
 
-pub fn calculate_after_context(
+pub(crate) fn calculate_after_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
     opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
@@ -585,7 +587,7 @@ pub fn calculate_after_context(
     }
 }
 
-pub fn add_context(
+pub(crate) fn add_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
     opposite_to_lhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &DftHashMap<LineNumber, HashSet<LineNumber>>,

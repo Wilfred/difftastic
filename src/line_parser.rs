@@ -4,9 +4,10 @@ use lazy_static::lazy_static;
 use line_numbers::LinePositions;
 use regex::Regex;
 
+use crate::words::split_words;
 use crate::{
     diff::myers_diff,
-    parse::syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
+    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
 fn split_lines_keep_newline(s: &str) -> Vec<&str> {
@@ -15,17 +16,17 @@ fn split_lines_keep_newline(s: &str) -> Vec<&str> {
     }
 
     let mut offset = 0;
-    let mut res = vec![];
+    let mut lines = vec![];
     for newline_match in NEWLINE_RE.find_iter(s) {
-        res.push(s[offset..newline_match.end()].into());
+        lines.push(s[offset..newline_match.end()].into());
         offset = newline_match.end();
     }
 
     if offset < s.len() {
-        res.push(s[offset..].into());
+        lines.push(s[offset..].into());
     }
 
-    res
+    lines
 }
 
 #[derive(Debug)]
@@ -105,7 +106,7 @@ fn line_len_in_bytes(line: &str) -> usize {
 }
 
 // TODO: Prefer src/opposite_src nomenclature as this function is called from both sides.
-pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
+pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
     // TODO: If either side is "", don't split each line by words
     // pointlessly. This is common for file additions/removals.
     let lhs_lp = LinePositions::from(lhs_src);
@@ -114,17 +115,17 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
     let mut lhs_offset = 0;
     let mut rhs_offset = 0;
 
-    let mut res = vec![];
+    let mut mps = vec![];
     for (kind, lhs_lines, rhs_lines) in changed_parts(lhs_src, rhs_src) {
         match kind {
             TextChangeKind::Unchanged => {
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
                     let lhs_pos =
-                        lhs_lp.from_offsets(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
+                        lhs_lp.from_region(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
                     let rhs_pos =
-                        rhs_lp.from_offsets(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
+                        rhs_lp.from_region(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
 
-                    res.push(MatchedPos {
+                    mps.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
                             highlight: TokenKind::Atom(AtomKind::Normal),
                             self_pos: lhs_pos.clone(),
@@ -147,27 +148,25 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                 ) {
                     match diff_res {
                         myers_diff::DiffResult::Left(lhs_word) => {
-                            if *lhs_word != "\n" {
-                                let lhs_pos =
-                                    lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
-                                res.push(MatchedPos {
-                                    kind: MatchKind::NovelWord {
-                                        highlight: TokenKind::Atom(AtomKind::Normal),
-                                    },
-                                    pos: lhs_pos[0],
-                                });
-                            }
+                            let lhs_pos =
+                                lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
+                            mps.push(MatchedPos {
+                                kind: MatchKind::NovelWord {
+                                    highlight: TokenKind::Atom(AtomKind::Normal),
+                                },
+                                pos: lhs_pos[0],
+                            });
 
                             lhs_offset += lhs_word.len();
                         }
                         myers_diff::DiffResult::Both(lhs_word, rhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
-                                    lhs_lp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                    lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
                                 let rhs_pos =
-                                    rhs_lp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
+                                    rhs_lp.from_region(rhs_offset, rhs_offset + rhs_word.len());
 
-                                res.push(MatchedPos {
+                                mps.push(MatchedPos {
                                     kind: MatchKind::NovelLinePart {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                         self_pos: lhs_pos[0],
@@ -189,7 +188,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
         }
     }
 
-    res
+    mps
 }
 
 #[cfg(test)]
@@ -251,7 +250,7 @@ mod tests {
     fn test_novel_lhs_trailing_newlines() {
         let positions = change_positions("foo\n", "");
 
-        assert_eq!(positions.len(), 1);
+        assert_eq!(positions.len(), 2);
         assert!(positions[0].kind.is_novel());
     }
 

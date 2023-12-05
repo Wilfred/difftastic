@@ -18,7 +18,7 @@ use crate::{
         BackgroundColor,
     },
     hash::DftHashMap,
-    lines::{codepoint_len, format_line_num},
+    lines::format_line_num,
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
     summary::FileFormat,
@@ -76,7 +76,7 @@ fn display_single_column(
 ) -> Vec<String> {
     let column_width = format_line_num((src_lines.len() as u32).into()).len();
 
-    let mut result = Vec::with_capacity(src_lines.len());
+    let mut formatted_lines = Vec::with_capacity(src_lines.len());
 
     let mut header_line = String::new();
     header_line.push_str(&style::header(
@@ -88,7 +88,7 @@ fn display_single_column(
         display_options,
     ));
     header_line.push('\n');
-    result.push(header_line);
+    formatted_lines.push(header_line);
 
     let mut style = Style::new();
     if display_options.use_color {
@@ -103,10 +103,10 @@ fn display_single_column(
                 .to_string(),
         );
         formatted_line.push_str(line);
-        result.push(formatted_line);
+        formatted_lines.push(formatted_line);
     }
 
-    result
+    formatted_lines
 }
 
 fn display_line_nums(
@@ -166,31 +166,16 @@ struct SourceDimensions {
 }
 
 impl SourceDimensions {
-    fn new(
-        terminal_width: usize,
-        line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
-        lhs_lines: &[&str],
-        rhs_lines: &[&str],
-    ) -> Self {
+    fn new(terminal_width: usize, line_nums: &[(Option<LineNumber>, Option<LineNumber>)]) -> Self {
         let mut lhs_max_line: LineNumber = 1.into();
         let mut rhs_max_line: LineNumber = 1.into();
-        let mut lhs_max_content = 1;
-        let mut rhs_max_content = 1;
 
         for (lhs_line_num, rhs_line_num) in line_nums {
             if let Some(lhs_line_num) = lhs_line_num {
                 lhs_max_line = max(lhs_max_line, *lhs_line_num);
-                lhs_max_content = max(
-                    lhs_max_content,
-                    codepoint_len(lhs_lines[lhs_line_num.as_usize()]),
-                );
             }
             if let Some(rhs_line_num) = rhs_line_num {
                 rhs_max_line = max(rhs_max_line, *rhs_line_num);
-                rhs_max_content = max(
-                    rhs_max_content,
-                    codepoint_len(rhs_lines[rhs_line_num.as_usize()]),
-                );
             }
         }
 
@@ -231,7 +216,7 @@ impl SourceDimensions {
     }
 }
 
-pub fn lines_with_novel(
+pub(crate) fn lines_with_novel(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
@@ -317,7 +302,7 @@ fn highlight_as_novel(
     false
 }
 
-pub fn print(
+pub(crate) fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
     display_path: &str,
@@ -436,12 +421,7 @@ pub fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let source_dims = SourceDimensions::new(
-            display_options.display_width,
-            aligned_lines,
-            &lhs_lines,
-            &rhs_lines,
-        );
+        let source_dims = SourceDimensions::new(display_options.display_width, aligned_lines);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 *lhs_line_num,
@@ -606,14 +586,7 @@ mod tests {
     #[test]
     fn test_width_calculations() {
         let line_nums = [(Some(1.into()), Some(10.into()))];
-        let source_dims = SourceDimensions::new(
-            80,
-            &line_nums,
-            &"foo\nbar\n".lines().collect::<Vec<_>>(),
-            &"x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n"
-                .lines()
-                .collect::<Vec<_>>(),
-        );
+        let source_dims = SourceDimensions::new(80, &line_nums);
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -627,8 +600,6 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
             ],
-            &"foo\nbar\n".lines().collect::<Vec<_>>(),
-            &"fox\nbax\n".lines().collect::<Vec<_>>(),
         );
 
         assert_eq!(
@@ -649,8 +620,6 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
             ],
-            &"foo\nbar\n".lines().collect::<Vec<_>>(),
-            &"fox\nbax\n".lines().collect::<Vec<_>>(),
         );
 
         assert_eq!(

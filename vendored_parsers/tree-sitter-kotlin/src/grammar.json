@@ -5068,6 +5068,10 @@
         {
           "type": "STRING",
           "value": "inner"
+        },
+        {
+          "type": "STRING",
+          "value": "value"
         }
       ]
     },
@@ -5377,6 +5381,10 @@
         {
           "type": "STRING",
           "value": "inner"
+        },
+        {
+          "type": "STRING",
+          "value": "value"
         },
         {
           "type": "STRING",
@@ -6090,9 +6098,6 @@
   ],
   "conflicts": [
     [
-      "anonymous_function"
-    ],
-    [
       "_primary_expression",
       "callable_reference"
     ],
@@ -6111,11 +6116,6 @@
     [
       "_postfix_unary_expression",
       "_expression"
-    ],
-    [
-      "call_expression",
-      "prefix_expression",
-      "comparison_expression"
     ],
     [
       "call_expression",

@@ -11,23 +11,23 @@ use crate::parse::syntax::Syntax;
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
-/// Set [`ChangeKind`] on nodes that are obviously unchanged, and return a
-/// vec of pairs that need proper diffing.
-pub fn mark_unchanged<'a>(
+/// Set [`ChangeKind`] on nodes that have exactly the same structure
+/// on both sides, and return a vec of pairs that need proper diffing.
+pub(crate) fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     change_map: &mut ChangeMap<'a>,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
 
-    let mut res = vec![];
+    let mut nodes_to_diff = vec![];
     for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
         let (_, lhs_nodes, rhs_nodes) =
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, change_map);
-        res.extend(split_unchanged(&lhs_nodes, &rhs_nodes, change_map));
+        nodes_to_diff.extend(split_unchanged(&lhs_nodes, &rhs_nodes, change_map));
     }
 
-    res
+    nodes_to_diff
 }
 
 #[derive(Debug)]

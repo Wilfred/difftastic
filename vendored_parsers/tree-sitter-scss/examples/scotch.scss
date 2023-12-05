@@ -1,0 +1,57 @@
+// from https://scotch.io/tutorials/getting-started-with-sass
+
+// ----
+// Sass (v3.4.4)
+// Compass (v1.0.1)
+// ----
+
+@mixin renderGridStyles($settings) {
+  .container {
+    padding-right: map-get($settings, "margin");
+    padding-left: map-get($settings, "margin");
+    margin-right: auto;
+    margin-left: auto;
+    max-width: map-get($settings, "maxWidth");
+  }
+
+  .row {
+    margin-right: map-get($settings, "margin") * -1;
+    margin-left: map-get($settings, "margin") * -1;
+  }
+
+  $breakpoints: map-get($settings, "breakpoints");
+
+  @each $key, $breakpoint in $breakpoints {
+    @include media($breakpoint) {
+      @include renderGrid($key, $settings);
+    }
+  }
+}
+
+@mixin renderGrid($key, $settings) {
+  $i: 1;
+
+  @while $i <= map-get($settings, "columns") {
+    .col-#{$key}-#{$i} {
+      float: left;
+      width: 100% * $i / map-get($settings, "columns");
+    }
+
+    $i: $i + 1;
+  }
+}
+
+@mixin media($queryString) {
+  @media #{$queryString} {
+    @content;
+  }
+}
+
+@include renderGridStyles($settings);
+
+p {
+  padding: 20px;
+  color: white;
+  background: #9b59b6;
+  margin: 20px;
+}

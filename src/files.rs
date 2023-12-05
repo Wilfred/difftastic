@@ -7,13 +7,13 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use ignore::Walk;
 use rustc_hash::FxHashSet;
-use walkdir::WalkDir;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::options::FileArgument;
 
-pub fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
+pub(crate) fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
     match read_file_arg(path) {
         Ok(src) => src,
         Err(e) => {
@@ -23,7 +23,7 @@ pub fn read_file_or_die(path: &FileArgument) -> Vec<u8> {
     }
 }
 
-pub fn read_files_or_die(
+pub(crate) fn read_files_or_die(
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     missing_as_empty: bool,
@@ -102,7 +102,7 @@ fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
     };
 }
 
-pub fn read_or_die(path: &Path) -> Vec<u8> {
+pub(crate) fn read_or_die(path: &Path) -> Vec<u8> {
     match fs::read(path) {
         Ok(src) => src,
         Err(e) => {
@@ -139,13 +139,13 @@ fn u16_from_bytes(bytes: &[u8]) -> Vec<u16> {
 }
 
 #[derive(Debug, Eq, PartialEq)]
-pub enum ProbableFileKind {
+pub(crate) enum ProbableFileKind {
     Text(String),
     Binary,
 }
 
 /// Do these bytes look like a binary (non-textual) format?
-pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
+pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // If the bytes are entirely valid UTF-8, treat them as a string.
     if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
         return ProbableFileKind::Text(valid_utf8_string.to_string());
@@ -235,10 +235,10 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
 
 /// All the files in `dir`, including subdirectories.
 fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
-    WalkDir::new(dir)
+    Walk::new(dir)
         .into_iter()
         .filter_map(Result::ok)
-        .map(|entry| entry.into_path())
+        .map(|entry| Path::new(entry.path()).to_owned())
         .filter(|path| !path.is_dir())
         .map(|path| path.strip_prefix(dir).unwrap().to_path_buf())
         .collect()
@@ -248,12 +248,12 @@ fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
 /// that occur in at least one directory.
 ///
 /// Attempts to preserve the ordering of files in both directories.
-pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> {
+pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> {
     let lhs_paths = relative_file_paths_in_dir(lhs_dir);
     let rhs_paths = relative_file_paths_in_dir(rhs_dir);
 
     let mut seen = FxHashSet::default();
-    let mut res: Vec<PathBuf> = vec![];
+    let mut paths: Vec<PathBuf> = vec![];
 
     let mut i = 0;
     let mut j = 0;
@@ -264,7 +264,7 @@ pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> 
                 if !seen.contains(lhs_path) {
                     // It should be impossible to get duplicates, but
                     // be defensive.
-                    res.push(lhs_path.clone());
+                    paths.push(lhs_path.clone());
                     seen.insert(lhs_path);
                 }
 
@@ -277,8 +277,8 @@ pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> 
                 } else if seen.contains(rhs_path) {
                     j += 1;
                 } else {
-                    res.push(lhs_path.clone());
-                    res.push(rhs_path.clone());
+                    paths.push(lhs_path.clone());
+                    paths.push(rhs_path.clone());
 
                     seen.insert(lhs_path);
                     seen.insert(rhs_path);
@@ -291,10 +291,10 @@ pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> 
         }
     }
 
-    res.extend(lhs_paths.into_iter().skip(i));
-    res.extend(rhs_paths.into_iter().skip(j));
+    paths.extend(lhs_paths.into_iter().skip(i));
+    paths.extend(rhs_paths.into_iter().skip(j));
 
-    res
+    paths
 }
 
 #[cfg(test)]

@@ -4,7 +4,7 @@ use std::ops::Sub;
 
 use line_numbers::LineNumber;
 
-pub fn format_line_num(line_num: LineNumber) -> String {
+pub(crate) fn format_line_num(line_num: LineNumber) -> String {
     format!("{} ", line_num.display())
 }
 
@@ -12,25 +12,19 @@ pub fn format_line_num(line_num: LineNumber) -> String {
 #[derive(Debug, PartialEq, Clone, Copy)]
 struct LinePosition {
     /// Both zero-indexed.
-    pub line: LineNumber,
+    pub(crate) line: LineNumber,
     column: usize,
-}
-
-/// Return the length of `s` in codepoints. This is important when
-/// finding character boundaries for slicing without errors.
-pub fn codepoint_len(s: &str) -> usize {
-    s.chars().count()
 }
 
 /// Return the length of `s` in bytes.
 ///
 /// This is a trivial wrapper to make it clear when we want bytes not
 /// codepoints.
-pub fn byte_len(s: &str) -> usize {
+pub(crate) fn byte_len(s: &str) -> usize {
     s.len()
 }
 
-pub trait MaxLine {
+pub(crate) trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }
 
@@ -46,7 +40,7 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
-pub fn is_all_whitespace(s: &str) -> bool {
+pub(crate) fn is_all_whitespace(s: &str) -> bool {
     s.chars().all(|c| c.is_whitespace())
 }
 
@@ -78,11 +72,6 @@ mod tests {
     fn str_max_line_extra_trailing_newline() {
         let line: String = "foo\nbar\n\n".into();
         assert_eq!(line.max_line().0, 1);
-    }
-
-    #[test]
-    fn codepoint_len_non_ascii() {
-        assert_eq!(codepoint_len("ƒoo"), 3);
     }
 
     #[test]

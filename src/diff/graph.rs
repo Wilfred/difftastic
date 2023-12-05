@@ -50,13 +50,13 @@ use crate::{
 ///      ^              ^
 /// ```
 #[derive(Debug, Clone)]
-pub struct Vertex<'s, 'b> {
-    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
-    pub predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
+pub(crate) struct Vertex<'s, 'b> {
+    pub(crate) neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
+    pub(crate) predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
-    pub lhs_syntax: Option<&'s Syntax<'s>>,
-    pub rhs_syntax: Option<&'s Syntax<'s>>,
+    pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
+    pub(crate) rhs_syntax: Option<&'s Syntax<'s>>,
     parents: Stack<EnteredDelimiter<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
@@ -249,11 +249,14 @@ fn push_rhs_delimiter<'s>(
 }
 
 impl<'s, 'b> Vertex<'s, 'b> {
-    pub fn is_end(&self) -> bool {
+    pub(crate) fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
 
-    pub fn new(lhs_syntax: Option<&'s Syntax<'s>>, rhs_syntax: Option<&'s Syntax<'s>>) -> Self {
+    pub(crate) fn new(
+        lhs_syntax: Option<&'s Syntax<'s>>,
+        rhs_syntax: Option<&'s Syntax<'s>>,
+    ) -> Self {
         let parents = Stack::new();
         Vertex {
             neighbours: RefCell::new(None),
@@ -275,9 +278,12 @@ impl<'s, 'b> Vertex<'s, 'b> {
 ///
 /// See [`set_neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum Edge {
+pub(crate) enum Edge {
     UnchangedNode {
         depth_difference: u32,
+        /// Is this node just punctuation? We penalise this case,
+        /// because it's more useful to match e.g. a variable name
+        /// than a comma.
         probably_punctuation: bool,
     },
     EnterUnchangedDelimiter {
@@ -298,7 +304,7 @@ pub enum Edge {
 }
 
 impl Edge {
-    pub fn cost(self) -> u32 {
+    pub(crate) fn cost(self) -> u32 {
         match self {
             // Matching nodes is always best.
             UnchangedNode {
@@ -475,7 +481,7 @@ fn pop_all_parents<'s>(
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// and write them to the .neighbours cell inside `v`.
-pub fn set_neighbours<'s, 'b>(
+pub(crate) fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
@@ -485,7 +491,7 @@ pub fn set_neighbours<'s, 'b>(
     }
 
     // There are only seven pushes in this function, so that's sufficient.
-    let mut res: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
+    let mut neighbours: Vec<(Edge, &Vertex)> = Vec::with_capacity(7);
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
@@ -504,7 +510,7 @@ pub fn set_neighbours<'s, 'b>(
                 &v.parents,
             );
 
-            res.push((
+            neighbours.push((
                 UnchangedNode {
                     depth_difference,
                     probably_punctuation,
@@ -563,7 +569,7 @@ pub fn set_neighbours<'s, 'b>(
                         &parents_next,
                     );
 
-                res.push((
+                neighbours.push((
                     EnterUnchangedDelimiter { depth_difference },
                     allocate_if_new(
                         Vertex {
@@ -614,7 +620,7 @@ pub fn set_neighbours<'s, 'b>(
                         v.rhs_parent_id,
                         &v.parents,
                     );
-                res.push((
+                neighbours.push((
                     edge,
                     allocate_if_new(
                         Vertex {
@@ -647,7 +653,7 @@ pub fn set_neighbours<'s, 'b>(
                         &v.parents,
                     );
 
-                res.push((
+                neighbours.push((
                     NovelAtomLHS {},
                     allocate_if_new(
                         Vertex {
@@ -679,7 +685,7 @@ pub fn set_neighbours<'s, 'b>(
                         &parents_next,
                     );
 
-                res.push((
+                neighbours.push((
                     EnterNovelDelimiterLHS {},
                     allocate_if_new(
                         Vertex {
@@ -712,7 +718,7 @@ pub fn set_neighbours<'s, 'b>(
                         &v.parents,
                     );
 
-                res.push((
+                neighbours.push((
                     NovelAtomRHS {},
                     allocate_if_new(
                         Vertex {
@@ -743,7 +749,7 @@ pub fn set_neighbours<'s, 'b>(
                         &parents_next,
                     );
 
-                res.push((
+                neighbours.push((
                     EnterNovelDelimiterRHS {},
                     allocate_if_new(
                         Vertex {
@@ -763,14 +769,14 @@ pub fn set_neighbours<'s, 'b>(
         }
     }
     assert!(
-        !res.is_empty(),
+        !neighbours.is_empty(),
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(res));
+    v.neighbours.replace(Some(neighbours));
 }
 
-pub fn populate_change_map<'s, 'b>(
+pub(crate) fn populate_change_map<'s, 'b>(
     route: &[(Edge, &'b Vertex<'s, 'b>)],
     change_map: &mut ChangeMap<'s>,
 ) {

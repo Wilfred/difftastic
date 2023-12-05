@@ -11,13 +11,13 @@ use crate::{
 };
 
 #[derive(Debug, PartialEq, Eq)]
-pub enum FileContent {
+pub(crate) enum FileContent {
     Text(String),
     Binary,
 }
 
 #[derive(Debug, Clone)]
-pub enum FileFormat {
+pub(crate) enum FileFormat {
     SupportedLanguage(guess_language::Language),
     PlainText,
     TextFallback { reason: String },
@@ -36,26 +36,26 @@ impl Display for FileFormat {
 }
 
 #[derive(Debug)]
-pub struct DiffResult {
-    pub display_path: String,
+pub(crate) struct DiffResult {
+    pub(crate) display_path: String,
     /// Additional information to display about this file, such as
     /// "Renamed from x.js to y.js".
-    pub extra_info: Option<String>,
+    pub(crate) extra_info: Option<String>,
 
-    pub file_format: FileFormat,
-    pub lhs_src: FileContent,
-    pub rhs_src: FileContent,
-    pub hunks: Vec<Hunk>,
+    pub(crate) file_format: FileFormat,
+    pub(crate) lhs_src: FileContent,
+    pub(crate) rhs_src: FileContent,
+    pub(crate) hunks: Vec<Hunk>,
 
-    pub lhs_positions: Vec<MatchedPos>,
-    pub rhs_positions: Vec<MatchedPos>,
+    pub(crate) lhs_positions: Vec<MatchedPos>,
+    pub(crate) rhs_positions: Vec<MatchedPos>,
 
-    pub has_byte_changes: bool,
-    pub has_syntactic_changes: bool,
+    pub(crate) has_byte_changes: bool,
+    pub(crate) has_syntactic_changes: bool,
 }
 
 impl DiffResult {
-    pub fn has_reportable_change(&self) -> bool {
+    pub(crate) fn has_reportable_change(&self) -> bool {
         if matches!(self.lhs_src, FileContent::Binary)
             || matches!(self.rhs_src, FileContent::Binary)
         {

@@ -14,35 +14,35 @@ use crate::{
     version::VERSION,
 };
 
-pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
+pub(crate) const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
 // files (the highest is slow_before/after.rs at 1.3M nodes), but
 // small enough to terminate in ~5 seconds like the test file in #306.
-pub const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
-pub const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
+pub(crate) const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
+pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
-pub const DEFAULT_TAB_WIDTH: usize = 8;
+pub(crate) const DEFAULT_TAB_WIDTH: usize = 8;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
 
 #[derive(Debug, Clone, Copy)]
-pub enum ColorOutput {
+pub(crate) enum ColorOutput {
     Always,
     Auto,
     Never,
 }
 
 #[derive(Debug, Clone)]
-pub struct DisplayOptions {
-    pub background_color: BackgroundColor,
-    pub use_color: bool,
-    pub display_mode: DisplayMode,
-    pub print_unchanged: bool,
-    pub tab_width: usize,
-    pub display_width: usize,
-    pub num_context_lines: u32,
-    pub in_vcs: bool,
-    pub syntax_highlight: bool,
+pub(crate) struct DisplayOptions {
+    pub(crate) background_color: BackgroundColor,
+    pub(crate) use_color: bool,
+    pub(crate) display_mode: DisplayMode,
+    pub(crate) print_unchanged: bool,
+    pub(crate) tab_width: usize,
+    pub(crate) display_width: usize,
+    pub(crate) num_context_lines: u32,
+    pub(crate) syntax_highlight: bool,
+    pub(crate) sort_paths: bool,
 }
 
 impl Default for DisplayOptions {
@@ -55,20 +55,20 @@ impl Default for DisplayOptions {
             tab_width: 8,
             display_width: 80,
             num_context_lines: 3,
-            in_vcs: false,
             syntax_highlight: true,
+            sort_paths: false,
         }
     }
 }
 
 #[derive(Debug, Clone)]
-pub struct DiffOptions {
-    pub graph_limit: usize,
-    pub byte_limit: usize,
-    pub parse_error_limit: usize,
-    pub check_only: bool,
-    pub ignore_comments: bool,
-    pub strip_cr: bool,
+pub(crate) struct DiffOptions {
+    pub(crate) graph_limit: usize,
+    pub(crate) byte_limit: usize,
+    pub(crate) parse_error_limit: usize,
+    pub(crate) check_only: bool,
+    pub(crate) ignore_comments: bool,
+    pub(crate) strip_cr: bool,
 }
 
 impl Default for DiffOptions {
@@ -218,6 +218,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
+                .env("DFT_SKIP_UNCHANGED")
                 .help("Don't display anything if a file is unchanged.")
         )
         .arg(
@@ -288,11 +289,16 @@ When multiple overrides are specified, the first matching override wins."))
                 .hide(true)
                 .allow_invalid_utf8(true),
         )
+        .arg(
+            Arg::new("sort-paths").long("sort-paths")
+                .env("DFT_SORT_PATHS")
+                .help("When diffing a directory, output the results sorted by path. This is slower.")
+        )
         .arg_required_else_help(true)
 }
 
 #[derive(Debug, Copy, Clone)]
-pub enum DisplayMode {
+pub(crate) enum DisplayMode {
     Inline,
     SideBySide,
     SideBySideShowBoth,
@@ -300,7 +306,7 @@ pub enum DisplayMode {
 }
 
 #[derive(Eq, PartialEq, Debug)]
-pub enum FileArgument {
+pub(crate) enum FileArgument {
     NamedPath(std::path::PathBuf),
     Stdin,
     DevNull,
@@ -326,7 +332,7 @@ fn relative_to_current(path: &Path) -> PathBuf {
 impl FileArgument {
     /// Return a `FileArgument` representing this command line
     /// argument.
-    pub fn from_cli_argument(arg: &OsStr) -> Self {
+    pub(crate) fn from_cli_argument(arg: &OsStr) -> Self {
         if arg == "/dev/null" {
             FileArgument::DevNull
         } else if arg == "-" {
@@ -338,7 +344,7 @@ impl FileArgument {
 
     /// Return a `FileArgument` that always represents a path that
     /// exists, with the exception of `/dev/null`, which is turned into [FileArgument::DevNull].
-    pub fn from_path_argument(arg: &OsStr) -> Self {
+    pub(crate) fn from_path_argument(arg: &OsStr) -> Self {
         // For new and deleted files, Git passes `/dev/null` as the reference file.
         if arg == "/dev/null" {
             FileArgument::DevNull
@@ -347,7 +353,7 @@ impl FileArgument {
         }
     }
 
-    pub fn display(&self) -> String {
+    pub(crate) fn display(&self) -> String {
         match self {
             FileArgument::NamedPath(path) => relative_to_current(path).display().to_string(),
             FileArgument::Stdin => "(stdin)".to_string(),
@@ -356,7 +362,7 @@ impl FileArgument {
     }
 }
 
-pub enum Mode {
+pub(crate) enum Mode {
     Diff {
         diff_options: DiffOptions,
         display_options: DisplayOptions,
@@ -443,7 +449,7 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
 }
 
 fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Vec<glob::Pattern>)> {
-    let mut res: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
+    let mut overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)> = vec![];
     let mut invalid_syntax = false;
 
     for raw_override in raw_overrides {
@@ -451,7 +457,7 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
             match glob::Pattern::new(glob_str) {
                 Ok(pattern) => {
                     if let Some(language_override) = language_override_from_name(lang_name) {
-                        res.push((language_override, vec![pattern]));
+                        overrides.push((language_override, vec![pattern]));
                     } else {
                         eprintln!("No such language '{}'", lang_name);
                         eprintln!("See --list-languages for the names of all languages available. Language overrides are case insensitive.");
@@ -475,7 +481,7 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
         std::process::exit(EXIT_BAD_ARGUMENTS);
     }
 
-    res.into_iter()
+    overrides.into_iter()
         .coalesce(
             |(prev_lang, mut prev_globs), (current_lang, current_globs)| {
                 if prev_lang == current_lang {
@@ -490,7 +496,7 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
 }
 
 /// Parse CLI arguments passed to the binary.
-pub fn parse_args() -> Mode {
+pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
 
     let color_output = match matches.value_of("color").expect("color has a default") {
@@ -552,7 +558,7 @@ pub fn parse_args() -> Mode {
         "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
         "inline" => DisplayMode::Inline,
         "json" => {
-            if env::var(format!("DFT_UNSTABLE")).is_err() {
+            if env::var("DFT_UNSTABLE").is_err() {
                 eprintln!("JSON output is an unstable feature and its format may change in future. To enable JSON output, set the environment variable DFT_UNSTABLE=yes.");
                 std::process::exit(EXIT_BAD_ARGUMENTS);
             }
@@ -574,6 +580,8 @@ pub fn parse_args() -> Mode {
     };
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
+
+    let sort_paths = matches.is_present("sort-paths");
 
     let graph_limit = matches
         .value_of("graph-limit")
@@ -626,12 +634,12 @@ pub fn parse_args() -> Mode {
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
-    let (display_path, lhs_path, rhs_path, old_path, in_vcs) = match &args[..] {
+    let (display_path, lhs_path, rhs_path, old_path) = match &args[..] {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
             let display_path = build_display_path(&lhs_arg, &rhs_arg);
-            (display_path, lhs_arg, rhs_arg, None, false)
+            (display_path, lhs_arg, rhs_arg, None)
         }
         [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
@@ -640,7 +648,6 @@ pub fn parse_args() -> Mode {
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 None,
-                true,
             )
         }
         [old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
@@ -657,7 +664,6 @@ pub fn parse_args() -> Mode {
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 Some(renamed),
-                true,
             )
         }
         [path] => {
@@ -670,7 +676,7 @@ pub fn parse_args() -> Mode {
                 display_width,
                 num_context_lines,
                 syntax_highlight,
-                in_vcs: true,
+                sort_paths,
             };
 
             let display_path = path.to_string_lossy().to_string();
@@ -707,7 +713,7 @@ pub fn parse_args() -> Mode {
         display_width,
         num_context_lines,
         syntax_highlight,
-        in_vcs,
+        sort_paths,
     };
 
     Mode::Diff {
@@ -732,7 +738,7 @@ fn detect_display_width() -> usize {
     80
 }
 
-pub fn should_use_color(color_output: ColorOutput) -> bool {
+pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
     match color_output {
         ColorOutput::Always => true,
         ColorOutput::Auto => {

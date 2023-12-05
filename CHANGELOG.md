@@ -1,10 +1,53 @@
-## 0.53 (unreleased)
+## 0.54 (unreleased)
+
+### Display
+
+Fixed a rare crash when the last non-blank line had changes for
+certain parsers, particularly YAML.
+
+### Build
+
+Difftastic now requires Rust 1.63 to build.
+
+## 0.53.1 (released 26th November 2023)
+
+### Build
+
+Fixed a dependency issue that broke aarch64 builds on older rustc versions.
+
+## 0.53 (released 24th November 2023)
+
+### Parsing
+
+Added support for SCSS.
+
+Updated the Kotlin parser and improved handling of Kotlin nullable
+types.
+
+`.snap` files (Jest snapshots) are now detected as JavaScript files.
+
+### Diffing
+
+Fixed an issue where adding or removing blank lines would be ignored
+by the textual diffing logic.
+
+Directory diffing now respects `.gitignore` files.
+
+Directory diffing can now be sorted by path with the `--sort-paths`
+option.
 
 ### Command Line Interface
 
 Added the option `--strip-cr`. This removes all carriage return
 characters before diffing, which is helpful when dealing with a mix of
 Windows and non-Windows flies.
+
+The option `--skip-unchanged` now has a corresponding environment
+option `DFT_SKIP_UNCHANGED`.
+
+### Build
+
+Difftastic now requires Rust 1.60 to build.
 
 ## 0.52 (released 8th October 2023)
 

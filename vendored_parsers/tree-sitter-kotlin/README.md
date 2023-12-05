@@ -1,6 +1,8 @@
 # Kotlin Grammar for Tree-Sitter
 
 [![Build](https://github.com/fwcd/tree-sitter-kotlin/actions/workflows/build.yml/badge.svg)](https://github.com/fwcd/tree-sitter-kotlin/actions/workflows/build.yml)
+[![NPM](https://img.shields.io/npm/v/tree-sitter-kotlin)](https://www.npmjs.com/package/tree-sitter-kotlin)
+[![crates.io](https://img.shields.io/crates/v/tree-sitter-kotlin)](https://crates.io/crates/tree-sitter-kotlin)
 
 [Kotlin](https://kotlinlang.org) language grammar for [Tree-Sitter](http://tree-sitter.github.io/tree-sitter/). You can try it out directly [on the web](https://fwcd.github.io/tree-sitter-kotlin).
 
