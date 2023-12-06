@@ -431,7 +431,8 @@ module.exports = grammar({
     _case_clause_guard_expression: ($) =>
       choice(
         $._case_clause_guard_unit,
-        alias($._case_clause_guard_binary_expression, $.binary_expression)
+        alias($._case_clause_guard_binary_expression, $.binary_expression),
+        $.boolean_negation
       ),
     _case_clause_guard_binary_expression: ($) =>
       choice(
