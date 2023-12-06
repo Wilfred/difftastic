@@ -716,9 +716,15 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_objc() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string_literal", "string_expression", "char_literal"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec![
+                    "string_literal",
+                    "string_expression",
+                    "char_literal",
+                    "boolean_expression",
+                    "number_expression",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![
                     ("(", ")"),
                     ("{", "}"),

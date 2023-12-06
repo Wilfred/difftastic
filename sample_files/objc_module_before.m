@@ -21,6 +21,8 @@
 @property NSString *lastError;
 @end
 
+const NSArray *expressions=@[@YES, @6, @(NO), @3.14, @(-9), @-10, @"Hello"];
+
 @implementation PopHttpServer
 
 - (id)initWithPort:(uint16_t)port
