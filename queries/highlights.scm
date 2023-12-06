@@ -65,6 +65,12 @@
 (integer) @number
 (float) @number
 
+; Reserved identifiers
+; TODO: when tree-sitter supports `#any-of?` in the Rust bindings,
+; refactor this to use `#any-of?` rather than `#match?`
+((identifier) @warning
+ (#match? @warning "^(auto|delegate|derive|else|implement|macro|test)$"))
+
 ; Variables
 (identifier) @variable
 (discard) @comment.unused
