@@ -1,0 +1,29 @@
+================================================================================
+Escape sequences
+================================================================================
+
+"\t\t\r\nHello, CRLF!"
+"¯\\_(ツ)_/¯"
+"\"\""
+"Hello, \e\f"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (string
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (quoted_content))
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content))
+  (string
+    (escape_sequence)
+    (escape_sequence))
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (escape_sequence)))
