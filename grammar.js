@@ -677,7 +677,11 @@ module.exports = grammar({
         repeat(choice($.escape_sequence, $.quoted_content)),
         token.immediate('"')
       ),
-    escape_sequence: ($) => token.immediate(/\\[efnrt\"\\]/),
+    escape_sequence: ($) =>
+      choice(
+        token.immediate(/\\[efnrt\"\\]/),
+        token.immediate(/\\u\{[0-9a-fA-F]{1,6}\}/)
+      ),
     float: ($) => /-?[0-9_]+\.[0-9_]*(e-?[0-9_]+)?/,
     integer: ($) =>
       seq(optional("-"), choice($._hex, $._decimal, $._octal, $._binary)),

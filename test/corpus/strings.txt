@@ -6,6 +6,8 @@ Escape sequences
 "¯\\_(ツ)_/¯"
 "\"\""
 "Hello, \e\f"
+// 🏴‍☠️ is 🏴 and ☠️  joined with a zero-width joiner (U+200D)
+"🏴‍☠️ == \u{1F3F4}\u{200D}\u{2620}\u{FE0F}"
 
 --------------------------------------------------------------------------------
 
@@ -25,5 +27,12 @@ Escape sequences
     (escape_sequence))
   (string
     (quoted_content)
+    (escape_sequence)
+    (escape_sequence))
+  (comment)
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (escape_sequence)
     (escape_sequence)
     (escape_sequence)))
