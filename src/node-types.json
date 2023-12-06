@@ -1485,6 +1485,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
