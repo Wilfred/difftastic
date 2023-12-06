@@ -5802,11 +5802,23 @@
       ]
     },
     "escape_sequence": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "\\\\[efnrt\\\"\\\\]"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\[efnrt\\\"\\\\]"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\u\\{[0-9a-fA-F]{1,6}\\}"
+          }
+        }
+      ]
     },
     "float": {
       "type": "PATTERN",

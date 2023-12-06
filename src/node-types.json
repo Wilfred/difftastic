@@ -1913,6 +1913,11 @@
     "fields": {}
   },
   {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "external_function",
     "named": true,
     "fields": {
@@ -5028,10 +5033,6 @@
   {
     "type": "erlang",
     "named": false
-  },
-  {
-    "type": "escape_sequence",
-    "named": true
   },
   {
     "type": "external",
