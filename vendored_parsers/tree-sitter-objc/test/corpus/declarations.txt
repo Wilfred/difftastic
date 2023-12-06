@@ -1,0 +1,988 @@
+================================================================================
+Class interface
+================================================================================
+
+@interface ClassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)))
+
+================================================================================
+Class interface: inheritance
+================================================================================
+
+@interface ClassName: SuperclassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))))
+
+================================================================================
+Class interface: protocol qualifier
+================================================================================
+
+@interface ClassName <ProtocolName>
+@end
+
+@interface ClassName : SuperclassName <ProtocolName>
+@end
+
+@interface ClassName <ProtocolName1, ProtocolName2>
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)))
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))
+    (protocol_qualifiers
+      name: (identifier)))
+  (class_interface
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)
+      name: (identifier))))
+
+================================================================================
+Class interface: ObjectType generic
+================================================================================
+
+@interface ViewController <ObjectType: id<UITableViewDelegate, UITableViewDataSource>> : NSObject <ProtocolName>
+
+@property (nonatomic, strong) NSMutableArray<ObjectType> *array;
+
+@end
+
+@interface SDMemoryCache <KeyType, ObjectType> () {
+  
+}
+@end
+
+@interface SDMemoryCache <KeyType, ObjectType> : NSCache <KeyType, ObjectType> <SDMemoryCache>
+
+
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (parameterized_class_type_arguments
+      type: (identifier)
+      (type_descriptor
+        type: (generic_type_specifier
+          class_name: (id)
+          type_reference: (protocol_qualifiers
+            name: (identifier)
+            name: (identifier)))))
+    (superclass_reference
+      name: (identifier))
+    (protocol_qualifiers
+      name: (identifier))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (protocol_qualifiers
+          name: (identifier)))
+      declarator: (pointer_declarator
+        declarator: (identifier))))
+  (category_interface
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)
+      name: (identifier)))
+  (class_interface
+    name: (identifier)
+    (parameterized_class_type_arguments
+      type: (identifier)
+      type: (identifier))
+    (superclass_reference
+      name: (identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier))
+        (type_descriptor
+          type: (type_identifier))))
+    (protocol_qualifiers
+      name: (identifier))))
+
+================================================================================
+Class interface: __GENERICS generic
+================================================================================
+
+@interface __GENERICS(NSArray, ObjectType) (BlocksKit)
+@end
+
+@interface __GENERICS(NSDictionary, KeyType, ObjectType) (BlocksKit)
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    (generics_type_reference
+      name: (identifier)
+      (type_identifier))
+    category: (identifier))
+  (category_interface
+    (generics_type_reference
+      name: (identifier)
+      (type_identifier)
+      (type_identifier))
+    category: (identifier)))
+
+================================================================================
+Class interface: superclass type arguments
+================================================================================
+
+@interface ClassName : NSSet <TypeClassName *>
+@end
+
+@interface ClassName : NSSet <TypeClassName *> <ProtocolName>
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)))))
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))))
+    (protocol_qualifiers
+      name: (identifier))))
+
+================================================================================
+Class interface: parameterized classes
+================================================================================
+
+@interface PC1<T, U : NSObject *> : NSObject
+@end
+
+// Parse a type parameter with a bound that terminates in '>>'.
+@interface PC2<T : id<NSObject>> : NSObject
+@end
+
+@interface PC8<T> : NSObject <NSObject>
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (parameterized_class_type_arguments
+      type: (identifier)
+      type: (identifier)
+      (type_descriptor
+        type: (type_identifier)
+        declarator: (abstract_pointer_declarator)))
+    (superclass_reference
+      name: (identifier)))
+  (comment)
+  (class_interface
+    name: (identifier)
+    (parameterized_class_type_arguments
+      type: (identifier)
+      (type_descriptor
+        type: (generic_type_specifier
+          class_name: (id)
+          type_reference: (protocol_qualifiers
+            name: (identifier)))))
+    (superclass_reference
+      name: (identifier)))
+  (class_interface
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier))
+    (superclass_reference
+      name: (identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier))))))
+
+================================================================================
+Class interface: NS_ROOT_CLASS attribute
+================================================================================
+
+NS_ROOT_CLASS
+@interface ClassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (class_interface_attribute_sepcifier)
+    name: (identifier)))
+
+================================================================================
+Class interface: IB_DESIGNABLE attribute
+================================================================================
+
+IB_DESIGNABLE
+@interface ClassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (class_interface_attribute_sepcifier)
+    name: (identifier)))
+
+================================================================================
+Class interface: instance variables
+================================================================================
+
+@interface ClassName {
+  type1 iv1;
+  id iv2;
+  NSObject *object;
+  void (^blockName)(void);
+}
+@end
+
+@interface ClassName {
+@public
+  NSObject *object;
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (field_identifier))
+    (field_declaration
+      type: (id)
+      declarator: (field_identifier))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (field_identifier)))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (block_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (primitive_type))))))
+  (class_interface
+    name: (identifier)
+    (public)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (field_identifier)))))
+
+================================================================================
+Class interface: property primitive type
+================================================================================
+
+@interface ClassName
+@property (readwrite, copy) float number;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (readwrite)
+        (copy))
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Class interface: property pointer type
+================================================================================
+
+@interface ClassName
+@property (readwrite, copy, nullable) NSObject *object;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (readwrite)
+        (copy)
+        (nullable))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))))
+
+================================================================================
+Class interface: multiple properties declaration in one line
+================================================================================
+
+@interface ClassName
+@property (readwrite, copy, nullable) NSObject *object, *object2;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (readwrite)
+        (copy)
+        (nullable))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      declarator: (pointer_declarator
+        declarator: (identifier)))))
+
+================================================================================
+Class interface: property generic type
+================================================================================
+
+@interface ClassName
+@property (nonatomic, readonly) NSArray <ObjectType> *array;
+@property (nonatomic, readonly) NSArray <id<protocol>> *array;
+@property (readwrite, copy) NSMapTable <NSString *, NSString *> *map;
+@property (nonatomic) NSDictionary <NSURL *, NSOperation <SDWebImageDownloaderOperation> *> *URLOperations;
+@property (nonatomic, copy) NSArray <NSObject *><ProtocolName, Optional> *array;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (readonly))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (protocol_qualifiers
+          name: (identifier)))
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (readonly))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (generic_type_specifier
+              class_name: (id)
+              type_reference: (protocol_qualifiers
+                name: (identifier))))))
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (readwrite)
+        (copy))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator))
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator))))
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator))
+          (type_descriptor
+            type: (generic_type_specifier
+              class_name: (type_identifier)
+              type_reference: (protocol_qualifiers
+                name: (identifier)))
+            declarator: (abstract_pointer_declarator))))
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (copy))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator)))
+        type_reference: (protocol_qualifiers
+          name: (identifier)
+          name: (identifier)))
+      declarator: (pointer_declarator
+        declarator: (identifier)))))
+
+================================================================================
+Method declaration: keyword selector
+================================================================================
+
+@interface ClassName
++ (void)method:(int)a1 : (int)a2 k2: a3;
+// - (void)method:(id)one, id two; // FIXME, WON'T FIX
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (class_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (primitive_type)
+          name: (identifier))
+        (keyword_declarator
+          type: (primitive_type)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          name: (identifier))))
+    (comment)))
+
+================================================================================
+Method declaration: unary selector
+================================================================================
+
+@interface ClassName
+- (void)method;
+- (nullable id)method;
+- (nullable id<procotol>) sel;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier))
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (id)
+      selector: (identifier))
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (generic_type_specifier
+        class_name: (id)
+        type_reference: (protocol_qualifiers
+          name: (identifier)))
+      selector: (identifier))))
+
+================================================================================
+Method declaration: nullable/nonnull attribute selector
+================================================================================
+
+@interface ClassName
+- (nullable id)objectForKey:(nonnull id)key;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (id)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nonnull)
+          type: (id)
+          name: (identifier))))))
+
+================================================================================
+Class implementation
+================================================================================
+
+@implementation ClassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)))
+
+================================================================================
+Class implementation: inheritance
+================================================================================
+
+@implementation ClassName: SuperclassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))))
+
+================================================================================
+Class implementation: synthesize properties
+================================================================================
+
+@implementation ClassName
+@synthesize p1, p2=v2;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (synthesize_definition
+      (synthesize_property
+        property: (identifier))
+      (synthesize_property
+        property: (identifier)
+        instance_variable: (identifier)))))
+
+================================================================================
+Class implementation: dynamic properties
+================================================================================
+
+@implementation ClassName
+@dynamic p1, p2;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (dynamic_definition
+      property: (identifier)
+      property: (identifier))))
+
+================================================================================
+Class implementation: instance variables
+================================================================================
+
+@implementation SDImageIOAnimatedCoder {
+    size_t _width, _height;
+    NSArray <SDImageIOCoderFrame *> *_frames;
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (field_identifier)
+      declarator: (field_identifier))
+    (field_declaration
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator))))
+      declarator: (pointer_declarator
+        declarator: (field_identifier)))))
+
+================================================================================
+Class implementation: method definition ending with semicolon
+================================================================================
+
+@protocol P4 -im1; @end
+@interface I0<P4> @end
+@implementation I0 -im1 { return 0; }; @end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (protocol_declaration
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      selector: (identifier)))
+  (class_interface
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      selector: (identifier)
+      body: (compound_statement
+        (return_statement
+          (number_literal))))))
+
+================================================================================
+Instance variables: instance variables visibility specification
+================================================================================
+
+@implementation ClassName {
+  @private
+  type1 iv2;
+  @public
+  type2 iv2;
+  @protected
+  type3 iv3;
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (private)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (field_identifier))
+    (public)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (field_identifier))
+    (protected)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (field_identifier))))
+
+================================================================================
+Method definition: unary selector
+================================================================================
+
+@implementation ClassName
+- (void)sel {
+  return;
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement
+        (return_statement)))))
+
+================================================================================
+Method definition: keyword selector
+================================================================================
+
+@implementation ClassName
+- (return_type) method_name:( argumentType1 )argumentName1 
+           joiningArgument2:( argumentType2 )argumentName2 
+           joiningArgument3:( argumentType3 )argumentName3 {
+  
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (type_identifier)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier)))
+      body: (compound_statement))))
+
+================================================================================
+Method definition: method without return type and parameter, and self
+================================================================================
+
+@implementation ClassName
+- sel {
+    self;
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      selector: (identifier)
+      body: (compound_statement
+        (expression_statement
+          (self))))))
+
+================================================================================
+Method definition: compatibility with semicolon
+================================================================================
+
+@implementation ClassName
+- (void)method; {
+  
+}
+- (nullable id)method; {
+  
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement))
+    (method_definition
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (id)
+      selector: (identifier)
+      body: (compound_statement))))
+
+================================================================================
+Category interface
+================================================================================
+
+@interface ClassName(Category)
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)
+    category: (identifier)))
+
+================================================================================
+Category interface: anonymous
+================================================================================
+
+@interface ClassName()
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)))
+
+================================================================================
+Category interface: protocol qualifier
+================================================================================
+
+@interface ClassName(Category)<P1, P2>
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)
+    category: (identifier)
+    (protocol_qualifiers
+      name: (identifier)
+      name: (identifier))))
+
+================================================================================
+Category implementation
+================================================================================
+
+@implementation ClassName(Category)
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_implementation
+    name: (identifier)
+    category: (identifier)))
+
+================================================================================
+Protocol declaration: inheritance
+================================================================================
+
+@protocol Protocol<ProtocolName, ProtocolName>
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (protocol_declaration
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)
+      name: (identifier))))
+
+================================================================================
+Protocol forward declaration
+================================================================================
+
+@protocol ProtocolName1;
+@protocol ProtocolName1, ProtocolName2;
+@protocol ProtocolName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (protocol_forward_declaration
+    name: (identifier))
+  (protocol_forward_declaration
+    name: (identifier)
+    name: (identifier))
+  (protocol_declaration
+    name: (identifier)))
+
+================================================================================
+Class forward declaration
+================================================================================
+
+@class Class1, Class2;
+@class RACSubject<ValueType>;
+@class RACSignal<__covariant ValueType>;
+@class RLMObject, RLMResults<RLMObjectType>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_forward_declaration
+    name: (identifier)
+    name: (identifier))
+  (class_forward_declaration
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)))
+  (class_forward_declaration
+    name: (identifier)
+    (parameterized_class_type_arguments
+      type: (identifier)))
+  (class_forward_declaration
+    name: (identifier)
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier))))
+
+================================================================================
+FOUNDATION_EXPORT global declaration
+================================================================================
+
+FOUNDATION_EXPORT void func(tr);
+FOUNDATION_EXPORT SDWebImageContextOption _Nonnull const SDWebImageContextCustomManager;
+FOUNDATION_EXPORT CGContextRef __nullable SDGraphicsGetCurrentContext(void) CF_RETURNS_NOT_RETAINED;
+UIKIT_EXTERN NSNotificationName const Notification;
+CG_EXTERN CGFloat const FSCalendarStandardHeaderHeight;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)))))
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    (type_qualifier)
+    declarator: (identifier))
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)))
+      (attribute_specifier
+        (method_attribute_specifier))))
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    declarator: (identifier))
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    declarator: (identifier)))

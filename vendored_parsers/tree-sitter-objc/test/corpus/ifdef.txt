@@ -1,0 +1,117 @@
+================================================================================
+ifdef
+================================================================================
+
+#ifdef A
+@interface UIImageView () <CALayerDelegate>
+@end
+
+@interface AA () {
+  
+}
+@property (nonatomic) int i;
+#if AA
+@property (nonatomic) int i;
+#elif AA
+-(void)test1;
+#else
++(void)test2;
+#endif
+@end
+
+@implementation AA
+
+- (void)test {
+
+}
+#ifdef AA
+- (void)test {
+
+}
+#else
+- (void)test {
+
+}
+#endif
+
+@end
+
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier)))
+  (category_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (primitive_type)
+      declarator: (identifier))
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (primitive_type)
+      declarator: (identifier)))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement))
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement))))
+
+================================================================================
+NS_ASSUME_NONNULL: outside class interface
+================================================================================
+
+NS_ASSUME_NONNULL_BEGIN
+@interface ClassName
+@property (nonatomic, strong) NSObject *object;
+@end
+NS_ASSUME_NONNULL_END
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))))
+
+================================================================================
+NS_ASSUME_NONNULL: inside class interface
+================================================================================
+
+@interface ClassName
+NS_ASSUME_NONNULL_BEGIN
+@property (nonatomic, strong) NSObject *object;
+NS_ASSUME_NONNULL_END
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))))

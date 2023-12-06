@@ -1,0 +1,502 @@
+================================================================================
+Type: generics
+================================================================================
+
+NSMutableArray <ProtocolName> *array;
+NSMutableArray <NSString *> *array;
+NSMutableArray <id> *array;
+NSMutableDictionary<NSURL *, NSDictionary<NSString *, id> *> *dict;
+NSProgress * _Nullable __autoreleasing * _Nullable progress;
+NSArray<__kindof UIView *> *backgroundSubviews;
+
+@interface A
+-(_Complex long double) complexLongDoubleValue;
+@property IMP func;
+@end
+
+@interface NSArray (NSArrayCreation)
++ (id)arrayWithObjects:(const id [])objects count:(unsigned long)cnt;
+-(void) test3: (Test*  [3] [4])b ;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (protocol_qualifiers
+        name: (identifier)))
+    declarator: (pointer_declarator
+      declarator: (identifier)))
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))))
+    declarator: (pointer_declarator
+      declarator: (identifier)))
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (id))))
+    declarator: (pointer_declarator
+      declarator: (identifier)))
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))
+        (type_descriptor
+          type: (generic_type_specifier
+            class_name: (type_identifier)
+            type_reference: (generic_type_references
+              (type_descriptor
+                type: (type_identifier)
+                declarator: (abstract_pointer_declarator))
+              (type_descriptor
+                type: (id))))
+          declarator: (abstract_pointer_declarator))))
+    declarator: (pointer_declarator
+      declarator: (identifier)))
+  (declaration
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      (type_qualifier)
+      (type_qualifier)
+      declarator: (pointer_declarator
+        (type_qualifier)
+        declarator: (identifier))))
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          (type_qualifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))))
+    declarator: (pointer_declarator
+      declarator: (identifier)))
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (type_qualifier)
+      type: (sized_type_specifier
+        type: (primitive_type))
+      selector: (identifier))
+    (property_declaration
+      type: (IMP)
+      declarator: (identifier)))
+  (category_interface
+    name: (identifier)
+    category: (identifier)
+    (method_declaration
+      scope: (class_scope)
+      type: (id)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_qualifier)
+          type: (id)
+          declarator: (abstract_array_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (sized_type_specifier)
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            declarator: (abstract_array_declarator
+              declarator: (abstract_array_declarator
+                size: (number_literal))
+              size: (number_literal)))
+          name: (identifier))))))
+
+================================================================================
+Type: generics in cast expression
+================================================================================
+
+NSMutableArray<NSObject *> * array = (NSMutableArray<NSObject *> *)[NSMutableArray arrayWithCapacity:10];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))))
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (cast_expression
+        type: (type_descriptor
+          type: (generic_type_specifier
+            class_name: (type_identifier)
+            type_reference: (generic_type_references
+              (type_descriptor
+                type: (type_identifier)
+                declarator: (abstract_pointer_declarator))))
+          declarator: (abstract_pointer_declarator))
+        value: (message_expression
+          receiver: (type_identifier)
+          selector: (keyword_argument_list
+            (keyword_argument
+              keyword: (identifier)
+              argument: (number_literal))))))))
+
+================================================================================
+Type: generics in selector receiver
+================================================================================
+
+[[NSMutableArray<ProtocolName> alloc] init];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (message_expression
+        receiver: (generic_type_specifier
+          class_name: (type_identifier)
+          type_reference: (protocol_qualifiers
+            name: (identifier)))
+        selector: (identifier))
+      selector: (identifier))))
+
+================================================================================
+Type: generics as class protocol
+================================================================================
+
+static NSMapTable <Class <TTLElementProtocol>, NSString *> * mapTable = nil;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          type: (generic_type_specifier
+            class_name: (Class)
+            type_reference: (protocol_qualifiers
+              name: (identifier))))
+        (type_descriptor
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))))
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (nil))))
+
+================================================================================
+Type: id
+================================================================================
+
+id<NSCoding> func(id<NSCoding> operation) {
+  NSCParameterAssert(operation);
+}
+
+id<SDImageCoder> imageCoder;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    type: (generic_type_specifier
+      class_name: (id)
+      type_reference: (protocol_qualifiers
+        name: (identifier)))
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (generic_type_specifier
+            class_name: (id)
+            type_reference: (protocol_qualifiers
+              name: (identifier)))
+          declarator: (identifier))))
+    body: (compound_statement
+      (expression_statement
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (identifier))))))
+  (declaration
+    type: (generic_type_specifier
+      class_name: (id)
+      type_reference: (protocol_qualifiers
+        name: (identifier)))
+    declarator: (identifier)))
+
+================================================================================
+Type: auto
+================================================================================
+
+__auto_type idx;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (auto)
+    declarator: (identifier)))
+
+================================================================================
+Type: __unused
+================================================================================
+
+__unused NSObject *object;
+
+NSObject __unused * __unused object __unused;
+// NSObject __unused * __unused object __unused = [NSObject new]; // FIXME
+
+typedef struct _AspectBlock {
+  __unused Class isa;
+  // void (__unused *invoke)(struct _AspectBlock *block, ...); // FIXME
+} *AspectBlockRef;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (type_qualifier)
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (identifier)))
+  (declaration
+    type: (type_identifier)
+    (type_qualifier)
+    declarator: (pointer_declarator
+      (type_qualifier)
+      declarator: (identifier))
+    (type_qualifier))
+  (comment)
+  (type_definition
+    type: (struct_specifier
+      name: (type_identifier)
+      body: (field_declaration_list
+        (field_declaration
+          (type_qualifier)
+          type: (Class)
+          declarator: (field_identifier))
+        (comment)))
+    declarator: (pointer_declarator
+      declarator: (type_identifier))))
+
+================================================================================
+Type: NS_NOESCAPE
+================================================================================
+
+@interface SDWebImage
+
+- (nonnull UIImage *)imageWithActions:(nonnull NS_NOESCAPE SDGraphicsImageDrawingActions)actions;
+- (NSArray *)mas_makeConstraints:(void (NS_NOESCAPE ^)(MASConstraintMaker *make))block;
+- (void)inDatabase:(__attribute__((noescape)) void (^)(FMDatabase *db))block;
+
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nonnull)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nonnull)
+          type: (type_identifier)
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))))
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))))
+          name: (identifier))))))
+
+================================================================================
+Type: **
+================================================================================
+
+@implementation SDWebImage
+
++ (NSArray*)extendedAttributeNamesAtPath:(NSString *)path traverseLink:(BOOL)follow error:(NSError **)err {
+  
+}
+
+- (BOOL)createDirectory:(NSDictionary<NSFileAttributeKey,id> *)attributes error:(NSError * _Nullable __autoreleasing *)error {
+}
+
+- (BOOL)invokeWithInvocation:(NSInvocation *)inv returnValue:(out NSValue *__nullable *__nonnull)returnValue {
+  
+}
+
+@end
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (class_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (BOOL)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            declarator: (abstract_pointer_declarator))
+          name: (identifier)))
+      body: (compound_statement))
+    (method_definition
+      scope: (instance_scope)
+      type: (BOOL)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (generic_type_specifier
+            class_name: (type_identifier)
+            type_reference: (protocol_qualifiers
+              name: (identifier)
+              name: (identifier)))
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier)
+            (type_qualifier)
+            declarator: (abstract_pointer_declarator))
+          name: (identifier)))
+      body: (compound_statement))
+    (method_definition
+      scope: (instance_scope)
+      type: (BOOL)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_qualifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier)
+            declarator: (abstract_pointer_declarator
+              (type_qualifier)))
+          name: (identifier)))
+      body: (compound_statement))))
+
+================================================================================
+Struct
+================================================================================
+
+@implementation TestUnarchiver
+
+struct unarchive_list {
+    int ifield;
+    id *list;
+};
+
+@end
+
+struct type_s {
+   SS may_recurse;
+   id id_val;
+}; // FIXME
+
+struct Derived : type_s { };
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (declaration
+      type: (struct_specifier
+        name: (type_identifier)
+        body: (field_declaration_list
+          (field_declaration
+            type: (primitive_type)
+            declarator: (field_identifier))
+          (field_declaration
+            type: (id)
+            declarator: (pointer_declarator
+              declarator: (field_identifier)))))
+      declarator: (MISSING identifier)))
+  (struct_specifier
+    name: (type_identifier)
+    body: (field_declaration_list
+      (field_declaration
+        type: (type_identifier)
+        declarator: (field_identifier))
+      (field_declaration
+        type: (id)
+        declarator: (field_identifier))))
+  (comment)
+  (struct_specifier
+    name: (type_identifier)
+    (superclass_reference
+      name: (identifier))
+    body: (field_declaration_list)))

@@ -1,0 +1,27 @@
+[package]
+name = "tree-sitter-objc"
+description = "Objective-C grammar for the tree-sitter parsing library"
+version = "1.0.0"
+authors = ["Jiyee Sheng <jiyee.sheng@gmail.com>"]
+license = "MIT"
+keywords = ["tree-sitter", "incremental", "parsing", "objc"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/jiyee/tree-sitter-objc"
+edition = "2021"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.20.6"
+
+[build-dependencies]
+cc = "1.0"

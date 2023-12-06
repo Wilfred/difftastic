@@ -1,0 +1,36 @@
+================================================================================
+Extras: non-breaking space
+================================================================================
+
+[[NSDateFormatter alloc] init];
+[[NSDateFormatter alloc] init];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (message_expression
+        receiver: (type_identifier)
+        selector: (identifier))
+      selector: (identifier)))
+  (expression_statement
+    (message_expression
+      receiver: (message_expression
+        receiver: (type_identifier)
+        selector: (identifier))
+      selector: (identifier))))
+
+================================================================================
+Extras: identifier
+================================================================================
+
+extern void OBJC_CLASS_$_f;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (primitive_type)
+    declarator: (identifier)))

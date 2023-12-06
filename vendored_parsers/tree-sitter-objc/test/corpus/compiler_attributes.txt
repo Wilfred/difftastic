@@ -1,0 +1,912 @@
+================================================================================
+LLVM Attributes: class interface availbility
+================================================================================
+
+API_DEPRECATED("Use DDOSLogger instead", macosx(10.4,10.12), ios(2.0,10.0), watchos(2.0,3.0), tvos(9.0,10.0))
+@interface DDASLLogger : DDAbstractLogger <DDLogger>
+@end
+
+NS_CLASS_AVAILABLE_IOS(7_0)
+@interface SLKTextViewController
+@end
+
+__attribute__((objc_runtime_name("MySecretNamespace.Protocol3")))
+@protocol Protocol3
+@end
+
+__attribute__((objc_nonlazy_class))
+@implementation E @end
+
+__attribute__((objc_nonlazy_class))
+@implementation E (MyCat) @end
+
+__attribute__((objc_class_stub))
+__attribute__((objc_subclassing_restricted))
+@interface ValidClassStubAttribute : NSObject
+@end
+
+@implementation ValidClassStubAttribute (MyCategory)
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        message: (string_literal)
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))))
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))
+    (protocol_qualifiers
+      name: (identifier)))
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        (platform_version)))
+    name: (identifier))
+  (protocol_declaration
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (string_literal)))))
+    name: (identifier))
+  (class_implementation
+    (attribute_specifier
+      (argument_list
+        (identifier)))
+    name: (identifier))
+  (category_implementation
+    (attribute_specifier
+      (argument_list
+        (identifier)))
+    name: (identifier)
+    category: (identifier))
+  (class_interface
+    (attribute_specifier
+      (argument_list
+        (identifier)))
+    (attribute_specifier
+      (argument_list
+        (identifier)))
+    name: (identifier)
+    (superclass_reference
+      name: (identifier)))
+  (category_implementation
+    name: (identifier)
+    category: (identifier)))
+
+================================================================================
+LLVM Attributes: property availbility
+================================================================================
+
+@interface ClassName
+
+@property (nonatomic) int val __deprecated_msg("availbility");
+@property (nonatomic) id val NS_AVAILABLE_IOS(11.0);
+@property (nonatomic) id val NS_DEPRECATED_IOS(8.0, 11.0);
+@property (nonatomic) id val API_UNAVAILABLE(macos, tvos);
+@property (nonatomic) BlockName _Nullable block;
+
+@property int p __attribute__((section("__TEXT,foo")));
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (primitive_type)
+      declarator: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier
+          message: (string_literal))))
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (id)
+      declarator: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version
+            version: (number_literal)))))
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (id)
+      declarator: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version
+            version: (number_literal))
+          (platform_version
+            version: (number_literal)))))
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (id)
+      declarator: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version
+            platform: (platform))
+          (platform_version
+            platform: (platform)))))
+    (property_declaration
+      (property_attributes
+        (nonatomic))
+      type: (type_identifier)
+      (type_qualifier)
+      declarator: (identifier))
+    (property_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal))))))))
+
+================================================================================
+LLVM Attributes: property attributes
+================================================================================
+
+@interface FLAnimatedImage
+@property (nonatomic, strong, readonly) __attribute__((NSObject)) CGImageSourceRef imageSource;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong)
+        (readonly))
+      (attribute_specifier
+        (argument_list
+          (identifier)))
+      type: (type_identifier)
+      declarator: (identifier))))
+
+================================================================================
+LLVM Attributes: method availbility
+================================================================================
+
+@interface ClassName
+
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)rubyWithCTRubyRef:(CTRubyAnnotationRef)ctRuby NS_AVAILABLE_IOS(8_0);
+- (instancetype)method:(id)v1, ... NS_REQUIRES_NIL_TERMINATION;
+- (NSArray *)method:(id)v1 API_AVAILABLE(ios(11.0), tvos(11.0), macos(13.0));
+- (BOOL)method:(NSObject *)object DEPRECATED_MSG_ATTRIBUTE("use -[ClassName method:] instead");
+- (void)method:(NSArray<NSDictionary *> *)array __attribute__((deprecated("use -[ClassName method:] instead")));
+- (void)method:(NSArray<NSDictionary *> *)array __attribute((deprecated("use -[ClassName method:] instead")));
+- (nullable NSString *)method __attribute__((deprecated("Use -[ClassName method:]"))) NS_SWIFT_UNAVAILABLE("Use -method:");
+
+-(void) one_arg: (__attribute__((nonnull)) int *) arg1;
+-(void)m0:(__attribute__((noescape)) BlockTy)p;
+- (char)isEqual:(id) __attribute__((ns_consumed)) object;
+@end
+
+@implementation YYText
+
+- (instancetype)init NS_UNAVAILABLE
+{
+  NSAssert(0, @"Use the designated initializer");
+  return nil;
+}
+
+- (CTParagraphStyleRef)yy_CTStyle CF_RETURNS_RETAINED {
+  
+}
+
+@end
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (instancetype)
+      selector: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier)))
+    (method_declaration
+      scope: (class_scope)
+      type: (instancetype)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier)))
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (instancetype)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (id)
+          name: (identifier)))
+      (attribute_specifier
+        (method_attribute_specifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (id)
+          name: (identifier)))
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version
+            platform: (platform)
+            version: (number_literal))
+          (platform_version
+            platform: (platform)
+            version: (number_literal))
+          (platform_version
+            platform: (platform)
+            version: (number_literal)))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (BOOL)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier)))
+      (attribute_specifier
+        (availability_attribute_specifier
+          message: (string_literal))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (generic_type_specifier
+            class_name: (type_identifier)
+            type_reference: (generic_type_references
+              (type_descriptor
+                type: (type_identifier)
+                declarator: (abstract_pointer_declarator))))
+          declarator: (abstract_pointer_declarator)
+          name: (identifier)))
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal))))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (generic_type_specifier
+            class_name: (type_identifier)
+            type_reference: (generic_type_references
+              (type_descriptor
+                type: (type_identifier)
+                declarator: (abstract_pointer_declarator))))
+          declarator: (abstract_pointer_declarator)
+          name: (identifier)))
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal))))))
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (identifier)
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal)))))
+      (attribute_specifier
+        (availability_attribute_specifier
+          message: (string_literal))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          type: (primitive_type)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          type: (type_identifier)
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (id)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          name: (identifier)))))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (instancetype)
+      selector: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier))
+      body: (compound_statement
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (number_literal)
+              (string_expression))))
+        (return_statement
+          (nil))))
+    (method_definition
+      scope: (instance_scope)
+      type: (type_identifier)
+      selector: (identifier)
+      (attribute_specifier
+        (method_attribute_specifier))
+      body: (compound_statement))))
+
+================================================================================
+LLVM Attributes: method attributes
+================================================================================
+
+@interface ClassName
++ (CGColorSpaceRef _Nonnull)colorSpaceGetDeviceRGB CF_RETURNS_NOT_RETAINED;
+- (instancetype)initWithClassName:(NSString *)name NS_DESIGNATED_INITIALIZER;
+- (void)oc_method_mustCallSuper NS_REQUIRES_SUPER;
+- (void)function:(const char *)function
+            line:(NSUInteger)line
+          format:(NSString *)format, ... NS_FORMAT_FUNCTION(3,4);
+
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (class_scope)
+      type: (type_identifier)
+      return_type: (type_qualifier)
+      selector: (identifier)
+      (attribute_specifier
+        (method_attribute_specifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (instancetype)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier)))
+      (attribute_specifier
+        (method_attribute_specifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      (attribute_specifier
+        (method_attribute_specifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_qualifier)
+          type: (primitive_type)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier)))
+      (attribute_specifier
+        (method_variadic_arguments_attribute_specifier
+          (number_literal)
+          (number_literal))))))
+
+================================================================================
+LLVM Attributes: function attributes
+================================================================================
+
+void log_obj(NSString *format, ...) NS_FORMAT_FUNCTION(1,2);
+void log_c(const char *format, ...) __attribute__ ((format (printf, 1, 2)));
+// void f2(int *_Nonnull __attribute__((nonnull)) p) {} // FIXME, WONT FIX
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier))))
+      (attribute_specifier
+        (method_variadic_arguments_attribute_specifier
+          (number_literal)
+          (number_literal)))))
+  (declaration
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          (type_qualifier)
+          type: (primitive_type)
+          declarator: (pointer_declarator
+            declarator: (identifier))))
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (identifier)
+              (number_literal)
+              (number_literal)))))))
+  (comment))
+
+================================================================================
+LLVM Attributes: extern function attributes
+================================================================================
+
+extern void NWLForwardWithoutFilter(NWLContext context, CFStringRef format, ...) CF_FORMAT_FUNCTION(2,3);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier)))
+      (attribute_specifier
+        (method_variadic_arguments_attribute_specifier
+          (number_literal)
+          (number_literal))))))
+
+================================================================================
+LLVM Attributes: extern declaration availbility
+================================================================================
+
+FOUNDATION_EXPORT SDWebImageContextOption _Nonnull const SDWebImageContextCustomManager API_DEPRECATED("The", macos(10.10));
+FOUNDATION_EXPORT SDImageCoderOption _Nonnull const SDImageCoderWebImageContext API_DEPRECATED("The coder component will be seperated from Core subspec in the future. Update your code to not rely on this context option.", macos(10.10, API_TO_BE_DEPRECATED), ios(8.0, API_TO_BE_DEPRECATED), tvos(9.0, API_TO_BE_DEPRECATED), watchos(2.0, API_TO_BE_DEPRECATED));
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    (type_qualifier)
+    declarator: (identifier)
+    (attribute_specifier
+      (availability_attribute_specifier
+        message: (string_literal)
+        (platform_version
+          platform: (platform)
+          version: (number_literal)))))
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    (type_qualifier)
+    declarator: (identifier)
+    (attribute_specifier
+      (availability_attribute_specifier
+        message: (string_literal)
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (identifier))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (identifier))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (identifier))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (identifier))))))
+
+================================================================================
+LLVM Attributes: type definition availbility
+================================================================================
+
+typedef void (^JSONObjectBlock)(id json, JSONModelError *err) DEPRECATED_ATTRIBUTE;
+typedef void (^AFURLSessionTaskDidFinishCollectingMetricsBlock)(NSURLSession *session, NSURLSessionTask *task, NSURLSessionTaskMetrics * metrics) API_AVAILABLE(ios(10), macosx(10.12), watchos(3), tvos(10));
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    type: (primitive_type)
+    declarator: (block_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (id)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))))
+    attributes: (attribute_specifier
+      (availability_attribute_specifier)))
+  (type_definition
+    type: (primitive_type)
+    declarator: (block_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))))
+    attributes: (attribute_specifier
+      (availability_attribute_specifier
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))))))
+
+================================================================================
+LLVM Attributes: NS_REFINED_FOR_SWIFT in property declaration
+================================================================================
+
+@interface SDWebImage
+@property (readonly) RLMBSONType bsonType NS_REFINED_FOR_SWIFT;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (readonly))
+      type: (type_identifier)
+      declarator: (identifier)
+      (swift_name_attribute_sepcifier))))
+
+================================================================================
+LLVM Attributes: NS_SWIFT_NAME in method declaration
+================================================================================
+
+__attribute__((__swift_name__("SDWebImage")))
+@interface SDWebImage
++ (NSArray<SDImageFrame *> * _Nullable)framesFromAnimatedImage:(UIImage * _Nullable)animatedImage NS_SWIFT_NAME(frames(from:to:));
+- (void)removeFormatter:(id<DDLogFormatter>)formatter NS_SWIFT_NAME(remove(_:));
+- (void)removeAllFormatters NS_SWIFT_NAME(removeAll());
+- (void)removeAllFormatters __attribute__((__swift_name__("removeAll()")));
+- (nullable NSString *)rlmSync_clientResetBackedUpRealmPath NS_SWIFT_UNAVAILABLE("");
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (string_literal)))))
+    name: (identifier)
+    (method_declaration
+      scope: (class_scope)
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator))))
+      declarator: (abstract_pointer_declarator
+        (type_qualifier))
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier))
+          name: (identifier)))
+      (swift_name_attribute_sepcifier
+        method: (identifier)
+        parameters: (type_identifier)
+        parameters: (type_identifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (generic_type_specifier
+            class_name: (id)
+            type_reference: (protocol_qualifiers
+              name: (identifier)))
+          name: (identifier)))
+      (swift_name_attribute_sepcifier
+        method: (identifier)
+        parameters: (type_identifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      (swift_name_attribute_sepcifier
+        method: (identifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal))))))
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier
+          message: (string_literal))))))
+
+================================================================================
+LLVM Attributes: NS_SWIFT_NAME in extern declaration
+================================================================================
+
+NS_SWIFT_NAME(ListDiff(oldArray:newArray:option:))
+FOUNDATION_EXTERN IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable>> *_Nullable oldArray,
+                                                   NSArray<id<IGListDiffable>> *_Nullable newArray,
+                                                   IGListDiffOption option);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (swift_name_attribute_sepcifier
+      method: (identifier)
+      parameters: (type_identifier)
+      parameters: (type_identifier)
+      parameters: (type_identifier))
+    (storage_class_specifier)
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (generic_type_specifier
+              class_name: (type_identifier)
+              type_reference: (generic_type_references
+                (type_descriptor
+                  type: (generic_type_specifier
+                    class_name: (id)
+                    type_reference: (protocol_qualifiers
+                      name: (identifier))))))
+            declarator: (pointer_declarator
+              (type_qualifier)
+              declarator: (identifier)))
+          (parameter_declaration
+            type: (generic_type_specifier
+              class_name: (type_identifier)
+              type_reference: (generic_type_references
+                (type_descriptor
+                  type: (generic_type_specifier
+                    class_name: (id)
+                    type_reference: (protocol_qualifiers
+                      name: (identifier))))))
+            declarator: (pointer_declarator
+              (type_qualifier)
+              declarator: (identifier)))
+          (parameter_declaration
+            type: (type_identifier)
+            declarator: (identifier)))))))
+
+================================================================================
+LLVM Attributes: NS_EXTENSION_UNAVAILABLE_IOS
+================================================================================
+
+NS_EXTENSION_UNAVAILABLE_IOS("Use view controller based solutions where appropriate instead.")
+@interface AFNetworking
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        message: (string_literal)))
+    name: (identifier)))
+
+================================================================================
+LLVM Attributes: __unused
+================================================================================
+
+@interface __GENERICS(NSDictionary, KeyType, ObjectType) (BlocksKit)
+- (void)removeBlockImplementationForMethod:(SEL)selector __unused;
+@end
+
+@implementation BlocksKit
+- (void)removeBlockImplementationForMethod:(SEL)selector __unused {
+  return (__bridge_transfer NSTimer *)CFRunLoopTimerCreateWithHandler(NULL, fireDate, interval, 0, 0, (void(^)(CFRunLoopTimerRef))block);
+}
+- (void)applicationWillTerminate:(NSNotification * __attribute__((unused)))notification { }
+- (void)applicationWillTerminate:(int __attribute__((unused)))notification { }
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    (generics_type_reference
+      name: (identifier)
+      (type_identifier)
+      (type_identifier))
+    category: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (SEL)
+          name: (identifier)))))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (SEL)
+          name: (identifier)))
+      body: (compound_statement
+        (return_statement
+          (cast_expression
+            type: (type_descriptor
+              (type_qualifier)
+              type: (type_identifier)
+              declarator: (abstract_pointer_declarator))
+            value: (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (null)
+                (identifier)
+                (identifier)
+                (number_literal)
+                (number_literal)
+                (cast_expression
+                  type: (type_descriptor
+                    type: (primitive_type)
+                    declarator: (block_abstract_declarator
+                      parameters: (parameter_list
+                        (parameter_declaration
+                          type: (type_identifier)))))
+                  value: (identifier))))))))
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          name: (identifier)))
+      body: (compound_statement))
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (primitive_type)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          name: (identifier)))
+      body: (compound_statement))))

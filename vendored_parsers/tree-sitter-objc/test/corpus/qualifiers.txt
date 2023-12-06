@@ -1,0 +1,86 @@
+================================================================================
+Type qualifier: __block
+================================================================================
+
+__block CGFloat scale = 1;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (type_qualifier)
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (number_literal))))
+
+================================================================================
+Type qualifier: NS_VALID_UNTIL_END_OF_SCOPE
+================================================================================
+
+NS_VALID_UNTIL_END_OF_SCOPE __strong typeof(self) strongSelf = self;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (type_qualifier)
+    (type_qualifier)
+    type: (typeof_specifier
+      type: (self))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (self))))
+
+================================================================================
+Type qualifier: __unsafe_unretained
+================================================================================
+
+__unsafe_unretained UITableViewCell * cell;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (type_qualifier)
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (identifier))))
+
+================================================================================
+Type qualifier: _Atomic as type_specifier
+================================================================================
+
+static _Atomic(GPBEnumDescriptor*) descriptor = nil;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (atomic_specifier
+      type: (type_descriptor
+        type: (type_identifier)
+        declarator: (abstract_pointer_declarator)))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (nil))))
+
+================================================================================
+Type qualifier: llvm attribute
+================================================================================
+
+extern CGFloat kHeight() __attribute((weak));
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list)
+      (attribute_specifier
+        (argument_list
+          (identifier))))))

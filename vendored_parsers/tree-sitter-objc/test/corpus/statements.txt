@@ -1,0 +1,127 @@
+================================================================================
+Stamentment: For-in stamentment
+================================================================================
+
+for (int i = 0; i < 10; i++) {
+}
+
+for (int foo in foos) {
+}
+
+for (NSNumber *foo in foos) {
+}
+
+for (foo in [self foos]) {
+}
+
+for (foo in self.foo) {
+}
+
+for (id<ProtocolName> foo in self.foos) {
+}
+
+for (id<ProtocolName> foo in [self foo].foos) {
+}
+
+for (__unsafe_unretained UIView *subview in view.subviews) {
+}
+
+for (NSNumber * _Nonnull foo in foos) {
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (for_statement
+    initializer: (declaration
+      type: (primitive_type)
+      declarator: (init_declarator
+        declarator: (identifier)
+        value: (number_literal)))
+    condition: (binary_expression
+      left: (identifier)
+      right: (number_literal))
+    update: (update_expression
+      argument: (identifier))
+    (compound_statement))
+  (for_in_statement
+    type: (primitive_type)
+    declarator: (identifier)
+    loop: (identifier)
+    (compound_statement))
+  (for_in_statement
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (identifier))
+    loop: (identifier)
+    (compound_statement))
+  (for_in_statement
+    type: (type_identifier)
+    loop: (message_expression
+      receiver: (self)
+      selector: (identifier))
+    (compound_statement))
+  (for_in_statement
+    type: (type_identifier)
+    loop: (field_expression
+      argument: (self)
+      field: (field_identifier))
+    (compound_statement))
+  (for_in_statement
+    type: (generic_type_specifier
+      class_name: (id)
+      type_reference: (protocol_qualifiers
+        name: (identifier)))
+    declarator: (identifier)
+    loop: (field_expression
+      argument: (self)
+      field: (field_identifier))
+    (compound_statement))
+  (for_in_statement
+    type: (generic_type_specifier
+      class_name: (id)
+      type_reference: (protocol_qualifiers
+        name: (identifier)))
+    declarator: (identifier)
+    loop: (field_expression
+      argument: (message_expression
+        receiver: (self)
+        selector: (identifier))
+      field: (field_identifier))
+    (compound_statement))
+  (for_in_statement
+    initializer: (type_qualifier)
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (identifier))
+    loop: (field_expression
+      argument: (identifier)
+      field: (field_identifier))
+    (compound_statement))
+  (for_in_statement
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      (type_qualifier)
+      declarator: (identifier))
+    loop: (identifier)
+    (compound_statement)))
+
+================================================================================
+Stamentment: if stamentment
+================================================================================
+
+if ((quality < 0)) {
+  return;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (if_statement
+    condition: (parenthesized_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (identifier)
+          right: (number_literal))))
+    consequence: (compound_statement
+      (return_statement))))

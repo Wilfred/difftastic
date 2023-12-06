@@ -1,0 +1,366 @@
+================================================================================
+Macro: ifdef
+================================================================================
+
+#ifdef COND
+
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit)
+
+================================================================================
+Macro: ifdef and else
+================================================================================
+
+#ifdef COND
+
+#else
+
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit)
+
+================================================================================
+Macro: ifdef in class interface
+================================================================================
+
+@interface ClassName
+#ifdef COND
+@property (readwrite, copy) float number;
+#endif
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (readwrite)
+        (copy))
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Macro: ifdef in class implementation
+================================================================================
+
+@implementation ClassName
+#ifdef COND
+- (void)method {
+  
+}
+#endif
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement))))
+
+================================================================================
+Macro: ifdef in class implementation
+================================================================================
+
+@implementation ClassName
+#ifdef COND
+- (void)method {
+#ifdef COND
+  self;
+#else
+  self = [super init];
+#endif
+}
+#endif
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement
+        (expression_statement
+          (self))))))
+
+================================================================================
+Macro: preproc define in class implementation
+================================================================================
+
+@implementation ClassName
+#define SD_MAX_FILE_EXTENSION_LENGTH 1
+#define function(key, default) \
+[object methodForKey:(key) defaultValue:(default)]
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (preproc_def
+      name: (identifier)
+      value: (preproc_arg))
+    (preproc_function_def
+      name: (identifier)
+      parameters: (preproc_params
+        (identifier)
+        (identifier))
+      value: (preproc_arg))))
+
+================================================================================
+Macro: ifdef in extern
+================================================================================
+
+FOUNDATION_STATIC_INLINE NSUInteger SDMemoryCacheCostForImage(UIImage *image) {
+#if SD_MAC
+    frameCount = 1;
+#elif SD_UIKIT || SD_WATCH
+    frameCount = image.images.count > 0 ? image.images.count : 1;
+#endif
+    return -1;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (storage_class_specifier)
+    type: (type_identifier)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))))
+    body: (compound_statement
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (number_literal)))
+      (return_statement
+        (number_literal)))))
+
+================================================================================
+Macro: undef
+================================================================================
+
+#undef COND
+
+#ifdef COND
+
+#undef COND
+
+#endif
+
+#undef COND
+#ifdef COND
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit)
+
+================================================================================
+Macro: API_AVAILABLE
+================================================================================
+
+API_AVAILABLE(ios(14.0), tvos(14.0), macos(11.0), watchos(7.0))
+@interface ClassName
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))))
+    name: (identifier)))
+
+================================================================================
+Macro: pragma
+================================================================================
+
+#import <Foundation/Foundation.h>
+
+#pragma mark - foobar
+int main(int argc, char *argv[]) {
+  #pragma foobar
+  @autoreleasepool {
+    #pragma foorbar
+
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_import
+    path: (system_lib_string))
+  (pragma)
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (pointer_declarator
+            declarator: (array_declarator
+              declarator: (identifier))))))
+    body: (compound_statement
+      (pragma)
+      (autoreleasepool_statement
+        consequence: (compound_statement
+          (pragma))))))
+
+================================================================================
+Macros: ifdef
+================================================================================
+
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 90000)
+    [obj method];
+#endif
+
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 90000) \
+|| (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED < 101100)
+    [obj method];
+#endif
+
+#if COND
+#else
+@implementation ClassName
+
+#if COND
+- (NSArray *)method:(BOOL)arg1
+{
+    #if COND
+    if (arg1) {
+    }
+    #else
+    #endif
+    return @[];
+}
+#else
+#endif
+
+@end
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (identifier)))
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (identifier)))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (BOOL)
+          name: (identifier)))
+      body: (compound_statement
+        (if_statement
+          condition: (parenthesized_expression
+            (identifier))
+          consequence: (compound_statement))
+        (return_statement
+          (array_expression))))))
+
+================================================================================
+Macros: nested ifdef
+================================================================================
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h> // retain
+#else
+#ifndef FOUNDATION_EXPORT
+#if defined(__cplusplus)
+#define FOUNDATION_EXPORT extern "C" // retain
+#else
+#define FOUNDATION_EXPORT extern
+#endif
+#endif
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_import
+    path: (system_lib_string))
+  (comment)
+  (preproc_def
+    name: (identifier)
+    value: (preproc_arg)))
+
+================================================================================
+Macros: CF_EXTERN_C_BEGIN and CF_EXTERN_C_END
+================================================================================
+
+CF_EXTERN_C_BEGIN
+
+NSMutableArray* GetOpaqueDataArray();
+
+CF_EXTERN_C_END
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list)))))
+
+================================================================================
+Macros: blank behind NS_ASSUME_NONNULL_BEGIN and NS_ASSUME_NONNULL_END
+================================================================================
+
+NS_ASSUME_NONNULL_BEGIN 
+NS_ASSUME_NONNULL_END 
+
+--------------------------------------------------------------------------------
+
+(translation_unit)

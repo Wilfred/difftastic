@@ -1,0 +1,73 @@
+================================================================================
+Property: declaration
+================================================================================
+
+@interface ClassName
+
+@property () __weak id PROP;
+@property (nonatomic, copy) NSArray <NSObject *> <ProtocolName> *array;
+@property (nonatomic, weak) IBOutlet UIImageView *view;
+@property (nonatomic, setter=setURL:) NSURL *url;
+@property (nonatomic, atomic, class, readwrite, null_resettable, NS_NONATOMIC_IOSONLY) NSString *string;
+@property (direct, readonly) int intProperty;
+
+@end
+
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes)
+      (type_qualifier)
+      type: (id)
+      declarator: (identifier))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (copy))
+      type: (generic_type_specifier
+        class_name: (type_identifier)
+        type_reference: (generic_type_references
+          (type_descriptor
+            type: (type_identifier)
+            declarator: (abstract_pointer_declarator)))
+        type_reference: (protocol_qualifiers
+          name: (identifier)))
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (weak))
+      (type_qualifier)
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (setter
+          name: (identifier)))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (atomic)
+        (class)
+        (readwrite)
+        (null_resettable)
+        (NS_NONATOMIC_IOSONLY))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    (property_declaration
+      (property_attributes
+        (direct)
+        (readonly))
+      type: (primitive_type)
+      declarator: (identifier))))

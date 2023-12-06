@@ -1,0 +1,183 @@
+================================================================================
+Directive: @synchronized
+================================================================================
+
+@synchronized(self) {
+  [obj method];
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (synchronized_statement
+    condition: (parenthesized_expression
+      (self))
+    consequence: (compound_statement
+      (expression_statement
+        (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))))))
+
+================================================================================
+Directive: @autoreleasepool
+================================================================================
+
+@autoreleasepool {
+  [obj method];
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (autoreleasepool_statement
+    consequence: (compound_statement
+      (expression_statement
+        (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))))))
+
+================================================================================
+Directive: @try @catch @finally
+================================================================================
+
+@try {
+  [obj method];
+} @catch (NSException *exception) {
+} @finally {
+}
+
+@try {
+  [obj method];
+} @catch (NSException *exception) {
+}
+
+@try {
+  [obj method];
+} @finally {
+}
+
+@try {
+} @catch (EH1 *x) {
+} @catch (EH2 *x) {
+} @catch (EH3 *x) {
+}
+
+@try {
+} @catch (...) {
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (try_catch_statement
+    body: (compound_statement
+      (expression_statement
+        (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))))
+    declaration: (parameter_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    catch: (compound_statement)
+    finally: (compound_statement))
+  (try_catch_statement
+    body: (compound_statement
+      (expression_statement
+        (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))))
+    declaration: (parameter_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    catch: (compound_statement))
+  (try_catch_statement
+    body: (compound_statement
+      (expression_statement
+        (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))))
+    finally: (compound_statement))
+  (try_catch_statement
+    body: (compound_statement)
+    declaration: (parameter_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    catch: (compound_statement)
+    declaration: (parameter_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    catch: (compound_statement)
+    declaration: (parameter_declaration
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier)))
+    catch: (compound_statement))
+  (try_catch_statement
+    body: (compound_statement)
+    catch: (compound_statement)))
+
+================================================================================
+Directive: @throw
+================================================================================
+
+@throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"" userInfo:nil];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (throw_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (keyword_argument_list
+        (keyword_argument
+          keyword: (identifier)
+          argument: (identifier))
+        (keyword_argument
+          keyword: (identifier)
+          argument: (string_expression))
+        (keyword_argument
+          keyword: (identifier)
+          argument: (nil))))))
+
+================================================================================
+Directive: @compatibility_alias
+================================================================================
+
+@compatibility_alias Foo Bar;
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (compatibility_alias_declaration
+    class_name: (identifier)
+    alias_name: (identifier)))
+
+================================================================================
+Directive: @available
+================================================================================
+
+if (@available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)) {
+  
+}
+
+if (__builtin_available(macos 10.12, *)) {
+  
+}
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (if_statement
+    condition: (parenthesized_expression
+      (available_expression
+        platform: (identifier)
+        platform: (identifier)
+        platform: (identifier)))
+    consequence: (compound_statement))
+  (if_statement
+    condition: (parenthesized_expression
+      (available_expression
+        platform: (identifier)))
+    consequence: (compound_statement)))

@@ -1,0 +1,1635 @@
+================================================================================
+realm-cocoa
+================================================================================
+
+@interface NSError (RLMSync)
+
+- (nullable RLMSyncErrorActionToken *)rlmSync_errorActionToken NS_REFINED_FOR_SWIFT;
+
+- (nullable NSString *)rlmSync_clientResetBackedUpRealmPath NS_SWIFT_UNAVAILABLE("");
+
+@property (readonly) RLMBSONType bsonType NS_REFINED_FOR_SWIFT;
+
+@end
+
+typedef NS_ENUM(NSUInteger, RLMSyncStopPolicy);
+
+@class RLMObject, RLMResults<RLMObjectType>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)
+    category: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (identifier)
+      (swift_name_attribute_sepcifier))
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier
+          message: (string_literal))))
+    (property_declaration
+      (property_attributes
+        (readonly))
+      type: (type_identifier)
+      declarator: (identifier)
+      (swift_name_attribute_sepcifier)))
+  (type_definition
+    type: (ns_enum_specifier
+      type: (type_identifier)
+      name: (type_identifier)))
+  (class_forward_declaration
+    name: (identifier)
+    name: (identifier)
+    (protocol_qualifiers
+      name: (identifier))))
+
+================================================================================
+jsonmodel
+================================================================================
+
+typedef void (^JSONObjectBlock)(id json, JSONModelError *err) DEPRECATED_ATTRIBUTE;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    type: (primitive_type)
+    declarator: (block_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (id)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))))
+    attributes: (attribute_specifier
+      (availability_attribute_specifier))))
+
+================================================================================
+fmdb
+================================================================================
+
+@interface FMDatabasePool : NSObject
+
+- (void)inDatabase:(__attribute__((noescape)) void (^)(FMDatabase *db))block;
+
+@end
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))))
+          name: (identifier))))))
+
+================================================================================
+YYText
+================================================================================
+
+@interface YYTextKeyboardManager : NSObject
+
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
++ (instancetype)rubyWithCTRubyRef:(CTRubyAnnotationRef)ctRuby NS_AVAILABLE_IOS(8_0);
+
+@end
+
+@implementation YYTextContainer {
+    @package
+    BOOL _readonly; ///< used only in YYTextLayout.implementation
+}
+
+- (CTParagraphStyleRef)yy_CTStyle CF_RETURNS_RETAINED {
+}
+
+@end
+
+// YYText/YYText/Component/YYTextMagnifier.m
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))
+    (method_declaration
+      scope: (instance_scope)
+      type: (instancetype)
+      selector: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier)))
+    (method_declaration
+      scope: (class_scope)
+      type: (instancetype)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier)))
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version)))))
+  (class_implementation
+    name: (identifier)
+    (package)
+    (field_declaration
+      type: (BOOL)
+      declarator: (field_identifier))
+    (comment)
+    (method_definition
+      scope: (instance_scope)
+      type: (type_identifier)
+      selector: (identifier)
+      (attribute_specifier
+        (method_attribute_specifier))
+      body: (compound_statement)))
+  (comment))
+
+================================================================================
+YTKNetwork
+================================================================================
+
+typedef void (^AFURLSessionTaskDidFinishCollectingMetricsBlock)(NSURLSession *session, NSURLSessionTask *task, NSURLSessionTaskMetrics * metrics) API_AVAILABLE(ios(10), macosx(10.12), watchos(3), tvos(10));
+
+
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 90000)\
+|| (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED < 101100)
+    NSString *localFilePath = [resumeDictionary objectForKey:@"NSURLSessionResumeInfoLocalPath"];
+    if ([localFilePath length] < 1) return NO;
+    return [[NSFileManager defaultManager] fileExistsAtPath:localFilePath];
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    type: (primitive_type)
+    declarator: (block_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (pointer_declarator
+            declarator: (identifier)))))
+    attributes: (attribute_specifier
+      (availability_attribute_specifier
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (message_expression
+        receiver: (type_identifier)
+        selector: (keyword_argument_list
+          (keyword_argument
+            keyword: (identifier)
+            argument: (string_expression))))))
+  (if_statement
+    condition: (parenthesized_expression
+      (binary_expression
+        left: (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))
+        right: (number_literal)))
+    consequence: (return_statement
+      (NO)))
+  (return_statement
+    (message_expression
+      receiver: (message_expression
+        receiver: (type_identifier)
+        selector: (identifier))
+      selector: (keyword_argument_list
+        (keyword_argument
+          keyword: (identifier)
+          argument: (identifier))))))
+
+================================================================================
+TZImagePickerController
+================================================================================
+
+CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
+{
+    return CGPointMake(point.x + dx, point.y + dy);
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (storage_class_specifier)
+    type: (type_identifier)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier))))
+    body: (compound_statement
+      (return_statement
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (binary_expression
+              left: (field_expression
+                argument: (identifier)
+                field: (field_identifier))
+              right: (identifier))
+            (binary_expression
+              left: (field_expression
+                argument: (identifier)
+                field: (field_identifier))
+              right: (identifier))))))))
+
+================================================================================
+SlackTextViewController
+================================================================================
+
+NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController
+@end
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        (platform_version)))
+    name: (identifier)))
+
+================================================================================
+SWTableViewCell
+================================================================================
+
+@interface SWTableViewCell
+@property (nonatomic, strong) SWUtilityButtonView *leftUtilityButtonsView, *rightUtilityButtonsView;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      declarator: (pointer_declarator
+        declarator: (identifier)))))
+
+================================================================================
+SVPrograssHUD
+================================================================================
+
+typedef NS_ENUM(NSInteger, SVProgressHUDStyle) {
+    SVProgressHUDStyleLight NS_SWIFT_NAME(light),   // default style, white HUD with black text, HUD background will be blurred
+    SVProgressHUDStyleDark NS_SWIFT_NAME(dark),     // black HUD and white text, HUD background will be blurred
+    SVProgressHUDStyleCustom NS_SWIFT_NAME(custom)  // uses the fore- and background color properties
+};
+
+@interface SVProgressHUD ()
+#if TARGET_OS_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+@property (nonatomic, strong) UINotificationFeedbackGenerator *hapticGenerator NS_AVAILABLE_IOS(10_0);
+#endif
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    type: (ns_enum_specifier
+      type: (type_identifier)
+      name: (type_identifier)
+      body: (enumerator_list
+        (enumerator
+          name: (identifier)
+          (swift_name_attribute_sepcifier
+            method: (identifier)))
+        (comment)
+        (enumerator
+          name: (identifier)
+          (swift_name_attribute_sepcifier
+            method: (identifier)))
+        (comment)
+        (enumerator
+          name: (identifier)
+          (swift_name_attribute_sepcifier
+            method: (identifier)))
+        (comment))))
+  (category_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version))))))
+
+================================================================================
+RestKit
+================================================================================
+
+__typeof(&*self)weakSelf = self;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (typeof_specifier
+      type: (pointer_expression
+        argument: (pointer_expression
+          argument: (self))))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (self))))
+
+================================================================================
+QMUI_iOS
+================================================================================
+// /QMUI_iOS/QMUIKit/QMUIComponents/CALayer+QMUIViewAnimation.m
+
+SEL selector = NSSelectorFromString([NSString stringWithFormat:@"_%@:%@:", @"appearanceForClass", @"withContainerList"]);
+
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (comment)
+  (declaration
+    type: (SEL)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (message_expression
+            receiver: (type_identifier)
+            selector: (keyword_argument_list
+              (keyword_argument
+                keyword: (identifier)
+                argument: (string_expression)
+                argument: (string_expression)
+                argument: (string_expression)))))))))
+
+================================================================================
+PureLayout [FIXME, WONT FIX]
+================================================================================
+
+// + (PL__NSArray_of(NSLayoutConstraint *) *)autoCreateAndInstallConstraints:(__attribute__((noescape)) ALConstraintsBlock)block
+// {
+
+// }
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (comment)
+  (comment)
+  (comment))
+
+================================================================================
+NWPusher
+================================================================================
+
+extern void NWLForwardWithoutFilter(NWLContext context, CFStringRef format, ...) CF_FORMAT_FUNCTION(2,3);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier)))
+      (attribute_specifier
+        (method_variadic_arguments_attribute_specifier
+          (number_literal)
+          (number_literal))))))
+
+================================================================================
+Masonry
+================================================================================
+
+@encode(long long);
+
+@interface NSArray (MASAdditions)
+
+- (NSArray *)mas_makeConstraints:(void (NS_NOESCAPE ^)(MASConstraintMaker *make))block;
+
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_safeAreaLayoutGuide NS_AVAILABLE_IOS(11.0);
+
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_topLayoutGuide NS_DEPRECATED_IOS(8.0, 11.0);
+
+@end
+
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (sized_type_specifier))))
+  (category_interface
+    name: (identifier)
+    category: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))))
+          name: (identifier))))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong)
+        (readonly))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version
+            version: (number_literal)))))
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong)
+        (readonly))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      (attribute_specifier
+        (availability_attribute_specifier
+          (platform_version
+            version: (number_literal))
+          (platform_version
+            version: (number_literal)))))))
+
+================================================================================
+Mantle
+================================================================================
+
+typedef void (*mtl_failedMethodCallback)(Class, Method);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    (primitive_type)
+    (function_declarator
+      (parenthesized_declarator
+        (pointer_declarator
+          (type_identifier)))
+      (parameter_list
+        (parameter_declaration
+          (Class))
+        (parameter_declaration
+          (type_identifier))))))
+
+================================================================================
+MJExtension
+================================================================================
+// MJExtension/MJExtension/MJExtensionConst.m
+// ifdef without blank line
+#if AAA
+#endif
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (comment)
+  (comment))
+
+================================================================================
+MBProgressHUD
+================================================================================
+for (__unsafe_unretained UIView *subview in view.subviews) {
+    if ([subview isKindOfClass:clazz]) {
+        return subview;
+    }
+}
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (for_in_statement
+    initializer: (type_qualifier)
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (identifier))
+    loop: (field_expression
+      argument: (identifier)
+      field: (field_identifier))
+    (compound_statement
+      (if_statement
+        condition: (parenthesized_expression
+          (message_expression
+            receiver: (type_identifier)
+            selector: (keyword_argument_list
+              (keyword_argument
+                keyword: (identifier)
+                argument: (identifier)))))
+        consequence: (compound_statement
+          (return_statement
+            (identifier)))))))
+
+================================================================================
+JSONKit
+================================================================================
+
+typedef id (*NSNumberAllocImp)(id receiver, SEL selector);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    type: (id)
+    declarator: (function_declarator
+      declarator: (parenthesized_declarator
+        (pointer_declarator
+          declarator: (type_identifier)))
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (id)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (SEL)
+          declarator: (identifier))))))
+
+================================================================================
+IGListKit
+================================================================================
+
+[NSValue valueWithBytes:&value objCType:@encode(__typeof__(value))];
+
+NS_SWIFT_NAME(ListDiff(oldArray:newArray:option:))
+FOUNDATION_EXTERN IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable>> *_Nullable oldArray,
+                                                   NSArray<id<IGListDiffable>> *_Nullable newArray,
+                                                   IGListDiffOption option);
+
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (keyword_argument_list
+        (keyword_argument
+          keyword: (identifier)
+          argument: (pointer_expression
+            argument: (identifier)))
+        (keyword_argument
+          keyword: (identifier)
+          argument: (encode_expression
+            (type_descriptor
+              type: (typeof_specifier
+                type: (identifier))))))))
+  (declaration
+    (swift_name_attribute_sepcifier
+      method: (identifier)
+      parameters: (type_identifier)
+      parameters: (type_identifier)
+      parameters: (type_identifier))
+    (storage_class_specifier)
+    type: (type_identifier)
+    declarator: (pointer_declarator
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (generic_type_specifier
+              class_name: (type_identifier)
+              type_reference: (generic_type_references
+                (type_descriptor
+                  type: (generic_type_specifier
+                    class_name: (id)
+                    type_reference: (protocol_qualifiers
+                      name: (identifier))))))
+            declarator: (pointer_declarator
+              (type_qualifier)
+              declarator: (identifier)))
+          (parameter_declaration
+            type: (generic_type_specifier
+              class_name: (type_identifier)
+              type_reference: (generic_type_references
+                (type_descriptor
+                  type: (generic_type_specifier
+                    class_name: (id)
+                    type_reference: (protocol_qualifiers
+                      name: (identifier))))))
+            declarator: (pointer_declarator
+              (type_qualifier)
+              declarator: (identifier)))
+          (parameter_declaration
+            type: (type_identifier)
+            declarator: (identifier)))))))
+
+================================================================================
+FDCalendar
+================================================================================
+
+CG_EXTERN CGFloat const FSCalendarStandardHeaderHeight;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (storage_class_specifier)
+    type: (type_identifier)
+    (type_qualifier)
+    declarator: (identifier)))
+
+================================================================================
+FLEX
+================================================================================
+
+((id(*)(id, SEL, id, id, id, id, void(^)(NSURLRequest *)))objc_msgSend)(
+  slf, swizzledSelector, session, task, response, newRequest, completionHandler
+  );
+  
+@implementation FLEX
+- (void)method {
+  va_list args;
+  va_start(args, count);
+  char *type = va_arg(args, char *);
+
+  return [super.nonemptySections flex_filtered:^BOOL(FLEXTableViewSection *section, NSUInteger idx) {
+    return section != self.descriptionSection;
+  }];
+}
+
+@end
+
+self.inputPlaceholderText =
+@"You can put any valid JSON here, such as a string, number, array, or dictionary:"
+"\n\"This is a string\"";
+
+@interface FLEXVariableEditorViewController : UIViewController {
+    @protected
+    id _target;
+    _Nullable id _data;
+    void (^_Nullable _commitHandler)();
+}
+@end
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (call_expression
+      function: (parenthesized_expression
+        (cast_expression
+          type: (type_descriptor
+            type: (id)
+            declarator: (abstract_function_declarator
+              declarator: (abstract_parenthesized_declarator
+                (abstract_pointer_declarator))
+              parameters: (parameter_list
+                (parameter_declaration
+                  type: (id))
+                (parameter_declaration
+                  type: (SEL))
+                (parameter_declaration
+                  type: (id))
+                (parameter_declaration
+                  type: (id))
+                (parameter_declaration
+                  type: (id))
+                (parameter_declaration
+                  type: (id))
+                (parameter_declaration
+                  type: (primitive_type)
+                  declarator: (block_abstract_declarator
+                    parameters: (parameter_list
+                      (parameter_declaration
+                        type: (type_identifier)
+                        declarator: (abstract_pointer_declarator))))))))
+          value: (identifier)))
+      arguments: (argument_list
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier))))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement
+        (declaration
+          type: (type_identifier)
+          declarator: (identifier))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (identifier)
+              (identifier))))
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (pointer_declarator
+              declarator: (identifier))
+            value: (va_arg_expression
+              va_list: (identifier)
+              type: (type_descriptor
+                type: (primitive_type)
+                declarator: (abstract_pointer_declarator)))))
+        (return_statement
+          (message_expression
+            receiver: (field_expression
+              argument: (super)
+              field: (field_identifier))
+            selector: (keyword_argument_list
+              (keyword_argument
+                keyword: (identifier)
+                argument: (block_expression
+                  declarator: (type_descriptor
+                    type: (BOOL)
+                    declarator: (abstract_function_declarator
+                      parameters: (parameter_list
+                        (parameter_declaration
+                          type: (type_identifier)
+                          declarator: (pointer_declarator
+                            declarator: (identifier)))
+                        (parameter_declaration
+                          type: (type_identifier)
+                          declarator: (identifier)))))
+                  (compound_statement
+                    (return_statement
+                      (binary_expression
+                        left: (identifier)
+                        right: (field_expression
+                          argument: (self)
+                          field: (field_identifier)))))))))))))
+  (expression_statement
+    (assignment_expression
+      left: (field_expression
+        argument: (self)
+        field: (field_identifier))
+      right: (string_expression
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence))))
+  (class_interface
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))
+    (protected)
+    (field_declaration
+      type: (id)
+      declarator: (field_identifier))
+    (field_declaration
+      (type_qualifier)
+      type: (id)
+      declarator: (field_identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (block_declarator
+        (type_qualifier)
+        declarator: (identifier)
+        parameters: (parameter_list)))))
+
+================================================================================
+FLAnimatedImage
+================================================================================
+@interface FLAnimatedImage
+@property (nonatomic, strong, readonly) __attribute__((NSObject)) CGImageSourceRef imageSource;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (nonatomic)
+        (strong)
+        (readonly))
+      (attribute_specifier
+        (argument_list
+          (identifier)))
+      type: (type_identifier)
+      declarator: (identifier))))
+
+================================================================================
+CocoaLumberjack
+================================================================================
+
+API_DEPRECATED("Use DDOSLogger instead", macosx(10.4,10.12), ios(2.0,10.0), watchos(2.0,3.0), tvos(9.0,10.0))
+@interface DDASLLogger : DDAbstractLogger <DDLogger>
+@end
+
+@interface CocoaLumberjack
+- (void)removeFormatter:(id<DDLogFormatter>)formatter NS_SWIFT_NAME(remove(_:));
+- (void)removeAllFormatters NS_SWIFT_NAME(removeAll());
+@end
+
+@interface CocoaLumberjack
+- (nullable NSString *)createNewLogFile __attribute__((deprecated("Use -createNewLogFileWithError:"))) NS_SWIFT_UNAVAILABLE("Use -createNewLogFileWithError:");
+@property (class, nonatomic, DISPATCH_QUEUE_REFERENCE_TYPE, readonly) dispatch_queue_t loggingQueue;
+@end
+
+@implementation CocoaLumberjack
+// __attribute__((unused)) 解析错误
+- (void)applicationWillTerminate:(NSNotification * __attribute__((unused)))notification {
+}
+@end
+
+__attribute__((deprecated("Use DDContextAllowlistFilterLogFormatter instead")))
+typedef DDContextAllowlistFilterLogFormatter DDContextWhitelistFilterLogFormatter;
+
+__auto_type copy = (typeof(self.message))[self.message copy];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        message: (string_literal)
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))
+        (platform_version
+          platform: (platform)
+          version: (number_literal)
+          version: (number_literal))))
+    name: (identifier)
+    (superclass_reference
+      name: (identifier))
+    (protocol_qualifiers
+      name: (identifier)))
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (generic_type_specifier
+            class_name: (id)
+            type_reference: (protocol_qualifiers
+              name: (identifier)))
+          name: (identifier)))
+      (swift_name_attribute_sepcifier
+        method: (identifier)
+        parameters: (type_identifier)))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      (swift_name_attribute_sepcifier
+        method: (identifier))))
+  (class_interface
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      return_type: (nullable)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (identifier)
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal)))))
+      (attribute_specifier
+        (availability_attribute_specifier
+          message: (string_literal))))
+    (property_declaration
+      (property_attributes
+        (class)
+        (nonatomic)
+        (DISPATCH_QUEUE_REFERENCE_TYPE)
+        (readonly))
+      type: (type_identifier)
+      declarator: (identifier)))
+  (class_implementation
+    name: (identifier)
+    (comment)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
+          name: (identifier)))
+      body: (compound_statement)))
+  (type_definition
+    (attribute_specifier
+      (argument_list
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (string_literal)))))
+    type: (type_identifier)
+    declarator: (type_identifier))
+  (declaration
+    type: (auto)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (cast_expression
+        type: (type_descriptor
+          type: (typeof_specifier
+            type: (field_expression
+              argument: (self)
+              field: (field_identifier))))
+        value: (message_expression
+          receiver: (field_expression
+            argument: (self)
+            field: (field_identifier))
+          selector: (identifier))))))
+
+================================================================================
+CocoaAsyncSocket
+================================================================================
+@implementation CocoaAsyncSocket
+
+- (instancetype)init NS_UNAVAILABLE
+{
+  NSAssert(0, @"Use the designated initializer");
+  return nil;
+}
+
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (instancetype)
+      selector: (identifier)
+      (attribute_specifier
+        (availability_attribute_specifier))
+      body: (compound_statement
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (number_literal)
+              (string_expression))))
+        (return_statement
+          (nil))))))
+
+================================================================================
+CYLTabBarController
+================================================================================
+
+NSArray<__kindof UIView *> *backgroundSubviews = subview.subviews;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (generic_type_specifier
+      class_name: (type_identifier)
+      type_reference: (generic_type_references
+        (type_descriptor
+          (type_qualifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))))
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (field_expression
+        argument: (identifier)
+        field: (field_identifier)))))
+
+================================================================================
+Chameleon
+================================================================================
+
+@interface NSArray (Chameleon)
++ (NSArray *)arrayOfColorsWithColorScheme:(ColorScheme)colorScheme
+                                     with:(UIColor *)color
+                               flatScheme:(BOOL)isFlatScheme __attribute((deprecated(" Use -arrayOfColorsWithColorScheme:usingColor:withFlatScheme: instead (First deprecated in Chameleon 2.0).")));
+
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)
+    category: (identifier)
+    (method_declaration
+      scope: (class_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (BOOL)
+          name: (identifier)))
+      (attribute_specifier
+        (argument_list
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal))))))))
+
+================================================================================
+BlocksKit
+================================================================================
+
+// https://gist.github.com/smileyborg/d513754bc1cf41678054
+// equals to NSArray <ObjectType> (BlocksKit)
+@interface __GENERICS(NSArray, ObjectType) (BlocksKit)
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id bk_ensuredDynamicDelegate;
+@end
+
+@interface __GENERICS(NSDictionary, KeyType, ObjectType) (BlocksKit)
+- (BOOL)invokeWithInvocation:(NSInvocation *)inv returnValue:(out NSValue *__nullable *__nonnull)returnValue;
+- (void)removeBlockImplementationForMethod:(SEL)selector __unused;
+@end
+
+void (^wrapper)(BOOL) = (void(^)(BOOL))block;
+typeof(&*weakController) strongController = weakController;
+
+@implementation BlocksKit
+- (void)removeBlockImplementationForMethod:(SEL)selector __unused {
+  return (__bridge_transfer NSTimer *)CFRunLoopTimerCreateWithHandler(NULL, fireDate, interval, 0, 0, (void(^)(CFRunLoopTimerRef))block);
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (comment)
+  (comment)
+  (category_interface
+    (generics_type_reference
+      name: (identifier)
+      (type_identifier))
+    category: (identifier)
+    (property_declaration
+      (property_attributes
+        (NS_NONATOMIC_IOSONLY)
+        (readonly)
+        (strong))
+      type: (id)
+      declarator: (identifier)))
+  (category_interface
+    (generics_type_reference
+      name: (identifier)
+      (type_identifier)
+      (type_identifier))
+    category: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (BOOL)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_qualifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier)
+            declarator: (abstract_pointer_declarator
+              (type_qualifier)))
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (SEL)
+          name: (identifier)))))
+  (declaration
+    type: (primitive_type)
+    declarator: (init_declarator
+      declarator: (block_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (BOOL))))
+      value: (cast_expression
+        type: (type_descriptor
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (BOOL)))))
+        value: (identifier))))
+  (declaration
+    type: (typeof_specifier
+      type: (pointer_expression
+        argument: (pointer_expression
+          argument: (identifier))))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (identifier)))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (SEL)
+          name: (identifier)))
+      body: (compound_statement
+        (return_statement
+          (cast_expression
+            type: (type_descriptor
+              (type_qualifier)
+              type: (type_identifier)
+              declarator: (abstract_pointer_declarator))
+            value: (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (null)
+                (identifier)
+                (identifier)
+                (number_literal)
+                (number_literal)
+                (cast_expression
+                  type: (type_descriptor
+                    type: (primitive_type)
+                    declarator: (block_abstract_declarator
+                      parameters: (parameter_list
+                        (parameter_declaration
+                          type: (type_identifier)))))
+                  value: (identifier))))))))))
+
+================================================================================
+Aspects
+================================================================================
+typedef struct _AspectBlock {
+  __unused Class isa;
+  // void (__unused *invoke)(struct _AspectBlock *block, ...); // FIXME
+} *AspectBlockRef;
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    (struct_specifier
+      (type_identifier)
+      (field_declaration_list
+        (field_declaration
+          (type_qualifier)
+          (Class)
+          (field_identifier))
+        (comment)))
+    (pointer_declarator
+      (type_identifier))))
+
+================================================================================
+asi-http-request
+================================================================================
+@interface ASIHTTPRequest
+@property (retain,setter=setURL:, nonatomic) NSURL *url;
+@end
+
+@implementation ASIHTTPRequest
+- (void)test {
+  for (header in [self requestHeaders]) {
+    CFHTTPMessageSetHeaderFieldValue(request, (CFStringRef)header, (CFStringRef)[[self requestHeaders] objectForKey:header]);
+  }
+}
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_interface
+    name: (identifier)
+    (property_declaration
+      (property_attributes
+        (retain)
+        (setter
+          name: (identifier))
+        (nonatomic))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (identifier)
+      body: (compound_statement
+        (for_in_statement
+          type: (type_identifier)
+          loop: (message_expression
+            receiver: (self)
+            selector: (identifier))
+          (compound_statement
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list
+                  (identifier)
+                  (cast_expression
+                    type: (type_descriptor
+                      type: (type_identifier))
+                    value: (identifier))
+                  (cast_expression
+                    type: (type_descriptor
+                      type: (type_identifier))
+                    value: (message_expression
+                      receiver: (message_expression
+                        receiver: (self)
+                        selector: (identifier))
+                      selector: (keyword_argument_list
+                        (keyword_argument
+                          keyword: (identifier)
+                          argument: (identifier))))))))))))))
+
+================================================================================
+Alcatraz
+================================================================================
+NS_ENUM(NSInteger)
+{
+    ATZShellTerminationStatusError = 666,
+    ATZShellLaunchError = 667
+};
+
+
+@implementation ATZPackage
+@dynamic isInstalled, type, website, extension;
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (ns_enum_specifier
+    type: (type_identifier)
+    body: (enumerator_list
+      (enumerator
+        name: (identifier)
+        value: (number_literal))
+      (enumerator
+        name: (identifier)
+        value: (number_literal))))
+  (class_implementation
+    name: (identifier)
+    (dynamic_definition
+      property: (identifier)
+      property: (identifier)
+      property: (identifier)
+      property: (identifier))))
+
+================================================================================
+AFNetworking
+================================================================================
+
+@interface UIImageView (_AFNetworking)
+@property (readwrite, nonatomic, strong, setter = af_setActiveImageDownloadReceipt:) AFImageDownloadReceipt *af_activeImageDownloadReceipt;
+@end
+
+NSSet *classes = [NSSet setWithArray:@[[NSArray class], [AFHTTPResponseSerializer <AFURLResponseSerialization> class]]];
+
+
+NS_EXTENSION_UNAVAILABLE_IOS("Use view controller based solutions where appropriate instead.")
+@interface AFNetworking
+
+- (void)setQueryStringSerializationWithBlock:(nullable NSString * _Nullable (^)(NSURLRequest *request, id parameters, NSError * __autoreleasing *error))block;
+
+- (NSURLSessionDownloadTask *)downloadTaskWithRequest:(NSURLRequest *)request
+                                             progress:(nullable void (^)(NSProgress *downloadProgress))downloadProgressBlock
+                                          destination:(nullable NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+                                    completionHandler:(nullable void (^)(NSURLResponse *response, NSURL * _Nullable filePath, NSError * _Nullable error))completionHandler;
+@end
+
+@implementation AFNetworking
+
+- (void)setQueryStringSerializationWithBlock:(NSString *(^)(NSURLRequest *, id, NSError *__autoreleasing *))block {
+    self.queryStringSerialization = block;
+}
+
+- (void)loadRequest:(NSURLRequest *)request
+         navigation:(WKNavigation * _Nonnull)navigation
+           progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
+            success:(nullable NSString * (^)(NSHTTPURLResponse *response, NSString *HTML))success
+            failure:(nullable void (^)(NSError *error))failure {
+              
+            }
+
+@end
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (category_interface
+    name: (identifier)
+    category: (identifier)
+    (property_declaration
+      (property_attributes
+        (readwrite)
+        (nonatomic)
+        (strong)
+        (setter
+          name: (identifier)))
+      type: (type_identifier)
+      declarator: (pointer_declarator
+        declarator: (identifier))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (message_expression
+        receiver: (type_identifier)
+        selector: (keyword_argument_list
+          (keyword_argument
+            keyword: (identifier)
+            argument: (array_expression
+              (message_expression
+                receiver: (type_identifier)
+                selector: (identifier))
+              (message_expression
+                receiver: (generic_type_specifier
+                  class_name: (type_identifier)
+                  type_reference: (protocol_qualifiers
+                    name: (identifier)))
+                selector: (identifier))))))))
+  (class_interface
+    (attribute_specifier
+      (availability_attribute_specifier
+        message: (string_literal)))
+    name: (identifier)
+    (method_declaration
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nullable)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier)
+            declarator: (block_abstract_declarator
+              parameters: (parameter_list
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (pointer_declarator
+                    declarator: (identifier)))
+                (parameter_declaration
+                  type: (id)
+                  declarator: (identifier))
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (pointer_declarator
+                    (type_qualifier)
+                    declarator: (pointer_declarator
+                      declarator: (identifier)))))))
+          name: (identifier))))
+    (method_declaration
+      scope: (instance_scope)
+      type: (type_identifier)
+      declarator: (abstract_pointer_declarator)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nullable)
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))))
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nullable)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            declarator: (block_abstract_declarator
+              parameters: (parameter_list
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (pointer_declarator
+                    declarator: (identifier)))
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (pointer_declarator
+                    declarator: (identifier))))))
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nullable)
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  (type_qualifier)
+                  declarator: (identifier)))
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  (type_qualifier)
+                  declarator: (identifier)))))
+          name: (identifier)))))
+  (class_implementation
+    name: (identifier)
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            declarator: (block_abstract_declarator
+              parameters: (parameter_list
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (abstract_pointer_declarator))
+                (parameter_declaration
+                  type: (id))
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (abstract_pointer_declarator
+                    (type_qualifier)
+                    declarator: (abstract_pointer_declarator))))))
+          name: (identifier)))
+      body: (compound_statement
+        (expression_statement
+          (assignment_expression
+            left: (field_expression
+              argument: (self)
+              field: (field_identifier))
+            right: (identifier)))))
+    (method_definition
+      scope: (instance_scope)
+      type: (primitive_type)
+      selector: (keyword_selector
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator)
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier))
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            (type_qualifier)
+            (type_qualifier)
+            declarator: (abstract_pointer_declarator
+              (type_qualifier)))
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nullable)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator
+            declarator: (block_abstract_declarator
+              parameters: (parameter_list
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (pointer_declarator
+                    declarator: (identifier)))
+                (parameter_declaration
+                  type: (type_identifier)
+                  declarator: (pointer_declarator
+                    declarator: (identifier))))))
+          name: (identifier))
+        (keyword_declarator
+          keyword: (identifier)
+          type: (nullable)
+          type: (primitive_type)
+          declarator: (block_abstract_declarator
+            parameters: (parameter_list
+              (parameter_declaration
+                type: (type_identifier)
+                declarator: (pointer_declarator
+                  declarator: (identifier)))))
+          name: (identifier)))
+      body: (compound_statement))))

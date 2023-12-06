@@ -1,0 +1,720 @@
+================================================================================
+Message expression: super receiver, and self assignment
+================================================================================
+
+[super sel];
+self = [super init];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (super)
+      selector: (identifier)))
+  (expression_statement
+    (assignment_expression
+      left: (self)
+      right: (message_expression
+        receiver: (super)
+        selector: (identifier)))))
+
+================================================================================
+Message expression
+================================================================================
+
+[obj method];
+[obj methodWithKey1:val1 key2:val2];
+[obj :val1]; // - (void):(id)val1;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (identifier)))
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (keyword_argument_list
+        (keyword_argument
+          keyword: (identifier)
+          argument: (identifier))
+        (keyword_argument
+          keyword: (identifier)
+          argument: (identifier)))))
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (keyword_argument_list
+        (keyword_argument
+          argument: (identifier)))))
+  (comment))
+
+================================================================================
+Selector expression
+================================================================================
+
+@selector(foo);
+@selector(foo:);
+@selector(foo::);
+@selector(foo:bar:);
+@selector(foo:bar::);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (selector_expression
+      name: (identifier)))
+  (expression_statement
+    (selector_expression
+      name: (identifier)))
+  (expression_statement
+    (selector_expression
+      name: (identifier)))
+  (expression_statement
+    (selector_expression
+      name: (identifier)
+      name: (identifier)))
+  (expression_statement
+    (selector_expression
+      name: (identifier)
+      name: (identifier))))
+
+================================================================================
+Protocol expression
+================================================================================
+
+@protocol(ProtocolName);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (protocol_expression
+      (identifier))))
+
+================================================================================
+Encode expression
+================================================================================
+
+@encode(id);
+@encode(long long);
+@encode(int []);
+@encode(id []);
+@encode(id <NSCopying> []);
+@encode(_Complex int);
+@encode(_Complex int[]);
+
+int n;
+@encode(int [n]);
+
+@class NSObject;
+@encode(NSObject *);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (id))))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (sized_type_specifier))))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (primitive_type)
+        declarator: (abstract_array_declarator))))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (id)
+        declarator: (abstract_array_declarator))))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (generic_type_specifier
+          class_name: (id)
+          type_reference: (protocol_qualifiers
+            name: (identifier)))
+        declarator: (abstract_array_declarator))))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        (type_qualifier)
+        type: (primitive_type))))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        (type_qualifier)
+        type: (primitive_type)
+        declarator: (abstract_array_declarator))))
+  (declaration
+    type: (primitive_type)
+    declarator: (identifier))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (primitive_type)
+        declarator: (abstract_array_declarator
+          size: (identifier)))))
+  (class_forward_declaration
+    name: (identifier))
+  (expression_statement
+    (encode_expression
+      (type_descriptor
+        type: (type_identifier)
+        declarator: (abstract_pointer_declarator)))))
+
+================================================================================
+String expression
+================================================================================
+
+NSString *s1 = @"s1";
+NSString *s2 = @"s2"
+               @"s2";
+NSString *s3 = @"s3"
+                "s3";
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (string_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (string_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (string_expression))))
+
+================================================================================
+Dictionary expression
+================================================================================
+
+NSDictionary *dict = @{
+};
+
+NSDictionary *dict = @{
+  @"k1": @1, 
+  @"k2": @(2), 
+  @"k3": @"v3", 
+  @"k4": @{
+    @"k11": @11,
+    @"k12": @[]
+  }
+};
+
+NSDictionary *dict = @{
+  self.class.prop: @{self.class.value : @(value)}
+};
+
+NSDictionary *dict = @{
+  kCGImagePropertyGIFDictionary : @{
+    kCGImagePropertyGIFDelayTime : @(duration)
+  }
+};
+
+NSDictionary *dict = @{
+  NSStringFromSelector(@selector(foo:bar:)) : value
+};
+
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (dictionary_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (dictionary_expression
+        key: (string_expression)
+        value: (number_expression)
+        key: (string_expression)
+        value: (number_expression)
+        key: (string_expression)
+        value: (string_expression)
+        key: (string_expression)
+        value: (dictionary_expression
+          key: (string_expression)
+          value: (number_expression)
+          key: (string_expression)
+          value: (array_expression)))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (dictionary_expression
+        key: (field_expression
+          argument: (field_expression
+            argument: (self)
+            field: (field_identifier))
+          field: (field_identifier))
+        value: (dictionary_expression
+          key: (field_expression
+            argument: (field_expression
+              argument: (self)
+              field: (field_identifier))
+            field: (field_identifier))
+          value: (object_expression
+            (identifier))))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (dictionary_expression
+        key: (identifier)
+        value: (dictionary_expression
+          key: (identifier)
+          value: (object_expression
+            (identifier))))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (dictionary_expression
+        key: (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (selector_expression
+              name: (identifier)
+              name: (identifier))))
+        value: (identifier)))))
+
+================================================================================
+Array expression
+================================================================================
+
+NSArray *array = @[];
+NSArray *array = @[1, @"v1", @{},];
+NSArray *array = @[NSURLIsDirectoryKey, NSURLTotalFileAllocatedSizeKey];
+NSArray *array = @[[NSArray class], [AFHTTPResponseSerializer <AFURLResponseSerialization> class]];
+
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (array_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (array_expression
+        (number_literal)
+        (string_expression)
+        (dictionary_expression))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (array_expression
+        (identifier)
+        (identifier))))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (array_expression
+        (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))
+        (message_expression
+          receiver: (generic_type_specifier
+            class_name: (type_identifier)
+            type_reference: (protocol_qualifiers
+              name: (identifier)))
+          selector: (identifier))))))
+
+================================================================================
+Array expression: A comma-separated augument list, end with nil
+================================================================================
+
+[NSMutableArray arrayWithObjects:@"v1", @"v2", @"v3", nil];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (message_expression
+      receiver: (type_identifier)
+      selector: (keyword_argument_list
+        (keyword_argument
+          keyword: (identifier)
+          argument: (string_expression)
+          argument: (string_expression)
+          argument: (string_expression)
+          argument: (nil))))))
+
+================================================================================
+Object expression
+================================================================================
+
+NSNumber *num1 = @(1);
+NSNumber *num2 = @2;
+NSNumber *num3 = @3.01;
+NSNumber *num4 = @'Z';
+NSNumber *num5 = @'z';
+NSNumber *num6 = @'1';
+NSNumber *NNegativeInt = @-1000;
+NSNumber *NPositiveInt = @+1000;
+NSNumber *NNegativeFloat = @-1000.1f;
+NSNumber *NPositiveFloat = @+1000.1f;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression)))
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (number_expression))))
+
+================================================================================
+Boolean expression
+================================================================================
+
+@YES;
+@NO;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (boolean_expression
+      (YES)))
+  (expression_statement
+    (boolean_expression
+      (NO))))
+
+================================================================================
+Nil expression
+================================================================================
+
+nil;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (nil)))
+
+================================================================================
+Condition expression: conditionals with omitted operands
+================================================================================
+
+!completion ?: completion();
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (conditional_expression
+      condition: (unary_expression
+        argument: (identifier))
+      alternative: (call_expression
+        function: (identifier)
+        arguments: (argument_list)))))
+
+================================================================================
+Call expression
+================================================================================
+
+CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef) data, NULL);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (cast_expression
+            type: (type_descriptor
+              (type_qualifier)
+              type: (type_identifier))
+            value: (identifier))
+          (null))))))
+
+================================================================================
+Cast expression: cast to block and IMP type
+================================================================================
+
+(int)number;
+(NSString *)string;
+(void (^)(void))block;
+(void (*)(void))imp;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (cast_expression
+      type: (type_descriptor
+        type: (primitive_type))
+      value: (identifier)))
+  (expression_statement
+    (cast_expression
+      type: (type_descriptor
+        type: (type_identifier)
+        declarator: (abstract_pointer_declarator))
+      value: (identifier)))
+  (expression_statement
+    (cast_expression
+      type: (type_descriptor
+        type: (primitive_type)
+        declarator: (block_abstract_declarator
+          parameters: (parameter_list
+            (parameter_declaration
+              type: (primitive_type)))))
+      value: (identifier)))
+  (expression_statement
+    (cast_expression
+      type: (type_descriptor
+        type: (primitive_type)
+        declarator: (abstract_function_declarator
+          declarator: (abstract_parenthesized_declarator
+            (abstract_pointer_declarator))
+          parameters: (parameter_list
+            (parameter_declaration
+              type: (primitive_type)))))
+      value: (identifier))))
+
+================================================================================
+Cast expression: in subscript_expression
+================================================================================
+
+[[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (subscript_expression
+      argument: (message_expression
+        receiver: (message_expression
+          receiver: (type_identifier)
+          selector: (identifier))
+        selector: (identifier))
+      index: (cast_expression
+        type: (type_descriptor
+          (type_qualifier)
+          type: (type_identifier)
+          declarator: (abstract_pointer_declarator))
+        value: (identifier)))))
+
+================================================================================
+Statement expression
+================================================================================
+
+self.view = ({
+  UIView *view = [[UIView alloc] init];
+  [self addSubview:view];
+
+  view;
+});
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (assignment_expression
+      left: (field_expression
+        argument: (self)
+        field: (field_identifier))
+      right: (statement_expression
+        body: (compound_statement
+          (declaration
+            type: (type_identifier)
+            declarator: (init_declarator
+              declarator: (pointer_declarator
+                declarator: (identifier))
+              value: (message_expression
+                receiver: (message_expression
+                  receiver: (type_identifier)
+                  selector: (identifier))
+                selector: (identifier))))
+          (expression_statement
+            (message_expression
+              receiver: (self)
+              selector: (keyword_argument_list
+                (keyword_argument
+                  keyword: (identifier)
+                  argument: (identifier)))))
+          (expression_statement
+            (identifier)))))))
+
+================================================================================
+Typeof expression
+================================================================================
+
+typeof(&*slef)strongSelf = self;
+__weak __typeof(&*self)weakSelf = self;
+__weak __typeof__(&*self)weakSelf = self;
+__auto_type message = (typeof(self.message))[self.message copy];
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (typeof_specifier
+      type: (pointer_expression
+        argument: (pointer_expression
+          argument: (identifier))))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (self)))
+  (declaration
+    (type_qualifier)
+    type: (typeof_specifier
+      type: (pointer_expression
+        argument: (pointer_expression
+          argument: (self))))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (self)))
+  (declaration
+    (type_qualifier)
+    type: (typeof_specifier
+      type: (pointer_expression
+        argument: (pointer_expression
+          argument: (self))))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (self)))
+  (declaration
+    type: (auto)
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (cast_expression
+        type: (type_descriptor
+          type: (typeof_specifier
+            type: (field_expression
+              argument: (self)
+              field: (field_identifier))))
+        value: (message_expression
+          receiver: (field_expression
+            argument: (self)
+            field: (field_identifier))
+          selector: (identifier))))))
+
+================================================================================
+va_arg expression
+================================================================================
+
+va_list args;
+va_start(args, count);
+char *type = va_arg(args, char *);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (type_identifier)
+    declarator: (identifier))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (identifier)
+        (identifier))))
+  (declaration
+    type: (primitive_type)
+    declarator: (init_declarator
+      declarator: (pointer_declarator
+        declarator: (identifier))
+      value: (va_arg_expression
+        va_list: (identifier)
+        type: (type_descriptor
+          type: (primitive_type)
+          declarator: (abstract_pointer_declarator))))))
