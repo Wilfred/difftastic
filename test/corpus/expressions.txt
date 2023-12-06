@@ -120,3 +120,28 @@ case "12345" {
           (case_clause_pattern
             (discard)))
         (string)))))
+
+================================================================================
+Todo and panic 'as' with string expressions
+================================================================================
+
+todo as { "Hello, " <> "world!" }
+panic as { "Hello, " <> "world!" }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (todo
+    (block
+      (binary_expression
+        (string
+          (quoted_content))
+        (string
+          (quoted_content)))))
+  (panic
+    (block
+      (binary_expression
+        (string
+          (quoted_content))
+        (string
+          (quoted_content))))))
