@@ -1,0 +1,328 @@
+================================================================================
+DML KEYWORD Insert
+================================================================================
+
+public class Me {
+   {
+    insert a;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
+
+================================================================================
+DML KEYWORD upsert
+================================================================================
+
+public class Me {
+   {
+    upsert a;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
+
+================================================================================
+DML KEYWORD upsert with field
+================================================================================
+
+public class Me {
+   {
+    upsert a Account.External_Id__c;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)
+            (scoped_type_identifier
+              (type_identifier)
+              (type_identifier))))))))
+
+================================================================================
+DML KEYWORD update
+================================================================================
+
+public class Me {
+   {
+    update a;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
+
+================================================================================
+DML KEYWORD delete
+================================================================================
+
+public class Me {
+   {
+    delete a;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
+
+================================================================================
+DML KEYWORD undelete
+================================================================================
+
+public class Me {
+   {
+    undelete a;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
+
+================================================================================
+DML KEYWORD merge
+================================================================================
+
+public class Me {
+   {
+    merge a b;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)
+            (identifier)))))))
+
+================================================================================
+DML KEYWORD merge from array
+================================================================================
+
+public class Me {
+    {
+        merge accounts[0] accounts[1];
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (array_access
+              (identifier)
+              (int))
+            (array_access
+              (identifier)
+              (int))))))))
+
+================================================================================
+DML KEYWORD merge new list
+================================================================================
+
+public class Me {
+    {
+        merge masterContact new List<Contact>{oldContact1, oldContact2};
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)
+            (array_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (array_initializer
+                (identifier)
+                (identifier)))))))))
+
+================================================================================
+DML KEYWORD upsert from method with field reference
+================================================================================
+
+public class Me {
+  {
+    upsert contacts.values() Schema.Contact.External_Id__c;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (method_invocation
+              (identifier)
+              (identifier)
+              (argument_list))
+            (scoped_type_identifier
+              (scoped_type_identifier
+                (type_identifier)
+                (type_identifier))
+              (type_identifier))))))))
+
+================================================================================
+DML KEYWORD upsert from method with field reference
+================================================================================
+
+public class Me {
+  {
+    insert new List<Account>{ a1, a2 };
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (array_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (array_initializer
+                (identifier)
+                (identifier)))))))))
+
+================================================================================
+DML KEYWORD insert assigned
+================================================================================
+
+public class Me {
+  {
+    insert accMG = new Account(Name='matching gift company');
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (assignment_expression
+              (identifier)
+              (assignment_operator)
+              (object_creation_expression
+                (type_identifier)
+                (argument_list
+                  (assignment_expression
+                    (identifier)
+                    (assignment_operator)
+                    (string_literal)))))))))))

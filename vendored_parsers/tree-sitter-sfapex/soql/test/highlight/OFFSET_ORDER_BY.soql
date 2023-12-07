@@ -1,0 +1,11 @@
+SELECT Name, Id FROM Merchandise__c ORDER BY Name OFFSET 100
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^^ property
+///             ^^^^ keyword
+///                  ^^^^^^^^^^^^^^ type
+///                                 ^^^^^^^^ keyword
+///                                          ^^^^ property
+///                                               ^^^^^^ keyword
+///                                                      ^^^ number

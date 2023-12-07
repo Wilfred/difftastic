@@ -1,0 +1,31 @@
+SELECT Name, (SELECT CreatedBy.Name FROM Notes) FROM Account;
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^ punctuation
+///           ^^^^^^ keyword
+///                                 ^^^^ keyword
+///                                      ^^^^^ type
+///                                           ^ punctuation
+///                                                  ^^^^^^^ type
+
+SELECT Amount, Id, Name, (SELECT Quantity, ListPrice, PricebookEntry.UnitPrice, PricebookEntry.Name FROM OpportunityLineItems) FROM Opportunity
+/// <- keyword
+///    ^^^^^^ property
+///          ^ punctuation
+///            ^^ property
+///              ^ punctuation
+///                ^^^^ property
+///                    ^ punctuation
+///                      ^ punctuation
+///                       ^^^^^^ keyword
+///                              ^^^^^^^^ property
+///                                      ^ punctuation
+///                                        ^^^^^^^^^ property
+///                                                 ^ punctuation
+///                                                   ^^^^^^^^^^^^^^^^^^^^^^^^ property
+///                                                                           ^ punctuation
+///                                                                                                 ^^^^ keyword
+///                                                                                                      ^^^^^^^^^^^^^^^^^^^^ type
+///                                                                                                                          ^ punctuation
+///                                                                                                                                 ^^^^^^^^^^^ type

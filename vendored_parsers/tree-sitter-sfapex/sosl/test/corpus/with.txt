@@ -1,0 +1,545 @@
+================================================================================
+WITH Data Cat AT
+================================================================================
+
+FIND {tourism} RETURNING KnowledgeArticleVersion
+    (Id, Title WHERE PublishStatus='online')
+    WITH DATA CATEGORY Location__c AT America__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Data Cat ABOVE AND AT
+================================================================================
+
+FIND {tourism} RETURNING FAQ__kav
+    (Id, Title WHERE PublishStatus='online')
+    WITH DATA CATEGORY Geography__c ABOVE France__c
+    AND Product__c AT mobile_phones__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier))
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Data Cat ABOVE
+================================================================================
+
+FIND {tourism} RETURNING KnowledgeArticleVersion
+    (Id, Title WHERE PublishStatus='online')
+    WITH DATA CATEGORY Location__c ABOVE America__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Data Cat BELOW
+================================================================================
+
+FIND {tourism} RETURNING KnowledgeArticleVersion
+    (Id, Title WHERE PublishStatus='online')
+    WITH DATA CATEGORY Location__c BELOW America__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Data Cat ABOVE OR BELOW
+================================================================================
+
+FIND {tourism} RETURNING KnowledgeArticleVersion
+    (Id, Title WHERE PublishStatus='online')
+    WITH DATA CATEGORY Location__c ABOVE_OR_BELOW America__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Division
+================================================================================
+
+FIND {test} RETURNING Account (id where name like '%test%'),
+                      Contact (id where name like '%test%')
+            WITH DIVISION = 'Global'
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal))))
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))
+        (with_clause
+          (with_type
+            (with_division_expression
+              (string_literal))))))
+
+================================================================================
+WITH Highlight
+================================================================================
+
+FIND {salesforce} IN ALL FIELDS
+RETURNING Account(Name,Description) WITH HIGHLIGHT
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))))
+        (with_clause
+          (with_type
+            (with_highlight)))))
+
+================================================================================
+WITH Labels
+================================================================================
+
+FIND {Acme} RETURNING Account(Id, Name) WITH METADATA='LABELS'
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))))
+        (with_clause
+          (with_type
+            (with_metadata_expression
+              (string_literal))))))
+
+================================================================================
+WITH Network
+================================================================================
+
+FIND {test} RETURNING User (id),
+                      FeedItem (id, ParentId WHERE CreatedDate =
+                                THIS_YEAR Order by CreatedDate DESC)
+            WITH NETWORK = 'NetworkId'
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))))
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))
+            (order_by_clause
+              (order_expression
+                (field_identifier
+                  (identifier))
+                (order_direction)))))
+        (with_clause
+          (with_type
+            (with_network_expression
+              (value_comparison_operator)
+              (string_literal))))))
+
+================================================================================
+WITH Network IN
+================================================================================
+
+FIND {test} RETURNING User (id),
+                      FeedItem (id, ParentId WHERE CreatedDate =
+                                THIS_YEAR Order by CreatedDate DESC)
+            WITH NETWORK IN ('NetworkId1', 'NetworkId2', 'NetworkId3')
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))))
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (date_literal)))
+            (order_by_clause
+              (order_expression
+                (field_identifier
+                  (identifier))
+                (order_direction)))))
+        (with_clause
+          (with_type
+            (with_network_expression
+              (set_comparison_operator)
+              (string_literal)
+              (string_literal)
+              (string_literal))))))
+
+================================================================================
+WITH PricebookId
+================================================================================
+
+Find {laptop} RETURNING Product2 WITH PricebookId = '01sxx0000002MffAAE'
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_pricebook_expression
+              (string_literal))))))
+
+================================================================================
+WITH Snippet
+================================================================================
+
+FIND {San Francisco} IN ALL FIELDS
+  RETURNING KnowledgeArticleVersion(id, title WHERE PublishStatus = 'Online' AND Language = 'en_US')
+  WITH SNIPPET
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))))))
+        (with_clause
+          (with_type
+            (with_snippet_expression)))))
+
+================================================================================
+WITH Snippet with Target Length
+================================================================================
+
+FIND {San Francisco} IN ALL FIELDS
+  RETURNING KnowledgeArticleVersion(id, title WHERE PublishStatus = 'Online' AND Language = 'en_US')
+  WITH SNIPPET (target_length=120)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier)))
+            (where_clause
+              (and_expression
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))))))
+        (with_clause
+          (with_type
+            (with_snippet_expression
+              (int))))))
+
+================================================================================
+WITH Spell Correction false
+================================================================================
+
+FIND {San Francisco} IN ALL FIELDS RETURNING Account WITH SPELL_CORRECTION = false
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_spell_correction_expression
+              (boolean))))))
+
+================================================================================
+WITH Spell Correction true
+================================================================================
+
+FIND {San Francisco} IN ALL FIELDS RETURNING Account WITH SPELL_CORRECTION = true
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (in_clause
+          (in_type))
+        (returning_clause
+          (sobject_return
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_spell_correction_expression
+              (boolean))))))

@@ -7,6 +7,7 @@
 | 语言             | 使用的解析器                                                                                                                                                      |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                                                                                |
+| Apex            | [aheber/tree-sitter-sfapex](https://github.com/aheber/tree-sitter-sfapex)                                                                                      |
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                                                                                      |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                                                                                  |
 | C#              | [tree-sitter/tree-sitter-c-sharp](https://github.com/tree-sitter/tree-sitter-c-sharp)                                                                          |

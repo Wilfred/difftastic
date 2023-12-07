@@ -1,0 +1,7 @@
+SELECT COUNT() FROM Contact
+/// <- keyword
+///    ^^^^^ function
+///         ^ punctuation
+///          ^ punctuation
+///            ^^^^ keyword
+///                 ^^^^^^^ type

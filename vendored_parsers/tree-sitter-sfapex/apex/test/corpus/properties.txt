@@ -1,0 +1,302 @@
+================================================================================
+PROPERTY Class full
+================================================================================
+
+public class Me {
+   public transient final static Integer TEST = 0;
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier)
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)
+          (assignment_operator)
+          (int))))))
+
+================================================================================
+PROPERTY Class security
+================================================================================
+
+public class Me {
+   public Integer test1;
+   private Integer test1;
+   protected Integer test1;
+   global Integer test1;
+   Integer test1;
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (type_identifier)
+        (variable_declarator
+          (identifier))))))
+
+================================================================================
+PROPERTY Class modifiers
+================================================================================
+
+public class Me {
+   final Integer test1;
+   static Integer test1;
+   transient Integer test1;
+   static transient Integer test1;
+   final static Integer test1;
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))))))
+
+================================================================================
+PROPERTY automatic properties
+================================================================================
+
+public class Me {
+   public integer MyReadOnlyProp { get; }
+   public double MyReadWriteProp { get; set; }
+   public string MyWriteOnlyProp { set; }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration)
+          (accessor_declaration)))
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration))))))
+
+================================================================================
+PROPERTY Access Modifiers
+================================================================================
+
+global virtual class Me {
+   // X is private for read and public for write
+   public integer X { private get; set; }
+   // Y can be globally read but only written within a class
+   global integer Y { get; public set; }
+   // Z can be read within the class but only subclasses can set it
+   public integer Z { get; protected set; }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    (identifier)
+    (class_body
+      (line_comment)
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration
+            (modifiers
+              (modifier)))
+          (accessor_declaration)))
+      (line_comment)
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration)
+          (accessor_declaration
+            (modifiers
+              (modifier)))))
+      (line_comment)
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration)
+          (accessor_declaration
+            (modifiers
+              (modifier))))))))
+
+================================================================================
+PROPERTY declared
+================================================================================
+
+public class Me {
+   public integer prop {
+      get { return prop; }
+      set { prop = value; }
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement
+                (identifier))))
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))))))
+
+================================================================================
+PROPERTY mixed
+================================================================================
+
+public class Me {
+   public integer prop {
+      get { return prop; }
+      set;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement
+                (identifier))))
+          (accessor_declaration))))))

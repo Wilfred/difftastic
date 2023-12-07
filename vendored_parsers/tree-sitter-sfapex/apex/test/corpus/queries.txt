@@ -1,0 +1,822 @@
+================================================================================
+QUERIES SOQL Simple Bound
+================================================================================
+
+public class Me {
+     {
+          List<Account> accs = [SELECT Id FROM Account
+     WHERE Name = :var1];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (where_clause
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (value_comparison_operator)
+                      (bound_apex_expression
+                        (identifier)))))))))))))
+
+================================================================================
+QUERIES SOQL Arithmatic in binding
+================================================================================
+
+public class Me {
+     {
+          List<Account> accs = [SELECT Id FROM Account
+     WHERE Name = :('x' + 'xx')];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (where_clause
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (value_comparison_operator)
+                      (bound_apex_expression
+                        (parenthesized_expression
+                          (binary_expression
+                            (string_literal)
+                            (string_literal)))))))))))))))
+
+================================================================================
+QUERIES SOQL Nested Query Expression
+================================================================================
+
+public class Me {
+     {
+          List<Account> accs = [
+               SELECT Id FROM Account
+                 WHERE Name = :[SELECT Name FROM Account
+                     WHERE Id = :A.Id].Name];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (where_clause
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (value_comparison_operator)
+                      (bound_apex_expression
+                        (field_access
+                          (query_expression
+                            (soql_query
+                              (soql_query_body
+                                (select_clause
+                                  (field_identifier
+                                    (identifier)))
+                                (from_clause
+                                  (storage_identifier
+                                    (identifier)))
+                                (where_clause
+                                  (comparison_expression
+                                    (field_identifier
+                                      (identifier))
+                                    (value_comparison_operator)
+                                    (bound_apex_expression
+                                      (field_access
+                                        (identifier)
+                                        (identifier))))))))
+                          (identifier))))))))))))))
+
+================================================================================
+QUERIES SOQL array access
+================================================================================
+
+public class Me {
+     {
+          String name = [SELECT Name FROM Account
+                     WHERE Id = :A.Id][0].Name;
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (field_access
+              (array_access
+                (query_expression
+                  (soql_query
+                    (soql_query_body
+                      (select_clause
+                        (field_identifier
+                          (identifier)))
+                      (from_clause
+                        (storage_identifier
+                          (identifier)))
+                      (where_clause
+                        (comparison_expression
+                          (field_identifier
+                            (identifier))
+                          (value_comparison_operator)
+                          (bound_apex_expression
+                            (field_access
+                              (identifier)
+                              (identifier))))))))
+                (int))
+              (identifier))))))))
+
+================================================================================
+QUERIES SOQL property access
+================================================================================
+
+public class Me {
+     {
+          String name = [SELECT Name FROM Account
+                     WHERE Id = :A.Id].Name;
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (field_access
+              (query_expression
+                (soql_query
+                  (soql_query_body
+                    (select_clause
+                      (field_identifier
+                        (identifier)))
+                    (from_clause
+                      (storage_identifier
+                        (identifier)))
+                    (where_clause
+                      (comparison_expression
+                        (field_identifier
+                          (identifier))
+                        (value_comparison_operator)
+                        (bound_apex_expression
+                          (field_access
+                            (identifier)
+                            (identifier))))))))
+              (identifier))))))))
+
+================================================================================
+QUERIES SOQL Bound Limit
+================================================================================
+
+public class Me {
+     {
+          Integer i = 1;
+          List<Account> accs = [SELECT Id FROM Account LIMIT :i];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (limit_clause
+                    (bound_apex_expression
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOQL Bound Offset
+================================================================================
+
+public class Me {
+     {
+          Integer i = 1;
+          List<Account> accs = [SELECT Id FROM Account OFFSET :i];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (offset_clause
+                    (bound_apex_expression
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOQL ALL ROWS
+================================================================================
+
+public class Me {
+     {
+          Integer i = 1;
+          Integer cnt = [SELECT COUNT() FROM Contact ALL ROWS];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (int)))
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (count_expression
+                      (function_name)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (all_rows_clause))))))))))
+
+================================================================================
+QUERIES SOQL Complex bound expression without parens
+================================================================================
+
+public class Me {
+     {
+          String a = 'A';
+          List<Account> accs = [SELECT Id FROM Account WHERE Name = :'N'+a+'M'+'E' AND Name = 'NOPE'];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (string_literal)))
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (where_clause
+                    (and_expression
+                      (comparison_expression
+                        (field_identifier
+                          (identifier))
+                        (value_comparison_operator)
+                        (bound_apex_expression
+                          (binary_expression
+                            (binary_expression
+                              (binary_expression
+                                (string_literal)
+                                (identifier))
+                              (string_literal))
+                            (string_literal))))
+                      (comparison_expression
+                        (field_identifier
+                          (identifier))
+                        (value_comparison_operator)
+                        (string_literal)))))))))))))
+
+================================================================================
+QUERIES SOQL
+================================================================================
+
+public class Me {
+     {
+          List<Account> accs = [SELECT Id, Name FROM Account];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier))
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOQL iterator
+================================================================================
+
+public class Me {
+     {
+          for(Account a : [SELECT Id FROM Account]){
+               System.debug(a);
+          }
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (enhanced_for_statement
+          (type_identifier)
+          (identifier)
+          (query_expression
+            (soql_query
+              (soql_query_body
+                (select_clause
+                  (field_identifier
+                    (identifier)))
+                (from_clause
+                  (storage_identifier
+                    (identifier))))))
+          (block
+            (expression_statement
+              (method_invocation
+                (identifier)
+                (identifier)
+                (argument_list
+                  (identifier))))))))))
+
+================================================================================
+QUERIES SOQL For Collection
+================================================================================
+
+public class Me {
+     {
+          for(List<Account> accs : [SELECT Id FROM Account]){
+               for(Account a : accs){
+                    System.debug(a);
+               }
+          }
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (enhanced_for_statement
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (identifier)
+          (query_expression
+            (soql_query
+              (soql_query_body
+                (select_clause
+                  (field_identifier
+                    (identifier)))
+                (from_clause
+                  (storage_identifier
+                    (identifier))))))
+          (block
+            (enhanced_for_statement
+              (type_identifier)
+              (identifier)
+              (identifier)
+              (block
+                (expression_statement
+                  (method_invocation
+                    (identifier)
+                    (identifier)
+                    (argument_list
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOSL Term
+================================================================================
+
+public class Me {
+     {
+          List<List<SObject>> res =
+               [FIND 'hello' RETURNING Account];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (sosl_query
+                (sosl_query_body
+                  (find_clause
+                    (term_separator_start)
+                    (term)
+                    (term_separator_end))
+                  (returning_clause
+                    (sobject_return
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOSL Bindings
+================================================================================
+
+public class Me {
+     {
+          List<List<SObject>> res =
+               [FIND :myString1 IN ALL FIELDS
+                                  RETURNING
+                                     Account (Id, Name WHERE Name LIKE :myString2
+                                              LIMIT :myInt3),
+                                     Contact,
+                                     Opportunity,
+                                     Lead
+                                  WITH DIVISION =:myString4
+                                  LIMIT :myInt5];
+     }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (sosl_query
+                (sosl_query_body
+                  (find_clause
+                    (bound_apex_expression
+                      (identifier)))
+                  (in_clause
+                    (in_type))
+                  (returning_clause
+                    (sobject_return
+                      (identifier)
+                      (selected_fields
+                        (field_identifier
+                          (identifier))
+                        (field_identifier
+                          (identifier)))
+                      (where_clause
+                        (comparison_expression
+                          (field_identifier
+                            (identifier))
+                          (value_comparison_operator)
+                          (bound_apex_expression
+                            (identifier))))
+                      (limit_clause
+                        (bound_apex_expression
+                          (identifier))))
+                    (sobject_return
+                      (identifier))
+                    (sobject_return
+                      (identifier))
+                    (sobject_return
+                      (identifier)))
+                  (with_clause
+                    (with_type
+                      (with_division_expression
+                        (bound_apex_expression
+                          (identifier)))))
+                  (limit_clause
+                    (bound_apex_expression
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOQL Includes with Parens
+================================================================================
+
+public class Me {
+  {
+    [
+      SELECT Body__c
+      FROM Banner__c
+      WHERE
+        Language__c = :langCode
+        AND Visible__c = TRUE
+        AND Channel__c INCLUDES (:channel)
+        AND Market__c INCLUDES (:marketCode)
+      ORDER BY Order__c
+    ];
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (query_expression
+            (soql_query
+              (soql_query_body
+                (select_clause
+                  (field_identifier
+                    (identifier)))
+                (from_clause
+                  (storage_identifier
+                    (identifier)))
+                (where_clause
+                  (and_expression
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (value_comparison_operator)
+                      (bound_apex_expression
+                        (identifier)))
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (value_comparison_operator)
+                      (boolean))
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (set_comparison_operator)
+                      (bound_apex_expression
+                        (identifier)))
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (set_comparison_operator)
+                      (bound_apex_expression
+                        (identifier)))))
+                (order_by_clause
+                  (order_expression
+                    (field_identifier
+                      (identifier))))))))))))
+
+================================================================================
+QUERIES SOQL Date Literal With Param
+================================================================================
+
+public class Me {
+  {
+    List<Account> accounts = [
+      SELECT Id
+      FROM Account
+      WHERE CreatedDate = LAST_N_DAYS:60
+    ];
+  }
+}
+
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (query_expression
+              (soql_query
+                (soql_query_body
+                  (select_clause
+                    (field_identifier
+                      (identifier)))
+                  (from_clause
+                    (storage_identifier
+                      (identifier)))
+                  (where_clause
+                    (comparison_expression
+                      (field_identifier
+                        (identifier))
+                      (value_comparison_operator)
+                      (date_literal_with_param
+                        (date_literal)
+                        (int)))))))))))))

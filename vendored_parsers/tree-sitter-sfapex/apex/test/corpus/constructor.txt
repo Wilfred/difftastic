@@ -1,0 +1,171 @@
+================================================================================
+CONSTRUCTOR Multiple
+================================================================================
+
+public class TestObject2 {
+
+   private static final Integer DEFAULT_SIZE = 10;
+
+   Integer size;
+
+   //Constructor with no arguments
+   public TestObject2() {
+       this(DEFAULT_SIZE); // Using this(...) calls the one argument constructor
+   }
+
+   // Constructor with one argument
+   public TestObject2(Integer ObjectSize) {
+     size = ObjectSize;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)
+          (assignment_operator)
+          (int)))
+      (field_declaration
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (line_comment)
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        (identifier)
+        (formal_parameters)
+        (constructor_body
+          (explicit_constructor_invocation
+            (this)
+            (argument_list
+              (identifier)))
+          (line_comment)))
+      (line_comment)
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (type_identifier)
+            (identifier)))
+        (constructor_body
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (assignment_operator)
+              (identifier))))))))
+
+================================================================================
+CONSTRUCTOR private
+================================================================================
+
+public class TestObject2 {
+
+    private static final Integer DEFAULT_SIZE = 10;
+
+    Integer size;
+
+    private TestObject2() {
+        this(DEFAULT_SIZE);
+    }
+
+    // Constructor with one argument
+    private TestObject2(Integer ObjectSize) {
+        size = ObjectSize;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier))
+        (type_identifier)
+        (variable_declarator
+          (identifier)
+          (assignment_operator)
+          (int)))
+      (field_declaration
+        (type_identifier)
+        (variable_declarator
+          (identifier)))
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        (identifier)
+        (formal_parameters)
+        (constructor_body
+          (explicit_constructor_invocation
+            (this)
+            (argument_list
+              (identifier)))))
+      (line_comment)
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (type_identifier)
+            (identifier)))
+        (constructor_body
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (assignment_operator)
+              (identifier))))))))
+
+================================================================================
+CONSTRUCTOR super
+================================================================================
+
+public class Subclass extends Superclass {
+  public Subclass() {
+    super('Madam', 'Brenda', 'Clapentrap');
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (superclass
+      (type_identifier))
+    (class_body
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        (identifier)
+        (formal_parameters)
+        (constructor_body
+          (explicit_constructor_invocation
+            (super)
+            (argument_list
+              (string_literal)
+              (string_literal)
+              (string_literal))))))))

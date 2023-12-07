@@ -1,0 +1,53 @@
+================================================================================
+EXPRESSIONS Trigger.New
+================================================================================
+
+public class Me {
+  {
+    TestType evt = Trigger.New;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (field_access
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+EXPRESSIONS Double Class
+================================================================================
+
+public class Me {
+  {
+    double.valueOf(1);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (method_invocation
+            (identifier)
+            (identifier)
+            (argument_list
+              (int))))))))

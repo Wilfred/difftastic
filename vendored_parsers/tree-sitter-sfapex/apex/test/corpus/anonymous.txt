@@ -1,0 +1,163 @@
+================================================================================
+ANONYMOUS Simple
+================================================================================
+
+String test = 'hello';
+System.debug(test);
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (local_variable_declaration
+    (type_identifier)
+    (variable_declarator
+      (identifier)
+      (assignment_operator)
+      (string_literal)))
+  (expression_statement
+    (method_invocation
+      (identifier)
+      (identifier)
+      (argument_list
+        (identifier)))))
+
+================================================================================
+ANONYMOUS with Methods
+================================================================================
+
+Integer int1 = 0;
+
+void myProcedure1() {
+    myProcedure2();
+}
+
+void myProcedure2() {
+    int1++;
+}
+
+myProcedure1();
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (local_variable_declaration
+    (type_identifier)
+    (variable_declarator
+      (identifier)
+      (assignment_operator)
+      (int)))
+  (method_declaration
+    (void_type)
+    (identifier)
+    (formal_parameters)
+    (block
+      (expression_statement
+        (method_invocation
+          (identifier)
+          (argument_list)))))
+  (method_declaration
+    (void_type)
+    (identifier)
+    (formal_parameters)
+    (block
+      (expression_statement
+        (update_expression
+          (identifier)))))
+  (expression_statement
+    (method_invocation
+      (identifier)
+      (argument_list))))
+
+================================================================================
+ANONYMOUS with Methods
+================================================================================
+
+Integer int1 = 0;
+
+void myProcedure1() {
+    myProcedure2();
+}
+
+void myProcedure2() {
+    int1++;
+}
+
+myProcedure1();
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (local_variable_declaration
+    (type_identifier)
+    (variable_declarator
+      (identifier)
+      (assignment_operator)
+      (int)))
+  (method_declaration
+    (void_type)
+    (identifier)
+    (formal_parameters)
+    (block
+      (expression_statement
+        (method_invocation
+          (identifier)
+          (argument_list)))))
+  (method_declaration
+    (void_type)
+    (identifier)
+    (formal_parameters)
+    (block
+      (expression_statement
+        (update_expression
+          (identifier)))))
+  (expression_statement
+    (method_invocation
+      (identifier)
+      (argument_list))))
+
+================================================================================
+ANONYMOUS with Methods
+================================================================================
+
+public class foo {
+    public void bar() {
+        system.debug('\n\n#### FOO BAR ####\n\n');
+    }
+}
+foo f = new foo();
+f.bar();
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        (void_type)
+        (identifier)
+        (formal_parameters)
+        (block
+          (expression_statement
+            (method_invocation
+              (identifier)
+              (identifier)
+              (argument_list
+                (string_literal))))))))
+  (local_variable_declaration
+    (type_identifier)
+    (variable_declarator
+      (identifier)
+      (assignment_operator)
+      (object_creation_expression
+        (type_identifier)
+        (argument_list))))
+  (expression_statement
+    (method_invocation
+      (identifier)
+      (identifier)
+      (argument_list))))

@@ -1,0 +1,159 @@
+================================================================================
+ANNOTATIONS name only
+================================================================================
+
+@Annotation
+public class Me {
+
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (annotation
+        (identifier))
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+ANNOTATIONS name with one bool parameter
+================================================================================
+
+@Annotation(param1=false)
+public class Me {
+
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (annotation
+        (identifier)
+        (annotation_argument_list
+          (annotation_key_value
+            (identifier)
+            (assignment_operator)
+            (boolean))))
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+ANNOTATIONS name with one string parameter
+================================================================================
+
+@Annotation(param1='world')
+public class Me {
+
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (annotation
+        (identifier)
+        (annotation_argument_list
+          (annotation_key_value
+            (identifier)
+            (assignment_operator)
+            (string_literal))))
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+ANNOTATIONS name with multiple parameters
+================================================================================
+
+@Annotation(param1=false, param2='hello')
+public class Me {
+
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (annotation
+        (identifier)
+        (annotation_argument_list
+          (annotation_key_value
+            (identifier)
+            (assignment_operator)
+            (boolean))
+          (annotation_key_value
+            (identifier)
+            (assignment_operator)
+            (string_literal))))
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+ANNOTATIONS name with string
+================================================================================
+
+@Annotation('this is a test of \' strings')
+public class Me {
+
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (annotation
+        (identifier)
+        (annotation_argument_list
+          (string_literal)))
+      (modifier))
+    (identifier)
+    (class_body)))
+
+================================================================================
+ANNOTATIONS space separated
+================================================================================
+
+public without sharing class Me {
+  {
+    @InvocableVariable(required=true label='Old User')
+    public Id oldUserId;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (modifiers
+            (annotation
+              (identifier)
+              (annotation_argument_list
+                (annotation_key_value
+                  (identifier)
+                  (assignment_operator)
+                  (boolean))
+                (annotation_key_value
+                  (identifier)
+                  (assignment_operator)
+                  (string_literal))))
+            (modifier))
+          (type_identifier)
+          (variable_declarator
+            (identifier)))))))

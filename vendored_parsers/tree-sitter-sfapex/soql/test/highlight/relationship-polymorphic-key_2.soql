@@ -1,0 +1,10 @@
+SELECT Id, Who.FirstName, Who.LastName FROM Task WHERE Owner.FirstName LIKE 'B%'
+/// <- keyword
+///    ^^ property
+///      ^ punctuation
+///        ^^^^^^^^^^^^^ property
+///                     ^ punctuation
+///                                              ^^^^^ keyword
+///                                                    ^^^^^^^^^^^^^^^ property
+///                                                                    ^^^^ operator
+///                                                                          ^^ string

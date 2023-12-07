@@ -1,0 +1,64 @@
+# https://github.com/TryGhost/node-sqlite3/blob/master/.github/workflows/ci.yml
+name: CI
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+env:
+  FORCE_COLOR: 1
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        host:
+          - x64
+        target:
+          - x64
+        node:
+          - 14
+          - 16
+          - 18
+        # include:
+        #   - os: macos-m1
+        #     node: 16
+        #     host: arm64
+        #     target: arm64
+    name: ${{ matrix.os }} (node=${{ matrix.node }}, host=${{ matrix.host }}, target=${{ matrix.target }})
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.host }}
+
+      - name: Npm install tree-sitter
+        run: |
+          npm i tree-sitter
+      - name: Tree-sitter build
+        run: |
+          npm run build
+      - name: Npm install/compile
+        run: |
+          npm install
+
+      - name: Configure build
+        run: npx node-pre-gyp configure --target_arch=${{ matrix.target }}
+
+      - name: Build binaries
+        run: npx node-pre-gyp build --target_arch=${{ matrix.target }}
+
+      - name: Package prebuilt binaries
+        run: npx node-pre-gyp package --target_arch=${{ matrix.target }}
+
+      - name: Upload binaries to GitHub Release
+        run: node ./scripts/ghPublish.mjs
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          NODE_PRE_GYP_GITHUB_TOKEN: ${{ github.token }}

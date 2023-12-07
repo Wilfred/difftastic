@@ -1,0 +1,8 @@
+SELECT Id FROM Contact WHERE Name LIKE 'A%' AND MailingCity = 'California'
+/// <- keyword
+///                    ^^^^^ keyword
+///                          ^^^^ property
+///                               ^^^^ operator
+///                                     ^^ string
+///                                                         ^ operator
+///                                                            ^^^^^^^^^^ string

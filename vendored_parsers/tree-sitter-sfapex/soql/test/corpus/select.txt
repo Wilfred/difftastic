@@ -1,0 +1,1215 @@
+================================================================================
+Simple SELECT
+================================================================================
+
+SELECT Id, Name
+FROM User
+WHERE Name = 'Robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+SELECT with escaped strings
+================================================================================
+
+SELECT Id
+FROM User
+WHERE Name = 'Rob\\ot' OR Name = 'Robot\'s' OR Name = 'Robot\nTime'
+OR Name = 'Robot\rTime' OR Name IN ('Robot\tTime', 'Robot\fTime', 'Robot\bTime')
+OR Name = 'Robot \"The Hammer\" Johnson'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (or_expression
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (set_comparison_operator)
+          (string_literal)
+          (string_literal)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))))))
+
+================================================================================
+SELECT with parent fields
+================================================================================
+
+SELECT Id, Name, CreatedBy.Name, CreatedBy.Id
+FROM User
+WHERE Name = 'Robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (dotted_identifier
+          (identifier)
+          (identifier)))
+      (field_identifier
+        (dotted_identifier
+          (identifier)
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+SELECT with Sub Query
+================================================================================
+
+SELECT Id, (SELECT Id, Name FROM Contacts)
+FROM Account
+WHERE Name = 'Robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (subquery
+        (soql_query_body
+          (select_clause
+            (field_identifier
+              (identifier))
+            (field_identifier
+              (identifier)))
+          (from_clause
+            (storage_identifier
+              (identifier))))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+COUNT Query
+================================================================================
+
+SELECT COUNT() FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (count_expression
+        (function_name)))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+SELECT with object alias
+================================================================================
+
+SELECT Id FROM Contact c
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_alias
+        (storage_identifier
+          (identifier))
+        (identifier)))))
+
+================================================================================
+SELECT with object alias(multi)
+================================================================================
+
+SELECT Id FROM Contact c, c.Account a
+WHERE a.Name = 'Robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_alias
+        (storage_identifier
+          (identifier))
+        (identifier))
+      (storage_alias
+        (storage_identifier
+          (dotted_identifier
+            (identifier)
+            (identifier)))
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (dotted_identifier
+            (identifier)
+            (identifier)))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+SELECT WHERE Not Equals Null
+================================================================================
+
+SELECT AccountId FROM Event WHERE ActivityDate != null
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (null_literal)))))
+
+================================================================================
+SELECT WHERE Related Property is Null
+================================================================================
+
+SELECT Id
+FROM Case
+WHERE Contact.LastName = null
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (dotted_identifier
+            (identifier)
+            (identifier)))
+        (value_comparison_operator)
+        (null_literal)))))
+
+================================================================================
+SELECT With toLabel
+================================================================================
+
+SELECT Company, toLabel(Recordtype.Name) FROM Lead
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (dotted_identifier
+            (identifier)
+            (identifier)))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+SELECT With toLabel in SELECT and WHERE
+================================================================================
+
+SELECT Company, toLabel(Status)
+FROM Lead
+WHERE toLabel(Status) = 'le Draft'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (function_expression
+          (function_name)
+          (field_identifier
+            (identifier)))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+SELECT WHERE Boolean
+================================================================================
+
+SELECT Id FROM User WHERE IsActive = TRUE
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (boolean)))))
+
+================================================================================
+SELECT Multiselect Equals
+================================================================================
+
+SELECT Id, MSP1__c FROM CustObj__c WHERE MSP1__c = 'AAA;BBB'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+SELECT Multiselect Includes
+================================================================================
+
+SELECT Id, MSP1__c from CustObj__c WHERE MSP1__c INCLUDES ('AAA;BBB','CCC')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (string_literal)
+        (string_literal)))))
+
+================================================================================
+SELECT Multiselect Excludes
+================================================================================
+
+SELECT Id, MSP1__c from CustObj__c WHERE MSP1__c EXCLUDES ('AAA;BBB','CCC')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (string_literal)
+        (string_literal)))))
+
+================================================================================
+SELECT Filter Polymorphic
+================================================================================
+
+SELECT Id
+FROM Event
+WHERE What.Type IN ('Account', 'Opportunity')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (dotted_identifier
+            (identifier)
+            (identifier)))
+        (set_comparison_operator)
+        (string_literal)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Equals
+================================================================================
+
+SELECT Id FROM Contact WHERE Name = 'Robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Not Equals
+================================================================================
+
+SELECT Id FROM Contact WHERE Name != 'Robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Less than
+================================================================================
+
+SELECT Id FROM Contact WHERE CreatedDate < TODAY
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+fieldExpression Less or equal
+================================================================================
+
+SELECT Id FROM Contact WHERE CreatedDate <= TODAY
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+fieldExpression Greater than
+================================================================================
+
+SELECT Id FROM Contact WHERE CreatedDate > TODAY
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+fieldExpression Greater or equal
+================================================================================
+
+SELECT Id FROM Contact WHERE CreatedDate >= TODAY
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+fieldExpression Like
+================================================================================
+
+SELECT Id FROM Contact WHERE Name LIKE 'robot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Like with wildcards
+================================================================================
+
+SELECT Id FROM Contact WHERE Name LIKE 'r%ob_ot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Like with escaped wildcards
+================================================================================
+
+SELECT Id FROM Contact WHERE Name LIKE 'r\%ob\_ot'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+fieldExpression In
+================================================================================
+
+SELECT Name FROM Account
+WHERE BillingState IN ('California', 'New York')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (string_literal)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Not In
+================================================================================
+
+SELECT Name FROM Account
+WHERE BillingState NOT IN ('California', 'New York')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (string_literal)
+        (string_literal)))))
+
+================================================================================
+fieldExpression Id Semi-join
+================================================================================
+
+SELECT Id, Name
+FROM Account
+WHERE Id IN
+  ( SELECT AccountId
+    FROM Opportunity
+    WHERE StageName = 'Closed Lost'
+  )
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (subquery
+          (soql_query_body
+            (select_clause
+              (field_identifier
+                (identifier)))
+            (from_clause
+              (storage_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))))))
+
+================================================================================
+fieldExpression Reference Semi-join
+================================================================================
+
+SELECT Id
+FROM Task
+WHERE WhoId IN
+  (
+    SELECT Id
+    FROM Contact
+    WHERE MailingCity = 'Twin Falls'
+  )
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (subquery
+          (soql_query_body
+            (select_clause
+              (field_identifier
+                (identifier)))
+            (from_clause
+              (storage_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))))))
+
+================================================================================
+fieldExpression Id field Anti-join
+================================================================================
+
+SELECT Id
+FROM Account
+WHERE Id NOT IN
+  (
+    SELECT AccountId
+    FROM Opportunity
+    WHERE IsClosed = false
+  )
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (subquery
+          (soql_query_body
+            (select_clause
+              (field_identifier
+                (identifier)))
+            (from_clause
+              (storage_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (boolean)))))))))
+
+================================================================================
+fieldExpression Reference field Anti-join
+================================================================================
+
+SELECT Id
+FROM Opportunity
+WHERE AccountId NOT IN
+  (
+    SELECT AccountId
+    FROM Contact
+    WHERE LeadSource = 'Web'
+  )
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (subquery
+          (soql_query_body
+            (select_clause
+              (field_identifier
+                (identifier)))
+            (from_clause
+              (storage_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (string_literal)))))))))
+
+================================================================================
+fieldExpression multiple semi-joins
+================================================================================
+
+SELECT Id, Name
+FROM Account
+WHERE Id IN
+  (
+    SELECT AccountId
+    FROM Contact
+    WHERE LastName LIKE 'apple%'
+  )
+  AND Id IN
+  (
+    SELECT AccountId
+    FROM Opportunity
+    WHERE isClosed = false
+  )
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (and_expression
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (set_comparison_operator)
+          (subquery
+            (soql_query_body
+              (select_clause
+                (field_identifier
+                  (identifier)))
+              (from_clause
+                (storage_identifier
+                  (identifier)))
+              (where_clause
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (string_literal))))))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (set_comparison_operator)
+          (subquery
+            (soql_query_body
+              (select_clause
+                (field_identifier
+                  (identifier)))
+              (from_clause
+                (storage_identifier
+                  (identifier)))
+              (where_clause
+                (comparison_expression
+                  (field_identifier
+                    (identifier))
+                  (value_comparison_operator)
+                  (boolean))))))))))
+
+================================================================================
+fieldExpression semi-join evaluating relationship query
+================================================================================
+
+SELECT Id, (SELECT Id from OpportunityLineItems)
+FROM Opportunity
+WHERE Id IN
+  (
+    SELECT OpportunityId
+    FROM OpportunityLineItem
+    WHERE totalPrice > 10000
+  )
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (subquery
+        (soql_query_body
+          (select_clause
+            (field_identifier
+              (identifier)))
+          (from_clause
+            (storage_identifier
+              (identifier))))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (set_comparison_operator)
+        (subquery
+          (soql_query_body
+            (select_clause
+              (field_identifier
+                (identifier)))
+            (from_clause
+              (storage_identifier
+                (identifier)))
+            (where_clause
+              (comparison_expression
+                (field_identifier
+                  (identifier))
+                (value_comparison_operator)
+                (int)))))))))
+
+================================================================================
+fieldExpression Logical AND
+================================================================================
+
+SELECT Id
+ FROM User WHERE FirstName = 'Hello' AND LastName = 'World'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (and_expression
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))))))
+
+================================================================================
+fieldExpression Logical OR
+================================================================================
+
+SELECT Id
+ FROM User WHERE FirstName = 'Hello' OR LastName = 'World'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (or_expression
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))))))
+
+================================================================================
+fieldExpression Logical NOT
+================================================================================
+
+SELECT Id
+ FROM User WHERE NOT LastName = 'World'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (not_expression
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))))))
+
+================================================================================
+fieldExpression Logical NOT in And
+================================================================================
+
+SELECT Id
+ FROM User WHERE FirstName = 'Hello' AND (NOT LastName = 'World')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (and_expression
+        (comparison_expression
+          (field_identifier
+            (identifier))
+          (value_comparison_operator)
+          (string_literal))
+        (not_expression
+          (comparison_expression
+            (field_identifier
+              (identifier))
+            (value_comparison_operator)
+            (string_literal)))))))
+
+================================================================================
+SELECT with Header Comment
+================================================================================
+
+// Hello world
+SELECT Id
+ FROM User
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (header_comment)
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Logical Decimal
+================================================================================
+
+SELECT Id
+FROM User
+WHERE Name = 15.0
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (decimal)))))
+
+================================================================================
+Logical Not Equals
+================================================================================
+
+SELECT Id
+FROM User
+WHERE Name <> 15.0
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (decimal)))))
+
+================================================================================
+Logical Unicode Escape
+================================================================================
+
+SELECT Id
+FROM User
+WHERE Name = 'Hello\u2019 from world\U2019'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))

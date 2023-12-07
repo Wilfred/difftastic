@@ -1,0 +1,13 @@
+SELECT Id, FirstName__c, Mother_of_Child__r.FirstName__c FROM Daughter__c WHERE Mother_of_Child__r.LastName__c LIKE 'C%'
+/// <- keyword
+///    ^^ property
+///      ^ punctuation
+///        ^^^^^^^^^^^^ property
+///                    ^ punctuation
+///                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ property
+///                                                      ^^^^ keyword
+///                                                           ^^^^^^^^^^^ type
+///                                                                       ^^^^^ keyword
+///                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ property
+///                                                                                                            ^^^^ operator
+///                                                                                                                 ^ string

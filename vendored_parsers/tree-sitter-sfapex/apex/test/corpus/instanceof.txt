@@ -1,0 +1,47 @@
+================================================================================
+INSTANCEOF
+================================================================================
+
+public class Me {
+    {
+        SObject a = new Account();
+        if (a instanceof Account) {
+            Account = (Account)a;
+        } else {
+            // something else...
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (object_creation_expression
+              (type_identifier)
+              (argument_list))))
+        (if_statement
+          (parenthesized_expression
+            (instanceof_expression
+              (identifier)
+              (type_identifier)))
+          (block
+            (expression_statement
+              (assignment_expression
+                (identifier)
+                (assignment_operator)
+                (cast_expression
+                  (type_identifier)
+                  (identifier)))))
+          (block
+            (line_comment)))))))

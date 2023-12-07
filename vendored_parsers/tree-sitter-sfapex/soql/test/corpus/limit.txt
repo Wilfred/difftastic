@@ -1,0 +1,42 @@
+================================================================================
+LIMIT
+================================================================================
+
+SELECT Name
+FROM Account
+LIMIT 125
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (limit_clause
+          (int))))
+
+================================================================================
+LIMIT not allowed with Aggregate, should throw error
+================================================================================
+
+SELECT MAX(CreatedDate)
+FROM Account LIMIT 1
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (limit_clause
+          (int))))

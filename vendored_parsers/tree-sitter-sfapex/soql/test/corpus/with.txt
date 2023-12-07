@@ -1,0 +1,220 @@
+================================================================================
+WITH RecordVisibilityContext
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH RecordVisibilityContext (maxDescriptorPerRecord=100, supportsDomains=true, supportsDelegates=true)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_record_visibility_expression
+              (with_record_visibility_param
+                (int))
+              (with_record_visibility_param
+                (boolean))
+              (with_record_visibility_param
+                (boolean)))))))
+
+================================================================================
+WITH Security_Enforced
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH SECURITY_ENFORCED
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type))))
+
+================================================================================
+WITH Data Category
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH DATA CATEGORY Geography__c ABOVE usa__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Data Category 2
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH DATA CATEGORY Geography__c ABOVE usa__c
+        AND Geography__c BELOW europe__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier))
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH Data Category 3
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH DATA CATEGORY Geography__c AT (usa__c,france__c,uk__c)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)
+                (identifier)
+                (identifier)))))))
+
+================================================================================
+WITH Data Category 4
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH DATA CATEGORY Geography__c AT (france__c,usa__c) AND Product__c ABOVE dsl__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_data_cat_expression
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)
+                (identifier))
+              (with_data_cat_filter
+                (identifier)
+                (with_data_cat_filter_type)
+                (identifier)))))))
+
+================================================================================
+WITH UserId
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH UserId='005D0000001AamR'
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type
+            (with_user_id_type
+              (string_literal))))))
+
+================================================================================
+WITH User_Mode
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH USER_MODE
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type))))
+
+================================================================================
+WITH System_Mode
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   WITH SYSTEM_MODE
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (with_clause
+          (with_type))))

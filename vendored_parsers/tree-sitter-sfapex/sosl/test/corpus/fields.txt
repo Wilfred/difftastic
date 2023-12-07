@@ -1,0 +1,87 @@
+================================================================================
+FIELDS all
+================================================================================
+
+FIND {joe} RETURNING Account(FIELDS(ALL))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (fields_expression
+                (fields_type)))))))
+
+================================================================================
+FIELDS CUSTOM
+================================================================================
+
+FIND {joe} RETURNING Account(FIELDS(CUSTOM))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (fields_expression
+                (fields_type)))))))
+
+================================================================================
+FIELDS STANDARD
+================================================================================
+
+FIND {joe} RETURNING Account(FIELDS(STANDARD))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (fields_expression
+                (fields_type)))))))
+
+================================================================================
+FIELDS mix with literal fields
+================================================================================
+
+FIND {joe} RETURNING Account(Name, Id, FIELDS(CUSTOM))
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier))
+              (field_identifier
+                (identifier))
+              (fields_expression
+                (fields_type)))))))

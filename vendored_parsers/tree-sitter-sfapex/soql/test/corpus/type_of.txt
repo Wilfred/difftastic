@@ -1,0 +1,133 @@
+================================================================================
+Type of WHERE Clause
+================================================================================
+
+SELECT Name FROM Account
+WHERE CreatedById IN
+    (
+    SELECT
+        TYPEOF Owner
+            WHEN User THEN Id
+            WHEN Group THEN CreatedById
+        END
+    FROM CASE
+    )
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (where_clause
+          (comparison_expression
+            (field_identifier
+              (identifier))
+            (set_comparison_operator)
+            (subquery
+              (soql_query_body
+                (select_clause
+                  (type_of_clause
+                    (identifier)
+                    (when_expression
+                      (identifier)
+                      (field_list
+                        (identifier)))
+                    (when_expression
+                      (identifier)
+                      (field_list
+                        (identifier)))))
+                (from_clause
+                  (storage_identifier
+                    (identifier)))))))))
+
+================================================================================
+Type of Select
+================================================================================
+
+SELECT
+    TYPEOF What
+        WHEN Account THEN Phone, Owner.Name
+        ELSE Name
+    END
+FROM Event
+WHERE CreatedById IN
+    (
+    SELECT CreatedById
+    FROM Case
+    )
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (type_of_clause
+            (identifier)
+            (when_expression
+              (identifier)
+              (field_list
+                (identifier)
+                (dotted_identifier
+                  (identifier)
+                  (identifier))))
+            (else_expression
+              (field_list
+                (identifier)))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (where_clause
+          (comparison_expression
+            (field_identifier
+              (identifier))
+            (set_comparison_operator)
+            (subquery
+              (soql_query_body
+                (select_clause
+                  (field_identifier
+                    (identifier)))
+                (from_clause
+                  (storage_identifier
+                    (identifier)))))))))
+
+================================================================================
+Type of Event
+================================================================================
+
+SELECT
+  TYPEOF What
+    WHEN Account THEN Phone, NumberOfEmployees
+    WHEN Opportunity THEN Amount, CloseDate
+    ELSE Name, Email
+  END
+FROM Event
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (type_of_clause
+            (identifier)
+            (when_expression
+              (identifier)
+              (field_list
+                (identifier)
+                (identifier)))
+            (when_expression
+              (identifier)
+              (field_list
+                (identifier)
+                (identifier)))
+            (else_expression
+              (field_list
+                (identifier)
+                (identifier)))))
+        (from_clause
+          (storage_identifier
+            (identifier)))))

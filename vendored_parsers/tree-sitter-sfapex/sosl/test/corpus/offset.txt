@@ -1,0 +1,24 @@
+================================================================================
+OFFSET
+================================================================================
+
+FIND {test} RETURNING Account(id LIMIT 10 OFFSET 10)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (sosl_query_body
+        (find_clause
+          (term_separator_start)
+          (term)
+          (term_separator_end))
+        (returning_clause
+          (sobject_return
+            (identifier)
+            (selected_fields
+              (field_identifier
+                (identifier)))
+            (limit_clause
+              (int))
+            (offset_clause
+              (int))))))
