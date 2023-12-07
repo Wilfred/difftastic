@@ -1,5 +1,9 @@
 ## 0.54 (unreleased)
 
+### Parsing
+
+Added support for Salesforce Apex.
+
 ### Display
 
 Fixed a rare crash when the last non-blank line had changes for
