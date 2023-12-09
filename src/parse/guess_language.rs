@@ -359,6 +359,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "*.vbproj",
             "*.xaml",
             "*.xml",
+            "*.xsd",
             "*.xsl",
             "*.xslt",
             "App.config",
