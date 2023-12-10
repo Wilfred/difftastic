@@ -1212,5 +1212,5 @@ type
             consequence: (statement_list
               (identifier))
             alternative: (else_branch
-              (statement_list
+              consequence: (statement_list
                 (identifier)))))))))

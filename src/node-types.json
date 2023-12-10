@@ -1538,6 +1538,24 @@
     "type": "case",
     "named": true,
     "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elif_branch",
+            "named": true
+          },
+          {
+            "type": "else_branch",
+            "named": true
+          },
+          {
+            "type": "of_branch",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": true,
@@ -1720,24 +1738,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "elif_branch",
-          "named": true
-        },
-        {
-          "type": "else_branch",
-          "named": true
-        },
-        {
-          "type": "of_branch",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -4065,17 +4065,24 @@
   {
     "type": "else_branch",
     "named": true,
-    "fields": {},
+    "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "field_declaration_list",
-          "named": true
-        },
-        {
-          "type": "statement_list",
           "named": true
         }
       ]
@@ -4637,6 +4644,16 @@
     "type": "except_branch",
     "named": true,
     "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      },
       "values": {
         "multiple": false,
         "required": false,
@@ -4647,16 +4664,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "statement_list",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -5321,16 +5328,17 @@
   {
     "type": "finally_branch",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "statement_list",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -7381,6 +7389,16 @@
     "type": "of_branch",
     "named": true,
     "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      },
       "values": {
         "multiple": false,
         "required": true,
@@ -7394,14 +7412,10 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "field_declaration_list",
-          "named": true
-        },
-        {
-          "type": "statement_list",
           "named": true
         }
       ]

@@ -812,9 +812,11 @@ module.exports = grammar({
         seq(
           ":",
           field("consequence", $.statement_list),
-          field(
-            "alternative",
-            repeat(choice($._inhibit_keyword_termination, $._if_branch))
+          repeat(
+            choice(
+              $._inhibit_keyword_termination,
+              field("alternative", $._if_branch)
+            )
           )
         )
       ),
@@ -826,10 +828,15 @@ module.exports = grammar({
         seq(
           field("value", $._expression),
           optional(":"),
-          repeat($.of_branch),
-          repeat(seq(optional($._inhibit_keyword_termination), $.elif_branch)),
+          repeat(field("alternative", $.of_branch)),
+          repeat(
+            seq(
+              optional($._inhibit_keyword_termination),
+              field("alternative", $.elif_branch)
+            )
+          ),
           optional($._inhibit_keyword_termination),
-          optional($.else_branch)
+          optional(field("alternative", $.else_branch))
         )
       ),
 
@@ -849,7 +856,7 @@ module.exports = grammar({
         alias($._case_of, "of"),
         field("values", $.expression_list),
         ":",
-        $.statement_list
+        field("consequence", $.statement_list)
       ),
     elif_branch: $ =>
       seq(
@@ -858,15 +865,17 @@ module.exports = grammar({
         ":",
         field("consequence", $.statement_list)
       ),
-    else_branch: $ => seq(keyword("else"), ":", $.statement_list),
+    else_branch: $ =>
+      seq(keyword("else"), ":", field("consequence", $.statement_list)),
     except_branch: $ =>
       seq(
         keyword("except"),
         optional(field("values", $.expression_list)),
         ":",
-        $.statement_list
+        field("consequence", $.statement_list)
       ),
-    finally_branch: $ => seq(keyword("finally"), ":", $.statement_list),
+    finally_branch: $ =>
+      seq(keyword("finally"), ":", field("body", $.statement_list)),
     do_block: $ =>
       seq(
         keyword("do"),
