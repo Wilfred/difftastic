@@ -44,7 +44,7 @@ module.exports = grammar({
   name: 'perl',
 
   inline: $ => [
-    // add semi_colon here
+    // $.semi_colon,
   ],
 
   conflicts: $ => [
@@ -62,6 +62,8 @@ module.exports = grammar({
     // [$.list_block, $.hash_ref],
 
     // [$.list_block],
+
+    [$._block_statements],
 
     [$.variable_declaration],
   ],
@@ -189,7 +191,7 @@ module.exports = grammar({
         commaSeparated($._string),
         $.word_list_qw,
       ),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     use_constant_statement: $ => seq(
@@ -201,7 +203,7 @@ module.exports = grammar({
         ),
         field('value', $.hash_ref),
       ),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     special_block: $ => seq(
@@ -217,14 +219,14 @@ module.exports = grammar({
       $.package_name,
       optional(field('version', $.version)),
       choice(
-        $._semi_colon,
+        $.semi_colon,
         field('body', $.block)
       )
     ),
 
     ellipsis_statement: $ => seq(
       '...',
-      optional($._semi_colon),
+      optional($.semi_colon),
     ),
 
     use_no_version: $ => seq(
@@ -233,7 +235,7 @@ module.exports = grammar({
         field('no', 'no'),
       ),
       field('version', $.version),
-      $._semi_colon,
+      $.semi_colon,
     ),
     
     use_no_feature_statement: $ => seq(
@@ -243,7 +245,7 @@ module.exports = grammar({
       ),
       'feature',
       optional(choice($._list, $._string)),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     _expression_or_return_expression: $ => choice(
@@ -281,7 +283,7 @@ module.exports = grammar({
 
     _expression_statement: $ => seq(
       $._expression,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     use_no_statement: $ => seq(
@@ -292,7 +294,7 @@ module.exports = grammar({
       choice($.package_name, $.module_name),
       optional($.version),
       optional(choice($._list, $._string)),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     use_no_if_statement: $ => seq(
@@ -308,7 +310,7 @@ module.exports = grammar({
       optional($.version),
       optional($._comma_operator),
       optional(choice($._list, $._string)),
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     // Module->import( LIST );
@@ -317,7 +319,7 @@ module.exports = grammar({
       '->',
       'import',
       $._list,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     use_no_subs_statement: $ => seq(
@@ -327,18 +329,18 @@ module.exports = grammar({
       ),
       'subs',
       $._list,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     require_statement: $ => seq(
       'require',
       $.package_name,
-      $._semi_colon,
+      $.semi_colon,
     ),
 
     if_simple_statement: $ => prec.right(seq(
       $._if_simple,
-      $._semi_colon,
+      $.semi_colon,
     )),
     _if_simple: $ => prec.right(seq(
       'if',
@@ -347,27 +349,27 @@ module.exports = grammar({
     unless_simple_statement: $ => prec.right(seq(
       'unless',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $._semi_colon,
+      $.semi_colon,
     )),
     while_simple_statement: $ => prec.right(seq(
       'while',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $._semi_colon,
+      $.semi_colon,
     )),
     until_simple_statement: $ => prec.right(seq(
       'until',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $._semi_colon,
+      $.semi_colon,
     )),
     for_simple_statement: $ => prec.right(seq(
       choice('for', 'foreach'),
       field('list', with_or_without_brackets($._expression)),
-      $._semi_colon,
+      $.semi_colon,
     )),
     when_simple_statement: $ => prec.right(seq(
       'when',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $._semi_colon,
+      $.semi_colon,
     )),
 
     // TODO: should be a boolean expression and not the current one?
@@ -457,16 +459,16 @@ module.exports = grammar({
       seq(
         '(',
         field('initializer', $._expression),
-        $._semi_colon,
+        $.semi_colon,
         field('condition', $._expression),
-        $._semi_colon,
+        $.semi_colon,
         field('incrementor', $._expression),
         ')'
       ),
       seq(
         '(',
-        $._semi_colon,
-        $._semi_colon,
+        $.semi_colon,
+        $.semi_colon,
         ')'
       )
     ),
@@ -513,7 +515,7 @@ module.exports = grammar({
           optional($.function_prototype),
           optional($.function_attribute),
           optional($.function_signature),
-          $._semi_colon,
+          $.semi_colon,
         ),
         // and here is the function definition WITHOUT signatures
         seq(
@@ -541,11 +543,11 @@ module.exports = grammar({
       $.block,
     ),
 
-    block: $ => seq(
+    block: $ => prec(PRECEDENCE.BRACKETS, seq(
       '{',
       optional(repeat($._block_statements)),
       '}'
-    ),
+    )),
 
     function_prototype: $ => seq(
       '(',
@@ -592,7 +594,7 @@ module.exports = grammar({
 
     _block_statements: $ => choice(
       $._statement,
-      seq($.return_expression, $._semi_colon),
+      seq($.return_expression, $.semi_colon),
       $.loop_control_statement,
     ),
 
@@ -601,7 +603,7 @@ module.exports = grammar({
       optional(field('label', $.identifier)),
       choice(
         $._statement_modifiers,
-        $._semi_colon
+        $.semi_colon
       ),
     ),
 
@@ -613,11 +615,11 @@ module.exports = grammar({
         '{',
           repeat(choice(
             $._statement,
-            seq($.return_expression, $._semi_colon),
+            seq($.return_expression, $.semi_colon),
           )),
         '}'
       )),
-      $._semi_colon,
+      $.semi_colon,
     )),
 
     parenthesized_expression: $ => seq(
@@ -655,7 +657,6 @@ module.exports = grammar({
       $._primitive_expression,
       $._string,
       $._variables,
-      $._special_variable,
       $._dereference,
       $.package_variable,
 
@@ -692,16 +693,18 @@ module.exports = grammar({
 
       // $.push_function,
 
-      // $.array_function,
+      $.array_function,
 
       $.variable_declaration,
+
+      $.key_value_pair,
     )),
 
-    // array_function: $ => seq(
-    //   alias($.identifier, $.function),
-    //   $.list_block,
-    //   $._expression,
-    // ),
+    array_function: $ => prec(PRECEDENCE.SUB_CALL, seq(
+      alias($.identifier, $.function_name),
+      $.block,
+      commaSeparated($._expression),
+    )),
 
     // TODO: the output tree is wrong for this. fix it.
     package_variable: $ => seq(
@@ -758,208 +761,8 @@ module.exports = grammar({
     // TODO: this needs more cases coverage
     list_block: $ => seq(
       '{',
-      choice(
-        repeat1(choice($._expression_without_bareword, $.key_value_pair)),
-        repeat1($._statement),
-      ),
+      repeat1(choice($._statement, $._expression_without_bareword)),
       '}'
-    ),
-
-    _special_variable: $ => seq(
-        optional('local'), // for cases like, local $/; local $SIG{'INT'};
-        choice(
-          $.special_scalar_variable,
-          $.special_array_variable,
-          $.special_hash_variable,
-        )
-    ),
-
-    special_scalar_variable: $ => prec(PRECEDENCE.REGEXP, choice(
-      '$!',
-      '$"',
-      '$#',
-      '$$',
-      '$%',
-      '$&',
-      '$\'',
-      '$(',
-      '$)',
-      '$*',
-      '$+',
-      '$,',
-      '$-',
-      '$.',
-      '$/',
-      '$0',
-      '$1',
-      '$2',
-      '$3',
-      '$4',
-      '$5',
-      '$6',
-      '$7',
-      '$8',
-      '$9',
-      '$:',
-      '$;',
-      '$<',
-      '$=',
-      '$>',
-      '$?',
-      '$@',
-      '$ACCUMULATOR',
-      '$ARG',
-      '$ARGV',
-      '$BASETIME',
-      '$CHILD_ERROR',
-      '$COMPILING',
-      '$DEBUGGING',
-      '$EFFECTIVE_GROUP_ID',
-      '$EFFECTIVE_USER_ID',
-      '$EGID',
-      '$ERRNO',
-      '$EUID',
-      '$EVAL_ERROR',
-      '$EXCEPTIONS_BEING_CAUGHT',
-      '$EXECUTABLE_NAME',
-      '$EXTENDED_OS_ERROR',
-      '$FORMAT_FORMFEED',
-      '$FORMAT_LINES_LEFT',
-      '$FORMAT_LINES_PER_PAGE',
-      '$FORMAT_LINE_BREAK_CHARACTERS',
-      '$FORMAT_NAME',
-      '$FORMAT_PAGE_NUMBER',
-      '$FORMAT_TOP_NAME',
-      '$GID',
-      '$INPLACE_EDIT',
-      '$INPUT_LINE_NUMBER',
-      '$INPUT_RECORD_SEPARATOR',
-      '$LAST_PAREN_MATCH',
-      '$LAST_REGEXP_CODE_RESULT',
-      '$LAST_SUBMATCH_RESULT',
-      '$LIST_SEPARATOR',
-      '$MATCH',
-      '$NR',
-      '$OFS',
-      '$OLD_PERL_VERSION',
-      '$ORS',
-      '$OSNAME',
-      '$OS_ERROR',
-      '$OUTPUT_AUTOFLUSH',
-      '$OUTPUT_FIELD_SEPARATOR',
-      '$OUTPUT_RECORD_SEPARATOR',
-      '$PERLDB',
-      '$PERL_VERSION',
-      '$PID',
-      '$POSTMATCH',
-      '$PREMATCH',
-      '$PROCESS_ID',
-      '$PROGRAM_NAME',
-      '$REAL_GROUP_ID',
-      '$REAL_USER_ID',
-      '$RS',
-      '$SUBSCRIPT_SEPARATOR',
-      '$SUBSEP',
-      '$SYSTEM_FD_MAX',
-      '$UID',
-      '$WARNING',
-      '$[',
-      '$\\',
-      '$]',
-      '$^',
-      '$^A',
-      '$^C',
-      '$^D',
-      '$^E',
-      '$^F',
-      '$^H',
-      '$^I',
-      '$^L',
-      '$^M',
-      '$^N',
-      '$^O',
-      '$^P',
-      '$^R',
-      '$^S',
-      '$^T',
-      '$^V',
-      '$^W',
-      '$^X',
-      '$_',
-      '$`',
-      '$a',
-      '$b',
-      '${^CHILD_ERROR_NATIVE}',
-      '${^ENCODING}',
-      '${^GLOBAL_PHASE}',
-      '${^LAST_FH}',
-      '${^MATCH}',
-      '${^OPEN}',
-      '${^POSTMATCH}',
-      '${^PREMATCH}',
-      '${^RE_COMPILE_RECURSION_LIMIT}',
-      '${^RE_DEBUG_FLAGS}',
-      '${^RE_TRIE_MAXBUF}',
-      '${^SAFE_LOCALES}',
-      '${^TAINT}',
-      '${^UNICODE}',
-      '${^UTF8CACHE}',
-      '${^UTF8LOCALE}',
-      '${^WARNING_BITS}',
-      '${^WIN32_SLOPPY_STAT}',
-      '$|',
-      '$~',
-
-      '$ENV',
-      '$INC',
-      '$SIG',
-      '${^CAPTURE_ALL}',
-      '${^CAPTURE}',
-
-      '$F',
-      '$ISA',
-      '$LAST_MATCH_END',
-      '$LAST_MATCH_START',
-    )),
-
-    special_array_variable: $ => choice(
-      '@+',
-      '@-',
-      '@ARG',
-      '@ARGV',
-      '@F',
-      '@INC',
-      '@ISA',
-      '@LAST_MATCH_END',
-      '@LAST_MATCH_START',
-      '@_',
-      '@{^CAPTURE}',
-
-      '@!',
-      '@ENV',
-      '@ERRNO',
-      '@INC',
-      '@LAST_PAREN_MATCH',
-      '@OS_ERROR',
-      '@SIG',
-      '@^H',
-      '@{^CAPTURE_ALL}',
-      '@{^CAPTURE}',
-    ),
-
-    special_hash_variable: $ => choice(
-      '%!',
-      '%+',
-      '%-',
-      '%ENV',
-      '%ERRNO',
-      '%INC',
-      '%LAST_PAREN_MATCH',
-      '%OS_ERROR',
-      '%SIG',
-      '%^H',
-      '%{^CAPTURE_ALL}',
-      '%{^CAPTURE}',
     ),
 
     bless: $ => prec.right(seq(
@@ -1375,10 +1178,9 @@ module.exports = grammar({
       commaSeparated($.argument),
     ),
 
-    argument: $ => prec.left(PRECEDENCE.SUB_ARGS, choice(
-      $.key_value_pair,
+    argument: $ => prec.left(PRECEDENCE.SUB_ARGS,
       $._expression,
-    )),
+    ),
 
     call_expression_recursive: $ => seq(
       '__SUB__',
@@ -1493,7 +1295,7 @@ module.exports = grammar({
       seq('\"', /.*pm/, '\"'), 
      ),
 
-    _semi_colon: $ => ';',
+    semi_colon: $ => ';',
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
@@ -1631,7 +1433,6 @@ module.exports = grammar({
       alias($.hash_ref_in_interpolation, $.arrow_notation),
       // $.hash_access_variable,
       $.scalar_variable,
-      $._special_variable,
     ),
 
     hash_ref_in_interpolation: $ => seq(
@@ -1650,6 +1451,8 @@ module.exports = grammar({
     false: $ => 'false',
 
     scalar_variable: $ => choice(
+      /\$[!"#$%&'()*+,-./0123456789:;<=>?@\]\[\\_`ab|~]/, // special scalar variables
+      /\$\^[A-Z]/,                    // $^A
       /\$\#_?[a-zA-Z0-9_]+/,          // length of an array
       /\$[A-Z^_?\\]/,                 // checkout https://perldoc.perl.org/perldata#Identifier-parsing
       // /\$\{_?[a-zA-Z0-9_]+\}/,        // need to name this. eg print "${key}"
@@ -1703,9 +1506,17 @@ module.exports = grammar({
       ),
     )),
 
-    array_variable: $ => /@[a-zA-Z0-9_]+/,
+    array_variable: $ => choice(
+      /@[+-_!]/,                // special array variable
+      /@\^[A-Z]/,               // %^H
+      /@[a-zA-Z0-9_]+/
+    ),
 
-    hash_variable: $ => /%[a-zA-Z0-9_]+/,
+    hash_variable: $ => choice(
+      /%[!+-]/,                 // special hash variables
+      /%\^[A-Z]/,               // %^H
+      /%[a-zA-Z0-9_]+/
+    ),
 
     _list: $ => choice(
       $._array_type,
