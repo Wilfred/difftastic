@@ -63,7 +63,7 @@ const Templates = {
   proc_type_tail: $ =>
     seq(
       field("parameters", optional($.parameter_declaration_list)),
-      field("return_type", optional(seq(":", $.type_expression))),
+      optional(seq(":", field("return_type", $.type_expression))),
       field("pragmas", optional($.pragma_list))
     ),
 
@@ -515,7 +515,7 @@ module.exports = grammar({
         field("rewrite_pattern", optional($.term_rewriting_pattern)),
         field("generic_parameters", optional($.generic_parameter_list)),
         Templates.proc_type_tail($),
-        field("body", optional(seq("=", $.statement_list)))
+        optional(seq("=", field("body", $.statement_list)))
       ),
     generic_parameter_list: $ =>
       seq("[", optional($._parameter_declaration_list), $._bracket_close),
@@ -533,12 +533,12 @@ module.exports = grammar({
       choice(
         seq(
           $.symbol_declaration_list,
-          field("type", seq(":", $.type_expression)),
-          field("value", optional(seq("=", $._expression_with_post_block)))
+          seq(":", field("type", $.type_expression)),
+          optional(seq("=", field("value", $._expression_with_post_block)))
         ),
         seq(
           $.symbol_declaration_list,
-          field("value", seq("=", $._expression_with_post_block))
+          optional(seq("=", field("value", $._expression_with_post_block)))
         )
       ),
 
@@ -871,7 +871,7 @@ module.exports = grammar({
       seq(
         keyword("do"),
         field("parameters", optional($.parameter_declaration_list)),
-        field("return_type", optional(seq("->", $.type_expression))),
+        optional(seq("->", field("return_type", $.type_expression))),
         field("pragmas", optional($.pragma_list)),
         ":",
         field("body", $.statement_list)
@@ -1192,10 +1192,11 @@ module.exports = grammar({
     cast: $ =>
       seq(
         keyword("cast"),
-        field("type", optional(seq("[", $.type_expression, $._bracket_close))),
-        field(
-          "value",
-          seq("(", choice($._expression, $.colon_expression), $._paren_close)
+        optional(seq("[", field("type", $.type_expression), $._bracket_close)),
+        seq(
+          "(",
+          field("value", choice($._expression, $.colon_expression)),
+          $._paren_close
         )
       ),
     parenthesized: $ =>
@@ -1347,8 +1348,8 @@ module.exports = grammar({
       prec.right(
         seq(
           $.symbol_declaration_list,
-          field("type", optional(seq(":", $.type_expression))),
-          field("value", optional(seq("=", $._expression_with_post_block)))
+          optional(seq(":", field("type", $.type_expression))),
+          optional(seq("=", field("value", $._expression_with_post_block)))
         )
       ),
     symbol_declaration_list: $ =>
