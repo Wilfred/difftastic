@@ -254,7 +254,7 @@ else: 4
     (statement_list
       (integer_literal))
     (else_branch
-      (statement_list
+      consequence: (statement_list
         (integer_literal))))
   (infix_expression
     left: (integer_literal)
@@ -511,7 +511,7 @@ block:
           right: (integer_literal))
         (identifier))
       (else_branch
-        (statement_list
+        consequence: (statement_list
           (identifier)))))
   (call
     function: (identifier)
@@ -521,7 +521,7 @@ block:
         values: (expression_list
           (integer_literal)
           (integer_literal))
-        (statement_list
+        consequence: (statement_list
           (call
             function: (identifier)
             (argument_list
@@ -529,7 +529,7 @@ block:
               (statement_list
                 (identifier))
               (else_branch
-                (statement_list
+                consequence: (statement_list
                   (identifier)))))))))
   (call
     function: (identifier)
@@ -725,7 +725,7 @@ foo {x}
               values: (expression_list
                 (identifier)
                 (identifier))
-              (statement_list
+              consequence: (statement_list
                 (identifier))))))))
   (call
     function: (identifier)
@@ -761,7 +761,7 @@ foo {x}
       (statement_list
         (identifier))
       (else_branch
-        (statement_list
+        consequence: (statement_list
           (identifier)))))
   (call
     function: (identifier)
@@ -773,7 +773,7 @@ foo {x}
             body: (statement_list
               (identifier)))
           (else_branch
-            (statement_list
+            consequence: (statement_list
               (identifier)))))))
   (call
     function: (identifier)
@@ -970,7 +970,7 @@ if true:
         (argument_list
           (identifier))))
     alternative: (else_branch
-      (statement_list
+      consequence: (statement_list
         (integer_literal))))
   (let_section
     (variable_declaration
@@ -987,7 +987,7 @@ if true:
             (interpreted_string_literal
               (string_content))))
         alternative: (else_branch
-          (statement_list
+          consequence: (statement_list
             (integer_literal))))))
   (block
     body: (statement_list
@@ -1001,21 +1001,21 @@ if true:
             consequence: (statement_list
               (integer_literal))
             alternative: (else_branch
-              (statement_list
+              consequence: (statement_list
                 (float_literal))))))))
   (if
     condition: (identifier)
     consequence: (statement_list
       (identifier))
     alternative: (else_branch
-      (statement_list
+      consequence: (statement_list
         (identifier))))
   (if
     condition: (identifier)
     consequence: (statement_list
       (identifier))
     alternative: (else_branch
-      (statement_list
+      consequence: (statement_list
         (identifier))))
   (if
     condition: (identifier)
@@ -1025,7 +1025,7 @@ if true:
         body: (statement_list
           (discard_statement))))
     alternative: (else_branch
-      (statement_list
+      consequence: (statement_list
         (identifier)))))
 
 ================================================================================
@@ -1102,7 +1102,7 @@ else: expr2
                     (identifier)))))
             (integer_literal)))))
     alternative: (else_branch
-      (statement_list
+      consequence: (statement_list
         (integer_literal))))
   (const_section
     (variable_declaration
@@ -1119,7 +1119,7 @@ else: expr2
             (interpreted_string_literal
               (string_content))))
         alternative: (else_branch
-          (statement_list
+          consequence: (statement_list
             (integer_literal))))))
   (block
     body: (statement_list
@@ -1133,14 +1133,14 @@ else: expr2
             consequence: (statement_list
               (integer_literal))
             alternative: (else_branch
-              (statement_list
+              consequence: (statement_list
                 (float_literal))))))))
   (when
     condition: (identifier)
     consequence: (statement_list
       (identifier))
     alternative: (else_branch
-      (statement_list
+      consequence: (statement_list
         (identifier)))))
 
 ================================================================================
@@ -1187,12 +1187,12 @@ let x = case something(10)
 (source_file
   (case
     value: (identifier)
-    (of_branch
+    alternative: (of_branch
       values: (expression_list
         (integer_literal)
         (integer_literal)
         (integer_literal))
-      (statement_list
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
@@ -1202,27 +1202,27 @@ let x = case something(10)
           (argument_list
             (identifier)))
         (integer_literal)))
-    (of_branch
+    alternative: (of_branch
       values: (expression_list
         (integer_literal))
-      (statement_list
+      consequence: (statement_list
         (float_literal))))
   (case
     value: (identifier)
-    (of_branch
+    alternative: (of_branch
       values: (expression_list
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (identifier)))
-    (elif_branch
+    alternative: (elif_branch
       condition: (identifier)
       consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
             (integer_literal)))))
-    (else_branch
-      (statement_list
+    alternative: (else_branch
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
@@ -1232,26 +1232,26 @@ let x = case something(10)
       function: (identifier)
       (argument_list
         (integer_literal)))
-    (of_branch
+    alternative: (of_branch
       values: (expression_list
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (identifier)))
-    (elif_branch
+    alternative: (elif_branch
       condition: (identifier)
       consequence: (statement_list
         (identifier))))
   (case
     value: (identifier)
-    (of_branch
+    alternative: (of_branch
       values: (expression_list
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (integer_literal)))
-    (of_branch
+    alternative: (of_branch
       values: (expression_list
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (integer_literal))))
   (let_section
     (variable_declaration
@@ -1263,17 +1263,17 @@ let x = case something(10)
           function: (identifier)
           (argument_list
             (integer_literal)))
-        (of_branch
+        alternative: (of_branch
           values: (expression_list
             (identifier))
-          (statement_list
+          consequence: (statement_list
             (identifier)))
-        (elif_branch
+        alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
             (identifier)))
-        (else_branch
-          (statement_list
+        alternative: (else_branch
+          consequence: (statement_list
             (identifier)))))))
 
 ================================================================================
@@ -1321,7 +1321,7 @@ finally: bar
     (except_branch
       values: (expression_list
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
@@ -1341,7 +1341,7 @@ finally: bar
     (except_branch
       values: (expression_list
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
@@ -1350,13 +1350,13 @@ finally: bar
       values: (expression_list
         (identifier)
         (identifier))
-      (statement_list
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
             (identifier)))))
     (finally_branch
-      (statement_list
+      body: (statement_list
         (call
           function: (identifier)
           (argument_list
@@ -1368,7 +1368,7 @@ finally: bar
         (argument_list
           (identifier))))
     (except_branch
-      (statement_list
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
@@ -1380,13 +1380,13 @@ finally: bar
         (argument_list
           (identifier))))
     (except_branch
-      (statement_list
+      consequence: (statement_list
         (call
           function: (identifier)
           (argument_list
             (identifier)))))
     (finally_branch
-      (statement_list
+      body: (statement_list
         (identifier)))))
 
 ================================================================================

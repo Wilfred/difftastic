@@ -63,7 +63,7 @@ const Templates = {
   proc_type_tail: $ =>
     seq(
       field("parameters", optional($.parameter_declaration_list)),
-      field("return_type", optional(seq(":", $.type_expression))),
+      optional(seq(":", field("return_type", $.type_expression))),
       field("pragmas", optional($.pragma_list))
     ),
 
@@ -515,7 +515,7 @@ module.exports = grammar({
         field("rewrite_pattern", optional($.term_rewriting_pattern)),
         field("generic_parameters", optional($.generic_parameter_list)),
         Templates.proc_type_tail($),
-        field("body", optional(seq("=", $.statement_list)))
+        optional(seq("=", field("body", $.statement_list)))
       ),
     generic_parameter_list: $ =>
       seq("[", optional($._parameter_declaration_list), $._bracket_close),
@@ -533,12 +533,12 @@ module.exports = grammar({
       choice(
         seq(
           $.symbol_declaration_list,
-          field("type", seq(":", $.type_expression)),
-          field("value", optional(seq("=", $._expression_with_post_block)))
+          seq(":", field("type", $.type_expression)),
+          optional(seq("=", field("value", $._expression_with_post_block)))
         ),
         seq(
           $.symbol_declaration_list,
-          field("value", seq("=", $._expression_with_post_block))
+          optional(seq("=", field("value", $._expression_with_post_block)))
         )
       ),
 
@@ -812,9 +812,11 @@ module.exports = grammar({
         seq(
           ":",
           field("consequence", $.statement_list),
-          field(
-            "alternative",
-            repeat(choice($._inhibit_keyword_termination, $._if_branch))
+          repeat(
+            choice(
+              $._inhibit_keyword_termination,
+              field("alternative", $._if_branch)
+            )
           )
         )
       ),
@@ -826,10 +828,15 @@ module.exports = grammar({
         seq(
           field("value", $._expression),
           optional(":"),
-          repeat($.of_branch),
-          repeat(seq(optional($._inhibit_keyword_termination), $.elif_branch)),
+          repeat(field("alternative", $.of_branch)),
+          repeat(
+            seq(
+              optional($._inhibit_keyword_termination),
+              field("alternative", $.elif_branch)
+            )
+          ),
           optional($._inhibit_keyword_termination),
-          optional($.else_branch)
+          optional(field("alternative", $.else_branch))
         )
       ),
 
@@ -849,7 +856,7 @@ module.exports = grammar({
         alias($._case_of, "of"),
         field("values", $.expression_list),
         ":",
-        $.statement_list
+        field("consequence", $.statement_list)
       ),
     elif_branch: $ =>
       seq(
@@ -858,20 +865,22 @@ module.exports = grammar({
         ":",
         field("consequence", $.statement_list)
       ),
-    else_branch: $ => seq(keyword("else"), ":", $.statement_list),
+    else_branch: $ =>
+      seq(keyword("else"), ":", field("consequence", $.statement_list)),
     except_branch: $ =>
       seq(
         keyword("except"),
         optional(field("values", $.expression_list)),
         ":",
-        $.statement_list
+        field("consequence", $.statement_list)
       ),
-    finally_branch: $ => seq(keyword("finally"), ":", $.statement_list),
+    finally_branch: $ =>
+      seq(keyword("finally"), ":", field("body", $.statement_list)),
     do_block: $ =>
       seq(
         keyword("do"),
         field("parameters", optional($.parameter_declaration_list)),
-        field("return_type", optional(seq("->", $.type_expression))),
+        optional(seq("->", field("return_type", $.type_expression))),
         field("pragmas", optional($.pragma_list)),
         ":",
         field("body", $.statement_list)
@@ -1192,10 +1201,11 @@ module.exports = grammar({
     cast: $ =>
       seq(
         keyword("cast"),
-        field("type", optional(seq("[", $.type_expression, $._bracket_close))),
-        field(
-          "value",
-          seq("(", choice($._expression, $.colon_expression), $._paren_close)
+        optional(seq("[", field("type", $.type_expression), $._bracket_close)),
+        seq(
+          "(",
+          field("value", choice($._expression, $.colon_expression)),
+          $._paren_close
         )
       ),
     parenthesized: $ =>
@@ -1347,8 +1357,8 @@ module.exports = grammar({
       prec.right(
         seq(
           $.symbol_declaration_list,
-          field("type", optional(seq(":", $.type_expression))),
-          field("value", optional(seq("=", $._expression_with_post_block)))
+          optional(seq(":", field("type", $.type_expression))),
+          optional(seq("=", field("value", $._expression_with_post_block)))
         )
       ),
     symbol_declaration_list: $ =>

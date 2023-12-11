@@ -1538,6 +1538,24 @@
     "type": "case",
     "named": true,
     "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elif_branch",
+            "named": true
+          },
+          {
+            "type": "else_branch",
+            "named": true
+          },
+          {
+            "type": "of_branch",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": true,
@@ -1720,24 +1738,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "elif_branch",
-          "named": true
-        },
-        {
-          "type": "else_branch",
-          "named": true
-        },
-        {
-          "type": "of_branch",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1745,17 +1745,9 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "[",
-            "named": false
-          },
-          {
-            "type": "]",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -1763,17 +1755,9 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": "accent_quoted",
             "named": true
@@ -2777,13 +2761,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -2843,13 +2823,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -3506,13 +3482,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "->",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -4093,17 +4065,24 @@
   {
     "type": "else_branch",
     "named": true,
-    "fields": {},
+    "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "field_declaration_list",
-          "named": true
-        },
-        {
-          "type": "statement_list",
           "named": true
         }
       ]
@@ -4665,6 +4644,16 @@
     "type": "except_branch",
     "named": true,
     "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      },
       "values": {
         "multiple": false,
         "required": false,
@@ -4675,16 +4664,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "statement_list",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -5112,13 +5091,9 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -5126,13 +5101,9 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "accent_quoted",
             "named": true
@@ -5357,16 +5328,17 @@
   {
     "type": "finally_branch",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "statement_list",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -5582,13 +5554,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -5648,13 +5616,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -5708,13 +5672,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -6993,13 +6953,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -7059,13 +7015,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -7119,13 +7071,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -7159,13 +7107,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -7209,13 +7153,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -7275,13 +7215,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -7305,13 +7241,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -7371,13 +7303,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -7461,6 +7389,16 @@
     "type": "of_branch",
     "named": true,
     "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      },
       "values": {
         "multiple": false,
         "required": true,
@@ -7474,14 +7412,10 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "field_declaration_list",
-          "named": true
-        },
-        {
-          "type": "statement_list",
           "named": true
         }
       ]
@@ -7507,13 +7441,9 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -7521,13 +7451,9 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "accent_quoted",
             "named": true
@@ -8787,13 +8713,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -8853,13 +8775,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -8913,13 +8831,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -8953,13 +8867,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -10172,13 +10082,9 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "statement_list",
             "named": true
@@ -10238,13 +10144,9 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -10902,13 +10804,9 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -10916,13 +10814,9 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "accent_quoted",
             "named": true
@@ -11141,13 +11035,9 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ":",
-            "named": false
-          },
           {
             "type": "type_expression",
             "named": true
@@ -11155,13 +11045,9 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "=",
-            "named": false
-          },
           {
             "type": "accent_quoted",
             "named": true
