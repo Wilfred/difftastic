@@ -304,8 +304,7 @@ static void valid_tokens_debug(struct valid_tokens self)
 }
 
 #define STATE_AFTER_NEWLINE 1U
-#define STATE_EMIT_EMPTY_ERROR (1U << 1U)
-#define STATE_FLAG_LEN 2U
+#define STATE_FLAG_LEN 1U
 
 typedef uint8_t state_flags_storage;
 
@@ -381,9 +380,6 @@ _nonnull_(1) static void state_debug(struct state* self)
     if (self->state_flags & STATE_AFTER_NEWLINE) {
       (void)dputs(" AFTER_NEWLINE");
     }
-    if (self->state_flags & STATE_EMIT_EMPTY_ERROR) {
-      (void)dputs(" EMIT_EMPTY_ERROR");
-    }
     (void)dputs(" ]\n");
     DBG_F("current indentation: %" PRIu8 "\n", self->current_indent);
     indent_vec_debug(&self->layout_stack);
@@ -428,6 +424,11 @@ _nonnull_(1) static uint32_t context_consume(struct context* self, bool skip)
   uint32_t result = context_advance(self, skip);
   context_mark_end(self);
   return result;
+}
+
+_nonnull_(1) static uint32_t context_get_column(struct context* self)
+{
+  return self->_lexer->get_column(self->_lexer);
 }
 
 _nonnull_(1) static bool context_finish(
@@ -803,15 +804,6 @@ LEX_FN(lex_indent)
           }
         }
       }
-      // In error condition, terminator is usually disregarded by the parser due
-      // to the token not changing the parser state. This is done to prevent
-      // infinite loop of empty tokens.
-      //
-      // However, terminator can be a valid solution to a broken piece of code,
-      // so emit this once to see if it solves the problem.
-      if (valid_tokens_is_error(ctx->valid_tokens)) {
-        ctx->state->state_flags |= STATE_EMIT_EMPTY_ERROR;
-      }
       ctx->state->state_flags &= ~STATE_AFTER_NEWLINE;
       return context_finish(ctx, LAYOUT_TERMINATOR);
     }
@@ -819,11 +811,17 @@ LEX_FN(lex_indent)
 
   // Implicit layout changes
   if (!valid_tokens_any_valid(ctx->valid_tokens, NO_LAYOUT_END_CTX) ||
-      valid_tokens_is_error(ctx->valid_tokens)) {
+      valid_tokens_is_error(ctx->valid_tokens) ||
+      // Allow EOF to force a layout_end, which would lead to better error recovery
+      context_eof(ctx)) {
     // LAYOUT_END
     if (current_indent < current_layout || context_eof(ctx)) {
       if (ctx->state->layout_stack.len > 1) {
         indent_vec_pop(&ctx->state->layout_stack);
+        return context_finish(ctx, LAYOUT_END);
+      }
+      // If we are at the last stack, emit only solicited layout_end
+      if (valid_tokens_test(ctx->valid_tokens, LAYOUT_END)) {
         return context_finish(ctx, LAYOUT_END);
       }
     }
@@ -1157,28 +1155,14 @@ bool tree_sitter_nim_external_scanner_scan(
   state_debug(ctx.state);
   context_mark_end(&ctx);
 
-  uint32_t last_count = ctx.advance_counter;
-  state_flags_storage last_flags = ctx.state->state_flags;
+  if (ctx.state->state_flags & STATE_AFTER_NEWLINE) {
+    if (context_get_column(&ctx) != ctx.state->current_indent) {
+      DBG("resetting after newline due to column shift");
+      ctx.state->state_flags &= ~STATE_AFTER_NEWLINE;
+    }
+  }
+
   bool found = lex_main(&ctx);
-
-  // Once the error status passed, reset the flag.
-  if (!valid_tokens_is_error(ctx.valid_tokens)) {
-    if (ctx.state->state_flags & STATE_EMIT_EMPTY_ERROR) {
-      DBG("resetting emit empty error flag");
-    }
-    ctx.state->state_flags &= ~STATE_EMIT_EMPTY_ERROR;
-  }
-
-  if (!found && !context_eof(&ctx) && ctx.advance_counter == last_count) {
-    if (ctx.state->state_flags & STATE_AFTER_NEWLINE) {
-      DBG("resetting after newline flag");
-    }
-    ctx.state->state_flags &= ~STATE_AFTER_NEWLINE;
-
-    if (last_flags != ctx.state->state_flags) {
-      found = context_finish(&ctx, SYNCHRONIZE);
-    }
-  }
 
   DBG(found ? "commit" : "end");
   state_debug(ctx.state);

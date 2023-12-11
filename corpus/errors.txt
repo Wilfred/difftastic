@@ -22,8 +22,7 @@ type
                 (symbol_declaration
                   (identifier)))))
           (ERROR
-            (identifier)))))
-    (MISSING _layout_end)))
+            (identifier)))))))
 
 ================================================================================
 Error within statements with body
@@ -113,3 +112,22 @@ if x:
       (try
         (statement_list
           (discard_statement))))))
+
+================================================================================
+Incomplete let statement with unclosed parenthesis
+================================================================================
+
+let
+  x: int = (
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
+      (type_expression
+        (identifier)))
+    (ERROR)))
