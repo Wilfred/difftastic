@@ -1214,3 +1214,31 @@ type
             alternative: (else_branch
               consequence: (statement_list
                 (identifier)))))))))
+
+================================================================================
+Empty type declarations
+================================================================================
+
+type
+  X
+  Y
+  Z {.magic: "Int".}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        (identifier)))
+    (type_declaration
+      (type_symbol_declaration
+        (identifier)))
+    (type_declaration
+      (type_symbol_declaration
+        (identifier)
+        (pragma_list
+          (colon_expression
+            (identifier)
+            (interpreted_string_literal
+              (string_content))))))))

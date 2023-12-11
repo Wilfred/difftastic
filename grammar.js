@@ -544,7 +544,7 @@ module.exports = grammar({
 
     type_section: $ => seq(keyword("type"), section($, $.type_declaration)),
     type_declaration: $ =>
-      seq($.type_symbol_declaration, "=", $._type_definition),
+      seq($.type_symbol_declaration, optional(seq("=", $._type_definition))),
     type_symbol_declaration: $ =>
       seq(
         field("name", choice($._symbol, $.exported_symbol)),
