@@ -11,9 +11,9 @@
   "author": "leorize",
   "license": "MPL-2.0",
   "devDependencies": {
-    "eslint": "^8.52.0",
+    "eslint": "^8.55.0",
     "nan": "^2.18.0",
-    "node-gyp": "^9.4.0",
+    "node-gyp": "^10.0.1",
     "tree-sitter-cli": "^0.20.8"
   },
   "tree-sitter": [
