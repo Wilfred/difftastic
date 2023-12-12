@@ -428,6 +428,11 @@ _nonnull_(1) static uint32_t context_consume(struct context* self, bool skip)
 
 _nonnull_(1) static uint32_t context_get_column(struct context* self)
 {
+  // Workaround https://github.com/tree-sitter/tree-sitter/issues/2563
+  if (context_eof(self)) {
+    return 0;
+  }
+
   return self->_lexer->get_column(self->_lexer);
 }
 
@@ -812,7 +817,8 @@ LEX_FN(lex_indent)
   // Implicit layout changes
   if (!valid_tokens_any_valid(ctx->valid_tokens, NO_LAYOUT_END_CTX) ||
       valid_tokens_is_error(ctx->valid_tokens) ||
-      // Allow EOF to force a layout_end, which would lead to better error recovery
+      // Allow EOF to force a layout_end, which would lead to better error
+      // recovery
       context_eof(ctx)) {
     // LAYOUT_END
     if (current_indent < current_layout || context_eof(ctx)) {
