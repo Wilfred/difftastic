@@ -4068,24 +4068,18 @@
     "fields": {
       "consequence": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
+          {
+            "type": "field_declaration_list",
+            "named": true
+          },
           {
             "type": "statement_list",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "field_declaration_list",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -7391,8 +7385,12 @@
     "fields": {
       "consequence": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
+          {
+            "type": "field_declaration_list",
+            "named": true
+          },
           {
             "type": "statement_list",
             "named": true
@@ -7409,16 +7407,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "field_declaration_list",
-          "named": true
-        }
-      ]
     }
   },
   {
