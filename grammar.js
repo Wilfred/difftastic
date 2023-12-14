@@ -682,13 +682,25 @@ module.exports = grammar({
         alias($._case_of, "of"),
         field("values", $.expression_list),
         ":",
-        alias($._object_field_declaration_branch_list, $.field_declaration_list)
+        field(
+          "consequence",
+          alias(
+            $._object_field_declaration_branch_list,
+            $.field_declaration_list
+          )
+        )
       ),
     _else_declaration_branch: $ =>
       seq(
         keyword("else"),
         ":",
-        alias($._object_field_declaration_branch_list, $.field_declaration_list)
+        field(
+          "consequence",
+          alias(
+            $._object_field_declaration_branch_list,
+            $.field_declaration_list
+          )
+        )
       ),
 
     concept_declaration: $ =>

@@ -470,14 +470,14 @@ type
             (of_branch
               values: (expression_list
                 (identifier))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (discard_statement)))
             (of_branch
               values: (expression_list
                 (identifier)
                 (identifier)
                 (identifier))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (nil_literal)))
             (of_branch
               values: (expression_list
@@ -485,7 +485,7 @@ type
                   left: (identifier)
                   operator: (operator)
                   right: (identifier)))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
                     (symbol_declaration
@@ -498,7 +498,7 @@ type
                   left: (identifier)
                   operator: (operator)
                   right: (identifier)))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
                     (symbol_declaration
@@ -514,7 +514,7 @@ type
                 (identifier)
                 (identifier)
                 (identifier))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
                     (symbol_declaration
@@ -522,7 +522,7 @@ type
                   type: (type_expression
                     (identifier)))))
             (else_branch
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
                     (symbol_declaration
@@ -547,7 +547,7 @@ type
             (of_branch
               values: (expression_list
                 (identifier))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (nil_literal))))))))
   (type_section
     (type_declaration
@@ -667,7 +667,7 @@ type
             (of_branch
               values: (expression_list
                 (identifier))
-              (field_declaration_list
+              consequence: (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
                     (symbol_declaration
