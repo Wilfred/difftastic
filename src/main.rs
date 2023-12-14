@@ -44,6 +44,7 @@ mod words;
 #[macro_use]
 extern crate log;
 
+use display::style::print_warning;
 use log::info;
 use mimalloc::MiMalloc;
 
@@ -228,9 +229,12 @@ fn main() {
                     _ => false,
                 };
 
-                eprintln!(
-                    "warning: You've specified the same {} twice.\n",
-                    if is_dir { "directory" } else { "file" }
+                print_warning(
+                    &format!(
+                        "You've specified the same {} twice.",
+                        if is_dir { "directory" } else { "file" }
+                    ),
+                    &display_options,
                 );
             }
 
@@ -402,9 +406,12 @@ fn diff_conflicts_file(
     };
 
     if conflict_files.num_conflicts == 0 {
-        eprintln!(
-            "warning: Expected a file with conflict markers {}, but none were found. See --help for usage instructions.\n",
-            START_LHS_MARKER,
+        print_warning(
+            &format!(
+                "Expected a file with conflict markers {}, but none were found. See --help for usage instructions.",
+                START_LHS_MARKER,
+            ),
+            display_options,
         );
     }
 

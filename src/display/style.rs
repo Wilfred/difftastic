@@ -426,6 +426,24 @@ fn apply_header_color(
     }
 }
 
+/// Style `s` as a warning and write to stderr.
+pub(crate) fn print_warning(s: &str, display_options: &DisplayOptions) {
+    let prefix = if display_options.use_color {
+        if display_options.background_color.is_dark() {
+            "warning: ".bright_yellow().to_string()
+        } else {
+            "warning: ".yellow().to_string()
+        }
+        .bold()
+        .to_string()
+    } else {
+        "warning: ".to_string()
+    };
+
+    eprint!("{}", prefix);
+    eprint!("{}\n\n", s);
+}
+
 pub(crate) fn apply_line_number_color(
     s: &str,
     is_novel: bool,
