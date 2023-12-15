@@ -2395,13 +2395,17 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "ALIAS",
+              "type": "FIELD",
+              "name": "alternative",
               "content": {
-                "type": "SYMBOL",
-                "name": "_of_declaration_branch"
-              },
-              "named": true,
-              "value": "of_branch"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_of_declaration_branch"
+                },
+                "named": true,
+                "value": "of_branch"
+              }
             }
           },
           {
@@ -2420,13 +2424,17 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "ALIAS",
+                "type": "FIELD",
+                "name": "alternative",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "_else_declaration_branch"
-                },
-                "named": true,
-                "value": "else_branch"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_else_declaration_branch"
+                  },
+                  "named": true,
+                  "value": "else_branch"
+                }
               },
               {
                 "type": "BLANK"

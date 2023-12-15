@@ -671,9 +671,16 @@ module.exports = grammar({
         seq(
           $.variant_discriminator_declaration,
           optional(":"),
-          repeat(alias($._of_declaration_branch, $.of_branch)),
+          repeat(
+            field("alternative", alias($._of_declaration_branch, $.of_branch))
+          ),
           optional($._inhibit_keyword_termination),
-          optional(alias($._else_declaration_branch, $.else_branch))
+          optional(
+            field(
+              "alternative",
+              alias($._else_declaration_branch, $.else_branch)
+            )
+          )
         )
       ),
     variant_discriminator_declaration: $ => $._identifier_declaration,

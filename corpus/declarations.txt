@@ -467,19 +467,19 @@ type
                   name: (identifier)))
               type: (type_expression
                 (identifier)))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (identifier))
               consequence: (field_declaration_list
                 (discard_statement)))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (identifier)
                 (identifier)
                 (identifier))
               consequence: (field_declaration_list
                 (nil_literal)))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (infix_expression
                   left: (identifier)
@@ -492,7 +492,7 @@ type
                       name: (identifier)))
                   type: (type_expression
                     (identifier)))))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (infix_expression
                   left: (identifier)
@@ -505,7 +505,7 @@ type
                       name: (identifier)))
                   type: (type_expression
                     (identifier)))))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (infix_expression
                   left: (identifier)
@@ -521,7 +521,7 @@ type
                       name: (identifier)))
                   type: (type_expression
                     (identifier)))))
-            (else_branch
+            alternative: (else_branch
               consequence: (field_declaration_list
                 (field_declaration
                   (symbol_declaration_list
@@ -544,7 +544,7 @@ type
                   name: (identifier)))
               type: (type_expression
                 (identifier)))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (identifier))
               consequence: (field_declaration_list
@@ -664,7 +664,7 @@ type
                   name: (identifier)))
               type: (type_expression
                 (identifier)))
-            (of_branch
+            alternative: (of_branch
               values: (expression_list
                 (identifier))
               consequence: (field_declaration_list
