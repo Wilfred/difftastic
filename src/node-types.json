@@ -10998,19 +10998,26 @@
   {
     "type": "variant_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "else_branch",
+            "named": true
+          },
+          {
+            "type": "of_branch",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "else_branch",
-          "named": true
-        },
-        {
-          "type": "of_branch",
-          "named": true
-        },
         {
           "type": "variant_discriminator_declaration",
           "named": true
