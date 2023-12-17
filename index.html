@@ -30,6 +30,10 @@
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
     />
     <style>
+      body {
+        --bs-body-font-size: 18px;
+      }
+
       html,
       body,
       .fw-bold,
@@ -45,6 +49,10 @@
       h1 {
         font-family: "Fontdiner Swanky", serif;
         text-shadow: 5px 5px #1d1b22;
+      }
+
+      .container h2 {
+        padding-bottom: 1.5rem;
       }
 
       html,
@@ -70,6 +78,10 @@
       }
       .cyan {
         color: #8be9fd;
+      }
+
+      a {
+        color: #50fa7b;
       }
 
       .btn {
@@ -113,27 +125,27 @@
   <!-- Use https://devicon.dev/ for PL icons. -->
 
   <body>
-    <div class="px-4 text-center">
+    <div class="px-4 pt-5 text-center">
       <h1 class="display-4 text-body-emphasis">
         <span class="red">diff</span><span class="green">tastic</span>
       </h1>
       <div class="col-lg-6 mx-auto">
-        <h2 class="fs-4 mb-4">
+        <h2 class="fs-4">
           a structural diff tool that understands syntax
         </h2>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
           <a
             href="https://github.com/Wilfred/difftastic"
-            class="fs-4 mb-4 white"
+            class="fs-4 px-2 white"
           >
             GitHub
           </a>
-          <a href="https://difftastic.wilfred.me.uk" class="fs-4 mb-4 red">
+          <a href="https://difftastic.wilfred.me.uk" class="fs-4 px-2 red">
             Manual
           </a>
           <a
             href="https://difftastic.wilfred.me.uk/installation.html"
-            class="fs-4 mb-4 green"
+            class="fs-4 px-2 green"
           >
             Install
           </a>
@@ -141,7 +153,7 @@
       </div>
     </div>
 
-    <div class="container col-xxl-8 px-4 pb-5">
+    <div class="container col-xxl-8 px-4">
       <div class="container px-4 pb-5">
         <h2>
           Focus On
@@ -200,7 +212,7 @@
         <h2>Programming Languages</h2>
 
         <div
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
         >
           <div class="col d-flex align-items-start">
             <div class="foo">
@@ -526,10 +538,8 @@
         </div>
 
         <p>
-          See the full
-          <a
-            href="https://difftastic.wilfred.me.uk/languages_supported.html"
-            class="green"
+          And more! See the full
+          <a href="https://difftastic.wilfred.me.uk/languages_supported.html"
             >list of supported languages</a
           >
           in the manual.
@@ -540,7 +550,7 @@
         <h2>File Formats</h2>
 
         <div
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
         >
           <div class="col d-flex align-items-start">
             <!-- https://www.svgrepo.com/svg/371192/curly-brackets -->
@@ -613,7 +623,6 @@
           See the full
           <a
             href="https://difftastic.wilfred.me.uk/languages_supported.html#structured-text-formats"
-            class="green"
             >list of supported file formats</a
           >
           in the manual.
@@ -621,7 +630,29 @@
       </div>
 
       <div class="container px-4 pb-5">
-        <h2>works with git</h2>
+        <h2>Works With <span class="green">Git</span></h2>
+        <img src="git_difftool.png" class="img-fluid mb-4" alt="screenshot" />
+        <p>
+          See the
+          <a href="https://difftastic.wilfred.me.uk/git.html"
+            >git configuration instructions</a
+          >
+          in the manual.
+        </p>
+      </div>
+
+      <div class="container px-4 pb-5">
+        <h2>Fully <span class="green">Open Source</span></h2>
+        <p>
+          Difftastic is
+          <a href="https://github.com/Wilfred/difftastic/blob/master/LICENSE"
+            >MIT licensed</a
+          >. Download it, modify it, share it with your friends!
+        </p>
+      </div>
+
+      <div class="container px-4">
+        <p><em>Made with &lt;3 by Wilfred Hughes.</em></p>
       </div>
     </div>
 
