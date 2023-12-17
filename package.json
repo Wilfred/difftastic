@@ -19,7 +19,6 @@
     "nan": "^2.18.0"
   },
   "devDependencies": {
-    "@asgerf/dts-tree-sitter": "^0.1.0",
     "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
@@ -33,7 +32,6 @@
     "test-only": "tree-sitter test",
     "test-highlighting": "tree-sitter highlight test/highlight/basic.elm",
     "test-tags": "tree-sitter tags test/highlight/basic.elm",
-    "generate-types": "node ./node_modules/@asgerf/dts-tree-sitter/build/src/index.js src > index.d.ts",
     "generate-wasm": "tree-sitter build-wasm && mv ./tree-sitter-elm.wasm ./docs/js/tree-sitter-elm.wasm"
   },
   "repository": "https://github.com/elm-tooling/tree-sitter-elm",
