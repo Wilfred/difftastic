@@ -224,7 +224,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_clojure() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["kwd_lit"].into_iter().collect(),
+                atom_nodes: vec!["kwd_lit", "regex_lit"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
                     .into_iter()
                     .collect(),
