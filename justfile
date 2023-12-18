@@ -20,7 +20,7 @@ release:
 
 home:
     echo "http://localhost:8080"
-    python -m http.server 8080
+    cd homepage && python -m http.server 8080
 
 rel_notes:
     #!/bin/bash
