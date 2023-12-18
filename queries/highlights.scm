@@ -560,9 +560,8 @@
     (index_constraint
       (_
         (simple_expression
-          (integer_decimal
-            (integer) @error.illegal.index.zero @_l
-            (#eq? @_l "0")))))))
+          (integer_decimal) @error.illegal.index.zero @_l
+            (#eq? @_l "0"))))))
 
 (subtype_indication
   (type_mark
