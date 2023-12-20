@@ -60,6 +60,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression_not_binary],
     [$._type_specifier, $._expression_not_binary, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
+    [$._type_specifier, $.sized_type_specifier],
     [$.sized_type_specifier],
     [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
@@ -543,17 +544,43 @@ module.exports = grammar({
       $._type_identifier,
     ),
 
-    sized_type_specifier: $ => seq(
-      repeat1(choice(
-        'signed',
-        'unsigned',
-        'long',
-        'short',
-      )),
-      field('type', optional(choice(
-        prec.dynamic(-1, $._type_identifier),
-        $.primitive_type,
-      ))),
+    sized_type_specifier: $ => choice(
+      seq(
+        repeat(choice(
+          'signed',
+          'unsigned',
+          'long',
+          'short',
+        )),
+        field('type', optional(choice(
+          prec.dynamic(-1, $._type_identifier),
+          $.primitive_type,
+        ))),
+        repeat1(choice(
+          'signed',
+          'unsigned',
+          'long',
+          'short',
+        )),
+      ),
+      seq(
+        repeat1(choice(
+          'signed',
+          'unsigned',
+          'long',
+          'short',
+        )),
+        field('type', optional(choice(
+          prec.dynamic(-1, $._type_identifier),
+          $.primitive_type,
+        ))),
+        repeat(choice(
+          'signed',
+          'unsigned',
+          'long',
+          'short',
+        )),
+      ),
     ),
 
     primitive_type: _ => token(choice(
