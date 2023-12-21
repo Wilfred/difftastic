@@ -117,7 +117,6 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   int prev = peekStack(stack);
   int newline_count = 0;
   int indentation_size = 0;
-  LOG("scanner was called at column: %d\n", lexer->get_column(lexer));
 
   while (iswspace(lexer->lookahead)) {
     if (lexer->lookahead == '\n') {
@@ -191,17 +190,15 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   // Recover newline_count from the outdent reset
+  bool is_eof = lexer->eof(lexer);
   if (stack->last_newline_count > 0 &&
-    ((lexer->eof(lexer) && stack->last_column == -1)
-      || lexer->get_column(lexer) == stack->last_column)) {
+    ((is_eof && stack->last_column == -1) || 
+      (!is_eof && lexer->get_column(lexer) == stack->last_column))) {
     newline_count += stack->last_newline_count;
   }
   stack->last_newline_count = 0;
 
   printStack(stack, "    after");
-
-  LOG("    indentation_size: %d, newline_count: %d, column: %d, indent_is_valid: %d, dedent_is_valid: %d\n", indentation_size,
-      newline_count, lexer->get_column(lexer), valid_symbols[INDENT], valid_symbols[OUTDENT]);
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
     // AUTOMATIC_SEMICOLON should not be issued in the middle of expressions
