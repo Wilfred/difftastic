@@ -1,0 +1,44 @@
+name: Validate that changes doesn't break elm-language-server
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [18, 20]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: "tree-sitter-elm"
+      - uses: actions/checkout@v4
+        name: Checkout main branch of elm-language-server
+        with:
+          repository: "elm-tooling/elm-language-server"
+          path: "elm-language-server"
+      - name: Install tree-sitter dependencies and generate wasm bundle
+        run: |
+          cd tree-sitter-elm/
+          npm i
+          npm run build
+          npx tree-sitter build-wasm
+          mv ./tree-sitter-elm.wasm ../elm-language-server/tree-sitter-elm.wasm -f
+
+      - name: Install elm-language-server dependencies, compile, and run tests
+        run: |
+          cd elm-language-server/
+          npm i
+          npm run compile
+          npm install -g elm-format
+          npm test
