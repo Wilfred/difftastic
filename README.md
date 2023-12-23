@@ -20,23 +20,22 @@ The documentation of this implementation is available in [DOC](DOC.md).
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 372
+- [ ] More tests, objectif 1000, current 397
 - [ ] Documentation
   - [ ] Installation
     - [X] Helix
     - [X] Emacs
     - [ ] NeoVim (work in progress)
   - [X] Implementation
-- [X] Update
-  - [X] 0.9
-  - [X] 0.8
+- [X] Update 0.10
+  - [X] CJK script
 - [X] Fixme
 - [X] Optimization
   - [X] Parser size
   - [X] Math ident
   - [X] Extras
 - [ ] Features
-  - [ ] Foldable sections
+  - [ ] Foldable sections (experimentations ongoing)
 
 ## DONE
 

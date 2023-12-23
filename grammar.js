@@ -69,6 +69,7 @@ module.exports = grammar({
     $._token_raw_lang,
     $._token_identifier,
     $._token_label,
+    $._token_anti_markup,
 
     $.comment,
     $._sp,
@@ -109,8 +110,6 @@ module.exports = grammar({
     // a line break in a content context
     _content_lb: $ => seq(optional($._redent), choice($.parbreak, $._lb)),
 
-    // this token matches `_`, `*` and `"` when they are between alphanumeric
-    // characters because, in that case, they do not count as markup
     _anti_markup: $ => token(seq(ALPHANUM, /[_*"]/, ALPHANUM)),
 
     linebreak: $ => /\\/,
@@ -133,7 +132,7 @@ module.exports = grammar({
     ),
 
     text: $ => prec.right(repeat1(choice(
-      $._anti_markup,
+      $._token_anti_markup,
       $.escape,
       /./,
     ))),
@@ -508,6 +507,7 @@ module.exports = grammar({
       'align',
       'alignement',
       'aqua',
+      'arguments',
       'array',
       'assert',
       'bibliography',
@@ -547,6 +547,7 @@ module.exports = grammar({
       'fraction',
       'fuchsia',
       'function',
+      'gradient',
       'gray',
       'green',
       'grid',
@@ -582,6 +583,7 @@ module.exports = grammar({
       'navy',
       'numbering',
       'oklab',
+      'oklch',
       'olive',
       'orange',
       'outline',

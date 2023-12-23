@@ -2810,6 +2810,8 @@ Hello"World"
 
 (source_file
 	(text)
+	(quote)
+	(text)
 	(quote))
 
 
@@ -5864,9 +5866,21 @@ Test 394
 =====================
 Test 395
 =====================
-@hello.
+ぁ_ぁ_
 --------------------
 
 (source_file
-	(ref)
-	(text))
+	(text)
+	(emph
+		(text)))
+
+
+=====================
+Test 396
+=====================
+_e_e_
+--------------------
+
+(source_file
+	(emph
+		(text)))

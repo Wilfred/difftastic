@@ -283,7 +283,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_anti_markup"
+              "name": "_token_anti_markup"
             },
             {
               "type": "SYMBOL",
@@ -3371,6 +3371,10 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "arguments"
+                },
+                {
+                  "type": "STRING",
                   "value": "array"
                 },
                 {
@@ -3527,6 +3531,10 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "gradient"
+                },
+                {
+                  "type": "STRING",
                   "value": "gray"
                 },
                 {
@@ -3664,6 +3672,10 @@
                 {
                   "type": "STRING",
                   "value": "oklab"
+                },
+                {
+                  "type": "STRING",
+                  "value": "oklch"
                 },
                 {
                   "type": "STRING",
@@ -4077,6 +4089,10 @@
     {
       "type": "SYMBOL",
       "name": "_token_label"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_anti_markup"
     },
     {
       "type": "SYMBOL",

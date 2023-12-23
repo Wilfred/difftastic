@@ -10,6 +10,9 @@ List of tests exposing particular behaviors from Typst
 
 ## FIXME
 
+- [ ] Test `E11`: In Helix, causes a segfault
+- [ ] Test `E12`: Matching square brackets in text are paired
+- [ ] Test `E13`: Point ending a ref is not part of the ref
 - [X] ~Test `E10`: Math shorthand and letter can applied~
 - [X] ~Test `E09`: Indentation and comments~
 - [X] ~Test `E01`: Group termination in math~
@@ -69,14 +72,19 @@ Which have the same hierarchy as:
 
 ## Character class
 
-Four character classes are defined in the external scanner:
+Five character classes are defined in the external scanner:
 
 - space (`is_sp`)
 - line break (`is_lb`)
 - xid start (`is_id_start`)
 - xid continue (`is_id_continue`)
+- word part (`is_word_part`)
 
-The two function `is_id_start` and `is_id_continue` are implemented as binary search. The character list is based on the Unicode database which can be found [here](unicode.txt).
+The three functions `is_id_start`, `is_id_continue` and `is_word_part` are implemented as binary search.
+
+The character list is based on the Unicode database which can be found here: https://www.unicode.org/Public/UCD/latest/ucd/
+
+A utility is used to produce those tables: https://github.com/uben0/unicode-table
 
 ## Barrier
 
