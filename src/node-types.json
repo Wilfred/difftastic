@@ -3753,6 +3753,10 @@
           "named": true
         },
         {
+          "type": "heading",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
@@ -3762,6 +3766,10 @@
         },
         {
           "type": "include",
+          "named": true
+        },
+        {
+          "type": "item",
           "named": true
         },
         {
@@ -3786,6 +3794,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "parbreak",
           "named": true
         },
         {
@@ -3826,6 +3838,10 @@
         },
         {
           "type": "strong",
+          "named": true
+        },
+        {
+          "type": "term",
           "named": true
         },
         {
@@ -7940,6 +7956,10 @@
             "named": true
           },
           {
+            "type": "heading",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
@@ -7949,6 +7969,10 @@
           },
           {
             "type": "include",
+            "named": true
+          },
+          {
+            "type": "item",
             "named": true
           },
           {
@@ -7973,6 +7997,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "parbreak",
             "named": true
           },
           {
@@ -8013,6 +8041,10 @@
           },
           {
             "type": "strong",
+            "named": true
+          },
+          {
+            "type": "term",
             "named": true
           },
           {

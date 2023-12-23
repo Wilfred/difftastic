@@ -11,8 +11,9 @@ List of tests exposing particular behaviors from Typst
 ## FIXME
 
 - [ ] Test `E11`: In Helix, causes a segfault
-- [ ] Test `E12`: Matching square brackets in text are paired
-- [ ] Test `E13`: Point ending a ref is not part of the ref
+- [ ] Test `E14`: Right square bracket exits from all containers
+- [X] ~Test `E12`: Matching square brackets in text are paired~
+- [X] ~Test `E13`: Point ending a ref is not part of the ref~
 - [X] ~Test `E10`: Math shorthand and letter can applied~
 - [X] ~Test `E09`: Indentation and comments~
 - [X] ~Test `E01`: Group termination in math~

@@ -14,6 +14,7 @@ enum token_type {
 	TOKEN_STRONG,
 	TOKEN_EMPH,
 	TOKEN_BARRIER,
+	TOKEN_BRACKET,
 	TOKEN_TERMINATION,
 
 	TOKEN_INLINED_ITEM_END,
@@ -63,6 +64,7 @@ enum container {
 	CONTAINER_STRONG,
 	CONTAINER_EMPH,
 	CONTAINER_BARRIER,
+	CONTAINER_BRACKET,
 };
 
 // when a container ends
@@ -236,12 +238,18 @@ static void scanner_dedent(struct scanner* self) {
 static void scanner_indent(struct scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
-static enum termination scanner_termination(struct scanner* self, TSLexer* lexer) {
-	if (self->containers.len == 0) {
+static enum termination scanner_termination(struct scanner* self, TSLexer* lexer, size_t at) {
+	if (self->containers.len == at) {
 		// no container
 		return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 	}
-	switch (self->containers.vec[self->containers.len - 1]) {
+	switch (self->containers.vec[self->containers.len - 1 - at]) {
+		case CONTAINER_BRACKET: {
+			if (lexer->eof(lexer)) return TERMINATION_EXCLUSIVE;
+			if (lex_next == ']') return TERMINATION_INCLUSIVE;
+			if (self->containers.len > 1) return scanner_termination(self, lexer, at + 1);
+			return TERMINATION_NONE;
+		}
 
 		case CONTAINER_CONTENT:
 		return lex_next == ']' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
@@ -253,16 +261,17 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 		return lex_next == '_' ? TERMINATION_INCLUSIVE : TERMINATION_NONE;
 
 		case CONTAINER_BARRIER: {
+			if (lex_next == ']') return TERMINATION_EXCLUSIVE;
 			if (is_lb(lex_next)) {
 				return TERMINATION_EXCLUSIVE;
 			}
-			if (self->containers.len == 1) {
+			if (self->containers.len == 1 + at) {
 				// if container isn't contained
 				return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 			}
 			else {
 				// the heading is contained
-				switch (self->containers.vec[self->containers.len - 2]) {
+				switch (self->containers.vec[self->containers.len - 2 - at]) {
 					case CONTAINER_EMPH:
 					case CONTAINER_STRONG:
 					// inside emph or strong, a new line is mandatory
@@ -421,16 +430,24 @@ bool tree_sitter_typst_external_scanner_scan(
 		lex_accept(TOKEN_IDENTIFIER);
 	}
 
-	if (
-		valid_symbols[TOKEN_LABEL] && (
-			is_id_continue(lex_next) || lex_next == '-' || lex_next == '.' || lex_next == ':'
-	)) {
+	if (valid_symbols[TOKEN_LABEL] && (is_id_continue(lex_next) || lex_next == '-')) {
 		lex_advance();
-		while (is_id_continue(lex_next) || lex_next == '-' || lex_next == '.' || lex_next == ':') {
+    lexer->mark_end(lexer);
+		while (
+      is_id_continue(lex_next) ||
+      lex_next == '-' ||
+      lex_next == '.' ||
+      lex_next == ':'
+    ) {
+      bool up_to = lex_next != '.' && lex_next != ':';
 			lex_advance();
+      if (up_to) {
+        lexer->mark_end(lexer);
+      }
 		}
 		self->immediate = true;
-		lex_accept(TOKEN_LABEL);
+    lexer->result_symbol = TOKEN_LABEL;
+    return true;
 	}
 
 
@@ -517,10 +534,9 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
-
 	// the end of strong, emph, content, item line, term line, heading line
 	if (valid_symbols[TOKEN_TERMINATION]) {
-		switch (scanner_termination(self, lexer)) {
+		switch (scanner_termination(self, lexer, 0)) {
 			case TERMINATION_NONE: break;
 			case TERMINATION_INCLUSIVE:
 			lexer->advance(lexer, false);
@@ -720,6 +736,13 @@ bool tree_sitter_typst_external_scanner_scan(
 		scanner_container_push(self, CONTAINER_EMPH);
 		lex_accept(TOKEN_EMPH);
 	}
+	if (valid_symbols[TOKEN_BRACKET] && lex_next == '[') {
+		lex_advance();
+		scanner_container_push(self, CONTAINER_BRACKET);
+		lex_accept(TOKEN_BRACKET);
+	}
+
+
 
 	if (valid_symbols[TOKEN_HEAD_1] && lex_next == '=') {
 		lex_advance();
@@ -921,7 +944,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 
 		// when a container terminates
-		if (scanner_termination(self, lexer) != TERMINATION_NONE) {
+		if (scanner_termination(self, lexer, 0) != TERMINATION_NONE) {
 			if (valid_symbols[TOKEN_DEDENT]) {
 				scanner_dedent(self);
 				lexer->result_symbol = TOKEN_DEDENT;
@@ -939,6 +962,7 @@ bool tree_sitter_typst_external_scanner_scan(
 			unreachable();
 			return 0;
 		}
+		if (lex_next == ']') return false;
 		uint32_t indentation = self->indentation.vec[self->indentation.len - 1];
 		// this is an indent
 		if (column > indentation) {

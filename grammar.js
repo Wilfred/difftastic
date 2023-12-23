@@ -7,11 +7,10 @@ const LB = /([\n\v\f\x85\u2028\u2029]|\r\n?)/;
 const WS = /([\f\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]|\r\n?)/;
 const NOT_WS = /[^\f\r\n\t\v\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/;
 const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
-const ALPHANUM = /[\p{Alphabetic}\p{Nd}\p{Nl}\p{No}]/;
 
 // document as a whole, or what is inside content delimiter
 function content($) {
-  const elem = $._theline_content;
+  const elem = $._line_content;
   return seq(
     optional(elem),
     repeat(seq($._content_lb, optional(elem)))
@@ -23,7 +22,7 @@ function inside($) {
   return seq(
     // the first line can't contain headings or items
     repeat($._markup),
-    repeat(seq($._content_lb, optional($._theline_content))),
+    repeat(seq($._content_lb, optional($._line_content))),
   );
 }
 
@@ -43,6 +42,7 @@ module.exports = grammar({
     $._token_strong,
     $._token_emph,
     $._barrier,
+    $._token_bracket,
     $._termination,
 
     $._token_inlined_item_end,
@@ -92,10 +92,14 @@ module.exports = grammar({
   rules: {
     source_file: $ => content($),
 
-    _theline_content: $ => choice(
-      $.heading,
-      $.item,
-      $.term,
+    // _theline_content: $ => choice(
+    //   $.heading,
+    //   $.item,
+    //   $.term,
+    //   repeat1($._markup),
+    // ),
+    _line_content: $ => choice(
+      seq(choice($.heading, $.item, $.term), repeat($._markup)),
       repeat1($._markup),
     ),
 
@@ -110,14 +114,14 @@ module.exports = grammar({
     // a line break in a content context
     _content_lb: $ => seq(optional($._redent), choice($.parbreak, $._lb)),
 
-    _anti_markup: $ => token(seq(ALPHANUM, /[_*"]/, ALPHANUM)),
-
     linebreak: $ => /\\/,
     quote: $ => /"|'/,
+    _brackets: $ => seq(alias($._token_bracket, $.text), content($), alias($._termination, $.text)),
 
     _markup: $ => choice(
       $._code,
       $.text,
+      $._brackets,
       $.strong,
       $.emph,
       $.raw_blck,

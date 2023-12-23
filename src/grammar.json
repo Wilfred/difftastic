@@ -10,7 +10,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_theline_content"
+              "name": "_line_content"
             },
             {
               "type": "BLANK"
@@ -31,7 +31,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_theline_content"
+                    "name": "_line_content"
                   },
                   {
                     "type": "BLANK"
@@ -43,20 +43,37 @@
         }
       ]
     },
-    "_theline_content": {
+    "_line_content": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "heading"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "item"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "term"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "heading"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "item"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "term"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_markup"
+              }
+            }
+          ]
         },
         {
           "type": "REPEAT1",
@@ -188,26 +205,6 @@
         }
       ]
     },
-    "_anti_markup": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[\\p{Alphabetic}\\p{Nd}\\p{Nl}\\p{No}]"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[_*\"]"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[\\p{Alphabetic}\\p{Nd}\\p{Nl}\\p{No}]"
-          }
-        ]
-      }
-    },
     "linebreak": {
       "type": "PATTERN",
       "value": "\\\\"
@@ -215,6 +212,70 @@
     "quote": {
       "type": "PATTERN",
       "value": "\"|'"
+    },
+    "_brackets": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_token_bracket"
+          },
+          "named": true,
+          "value": "text"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_line_content"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_content_lb"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_line_content"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_termination"
+          },
+          "named": true,
+          "value": "text"
+        }
+      ]
     },
     "_markup": {
       "type": "CHOICE",
@@ -226,6 +287,10 @@
         {
           "type": "SYMBOL",
           "name": "text"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_brackets"
         },
         {
           "type": "SYMBOL",
@@ -312,7 +377,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_theline_content"
+                  "name": "_line_content"
                 },
                 {
                   "type": "BLANK"
@@ -333,7 +398,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "_theline_content"
+                        "name": "_line_content"
                       },
                       {
                         "type": "BLANK"
@@ -578,7 +643,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "_theline_content"
+                          "name": "_line_content"
                         },
                         {
                           "type": "BLANK"
@@ -641,7 +706,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "_theline_content"
+                          "name": "_line_content"
                         },
                         {
                           "type": "BLANK"
@@ -2710,7 +2775,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_theline_content"
+                  "name": "_line_content"
                 },
                 {
                   "type": "BLANK"
@@ -2731,7 +2796,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "_theline_content"
+                        "name": "_line_content"
                       },
                       {
                         "type": "BLANK"
@@ -3989,6 +4054,10 @@
     {
       "type": "SYMBOL",
       "name": "_barrier"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_bracket"
     },
     {
       "type": "SYMBOL",
