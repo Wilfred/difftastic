@@ -34,12 +34,12 @@
       }
 
       .container h2 {
-        padding-bottom: 1.5rem;
+        padding-bottom: 1rem;
       }
 
       html,
       body {
-        background-color: #282a36;
+        background-color: #2e3436;
       }
 
       object {
@@ -53,27 +53,21 @@
         color: #f8f8f2;
       }
       .red {
-        color: #ff5555;
+        color: #ef2929;
       }
-      .green {
-        color: #50fa7b;
-      }
-      .cyan {
-        color: #8be9fd;
-      }
-
+      .green,
       a {
-        color: #50fa7b;
+        color: #8ae234;
       }
 
-      .btn {
-        box-shadow: 5px 5px #1d1b22;
-      }
-
-      img {
-        /* box-shadow: 10px 10px #1d1b22; */
+      .img-wrapper {
+        width: atuo;
         border: var(--bs-card-border-width) solid var(--bs-card-border-color);
         border-radius: var(--bs-border-radius);
+        background-color: #2e3436;
+      }
+      .img-wrapper img {
+        max-width: 100%;
       }
 
       object {
@@ -91,10 +85,6 @@
       h3 {
         line-height: 45px;
       }
-
-      <!-- .card h2 { -->
-      <!--   text-align: center; -->
-      <!-- } -->
 
       @media only screen and (min-width: 900px) {
         .screenshot {
@@ -121,43 +111,46 @@
         </h2>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
           <a
+            class="btn btn-lg btn-light"
             href="https://github.com/Wilfred/difftastic"
-            class="fs-4 px-2 white"
+            role="button"
+            >GitHub</a
           >
-            GitHub
-          </a>
           <a
-            href="https://difftastic.wilfred.me.uk/introduction"
-            class="fs-4 px-2 red"
+            class="btn btn-lg btn-light"
+            href="https://difftastic.wilfred.me.uk/introduction.html"
+            role="button"
+            >Manual</a
           >
-            Manual
-          </a>
           <a
+            class="btn btn-lg btn-light"
             href="https://difftastic.wilfred.me.uk/installation.html"
-            class="fs-4 px-2 green"
+            role="button"
+            >Install</a
           >
-            Install
-          </a>
         </div>
       </div>
     </div>
 
     <div class="container col-xxl-8 px-4">
-      <p class="px-5">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation.
-      </p>
+      <div class="container px-4">
+        <p class="px-5">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation.
+        </p>
+      </div>
 
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
           <h2 class="card-heading">
             Focus On
             <span class="green">What Changed</span>
           </h2>
 
-          <!-- screenshot from difftastic commit e472acb8050e84c671470421f4fd5c74a9d3b2bd -->
-          <img src="add_wrap.png" class="img-fluid mb-4" alt="screenshot" />
+          <div class="img-wrapper mb-4">
+            <img src="add_wrap.png" alt="screenshot" />
+          </div>
           <p>
             Difftastic parses your code with tree-sitter. Unlike a line-oriented
             text diff, difftastic understands that the inner expression hasn't
@@ -166,11 +159,15 @@
         </div>
       </div>
 
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
-          <h2><span class="green">Ignore</span> Formatting Changes</h2>
+          <h2 class="card-heading">
+            <span class="green">Ignore</span> Formatting Changes
+          </h2>
 
-          <img src="reformat.png" class="img-fluid mb-4" alt="screenshot" />
+          <div class="img-wrapper mb-4">
+            <img src="reformat.png" alt="screenshot" />
+          </div>
           <p>
             Has your code formatter decided to split something over multiple
             lines? Difftastic can show what has actually changed.
@@ -178,17 +175,23 @@
         </div>
       </div>
 
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
-          <h2><span class="green">Understand</span> Wrapping Changes</h2>
+          <h2 class="card-heading">
+            <span class="green">Understand</span> Wrapping Changes
+          </h2>
 
-          <img src="wrap_struct.png" class="img-fluid mb-4" alt="screenshot" />
+          <div class="img-wrapper mb-4">
+            <img src="wrap_struct.png" alt="screenshot" />
+          </div>
           <p>
             Have you added a wrapper? Difftastic can match the delimiters
             exactly.
           </p>
 
-          <img src="change_wrap.png" class="img-fluid mb-4" alt="screenshot" />
+          <div class="img-wrapper mb-4">
+            <img src="change_wrap.png" class="mb-4" alt="screenshot" />
+          </div>
           <p>
             Even if you change the inner content, difftastic can still show you
             the additional wrapper.
@@ -196,14 +199,16 @@
         </div>
       </div>
 
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
-          <h2>
+          <h2 class="card-heading">
             <span class="green">Real</span>
             Line Numbers
           </h2>
 
-          <img src="line_numbers.png" class="img-fluid mb-4" alt="screenshot" />
+          <div class="img-wrapper mb-4">
+            <img src="line_numbers.png" class="mb-4" alt="screenshot" />
+          </div>
           <p>
             Do you know how to read
             <code>@@ -5,6 +5,7 @@</code> syntax? Difftastic shows the actual
@@ -213,23 +218,21 @@
       </div>
 
       <!-- https://devicon.dev/ provides SVG logos. -->
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
-          <h2>Programming Languages</h2>
+          <h2 class="card-heading">Programming Languages</h2>
 
           <div
             class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
           >
             <div class="col d-flex align-items-start">
-              <div class="foo">
-                <object
-                  class="me-3"
-                  width="45px"
-                  height="45px"
-                  data="cplusplus.svg"
-                  type="image/svg+xml"
-                ></object>
-              </div>
+              <object
+                class="me-3"
+                width="45px"
+                height="45px"
+                data="cplusplus.svg"
+                type="image/svg+xml"
+              ></object>
 
               <div>
                 <h3 class="fw-bold mb-0 fs-4">
@@ -265,22 +268,6 @@
               <div>
                 <h3 class="fw-bold mb-0 fs-4">
                   Clojure
-                </h3>
-              </div>
-            </div>
-
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="lisp.svg"
-                type="image/svg+xml"
-              ></object>
-
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Lisp
                 </h3>
               </div>
             </div>
@@ -393,6 +380,22 @@
               <div>
                 <h3 class="fw-bold mb-0 fs-4">
                   Kotlin
+                </h3>
+              </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+              <object
+                class="me-3"
+                width="45px"
+                height="45px"
+                data="lisp.svg"
+                type="image/svg+xml"
+              ></object>
+
+              <div>
+                <h3 class="fw-bold mb-0 fs-4">
+                  Lisp
                 </h3>
               </div>
             </div>
@@ -553,9 +556,9 @@
         </div>
       </div>
 
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
-          <h2>File Formats</h2>
+          <h2 class="card-heading">File Formats</h2>
 
           <div
             class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
@@ -638,10 +641,14 @@
         </div>
       </div>
 
-      <div class="card p-4 mx-5 my-4">
+      <div class="card px-2 pt-2 mx-5 my-4">
         <div class="card-body">
-          <h2>Works With <span class="green">Git</span></h2>
-          <img src="git_difftool.png" class="img-fluid mb-4" alt="screenshot" />
+          <h2 class="card-heading">
+            Works With <span class="green">Git</span>
+          </h2>
+          <div class="img-wrapper mb-4">
+            <img src="git_difftool.png" alt="screenshot" />
+          </div>
           <p>
             See the
             <a href="https://difftastic.wilfred.me.uk/git.html"
@@ -652,14 +659,18 @@
         </div>
       </div>
 
-      <div class="card p-4 mx-5 my-4">
-        <h2>Fully <span class="green">Open Source</span></h2>
-        <p>
-          Difftastic is
-          <a href="https://github.com/Wilfred/difftastic/blob/master/LICENSE"
-            >MIT licensed</a
-          >. Download it, modify it, share it with your friends!
-        </p>
+      <div class="card px-2 pt-2 mx-5 my-4">
+        <div class="card-body">
+          <h2 class="card-heading">
+            Fully <span class="green">Open Source</span>
+          </h2>
+          <p>
+            Difftastic is
+            <a href="https://github.com/Wilfred/difftastic/blob/master/LICENSE"
+              >MIT licensed</a
+            >. Download it, modify it, share it with your friends!
+          </p>
+        </div>
       </div>
 
       <div class="container px-4">
