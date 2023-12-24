@@ -660,23 +660,21 @@ module.exports = grammar({
       ),
 
     modifiers: $ =>
-      prec.left(
-        repeat1(
-          choice(
-            "abstract",
-            "final",
-            "sealed",
-            "implicit",
-            "lazy",
-            "override",
-            $.access_modifier,
-            $.inline_modifier,
-            $.infix_modifier,
-            $.open_modifier,
-            $.transparent_modifier,
-          ),
-        ),
-      ),
+      prec.left(repeat1(
+        prec.left(choice(
+          "abstract",
+          "final",
+          "sealed",
+          "implicit",
+          "lazy",
+          "override",
+          $.access_modifier,
+          $.inline_modifier,
+          $.infix_modifier,
+          $.open_modifier,
+          $.transparent_modifier,
+        )),
+      )),
 
     access_modifier: $ =>
       prec.left(
@@ -790,7 +788,7 @@ module.exports = grammar({
       ),
 
     _indentable_expression: $ =>
-      choice($.indented_block, $.indented_cases, $.expression),
+      prec.right(choice($.indented_block, $.indented_cases, $.expression)),
 
     block: $ => seq("{", optional($._block), "}"),
 
@@ -1145,14 +1143,11 @@ module.exports = grammar({
      *   MatchClause       ::=  'match' <<< CaseClauses >>>
      */
     match_expression: $ =>
-      prec.left(
-        PREC.postfix,
-        seq(
-          optional($.inline_modifier),
-          field("value", $.expression),
-          "match",
-          field("body", choice($.case_block, $.indented_cases)),
-        ),
+      seq(
+        optional($.inline_modifier),
+        field("value", $.expression),
+        "match",
+        field("body", choice($.case_block, $.indented_cases)),
       ),
 
     try_expression: $ =>

@@ -327,6 +327,12 @@ def other() {
   else c()
 }
 
+def another() {
+  if (a) b match {
+    case _ => c
+  } else d
+}
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -375,7 +381,21 @@ def other() {
           (identifier))
         (call_expression
           (identifier)
-          (arguments))))))
+          (arguments)))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (if_expression
+        (parenthesized_expression
+          (identifier))
+        (match_expression
+          (identifier)
+          (case_block
+            (case_clause
+              (wildcard)
+              (identifier))))
+        (identifier)))))
 
 ================================================================================
 If expressions (Scala 3 syntax)

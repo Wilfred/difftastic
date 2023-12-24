@@ -1661,8 +1661,7 @@ Infix methods (Scala 3)
 ================================================================================
 
 object Test:
-  infix private def hello = 25
-
+  inline infix private def hello = 25
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -1671,6 +1670,7 @@ object Test:
     (template_body
       (function_definition
         (modifiers
+          (inline_modifier)
           (infix_modifier)
           (access_modifier))
         (identifier)
