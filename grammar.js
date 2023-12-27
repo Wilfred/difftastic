@@ -615,7 +615,7 @@ module.exports = grammar({
     _object_field_declaration_list: $ =>
       seq(
         $._layout_start,
-        repeat1(seq($._object_field_declaration, $._layout_terminator)),
+        repeat(seq($._object_field_declaration, $._layout_terminator)),
         $._layout_end
       ),
     _object_field_declaration: $ =>
@@ -1579,10 +1579,6 @@ function sep1(rule, sep) {
 function section($, rule) {
   return choice(
     rule,
-    seq(
-      $._layout_start,
-      repeat1(seq(rule, $._layout_terminator)),
-      $._layout_end
-    )
+    seq($._layout_start, repeat(seq(rule, $._layout_terminator)), $._layout_end)
   );
 }
