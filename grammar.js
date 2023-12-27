@@ -660,21 +660,25 @@ module.exports = grammar({
       ),
 
     modifiers: $ =>
-      prec.left(repeat1(
-        prec.left(choice(
-          "abstract",
-          "final",
-          "sealed",
-          "implicit",
-          "lazy",
-          "override",
-          $.access_modifier,
-          $.inline_modifier,
-          $.infix_modifier,
-          $.open_modifier,
-          $.transparent_modifier,
-        )),
-      )),
+      prec.left(
+        repeat1(
+          prec.left(
+            choice(
+              "abstract",
+              "final",
+              "sealed",
+              "implicit",
+              "lazy",
+              "override",
+              $.access_modifier,
+              $.inline_modifier,
+              $.infix_modifier,
+              $.open_modifier,
+              $.transparent_modifier,
+            ),
+          ),
+        ),
+      ),
 
     access_modifier: $ =>
       prec.left(
