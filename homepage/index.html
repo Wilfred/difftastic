@@ -67,6 +67,7 @@
         box-shadow: 5px 5px #a09fa2;
       }
     </style>
+    <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
   </head>
 
   <body>
@@ -193,12 +194,7 @@
             60 Second <span class="green">Demo</span>
           </h2>
 
-          <script
-            async
-            id="asciicast-480875"
-            src="https://asciinema.org/a/480875.js"
-            data-theme="tango"
-          ></script>
+          <div id="demo"></div>
         </div>
       </div>
 
@@ -672,5 +668,14 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky"
     />
+
+    <script src="/asciinema-player.min.js"></script>
+    <script>
+      AsciinemaPlayer.create("/demo.cast", document.getElementById("demo"), {
+        theme: "tango",
+        cols: 133,
+        rows: 24,
+      });
+    </script>
   </body>
 </html>
