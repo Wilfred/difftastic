@@ -19,10 +19,6 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      rel="stylesheet"
-    />
 
     <style>
       body {
@@ -44,17 +40,9 @@
         background-color: #2e3436;
       }
 
-      object {
-        background-color: #f8f8f2;
-        border-radius: 25% 25%;
-        padding: 5px;
-      }
-
-      /* Colours from https://spec.draculatheme.com/#sec-Color-Palette */
-      .white {
-        color: #f8f8f2;
-      }
-      .red {
+      /* Colours from Tango theme */
+      .red,
+      code {
         color: #ef2929;
       }
       .green,
@@ -73,38 +61,17 @@
       }
 
       object {
+        background-color: #f8f8f2;
+        border-radius: 25% 25%;
+        padding: 5px;
         box-shadow: 5px 5px #a09fa2;
-      }
-
-      img.screenshot {
-        box-shadow: none;
-      }
-
-      code {
-        color: #ff5555;
-      }
-
-      h3 {
-        line-height: 45px;
-      }
-
-      @media only screen and (min-width: 900px) {
-        .screenshot {
-          max-width: 800px;
-        }
       }
     </style>
   </head>
 
-  <!-- simple project description website, in the style of
-       https://popper.js.org/ or
-       https://cdnjs.com/libraries/font-awesome TODO: Prefer a dark
-       theme. It feels more like code, and less like vanilla
-       boostrap. -->
-
   <body>
     <div class="px-4 pt-5 text-center">
-      <h1 class="display-2 text-body-emphasis">
+      <h1 class="display-2">
         <span class="red">diff</span><span class="green">tastic</span>
       </h1>
 
@@ -112,7 +79,7 @@
         <h2 class="fs-4 lead">
           a structural diff tool that understands syntax
         </h2>
-        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-3">
           <a
             class="btn btn-lg btn-light"
             href="https://github.com/Wilfred/difftastic"
@@ -136,28 +103,28 @@
     </div>
 
     <div class="container col-xxl-8 px-4">
-      <div class="container px-4">
+      <div class="container px-4 my-5">
         <p class="px-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation.
+          Difftastic is a CLI diff tool that compares files based on their
+          syntax, not line-by-line. It supports over 40 programming languages.
         </p>
       </div>
 
       <div class="card px-2 pt-2 mx-5">
         <div class="card-body">
           <h2 class="card-heading">
-            Focus On
-            <span class="green">What Changed</span>
+            <span class="green">Understand</span>
+            What Actually Changed
           </h2>
 
           <div class="img-wrapper mb-4">
             <img src="add_wrap.png" alt="screenshot" />
           </div>
           <p>
-            Difftastic parses your code with tree-sitter. Unlike a line-oriented
-            text diff, difftastic understands that the inner expression hasn't
-            changed here.
+            Difftastic parses your code with
+            <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a
+            >. Unlike a line-oriented text diff, difftastic understands that the
+            inner expression hasn't changed here.
           </p>
         </div>
       </div>
@@ -181,7 +148,7 @@
       <div class="card px-2 pt-2 mx-5">
         <div class="card-body">
           <h2 class="card-heading">
-            <span class="green">Understand</span> Wrapping Changes
+            <span class="green">Visualise</span> Wrapping Changes
           </h2>
 
           <div class="img-wrapper mb-4">
@@ -225,6 +192,12 @@
           <h2 class="card-heading">
             60 Second <span class="green">Demo</span>
           </h2>
+
+          <script
+            async
+            id="asciicast-480875"
+            src="https://asciinema.org/a/480875.js"
+          ></script>
         </div>
       </div>
 
