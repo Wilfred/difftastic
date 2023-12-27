@@ -10,7 +10,7 @@ List of tests exposing particular behaviors from Typst
 
 ## FIXME
 
-- [ ] Test `E11`: In Helix, causes a segfault
+- [ ] Test `E11`: Embedded code causes a segfault
 - [ ] Test `E14`: Right square bracket exits from all containers
 - [X] ~Test `E12`: Matching square brackets in text are paired~
 - [X] ~Test `E13`: Point ending a ref is not part of the ref~
