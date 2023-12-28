@@ -27,12 +27,12 @@ h3 {
 /* Constrain container width even more than container-sm.
 https://getbootstrap.com/docs/5.3/layout/containers/#how-they-work */
 @media (min-width: 992px) {
-  .container {
+  .container-sm {
     max-width: 960px !important;
   }
 }
 
-.container h2 {
+.card h2 {
   padding-bottom: 1rem;
 }
 
