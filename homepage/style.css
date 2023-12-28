@@ -1,0 +1,63 @@
+body {
+  --bs-body-font-size: 18px;
+  --bs-border-radius: 0.5rem;
+}
+
+h1 {
+  font-family: "Fontdiner Swanky", serif;
+  text-shadow: 5px 5px #1d1b22;
+}
+
+h3 {
+  line-height: 45px;
+}
+
+.container h2 {
+  padding-bottom: 1rem;
+}
+
+html,
+body {
+  background-color: #2e3436;
+}
+
+/* Colours from Tango theme */
+.red,
+code {
+  color: #ef2929;
+}
+.green,
+a {
+  color: #8ae234;
+}
+
+.img-wrapper {
+  width: atuo;
+  border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: #2e3436;
+}
+.img-wrapper img {
+  max-width: 100%;
+}
+
+object {
+  background-color: #f8f8f2;
+  border-radius: 25% 25%;
+  padding: 5px;
+  box-shadow: 5px 5px #a09fa2;
+}
+
+.card-set .card {
+  border-radius: 0;
+  border-bottom: 0;
+}
+.card-set .card:first-child {
+  border-top-right-radius: var(--bs-card-border-radius);
+  border-top-left-radius: var(--bs-card-border-radius);
+}
+.card-set .card:last-child {
+  border-bottom-right-radius: var(--bs-card-border-radius);
+  border-bottom-left-radius: var(--bs-card-border-radius);
+  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}

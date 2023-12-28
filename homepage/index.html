@@ -20,53 +20,7 @@
       crossorigin="anonymous"
     />
 
-    <style>
-      body {
-        --bs-body-font-size: 18px;
-        --bs-border-radius: 0.5rem;
-      }
-
-      h1 {
-        font-family: "Fontdiner Swanky", serif;
-        text-shadow: 5px 5px #1d1b22;
-      }
-
-      .container h2 {
-        padding-bottom: 1rem;
-      }
-
-      html,
-      body {
-        background-color: #2e3436;
-      }
-
-      /* Colours from Tango theme */
-      .red,
-      code {
-        color: #ef2929;
-      }
-      .green,
-      a {
-        color: #8ae234;
-      }
-
-      .img-wrapper {
-        width: atuo;
-        border: var(--bs-card-border-width) solid var(--bs-card-border-color);
-        border-radius: var(--bs-border-radius);
-        background-color: #2e3436;
-      }
-      .img-wrapper img {
-        max-width: 100%;
-      }
-
-      object {
-        background-color: #f8f8f2;
-        border-radius: 25% 25%;
-        padding: 5px;
-        box-shadow: 5px 5px #a09fa2;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
   </head>
 
@@ -107,80 +61,84 @@
       <div class="container px-4 my-5">
         <p class="px-5">
           Difftastic is a CLI diff tool that compares files based on their
-          syntax, not line-by-line. It supports over 40 programming languages.
+          syntax, not line-by-line. Difftastic produces accurate diffs that are
+          easier for humans to read.
         </p>
       </div>
 
-      <div class="card px-2 pt-2 mx-5">
-        <div class="card-body">
-          <h2>
-            <span class="green">Understand</span>
-            What Actually Changed
-          </h2>
+      <div class="card-set">
+        <div class="card px-2 pt-2 mx-5">
+          <div class="card-body">
+            <h2>
+              <span class="green">Understand</span>
+              What Actually Changed
+            </h2>
 
-          <div class="img-wrapper mb-4">
-            <img src="add_wrap.png" alt="screenshot" />
+            <div class="img-wrapper mb-4">
+              <img src="add_wrap.png" alt="screenshot" />
+            </div>
+            <p>
+              Difftastic parses your code with
+              <a href="https://tree-sitter.github.io/tree-sitter/"
+                >tree-sitter</a
+              >. Unlike a line-oriented text diff, difftastic understands that
+              the inner expression hasn't changed here.
+            </p>
           </div>
-          <p>
-            Difftastic parses your code with
-            <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a
-            >. Unlike a line-oriented text diff, difftastic understands that the
-            inner expression hasn't changed here.
-          </p>
         </div>
-      </div>
 
-      <div class="card px-2 pt-2 mx-5">
-        <div class="card-body">
-          <h2><span class="green">Ignore</span> Formatting Changes</h2>
+        <div class="card px-2 pt-2 mx-5">
+          <div class="card-body">
+            <h2><span class="green">Ignore</span> Formatting Changes</h2>
 
-          <div class="img-wrapper mb-4">
-            <img src="reformat.png" alt="screenshot" />
+            <div class="img-wrapper mb-4">
+              <img src="reformat.png" alt="screenshot" />
+            </div>
+            <p>
+              Has your code formatter decided to split something over multiple
+              lines? Difftastic can show what has actually changed.
+            </p>
           </div>
-          <p>
-            Has your code formatter decided to split something over multiple
-            lines? Difftastic can show what has actually changed.
-          </p>
         </div>
-      </div>
 
-      <div class="card px-2 pt-2 mx-5">
-        <div class="card-body">
-          <h2><span class="green">Visualise</span> Wrapping Changes</h2>
+        <div class="card px-2 pt-2 mx-5">
+          <div class="card-body">
+            <h2><span class="green">Visualise</span> Wrapping Changes</h2>
 
-          <div class="img-wrapper mb-4">
-            <img src="wrap_struct.png" alt="screenshot" />
+            <div class="img-wrapper mb-4">
+              <img src="wrap_struct.png" alt="screenshot" />
+            </div>
+            <p>
+              Have you added a wrapper? Difftastic can match the delimiters
+              exactly.
+            </p>
+
+            <div class="img-wrapper mb-4">
+              <img src="change_wrap.png" class="mb-4" alt="screenshot" />
+            </div>
+            <p>
+              Even if you change the inner content, difftastic can still show
+              you the additional wrapper.
+            </p>
           </div>
-          <p>
-            Have you added a wrapper? Difftastic can match the delimiters
-            exactly.
-          </p>
-
-          <div class="img-wrapper mb-4">
-            <img src="change_wrap.png" class="mb-4" alt="screenshot" />
-          </div>
-          <p>
-            Even if you change the inner content, difftastic can still show you
-            the additional wrapper.
-          </p>
         </div>
-      </div>
 
-      <div class="card px-2 pt-2 mx-5">
-        <div class="card-body">
-          <h2>
-            <span class="green">Real</span>
-            Line Numbers
-          </h2>
+        <div class="card px-2 pt-2 mx-5">
+          <div class="card-body">
+            <h2>
+              <span class="green">Real</span>
+              Line Numbers
+            </h2>
 
-          <div class="img-wrapper mb-4">
-            <img src="line_numbers.png" class="mb-4" alt="screenshot" />
+            <div class="img-wrapper mb-4">
+              <img src="line_numbers.png" class="mb-4" alt="screenshot" />
+            </div>
+            <p>
+              Do you know how to read
+              <code>@@ -5,6 +5,7 @@</code> syntax? Difftastic shows the actual
+              line numbers from your files, both before and after.
+            </p>
           </div>
-          <p>
-            Do you know how to read
-            <code>@@ -5,6 +5,7 @@</code> syntax? Difftastic shows the actual
-            line numbers from your files, both before and after.
-          </p>
         </div>
       </div>
 
@@ -193,426 +151,427 @@
       </div>
 
       <!-- https://devicon.dev/ provides SVG logos. -->
-      <div class="card px-2 pt-2 mx-5 mt-5">
-        <div class="card-body">
-          <h2>Programming Languages</h2>
+      <div class="card-set">
+        <div class="card px-2 pt-2 mx-5 mt-5">
+          <div class="card-body">
+            <h2>Programming Languages</h2>
 
-          <div
-            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
-          >
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="cplusplus.svg"
-                type="image/svg+xml"
-              ></object>
+            <div
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
+            >
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="cplusplus.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
                 <h3 class="fw-bold mb-0 fs-4">
                   C++
                 </h3>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="csharp.svg"
-                type="image/svg+xml"
-              ></object>
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  C#
-                </h3>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="csharp.svg"
+                  type="image/svg+xml"
+                ></object>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    C#
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="clojure.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="clojure.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Clojure
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Clojure
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="dart.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="dart.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Dart
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Dart
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="erlang.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="erlang.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Erlang
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Erlang
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="go.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="go.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Go
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Go
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="haskell.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="haskell.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Haskell
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Haskell
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="java.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="java.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Java
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Java
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="javascript.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="javascript.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  JavaScript
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    JavaScript
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="kotlin.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="kotlin.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Kotlin
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Kotlin
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="lisp.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="lisp.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Lisp
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Lisp
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="lua.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="lua.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Lua
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Lua
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="ocaml.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="ocaml.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  OCaml
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    OCaml
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="php.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="php.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  PHP
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    PHP
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="python.svg"
-                type="image/svg+xml"
-              ></object>
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Python
-                </h3>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="python.svg"
+                  type="image/svg+xml"
+                ></object>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Python
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="r.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="r.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  R
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    R
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="ruby.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="ruby.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Ruby
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Ruby
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="rust.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="rust.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Rust
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Rust
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="scala.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="scala.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  Scala
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    Scala
+                  </h3>
+                </div>
               </div>
-            </div>
 
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="typescript.svg"
-                type="image/svg+xml"
-              ></object>
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="typescript.svg"
+                  type="image/svg+xml"
+                ></object>
 
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  TypeScript
-                </h3>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    TypeScript
+                  </h3>
+                </div>
               </div>
+
+              <!-- end languages -->
             </div>
 
-            <!-- end languages -->
+            <p>
+              And more! See the full
+              <a
+                href="https://difftastic.wilfred.me.uk/languages_supported.html"
+                >list of supported languages</a
+              >
+              in the manual.
+            </p>
           </div>
-
-          <p>
-            And more! See the full
-            <a href="https://difftastic.wilfred.me.uk/languages_supported.html"
-              >list of supported languages</a
-            >
-            in the manual.
-          </p>
         </div>
-      </div>
 
-      <div class="card px-2 pt-2 mx-5">
-        <div class="card-body">
-          <h2>File Formats</h2>
+        <div class="card px-2 pt-2 mx-5">
+          <div class="card-body">
+            <h2>File Formats</h2>
 
-          <div
-            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
-          >
-            <div class="col d-flex align-items-start">
-              <!-- https://www.svgrepo.com/svg/371192/curly-brackets -->
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="braces.svg"
-                type="image/svg+xml"
-              ></object>
-
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  HCL
-                </h3>
-              </div>
-            </div>
-
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="html5.svg"
-                type="image/svg+xml"
-              ></object>
-
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  HTML
-                </h3>
-              </div>
-            </div>
-
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="json.svg"
-                type="image/svg+xml"
-              ></object>
-
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  JSON
-                </h3>
-              </div>
-            </div>
-
-            <div class="col d-flex align-items-start">
-              <object
-                class="me-3"
-                width="45px"
-                height="45px"
-                data="yaml.svg"
-                type="image/svg+xml"
-              ></object>
-
-              <div>
-                <h3 class="fw-bold mb-0 fs-4">
-                  YAML
-                </h3>
-              </div>
-            </div>
-            <!-- end formats -->
-          </div>
-
-          <p>
-            And even more! See the full
-            <a
-              href="https://difftastic.wilfred.me.uk/languages_supported.html#structured-text-formats"
-              >list of supported file formats</a
+            <div
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-4"
             >
-            in the manual.
-          </p>
+              <div class="col d-flex align-items-start">
+                <!-- https://www.svgrepo.com/svg/371192/curly-brackets -->
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="braces.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    HCL
+                  </h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="html5.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    HTML
+                  </h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="json.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    JSON
+                  </h3>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <object
+                  class="me-3"
+                  width="45px"
+                  height="45px"
+                  data="yaml.svg"
+                  type="image/svg+xml"
+                ></object>
+
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4">
+                    YAML
+                  </h3>
+                </div>
+              </div>
+              <!-- end formats -->
+            </div>
+
+            <p>
+              And even more! See the full
+              <a
+                href="https://difftastic.wilfred.me.uk/languages_supported.html#structured-text-formats"
+                >list of supported file formats</a
+              >
+              in the manual.
+            </p>
+          </div>
         </div>
       </div>
 
