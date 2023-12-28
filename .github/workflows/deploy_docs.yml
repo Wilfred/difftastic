@@ -49,6 +49,9 @@ jobs:
       - name: Add translated manual output
         run: cp -r translation/zh-CN/manual-zh-CN/book manual/book/zh-CN
 
+      - name: Add homepage
+        run: cp -r homepage/* manual/book/
+
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
