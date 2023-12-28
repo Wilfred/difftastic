@@ -2603,17 +2603,25 @@
           ]
         },
         {
-          "type": "FIELD",
-          "name": "body",
-          "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_block_statement_list"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "body",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_block_statement_list"
+                },
+                "named": true,
+                "value": "statement_list"
+              }
             },
-            "named": true,
-            "value": "statement_list"
-          }
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

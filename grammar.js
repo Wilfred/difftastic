@@ -718,7 +718,9 @@ module.exports = grammar({
           optional(alias($._concept_parameter_list, $.parameter_list))
         ),
         optional(seq(keyword("of"), field("refines", $.refinement_list))),
-        field("body", alias($._block_statement_list, $.statement_list))
+        optional(
+          field("body", alias($._block_statement_list, $.statement_list))
+        )
       ),
     refinement_list: $ => sep1($.type_expression, ","),
     _concept_parameter_list: $ => sep1($._concept_parameter, ","),
