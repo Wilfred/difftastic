@@ -1,4 +1,16 @@
 body {
+  animation: 2s ease-out 0s 1 FadeIn;
+}
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+body {
   --bs-body-font-size: 18px;
   --bs-border-radius: 0.5rem;
 }
