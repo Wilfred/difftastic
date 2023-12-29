@@ -833,31 +833,26 @@ module.exports = grammar({
         seq(
           ":",
           field("consequence", $.statement_list),
-          repeat(
-            choice(
-              $._inhibit_keyword_termination,
-              field("alternative", $._if_branch)
-            )
-          )
+          optional($._if_alternatives)
         )
       ),
     _if_branch: $ => choice($.elif_branch, $.else_branch),
+    _if_alternatives: $ =>
+      repeat1(
+        choice(
+          $._inhibit_keyword_termination,
+          field("alternative", $._if_branch)
+        )
+      ),
 
-    case: $ => seq(keyword("case"), $._case_body),
-    _case_body: $ =>
+    case: $ =>
       prec.right(
         seq(
+          keyword("case"),
           field("value", $._expression),
           optional(":"),
           repeat(field("alternative", $.of_branch)),
-          repeat(
-            seq(
-              optional($._inhibit_keyword_termination),
-              field("alternative", $.elif_branch)
-            )
-          ),
-          optional($._inhibit_keyword_termination),
-          optional(field("alternative", $.else_branch))
+          optional($._if_alternatives)
         )
       ),
 
