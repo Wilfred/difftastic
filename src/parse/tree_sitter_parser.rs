@@ -453,8 +453,11 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 language,
                 atom_nodes: vec![
                     "qualified_variable",
+                    // Work around https://github.com/tree-sitter/tree-sitter-haskell/issues/102
                     "qualified_module",
                     "qualified_constructor",
+                    // Work around https://github.com/tree-sitter/tree-sitter-haskell/issues/107
+                    "strict_type",
                 ]
                 .into_iter()
                 .collect(),

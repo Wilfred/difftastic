@@ -4,7 +4,8 @@
 
 Added support for Salesforce Apex.
 
-Improved parsing of regex literals in Clojure.
+Improved parsing of regex literals in Clojure and strictness
+annotations in Haskell.
 
 ### Display
 
