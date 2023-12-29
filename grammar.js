@@ -811,13 +811,12 @@ module.exports = grammar({
 
     /* Structural */
     for: $ =>
+      seq(keyword("for"), $._for_body, ":", field("body", $.statement_list)),
+    _for_body: $ =>
       seq(
-        keyword("for"),
         field("left", $.symbol_declaration_list),
         keyword("in"),
-        field("right", $._expression),
-        ":",
-        field("body", $.statement_list)
+        field("right", $._expression)
       ),
     block: $ =>
       seq(

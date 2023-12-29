@@ -3188,6 +3188,27 @@
           "value": "for"
         },
         {
+          "type": "SYMBOL",
+          "name": "_for_body"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "statement_list"
+          }
+        }
+      ]
+    },
+    "_for_body": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "FIELD",
           "name": "left",
           "content": {
@@ -3217,18 +3238,6 @@
           "content": {
             "type": "SYMBOL",
             "name": "_expression"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "FIELD",
-          "name": "body",
-          "content": {
-            "type": "SYMBOL",
-            "name": "statement_list"
           }
         }
       ]
