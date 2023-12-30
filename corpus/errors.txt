@@ -9,8 +9,39 @@ type
 
 --------------------------------------------------------------------------------
 
+(ERROR
+  (type_declaration
+    (type_symbol_declaration
+      (identifier))
+    (object_declaration
+      (field_declaration_list
+        (ERROR
+          (variant_discriminator_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                (identifier))))
+          (identifier))))))
+
+================================================================================
+Error incomplete field within object variant
+================================================================================
+
+type
+  A = object
+
+  B = object
+    case x: int
+    of y:
+      k:
+
+--------------------------------------------------------------------------------
+
 (source_file
   (type_section
+    (type_declaration
+      (type_symbol_declaration
+        (identifier))
+      (object_declaration))
     (type_declaration
       (type_symbol_declaration
         (identifier))
@@ -20,9 +51,17 @@ type
             (variant_discriminator_declaration
               (symbol_declaration_list
                 (symbol_declaration
-                  (identifier)))))
-          (ERROR
-            (identifier)))))))
+                  (identifier)))
+              (type_expression
+                (identifier)))
+            (of_branch
+              (expression_list
+                (identifier))
+              (field_declaration_list
+                (ERROR
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      (identifier))))))))))))
 
 ================================================================================
 Error within statements with body
@@ -124,10 +163,9 @@ let
 
 (source_file
   (let_section
-    (variable_declaration
+    (ERROR
       (symbol_declaration_list
         (symbol_declaration
           (identifier)))
       (type_expression
-        (identifier)))
-    (ERROR)))
+        (identifier)))))

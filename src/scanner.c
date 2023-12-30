@@ -303,15 +303,13 @@ static void valid_tokens_debug(struct valid_tokens self)
   }
 }
 
-#define STATE_AFTER_NEWLINE 1U
-#define STATE_FLAG_LEN 1U
+#define FLAG_AFTER_NEWLINE 1U
+#define FLAG_LEN 1U
 
-typedef uint8_t state_flags_storage;
+typedef uint8_t flags_storage;
 
 struct state {
   struct indent_vec layout_stack;
-  uint8_t current_indent;
-  state_flags_storage state_flags : STATE_FLAG_LEN;
 };
 
 static struct state* state_new(void)
@@ -333,8 +331,6 @@ static void state_destroy(struct state* self)
 
 _nonnull_(1) static void state_clear(struct state* self)
 {
-  self->current_indent = 0;
-  self->state_flags = 0;
   indent_vec_set_len(&self->layout_stack, 0);
 }
 
@@ -342,17 +338,9 @@ _nonnull_(1, 2) static unsigned state_serialize(
     const struct state* self, uint8_t* buffer, unsigned buffer_len)
 {
   unsigned serialize_len = 0;
-  if (buffer_len >= 2) {
-    buffer[serialize_len++] = self->current_indent;
-    buffer[serialize_len++] = self->state_flags;
-    serialize_len += indent_vec_serialize(
-        &self->layout_stack, &buffer[serialize_len],
-        buffer_len - serialize_len);
-    DBG_F("serialized %u bytes\n", serialize_len);
-  }
-  else {
-    DBG("error: buffer is too small, cannot serialize!");
-  }
+  serialize_len += indent_vec_serialize(
+      &self->layout_stack, &buffer[serialize_len], buffer_len - serialize_len);
+  DBG_F("serialized %u bytes\n", serialize_len);
   return serialize_len;
 }
 
@@ -366,24 +354,12 @@ _nonnull_(1) static void state_deserialize(
 
   unsigned idx = 0;
   state_clear(self);
-  if (buffer_len >= 2) {
-    self->current_indent = buffer[idx++];
-    self->state_flags = buffer[idx++] & ((1U << STATE_FLAG_LEN) - 1);
-    indent_vec_deserialize(&self->layout_stack, &buffer[idx], buffer_len - idx);
-  }
+  indent_vec_deserialize(&self->layout_stack, &buffer[idx], buffer_len - idx);
 }
 
 _nonnull_(1) static void state_debug(struct state* self)
 {
-  if (debug_mode) {
-    DBG_F("current flags: [");
-    if (self->state_flags & STATE_AFTER_NEWLINE) {
-      (void)dputs(" AFTER_NEWLINE");
-    }
-    (void)dputs(" ]\n");
-    DBG_F("current indentation: %" PRIu8 "\n", self->current_indent);
-    indent_vec_debug(&self->layout_stack);
-  }
+  indent_vec_debug(&self->layout_stack);
 }
 
 struct context {
@@ -391,6 +367,8 @@ struct context {
   struct state* state;
   uint32_t advance_counter;
   struct valid_tokens valid_tokens;
+  indent_value _current_indent;
+  flags_storage flags : FLAG_LEN;
 };
 
 _nonnull_(1) static void context_mark_end(struct context* self)
@@ -411,9 +389,8 @@ _nonnull_(1) _pure_ static bool context_eof(struct context* self)
 _nonnull_(1) static uint32_t context_advance(struct context* self, bool skip)
 {
   self->advance_counter += (int)!context_eof(self);
-  if (!context_eof(self) && self->state->state_flags & STATE_AFTER_NEWLINE) {
-    DBG("invalidating flag AFTER_NEWLINE");
-    self->state->state_flags &= ~STATE_AFTER_NEWLINE;
+  if (!context_eof(self)) {
+    self->flags &= ~FLAG_AFTER_NEWLINE;
   }
   self->_lexer->advance(self->_lexer, skip);
   return self->_lexer->lookahead;
@@ -426,22 +403,21 @@ _nonnull_(1) static uint32_t context_consume(struct context* self, bool skip)
   return result;
 }
 
-_nonnull_(1) static uint32_t context_get_column(struct context* self)
-{
-  // Workaround https://github.com/tree-sitter/tree-sitter/issues/2563
-  if (context_eof(self)) {
-    return 0;
-  }
-
-  return self->_lexer->get_column(self->_lexer);
-}
-
 _nonnull_(1) static bool context_finish(
     struct context* self, enum token_type type)
 {
   DBG_F("finished scanning token: %s\n", TOKEN_TYPE_STR[type]);
   self->_lexer->result_symbol = (TSSymbol)type;
   return true;
+}
+
+_nonnull_(1) static indent_value context_indent(struct context* self)
+{
+  if (self->flags & FLAG_AFTER_NEWLINE) {
+    return self->_current_indent;
+  }
+
+  return INVALID_INDENT_VALUE;
 }
 
 #define TRY_LEX_INNER(cnt, ctx, fn, ...)                          \
@@ -523,9 +499,8 @@ _nonnull_(1) static size_t scan_spaces(struct context* ctx, bool force_update)
 loop_end:
   if (update_indent) {
     DBG_F("updated current indentation: %" PRIu8 "\n", indent);
-    DBG("set after newline flag");
-    ctx->state->current_indent = indent;
-    ctx->state->state_flags |= STATE_AFTER_NEWLINE;
+    ctx->_current_indent = indent;
+    ctx->flags |= FLAG_AFTER_NEWLINE;
   }
 
   return spaces;
@@ -628,9 +603,12 @@ LEX_FN(lex_init)
     return false;
   }
 
-  context_mark_end(ctx);
-  if (indent_vec_push(&ctx->state->layout_stack, ctx->state->current_indent) <
-      0) {
+  indent_value current_indent = context_indent(ctx);
+  if (current_indent == INVALID_INDENT_VALUE) {
+    DBG("no valid indentation found");
+    return false;
+  }
+  if (indent_vec_push(&ctx->state->layout_stack, current_indent) < 0) {
     DBG("could not extend layout stack");
     return false;
   };
@@ -756,23 +734,19 @@ LEX_FN(lex_indent)
     return false;
   }
 
-  indent_value current_indent = ctx->state->current_indent;
-
+  indent_value current_indent = context_indent(ctx);
   if (current_indent == INVALID_INDENT_VALUE) {
-    DBG("indentation is invalid");
     return false;
   }
 
   indent_value current_layout = indent_vec_back(&ctx->state->layout_stack);
 
-  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_START) &&
-      (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
+  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_START)) {
     if (current_indent > current_layout) {
       if (indent_vec_push(&ctx->state->layout_stack, current_indent) < 0) {
         DBG("could not extend layout stack");
         return false;
       }
-      ctx->state->state_flags &= ~STATE_AFTER_NEWLINE;
       return context_finish(ctx, LAYOUT_START);
     }
   }
@@ -783,18 +757,13 @@ LEX_FN(lex_indent)
       if (valid_tokens_is_error(ctx->valid_tokens)) {
         break;
       }
-      if (current_indent <= current_layout &&
-          (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
-        return context_finish(ctx, LAYOUT_EMPTY);
-      }
-      if (context_eof(ctx)) {
+      if (current_indent <= current_layout) {
         return context_finish(ctx, LAYOUT_EMPTY);
       }
     }
   }
 
-  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_TERMINATOR) &&
-      (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
+  if (valid_tokens_test(ctx->valid_tokens, LAYOUT_TERMINATOR)) {
     if (current_indent <= current_layout) {
       uint32_t last_count = ctx->advance_counter;
       if (current_indent == current_layout) {
@@ -809,7 +778,6 @@ LEX_FN(lex_indent)
           }
         }
       }
-      ctx->state->state_flags &= ~STATE_AFTER_NEWLINE;
       return context_finish(ctx, LAYOUT_TERMINATOR);
     }
   }
@@ -826,10 +794,6 @@ LEX_FN(lex_indent)
         indent_vec_pop(&ctx->state->layout_stack);
         return context_finish(ctx, LAYOUT_END);
       }
-      // If we are at the last stack, emit only solicited layout_end
-      if (valid_tokens_test(ctx->valid_tokens, LAYOUT_END)) {
-        return context_finish(ctx, LAYOUT_END);
-      }
     }
 
     // INVALID_LAYOUT
@@ -841,23 +805,14 @@ LEX_FN(lex_indent)
     // }
   }
 
-  if (ctx->state->state_flags & STATE_AFTER_NEWLINE) {
-    TRY_LEX(ctx, lex_case_of);
-  }
+  TRY_LEX(ctx, lex_case_of);
 
   return false;
 }
 
 LEX_FN(lex_inline_layout)
 {
-  if (ctx->state->layout_stack.len == 0 ||
-      (ctx->state->state_flags & STATE_AFTER_NEWLINE)) {
-    return false;
-  }
-
-  indent_value current_indent = ctx->state->current_indent;
-  if (current_indent == INVALID_INDENT_VALUE) {
-    DBG("invalid indentation reached");
+  if (ctx->state->layout_stack.len == 0 || (ctx->flags & FLAG_AFTER_NEWLINE)) {
     return false;
   }
 
@@ -1160,13 +1115,6 @@ bool tree_sitter_nim_external_scanner_scan(
   valid_tokens_debug(ctx.valid_tokens);
   state_debug(ctx.state);
   context_mark_end(&ctx);
-
-  if (ctx.state->state_flags & STATE_AFTER_NEWLINE) {
-    if (context_get_column(&ctx) != ctx.state->current_indent) {
-      DBG("resetting after newline due to column shift");
-      ctx.state->state_flags &= ~STATE_AFTER_NEWLINE;
-    }
-  }
 
   bool found = lex_main(&ctx);
 

@@ -1777,3 +1777,82 @@ foobar""""extra spicy""""
   (generalized_string
     function: (identifier)
     (string_content)))
+
+================================================================================
+Old typeof expressions
+================================================================================
+
+proc foo(x: type y)
+var x: type y
+(type y)
+
+type(x)
+type (y)
+
+type(x) is Y
+type(x) + y * z
+type(x) * y - y
+type(x) + y + z
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (proc_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (type_expression
+          (call
+            function: (identifier)
+            (argument_list
+              (identifier)))))))
+  (var_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (type_expression
+        (call
+          function: (identifier)
+          (argument_list
+            (identifier))))))
+  (parenthesized
+    (call
+      function: (identifier)
+      (argument_list
+        (identifier))))
+  (typeof
+    (identifier))
+  (typeof
+    (identifier))
+  (infix_expression
+    left: (typeof
+      (identifier))
+    right: (identifier))
+  (infix_expression
+    left: (typeof
+      (identifier))
+    operator: (operator)
+    right: (infix_expression
+      left: (identifier)
+      operator: (operator)
+      right: (identifier)))
+  (infix_expression
+    left: (infix_expression
+      left: (typeof
+        (identifier))
+      operator: (operator)
+      right: (identifier))
+    operator: (operator)
+    right: (identifier))
+  (infix_expression
+    left: (infix_expression
+      left: (typeof
+        (identifier))
+      operator: (operator)
+      right: (identifier))
+    operator: (operator)
+    right: (identifier)))
