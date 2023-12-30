@@ -73,6 +73,7 @@ use crate::parse::syntax;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
+use std::fs::Permissions;
 use std::path::Path;
 use std::{env, thread};
 
@@ -330,6 +331,62 @@ fn main() {
     };
 }
 
+#[cfg(unix)]
+fn compare_permissions(lhs: &Permissions, rhs: &Permissions) -> Option<String> {
+    use std::os::unix::fs::PermissionsExt;
+
+    let lhs_mode = lhs.mode();
+    let rhs_mode = rhs.mode();
+
+    if lhs_mode != rhs_mode {
+        let lhs_mode = format!("{:o}", lhs_mode);
+        let rhs_mode = format!("{:o}", rhs_mode);
+        Some(format!(
+            "File permissions changed from {} to {}.",
+            lhs_mode, rhs_mode
+        ))
+    } else {
+        None
+    }
+}
+
+#[cfg(windows)]
+fn compare_permissions(lhs: &Permissions, rhs: &Permissions) -> Option<String> {
+    if lhs.readonly() != rhs.readonly() {
+        Some(format!(
+            "File permissions changed from {} to {}.",
+            if lhs.readonly() {
+                "readonly"
+            } else {
+                "read-write"
+            },
+            if rhs.readonly() {
+                "readonly"
+            } else {
+                "read-write"
+            },
+        ))
+    } else {
+        None
+    }
+}
+
+#[cfg(not(any(unix, windows)))]
+fn compare_permissions(_lhs: &Permissions, _rhs: &Permissions) -> Option<String> {
+    None
+}
+
+fn describe_permissions_change(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Option<String> {
+    match (lhs_path, rhs_path) {
+        (FileArgument::NamedPath(lhs_path), FileArgument::NamedPath(rhs_path)) => {
+            let lhs_metadata = std::fs::metadata(lhs_path).ok()?;
+            let rhs_metadata = std::fs::metadata(rhs_path).ok()?;
+            compare_permissions(&lhs_metadata.permissions(), &rhs_metadata.permissions())
+        }
+        _ => None,
+    }
+}
+
 /// Print a diff between two files.
 fn diff_file(
     display_path: &str,
@@ -365,9 +422,19 @@ fn diff_file(
         rhs_src.retain(|c| c != '\r');
     }
 
+    let mut extra_info = renamed;
+    if let Some(permissions_change) = describe_permissions_change(lhs_path, rhs_path) {
+        if let Some(extra_info) = &mut extra_info {
+            extra_info.push('\n');
+            extra_info.push_str(&permissions_change);
+        } else {
+            extra_info = Some(permissions_change);
+        }
+    }
+
     diff_file_content(
         display_path,
-        renamed,
+        extra_info,
         lhs_path,
         rhs_path,
         &lhs_src,

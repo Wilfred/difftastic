@@ -7,6 +7,10 @@ Added support for Salesforce Apex.
 Improved parsing of regex literals in Clojure and strictness
 annotations in Haskell.
 
+### Diffing
+
+Difftastic will now also report file permission changes.
+
 ### Display
 
 Fixed a rare crash when the last non-blank line had changes for
