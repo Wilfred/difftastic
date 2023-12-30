@@ -20,7 +20,7 @@ The documentation of this implementation is available in [DOC](DOC.md).
 
 ## TODO
 
-- [ ] More tests, objectif 1000, current 407
+- [ ] More tests, objectif 1000, current 409
 - [ ] Documentation
   - [ ] Installation
     - [X] Helix
@@ -28,19 +28,17 @@ The documentation of this implementation is available in [DOC](DOC.md).
     - [ ] NeoVim (work in progress)
   - [X] Implementation
 - [X] Update 0.10
-  - [X] CJK script
 - [X] Fixme
 - [X] Optimization
   - [X] Parser size
   - [X] Math ident
   - [X] Extras
-- [ ] Features
-  - [ ] Foldable sections (experimentations ongoing)
 
 ## DONE
 
 - [X] Code
 - [X] Indentation
+- [X] Foldable sections
 - [X] Comments
 - [X] Math mode
   - [X] Precedence
