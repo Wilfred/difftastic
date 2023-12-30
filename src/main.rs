@@ -333,7 +333,7 @@ fn main() {
 /// Print a diff between two files.
 fn diff_file(
     display_path: &str,
-    extra_info: Option<String>,
+    renamed: Option<String>,
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     display_options: &DisplayOptions,
@@ -345,7 +345,7 @@ fn diff_file(
     let (mut lhs_src, mut rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
-                extra_info,
+                extra_info: renamed,
                 display_path: display_path.to_owned(),
                 file_format: FileFormat::Binary,
                 lhs_src: FileContent::Binary,
@@ -367,7 +367,7 @@ fn diff_file(
 
     diff_file_content(
         display_path,
-        extra_info,
+        renamed,
         lhs_path,
         rhs_path,
         &lhs_src,
