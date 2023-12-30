@@ -1797,24 +1797,11 @@ mod tests {
         let res = parse(&arena, "<style>.a { color: red; }</style>", &config, false);
 
         match res[0] {
-            Syntax::List {
-                info: _,
-                open_position: _,
-                open_content: _,
-                children,
-                close_position: _,
-                close_content: _,
-                num_descendants: _,
-            } => {
+            Syntax::List { children, .. } => {
                 // <style>, content, </style>.
                 assert_eq!(children.len(), 3);
                 match children[1] {
-                    Syntax::Atom {
-                        info: _,
-                        position: _,
-                        content: _,
-                        kind: _,
-                    } => {
+                    Syntax::Atom { .. } => {
                         panic!("Style contents is parsed as a single atom");
                     }
                     _ => {
