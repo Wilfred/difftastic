@@ -248,12 +248,24 @@ static void scanner_dedent(struct scanner* self) {
 static void scanner_indent(struct scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
+static enum container scanner_container_at(struct scanner* self, size_t at) {
+	assert(self->containers.len > at, "not inside a container");
+	return self->containers.vec[self->containers.len - 1 - at];
+}
 static enum termination scanner_termination(struct scanner* self, TSLexer* lexer, const bool* valid, size_t at) {
 	if (self->containers.len == at) {
 		// no container
 		return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 	}
-	switch (self->containers.vec[self->containers.len - 1 - at]) {
+	enum container container = scanner_container_at(self, at);
+	switch (container) {
+		case CONTAINER_BRACKET:
+		case CONTAINER_CONTENT:
+		break;
+		default:
+		if (lex_next == ']') return TERMINATION_EXCLUSIVE;
+	}
+	switch (container) {
 		case CONTAINER_BRACKET: {
 			if (lexer->eof(lexer)) return TERMINATION_EXCLUSIVE;
 			if (lex_next == ']') return TERMINATION_INCLUSIVE;
@@ -316,10 +328,6 @@ static void scanner_container_pop(struct scanner* self) {
 		return;
 	}
 	vec_u32_pop(&self->containers);
-}
-static enum container scanner_container_at(struct scanner* self, size_t at) {
-	assert(self->containers.len > at, "not inside a container");
-	return self->containers.vec[self->containers.len - 1 - at];
 }
 
 
@@ -1047,7 +1055,14 @@ bool tree_sitter_typst_external_scanner_scan(
 			unreachable();
 			return 0;
 		}
-		if (lex_next == ']') return false;
+		if (lex_next == ']') {
+			if (valid_symbols[TOKEN_DEDENT]) {
+				scanner_dedent(self);
+				lexer->result_symbol = TOKEN_DEDENT;
+				return true;
+			}
+			return false;
+		}
 		uint32_t indentation = self->indentation.vec[self->indentation.len - 1];
 		// this is an indent
 		if (column > indentation) {

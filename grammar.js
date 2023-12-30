@@ -134,7 +134,7 @@ module.exports = grammar({
       /./,
     ))),
 
-    _indented: $ => seq($._indent, content($), $._dedent),
+    _indented: $ => seq($._indent, inside($), $._dedent),
     item: $ => seq(
       alias($._token_item, '-'),
       $._barrier,

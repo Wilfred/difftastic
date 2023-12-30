@@ -1,30 +1,14 @@
 =====================
-Fixme E11
+fixme/011
 =====================
 ```typst
 _
 -
 ```
 ---------------------
-; FIXME: this test pass, but in editor, it causes SEGFAULT
+; FIXME: this test passes, but in editor, it causes SEGFAULT
 
 (source_file
 	(raw_blck
     lang: (ident)
     (blob)))
-
-
-=====================
-Fixme E14
-=====================
-- b
- - a]a
---------------------
-
-(source_file
-	(item
-		(text)
-		(item
-			(text)))
-	(text)
-	(text))

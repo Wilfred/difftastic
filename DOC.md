@@ -4,25 +4,25 @@
 
 List of tests exposing particular behaviors from Typst
 
-- Test `320`: indent takes in account comments, but redent is done at item, term or heading token.
-- Tests `328` and `329`: math function don't work with symbol.
-- Test `330`: Comment block don't need closing end.
+- Test `positive/320`: indent takes in account comments, but redent is done at item, term or heading token.
+- Tests `positive/328` and `positive/329`: math function don't work with symbol.
+- Test `positive/330`: Comment block don't need closing end.
 
 ## FIXME
 
-- [ ] Test `E11`: Embedded code causes a segfault
-- [ ] Test `E14`: Right square bracket exits from all containers
-- [X] ~Test `E12`: Matching square brackets in text are paired~
-- [X] ~Test `E13`: Point ending a ref is not part of the ref~
-- [X] ~Test `E10`: Math shorthand and letter can applied~
-- [X] ~Test `E09`: Indentation and comments~
-- [X] ~Test `E01`: Group termination in math~
-- [X] ~Test `E02`: Import precedence over list~
-- [X] ~Test `E08`: Condition if set statement~
-- [X] ~Test `E07`: Trailing comments before `else`~
-- [X] ~Test `E03`: Spaces in method notation~
-- [X] ~Test `E04`: Leading space not recognized~
-- [X] ~Test `E05`: Inlined code absorbs new line~
+- [ ] Test `fixme/011`: Embedded code causes a segfault
+- [X] ~Test `fixme/014`: Right square bracket exits from all containers~
+- [X] ~Test `fixme/012`: Matching square brackets in text are paired~
+- [X] ~Test `fixme/013`: Point ending a ref is not part of the ref~
+- [X] ~Test `fixme/010`: Math shorthand and letter can applied~
+- [X] ~Test `fixme/009`: Indentation and comments~
+- [X] ~Test `fixme/001`: Group termination in math~
+- [X] ~Test `fixme/002`: Import precedence over list~
+- [X] ~Test `fixme/008`: Condition if set statement~
+- [X] ~Test `fixme/007`: Trailing comments before `else`~
+- [X] ~Test `fixme/003`: Spaces in method notation~
+- [X] ~Test `fixme/004`: Leading space not recognized~
+- [X] ~Test `fixme/005`: Inlined code absorbs new line~
 
 Failing tests are found in [`corpus/fixme.scm`](https://github.com/uben0/tree-sitter-typst/blob/master/corpus/fixme.scm).
 

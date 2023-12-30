@@ -355,29 +355,20 @@
           "name": "_indent"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_line_start_check"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_content_lb"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_line_content"
-                  }
-                ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_content_lb"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_line_content"
               }
-            }
-          ]
+            ]
+          }
         },
         {
           "type": "SYMBOL",
