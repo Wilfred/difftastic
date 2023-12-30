@@ -79,6 +79,38 @@ const Templates = {
    * @param {RuleOrLiteral} keyword */
   return_like: ($, keyword) =>
     prec.right(seq(keyword, optional($._expression_with_post_block))),
+
+  /**
+   * @template T
+   * @param {GrammarSymbols<T>} $
+   * @param {RuleOrLiteral} left
+   * @param {RuleOrLiteral} right */
+  infix_expression: ($, left, right) =>
+    choice(
+      .../** @type {[Rule, string, Function][]} */ ([
+        [$._infix_operator_10r, "binary_10", prec.right],
+        [$._infix_operator_10l, "binary_10", prec.left],
+        [$._infix_operator_9, "binary_9", prec.left],
+        [$._infix_operator_8, "binary_8", prec.left],
+        [$._infix_operator_7, "binary_7", prec.left],
+        [$._infix_operator_6, "binary_6", prec.left],
+        [$._infix_operator_5, "binary_5", prec.left],
+        [$._infix_operator_4, "binary_4", prec.left],
+        [$._infix_operator_3, "binary_3", prec.left],
+        [$._infix_operator_2, "binary_2", prec.left],
+        [$._infix_operator_1, "binary_1", prec.left],
+        [$._infix_operator_0, "binary_0", prec.left],
+      ]).map(([operator, precedence, precFn]) =>
+        precFn(
+          precedence,
+          seq(
+            field("left", left),
+            field("operator", operator),
+            field("right", right)
+          )
+        )
+      )
+    ),
 };
 const WordOperators = {
   9: ["div", "mod", "shl", "shr"],
@@ -404,7 +436,14 @@ module.exports = grammar({
 
     _statement: $ => choice($._simple_statement, $._complex_statement),
     _complex_statement: $ =>
-      choice($.while, $.static_statement, $.defer, $._declaration),
+      choice(
+        $.while,
+        $.static_statement,
+        $.defer,
+        $.typeof,
+        alias($._infix_typeof_expression, $.infix_expression),
+        $._declaration
+      ),
     _simple_statement: $ =>
       choice($._expression_statement, $._simple_statement_no_expression),
     _simple_statement_no_expression: $ =>
@@ -483,6 +522,17 @@ module.exports = grammar({
         seq($.pragma_list, optional(seq(":", field("body", $.statement_list))))
       ),
     defer: $ => seq(keyword("defer"), ":", field("body", $.statement_list)),
+
+    _typeof_expression: $ =>
+      choice($.typeof, alias($._infix_typeof_expression, $.infix_expression)),
+    typeof: $ =>
+      seq(keyword("type"), "(", $._simple_expression, $._paren_close),
+    _infix_typeof_expression: $ =>
+      Templates.infix_expression(
+        $,
+        $._typeof_expression,
+        choice($._typeof_expression, $._simple_expression)
+      ),
 
     _declaration: $ =>
       choice(
@@ -1101,62 +1151,35 @@ module.exports = grammar({
     _infix_extended: $ =>
       prec("post_expr", seq($._infix_expression, $._post_expression_block)),
     _infix_expression: $ =>
-      choice(
-        .../** @type {[Rule, string, Function][]} */ ([
-          [$._infix_operator_10r, "binary_10", prec.right],
-          [$._infix_operator_10l, "binary_10", prec.left],
-          [$._infix_operator_9, "binary_9", prec.left],
-          [$._infix_operator_9_star, "binary_9", prec.left],
-          [
-            choice(...WordOperators[9].map(x => keyword(x))),
-            "binary_9",
-            prec.left,
-          ],
-          [$._infix_operator_8, "binary_8", prec.left],
-          [$._infix_operator_7, "binary_7", prec.left],
-          [$._infix_operator_6, "binary_6", prec.left],
-          [$._infix_operator_5, "binary_5", prec.left],
-          [
-            choice(
-              ...WordOperators[5].filter(x => x != "not").map(x => keyword(x))
-            ),
-            "binary_5",
-            prec.left,
-          ],
-          [
-            choice(...WordOperators[4].map(x => keyword(x))),
-            "binary_4",
-            prec.left,
-          ],
-          [
-            choice(...WordOperators[3].map(x => keyword(x))),
-            "binary_3",
-            prec.left,
-          ],
-          [$._infix_operator_2, "binary_2", prec.left],
-          [$._infix_operator_1, "binary_1", prec.left],
-          [$._infix_operator_0, "binary_0", prec.left],
-        ]).map(([operator, precedence, precFn]) =>
-          precFn(
-            precedence,
-            seq(
-              field("left", $._simple_expression),
-              field("operator", operator),
-              field("right", $._simple_expression)
-            )
-          )
-        )
-      ),
+      Templates.infix_expression($, $._simple_expression, $._simple_expression),
     _infix_operator_0: $ => alias(InfixOperators.L0, $.operator),
     _infix_operator_1: $ => alias(InfixOperators.L1, $.operator),
     _infix_operator_10r: $ => alias(InfixOperators.R10, $.operator),
     _infix_operator_10l: $ => alias(InfixOperators.L10, $.operator),
-    _infix_operator_9: $ => alias(InfixOperators.L9, $.operator),
-    _infix_operator_9_star: $ => alias(InfixOperators.L9Star, $.operator),
+    _infix_operator_9: $ =>
+      alias(
+        choice(
+          InfixOperators.L9,
+          InfixOperators.L9Star,
+          ...WordOperators[9].map(x => keyword(x))
+        ),
+        $.operator
+      ),
     _infix_operator_8: $ => alias(InfixOperators.L8, $.operator),
     _infix_operator_7: $ => alias(InfixOperators.L7, $.operator),
     _infix_operator_6: $ => alias(InfixOperators.L6, $.operator),
-    _infix_operator_5: $ => alias(InfixOperators.L5, $.operator),
+    _infix_operator_5: $ =>
+      alias(
+        choice(
+          InfixOperators.L5,
+          ...WordOperators[5].filter(x => x != "not").map(x => keyword(x))
+        ),
+        $.operator
+      ),
+    _infix_operator_4: $ =>
+      alias(choice(...WordOperators[4].map(x => keyword(x))), $.operator),
+    _infix_operator_3: $ =>
+      alias(choice(...WordOperators[3].map(x => keyword(x))), $.operator),
     _infix_operator_2: $ => alias(InfixOperators.L2, $.operator),
 
     _prefix_extended: $ =>
