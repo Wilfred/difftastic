@@ -376,8 +376,8 @@ pub(crate) enum Mode {
         rhs_path: FileArgument,
         /// The path that we show to the user.
         display_path: String,
-        /// If this file has been renamed, the name it had previously.
-        old_path: Option<String>,
+        /// If this file has been renamed, a description of the change.
+        renamed: Option<String>,
     },
     DiffFromConflicts {
         diff_options: DiffOptions,
@@ -635,7 +635,7 @@ pub(crate) fn parse_args() -> Mode {
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
-    let (display_path, lhs_path, rhs_path, old_path) = match &args[..] {
+    let (display_path, lhs_path, rhs_path, renamed) = match &args[..] {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
@@ -725,7 +725,7 @@ pub(crate) fn parse_args() -> Mode {
         lhs_path,
         rhs_path,
         display_path,
-        old_path,
+        renamed,
     }
 }
 

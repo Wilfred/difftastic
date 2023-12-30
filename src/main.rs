@@ -222,7 +222,7 @@ fn main() {
             lhs_path,
             rhs_path,
             display_path,
-            old_path,
+            renamed,
         } => {
             if lhs_path == rhs_path {
                 let is_dir = match &lhs_path {
@@ -297,7 +297,7 @@ fn main() {
                 _ => {
                     let diff_result = diff_file(
                         &display_path,
-                        old_path,
+                        renamed,
                         &lhs_path,
                         &rhs_path,
                         &display_options,
