@@ -21,7 +21,7 @@ jobs:
       - run: npm run build
 
       - name: Upload built parser to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: parser
           path: src/parser.c
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download generated parser
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: parser
           path: src/
@@ -57,7 +57,7 @@ jobs:
           node-version: "16"
           cache: "npm"
       - name: Download generated parser
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: parser
           path: src/
@@ -79,7 +79,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download generated parser
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: parser
           path: src/
