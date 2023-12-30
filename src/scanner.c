@@ -10,11 +10,16 @@ enum token_type {
 	TOKEN_DEDENT,
 	TOKEN_REDENT,
 
+	// TOKEN_LINE_START_TRUE,
+	// TOKEN_LINE_START_FALSE,
+	TOKEN_LINE_START_CHECK,
+
 	TOKEN_CONTENT,
 	TOKEN_STRONG,
 	TOKEN_EMPH,
 	TOKEN_BARRIER,
 	TOKEN_BRACKET,
+	TOKEN_SECTION,
 	TOKEN_TERMINATION,
 
 	TOKEN_INLINED_ITEM_END,
@@ -65,6 +70,9 @@ enum container {
 	CONTAINER_EMPH,
 	CONTAINER_BARRIER,
 	CONTAINER_BRACKET,
+	CONTAINER_SECTION,
+	// the SECTION container is special, as any index superior is considered a section
+	// the distance to the original value correspond to the level of the section
 };
 
 // when a container ends
@@ -218,6 +226,8 @@ struct scanner {
 	struct vec_u32 worker;
 	// if directly after a token which is not space or comment token
 	bool immediate;
+	uint8_t heading_level;
+	bool line_start;
 };
 
 static void scanner_redent(struct scanner* self, uint32_t col) {
@@ -238,7 +248,7 @@ static void scanner_dedent(struct scanner* self) {
 static void scanner_indent(struct scanner* self, uint32_t col) {
 	vec_u32_push(&self->indentation, col);
 }
-static enum termination scanner_termination(struct scanner* self, TSLexer* lexer, size_t at) {
+static enum termination scanner_termination(struct scanner* self, TSLexer* lexer, const bool* valid, size_t at) {
 	if (self->containers.len == at) {
 		// no container
 		return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
@@ -247,7 +257,7 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 		case CONTAINER_BRACKET: {
 			if (lexer->eof(lexer)) return TERMINATION_EXCLUSIVE;
 			if (lex_next == ']') return TERMINATION_INCLUSIVE;
-			if (self->containers.len > 1) return scanner_termination(self, lexer, at + 1);
+			if (self->containers.len > 1 && scanner_termination(self, lexer, valid, at + 1) != TERMINATION_NONE) return TERMINATION_EXCLUSIVE;
 			return TERMINATION_NONE;
 		}
 
@@ -265,12 +275,10 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 			if (is_lb(lex_next)) {
 				return TERMINATION_EXCLUSIVE;
 			}
-			if (self->containers.len == 1 + at) {
-				// if container isn't contained
-				return lexer->eof(lexer) ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
+			if (lexer->eof(lexer)) {
+				return TERMINATION_EXCLUSIVE;
 			}
-			else {
-				// the heading is contained
+			if (self->containers.len > 1 + at) {
 				switch (self->containers.vec[self->containers.len - 2 - at]) {
 					case CONTAINER_EMPH:
 					case CONTAINER_STRONG:
@@ -285,12 +293,18 @@ static enum termination scanner_termination(struct scanner* self, TSLexer* lexer
 					case CONTAINER_CONTENT:
 					return lex_next == ']' ? TERMINATION_EXCLUSIVE : TERMINATION_NONE;
 				}
-				unreachable();
-				return TERMINATION_NONE;
 			}
+			return TERMINATION_NONE;
 		} break;
+
+		case CONTAINER_SECTION:
+		default: {
+			if (self->containers.len > 1 && scanner_termination(self, lexer, valid, at + 1) != TERMINATION_NONE) return TERMINATION_EXCLUSIVE;
+			if (lexer->eof(lexer)) return TERMINATION_EXCLUSIVE;
+			if (lex_next == ']') return TERMINATION_EXCLUSIVE;
+			return TERMINATION_NONE;
+		}
 	}
-	unreachable();
 	return TERMINATION_NONE;
 }
 
@@ -302,6 +316,10 @@ static void scanner_container_pop(struct scanner* self) {
 		return;
 	}
 	vec_u32_pop(&self->containers);
+}
+static enum container scanner_container_at(struct scanner* self, size_t at) {
+	assert(self->containers.len > at, "not inside a container");
+	return self->containers.vec[self->containers.len - 1 - at];
 }
 
 
@@ -316,6 +334,8 @@ void * tree_sitter_typst_external_scanner_create() {
 	self->containers = vec_u32_new();
 	self->worker = vec_u32_new();
 	self->immediate = false;
+	self->heading_level = 0;
+	self->line_start = false;
 	return self;
 }
 
@@ -336,6 +356,8 @@ unsigned tree_sitter_typst_external_scanner_serialize(
 	written += vec_u32_serialize(&self->indentation, buffer + written);
 	written += vec_u32_serialize(&self->containers, buffer + written);
 	buffer[written++] = self->immediate;
+	buffer[written++] = self->heading_level;
+	buffer[written++] = self->line_start;
 	return written;
 }
 
@@ -349,11 +371,15 @@ void tree_sitter_typst_external_scanner_deserialize(
 	self->containers.len = 0;
 	self->worker.len = 0;
 	self->immediate = false;
+	self->heading_level = 0;
+	self->line_start = false;
 	if (length != 0) {
 		size_t read = 0;
 		read += vec_u32_deserialize(&self->indentation, buffer + read);
 		read += vec_u32_deserialize(&self->containers, buffer + read);
 		self->immediate = buffer[read++];
+		self->heading_level = buffer[read++];
+		self->line_start = buffer[read++];
 	}
 	else {
 		vec_u32_push(&self->indentation, 0);
@@ -536,7 +562,7 @@ bool tree_sitter_typst_external_scanner_scan(
 
 	// the end of strong, emph, content, item line, term line, heading line
 	if (valid_symbols[TOKEN_TERMINATION]) {
-		switch (scanner_termination(self, lexer, 0)) {
+		switch (scanner_termination(self, lexer, valid_symbols, 0)) {
 			case TERMINATION_NONE: break;
 			case TERMINATION_INCLUSIVE:
 			lexer->advance(lexer, false);
@@ -665,13 +691,57 @@ bool tree_sitter_typst_external_scanner_scan(
 			lex_accept(TOKEN_MATH_FRAC);
 		}
 
-		if (
-			valid_symbols[TOKEN_TERM] &&
-			(is_sp(lex_next) || is_lb(lex_next))
-		) {
-			scanner_redent(self, column);
-			lex_accept(TOKEN_TERM);
+		if (is_sp(lex_next) || is_lb(lex_next)) {
+			if (valid_symbols[TOKEN_LINE_START_CHECK]) {
+				lexer->result_symbol = TOKEN_LINE_START_CHECK;
+				self->line_start = true;
+				return true;
+			}
+			if (valid_symbols[TOKEN_TERM] && self->line_start) {
+				self->line_start = false;
+				scanner_redent(self, column);
+				lex_accept(TOKEN_TERM);
+			}
 		}
+	}
+	if (valid_symbols[TOKEN_LINE_START_CHECK]) {
+		if (lex_next == '=') {
+			while (lex_next == '=') lex_advance();
+			if (
+				is_sp(lex_next) ||
+				is_lb(lex_next) ||
+				lexer->eof(lexer)
+			) {
+				self->line_start = true;
+			}
+		}
+		else if (lex_next == '-' || lex_next == '+') {
+			lex_advance();
+			if (
+				is_sp(lex_next) ||
+				is_lb(lex_next) ||
+				lexer->eof(lexer)
+			) {
+				self->line_start = true;
+			}
+		}
+		else if (lex_next >= '0' && lex_next <= '9') {
+			while (lex_next >= '0' && lex_next <= '9') {
+				lex_advance();
+			}
+			if (lex_next == '.') {
+				lex_advance();
+				if (
+					is_sp(lex_next) ||
+					is_lb(lex_next) ||
+					lexer->eof(lexer)
+				) {
+					self->line_start = true;
+				}
+			}
+		}
+		lexer->result_symbol = TOKEN_LINE_START_CHECK;
+		return true;
 	}
 
 	// must be after SPACE and COMMENT
@@ -713,11 +783,14 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 	}
 
+	if (valid_symbols[TOKEN_SECTION]) {
+		scanner_container_push(self, CONTAINER_SECTION + self->heading_level);
+		lex_accept(TOKEN_SECTION);
+	}
 	if (valid_symbols[TOKEN_BARRIER]) {
 		scanner_container_push(self, CONTAINER_BARRIER);
 		lex_accept(TOKEN_BARRIER);
 	}
-
 	if (valid_symbols[TOKEN_CONTENT] && lex_next == '[') {
 		lexer->advance(lexer, false);
 		scanner_indent(self, 0);
@@ -744,7 +817,7 @@ bool tree_sitter_typst_external_scanner_scan(
 
 
 
-	if (valid_symbols[TOKEN_HEAD_1] && lex_next == '=') {
+	if (self->line_start && valid_symbols[TOKEN_HEAD_1] && lex_next == '=') {
 		lex_advance();
 		size_t count = 1;
 		while (lex_next == '=') {
@@ -756,6 +829,16 @@ bool tree_sitter_typst_external_scanner_scan(
 			is_lb(lex_next) ||
 			lexer->eof(lexer)
 		) {
+			if (self->containers.len > 0 && scanner_container_at(self, 0) >= CONTAINER_SECTION) {
+				uint8_t level = scanner_container_at(self, 0) - CONTAINER_SECTION;
+				if (count <= level) {
+					scanner_container_pop(self);
+					lexer->result_symbol = TOKEN_TERMINATION;
+					return true;
+				}
+			}
+			self->heading_level = count;
+			self->line_start = false;
 			switch (count) {
 				case 1: lex_accept(TOKEN_HEAD_1);
 				case 2: lex_accept(TOKEN_HEAD_2);
@@ -768,7 +851,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		return false;
 	}
 
-	if (valid_symbols[TOKEN_ITEM]) {
+	if (self->line_start && valid_symbols[TOKEN_ITEM]) {
 		if (lex_next == '-' || lex_next == '+') {
 			uint32_t column = lexer->get_column(lexer);
 			lexer->advance(lexer, false);
@@ -777,6 +860,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				is_lb(lex_next) ||
 				lexer->eof(lexer)
 			) {
+				self->line_start = false;
 				scanner_redent(self, column);
 				lex_accept(TOKEN_ITEM);
 			}
@@ -795,6 +879,7 @@ bool tree_sitter_typst_external_scanner_scan(
 					is_lb(lex_next) ||
 					lexer->eof(lexer)
 				) {
+					self->line_start = false;
 					scanner_redent(self, column);
 					lex_accept(TOKEN_ITEM);
 				}
@@ -944,7 +1029,7 @@ bool tree_sitter_typst_external_scanner_scan(
 		}
 
 		// when a container terminates
-		if (scanner_termination(self, lexer, 0) != TERMINATION_NONE) {
+		if (scanner_termination(self, lexer, valid_symbols, 0) != TERMINATION_NONE) {
 			if (valid_symbols[TOKEN_DEDENT]) {
 				scanner_dedent(self);
 				lexer->result_symbol = TOKEN_DEDENT;

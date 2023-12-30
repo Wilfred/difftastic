@@ -1580,7 +1580,8 @@ Hey
 (source_file
 	(heading
 		(text))
-	(text))
+	(section
+		(text)))
 
 
 =====================
@@ -1593,7 +1594,8 @@ Hey
 (source_file
 	(heading
 		(text))
-	(text))
+	(section
+		(text)))
 
 
 =====================
@@ -1607,7 +1609,8 @@ World
 	(heading
 		(text)
 		(linebreak))
-	(text))
+	(section
+		(text)))
 
 
 =====================
@@ -1623,7 +1626,8 @@ _
 		(heading
 			(text)
 			(emph
-				(text)))))
+				(text)))
+		(section)))
 
 
 =====================
@@ -1860,7 +1864,8 @@ Test 134
 	(let
 		pattern: (ident))
 	(heading
-		(text)))
+		(text))
+	(section))
 
 
 =====================
@@ -2050,7 +2055,8 @@ Test 148
 (source_file
 	(content
 		(heading
-			(text))))
+			(text))
+		(section)))
 
 
 =====================
@@ -3030,7 +3036,8 @@ Test 218
 	(strong
 		(ident)
 		(heading
-			(text))))
+			(text))
+		(section)))
 
 
 =====================
@@ -3081,7 +3088,8 @@ Test 222
 (source_file
 	(comment)
 	(heading
-		(text)))
+		(text))
+	(section))
 
 
 =====================
@@ -4258,10 +4266,13 @@ Test 292
 (source_file
 	(heading
 		(text))
-	(heading
-		(text))
-	(heading
-		(text)))
+	(section
+		(heading
+			(text))
+		(section
+			(heading
+				(text))
+			(section))))
 
 
 =====================
@@ -4981,7 +4992,8 @@ Test 336
 (source_file
 	(comment)
 	(heading
-		(text)))
+		(text))
+	(section))
 
 
 =====================
@@ -5791,7 +5803,8 @@ Test 388
 --------------------
 
 (source_file
-	(heading))
+	(heading)
+	(section))
 
 
 =====================
@@ -5802,7 +5815,8 @@ Test 389
 --------------------
 
 (source_file
-	(heading))
+	(heading)
+	(section))
 
 
 =====================
@@ -5814,7 +5828,9 @@ Test 390
 
 (source_file
 	(heading)
-	(heading))
+	(section)
+	(heading)
+	(section))
 
 
 =====================
@@ -5837,7 +5853,8 @@ Test 392
 
 (source_file
 	(item
-		(heading)))
+		(heading)
+		(section)))
 
 
 =====================
@@ -5850,7 +5867,8 @@ Test 393
 (source_file
 	(item
 		(text)
-		(heading)))
+		(heading)
+		(section)))
 
 
 =====================
@@ -5907,6 +5925,7 @@ Test 398
 (source_file
 	(heading
 		(text))
+	(section)
 	(text))
 
 
@@ -5920,6 +5939,8 @@ a]
 (source_file
 	(heading
 		(text)
+		(text))
+	(section
 		(text))
 	(text))
 
@@ -6011,3 +6032,34 @@ Test 406
 
 (source_file
 	(ref))
+
+
+=====================
+Test 407
+=====================
+e
+    
+h
+--------------------
+
+(source_file
+	(text)
+	(parbreak)
+	(text))
+
+
+=====================
+Test 408
+=====================
+===
+=
+==
+--------------------
+
+(source_file
+	(heading)
+	(section)
+	(heading)
+	(section
+		(heading)
+		(section)))

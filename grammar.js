@@ -10,20 +10,15 @@ const SP = /[\t\x20\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]/;
 
 // document as a whole, or what is inside content delimiter
 function content($) {
-  const elem = $._line_content;
   return seq(
-    optional(elem),
-    repeat(seq($._content_lb, optional(elem)))
+    $._line_start_check,
+    repeat(choice($._content_lb, $._line_content)),
   );
 }
 
 // content inside emph or strong delimiters
 function inside($) {
-  return seq(
-    // the first line can't contain headings or items
-    repeat($._markup),
-    repeat(seq($._content_lb, optional($._line_content))),
-  );
+  return repeat(choice($._content_lb, $._line_content));
 }
 
 module.exports = grammar({
@@ -37,12 +32,16 @@ module.exports = grammar({
     $._dedent,
     $._redent,
 
+    // is at line start
+    $._line_start_check,
+
     // delimited contexts
     $._token_content,
     $._token_strong,
     $._token_emph,
     $._barrier,
     $._token_bracket,
+    $._token_section,
     $._termination,
 
     $._token_inlined_item_end,
@@ -92,16 +91,10 @@ module.exports = grammar({
   rules: {
     source_file: $ => content($),
 
-    // _theline_content: $ => choice(
-    //   $.heading,
-    //   $.item,
-    //   $.term,
-    //   repeat1($._markup),
-    // ),
-    _line_content: $ => choice(
-      seq(choice($.heading, $.item, $.term), repeat($._markup)),
+    _line_content: $ => prec.right(choice(
+      seq(choice(seq($.heading, $.section), $.item, $.term), repeat($._markup)),
       repeat1($._markup),
-    ),
+    )),
 
     parbreak: $ => token(seq(LB, repeat1(seq(repeat(SP), LB)))),
     escape: $ => seq(token(choice(
@@ -112,7 +105,7 @@ module.exports = grammar({
 
     _lb: $ => LB,
     // a line break in a content context
-    _content_lb: $ => seq(optional($._redent), choice($.parbreak, $._lb)),
+    _content_lb: $ => seq(optional($._redent), choice($.parbreak, $._lb), $._line_start_check),
 
     linebreak: $ => /\\/,
     quote: $ => /"|'/,
@@ -142,14 +135,14 @@ module.exports = grammar({
     ))),
 
     _indented: $ => seq($._indent, content($), $._dedent),
-    item: $ => prec.right(1, seq(
+    item: $ => seq(
       alias($._token_item, '-'),
       $._barrier,
       repeat($._markup),
       $._termination,
       optional($._indented),
-    )),
-    term: $ => prec.right(1, seq(
+    ),
+    term: $ => seq(
       alias($._token_term, '/'),
       field('term', repeat($._markup)),
       ':',
@@ -157,9 +150,14 @@ module.exports = grammar({
       repeat($._markup),
       $._termination,
       optional($._indented)
-    )),
+    ),
 
-    heading: $ => prec.right(1, seq(
+    section: $ => seq(
+      $._token_section,
+      inside($),
+      $._termination,
+    ),
+    heading: $ => seq(
       choice(
         alias($._token_head_1, '='),
         alias($._token_head_2, '=='),
@@ -171,9 +169,9 @@ module.exports = grammar({
       $._barrier,
       repeat($._markup),
       $._termination,
-    )),
-    strong: $ => prec.left(seq(alias($._token_strong, '*'), inside($), alias($._termination, '*'))),
-    emph: $ => prec.left(seq(alias($._token_emph, '_'), inside($), alias($._termination, '_'))),
+    ),
+    strong: $ => seq(alias($._token_strong, '*'), inside($), alias($._termination, '*')),
+    emph: $ => seq(alias($._token_emph, '_'), inside($), alias($._termination, '_')),
     raw_blck: $ => seq(
       '```',
       optional(field('lang', alias($._token_raw_lang, $.ident))),
