@@ -47,6 +47,7 @@ extern crate log;
 use display::style::print_warning;
 use log::info;
 use mimalloc::MiMalloc;
+use options::USAGE;
 
 use crate::conflicts::apply_conflict_markers;
 use crate::conflicts::START_LHS_MARKER;
@@ -406,13 +407,14 @@ fn diff_conflicts_file(
     };
 
     if conflict_files.num_conflicts == 0 {
-        print_warning(
-            &format!(
-                "Expected a file with conflict markers {}, but none were found. See --help for usage instructions.",
-                START_LHS_MARKER,
-            ),
-            display_options,
+        eprintln!(
+            "error: Difftastic requires two paths, or a single file with conflict markers {}.\n",
+            START_LHS_MARKER,
         );
+
+        eprintln!("USAGE:\n\n    {}\n", USAGE);
+        eprintln!("For more information try --help");
+        std::process::exit(EXIT_BAD_ARGUMENTS);
     }
 
     let lhs_name = match conflict_files.lhs_name {

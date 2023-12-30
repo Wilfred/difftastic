@@ -23,7 +23,7 @@ pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
 pub(crate) const DEFAULT_TAB_WIDTH: usize = 8;
 
-const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
+pub(crate) const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum ColorOutput {

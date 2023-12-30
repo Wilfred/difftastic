@@ -12,6 +12,11 @@ annotations in Haskell.
 Fixed a rare crash when the last non-blank line had changes for
 certain parsers, particularly YAML.
 
+### Command Line Interface
+
+Difftastic now errors if given a single path, unless that file
+contains conflict markers. Previously this was a warning.
+
 ### Build
 
 Difftastic now requires Rust 1.63 to build.
