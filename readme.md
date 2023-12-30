@@ -18,15 +18,24 @@ the parser size is appreciated.
 
 ## Progress
 
-Right now the parser is capable of parsing most of Nim, but some "advanced"
-constructs are not supported due to size limitation.
+Right now the parser is capable of parsing all of Nim, with exceptions for old
+and mostly unused/dead syntax, including:
+
+- Package-level objects (ie. `type X.Y = ref Z`)
+
+- Variable declaration with dots for "partial" objects (ie. `let x.y = z`).
+
+- Covariance in generics for imported types (ie. `type X[out T] = Z`).
+
+These were omitted due as they are a product of old language experiments that
+never caught on, and omitting them allows for simpler and more compact parser,
+but support might be added on request.
 
 The parser correctness has not been thoroughly tested.
 
 ## Stability
 
-Right now the parser is in early development. Node names and structures are expected
-to change drastically between releases.
+Node names and structures are not expected to change between releases.
 
 ## License
 
