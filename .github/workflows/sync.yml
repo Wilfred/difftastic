@@ -27,7 +27,7 @@ jobs:
           npm run format
 
       - name: Check for changes
-        uses: tj-actions/verify-changed-files@v13
+        uses: tj-actions/verify-changed-files@v17
         id: verify-changed-files
         with:
           files: |

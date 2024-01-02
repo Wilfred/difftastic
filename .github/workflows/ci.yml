@@ -102,7 +102,7 @@ jobs:
 
       - name: Check if queries are out of sync with nvim-treesitter
         if: ${{ runner.os == 'Linux' }}
-        uses: tj-actions/verify-changed-files@v13
+        uses: tj-actions/verify-changed-files@v17
         id: verify-changed-files
         with:
           files: |
