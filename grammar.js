@@ -607,9 +607,14 @@ module.exports = grammar({
 
     // Should not contain new lines and should not start or end with a space
     jsx_text: _ => choice(
-      /[^{}<>\n ]([^{}<>\n]*[^{}<>\n ])?/,
+      /[^{}<>\n& ]([^{}<>\n&]*[^{}<>\n& ])?/,
       /\/\/[^\n]*/,
     ),
+
+    // An entity can be named, numeric (decimal), or numeric (hexadecimal). The
+    // longest entity name is 29 characters long, and the HTML spec says that
+    // no more will ever be added.
+    html_character_reference: _ => /&(#([xX][0-9a-fA-F]{1,6}|[0-9]{1,5})|[A-Za-z]{1,30});/,
 
     jsx_expression: $ => seq(
       '{',
@@ -623,6 +628,7 @@ module.exports = grammar({
 
     _jsx_child: $ => choice(
       $.jsx_text,
+      $.html_character_reference,
       $._jsx_element,
       $.jsx_expression,
     ),
@@ -682,8 +688,36 @@ module.exports = grammar({
       )),
     ),
 
+    _jsx_string: $ => choice(
+      seq(
+        '"',
+        repeat(choice(
+          alias($.unescaped_double_jsx_string_fragment, $.string_fragment),
+          $.html_character_reference,
+        )),
+        '"',
+      ),
+      seq(
+        '\'',
+        repeat(choice(
+          alias($.unescaped_single_jsx_string_fragment, $.string_fragment),
+          $.html_character_reference,
+        )),
+        '\'',
+      ),
+    ),
+
+    // Workaround to https://github.com/tree-sitter/tree-sitter/issues/1156
+    // We give names to the token() constructs containing a regexp
+    // so as to obtain a node in the CST.
+    //
+    unescaped_double_jsx_string_fragment: _ => token.immediate(prec(1, /[^"&]+/)),
+
+    // same here
+    unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, /[^'&]+/)),
+
     _jsx_attribute_value: $ => choice(
-      $.string,
+      alias($._jsx_string, $.string),
       $.jsx_expression,
       $._jsx_element,
     ),
@@ -909,12 +943,6 @@ module.exports = grammar({
     // Primitives
     //
 
-    // Here we tolerate unescaped newlines in double-quoted and
-    // single-quoted string literals.
-    // This is legal in typescript as jsx/tsx attribute values (as of
-    // 2020), and perhaps will be valid in javascript as well in the
-    // future.
-    //
     string: $ => choice(
       seq(
         '"',
@@ -938,10 +966,10 @@ module.exports = grammar({
     // We give names to the token() constructs containing a regexp
     // so as to obtain a node in the CST.
     //
-    unescaped_double_string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
+    unescaped_double_string_fragment: _ => token.immediate(prec(1, /[^"\\\r\n]+/)),
 
     // same here
-    unescaped_single_string_fragment: _ => token.immediate(prec(1, /[^'\\]+/)),
+    unescaped_single_string_fragment: _ => token.immediate(prec(1, /[^'\\\r\n]+/)),
 
     escape_sequence: _ => token.immediate(seq(
       '\\',
