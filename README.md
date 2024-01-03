@@ -110,6 +110,7 @@ file-types = ["typst", "typ"]
 indent = { tab-width = 2, unit = "  " }
 comment-token = "//"
 injection-regex = "typ(st)?"
+roots = ["typst.toml"]
 
 [language.auto-pairs]
 '(' = ')'
