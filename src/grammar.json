@@ -40,17 +40,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "heading"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "section"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "section"
                   },
                   {
                     "type": "SYMBOL",
@@ -473,7 +464,7 @@
         }
       ]
     },
-    "section": {
+    "_section": {
       "type": "SEQ",
       "members": [
         {
@@ -499,6 +490,24 @@
         {
           "type": "SYMBOL",
           "name": "_termination"
+        }
+      ]
+    },
+    "section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "heading"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_section"
+          },
+          "named": true,
+          "value": "content"
         }
       ]
     },

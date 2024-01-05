@@ -92,7 +92,7 @@ module.exports = grammar({
     source_file: $ => content($),
 
     _line_content: $ => prec.right(choice(
-      seq(choice(seq($.heading, $.section), $.item, $.term), repeat($._markup)),
+      seq(choice($.section, $.item, $.term), repeat($._markup)),
       repeat1($._markup),
     )),
 
@@ -152,10 +152,14 @@ module.exports = grammar({
       optional($._indented)
     ),
 
-    section: $ => seq(
+    _section: $ => seq(
       $._token_section,
       inside($),
       $._termination,
+    ),
+    section: $ => seq(
+      $.heading,
+      alias($._section, $.content)
     ),
     heading: $ => seq(
       choice(

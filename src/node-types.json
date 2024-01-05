@@ -2029,10 +2029,6 @@
           "named": true
         },
         {
-          "type": "heading",
-          "named": true
-        },
-        {
           "type": "ident",
           "named": true
         },
@@ -2535,10 +2531,6 @@
         },
         {
           "type": "group",
-          "named": true
-        },
-        {
-          "type": "heading",
           "named": true
         },
         {
@@ -3761,10 +3753,6 @@
           "named": true
         },
         {
-          "type": "heading",
-          "named": true
-        },
-        {
           "type": "ident",
           "named": true
         },
@@ -4462,10 +4450,6 @@
         },
         {
           "type": "group",
-          "named": true
-        },
-        {
-          "type": "heading",
           "named": true
         },
         {
@@ -6358,162 +6342,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
-        {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "builtin",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
         {
           "type": "content",
           "named": true
         },
         {
-          "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
           "type": "heading",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "item",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
-          "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "parbreak",
-          "named": true
-        },
-        {
-          "type": "quote",
-          "named": true
-        },
-        {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "ref",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
-          "type": "section",
-          "named": true
-        },
-        {
-          "type": "set",
-          "named": true
-        },
-        {
-          "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "strong",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
-        },
-        {
-          "type": "text",
-          "named": true
-        },
-        {
-          "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -7272,10 +7108,6 @@
           "named": true
         },
         {
-          "type": "heading",
-          "named": true
-        },
-        {
           "type": "ident",
           "named": true
         },
@@ -7451,10 +7283,6 @@
         },
         {
           "type": "group",
-          "named": true
-        },
-        {
-          "type": "heading",
           "named": true
         },
         {
@@ -8147,10 +7975,6 @@
             "named": true
           },
           {
-            "type": "heading",
-            "named": true
-          },
-          {
             "type": "ident",
             "named": true
           },
@@ -8307,10 +8131,6 @@
         },
         {
           "type": "group",
-          "named": true
-        },
-        {
-          "type": "heading",
           "named": true
         },
         {

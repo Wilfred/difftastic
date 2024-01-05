@@ -1578,10 +1578,11 @@ Hey
 ---------------------
 
 (source_file
-	(heading
-		(text))
 	(section
-		(text)))
+		(heading
+			(text))
+		(content
+			(text))))
 
 
 =====================
@@ -1592,10 +1593,11 @@ Hey
 ---------------------
 
 (source_file
-	(heading
-		(text))
 	(section
-		(text)))
+		(heading
+			(text))
+		(content
+			(text))))
 
 
 =====================
@@ -1606,11 +1608,12 @@ World
 ---------------------
 
 (source_file
-	(heading
-		(text)
-		(linebreak))
 	(section
-		(text)))
+		(heading
+			(text)
+			(linebreak))
+		(content
+			(text))))
 
 
 =====================
@@ -1623,11 +1626,12 @@ _
 
 (source_file
 	(emph
-		(heading
-			(text)
-			(emph
-				(text)))
-		(section)))
+		(section
+			(heading
+				(text)
+				(emph
+					(text)))
+			(content))))
 
 
 =====================
@@ -1863,9 +1867,10 @@ positive/134
 (source_file
 	(let
 		pattern: (ident))
-	(heading
-		(text))
-	(section))
+	(section
+		(heading
+			(text))
+		(content)))
 
 
 =====================
@@ -2054,9 +2059,10 @@ positive/148
 
 (source_file
 	(content
-		(heading
-			(text))
-		(section)))
+		(section
+			(heading
+				(text))
+			(content))))
 
 
 =====================
@@ -3035,9 +3041,10 @@ positive/218
 (source_file
 	(strong
 		(ident)
-		(heading
-			(text))
-		(section)))
+		(section
+			(heading
+				(text))
+			(content))))
 
 
 =====================
@@ -3087,9 +3094,10 @@ positive/222
 
 (source_file
 	(comment)
-	(heading
-		(text))
-	(section))
+	(section
+		(heading
+			(text))
+		(content)))
 
 
 =====================
@@ -4264,15 +4272,18 @@ positive/292
 ---------------------
 
 (source_file
-	(heading
-		(text))
 	(section
 		(heading
 			(text))
-		(section
-			(heading
-				(text))
-			(section))))
+		(content
+			(section
+				(heading
+					(text))
+				(content
+					(section
+						(heading
+							(text))
+						(content)))))))
 
 
 =====================
@@ -4991,9 +5002,10 @@ positive/336
 
 (source_file
 	(comment)
-	(heading
-		(text))
-	(section))
+	(section
+		(heading
+			(text))
+		(content)))
 
 
 =====================
@@ -5803,8 +5815,9 @@ positive/388
 --------------------
 
 (source_file
-	(heading)
-	(section))
+	(section
+		(heading)
+		(content)))
 
 
 =====================
@@ -5815,8 +5828,9 @@ positive/389
 --------------------
 
 (source_file
-	(heading)
-	(section))
+	(section
+		(heading)
+		(content)))
 
 
 =====================
@@ -5827,10 +5841,12 @@ positive/390
 --------------------
 
 (source_file
-	(heading)
-	(section)
-	(heading)
-	(section))
+	(section
+		(heading)
+		(content))
+	(section
+		(heading)
+		(content)))
 
 
 =====================
@@ -5853,8 +5869,9 @@ positive/392
 
 (source_file
 	(item
-		(heading)
-		(section)))
+		(section
+			(heading)
+			(content))))
 
 
 =====================
@@ -5867,8 +5884,9 @@ positive/393
 (source_file
 	(item
 		(text)
-		(heading)
-		(section)))
+		(section
+			(heading)
+			(content))))
 
 
 =====================
@@ -5923,9 +5941,10 @@ positive/398
 --------------------
 
 (source_file
-	(heading
-		(text))
-	(section)
+	(section
+		(heading
+			(text))
+		(content))
 	(text))
 
 
@@ -5937,11 +5956,12 @@ a]
 --------------------
 
 (source_file
-	(heading
-		(text)
-		(text))
 	(section
-		(text))
+		(heading
+			(text)
+			(text))
+		(content
+			(text)))
 	(text))
 
 
@@ -6057,12 +6077,15 @@ positive/408
 --------------------
 
 (source_file
-	(heading)
-	(section)
-	(heading)
 	(section
 		(heading)
-		(section)))
+		(content))
+	(section
+		(heading)
+		(content
+			(section
+				(heading)
+				(content)))))
 
 
 =====================
