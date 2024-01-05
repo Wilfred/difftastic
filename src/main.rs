@@ -15,9 +15,6 @@
 // Has false positives on else if chains that sometimes have the same
 // body for readability.
 #![allow(clippy::if_same_then_else)]
-// Purely stylistic, and ignores whether there are explanatory
-// comments in the if/else.
-#![allow(clippy::bool_to_int_with_if)]
 // Good practice in general, but a necessary evil for Syntax. Its Hash
 // implementation does not consider the mutable fields, so it is still
 // correct.
