@@ -291,8 +291,18 @@ pub(crate) fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<Pa
         }
     }
 
-    paths.extend(lhs_paths.into_iter().skip(i));
-    paths.extend(rhs_paths.into_iter().skip(j));
+    paths.extend(
+        lhs_paths[i..]
+            .iter()
+            .filter(|&path| !seen.contains(path))
+            .cloned(),
+    );
+    paths.extend(
+        rhs_paths[j..]
+            .iter()
+            .filter(|&path| !seen.contains(path))
+            .cloned(),
+    );
 
     paths
 }
