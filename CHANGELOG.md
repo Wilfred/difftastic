@@ -11,6 +11,9 @@ annotations in Haskell.
 
 Difftastic will now also report file permission changes.
 
+Fixed an issue where directory diffing would show a file more than
+once.
+
 ### Display
 
 Fixed a rare crash when the last non-blank line had changes for
