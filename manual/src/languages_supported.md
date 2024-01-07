@@ -36,6 +36,7 @@ with `difft --list-languages`.
 | Lua             | [nvim-treesitter/tree-sitter-lua](https://github.com/nvim-treesitter/tree-sitter-lua)       |
 | Make            | [alemuller/tree-sitter-make](https://github.com/alemuller/tree-sitter-make)                 |
 | Nix             | [cstrahan/tree-sitter-nix](https://github.com/cstrahan/tree-sitter-nix)                     |
+| Objective-C     | [amaanq/tree-sitter-objc](https://github.com/amaanq/tree-sitter-objc)                       |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)           |
 | Perl            | [ganezdragon/tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)             |
 | PHP             | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)               |

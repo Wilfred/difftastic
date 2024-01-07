@@ -1,5 +1,9 @@
 ## 0.55 (unreleased)
 
+### Parsing
+
+Added support for Objective-C.
+
 ## 0.54 (released 7th January 2024)
 
 ### Parsing

@@ -53,6 +53,7 @@ pub(crate) enum Language {
     Make,
     Newick,
     Nix,
+    ObjC,
     OCaml,
     OCamlInterface,
     Pascal,
@@ -140,6 +141,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Make => "Make",
         Newick => "Newick",
         Nix => "Nix",
+        ObjC => "Objective-C",
         OCaml => "OCaml",
         OCamlInterface => "OCaml Interface",
         Pascal => "Pascal",
@@ -317,6 +319,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         Newick => &["*.nhx", "*.nwk", "*.nh"],
         Nix => &["*.nix"],
+        ObjC => &["*.m"],
         OCaml => &["*.ml"],
         OCamlInterface => &["*.mli"],
         Pascal => &["*.pas", "*.dfm", "*.dpr", "*.lpr", "*.pascal"],
@@ -391,6 +394,24 @@ fn looks_like_hacklang(path: &Path, src: &str) -> bool {
     false
 }
 
+/// Use a heuristic to determine if a '.h' file looks like Objective-C.
+/// We look for a line starting with '#import', '@interface' or '@protocol'
+/// near the top of the file.  These keywords are not valid C or C++, so this
+/// should not produce false positives.
+fn looks_like_objc(path: &Path, src: &str) -> bool {
+    if let Some(extension) = path.extension() {
+        if extension == "h" {
+            return src.lines().take(100).any(|line| {
+                ["#import", "@interface", "@protocol"]
+                    .iter()
+                    .any(|keyword| line.starts_with(keyword))
+            });
+        }
+    }
+
+    false
+}
+
 pub(crate) fn guess(
     path: &Path,
     src: &str,
@@ -420,6 +441,9 @@ pub(crate) fn guess(
     }
     if looks_like_hacklang(path, src) {
         return Some(Language::Hack);
+    }
+    if looks_like_objc(path, src) {
+        return Some(Language::ObjC);
     }
     if let Some(lang) = from_glob(path) {
         return Some(lang);
@@ -468,6 +492,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "js" | "js2" => Some(JavaScript),
             "lisp" => Some(CommonLisp),
             "nxml" => Some(Xml),
+            "objc" => Some(ObjC),
             "perl" => Some(Perl),
             "python" => Some(Python),
             "racket" => Some(Racket),
