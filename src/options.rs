@@ -21,7 +21,7 @@ pub(crate) const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 pub(crate) const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
 pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
 
-pub(crate) const DEFAULT_TAB_WIDTH: usize = 8;
+pub(crate) const DEFAULT_TAB_WIDTH: usize = 4;
 
 pub(crate) const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
 

@@ -4,6 +4,10 @@
 
 Added support for Objective-C.
 
+### Display
+
+The default display width for tabs has changed to 4.
+
 ## 0.54 (released 7th January 2024)
 
 ### Parsing
