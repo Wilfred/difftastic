@@ -262,6 +262,9 @@ sample_files/typing_before.ml sample_files/typing_after.ml
 sample_files/utf16_before.py sample_files/utf16_after.py
 bbf22d2c5003b638c0f8d08f21bbbb66  -
 
+sample_files/vhdl_before.vhd sample_files/vhdl_after.vhd
+eb987aa621cfa733bb4fcd52b255fbbf  -
+
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 53017b74523e203817d64189142b26ed  -
 

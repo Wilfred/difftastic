@@ -51,6 +51,7 @@ with `difft --list-languages`.
 | SQL             | [m-novikov/tree-sitter-sql](https://github.com/m-novikov/tree-sitter-sql)                   |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)           |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript) |
+| VHDL            | [JLeemaster/tree-sitter-vhdl](https://github.com/JLeemaster/tree-sitter-vhdl)               |
 | Zig             | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig)                     |
 
 ## Structured Text Formats
