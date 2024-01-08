@@ -1,0 +1,116 @@
+===================================
+Minmal
+===================================
+loop
+end loop;
+
+L1:
+loop
+end loop;
+
+L2:
+loop
+end loop L2;
+---
+
+(design_file
+  (loop_statement)
+  (loop_statement
+    (label (identifier)))
+  (loop_statement
+    (label (identifier))
+    at_end: (simple_name)))
+
+===================================
+Iteration scheme - While
+===================================
+while cond
+    loop
+    end loop;
+---
+
+(design_file
+  (loop_statement
+    (while_loop
+      (conditional_expression
+        (simple_name)))))
+
+===================================
+Iteration scheme - For loop
+===================================
+for c in st
+    loop
+    end loop;
+---
+
+(design_file
+  (loop_statement
+    (for_loop
+      (parameter_specification
+        (identifier)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+===================================
+Next I
+===================================
+loop
+    next;
+end loop;
+---
+
+(design_file
+  (loop_statement
+    (sequence_of_statements
+      (next_statement))))
+
+===================================
+Next II
+===================================
+for c in st
+    loop
+        next when cond;
+    end loop;
+---
+
+(design_file
+  (loop_statement
+    (for_loop
+      (parameter_specification
+        (identifier)
+        (subtype_indication
+          (type_mark
+            (simple_name)))))
+    (sequence_of_statements
+      (next_statement
+        (conditional_expression
+          (simple_name))))))
+
+===================================
+Exit I
+===================================
+loop
+    exit;
+end loop;
+---
+
+(design_file
+  (loop_statement
+    (sequence_of_statements
+      (exit_statement))))
+
+===================================
+Exit II
+===================================
+loop
+    exit when e;
+end loop;
+---
+
+(design_file
+  (loop_statement
+    (sequence_of_statements
+      (exit_statement
+        (conditional_expression
+          (simple_name))))))

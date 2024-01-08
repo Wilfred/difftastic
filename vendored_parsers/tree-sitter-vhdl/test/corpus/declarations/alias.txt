@@ -1,0 +1,70 @@
+===========================
+Designator - Identifier
+===========================
+alias a is b;
+---
+
+(design_file
+  (alias_declaration
+    designator: (identifier)
+    denotator: (simple_name)))
+
+==============================
+Designator - Character literal
+==============================
+alias '0' is STD.STANDARD.'0' [return STD.STANDARD.BIT];
+---
+
+(design_file
+  (alias_declaration
+    designator: (character_literal)
+    denotator: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (character_literal))
+    (signature
+      (return
+        (type_mark
+          (selected_name
+            prefix: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
+            suffix: (simple_name)))))))
+
+==============================
+Designator - Operator symbol
+==============================
+alias "or" is STD.STANDARD."or" [STD.STANDARD.BIT,
+                                 STD.STANDARD.BIT
+                          return STD.STANDARD.BIT];
+---
+
+(design_file
+  (alias_declaration
+    designator: (operator_symbol)
+    denotator: (selected_name
+      prefix: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name))
+      suffix: (operator_symbol))
+    (signature
+      (type_mark
+        (selected_name
+          prefix: (selected_name
+            prefix: (simple_name)
+            suffix: (simple_name))
+          suffix: (simple_name)))
+      (type_mark
+        (selected_name
+          prefix: (selected_name
+            prefix: (simple_name)
+            suffix: (simple_name))
+          suffix: (simple_name)))
+      (return
+        (type_mark
+          (selected_name
+            prefix: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
+            suffix: (simple_name)))))))

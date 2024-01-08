@@ -1,0 +1,379 @@
+============================================================================
+Entity declaration
+============================================================================
+entity e is
+    port (s : t);
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name))))
+
+============================================================================
+Block statements
+============================================================================
+B1:
+block
+    port (s : t);
+begin
+end block B1;
+---
+
+(design_file
+  (block_statement
+    (label
+      (identifier))
+    (block_header
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon)))
+    at_end: (simple_name)))
+
+============================================================================
+Component declaration
+============================================================================
+component c
+    port (s : t);
+end component c;
+---
+
+(design_file
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (port_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon)))
+    at_end: (simple_name)))
+
+============================================================================
+Legal interface declarations
+============================================================================
+entity e is
+    port (signal s : in      t;
+          signal s : out     t;
+          signal s : inout   t;
+          signal s : buffer  t;
+          signal s : linkage t;
+                 s : in      t;
+                 s : out     t;
+                 s : inout   t;
+                 s : buffer  t;
+                 s : linkage t;
+                 s :         t);
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name))))
+
+============================================================================
+LINT: Illegal interface declarations
+============================================================================
+entity e is
+    port (constant k : in      t;
+          constant k : out     t;
+          constant k : inout   t;
+          constant k : buffer  t;
+          constant k : linkage t;
+          constant k :         t);
+end entity e;
+
+entity e is
+    port (variable v : in      t;
+          variable v : out     t;
+          variable v : inout   t;
+          variable v : buffer  t;
+          variable v : linkage t;
+          variable v :         t);
+end entity e;
+
+entity e is
+    port (file v : in      t;
+          file v : out     t;
+          file v : inout   t;
+          file v : buffer  t;
+          file v : linkage t;
+          file v :         t);
+end entity e;
+
+entity e is
+    port (procedure p);
+end entity e;
+
+entity e is
+    port (package pkg is new upkg generic map (<>));
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (procedure_interface_declaration
+            designator: (identifier))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (port_clause
+          (package_interface_declaration
+            name: (identifier)
+            uninstantiated: (simple_name)
+            (package_map_aspect
+              (generic_map_aspect
+                (any))))
+          (semicolon)))
+      at_end: (simple_name))))

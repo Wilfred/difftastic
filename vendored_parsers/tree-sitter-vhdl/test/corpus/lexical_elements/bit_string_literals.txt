@@ -1,0 +1,145 @@
+============================================
+Minimal
+============================================
+assert b"";
+assert o"";
+assert x"";
+
+assert ub"";
+assert uo"";
+assert ux"";
+
+assert sb"";
+assert so"";
+assert sx"";
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal))))
+
+============================================
+Length
+============================================
+assert   4b"0";
+assert  8ub"0";
+assert 16sb"0";
+
+assert   04o"0";
+assert  08uo"0";
+assert 016so"0";
+
+assert   004x"0";
+assert  008ux"0";
+assert 0016sx"0";
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal))))
+
+============================================
+Bit value
+============================================
+assert  b"01";
+assert ub"01";
+assert sb"01";
+
+assert  o"0123_4567";
+assert uo"0123_4567";
+assert so"0123_4567";
+
+assert  x"0123_4567";
+assert ux"0123_4567_89AB_CDEF";
+assert sx"0123_4567_89AB_CDEF";
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal)))
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal))))
+
+============================================
+std_match
+============================================
+assert  b"--";
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (bit_string_literal))))

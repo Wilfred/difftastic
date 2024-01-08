@@ -1,0 +1,366 @@
+======================================================================
+Integer decimal literals
+======================================================================
+assert 0;
+assert 0000;
+
+assert 1;
+assert 1234;
+
+assert 00_00;
+assert 12_34;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal))))
+
+======================================================================
+Integer decimal literals - Exponent
+======================================================================
+assert 0e0;
+assert 0000e0;
+
+assert 1e1;
+assert 1234e1234;
+
+assert 00_00e0;
+assert 12_34e+1;
+assert 12_34e+1234;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (integer_decimal))))
+
+======================================================================
+Real decimal literals
+======================================================================
+assert 0.0;
+assert 00.0;
+
+assert 1.0;
+assert 12.34;
+
+assert 00_00.0000;
+assert 12_34.5678;
+
+assert 00_00.00_00;
+assert 12_34.56_78;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal))))
+
+======================================================================
+Real decimal literals - Negative exponent
+======================================================================
+assert 1.0e-1;
+assert 12.34e-1234;
+
+assert 12_34.5678e-1;
+assert 12_34.56_78e-1245;
+
+assert 12_34.56_78e-1;
+assert 12_34.56_78e-1245;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal)))
+  (assertion_statement
+    (conditional_expression
+      (real_decimal))))
+
+======================================================================
+Integer based literals - Base I
+======================================================================
+assert  2#0#;
+assert  8#0#;
+assert 010#0#;
+assert 016#0#;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer))))
+
+======================================================================
+Integer based literals - Based integer I
+======================================================================
+assert   2#1#;
+assert   3#2#;
+assert   4#3#;
+assert   5#4#;
+assert   6#5#;
+assert   7#6#;
+assert   8#7#;
+assert   9#8#;
+assert  10#9#;
+assert  11#A#;
+assert  12#B#;
+assert  13#C#;
+assert  14#D#;
+assert  15#E#;
+assert  16#F#;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer))))
+
+======================================================================
+Integer based literals - Exponent
+======================================================================
+assert 16#e1#e1;
+assert 16#e1#e+1;
+assert 16#e1#e-1;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer)))
+  (assertion_statement
+    (conditional_expression
+      (based_integer))))
+
+======================================================================
+Real based literals
+======================================================================
+assert  2#0.0#;
+assert 16#0.0#;
+
+assert 16#01234567.89abcdef#;
+assert 16#01234567.89ABCDEF#;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (based_real)))
+  (assertion_statement
+    (conditional_expression
+      (based_real)))
+  (assertion_statement
+    (conditional_expression
+      (based_real)))
+  (assertion_statement
+    (conditional_expression
+      (based_real))))
+
+======================================================================
+Real based literals - Positive exponent
+======================================================================
+assert 16#E1.E1#E1;
+assert 16#E1.E1#E+1;
+assert 16#E1.E1#E-1;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (based_real)))
+  (assertion_statement
+    (conditional_expression
+      (based_real)))
+  (assertion_statement
+    (conditional_expression
+      (based_real))))
+
+======================================================================
+Physical literals I
+======================================================================
+assert 100 ns;
+assert 16#E1#E1 MIN;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (integer_decimal)
+        (simple_name))))
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (based_integer)
+        (simple_name)))))
+
+======================================================================
+Physical literals II
+======================================================================
+assert 100ns;
+assert 16#E1#E1MIN;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (integer_decimal)
+        unit: (simple_name))))
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (based_integer)
+        unit: (simple_name)))))
+
+======================================================================
+Physical literals - Integer coefficient
+======================================================================
+assert 1 E1;
+assert 2e+2 E1;
+
+assert 16#E1# E1;
+assert 16#E1#E1 E1;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (integer_decimal)
+        unit: (simple_name))))
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (integer_decimal)
+        unit: (simple_name))))
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (based_integer)
+        unit: (simple_name))))
+  (assertion_statement
+    (conditional_expression
+      (physical_literal
+        (based_integer)
+        unit: (simple_name)))))

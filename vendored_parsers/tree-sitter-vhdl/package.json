@@ -1,0 +1,42 @@
+{
+  "name": "tree-sitter-vhdl",
+  "version": "0.1.1",
+  "description": "VHDL grammar for tree-sitter",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alemuller/tree-sitter-vhdl.git"
+  },
+  "keywords": [
+    "parser",
+    "lexer",
+    "vhdl",
+    "vhdl-08",
+    "psl"
+  ],
+  "author": "Alexandre Muller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alemuller/tree-sitter-vhdl/issues"
+  },
+  "homepage": "https://github.com/alemuller/tree-sitter-vhdl#readme",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.vhd",
+      "file-types": [
+        "vhd",
+        "vhdl"
+      ],
+      "first-line-regex": "library *;"
+    }
+  ]
+}

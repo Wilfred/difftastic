@@ -1,0 +1,395 @@
+============================================================================
+Constant interface declarations
+============================================================================
+procedure f (constant k :    t;
+             constant k : in i;
+                      k :    t;
+                      k : in t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+Signal interface declarations
+============================================================================
+procedure f (signal s :         t;
+             signal s : in      t;
+             signal s : out     t;
+             signal s : inout   t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+Variable interface declarations
+============================================================================
+procedure f (variable v : in      t := x;
+             variable k : out     t;
+             variable k : inout   t;
+                      k : out     t;
+                      k : inout   t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+File interface declarations
+============================================================================
+procedure f (file f : t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (file_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+LINT: Illegal constant interface declarations
+============================================================================
+procedure f (constant k : out     t;
+             constant k : inout   t;
+             constant k : buffer  t;
+             constant k : linkage t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+LINT: Illegal signal interface declarations
+============================================================================
+procedure f (signal s :         t := x;
+             signal s : in      t := x;
+             signal s : out     t := x;
+             signal s : inout   t := x;
+             signal s : buffer  t;
+             signal s : linkage t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (signal_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+LINT: Illegal variable interface declarations
+============================================================================
+procedure f (variable k : out     t := x;
+             variable k : inout   t := x;
+             variable k : buffer  t;
+             variable k : linkage t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))
+          (default_expression
+            (simple_name)))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (variable_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+LINT: Illegal file interface declarations
+============================================================================
+procedure f (file v : in      t;
+             file v : out     t;
+             file v : inout   t;
+             file v : buffer  t;
+             file v : linkage t);
+---
+
+(design_file
+  (procedure_declaration
+      designator: (identifier)
+      (procedure_parameter_clause
+        (file_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (file_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (file_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (file_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (file_interface_declaration
+          (identifier_list
+            (identifier))
+          (mode)
+          (subtype_indication
+            (type_mark
+              (simple_name)))))))
+
+============================================================================
+LINT: Illegal type interface declarations
+============================================================================
+procedure f (type t);
+---
+
+(design_file
+  (procedure_declaration
+    designator: (identifier)
+    (procedure_parameter_clause
+      (type_interface_declaration
+        name: (identifier)))))
+
+============================================================================
+LINT: Illegal subprogram interface declarations
+============================================================================
+procedure f (procedure p);
+---
+
+(design_file
+  (procedure_declaration
+    designator: (identifier)
+    (procedure_parameter_clause
+      (procedure_interface_declaration
+        designator: (identifier)))))
+
+============================================================================
+LINT: Illegal package interface declarations
+============================================================================
+procedure f (package pkg is new pkg generic map (<>));
+---
+
+(design_file
+  (procedure_declaration
+    designator: (identifier)
+    (procedure_parameter_clause
+      (package_interface_declaration
+        name: (identifier)
+        uninstantiated: (simple_name)
+        (package_map_aspect
+          (generic_map_aspect
+            (any)))))))

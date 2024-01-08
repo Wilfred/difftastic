@@ -1,0 +1,77 @@
+===================================
+Conflict I - Function call
+===================================
+assert (foo (open));
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (parenthesized_expression
+        (function_call
+          function: (simple_name)
+          (association_list
+            (positional_association_element
+              actual_part: (open))))))))
+
+===================================
+Conflict I - Subtype indication constraint
+===================================
+assert new foobar (foo (open));
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (open))))))))))
+
+===================================
+Conflict II - Slice name
+===================================
+assert (foo (h downto l));
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (parenthesized_expression
+        (slice_name
+          prefix: (simple_name)
+          (descending_range
+            high: (simple_expression
+              (simple_name))
+            low: (simple_expression
+              (simple_name))))))))
+
+===================================
+Conflict II - Subtype indication constraint
+===================================
+assert new foobar (foo (h downto l));
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (record_constraint
+            (record_element_constraint
+              element: (simple_name)
+              (array_constraint
+                (index_constraint
+                  (descending_range
+                    high: (simple_expression
+                      (simple_name))
+                    low: (simple_expression
+                      (simple_name))))))))))))

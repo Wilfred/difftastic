@@ -1,0 +1,247 @@
+===================================
+Ambiguous name I
+===================================
+assert fun (obj);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (simple_name)))))))
+
+===================================
+Ambiguous name II
+===================================
+assert fun (bar, baz);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (simple_name))
+          (expression
+            (simple_name)))))))
+
+===================================
+Predefine enumeration literal on actual I
+===================================
+assert fun ('+');
+assert fun ("str");
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (positional_association_element
+            actual_part: (character_literal))))))
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (positional_association_element
+            actual_part: (string_literal)))))))
+
+===================================
+Predefine enumeration literal on actual II
+===================================
+assert fun (amb, '+');
+assert fun (amb, "str");
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))
+          (positional_association_element
+            actual_part: (character_literal))))))
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))
+          (positional_association_element
+            actual_part: (string_literal)))))))
+
+===================================
+Named association element I
+===================================
+assert fun (foo => bar);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (named_association_element
+            formal_part: (simple_name)
+            actual_part: (expression
+              (simple_name))))))))
+
+===================================
+Named association element II
+===================================
+assert fun (foo.bar => baz);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (named_association_element
+            formal_part: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
+            actual_part: (expression
+              (simple_name))))))))
+
+===================================
+Mixed association list
+===================================
+assert fun (a, b => c);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))
+          (named_association_element
+            formal_part: (simple_name)
+            actual_part: (expression
+              (simple_name))))))))
+
+===================================
+Open I
+===================================
+assert fun (open);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (positional_association_element
+            actual_part: (open)))))))
+
+===================================
+Open II
+===================================
+assert fun (bar => open);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (named_association_element
+            formal_part: (simple_name)
+            actual_part: (open)))))))
+
+===================================
+Open III
+===================================
+assert fun (fun (open));
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (function_call
+              function: (simple_name)
+              (association_list
+                (positional_association_element
+                  actual_part: (open))))))))))
+
+===================================
+Prefix - Operator symbol
+===================================
+assert "and" (foo, bar);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (operator_symbol)
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))
+
+===================================
+Prefix - Attribute name
+===================================
+assert foo'bar (baz);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (attribute_name
+          prefix: (simple_name)
+          designator: (simple_name))
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))
+
+===================================
+Actual part I (Type conversion)
+===================================
+assert fun (t(param) => obj);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (function_call
+        function: (simple_name)
+        (association_list
+          (named_association_element
+            formal_part: (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))))
+            actual_part: (expression
+              (simple_name))))))))

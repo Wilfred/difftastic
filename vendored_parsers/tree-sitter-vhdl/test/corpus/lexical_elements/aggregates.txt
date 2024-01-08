@@ -1,0 +1,295 @@
+============================================
+Positional association
+============================================
+assert (a,b);
+assert (a,b,c);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+          (positional_element_association
+            (expression
+              (simple_name)))
+          (positional_element_association
+            (expression
+              (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+          (positional_element_association
+            (expression
+              (simple_name)))
+          (positional_element_association
+            (expression
+              (simple_name)))
+          (positional_element_association
+            (expression
+              (simple_name)))))))
+
+============================================
+Named association
+============================================
+assert (a=>b,c=>d,e=>f);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))))))
+
+============================================
+Choices
+============================================
+assert (a|b|c=>d);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name))
+            (simple_expression
+              (simple_name))
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))))))
+
+============================================
+Others
+============================================
+assert (others=>a);
+assert (a,b=>c,others=>d);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (others))
+          (expression
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (positional_element_association
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (others))
+          (expression
+            (simple_name)))))))
+
+============================================
+Mixed element associations
+============================================
+assert (a,b=>c);
+assert (a,b,c=>d,e=>f);
+assert (a,b,c|d=>e,f|g=>h);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (positional_element_association
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (positional_element_association
+          (expression
+            (simple_name)))
+        (positional_element_association
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (positional_element_association
+          (expression
+            (simple_name)))
+        (positional_element_association
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name))
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))
+        (named_element_association
+          (choices
+            (simple_expression
+              (simple_name))
+            (simple_expression
+              (simple_name)))
+          (expression
+            (simple_name)))))))
+
+============================================
+Aggregate name on choice
+============================================
+assert (a'high=>b);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (simple_expression
+              (attribute_name
+                prefix: (simple_name)
+                designator: (predefined_designator))))
+          (expression
+            (simple_name)))))))
+
+============================================
+Discrete range I
+============================================
+assert (h downto l=>a);
+assert (l to h=>a);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (descending_range
+              high: (simple_expression
+                (simple_name))
+              low: (simple_expression
+                (simple_name))))
+          (expression
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (ascending_range
+              low: (simple_expression
+                (simple_name))
+              high: (simple_expression
+                (simple_name))))
+          (expression
+            (simple_name)))))))
+
+============================================
+Discrete range II
+============================================
+assert (t'range=>a);
+assert (t'reverse_range=>a);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_designator)))
+          (expression
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_designator)))
+          (expression
+            (simple_name)))))))
+
+============================================
+Discrete range III
+============================================
+assert (t'range(1)=>a);
+assert (t'reverse_range(1)=>a);
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_designator)
+              (expression
+                (integer_decimal))))
+          (expression
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (aggregate
+        (named_element_association
+          (choices
+            (attribute_name
+              prefix: (simple_name)
+              designator: (predefined_designator)
+              (expression
+                (integer_decimal))))
+          (expression
+            (simple_name)))))))

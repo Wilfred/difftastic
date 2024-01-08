@@ -1,0 +1,292 @@
+================================================================================
+Object classes
+================================================================================
+assert << constant obj : bar_t >>;
+assert << signal   obj : bar_t >>;
+assert << variable obj : bar_t >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Package pathname
+================================================================================
+assert << constant @lib.pkg.obj         : foo_t >>;
+assert << signal   @lib.pkg.pkg.pkg.obj : foo_t >>;
+assert << variable @lib.pkg.pkg.obj     : foo_t >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (package_pathname
+          library: (simple_name)
+          package: (simple_name)
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (package_pathname
+          library: (simple_name)
+          package: (simple_name)
+          package: (simple_name)
+          package: (simple_name)
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (package_pathname
+          library: (simple_name)
+          package: (simple_name)
+          package: (simple_name)
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Absolute pathname I
+================================================================================
+assert << constant .obj         : foo_t >>;
+assert << signal   .foo.bar.obj : foo_t >>;
+assert << variable .foo.obj     : foo_t >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (absolute_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (absolute_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (absolute_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Absolute pathname II
+================================================================================
+assert << constant .foo(0).obj        : bar >>;
+assert << signal   .foo(0).bar(0).obj : bar >>;
+assert << variable .foo.bar(0).obj    : bar >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (absolute_pathname
+          (pathname_element
+            (generate_statement_element
+              label: (simple_name)
+              specification: (expression
+                (integer_decimal))))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (absolute_pathname
+          (pathname_element
+            (generate_statement_element
+              label: (simple_name)
+              specification: (expression
+                (integer_decimal))))
+          (pathname_element
+            (generate_statement_element
+              label: (simple_name)
+              specification: (expression
+                (integer_decimal))))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (absolute_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          (pathname_element
+            (generate_statement_element
+              label: (simple_name)
+              specification: (expression
+                (integer_decimal))))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Relative pathname I
+================================================================================
+assert << constant obj         : foo_t >>;
+assert << signal   foo.bar.obj : foo_t >>;
+assert << variable foo.obj     : foo_t >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (relative_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (relative_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Relative pathname II
+================================================================================
+assert << constant obj   : foo_t >>;
+assert << signal ^.^.obj : foo_t >>;
+assert << variable ^.obj : foo_t >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (relative_pathname
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Relative pathname III
+================================================================================
+assert << constant bar.obj                : foo_t >>;
+assert << signal   ^.^.foobar.foo.bar.obj : foo_t >>;
+assert << variable ^.foo.bar.obj          : foo_t >>;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (external_constant_name
+        (relative_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_signal_name
+        (relative_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          (pathname_element
+            name_or_label: (simple_name))
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (external_variable_name
+        (relative_pathname
+          (pathname_element
+            name_or_label: (simple_name))
+          (pathname_element
+            name_or_label: (simple_name))
+          object: (simple_name))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))

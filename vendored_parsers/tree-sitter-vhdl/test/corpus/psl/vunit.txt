@@ -1,0 +1,435 @@
+================================================================================
+LRM 7.2.1 - I
+================================================================================
+vunit ex1a(top_block.i1.i2) {
+    A1: assert never (ena and enb);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name)
+          instance: (simple_name)
+          instance: (simple_name))
+        (PSL_Assert_Directive
+          (label
+            (identifier))
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (simple_name)
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.1 - II
+================================================================================
+vunit ex2a(mod1) {
+    assert never (ena and enb);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name))
+        (PSL_Assert_Directive
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (simple_name)
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.1 - III
+================================================================================
+vunit ex2b(top_block.i1) {
+    assert never (i2.ena and i2.enb);
+    assert never (i3.ena and i3.enb);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name)
+          instance: (simple_name))
+        (PSL_Assert_Directive
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name))
+                  (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name)))))))
+        (PSL_Assert_Directive
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name))
+                  (selected_name
+                    prefix: (simple_name)
+                    suffix: (simple_name)))))))))))
+
+================================================================================
+LRM 7.2.1 - IV
+================================================================================
+vunit ex3 {
+    A3: assert never (ena and enb);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Assert_Directive
+          (label
+            (identifier))
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (simple_name)
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.1 - V
+================================================================================
+vunit ex4 {
+    property mutex (boolean b1, b2) is never (b1 and b2);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Property_Declaration
+          (PSL_Identifier)
+          (PSL_Formal_Parameter_List
+            (PSL_Formal_Parameter
+              (PSL_Constant_Parameter_Specification
+                (PSL_Type_Class))
+              (PSL_Identifier)
+              (PSL_Identifier)))
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (simple_name)
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.2 - I
+================================================================================
+vmode Common {
+    property mutex (boolean b1, b2) is never b1 and b2 ;
+    property one_hot (boolean b1, b2) is always ((b1 and b2) or (b2 and not b1));
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VMode
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Property_Declaration
+          (PSL_Identifier)
+          (PSL_Formal_Parameter_List
+            (PSL_Formal_Parameter
+              (PSL_Constant_Parameter_Specification
+                (PSL_Type_Class))
+              (PSL_Identifier)
+              (PSL_Identifier)))
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (logical_expression
+                (simple_name)
+                (simple_name)))))
+        (PSL_Property_Declaration
+          (PSL_Identifier)
+          (PSL_Formal_Parameter_List
+            (PSL_Formal_Parameter
+              (PSL_Constant_Parameter_Specification
+                (PSL_Type_Class))
+              (PSL_Identifier)
+              (PSL_Identifier)))
+          (PSL_Invariant_FL_Property
+            (PSL_Boolean
+              (parenthesized_expression
+                (logical_expression
+                  (parenthesized_expression
+                    (logical_expression
+                      (simple_name)
+                      (simple_name)))
+                  (parenthesized_expression
+                    (logical_expression
+                      (simple_name)
+                      (factor
+                        (simple_name)))))))))))))
+
+================================================================================
+LRM 7.2.2 - II
+================================================================================
+vmode Amode (blockA) {
+    inherit Common;
+    assume mutex(Aout1, Aout2);
+}
+
+vmode Bmode (blockB) {
+    inherit Common;
+    assume one_hot(Bout1, Bout2);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VMode
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name))
+        (PSL_Inherit_Spec
+          (simple_name))
+        (PSL_Assume_Directive
+          (PSL_Boolean
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name)))))))))
+  (design_unit
+    (PSL_VMode
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name))
+        (PSL_Inherit_Spec
+          (simple_name))
+        (PSL_Assume_Directive
+          (PSL_Boolean
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.2 - III
+================================================================================
+vunit Aprops (blockA) {
+    inherit Common, Bmode;
+    assert mutex(Aout1, Aout2);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name))
+        (PSL_Inherit_Spec
+          (simple_name)
+          (simple_name))
+        (assertion_statement
+          (conditional_expression
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.2 - IV
+================================================================================
+vunit Bprops (blockB) {
+    inherit Common, Amode;
+    assert one_hot(Bout1, Bout2);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name))
+        (PSL_Inherit_Spec
+          (simple_name)
+          (simple_name))
+        (assertion_statement
+          (conditional_expression
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))
+                (expression
+                  (simple_name))))))))))
+
+================================================================================
+LRM 7.2.3 - I
+================================================================================
+vunit ex5a(top_block.i1) {
+    signal reqa, temp : boolean;
+
+    A5a: assert always (reqa -> next temp);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name)
+          instance: (simple_name))
+        (signal_declaration
+          (identifier_list
+            (identifier)
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (PSL_Assert_Directive
+          (label
+            (identifier))
+          (PSL_Invariant_FL_Property
+            (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                (PSL_Boolean
+                  (simple_name))
+                (PSL_Ocurrence_FL_Property
+                  (PSL_Boolean
+                    (simple_name)))))))))))
+
+================================================================================
+LRM 7.2.3 - II
+================================================================================
+vunit ex5b(top_block.i1) {
+    signal temp : boolean;
+
+    temp <= ack1 or ack2;
+    A5b: assert always (reqa -> next temp);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name)
+          instance: (simple_name))
+        (signal_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (simple_concurrent_signal_assignment
+          target: (simple_name)
+          (waveforms
+            (waveform_element
+              (expression
+                (logical_expression
+                  (simple_name)
+                  (simple_name))))))
+        (PSL_Assert_Directive
+          (label
+            (identifier))
+          (PSL_Invariant_FL_Property
+            (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                (PSL_Boolean
+                  (simple_name))
+                (PSL_Ocurrence_FL_Property
+                  (PSL_Boolean
+                    (simple_name)))))))))))
+
+================================================================================
+LRM 7.2.3 - III
+================================================================================
+vunit ex5d(top_block.i1) {
+    signal reqa : boolean;
+
+    reqa <= nondet((0,1));
+    A5c: assert always ((reqa or reqb) -> next temp);
+}
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (PSL_VUnit
+      (PSL_Identifier)
+      (PSL_Verification_Unit_Body
+        (PSL_Hierarchical_HDL_Name
+          entity: (simple_name)
+          instance: (simple_name))
+        (signal_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (simple_concurrent_signal_assignment
+          target: (simple_name)
+          (waveforms
+            (waveform_element
+              (expression
+                (ambiguous_name
+                  prefix: (simple_name)
+                  (expression_list
+                    (expression
+                      (aggregate
+                        (positional_element_association
+                          (expression
+                            (integer_decimal)))
+                        (positional_element_association
+                          (expression
+                            (integer_decimal)))))))))))
+        (PSL_Assert_Directive
+          (label
+            (identifier))
+          (PSL_Invariant_FL_Property
+            (PSL_Parenthesized_FL_Property
+              (PSL_Implication_FL_Property
+                (PSL_Boolean
+                  (parenthesized_expression
+                    (logical_expression
+                      (simple_name)
+                      (simple_name))))
+                (PSL_Ocurrence_FL_Property
+                  (PSL_Boolean
+                    (simple_name)))))))))))

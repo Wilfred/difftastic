@@ -1,0 +1,332 @@
+==============================================================
+Character literal - White spaces (SPACE and NBSP)
+==============================================================
+report ' ' & ' ';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+         (character_literal)
+         (character_literal)))))
+
+==============================================================
+Character literal - Apostrophe
+==============================================================
+report ''' & ''';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+         (character_literal)
+         (character_literal)))))
+
+==============================================================
+Character literal - Quotation mark
+==============================================================
+report '"' & '"';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+         (character_literal)
+         (character_literal)))))
+
+==============================================================
+Character literal - Backtick
+==============================================================
+report '`';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (character_literal))))
+
+==============================================================
+Character literal - Solidus and backslash
+==============================================================
+report '/' & '\';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+         (character_literal)
+         (character_literal)))))
+
+==============================================================
+Character literal - Number signal
+==============================================================
+report '#' & 'e';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+         (character_literal)
+         (character_literal)))))
+
+==============================================================
+Character literal - STD_LOGIC values (upper case)
+==============================================================
+report '1' & '0' & 'U' & 'X' & 'W' & 'L' & 'H' & '-';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)))))
+
+
+==============================================================
+Character literal - STD_LOGIC values (lower case)
+==============================================================
+report '1' & '0' & 'u' & 'x' & 'w' & 'l' & 'h' & '-';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)
+        (character_literal)))))
+
+==============================================================
+Special characters
+==============================================================
+report '"';
+report '!';
+report '$';
+report '%';
+report '\';
+report '^';
+report '{';
+report '}';
+report ''';
+report '~';
+
+report '¡';
+report '¢';
+report '£';
+report '¤';
+report '¥';
+report '¦';
+report '§';
+report '¨';
+report '©';
+report 'ª';
+report '«';
+report '¬';
+report '®';
+report '¯';
+report '°';
+report '±';
+report '²';
+report '³';
+report '´';
+report 'µ';
+report '¶';
+report '·';
+report '¸';
+report '¹';
+report 'º';
+report '»';
+report '¼';
+report '½';
+report '¾';
+report '¿';
+report '×';
+report '÷';
+report '-';
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal)))
+  (report_statement
+    (string_expression
+      (character_literal))))
+
+==============================================================
+Character literal - ASCII mnemonics (simple_names)
+==============================================================
+report nul;
+report ack & nak;
+report ack & nak;
+report esc & esc;
+report ht & vt & cr & lf & ff;
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (simple_name)))
+  (report_statement
+    (string_expression
+      (concatenation
+        (simple_name)
+        (simple_name))))
+  (report_statement
+    (string_expression
+      (concatenation
+        (simple_name)
+        (simple_name))))
+  (report_statement
+    (string_expression
+      (concatenation
+        (simple_name)
+        (simple_name))))
+  (report_statement
+    (string_expression
+      (concatenation
+        (simple_name)
+        (simple_name)
+        (simple_name)
+        (simple_name)
+        (simple_name)))))
