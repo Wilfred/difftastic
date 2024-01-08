@@ -68,7 +68,7 @@ fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: 
 fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
     let display_width = s.width();
 
-    // .width() on tabs returns 0, wheras we want to model them as
+    // .width() on tabs returns 0, whereas we want to model them as
     // `tab_width` spaces.
     debug_assert_eq!("\t".width(), 0);
     let tab_count = s.matches('\t').count();
