@@ -8,6 +8,9 @@ Added support for Objective-C.
 
 The default display width for tabs has changed to 4.
 
+Fixed an issue where difftastic would sometimes output literal tabs
+rather than respecting the display width for tabs.
+
 ## 0.54 (released 7th January 2024)
 
 ### Parsing

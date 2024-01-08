@@ -14,8 +14,8 @@ use crate::{
     display::context::all_matched_lines_filled,
     display::hunks::{matched_lines_indexes_for_hunk, Hunk},
     display::style::{
-        self, apply_colors, apply_line_number_color, color_positions, novel_style, split_and_apply,
-        BackgroundColor,
+        self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
+        split_and_apply, BackgroundColor,
     },
     hash::DftHashMap,
     lines::format_line_num,
@@ -102,7 +102,7 @@ fn display_single_column(
                 .style(style)
                 .to_string(),
         );
-        formatted_line.push_str(line);
+        formatted_line.push_str(&replace_tabs(line, display_options.tab_width));
         formatted_lines.push(formatted_line);
     }
 
