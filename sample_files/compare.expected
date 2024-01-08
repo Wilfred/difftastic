@@ -14,7 +14,7 @@ sample_files/apex_before.cls sample_files/apex_after.cls
 fde5c2cb739fb8bb42a592f64190137e  -
 
 sample_files/b2_math_before.h sample_files/b2_math_after.h
-e1391702d8059d127110017bf6e9ef85  -
+8ce28404b7f7935a66bd13b14a4dbcb4  -
 
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
 397c122ac48dd2f78c2ae7704083b5e2  -
@@ -62,19 +62,19 @@ sample_files/elvish_before.elv sample_files/elvish_after.elv
 66aee6a75695ea5654a2de2faa18202e  -
 
 sample_files/erlang_before.erl sample_files/erlang_after.erl
-263c997d2a8a4ef49548d0b83205e887  -
+c4a48cdd69bc3d0ef5e6bf2e5a8424f9  -
 
 sample_files/hack_before.php sample_files/hack_after.php
 f4e6a08cf167ed376dac629bead4e54d  -
 
 sample_files/hare_before.ha sample_files/hare_after.ha
-ba30c56f390533aca5087c6a1ec8b443  -
+7848f1b9689629ab5dc5e1a742c34d6b  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
 4cf36291cc7d9b72526063db0ebc5402  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
-276bef3c67507bb95d9271dbf38c9556  -
+52e271ea8ffbe500d6bc3c47d35df13a  -
 
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 f85460a4e60d77b4cae1a987a5af4c49  -
@@ -89,7 +89,7 @@ sample_files/html_simple_before.html sample_files/html_simple_after.html
 915a46736d489be724b18c87b4ebf6b2  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-8302a9d03dd1a32e52e83d864a990ab2  -
+63b627d680fcdc87eac8c242661a28c5  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 da6c8d397a9d3992b494d761d082366c  -
@@ -128,7 +128,7 @@ sample_files/lua_before.lua sample_files/lua_after.lua
 9f5c85cd6806c724c84afa805da76bb7  -
 
 sample_files/makefile_before.mk sample_files/makefile_after.mk
-8e36814d003ed4904b3c2cdc998d1aed  -
+7eea0d919b71161c72a4ef496fff749d  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
 4ac68277cb69d0648961b891e02d2a7b  -
@@ -236,7 +236,7 @@ sample_files/syntax_error_before.js sample_files/syntax_error_after.js
 857cd151569443f5698939f97100e82e  -
 
 sample_files/tab_before.c sample_files/tab_after.c
-332a4d43acced8104ef0b4ec277d3676  -
+7e4345e584d440a136f90becb0ef45bc  -
 
 sample_files/tailwind_before.css sample_files/tailwind_after.css
 db01dde1e8455a144e5bf0511273f674  -
