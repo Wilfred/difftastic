@@ -1,4 +1,4 @@
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
 #include <stdio.h>
 #include <string.h>
 #include "unicode.h"
@@ -575,7 +575,9 @@ bool tree_sitter_typst_external_scanner_scan(
 			case TERMINATION_INCLUSIVE:
 			lexer->advance(lexer, false);
 			lexer->mark_end(lexer);
-			scanner_dedent(self);
+			if (scanner_container_at(self, 0) != CONTAINER_BRACKET) {
+				scanner_dedent(self);
+			}
 			case TERMINATION_EXCLUSIVE:
 			scanner_container_pop(self);
 			lexer->result_symbol = TOKEN_TERMINATION;
