@@ -12,3 +12,5 @@ macro
 // <- warning
 test
 // <- warning
+echo
+// <- warning
