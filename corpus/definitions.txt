@@ -1247,6 +1247,9 @@ object A:
   given [A](using Foo[A]): Foo[List[A]] with
     def x = ()
 
+  trait B:
+    given c: Context[T]
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -1385,7 +1388,16 @@ object A:
         (with_template_body
           (function_definition
             (identifier)
-            (unit)))))))
+            (unit))))
+      (trait_definition
+        (identifier)
+        (template_body
+          (given_definition
+            (identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))))))
 
 ================================================================================
 Top-level Definitions (Scala 3 syntax)
