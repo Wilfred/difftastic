@@ -145,3 +145,18 @@ panic as { "Hello, " <> "world!" }
           (quoted_content))
         (string
           (quoted_content))))))
+
+================================================================================
+Nested field access
+================================================================================
+
+config.connection.host
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (field_access
+    (field_access
+      (identifier)
+      (label))
+    (label)))

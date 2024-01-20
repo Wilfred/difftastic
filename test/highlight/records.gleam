@@ -12,3 +12,9 @@ pub fn new(name: String) {
   //    ^ property
   //          ^ variable.parameter
 }
+
+let config = Config()
+config.connection.host
+// ^ variable
+//       ^ property
+//                 ^ property
