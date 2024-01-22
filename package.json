@@ -25,6 +25,12 @@
       "file-types": [
         "d",
         "dd"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injections": [
+        "queries/injections.scm"
       ]
     }
   ]
