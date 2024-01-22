@@ -1,8 +1,11 @@
 [package]
 name = "tree-sitter-c"
 description = "C grammar for the tree-sitter parsing library"
-version = "0.20.6"
-authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
+version = "0.20.7"
+authors = [
+	"Max Brunsfeld <maxbrunsfeld@gmail.com>",
+	"Amaan Qureshi <amaanq12@gmail.com",
+]
 license = "MIT"
 readme = "bindings/rust/README.md"
 keywords = ["incremental", "parsing", "c"]
@@ -18,7 +21,7 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.20.10"
+tree-sitter = "~0.20.10"
 
 [build-dependencies]
-cc = "~1.0"
+cc = "~1.0.83"
