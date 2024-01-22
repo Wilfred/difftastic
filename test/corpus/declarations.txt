@@ -84,7 +84,17 @@ enum e3 {
 };
 
 enum e4: int {
+#ifdef A
   val1 = 'hey',
+#else
+  val1 = 'ho',
+#endif
+
+#if HEY
+  val2 = 'hey',
+#else
+  val2 = 'ho',
+#endif
 };
 
 --------------------------------------------------------------------------------
@@ -111,12 +121,34 @@ enum e4: int {
     name: (type_identifier)
     underlying_type: (primitive_type)
     body: (enumerator_list
-      (enumerator
+      (preproc_ifdef
         name: (identifier)
-        value: (char_literal
-          (character)
-          (character)
-          (character))))))
+        (enumerator
+          name: (identifier)
+          value: (char_literal
+            (character)
+            (character)
+            (character)))
+        alternative: (preproc_else
+          (enumerator
+            name: (identifier)
+            value: (char_literal
+              (character)
+              (character)))))
+      (preproc_if
+        condition: (identifier)
+        (enumerator
+          name: (identifier)
+          value: (char_literal
+            (character)
+            (character)
+            (character)))
+        alternative: (preproc_else
+          (enumerator
+            name: (identifier)
+            value: (char_literal
+              (character)
+              (character))))))))
 
 ================================================================================
 Struct declarations containing preprocessor directives
