@@ -1440,6 +1440,10 @@
           "named": true
         },
         {
+          "type": "preproc_call",
+          "named": true
+        },
+        {
           "type": "preproc_if",
           "named": true
         },

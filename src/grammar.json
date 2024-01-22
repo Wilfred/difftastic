@@ -4805,6 +4805,19 @@
                 },
                 "named": true,
                 "value": "preproc_ifdef"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "preproc_call"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  }
+                ]
               }
             ]
           }
@@ -4839,6 +4852,10 @@
                       },
                       "named": true,
                       "value": "preproc_ifdef"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "preproc_call"
                     }
                   ]
                 }

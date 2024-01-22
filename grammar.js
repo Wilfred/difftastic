@@ -624,12 +624,14 @@ module.exports = grammar({
         seq($.enumerator, ','),
         alias($.preproc_if_in_enumerator_list, $.preproc_if),
         alias($.preproc_ifdef_in_enumerator_list, $.preproc_ifdef),
+        seq($.preproc_call, ','),
       )),
       optional(seq(
         choice(
           $.enumerator,
           alias($.preproc_if_in_enumerator_list_no_comma, $.preproc_if),
           alias($.preproc_ifdef_in_enumerator_list_no_comma, $.preproc_ifdef),
+          $.preproc_call,
         ),
       )),
       '}',
