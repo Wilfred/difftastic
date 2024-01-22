@@ -834,7 +834,9 @@ Compound literals
 int main() {
   x = (SomeType) {
     .f1.f2[f3] = 5,
-    .f4 = {}
+    .f4 = {},
+    .f5[1 ... 10] = -1,
+    f6: 6,
   };
   y = (struct SomeStruct) {
     7,
@@ -870,7 +872,17 @@ int main() {
               (initializer_pair
                 (field_designator
                   (field_identifier))
-                (initializer_list))))))
+                (initializer_list))
+              (initializer_pair
+                (field_designator
+                  (field_identifier))
+                (subscript_range_designator
+                  (number_literal)
+                  (number_literal))
+                (number_literal))
+              (initializer_pair
+                (field_identifier)
+                (number_literal))))))
       (expression_statement
         (assignment_expression
           (identifier)

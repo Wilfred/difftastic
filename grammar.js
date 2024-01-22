@@ -1128,13 +1128,26 @@ module.exports = grammar({
       '}',
     ),
 
-    initializer_pair: $ => seq(
-      field('designator', repeat1(choice($.subscript_designator, $.field_designator))),
-      '=',
-      field('value', choice($._expression, $.initializer_list)),
+    initializer_pair: $ => choice(
+      seq(
+        field('designator', repeat1(choice(
+          $.subscript_designator,
+          $.field_designator,
+          $.subscript_range_designator,
+        ))),
+        '=',
+        field('value', choice($._expression, $.initializer_list)),
+      ),
+      seq(
+        field('designator', $._field_identifier),
+        ':',
+        field('value', choice($._expression, $.initializer_list)),
+      ),
     ),
 
     subscript_designator: $ => seq('[', $._expression, ']'),
+
+    subscript_range_designator: $ => seq('[', field('start', $._expression), '...', field('end', $._expression), ']'),
 
     field_designator: $ => seq('.', $._field_identifier),
 
