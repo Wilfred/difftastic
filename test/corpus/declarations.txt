@@ -84,7 +84,7 @@ enum e3 {
 };
 
 enum e4: int {
-  val1,
+  val1 = 'hey',
 };
 
 --------------------------------------------------------------------------------
@@ -112,7 +112,11 @@ enum e4: int {
     underlying_type: (primitive_type)
     body: (enumerator_list
       (enumerator
-        name: (identifier)))))
+        name: (identifier)
+        value: (char_literal
+          (character)
+          (character)
+          (character))))))
 
 ================================================================================
 Struct declarations containing preprocessor directives
