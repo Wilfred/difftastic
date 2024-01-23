@@ -1,7 +1,7 @@
 [
     "/delete-node/"
     "/delete-property/"
-    "/dts-v1"
+    "/dts-v1/"
     "/incbin/"
     "/include/"
     "/memreserve/"
