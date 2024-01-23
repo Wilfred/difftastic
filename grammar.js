@@ -133,8 +133,13 @@ module.exports = grammar({
 		node: ($) =>
 			seq(
 				repeat($._label),
-				field('name', choice($.node_identifier, $.reference)),
-				field('address', optional(seq('@', $.unit_address))),
+				choice(
+					field('name', $.reference),
+					seq(
+						field('name', $.node_identifier),
+						field('address', optional(seq('@', $.unit_address)))
+					)
+				),
 				'{',
 				repeat($._node_members),
 				'}',
