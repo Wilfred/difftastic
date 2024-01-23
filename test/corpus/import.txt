@@ -1,0 +1,11 @@
+============================================
+import
+============================================
+
+import "@stdlib/deploy";
+
+---
+
+(source_file
+  (import_statement
+    library: (string)))

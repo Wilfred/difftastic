@@ -1,0 +1,49 @@
+============================================
+trait
+============================================
+
+@interface("filled")
+@interface("non-filled")
+trait Filled with Deployable, Ownable {
+  const a: Int;
+  b: Int;
+  get fun c(arg1: String): Int {
+    return 0;
+  }
+  override inline abstract fun d() {}
+}
+
+---
+
+(source_file
+  (trait
+    attributes: (trait_attributes
+      (string)
+      (string))
+    name: (identifier)
+    traits: (trait_list
+      (identifier)
+      (identifier))
+    body: (trait_body
+      (constant
+        name: (identifier)
+        type: (type_identifier))
+      (field
+        name: (identifier)
+        type: (type_identifier))
+      (function
+        attributes: (function_attributes)
+        name: (identifier)
+        parameters: (parameter_list
+          (parameter
+            name: (identifier)
+            type: (type_identifier)))
+        result: (type_identifier)
+        body: (function_body
+          (return_statement (integer))))
+      (function
+        attributes: (function_attributes)
+        name: (identifier)
+        parameters: (parameter_list)
+        body: (function_body))
+    )))

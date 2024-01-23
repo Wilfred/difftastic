@@ -1,0 +1,4 @@
+* text=auto
+
+src/** linguist-generated
+test/** linguist-documentation

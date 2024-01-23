@@ -1,0 +1,22 @@
+============================================
+native function
+============================================
+
+@name(load_int)
+extends mutates native loadInt(self: Slice, l: Int): Int;
+
+---
+
+(source_file
+  (native_function
+    func_name: (func_identifier)
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier))
+      (parameter
+        name: (identifier)
+        type: (type_identifier)))
+    result: (type_identifier)))

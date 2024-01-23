@@ -1,0 +1,149 @@
+============================================
+expression
+============================================
+
+fun c() {
+  false || true;
+  true && true;
+
+  true != true;
+  true == true;
+  2 > 1;
+  2 >= 2;
+  1 < 2;
+  2 <= 2;
+
+  5 >> 1;
+  1 << 5;
+  0 & 1;
+  0 | 1;
+  1 << 4 | 1;
+
+  0 + 1 - 2;
+  0 * 1 / 5 % 10;
+  2 + 2 * 6;
+  6 * 2 + 2;
+
+  +0;
+  -0;
+  !0;
+  -1 + !(+0) - -5;
+
+  null!!;
+  (0);
+}
+
+---
+
+(source_file
+  (static_function
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (function_body
+      (expression_statement
+        (binary_expression
+          left: (boolean)
+          right: (boolean)))
+      (expression_statement
+        (binary_expression
+          left: (boolean)
+          right: (boolean)))
+      (expression_statement
+        (binary_expression
+          left: (boolean)
+          right: (boolean)))
+      (expression_statement
+        (binary_expression
+          left: (boolean)
+          right: (boolean)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (binary_expression
+            left: (integer)
+            right: (integer))
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (binary_expression
+            left: (integer)
+            right: (integer))
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (binary_expression
+            left: (binary_expression
+              left: (integer)
+              right: (integer))
+            right: (integer))
+          right: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (binary_expression
+            left: (integer)
+            right: (integer))))
+      (expression_statement
+        (binary_expression
+          left: (binary_expression
+            left: (integer)
+            right: (integer))
+          right: (integer)))
+      (expression_statement
+        (unary_expression
+          argument: (integer)))
+      (expression_statement
+        (unary_expression
+          argument: (integer)))
+      (expression_statement
+        (unary_expression
+          argument: (integer)))
+      (expression_statement
+        (binary_expression
+          left: (binary_expression
+            left: (unary_expression
+              argument: (integer))
+            right: (unary_expression
+              argument: (parenthesized_expression
+                (unary_expression
+                  argument: (integer)))))
+          right: (unary_expression
+            argument: (integer))))
+      (expression_statement
+        (unary_suffix_expression
+          argument: (null)))
+      (expression_statement
+        (parenthesized_expression
+          (integer)))
+)))

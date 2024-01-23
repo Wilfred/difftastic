@@ -1,0 +1,23 @@
+============================================
+const
+============================================
+
+override virtual abstract const theAnswer: Int = 42;
+const gasConsumption: String = "0.01";
+const gasConsumption: String;
+
+---
+
+(source_file
+  (constant
+    attributes: (constant_attributes)
+    name: (identifier)
+    type: (type_identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    type: (type_identifier)
+    value: (string))
+  (constant
+    name: (identifier)
+    type: (type_identifier)))

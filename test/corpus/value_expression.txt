@@ -1,0 +1,128 @@
+============================================
+value_expression
+============================================
+
+extends fun c(self: Int) {
+  // call_expression
+  95.toString();
+
+  // field_expression
+  context().sender;
+
+  // static_call_expression
+  now();
+  now ();
+
+  // parenthesized_expression
+  ( 10 );
+
+  // instance_expression
+  SendParameters{value: ton("1")};
+
+  // integer
+  0b101;
+  0xf0f;
+  0o707;
+  909;
+
+  // boolean
+  true;
+  false;
+
+  // identifier
+  name;
+
+  // null
+  null;
+
+  // initOf
+  initOf Contract(123, 123);
+
+  // string
+  "Tact is awesome!";
+
+  // self
+  self.toString();
+}
+
+---
+
+(source_file
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier)))
+    body: (function_body
+     (comment)
+      (expression_statement
+        (method_call_expression
+          object: (integer)
+          name: (identifier)))
+      (comment)
+      (expression_statement
+        (field_access_expression
+          object: (static_call_expression
+            name: (identifier))
+          name: (identifier)))
+      (comment)
+      (expression_statement
+        (static_call_expression
+          name: (identifier)))
+      (expression_statement
+        (static_call_expression
+          name: (identifier)))
+      (comment)
+      (expression_statement
+        (parenthesized_expression
+          (integer)))
+      (comment)
+      (expression_statement
+        (instance_expression
+          name: (identifier)
+          arguments: (instance_argument_list
+            (instance_argument
+              name: (identifier)
+              value: (static_call_expression
+                name: (identifier)
+                arguments: (string))))))
+      (comment)
+      (expression_statement
+        (integer))
+      (expression_statement
+        (integer))
+      (expression_statement
+        (integer))
+      (expression_statement
+        (integer))
+      (comment)
+      (expression_statement
+        (boolean))
+      (expression_statement
+        (boolean))
+      (comment)
+      (expression_statement
+        (identifier))
+      (comment)
+      (expression_statement
+        (null))
+      (comment)
+      (expression_statement
+        (initOf
+          name: (identifier)
+          arguments: (initOf_argument_list
+            (initOf_argument
+              value: (integer))
+            (initOf_argument
+              value: (integer)))))
+      (comment)
+      (expression_statement
+        (string))
+      (comment)
+      (expression_statement
+        (method_call_expression
+          object: (self)
+          name: (identifier)))
+)))

@@ -1,0 +1,35 @@
+============================================
+contract
+============================================
+
+contract Empty {}
+
+contract Filled {
+ init() {}
+ receive() {}
+ external() {}
+ bounced(msg: Slice) {}
+}
+
+---
+
+(source_file
+  (contract
+    name: (identifier)
+    body: (contract_body))
+  (contract
+    name: (identifier)
+    body: (contract_body
+      (init_function
+        parameters: (parameter_list)
+        body: (function_body))
+      (receive_function
+        body: (function_body))
+      (external_function
+        body: (function_body))
+      (bounced_function
+        parameter: (parameter
+          name: (identifier)
+          type: (type_identifier))
+        body: (function_body))
+    )))

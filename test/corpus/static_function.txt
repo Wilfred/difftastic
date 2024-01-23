@@ -1,0 +1,91 @@
+============================================
+static_function
+============================================
+
+fun empty();
+abstract fun abstract();
+abstract fun abstractType(): Int;
+abstract fun abstractWithParam(param1: Int);
+abstract fun abstractTypeWithParam(param1: Int): Int;
+
+fun basic(): Int {
+  return 0;
+}
+
+extends fun extendsType(self: String): String {
+  return self;
+}
+
+extends mutates fun extendsMutatesType(self: String) {
+  self = self + self;
+}
+
+get mutates extends virtual override inline abstract fun allAttr();
+
+---
+
+(source_file
+  (static_function
+    name: (identifier)
+    parameters: (parameter_list))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list)
+    result: (type_identifier))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier))))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier)))
+    result: (type_identifier))
+  (static_function
+    name: (identifier)
+    parameters: (parameter_list)
+    result: (type_identifier)
+    body: (function_body
+      (return_statement
+        (integer))))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier)))
+    result: (type_identifier)
+    body: (function_body
+      (return_statement
+        (self))))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier)))
+    body: (function_body
+      (assignment_statement
+        left: (lvalue
+          (self))
+        right: (binary_expression
+          left: (self)
+          right: (self)))))
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list))
+)

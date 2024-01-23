@@ -1,0 +1,35 @@
+============================================
+struct
+============================================
+
+struct Whatever {
+  a: Int;
+  b: String = "hello!";
+  c: Int as int32;
+  d: Int as int256 = 10;
+}
+
+---
+
+(source_file
+  (struct
+    name: (type_identifier)
+    body: (struct_body
+      (field
+        name: (identifier)
+        type: (type_identifier))
+      (field
+        name: (identifier)
+        type: (type_identifier)
+        value: (string))
+      (field
+        name: (identifier)
+        type: (type_identifier)
+        tlb: (tlb_serialization
+          type: (identifier)))
+      (field
+        name: (identifier)
+        type: (type_identifier)
+        tlb: (tlb_serialization
+          type: (identifier))
+        value: (integer)))))

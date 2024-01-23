@@ -1,0 +1,24 @@
+============================================
+primitive
+============================================
+
+primitive map<Int as int32, Address as remaining>;
+primitive bounced<Message>;
+primitive Int?;
+
+---
+
+(source_file
+  (primitive_statement
+    type: (map_type
+      key: (type_identifier)
+      tlb_key: (tlb_serialization
+        type: (identifier))
+      value: (type_identifier)
+      tlb_value: (tlb_serialization
+        type: (identifier))))
+  (primitive_statement
+    type: (bounced_type
+      message: (type_identifier)))
+  (primitive_statement
+    type: (type_identifier)))

@@ -1,0 +1,101 @@
+============================================
+statement
+============================================
+
+extends fun c(self: SomeMessage): Int {
+  let a: Int = 0;
+  let b: Int = 10;
+
+  {}
+  {
+    let c: Int = 20;
+  }
+
+  self.description = "Tact is awesome!";
+  a = 15;
+  b += 32;
+
+  if (true) {}
+  if (false) {}
+  else {}
+
+  if (false) {}
+  else if (true) {}
+
+  while (false) {}
+
+  repeat (5) {}
+
+  do {}
+  until (false);
+
+  0;
+  return 0;
+}
+
+---
+
+(source_file
+  (static_function
+    attributes: (function_attributes)
+    name: (identifier)
+    parameters: (parameter_list
+      (parameter
+        name: (identifier)
+        type: (type_identifier)))
+    result: (type_identifier)
+    body: (function_body
+      (let_statement
+        name: (identifier)
+        type: (type_identifier)
+        value: (integer))
+      (let_statement
+        name: (identifier)
+        type: (type_identifier)
+        value: (integer))
+      (block_statement)
+      (block_statement
+        (let_statement
+          name: (identifier)
+          type: (type_identifier)
+          value: (integer)))
+      (assignment_statement
+        left: (lvalue
+          (self)
+          (identifier))
+        right: (string))
+      (assignment_statement
+        left: (lvalue
+          (identifier))
+        right: (integer))
+      (augmented_assignment_statement
+        left: (lvalue
+          (identifier))
+        right: (integer))
+      (if_statement
+        condition: (boolean)
+        consequence: (block_statement))
+      (if_statement
+        condition: (boolean)
+        consequence: (block_statement)
+        alternative: (block_statement))
+      (if_statement
+        condition: (boolean)
+        consequence: (block_statement)
+        alternative: (if_statement
+          condition: (boolean)
+          consequence: (block_statement)))
+      (while_statement
+        condition: (boolean)
+        body: (block_statement))
+      (repeat_statement
+        condition: (integer)
+        body: (block_statement))
+      (do_until_statement
+        body: (block_statement)
+        condition: (boolean))
+      (expression_statement
+        (integer))
+      (return_statement
+        (integer))
+)))

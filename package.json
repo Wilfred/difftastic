@@ -1,0 +1,68 @@
+{
+  "name": "tree-sitter-tact",
+  "version": "1.1.5",
+  "description": "A tree-sitter grammar for the Tact programming language",
+  "author": "Novus Nota (https://github.com/novusnota)",
+  "license": "MIT",
+  "homepage": "https://github.com/novusnota/tree-sitter-tact#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/novusnota/tree-sitter-tact"
+  },
+  "bugs": {
+    "url": "https://github.com/novusnota/tree-sitter-tact/issues"
+  },
+  "keywords": [
+    "tact",
+    "lexer",
+    "parser",
+    "grammar",
+    "tree-sitter",
+    "ton",
+    "the-open-network"
+  ],
+  "main": "bindings/node",
+  "scripts": {
+    "gen": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "gentest": "tree-sitter generate && tree-sitter test",
+    "parse": "tree-sitter parse",
+    "hi": "tree-sitter highlight",
+    "tags": "tree-sitter tags",
+    "format": "prettier --write grammar.js",
+    "check-formatted": "prettier --check grammar.js",
+    "build": "tree-sitter generate && node-gyp build",
+    "build-wasm": "tree-sitter build-wasm",
+    "play": "tree-sitter build-wasm && tree-sitter playground"
+  },
+  "dependencies": {
+    "nan": "^2.18.0"
+  },
+  "devDependencies": {
+    "node-gyp": "^10.0.1",
+    "prettier": "^3.2.4",
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.tact",
+      "injection-regex": "tact",
+      "file-types": [
+        "tact"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "locals": [
+        "queries/locals.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
+      ]
+    }
+  ],
+  "prettier": {
+    "singleQuote": false,
+    "semi": true
+  }
+}
