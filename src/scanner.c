@@ -3,7 +3,7 @@
 #include <string.h>
 #include "unicode.h"
 
-#define DEBUG
+// #define DEBUG
 
 enum token_type {
 	TOKEN_INDENT,
