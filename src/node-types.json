@@ -1772,7 +1772,7 @@
     "named": false
   },
   {
-    "type": "/include",
+    "type": "/include/",
     "named": false
   },
   {

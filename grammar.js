@@ -362,7 +362,7 @@ module.exports = grammar({
 			);
 		},
 
-		dtsi_include: ($) => seq('/include', field('path', $.string_literal)),
+		dtsi_include: ($) => seq('/include/', field('path', $.string_literal)),
 
 		preproc_include: ($) =>
 			seq(

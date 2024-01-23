@@ -1852,7 +1852,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "/include"
+          "value": "/include/"
         },
         {
           "type": "FIELD",
