@@ -172,7 +172,7 @@ module.exports = grammar({
     //   * operator identifier in `(-> / 2)`
     [$.operator_identifier, $.stab_clause],
 
-    // Given `& /`, ampersand can be either:
+    // Given `& • /`, ampersand can be either:
     //   * capture operator in `& / / 2`
     //   * operator identifier in `& / 1`
     [$.unary_operator, $.operator_identifier],
@@ -530,7 +530,7 @@ module.exports = grammar({
         ...ARROW_OPS,
         "in",
         alias($._not_in, "not in"),
-        "^^",
+        "^^^",
         ...CONCAT_OPS,
         // The range operator has both a binary and a nullary version.
         // The nullary version is already parsed as operator_identifier,
@@ -538,8 +538,7 @@ module.exports = grammar({
         // ".."
         ...MULT_OPS,
         "**",
-        "->",
-        "."
+        "->"
       ),
 
     dot: ($) =>

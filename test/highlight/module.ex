@@ -147,7 +147,7 @@ defmodule Long.Module.Name do
   end
   # <- keyword
 
-  def with_guard(x) when x == 1 do: nil
+  def with_guard(x) when x == 1, do: nil
   # <- keyword
   #   ^ function
   #              ^ variable
@@ -155,7 +155,7 @@ defmodule Long.Module.Name do
   #                      ^ variable
   #                        ^ operator
   #                           ^ number
-  #                             ^ keyword
+  #                              ^ string.special.symbol
   # <- keyword
 
   def with_guard when is_integer(1), do: nil

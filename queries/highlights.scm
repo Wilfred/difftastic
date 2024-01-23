@@ -117,7 +117,7 @@
 ; * kernel or special forms keyword
 (call
   target: (identifier) @keyword
-  (#match? @keyword "^(alias|case|cond|else|for|if|import|quote|raise|receive|require|reraise|super|throw|try|unless|unquote|unquote_splicing|use|with)$"))
+  (#match? @keyword "^(alias|case|cond|for|if|import|quote|raise|receive|require|reraise|super|throw|try|unless|unquote|unquote_splicing|use|with)$"))
 
 ; * function call
 (call

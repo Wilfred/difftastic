@@ -126,6 +126,29 @@ end
         (identifier)))))
 
 =====================================
+multiline body with extra newlines
+=====================================
+
+fn x, y ->
+  y
+
+  x
+
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier))
+      (body
+        (identifier)
+        (identifier)))))
+
+=====================================
 many clauses
 =====================================
 
