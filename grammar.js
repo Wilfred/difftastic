@@ -61,7 +61,8 @@ module.exports = grammar({
 				$.preproc_def,
 				$.preproc_function_def,
 				$.preproc_if,
-				$.preproc_ifdef
+				$.preproc_ifdef,
+				$.preproc_undef
 			),
 
 		_label: ($) => seq(field('label', $.label_identifier), ':'),
@@ -167,7 +168,8 @@ module.exports = grammar({
 				$.preproc_def,
 				$.preproc_function_def,
 				alias($.preproc_if_in_node, $.preproc_if),
-				alias($.preproc_ifdef_in_node, $.preproc_ifdef)
+				alias($.preproc_ifdef_in_node, $.preproc_ifdef),
+				$.preproc_undef
 			),
 
 		// TODO: is delete-node allowed at top level?
@@ -369,7 +371,7 @@ module.exports = grammar({
 					'path',
 					choice($.string_literal, $.system_lib_string, $.identifier)
 				),
-				'\n'
+				token.immediate(/\r?\n/)
 			),
 
 		preproc_def: ($) =>
@@ -377,7 +379,7 @@ module.exports = grammar({
 				preprocessor('define'),
 				field('name', $.identifier),
 				field('value', optional($.preproc_arg)),
-				'\n'
+				token.immediate(/\r?\n/)
 			),
 
 		preproc_function_def: ($) =>
@@ -386,7 +388,7 @@ module.exports = grammar({
 				field('name', $.identifier),
 				field('parameters', $.preproc_params),
 				field('value', optional($.preproc_arg)),
-				'\n'
+				token.immediate(/\r?\n/)
 			),
 
 		preproc_params: ($) =>
@@ -394,6 +396,13 @@ module.exports = grammar({
 				token.immediate('('),
 				commaSep(choice($.identifier, '...')),
 				')'
+			),
+
+		preproc_undef: ($) =>
+			seq(
+				preprocessor('undef'),
+				field('name', $.identifier),
+				token.immediate(/\r?\n/)
 			),
 
 		preproc_arg: ($) => token(prec(-1, repeat1(/.|\\\r?\n/))),
@@ -511,7 +520,16 @@ function commaSep1(rule) {
 	return seq(rule, repeat(seq(',', rule)));
 }
 
+/**
+ * @param {string} suffix
+ * @param {RuleBuilder<string>} content
+ * @returns {RuleBuilders<string, string>}
+ */
 function preprocIf(suffix, content) {
+	/**
+	 * @param {GrammarSymbols<string>} $
+	 * @returns {ChoiceRule}
+	 */
 	function elseBlock($) {
 		return choice(
 			suffix

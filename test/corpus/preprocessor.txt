@@ -22,6 +22,7 @@ Preprocessor define
 
 #define FOO 0
 #define BAR(x) (x & 0x01)
+#undef FOO
 
 ---
 
@@ -36,6 +37,9 @@ Preprocessor define
             (identifier)
         )
         value: (preproc_arg)
+    )
+    (preproc_undef
+        name: (identifier)
     )
 )
 
@@ -66,32 +70,46 @@ Ifdefs
 ---
 
 (document
-  (preproc_ifdef
-    name: (identifier)
-    (node
-      name: (identifier)))
-  (preproc_ifdef
-    name: (identifier)
-    (node
-      name: (identifier))
-    (preproc_def
-      name: (identifier)
-      value: (preproc_arg))
-    alternative: (preproc_elif
-      condition: (preproc_defined
-        (identifier))
-      alternative: (preproc_else
-        (node
-          name: (identifier))
-        (preproc_def
-          name: (identifier)
-          value: (preproc_arg)))))
-  (preproc_ifdef
-    name: (identifier)
-    alternative: (preproc_else
-      (preproc_ifdef
+    (preproc_ifdef
         name: (identifier)
-        alternative: (preproc_else)))))
+        (node
+            name: (identifier)
+        )
+    )
+    (preproc_ifdef
+        name: (identifier)
+        (node
+            name: (identifier)
+        )
+        (preproc_def
+            name: (identifier)
+            value: (preproc_arg)
+        )
+        alternative: (preproc_elif
+            condition: (preproc_defined
+                (identifier)
+            )
+            alternative: (preproc_else
+                (node
+                    name: (identifier)
+                )
+                (preproc_def
+                    name: (identifier)
+                    value: (preproc_arg)
+                )
+            )
+        )
+    )
+    (preproc_ifdef
+        name: (identifier)
+        alternative: (preproc_else
+            (preproc_ifdef
+                name: (identifier)
+                alternative: (preproc_else)
+            )
+        )
+    )
+)
 
 ================================================================================
 Elifdefs
@@ -114,20 +132,25 @@ Elifdefs
 ---
 
 (document
-  (preproc_ifdef
-    (identifier)
-    (node (identifier))
-    (preproc_elifdef
-      (identifier)
-      (node (identifier))))
-  (preproc_ifdef
-    (identifier)
-    (node (identifier))
-    (preproc_elifdef
-      (identifier)
-      (node (identifier))
-      (preproc_else
-        (node (identifier)))))
+    (preproc_ifdef
+        (identifier)
+        (node (identifier))
+        (preproc_elifdef
+            (identifier)
+            (node (identifier))
+        )
+    )
+    (preproc_ifdef
+        (identifier)
+        (node (identifier))
+        (preproc_elifdef
+            (identifier)
+            (node (identifier))
+            (preproc_else
+                (node (identifier))
+            )
+        )
+    )
 )
 
 ========================================================================
@@ -179,6 +202,7 @@ Preprocessor directives in node
     #ifndef BAR
         value = <BAR>;
     #endif
+    #undef FOO
 };
 
 ---
@@ -188,20 +212,29 @@ Preprocessor directives in node
         name: (identifier)
         (preproc_include path: (string_literal))
         (preproc_def
-          name: (identifier)
-          value: (preproc_arg))
-        (preproc_ifdef
-          name: (identifier)
-          (property
             name: (identifier)
-            value: (integer_cells
-              (identifier))))
+            value: (preproc_arg))
         (preproc_ifdef
-          name: (identifier)
-          (property
             name: (identifier)
-            value: (integer_cells
-              (identifier))))
+            (property
+                name: (identifier)
+                value: (integer_cells
+                    (identifier)
+                )
+            )
+        )
+        (preproc_ifdef
+            name: (identifier)
+            (property
+                name: (identifier)
+                value: (integer_cells
+                    (identifier)
+                )
+            )
+        )
+        (preproc_undef
+            name: (identifier)
+        )
     )
 )
 
@@ -228,32 +261,42 @@ Preprocessor conditionals in functions
 ---
 
 (document
-  (node
-    (identifier)
-    (preproc_if
-      (identifier)
-      (property
+    (node
         (identifier)
-        (string_literal))
-      (preproc_else
-        (property
-          (identifier)
-          (string_literal))))
-    (preproc_if
-      (identifier)
-      (property
-        (identifier)
-        (string_literal))
-      (preproc_elif
-        (identifier)
-        (property
-          (identifier)
-          (string_literal))
-      (preproc_else
-        (property
-          (identifier)
-          (string_literal)))))
-  )
+        (preproc_if
+            (identifier)
+            (property
+                (identifier)
+                (string_literal)
+            )
+            (preproc_else
+                (property
+                    (identifier)
+                    (string_literal)
+                )
+            )
+        )
+        (preproc_if
+            (identifier)
+            (property
+                (identifier)
+                (string_literal)
+            )
+            (preproc_elif
+                (identifier)
+                (property
+                    (identifier)
+                    (string_literal)
+                )
+                (preproc_else
+                    (property
+                        (identifier)
+                        (string_literal)
+                    )
+                )
+            )
+        )
+    )
 )
 
 ================================================================================
@@ -270,18 +313,28 @@ Preprocessor expressions
 ---
 
 (document
-  (preproc_if
-    (binary_expression
-      (call_expression
-        (identifier)
-        (argument_list
-          (binary_expression
+    (preproc_if
+        (binary_expression
+            (call_expression
+                (identifier)
+                (argument_list
+                    (binary_expression
+                        (identifier)
+                        (identifier)
+                    )
+                )
+            )
+            (unary_expression
+                (call_expression
+                    (identifier)
+                    (argument_list
+                        (identifier)
+                    )
+                )
+            )
+        )
+        (node
             (identifier)
-            (identifier))))
-      (unary_expression
-        (call_expression
-          (identifier)
-          (argument_list
-            (identifier)))))
-    (node
-      (identifier))))
+        )
+    )
+)

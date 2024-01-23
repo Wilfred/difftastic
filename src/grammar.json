@@ -54,6 +54,10 @@
         {
           "type": "SYMBOL",
           "name": "preproc_ifdef"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_undef"
         }
       ]
     },
@@ -594,6 +598,10 @@
           },
           "named": true,
           "value": "preproc_ifdef"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_undef"
         }
       ]
     },
@@ -1897,8 +1905,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -1946,8 +1957,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -2003,8 +2017,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -2072,6 +2089,42 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "preproc_undef": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 2,
+              "content": {
+                "type": "PATTERN",
+                "value": "#[ \t]*undef"
+              }
+            }
+          },
+          "named": false,
+          "value": "#undef"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },

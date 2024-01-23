@@ -456,6 +456,10 @@
         {
           "type": "preproc_include",
           "named": true
+        },
+        {
+          "type": "preproc_undef",
+          "named": true
         }
       ]
     }
@@ -740,6 +744,10 @@
           "named": true
         },
         {
+          "type": "preproc_undef",
+          "named": true
+        },
+        {
           "type": "property",
           "named": true
         }
@@ -960,6 +968,10 @@
           "named": true
         },
         {
+          "type": "preproc_undef",
+          "named": true
+        },
+        {
           "type": "property",
           "named": true
         }
@@ -1042,6 +1054,10 @@
         {
           "type": "preproc_include",
           "named": true
+        },
+        {
+          "type": "preproc_undef",
+          "named": true
         }
       ]
     }
@@ -1104,6 +1120,10 @@
         },
         {
           "type": "preproc_include",
+          "named": true
+        },
+        {
+          "type": "preproc_undef",
           "named": true
         },
         {
@@ -1259,6 +1279,10 @@
           "named": true
         },
         {
+          "type": "preproc_undef",
+          "named": true
+        },
+        {
           "type": "property",
           "named": true
         }
@@ -1355,6 +1379,10 @@
           "named": true
         },
         {
+          "type": "preproc_undef",
+          "named": true
+        },
+        {
           "type": "property",
           "named": true
         }
@@ -1398,6 +1426,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "preproc_undef",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1653,6 +1697,10 @@
   },
   {
     "type": "#include",
+    "named": false
+  },
+  {
+    "type": "#undef",
     "named": false
   },
   {

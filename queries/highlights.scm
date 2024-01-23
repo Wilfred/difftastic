@@ -7,6 +7,7 @@
     "/memreserve/"
     "/omit-if-no-ref/"
     "#define"
+    "#undef"
     "#include"
     "#if"
     "#elif"
