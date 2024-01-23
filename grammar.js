@@ -268,7 +268,7 @@ module.exports = grammar({
     trait_body: ($) =>
       seq(
         "{",
-        repeat(choice($.constant, $.field, $._receiver_function, $.function),),
+        repeat(choice($.constant, $.field, $._receiver_function, $.function)),
         "}",
       ),
 
@@ -582,11 +582,7 @@ module.exports = grammar({
         field("arguments", $.initOf_argument_list),
       ),
 
-    initOf_argument_list: ($) => seq(
-      "(",
-      commaSep($.initOf_argument),
-      ")",
-    ),
+    initOf_argument_list: ($) => seq("(", commaSep($.initOf_argument), ")"),
 
     initOf_argument: ($) => field("value", $._expression),
 
@@ -614,7 +610,8 @@ module.exports = grammar({
         ">",
       ),
 
-    _simple_type: ($) => seq(alias($._type_identifier, $.type_identifier), optional("?")),
+    _simple_type: ($) =>
+      seq(alias($._type_identifier, $.type_identifier), optional("?")),
 
     _type_identifier: (_) => /[A-Z][a-zA-Z0-9_]*/,
 
