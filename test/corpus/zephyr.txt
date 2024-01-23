@@ -55,39 +55,35 @@ Zephyr armv6-m.dtsi
 				value: (integer_cells (reference label: (identifier)))
 			)
 			(property name: (identifier))
-			(labeled_item
+			(node
 				label: (identifier)
-				item: (node
+				name: (identifier)
+				address: (unit_address)
+				(property
 					name: (identifier)
-					address: (unit_address)
-					(property
-						name: (identifier)
-						value: (string_literal)
-					)
-					(property
-						name: (identifier)
-						value: (integer_cells (integer_literal) (integer_literal))
-					)
-					(property name: (identifier))
-					(property
-						name: (identifier)
-						value: (integer_cells (integer_literal))
-					)
+					value: (string_literal)
+				)
+				(property
+					name: (identifier)
+					value: (integer_cells (integer_literal) (integer_literal))
+				)
+				(property name: (identifier))
+				(property
+					name: (identifier)
+					value: (integer_cells (integer_literal))
 				)
 			)
-			(labeled_item
+			(node
 				label: (identifier)
-				item: (node
+				name: (identifier)
+				address: (unit_address)
+				(property
 					name: (identifier)
-					address: (unit_address)
-					(property
-						name: (identifier)
-						value: (string_literal)
-					)
-					(property
-						name: (identifier)
-						value: (integer_cells (integer_literal) (integer_literal))
-					)
+					value: (string_literal)
+				)
+				(property
+					name: (identifier)
+					value: (integer_cells (integer_literal) (integer_literal))
 				)
 			)
 		)

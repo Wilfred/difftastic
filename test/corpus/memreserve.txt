@@ -1,0 +1,14 @@
+========================================================================
+memreserve
+========================================================================
+
+/memreserve/ 0x0000 0x1000;
+
+---
+
+(document
+    (memory_reservation
+        address: (integer_literal)
+        length: (integer_literal)
+    )
+)

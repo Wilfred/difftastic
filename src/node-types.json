@@ -422,10 +422,6 @@
           "named": true
         },
         {
-          "type": "labeled_item",
-          "named": true
-        },
-        {
           "type": "memory_reservation",
           "named": true
         },
@@ -625,52 +621,39 @@
     }
   },
   {
-    "type": "labeled_item",
+    "type": "memory_reservation",
     "named": true,
     "fields": {
-      "item": {
+      "address": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "labeled_item",
-            "named": true
-          },
-          {
-            "type": "node",
-            "named": true
-          },
-          {
-            "type": "property",
+            "type": "integer_literal",
             "named": true
           }
         ]
       },
       "label": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
             "named": true
           }
         ]
+      },
+      "length": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer_literal",
+            "named": true
+          }
+        ]
       }
-    }
-  },
-  {
-    "type": "memory_reservation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "integer_literal",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -687,6 +670,16 @@
           },
           {
             "type": "unit_address",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
             "named": true
           }
         ]
@@ -716,10 +709,6 @@
         },
         {
           "type": "delete_property",
-          "named": true
-        },
-        {
-          "type": "labeled_item",
           "named": true
         },
         {
@@ -765,10 +754,6 @@
       "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "labeled_item",
-          "named": true
-        },
         {
           "type": "node",
           "named": true
@@ -939,10 +924,6 @@
           "named": true
         },
         {
-          "type": "labeled_item",
-          "named": true
-        },
-        {
           "type": "memory_reservation",
           "named": true
         },
@@ -1027,10 +1008,6 @@
           "named": true
         },
         {
-          "type": "labeled_item",
-          "named": true
-        },
-        {
           "type": "memory_reservation",
           "named": true
         },
@@ -1091,10 +1068,6 @@
         },
         {
           "type": "file_version",
-          "named": true
-        },
-        {
-          "type": "labeled_item",
           "named": true
         },
         {
@@ -1250,10 +1223,6 @@
           "named": true
         },
         {
-          "type": "labeled_item",
-          "named": true
-        },
-        {
           "type": "memory_reservation",
           "named": true
         },
@@ -1347,10 +1316,6 @@
         },
         {
           "type": "file_version",
-          "named": true
-        },
-        {
-          "type": "labeled_item",
           "named": true
         },
         {
@@ -1449,6 +1414,16 @@
           },
           {
             "type": "integer_literal",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
             "named": true
           }
         ]

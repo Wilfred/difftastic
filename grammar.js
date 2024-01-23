@@ -55,7 +55,6 @@ module.exports = grammar({
 				$.plugin,
 				$.memory_reservation,
 				$.omit_if_no_ref,
-				$.labeled_item,
 				$.node,
 				$.dtsi_include,
 				$.preproc_include,
@@ -65,11 +64,19 @@ module.exports = grammar({
 				$.preproc_ifdef
 			),
 
+		_label: ($) => seq(field('label', $.label_identifier), ':'),
+
 		file_version: ($) => seq('/dts-v1/', ';'),
 		plugin: ($) => seq('/plugin/', ';'),
 
 		memory_reservation: ($) =>
-			seq('/memreserve/', $.integer_literal, $.integer_literal, ';'),
+			seq(
+				repeat($._label),
+				'/memreserve/',
+				field('address', $.integer_literal),
+				field('length', $.integer_literal),
+				';'
+			),
 
 		// http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
 		comment: ($) =>
@@ -120,20 +127,11 @@ module.exports = grammar({
 			),
 
 		omit_if_no_ref: ($) =>
-			seq(
-				'/omit-if-no-ref/',
-				choice($.labeled_item, $.node, seq($.reference, ';'))
-			),
-
-		labeled_item: ($) =>
-			seq(
-				field('label', $.label_identifier),
-				':',
-				field('item', choice($.labeled_item, $.node, $.property))
-			),
+			seq('/omit-if-no-ref/', choice($.node, seq($.reference, ';'))),
 
 		node: ($) =>
 			seq(
+				repeat($._label),
 				field('name', choice($.node_identifier, $.reference)),
 				field('address', optional(seq('@', $.unit_address))),
 				'{',
@@ -146,6 +144,7 @@ module.exports = grammar({
 
 		property: ($) =>
 			seq(
+				repeat($._label),
 				field('name', $.property_identifier),
 				optional(
 					seq(
@@ -162,7 +161,6 @@ module.exports = grammar({
 				$.delete_property,
 				$.delete_node,
 				$.omit_if_no_ref,
-				$.labeled_item,
 				$.node,
 				$.property,
 				$.preproc_include,
@@ -199,7 +197,8 @@ module.exports = grammar({
 				')'
 			),
 
-		// TODO: property values can be labeled.
+		// TODO: labels can appear before or after any component of a property value,
+		// or between cells of a cell array, or between bytes of a bytestring.
 		_property_value: ($) =>
 			choice(
 				$.integer_cells,
@@ -477,6 +476,7 @@ module.exports = grammar({
 						precedence,
 						seq(
 							field('left', $._preproc_expression),
+							// @ts-ignore
 							field('operator', operator),
 							field('right', $._preproc_expression)
 						)

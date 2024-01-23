@@ -31,9 +31,9 @@ Omit Labeled Node
     (node
         name: (identifier)
         (omit_if_no_ref
-            (labeled_item
+            (node
                 label: (identifier)
-                item: (node name: (identifier))
+                name: (identifier)
             )
         )
     )

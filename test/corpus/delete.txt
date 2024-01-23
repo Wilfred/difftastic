@@ -14,9 +14,10 @@ Delete nodes
 (document
     (node
         name: (identifier)
-        (labeled_item
+        (node
             label: (identifier)
-            item: (node name: (identifier)))
+            name: (identifier)
+        )
         (delete_node
             name: (identifier))
         (delete_node

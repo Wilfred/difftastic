@@ -1,8 +1,19 @@
 [
     "/delete-node/"
     "/delete-property/"
+    "/dts-v1"
+    "/incbin/"
+    "/include/"
+    "/memreserve/"
+    "/omit-if-no-ref/"
     "#define"
     "#include"
+    "#if"
+    "#elif"
+    "#else"
+    "#endif"
+    "#ifdef"
+    "#ifndef"
 ] @keyword
 
 [
@@ -45,7 +56,13 @@
 (call_expression
     function: (identifier) @function)
 
-(labeled_item
+(node
+    label: (identifier) @label)
+
+(property
+    label: (identifier) @label)
+
+(memory_reservation
     label: (identifier) @label)
 
 (property
