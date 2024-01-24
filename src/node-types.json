@@ -4227,6 +4227,10 @@
           {
             "type": "_declarator",
             "named": true
+          },
+          {
+            "type": "abstract_reference_declarator",
+            "named": true
           }
         ]
       },

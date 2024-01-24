@@ -369,7 +369,7 @@ module.exports = grammar(C, {
 
     optional_parameter_declaration: $ => seq(
       $._declaration_specifiers,
-      field('declarator', optional($._declarator)),
+      field('declarator', optional(choice($._declarator, $.abstract_reference_declarator))),
       '=',
       field('default_value', $._expression),
     ),

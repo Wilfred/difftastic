@@ -2174,6 +2174,30 @@ int main() {
         (number_literal)))))
 
 ================================================================================
+Unnamed default parameter
+================================================================================
+
+class Foo {
+    void foo(Bar& = defaultBar);
+};
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list
+            (optional_parameter_declaration
+              (type_identifier)
+              (abstract_reference_declarator)
+              (identifier))))))))
+
+================================================================================
 Alignas specifier and alignof expression
 ================================================================================
 
