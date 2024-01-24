@@ -109,7 +109,7 @@ enum e4: int {
         name: (identifier))))
   (enum_specifier
     name: (type_identifier)
-    base: (type_identifier)
+    base: (primitive_type)
     body: (enumerator_list
       (enumerator
         name: (identifier)))))

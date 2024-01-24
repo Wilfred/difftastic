@@ -65,6 +65,8 @@ module.exports = grammar(C, {
     [$._declaration_specifiers, $._constructor_specifiers],
     [$._binary_fold_operator, $._fold_operator],
     [$._function_declarator_seq],
+    [$._type_specifier, $.sized_type_specifier],
+    [$.initializer_pair, $.comma_expression],
   ],
 
   inline: ($, original) => original.concat([
@@ -268,6 +270,7 @@ module.exports = grammar(C, {
       field('base', choice(
         alias($.qualified_type_identifier, $.qualified_identifier),
         $._type_identifier,
+        $.primitive_type,
         $.sized_type_specifier,
       )),
     )),
@@ -1269,11 +1272,11 @@ module.exports = grammar(C, {
 
     this: _ => 'this',
 
-    concatenated_string: $ => seq(
+    concatenated_string: $ => prec.right(seq(
       choice($.identifier, $.string_literal, $.raw_string_literal),
       choice($.string_literal, $.raw_string_literal),
       repeat(choice($.identifier, $.string_literal, $.raw_string_literal)),
-    ),
+    )),
 
     number_literal: $ => {
       const sign = /[-\+]/;

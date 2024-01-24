@@ -36,8 +36,7 @@ static bool scan_raw_string_delimiter(Scanner *scanner, TSLexer *lexer) {
     // Opening delimiter: record the d-char-sequence up to (.
     // d-char is any basic character except parens, backslashes, and spaces.
     for (;;) {
-        if (scanner->delimiter_length >= RAW_STRING_DELIMITER_MAX ||
-            lexer->eof(lexer) || lexer->lookahead == '\\' ||
+        if (scanner->delimiter_length >= RAW_STRING_DELIMITER_MAX || lexer->eof(lexer) || lexer->lookahead == '\\' ||
             iswspace(lexer->lookahead)) {
             return false;
         }
@@ -92,8 +91,7 @@ static bool scan_raw_string_content(Scanner *scanner, TSLexer *lexer) {
     }
 }
 
-static inline bool scan(Scanner *scanner, TSLexer *lexer,
-                        const bool *valid_symbols) {
+static inline bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     // No skipping leading whitespace: raw-string grammar is space-sensitive.
 
     if (valid_symbols[RAW_STRING_DELIMITER]) {
@@ -115,22 +113,18 @@ void *tree_sitter_cpp_external_scanner_create() {
     return scanner;
 }
 
-bool tree_sitter_cpp_external_scanner_scan(void *payload, TSLexer *lexer,
-                                           const bool *valid_symbols) {
+bool tree_sitter_cpp_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Scanner *scanner = (Scanner *)payload;
 
     return scan(scanner, lexer, valid_symbols);
 }
 
-unsigned tree_sitter_cpp_external_scanner_serialize(void *payload,
-                                                    char *buffer) {
+unsigned tree_sitter_cpp_external_scanner_serialize(void *payload, char *buffer) {
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
-    _Static_assert(RAW_STRING_DELIMITER_MAX * sizeof(wchar_t) <
-                      TREE_SITTER_SERIALIZATION_BUFFER_SIZE,
-                  "Serialized delimiter is too long!");
+    _Static_assert(RAW_STRING_DELIMITER_MAX * sizeof(wchar_t) < TREE_SITTER_SERIALIZATION_BUFFER_SIZE,
+                   "Serialized delimiter is too long!");
 #else
-    assert(RAW_STRING_DELIMITER_MAX * sizeof(wchar_t) <
-               TREE_SITTER_SERIALIZATION_BUFFER_SIZE &&
+    assert(RAW_STRING_DELIMITER_MAX * sizeof(wchar_t) < TREE_SITTER_SERIALIZATION_BUFFER_SIZE &&
            "Serialized delimiter is too long!");
 #endif
     Scanner *scanner = (Scanner *)payload;
@@ -139,11 +133,8 @@ unsigned tree_sitter_cpp_external_scanner_serialize(void *payload,
     return (unsigned)size;
 }
 
-void tree_sitter_cpp_external_scanner_deserialize(void *payload,
-                                                  const char *buffer,
-                                                  unsigned length) {
-    assert(length % sizeof(wchar_t) == 0 &&
-           "Can't decode serialized delimiter!");
+void tree_sitter_cpp_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+    assert(length % sizeof(wchar_t) == 0 && "Can't decode serialized delimiter!");
 
     Scanner *scanner = (Scanner *)payload;
     scanner->delimiter_length = length / sizeof(wchar_t);

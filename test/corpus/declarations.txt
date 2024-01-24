@@ -1621,7 +1621,7 @@ class Foo {
 (translation_unit
   (enum_specifier
     (type_identifier)
-    (type_identifier)
+    (primitive_type)
     (enumerator_list))
   (enum_specifier
     (type_identifier)
@@ -1656,7 +1656,7 @@ class Foo {
     (type_identifier))
   (enum_specifier
     (type_identifier)
-    (type_identifier)
+    (primitive_type)
     (enumerator_list))
   (class_specifier
     (type_identifier)
