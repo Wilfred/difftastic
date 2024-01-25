@@ -60,20 +60,24 @@ extends fun c(self: Int) {
       (expression_statement
         (method_call_expression
           object: (integer)
-          name: (identifier)))
+          name: (identifier)
+          arguments: (argument_list)))
       (comment)
       (expression_statement
         (field_access_expression
           object: (static_call_expression
-            name: (identifier))
+            name: (identifier)
+            arguments: (argument_list))
           name: (identifier)))
       (comment)
       (expression_statement
         (static_call_expression
-          name: (identifier)))
+          name: (identifier)
+          arguments: (argument_list)))
       (expression_statement
         (static_call_expression
-          name: (identifier)))
+          name: (identifier)
+          arguments: (argument_list)))
       (comment)
       (expression_statement
         (parenthesized_expression
@@ -87,7 +91,9 @@ extends fun c(self: Int) {
               name: (identifier)
               value: (static_call_expression
                 name: (identifier)
-                arguments: (string))))))
+                arguments: (argument_list
+                  (argument
+                    value: (string))))))))
       (comment)
       (expression_statement
         (integer))
@@ -112,10 +118,10 @@ extends fun c(self: Int) {
       (expression_statement
         (initOf
           name: (identifier)
-          arguments: (initOf_argument_list
-            (initOf_argument
+          arguments: (argument_list
+            (argument
               value: (integer))
-            (initOf_argument
+            (argument
               value: (integer)))))
       (comment)
       (expression_statement
@@ -124,5 +130,6 @@ extends fun c(self: Int) {
       (expression_statement
         (method_call_expression
           object: (self)
-          name: (identifier)))
+          name: (identifier)
+          arguments: (argument_list)))
 )))

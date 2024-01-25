@@ -531,9 +531,7 @@ module.exports = grammar({
           field("object", $.value_expression),
           ".",
           field("name", $.identifier),
-          "(",
-          field("arguments", commaSep($._expression)),
-          ")",
+          field("arguments", $.argument_list),
         ),
       ),
 
@@ -552,11 +550,13 @@ module.exports = grammar({
         "static_call_expr",
         seq(
           field("name", $.identifier),
-          "(",
-          field("arguments", commaSep($._expression)),
-          ")",
+          field("arguments", $.argument_list),
         ),
       ),
+
+    argument_list: ($) => seq("(", commaSep($.argument), ")"),
+
+    argument: ($) => field("value", $._expression),
 
     parenthesized_expression: ($) =>
       prec("parenthesized_expr", seq("(", $._expression, ")")),
@@ -579,12 +579,8 @@ module.exports = grammar({
       seq(
         "initOf",
         field("name", $.identifier),
-        field("arguments", $.initOf_argument_list),
+        field("arguments", $.argument_list),
       ),
-
-    initOf_argument_list: ($) => seq("(", commaSep($.initOf_argument), ")"),
-
-    initOf_argument: ($) => field("value", $._expression),
 
     /* Types */
 

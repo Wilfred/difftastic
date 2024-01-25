@@ -102,7 +102,7 @@
 ; Function/method calls     @reference.call
 ; -----------------------------------------
 
-( 
+(
   [
     (method_call_expression
       name: (identifier) @name)
@@ -116,6 +116,10 @@
 ; ------------------------------------------
 
 (
-  (instance_expression
-    name: (identifier) @name) @reference.class
+  [
+    (instance_expression
+      name: (identifier) @name)
+    (initOf
+      name: (identifier) @name)
+  ] @reference.class
 )
