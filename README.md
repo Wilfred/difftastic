@@ -68,7 +68,7 @@ The documentation of this implementation is available in [DOC](DOC.md).
 Having syntax highlighting is great but having syntax highlighting and the language server is even greater. If you have `cargo` installed (Rust's package manager), you can install Typst language server with the following command (you don't have to be in any particular directory):
 
 ```sh
-cargo install --git https://github.com/nvarner/typst-lsp
+cargo install --git https://github.com/nvarner/typst-lsp typst-lsp
 ```
 
 ## Neovim
