@@ -33,6 +33,23 @@ const FOLD_OPERATORS = [
   'or', 'and', 'bitor', 'xor', 'bitand', 'not_eq',
 ];
 
+const ASSIGNMENT_OPERATORS = [
+  '=',
+  '*=',
+  '/=',
+  '%=',
+  '+=',
+  '-=',
+  '<<=',
+  '>>=',
+  '&=',
+  '^=',
+  '|=',
+  'and_eq',
+  'or_eq',
+  'xor_eq',
+]
+
 module.exports = grammar(C, {
   name: 'cpp',
 
@@ -1225,25 +1242,22 @@ module.exports = grammar(C, {
 
     assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
       field('left', $._assignment_left_expression),
-      field('operator', choice(
-        '=',
-        '*=',
-        '/=',
-        '%=',
-        '+=',
-        '-=',
-        '<<=',
-        '>>=',
-        '&=',
-        '^=',
-        '|=',
-        'and_eq',
-        'or_eq',
-        'xor_eq',
-      )),
+      field('operator', choice(...ASSIGNMENT_OPERATORS)),
       field('right', choice($._expression, $.initializer_list)),
     )),
 
+    assignment_expression_lhs_expression: $ => seq(
+      field('left', $._expression),
+      field('operator', choice(...ASSIGNMENT_OPERATORS)),
+      field('right', choice($._expression, $.initializer_list)),
+    ),
+
+    // This prevents an ambiguity between fold expressions
+    // and assignment expressions within parentheses.
+    parenthesized_expression: ($, original) => choice(
+      original,
+      seq('(', alias($.assignment_expression_lhs_expression, $.assignment_expression), ')')
+    ),
 
     operator_name: $ => prec(1, seq(
       'operator',

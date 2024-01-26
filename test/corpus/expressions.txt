@@ -1465,3 +1465,94 @@ void f() {
         (number_literal))
       (expression_statement
         (number_literal)))))
+
+================================================================================
+While with assignment expression
+================================================================================
+
+while ((a = b)) {}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (while_statement
+    (condition_clause
+      (parenthesized_expression
+        (assignment_expression
+          (identifier)
+          (identifier))))
+    (compound_statement)))
+
+================================================================================
+Parenthesized Expressions that are not Fold Expressions
+================================================================================
+
+int main() {
+  if ((a = a + 1)) {
+    (a += 1) %= 2;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (if_statement
+        (condition_clause
+          (parenthesized_expression
+            (assignment_expression
+              (identifier)
+              (binary_expression
+                (identifier)
+                (number_literal)))))
+        (compound_statement
+          (expression_statement
+            (assignment_expression
+              (parenthesized_expression
+                (assignment_expression
+                  (identifier)
+                  (number_literal)))
+              (number_literal))))))))
+
+================================================================================
+Complex fold expression
+================================================================================
+
+template <typename... Args> void negateValues(Args... args) {
+  ((std::cout << !args << " "), ...);
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list
+      (variadic_type_parameter_declaration
+        (type_identifier)))
+    (function_definition
+      (primitive_type)
+      (function_declarator
+        (identifier)
+        (parameter_list
+          (variadic_parameter_declaration
+            (type_identifier)
+            (variadic_declarator
+              (identifier)))))
+      (compound_statement
+        (expression_statement
+          (fold_expression
+            (parenthesized_expression
+              (binary_expression
+                (binary_expression
+                  (qualified_identifier
+                    (namespace_identifier)
+                    (identifier))
+                  (unary_expression
+                    (identifier)))
+                (string_literal
+                  (string_content))))))))))
