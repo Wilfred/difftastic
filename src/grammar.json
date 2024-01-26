@@ -871,8 +871,13 @@
                       ]
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "preproc_elifdef"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "preproc_elifdef_in_field_declaration_list"
+                      },
+                      "named": true,
+                      "value": "preproc_elifdef"
                     }
                   ]
                 },
@@ -1249,8 +1254,13 @@
                       ]
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "preproc_elifdef"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "preproc_elifdef_in_enumerator_list"
+                      },
+                      "named": true,
+                      "value": "preproc_elifdef"
                     }
                   ]
                 },
@@ -1636,8 +1646,13 @@
                       ]
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "preproc_elifdef"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "preproc_elifdef_in_enumerator_list_no_comma"
+                      },
+                      "named": true,
+                      "value": "preproc_elifdef"
                     }
                   ]
                 },

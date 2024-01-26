@@ -1340,6 +1340,17 @@ function preprocIf(suffix, content, precedence = 0) {
     );
   }
 
+  /**
+    *
+    * @param {GrammarSymbols<string>} $
+    *
+    * @return {AliasRule | SymbolRule<string>}
+    *
+    */
+  function elifBlock($) {
+    return suffix ? alias($['preproc_elifdef' + suffix], $.preproc_elifdef) : $.preproc_elifdef;
+  }
+
   return {
     ['preproc_if' + suffix]: $ => prec(precedence, seq(
       preprocessor('if'),
@@ -1354,7 +1365,7 @@ function preprocIf(suffix, content, precedence = 0) {
       choice(preprocessor('ifdef'), preprocessor('ifndef')),
       field('name', $.identifier),
       repeat(content($)),
-      field('alternative', optional(choice(elseBlock($), $.preproc_elifdef))),
+      field('alternative', optional(choice(elseBlock($), elifBlock($)))),
       preprocessor('endif'),
     )),
 
