@@ -64,6 +64,9 @@ sample_files/elvish_before.elv sample_files/elvish_after.elv
 sample_files/erlang_before.erl sample_files/erlang_after.erl
 c4a48cdd69bc3d0ef5e6bf2e5a8424f9  -
 
+sample_files/f_sharp_before.fs sample_files/f_sharp_after.fs
+a22c0257a72bb07fc3f005638ea95952  -
+
 sample_files/hack_before.php sample_files/hack_after.php
 f4e6a08cf167ed376dac629bead4e54d  -
 
