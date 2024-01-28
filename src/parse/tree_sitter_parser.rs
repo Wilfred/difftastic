@@ -391,10 +391,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_fsharp() };
             TreeSitterConfig {
                 language,
-                atom_nodes: [
-                    "string",
-                    "triple_quoted_string"
-                ].into(),
+                atom_nodes: ["string", "triple_quoted_string"].into(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
