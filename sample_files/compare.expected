@@ -167,7 +167,7 @@ sample_files/objc_header_before.h sample_files/objc_header_after.h
 f65feb21b25bb7f2ba31ee8f49977193  -
 
 sample_files/objc_module_before.m sample_files/objc_module_after.m
-c04cdebd2da077cf28b53307ad0a3b02  -
+faf4f280485b78d2c74c73292a405708  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 2113c6c7959b8099f678d13953f7f44a  -
