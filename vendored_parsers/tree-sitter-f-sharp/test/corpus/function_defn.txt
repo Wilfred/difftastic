@@ -1,0 +1,169 @@
+================================================================================
+basic constant function
+================================================================================
+
+let functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic constant function inline
+================================================================================
+
+let inline functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic private constant function
+================================================================================
+
+let private functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic private constant function inline
+================================================================================
+
+let inline private functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic function with srt constraint (old-style, with ^)
+================================================================================
+
+let inline double<^a when ^a:(member Double: unit -> ^a)> (x: ^a) = x.Double()
+
+--------------------------------------------------------------------------------
+
+ (file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))
+          (type_argument_constraints
+            (constraint
+              (static_type_argument
+                (identifier))
+              (trait_member_constraint
+                (identifier)
+                (type
+                  (type
+                    (long_identifier
+                      (identifier)))
+                  (type
+                    (type_argument
+                      (identifier))))))))
+        (argument_patterns
+          (typed_pattern
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (type
+              (type_argument
+                (identifier))))))
+      (call_expression
+        (dot_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))
+
+================================================================================
+basic function with srt constraint (new-style, with ')
+================================================================================
+
+let inline double<'a when 'a:(member Double: unit -> 'a)> (x: 'a) = x.Double()
+
+--------------------------------------------------------------------------------
+
+ (file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))
+          (type_argument_constraints
+            (constraint
+              (static_type_argument
+                (identifier))
+              (trait_member_constraint
+                (identifier)
+                (type
+                  (type
+                    (long_identifier
+                      (identifier)))
+                  (type
+                    (type_argument
+                      (identifier))))))))
+        (argument_patterns
+          (typed_pattern
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (type
+              (type_argument
+                (identifier))))))
+      (call_expression
+        (dot_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))

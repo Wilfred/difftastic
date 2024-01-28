@@ -1,0 +1,1229 @@
+================================================================================
+const expression
+================================================================================
+
+do 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (const
+        (int)))))
+
+================================================================================
+const 2 sequence expression
+================================================================================
+
+do 4 3
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (const
+          (int))
+        (const
+          (int))))))
+
+================================================================================
+const 3 application expression
+================================================================================
+
+do 4 3 3
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (const (int))
+        (application_expression
+          (const (int))
+          (const (int)))))))
+
+================================================================================
+const identifier expression
+================================================================================
+
+do test
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (long_identifier_or_op
+        (long_identifier
+          (identifier))))))
+
+================================================================================
+const begin/end expression
+================================================================================
+
+do begin test end
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (begin_end_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
+
+================================================================================
+const begin/end sequence expression
+================================================================================
+
+do begin 2 1 end
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (begin_end_expression
+        (application_expression
+          (const
+            (int))
+          (const
+            (int)))))))
+
+================================================================================
+null expression
+================================================================================
+
+do null
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do)))
+
+================================================================================
+unit expression
+================================================================================
+
+do ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do (const (unit)))))
+
+================================================================================
+paren expression
+================================================================================
+
+do (4)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (paren_expression
+        (const (int))))))
+
+================================================================================
+paren expression in application expression
+================================================================================
+
+do test (4)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier (identifier)))
+        (paren_expression
+          (const (int)))))))
+
+================================================================================
+dot expression
+================================================================================
+
+do (test.test)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (paren_expression
+        (dot_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))))))
+
+================================================================================
+index dot expression
+================================================================================
+
+do test.[test]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (index_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
+
+================================================================================
+index expression
+================================================================================
+
+do test[test]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (index_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
+
+================================================================================
+mutate expression
+================================================================================
+
+do test <- 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (mutate_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (int))))))
+
+================================================================================
+chain mutate expression
+================================================================================
+
+do test <- 2 <- 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (mutate_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (mutate_expression
+          (const
+            (int))
+          (const
+            (int)))))))
+
+================================================================================
+upcast expression
+================================================================================
+
+do upcast 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (prefixed_expression
+        (const
+          (int))))))
+
+================================================================================
+downcast expression
+================================================================================
+
+do downcast 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (prefixed_expression
+        (const
+          (int))))))
+
+================================================================================
+comma separated expressions
+================================================================================
+
+do 2, 3, 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (tuple_expression
+        (tuple_expression
+          (const
+            (int))
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+list expressions
+================================================================================
+
+do [2; 3; 4]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (list_expression
+        (const
+          (int))
+        (const
+          (int))
+        (const
+          (int))))))
+
+================================================================================
+index list expressions
+================================================================================
+
+do [2; 3; 4][1]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (index_expression
+        (list_expression
+          (const
+            (int))
+          (const
+            (int))
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+index single list expressions
+================================================================================
+
+do [2][1]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (index_expression
+        (list_expression
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+two single list expressions
+================================================================================
+
+do [2] [1]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (list_expression
+          (const (int)))
+        (list_expression
+          (const (int)))))))
+
+================================================================================
+array expressions
+================================================================================
+
+do [|2; 3; 4|]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (array_expression
+        (const (int))
+        (const (int))
+        (const (int))))))
+
+================================================================================
+array list expressions
+================================================================================
+
+do [|2; 3; 4|][1]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (index_expression
+        (array_expression
+          (const
+            (int))
+          (const
+            (int))
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+array single list expressions
+================================================================================
+
+do [|2|][1]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (index_expression
+        (array_expression
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+two single array expressions
+================================================================================
+
+do [|2|] [|1|]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (array_expression
+          (const
+            (int)))
+        (array_expression
+          (const
+            (int)))))))
+
+================================================================================
+function-in expressions
+================================================================================
+
+do let name x = 4 in 5
+
+--------------------------------------------------------------------------------
+
+(ERROR
+  (function_or_value_defn
+    (function_declaration_left
+      (identifier)
+      (argument_patterns
+        (long_identifier
+          (identifier))))
+    (application_expression
+      (const
+        (int))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (int))))))
+
+================================================================================
+function-align expressions
+================================================================================
+
+do
+  let name x = 4
+  5
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (declaration_expression
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+function-align expressions 2
+================================================================================
+
+do
+  let name x =
+    4
+  5
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (declaration_expression
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (int)))
+        (const
+          (int))))))
+
+================================================================================
+function-align expressions 3
+================================================================================
+
+do
+  let name x =
+    1
+    2
+  5
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (declaration_expression
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const (int))
+          (const (int)))
+        (const (int))))))
+
+================================================================================
+Parenthesised expressions 1
+================================================================================
+
+module T
+let x a = (a)
+let y = Choice1Of2 ("hi")
+let z = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (function_declaration_left
+          (identifier)
+          (argument_patterns
+            (long_identifier (identifier))))
+        (paren_expression
+          (long_identifier_or_op
+            (long_identifier (identifier))))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier (identifier))))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (paren_expression
+            (const (string))))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier (identifier))))
+        (const (unit))))))
+
+================================================================================
+pipe expression 1
+================================================================================
+
+do
+  1 |> id
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (const (int))
+        (infix_op (symbolic_op))
+        (long_identifier_or_op
+          (long_identifier (identifier)))))))
+
+================================================================================
+pipe expression 2
+================================================================================
+
+do
+  1
+  |> id
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (const (int))
+        (infix_op (symbolic_op))
+        (long_identifier_or_op
+          (long_identifier (identifier)))))))
+
+================================================================================
+pipe expression 3
+================================================================================
+
+do
+  fun x ->
+    x
+  |> id
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (fun_expression
+          (argument_patterns
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))
+        (infix_op
+          (symbolic_op))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
+
+================================================================================
+pipe expression 4
+================================================================================
+
+do
+  A.x
+  |> B.y C.z
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (dot_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))
+        (infix_op (symbolic_op))
+        (application_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier (identifier)))
+            (long_identifier_or_op
+              (long_identifier (identifier))))
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier (identifier)))
+            (long_identifier_or_op
+              (long_identifier (identifier)))))))))
+
+================================================================================
+ce expression 1
+================================================================================
+
+do
+  seq { "*.fs" }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier (identifier)))
+        (const (string))))))
+
+================================================================================
+ce expression 2
+================================================================================
+
+do
+  async {
+    do! Async.sleep 5
+    return ()
+  }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (do_expression
+          (application_expression
+            (dot_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
+            (const (int))))
+        (return_expression
+          (const (unit)))))))
+
+================================================================================
+call function form list of functions
+================================================================================
+
+let x =
+  let fs = [id]
+  fs[0] 0
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier (identifier))))
+          (list_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))
+        (application_expression
+          (index_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (const (int)))
+          (const (int)))))))
+
+================================================================================
+index list with value declaration
+================================================================================
+
+let x =
+  let ys = [1;2]
+  ys[
+    let x = 1
+    x
+  ]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier (identifier))))
+          (list_expression
+            (const (int))
+            (const (int))))
+        (index_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier (identifier))))
+              (const (int)))
+            (long_identifier_or_op
+              (long_identifier (identifier)))))))))
+
+================================================================================
+apply value declaration to function
+================================================================================
+
+let x =
+  id
+   (let x = 1
+    x)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier (identifier)))
+        (paren_expression
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier
+                    (identifier))))
+              (const (int)))
+            (long_identifier_or_op
+              (long_identifier (identifier)))))))))
+
+================================================================================
+apply value to function declaration
+================================================================================
+
+let x =
+  (let f = id
+   id) 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern (long_identifier (identifier))))
+      (application_expression
+        (paren_expression
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern (long_identifier (identifier))))
+              (long_identifier_or_op (long_identifier (identifier))))
+            (long_identifier_or_op (long_identifier (identifier)))))
+        (const (int))))))
+
+================================================================================
+if-then-else expression 1
+================================================================================
+
+do
+  if true
+    then 1
+    else 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))
+        (const (int))))))
+
+================================================================================
+if-then-else expression 2
+================================================================================
+
+do
+  if true then 1 else 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))
+        (const (int))))))
+
+================================================================================
+if-then expression 1
+================================================================================
+
+do
+  if true then
+    1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))))))
+
+================================================================================
+if-then expression 2
+================================================================================
+
+do
+  if true then 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))))))
+
+================================================================================
+anonymous function expression
+================================================================================
+
+let exampleNamespace =
+    (fun (n,v) -> if n = "namespace" then Some (v :?> string) else None )
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern (long_identifier (identifier))))
+      (paren_expression
+        (fun_expression
+          (argument_patterns
+            (repeat_pattern
+              (identifier_pattern (long_identifier (identifier)))
+              (identifier_pattern (long_identifier (identifier)))))
+          (if_expression
+            (infix_expression
+              (long_identifier_or_op (long_identifier (identifier)))
+              (infix_op)
+              (const (string)))
+            (application_expression
+              (long_identifier_or_op (long_identifier (identifier)))
+              (paren_expression
+                (typecast_expression
+                  (long_identifier_or_op (long_identifier (identifier)))
+                  (type (long_identifier (identifier))))))
+            (long_identifier_or_op (long_identifier (identifier)))))))))
+
+================================================================================
+record update expression
+================================================================================
+
+do
+  { A with
+      Pattern = []
+      Expr = B }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (brace_expression
+        (with_field_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (field_initializers
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (list_expression))
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))))))))
+
+================================================================================
+SeqBlock with line comment
+================================================================================
+
+let x =
+  let y = 5
+  // comment
+  y + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const (int)))
+        (line_comment)
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (infix_op)
+          (const (int)))))))
+
+================================================================================
+SeqBlock with multi-line comment
+================================================================================
+
+let x =
+  let y = 5
+  (*
+   * comment
+   *)
+  y + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier (identifier))))
+          (const (int)))
+        (block_comment (block_comment_content))
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (infix_op)
+          (const (int)))))))
+
+================================================================================
+simple for-in-do loop
+================================================================================
+
+let x =
+  for i in ids do
+    ignore i
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (for_expression
+        (identifier_pattern
+          (long_identifier
+            (identifier)))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))
+
+================================================================================
+simple for-to loop
+================================================================================
+
+let x =
+  for i = 1 to 10 do
+    ignore i
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (for_expression
+        (identifier)
+        (const (int))
+        (const (int))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))))))
+
+================================================================================
+simple for-downto loop
+================================================================================
+
+let x =
+  for i = 1 downto 10 do
+    ignore i
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (for_expression
+        (identifier)
+        (const (int))
+        (const (int))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))))))
+
+================================================================================
+application-expression in sequence expression
+================================================================================
+
+let test =
+  id 1
+  ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (int)))
+      (const
+        (unit)))))
+
+================================================================================
+application-expression followed by dot-expression
+================================================================================
+
+let test f =
+  if true then
+    f a
+  someDictionary.Add(vkey, "foo")
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (if_expression
+        (const)
+        (application_expression
+          (long_identifier_or_op (long_identifier (identifier)))
+          (long_identifier_or_op (long_identifier (identifier)))))
+      (call_expression
+        (dot_expression
+          (long_identifier_or_op (long_identifier (identifier)))
+          (long_identifier_or_op (long_identifier (identifier))))
+        (tuple_expression
+          (long_identifier_or_op (long_identifier (identifier)))
+          (const (string)))))))
+
+================================================================================
+if-expression in sequence expression
+================================================================================
+
+let test =
+  if true then
+    2
+  1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (if_expression
+        (const)
+        (const
+          (int)))
+      (const
+        (int)))))
