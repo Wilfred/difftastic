@@ -1,0 +1,410 @@
+============================================================================
+Entity declaration
+============================================================================
+entity e is
+    generic (k : t);
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name))))
+
+============================================================================
+Block statement
+============================================================================
+B1:
+block
+    generic (k : t);
+begin
+end block B1;
+---
+
+(design_file
+  (block_statement
+    (label
+      (identifier))
+    (block_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon)))
+    at_end: (simple_name)))
+
+============================================================================
+Component declaration
+============================================================================
+component c
+    generic (s : t);
+end component c;
+---
+
+(design_file
+  (component_declaration
+    name: (identifier)
+    (component_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        (semicolon)))
+    at_end: (simple_name)))
+
+============================================================================
+Package declaration
+============================================================================
+package pkg is
+    generic (k : t)
+end package pkg;
+---
+
+(design_file
+  (package_declaration
+    name: (identifier)
+    (package_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))))
+    at_end: (simple_name)))
+
+============================================================================
+Subprogram specification
+============================================================================
+procedure p
+    generic (k:t);
+---
+
+(design_file
+  (procedure_declaration
+    designator: (identifier)
+    (subprogram_header
+      (generic_clause
+        (constant_interface_declaration
+          (identifier_list
+            (identifier))
+          (subtype_indication
+            (type_mark
+              (simple_name))))))))
+
+============================================================================
+Legal interface declarations
+============================================================================
+entity e is
+    generic (constant k :    t;
+             constant k : in i;
+                      k :    t;
+                      k : in t);
+end entity e;
+
+entity e is
+    generic (type t);
+end entity e;
+
+entity e is
+    generic (procedure p);
+end entity e;
+
+entity e is
+    generic (package pkg is new upkg generic map (<>));
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (type_interface_declaration
+            name: (identifier))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (procedure_interface_declaration
+            designator: (identifier))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (package_interface_declaration
+            name: (identifier)
+            uninstantiated: (simple_name)
+            (package_map_aspect
+              (generic_map_aspect
+                (any))))
+          (semicolon)))
+      at_end: (simple_name))))
+
+============================================================================
+LINT: Illegal interface declarations
+============================================================================
+entity e is
+    generic (constant k : out     t;
+             constant k : inout   t;
+             constant k : buffer  t;
+             constant k : linkage t);
+end entity e;
+
+entity e is
+    generic (signal s :         t;
+             signal s : in      t;
+             signal s : out     t;
+             signal s : inout   t;
+             signal s : buffer  t;
+             signal s : linkage t);
+end entity e;
+
+entity e is
+    generic (variable v :         t;
+             variable v : in      t;
+             variable v : out     t;
+             variable v : inout   t;
+             variable v : buffer  t;
+             variable v : linkage t);
+end entity e;
+
+entity e is
+    generic (file v : in      t;
+             file v : out     t;
+             file v : inout   t;
+             file v : buffer  t;
+             file v : linkage t);
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (constant_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (signal_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (variable_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (file_interface_declaration
+            (identifier_list
+              (identifier))
+            (mode)
+            (subtype_indication
+              (type_mark
+                (simple_name))))
+          (semicolon)))
+      at_end: (simple_name))))

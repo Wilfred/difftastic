@@ -1,0 +1,10 @@
+============================================
+Null literal
+============================================
+assert null;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (null))))

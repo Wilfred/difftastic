@@ -1,0 +1,12 @@
+====================
+Minimal
+====================
+type FT is file of TM;
+---
+
+(design_file
+  (full_type_declaration
+    (identifier)
+    (file_type_definition
+      (type_mark
+        (simple_name)))))

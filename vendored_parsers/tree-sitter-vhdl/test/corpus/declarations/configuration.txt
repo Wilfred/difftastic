@@ -1,0 +1,173 @@
+================================================================================
+Minimal
+================================================================================
+configuration cfg of ent is
+end;
+
+configuration cfg of ent is
+end configuration;
+
+configuration cfg of ent is
+end configuration cfg;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)))
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)))
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)
+      at_end: (simple_name))))
+
+================================================================================
+Expanded name
+================================================================================
+configuration cfg of lib.ent is
+end;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (selected_name
+        prefix: (simple_name)
+        suffix: (simple_name)))))
+
+================================================================================
+Block configuration - Minimal
+================================================================================
+configuration cfg of ent is
+    for arch
+    end for;
+end;
+
+configuration cfg of ent is
+    for gen(GEN1)
+    end for;
+end;
+
+configuration cfg of ent is
+    for gen(0 to 1)
+    end for;
+end;
+
+configuration cfg of ent is
+    for gen(1+1)
+    end for;
+end;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          name_or_label: (simple_name)))))
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          (generate_statement_element
+            label: (simple_name)
+            specification: (simple_name))))))
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          (generate_statement_element
+            label: (simple_name)
+            specification: (ascending_range
+              low: (simple_expression
+                (integer_decimal))
+              high: (simple_expression
+                (integer_decimal))))))))
+  (design_unit
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)
+      (block_configuration
+        (block_specification
+          (generate_statement_element
+            label: (simple_name)
+            specification: (expression
+              (simple_expression
+                (integer_decimal)
+                (integer_decimal)))))))))
+
+================================================================================
+LRM 3.4.1
+================================================================================
+library TTL, Work;
+configuration V4_27_87 of Processor is
+   use Work.all;
+   for Structure_View
+      for A1: ALU
+         use configuration TTL.SN74LS181;
+      end for;
+      for M1,M2,M3: MUX
+         use entity Multiplex4 (Behavior);
+      end for;
+      for all: Latch
+          -- use defaults
+      end for;
+   end for;
+end configuration V4_27_87;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (context_clause
+      (library_clause
+        (logical_name_list
+          library: (simple_name)
+          library: (simple_name))))
+    (configuration_declaration
+      name: (identifier)
+      entity: (simple_name)
+      (declarative_part
+        (use_clause
+          (selected_name
+            prefix: (simple_name)
+            suffix: (all))))
+      (block_configuration
+        (block_specification
+          name_or_label: (simple_name))
+        (component_configuration
+          (instantiation_list
+            (simple_name))
+          component: (simple_name)
+          (binding_indication
+            (configuration_instantiation
+              configuration: (selected_name
+                prefix: (simple_name)
+                suffix: (simple_name)))))
+        (component_configuration
+          (instantiation_list
+            (simple_name)
+            (simple_name)
+            (simple_name))
+          component: (simple_name)
+          (binding_indication
+            (entity_instantiation
+              entity: (simple_name)
+              architecture: (simple_name))))
+        (component_configuration
+          (instantiation_list
+            (all))
+          component: (simple_name)
+          (comment)))
+      at_end: (simple_name))))

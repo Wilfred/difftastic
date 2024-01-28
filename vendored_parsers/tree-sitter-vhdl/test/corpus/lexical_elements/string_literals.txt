@@ -1,0 +1,207 @@
+============================================
+Minimal
+============================================
+report "";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+============================================
+White space (SPACE)
+============================================
+report " ";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+============================================
+White space (NBSP)
+============================================
+report " ";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Apostrophe
+==============================================================
+report "'";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Quotation mark (escape)
+==============================================================
+report """";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Underscore
+==============================================================
+report "_";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Backslash
+==============================================================
+report "\";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Comment
+==============================================================
+report "--";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Multi line comment
+==============================================================
+report "/*aa*/";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Zeros and ones
+==============================================================
+report "010";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Operators symbols
+==============================================================
+report "and";
+report ">=";
+report "sll";
+report "+";
+report "abs";
+report "**";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal))))
+
+==============================================================
+Regex Tokens
+==============================================================
+report "^";
+report "$";
+report ".";
+report "|";
+report "\";
+report "*";
+report "?";
+report "+";
+report "[";
+report "]";
+report "(";
+report ")";
+report "{";
+report "}";
+report "#";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal)))
+  (report_statement
+    (string_expression
+      (string_literal))))

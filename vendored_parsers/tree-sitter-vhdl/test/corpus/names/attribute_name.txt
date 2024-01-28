@@ -1,0 +1,52 @@
+=============================
+Attribute of attribute
+=============================
+assert t'base'left;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (attribute_name
+        prefix: (attribute_name
+          prefix: (simple_name)
+          designator: (predefined_designator))
+        designator: (predefined_designator)))))
+
+=============================
+External name
+=============================
+assert << constant a : foo >>'subtype;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (attribute_name
+        prefix: (external_constant_name
+          (relative_pathname
+            object: (simple_name))
+          (subtype_indication
+            (type_mark
+              (simple_name))))
+        designator: (predefined_designator)))))
+
+=============================
+Function call
+=============================
+assert foo(a => b)'high;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (attribute_name
+        prefix: (function_call
+          function: (simple_name)
+          (association_list
+            (named_association_element
+              formal_part: (simple_name)
+              actual_part: (expression
+                (simple_name)))))
+        designator: (predefined_designator)))))
+

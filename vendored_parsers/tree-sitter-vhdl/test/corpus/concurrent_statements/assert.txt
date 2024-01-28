@@ -1,0 +1,57 @@
+==============================
+Minimal
+==============================
+assert a;
+A1: assert a;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (simple_name)))
+  (assertion_statement
+    (label
+      (identifier))
+    (conditional_expression
+      (simple_name))))
+
+==============================
+Report
+==============================
+assert a report "str";
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (simple_name))
+    (string_expression
+      (string_literal))))
+
+==============================
+Severity
+==============================
+assert a severity note;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (simple_name))
+    (severity_expression
+      (simple_name))))
+
+==============================
+Report and severity
+==============================
+assert a report K_MSG severity failure;
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (simple_name))
+    (string_expression
+      (simple_name))
+    (severity_expression
+      (simple_name))))

@@ -1,0 +1,123 @@
+================================================================================
+Declaration
+================================================================================
+attribute a : t;
+--------------------------------------------------------------------------------
+
+(design_file
+  (attribute_declaration
+    (identifier)
+    (type_mark
+      (simple_name))))
+
+================================================================================
+Specification
+================================================================================
+attribute attr of e : entity is expr;
+--------------------------------------------------------------------------------
+
+(design_file
+  (attribute_specification
+    (simple_name)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          (simple_name)))
+      (entity_class))
+    (expression
+      (simple_name))))
+
+================================================================================
+Specification [LRM] I
+================================================================================
+attribute LOCATION of ADDER1 : label is (10,15);
+--------------------------------------------------------------------------------
+
+(design_file
+  (attribute_specification
+    (simple_name)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          (simple_name)))
+      (entity_class))
+    (expression
+      (aggregate
+        (positional_element_association
+          (expression
+            (integer_decimal)))
+        (positional_element_association
+          (expression
+            (integer_decimal)))))))
+
+================================================================================
+Specification [LRM] II
+================================================================================
+attribute IMPLEMENTATION of G1: group is "74LS152";
+--------------------------------------------------------------------------------
+
+(design_file
+  (attribute_specification
+    (simple_name)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          (simple_name)))
+      (entity_class))
+    (expression
+      (string_literal))))
+
+================================================================================
+Specification [LRM] III
+================================================================================
+attribute CAPACITANCE of all: signal is 15 pF;
+--------------------------------------------------------------------------------
+
+(design_file
+  (attribute_specification
+    name: (simple_name)
+    (entity_specification
+      (entity_name_list
+        (all))
+      (entity_class))
+    (expression
+      (physical_literal
+        (integer_decimal)
+        unit: (simple_name)))))
+
+================================================================================
+Xilinx Attribute I
+================================================================================
+attribute ASYNC_REG : string;
+attribute ASYNC_REG of sync_regs : signal is "TRUE";
+attribute ASYNC_REG : boolean;
+attribute ASYNC_REG of sync_regs : signal is true;
+--------------------------------------------------------------------------------
+
+(design_file
+  (attribute_declaration
+    (identifier)
+    (type_mark
+      (simple_name)))
+  (attribute_specification
+    (simple_name)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          (simple_name)))
+      (entity_class))
+    (expression
+      (string_literal)))
+  (attribute_declaration
+    (identifier)
+    (type_mark
+      (simple_name)))
+  (attribute_specification
+    (simple_name)
+    (entity_specification
+      (entity_name_list
+        (entity_designator
+          (simple_name)))
+      (entity_class))
+    (expression
+      (simple_name))))

@@ -1,0 +1,160 @@
+==============================================================
+Ambiguity I
+==============================================================
+-- possible interpretations:
+-- (function_call
+--     (function_name "foo")
+--      (_name "bar"))
+--
+-- (type_conversion
+--      (type_name "foo")
+--      (_name "bar"))
+--
+-- (indexed_name
+--      (array_name "foo")
+--      (_name "bar"))
+--
+-- (slice_name
+--      (array_name "foo")
+--      (subtype_name "bar"))
+
+assert foo(bar);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (simple_name)))))))
+
+==============================================================
+Ambiguity II
+==============================================================
+-- Possible interpretations:
+-- (function_call
+--     (function_name "foo")
+--     (_name "bar")
+--     (_name "baz"))
+--
+-- (indexed_name
+--     (array_name "foo")
+--     (_name "bar")
+--     (_name "baz"))
+
+assert foo(bar, baz);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (simple_name))
+          (expression
+            (simple_name)))))))
+
+==============================================================
+Ambiguity III
+==============================================================
+-- Possible interpretations:
+-- (slice_name
+--      (function_call ...)
+--      (subtype_name "bar"))
+--
+-- (indexed_name
+--      (function_call ...)
+--      (object_name "bar"))
+
+assert foobar(foo=>bar)(bar);
+---
+
+(design_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (function_call
+          function: (simple_name)
+          (association_list
+            (named_association_element
+              formal_part: (simple_name)
+              actual_part: (expression
+                (simple_name)))))
+        (expression_list
+          (expression
+            (simple_name)))))))
+
+==============================================================
+Ambiguous name on ambiguous name
+==============================================================
+assert foo(bar(x));
+---
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (ambiguous_name
+              prefix: (simple_name)
+              (expression_list
+                (expression
+                  (simple_name))))))))))
+
+==============================================================
+PSL Built-ins functions names (not reserved words)
+==============================================================
+t <= prev(x);
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (ambiguous_name
+            prefix: (simple_name)
+            (expression_list
+              (expression
+                (simple_name)))))))))

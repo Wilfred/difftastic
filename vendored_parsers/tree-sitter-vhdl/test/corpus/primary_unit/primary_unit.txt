@@ -1,0 +1,71 @@
+================================================================================
+Minimal
+================================================================================
+library ieee;
+
+entity e is
+end entity;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (context_clause
+      (library_clause
+        (logical_name_list
+          (simple_name))))
+    (entity_declaration
+      (identifier))))
+
+================================================================================
+Logical name list
+================================================================================
+library work, ieee;
+
+entity e is
+end entity;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (context_clause
+      (library_clause
+        (logical_name_list
+          (simple_name)
+          (simple_name))))
+    (entity_declaration
+      (identifier))))
+
+================================================================================
+Context declaration - LRM
+================================================================================
+context project_context is
+   library project_lib;
+   use project_lib.project_defs.all;
+   library IP_lib;
+   context IP_lib.IP_context;
+end context project_context;
+--------------------------------------------------------------------------------
+
+(design_file
+  (design_unit
+    (context_declaration
+      name: (identifier)
+      (context_clause
+        (library_clause
+          (logical_name_list
+            library: (simple_name)))
+        (use_clause
+          (selected_name
+            prefix: (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name))
+            suffix: (all)))
+        (library_clause
+          (logical_name_list
+            library: (simple_name)))
+        (context_reference
+          (context_list
+            (selected_name
+              prefix: (simple_name)
+              suffix: (simple_name)))))
+      at_end: (simple_name))))

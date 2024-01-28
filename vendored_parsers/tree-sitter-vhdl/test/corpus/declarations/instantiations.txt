@@ -1,0 +1,126 @@
+====================================
+Subprogram - Minimal
+====================================
+function f is new u;
+procedure p is new u;
+---
+
+(design_file
+  (function_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name))
+  (procedure_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name)))
+
+====================================
+Subprogram - Signature
+====================================
+function f is new u [return t];
+procedure p is new u [t];
+---
+
+(design_file
+  (function_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name)
+    (signature
+      (return
+        (type_mark
+          (simple_name)))))
+  (procedure_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name)
+    (signature
+      (type_mark
+        (simple_name)))))
+
+====================================
+Subprogram - Generic map aspect
+====================================
+function f is new u
+    generic map (a);
+
+procedure p is new u
+    generic map (a);
+---
+
+(design_file
+  (function_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name)
+    (subprogram_map_aspect
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name)))))))
+  (procedure_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name)
+    (subprogram_map_aspect
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))
+
+============================================
+Subprogram - Conflict resolution - Procedure
+============================================
+procedure p is new u;
+procedure p;
+---
+
+(design_file
+  (procedure_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name))
+  (procedure_declaration
+    designator: (identifier)))
+
+============================================
+Subprogram - Conflict resolution - Function
+============================================
+function f is new u;
+function f return t;
+---
+
+(design_file
+  (function_instantiation_declaration
+    designator: (identifier)
+    uninstantiated: (simple_name))
+  (function_declaration
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))))
+
+====================================
+Package - Minimal
+====================================
+package p is new u;
+---
+
+(design_file
+  (package_instantiation_declaration
+    name: (identifier)
+    uninstantiated: (simple_name)))
+
+====================================
+Package - Generic map aspect
+====================================
+package p is new u
+    generic map (a);
+---
+
+(design_file
+  (package_instantiation_declaration
+    name: (identifier)
+    uninstantiated: (simple_name)
+    (package_map_aspect
+      (generic_map_aspect
+        (association_list
+          (positional_association_element
+            actual_part: (expression
+              (simple_name))))))))

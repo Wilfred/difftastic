@@ -1,0 +1,57 @@
+=========================
+Attribute name
+=========================
+report integer'image(a);
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (attribute_name
+        prefix: (simple_name)
+        designator: (predefined_designator)
+        (expression
+          (simple_name))))))
+
+=========================
+Function
+=========================
+report to_string(a);
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (simple_name)))))))
+
+=========================
+Concatenation
+=========================
+report "a" & "b";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+        (string_literal)
+        (string_literal)))))
+
+=========================
+Concatenation II
+=========================
+report "a" & "b" & "c";
+---
+
+(design_file
+  (report_statement
+    (string_expression
+      (concatenation
+        (string_literal)
+        (string_literal)
+        (string_literal)))))
+

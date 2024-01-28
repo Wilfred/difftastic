@@ -1,0 +1,13 @@
+==============
+Minimal
+==============
+type foo is access bar;
+---
+
+(design_file
+  (full_type_declaration
+    (identifier)
+    (access_type_definition
+      (subtype_indication
+        (type_mark
+          (simple_name))))))

@@ -1,0 +1,234 @@
+================================================================================
+Minimal
+================================================================================
+constant k: t;
+signal s  : t;
+variable v: t;
+file f    : ft;
+--------------------------------------------------------------------------------
+
+(design_file
+  (constant_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name))))
+  (signal_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name))))
+  (variable_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name))))
+  (file_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))))
+
+================================================================================
+Identifier list
+================================================================================
+constant k1, k2         : t;
+signal s1, s2, s3       : t;
+variable v1, v2, v3, v4 : t;
+file f1, f2, f3, f4, f5 : ft;
+--------------------------------------------------------------------------------
+
+(design_file
+  (constant_declaration
+    (identifier_list
+      (identifier)
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name))))
+  (signal_declaration
+    (identifier_list
+      (identifier)
+      (identifier)
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name))))
+  (variable_declaration
+    (identifier_list
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name))))
+  (file_declaration
+    (identifier_list
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier)
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))))
+
+================================================================================
+Default expression
+================================================================================
+constant k : t := expr;
+signal s   : t := expr;
+variable v : t := expr;
+--------------------------------------------------------------------------------
+
+(design_file
+  (constant_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (default_expression
+      (simple_name)))
+  (signal_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (default_expression
+      (simple_name)))
+  (variable_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (default_expression
+      (simple_name))))
+
+================================================================================
+Shared variable
+================================================================================
+shared variable sv : t;
+--------------------------------------------------------------------------------
+
+(design_file
+  (shared_variable_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))))
+
+================================================================================
+Signal kind
+================================================================================
+signal s : t bus;
+signal s : t register;
+--------------------------------------------------------------------------------
+
+(design_file
+  (signal_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (signal_kind))
+  (signal_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (signal_kind)))
+
+================================================================================
+File open information
+================================================================================
+file f : ft is "fn.ext";
+file f : ft open write_mode is "fn.ext";
+file f : ft open f(x) is "fn.ext";
+--------------------------------------------------------------------------------
+
+(design_file
+  (file_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (file_open_information
+      (string_expression
+        (string_literal))))
+  (file_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (file_open_information
+      (file_open_kind
+        (simple_name))
+      (string_expression
+        (string_literal))))
+  (file_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (simple_name)))
+    (file_open_information
+      (file_open_kind
+        (ambiguous_name
+          prefix: (simple_name)
+          (expression_list
+            (expression
+              (simple_name)))))
+      (string_expression
+        (string_literal)))))
+
+================================================================================
+Type Mark - Selected name [LRM]
+================================================================================
+signal S : STANDARD.BIT_VECTOR (1 to 10);
+--------------------------------------------------------------------------------
+
+(design_file
+  (signal_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (type_mark
+        (selected_name
+          prefix: (simple_name)
+          suffix: (simple_name)))
+      (array_constraint
+        (index_constraint
+          (ascending_range
+            low: (simple_expression
+              (integer_decimal))
+            high: (simple_expression
+              (integer_decimal))))))))
+
+================================================================================
+Resolution function [LRM]
+================================================================================
+signal OUTPUT: WIRED_OR MULTI_VALUED_LOGIC;
+--------------------------------------------------------------------------------
+
+(design_file
+  (signal_declaration
+    (identifier_list
+      (identifier))
+    (subtype_indication
+      (resolution_function
+        (simple_name))
+      (type_mark
+        (simple_name)))))

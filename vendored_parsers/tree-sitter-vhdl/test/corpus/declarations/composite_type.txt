@@ -1,0 +1,151 @@
+================================================================================
+Unbounded array type I
+================================================================================
+type att_t is array (a range <>) of b;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (unbounded_array_definition
+      (index_subtype_definition
+        (type_mark
+          (simple_name))
+        (any))
+      element: (subtype_indication
+        (type_mark
+          (simple_name))))))
+
+================================================================================
+Unbounded array type II
+================================================================================
+type att_t is array (a range <>, b range <>) of c;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (unbounded_array_definition
+      (index_subtype_definition
+        (type_mark
+          (simple_name))
+        (any))
+      (index_subtype_definition
+        (type_mark
+          (simple_name))
+        (any))
+      element: (subtype_indication
+        (type_mark
+          (simple_name))))))
+
+================================================================================
+Constrained array type - Subtype indication
+================================================================================
+type att_t is array (subtype_t) of foo;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (constrained_array_definition
+      (index_constraint
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      element: (subtype_indication
+        (type_mark
+          (simple_name))))))
+
+================================================================================
+Constrained array type - Range
+================================================================================
+type att_t is array (7 downto 0) of foo;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (constrained_array_definition
+      (index_constraint
+        (descending_range
+          high: (simple_expression
+            (integer_decimal))
+          low: (simple_expression
+            (integer_decimal))))
+      element: (subtype_indication
+        (type_mark
+          (simple_name))))))
+
+================================================================================
+Record type I
+================================================================================
+type rec_t is
+record
+    e1 : elemt_t;
+end record;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (record_type_definition
+      (element_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Record type II
+================================================================================
+type rec_t is
+record
+    e1 : arr (st);
+end record;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (record_type_definition
+      (element_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (subtype_indication
+                (type_mark
+                  (simple_name))))))))))
+
+================================================================================
+Record type III
+================================================================================
+type rec_t is
+    record
+        e1     : elemt_t;
+        e2, e3 : elemt_t;
+    end record rec_t;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (record_type_definition
+      (element_declaration
+        (identifier_list
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      (element_declaration
+        (identifier_list
+          (identifier)
+          (identifier))
+        (subtype_indication
+          (type_mark
+            (simple_name))))
+      at_end: (simple_name))))

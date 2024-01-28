@@ -1,0 +1,289 @@
+================================================================================
+Conditional waveform assignment - Minimal
+================================================================================
+t <= w when true;
+L: t <= w when true;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))))
+  (conditional_concurrent_signal_assignment
+    (label
+      (identifier))
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name)))))
+
+================================================================================
+Conditional waveform assignment - Delay mechanism
+================================================================================
+t <= transport w when true;
+t <= inertial w when true;
+t <= reject 10 ns inertial w when true;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (transport))
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))))
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (inertial))
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))))
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (inertial
+        reject: (time_expression
+          (physical_literal
+            (integer_decimal)
+            unit: (simple_name)))))
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name)))))
+
+================================================================================
+Conditional waveforms I
+================================================================================
+t <= w1 when true else
+     w2 when false;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))
+      (alternative_conditional_waveforms
+        (waveforms
+          (waveform_element
+            (expression
+              (simple_name))))
+        (conditional_expression
+          (simple_name))))))
+
+================================================================================
+Conditional waveforms II
+================================================================================
+t <= w1 when cond1 else
+     w2 when cond2 else
+     w3 when cond3 else
+     w4;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))
+      (alternative_conditional_waveforms
+        (waveforms
+          (waveform_element
+            (expression
+              (simple_name))))
+        (conditional_expression
+          (simple_name)))
+      (alternative_conditional_waveforms
+        (waveforms
+          (waveform_element
+            (expression
+              (simple_name))))
+        (conditional_expression
+          (simple_name)))
+      (alternative_conditional_waveforms
+        (waveforms
+          (waveform_element
+            (expression
+              (simple_name))))))))
+
+================================================================================
+Conditional waveforms III
+================================================================================
+t <= w1 after 10 ns when cond1 else w2;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))
+          (time_expression
+            (physical_literal
+              (integer_decimal)
+              unit: (simple_name)))))
+      (conditional_expression
+        (simple_name))
+      (alternative_conditional_waveforms
+        (waveforms
+          (waveform_element
+            (expression
+              (simple_name))))))))
+
+================================================================================
+Conditional force assignment
+================================================================================
+t <= force     w when true;
+t <= force in  w when true;
+t <= force out w when true;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_force_assignment
+    target: (simple_name)
+    (conditional_expressions
+      (expression
+        (simple_name))
+      (conditional_expression
+        (simple_name))))
+  (conditional_force_assignment
+    target: (simple_name)
+    (force_mode)
+    (conditional_expressions
+      (expression
+        (simple_name))
+      (conditional_expression
+        (simple_name))))
+  (conditional_force_assignment
+    target: (simple_name)
+    (force_mode)
+    (conditional_expressions
+      (expression
+        (simple_name))
+      (conditional_expression
+        (simple_name)))))
+
+================================================================================
+LRM
+================================================================================
+S <= unaffected when Input_pin = S'Driving_Value else
+     Input_pin after Buffer_Delay;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (unaffected))
+      (conditional_expression
+        (relation
+          (simple_name)
+          (attribute_name
+            prefix: (simple_name)
+            designator: (predefined_designator))))
+      (alternative_conditional_waveforms
+        (waveforms
+          (waveform_element
+            (expression
+              (simple_name))
+            (time_expression
+              (simple_name))))))))
+
+================================================================================
+Guarded assignment
+================================================================================
+t <= guarded w when cond;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name)))))
+
+================================================================================
+Guarded assignment - Delay mechanism
+================================================================================
+t <= guarded transport w when cond;
+t <= guarded inertial w when cond;
+t <= guarded reject 10 ns inertial w when cond;
+--------------------------------------------------------------------------------
+
+(design_file
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (transport))
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))))
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (inertial))
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name))))
+  (conditional_concurrent_signal_assignment
+    target: (simple_name)
+    (delay_mechanism
+      (inertial
+        reject: (time_expression
+          (physical_literal
+            (integer_decimal)
+            unit: (simple_name)))))
+    (conditional_waveforms
+      (waveforms
+        (waveform_element
+          (expression
+            (simple_name))))
+      (conditional_expression
+        (simple_name)))))

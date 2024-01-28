@@ -1,0 +1,49 @@
+====================================
+Package declaration - Minimal
+====================================
+package pkg is
+end;
+
+package pkg is
+end package;
+
+package pkg is
+end pkg;
+
+package pkg is
+end package pkg;
+---
+
+(design_file
+  (package_declaration
+    name: (identifier))
+  (package_declaration
+    name: (identifier))
+  (package_declaration
+    name: (identifier)
+    at_end: (simple_name))
+  (package_declaration
+    name: (identifier)
+    at_end: (simple_name)))
+
+==========================
+Package body - Minimal
+==========================
+package body pkg is
+end;
+
+package body pkg is
+end package body;
+
+package body pkg is
+end package body pkg;
+---
+
+(design_file
+  (package_body
+    package: (simple_name))
+  (package_body
+    package: (simple_name))
+  (package_body
+    package: (simple_name)
+    at_end: (simple_name)))
