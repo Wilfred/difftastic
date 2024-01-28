@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for Objective-C.
+Added support for Objective-C and VHDL.
 
 ### Display
 
