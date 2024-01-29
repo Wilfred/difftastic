@@ -1,0 +1,264 @@
+================================================================================
+Factor + Term
+================================================================================
+t <= abs a * not b;
+t <= abs a * not b * not c;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (factor
+              (simple_name))
+            (factor
+              (simple_name)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (factor
+              (simple_name))
+            (factor
+              (simple_name))
+            (factor
+              (simple_name))))))))
+
+================================================================================
+Factor + Simple Expression
+================================================================================
+t <= abs a + not b;
+t <= abs a + not b + not c;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (factor
+              (simple_name))
+            (factor
+              (simple_name)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (factor
+              (simple_name))
+            (factor
+              (simple_name))
+            (factor
+              (simple_name))))))))
+
+================================================================================
+Factor + Shift Expression
+================================================================================
+t <= not a sll abs b;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (shift_expression
+            (factor
+              (simple_name))
+            (factor
+              (simple_name))))))))
+
+================================================================================
+Exponentiation + Term
+================================================================================
+t <= a**1 * b**2;
+t <= a**1 * b**2 * c**3;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal))))))))
+
+================================================================================
+Exponentiation + Simple Expression
+================================================================================
+t <= a**1 + b**2;
+t <= a**1 + b**2 + c**3;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal))))))))
+
+================================================================================
+Exponentiation + Shift Expression
+================================================================================
+t <= a**1 sll b**2;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (shift_expression
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (exponentiation
+              (simple_name)
+              (integer_decimal))))))))
+
+================================================================================
+Exponentiation + Factor + Term
+================================================================================
+t <= abs lhs * a**1;
+t <= a**1 * not a;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (factor
+              (simple_name))
+            (exponentiation
+              (simple_name)
+              (integer_decimal)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (factor
+              (simple_name))))))))
+
+================================================================================
+Exponentiation + Factor + Simple Expression
+================================================================================
+t <= abs lhs + a**1;
+t <= a**1 + not a;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (factor
+              (simple_name))
+            (exponentiation
+              (simple_name)
+              (integer_decimal)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (factor
+              (simple_name))))))))
+
+================================================================================
+Exponentiation + Factor + Simple Expression
+================================================================================
+t <= abs lhs sll a**1;
+t <= a**1 sll abs a;
+--------------------------------------------------------------------------------
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (shift_expression
+            (factor
+              (simple_name))
+            (exponentiation
+              (simple_name)
+              (integer_decimal)))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (shift_expression
+            (exponentiation
+              (simple_name)
+              (integer_decimal))
+            (factor
+              (simple_name))))))))

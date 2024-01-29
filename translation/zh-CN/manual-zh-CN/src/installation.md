@@ -22,7 +22,7 @@ $ brew install difftastic
 
 ### 要求
 
-Difftastic 使用 Rust 编写，所以你需安装 Rust。我推荐使用 [rustup](https://rustup.rs/) 安装 Rust。Difftastic 要求 Rust 版本不低于 1.63。
+Difftastic 使用 Rust 编写，所以你需安装 Rust。我推荐使用 [rustup](https://rustup.rs/) 安装 Rust。Difftastic 要求 Rust 版本不低于 1.65。
 
 你也需要一个支持 C++14 的 C++ 编译器。如果你正在使用 GCC，则 GCC 版本至少为 8。
 

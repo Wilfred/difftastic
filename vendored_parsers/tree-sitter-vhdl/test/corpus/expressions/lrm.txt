@@ -1,0 +1,86 @@
+================================================================================
+VHDL LRM 9.1 NOTE 2
+================================================================================
+assert (and A) and B;
+assert A and (and B);
+assert and (and A);
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (logical_expression
+        (parenthesized_expression
+          (reduction
+            (simple_name)))
+        (simple_name))))
+  (assertion_statement
+    (conditional_expression
+      (logical_expression
+        (simple_name)
+        (parenthesized_expression
+          (reduction
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (reduction
+        (parenthesized_expression
+          (reduction
+            (simple_name)))))))
+
+================================================================================
+VHDL LRM 9.2.7 NOTE
+================================================================================
+assert -5 rem 2 >= 0;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (relation
+        (sign
+          (term
+            (integer_decimal)
+            (integer_decimal)))
+        (integer_decimal)))))
+
+================================================================================
+VHDL LRM 9.2.6 NOTE
+================================================================================
+assert A/(+B) > 0;
+assert A**(-B) > 0;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (relation
+        (term
+          (simple_name)
+          (parenthesized_expression
+            (sign
+              (simple_name))))
+        (integer_decimal))))
+  (assertion_statement
+    (conditional_expression
+      (relation
+        (exponentiation
+          (simple_name)
+          (parenthesized_expression
+            (sign
+              (simple_name))))
+        (integer_decimal)))))
+
+================================================================================
+ADA LRM 4.5.0
+================================================================================
+assert not Sunny or Warm;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (logical_expression
+        (factor
+          (simple_name))
+        (simple_name)))))

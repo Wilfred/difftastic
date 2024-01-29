@@ -1,0 +1,64 @@
+================================================================================
+Minimal
+================================================================================
+type t is
+    protected
+    end protected;
+
+type t is
+    protected
+    end protected t;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (protected_type_declaration))
+  (full_type_declaration
+    name: (identifier)
+    (protected_type_declaration
+      at_end: (simple_name))))
+
+================================================================================
+LRM I
+================================================================================
+type SharedCounter is protected
+   procedure increment (N: Integer := 1);
+   procedure decrement (N: Integer := 1);
+   impure function value return Integer;
+end protected SharedCounter;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (protected_type_declaration
+      (declarative_part
+        (procedure_declaration
+          designator: (identifier)
+          (procedure_parameter_clause
+            (constant_interface_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                (type_mark
+                  (simple_name)))
+              (default_expression
+                (integer_decimal)))))
+        (procedure_declaration
+          designator: (identifier)
+          (procedure_parameter_clause
+            (constant_interface_declaration
+              (identifier_list
+                (identifier))
+              (subtype_indication
+                (type_mark
+                  (simple_name)))
+              (default_expression
+                (integer_decimal)))))
+        (function_declaration
+          designator: (identifier)
+          (return
+            (type_mark
+              (simple_name)))))
+      at_end: (simple_name))))

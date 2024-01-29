@@ -1,0 +1,116 @@
+================================================================================
+Minimal [LRM]
+================================================================================
+assert new Node;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name)))))))
+
+================================================================================
+Qualified expression I [LRM]
+================================================================================
+assert new Node'(Delay => 5 ns,
+                \Next\ => Stack);
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (qualified_expression
+          (type_mark
+            (simple_name))
+          (aggregate
+            (named_element_association
+              (choices
+                (simple_expression
+                  (simple_name)))
+              (expression
+                (physical_literal
+                  (integer_decimal)
+                  unit: (simple_name))))
+            (named_element_association
+              (choices
+                (simple_expression
+                  (extended_simple_name)))
+              (expression
+                (simple_name)))))))))
+
+================================================================================
+Qualified expression II [LRM]
+================================================================================
+assert new CELL'(0, null, null);
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (qualified_expression
+          (type_mark
+            (simple_name))
+          (aggregate
+            (positional_element_association
+              (expression
+                (integer_decimal)))
+            (positional_element_association
+              (expression
+                (null)))
+            (positional_element_association
+              (expression
+                (null)))))))))
+
+================================================================================
+Subtype indication LRM - I
+================================================================================
+assert new String;
+assert new String (1 to 10);
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))))))
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (ascending_range
+                low: (simple_expression
+                  (integer_decimal))
+                high: (simple_expression
+                  (integer_decimal))))))))))
+
+================================================================================
+Subtype indication - LRM II
+================================================================================
+assert new bit_vector (1 to index);
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (allocator
+        (subtype_indication
+          (type_mark
+            (simple_name))
+          (array_constraint
+            (index_constraint
+              (ascending_range
+                low: (simple_expression
+                  (integer_decimal))
+                high: (simple_expression
+                  (simple_name))))))))))

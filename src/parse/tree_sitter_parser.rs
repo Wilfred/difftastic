@@ -115,6 +115,7 @@ extern "C" {
     fn tree_sitter_toml() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
+    fn tree_sitter_vhdl() -> ts::Language;
     fn tree_sitter_xml() -> ts::Language;
     fn tree_sitter_yaml() -> ts::Language;
     fn tree_sitter_zig() -> ts::Language;
@@ -1117,6 +1118,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/yaml.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Vhdl => {
+            let language = unsafe { tree_sitter_vhdl() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec![].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/vhdl.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

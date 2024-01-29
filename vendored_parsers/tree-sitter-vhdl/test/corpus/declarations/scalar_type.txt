@@ -1,0 +1,179 @@
+================================================================================
+Enumeration type - Minimal
+================================================================================
+type enum_t is ('a');
+type enum_t is (foo);
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (enumeration_type_definition
+      literal: (character_literal)))
+  (full_type_declaration
+    name: (identifier)
+    (enumeration_type_definition
+      literal: (identifier))))
+
+================================================================================
+Enumeration type - Character type
+================================================================================
+type enum_t is ('a', foo, bar);
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (enumeration_type_definition
+      literal: (character_literal)
+      literal: (identifier)
+      literal: (identifier))))
+
+================================================================================
+Integer type definition
+================================================================================
+type int_t is range 0 to 255;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (numeric_type_definition
+      (ascending_range
+        low: (simple_expression
+          (integer_decimal))
+        high: (simple_expression
+          (integer_decimal))))))
+
+================================================================================
+Floating type definition
+================================================================================
+type float_t is range 2.0 to 8.0;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (numeric_type_definition
+      (ascending_range
+        low: (simple_expression
+          (real_decimal))
+        high: (simple_expression
+          (real_decimal))))))
+
+================================================================================
+Physical type definition - Minimal
+================================================================================
+type phy_t is range l to h
+    units
+        p;
+    end units;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (physical_type_definition
+      (range_constraint
+        (ascending_range
+          low: (simple_expression
+            (simple_name))
+          high: (simple_expression
+            (simple_name))))
+      (primary_unit_declaration
+        name: (identifier)))))
+
+================================================================================
+Physical type definition
+================================================================================
+type phy_t is range l to h
+    units
+        p;
+        a = p;
+    end units;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (physical_type_definition
+      (range_constraint
+        (ascending_range
+          low: (simple_expression
+            (simple_name))
+          high: (simple_expression
+            (simple_name))))
+      (primary_unit_declaration
+        name: (identifier))
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          unit: (simple_name))))))
+
+================================================================================
+Physical type definition - LRM
+================================================================================
+type byte_t is range 0 to 1E16
+    units
+        B;
+        -- decimal
+        kB = 1000 B;
+        MB = 1000 kB;
+        GB = 1000 MB;
+        TB = 1000 GB;
+        -- binary
+        KiB = 1024 B;
+        MiB = 1024 KiB;
+        GiB = 1024 MiB;
+    end units;
+--------------------------------------------------------------------------------
+
+(design_file
+  (full_type_declaration
+    name: (identifier)
+    (physical_type_definition
+      (range_constraint
+        (ascending_range
+          low: (simple_expression
+            (integer_decimal))
+          high: (simple_expression
+            (integer_decimal))))
+      (primary_unit_declaration
+        name: (identifier))
+      (comment)
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name)))
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name)))
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name)))
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name)))
+      (comment)
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name)))
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name)))
+      (secondary_unit_declaration
+        name: (identifier)
+        (physical_literal
+          (integer_decimal)
+          unit: (simple_name))))))

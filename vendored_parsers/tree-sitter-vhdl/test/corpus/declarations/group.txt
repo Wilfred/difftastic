@@ -1,0 +1,102 @@
+====================================
+Template - Minimal
+====================================
+group g is (signal);
+---
+
+(design_file
+  (group_template_declaration
+    name: (identifier)
+    (entity_class_entry_list
+      (entity_class_entry
+        (entity_class)))))
+
+====================================
+Template - Entry list
+====================================
+group g is (signal, signal);
+group g is (group <>);
+---
+
+(design_file
+  (group_template_declaration
+    name: (identifier)
+    (entity_class_entry_list
+      (entity_class_entry
+        (entity_class))
+      (entity_class_entry
+        (entity_class))))
+  (group_template_declaration
+    name: (identifier)
+    (entity_class_entry_list
+      (entity_class_entry
+        (entity_class)
+        (any)))))
+
+====================================
+Group declaration - Minimal
+====================================
+group G1 : E (L2);
+---
+
+(design_file
+  (group_declaration
+    name: (identifier)
+    template: (simple_name)
+    (group_constituent_list
+      (simple_name))))
+
+====================================
+Group declaration - LRM I
+====================================
+group G1: RESOURCE (L1, L2);
+group G2: RESOURCE (L3, L4, L5);
+---
+
+(design_file
+  (group_declaration
+    name: (identifier)
+    template: (simple_name)
+    (group_constituent_list
+      (simple_name)
+      (simple_name)))
+  (group_declaration
+    name: (identifier)
+    template: (simple_name)
+    (group_constituent_list
+      (simple_name)
+      (simple_name)
+      (simple_name))))
+
+====================================
+Group declaration - LRM II
+====================================
+group C2Q: PIN2PIN (PROJECT.GLOBALS.CK, Q);
+---
+
+(design_file
+  (group_declaration
+    name: (identifier)
+    template: (simple_name)
+    (group_constituent_list
+      (selected_name
+        prefix: (selected_name
+          prefix: (simple_name)
+          suffix: (simple_name))
+        suffix: (simple_name))
+      (simple_name))))
+
+====================================
+Group declaration - LRM III
+====================================
+group CONSTRAINT1: DIFF_CYCLES (G1, G3);
+---
+
+(design_file
+  (group_declaration
+    name: (identifier)
+    template: (simple_name)
+    (group_constituent_list
+      (simple_name)
+      (simple_name))))
+

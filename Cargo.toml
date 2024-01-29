@@ -10,9 +10,15 @@ keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
 edition = "2021"
 # Goal: support at least 12 months of Rust versions, and also the Rust
-# version on Debian stable:
-# https://tracker.debian.org/pkg/rustc
-rust-version = "1.63.0"
+# version on Debian stable (see https://tracker.debian.org/pkg/rustc,
+# currently 1.63).
+#
+# Unfortunately tree-sitter 0.20.10 has an MSRV[1] of 1.65, and it has
+# a bugfix[2] we want.
+#
+# 1: https://github.com/tree-sitter/tree-sitter/issues/2669
+# 2: https://github.com/Wilfred/difftastic/issues/570
+rust-version = "1.65.0"
 include = [
         "/build.rs",
         "/src/",
@@ -42,8 +48,9 @@ typed-arena = "2.0.2"
 rustc-hash = "1.1.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
-# tree-sitter 0.20.10 requires rust 1.65.
-tree-sitter = "0.20.9"
+# tree-sitter 0.20.10 requires rust 1.65, although it could be lower.
+# https://github.com/tree-sitter/tree-sitter/issues/2669
+tree-sitter = "0.20.10"
 libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.5.0"

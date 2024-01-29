@@ -1,0 +1,126 @@
+==========================
+Procedure - Minimal
+==========================
+procedure p is
+begin
+end;
+
+procedure p is
+begin
+end procedure;
+
+procedure p is
+begin
+end procedure p;
+---
+
+(design_file
+  (procedure_body
+    designator: (identifier))
+  (procedure_body
+    designator: (identifier))
+  (procedure_body
+    designator: (identifier)
+    at_end: (simple_name)))
+
+==========================
+Pure function (implicit) - Minimal
+==========================
+function f return t is
+begin
+end;
+
+function f return t is
+begin
+end function;
+
+function f return t is
+begin
+end function f;
+---
+
+(design_file
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))
+    at_end: (simple_name)))
+
+==========================
+Pure function (explicit) - Minimal
+==========================
+pure function f return t is
+begin
+end;
+
+pure function f return t is
+begin
+end function;
+
+pure function f return t is
+begin
+end function f;
+---
+
+(design_file
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))
+    at_end: (simple_name)))
+
+==========================
+Impure function - Minimal
+==========================
+impure function f return t is
+begin
+end;
+
+impure function f return t is
+begin
+end function;
+
+impure function f return t is
+begin
+end function f;
+---
+
+(design_file
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name))))
+  (function_body
+    designator: (identifier)
+    (return
+      (type_mark
+        (simple_name)))
+    at_end: (simple_name)))

@@ -1,0 +1,273 @@
+===================================
+Factor
+===================================
+t <= abs a,
+     not b;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (factor
+             (simple_name))))
+      (waveform_element
+        (expression
+          (factor
+             (simple_name)))))))
+
+===================================
+Factor - exponentiation
+===================================
+t <= a**b;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (exponentiation
+             (simple_name)
+             (simple_name)))))))
+
+===================================
+Factor - logical reduction operation
+===================================
+t <= and a,
+     or a,
+     nand a,
+     nor a,
+     xor a,
+     xnor a;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (reduction
+             (simple_name))))
+      (waveform_element
+        (expression
+          (reduction
+             (simple_name))))
+      (waveform_element
+        (expression
+          (reduction
+             (simple_name))))
+      (waveform_element
+        (expression
+          (reduction
+             (simple_name))))
+      (waveform_element
+        (expression
+          (reduction
+             (simple_name))))
+      (waveform_element
+        (expression
+          (reduction
+             (simple_name)))))))
+
+===================================
+Associative logical expression
+===================================
+t <= a and b and c;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (logical_expression
+            (simple_name)
+            (simple_name)
+            (simple_name)))))))
+
+===================================
+Term I
+===================================
+t <= a * b,
+     a / b,
+     a mod b,
+     a rem b;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+             (simple_name)
+             (simple_name))))
+      (waveform_element
+        (expression
+          (term
+             (simple_name)
+             (simple_name))))
+      (waveform_element
+        (expression
+          (term
+             (simple_name)
+             (simple_name))))
+      (waveform_element
+        (expression
+          (term
+             (simple_name)
+             (simple_name)))))))
+
+===================================
+Term II
+===================================
+t <= a * b / c mod d rem e;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (term
+            (simple_name)
+            (simple_name)
+            (simple_name)
+            (simple_name)
+            (simple_name)))))))
+
+===================================
+Simple expression
+===================================
+t <= a + b - c;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (simple_expression
+            (simple_name)
+            (simple_name)
+            (simple_name)))))))
+
+===================================
+Simple expression - Sign
+===================================
+t <= -a, -b;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (sign
+             (simple_name))))
+      (waveform_element
+        (expression
+          (sign
+             (simple_name)))))))
+
+===================================
+Sign
+===================================
+t <= - a * b,
+     - abs a,
+     - abs b,
+     - a ** b;
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (sign
+            (term
+              (simple_name)
+              (simple_name)))))
+      (waveform_element
+        (expression
+          (sign
+            (factor
+              (simple_name)))))
+      (waveform_element
+        (expression
+          (sign
+            (factor
+              (simple_name)))))
+      (waveform_element
+        (expression
+          (sign
+            (exponentiation
+              (simple_name)
+              (simple_name))))))))
+
+===================================
+Parenthesized expression I
+===================================
+t <= (x);
+t <= ((x));
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (parenthesized_expression
+            (simple_name))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (parenthesized_expression
+            (parenthesized_expression
+              (simple_name))))))))
+
+===================================
+Parenthesized expression II
+===================================
+t <= (x(foo'range));
+t <= ((x(foo'range)));
+---
+
+(design_file
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (parenthesized_expression
+            (slice_name
+              prefix: (simple_name)
+              (attribute_name
+                prefix: (simple_name)
+                designator: (predefined_designator))))))))
+  (simple_concurrent_signal_assignment
+    target: (simple_name)
+    (waveforms
+      (waveform_element
+        (expression
+          (parenthesized_expression
+            (parenthesized_expression
+              (slice_name
+                prefix: (simple_name)
+                (attribute_name
+                  prefix: (simple_name)
+                  designator: (predefined_designator))))))))))

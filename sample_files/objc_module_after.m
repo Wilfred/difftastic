@@ -159,12 +159,6 @@ const NSArray *expressions=@[@NO, @7, @(YES), @3.15, @(9), @-11, @"Goodbye"];
     [self.listenHandle acceptConnectionInBackgroundAndNotify];
 }
 
-typedef NS_ENUM(NSUInteger, DataOutcome) {
-    DataOutcomeContinue,
-    DataOutcomeClose,
-    DataOutcomeKeepAlive,
-    DataOutcomeUnknown,
-};
 - (void)receiveIncomingDataNotification:(NSNotification *)notification
 {
     NSFileHandle *const connectionHandle=[notification object];

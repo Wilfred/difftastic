@@ -1,0 +1,31 @@
+===============================
+Minimal
+===============================
+entity e is
+end;
+
+entity e is
+end entity;
+
+entity e is
+end e;
+
+entity e is
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      at_end: (simple_name)))
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      at_end: (simple_name))))

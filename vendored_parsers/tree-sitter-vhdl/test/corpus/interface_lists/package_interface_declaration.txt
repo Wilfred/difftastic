@@ -1,0 +1,31 @@
+============================================================================
+Package interface generic map aspect
+============================================================================
+entity e is
+    generic (
+      package p1 is new up generic map (default);
+      package p2 is new up generic map (<>)
+    );
+end entity e;
+---
+
+(design_file
+  (design_unit
+    (entity_declaration
+      name: (identifier)
+      (entity_header
+        (generic_clause
+          (package_interface_declaration
+            name: (identifier)
+            uninstantiated: (simple_name)
+            (package_map_aspect
+              (generic_map_aspect
+                (default))))
+          (package_interface_declaration
+            name: (identifier)
+            uninstantiated: (simple_name)
+            (package_map_aspect
+              (generic_map_aspect
+                (any))))
+          (semicolon)))
+      at_end: (simple_name))))

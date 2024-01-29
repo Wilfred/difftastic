@@ -1,0 +1,575 @@
+================================================================================
+Property replicator
+================================================================================
+assert forall p in boolean : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Property replicator - Index Range I
+================================================================================
+assert forall p (0 to 1) in boolean : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Index_Range
+          (ascending_range
+            low: (simple_expression
+              (integer_decimal))
+            high: (simple_expression
+              (integer_decimal))))
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Replicator - Index Range II
+================================================================================
+assert forall p (1 downto 0) in boolean : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Index_Range
+          (descending_range
+            high: (simple_expression
+              (integer_decimal))
+            low: (simple_expression
+              (integer_decimal))))
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Replicator - Index Range - VHDL Range III
+================================================================================
+assert forall p (foo'range) in boolean : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Index_Range
+          (attribute_name
+            prefix: (simple_name)
+            designator: (predefined_designator)))
+        (PSL_Value_Set
+          (boolean)))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Replicator - Value Set I
+================================================================================
+assert forall p in {0 to 1} : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (ascending_range
+            low: (simple_expression
+              (integer_decimal))
+            high: (simple_expression
+              (integer_decimal)))))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Replicator - Value Set II
+================================================================================
+assert forall p in {0 to 1, 0 to 1} : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (ascending_range
+            low: (simple_expression
+              (integer_decimal))
+            high: (simple_expression
+              (integer_decimal)))
+          (ascending_range
+            low: (simple_expression
+              (integer_decimal))
+            high: (simple_expression
+              (integer_decimal)))))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Replicator - Value Set - Value
+================================================================================
+assert forall p in {val} : p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Property_Replicator
+      (PSL_Parameter_Specification
+        (PSL_Identifier)
+        (PSL_Value_Set
+          (PSL_Any_Type
+            (simple_name))))
+      Property: (PSL_Property_Instance
+        (PSL_Identifier)))))
+
+================================================================================
+Clock property
+================================================================================
+assert a @ clk;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Clocked_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (conditional_expression
+        (simple_name)))))
+
+================================================================================
+Termination property
+================================================================================
+assert a abort b;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Termination_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Logical expression (binary) property
+================================================================================
+assert (a->b) and b;
+assert a or (a->b);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Logical_FL_Property
+      (PSL_Parenthesized_FL_Property
+        (PSL_Expression
+          (PSL_Boolean
+            (simple_name))
+          (PSL_Boolean
+            (simple_name))))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Logical_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Parenthesized_FL_Property
+        (PSL_Expression
+          (PSL_Boolean
+            (simple_name))
+          (PSL_Boolean
+            (simple_name)))))))
+
+================================================================================
+Implication property
+================================================================================
+assert (a->b) -> b;
+assert a <-> (a->b);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Implication_FL_Property
+      (PSL_Parenthesized_FL_Property
+        (PSL_Expression
+          (PSL_Boolean
+            (simple_name))
+          (PSL_Boolean
+            (simple_name))))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Implication_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Parenthesized_FL_Property
+        (PSL_Expression
+          (PSL_Boolean
+            (simple_name))
+          (PSL_Boolean
+            (simple_name)))))))
+
+================================================================================
+Logical expression (unary) property
+================================================================================
+assert not (a->b);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Factor_FL_Property
+      (PSL_Parenthesized_FL_Property
+        (PSL_Expression
+          (PSL_Boolean
+            (simple_name))
+          (PSL_Boolean
+            (simple_name)))))))
+
+================================================================================
+Logical expression (combined) property
+================================================================================
+assert not (a->b) and b;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Logical_FL_Property
+      (PSL_Factor_FL_Property
+        (PSL_Parenthesized_FL_Property
+          (PSL_Expression
+            (PSL_Boolean
+              (simple_name))
+            (PSL_Boolean
+              (simple_name)))))
+      (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Invariance property
+================================================================================
+assert always p;
+assert never p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Invariant_FL_Property
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Invariant_FL_Property
+      (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Ocurrence property
+================================================================================
+assert next p;
+assert next! p;
+assert eventually! p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Ocurrence_FL_Property
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Ocurrence_FL_Property
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Ocurrence_FL_Property
+      (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Bounding property
+================================================================================
+assert p until! p;
+assert p until p;
+assert p until!_ p;
+assert p until_ p;
+
+assert p before! p;
+assert p before p;
+assert p before!_ p;
+assert p before p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Bounding_FL_Property
+      (PSL_Boolean
+        (simple_name))
+      (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Extended ocurrence property I
+================================================================================
+assert next (p);
+assert next! (p);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Built_In_Function_Call
+      (PSL_Any_Type
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Ocurrence_FL_Property
+      (PSL_Boolean
+        (parenthesized_expression
+          (simple_name))))))
+
+================================================================================
+Extended ocurrence property II
+================================================================================
+assert next  [1] (p);
+assert next! [2] (p);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      (PSL_Count
+        (PSL_Number
+          (integer_decimal)))
+      Property: (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      (PSL_Count
+        (PSL_Number
+          (integer_decimal)))
+      Property: (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Extended ocurrence (all) property I
+================================================================================
+assert next_a  [0 to 1] (p);
+assert next_a! [0 to 1] (p);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      (PSL_Count
+        (ascending_range
+          low: (simple_expression
+            (integer_decimal))
+          high: (simple_expression
+            (integer_decimal))))
+      Property: (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      (PSL_Count
+        (ascending_range
+          low: (simple_expression
+            (integer_decimal))
+          high: (simple_expression
+            (integer_decimal))))
+      Property: (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Extended ocurrence event property I
+================================================================================
+assert next_event  (b) (p);
+assert next_event! (b) (p);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      Boolean: (PSL_Boolean
+        (simple_name))
+      Property: (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      Boolean: (PSL_Boolean
+        (simple_name))
+      Property: (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Extended ocurrence event property II
+================================================================================
+assert next_event  (b) [1] (p);
+assert next_event! (b) [1] (p);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      Boolean: (PSL_Boolean
+        (simple_name))
+      (PSL_Count
+        (PSL_Number
+          (integer_decimal)))
+      Property: (PSL_Boolean
+        (simple_name))))
+  (PSL_Assert_Directive
+    (PSL_Extended_Ocurrence_FL_Property
+      Boolean: (PSL_Boolean
+        (simple_name))
+      (PSL_Count
+        (PSL_Number
+          (integer_decimal)))
+      Property: (PSL_Boolean
+        (simple_name)))))
+
+================================================================================
+Sequence Instantiation I (Ambiguos)
+================================================================================
+assert p;
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (simple_name))))
+
+================================================================================
+Property Instantiation II (Ambiguos)
+================================================================================
+assert p(a);
+--------------------------------------------------------------------------------
+
+(design_file
+  (assertion_statement
+    (conditional_expression
+      (ambiguous_name
+        prefix: (simple_name)
+        (expression_list
+          (expression
+            (simple_name)))))))
+
+================================================================================
+Property Instantiation III
+================================================================================
+assert p (a -> b, a -> b);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Ambiguous_Instance
+      (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          (PSL_Expression
+            (PSL_Boolean
+              (simple_name))
+            (PSL_Boolean
+              (simple_name))))
+        (PSL_Actual_Parameter
+          (PSL_Expression
+            (PSL_Boolean
+              (simple_name))
+            (PSL_Boolean
+              (simple_name))))))))
+
+================================================================================
+Property Instantiation IV
+================================================================================
+assert ResultAfterN (eventually! ack);
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Ambiguous_Instance
+      (PSL_Identifier)
+      (PSL_Actual_Parameter_List
+        (PSL_Actual_Parameter
+          (PSL_Ocurrence_FL_Property
+            (PSL_Boolean
+              (simple_name))))))))
+
+================================================================================
+Clocked property
+================================================================================
+assert (c and next! (a until! b)@clk1)@clk2 ;
+--------------------------------------------------------------------------------
+
+(design_file
+  (PSL_Assert_Directive
+    (PSL_Clocked_FL_Property
+      (PSL_Parenthesized_FL_Property
+        (PSL_Logical_FL_Property
+          (PSL_Boolean
+            (simple_name))
+          (PSL_Ocurrence_FL_Property
+            (PSL_Clocked_FL_Property
+              (PSL_Parenthesized_FL_Property
+                (PSL_Bounding_FL_Property
+                  (PSL_Boolean
+                    (simple_name))
+                  (PSL_Boolean
+                    (simple_name))))
+              (conditional_expression
+                (simple_name))))))
+      (conditional_expression
+        (simple_name)))))

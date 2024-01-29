@@ -170,7 +170,7 @@ sample_files/objc_header_before.h sample_files/objc_header_after.h
 f65feb21b25bb7f2ba31ee8f49977193  -
 
 sample_files/objc_module_before.m sample_files/objc_module_after.m
-c04cdebd2da077cf28b53307ad0a3b02  -
+faf4f280485b78d2c74c73292a405708  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 2113c6c7959b8099f678d13953f7f44a  -
@@ -264,6 +264,9 @@ sample_files/typing_before.ml sample_files/typing_after.ml
 
 sample_files/utf16_before.py sample_files/utf16_after.py
 bbf22d2c5003b638c0f8d08f21bbbb66  -
+
+sample_files/vhdl_before.vhd sample_files/vhdl_after.vhd
+eb987aa621cfa733bb4fcd52b255fbbf  -
 
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 53017b74523e203817d64189142b26ed  -
