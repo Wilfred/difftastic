@@ -24,6 +24,9 @@ After that, install the grammar with `:TSInstall purescript` and it's ready.
 ##### Q: Should I use this or `purescript-vim`?
 Our grammar seems to provide more extensive highlighting, but these two do not conflict. If you enjoy the features that `purescript-vim` plugin provides, you can as well keep using both.
 
+### Zed
+[Zed editor](https://github.com/zed-industries/zed) includes PureScript support (thanks to [@ivanmoreau](https://github.com/zed-industries/zed/pull/6911)).
+
 ### Emacs
 TBA.
 
