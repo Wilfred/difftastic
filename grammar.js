@@ -571,6 +571,7 @@ module.exports = grammar({
         $.class_include,
         $.latex_include,
         $.biblatex_include,
+        $.bibstyle_include,
         $.bibtex_include,
         $.graphics_include,
         $.svg_include,
@@ -653,10 +654,16 @@ module.exports = grammar({
         field('glob', $.curly_group_glob_pattern)
       ),
 
+    bibstyle_include: $ =>
+      seq(
+        field('command', '\\bibliographystyle'),
+        field('path', $.curly_group_path)
+      ),
+
     bibtex_include: $ =>
       seq(
         field('command', '\\bibliography'),
-        field('path', $.curly_group_path)
+        field('paths', $.curly_group_path_list)
       ),
 
     graphics_include: $ =>
