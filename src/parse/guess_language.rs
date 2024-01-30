@@ -443,12 +443,17 @@ pub(crate) fn guess(
     if let Some(lang) = from_shebang(src) {
         return Some(lang);
     }
+
+    // Handle cases where file detection should override globbing,
+    // specifically *.php as potentially Hack or *.h as potentially
+    // Objective-C.
     if looks_like_hacklang(path, src) {
         return Some(Language::Hack);
     }
     if looks_like_objc(path, src) {
         return Some(Language::ObjC);
     }
+
     if let Some(lang) = from_glob(path) {
         return Some(lang);
     }
