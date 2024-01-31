@@ -84,6 +84,7 @@ module.exports = grammar({
     [$.primary_expression, $.statement_block, 'object'],
     [$.import_statement, $.import],
     [$.export_statement, $.primary_expression],
+    [$.lexical_declaration, $.primary_expression],
   ],
 
   conflicts: $ => [
@@ -1204,6 +1205,7 @@ module.exports = grammar({
       'async',
       'static',
       'export',
+      'let',
     ),
 
     _semicolon: $ => choice($._automatic_semicolon, ';'),
