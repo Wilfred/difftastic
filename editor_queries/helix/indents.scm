@@ -32,25 +32,7 @@
 ] @outdent
 
 ; indent.always
-; -------------
-
-
-
 ; outdent.always
-; --------------
-
-
-
 ; align
-; -----
-
-
-
 ; extend
-; ------
-
-
-
 ; extend.prevent-once
-; -------------------
-

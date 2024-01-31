@@ -4,13 +4,13 @@ fun v() {
 
     SendIgnoreErrors;
     // <- constant.builtin
-    
+
     SendDestroyIfZero;
     // <- constant.builtin
-    
+
     SendRemainingValue;
     // <- constant.builtin
-    
+
     SendRemainingBalance;
     // <- constant.builtin
 

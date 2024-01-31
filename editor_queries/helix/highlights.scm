@@ -13,7 +13,7 @@
 ; ------------
 
 ((comment) @comment.line
-  (#match? @comment.line "^//.*"))
+  (#match? @comment.line "^//"))
 
 ; comment.block
 ; -------------

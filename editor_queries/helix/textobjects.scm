@@ -20,7 +20,7 @@
   body: (_) @function.inside) @function.around
 
 ; class.inside & around
-; ------------
+; ---------------------
 
 (struct
   body: (_) @class.inside) @class.around
@@ -36,7 +36,7 @@
   body: (_) @class.inside) @class.around
 
 ; parameter.inside & around
-; ----------------
+; -------------------------
 
 (parameter_list
   ((_) @parameter.inside . ","? @parameter.around) @parameter.around)

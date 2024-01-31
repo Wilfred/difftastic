@@ -372,11 +372,11 @@ module.exports = grammar({
         field("condition", $._expression),
         ")",
         field("consequence", $.block_statement),
-        field(
-          "alternative",
-          optional(seq("else", choice($.block_statement, $.if_statement))),
-        ),
+        field("alternative", optional($.else_clause)),
       ),
+
+    else_clause: ($) =>
+      seq("else", choice($.block_statement, $.if_statement)),
 
     while_statement: ($) =>
       seq(

@@ -78,13 +78,15 @@ extends fun c(self: SomeMessage): Int {
       (if_statement
         condition: (boolean)
         consequence: (block_statement)
-        alternative: (block_statement))
+        alternative: (else_clause
+          (block_statement)))
       (if_statement
         condition: (boolean)
         consequence: (block_statement)
-        alternative: (if_statement
-          condition: (boolean)
-          consequence: (block_statement)))
+        alternative: (else_clause
+          (if_statement
+            condition: (boolean)
+            consequence: (block_statement))))
       (while_statement
         condition: (boolean)
         body: (block_statement))
