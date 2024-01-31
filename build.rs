@@ -237,6 +237,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-nim",
+            src_dir: "vendored_parsers/tree-sitter-nim-src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-nix",
             src_dir: "vendored_parsers/tree-sitter-nix-src",
             extra_files: vec!["scanner.c"],

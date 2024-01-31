@@ -93,6 +93,7 @@ extern "C" {
     fn tree_sitter_lua() -> ts::Language;
     fn tree_sitter_make() -> ts::Language;
     fn tree_sitter_newick() -> ts::Language;
+    fn tree_sitter_nim() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_objc() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
@@ -720,6 +721,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/newick.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Nim => {
+            let language = unsafe { tree_sitter_nim() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string_expression", "indented_string_expression", "long_string_expression"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")].into_iter().collect(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/nim.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
