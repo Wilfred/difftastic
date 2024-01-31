@@ -500,7 +500,6 @@ module.exports = grammar({
       $.true,
       $.false,
       $.null,
-      $.import,
       $.object,
       $.array,
       $.function_expression,
@@ -767,7 +766,7 @@ module.exports = grammar({
 
     call_expression: $ => choice(
       prec('call', seq(
-        field('function', $.expression),
+        field('function', choice($.expression, $.import)),
         field('arguments', choice($.arguments, $.template_string)),
       )),
       prec('member', seq(
@@ -789,7 +788,7 @@ module.exports = grammar({
     )),
 
     member_expression: $ => prec('member', seq(
-      field('object', choice($.expression, $.primary_expression)),
+      field('object', choice($.expression, $.primary_expression, $.import)),
       choice('.', field('optional_chain', $.optional_chain)),
       field('property', choice(
         $.private_property_identifier,
