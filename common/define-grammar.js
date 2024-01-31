@@ -57,7 +57,7 @@ module.exports = function defineGrammar(dialect) {
       [$.override_modifier, $.primary_expression],
       [$.decorator_call_expression, $.decorator],
       [$.literal_type, $.pattern],
-      [$.predefined_type, $.pattern]
+      [$.predefined_type, $.pattern],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -119,6 +119,7 @@ module.exports = function defineGrammar(dialect) {
 
     rules: {
       public_field_definition: $ => seq(
+        repeat(field('decorator', $.decorator)),
         optional('declare'),
         optional($.accessibility_modifier),
         choice(
@@ -361,8 +362,11 @@ module.exports = function defineGrammar(dialect) {
       class_body: $ => seq(
         '{',
         repeat(choice(
-          $.decorator,
-          seq($.method_definition, optional($._semicolon)),
+          seq(
+            repeat(field('decorator', $.decorator)),
+            $.method_definition,
+            optional($._semicolon)
+          ),
           // As it happens for functions, the semicolon insertion should not
           // happen if a block follows the closing paren, because then it's a
           // *definition*, not a declaration. Example:
