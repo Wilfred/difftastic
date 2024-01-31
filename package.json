@@ -1,11 +1,13 @@
 {
   "name": "tree-sitter-typescript",
   "version": "0.20.3",
-  "description": "Typescript grammar for tree-sitter",
+  "description": "TypeScript grammar for tree-sitter",
+  "main": "./bindings/node",
   "keywords": [
     "parser",
     "tree-sitter",
-    "typescript"
+    "typescript",
+    "tsx"
   ],
   "repository": {
     "type": "git",
@@ -17,8 +19,9 @@
     "nan": "^2.18.0",
     "tree-sitter": "^0.20.6"
   },
-  "main": "./bindings/node",
   "devDependencies": {
+    "eslint": ">=8.56.0",
+    "eslint-config-google": "^0.14.0",
     "tree-sitter-cli": "^0.20.8",
     "tree-sitter-javascript": "^0.20.2"
   },
@@ -26,6 +29,7 @@
     "build": "npm run build-typescript && npm run build-tsx",
     "build-typescript": "cd typescript && npx tree-sitter generate --no-bindings",
     "build-tsx": "cd tsx && npx tree-sitter generate --no-bindings",
+    "lint": "eslint common/define-grammar.js",
     "test-load": "node -e \"console.log(require('./typescript').name, require('./tsx').name)\"",
     "test": "npm run test-typescript && npm run test-tsx && npm run test-load && script/parse-examples",
     "test-typescript": "cd typescript && npx tree-sitter test",
