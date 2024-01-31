@@ -12,13 +12,13 @@ edition = "2018"
 
 build = "bindings/rust/build.rs"
 include = [
-  "common",
-  "bindings/rust",
-  "typescript/grammar.js",
-  "typescript/src",
-  "tsx/grammar.js",
-  "tsx/src",
-  "queries"
+	"common",
+	"bindings/rust",
+	"typescript/grammar.js",
+	"typescript/src",
+	"tsx/grammar.js",
+	"tsx/src",
+	"queries",
 ]
 
 [lib]

@@ -618,6 +618,7 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       omitting_type_annotation: $ => seq('-?:', $._type),
+      adding_type_annotation: $ => seq('+?:', $._type),
       opting_type_annotation: $ => seq('?:', $._type),
       type_annotation: $ => seq(':', $._type),
 
@@ -933,7 +934,7 @@ module.exports = function defineGrammar(dialect) {
       index_signature: $ => seq(
         optional(
           seq(
-            field("sign", optional("-")),
+            field("sign", optional(choice("-", "+"))),
             'readonly'
           )
         ),
@@ -953,6 +954,7 @@ module.exports = function defineGrammar(dialect) {
         field('type', choice(
           $.type_annotation,
           $.omitting_type_annotation,
+          $.adding_type_annotation,
           $.opting_type_annotation
         ))
       ),
