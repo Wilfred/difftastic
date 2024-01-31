@@ -1,11 +1,14 @@
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
+
 #include <wctype.h>
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   TEMPLATE_CHARS,
   TERNARY_QMARK,
-  BINARY_OPERATORS,
+  HTML_COMMENT,
+  LOGICAL_OR,
+  ESCAPE_SEQUENCE,
   FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON,
 };
 
@@ -121,7 +124,7 @@ static bool scan_automatic_semicolon(TSLexer *lexer, const bool *valid_symbols){
     // the validity of a binary operator token.
   case '(':
   case '[':
-    if (valid_symbols[BINARY_OPERATORS]) return false;
+    if (valid_symbols[LOGICAL_OR]) return false;
     break;
 
     // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
