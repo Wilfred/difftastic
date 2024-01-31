@@ -1049,6 +1049,7 @@ module.exports = function defineGrammar(dialect) {
         'symbol',
         'export',
         'object',
+        'new',
         previous
       ),
     },
