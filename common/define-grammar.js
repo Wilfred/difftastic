@@ -265,13 +265,13 @@ module.exports = function defineGrammar(dialect) {
       import_specifier: ($, previous) => seq(
         optional(choice('type', 'typeof')),
         choice(
-        field('name', $._import_identifier),
-        seq(
-          field('name', choice($._module_export_name, alias('type', $.identifier))),
-          'as',
-          field('alias', $._import_identifier)
-        ),
-      )),
+          field('name', $._import_identifier),
+          seq(
+            field('name', choice($._module_export_name, alias('type', $.identifier))),
+            'as',
+            field('alias', $._import_identifier)
+          ),
+        )),
 
       import_clause: ($, previous) => choice(
         $.namespace_import,
@@ -471,8 +471,8 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       _extends_clause_single: $ => prec('extends', seq(
-          field('value', $.expression),
-          field('type_arguments', optional($.type_arguments))
+        field('value', $.expression),
+        field('type_arguments', optional($.type_arguments))
       )),
 
       implements_clause: $ => seq(
@@ -554,7 +554,7 @@ module.exports = function defineGrammar(dialect) {
         field('name', $._type_identifier),
         field('type_parameters', optional($.type_parameters)),
         optional($.extends_type_clause),
-        field('body', $.object_type)
+        field('body', alias($.object_type, $.interface_body))
       ),
 
       extends_type_clause: $ => seq(
@@ -752,16 +752,16 @@ module.exports = function defineGrammar(dialect) {
       )),
 
       type_predicate: $ => seq(
-          field('name', choice(
-	      $.identifier,
-	      $.this,
-	      // Sometimes tree-sitter contextual lexing is not good enough to know
-	      // that 'object' in ':object is foo' is really an identifier and not
-	      // a predefined_type, so we must explicitely list all possibilities.
-	      // TODO: should we use '_reserved_identifier'? Should all the element in
-	      // 'predefined_type' be added to '_reserved_identifier'?
-	      alias($.predefined_type, $.identifier)
-	  )),
+        field('name', choice(
+          $.identifier,
+          $.this,
+          // Sometimes tree-sitter contextual lexing is not good enough to know
+          // that 'object' in ':object is foo' is really an identifier and not
+          // a predefined_type, so we must explicitely list all possibilities.
+          // TODO: should we use '_reserved_identifier'? Should all the element in
+          // 'predefined_type' be added to '_reserved_identifier'?
+          alias($.predefined_type, $.identifier)
+        )),
         'is',
         field('type', $._type)
       ),
@@ -859,7 +859,7 @@ module.exports = function defineGrammar(dialect) {
 
       existential_type: $ => '*',
 
-      flow_maybe_type: $ => prec.right(seq( '?', $._primary_type)),
+      flow_maybe_type: $ => prec.right(seq('?', $._primary_type)),
 
       parenthesized_type: $ => seq(
         '(', $._type, ')'
@@ -1021,18 +1021,18 @@ module.exports = function defineGrammar(dialect) {
   });
 }
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return sepBy1(',', rule);
 }
 
-function commaSep (rule) {
+function commaSep(rule) {
   return sepBy(',', rule);
 }
 
-function sepBy (sep, rule) {
+function sepBy(sep, rule) {
   return optional(sepBy1(sep, rule))
 }
 
-function sepBy1 (sep, rule) {
+function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));
 }
