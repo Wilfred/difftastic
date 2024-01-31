@@ -971,7 +971,7 @@ module.exports = function defineGrammar(dialect) {
 
       _type_identifier: $ => alias($.identifier, $.type_identifier),
 
-      _reserved_identifier: ($, previous) => choice(
+      _reserved_identifier: (_, previous) => choice(
         'declare',
         'namespace',
         'type',
@@ -987,6 +987,7 @@ module.exports = function defineGrammar(dialect) {
         'string',
         'symbol',
         'export',
+        'object',
         previous
       ),
     },
