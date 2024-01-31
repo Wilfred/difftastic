@@ -403,6 +403,7 @@ module.exports = function defineGrammar(dialect) {
             ),
             choice($._semicolon, ',')
           ),
+          ';',
         )),
         '}'
       ),
