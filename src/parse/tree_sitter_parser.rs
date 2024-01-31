@@ -730,10 +730,16 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_nim() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string_expression", "indented_string_expression", "long_string_expression"]
+                atom_nodes: vec![
+                    "string_expression",
+                    "indented_string_expression",
+                    "long_string_expression",
+                ]
+                .into_iter()
+                .collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")]
                     .into_iter()
                     .collect(),
-                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")].into_iter().collect(),
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/nim.scm"),
