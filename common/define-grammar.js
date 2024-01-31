@@ -32,7 +32,7 @@ module.exports = function defineGrammar(dialect) {
         $.function_type,
         'binary',
         $.type_predicate,
-        $.readonly_type
+        $.readonly_type,
       ],
       [$.mapped_type_clause, $.primary_expression],
       [$.accessibility_modifier, $.primary_expression],
@@ -112,13 +112,13 @@ module.exports = function defineGrammar(dialect) {
       [$.array, $.array_pattern, $.tuple_type],
       [$.array_pattern, $.tuple_type],
 
-      [$.template_literal_type, $.template_string]
+      [$.template_literal_type, $.template_string],
     ]),
 
     inline: ($, previous) => previous
-      .filter(rule => ![
+      .filter((rule) => ![
         '_formal_parameter',
-        '_call_signature'
+        '_call_signature',
       ].includes(rule.name))
       .concat([
         $._type_identifier,
@@ -126,7 +126,7 @@ module.exports = function defineGrammar(dialect) {
       ]),
 
     rules: {
-      public_field_definition: $ => seq(
+      public_field_definition: ($) => seq(
         repeat(field('decorator', $.decorator)),
         optional(choice(
           seq('declare', optional($.accessibility_modifier)),
@@ -140,52 +140,52 @@ module.exports = function defineGrammar(dialect) {
         field('name', $._property_name),
         optional(choice('?', '!')),
         field('type', optional($.type_annotation)),
-        optional($._initializer)
+        optional($._initializer),
       ),
 
       // override original catch_clause, add optional type annotation
-      catch_clause: $ => seq(
+      catch_clause: ($) => seq(
         'catch',
         optional(
           seq(
             '(',
             field(
               'parameter',
-              choice($.identifier, $._destructuring_pattern)
+              choice($.identifier, $._destructuring_pattern),
             ),
             optional(
               // only types that resolve to 'any' or 'unknown' are supported
               // by the language but it's simpler to accept any type here.
               field('type', $.type_annotation),
             ),
-            ')'
-          )
+            ')',
+          ),
         ),
-        field('body', $.statement_block)
+        field('body', $.statement_block),
       ),
 
-      call_expression: $ => choice(
+      call_expression: ($) => choice(
         prec('call', seq(
           field('function', choice($.expression, $.import)),
           field('type_arguments', optional($.type_arguments)),
-          field('arguments', choice($.arguments, $.template_string))
+          field('arguments', choice($.arguments, $.template_string)),
         )),
         prec('member', seq(
           field('function', $.primary_expression),
           '?.',
           field('type_arguments', optional($.type_arguments)),
-          field('arguments', $.arguments)
-        ))
+          field('arguments', $.arguments),
+        )),
       ),
 
-      new_expression: $ => prec.right('new', seq(
+      new_expression: ($) => prec.right('new', seq(
         'new',
         field('constructor', $.primary_expression),
         field('type_arguments', optional($.type_arguments)),
-        field('arguments', optional($.arguments))
+        field('arguments', optional($.arguments)),
       )),
 
-      assignment_expression: $ => prec.right('assign', seq(
+      assignment_expression: ($) => prec.right('assign', seq(
         optional('using'),
         field('left', choice($.parenthesized_expression, $._lhs_expression)),
         '=',
@@ -213,8 +213,8 @@ module.exports = function defineGrammar(dialect) {
 
         if (dialect === 'typescript') {
           choices.push($.type_assertion);
-          choices.push(...previous.members.filter(member =>
-            member.name !== '_jsx_element'
+          choices.push(...previous.members.filter((member) =>
+            member.name !== '_jsx_element',
           ));
         } else if (dialect === 'tsx') {
           choices.push(...previous.members);
@@ -225,22 +225,22 @@ module.exports = function defineGrammar(dialect) {
         return choice(...choices);
       },
 
-      _jsx_start_opening_element: $ => seq(
+      _jsx_start_opening_element: ($) => seq(
         '<',
         optional(
           seq(
             choice(
               field('name', choice(
                 $._jsx_identifier,
-                $.jsx_namespace_name
+                $.jsx_namespace_name,
               )),
               seq(
                 field('name', choice(
                   $.identifier,
                   alias($.nested_identifier, $.member_expression),
                 )),
-                field('type_arguments', optional($.type_arguments))
-              )
+                field('type_arguments', optional($.type_arguments)),
+              ),
             ),
             repeat(field('attribute', $._jsx_attribute)),
           ),
@@ -248,36 +248,36 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       // This rule is only referenced by expression when the dialect is 'tsx'
-      jsx_opening_element: $ => prec.dynamic(-1, seq(
+      jsx_opening_element: ($) => prec.dynamic(-1, seq(
         $._jsx_start_opening_element,
-        '>'
+        '>',
       )),
 
       // tsx only. See jsx_opening_element.
-      jsx_self_closing_element: $ => prec.dynamic(-1, seq(
+      jsx_self_closing_element: ($) => prec.dynamic(-1, seq(
         $._jsx_start_opening_element,
-        '/>'
+        '/>',
       )),
 
       export_specifier: (_, previous) => seq(
         optional(choice('type', 'typeof')),
-        previous
+        previous,
       ),
 
-      _import_identifier: $ => choice($.identifier, alias('type', $.identifier)),
+      _import_identifier: ($) => choice($.identifier, alias('type', $.identifier)),
 
-      import_specifier: $ => seq(
+      import_specifier: ($) => seq(
         optional(choice('type', 'typeof')),
         choice(
           field('name', $._import_identifier),
           seq(
             field('name', choice($._module_export_name, alias('type', $.identifier))),
             'as',
-            field('alias', $._import_identifier)
+            field('alias', $._import_identifier),
           ),
         )),
 
-      import_clause: $ => choice(
+      import_clause: ($) => choice(
         $.namespace_import,
         $.named_imports,
         seq(
@@ -286,21 +286,21 @@ module.exports = function defineGrammar(dialect) {
             ',',
             choice(
               $.namespace_import,
-              $.named_imports
-            )
-          ))
-        )
+              $.named_imports,
+            ),
+          )),
+        ),
       ),
 
-      import_statement: $ => seq(
+      import_statement: ($) => seq(
         'import',
         optional(choice('type', 'typeof')),
         choice(
           seq($.import_clause, $._from_clause),
           $.import_require_clause,
-          field('source', $.string)
+          field('source', $.string),
         ),
-        $._semicolon
+        $._semicolon,
       ),
 
       export_statement: ($, previous) => choice(
@@ -310,30 +310,30 @@ module.exports = function defineGrammar(dialect) {
           'type',
           $.export_clause,
           optional($._from_clause),
-          $._semicolon
+          $._semicolon,
         ),
         seq('export', '=', $.expression, $._semicolon),
         seq('export', 'as', 'namespace', $.identifier, $._semicolon),
       ),
 
-      non_null_expression: $ => prec.left('unary', seq(
-        $.expression, '!'
+      non_null_expression: ($) => prec.left('unary', seq(
+        $.expression, '!',
       )),
 
-      variable_declarator: $ => choice(
+      variable_declarator: ($) => choice(
         seq(
           field('name', choice($.identifier, $._destructuring_pattern)),
           field('type', optional($.type_annotation)),
-          optional($._initializer)
+          optional($._initializer),
         ),
         prec('declaration', seq(
           field('name', $.identifier),
           '!',
-          field('type', $.type_annotation)
-        ))
+          field('type', $.type_annotation),
+        )),
       ),
 
-      method_signature: $ => seq(
+      method_signature: ($) => seq(
         optional($.accessibility_modifier),
         optional('static'),
         optional($.override_modifier),
@@ -342,34 +342,34 @@ module.exports = function defineGrammar(dialect) {
         optional(choice('get', 'set', '*')),
         field('name', $._property_name),
         optional('?'),
-        $._call_signature
+        $._call_signature,
       ),
 
-      abstract_method_signature: $ => seq(
+      abstract_method_signature: ($) => seq(
         optional($.accessibility_modifier),
         'abstract',
         optional($.override_modifier),
         optional(choice('get', 'set', '*')),
         field('name', $._property_name),
         optional('?'),
-        $._call_signature
+        $._call_signature,
       ),
 
-      parenthesized_expression: $ => seq(
+      parenthesized_expression: ($) => seq(
         '(',
         choice(
           seq($.expression, field('type', optional($.type_annotation))),
-          $.sequence_expression
+          $.sequence_expression,
         ),
-        ')'
+        ')',
       ),
 
-      _formal_parameter: $ => choice(
+      _formal_parameter: ($) => choice(
         $.required_parameter,
-        $.optional_parameter
+        $.optional_parameter,
       ),
 
-      function_signature: $ => seq(
+      function_signature: ($) => seq(
         optional('async'),
         'function',
         field('name', $.identifier),
@@ -377,13 +377,13 @@ module.exports = function defineGrammar(dialect) {
         choice($._semicolon, $._function_signature_automatic_semicolon),
       ),
 
-      class_body: $ => seq(
+      class_body: ($) => seq(
         '{',
         repeat(choice(
           seq(
             repeat(field('decorator', $.decorator)),
             $.method_definition,
-            optional($._semicolon)
+            optional($._semicolon),
           ),
           // As it happens for functions, the semicolon insertion should not
           // happen if a block follows the closing paren, because then it's a
@@ -400,16 +400,16 @@ module.exports = function defineGrammar(dialect) {
               $.abstract_method_signature,
               $.index_signature,
               $.method_signature,
-              $.public_field_definition
+              $.public_field_definition,
             ),
-            choice($._semicolon, ',')
+            choice($._semicolon, ','),
           ),
           ';',
         )),
-        '}'
+        '}',
       ),
 
-      method_definition: $ => prec.left(seq(
+      method_definition: ($) => prec.left(seq(
         optional($.accessibility_modifier),
         optional('static'),
         optional($.override_modifier),
@@ -419,7 +419,7 @@ module.exports = function defineGrammar(dialect) {
         field('name', $._property_name),
         optional('?'),
         $._call_signature,
-        field('body', $.statement_block)
+        field('body', $.statement_block),
       )),
 
       declaration: ($, previous) => choice(
@@ -432,218 +432,218 @@ module.exports = function defineGrammar(dialect) {
         $.enum_declaration,
         $.interface_declaration,
         $.import_alias,
-        $.ambient_declaration
+        $.ambient_declaration,
       ),
 
-      type_assertion: $ => prec.left('unary', seq(
+      type_assertion: ($) => prec.left('unary', seq(
         $.type_arguments,
-        $.expression
+        $.expression,
       )),
 
-      as_expression: $ => prec.left('binary', seq(
+      as_expression: ($) => prec.left('binary', seq(
         $.expression,
         'as',
-        choice('const', $._type)
+        choice('const', $._type),
       )),
 
-      satisfies_expression: $ => prec.left('binary', seq(
+      satisfies_expression: ($) => prec.left('binary', seq(
         $.expression,
         'satisfies',
-        $._type
+        $._type,
       )),
 
-      instantiation_expression: $ => prec('instantiation', seq(
+      instantiation_expression: ($) => prec('instantiation', seq(
         $.expression,
         field('type_arguments', $.type_arguments),
       )),
 
-      class_heritage: $ => choice(
+      class_heritage: ($) => choice(
         seq($.extends_clause, optional($.implements_clause)),
-        $.implements_clause
+        $.implements_clause,
       ),
 
-      import_require_clause: $ => seq(
+      import_require_clause: ($) => seq(
         $.identifier,
         '=',
         'require',
         '(',
         field('source', $.string),
-        ')'
+        ')',
       ),
 
-      extends_clause: $ => seq(
+      extends_clause: ($) => seq(
         'extends',
         commaSep1($._extends_clause_single),
       ),
 
-      _extends_clause_single: $ => prec('extends', seq(
+      _extends_clause_single: ($) => prec('extends', seq(
         field('value', $.expression),
-        field('type_arguments', optional($.type_arguments))
+        field('type_arguments', optional($.type_arguments)),
       )),
 
-      implements_clause: $ => seq(
+      implements_clause: ($) => seq(
         'implements',
-        commaSep1($._type)
+        commaSep1($._type),
       ),
 
-      ambient_declaration: $ => seq(
+      ambient_declaration: ($) => seq(
         'declare',
         choice(
           $.declaration,
           seq('global', $.statement_block),
-          seq('module', '.', alias($.identifier, $.property_identifier), ':', $._type, $._semicolon)
-        )
+          seq('module', '.', alias($.identifier, $.property_identifier), ':', $._type, $._semicolon),
+        ),
       ),
 
-      class: $ => prec('literal', seq(
+      class: ($) => prec('literal', seq(
         repeat(field('decorator', $.decorator)),
         'class',
         field('name', optional($._type_identifier)),
         field('type_parameters', optional($.type_parameters)),
         optional($.class_heritage),
-        field('body', $.class_body)
+        field('body', $.class_body),
       )),
 
-      abstract_class_declaration: $ => prec('declaration', seq(
+      abstract_class_declaration: ($) => prec('declaration', seq(
         repeat(field('decorator', $.decorator)),
         'abstract',
         'class',
         field('name', $._type_identifier),
         field('type_parameters', optional($.type_parameters)),
         optional($.class_heritage),
-        field('body', $.class_body)
+        field('body', $.class_body),
       )),
 
-      class_declaration: $ => prec.left('declaration', seq(
+      class_declaration: ($) => prec.left('declaration', seq(
         repeat(field('decorator', $.decorator)),
         'class',
         field('name', $._type_identifier),
         field('type_parameters', optional($.type_parameters)),
         optional($.class_heritage),
         field('body', $.class_body),
-        optional($._automatic_semicolon)
+        optional($._automatic_semicolon),
       )),
 
-      module: $ => seq(
+      module: ($) => seq(
         'module',
-        $._module
+        $._module,
       ),
 
-      internal_module: $ => seq(
+      internal_module: ($) => seq(
         'namespace',
-        $._module
+        $._module,
       ),
 
-      _module: $ => prec.right(seq(
+      _module: ($) => prec.right(seq(
         field('name', choice($.string, $.identifier, $.nested_identifier)),
         // On .d.ts files "declare module foo" desugars to "declare module foo {}",
         // hence why it is optional here
-        field('body', optional($.statement_block))
+        field('body', optional($.statement_block)),
       )),
 
-      import_alias: $ => seq(
+      import_alias: ($) => seq(
         'import',
         $.identifier,
         '=',
         choice($.identifier, $.nested_identifier),
-        $._semicolon
+        $._semicolon,
       ),
 
-      nested_type_identifier: $ => prec('member', seq(
+      nested_type_identifier: ($) => prec('member', seq(
         field('module', choice($.identifier, $.nested_identifier)),
         '.',
-        field('name', $._type_identifier)
+        field('name', $._type_identifier),
       )),
 
-      interface_declaration: $ => seq(
+      interface_declaration: ($) => seq(
         'interface',
         field('name', $._type_identifier),
         field('type_parameters', optional($.type_parameters)),
         optional($.extends_type_clause),
-        field('body', alias($.object_type, $.interface_body))
+        field('body', alias($.object_type, $.interface_body)),
       ),
 
-      extends_type_clause: $ => seq(
+      extends_type_clause: ($) => seq(
         'extends',
         commaSep1(field('type', choice(
           $._type_identifier,
           $.nested_type_identifier,
           $.generic_type,
-        )))
+        ))),
       ),
 
-      enum_declaration: $ => seq(
+      enum_declaration: ($) => seq(
         optional('const'),
         'enum',
         field('name', $.identifier),
-        field('body', $.enum_body)
+        field('body', $.enum_body),
       ),
 
-      enum_body: $ => seq(
+      enum_body: ($) => seq(
         '{',
         optional(seq(
           sepBy1(',', choice(
             field('name', $._property_name),
-            $.enum_assignment
+            $.enum_assignment,
           )),
-          optional(',')
+          optional(','),
         )),
-        '}'
+        '}',
       ),
 
-      enum_assignment: $ => seq(
+      enum_assignment: ($) => seq(
         field('name', $._property_name),
-        $._initializer
+        $._initializer,
       ),
 
-      type_alias_declaration: $ => seq(
+      type_alias_declaration: ($) => seq(
         'type',
         field('name', $._type_identifier),
         field('type_parameters', optional($.type_parameters)),
         '=',
         field('value', $._type),
-        $._semicolon
+        $._semicolon,
       ),
 
-      accessibility_modifier: _ => choice(
+      accessibility_modifier: (_) => choice(
         'public',
         'private',
-        'protected'
+        'protected',
       ),
 
-      override_modifier: _ => 'override',
+      override_modifier: (_) => 'override',
 
-      required_parameter: $ => seq(
+      required_parameter: ($) => seq(
         $._parameter_name,
         field('type', optional($.type_annotation)),
-        optional($._initializer)
+        optional($._initializer),
       ),
 
-      optional_parameter: $ => seq(
+      optional_parameter: ($) => seq(
         $._parameter_name,
         '?',
         field('type', optional($.type_annotation)),
-        optional($._initializer)
+        optional($._initializer),
       ),
 
-      _parameter_name: $ => seq(
+      _parameter_name: ($) => seq(
         repeat(field('decorator', $.decorator)),
         optional($.accessibility_modifier),
         optional($.override_modifier),
         optional('readonly'),
-        field('pattern', choice($.pattern, $.this))
+        field('pattern', choice($.pattern, $.this)),
       ),
 
-      omitting_type_annotation: $ => seq('-?:', $._type),
-      adding_type_annotation: $ => seq('+?:', $._type),
-      opting_type_annotation: $ => seq('?:', $._type),
-      type_annotation: $ => seq(
+      omitting_type_annotation: ($) => seq('-?:', $._type),
+      adding_type_annotation: ($) => seq('+?:', $._type),
+      opting_type_annotation: ($) => seq('?:', $._type),
+      type_annotation: ($) => seq(
         ':',
         choice(
           $._type,
           alias($._type_query_member_expression_in_type_annotation, $.member_expression),
           alias($._type_query_call_expression_in_type_annotation, $.call_expression),
-        )
+        ),
       ),
 
       // Oh boy
@@ -652,58 +652,58 @@ module.exports = function defineGrammar(dialect) {
       // required beforehand. This allows for parsing of annotations such as
       // foo: import('x').y.z;
       // but was a nightmare to get working.
-      _type_query_member_expression_in_type_annotation: $ => seq(
+      _type_query_member_expression_in_type_annotation: ($) => seq(
         field('object', choice(
           $.import,
           alias($._type_query_member_expression_in_type_annotation, $.member_expression),
-          alias($._type_query_call_expression_in_type_annotation, $.call_expression)
+          alias($._type_query_call_expression_in_type_annotation, $.call_expression),
         )),
         '.',
         field('property', choice(
           $.private_property_identifier,
-          alias($.identifier, $.property_identifier)
-        ))
+          alias($.identifier, $.property_identifier),
+        )),
       ),
-      _type_query_call_expression_in_type_annotation: $ => seq(
+      _type_query_call_expression_in_type_annotation: ($) => seq(
         field('function', choice(
           $.import,
           alias($._type_query_member_expression_in_type_annotation, $.member_expression),
         )),
-        field('arguments', $.arguments)
+        field('arguments', $.arguments),
       ),
 
-      asserts: $ => seq(
+      asserts: ($) => seq(
         'asserts',
-        choice($.type_predicate, $.identifier, $.this)
+        choice($.type_predicate, $.identifier, $.this),
       ),
 
-      asserts_annotation: $ => seq(
-        seq(':', $.asserts)
+      asserts_annotation: ($) => seq(
+        seq(':', $.asserts),
       ),
 
-      _type: $ => choice(
+      _type: ($) => choice(
         $._primary_type,
         $.function_type,
         $.readonly_type,
         $.constructor_type,
-        $.infer_type
+        $.infer_type,
       ),
 
-      tuple_parameter: $ => seq(
+      tuple_parameter: ($) => seq(
         field('name', choice($.identifier, $.rest_pattern)),
-        field('type', $.type_annotation)
+        field('type', $.type_annotation),
       ),
 
-      optional_tuple_parameter: $ => seq(
+      optional_tuple_parameter: ($) => seq(
         field('name', $.identifier),
         '?',
-        field('type', $.type_annotation)
+        field('type', $.type_annotation),
       ),
 
-      optional_type: $ => seq($._type, '?'),
-      rest_type: $ => seq('...', $._type),
+      optional_type: ($) => seq($._type, '?'),
+      rest_type: ($) => seq('...', $._type),
 
-      _tuple_type_member: $ => choice(
+      _tuple_type_member: ($) => choice(
         alias($.tuple_parameter, $.required_parameter),
         alias($.optional_tuple_parameter, $.optional_parameter),
         $.optional_type,
@@ -711,16 +711,16 @@ module.exports = function defineGrammar(dialect) {
         $._type,
       ),
 
-      constructor_type: $ => prec.left(seq(
+      constructor_type: ($) => prec.left(seq(
         optional('abstract'),
         'new',
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         '=>',
-        field('type', $._type)
+        field('type', $._type),
       )),
 
-      _primary_type: $ => choice(
+      _primary_type: ($) => choice(
         $.parenthesized_type,
         $.predefined_type,
         $._type_identifier,
@@ -743,45 +743,45 @@ module.exports = function defineGrammar(dialect) {
         'const',
       ),
 
-      template_type: $ => seq('${', choice($._primary_type, $.infer_type), '}'),
+      template_type: ($) => seq('${', choice($._primary_type, $.infer_type), '}'),
 
-      template_literal_type: $ => seq(
+      template_literal_type: ($) => seq(
         '`',
         repeat(choice(
           $._template_chars,
-          $.template_type
+          $.template_type,
         )),
-        '`'
+        '`',
       ),
 
-      infer_type: $ => prec.right(seq(
+      infer_type: ($) => prec.right(seq(
         'infer',
         $._type_identifier,
         optional(seq(
           'extends',
-          $._type
-        ))
+          $._type,
+        )),
       )),
 
-      conditional_type: $ => prec.right(seq(
+      conditional_type: ($) => prec.right(seq(
         field('left', $._type),
         'extends',
         field('right', $._type),
         '?',
         field('consequence', $._type),
         ':',
-        field('alternative', $._type)
+        field('alternative', $._type),
       )),
 
-      generic_type: $ => prec('call', seq(
+      generic_type: ($) => prec('call', seq(
         field('name', choice(
           $._type_identifier,
-          $.nested_type_identifier
+          $.nested_type_identifier,
         )),
-        field('type_arguments', $.type_arguments)
+        field('type_arguments', $.type_arguments),
       )),
 
-      type_predicate: $ => seq(
+      type_predicate: ($) => seq(
         field('name', choice(
           $.identifier,
           $.this,
@@ -790,89 +790,89 @@ module.exports = function defineGrammar(dialect) {
           // a predefined_type, so we must explicitely list all possibilities.
           // TODO: should we use '_reserved_identifier'? Should all the element in
           // 'predefined_type' be added to '_reserved_identifier'?
-          alias($.predefined_type, $.identifier)
+          alias($.predefined_type, $.identifier),
         )),
         'is',
-        field('type', $._type)
+        field('type', $._type),
       ),
 
-      type_predicate_annotation: $ => seq(
-        seq(':', $.type_predicate)
+      type_predicate_annotation: ($) => seq(
+        seq(':', $.type_predicate),
       ),
 
       // Type query expressions are more restrictive than regular expressions
-      _type_query_member_expression: $ => seq(
+      _type_query_member_expression: ($) => seq(
         field('object', choice(
           $.identifier,
           alias($._type_query_subscript_expression, $.subscript_expression),
           alias($._type_query_member_expression, $.member_expression),
-          alias($._type_query_call_expression, $.call_expression)
+          alias($._type_query_call_expression, $.call_expression),
         )),
         choice('.', '?.'),
         field('property', choice(
           $.private_property_identifier,
-          alias($.identifier, $.property_identifier)
-        ))
+          alias($.identifier, $.property_identifier),
+        )),
       ),
-      _type_query_subscript_expression: $ => seq(
+      _type_query_subscript_expression: ($) => seq(
         field('object', choice(
           $.identifier,
           alias($._type_query_subscript_expression, $.subscript_expression),
           alias($._type_query_member_expression, $.member_expression),
-          alias($._type_query_call_expression, $.call_expression)
+          alias($._type_query_call_expression, $.call_expression),
         )),
         optional('?.'),
-        '[', field('index', choice($.predefined_type, $.string, $.number)), ']'
+        '[', field('index', choice($.predefined_type, $.string, $.number)), ']',
       ),
-      _type_query_call_expression: $ => seq(
+      _type_query_call_expression: ($) => seq(
         field('function', choice(
           $.import,
           $.identifier,
           alias($._type_query_member_expression, $.member_expression),
-          alias($._type_query_subscript_expression, $.subscript_expression)
+          alias($._type_query_subscript_expression, $.subscript_expression),
         )),
-        field('arguments', $.arguments)
+        field('arguments', $.arguments),
       ),
-      _type_query_instantiation_expression: $ => seq(
+      _type_query_instantiation_expression: ($) => seq(
         field('function', choice(
           $.import,
           $.identifier,
           alias($._type_query_member_expression, $.member_expression),
-          alias($._type_query_subscript_expression, $.subscript_expression)
+          alias($._type_query_subscript_expression, $.subscript_expression),
         )),
-        field('type_arguments', $.type_arguments)
+        field('type_arguments', $.type_arguments),
       ),
-      type_query: $ => prec.right(seq(
+      type_query: ($) => prec.right(seq(
         'typeof',
         choice(
           alias($._type_query_subscript_expression, $.subscript_expression),
           alias($._type_query_member_expression, $.member_expression),
           alias($._type_query_call_expression, $.call_expression),
           alias($._type_query_instantiation_expression, $.instantiation_expression),
-          $.identifier
+          $.identifier,
         ),
       )),
 
-      index_type_query: $ => seq(
+      index_type_query: ($) => seq(
         'keyof',
         $._primary_type,
       ),
 
-      lookup_type: $ => seq(
+      lookup_type: ($) => seq(
         $._primary_type,
         '[',
         $._type,
-        ']'
+        ']',
       ),
 
-      mapped_type_clause: $ => seq(
+      mapped_type_clause: ($) => seq(
         field('name', $._type_identifier),
         'in',
         field('type', $._type),
-        optional(seq('as', field('alias', $._type)))
+        optional(seq('as', field('alias', $._type))),
       ),
 
-      literal_type: $ => choice(
+      literal_type: ($) => choice(
         alias($._number, $.unary_expression),
         $.number,
         $.string,
@@ -882,18 +882,18 @@ module.exports = function defineGrammar(dialect) {
         $.undefined,
       ),
 
-      _number: $ => prec.left(1, seq(
+      _number: ($) => prec.left(1, seq(
         field('operator', choice('-', '+')),
-        field('argument', $.number)
+        field('argument', $.number),
       )),
 
-      existential_type: _ => '*',
+      existential_type: (_) => '*',
 
-      flow_maybe_type: $ => prec.right(seq('?', $._primary_type)),
+      flow_maybe_type: ($) => prec.right(seq('?', $._primary_type)),
 
-      parenthesized_type: $ => seq('(', $._type, ')'),
+      parenthesized_type: ($) => seq('(', $._type, ')'),
 
-      predefined_type: _ => choice(
+      predefined_type: (_) => choice(
         'any',
         'number',
         'boolean',
@@ -904,21 +904,21 @@ module.exports = function defineGrammar(dialect) {
         'unknown',
         'string',
         'never',
-        'object'
+        'object',
       ),
 
-      type_arguments: $ => seq(
+      type_arguments: ($) => seq(
         '<',
         commaSep1(choice(
           $._type,
           alias($._type_query_member_expression_in_type_annotation, $.member_expression),
-          alias($._type_query_call_expression_in_type_annotation, $.call_expression)
+          alias($._type_query_call_expression_in_type_annotation, $.call_expression),
         )),
         optional(','),
-        '>'
+        '>',
       ),
 
-      object_type: $ => seq(
+      object_type: ($) => seq(
         choice('{', '{|'),
         optional(seq(
           optional(choice(',', ';')),
@@ -930,108 +930,108 @@ module.exports = function defineGrammar(dialect) {
               $.call_signature,
               $.construct_signature,
               $.index_signature,
-              $.method_signature
-            )
+              $.method_signature,
+            ),
           ),
-          optional(choice(',', $._semicolon))
+          optional(choice(',', $._semicolon)),
         )),
-        choice('}', '|}')
+        choice('}', '|}'),
       ),
 
-      call_signature: $ => $._call_signature,
+      call_signature: ($) => $._call_signature,
 
-      property_signature: $ => seq(
+      property_signature: ($) => seq(
         optional($.accessibility_modifier),
         optional('static'),
         optional($.override_modifier),
         optional('readonly'),
         field('name', $._property_name),
         optional('?'),
-        field('type', optional($.type_annotation))
+        field('type', optional($.type_annotation)),
       ),
 
-      _call_signature: $ => seq(
+      _call_signature: ($) => seq(
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         field('return_type', optional(
-          choice($.type_annotation, $.asserts_annotation, $.type_predicate_annotation)
-        ))
+          choice($.type_annotation, $.asserts_annotation, $.type_predicate_annotation),
+        )),
       ),
 
-      type_parameters: $ => seq(
-        '<', commaSep1($.type_parameter), optional(','), '>'
+      type_parameters: ($) => seq(
+        '<', commaSep1($.type_parameter), optional(','), '>',
       ),
 
-      type_parameter: $ => seq(
+      type_parameter: ($) => seq(
         optional('const'),
         field('name', $._type_identifier),
         field('constraint', optional($.constraint)),
-        field('value', optional($.default_type))
+        field('value', optional($.default_type)),
       ),
 
-      default_type: $ => seq(
+      default_type: ($) => seq(
         '=',
-        $._type
+        $._type,
       ),
 
-      constraint: $ => seq(
+      constraint: ($) => seq(
         choice('extends', ':'),
-        $._type
+        $._type,
       ),
 
-      construct_signature: $ => seq(
+      construct_signature: ($) => seq(
         optional('abstract'),
         'new',
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
-        field('type', optional($.type_annotation))
+        field('type', optional($.type_annotation)),
       ),
 
-      index_signature: $ => seq(
+      index_signature: ($) => seq(
         optional(
           seq(
-            field("sign", optional(choice("-", "+"))),
-            'readonly'
-          )
+            field('sign', optional(choice('-', '+'))),
+            'readonly',
+          ),
         ),
         '[',
         choice(
           seq(
             field('name', choice(
               $.identifier,
-              alias($._reserved_identifier, $.identifier)
+              alias($._reserved_identifier, $.identifier),
             )),
             ':',
             field('index_type', $._type),
           ),
-          $.mapped_type_clause
+          $.mapped_type_clause,
         ),
         ']',
         field('type', choice(
           $.type_annotation,
           $.omitting_type_annotation,
           $.adding_type_annotation,
-          $.opting_type_annotation
-        ))
+          $.opting_type_annotation,
+        )),
       ),
 
-      array_type: $ => seq($._primary_type, '[', ']'),
-      tuple_type: $ => seq(
-        '[', commaSep($._tuple_type_member), optional(','), ']'
+      array_type: ($) => seq($._primary_type, '[', ']'),
+      tuple_type: ($) => seq(
+        '[', commaSep($._tuple_type_member), optional(','), ']',
       ),
-      readonly_type: $ => seq('readonly', $._type),
+      readonly_type: ($) => seq('readonly', $._type),
 
-      union_type: $ => prec.left(seq(optional($._type), '|', $._type)),
-      intersection_type: $ => prec.left(seq(optional($._type), '&', $._type)),
+      union_type: ($) => prec.left(seq(optional($._type), '|', $._type)),
+      intersection_type: ($) => prec.left(seq(optional($._type), '&', $._type)),
 
-      function_type: $ => prec.left(seq(
+      function_type: ($) => prec.left(seq(
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
         '=>',
         field('return_type', choice($._type, $.asserts, $.type_predicate)),
       )),
 
-      _type_identifier: $ => alias($.identifier, $.type_identifier),
+      _type_identifier: ($) => alias($.identifier, $.type_identifier),
 
       _reserved_identifier: (_, previous) => choice(
         'declare',
@@ -1051,24 +1051,58 @@ module.exports = function defineGrammar(dialect) {
         'export',
         'object',
         'new',
-        previous
+        previous,
       ),
     },
   });
-}
+};
 
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
 function commaSep1(rule) {
   return sepBy1(',', rule);
 }
 
+/**
+ * Creates a rule to optionally match one or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
 function commaSep(rule) {
   return sepBy(',', rule);
 }
 
+/**
+ * Creates a rule to optionally match one or more of the rules separated by a separator
+ *
+ * @param {RuleOrLiteral} sep
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {ChoiceRule}
+ */
 function sepBy(sep, rule) {
-  return optional(sepBy1(sep, rule))
+  return optional(sepBy1(sep, rule));
 }
 
+/**
+ * Creates a rule to match one or more of the rules separated by a separator
+ *
+ * @param {RuleOrLiteral} sep
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ */
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));
 }
