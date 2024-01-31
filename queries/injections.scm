@@ -7,7 +7,7 @@
     (member_expression
       property: (property_identifier) @injection.language)
   ]
-  arguments: (template_string) @injection.content)
+  arguments: (template_string (string_fragment) @injection.content))
 
 ; Parse regex syntax within regex literals
 
