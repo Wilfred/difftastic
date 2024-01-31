@@ -58,6 +58,10 @@ module.exports = function defineGrammar(dialect) {
       [$.decorator_call_expression, $.decorator],
       [$.literal_type, $.pattern],
       [$.predefined_type, $.pattern],
+      [$._primary_type, $._type_query_subscript_expression],
+      [$.nested_type_identifier, $._type_query_member_expression],
+      [$.nested_identifier, $._type_query_member_expression],
+      [$.generic_type, $._type_query_instantiation_expression],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -618,7 +622,16 @@ module.exports = function defineGrammar(dialect) {
       omitting_type_annotation: $ => seq('-?:', $._type),
       adding_type_annotation: $ => seq('+?:', $._type),
       opting_type_annotation: $ => seq('?:', $._type),
-      type_annotation: $ => seq(':', $._type),
+      type_annotation: $ => seq(
+        ':',
+        choice(
+          $._type,
+          alias($._type_query_subscript_expression, $.subscript_expression),
+          alias($._type_query_member_expression, $.member_expression),
+          alias($._type_query_call_expression, $.call_expression),
+          alias($._type_query_instantiation_expression, $.instantiation_expression),
+        )
+      ),
 
       asserts: $ => seq(
         'asserts',
