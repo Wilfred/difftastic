@@ -265,7 +265,7 @@ export { "string import" as "string export" } from 'foo';
         key: (property_identifier)
         value: (array))))
   (export_statement
-    value: (function
+    value: (function_expression
       parameters: (formal_parameters)
       body: (statement_block)))
   (export_statement
@@ -469,10 +469,10 @@ for (var i = 0
   (for_statement
     initializer: (expression_statement
       (sequence_expression
-        left: (assignment_expression
+        (assignment_expression
           left: (identifier)
           right: (number))
-        right: (call_expression
+        (call_expression
           function: (identifier)
           arguments: (arguments))))
     condition: (expression_statement
@@ -563,9 +563,8 @@ for (var foo = bar in baz) {}
     (identifier)
     (sequence_expression
       (identifier)
-      (sequence_expression
-        (identifier)
-        (identifier)))
+      (identifier)
+      (identifier))
     (expression_statement
       (call_expression
         (identifier)
@@ -838,7 +837,7 @@ Comments
       (comment)
       (pair
         (property_identifier)
-        (function
+        (function_expression
           (formal_parameters)
           (statement_block))))))
 
@@ -873,7 +872,7 @@ var thing = {
         (comment)
         (pair
           (property_identifier)
-          (function
+          (function_expression
             (formal_parameters
               (identifier)
               (comment))
@@ -965,21 +964,21 @@ x + 1; --> for some reason you can put text after a close comment.
 ---
 
 (program
-  (comment)
+  (html_comment)
   (expression_statement
     (binary_expression
       (identifier)
       (identifier)))
-  (comment)
+  (html_comment)
   (expression_statement
     (binary_expression
       (identifier)
       (number)))
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment))
+  (html_comment)
+  (html_comment)
+  (html_comment)
+  (html_comment)
+  (html_comment))
 
 ============================================
 Switch statements
