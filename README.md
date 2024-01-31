@@ -13,7 +13,142 @@ A fully-featured 🌳 [Tree-sitter](https://github.com/tree-sitter/tree-sitter) 
 
 ## 🚀 Usage
 
-- [ ] To be refined and added in the next commit
+### Neovim
+
+Installation assumes you're using `lazy.nvim` as a package manager:
+
+<spoiler>
+<details>Instructions</details>
+
+1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
+
+2. Create a folder for queries under your Neovim runtime directory, if not exists:
+  * Windows: `mkdir ~\AppData\Local\nvim\queries`
+  * Linux, macOS, *NIX: `mkdir ~/.config/nvim/queries`
+
+3. Symlink the `editor_queries/neovim` sub-directory, this will add all the queries:
+  * Windows: `mklink /D ~\AppData\Local\nvim\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\neovim`
+  * Linux, macOS, *NIX: `ln -s ~/.local/git/tree-sitter-tact/editor_queries/neovim ~/.config/nvim/queries/tact`
+
+4. Add the following (partly or as a whole) to your `~/.config/nvim/init.lua` (Or `~\AppData\Local\nvim\init.lua` on Windows):
+
+For the general Tree-sitter support:
+
+```lua
+-- lazy.nvim package manager
+require('lazy').setup({
+  -- ...
+	{
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+
+    -- Optional, may be removed:
+    dependencies = {
+      -- adds syntax aware text-objects, select, move, swap, and peek support
+      -- see: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+      'nvim-treesitter/nvim-treesitter-textobjects',
+
+      -- adds a sticky context header on top as you scroll through file contents
+      -- see: https://github.com/nvim-treesitter/nvim-treesitter-context
+      'nvim-treesitter/nvim-treesitter-context'
+    },
+  },
+  -- ...
+}, {})
+```
+
+For the tree-sitter-tact support:
+
+```lua
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+
+-- Adds tree-sitter-tact support
+parser_config.tact = {
+  install_info = {
+    url = "~/.local/git/tree-sitter-tact", -- a path to the cloned repo
+    files = {"src/parser.c"},
+    branch = "main",
+    generate_requires_npm = false,
+    requires_generate_from_grammar = false,
+  }
+}
+
+-- Adds filetype recognition for .tact files
+vim.filetype.add({
+  extension = {
+    tact = "tact",
+  }
+})
+```
+
+5. For further configuration and customization, refer to the following repositories:
+* [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+* [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
+* [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context)
+
+</spoiler>
+
+Queries bundled (see `editor_queries/neovim`):
+* `highlights.scm` — syntax highlighting
+* `locals.scm` — used to extract keyword definitions, scopes, references, etc., but NOT used for highlighting (unlike Generic or Helix queries)
+* `injections.scm` — highlighting of TODO, FIXME and related in single-line comments
+* `folds.scm` — syntax folds (note, that folding has to be enabled in config in order to use those)
+* `indents.scm` — indentation levels
+* `textobjects.scm` — syntax aware text-objects, select, move, swap, and peek support.
+* `context.scm` — shows sticky context on top of the editor as you scroll through file contents
+
+### Helix
+
+Parser and queries are bundled with Helix starting with any version past 23.10.
+
+For versions prior or equal to 23.10, do the following:
+
+<spoiler>
+<details>Instructions</details>
+
+1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
+
+2. Create a folder for queries under your Helix runtime directory, if not exists:
+  * Windows: `mkdir ~\AppData\Roaming\helix\runtime\queries`
+  * Linux, macOS, *NIX: `mkdir ~/.config/helix/runtime/queries`
+
+3. Symlink the `editor_queries/helix` sub-directory, this will add all the queries:
+  * Windows: `mklink /D ~\AppData\Roaming\helix\runtime\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\helix`
+  * Linux, macOS, *NIX: `ln -s ~/.local/git/tree-sitter-tact/editor_queries/helix ~/.config/helix/runtime/queries/tact`
+
+4. Inside the `~/.local/git/tree-sitter-tact/editor_queries/helix`: `mv highlights-before-version-24.scm highlights.scm` (to use compatible queries)
+
+5. Add the following to your `~/.config/helix/languages.toml` (Or `~\AppData\Roaming\helix\languages.toml` on Windows):
+
+```toml
+[[language]]
+name = "tact"
+scope = "source.tact"
+injection-regex = "tact"
+file-types = ["tact"]
+comment-token = "//"
+indent = { tab-width = 4, unit = "    " }
+roots = []
+
+[language.auto-pairs]
+'"' = '"'
+'{' = '}'
+'(' = ')'
+'<' = '>'
+
+[[grammar]]
+name = "tact"
+source = { git = "https://github.com/tact-lang/tree-sitter-tact", rev = "b9737e85af19b8dafd137dc5f17ec5d5195b5ea9" }
+```
+
+</spoiler>
+
+Queries bundled (see `editor_queries/helix`):
+* `highlights.scm` — syntax highlighting
+* `injections.scm` — highlighting of TODO, FIXME and related in single-line comments
+* `indents.scm` — indentation levels
+* `textobjects.scm` — syntax aware text-objects
 
 ## 💲 CLI Usage
 
