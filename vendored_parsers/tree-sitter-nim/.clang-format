@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: None
+#
+# SPDX-License-Identifier: CC0-1.0
+
+---
+Language: Cpp
+BasedOnStyle: Google
+AccessModifierOffset: -2
+AlignAfterOpenBracket: AlwaysBreak
+AlignTrailingComments: true
+BreakBeforeBraces: Stroustrup
+BreakInheritanceList: AfterColon
+BreakConstructorInitializers: AfterColon
+DeriveLineEnding: false
+DerivePointerAlignment: false
+IndentAccessModifiers: false
+IndentCaseLabels: false
+IndentGotoLabels: false
+IndentPPDirectives: AfterHash
+IndentExternBlock: NoIndent
+InsertBraces: true
+PointerAlignment: Left
+SeparateDefinitionBlocks: Always
+SpaceAfterTemplateKeyword: false
+SpacesInContainerLiterals: false
+UseCRLF: false
+BreakAfterAttributes: Always
+AttributeMacros:
+  - "_nonnull_"
+  - "_returns_nonnull_"
+  - "_const_"
+  - "_pure_"
+# vim: set ft=yaml et:
