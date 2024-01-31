@@ -48,6 +48,7 @@ module.exports = function defineGrammar(dialect) {
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
       [$.as_expression, $.satisfies_expression, $._primary_type],
       [$._type_query_member_expression, $.member_expression],
+      [$.member_expression, $._type_query_member_expression_in_type_annotation],
       [$._type_query_member_expression, $.primary_expression],
       [$._type_query_subscript_expression, $.subscript_expression],
       [$._type_query_subscript_expression, $.primary_expression],
@@ -58,10 +59,11 @@ module.exports = function defineGrammar(dialect) {
       [$.decorator_call_expression, $.decorator],
       [$.literal_type, $.pattern],
       [$.predefined_type, $.pattern],
-      [$._primary_type, $._type_query_subscript_expression],
-      [$.nested_type_identifier, $._type_query_member_expression],
-      [$.nested_identifier, $._type_query_member_expression],
-      [$.generic_type, $._type_query_instantiation_expression],
+      [$.call_expression, $._type_query_call_expression],
+      [$.call_expression, $._type_query_call_expression_in_type_annotation],
+      [$.new_expression, $.primary_expression],
+      [$.meta_property, $.primary_expression],
+      [$.construct_signature, $._property_name],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -635,11 +637,35 @@ module.exports = function defineGrammar(dialect) {
         ':',
         choice(
           $._type,
-          alias($._type_query_subscript_expression, $.subscript_expression),
-          alias($._type_query_member_expression, $.member_expression),
-          alias($._type_query_call_expression, $.call_expression),
-          alias($._type_query_instantiation_expression, $.instantiation_expression),
+          alias($._type_query_member_expression_in_type_annotation, $.member_expression),
+          alias($._type_query_call_expression_in_type_annotation, $.call_expression),
         )
+      ),
+
+      // Oh boy
+      // The issue is these special type queries need a lower relative precedence than the normal ones,
+      // since these are used in type annotations whereas the other ones are used where `typeof` is
+      // required beforehand. This allows for parsing of annotations such as
+      // foo: import('x').y.z;
+      // but was a nightmare to get working.
+      _type_query_member_expression_in_type_annotation: $ => seq(
+        field('object', choice(
+          $.import,
+          alias($._type_query_member_expression_in_type_annotation, $.member_expression),
+          alias($._type_query_call_expression_in_type_annotation, $.call_expression)
+        )),
+        '.',
+        field('property', choice(
+          $.private_property_identifier,
+          alias($.identifier, $.property_identifier)
+        ))
+      ),
+      _type_query_call_expression_in_type_annotation: $ => seq(
+        field('function', choice(
+          $.import,
+          alias($._type_query_member_expression_in_type_annotation, $.member_expression),
+        )),
+        field('arguments', $.arguments)
       ),
 
       asserts: $ => seq(
@@ -880,7 +906,14 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       type_arguments: $ => seq(
-        '<', commaSep1($._type), optional(','), '>'
+        '<',
+        commaSep1(choice(
+          $._type,
+          alias($._type_query_member_expression_in_type_annotation, $.member_expression),
+          alias($._type_query_call_expression_in_type_annotation, $.call_expression)
+        )),
+        optional(','),
+        '>'
       ),
 
       object_type: $ => seq(
