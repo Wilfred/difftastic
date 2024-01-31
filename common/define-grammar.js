@@ -1,5 +1,7 @@
+const JavaScript = require('tree-sitter-javascript/grammar');
+
 module.exports = function defineGrammar(dialect) {
-  return grammar(require('tree-sitter-javascript/grammar'), {
+  return grammar(JavaScript, {
     name: dialect,
 
     externals: ($, previous) => previous.concat([
@@ -257,14 +259,14 @@ module.exports = function defineGrammar(dialect) {
         '/>'
       )),
 
-      export_specifier: ($, previous) => seq(
+      export_specifier: (_, previous) => seq(
         optional(choice('type', 'typeof')),
         previous
       ),
 
       _import_identifier: $ => choice($.identifier, alias('type', $.identifier)),
 
-      import_specifier: ($, previous) => seq(
+      import_specifier: $ => seq(
         optional(choice('type', 'typeof')),
         choice(
           field('name', $._import_identifier),
@@ -275,7 +277,7 @@ module.exports = function defineGrammar(dialect) {
           ),
         )),
 
-      import_clause: ($, previous) => choice(
+      import_clause: $ => choice(
         $.namespace_import,
         $.named_imports,
         seq(
@@ -352,7 +354,7 @@ module.exports = function defineGrammar(dialect) {
         $._call_signature
       ),
 
-      parenthesized_expression: ($, previous) => seq(
+      parenthesized_expression: $ => seq(
         '(',
         choice(
           seq($.expression, field('type', optional($.type_annotation))),
@@ -400,7 +402,7 @@ module.exports = function defineGrammar(dialect) {
               $.public_field_definition
             ),
             choice($._semicolon, ',')
-          )
+          ),
         )),
         '}'
       ),
@@ -601,7 +603,7 @@ module.exports = function defineGrammar(dialect) {
         $._semicolon
       ),
 
-      accessibility_modifier: $ => choice(
+      accessibility_modifier: _ => choice(
         'public',
         'private',
         'protected'
@@ -883,15 +885,13 @@ module.exports = function defineGrammar(dialect) {
         field('argument', $.number)
       )),
 
-      existential_type: $ => '*',
+      existential_type: _ => '*',
 
       flow_maybe_type: $ => prec.right(seq('?', $._primary_type)),
 
-      parenthesized_type: $ => seq(
-        '(', $._type, ')'
-      ),
+      parenthesized_type: $ => seq('(', $._type, ')'),
 
-      predefined_type: $ => choice(
+      predefined_type: _ => choice(
         'any',
         'number',
         'boolean',
