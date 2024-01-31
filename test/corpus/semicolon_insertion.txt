@@ -276,8 +276,8 @@ let d
 
 (program
   (lexical_declaration
-    (variable_declarator (identifier))
-    (comment))
+    (variable_declarator (identifier)))
+  (comment)
   (comment)
   (lexical_declaration
     (variable_declarator (identifier))
