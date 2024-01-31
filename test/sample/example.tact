@@ -3,7 +3,7 @@ import "@stdlib/ownable";
 struct SampleStruct {
     message: Int?;
 }
-const GLOBAL_CONSTANT: map<Int, Name> = 5;
+const GLOBAL_CONSTANT: map<Int, SampleStruct> = 5;
 
 @name(store_uint)
 native storeUint(s: Builder, value: Int, bits: Int): Builder;
@@ -38,6 +38,6 @@ contract MyContract with MyTrait, Ownable? {
     }
     bounced(msg: MyMessage) {}
     external() {}
-    receive() {}
+    receive(self: Int) { self.toString(); }
     virtual fun overrideMe() {}
 }

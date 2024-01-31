@@ -186,7 +186,7 @@
     "coins" "remaining" "bytes32" "bytes64"))
 
 ((type_identifier) @type.builtin
-  (#any-of? @type.builtin 
+  (#any-of? @type.builtin
     "Address" "Bool" "Builder" "Cell" "Int" "Slice" "String" "StringBuilder"))
 
 (map_type
@@ -208,8 +208,14 @@
 
 (type_identifier) @type
 
+; constructor
+; -----------
+
 (instance_expression
-  name: (identifier) @type)
+  name: (identifier) @constructor)
+
+(initOf
+  name: (identifier) @constructor)
 
 ; operator
 ; --------

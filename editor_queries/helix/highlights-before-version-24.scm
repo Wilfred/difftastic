@@ -1,6 +1,5 @@
-; NOTE: Order of highlight queries matters, as Tree-sitter uses the first it finds.
-; NOTE: Therefore, narrow highlight queries should be placed before broad captures.
-; ---------------------------------------------------------------------------------
+; See: https://docs.helix-editor.com/master/themes.html#syntax-highlighting
+; -------------------------------------------------------------------------
 
 ; attribute
 ; ---------
@@ -10,10 +9,16 @@
   "@interface"
 ] @attribute
 
-; comment
-; -------
+; comment.line
+; ------------
 
-(comment) @comment
+((comment) @comment.line
+  (#match? @comment.line "^//"))
+
+; comment.block
+; -------------
+
+(comment) @comment.block
 
 ; function.builtin
 ; ----------------
@@ -58,46 +63,76 @@
 (function
   name: (identifier) @function.method)
 
+; keyword.control.conditional
+; ---------------------------
+
+[
+  "if" "else"
+] @keyword.control.conditional
+
+; keyword.control.repeat
+; ----------------------
+
+[
+  "while" "repeat" "do" "until"
+] @keyword.control.repeat
+
+; keyword.control.import
+; ----------------------
+
+"import" @keyword.control.import
+
+; keyword.control.return
+; ----------------------
+
+"return" @keyword.control.return
+
+; keyword.operator
+; ----------------
+
+"initOf" @keyword.operator
+
+; keyword.directive
+; -----------------
+
+"primitive" @keyword.directive
+
+; keyword.function
+; ----------------
+
+[
+  "fun"
+  "native"
+] @keyword.function
+
+; keyword.storage.type
+; --------------------
+
+[
+  "contract" "trait" "struct" "message" "with"
+  "const" "let"
+] @keyword.storage.type
+
+; keyword.storage.modifier
+; ------------------------
+
+[
+  "get" "mutates" "extends" "virtual" "override" "inline" "abstract"
+] @keyword.storage.modifier
+
 ; keyword
 ; -------
 
 [
-  "get" "mutates" "extends" "virtual" "override" "inline" "abstract"
-  "contract" "trait" "struct" "message" "with"
-  "const" "let" "fun" "native"
-  "primitive" "import"
-  "if" "else" "while" "repeat" "do" "until"
-  "return" "initOf"
+  "with"
   ; "public" ; -- not used, but declared in grammar.ohm
   ; "extend" ; -- not used, but declared in grammar.ohm
 ] @keyword
 
-; number
-; ------
+; constant.builtin.boolean
+; ------------------------
 
-(integer) @number
-
-; property
-; --------
-
-(field
-  name: (identifier) @property)
-
-(contract_body
-  (constant
-    name: (identifier) @property))
-
-(trait_body
-  (constant
-    name: (identifier) @property))
-
-(field_access_expression
-  name: (identifier) @property)
-
-(lvalue (_) (_) @property)
-
-(instance_argument
-  name: (identifier) @property)
+(boolean) @constant.builtin.boolean
 
 ; constant.builtin
 ; ----------------
@@ -107,10 +142,12 @@
     "^(SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance)$")
   (#is-not? local))
 
-[
-  (boolean)
-  (null)
-] @constant.builtin
+(null) @constant.builtin
+
+; constant.numeric.integer
+; ------------------------
+
+(integer) @constant.numeric.integer
 
 ; constant
 ; --------
@@ -154,14 +191,8 @@
 
 (type_identifier) @type
 
-; constructor
-; -----------
-
 (instance_expression
-  name: (identifier) @constructor)
-
-(initOf
-  name: (identifier) @constructor)
+  name: (identifier) @type)
 
 ; operator
 ; --------
@@ -198,6 +229,28 @@
   ":"
   "?"
 ] @punctuation.delimiter
+
+; variable.other.member
+; ---------------------
+
+(field
+  name: (identifier) @variable.other.member)
+
+(contract_body
+  (constant
+    name: (identifier) @variable.other.member))
+
+(trait_body
+  (constant
+    name: (identifier) @variable.other.member))
+
+(field_access_expression
+  name: (identifier) @variable.other.member)
+
+(lvalue (_) (_) @variable.other.member)
+
+(instance_argument
+  name: (identifier) @variable.other.member)
 
 ; variable.parameter
 ; ------------------
