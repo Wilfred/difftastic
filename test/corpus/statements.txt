@@ -73,6 +73,9 @@ import { member1 , member2 as alias2, } from "module-name";
 import("a");
 import("a").then((m) => {});
 import.meta.url;
+import { b } from
+'b'; /* comment */ import
+ { a } from 'a';
 
 ----
 
@@ -179,7 +182,22 @@ import.meta.url;
       (member_expression
         (import)
         (property_identifier))
-      (property_identifier))))
+      (property_identifier)))
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
+  (comment)
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment))))
 
 ============================================
 Exports
@@ -364,6 +382,8 @@ if (a.b) {
   d;
 }
 
+if (n-->0){}
+
 ----
 
 (program
@@ -387,7 +407,14 @@ if (a.b) {
           arguments: (arguments
             (identifier))))
       (expression_statement
-        (identifier)))))
+        (identifier))))
+  (if_statement
+    condition: (parenthesized_expression
+      (binary_expression
+        left: (update_expression
+          argument: (identifier))
+        right: (number)))
+    consequence: (statement_block)))
 
 ============================================
 If-else statements
@@ -452,6 +479,8 @@ for (var i = 0
   ; i++) {
 }
 
+for (let in {});
+
 ---
 
 (program
@@ -504,7 +533,11 @@ for (var i = 0
         right: (identifier)))
     increment: (update_expression
       argument: (identifier))
-    body: (statement_block)))
+    body: (statement_block))
+  (for_in_statement
+    left: (identifier)
+    right: (object)
+    body: (empty_statement)))
 
 ============================================
 For-in statements
@@ -859,6 +892,10 @@ var thing = {
   }
 };
 
+let foo = bar
+  // this is a comment
+  ? 'baz' : 'thud';
+
 ---
 
 (program
@@ -886,7 +923,17 @@ var thing = {
               (expression_statement
                 (call_expression
                   (identifier)
-                  (arguments))))))))))
+                  (arguments)))))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (ternary_expression
+        (identifier)
+        (comment)
+        (string
+          (string_fragment))
+        (string
+          (string_fragment))))))
 
 ============================================
 Comments with asterisks
@@ -905,6 +952,14 @@ const c = 1;
 
 ***/
 const d = 1;
+
+class E {
+    f() {
+    } /*** com
+    ment ***/
+    g() {
+    }
+}
 
 ---
 
@@ -928,7 +983,19 @@ const d = 1;
   (lexical_declaration
     (variable_declarator
       (identifier)
-      (number))))
+      (number)))
+  (class_declaration
+    (identifier)
+    (class_body
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block))
+      (comment)
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block)))))
 
 ==========================================
 Comments within expressions

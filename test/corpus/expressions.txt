@@ -539,6 +539,8 @@ class Foo extends require('another-class') {
   }
 }
 
+class A{;}
+
 ---
 
 (program
@@ -628,7 +630,10 @@ class Foo extends require('another-class') {
               (member_expression
                 (super)
                 (property_identifier))
-              (arguments))))))))
+              (arguments)))))))
+  (class_declaration
+    (identifier)
+    (class_body)))
 
 ============================================
 Classes with reserved words as methods
@@ -1325,6 +1330,7 @@ i + j * 3 - j % 5;
 2 ** i ** 3;
 +x;
 -x;
+let + 5;
 
 ---
 
@@ -1368,7 +1374,11 @@ i + j * 3 - j % 5;
       (identifier)))
   (expression_statement
     (unary_expression
-      (identifier))))
+      (identifier)))
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (number))))
 
 ============================================
 Boolean operators
