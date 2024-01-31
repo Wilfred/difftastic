@@ -662,7 +662,10 @@ mod tests {
     #[test]
     fn test_guess_by_xml_header() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "<?xml version=\"1.0\" encoding=\"utf-8\"?>", &[]), Some(Xml));
+        assert_eq!(
+            guess(path, "<?xml version=\"1.0\" encoding=\"utf-8\"?>", &[]),
+            Some(Xml)
+        );
     }
 
     #[test]
