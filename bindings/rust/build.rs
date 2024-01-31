@@ -6,7 +6,8 @@ fn main() {
     c_config
         .flag_if_supported("-Wno-unused-parameter")
         .flag_if_supported("-Wno-unused-but-set-variable")
-        .flag_if_supported("-Wno-trigraphs");
+        .flag_if_supported("-Wno-trigraphs")
+        .flag_if_supported("-utf-8");
     let parser_path = src_dir.join("parser.c");
     c_config.file(&parser_path);
 
