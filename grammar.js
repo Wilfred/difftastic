@@ -902,11 +902,7 @@ module.exports = grammar({
       ),
     )),
 
-    sequence_expression: $ => seq(
-      field('left', $.expression),
-      ',',
-      field('right', choice($.sequence_expression, $.expression)),
-    ),
+    sequence_expression: $ => prec.right(commaSep1($.expression)),
 
     //
     // Primitives
