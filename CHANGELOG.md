@@ -6,6 +6,9 @@ Added support for Objective-C and VHDL.
 
 Files starting with `<?xml` are now parsed as XML.
 
+Fixed a `munmap_chunk(): invalid pointer` crash on parsing some
+large files, particularly JSON.
+
 ### Display
 
 The default display width for tabs has changed to 4.
