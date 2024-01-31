@@ -973,7 +973,7 @@ module.exports = grammar({
     template_string: $ => seq(
       '`',
       repeat(choice(
-        $._template_chars,
+        alias($._template_chars, $.string_fragment),
         $.escape_sequence,
         $.template_substitution,
       )),
