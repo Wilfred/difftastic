@@ -118,6 +118,12 @@
 (constant
   name: (identifier) @constant)
 
+; string.special.path
+; -------------------
+
+(import_statement
+  library: (string) @string.special.path)
+
 ; string
 ; ------
 

@@ -34,6 +34,7 @@ contract MyContract with MyTrait, Ownable? {
     d: StringBuilder;
 
     init(owner: Address) {
+        "Hello, Tact!";
         self.owner = owner;
     }
     bounced(msg: MyMessage) {}

@@ -191,8 +191,14 @@
 
 (type_identifier) @type
 
+; constructor
+; -----------
+
 (instance_expression
-  name: (identifier) @type)
+  name: (identifier) @constructor)
+
+(initOf
+  name: (identifier) @constructor)
 
 ; operator
 ; --------
