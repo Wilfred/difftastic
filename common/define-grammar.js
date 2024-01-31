@@ -70,7 +70,6 @@ module.exports = function defineGrammar(dialect) {
       [$.call_expression, $.instantiation_expression, $.binary_expression],
       [$.call_expression, $.instantiation_expression, $.binary_expression, $.unary_expression],
       [$.call_expression, $.instantiation_expression, $.binary_expression, $.update_expression],
-      [$.call_expression, $.binary_expression, $.type_assertion],
       [$.call_expression, $.instantiation_expression, $.binary_expression, $.await_expression],
 
       // This appears to be necessary to parse a parenthesized class expression
@@ -78,52 +77,34 @@ module.exports = function defineGrammar(dialect) {
 
       [$.nested_identifier, $.nested_type_identifier, $.primary_expression],
       [$.nested_identifier, $.nested_type_identifier],
-      [$.nested_identifier, $.member_expression],
-
-      [$.primary_expression, $.array_type],
-      [$.primary_expression, $.array_type, $.tuple_type],
 
       [$._call_signature, $.function_type],
       [$._call_signature, $.constructor_type],
 
       [$._primary_type, $.type_parameter],
       [$.jsx_opening_element, $.type_parameter],
-      [$.jsx_opening_element, $.type_parameter, $._primary_type],
-      [$.jsx_opening_element, $.generic_type],
       [$.jsx_namespace_name, $._primary_type],
 
       [$.primary_expression, $._parameter_name],
-      [$.primary_expression, $._parameter_name, $.predefined_type],
       [$.primary_expression, $._parameter_name, $._primary_type],
-      [$.primary_expression, $._parameter_name, $.array_type, $.tuple_type],
       [$.primary_expression, $.literal_type],
-      [$.primary_expression, $.literal_type, $.pattern],
       [$.primary_expression, $.literal_type, $.rest_pattern],
       [$.primary_expression, $.predefined_type, $.rest_pattern],
       [$.primary_expression, $._primary_type],
       [$.primary_expression, $.generic_type],
       [$.primary_expression, $.predefined_type],
       [$.primary_expression, $.pattern, $._primary_type],
-      [$.primary_expression, $.pattern, $.predefined_type],
-      [$._parameter_name, $.predefined_type],
       [$._parameter_name, $._primary_type],
-      [$._parameter_name, $.assignment_expression],
-      [$._parameter_name, $.pattern],
       [$.pattern, $._primary_type],
-      [$.pattern, $.predefined_type],
 
       [$.optional_tuple_parameter, $._primary_type],
-      [$.optional_tuple_parameter, $._primary_type, $.primary_expression],
       [$.rest_pattern, $._primary_type, $.primary_expression],
-      [$.rest_pattern, $._primary_type],
 
       [$.object, $.object_type],
-      [$.object, $._property_name],
       [$.object, $.object_pattern, $.object_type],
       [$.object, $.object_pattern, $._property_name],
       [$.object_pattern, $.object_type],
       [$.object_pattern, $.object_type],
-      [$.object_pattern, $._property_name],
 
       [$.array, $.tuple_type],
       [$.array, $.array_pattern, $.tuple_type],
