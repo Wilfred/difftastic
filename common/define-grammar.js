@@ -181,6 +181,13 @@ module.exports = function defineGrammar(dialect) {
         field('arguments', optional($.arguments))
       )),
 
+      assignment_expression: $ => prec.right('assign', seq(
+        optional('using'),
+        field('left', choice($.parenthesized_expression, $._lhs_expression)),
+        '=',
+        field('right', $.expression),
+      )),
+
       _augmented_assignment_lhs: ($, previous) => choice(previous, $.non_null_expression),
 
       _lhs_expression: ($, previous) => choice(previous, $.non_null_expression),
