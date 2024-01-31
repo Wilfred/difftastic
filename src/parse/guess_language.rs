@@ -416,6 +416,10 @@ fn looks_like_objc(path: &Path, src: &str) -> bool {
     false
 }
 
+fn looks_like_xml(src: &str) -> bool {
+    src.starts_with("<?xml")
+}
+
 pub(crate) fn guess(
     path: &Path,
     src: &str,
@@ -456,6 +460,10 @@ pub(crate) fn guess(
 
     if let Some(lang) = from_glob(path) {
         return Some(lang);
+    }
+
+    if looks_like_xml(src) {
+        return Some(Language::Xml);
     }
 
     None
@@ -649,6 +657,12 @@ mod tests {
     fn test_guess_by_emacs_mode_shorthand_no_spaces() {
         let path = Path::new("foo");
         assert_eq!(guess(path, "# -*-python-*-", &[]), Some(Python));
+    }
+
+    #[test]
+    fn test_guess_by_xml_header() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "<?xml version=\"1.0\" encoding=\"utf-8\"?>", &[]), Some(Xml));
     }
 
     #[test]
