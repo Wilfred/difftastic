@@ -1120,6 +1120,7 @@ module.exports = grammar({
         seq(field('member', $.field_definition), $._semicolon),
         field('member', $.class_static_block),
         field('template', $.glimmer_template),
+        ';',
       )),
       '}',
     ),
