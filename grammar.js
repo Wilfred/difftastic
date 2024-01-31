@@ -497,7 +497,7 @@ module.exports = grammar({
       $.import,
       $.object,
       $.array,
-      $.function,
+      $.function_expression,
       $.arrow_function,
       $.generator_function,
       $.class,
@@ -701,7 +701,7 @@ module.exports = grammar({
 
     class_heritage: $ => seq('extends', $.expression),
 
-    function: $ => prec('literal', seq(
+    function_expression: $ => prec('literal', seq(
       optional('async'),
       'function',
       field('name', optional($.identifier)),
