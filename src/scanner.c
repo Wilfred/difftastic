@@ -30,7 +30,9 @@ static bool scan_template_chars(TSLexer *lexer) {
         return false;
       case '$':
         advance(lexer);
-        if (lexer->lookahead == '{') return has_content;
+        if (lexer->lookahead == '{') {
+          return has_content;
+        }
         break;
       case '\\':
         return has_content;
@@ -79,21 +81,39 @@ static bool scan_whitespace_and_comments(TSLexer *lexer, bool* scanned_comment) 
   }
 }
 
-static bool scan_automatic_semicolon(TSLexer *lexer, bool* scanned_comment) {
+static bool scan_automatic_semicolon(TSLexer *lexer, bool comment_condition, bool* scanned_comment) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
   lexer->mark_end(lexer);
 
   for (;;) {
-    if (lexer->lookahead == 0) return true;
+    if (lexer->lookahead == 0) { return true;
+}
+
     if (lexer->lookahead == '/') {
       if (!scan_whitespace_and_comments(lexer, scanned_comment)) {
         return false;
       }
+      if (comment_condition && lexer->lookahead != ',') {
+        return true;
+      }
     }
-    if (lexer->lookahead == '}') return true;
-    if (lexer->is_at_included_range_start(lexer)) return true;
-    if (lexer->lookahead == '\n' || lexer->lookahead == 0x2028 || lexer->lookahead == 0x2029) break;
-    if (!iswspace(lexer->lookahead)) return false;
+
+    if (lexer->lookahead == '}') {
+      return true;
+    }
+
+    if (lexer->is_at_included_range_start(lexer)) {
+      return true;
+    }
+
+    if (lexer->lookahead == '\n' || lexer->lookahead == 0x2028 || lexer->lookahead == 0x2029) {
+      break;
+    }
+
+    if (!iswspace(lexer->lookahead)) {
+      return false;
+    }
+
     skip(lexer);
   }
 
@@ -140,17 +160,28 @@ static bool scan_automatic_semicolon(TSLexer *lexer, bool* scanned_comment) {
     case 'i':
       skip(lexer);
 
-      if (lexer->lookahead != 'n') return true;
+      if (lexer->lookahead != 'n') {
+        return true;
+      }
       skip(lexer);
 
-      if (!iswalpha(lexer->lookahead)) return false;
+      if (!iswalpha(lexer->lookahead)) {
+        return false;
+      }
 
       for (unsigned i = 0; i < 8; i++) {
-        if (lexer->lookahead != "stanceof"[i]) return true;
+        if (lexer->lookahead != "stanceof"[i]) {
+          return true;
+        }
         skip(lexer);
       }
 
-      if (!iswalpha(lexer->lookahead)) return false;
+      if (!iswalpha(lexer->lookahead)) {
+        return false;
+      }
+      break;
+
+    default:
       break;
   }
 
@@ -159,21 +190,27 @@ static bool scan_automatic_semicolon(TSLexer *lexer, bool* scanned_comment) {
 
 static bool scan_ternary_qmark(TSLexer *lexer) {
   for(;;) {
-    if (!iswspace(lexer->lookahead)) break;
+    if (!iswspace(lexer->lookahead)) {
+      break;
+    }
     skip(lexer);
   }
 
   if (lexer->lookahead == '?') {
     advance(lexer);
 
-    if (lexer->lookahead == '?') return false;
+    if (lexer->lookahead == '?') {
+      return false;
+    }
 
     lexer->mark_end(lexer);
     lexer->result_symbol = TERNARY_QMARK;
 
     if (lexer->lookahead == '.') {
       advance(lexer);
-      if (iswdigit(lexer->lookahead)) return true;
+      if (iswdigit(lexer->lookahead)) {
+        return true;
+      }
       return false;
     }
     return true;
@@ -223,15 +260,22 @@ static bool scan_closing_comment(TSLexer *lexer) {
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
   if (valid_symbols[TEMPLATE_CHARS]) {
-    if (valid_symbols[AUTOMATIC_SEMICOLON]) return false;
+    if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+      return false;
+    }
     return scan_template_chars(lexer);
-  } else if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+  }
+
+  if (valid_symbols[AUTOMATIC_SEMICOLON]) {
     bool scanned_comment = false;
-    bool ret = scan_automatic_semicolon(lexer, &scanned_comment);
-    if (!ret && !scanned_comment && valid_symbols[TERNARY_QMARK] && lexer->lookahead == '?')
+    bool newline_after_comment = false;
+    bool ret = scan_automatic_semicolon(lexer, !valid_symbols[LOGICAL_OR], &scanned_comment);
+    if (!ret && !scanned_comment && valid_symbols[TERNARY_QMARK] && lexer->lookahead == '?') {
       return scan_ternary_qmark(lexer);
+    }
     return ret;
   }
+
   if (valid_symbols[TERNARY_QMARK]) {
     return scan_ternary_qmark(lexer);
   }
