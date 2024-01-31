@@ -709,7 +709,8 @@ module.exports = function defineGrammar(dialect) {
         $.conditional_type,
         $.template_literal_type,
         $.intersection_type,
-        $.union_type
+        $.union_type,
+        'const',
       ),
 
       template_type: $ => seq('${', choice($._primary_type, $.infer_type), '}'),
