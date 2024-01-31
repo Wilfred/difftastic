@@ -17,8 +17,8 @@ A fully-featured 🌳 [Tree-sitter](https://github.com/tree-sitter/tree-sitter) 
 
 Installation assumes you're using `lazy.nvim` as a package manager:
 
-<spoiler>
-<details>Instructions</details>
+<details>
+<summary>Instructions</summary>
 
 1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
 
@@ -87,7 +87,7 @@ vim.filetype.add({
 * [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
 * [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context)
 
-</spoiler>
+</details>
 
 Queries bundled (see `editor_queries/neovim`):
 * `highlights.scm` — syntax highlighting
@@ -104,8 +104,8 @@ Parser and queries are bundled with Helix starting with any version past 23.10.
 
 For versions prior or equal to 23.10, do the following:
 
-<spoiler>
-<details>Instructions</details>
+<details>
+<summary>Instructions</summary>
 
 1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
 
@@ -142,7 +142,7 @@ name = "tact"
 source = { git = "https://github.com/tact-lang/tree-sitter-tact", rev = "b9737e85af19b8dafd137dc5f17ec5d5195b5ea9" }
 ```
 
-</spoiler>
+</details>
 
 Queries bundled (see `editor_queries/helix`):
 * `highlights.scm` — syntax highlighting
