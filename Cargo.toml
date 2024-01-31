@@ -1,10 +1,11 @@
 [package]
 name = "tree-sitter-javascript"
 description = "JavaScript grammar for tree-sitter"
-version = "0.20.1"
+version = "0.20.2"
 authors = [
-    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
-    "Douglas Creager <dcreager@dcreager.net>",
+	"Max Brunsfeld <maxbrunsfeld@gmail.com>",
+	"Douglas Creager <dcreager@dcreager.net>",
+	"Amaan Qureshi <amaanq12@gmail.com>",
 ]
 license = "MIT"
 readme = "bindings/rust/README.md"
@@ -15,12 +16,7 @@ edition = "2021"
 autoexamples = false
 
 build = "bindings/rust/build.rs"
-include = [
-  "bindings/rust/*",
-  "grammar.js",
-  "queries/*",
-  "src/*",
-]
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 
 [lib]
 path = "bindings/rust/lib.rs"
