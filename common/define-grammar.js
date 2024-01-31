@@ -348,6 +348,7 @@ module.exports = function defineGrammar(dialect) {
       abstract_method_signature: $ => seq(
         optional($.accessibility_modifier),
         'abstract',
+        optional($.override_modifier),
         optional(choice('get', 'set', '*')),
         field('name', $._property_name),
         optional('?'),
