@@ -17,10 +17,16 @@ module.exports = grammar({
     $._automatic_semicolon,
     $._template_chars,
     $._ternary_qmark,
+    $.html_comment,
+    '||',
+    // We use escape sequence to tell the scanner if we're currently inside a string or template string, in which case
+    // it should NOT parse html comments.
+    $.escape_sequence,
   ],
 
   extras: $ => [
     $.comment,
+    $.html_comment,
     /[\s\p{Zs}\uFEFF\u2028\u2029\u2060\u200B]/,
   ],
 
@@ -953,25 +959,16 @@ module.exports = grammar({
     )),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    comment: _ => token(choice(
-      seq('//', /.*/),
-      seq(
-        '/*',
-        /[^*]*\*+([^/*][^*]*\*+)*/,
-        '/',
-      ),
-      // https://tc39.es/ecma262/#sec-html-like-comments
-      seq('<!--', /.*/),
-      // This allows code to exist before this token on the same line.
-      //
-      // Technically, --> is supposed to have nothing before it on the same line
-      // except for comments and whitespace, but that is difficult to express,
-      // and in general tree sitter grammars tend to prefer to be overly
-      // permissive anyway.
-      //
-      // This approach does not appear to cause problems in practice.
-      seq('-->', /.*/),
-    )),
+    comment: $ => choice(
+      token(choice(
+        seq('//', /.*/),
+        seq(
+          '/*',
+          /[^*]*\*+([^/*][^*]*\*+)*/,
+          '/',
+        ),
+      )),
+    ),
 
     template_string: $ => seq(
       '`',

@@ -5,6 +5,9 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
   TEMPLATE_CHARS,
   TERNARY_QMARK,
+  HTML_COMMENT,
+  LOGICAL_OR,
+  ESCAPE_SEQUENCE,
 };
 
 void *tree_sitter_javascript_external_scanner_create() { return NULL; }
@@ -169,6 +172,45 @@ static bool scan_ternary_qmark(TSLexer *lexer) {
   return false;
 }
 
+
+static bool scan_closing_comment(TSLexer *lexer) {
+
+  while (iswspace(lexer->lookahead) || lexer->lookahead == 0x2028 || lexer->lookahead == 0x2029) {
+    skip(lexer);
+  }
+
+  const char* comment_start = "<!--";
+  const char* comment_end = "-->";
+
+  if (lexer->lookahead == '<') {
+    for (unsigned i = 0; i < 4; i++) {
+      if (lexer->lookahead != comment_start[i]) {
+        return false;
+      }
+      advance(lexer);
+    }
+  } else if (lexer->lookahead == '-') {
+    for (unsigned i = 0; i < 3; i++) {
+      if (lexer->lookahead != comment_end[i]) {
+        return false;
+      }
+      advance(lexer);
+    }
+  } else {
+    return false;
+  }
+
+  while (lexer->lookahead != 0 && lexer->lookahead != '\n' &&
+         lexer->lookahead != 0x2028 && lexer->lookahead != 0x2029) {
+    advance(lexer);
+  }
+
+  lexer->result_symbol = HTML_COMMENT;
+  lexer->mark_end(lexer);
+
+  return true;
+}
+
 bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
   if (valid_symbols[TEMPLATE_CHARS]) {
@@ -182,6 +224,10 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
   }
   if (valid_symbols[TERNARY_QMARK]) {
     return scan_ternary_qmark(lexer);
+  }
+
+  if (valid_symbols[HTML_COMMENT] && !valid_symbols[LOGICAL_OR] && !valid_symbols[ESCAPE_SEQUENCE]) {
+    return scan_closing_comment(lexer);
   }
 
   return false;
