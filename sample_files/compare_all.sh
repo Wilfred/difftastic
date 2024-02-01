@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Run difftastic on all the sample files, so we can see if any output
 # has been changed.

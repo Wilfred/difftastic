@@ -1,0 +1,1 @@
+../tree-sitter-smali/queries/highlights.scm
