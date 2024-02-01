@@ -20,7 +20,8 @@
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "tree-sitter-c": "^0.20.7",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.20.8",
+    "node-gyp": "^10.0.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
