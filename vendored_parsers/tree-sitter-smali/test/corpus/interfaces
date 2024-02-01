@@ -1,0 +1,144 @@
+========================================================================
+Test an empty interface
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier)
+      (access_modifier)
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string)))
+
+
+
+========================================================================
+Test an empty interface that extends another interface
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.implements LD/EF;
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier)
+      (access_modifier)
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (implements_directive
+    (class_identifier
+      (identifier)
+      (identifier))))
+
+
+
+========================================================================
+Test an interface with one method
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public abstract action()V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier)
+      (access_modifier)
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (primitive_type))))
+
+
+
+========================================================================
+Test an interface with one method with parameters and return value
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public abstract action(LD/EF;I)LD/EF;
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier)
+      (access_modifier)
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (parameters
+        (class_identifier
+          (identifier)
+          (identifier))
+        (primitive_type))
+      (class_identifier
+        (identifier)
+        (identifier)))))

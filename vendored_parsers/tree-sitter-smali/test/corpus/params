@@ -1,0 +1,121 @@
+========================================================================
+Test a simple param
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public simple()V
+	.param p1
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (primitive_type))
+    (param_directive
+      (parameter))))
+
+
+
+========================================================================
+Test a simple param block
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public simple()V
+	.param p1
+  .end param
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (primitive_type))
+    (param_directive
+      (parameter))))
+
+
+
+========================================================================
+Test a param block with an empty annotation
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public simple()V
+	.param p1
+    .annotation build Landroidx/annotation/RecentlyNonNull;
+    .end annotation
+  .end param
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (primitive_type))
+    (param_directive
+      (parameter)
+      (annotation_directive
+        (annotation_visibility)
+        (class_identifier
+          (identifier)
+          (identifier)
+          (identifier))))))

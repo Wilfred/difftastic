@@ -1,0 +1,24 @@
+[package]
+name = "tree-sitter-smali"
+description = "Smali grammar for tree-sitter"
+version = "1.0.0"
+authors = ["Yotam Nachum <me@yotam.net>", "Amaan Qureshi <amaanq12@gmail.com>"]
+license = "MIT"
+readme = "bindings/rust/README.md"
+keywords = ["incremental", "parsing", "smali"]
+categories = ["parsing", "text-editors"]
+repository = "https://git.sr.ht/~yotam/tree-sitter-smali"
+edition = "2021"
+autoexamples = false
+
+build = "bindings/rust/build.rs"
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "~0.20.10"
+
+[build-dependencies]
+cc = "1.0"

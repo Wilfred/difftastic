@@ -1,0 +1,2560 @@
+[
+  {
+    "type": "directive",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_data_directive",
+        "named": true
+      },
+      {
+        "type": "catch_directive",
+        "named": true
+      },
+      {
+        "type": "catchall_directive",
+        "named": true
+      },
+      {
+        "type": "end_local_directive",
+        "named": true
+      },
+      {
+        "type": "epilogue_directive",
+        "named": true
+      },
+      {
+        "type": "line_directive",
+        "named": true
+      },
+      {
+        "type": "local_directive",
+        "named": true
+      },
+      {
+        "type": "locals_directive",
+        "named": true
+      },
+      {
+        "type": "packed_switch_directive",
+        "named": true
+      },
+      {
+        "type": "param_directive",
+        "named": true
+      },
+      {
+        "type": "parameter_directive",
+        "named": true
+      },
+      {
+        "type": "prologue_directive",
+        "named": true
+      },
+      {
+        "type": "registers_directive",
+        "named": true
+      },
+      {
+        "type": "restart_local_directive",
+        "named": true
+      },
+      {
+        "type": "source_directive",
+        "named": true
+      },
+      {
+        "type": "sparse_switch_directive",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "Infinity",
+        "named": true
+      },
+      {
+        "type": "NaN",
+        "named": true
+      },
+      {
+        "type": "boolean",
+        "named": true
+      },
+      {
+        "type": "character",
+        "named": true
+      },
+      {
+        "type": "float",
+        "named": true
+      },
+      {
+        "type": "null",
+        "named": true
+      },
+      {
+        "type": "number",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "register",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "parameter",
+        "named": true
+      },
+      {
+        "type": "variable",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "annotation_directive",
+        "named": true
+      },
+      {
+        "type": "directive",
+        "named": true
+      },
+      {
+        "type": "expression",
+        "named": true
+      },
+      {
+        "type": "jmp_label",
+        "named": true
+      },
+      {
+        "type": "label",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "type",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_type",
+        "named": true
+      },
+      {
+        "type": "class_identifier",
+        "named": true
+      },
+      {
+        "type": "primitive_type",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "value",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "body",
+        "named": true
+      },
+      {
+        "type": "custom_invoke",
+        "named": true
+      },
+      {
+        "type": "enum_reference",
+        "named": true
+      },
+      {
+        "type": "jmp_label",
+        "named": true
+      },
+      {
+        "type": "label",
+        "named": true
+      },
+      {
+        "type": "list",
+        "named": true
+      },
+      {
+        "type": "literal",
+        "named": true
+      },
+      {
+        "type": "method_handle",
+        "named": true
+      },
+      {
+        "type": "range",
+        "named": true
+      },
+      {
+        "type": "register",
+        "named": true
+      },
+      {
+        "type": "subannotation_directive",
+        "named": true
+      },
+      {
+        "type": "type",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "access_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "access_modifiers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_property",
+          "named": true
+        },
+        {
+          "type": "annotation_visibility",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_property",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_key",
+          "named": true
+        },
+        {
+          "type": "annotation_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "body",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "enum_reference",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "subannotation_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_visibility",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "array_data_directive",
+    "named": true,
+    "fields": {
+      "element_width": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "array_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "field_type",
+          "named": true
+        },
+        {
+          "type": "full_method_signature",
+          "named": true
+        },
+        {
+          "type": "method_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "boolean",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "catch_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "jmp_label",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "catchall_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "jmp_label",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "character",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_directive",
+          "named": true
+        },
+        {
+          "type": "class_directive",
+          "named": true
+        },
+        {
+          "type": "field_definition",
+          "named": true
+        },
+        {
+          "type": "implements_directive",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "source_directive",
+          "named": true
+        },
+        {
+          "type": "super_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_invoke",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "body",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "method_handle",
+          "named": true
+        },
+        {
+          "type": "method_signature",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "end_local_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "register",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "field_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "opcode",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
+        {
+          "type": "annotation_directive",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "field_type",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "full_method_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "method_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implements_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "jmp_label",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "label",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "line_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "local_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "register",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "locals_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "method_signature",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_handle",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "field_type",
+          "named": true
+        },
+        {
+          "type": "full_method_signature",
+          "named": true
+        },
+        {
+          "type": "opcode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "method_identifier",
+          "named": true
+        },
+        {
+          "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "opcode",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "packed_switch_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "jmp_label",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "param_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_directive",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "param_identifier",
+          "named": true
+        },
+        {
+          "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameter_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation_directive",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "primitive_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "range",
+    "named": true,
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "jmp_label",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "register",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "jmp_label",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "register",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "registers_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "restart_local_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "register",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sparse_switch_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subannotation_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_property",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "super_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\n",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": ".annotation",
+    "named": false
+  },
+  {
+    "type": ".array-data",
+    "named": false
+  },
+  {
+    "type": ".catch",
+    "named": false
+  },
+  {
+    "type": ".catchall",
+    "named": false
+  },
+  {
+    "type": ".class",
+    "named": false
+  },
+  {
+    "type": ".end annotation",
+    "named": false
+  },
+  {
+    "type": ".end array-data",
+    "named": false
+  },
+  {
+    "type": ".end field",
+    "named": false
+  },
+  {
+    "type": ".end local",
+    "named": false
+  },
+  {
+    "type": ".end method",
+    "named": false
+  },
+  {
+    "type": ".end packed-switch",
+    "named": false
+  },
+  {
+    "type": ".end param",
+    "named": false
+  },
+  {
+    "type": ".end parameter",
+    "named": false
+  },
+  {
+    "type": ".end sparse-switch",
+    "named": false
+  },
+  {
+    "type": ".end subannotation",
+    "named": false
+  },
+  {
+    "type": ".enum",
+    "named": false
+  },
+  {
+    "type": ".field",
+    "named": false
+  },
+  {
+    "type": ".implements",
+    "named": false
+  },
+  {
+    "type": ".line",
+    "named": false
+  },
+  {
+    "type": ".local",
+    "named": false
+  },
+  {
+    "type": ".locals",
+    "named": false
+  },
+  {
+    "type": ".method",
+    "named": false
+  },
+  {
+    "type": ".packed-switch",
+    "named": false
+  },
+  {
+    "type": ".param",
+    "named": false
+  },
+  {
+    "type": ".parameter",
+    "named": false
+  },
+  {
+    "type": ".registers",
+    "named": false
+  },
+  {
+    "type": ".restart local",
+    "named": false
+  },
+  {
+    "type": ".source",
+    "named": false
+  },
+  {
+    "type": ".sparse-switch",
+    "named": false
+  },
+  {
+    "type": ".subannotation",
+    "named": false
+  },
+  {
+    "type": ".super",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "Infinity",
+    "named": true
+  },
+  {
+    "type": "L",
+    "named": false
+  },
+  {
+    "type": "NaN",
+    "named": true
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "abstract",
+    "named": false
+  },
+  {
+    "type": "add-double",
+    "named": false
+  },
+  {
+    "type": "add-double/2addr",
+    "named": false
+  },
+  {
+    "type": "add-float",
+    "named": false
+  },
+  {
+    "type": "add-float/2addr",
+    "named": false
+  },
+  {
+    "type": "add-int",
+    "named": false
+  },
+  {
+    "type": "add-int/2addr",
+    "named": false
+  },
+  {
+    "type": "add-int/lit16",
+    "named": false
+  },
+  {
+    "type": "add-int/lit8",
+    "named": false
+  },
+  {
+    "type": "add-long",
+    "named": false
+  },
+  {
+    "type": "add-long/2addr",
+    "named": false
+  },
+  {
+    "type": "aget",
+    "named": false
+  },
+  {
+    "type": "aget-boolean",
+    "named": false
+  },
+  {
+    "type": "aget-byte",
+    "named": false
+  },
+  {
+    "type": "aget-char",
+    "named": false
+  },
+  {
+    "type": "aget-object",
+    "named": false
+  },
+  {
+    "type": "aget-short",
+    "named": false
+  },
+  {
+    "type": "aget-wide",
+    "named": false
+  },
+  {
+    "type": "and-int",
+    "named": false
+  },
+  {
+    "type": "and-int/2addr",
+    "named": false
+  },
+  {
+    "type": "and-int/lit16",
+    "named": false
+  },
+  {
+    "type": "and-int/lit8",
+    "named": false
+  },
+  {
+    "type": "and-long",
+    "named": false
+  },
+  {
+    "type": "and-long/2addr",
+    "named": false
+  },
+  {
+    "type": "annotation",
+    "named": false
+  },
+  {
+    "type": "annotation_key",
+    "named": true
+  },
+  {
+    "type": "aput",
+    "named": false
+  },
+  {
+    "type": "aput-boolean",
+    "named": false
+  },
+  {
+    "type": "aput-byte",
+    "named": false
+  },
+  {
+    "type": "aput-char",
+    "named": false
+  },
+  {
+    "type": "aput-object",
+    "named": false
+  },
+  {
+    "type": "aput-short",
+    "named": false
+  },
+  {
+    "type": "aput-wide",
+    "named": false
+  },
+  {
+    "type": "array-length",
+    "named": false
+  },
+  {
+    "type": "blacklist",
+    "named": false
+  },
+  {
+    "type": "bridge",
+    "named": false
+  },
+  {
+    "type": "build",
+    "named": false
+  },
+  {
+    "type": "check-cast",
+    "named": false
+  },
+  {
+    "type": "cmp-long",
+    "named": false
+  },
+  {
+    "type": "cmpg-double",
+    "named": false
+  },
+  {
+    "type": "cmpg-float",
+    "named": false
+  },
+  {
+    "type": "cmpl-double",
+    "named": false
+  },
+  {
+    "type": "cmpl-float",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "const",
+    "named": false
+  },
+  {
+    "type": "const-class",
+    "named": false
+  },
+  {
+    "type": "const-method-handle",
+    "named": false
+  },
+  {
+    "type": "const-method-type",
+    "named": false
+  },
+  {
+    "type": "const-string",
+    "named": false
+  },
+  {
+    "type": "const-string/jumbo",
+    "named": false
+  },
+  {
+    "type": "const-wide",
+    "named": false
+  },
+  {
+    "type": "const-wide/16",
+    "named": false
+  },
+  {
+    "type": "const-wide/32",
+    "named": false
+  },
+  {
+    "type": "const-wide/high16",
+    "named": false
+  },
+  {
+    "type": "const/16",
+    "named": false
+  },
+  {
+    "type": "const/4",
+    "named": false
+  },
+  {
+    "type": "const/high16",
+    "named": false
+  },
+  {
+    "type": "constructor",
+    "named": false
+  },
+  {
+    "type": "core-platform-api",
+    "named": false
+  },
+  {
+    "type": "declared-synchronized",
+    "named": false
+  },
+  {
+    "type": "div-double",
+    "named": false
+  },
+  {
+    "type": "div-double/2addr",
+    "named": false
+  },
+  {
+    "type": "div-float",
+    "named": false
+  },
+  {
+    "type": "div-float/2addr",
+    "named": false
+  },
+  {
+    "type": "div-int",
+    "named": false
+  },
+  {
+    "type": "div-int/2addr",
+    "named": false
+  },
+  {
+    "type": "div-int/lit16",
+    "named": false
+  },
+  {
+    "type": "div-int/lit8",
+    "named": false
+  },
+  {
+    "type": "div-long",
+    "named": false
+  },
+  {
+    "type": "div-long/2addr",
+    "named": false
+  },
+  {
+    "type": "double-to-float",
+    "named": false
+  },
+  {
+    "type": "double-to-int",
+    "named": false
+  },
+  {
+    "type": "double-to-long",
+    "named": false
+  },
+  {
+    "type": "enum",
+    "named": false
+  },
+  {
+    "type": "epilogue_directive",
+    "named": true
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "execute-inline",
+    "named": false
+  },
+  {
+    "type": "execute-inline/range",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "field_identifier",
+    "named": true
+  },
+  {
+    "type": "fill-array-data",
+    "named": false
+  },
+  {
+    "type": "filled-new-array",
+    "named": false
+  },
+  {
+    "type": "filled-new-array/range",
+    "named": false
+  },
+  {
+    "type": "final",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": true
+  },
+  {
+    "type": "float-to-double",
+    "named": false
+  },
+  {
+    "type": "float-to-int",
+    "named": false
+  },
+  {
+    "type": "float-to-long",
+    "named": false
+  },
+  {
+    "type": "goto",
+    "named": false
+  },
+  {
+    "type": "goto/16",
+    "named": false
+  },
+  {
+    "type": "goto/32",
+    "named": false
+  },
+  {
+    "type": "greylist",
+    "named": false
+  },
+  {
+    "type": "greylist-max-o",
+    "named": false
+  },
+  {
+    "type": "greylist-max-p",
+    "named": false
+  },
+  {
+    "type": "greylist-max-q",
+    "named": false
+  },
+  {
+    "type": "greylist-max-r",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if-eq",
+    "named": false
+  },
+  {
+    "type": "if-eqz",
+    "named": false
+  },
+  {
+    "type": "if-ge",
+    "named": false
+  },
+  {
+    "type": "if-gez",
+    "named": false
+  },
+  {
+    "type": "if-gt",
+    "named": false
+  },
+  {
+    "type": "if-gtz",
+    "named": false
+  },
+  {
+    "type": "if-le",
+    "named": false
+  },
+  {
+    "type": "if-lez",
+    "named": false
+  },
+  {
+    "type": "if-lt",
+    "named": false
+  },
+  {
+    "type": "if-ltz",
+    "named": false
+  },
+  {
+    "type": "if-ne",
+    "named": false
+  },
+  {
+    "type": "if-nez",
+    "named": false
+  },
+  {
+    "type": "iget",
+    "named": false
+  },
+  {
+    "type": "iget-boolean",
+    "named": false
+  },
+  {
+    "type": "iget-byte",
+    "named": false
+  },
+  {
+    "type": "iget-char",
+    "named": false
+  },
+  {
+    "type": "iget-object",
+    "named": false
+  },
+  {
+    "type": "iget-object-quick",
+    "named": false
+  },
+  {
+    "type": "iget-object-volatile",
+    "named": false
+  },
+  {
+    "type": "iget-quick",
+    "named": false
+  },
+  {
+    "type": "iget-short",
+    "named": false
+  },
+  {
+    "type": "iget-volatile",
+    "named": false
+  },
+  {
+    "type": "iget-wide",
+    "named": false
+  },
+  {
+    "type": "iget-wide-quick",
+    "named": false
+  },
+  {
+    "type": "iget-wide-volatile",
+    "named": false
+  },
+  {
+    "type": "instance-get",
+    "named": false
+  },
+  {
+    "type": "instance-of",
+    "named": false
+  },
+  {
+    "type": "instance-put",
+    "named": false
+  },
+  {
+    "type": "int-to-byte",
+    "named": false
+  },
+  {
+    "type": "int-to-char",
+    "named": false
+  },
+  {
+    "type": "int-to-double",
+    "named": false
+  },
+  {
+    "type": "int-to-float",
+    "named": false
+  },
+  {
+    "type": "int-to-long",
+    "named": false
+  },
+  {
+    "type": "int-to-short",
+    "named": false
+  },
+  {
+    "type": "interface",
+    "named": false
+  },
+  {
+    "type": "invoke-constructor",
+    "named": false
+  },
+  {
+    "type": "invoke-custom",
+    "named": false
+  },
+  {
+    "type": "invoke-custom/range",
+    "named": false
+  },
+  {
+    "type": "invoke-direct",
+    "named": false
+  },
+  {
+    "type": "invoke-direct-empty",
+    "named": false
+  },
+  {
+    "type": "invoke-direct/range",
+    "named": false
+  },
+  {
+    "type": "invoke-instance",
+    "named": false
+  },
+  {
+    "type": "invoke-interface",
+    "named": false
+  },
+  {
+    "type": "invoke-interface/range",
+    "named": false
+  },
+  {
+    "type": "invoke-object-init/range",
+    "named": false
+  },
+  {
+    "type": "invoke-polymorphic",
+    "named": false
+  },
+  {
+    "type": "invoke-polymorphic/range",
+    "named": false
+  },
+  {
+    "type": "invoke-static",
+    "named": false
+  },
+  {
+    "type": "invoke-static/range",
+    "named": false
+  },
+  {
+    "type": "invoke-super",
+    "named": false
+  },
+  {
+    "type": "invoke-super-quick",
+    "named": false
+  },
+  {
+    "type": "invoke-super-quick/range",
+    "named": false
+  },
+  {
+    "type": "invoke-super/range",
+    "named": false
+  },
+  {
+    "type": "invoke-virtual",
+    "named": false
+  },
+  {
+    "type": "invoke-virtual-quick",
+    "named": false
+  },
+  {
+    "type": "invoke-virtual-quick/range",
+    "named": false
+  },
+  {
+    "type": "invoke-virtual/range",
+    "named": false
+  },
+  {
+    "type": "iput",
+    "named": false
+  },
+  {
+    "type": "iput-boolean",
+    "named": false
+  },
+  {
+    "type": "iput-boolean-quick",
+    "named": false
+  },
+  {
+    "type": "iput-byte",
+    "named": false
+  },
+  {
+    "type": "iput-byte-quick",
+    "named": false
+  },
+  {
+    "type": "iput-char",
+    "named": false
+  },
+  {
+    "type": "iput-char-quick",
+    "named": false
+  },
+  {
+    "type": "iput-object",
+    "named": false
+  },
+  {
+    "type": "iput-object-quick",
+    "named": false
+  },
+  {
+    "type": "iput-object-volatile",
+    "named": false
+  },
+  {
+    "type": "iput-quick",
+    "named": false
+  },
+  {
+    "type": "iput-short",
+    "named": false
+  },
+  {
+    "type": "iput-short-quick",
+    "named": false
+  },
+  {
+    "type": "iput-volatile",
+    "named": false
+  },
+  {
+    "type": "iput-wide",
+    "named": false
+  },
+  {
+    "type": "iput-wide-quick",
+    "named": false
+  },
+  {
+    "type": "iput-wide-volatile",
+    "named": false
+  },
+  {
+    "type": "long-to-double",
+    "named": false
+  },
+  {
+    "type": "long-to-float",
+    "named": false
+  },
+  {
+    "type": "long-to-int",
+    "named": false
+  },
+  {
+    "type": "method_identifier",
+    "named": true
+  },
+  {
+    "type": "monitor-enter",
+    "named": false
+  },
+  {
+    "type": "monitor-exit",
+    "named": false
+  },
+  {
+    "type": "move",
+    "named": false
+  },
+  {
+    "type": "move-exception",
+    "named": false
+  },
+  {
+    "type": "move-object",
+    "named": false
+  },
+  {
+    "type": "move-object/16",
+    "named": false
+  },
+  {
+    "type": "move-object/from16",
+    "named": false
+  },
+  {
+    "type": "move-result",
+    "named": false
+  },
+  {
+    "type": "move-result-object",
+    "named": false
+  },
+  {
+    "type": "move-result-wide",
+    "named": false
+  },
+  {
+    "type": "move-wide",
+    "named": false
+  },
+  {
+    "type": "move-wide/16",
+    "named": false
+  },
+  {
+    "type": "move-wide/from16",
+    "named": false
+  },
+  {
+    "type": "move/16",
+    "named": false
+  },
+  {
+    "type": "move/from16",
+    "named": false
+  },
+  {
+    "type": "mul-double",
+    "named": false
+  },
+  {
+    "type": "mul-double/2addr",
+    "named": false
+  },
+  {
+    "type": "mul-float",
+    "named": false
+  },
+  {
+    "type": "mul-float/2addr",
+    "named": false
+  },
+  {
+    "type": "mul-int",
+    "named": false
+  },
+  {
+    "type": "mul-int/2addr",
+    "named": false
+  },
+  {
+    "type": "mul-int/lit16",
+    "named": false
+  },
+  {
+    "type": "mul-int/lit8",
+    "named": false
+  },
+  {
+    "type": "mul-long",
+    "named": false
+  },
+  {
+    "type": "mul-long/2addr",
+    "named": false
+  },
+  {
+    "type": "native",
+    "named": false
+  },
+  {
+    "type": "neg-double",
+    "named": false
+  },
+  {
+    "type": "neg-float",
+    "named": false
+  },
+  {
+    "type": "neg-int",
+    "named": false
+  },
+  {
+    "type": "neg-long",
+    "named": false
+  },
+  {
+    "type": "new-array",
+    "named": false
+  },
+  {
+    "type": "new-instance",
+    "named": false
+  },
+  {
+    "type": "nop",
+    "named": false
+  },
+  {
+    "type": "not-int",
+    "named": false
+  },
+  {
+    "type": "not-long",
+    "named": false
+  },
+  {
+    "type": "null",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "or-int",
+    "named": false
+  },
+  {
+    "type": "or-int/2addr",
+    "named": false
+  },
+  {
+    "type": "or-int/lit16",
+    "named": false
+  },
+  {
+    "type": "or-int/lit8",
+    "named": false
+  },
+  {
+    "type": "or-long",
+    "named": false
+  },
+  {
+    "type": "or-long/2addr",
+    "named": false
+  },
+  {
+    "type": "packed-switch",
+    "named": false
+  },
+  {
+    "type": "param_identifier",
+    "named": true
+  },
+  {
+    "type": "parameter",
+    "named": true
+  },
+  {
+    "type": "private",
+    "named": false
+  },
+  {
+    "type": "prologue_directive",
+    "named": true
+  },
+  {
+    "type": "protected",
+    "named": false
+  },
+  {
+    "type": "public",
+    "named": false
+  },
+  {
+    "type": "rem-double",
+    "named": false
+  },
+  {
+    "type": "rem-double/2addr",
+    "named": false
+  },
+  {
+    "type": "rem-float",
+    "named": false
+  },
+  {
+    "type": "rem-float/2addr",
+    "named": false
+  },
+  {
+    "type": "rem-int",
+    "named": false
+  },
+  {
+    "type": "rem-int/2addr",
+    "named": false
+  },
+  {
+    "type": "rem-int/lit16",
+    "named": false
+  },
+  {
+    "type": "rem-int/lit8",
+    "named": false
+  },
+  {
+    "type": "rem-long",
+    "named": false
+  },
+  {
+    "type": "rem-long/2addr",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "return-object",
+    "named": false
+  },
+  {
+    "type": "return-void",
+    "named": false
+  },
+  {
+    "type": "return-wide",
+    "named": false
+  },
+  {
+    "type": "rsub-int",
+    "named": false
+  },
+  {
+    "type": "rsub-int/lit8",
+    "named": false
+  },
+  {
+    "type": "runtime",
+    "named": false
+  },
+  {
+    "type": "sget",
+    "named": false
+  },
+  {
+    "type": "sget-boolean",
+    "named": false
+  },
+  {
+    "type": "sget-byte",
+    "named": false
+  },
+  {
+    "type": "sget-char",
+    "named": false
+  },
+  {
+    "type": "sget-object",
+    "named": false
+  },
+  {
+    "type": "sget-object-volatile",
+    "named": false
+  },
+  {
+    "type": "sget-short",
+    "named": false
+  },
+  {
+    "type": "sget-volatile",
+    "named": false
+  },
+  {
+    "type": "sget-wide",
+    "named": false
+  },
+  {
+    "type": "sget-wide-volatile",
+    "named": false
+  },
+  {
+    "type": "shl-int",
+    "named": false
+  },
+  {
+    "type": "shl-int/2addr",
+    "named": false
+  },
+  {
+    "type": "shl-int/lit8",
+    "named": false
+  },
+  {
+    "type": "shl-long",
+    "named": false
+  },
+  {
+    "type": "shl-long/2addr",
+    "named": false
+  },
+  {
+    "type": "shr-int",
+    "named": false
+  },
+  {
+    "type": "shr-int/2addr",
+    "named": false
+  },
+  {
+    "type": "shr-int/lit8",
+    "named": false
+  },
+  {
+    "type": "shr-long",
+    "named": false
+  },
+  {
+    "type": "shr-long/2addr",
+    "named": false
+  },
+  {
+    "type": "sparse-switch",
+    "named": false
+  },
+  {
+    "type": "sput",
+    "named": false
+  },
+  {
+    "type": "sput-boolean",
+    "named": false
+  },
+  {
+    "type": "sput-byte",
+    "named": false
+  },
+  {
+    "type": "sput-char",
+    "named": false
+  },
+  {
+    "type": "sput-object",
+    "named": false
+  },
+  {
+    "type": "sput-object-volatile",
+    "named": false
+  },
+  {
+    "type": "sput-short",
+    "named": false
+  },
+  {
+    "type": "sput-volatile",
+    "named": false
+  },
+  {
+    "type": "sput-wide",
+    "named": false
+  },
+  {
+    "type": "sput-wide-volatile",
+    "named": false
+  },
+  {
+    "type": "static",
+    "named": false
+  },
+  {
+    "type": "static-get",
+    "named": false
+  },
+  {
+    "type": "static-put",
+    "named": false
+  },
+  {
+    "type": "strictfp",
+    "named": false
+  },
+  {
+    "type": "string_fragment",
+    "named": true
+  },
+  {
+    "type": "sub-double",
+    "named": false
+  },
+  {
+    "type": "sub-double/2addr",
+    "named": false
+  },
+  {
+    "type": "sub-float",
+    "named": false
+  },
+  {
+    "type": "sub-float/2addr",
+    "named": false
+  },
+  {
+    "type": "sub-int",
+    "named": false
+  },
+  {
+    "type": "sub-int/2addr",
+    "named": false
+  },
+  {
+    "type": "sub-int/lit16",
+    "named": false
+  },
+  {
+    "type": "sub-int/lit8",
+    "named": false
+  },
+  {
+    "type": "sub-long",
+    "named": false
+  },
+  {
+    "type": "sub-long/2addr",
+    "named": false
+  },
+  {
+    "type": "synchronized",
+    "named": false
+  },
+  {
+    "type": "synthetic",
+    "named": false
+  },
+  {
+    "type": "system",
+    "named": false
+  },
+  {
+    "type": "test-api",
+    "named": false
+  },
+  {
+    "type": "throw",
+    "named": false
+  },
+  {
+    "type": "throw-verification-error",
+    "named": false
+  },
+  {
+    "type": "transient",
+    "named": false
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "ushr-int",
+    "named": false
+  },
+  {
+    "type": "ushr-int/2addr",
+    "named": false
+  },
+  {
+    "type": "ushr-int/lit8",
+    "named": false
+  },
+  {
+    "type": "ushr-long",
+    "named": false
+  },
+  {
+    "type": "ushr-long/2addr",
+    "named": false
+  },
+  {
+    "type": "varargs",
+    "named": false
+  },
+  {
+    "type": "variable",
+    "named": true
+  },
+  {
+    "type": "volatile",
+    "named": false
+  },
+  {
+    "type": "whitelist",
+    "named": false
+  },
+  {
+    "type": "xor-int",
+    "named": false
+  },
+  {
+    "type": "xor-int/2addr",
+    "named": false
+  },
+  {
+    "type": "xor-int/lit16",
+    "named": false
+  },
+  {
+    "type": "xor-int/lit8",
+    "named": false
+  },
+  {
+    "type": "xor-long",
+    "named": false
+  },
+  {
+    "type": "xor-long/2addr",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

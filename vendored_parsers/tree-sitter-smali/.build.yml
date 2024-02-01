@@ -1,0 +1,20 @@
+image: fedora/latest
+packages:
+  - nodejs
+  - gcc
+  - gcc-c++
+sources:
+  - https://git.sr.ht/~yotam/tree-sitter-smali
+tasks:
+  - install: |
+     cd tree-sitter-smali
+     npm install
+  - lint: |
+     cd tree-sitter-smali
+     eslint grammar.js
+  - build: |
+     cd tree-sitter-smali
+     npm run build
+  - test: |
+     cd tree-sitter-smali
+     npm run test
