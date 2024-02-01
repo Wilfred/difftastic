@@ -9157,7 +9157,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "assignment_expression_lhs_expression"
+                "name": "_assignment_expression_lhs"
               },
               "named": true,
               "value": "assignment_expression"
@@ -15873,7 +15873,7 @@
         }
       ]
     },
-    "assignment_expression_lhs_expression": {
+    "_assignment_expression_lhs": {
       "type": "SEQ",
       "members": [
         {

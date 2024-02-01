@@ -48,7 +48,7 @@ const ASSIGNMENT_OPERATORS = [
   'and_eq',
   'or_eq',
   'xor_eq',
-]
+];
 
 module.exports = grammar(C, {
   name: 'cpp',
@@ -1246,7 +1246,7 @@ module.exports = grammar(C, {
       field('right', choice($._expression, $.initializer_list)),
     )),
 
-    assignment_expression_lhs_expression: $ => seq(
+    _assignment_expression_lhs: $ => seq(
       field('left', $._expression),
       field('operator', choice(...ASSIGNMENT_OPERATORS)),
       field('right', choice($._expression, $.initializer_list)),
@@ -1256,7 +1256,7 @@ module.exports = grammar(C, {
     // and assignment expressions within parentheses.
     parenthesized_expression: ($, original) => choice(
       original,
-      seq('(', alias($.assignment_expression_lhs_expression, $.assignment_expression), ')')
+      seq('(', alias($._assignment_expression_lhs, $.assignment_expression), ')'),
     ),
 
     operator_name: $ => prec(1, seq(
