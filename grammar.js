@@ -326,6 +326,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'async',
       'static',
       'export',
+      'let',
 
       // TypeScript:
       'declare',
@@ -343,6 +344,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'string',
       'symbol',
       'export',
+      'object',
+      // 'new', ('new {}' would conflict at property value position)
+      'readonly',
 
       // QML (see QmlIdentifier):
       'property',
@@ -354,6 +358,11 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'required',
       'component',
     ),
+
+    // Patch up JavaScript string rules to support multi-line string literal.
+    // (See also the change b16c69a70be9 in tree-sitter-javascript.)
+    unescaped_double_string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
+    unescaped_single_string_fragment: _ => token.immediate(prec(1, /[^'\\]+/)),
   },
 });
 

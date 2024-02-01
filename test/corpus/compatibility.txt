@@ -28,8 +28,7 @@ QtObject {
             (statement_block
               (empty_statement))
             (parenthesized_expression
-              (false))
-            (MISSING ";"))
+              (false)))
           (expression_statement
             (true)))))))
 

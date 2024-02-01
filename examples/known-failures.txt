@@ -2,7 +2,6 @@ qtdeclarative/src/quick/doc/snippets/qml/image-ext.qml
 qtdeclarative/tests/auto/qml/debugger/qqmlpreview/data/broken.qml
 qtdeclarative/tests/auto/qml/qmlformat/data/settings/Example1.formatted_mac_cr.qml
 qtdeclarative/tests/auto/qml/qmllint/data/failure1.qml
-qtdeclarative/tests/auto/qml/qqmlecmascript/data/compatibilitySemicolon.qml
 qtdeclarative/tests/auto/qml/qqmlecmascript/data/numberParsing_error.1.qml
 qtdeclarative/tests/auto/qml/qqmlecmascript/data/numberParsing_error.2.qml
 qtdeclarative/tests/auto/qml/qqmlecmascript/data/stringParsing_error.5.qml

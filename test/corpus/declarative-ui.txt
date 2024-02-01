@@ -300,7 +300,7 @@ MyItem {
       (ui_binding
         name: (identifier)
         value: (expression_statement
-          (function
+          (function_expression
             parameters: (formal_parameters
               (required_parameter
                 pattern: (identifier)))
