@@ -153,8 +153,8 @@ declare module Foo {
   (ambient_declaration
     (module
       name: (nested_identifier
-        (identifier)
-        (property_identifier))
+        object: (identifier)
+        property: (property_identifier))
       body: (statement_block
         (export_statement
           declaration: (variable_declaration
