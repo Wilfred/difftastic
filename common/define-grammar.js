@@ -300,6 +300,7 @@ module.exports = function defineGrammar(dialect) {
           $.import_require_clause,
           field('source', $.string),
         ),
+        optional($.import_attribute),
         $._semicolon,
       ),
 
