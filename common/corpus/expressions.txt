@@ -236,14 +236,39 @@ Objects with reserved words as keys
   public: true,
   private: true,
   readonly: true
-}
+};
+
+{
+  readonly: 1,
+  abstract: 1,
+  static: 1
+};
 
 ---
 
-(program (expression_statement (object
-  (pair key: (property_identifier) value: (true))
-  (pair key: (property_identifier) value: (true))
-  (pair key: (property_identifier) value: (true)))))
+(program
+  (expression_statement
+    (object
+      (pair
+        key: (property_identifier)
+        value: (true))
+      (pair
+        key: (property_identifier)
+        value: (true))
+      (pair
+        key: (property_identifier)
+        value: (true))))
+  (expression_statement
+    (object
+      (pair
+        key: (property_identifier)
+        value: (number))
+      (pair
+        key: (property_identifier)
+        value: (number))
+      (pair
+        key: (property_identifier)
+        value: (number)))))
 
 ====================================
 Assignment to non-null LHS

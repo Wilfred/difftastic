@@ -1052,6 +1052,7 @@ module.exports = function defineGrammar(dialect) {
         'export',
         'object',
         'new',
+        'readonly',
         previous,
       ),
     },
