@@ -100,7 +100,7 @@ static bool scan_automatic_semicolon(TSLexer *lexer, bool comment_condition, boo
             if (!scan_whitespace_and_comments(lexer, scanned_comment)) {
                 return false;
             }
-            if (comment_condition && lexer->lookahead != ',') {
+            if (comment_condition && lexer->lookahead != ',' && lexer->lookahead != '=') {
                 return true;
             }
         }
@@ -225,7 +225,7 @@ static bool scan_ternary_qmark(TSLexer *lexer) {
     return false;
 }
 
-static bool scan_closing_comment(TSLexer *lexer) {
+static bool scan_html_comment(TSLexer *lexer) {
     while (iswspace(lexer->lookahead) || lexer->lookahead == 0x2028 || lexer->lookahead == 0x2029) {
         skip(lexer);
     }
@@ -284,7 +284,7 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
     }
 
     if (valid_symbols[HTML_COMMENT] && !valid_symbols[LOGICAL_OR] && !valid_symbols[ESCAPE_SEQUENCE]) {
-        return scan_closing_comment(lexer);
+        return scan_html_comment(lexer);
     }
 
     return false;

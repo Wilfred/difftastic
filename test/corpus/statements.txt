@@ -159,9 +159,16 @@ import { b } from
     (string
       (string_fragment)))
   (import_statement
-    (import_clause (identifier)) (string (string_fragment))
-    (import_attribute (object
-      (pair (property_identifier) (string (string_fragment))))))
+    (import_clause
+      (identifier))
+    (string
+      (string_fragment))
+    (import_attribute
+      (object
+        (pair
+          (property_identifier)
+          (string
+            (string_fragment))))))
   (expression_statement
     (call_expression
       (import)
@@ -901,6 +908,8 @@ let foo = bar
   // this is a comment
   ? 'baz' : 'thud';
 
+let a /* >_< */ = 1
+
 ---
 
 (program
@@ -938,7 +947,12 @@ let foo = bar
         (string
           (string_fragment))
         (string
-          (string_fragment))))))
+          (string_fragment)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (comment)
+      (number))))
 
 ============================================
 Comments with asterisks
