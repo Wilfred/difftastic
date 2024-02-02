@@ -22,6 +22,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_qualified_id,
     $._ui_identifier,
     $._ui_simple_qualified_id,
+    $._ui_reserved_identifier,
   ]),
 
   conflicts: ($, original) => original.concat([
@@ -284,7 +285,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_identifier: $ => choice(
       $.identifier,
-      alias($._reserved_identifier, $.identifier),
+      alias($._ui_reserved_identifier, $.identifier),
     ),
 
     ui_nested_identifier: $ => seq(
@@ -316,6 +317,42 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       // not QML keywords, but qmljs.g accepts them as JS expressions:
       'from',
       'of',
+    ),
+
+    _ui_reserved_identifier: $ => choice(
+      // JavaScript:
+      'get',
+      'set',
+      'async',
+      'static',
+      'export',
+
+      // TypeScript:
+      'declare',
+      'namespace',
+      'type',
+      'public',
+      'private',
+      'protected',
+      'override',
+      'readonly',
+      'module',
+      'any',
+      'number',
+      'boolean',
+      'string',
+      'symbol',
+      'export',
+
+      // QML (see QmlIdentifier):
+      'property',
+      'signal',
+      'readonly',
+      'on',
+      'from',
+      'of',
+      'required',
+      'component',
     ),
   },
 });
