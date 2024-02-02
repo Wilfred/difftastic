@@ -158,7 +158,7 @@ fn app() -> clap::Command<'static> {
         )
         .arg(
             Arg::new("display").long("display")
-                .possible_values(["side-by-side", "side-by-side-show-both", "inline", "json"])
+                .possible_values(["side-by-side", "side-by-side-show-both", "inline", "json", "patch"])
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .env("DFT_DISPLAY")
@@ -300,6 +300,7 @@ When multiple overrides are specified, the first matching override wins."))
 #[derive(Debug, Copy, Clone)]
 pub(crate) enum DisplayMode {
     Inline,
+    Patch,
     SideBySide,
     SideBySideShowBoth,
     Json,
@@ -570,6 +571,7 @@ pub(crate) fn parse_args() -> Mode {
 
             DisplayMode::Json
         }
+        "patch" => DisplayMode::Patch,
         _ => {
             unreachable!("clap has already validated display")
         }

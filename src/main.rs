@@ -314,6 +314,7 @@ fn main() {
                             print_diff_result(&display_options, &diff_result);
                         }
                         DisplayMode::Json => display::json::print(&diff_result),
+                        DisplayMode::Patch => display::patch::print(&diff_result),
                     }
                 }
             }
@@ -881,6 +882,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     );
                 }
                 DisplayMode::Json => unreachable!(),
+                DisplayMode::Patch => todo!(),
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
