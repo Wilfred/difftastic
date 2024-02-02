@@ -22,6 +22,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_qualified_id,
     $._ui_identifier,
     $._ui_simple_qualified_id,
+    $._ui_reserved_identifier,
   ]),
 
   conflicts: ($, original) => original.concat([
@@ -284,7 +285,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_identifier: $ => choice(
       $.identifier,
-      alias($._reserved_identifier, $.identifier),
+      alias($._ui_reserved_identifier, $.identifier),
     ),
 
     ui_nested_identifier: $ => seq(
@@ -317,6 +318,51 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'from',
       'of',
     ),
+
+    _ui_reserved_identifier: $ => choice(
+      // JavaScript:
+      'get',
+      'set',
+      'async',
+      'static',
+      'export',
+      'let',
+
+      // TypeScript:
+      'declare',
+      'namespace',
+      'type',
+      'public',
+      'private',
+      'protected',
+      'override',
+      'readonly',
+      'module',
+      'any',
+      'number',
+      'boolean',
+      'string',
+      'symbol',
+      'export',
+      'object',
+      // 'new', ('new {}' would conflict at property value position)
+      'readonly',
+
+      // QML (see QmlIdentifier):
+      'property',
+      'signal',
+      'readonly',
+      'on',
+      'from',
+      'of',
+      'required',
+      'component',
+    ),
+
+    // Patch up JavaScript string rules to support multi-line string literal.
+    // (See also the change b16c69a70be9 in tree-sitter-javascript.)
+    unescaped_double_string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
+    unescaped_single_string_fragment: _ => token.immediate(prec(1, /[^'\\]+/)),
   },
 });
 
