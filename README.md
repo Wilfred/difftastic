@@ -6,62 +6,40 @@ TreeSitter documentation page https://tree-sitter.github.io
 
 Typst doesn't have yet an official TreeSitter grammar. This grammar is complete but may contains bug as it is very recent.
 
-## Participation
+## Get involved
 
-I publish this grammar because I hope for help from other involved enthousiasts. You don't have to know anything about tree-sitter to help. I need you to find bugs!
+Your help is welcome. You don't have to know anything about tree-sitter to help. We need you to find bugs!
 
-Find a bug by using this grammar. If you find an incorrect highlighting of your Typst files, then you found a bug. You can open an issue or simply send me by mail the Typst code causing the bug. See below installation instructions for this grammar.
+Find a bug by using this grammar. If you find an incorrect highlighting of your Typst files, then you found a bug. You can open an issue or simply send me by mail the Typst code causing the bug. See below installation instructions for this grammar. Even if your not sure it is a bug, it doesn't hurt to repport it.
 
-Any inconsistance between this syntax and Typst's one is considered a bug. In Helix editor, the syntax tree of selected text can be displayed with `:tree-sitter-subtree` command.
+Any inconsistancy between this syntax and Typst's one is considered a bug. In Helix editor, the syntax tree of selected text can be displayed with `:tree-sitter-subtree` command.
 
 Don't hesitate to contact me: eddie.gerbais-nief@proton.me
 
-The documentation of this implementation is available in [DOC](DOC.md).
+The documentation of this implementation is available in [DOC](DOC.md). Because parsing Typst is really tricky. It would also be great to have a competitor parser, to see if the other finds better ways, and for redunduncy, because as of today, only one person understand how this parser works (me), and if I'm out, this parser won't be maintained (I guess). If your interresting in implementing a competitor Typst tree-sitter parser, I'd be happy to help you.
 
 ## TODO
 
+- [X] Update 0.10 (complete grammar)
 - [ ] More tests, objectif 1000, current 409
-- [ ] Documentation
-  - [ ] Installation
-    - [X] Helix
-    - [X] Emacs
-    - [ ] NeoVim (work in progress)
-  - [X] Implementation
-- [X] Update 0.10
-- [X] Fixme
-- [X] Optimization
-  - [X] Parser size
-  - [X] Math ident
-  - [X] Extras
+- [ ] Installation
+  - [X] Helix
+  - [X] Emacs
+  - [ ] NeoVim (work in progress)
+- [ ] Simplification
+  - [ ] Implement a type 3/4 parser generator (work in progress)
+  - [ ] Migrate all lexing to external scanner
+  - [ ] Remove dependency on `get_column`
+    - [ ] Check if this fixes [`fixme/011`](corpus/fixme.scm)
 
-## DONE
+## Features
 
-- [X] Code
+- [X] Markup mode
+- [X] Code mode
+- [X] Math mode
 - [X] Indentation
 - [X] Foldable sections
-- [X] Comments
-- [X] Math mode
-  - [X] Precedence
-  - [X] Call
-    - [X] Tagged
-    - [X] Separator
-  - [X] Symbol
-  - [X] Code
-- [X] Markups
-  - [X] Strong
-  - [X] Emph
-  - [X] Heading
-  - [X] Url
-  - [X] List
-  - [X] Label
-  - [X] Reference
-  - [X] Symbol
-  - [X] Quote
 - [X] Unicode characters
-  - [X] Ident and label
-  - [X] White spaces
-  - [X] Math ident
-  - [X] Anti markup
 
 # Installation
 
