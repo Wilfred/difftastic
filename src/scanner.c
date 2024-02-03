@@ -624,9 +624,6 @@ bool tree_sitter_typst_external_scanner_scan(
 			if (parse_comment(self, lexer)) {
 				return true;
 			}
-			while (is_lb(lex_next) || is_sp(lex_next)) {
-				lex_advance();
-			}
 			if (lex_next != 'e') {
 				lexer->result_symbol = TOKEN_INLINED_ITEM_END;
 				return true;
@@ -1019,13 +1016,6 @@ bool tree_sitter_typst_external_scanner_scan(
 			return true;
 		}
 		if (is_lb(lex_next)) {
-			lexer->advance(lexer, false);
-			while (is_lb(lex_next) || is_sp(lex_next)) {
-				lexer->advance(lexer, false);
-			}
-			if (lex_next == '.') {
-				return false;
-			}
 			lexer->result_symbol = TOKEN_INLINED_STMT_END;
 			return true;
 		}

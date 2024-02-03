@@ -293,8 +293,9 @@ else {}
 (source_file
 	(branch
 		condition: (ident)
-		(block)
-		(block)))
+		(block))
+	(parbreak)
+	(text))
 
 
 =====================
@@ -352,8 +353,11 @@ else[]
 (source_file
 	(branch
 		condition: (ident)
-		(block)
-		(content)))
+		(block))
+	(parbreak)
+	(text)
+	(text)
+	(text))
 
 
 =====================
@@ -1450,11 +1454,9 @@ else {}
 (source_file
 	(branch
 		condition: (ident)
-		(block)
-		(branch
-			condition: (ident)
-			(block)
-			(block))))
+		(block))
+	(text)
+	(text))
 
 
 =====================
@@ -1897,10 +1899,8 @@ else if b {}
 (source_file
 	(branch
 		condition: (ident)
-		(block)
-		(branch
-			condition: (ident)
-			(block))))
+		(block))
+	(text))
 
 
 =====================
@@ -3992,9 +3992,8 @@ positive/277
 		pattern: (ident)
 		value: (lambda
 			pattern: (ident)
-			value: (field
-				(ident)
-				field: (ident)))))
+			value: (ident)))
+	(text))
 
 
 =====================
@@ -4027,9 +4026,10 @@ else {}
 (source_file
 	(branch
 		condition: (bool)
-		(content)
-		(comment)
-		(block)))
+		(content))
+	(comment)
+	(parbreak)
+	(text))
 
 
 =====================
@@ -4235,10 +4235,11 @@ else /* World */ []$
 		(formula
 			(branch
 				condition: (bool)
-				(content)
-				(comment)
-				(comment)
-				(content)))))
+				(content))
+			(comment)
+			(ident)
+			(comment)
+			(group))))
 
 
 =====================
@@ -4653,11 +4654,12 @@ else /*Hello*/ if true [] /* World */ Hello
 (source_file
 	(branch
 		condition: (bool)
-		(content)
-		(comment)
-		(branch
-			condition: (bool)
-			(content)))
+		(content))
+	(parbreak)
+	(text
+		(comment))
+	(text)
+	(text)
 	(comment)
 	(text))
 
@@ -4829,10 +4831,11 @@ else/* World */ {}
 (source_file
 	(branch
 		condition: (bool)
-		(block)
-		(comment)
-		(comment)
-		(block)))
+		(block))
+	(comment)
+	(parbreak)
+	(text
+		(comment)))
 
 
 =====================
