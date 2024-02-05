@@ -100,8 +100,7 @@ Queries bundled (see `editor_queries/neovim`):
 
 ### Helix
 
-Parser and queries are bundled with Helix starting with any version past 23.10.
-
+Parser and queries are bundled with Helix starting with any version past 23.10.\
 For versions prior or equal to 23.10, do the following:
 
 <details>
@@ -110,8 +109,8 @@ For versions prior or equal to 23.10, do the following:
 1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
 
 2. Create a folder for queries under your Helix runtime directory, if not exists:
-  * Windows: `mkdir ~\AppData\Roaming\helix\runtime\queries`
-  * Linux, macOS, *NIX: `mkdir ~/.config/helix/runtime/queries`
+  * Windows: `mkdir -p ~\AppData\Roaming\helix\runtime\queries`
+  * Linux, macOS, *NIX: `mkdir -p ~/.config/helix/runtime/queries`
 
 3. Symlink the `editor_queries/helix` sub-directory, this will add all the queries:
   * Windows: `mklink /D ~\AppData\Roaming\helix\runtime\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\helix`
@@ -140,6 +139,13 @@ roots = []
 [[grammar]]
 name = "tact"
 source = { git = "https://github.com/tact-lang/tree-sitter-tact", rev = "b9737e85af19b8dafd137dc5f17ec5d5195b5ea9" }
+```
+
+6. Finally, run the following commands to update all Tree-sitter grammars, including Tact's:
+
+```bash
+hx --grammar fetch
+hx --grammar build
 ```
 
 </details>
