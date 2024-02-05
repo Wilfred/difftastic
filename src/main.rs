@@ -310,11 +310,11 @@ fn main() {
                     match display_options.display_mode {
                         DisplayMode::Inline
                         | DisplayMode::SideBySide
-                        | DisplayMode::SideBySideShowBoth => {
+                        | DisplayMode::SideBySideShowBoth
+                        | DisplayMode::Patch => {
                             print_diff_result(&display_options, &diff_result);
                         }
                         DisplayMode::Json => display::json::print(&diff_result),
-                        DisplayMode::Patch => display::patch::print(&diff_result),
                     }
                 }
             }
@@ -882,7 +882,14 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     );
                 }
                 DisplayMode::Json => unreachable!(),
-                DisplayMode::Patch => todo!(),
+                DisplayMode::Patch => display::patch::print(
+                    display_options,
+                    &summary.file_format,
+                    lhs_src,
+                    rhs_src,
+                    &summary.lhs_positions,
+                    &summary.rhs_positions,
+                ),
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
