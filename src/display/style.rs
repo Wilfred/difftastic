@@ -405,7 +405,7 @@ pub(crate) fn apply_colors(
     style_lines(&lines, &styles)
 }
 
-fn apply_header_color(
+pub(crate) fn apply_header_color(
     s: &str,
     use_color: bool,
     background: BackgroundColor,

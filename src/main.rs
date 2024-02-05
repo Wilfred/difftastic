@@ -885,6 +885,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 DisplayMode::Patch => display::patch::print(
                     display_options,
                     &summary.file_format,
+                    &summary.display_path,
+                    "foo.el",
                     lhs_src,
                     rhs_src,
                     &summary.lhs_positions,

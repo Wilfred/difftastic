@@ -8,16 +8,38 @@ use crate::options::DisplayOptions;
 use crate::parse::syntax::MatchedPos;
 use crate::summary::FileFormat;
 
+use super::style::apply_header_color;
+
+fn header(display_options: &DisplayOptions, lhs_path: &str, rhs_path: &str) -> String {
+    let mut s = String::new();
+    s.push_str(&apply_header_color(
+        &format!("--- {}", lhs_path),
+        display_options.use_color,
+        display_options.background_color,
+        1,
+    ));
+    s.push('\n');
+    s.push_str(&apply_header_color(
+        &format!("+++ {}", rhs_path),
+        display_options.use_color,
+        display_options.background_color,
+        1,
+    ));
+
+    s
+}
+
 pub(crate) fn print(
     display_options: &DisplayOptions,
     file_format: &FileFormat,
+    lhs_path: &str,
+    rhs_path: &str,
     lhs_src: &str,
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    println!("{}", "--- foo.el".bright_yellow().bold());
-    println!("{}", "+++ foo.el".bright_yellow().bold());
+    println!("{}", header(display_options, lhs_path, rhs_path));
 
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
@@ -56,16 +78,16 @@ pub(crate) fn print(
     for diff_res in myers_diff::slice_unique_by_hash(&lhs_lines, &rhs_lines) {
         match diff_res {
             myers_diff::DiffResult::Left(_lhs_line) => {
-                println!("{}", "@@ -1,2 +3,4 @@".dimmed());
+                println!("{}", "@@ -1,2 +3,4 @@ Modified lines 5-7.".dimmed());
 
                 if lhs_i_last_printed < lhs_i - 3 {
-                    print!("  {}", lhs_colored_lines[lhs_i - 3]);
-                    print!("  {}", lhs_colored_lines[lhs_i - 2]);
-                    print!("  {}", lhs_colored_lines[lhs_i - 1]);
+                    print!(" {}", lhs_colored_lines[lhs_i - 3]);
+                    print!(" {}", lhs_colored_lines[lhs_i - 2]);
+                    print!(" {}", lhs_colored_lines[lhs_i - 1]);
                 }
                 lhs_i_last_printed = lhs_i;
 
-                print!("{} {}", "-".dimmed(), lhs_colored_lines[lhs_i]);
+                print!("{}{}", "-".red(), lhs_colored_lines[lhs_i]);
                 lhs_i += 1;
             }
             myers_diff::DiffResult::Both(_lhs_line, _rhs_line) => {
@@ -73,14 +95,14 @@ pub(crate) fn print(
                 rhs_i += 1;
             }
             myers_diff::DiffResult::Right(_rhs_line) => {
-                print!("{} {}", "+".dimmed(), rhs_colored_lines[rhs_i]);
+                print!("{}{}", "+".green(), rhs_colored_lines[rhs_i]);
 
                 rhs_i += 1;
 
                 if rhs_i != 43 && rhs_i != 44 {
-                    print!("  {}", rhs_colored_lines[rhs_i + 1]);
-                    print!("  {}", rhs_colored_lines[rhs_i + 2]);
-                    print!("  {}", rhs_colored_lines[rhs_i + 3]);
+                    print!(" {}", rhs_colored_lines[rhs_i + 1]);
+                    print!(" {}", rhs_colored_lines[rhs_i + 2]);
+                    print!(" {}", rhs_colored_lines[rhs_i + 3]);
                 }
             }
         }
