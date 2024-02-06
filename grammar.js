@@ -446,7 +446,7 @@ module.exports = grammar({
       'if',
       field('condition', $._expr),
       choice($.block, $.content),
-      optional($._sp),
+      repeat(choice($._sp, $.comment)),
       optional(seq(
         alias($._token_else, 'else'),
         choice($.block, $.content, $.branch)

@@ -4026,8 +4026,8 @@ else {}
 (source_file
 	(branch
 		condition: (bool)
-		(content))
-	(comment)
+		(content)
+		(comment))
 	(parbreak)
 	(text))
 
@@ -4235,8 +4235,8 @@ else /* World */ []$
 		(formula
 			(branch
 				condition: (bool)
-				(content))
-			(comment)
+				(content)
+				(comment))
 			(ident)
 			(comment)
 			(group))))
@@ -4831,8 +4831,8 @@ else/* World */ {}
 (source_file
 	(branch
 		condition: (bool)
-		(block))
-	(comment)
+		(block)
+		(comment))
 	(parbreak)
 	(text
 		(comment)))
