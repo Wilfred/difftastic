@@ -644,12 +644,7 @@ bool tree_sitter_typst_external_scanner_scan(
 				return true;
 			}
 			lex_advance();
-			if (
-				lex_next == '[' ||
-				lex_next == '{' ||
-				lex_next == '/' ||
-				is_sp(lex_next)
-			) {
+			if (!is_id_continue(lex_next) && lex_next != '-') {
 				lex_accept(TOKEN_ELSE);
 			}
 			lexer->result_symbol = TOKEN_INLINED_ITEM_END;

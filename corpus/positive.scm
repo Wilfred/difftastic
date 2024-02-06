@@ -6117,3 +6117,28 @@ positive/410
 	(text)
 	(text)
 	(item))
+
+
+=====================
+positive/411
+=====================
+#if false [] 
+--------------------
+
+(source_file
+  (branch
+    (bool)
+    (content)))
+
+
+=====================
+positive/412
+=====================
+#if a [] els
+--------------------
+
+(source_file
+  (branch
+		condition: (ident)
+		(content))
+	(text))
