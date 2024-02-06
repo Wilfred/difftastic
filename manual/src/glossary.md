@@ -9,6 +9,10 @@ and a close delimiter, such as `[` and `]`. Delimiters may not be
 punctuation (e.g. `begin` and `end`) and may be empty strings (e.g. infix
 syntax converted to difftastic's syntax tree).
 
+**Hunk**: A group of lines displayed together in the diff
+output. Increasing the number of context lines increases the size of
+the hunk.
+
 **LHS**: Left-hand side. Difftastic compares two items, and LHS refers
 to the first item. See also 'RHS'.
 
