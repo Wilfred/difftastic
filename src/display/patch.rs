@@ -73,37 +73,75 @@ pub(crate) fn print(
     let mut lhs_i = 0;
     let mut rhs_i = 0;
 
-    let mut lhs_i_last_printed = 0;
+    let mut lhs_i_last_printed = None;
 
     for diff_res in myers_diff::slice_unique_by_hash(&lhs_lines, &rhs_lines) {
         match diff_res {
-            myers_diff::DiffResult::Left(_lhs_line) => {
-                println!("{}", "@@ -1,2 +3,4 @@ Modified lines 5-7.".dimmed());
+            myers_diff::DiffResult::Left(_) | myers_diff::DiffResult::Right(_) => {
+                // This is a novel line, so we should print context.
 
-                if lhs_i_last_printed < lhs_i - 3 {
-                    print!(" {}", lhs_colored_lines[lhs_i - 3]);
-                    print!(" {}", lhs_colored_lines[lhs_i - 2]);
-                    print!(" {}", lhs_colored_lines[lhs_i - 1]);
+                // First, print the trailing context of the previous
+                // hunk.
+                for _ in 0..display_options.num_context_lines {
+                    if let Some(last_printed) = lhs_i_last_printed {
+                        if last_printed < lhs_i {
+                            print!(" {}", lhs_colored_lines[last_printed + 1]);
+                            lhs_i_last_printed = Some(last_printed + 1);
+                        }
+                    }
                 }
-                lhs_i_last_printed = lhs_i;
 
+                // Hunk header.
+                let in_new_hunk = match lhs_i_last_printed {
+                    Some(last_printed) => last_printed + 1 < lhs_i,
+                    None => true,
+                };
+                if in_new_hunk {
+                    println!("{}", "@@ -1,2 +3,4 @@ Modified lines 5-7.".dimmed());
+                }
+
+                // Finally, print the leading context of this novel
+                // line.
+                // TODO: This will break due to overflow at 0.
+                for i in (1..display_options.num_context_lines + 1).rev() {
+                    let should_print = match lhs_i_last_printed {
+                        Some(last_printed) => lhs_i - i as usize > last_printed,
+                        None => true,
+                    };
+
+                    if should_print {
+                        print!(" {}", lhs_colored_lines[lhs_i - i as usize]);
+                        lhs_i_last_printed = Some(lhs_i - i as usize);
+                    }
+                }
+            }
+            myers_diff::DiffResult::Both(_, _) => {}
+        }
+
+        match diff_res {
+            myers_diff::DiffResult::Left(_) => {
+                lhs_i_last_printed = Some(lhs_i);
                 print!("{}{}", "-".red(), lhs_colored_lines[lhs_i]);
                 lhs_i += 1;
             }
-            myers_diff::DiffResult::Both(_lhs_line, _rhs_line) => {
+            myers_diff::DiffResult::Both(_, _) => {
                 lhs_i += 1;
                 rhs_i += 1;
             }
-            myers_diff::DiffResult::Right(_rhs_line) => {
+            myers_diff::DiffResult::Right(_) => {
                 print!("{}{}", "+".green(), rhs_colored_lines[rhs_i]);
 
                 rhs_i += 1;
+            }
+        }
+    }
 
-                if rhs_i != 43 && rhs_i != 44 {
-                    print!(" {}", rhs_colored_lines[rhs_i + 1]);
-                    print!(" {}", rhs_colored_lines[rhs_i + 2]);
-                    print!(" {}", rhs_colored_lines[rhs_i + 3]);
-                }
+    // Print the trailing context of the final hunk.
+    for _ in 0..display_options.num_context_lines {
+        if let Some(last_printed) = lhs_i_last_printed {
+            if last_printed < lhs_i {
+                print!(" {}", lhs_colored_lines[last_printed + 1]);
+                lhs_i_last_printed = Some(last_printed + 1);
             }
         }
     }
