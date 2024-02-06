@@ -9,13 +9,13 @@ A fully-featured 🌳 [Tree-sitter](https://github.com/tree-sitter/tree-sitter) 
 - 🍰 Parses whole Tact grammar as defined in [grammar.ohm](https://github.com/tact-lang/tact/blob/main/src/grammar/grammar.ohm) (with performance and usability in mind).
 - 🎨 Provides highlighting, scoping and tagging [queries](#-structure).
 - ⚙ Test-covered (including queries), reflects latest Tact language updates.
-- 🚀 See guildelines on usage and integration in editors supporting Tree-sitter [below](#-usage).
+- 🚀 See guidelines on usage and integration in editors supporting Tree-sitter [below](#-usage).
 
 ## 🚀 Usage
 
 ### Neovim
 
-Installation assumes you're using `lazy.nvim` as a package manager:
+Installation assumes you're using [`lazy.nvim`](https://github.com/folke/lazy.nvim) as a plugin manager:
 
 <details>
 <summary>Instructions</summary>
@@ -23,8 +23,8 @@ Installation assumes you're using `lazy.nvim` as a package manager:
 1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
 
 2. Create a folder for queries under your Neovim runtime directory, if not exists:
-  * Windows: `mkdir ~\AppData\Local\nvim\queries`
-  * Linux, macOS, *NIX: `mkdir ~/.config/nvim/queries`
+  * Windows: `mkdir -p ~\AppData\Local\nvim\queries`
+  * Linux, macOS, *NIX: `mkdir -p ~/.config/nvim/queries`
 
 3. Symlink the `editor_queries/neovim` sub-directory, this will add all the queries:
   * Windows: `mklink /D ~\AppData\Local\nvim\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\neovim`
