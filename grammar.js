@@ -1018,7 +1018,7 @@ module.exports = grammar({
     regex: $ => seq(
       '/',
       field('pattern', $.regex_pattern),
-      token.immediate('/'),
+      token.immediate(prec(1, '/')),
       optional(field('flags', $.regex_flags)),
     ),
 
