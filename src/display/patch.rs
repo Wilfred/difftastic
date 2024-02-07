@@ -84,7 +84,7 @@ pub(crate) fn print(
                 // hunk.
                 for _ in 0..display_options.num_context_lines {
                     if let Some(last_printed) = lhs_i_last_printed {
-                        if last_printed < lhs_i {
+                        if last_printed < lhs_i - 1 {
                             print!(" {}", lhs_colored_lines[last_printed + 1]);
                             lhs_i_last_printed = Some(last_printed + 1);
                         }
@@ -97,7 +97,7 @@ pub(crate) fn print(
                     None => true,
                 };
                 if in_new_hunk {
-                    println!("{}", "@@ -1,2 +3,4 @@ Modified lines 5-7.".dimmed());
+                    println!("{}", "@@ -1,2 +3,4 @@ Modified lines X-Y.".dimmed());
                 }
 
                 // Finally, print the leading context of this novel
