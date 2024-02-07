@@ -272,6 +272,8 @@ Regexps
 /on\/e/gim;
 /on[^/]afe/gim;
 /[\]/]/;
+/<!--/;
+/a///comment;
 
 ---
 
@@ -301,7 +303,14 @@ Regexps
       (regex_flags)))
   (expression_statement
     (regex
-      (regex_pattern))))
+      (regex_pattern)))
+  (expression_statement
+    (regex
+      (regex_pattern)))
+  (expression_statement
+    (regex
+      (regex_pattern))
+    (comment)))
 
 ============================================
 Comments take precedence over regexes
