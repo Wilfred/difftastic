@@ -9,6 +9,7 @@ enum TokenType {
     HTML_COMMENT,
     LOGICAL_OR,
     ESCAPE_SEQUENCE,
+    REGEX_PATTERN,
 };
 
 void *tree_sitter_javascript_external_scanner_create() { return NULL; }
@@ -283,7 +284,8 @@ bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer,
         return scan_ternary_qmark(lexer);
     }
 
-    if (valid_symbols[HTML_COMMENT] && !valid_symbols[LOGICAL_OR] && !valid_symbols[ESCAPE_SEQUENCE]) {
+    if (valid_symbols[HTML_COMMENT] && !valid_symbols[LOGICAL_OR] && !valid_symbols[ESCAPE_SEQUENCE] &&
+        !valid_symbols[REGEX_PATTERN]) {
         return scan_html_comment(lexer);
     }
 

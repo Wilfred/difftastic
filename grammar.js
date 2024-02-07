@@ -19,9 +19,10 @@ module.exports = grammar({
     $._ternary_qmark,
     $.html_comment,
     '||',
-    // We use escape sequence to tell the scanner if we're currently inside a string or template string, in which case
+    // We use escape sequence and regex pattern to tell the scanner if we're currently inside a string or template string, in which case
     // it should NOT parse html comments.
     $.escape_sequence,
+    $.regex_pattern,
   ],
 
   extras: $ => [

@@ -6861,6 +6861,10 @@
     {
       "type": "SYMBOL",
       "name": "escape_sequence"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "regex_pattern"
     }
   ],
   "inline": [
@@ -6888,4 +6892,3 @@
     "pattern"
   ]
 }
-
