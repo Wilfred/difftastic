@@ -70,7 +70,7 @@ pub(crate) fn print(
     let lhs_lines = split_lines_keep_newline(lhs_src);
     let rhs_lines = split_lines_keep_newline(rhs_src);
 
-    let mut lhs_i = 0;
+    let mut lhs_i: usize = 0;
     let mut rhs_i = 0;
 
     let mut lhs_i_last_printed = None;
@@ -84,7 +84,7 @@ pub(crate) fn print(
                 // hunk.
                 for _ in 0..display_options.num_context_lines {
                     if let Some(last_printed) = lhs_i_last_printed {
-                        if last_printed < lhs_i - 1 {
+                        if lhs_i > 0 && last_printed < lhs_i - 1 {
                             print!(" {}", lhs_colored_lines[last_printed + 1]);
                             lhs_i_last_printed = Some(last_printed + 1);
                         }
@@ -102,14 +102,15 @@ pub(crate) fn print(
 
                 // Finally, print the leading context of this novel
                 // line.
-                // TODO: This will break due to overflow at 0.
                 for i in (1..display_options.num_context_lines + 1).rev() {
                     let should_print = match lhs_i_last_printed {
-                        Some(last_printed) => lhs_i - i as usize > last_printed,
+                        Some(last_printed) => {
+                            lhs_i > i as usize && lhs_i - i as usize > last_printed
+                        }
                         None => true,
                     };
 
-                    if should_print {
+                    if should_print && lhs_i > i as usize {
                         print!(" {}", lhs_colored_lines[lhs_i - i as usize]);
                         lhs_i_last_printed = Some(lhs_i - i as usize);
                     }
@@ -139,7 +140,7 @@ pub(crate) fn print(
     // Print the trailing context of the final hunk.
     for _ in 0..display_options.num_context_lines {
         if let Some(last_printed) = lhs_i_last_printed {
-            if last_printed < lhs_i {
+            if last_printed < lhs_i && last_printed + 1 < lhs_colored_lines.len() {
                 print!(" {}", lhs_colored_lines[last_printed + 1]);
                 lhs_i_last_printed = Some(last_printed + 1);
             }
