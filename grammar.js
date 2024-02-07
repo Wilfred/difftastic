@@ -370,12 +370,13 @@ module.exports = grammar({
       field('body', $.statement),
     ),
 
-    do_statement: $ => seq(
+    do_statement: $ => prec.right(seq(
       'do',
       field('body', $.statement),
       'while',
       field('condition', $.parenthesized_expression),
-    ),
+      optional($._semicolon),
+    )),
 
     try_statement: $ => seq(
       'try',
