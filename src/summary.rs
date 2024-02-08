@@ -4,6 +4,7 @@ use std::fmt::Display;
 
 use crate::{
     display::hunks::Hunk,
+    options::FileArgument,
     parse::{
         guess_language::{self, language_name},
         syntax::MatchedPos,
@@ -37,6 +38,9 @@ impl Display for FileFormat {
 
 #[derive(Debug)]
 pub(crate) struct DiffResult {
+    pub(crate) lhs_path: FileArgument,
+    pub(crate) rhs_path: FileArgument,
+
     pub(crate) display_path: String,
     /// Additional information to display about this file, such as
     /// "Renamed from x.js to y.js".

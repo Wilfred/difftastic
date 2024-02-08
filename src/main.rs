@@ -400,6 +400,8 @@ fn diff_file(
     let (mut lhs_src, mut rhs_src) = match (guess_content(&lhs_bytes), guess_content(&rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
+                lhs_path: lhs_path.clone(),
+                rhs_path: rhs_path.clone(),
                 extra_info: renamed,
                 display_path: display_path.to_owned(),
                 file_format: FileFormat::Binary,
@@ -510,6 +512,8 @@ fn diff_conflicts_file(
 }
 
 fn check_only_text(
+    lhs_path: &FileArgument,
+    rhs_path: &FileArgument,
     file_format: &FileFormat,
     display_path: &str,
     extra_info: Option<String>,
@@ -519,6 +523,8 @@ fn check_only_text(
     let has_changes = lhs_src != rhs_src;
 
     DiffResult {
+        lhs_path: lhs_path.clone(),
+        rhs_path: rhs_path.clone(),
         display_path: display_path.to_string(),
         extra_info,
         file_format: file_format.clone(),
@@ -535,7 +541,7 @@ fn check_only_text(
 fn diff_file_content(
     display_path: &str,
     extra_info: Option<String>,
-    _lhs_path: &FileArgument,
+    lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     lhs_src: &str,
     rhs_src: &str,
@@ -561,6 +567,8 @@ fn diff_file_content(
         // If the two files are byte-for-byte identical, return early
         // rather than doing any more work.
         return DiffResult {
+            lhs_path: lhs_path.clone(),
+            rhs_path: rhs_path.clone(),
             extra_info,
             display_path: display_path.to_string(),
             file_format,
@@ -578,7 +586,15 @@ fn diff_file_content(
         None => {
             let file_format = FileFormat::PlainText;
             if diff_options.check_only {
-                return check_only_text(&file_format, display_path, extra_info, lhs_src, rhs_src);
+                return check_only_text(
+                    lhs_path,
+                    rhs_path,
+                    &file_format,
+                    display_path,
+                    extra_info,
+                    lhs_src,
+                    rhs_src,
+                );
             }
 
             let lhs_positions = line_parser::change_positions(lhs_src, rhs_src);
@@ -602,6 +618,8 @@ fn diff_file_content(
                             if diff_options.check_only {
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
+                                    lhs_path: lhs_path.clone(),
+                                    rhs_path: rhs_path.clone(),
                                     extra_info,
                                     display_path: display_path.to_string(),
                                     file_format: FileFormat::SupportedLanguage(language),
@@ -688,6 +706,8 @@ fn diff_file_content(
 
                             if diff_options.check_only {
                                 return check_only_text(
+                                    lhs_path,
+                                    rhs_path,
                                     &file_format,
                                     display_path,
                                     extra_info,
@@ -712,6 +732,8 @@ fn diff_file_content(
 
                     if diff_options.check_only {
                         return check_only_text(
+                            lhs_path,
+                            rhs_path,
                             &file_format,
                             display_path,
                             extra_info,
@@ -743,6 +765,8 @@ fn diff_file_content(
     let has_syntactic_changes = !hunks.is_empty();
 
     DiffResult {
+        lhs_path: lhs_path.clone(),
+        rhs_path: rhs_path.clone(),
         extra_info,
         display_path: display_path.to_string(),
         file_format,

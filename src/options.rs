@@ -306,7 +306,7 @@ pub(crate) enum DisplayMode {
     Json,
 }
 
-#[derive(Eq, PartialEq, Debug)]
+#[derive(Clone, Eq, PartialEq, Debug)]
 pub(crate) enum FileArgument {
     NamedPath(std::path::PathBuf),
     Stdin,
