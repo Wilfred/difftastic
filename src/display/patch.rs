@@ -4,23 +4,27 @@ use crate::constants::Side;
 use crate::diff::myers_diff;
 use crate::display::style::apply_colors;
 use crate::line_parser::split_lines_keep_newline;
-use crate::options::DisplayOptions;
+use crate::options::{DisplayOptions, FileArgument};
 use crate::parse::syntax::MatchedPos;
 use crate::summary::FileFormat;
 
 use super::style::apply_header_color;
 
-fn header(display_options: &DisplayOptions, lhs_path: &str, rhs_path: &str) -> String {
+fn header(
+    display_options: &DisplayOptions,
+    lhs_path: &FileArgument,
+    rhs_path: &FileArgument,
+) -> String {
     let mut s = String::new();
     s.push_str(&apply_header_color(
-        &format!("--- {}", lhs_path),
+        &format!("--- {}", lhs_path.display()),
         display_options.use_color,
         display_options.background_color,
         1,
     ));
     s.push('\n');
     s.push_str(&apply_header_color(
-        &format!("+++ {}", rhs_path),
+        &format!("+++ {}", rhs_path.display()),
         display_options.use_color,
         display_options.background_color,
         1,
@@ -32,8 +36,8 @@ fn header(display_options: &DisplayOptions, lhs_path: &str, rhs_path: &str) -> S
 pub(crate) fn print(
     display_options: &DisplayOptions,
     file_format: &FileFormat,
-    lhs_path: &str,
-    rhs_path: &str,
+    lhs_path: &FileArgument,
+    rhs_path: &FileArgument,
     lhs_src: &str,
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
