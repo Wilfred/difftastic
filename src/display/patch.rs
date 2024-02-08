@@ -97,7 +97,7 @@ pub(crate) fn print(
                     None => true,
                 };
                 if in_new_hunk {
-                    println!("{}", "@@ -1,2 +3,4 @@ Modified lines X-Y.".dimmed());
+                    println!("{}", "@@ -1,2 +3,4 @@".dimmed());
                 }
 
                 // Finally, print the leading context of this novel
