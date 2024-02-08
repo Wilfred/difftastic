@@ -81,23 +81,16 @@ fn read_file_arg(file_arg: &FileArgument) -> std::io::Result<Vec<u8>> {
 fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
     match e.kind() {
         std::io::ErrorKind::NotFound => {
-            eprintln!("No such file: {}", file_arg.display());
+            eprintln!("No such file: {}", file_arg);
         }
         std::io::ErrorKind::PermissionDenied => {
-            eprintln!(
-                "Permission denied when reading file: {}",
-                file_arg.display()
-            );
+            eprintln!("Permission denied when reading file: {}", file_arg);
         }
         _ => match file_arg {
             FileArgument::NamedPath(path) if path.is_dir() => {
                 eprintln!("Expected a file, got a directory: {}", path.display());
             }
-            _ => eprintln!(
-                "Could not read file: {} (error {:?})",
-                file_arg.display(),
-                e.kind()
-            ),
+            _ => eprintln!("Could not read file: {} (error {:?})", file_arg, e.kind()),
         },
     };
 }

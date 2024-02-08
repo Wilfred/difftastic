@@ -1,6 +1,6 @@
 //! CLI option parsing.
 
-use std::{env, ffi::OsStr, path::Path, path::PathBuf};
+use std::{env, ffi::OsStr, fmt::Display, path::Path, path::PathBuf};
 
 use clap::{crate_authors, crate_description, Arg, Command};
 use const_format::formatcp;
@@ -352,12 +352,16 @@ impl FileArgument {
             FileArgument::NamedPath(PathBuf::from(arg))
         }
     }
+}
 
-    pub(crate) fn display(&self) -> String {
+impl Display for FileArgument {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            FileArgument::NamedPath(path) => relative_to_current(path).display().to_string(),
-            FileArgument::Stdin => "(stdin)".to_string(),
-            FileArgument::DevNull => "/dev/null".to_string(),
+            FileArgument::NamedPath(path) => {
+                write!(f, "{}", relative_to_current(path).display())
+            }
+            FileArgument::Stdin => write!(f, "(stdin)"),
+            FileArgument::DevNull => write!(f, "/dev/null"),
         }
     }
 }
