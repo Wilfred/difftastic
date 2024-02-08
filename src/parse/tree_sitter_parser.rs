@@ -1837,15 +1837,10 @@ mod tests {
             Syntax::List { children, .. } => {
                 // <style>, content, </style>.
                 assert_eq!(children.len(), 3);
-                match children[1] {
-                    Syntax::Atom { .. } => {
-                        panic!("Style contents is parsed as a single atom");
-                    }
-                    _ => {
-                        // A list is what we want; it shows that the CSS was parsed
-                        // into multiple tokens, so we do not check it further.
-                    }
-                }
+
+                // A list is what we want; it shows that the CSS was parsed
+                // into multiple tokens, so we do not check it further.
+                assert!(matches!(children[1], Syntax::List { .. }));
             }
             _ => {
                 panic!("Top level isn't a list");
