@@ -8702,9 +8702,7 @@
       "name": "_pod_content"
     }
   ],
-  "inline": [
-    "semi_colon"
-  ],
+  "inline": [],
   "supertypes": []
 }
 
