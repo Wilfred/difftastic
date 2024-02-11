@@ -1187,6 +1187,9 @@ object A:
   
   extension [A1](d: D) def foo = "foo"
 
+trait B:
+  extension (x: Int) def bar: String
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -1211,7 +1214,18 @@ object A:
             (type_identifier)))
         (function_definition
           (identifier)
-          (string))))))
+          (string)))))
+  (trait_definition
+    (identifier)
+    (template_body
+      (extension_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (function_declaration
+          (identifier)
+          (type_identifier))))))
 
 ================================================================================
 Given instance definitions (Scala 3 syntax)
