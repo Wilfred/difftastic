@@ -575,7 +575,11 @@ module.exports = grammar({
           field("parameters", repeat($.parameters)),
           field(
             "body",
-            choice($._extension_template_body, $.function_definition),
+            choice(
+              $._extension_template_body,
+              $.function_definition,
+              $.function_declaration,
+            ),
           ),
         ),
       ),
