@@ -1,0 +1,45 @@
+name: Build/test
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm test
+
+  chez:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: git clone --depth 1 https://github.com/cisco/ChezScheme.git
+      - run: npx tree-sitter parse $(find ./ChezScheme -type f -name "*.scm" -o -name "*.ss" -not -exec grep -q -e '<<' -e '(#' -e '#{' -e '#!eof' -e '(\\' {} \; -print) -qt
+
+  sicp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - name: Download sicp code
+        run: |
+          mkdir -p sicp && cd sicp
+          curl https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/code/allcode.tar.gz -O
+          tar xvf allcode.tar.gz
+      - run: npx tree-sitter parse sicp/*.scm -qt
+
