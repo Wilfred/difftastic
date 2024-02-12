@@ -47,6 +47,7 @@ with `difft --list-languages`.
 | Ruby            | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)             |
 | Rust            | [tree-sitter/tree-sitter-rust](https://github.com/tree-sitter/tree-sitter-rust)             |
 | Scala           | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)           |
+| Scheme          | [6cdh/tree-sitter-scheme](https://github.com/6cdh/tree-sitter-scheme)                       |
 | Solidity        | [JoranHonig/tree-sitter-solidity](https://github.com/JoranHonig/tree-sitter-solidity)       |
 | SQL             | [m-novikov/tree-sitter-sql](https://github.com/m-novikov/tree-sitter-sql)                   |
 | Swift           | [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)           |

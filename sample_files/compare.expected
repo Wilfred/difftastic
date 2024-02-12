@@ -202,6 +202,9 @@ e690af6874c954b271ef7ea8eb1d8af1  -
 sample_files/scala_before.scala sample_files/scala_after.scala
 8b2d6102b120d4a0de790c33409eedc3  -
 
+sample_files/scheme_before.scm sample_files/scheme_after.scm
+d00fcfe46aca3e2877bda566f1a3908b  -
+
 sample_files/simple_before.js sample_files/simple_after.js
 c9c5d1c61b7e8a953a361343bcd13c95  -
 
