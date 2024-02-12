@@ -2640,6 +2640,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "function_definition"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "function_declaration"
                 }
               ]
             }
