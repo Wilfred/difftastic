@@ -200,7 +200,7 @@
     },
     "unit_address": {
       "type": "PATTERN",
-      "value": "[0-9a-fA-F,]+"
+      "value": "[0-9a-zA-Z,._+-]+"
     },
     "label_identifier": {
       "type": "ALIAS",
