@@ -1,0 +1,58 @@
+/dts-v1/;
+
+/memreserve/ 0x1000000000000000 0x0000000002000000;
+/memreserve/ 0x2000000000000000 0x0100000000000000;
+/memreserve/ 0x0000000000000000 0x0000000000000014;
+
+/ {
+	model = "MyBoardName";
+	compatible = "MyBoardName", "MyBoardFamilyName";
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	cpus {
+		linux,phandle = <0x1>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		PowerPC,970@0 {
+			name = "PowerPC,970";
+			device_type = "cpu";
+			reg = <0x00000000>;
+			clock-frequency = <1600000000>;
+			timebase-frequency = <33333333>;
+			linux,boot-cpu;
+			i-cache-size = <65536>;
+			d-cache-size = <32768>;
+		};
+
+		PowerPC,970@1 {
+			name = "PowerPC,970";
+			device_type = "cpu";
+			reg = <0x00000001>;
+			clock-frequency = <1600000000>;
+			timebase-frequency = <33333333>;
+			i-cache-size = <65536>;
+			d-cache-size = <32768>;
+		};
+
+	};
+
+	randomnode {
+		string = "\xff\0stuffstuff\t\t\t\n\n\n";
+		blob = [0a 0b 0c 0d de ea ad be ef];
+		ref = < &{/memory@0} >;
+		mixed = "abc", [1234], <0xa 0xb 0xc>;
+		old = <12345>;
+	};
+
+	memory@0 {
+		device_type = "memory";
+		memreg: reg = <0x00000000 0x00000000 0x00000000 0x20000000>;
+	};
+
+	chosen {
+		bootargs = "root=/dev/sda2";
+		linux,platform = <0x600>;
+	};
+
+};
