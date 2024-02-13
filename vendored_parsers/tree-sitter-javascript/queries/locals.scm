@@ -3,7 +3,7 @@
 
 [
   (statement_block)
-  (function)
+  (function_expression)
   (arrow_function)
   (function_declaration)
   (method_definition)

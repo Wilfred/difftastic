@@ -1,5 +1,9 @@
 ## 0.56 (unreleased)
 
+### Parsing
+
+Updated JavaScript parser.
+
 ## 0.55 (released 1st February 2024)
 
 ### Parsing

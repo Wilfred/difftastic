@@ -108,22 +108,6 @@ world';
   (expression_statement
     (string (string_fragment) (escape_sequence) (string_fragment))))
 
-============================================================
-Non-standard unescaped newlines legal in TSX attributes
-============================================================
-
-"hello
-world";
-
-'hello
-world';
-
----
-
-(program
-  (expression_statement (string (string_fragment)))
-  (expression_statement (string (string_fragment))))
-
 =========================================================
 JSX strings with unescaped newlines for TSX attributes
 =========================================================
@@ -151,3 +135,37 @@ JSX strings with unescaped newlines for TSX attributes
        (jsx_attribute (property_identifier) (string (string_fragment))))
      (jsx_closing_element
        (identifier)))))
+
+===============================================
+JSX with HTML character references (entities)
+===============================================
+
+<a>foo &nbsp; bar</a>;
+
+<abbr title="foo &nbsp; \n bar">foo</abbr>;
+
+----
+
+(program
+	(expression_statement
+		(jsx_element
+			(jsx_opening_element
+				(identifier))
+			(jsx_text)
+			(html_character_reference)
+			(jsx_text)
+			(jsx_closing_element
+				(identifier))))
+	(expression_statement
+		(jsx_element
+			(jsx_opening_element
+				(identifier)
+			(jsx_attribute
+				(property_identifier)
+				(string
+					(string_fragment)
+					(html_character_reference)
+					(string_fragment))))
+			(jsx_text)
+			(jsx_closing_element
+				(identifier)))))
