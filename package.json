@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.20.7",
+  "version": "0.20.8",
   "description": "C grammar for node-tree-sitter",
   "main": "bindings/node",
   "keywords": [
