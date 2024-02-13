@@ -911,15 +911,19 @@ module.exports = grammar({
       $.compound_literal_expression,
       $.identifier,
       $.number_literal,
-      $.string_literal,
+      $._string,
       $.true,
       $.false,
       $.null,
-      $.concatenated_string,
       $.char_literal,
       $.parenthesized_expression,
       $.gnu_asm_expression,
     ),
+
+    _string: $ => prec.left(choice(
+      $.string_literal,
+      $.concatenated_string,
+    )),
 
     comma_expression: $ => seq(
       field('left', $._expression),
@@ -1070,7 +1074,7 @@ module.exports = grammar({
       choice('asm', '__asm__'),
       repeat($.gnu_asm_qualifier),
       '(',
-      field('assembly_code', choice($.string_literal, $.concatenated_string)),
+      field('assembly_code', $._string),
       optional(seq(
         field('output_operands', $.gnu_asm_output_operand_list),
         optional(seq(
@@ -1232,10 +1236,15 @@ module.exports = grammar({
       '\'',
     ),
 
+    // Must concatenate at least 2 nodes, one of which must be a string_literal.
+    // Identifier is added to parse macros that are strings, like PRIu64.
     concatenated_string: $ => prec.right(seq(
-      choice($.identifier, $.string_literal),
-      $.string_literal,
-      repeat(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
+      choice(
+        seq($.identifier, $.string_literal),
+        seq($.string_literal, $.string_literal),
+        seq($.string_literal, $.identifier),
+      ),
+      repeat(choice($.string_literal, $.identifier)),
     )),
 
     string_literal: $ => seq(

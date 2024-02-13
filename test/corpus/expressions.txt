@@ -1345,3 +1345,72 @@ void f() {
             (number_literal)
             (number_literal)
             (number_literal)))))))
+
+================================================================================
+Concatenated strings
+================================================================================
+
+foo("hello" PRI " world");
+foo("hello" PRI);
+foo("hello" " world");
+foo("hello" " world " PRI);
+foo(PRI "hello" PRI);
+foo(PRI "hello");
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (identifier)
+          (string_literal
+            (string_content))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (identifier)
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (identifier)
+          (string_literal
+            (string_content)))))))

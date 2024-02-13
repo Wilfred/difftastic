@@ -6249,7 +6249,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string_literal"
+          "name": "_string"
         },
         {
           "type": "SYMBOL",
@@ -6265,10 +6265,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "concatenated_string"
-        },
-        {
-          "type": "SYMBOL",
           "name": "char_literal"
         },
         {
@@ -6280,6 +6276,23 @@
           "name": "gnu_asm_expression"
         }
       ]
+    },
+    "_string": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "string_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "concatenated_string"
+          }
+        ]
+      }
     },
     "comma_expression": {
       "type": "SEQ",
@@ -7611,17 +7624,8 @@
             "type": "FIELD",
             "name": "assembly_code",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "string_literal"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "concatenated_string"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_string"
             }
           },
           {
@@ -8887,18 +8891,45 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "identifier"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  }
+                ]
               },
               {
-                "type": "SYMBOL",
-                "name": "string_literal"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "string_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
               }
             ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "string_literal"
           },
           {
             "type": "REPEAT",
@@ -9295,29 +9326,5 @@
     "_field_declarator",
     "_type_declarator",
     "_abstract_declarator"
-  ],
-  "PREC": {
-    "PAREN_DECLARATOR": -10,
-    "ASSIGNMENT": -2,
-    "CONDITIONAL": -1,
-    "DEFAULT": 0,
-    "LOGICAL_OR": 1,
-    "LOGICAL_AND": 2,
-    "INCLUSIVE_OR": 3,
-    "EXCLUSIVE_OR": 4,
-    "BITWISE_AND": 5,
-    "EQUAL": 6,
-    "RELATIONAL": 7,
-    "OFFSETOF": 8,
-    "SHIFT": 9,
-    "ADD": 10,
-    "MULTIPLY": 11,
-    "CAST": 12,
-    "SIZEOF": 13,
-    "UNARY": 14,
-    "CALL": 15,
-    "FIELD": 16,
-    "SUBSCRIPT": 17
-  }
+  ]
 }
-
