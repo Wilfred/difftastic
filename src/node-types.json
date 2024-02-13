@@ -1204,7 +1204,15 @@
         "required": true,
         "types": [
           {
-            "type": "_declarator",
+            "type": "array_declarator",
+            "named": true
+          },
+          {
+            "type": "attributed_declarator",
+            "named": true
+          },
+          {
+            "type": "function_declarator",
             "named": true
           },
           {
@@ -1212,7 +1220,19 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "init_declarator",
+            "named": true
+          },
+          {
+            "type": "parenthesized_declarator",
+            "named": true
+          },
+          {
+            "type": "pointer_declarator",
             "named": true
           }
         ]
@@ -1723,7 +1743,15 @@
           "named": true
         },
         {
+          "type": "call_expression",
+          "named": true
+        },
+        {
           "type": "gnu_asm_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]

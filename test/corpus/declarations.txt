@@ -630,6 +630,38 @@ int static inline do_stuff(int arg1) {
         (number_literal)))))
 
 ================================================================================
+Function definitions with macro attributes
+================================================================================
+
+void * do_stuff(int arg1)
+  SOME_ATTR
+  SOME_ATTR(1)
+{
+  return 5;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    type: (primitive_type)
+    declarator: (pointer_declarator
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (primitive_type)
+            declarator: (identifier)))
+        (identifier)
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (number_literal)))))
+    body: (compound_statement
+      (return_statement
+        (number_literal)))))
+
+================================================================================
 Linkage specifications
 ================================================================================
 

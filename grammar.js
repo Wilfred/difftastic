@@ -67,6 +67,7 @@ module.exports = grammar({
     [$.enum_specifier],
     [$._type_specifier, $._old_style_parameter_list],
     [$.parameter_list, $._old_style_parameter_list],
+    [$.function_declarator, $._function_declaration_declarator],
   ],
 
   word: $ => $.identifier,
@@ -244,13 +245,15 @@ module.exports = grammar({
 
     declaration: $ => seq(
       $._declaration_specifiers,
-      $._declaration_declarator,
+      commaSep1(field('declarator', choice(
+        seq(
+          $._declaration_declarator,
+          optional($.gnu_asm_expression),
+        ),
+        $.init_declarator,
+      ))),
       ';',
     ),
-    _declaration_declarator: $ => commaSep1(field('declarator', choice(
-      seq($._declarator, optional($.gnu_asm_expression)),
-      $.init_declarator,
-    ))),
 
     type_definition: $ => seq(
       optional('__extension__'),
@@ -357,6 +360,15 @@ module.exports = grammar({
       $.identifier,
     ),
 
+    _declaration_declarator: $ => choice(
+      $.attributed_declarator,
+      $.pointer_declarator,
+      alias($._function_declaration_declarator, $.function_declarator),
+      $.array_declarator,
+      $.parenthesized_declarator,
+      $.identifier,
+    ),
+
     _field_declarator: $ => choice(
       alias($.attributed_field_declarator, $.attributed_declarator),
       alias($.pointer_field_declarator, $.pointer_declarator),
@@ -450,8 +462,21 @@ module.exports = grammar({
         field('declarator', $._declarator),
         field('parameters', $.parameter_list),
         optional($.gnu_asm_expression),
+        repeat(choice(
+          $.attribute_specifier,
+          $.identifier,
+          alias($.preproc_call_expression, $.call_expression),
+        )),
+      )),
+
+    _function_declaration_declarator: $ => prec.right(1,
+      seq(
+        field('declarator', $._declarator),
+        field('parameters', $.parameter_list),
+        optional($.gnu_asm_expression),
         repeat($.attribute_specifier),
       )),
+
     function_field_declarator: $ => prec(1, seq(
       field('declarator', $._field_declarator),
       field('parameters', $.parameter_list),
