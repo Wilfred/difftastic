@@ -3,6 +3,7 @@ node_modules
 .node-version
 target
 build
+/.build
 *.log
 Cargo.lock
 package-lock.json

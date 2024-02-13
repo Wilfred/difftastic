@@ -8,13 +8,18 @@ var y: number;
 ---
 
 (program
-  (variable_declaration (variable_declarator
-    (identifier)
-    (type_annotation (predefined_type))
-    (string (string_fragment))))
-  (variable_declaration (variable_declarator
-    (identifier)
-    (type_annotation (predefined_type)))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (string
+        (string_fragment))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type)))))
 
 =======================================
 Parenthesized types
@@ -26,15 +31,22 @@ var x: ({a: any});
 ---
 
 (program
-  (variable_declaration (variable_declarator
-    (identifier)
-    (type_annotation (parenthesized_type (predefined_type)))))
-  (variable_declaration (variable_declarator
-    (identifier)
-    (type_annotation (parenthesized_type
-      (object_type
-        (property_signature (property_identifier) (type_annotation (predefined_type))))))))
-)
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (parenthesized_type
+          (predefined_type)))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (parenthesized_type
+          (object_type
+            (property_signature
+              (property_identifier)
+              (type_annotation
+                (predefined_type)))))))))
 
 =======================================
 Object types
@@ -49,39 +61,59 @@ type T = { -readonly [K in keyof T]: any }
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation (object_type
-      (property_signature (property_identifier) (type_annotation (predefined_type)))
-      (property_signature (property_identifier) (type_annotation (predefined_type)))))))
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation (object_type
-      (index_signature (identifier) (predefined_type) (type_annotation (predefined_type)))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (object_type
+          (property_signature
+            (property_identifier)
+            (type_annotation
+              (predefined_type)))
+          (property_signature
+            (property_identifier)
+            (type_annotation
+              (predefined_type)))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (object_type
+          (index_signature
+            (identifier)
+            (predefined_type)
+            (type_annotation
+              (predefined_type)))))))
   (type_alias_declaration
     (type_identifier)
     (object_type
       (index_signature
         (mapped_type_clause
           (type_identifier)
-          (index_type_query (type_identifier)))
-        (omitting_type_annotation (predefined_type)))))
+          (index_type_query
+            (type_identifier)))
+        (omitting_type_annotation
+          (predefined_type)))))
   (type_alias_declaration
     (type_identifier)
     (object_type
       (index_signature
         (mapped_type_clause
           (type_identifier)
-          (index_type_query (type_identifier)))
-        (opting_type_annotation (predefined_type)))))
+          (index_type_query
+            (type_identifier)))
+        (opting_type_annotation
+          (predefined_type)))))
   (type_alias_declaration
     (type_identifier)
     (object_type
       (index_signature
         (mapped_type_clause
           (type_identifier)
-          (index_type_query (type_identifier)))
-        (type_annotation (predefined_type))))))
+          (index_type_query
+            (type_identifier)))
+        (type_annotation
+          (predefined_type))))))
 
 =======================================
 Object types with call signatures
@@ -98,13 +130,18 @@ let MyFunction: {
   (lexical_declaration
     (variable_declarator
       (identifier)
-      (type_annotation (object_type
-        (call_signature
-          (formal_parameters (required_parameter (identifier)))
-          (type_annotation (predefined_type)))
-        (property_signature
-          (property_identifier)
-          (type_annotation (predefined_type))))))))
+      (type_annotation
+        (object_type
+          (call_signature
+            (formal_parameters
+              (required_parameter
+                (identifier)))
+            (type_annotation
+              (predefined_type)))
+          (property_signature
+            (property_identifier)
+            (type_annotation
+              (predefined_type))))))))
 
 ====================================================
 Index signatures
@@ -124,11 +161,13 @@ type Foo = {
       (index_signature
         (identifier)
         (predefined_type)
-        (type_annotation (predefined_type)))
+        (type_annotation
+          (predefined_type)))
       (index_signature
         (identifier)
         (predefined_type)
-        (type_annotation (predefined_type))))))
+        (type_annotation
+          (predefined_type))))))
 
 ====================================================
 Object types with automatic semicolon insertion
@@ -148,14 +187,19 @@ type Something = {
     (object_type
       (property_signature
         (property_identifier)
-        (type_annotation (predefined_type)))
+        (type_annotation
+          (predefined_type)))
       (call_signature
-        (formal_parameters (required_parameter (identifier)))
-        (type_annotation (predefined_type)))
+        (formal_parameters
+          (required_parameter
+            (identifier)))
+        (type_annotation
+          (predefined_type)))
       (index_signature
         (identifier)
         (predefined_type)
-        (type_annotation (predefined_type))))))
+        (type_annotation
+          (predefined_type))))))
 
 ==========================================================
 Automatic semicolon disabled before return type
@@ -181,17 +225,27 @@ f
   (function_declaration
     (identifier)
     (formal_parameters)
-    (type_annotation (predefined_type))
+    (type_annotation
+      (predefined_type))
     (statement_block
-      (expression_statement (string (string_fragment)))
-      (expression_statement (string (string_fragment)))))
+      (expression_statement
+        (string
+          (string_fragment)))
+      (expression_statement
+        (string
+          (string_fragment)))))
   (function_declaration
     (identifier)
     (formal_parameters)
-    (type_annotation (predefined_type))
+    (type_annotation
+      (predefined_type))
     (statement_block
-      (expression_statement (string (string_fragment)))
-      (expression_statement (string (string_fragment))))))
+      (expression_statement
+        (string
+          (string_fragment)))
+      (expression_statement
+        (string
+          (string_fragment))))))
 
 =======================================
 Array types
@@ -202,9 +256,12 @@ let x: X[];
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation (array_type (type_identifier))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (array_type
+          (type_identifier))))))
 
 =======================================
 Function types
@@ -217,21 +274,32 @@ const foo: (this: Readable, size?: number) => any;
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation
-      (function_type
-        (formal_parameters
-          (required_parameter (identifier) (type_annotation (predefined_type))))
-        (predefined_type)))))
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation
-      (function_type
-        (formal_parameters
-          (required_parameter (this) (type_annotation (type_identifier)))
-          (optional_parameter (identifier) (type_annotation (predefined_type))))
-        (predefined_type))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation
+                (predefined_type))))
+          (predefined_type)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (this)
+              (type_annotation
+                (type_identifier)))
+            (optional_parameter
+              (identifier)
+              (type_annotation
+                (predefined_type))))
+          (predefined_type))))))
 
 ======================================
 Functions with destructured parameters
@@ -249,8 +317,10 @@ let foo: ({a}: Foo) => number
         (function_type
           (formal_parameters
             (required_parameter
-              (object_pattern (shorthand_property_identifier_pattern))
-              (type_annotation (type_identifier))))
+              (object_pattern
+                (shorthand_property_identifier_pattern))
+              (type_annotation
+                (type_identifier))))
           (predefined_type))))))
 
 =======================================
@@ -262,15 +332,55 @@ let x: new < T1, T2 > ( p1, p2 ) => R;
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation
-      (constructor_type
-        (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
-        (formal_parameters
-          (required_parameter (identifier)) (required_parameter (identifier)))
-        (type_identifier))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (constructor_type
+          (type_parameters
+            (type_parameter
+              (type_identifier))
+            (type_parameter
+              (type_identifier)))
+          (formal_parameters
+            (required_parameter
+              (identifier))
+            (required_parameter
+              (identifier)))
+          (type_identifier))))))
 
+=======================================
+Symbol types
+=======================================
+
+const symFoo: unique symbol = Symbol("foo");
+const symBar: symbol = Symbol.for("bar");
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (call_expression
+        (identifier)
+        (arguments
+          (string
+            (string_fragment))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (predefined_type))
+      (call_expression
+        (member_expression
+          (identifier)
+          (property_identifier))
+        (arguments
+          (string
+            (string_fragment)))))))
 
 =======================================
 Type annotations in parenthesized expressions
@@ -281,15 +391,19 @@ const range = (document: any).selection.createRange()
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-  (call_expression
-  (member_expression
-    (member_expression
-      (parenthesized_expression (identifier) (type_annotation (predefined_type)))
-      (property_identifier))
-    (property_identifier))
-  (arguments)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (call_expression
+        (member_expression
+          (member_expression
+            (parenthesized_expression
+              (identifier)
+              (type_annotation
+                (predefined_type)))
+            (property_identifier))
+          (property_identifier))
+        (arguments)))))
 
 =======================================
 Flow Maybe Types
@@ -301,12 +415,19 @@ const miscArray: ?T[]
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation (flow_maybe_type (type_identifier)))))
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation (flow_maybe_type (array_type (type_identifier)))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (flow_maybe_type
+          (type_identifier)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (flow_maybe_type
+          (array_type
+            (type_identifier)))))))
 
 =======================================
 Flow Import Types
@@ -331,39 +452,104 @@ import type, {addUser, type User} from './User.js';
 (program
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier) (identifier)))) (string (string_fragment)))
-  (import_statement
-    (import_clause (identifier)
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
-  (import_statement
-    (import_clause (identifier)) (string (string_fragment)))
-  (import_statement
-    (import_clause (identifier)
-      (named_imports (import_specifier (identifier)))) (string (string_fragment)))
+      (named_imports
+        (import_specifier
+          (identifier)
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)))) (string (string_fragment)))
+      (identifier)
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+      (identifier))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+      (identifier)
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
+      (named_imports
+        (import_specifier
+          (identifier)
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (identifier)
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment))))
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier)
+          (identifier))))
+    (string
+      (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
+  (import_statement
+    (import_clause
+      (identifier)
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment))))
 
 =======================================
 Type-only Export
@@ -376,16 +562,27 @@ export type { A, B, C as D } from 'mymodule';
 ---
 
 (program
-  (export_statement (export_clause (export_specifier (identifier))))
-  (export_statement
-    (export_clause (export_specifier (identifier)))
-    (string (string_fragment)))
   (export_statement
     (export_clause
-      (export_specifier (identifier))
-      (export_specifier (identifier))
-      (export_specifier (identifier) (identifier)))
-    (string (string_fragment))))
+      (export_specifier
+        (identifier))))
+  (export_statement
+    (export_clause
+      (export_specifier
+        (identifier)))
+    (string
+      (string_fragment)))
+  (export_statement
+    (export_clause
+      (export_specifier
+        (identifier))
+      (export_specifier
+        (identifier))
+      (export_specifier
+        (identifier)
+        (identifier)))
+    (string
+      (string_fragment))))
 
 =======================================
 Flow Export Types
@@ -397,8 +594,14 @@ export interface UserInterface {}
 ---
 
 (program
-  (export_statement (type_alias_declaration (type_identifier) (object_type)))
-  (export_statement (interface_declaration (type_identifier) (object_type))))
+  (export_statement
+    (type_alias_declaration
+      (type_identifier)
+      (object_type)))
+  (export_statement
+    (interface_declaration
+      (type_identifier)
+      (interface_body))))
 
 =======================================
 Type alias declarations
@@ -423,17 +626,38 @@ type ConflictInfo = {
   (type_alias_declaration
     (type_identifier)
     (object_type
-      (property_signature (property_identifier) (type_annotation (type_identifier)))
-      (property_signature (property_identifier) (type_annotation (type_identifier)))
-      (property_signature (property_identifier) (type_annotation (type_identifier)))
-      (property_signature (property_identifier) (type_annotation (array_type (type_identifier))))))
-
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (array_type
+            (type_identifier))))))
   (type_alias_declaration
     (type_identifier)
     (object_type
-      (property_signature (property_identifier) (type_annotation (type_identifier)))
-      (property_signature (property_identifier) (type_annotation (type_identifier)))
-      (property_signature (property_identifier) (type_annotation (type_identifier))))))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier))))))
 
 =======================================
 Enum declarations
@@ -459,23 +683,56 @@ enum Style {
 ---
 
 (program
-  (enum_declaration (identifier) (enum_body
-    (property_identifier)
-    (string (string_fragment))
-    (enum_assignment
-      (string (string_fragment))
-      (call_expression
-        (member_expression (identifier) (property_identifier))
-        (arguments (binary_expression (call_expression (member_expression (identifier) (property_identifier)) (arguments)) (number)))))
-    (enum_assignment (property_identifier) (number))
-    (property_identifier)))
-  (enum_declaration (identifier) (enum_body
-    (enum_assignment (property_identifier) (number))
-    (enum_assignment (property_identifier) (number))
-    (enum_assignment (property_identifier) (number))
-    (enum_assignment (property_identifier) (number))
-    (enum_assignment (property_identifier) (binary_expression (identifier) (identifier)))
-    (enum_assignment (property_identifier) (binary_expression (identifier) (identifier))))))
+  (enum_declaration
+    (identifier)
+    (enum_body
+      (property_identifier)
+      (string
+        (string_fragment))
+      (enum_assignment
+        (string
+          (string_fragment))
+        (call_expression
+          (member_expression
+            (identifier)
+            (property_identifier))
+          (arguments
+            (binary_expression
+              (call_expression
+                (member_expression
+                  (identifier)
+                  (property_identifier))
+                (arguments))
+              (number)))))
+      (enum_assignment
+        (property_identifier)
+        (number))
+      (property_identifier)))
+  (enum_declaration
+    (identifier)
+    (enum_body
+      (enum_assignment
+        (property_identifier)
+        (number))
+      (enum_assignment
+        (property_identifier)
+        (number))
+      (enum_assignment
+        (property_identifier)
+        (number))
+      (enum_assignment
+        (property_identifier)
+        (number))
+      (enum_assignment
+        (property_identifier)
+        (binary_expression
+          (identifier)
+          (identifier)))
+      (enum_assignment
+        (property_identifier)
+        (binary_expression
+          (identifier)
+          (identifier))))))
 
 =======================================
 Interface declarations
@@ -510,44 +767,84 @@ interface Enum extends Bar, Baz, Foo<A> {
 (program
   (interface_declaration
     (type_identifier)
-    (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
+    (interface_body
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type)))))
   (interface_declaration
     (type_identifier)
-    (extends_type_clause (type_identifier))
-    (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
+    (extends_type_clause
+      (type_identifier))
+    (interface_body
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type)))))
   (interface_declaration
     (type_identifier)
-    (object_type
-      (property_signature (property_identifier) (type_annotation (predefined_type)))
-      (property_signature (property_identifier) (type_annotation (predefined_type)))))
+    (interface_body
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type)))))
   (interface_declaration
     (type_identifier)
-    (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier) (constraint (type_identifier))))
-    (object_type
-      (property_signature (property_identifier) (type_annotation (type_identifier)))
-      (property_signature (property_identifier) (type_annotation (type_identifier)))))
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (type_identifier))))
+    (interface_body
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (type_identifier)))))
   (interface_declaration
     (type_identifier)
-    (object_type
-      (property_signature (property_identifier) (type_annotation (object_type)))
+    (interface_body
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (object_type)))
       (method_signature
         (property_identifier)
         (formal_parameters
-          (required_parameter (identifier) (type_annotation (type_identifier))))
+          (required_parameter
+            (identifier)
+            (type_annotation
+              (type_identifier))))
         (type_annotation
-          (generic_type (type_identifier) (type_arguments (type_identifier)))))))
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))))))
   (interface_declaration
     (type_identifier)
     (extends_type_clause
       (type_identifier)
       (type_identifier)
-      (generic_type (type_identifier) (type_arguments (type_identifier))))
-      (object_type
-        (method_signature
-          (accessibility_modifier)
-          (property_identifier)
-          (formal_parameters)
-          (type_annotation (type_identifier))))))
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier))))
+    (interface_body
+      (method_signature
+        (accessibility_modifier)
+        (property_identifier)
+        (formal_parameters)
+        (type_annotation
+          (type_identifier))))))
 
 =======================================
 Generic types
@@ -568,25 +865,47 @@ class E extends funThatEvalsToClass()<
   Y,
 > {}
 
+class F extends G, H<T> {}
+
 ---
 
 (program
   (class_declaration
     (type_identifier)
-    (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
-    (class_body))
-  (class_declaration
-    (type_identifier)
-    (class_heritage (extends_clause
-      (identifier)
-      (type_arguments (type_identifier) (type_identifier))))
+    (type_parameters
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
     (class_body))
   (class_declaration
     (type_identifier)
     (class_heritage
       (extends_clause
-        (call_expression (identifier) (arguments))
-        (type_arguments (type_identifier) (type_identifier))))
+        (identifier)
+        (type_arguments
+          (type_identifier)
+          (type_identifier))))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (class_heritage
+      (extends_clause
+        (call_expression
+          (identifier)
+          (arguments))
+        (type_arguments
+          (type_identifier)
+          (type_identifier))))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (class_heritage
+      (extends_clause
+        (identifier)
+        (identifier)
+        (type_arguments
+          (type_identifier))))
     (class_body)))
 
 =======================================
@@ -598,9 +917,14 @@ let x: Array<*>
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation (generic_type (type_identifier) (type_arguments (existential_type)))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (existential_type)))))))
 
 =======================================
 Flow Union types
@@ -613,9 +937,27 @@ type Z = | "foo";
 ---
 
 (program
-  (type_alias_declaration (type_identifier) (union_type (predefined_type) (predefined_type)))
-  (type_alias_declaration (type_identifier) (union_type (union_type (literal_type (string (string_fragment)))) (literal_type (string (string_fragment)))))
-  (type_alias_declaration (type_identifier) (union_type (literal_type (string (string_fragment))))))
+  (type_alias_declaration
+    (type_identifier)
+    (union_type
+      (predefined_type)
+      (predefined_type)))
+  (type_alias_declaration
+    (type_identifier)
+    (union_type
+      (union_type
+        (literal_type
+          (string
+            (string_fragment))))
+      (literal_type
+        (string
+          (string_fragment)))))
+  (type_alias_declaration
+    (type_identifier)
+    (union_type
+      (literal_type
+        (string
+          (string_fragment))))))
 
 =======================================
 Flow Intersection types
@@ -625,9 +967,12 @@ type BrowserStats$ResourceTiming = number & string;
 
 ---
 
-(program (type_alias_declaration
-  (type_identifier)
-  (intersection_type (predefined_type) (predefined_type))))
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (intersection_type
+      (predefined_type)
+      (predefined_type))))
 
 =======================================
 Flow exact object types
@@ -644,9 +989,14 @@ type BrowserStats = {|
   (type_alias_declaration
     (type_identifier)
     (object_type
-      (property_signature (property_identifier) (type_annotation (predefined_type)))
-      (property_signature (property_identifier) (type_annotation (predefined_type))))))
-
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type))))))
 
 =======================================
 Literal types
@@ -661,11 +1011,38 @@ let x: false
 
 (program
   (lexical_declaration
-    (variable_declarator (identifier) (type_annotation (literal_type (number)))))
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (literal_type
+          (number)))))
   (lexical_declaration
-    (variable_declarator (identifier) (type_annotation (union_type (union_type (literal_type (number)) (literal_type (unary_expression (number)))) (literal_type (unary_expression (number)))))))
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (union_type
+          (union_type
+            (literal_type
+              (number))
+            (literal_type
+              (unary_expression
+                (number))))
+          (literal_type
+            (unary_expression
+              (number)))))))
   (lexical_declaration
-    (variable_declarator (identifier) (type_annotation (literal_type (string (string_fragment)))))) (lexical_declaration (variable_declarator (identifier) (type_annotation (literal_type (false))))))
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (literal_type
+          (string
+            (string_fragment))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (literal_type
+          (false))))))
 
 =======================================
 Flow type parameter constraint syntax
@@ -678,9 +1055,12 @@ type HandlerFunction<T: Element> = void
 (program
   (type_alias_declaration
     (type_identifier)
-    (type_parameters (type_parameter (type_identifier) (constraint (type_identifier))))
-  (predefined_type)))
-
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (type_identifier))))
+    (predefined_type)))
 
 =======================================
 Nested type arguments
@@ -697,7 +1077,7 @@ var y: Map<number, Promise<Map<bool, Map<Foo, Bar>>>>
 (program
   (interface_declaration
     (type_identifier)
-    (object_type
+    (interface_body
       (method_signature
         (property_identifier)
         (formal_parameters)
@@ -705,24 +1085,30 @@ var y: Map<number, Promise<Map<bool, Map<Foo, Bar>>>>
           (generic_type
             (type_identifier)
             (type_arguments
-              (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
-  (variable_declaration (variable_declarator
-    (identifier)
-    (type_annotation (generic_type
-      (type_identifier)
-      (type_arguments
-        (predefined_type)
-        (generic_type
-          (type_identifier)
-          (type_arguments (generic_type
-            (type_identifier)
-            (type_arguments
-              (type_identifier)
               (generic_type
                 (type_identifier)
                 (type_arguments
+                  (type_identifier)))))))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (predefined_type)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (generic_type
                   (type_identifier)
-                  (type_identifier)))))))))))))
+                  (type_arguments
+                    (type_identifier)
+                    (generic_type
+                      (type_identifier)
+                      (type_arguments
+                        (type_identifier)
+                        (type_identifier)))))))))))))
 
 =======================================
 predefined types as identifiers
@@ -733,14 +1119,21 @@ let score: (string: string, query: string) => number
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (type_annotation
-    (function_type
-      (formal_parameters
-        (required_parameter (identifier) (type_annotation (predefined_type)))
-        (required_parameter (identifier) (type_annotation (predefined_type))))
-      (predefined_type))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (identifier)
+              (type_annotation
+                (predefined_type)))
+            (required_parameter
+              (identifier)
+              (type_annotation
+                (predefined_type))))
+          (predefined_type))))))
 
 =======================================
 Non-null assertion operator
@@ -751,9 +1144,12 @@ const repository = foo++!
 ---
 
 (program
-  (lexical_declaration (variable_declarator
-    (identifier)
-    (non_null_expression (update_expression (identifier))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (non_null_expression
+        (update_expression
+          (identifier))))))
 
 =======================================
 Type query and index type query types
@@ -778,28 +1174,69 @@ type T = typeof array[number];
 ---
 
 (program
-  (type_alias_declaration (type_identifier)
-    (index_type_query (type_identifier)))
-  (type_alias_declaration (type_identifier)
-    (index_type_query (nested_type_identifier (identifier) (type_identifier))))
-  (type_alias_declaration (type_identifier)
-    (index_type_query (generic_type (type_identifier) (type_arguments (type_identifier)))))
-  (type_alias_declaration (type_identifier)
-    (index_type_query (parenthesized_type (type_identifier))))
-  (type_alias_declaration (type_identifier)
-    (type_query (identifier)))
-  (type_alias_declaration (type_identifier)
-    (type_query (member_expression (identifier) (property_identifier))))
-  (type_alias_declaration (type_identifier)
-    (type_query (call_expression (import) (arguments (string (string_fragment))))))
-  (type_alias_declaration (type_identifier)
-    (index_type_query (type_query (identifier))))
-  (type_alias_declaration (type_identifier)
-    (index_type_query (lookup_type (type_identifier) (predefined_type))))
-  (type_alias_declaration (type_identifier)
-    (intersection_type (index_type_query (type_identifier)) (type_identifier)))
-  (type_alias_declaration (type_identifier)
-    (lookup_type (type_query (identifier)) (predefined_type))))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (nested_type_identifier
+        (identifier)
+        (type_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier)))))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (parenthesized_type
+        (type_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_query
+      (identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_query
+      (member_expression
+        (identifier)
+        (property_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_query
+      (call_expression
+        (import)
+        (arguments
+          (string
+            (string_fragment))))))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (type_query
+        (identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (lookup_type
+        (type_identifier)
+        (predefined_type))))
+  (type_alias_declaration
+    (type_identifier)
+    (intersection_type
+      (index_type_query
+        (type_identifier))
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type
+      (type_query
+        (identifier))
+      (predefined_type))))
 
 =======================================
 Lookup types
@@ -813,11 +1250,20 @@ type K1 = Foo['bar' | 'baz']
 (program
   (type_alias_declaration
     (type_identifier)
-    (lookup_type (type_identifier) (type_identifier)))
+    (lookup_type
+      (type_identifier)
+      (type_identifier)))
   (type_alias_declaration
     (type_identifier)
-    (lookup_type (type_identifier) (union_type (literal_type (string (string_fragment))) (literal_type (string (string_fragment)))))))
-
+    (lookup_type
+      (type_identifier)
+      (union_type
+        (literal_type
+          (string
+            (string_fragment)))
+        (literal_type
+          (string
+            (string_fragment)))))))
 
 =======================================
 Mapped types
@@ -829,17 +1275,23 @@ export type NoInfer<T> = T & { [K in keyof T]: T[K] };
 
 (program
   (export_statement
-  (type_alias_declaration
-    (type_identifier)
-    (type_parameters (type_parameter (type_identifier)))
-    (intersection_type (type_identifier)
-      (object_type
-        (index_signature
-          (mapped_type_clause
-            (type_identifier)
-            (index_type_query (type_identifier)))
-          (type_annotation (lookup_type (type_identifier)
-  (type_identifier)))))))))
+    (type_alias_declaration
+      (type_identifier)
+      (type_parameters
+        (type_parameter
+          (type_identifier)))
+      (intersection_type
+        (type_identifier)
+        (object_type
+          (index_signature
+            (mapped_type_clause
+              (type_identifier)
+              (index_type_query
+                (type_identifier)))
+            (type_annotation
+              (lookup_type
+                (type_identifier)
+                (type_identifier)))))))))
 
 =======================================
 Assertion functions checking a value
@@ -854,8 +1306,13 @@ function f(x: any): asserts x {
   (function_declaration
     (identifier)
     (formal_parameters
-      (required_parameter (identifier) (type_annotation (predefined_type))))
-    (asserts (identifier))
+      (required_parameter
+        (identifier)
+        (type_annotation
+          (predefined_type))))
+    (asserts_annotation
+      (asserts
+        (identifier)))
     (statement_block)))
 
 =======================================
@@ -879,14 +1336,21 @@ function isT(t: T): t is T {
   (function_declaration
     (identifier)
     (formal_parameters
-    (required_parameter
-      (identifier) (type_annotation (predefined_type))))
-    (asserts
-      (type_predicate (identifier) (predefined_type)))
+      (required_parameter
+        (identifier)
+        (type_annotation
+          (predefined_type))))
+    (asserts_annotation
+      (asserts
+        (type_predicate
+          (identifier)
+          (predefined_type))))
     (statement_block))
   (class_declaration
     (type_identifier)
-    (type_parameters (type_parameter (type_identifier)))
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
     (class_body
       (method_definition
         (property_identifier)
@@ -901,12 +1365,54 @@ function isT(t: T): t is T {
     (formal_parameters
       (required_parameter
         (identifier)
-        (type_annotation (type_identifier))))
+        (type_annotation
+          (type_identifier))))
     (type_predicate_annotation
       (type_predicate
         (identifier)
         (type_identifier)))
-    (statement_block (return_statement (true)))))
+    (statement_block
+      (return_statement
+        (true)))))
+
+=======================================
+Type of an assertion function
+=======================================
+
+declare const f: (x: any) => asserts x;
+declare const g: (x: any) => asserts x is number;
+
+---
+
+(program
+  (ambient_declaration
+    (lexical_declaration
+      (variable_declarator
+        (identifier)
+        (type_annotation
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (predefined_type))))
+            (asserts
+              (identifier)))))))
+  (ambient_declaration
+    (lexical_declaration
+      (variable_declarator
+        (identifier)
+        (type_annotation
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (predefined_type))))
+            (asserts
+              (type_predicate
+                (identifier)
+                (predefined_type)))))))))
 
 ==================================
 Type predicate and predefined types
@@ -919,18 +1425,32 @@ function isFish(object: Fish): object is Fish {
 }
 
 ---
+
 (program
-  (function_declaration (identifier)
+  (function_declaration
+    (identifier)
     (formal_parameters
-       (required_parameter (identifier) (type_annotation (type_identifier))))
-    (type_predicate_annotation (type_predicate (identifier) (type_identifier)))
+      (required_parameter
+        (identifier)
+        (type_annotation
+          (type_identifier))))
+    (type_predicate_annotation
+      (type_predicate
+        (identifier)
+        (type_identifier)))
     (statement_block))
-  (function_declaration (identifier)
+  (function_declaration
+    (identifier)
     (formal_parameters
-      (required_parameter (identifier) (type_annotation (type_identifier))))
-    (type_predicate_annotation (type_predicate (identifier) (type_identifier)))
-    (statement_block))
-)
+      (required_parameter
+        (identifier)
+        (type_annotation
+          (type_identifier))))
+    (type_predicate_annotation
+      (type_predicate
+        (identifier)
+        (type_identifier)))
+    (statement_block)))
 
 ==================================
 Read-only arrays
@@ -952,7 +1472,8 @@ type t = readonly (readonly a[]) []
   (type_alias_declaration
     (type_identifier)
     (readonly_type
-      (array_type (type_identifier))))
+      (array_type
+        (type_identifier))))
   (type_alias_declaration
     (type_identifier)
     (readonly_type
@@ -964,7 +1485,8 @@ type t = readonly (readonly a[]) []
     (array_type
       (parenthesized_type
         (readonly_type
-          (array_type (type_identifier))))))
+          (array_type
+            (type_identifier))))))
   (type_alias_declaration
     (type_identifier)
     (readonly_type
@@ -1010,7 +1532,8 @@ type t = [a: A, b?: B, ...c: C[]]
     (type_identifier)
     (readonly_type
       (tuple_type
-        (array_type (type_identifier))
+        (array_type
+          (type_identifier))
         (nested_type_identifier
           (identifier)
           (type_identifier)))))
@@ -1018,21 +1541,28 @@ type t = [a: A, b?: B, ...c: C[]]
   (type_alias_declaration
     (type_identifier)
     (tuple_type
-      (optional_type (predefined_type))
-      (rest_type (type_identifier))))
+      (optional_type
+        (predefined_type))
+      (rest_type
+        (type_identifier))))
   (comment)
   (type_alias_declaration
     (type_identifier)
     (tuple_type
       (required_parameter
         (identifier)
-        (type_annotation (type_identifier)))
+        (type_annotation
+          (type_identifier)))
       (optional_parameter
         (identifier)
-        (type_annotation     (type_identifier)))
+        (type_annotation
+          (type_identifier)))
       (required_parameter
-        (rest_pattern (identifier))
-        (type_annotation (array_type (type_identifier)))))))
+        (rest_pattern
+          (identifier))
+        (type_annotation
+          (array_type
+            (type_identifier)))))))
 
 ==================================
 Conditional types
@@ -1045,34 +1575,44 @@ type F<T, X, Y> = (t: T) => X extends Y ? X : Y extends (t: T) => X extends Y ? 
 type T<X, Y> = T extends X<infer Y> ? Y : X
 type T<X> = X extends (infer X)[] ? X : never;
 type T<X> = T extends { x: infer X } ? X : never;
+type T<X> = T extends { x: infer X extends number } ? X : never;
 
 ---
+
 (program
-  (type_alias_declaration (type_identifier)
+  (type_alias_declaration
+    (type_identifier)
     (conditional_type
       (type_identifier)
       (type_identifier)
       (type_identifier)
       (type_identifier)))
-  (type_alias_declaration (type_identifier)
+  (type_alias_declaration
+    (type_identifier)
     (conditional_type
       (type_identifier)
-      (flow_maybe_type (type_identifier))
-      (flow_maybe_type (type_identifier))
+      (flow_maybe_type
+        (type_identifier))
+      (flow_maybe_type
+        (type_identifier))
       (type_identifier)))
   (type_alias_declaration
     (type_identifier)
     (type_parameters
-      (type_parameter (type_identifier))
-      (type_parameter (type_identifier))
-      (type_parameter (type_identifier)))
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
     (conditional_type
       (parenthesized_type
         (function_type
           (formal_parameters
             (required_parameter
               (identifier)
-              (type_annotation (type_identifier))))
+              (type_annotation
+                (type_identifier))))
           (conditional_type
             (type_identifier)
             (type_identifier)
@@ -1083,7 +1623,8 @@ type T<X> = T extends { x: infer X } ? X : never;
           (formal_parameters
             (required_parameter
               (identifier)
-              (type_annotation (type_identifier))))
+              (type_annotation
+                (type_identifier))))
           (conditional_type
             (type_identifier)
             (type_identifier)
@@ -1094,65 +1635,95 @@ type T<X> = T extends { x: infer X } ? X : never;
   (type_alias_declaration
     (type_identifier)
     (type_parameters
-      (type_parameter (type_identifier))
-      (type_parameter (type_identifier))
-      (type_parameter (type_identifier)))
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
     (function_type
       (formal_parameters
         (required_parameter
           (identifier)
-          (type_annotation (type_identifier))))
+          (type_annotation
+            (type_identifier))))
       (conditional_type
+        (type_identifier)
+        (type_identifier)
+        (type_identifier)
         (conditional_type
           (type_identifier)
+          (function_type
+            (formal_parameters
+              (required_parameter
+                (identifier)
+                (type_annotation
+                  (type_identifier))))
+            (conditional_type
+              (type_identifier)
+              (type_identifier)
+              (type_identifier)
+              (type_identifier)))
           (type_identifier)
-          (type_identifier)
-          (type_identifier))
-        (function_type
-          (formal_parameters
-            (required_parameter
-              (identifier)
-              (type_annotation (type_identifier))))
-          (conditional_type
-            (type_identifier)
-            (type_identifier)
-            (type_identifier)
-            (type_identifier)))
-        (type_identifier)
-        (type_identifier))))
+          (type_identifier)))))
   (type_alias_declaration
     (type_identifier)
     (type_parameters
-      (type_parameter (type_identifier))
-      (type_parameter (type_identifier)))
+      (type_parameter
+        (type_identifier))
+      (type_parameter
+        (type_identifier)))
     (conditional_type
       (type_identifier)
       (generic_type
         (type_identifier)
         (type_arguments
-          (infer_type (type_identifier))))
+          (infer_type
+            (type_identifier))))
       (type_identifier)
       (type_identifier)))
-    (type_alias_declaration
-      (type_identifier)
-      (type_parameters
-        (type_parameter (type_identifier)))
-      (conditional_type
-        (type_identifier)
-        (array_type
-          (parenthesized_type (infer_type (type_identifier))))
-        (type_identifier)
-        (predefined_type)))
   (type_alias_declaration
     (type_identifier)
     (type_parameters
-      (type_parameter (type_identifier)))
-      (conditional_type
-        (type_identifier)
-        (object_type
-          (property_signature
-            (property_identifier)
-            (type_annotation (infer_type (type_identifier)))))
+      (type_parameter
+        (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (array_type
+        (parenthesized_type
+          (infer_type
+            (type_identifier))))
+      (type_identifier)
+      (predefined_type)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (object_type
+        (property_signature
+          (property_identifier)
+          (type_annotation
+            (infer_type
+              (type_identifier)))))
+      (type_identifier)
+      (predefined_type)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (conditional_type
+      (type_identifier)
+      (object_type
+        (property_signature
+          (property_identifier)
+          (type_annotation
+            (infer_type
+              (type_identifier)
+              (predefined_type)))))
       (type_identifier)
       (predefined_type))))
 
@@ -1170,7 +1741,9 @@ type A<B, C> = B extends C
   : never
 type Trim<S extends string> = S extends `${infer R}` ? Trim<R>  : S;
 type A = `${true & ('foo' | false)}`;
+type StringToNumber<S extends string> = S extends `${infer N extends number}` ? N : never;
 ---
+
 (program
   (type_alias_declaration
     (type_identifier)
@@ -1271,7 +1844,23 @@ type A = `${true & ('foo' | false)}`;
                 (string
                   (string_fragment)))
               (literal_type
-                (false)))))))))
+                (false))))))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (predefined_type))))
+    (conditional_type
+      (type_identifier)
+      (template_literal_type
+        (template_type
+          (infer_type
+            (type_identifier)
+            (predefined_type))))
+      (type_identifier)
+      (predefined_type))))
 
 ==================================
 Mapped type 'as' clauses
@@ -1463,7 +2052,15 @@ type Foo<T> = abstract new () => T;
 
 ---
 
-(program (type_alias_declaration (type_identifier) (type_parameters (type_parameter (type_identifier))) (constructor_type (formal_parameters) (type_identifier)))) 
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (constructor_type
+      (formal_parameters)
+      (type_identifier))))
 
 =========================
 Indexed Access Precedence
@@ -1494,3 +2091,24 @@ type X2 = (typeof Y)[keyof typeof Z];
       (index_type_query
         (type_query
           (identifier))))))
+
+=========================
+Type of instantiation expressions
+=========================
+
+// This is a special construct, different from both "typeof (f<T>)" and
+// "(typeof f)<T>" (which are both invalid)
+type T = typeof f<T>;
+
+---
+
+(program
+  (comment)
+  (comment)
+  (type_alias_declaration
+    (type_identifier)
+    (type_query
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (type_identifier))))))

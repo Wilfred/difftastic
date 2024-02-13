@@ -1,5 +1,20 @@
-parser.c linguist-vendored
-parser.h linguist-vendored
-grammar.json linguist-vendored
-tsx/examples/* linguist-vendored
-typescript/examples/* linguist-vendored
+typescript/src/** linguist-vendored
+tsx/src/** linguist-vendored
+
+/examples/* linguist-vendored
+
+typescript/src/grammar.json linguist-generated
+typescript/src/node-types.json linguist-generated
+typescript/src/parser.c linguist-generated
+
+tsx/src/grammar.json linguist-generated
+tsx/src/node-types.json linguist-generated
+tsx/src/parser.c linguist-generated
+
+typescript/src/grammar.json -diff
+typescript/src/node-types.json -diff
+typescript/src/parser.c -diff
+
+tsx/src/grammar.json -diff
+tsx/src/node-types.json -diff
+tsx/src/parser.c -diff

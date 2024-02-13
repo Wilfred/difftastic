@@ -4,6 +4,7 @@ Type arguments in JSX
 
 <Element<T>>hi</Element>;
 <Element<T> />;
+<>fragment</>;
 
 ---
 
@@ -16,4 +17,9 @@ Type arguments in JSX
   (expression_statement
     (jsx_self_closing_element
        (identifier) (type_arguments (type_identifier))))
+  (expression_statement
+    (jsx_element
+      (jsx_opening_element)
+      (jsx_text)
+      (jsx_closing_element)))
 )

@@ -1,9 +1,6 @@
-corpus
-examples
-.travis.yml
+/test
+/examples
+/build
+/script
+/target
 appveyor.yml
-.gitattributes
-build
-script
-target
-test.ts
