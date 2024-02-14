@@ -14,7 +14,7 @@ use crate::{
     summary::{DiffResult, FileContent, FileFormat},
 };
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 enum Status {
     Unchanged,
