@@ -7082,11 +7082,11 @@
             "named": false
           },
           {
-            "type": "\\text",
+            "type": "\\shortintertext",
             "named": false
           },
           {
-            "type": "shortintertext",
+            "type": "\\text",
             "named": false
           }
         ]
@@ -8539,6 +8539,10 @@
     "named": false
   },
   {
+    "type": "\\shortintertext",
+    "named": false
+  },
+  {
     "type": "\\smartcite",
     "named": false
   },
@@ -8673,10 +8677,6 @@
   {
     "type": "placeholder",
     "named": true
-  },
-  {
-    "type": "shortintertext",
-    "named": false
   },
   {
     "type": "source_code",
