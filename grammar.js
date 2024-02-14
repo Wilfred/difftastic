@@ -1132,7 +1132,7 @@ module.exports = grammar({
 
     text_mode: $ =>
       seq(
-        field('command', choice('\\text', '\\intertext', 'shortintertext')),
+        field('command', choice('\\text', '\\intertext', '\\shortintertext')),
         field('content', $.curly_group)
       ),
   },

@@ -5703,7 +5703,7 @@
               },
               {
                 "type": "STRING",
-                "value": "shortintertext"
+                "value": "\\shortintertext"
               }
             ]
           }
