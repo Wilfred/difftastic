@@ -158,7 +158,7 @@ BibTeX include with absolute path
 
 (source_file
   (bibtex_include
-    (curly_group_path
+    (curly_group_path_list
       (path))))
 
 ================================================================================
