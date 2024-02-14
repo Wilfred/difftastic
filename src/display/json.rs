@@ -273,8 +273,12 @@ impl Highlight {
     }
 }
 
-pub(crate) fn print_directory(diffs: Vec<DiffResult>) {
-    let files = diffs.iter().map(File::from).collect::<Vec<File>>();
+pub(crate) fn print_directory(diffs: Vec<DiffResult>, print_unchanged: bool) {
+    let files = diffs
+        .iter()
+        .map(File::from)
+        .filter(|f| print_unchanged || f.status != Status::Unchanged)
+        .collect::<Vec<File>>();
     println!(
         "{}",
         serde_json::to_string(&files).expect("failed to serialize files")
