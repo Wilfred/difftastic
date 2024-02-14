@@ -3299,6 +3299,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bibstyle_include"
+        },
+        {
+          "type": "SYMBOL",
           "name": "bibtex_include"
         },
         {
@@ -3651,6 +3655,27 @@
         }
       ]
     },
+    "bibstyle_include": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\bibliographystyle"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "path",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_path"
+          }
+        }
+      ]
+    },
     "bibtex_include": {
       "type": "SEQ",
       "members": [
@@ -3664,10 +3689,10 @@
         },
         {
           "type": "FIELD",
-          "name": "path",
+          "name": "paths",
           "content": {
             "type": "SYMBOL",
-            "name": "curly_group_path"
+            "name": "curly_group_path_list"
           }
         }
       ]
