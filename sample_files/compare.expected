@@ -116,7 +116,7 @@ sample_files/json_before.json sample_files/json_after.json
 79d34d1bbb670bb702f6ea75ff759fa5  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
-8ebcd2854793c73ddc1ce30f03257bdf  -
+908a1637b237cd7763948b7abeb95325  -
 
 sample_files/julia_before.jl sample_files/julia_after.jl
 0abbd2d5e040928f55fec2508f3001bd  -
@@ -188,7 +188,7 @@ sample_files/preprocesor_before.h sample_files/preprocesor_after.h
 689feef6aa36acbf2823779651a3bef7  -
 
 sample_files/qml_before.qml sample_files/qml_after.qml
-d1e32b72544861bae209baaa762f5235  -
+d41d8cd98f00b204e9800998ecf8427e  -
 
 sample_files/r_before.R sample_files/r_after.R
 1fa3b1843db94753a6b118535d7df995  -
@@ -266,7 +266,7 @@ sample_files/vhdl_before.vhd sample_files/vhdl_after.vhd
 eb987aa621cfa733bb4fcd52b255fbbf  -
 
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
-53017b74523e203817d64189142b26ed  -
+5b989281ee27b63d6fb26474e3d49f25  -
 
 sample_files/xml_before.xml sample_files/xml_after.xml
 56cae800a4fb612ac5c1e0b5cb9c43b8  -
