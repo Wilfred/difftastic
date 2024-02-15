@@ -1803,6 +1803,8 @@ fn atom_from_cursor<'a>(
 
 #[cfg(test)]
 mod tests {
+    use strum::IntoEnumIterator as _;
+
     use super::*;
 
     /// Simple smoke test for tree-sitter parsing. Having a test also
@@ -1846,5 +1848,14 @@ mod tests {
                 panic!("Top level isn't a list");
             }
         };
+    }
+
+    /// Ensure that we don't crash when loading any of the
+    /// configs. This can happen on bad highlighting/foo.scm files.
+    #[test]
+    fn test_configs_valid() {
+        for language in guess::Language::iter() {
+            from_language(language);
+        }
     }
 }
