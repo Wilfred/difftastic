@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated JavaScript and TypeScript parser.
+Updated JavaScript, TypeScript and QML parsers.
 
 ## 0.55 (released 1st February 2024)
 
