@@ -1,7 +1,14 @@
+# Tree-sitter
 Cargo.toml
 bindings/
 
+# Purs
 .psc-ide-port
+
+# direnv
+.direnv
+.envrc
 
 # For small snippets of PS code to parse when debugging
 parse/
+
