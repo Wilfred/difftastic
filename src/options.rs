@@ -42,7 +42,6 @@ pub(crate) struct DisplayOptions {
     pub(crate) display_width: usize,
     pub(crate) num_context_lines: u32,
     pub(crate) syntax_highlight: bool,
-    pub(crate) sort_paths: bool,
 }
 
 impl Default for DisplayOptions {
@@ -56,7 +55,6 @@ impl Default for DisplayOptions {
             display_width: 80,
             num_context_lines: 3,
             syntax_highlight: true,
-            sort_paths: false,
         }
     }
 }
@@ -82,6 +80,15 @@ impl Default for DiffOptions {
             strip_cr: false,
         }
     }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DirectoryOptions {
+    /// Whether to search hidden files and directories.
+    pub(crate) include_hidden: bool,
+    /// Whether to not respect ignore file rules.
+    pub(crate) no_ignore: bool,
+    pub(crate) sort_paths: bool,
 }
 
 fn app() -> clap::Command<'static> {
@@ -290,6 +297,14 @@ When multiple overrides are specified, the first matching override wins."))
                 .allow_invalid_utf8(true),
         )
         .arg(
+            Arg::new("hidden").long("hidden")
+                .help("When diffing a directory, search hidden files and directories.")
+        )
+        .arg(
+            Arg::new("no-ignore").long("no-ignore")
+                .help("When diffing a directory, don't respect ignore files such as .gitignore.")
+        )
+        .arg(
             Arg::new("sort-paths").long("sort-paths")
                 .env("DFT_SORT_PATHS")
                 .help("When diffing a directory, output the results sorted by path. This is slower.")
@@ -370,6 +385,7 @@ pub(crate) enum Mode {
     Diff {
         diff_options: DiffOptions,
         display_options: DisplayOptions,
+        directory_options: DirectoryOptions,
         set_exit_code: bool,
         language_overrides: Vec<(LanguageOverride, Vec<glob::Pattern>)>,
         /// The path where we can read the LHS file. This is often a
@@ -586,6 +602,8 @@ pub(crate) fn parse_args() -> Mode {
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
 
+    let include_hidden = matches.is_present("hidden");
+    let no_ignore = matches.is_present("no-ignore");
     let sort_paths = matches.is_present("sort-paths");
 
     let graph_limit = matches
@@ -681,7 +699,6 @@ pub(crate) fn parse_args() -> Mode {
                 display_width,
                 num_context_lines,
                 syntax_highlight,
-                sort_paths,
             };
 
             let display_path = path.to_string_lossy().to_string();
@@ -718,12 +735,17 @@ pub(crate) fn parse_args() -> Mode {
         display_width,
         num_context_lines,
         syntax_highlight,
+    };
+    let directory_options = DirectoryOptions {
+        include_hidden,
+        no_ignore,
         sort_paths,
     };
 
     Mode::Diff {
         diff_options,
         display_options,
+        directory_options,
         set_exit_code,
         language_overrides,
         lhs_path,

@@ -42,6 +42,11 @@ Difftastic will now also report file permission changes.
 Fixed an issue where directory diffing would show a file more than
 once.
 
+### Diffing
+
+Added `--hidden` and `--no-ignore` options to not exclude ignored files from
+directory diffing.
+
 ### Display
 
 Fixed a rare crash when the last non-blank line had changes for

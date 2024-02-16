@@ -81,7 +81,9 @@ use strum::IntoEnumIterator;
 use typed_arena::Arena;
 
 use crate::diff::sliders::fix_all_sliders;
-use crate::options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode};
+use crate::options::{
+    DiffOptions, DirectoryOptions, DisplayMode, DisplayOptions, FileArgument, Mode,
+};
 use crate::summary::{DiffResult, FileContent, FileFormat};
 use crate::syntax::init_next_prev;
 use crate::{
@@ -215,6 +217,7 @@ fn main() {
         Mode::Diff {
             diff_options,
             display_options,
+            directory_options,
             set_exit_code,
             language_overrides,
             lhs_path,
@@ -249,6 +252,7 @@ fn main() {
                         rhs_path,
                         &display_options,
                         &diff_options,
+                        &directory_options,
                         &language_overrides,
                     );
 
@@ -258,7 +262,7 @@ fn main() {
                             .iter()
                             .any(|diff_result| diff_result.has_reportable_change());
                         display::json::print_directory(results);
-                    } else if display_options.sort_paths {
+                    } else if directory_options.sort_paths {
                         let mut result: Vec<DiffResult> = diff_iter.collect();
                         result.sort_unstable_by(|a, b| a.display_path.cmp(&b.display_path));
                         for diff_result in result {
@@ -766,6 +770,7 @@ fn diff_directories<'a>(
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
+    directory_options: &DirectoryOptions,
     overrides: &[(LanguageOverride, Vec<glob::Pattern>)],
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
@@ -775,7 +780,7 @@ fn diff_directories<'a>(
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
     // enumerating files, so it benefits more from parallelism.
-    let paths = relative_paths_in_either(lhs_dir, rhs_dir);
+    let paths = relative_paths_in_either(lhs_dir, rhs_dir, directory_options);
 
     paths.into_par_iter().map(move |rel_path| {
         info!("Relative path is {:?} inside {:?}", rel_path, lhs_dir);
