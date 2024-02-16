@@ -719,7 +719,7 @@ int main() {
           (sizeof_expression
             (parenthesized_expression
               (number_literal)))
-              (number_literal)))
+          (number_literal)))
       (expression_statement
         (sizeof_expression
           (parenthesized_expression
@@ -818,7 +818,7 @@ int main() {
         (offsetof_expression
           (type_descriptor
             (type_identifier))
-              (field_identifier)))
+          (field_identifier)))
       (expression_statement
         (binary_expression
           (offsetof_expression
@@ -1322,6 +1322,7 @@ Ternary
 void f() {
   0 ? 1 : 2;
   a = 0 ? 1 : 2;
+  a = val ? b = 3, 1 : 0;
 }
 
 --------------------------------------------------------------------------------
@@ -1344,6 +1345,17 @@ void f() {
           (conditional_expression
             (number_literal)
             (number_literal)
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (conditional_expression
+            (identifier)
+            (comma_expression
+              (assignment_expression
+                (identifier)
+                (number_literal))
+              (number_literal))
             (number_literal)))))))
 
 ================================================================================

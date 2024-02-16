@@ -959,7 +959,7 @@ module.exports = grammar({
     conditional_expression: $ => prec.right(PREC.CONDITIONAL, seq(
       field('condition', $._expression),
       '?',
-      optional(field('consequence', $._expression)),
+      optional(field('consequence', choice($._expression, $.comma_expression))),
       ':',
       field('alternative', $._expression),
     )),
