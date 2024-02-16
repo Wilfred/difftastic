@@ -1155,7 +1155,7 @@ module.exports = grammar({
 
     gnu_asm_clobber_list: $ => seq(
       ':',
-      commaSep(field('register', $.string_literal)),
+      commaSep(field('register', $._string)),
     ),
 
     gnu_asm_goto_list: $ => seq(

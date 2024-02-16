@@ -1117,3 +1117,49 @@ struct __attribute__((__packed__)) foo_t {
       (field_declaration
         (primitive_type)
         (field_identifier)))))
+
+================================================================================
+More Assembly
+================================================================================
+
+int main() {
+  int var;
+  __asm__(
+    "nop;"
+    : [var] "=r"(var)
+    :
+    : "eax", "ra" "x"
+  );
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (identifier))
+      (expression_statement
+        (gnu_asm_expression
+          (string_literal
+            (string_content))
+          (gnu_asm_output_operand_list
+            (gnu_asm_output_operand
+              (identifier)
+              (string_literal
+                (string_content))
+              (identifier)))
+          (gnu_asm_input_operand_list)
+          (gnu_asm_clobber_list
+            (string_literal
+              (string_content))
+            (concatenated_string
+              (string_literal
+                (string_content))
+              (string_literal
+                (string_content)))))))))
