@@ -453,6 +453,7 @@ module.exports = grammar({
       field('declarator', $._type_declarator),
     ))),
     abstract_pointer_declarator: $ => prec.dynamic(1, prec.right(seq('*',
+      repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', optional($._abstract_declarator)),
     ))),
