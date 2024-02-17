@@ -101,7 +101,7 @@ Queries bundled (see `editor_queries/neovim`):
 ### Helix
 
 Parser and queries are bundled with Helix starting with any version past 23.10.\
-For versions prior or equal to 23.10, do the following:
+For versions prior or equal to 23.10 or to always have the latest queries available, do the following:
 
 <details>
 <summary>Instructions</summary>
@@ -116,7 +116,7 @@ For versions prior or equal to 23.10, do the following:
   * Windows: `mklink /D ~\AppData\Roaming\helix\runtime\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\helix`
   * Linux, macOS, *NIX: `ln -s ~/.local/git/tree-sitter-tact/editor_queries/helix ~/.config/helix/runtime/queries/tact`
 
-4. Inside the `~/.local/git/tree-sitter-tact/editor_queries/helix`: `mv highlights-before-version-24.scm highlights.scm` (to use compatible queries)
+4. Inside the `~/.local/git/tree-sitter-tact/editor_queries/helix` run `mv highlights-before-version-24.scm highlights.scm` to use compatible queries (only for versions prior or equal to 23.10).
 
 5. Add the following to your `~/.config/helix/languages.toml` (Or `~\AppData\Roaming\helix\languages.toml` on Windows):
 
@@ -138,7 +138,7 @@ roots = []
 
 [[grammar]]
 name = "tact"
-source = { git = "https://github.com/tact-lang/tree-sitter-tact", rev = "b9737e85af19b8dafd137dc5f17ec5d5195b5ea9" }
+source = { path = "/absolute/path/to/your/home/directory/.local/git/tree-sitter-tact" }  # TODO: replace with your full path to downloaded repo
 ```
 
 6. Finally, run the following commands to update all Tree-sitter grammars, including Tact's:

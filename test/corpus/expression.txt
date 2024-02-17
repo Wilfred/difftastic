@@ -3,6 +3,11 @@ expression
 ============================================
 
 fun c() {
+  false ? 1 : 2;
+  false ? 1 : true ? 2 : 3;
+  false ? 1 : (true ? 2 : 3);
+  false ? true ? 1 : 2 : 3;
+
   false || true;
   true && true;
 
@@ -40,6 +45,36 @@ fun c() {
     name: (identifier)
     parameters: (parameter_list)
     body: (function_body
+      (expression_statement
+        (ternary_expression
+          condition: (boolean)
+          consequence: (integer)
+          alternative: (integer)))
+      (expression_statement
+        (ternary_expression
+          condition: (boolean)
+          consequence: (integer)
+          alternative: (ternary_expression
+            condition: (boolean)
+            consequence: (integer)
+            alternative: (integer))))
+      (expression_statement
+        (ternary_expression
+          condition: (boolean)
+          consequence: (integer)
+          alternative: (parenthesized_expression
+            (ternary_expression
+              condition: (boolean)
+              consequence: (integer)
+              alternative: (integer)))))
+      (expression_statement
+        (ternary_expression
+          condition: (boolean)
+          consequence: (ternary_expression
+            condition: (boolean)
+            consequence: (integer)
+            alternative: (integer))
+          alternative: (integer)))
       (expression_statement
         (binary_expression
           left: (boolean)

@@ -21,6 +21,7 @@
 
   ; misc.
   (binary_expression)
+  (ternary_expression)
   (return_statement)
   (static_call_expression)
   (method_call_expression)

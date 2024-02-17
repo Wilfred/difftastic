@@ -74,6 +74,8 @@ module.exports = grammar({
       "logical_and",
       "logical_or",
 
+      "ternary_expr",
+
       "assign_stmt",
     ],
   ],
@@ -420,11 +422,20 @@ module.exports = grammar({
 
     _expression: ($) =>
       choice(
-        $.binary_expression, // Expression
+        $.ternary_expression, // ExpressionConditional
+        $.binary_expression, // ExpressionBinary
         $.unary_expression, // ExpressionUnary
         $.unary_suffix_expression, // ExpressionUnarySuffix
         $.value_expression, // ExpressionValue
       ),
+
+    ternary_expression: ($) => prec.right("ternary_expr", seq(
+      field('condition', $._expression),
+      '?',
+      field('consequence', $._expression),
+      ':',
+      field('alternative', $._expression),
+    )),
 
     binary_expression: ($) =>
       choice(
@@ -632,7 +643,7 @@ module.exports = grammar({
     null: (_) => "null",
 
     integer: (_) => {
-      const hex_literal = seq(choice("0x", "0X"), /[\da-fA-F](_?[\da-fA-F])*/);
+      const hex_literal = seq(choice("0x", "0X"), /[\da-fA-F](?:_?[\da-fA-F])*/);
       // TODO: try ?:
 
       const oct_literal = seq(choice("0o", "0O"), /[0-7](_?[0-7])*/);

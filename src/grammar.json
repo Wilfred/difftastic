@@ -1663,6 +1663,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "ternary_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "binary_expression"
         },
         {
@@ -1678,6 +1682,47 @@
           "name": "value_expression"
         }
       ]
+    },
+    "ternary_expression": {
+      "type": "PREC_RIGHT",
+      "value": "ternary_expr",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "FIELD",
+            "name": "consequence",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "FIELD",
+            "name": "alternative",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
     },
     "binary_expression": {
       "type": "CHOICE",
@@ -2933,7 +2978,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[\\da-fA-F](_?[\\da-fA-F])*"
+                "value": "[\\da-fA-F](?:_?[\\da-fA-F])*"
               }
             ]
           },
@@ -3142,6 +3187,10 @@
       {
         "type": "STRING",
         "value": "logical_or"
+      },
+      {
+        "type": "STRING",
+        "value": "ternary_expr"
       },
       {
         "type": "STRING",
