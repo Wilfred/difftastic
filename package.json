@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "node-gyp": "^10.0.1",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "tree-sitter-cli": "^0.20.8"
   },
   "tree-sitter": [

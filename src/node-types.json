@@ -1130,11 +1130,6 @@
     }
   },
   {
-    "type": "integer",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "let_statement",
     "named": true,
     "fields": {
@@ -2285,6 +2280,10 @@
   {
     "type": "inline",
     "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
   },
   {
     "type": "let",

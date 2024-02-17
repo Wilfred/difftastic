@@ -26,7 +26,7 @@ extends fun c(self: Int) {
 
     /* instance_expression */
     Basic{value: ton("1")};
-    // <- type
+    // <- constructor
     //   ^ punctuation.bracket
     //    ^ property
     //         ^ punctuation.delimiter
@@ -68,7 +68,7 @@ extends fun c(self: Int) {
     /* initOf */
     initOf Contract(123, 123);
     // <- keyword
-    //     ^ variable
+    //     ^ constructor
 
     /* string */
     "Tact is awesome!";

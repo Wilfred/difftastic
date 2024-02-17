@@ -38,7 +38,7 @@ struct Whatever {
 
 fun TestStruct() {
   Whatever{a: 10, b: "hello!", c: 10, d: 10};
-  // <- type
+  // <- constructor
   //      ^ punctuation.bracket
   //       ^ property
   //        ^ punctuation.delimiter

@@ -1,6 +1,6 @@
 import "@stdlib/deploy";
 // <- keyword
-//     ^ string
+//     ^ string.special.path
 //                     ^ punctuation.delimiter
 
 // comment

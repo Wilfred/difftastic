@@ -375,8 +375,7 @@ module.exports = grammar({
         field("alternative", optional($.else_clause)),
       ),
 
-    else_clause: ($) =>
-      seq("else", choice($.block_statement, $.if_statement)),
+    else_clause: ($) => seq("else", choice($.block_statement, $.if_statement)),
 
     while_statement: ($) =>
       seq(
@@ -548,10 +547,7 @@ module.exports = grammar({
     static_call_expression: ($) =>
       prec.right(
         "static_call_expr",
-        seq(
-          field("name", $.identifier),
-          field("arguments", $.argument_list),
-        ),
+        seq(field("name", $.identifier), field("arguments", $.argument_list)),
       ),
 
     argument_list: ($) => seq("(", commaSep($.argument), ")"),
@@ -635,13 +631,29 @@ module.exports = grammar({
 
     null: (_) => "null",
 
-    integer: (_) =>
-      choice(
-        /0[xX][a-fA-F0-9]+/, // hexadecimal
-        /0[oO][0-7]+/, // octal
-        /0[bB][01]+/, // binary
-        /[0-9]+/, // decimal
-      ),
+    integer: (_) => {
+      const hex_literal = seq(choice("0x", "0X"), /[\da-fA-F](_?[\da-fA-F])*/);
+      // TODO: try ?:
+
+      const oct_literal = seq(choice("0o", "0O"), /[0-7](_?[0-7])*/);
+
+      const bin_literal = seq(choice("0b", "0B"), /[0-1](_?[0-1])*/);
+
+      const dec_digits = /(_?\d)*/;
+      const dec_literal = seq(/[1-9]/, optional(dec_digits));
+
+      const dec_leading_zero_literal = seq(/\d/, optional(dec_digits));
+
+      return token(
+        choice(
+          hex_literal, // hexadecimal
+          oct_literal, // octal
+          bin_literal, // binary
+          dec_literal, // decimal
+          dec_leading_zero_literal, // decimal, starting with 0
+        ),
+      );
+    },
 
     /* Comments */
 
