@@ -149,6 +149,7 @@
 
 ((identifier) @constant.builtin
   (#any-of? @constant.builtin
+    "SendBounceIfActionFail"
     "SendPayGasSeparately"
     "SendIgnoreErrors"
     "SendDestroyIfZero"

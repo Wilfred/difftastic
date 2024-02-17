@@ -104,7 +104,7 @@
 
 ((identifier) @constant.builtin
   (#match? @constant.builtin
-    "^(SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance)$")
+    "^(SendBounceIfActionFail|SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance)$")
   (#is-not? local))
 
 [
