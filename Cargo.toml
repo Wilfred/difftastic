@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-cpp"
 description = "C++ grammar for tree-sitter"
-version = "0.20.4"
+version = "0.20.5"
 authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
 license = "MIT"
 readme = "bindings/rust/README.md"
