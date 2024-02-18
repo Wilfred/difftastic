@@ -1,7 +1,7 @@
 image: Visual Studio 2022
 
 environment:
-  nodejs_version: "18"
+  nodejs_version: "20"
 
 platform:
   - x64
