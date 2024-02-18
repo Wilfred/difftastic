@@ -106,6 +106,11 @@ void *tree_sitter_cpp_external_scanner_create() {
 bool tree_sitter_cpp_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Scanner *scanner = (Scanner *)payload;
 
+    if (valid_symbols[RAW_STRING_DELIMITER] && valid_symbols[RAW_STRING_CONTENT]) {
+        // we're in error recovery
+        return false;
+    }
+
     // No skipping leading whitespace: raw-string grammar is space-sensitive.
     if (valid_symbols[RAW_STRING_DELIMITER]) {
         lexer->result_symbol = RAW_STRING_DELIMITER;
