@@ -224,6 +224,20 @@ module.exports = grammar(C, {
           field('body', choice(e.content, $.try_statement))),
     }),
 
+    declaration: $ => seq(
+      $._declaration_specifiers,
+      commaSep1(field('declarator', choice(
+        seq(
+          // C uses _declaration_declarator here for some nice macro parsing in function declarators,
+          // but this causes a world of pain for C++ so we'll just stick to the normal _declarator here.
+          $._declarator,
+          optional($.gnu_asm_expression),
+        ),
+        $.init_declarator,
+      ))),
+      ';',
+    ),
+
     virtual_specifier: _ => choice(
       'final', // the only legal value here for classes
       'override', // legal for functions in addition to final, plus permutations.
