@@ -84,6 +84,8 @@ module.exports = grammar(C, {
     [$._function_declarator_seq],
     [$._type_specifier, $.sized_type_specifier],
     [$.initializer_pair, $.comma_expression],
+    [$.expression_statement, $._for_statement_body],
+    [$.init_statement, $._for_statement_body],
   ],
 
   inline: ($, original) => original.concat([
@@ -821,7 +823,10 @@ module.exports = grammar(C, {
       optional(field('alternative', $.else_clause)),
     )),
 
-    _for_statement_body: ($, original) => prec(1, original),
+    // Using prec(1) instead of prec.dynamic(1) causes issues with the
+    // range loop's declaration specifiers if `int` is passed in, it'll
+    // always prefer the standard for loop and give us a parse error.
+    _for_statement_body: ($, original) => prec.dynamic(1, original),
     for_range_loop: $ => seq(
       'for',
       '(',
