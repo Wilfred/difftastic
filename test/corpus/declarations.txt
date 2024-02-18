@@ -2111,6 +2111,8 @@ int main() {
 
     (obj.*member_function_ptr)(42); // 84
 
+    this->Base::f();
+
     return 0;
 }
 
@@ -2170,6 +2172,14 @@ int main() {
           (argument_list
             (number_literal))))
       (comment)
+      (expression_statement
+        (call_expression
+          (field_expression
+            (this)
+            (qualified_identifier
+              (namespace_identifier)
+              (field_identifier)))
+          (argument_list)))
       (return_statement
         (number_literal)))))
 

@@ -996,18 +996,19 @@ module.exports = grammar(C, {
       $._expression,
     ),
 
-    field_expression: $ => seq(
+    field_expression: $ => prec.right(seq(
       prec(PREC.FIELD, seq(
         field('argument', $._expression),
         field('operator', choice('.', '.*', '->')),
       )),
       field('field', choice(
         $._field_identifier,
+        alias($.qualified_field_identifier, $.qualified_identifier),
         $.destructor_name,
         $.template_method,
         alias($.dependent_field_identifier, $.dependent_name),
       )),
-    ),
+    )),
 
     type_requirement: $ => seq('typename', $._class_name),
 
@@ -1212,7 +1213,7 @@ module.exports = grammar(C, {
       '::',
     )),
 
-    qualified_field_identifier: $ => seq(
+    qualified_field_identifier: $ => prec.right(seq(
       $._scope_resolution,
       field('name', choice(
         alias($.dependent_field_identifier, $.dependent_name),
@@ -1220,7 +1221,7 @@ module.exports = grammar(C, {
         $.template_method,
         $._field_identifier,
       )),
-    ),
+    )),
 
     qualified_identifier: $ => seq(
       $._scope_resolution,
