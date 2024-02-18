@@ -2422,6 +2422,10 @@
           "named": true
         },
         {
+          "type": "preproc_call",
+          "named": true
+        },
+        {
           "type": "preproc_if",
           "named": true
         },
@@ -2658,6 +2662,10 @@
           },
           {
             "type": "field_identifier",
+            "named": true
+          },
+          {
+            "type": "qualified_identifier",
             "named": true
           },
           {
@@ -4854,6 +4862,10 @@
           "named": true
         },
         {
+          "type": "access_specifier",
+          "named": true
+        },
+        {
           "type": "alias_declaration",
           "named": true
         },
@@ -4863,6 +4875,18 @@
         },
         {
           "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "enumerator",
+          "named": true
+        },
+        {
+          "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "friend_declaration",
           "named": true
         },
         {
