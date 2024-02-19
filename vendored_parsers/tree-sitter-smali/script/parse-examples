@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+	owner=$1
+	name=$2
+	sha=$3
+
+	path=examples/$name
+	if [ ! -d "$path" ]; then
+		echo "Cloning $owner/$name"
+		git clone "https://github.com/$owner/$name" "$path"
+	fi
+
+	pushd "$path" >/dev/null
+	actual_sha=$(git rev-parse HEAD)
+	if [ "$actual_sha" != "$sha" ]; then
+		echo "Updating $owner/$name to $sha"
+		git fetch
+		git reset --hard "$sha"
+	fi
+	popd >/dev/null
+}
+
+clone_repo JesusFreke smali 2771eae0a11f07bd892732232e6ee4e32437230d
+clone_repo AlexeySoshin smali2java 95795b9ccd540ae72987ba68896a783f312b8c29
+clone_repo amaanq misc-smali-code 220aa27251f3ed680d563de3f174b1106c9b9f0e
+
+known_failures="$(cat script/known_failures.txt)"
+
+# shellcheck disable=2046
+tree-sitter parse -q \
+	"examples/**/*.smali" \
+	$(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name "*.smali" | wc -l)
+failure_count=$(wc -w <<<"$known_failures")
+success_count=$((example_count - failure_count))
+success_percent=$(bc -l <<<"100*${success_count}/${example_count}")
+
+printf \
+	"Successfully parsed %d of %d example files (%.1f%%)\n" \
+	"$success_count" "$example_count" "$success_percent"

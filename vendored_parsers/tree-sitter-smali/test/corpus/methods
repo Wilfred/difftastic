@@ -1,0 +1,224 @@
+========================================================================
+Test an empty method
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public empty()V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (primitive_type))))
+
+
+
+========================================================================
+Test a method with no modifiers
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method empty()V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (method_signature
+      (method_identifier)
+      (primitive_type))))
+
+
+
+========================================================================
+Test a method with one primitive parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public empty(I)V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (parameters
+        (primitive_type))
+      (primitive_type))))
+
+
+
+========================================================================
+Test a method with multiple primitive parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public empty(IZJ)V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (parameters
+        (primitive_type)
+        (primitive_type)
+        (primitive_type))
+      (primitive_type))))
+
+
+
+========================================================================
+Test a method with an object parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public static foo(Ljava/lang/String;)V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (parameters
+        (class_identifier
+          (identifier)
+          (identifier)
+          (identifier)))
+      (primitive_type))))
+
+
+========================================================================
+Test a method with an array parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public static foo([Ljava/lang/String;)V
+.end method
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
+  (super_directive
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
+  (source_directive
+    (string))
+  (method_definition
+    (access_modifier)
+    (access_modifier)
+    (method_signature
+      (method_identifier)
+      (parameters
+        (array_type
+          (class_identifier
+            (identifier)
+            (identifier)
+            (identifier))))
+      (primitive_type))))

@@ -1,0 +1,81 @@
+name: Publish
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm test
+
+  publish:
+    if: github.event.pull_request.merged && startsWith(github.event.pull_request.title, 'chore(master):')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract version
+        id: extract_version
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          VERSION=$(echo "$PR_TITLE" | grep -oP '(?<=release ).*$')
+          echo "::set-output name=version::$VERSION"
+      - name: Update versions
+        run: |
+          version="${{ steps.extract_version.outputs.version }}"
+          repo_name="${{ github.repository }}"
+          repo_name="${repo_name##*/}"
+
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git fetch origin master
+          git checkout master
+
+          sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$version\"/g" package.json
+          sed -i "s/version = \"[^\"]*\"/version = \"$version\"/g" Cargo.toml
+          sed -i "s/$repo_name = \"[^\"]*\"/$repo_name = \"$version\"/g" bindings/rust/README.md
+
+          git add package.json Cargo.toml bindings/rust/README.md
+          git commit -m "chore(manifests): bump version to $version"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:master
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Publish to Crates.io
+        uses: katyo/publish-crates@v2
+        with:
+          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Tag stable versions
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/google-github-actions/release-please-action.git"
+          git tag -d stable || true
+          git push origin :stable || true
+          git tag -a stable -m "Last Stable Release"
+          git push origin stable

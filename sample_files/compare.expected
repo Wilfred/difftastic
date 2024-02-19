@@ -76,6 +76,9 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
 52e271ea8ffbe500d6bc3c47d35df13a  -
 
+sample_files/hello_world_before.smali sample_files/hello_world_after.smali
+c2a686a9d70b8e54d49ef7fdf2f87fb7  -
+
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 f85460a4e60d77b4cae1a987a5af4c49  -
 

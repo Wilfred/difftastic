@@ -107,6 +107,7 @@ extern "C" {
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
+    fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
     fn tree_sitter_solidity() -> ts::Language;
     fn tree_sitter_sql() -> ts::Language;
@@ -976,6 +977,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+            }
+        }
+        Smali => {
+            let language = unsafe { tree_sitter_smali() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: HashSet::from(["string"]),
+                delimiter_tokens: Vec::new(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/smali.scm"),
+                )
+                .unwrap(),
+                sub_languages: Vec::new(),
             }
         }
         Solidity => {
