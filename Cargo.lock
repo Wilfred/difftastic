@@ -271,7 +271,6 @@ dependencies = [
  "libmimalloc-sys",
  "line-numbers",
  "log",
- "memchr",
  "mimalloc",
  "owo-colors",
  "predicates",
@@ -565,9 +564,9 @@ dependencies = [
 
 [[package]]
 name = "memchr"
-version = "2.5.0"
+version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
+checksum = "523dc4f511e55ab87b694dc30d0f820d60906ef06413f93d4d7a1385599cc149"
 
 [[package]]
 name = "memoffset"
