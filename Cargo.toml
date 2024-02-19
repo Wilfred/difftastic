@@ -42,7 +42,7 @@ pkg-fmt = "zip"
 regex = ">= 1.9, < 1.9.5"
 memchr = ">= 2, < 2.6"
 
-clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
+clap = { version = "3.2.25", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
 rustc-hash = "1.1.0"
