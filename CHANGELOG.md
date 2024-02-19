@@ -4,6 +4,8 @@
 
 Updated JavaScript, TypeScript and QML parsers.
 
+Added support for Smali.
+
 ## 0.55 (released 1st February 2024)
 
 ### Parsing
