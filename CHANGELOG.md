@@ -6,6 +6,11 @@ Updated JavaScript, TypeScript and QML parsers.
 
 Added support for Smali.
 
+### Display
+
+Fixed an issue with the experimental JSON display mode where it
+ignored `--skip-unchanged`.
+
 ## 0.55 (released 1st February 2024)
 
 ### Parsing
