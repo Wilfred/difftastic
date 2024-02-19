@@ -71,8 +71,7 @@ unicode-width = "0.1.9"
 crossterm = { version = "0.27.0", features = ["windows"] }
 glob = "0.3.1"
 strum = { version = "0.25", features = ["derive"] }
-# hashbrown 0.13 requires rust 1.61
-hashbrown = "0.12.3"
+hashbrown = "0.14.0"
 humansize = "2.1.3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
