@@ -65,8 +65,8 @@ owo-colors = "3.5.0"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
 tree_magic_mini = "3.0.2"
-# bumpalo 3.12 requires rust 1.60
-bumpalo = "3.11.1"
+# bumpalo 3.15 requires rust 1.65
+bumpalo = ">= 3.11, < 3.15"
 unicode-width = "0.1.9"
 crossterm = { version = "0.27.0", features = ["windows"] }
 glob = "0.3.1"
