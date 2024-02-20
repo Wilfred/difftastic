@@ -8,6 +8,9 @@ Added support for Smali.
 
 ### Display
 
+Fixed an issue where all files would show a permissions change when
+using difftastic with `git difftool`.
+
 Fixed an issue with paths not showing the containing directory when
 using difftastic with `git difftool`.
 

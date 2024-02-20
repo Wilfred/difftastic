@@ -321,6 +321,14 @@ impl FileArgument {
     pub(crate) fn permissions(&self) -> Option<FilePermissions> {
         match self {
             FileArgument::NamedPath(path) => {
+                // When used with `git difftool`, the first argument
+                // is a temporary file that always has the same
+                // permissions. That doesn't mean the file permissions
+                // have changed, so we shouldn't compare.
+                if is_git_tmpfile(path) {
+                    return None;
+                }
+
                 let metadata = std::fs::metadata(path).ok()?;
                 Some(metadata.permissions().into())
             }
