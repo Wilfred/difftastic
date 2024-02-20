@@ -1,0 +1,36 @@
+============================================
+#73273 Lambda assign after if
+============================================
+
+if true: v = func(): test()
+if true: v = func(): test()
+
+---
+
+(source
+  (if_statement
+    (true)
+    (body
+      (expression_statement
+        (assignment
+          (identifier)
+          (lambda
+            (parameters)
+            (body
+              (expression_statement
+                (call
+                  (identifier)
+                  (arguments)))))))))
+  (if_statement
+    (true)
+    (body
+      (expression_statement
+        (assignment
+          (identifier)
+          (lambda
+            (parameters)
+            (body
+              (expression_statement
+                (call
+                  (identifier)
+                  (arguments))))))))))
