@@ -44,6 +44,7 @@ extern crate log;
 use display::style::print_warning;
 use log::info;
 use mimalloc::MiMalloc;
+use options::FilePermissions;
 use options::USAGE;
 
 use crate::conflicts::apply_conflict_markers;
@@ -70,7 +71,6 @@ use crate::parse::syntax;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use std::fs::Permissions;
 use std::path::Path;
 use std::{env, thread};
 
@@ -219,6 +219,8 @@ fn main() {
             language_overrides,
             lhs_path,
             rhs_path,
+            lhs_permissions,
+            rhs_permissions,
             display_path,
             renamed,
         } => {
@@ -298,6 +300,8 @@ fn main() {
                         renamed,
                         &lhs_path,
                         &rhs_path,
+                        lhs_permissions.as_ref(),
+                        rhs_permissions.as_ref(),
                         &display_options,
                         &diff_options,
                         false,
@@ -328,68 +332,14 @@ fn main() {
     };
 }
 
-#[cfg(unix)]
-fn compare_permissions(lhs: &Permissions, rhs: &Permissions) -> Option<String> {
-    use std::os::unix::fs::PermissionsExt;
-
-    let lhs_mode = lhs.mode();
-    let rhs_mode = rhs.mode();
-
-    if lhs_mode != rhs_mode {
-        let lhs_mode = format!("{:o}", lhs_mode);
-        let rhs_mode = format!("{:o}", rhs_mode);
-        Some(format!(
-            "File permissions changed from {} to {}.",
-            lhs_mode, rhs_mode
-        ))
-    } else {
-        None
-    }
-}
-
-#[cfg(windows)]
-fn compare_permissions(lhs: &Permissions, rhs: &Permissions) -> Option<String> {
-    if lhs.readonly() != rhs.readonly() {
-        Some(format!(
-            "File permissions changed from {} to {}.",
-            if lhs.readonly() {
-                "readonly"
-            } else {
-                "read-write"
-            },
-            if rhs.readonly() {
-                "readonly"
-            } else {
-                "read-write"
-            },
-        ))
-    } else {
-        None
-    }
-}
-
-#[cfg(not(any(unix, windows)))]
-fn compare_permissions(_lhs: &Permissions, _rhs: &Permissions) -> Option<String> {
-    None
-}
-
-fn describe_permissions_change(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Option<String> {
-    match (lhs_path, rhs_path) {
-        (FileArgument::NamedPath(lhs_path), FileArgument::NamedPath(rhs_path)) => {
-            let lhs_metadata = std::fs::metadata(lhs_path).ok()?;
-            let rhs_metadata = std::fs::metadata(rhs_path).ok()?;
-            compare_permissions(&lhs_metadata.permissions(), &rhs_metadata.permissions())
-        }
-        _ => None,
-    }
-}
-
 /// Print a diff between two files.
 fn diff_file(
     display_path: &str,
     renamed: Option<String>,
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
+    lhs_permissions: Option<&FilePermissions>,
+    rhs_permissions: Option<&FilePermissions>,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     missing_as_empty: bool,
@@ -420,12 +370,19 @@ fn diff_file(
     }
 
     let mut extra_info = renamed;
-    if let Some(permissions_change) = describe_permissions_change(lhs_path, rhs_path) {
-        if let Some(extra_info) = &mut extra_info {
-            extra_info.push('\n');
-            extra_info.push_str(&permissions_change);
-        } else {
-            extra_info = Some(permissions_change);
+    if let (Some(lhs_perms), Some(rhs_perms)) = (lhs_permissions, rhs_permissions) {
+        if lhs_perms != rhs_perms {
+            let msg = format!(
+                "File permissions changed from {} to {}.",
+                lhs_perms, rhs_perms
+            );
+
+            if let Some(extra_info) = &mut extra_info {
+                extra_info.push('\n');
+                extra_info.push_str(&msg);
+            } else {
+                extra_info = Some(msg);
+            }
         }
     }
 
@@ -780,14 +737,16 @@ fn diff_directories<'a>(
     paths.into_par_iter().map(move |rel_path| {
         info!("Relative path is {:?} inside {:?}", rel_path, lhs_dir);
 
-        let lhs_path = Path::new(lhs_dir).join(&rel_path);
-        let rhs_path = Path::new(rhs_dir).join(&rel_path);
+        let lhs_path = FileArgument::NamedPath(Path::new(lhs_dir).join(&rel_path));
+        let rhs_path = FileArgument::NamedPath(Path::new(rhs_dir).join(&rel_path));
 
         diff_file(
             &rel_path.display().to_string(),
             None,
-            &FileArgument::NamedPath(lhs_path),
-            &FileArgument::NamedPath(rhs_path),
+            &lhs_path,
+            &rhs_path,
+            lhs_path.permissions().as_ref(),
+            rhs_path.permissions().as_ref(),
             &display_options,
             &diff_options,
             true,

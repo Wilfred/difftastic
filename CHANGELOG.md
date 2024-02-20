@@ -11,6 +11,9 @@ Added support for Smali.
 Fixed an issue with paths not showing the containing directory when
 using difftastic with `git difftool`.
 
+Difftastic now correctly reports file permission changes when called
+from `git diff`.
+
 Fixed an issue with the experimental JSON display mode where it
 ignored `--skip-unchanged`.
 
