@@ -436,9 +436,30 @@ fn common_path_suffix(lhs_path: &Path, rhs_path: &Path) -> Option<String> {
     }
 }
 
+/// Does `path` look like "/tmp/git-blob-abcdef/modified_field.txt"?
+fn is_git_tmpfile(path: &Path) -> bool {
+    let Ok(rel_path) = path.strip_prefix(std::env::temp_dir()) else {
+        return false;
+    };
+
+    let components: Vec<_> = rel_path.components().collect();
+    if components.len() != 2 {
+        return false;
+    }
+
+    components[0]
+        .as_os_str()
+        .to_string_lossy()
+        .starts_with("git-blob-")
+}
+
 fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> String {
     match (lhs_path, rhs_path) {
         (FileArgument::NamedPath(lhs), FileArgument::NamedPath(rhs)) => {
+            if is_git_tmpfile(lhs) {
+                return rhs.display().to_string();
+            }
+
             match common_path_suffix(lhs, rhs) {
                 Some(common_suffix) => common_suffix,
                 None => rhs.display().to_string(),
