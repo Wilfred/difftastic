@@ -3,6 +3,16 @@ tree-sitter-gdscript
 
 GDScript grammar for [tree-sitter][].
 
+## Latest Godot Commit Syntactically Synced
+
+Note: *Some commits may have been missed.*
+
+```bash
+git log --oneline --no-merges modules/gdscript
+```
+
+[6ae54fd787](https://github.com/godotengine/godot/commits/6ae54fd787)
+
 ## How To
 
 - Test grammar
