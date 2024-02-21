@@ -7,7 +7,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use ignore::Walk;
+use ignore::WalkBuilder;
 use rustc_hash::FxHashSet;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
@@ -228,7 +228,10 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
 
 /// All the files in `dir`, including subdirectories.
 fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
-    Walk::new(dir)
+    WalkBuilder::new(dir)
+        .standard_filters(true)
+        .hidden(false)
+        .build()
         .into_iter()
         .filter_map(Result::ok)
         .map(|entry| Path::new(entry.path()).to_owned())
