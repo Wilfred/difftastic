@@ -108,3 +108,18 @@ match when:
           (identifier))
         (body
           (expression_statement (identifier)))))))
+
+============================================
+Is Not Test
+============================================
+
+x is T
+x is not T
+x is (not T)
+
+---
+
+(source
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (binary_operator (identifier) (identifier)))
+  (expression_statement (binary_operator (identifier) (parenthesized_expression (unary_operator (identifier))))))

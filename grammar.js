@@ -600,7 +600,12 @@ module.exports = grammar({
         ),
         prec.left(
           PREC.is,
-          seq($._primary_expression, "is", $._primary_expression)
+          seq(
+            $._primary_expression,
+            "is",
+            optional("not"),
+            $._primary_expression
+          )
         ),
         prec.left(PREC.as, seq($._primary_expression, "as", $.identifier))
       ),
