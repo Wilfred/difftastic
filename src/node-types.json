@@ -288,6 +288,21 @@
     ]
   },
   {
+    "type": "()",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "annotation",
     "named": true,
     "fields": {},
@@ -527,7 +542,7 @@
   },
   {
     "type": "body",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1042,6 +1057,16 @@
           }
         ]
       },
+      "static": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "static_keyword",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": false,
@@ -1158,6 +1183,16 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1392,6 +1427,16 @@
           }
         ]
       },
+      "static": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "static_keyword",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": false,
@@ -1563,6 +1608,21 @@
     }
   },
   {
+    "type": "pattern_guard",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pattern_pair",
     "named": true,
     "fields": {
@@ -1609,6 +1669,10 @@
       "types": [
         {
           "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "pattern_guard",
           "named": true
         }
       ]
@@ -1956,6 +2020,16 @@
         "types": [
           {
             "type": "setget",
+            "named": true
+          }
+        ]
+      },
+      "static": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "static_keyword",
             "named": true
           }
         ]
@@ -2384,6 +2458,10 @@
   },
   {
     "type": "var",
+    "named": false
+  },
+  {
+    "type": "when",
     "named": false
   },
   {
