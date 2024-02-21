@@ -357,6 +357,7 @@ module.exports = grammar({
       seq(
         "for",
         field("left", $.identifier),
+        optional(seq(":", field("type", $.type))),
         "in",
         field("right", $._expression),
         ":",

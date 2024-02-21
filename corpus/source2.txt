@@ -20,3 +20,23 @@ static var name: int
     (annotations (annotation (identifier)))
     (static_keyword)
     (name)))
+
+
+============================================
+Static Typed For Loop
+============================================
+
+for i: int in [1, 2]:
+	pass
+
+---
+
+(source
+  (for_statement
+    (identifier)
+    (type)
+    (array
+      (integer)
+      (integer))
+    (body
+      (pass_statement))))
