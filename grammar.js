@@ -431,8 +431,21 @@ module.exports = grammar({
 
     match_body: ($) => seq($._indent, repeat1($.pattern_section), $._dedent),
 
+    // Sources:
+    // - https://github.com/godotengine/godot-proposals/issues/4775
+    // - https://github.com/godotengine/godot/pull/80085
+    //
+    // One guard per section. Meaning Comma separated patterns cannot each have
+    // a guard.
+    pattern_guard: ($) => seq("when", $._expression),
+
     pattern_section: ($) =>
-      seq(commaSep1($._pattern), ":", field("body", $.body)),
+      seq(
+        commaSep1($._pattern),
+        optional($.pattern_guard),
+        ":",
+        field("body", $.body)
+      ),
 
     _pattern: ($) =>
       choice(

@@ -56,3 +56,55 @@ var x:
     (setget
       (get_body
         (pass_statement)))))
+
+============================================
+Pattern Guards for Match Statement
+============================================
+
+var a = 0
+match a:
+	0 when false: print("does not run")
+	0 when true: print("but this does")
+
+var when = 1
+match when:
+    when when when:
+        when
+
+---
+
+(source
+  (variable_statement (name) (integer))
+  (match_statement
+    (identifier)
+    (match_body
+      (pattern_section
+        (integer)
+        (pattern_guard
+          (false))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (string))))))
+      (pattern_section
+        (integer)
+        (pattern_guard
+          (true))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (string))))))))
+  (variable_statement (name) (integer))
+  (match_statement
+    (identifier)
+    (match_body
+      (pattern_section
+        (identifier)
+        (pattern_guard
+          (identifier))
+        (body
+          (expression_statement (identifier)))))))
