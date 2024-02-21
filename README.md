@@ -22,10 +22,10 @@ The documentation of this implementation is available in [DOC](DOC.md). Because 
 
 - [X] Update 0.10 (complete grammar)
 - [ ] More tests, objectif 1000, current 409
-- [ ] Installation
+- [X] Installation
   - [X] Helix
   - [X] Emacs
-  - [ ] NeoVim (work in progress)
+  - [X] NeoVim
 - [ ] Simplification
   - [ ] Implement a type 3/4 parser generator (work in progress)
   - [ ] Migrate all lexing to external scanner
@@ -51,11 +51,7 @@ cargo install --git https://github.com/nvarner/typst-lsp typst-lsp
 
 ## Neovim
 
-The following fork adds Typst to the supported language of Neovim TreeSitter plugin:
-
-https://github.com/Nagefire/nvim-treesitter/tree/feat/typst
-
-It will lead to a future pull-request. At the moment, you can have a look to the diff and apply them to your config.
+The https://github.com/nvim-treesitter/nvim-treesitter provides this grammar.
 
 ## Emacs
 
@@ -71,6 +67,8 @@ Typst support for Emacs is available through the following package:
 ```
 
 ## Helix
+
+The next release of Helix will support Typst. Waiting until then, you can add support for Typst with the following instructions:
 
 1. Locate the configuration directory:
 
