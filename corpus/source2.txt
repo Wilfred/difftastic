@@ -1,0 +1,22 @@
+============================================
+Static Variable Statements
+============================================
+
+static var name
+static var name := "Me"
+static var name: int
+
+# There may be valid annotations for static vars.
+@some_annotation static var name
+
+---
+
+(source
+  (variable_statement (static_keyword) (name))
+  (variable_statement (static_keyword) (name) (inferred_type) (string))
+  (variable_statement (static_keyword) (name) (type))
+  (comment)
+  (variable_statement
+    (annotations (annotation (identifier)))
+    (static_keyword)
+    (name)))

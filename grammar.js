@@ -260,6 +260,7 @@ module.exports = grammar({
     _variable_statement: ($) =>
       seq(
         optional($.annotations),
+        optional(field("static", $.static_keyword)),
         "var",
         field("name", $.name),
         optional(
