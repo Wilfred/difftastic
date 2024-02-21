@@ -40,3 +40,19 @@ for i: int in [1, 2]:
       (integer))
     (body
       (pass_statement))))
+
+============================================
+SetGet Getter with Empty Parenthesis
+============================================
+
+var x:
+  get(): pass
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (pass_statement)))))

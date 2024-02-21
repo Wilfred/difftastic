@@ -226,7 +226,15 @@ module.exports = grammar({
     // -- SetGet
 
     set_body: ($) => seq("set", $.parameters, ":", alias($.body, "body")),
-    get_body: ($) => seq("get", ":", alias($.body, "body")),
+    get_body: ($) =>
+      seq(
+        "get",
+        // Let's alias parameters as an un-named node since
+        // get does not take any parameters.
+        optional(alias($.parameters, "()")),
+        ":",
+        alias($.body, "body")
+      ),
 
     _set_assign: ($) => seq("set", "=", field("set", $.setter)),
     _get_assign: ($) => seq("get", "=", field("get", $.getter)),
