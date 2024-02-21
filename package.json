@@ -7,8 +7,8 @@
     "parser",
     "lua"
   ],
-  "homepage": "https://github.com/MunifTanjim/tree-sitter-lua#readme",
-  "bugs": "https://github.com/MunifTanjim/tree-sitter-lua/issues",
+  "homepage": "https://github.com/tree-sitter-grammars/tree-sitter-lua#readme",
+  "bugs": "https://github.com/tree-sitter-grammars/tree-sitter-lua/issues",
   "license": "MIT",
   "author": "Munif Tanjim (https://muniftanjim.dev)",
   "files": [
@@ -19,7 +19,7 @@
     "grammar.js"
   ],
   "main": "bindings/node",
-  "repository": "https://github.com/MunifTanjim/tree-sitter-lua",
+  "repository": "https://github.com/tree-sitter-grammars/tree-sitter-lua",
   "scripts": {
     "build": "tree-sitter generate",
     "postbuild": "node-gyp build",

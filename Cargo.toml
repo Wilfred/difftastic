@@ -8,7 +8,7 @@ authors = [
 license = "MIT"
 keywords = ["incremental", "parsing", "lua"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/MunifTanjim/tree-sitter-lua"
+repository = "https://github.com/tree-sitter-grammars/tree-sitter-lua"
 edition = "2018"
 
 build = "bindings/rust/build.rs"
