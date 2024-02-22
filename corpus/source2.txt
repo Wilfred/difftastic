@@ -39,7 +39,7 @@ static var name: int
 (source
   (variable_statement (static_keyword) (name))
   (variable_statement (static_keyword) (name) (inferred_type) (string))
-  (variable_statement (static_keyword) (name) (type))
+  (variable_statement (static_keyword) (name) (type (identifier)))
   (comment)
   (variable_statement
     (annotations (annotation (identifier)))
@@ -59,7 +59,7 @@ for i: int in [1, 2]:
 (source
   (for_statement
     (identifier)
-    (type)
+    (type (identifier))
     (array
       (integer)
       (integer))

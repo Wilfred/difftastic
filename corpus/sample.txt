@@ -25,12 +25,12 @@ func _ready():
 
 (source
   (tool_statement)
-  (extends_statement (dotted_type (type)))
+  (extends_statement (dotted_type (type (identifier))))
   (class_name_statement (name) (string))
-  (class_definition (name) (extends_statement (dotted_type (type)))
+  (class_definition (name) (extends_statement (dotted_type (type (identifier))))
     (body
-      (variable_statement (name) (type))
-      (function_definition (name) (parameters) (type)
+      (variable_statement (name) (type (identifier)))
+      (function_definition (name) (parameters) (type (identifier))
         (body
           (if_statement (attribute (identifier) (attribute_call (identifier) (arguments)))
             (body

@@ -21,20 +21,20 @@ func _on_pressed_button() -> void:
   (function_definition
     (name)
     (parameters)
-    (type)
+    (type (identifier))
     (body
       (variable_statement
         (name)
         (lambda
           (parameters)
-          (type)
+          (type (identifier))
           (body
             (variable_statement
               (name)
-              (type))
+              (type (identifier)))
             (variable_statement
               (name)
-              (type)
+              (type (identifier))
               (attribute
                 (identifier)
                 (identifier)
@@ -170,7 +170,7 @@ func _ready():
 (source
   (extends_statement
     (dotted_type
-      (type)))
+      (type (identifier))))
   (function_definition
     (name)
     (parameters)

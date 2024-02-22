@@ -249,14 +249,14 @@ func hello(p = func(p: int) -> int:
           (parameters
             (typed_parameter
               (identifier)
-              (type)))
-          (type)
+              (type (identifier))))
+          (type (identifier))
           (body
             (pass_statement)
             (pass_statement))))
       (typed_parameter
         (identifier)
-        (type)))
+        (type (identifier))))
     (body
       (pass_statement)))
   (function_definition
@@ -268,14 +268,14 @@ func hello(p = func(p: int) -> int:
           (parameters
             (typed_parameter
               (identifier)
-              (type)))
-          (type)
+              (type (identifier))))
+          (type (identifier))
           (body
             (pass_statement)
             (pass_statement))))
       (typed_parameter
         (identifier)
-        (type)))
+        (type (identifier))))
     (body
       (pass_statement))))
 
@@ -321,9 +321,9 @@ func x(p: int = 1) -> int:
     (parameters
       (typed_default_parameter
         (identifier)
-        (type)
+        (type (identifier))
         (integer)))
-    (type)
+    (type (identifier))
     (body
       (if_statement
         (comparison_operator
@@ -336,8 +336,8 @@ func x(p: int = 1) -> int:
               (parameters
                 (typed_parameter
                   (identifier)
-                  (type)))
-              (type)
+                  (type (identifier))))
+              (type (identifier))
               (body
                 (variable_statement
                   (name)
@@ -360,8 +360,8 @@ func x(p: int = 1) -> int:
                     (parameters
                       (typed_parameter
                         (identifier)
-                        (type)))
-                    (type)
+                        (type (identifier))))
+                    (type (identifier))
                     (body
                       (variable_statement
                         (name)
@@ -398,8 +398,8 @@ var x = func():
             (parameters
               (typed_parameter
                 (identifier)
-                (type)))
-            (type)
+                (type (identifier))))
+            (type (identifier))
             (body
               (pass_statement)
               (return_statement

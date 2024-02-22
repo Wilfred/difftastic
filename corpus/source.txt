@@ -255,8 +255,8 @@ var x: Type = "hello"
   (variable_statement (name))
   (variable_statement (name) (string))
   (variable_statement (name) (inferred_type) (string))
-  (variable_statement (name) (type))
-  (variable_statement (name) (type) (string)))
+  (variable_statement (name) (type (identifier)))
+  (variable_statement (name) (type (identifier)) (string)))
 
 =====================================
 Variables Assign Expressions
@@ -412,7 +412,7 @@ var my_prop:
 (source
   (variable_statement
     (name)
-    (type)
+    (type (identifier))
     (setget
       (get_body
         (pass_statement))
@@ -421,7 +421,7 @@ var my_prop:
         (pass_statement))))
   (variable_statement
     (name)
-    (type)
+    (type (identifier))
     (integer)
     (setget
       (get_body
@@ -456,7 +456,7 @@ var my_prop:
         (pass_statement))))
   (variable_statement
     (name)
-    (type)
+    (type (identifier))
     (setget
       (set_body
         (parameters
@@ -479,7 +479,7 @@ onready var hello: World
 
 (source
   (onready_variable_statement (name))
-  (onready_variable_statement (name) (type)))
+  (onready_variable_statement (name) (type (identifier))))
 
 =====================================
 Variables Const
@@ -494,7 +494,7 @@ const CONST : int = 1
 (source
   (const_statement (name) (integer))
   (const_statement (name) (inferred_type) (integer))
-  (const_statement (name) (type) (integer)))
+  (const_statement (name) (type (identifier)) (integer)))
 
 
 =====================================
@@ -549,23 +549,23 @@ func hello(typed_default_param: Type="string") -> Type:
 (source
   (function_definition (name) (parameters)
     (body (pass_statement)))
-  (function_definition (name) (parameters) (type)
+  (function_definition (name) (parameters) (type (identifier))
     (body (pass_statement)))
   (function_definition (name) (parameters (identifier))
     (body (pass_statement)))
-  (function_definition (name) (parameters (identifier)) (type)
+  (function_definition (name) (parameters (identifier)) (type (identifier))
     (body (pass_statement)))
   (function_definition (name) (parameters (default_parameter (identifier) (string)))
     (body (pass_statement)))
-  (function_definition (name) (parameters (default_parameter (identifier) (string))) (type)
+  (function_definition (name) (parameters (default_parameter (identifier) (string))) (type (identifier))
     (body (pass_statement)))
-  (function_definition (name) (parameters (typed_parameter (identifier) (type)))
+  (function_definition (name) (parameters (typed_parameter (identifier) (type (identifier))))
     (body (pass_statement)))
-  (function_definition (name) (parameters (typed_parameter (identifier) (type))) (type)
+  (function_definition (name) (parameters (typed_parameter (identifier) (type (identifier)))) (type (identifier))
     (body (pass_statement)))
-  (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string)))
+  (function_definition (name) (parameters (typed_default_parameter (identifier) (type (identifier)) (string)))
     (body (pass_statement)))
-  (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string))) (type)
+  (function_definition (name) (parameters (typed_default_parameter (identifier) (type (identifier)) (string))) (type (identifier))
     (body (pass_statement))))
 
 =====================================
@@ -893,20 +893,20 @@ signal x(a, b: Type)
    (parameters
     (typed_parameter
      (identifier)
-     (type))))
+     (type (identifier)))))
   (signal_statement
    (name)
    (parameters
     (typed_parameter
      (identifier)
-     (type))))
+     (type (identifier)))))
   (signal_statement
    (name)
    (parameters
     (identifier)
     (typed_parameter
      (identifier)
-     (type)))))
+     (type (identifier))))))
 
 =====================================
 Class Name
@@ -937,11 +937,11 @@ extends Ident.Attr.Attr
 (source
   (tool_statement)
   (extends_statement (string))
-  (extends_statement (string) (dotted_type (type)))
-  (extends_statement (string) (dotted_type (type) (type)))
-  (extends_statement (dotted_type (type)))
-  (extends_statement (dotted_type (type) (type)))
-  (extends_statement (dotted_type (type) (type) (type))))
+  (extends_statement (dotted_type (type (attribute (string) (identifier)))))
+  (extends_statement (dotted_type (type (attribute (string) (identifier))) (type (identifier))))
+  (extends_statement (dotted_type (type (identifier))))
+  (extends_statement (dotted_type (type (attribute (identifier) (identifier)))))
+  (extends_statement (dotted_type (type (attribute (identifier) (identifier))) (type (identifier)))))
 
 =====================================
 Inner Class
@@ -963,13 +963,13 @@ class Name:
     (body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
-  (class_definition (name) (extends_statement (dotted_type (type)))
+  (class_definition (name) (extends_statement (dotted_type (type (identifier))))
     (body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
   (class_definition (name)
     (body
-      (extends_statement (dotted_type (type))))))
+      (extends_statement (dotted_type (type (identifier)))))))
 
 ============================================
 Enum declarations
