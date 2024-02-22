@@ -21,10 +21,6 @@
       "type": "SYMBOL",
       "name": "_identifier"
     },
-    "type": {
-      "type": "SYMBOL",
-      "name": "_identifier"
-    },
     "comment": {
       "type": "TOKEN",
       "content": {
@@ -552,6 +548,23 @@
           }
         ]
       }
+    },
+    "type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "attribute"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subscript"
+        }
+      ]
     },
     "_statement": {
       "type": "CHOICE",
@@ -1526,31 +1539,6 @@
         }
       ]
     },
-    "dotted_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "type"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "."
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type"
-              }
-            ]
-          }
-        }
-      ]
-    },
     "extends_statement": {
       "type": "SEQ",
       "members": [
@@ -1563,37 +1551,11 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "dotted_type"
+              "name": "string"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "string"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "."
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "dotted_type"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "type"
             }
           ]
         }

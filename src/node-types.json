@@ -872,21 +872,6 @@
     }
   },
   {
-    "type": "dotted_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "elif_clause",
     "named": true,
     "fields": {
@@ -1139,15 +1124,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "dotted_type",
+          "type": "string",
           "named": true
         },
         {
-          "type": "string",
+          "type": "type",
           "named": true
         }
       ]
@@ -1902,7 +1887,25 @@
   {
     "type": "type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "typed_default_parameter",
