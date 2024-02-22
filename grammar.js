@@ -326,12 +326,7 @@ module.exports = grammar({
         optional(seq(",", field("icon_path", $.string)))
       ),
 
-    dotted_type: ($) => sep1($.type, "."),
-    extends_statement: ($) =>
-      seq(
-        "extends",
-        choice($.dotted_type, seq($.string, optional(seq(".", $.dotted_type))))
-      ),
+    extends_statement: ($) => seq("extends", choice($.string, $.type)),
 
     _compound_statement: ($) =>
       choice(
