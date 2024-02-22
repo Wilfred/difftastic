@@ -937,11 +937,11 @@ extends Ident.Attr.Attr
 (source
   (tool_statement)
   (extends_statement (string))
-  (extends_statement (dotted_type (type (attribute (string) (identifier)))))
-  (extends_statement (dotted_type (type (attribute (string) (identifier))) (type (identifier))))
-  (extends_statement (dotted_type (type (identifier))))
-  (extends_statement (dotted_type (type (attribute (identifier) (identifier)))))
-  (extends_statement (dotted_type (type (attribute (identifier) (identifier))) (type (identifier)))))
+  (extends_statement (type (attribute (string) (identifier))))
+  (extends_statement (type (attribute (string) (identifier) (identifier))))
+  (extends_statement (type (identifier)))
+  (extends_statement (type (attribute (identifier) (identifier))))
+  (extends_statement (type (attribute (identifier) (identifier) (identifier)))))
 
 =====================================
 Inner Class
@@ -963,13 +963,13 @@ class Name:
     (body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
-  (class_definition (name) (extends_statement (dotted_type (type (identifier))))
+  (class_definition (name) (extends_statement (type (identifier)))
     (body
       (function_definition (name) (parameters)
         (body (pass_statement)))))
   (class_definition (name)
     (body
-      (extends_statement (dotted_type (type (identifier)))))))
+      (extends_statement (type (identifier))))))
 
 ============================================
 Enum declarations

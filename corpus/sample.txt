@@ -25,9 +25,9 @@ func _ready():
 
 (source
   (tool_statement)
-  (extends_statement (dotted_type (type (identifier))))
+  (extends_statement (type (identifier)))
   (class_name_statement (name) (string))
-  (class_definition (name) (extends_statement (dotted_type (type (identifier))))
+  (class_definition (name) (extends_statement (type (identifier)))
     (body
       (variable_statement (name) (type (identifier)))
       (function_definition (name) (parameters) (type (identifier))
