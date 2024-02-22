@@ -84,8 +84,6 @@ module.exports = grammar({
     // named symbol of a statement
     // such as a function name or class name
     name: ($) => $._identifier,
-    // symbol that only represents a type
-    type: ($) => $._identifier,
     comment: ($) => token(seq("#", /.*/)),
     true: ($) => "true",
     false: ($) => "false",
@@ -157,6 +155,12 @@ module.exports = grammar({
           choice(nodePathString(), /[a-zA-Z_][a-zA-Z_/0-9]*/)
         )
       ),
+
+    // -----------------------------------------------------------------------------
+    // -                                     Type                                  -
+    // -----------------------------------------------------------------------------
+
+    type: ($) => choice($.attribute, $.identifier, $.subscript),
 
     // -----------------------------------------------------------------------------
     // -                                  Statements                               -

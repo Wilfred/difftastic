@@ -1,4 +1,29 @@
 ============================================
+Typed Arrays (#18)
+============================================
+
+var a1: Array[IClass.IIClass]
+var a3: Array[int]
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (type
+      (subscript
+        (identifier)
+        (attribute
+          (identifier)
+          (identifier)))))
+  (variable_statement
+    (name)
+    (type
+      (subscript
+        (identifier)
+        (identifier)))))
+
+============================================
 Static Variable Statements
 ============================================
 
