@@ -439,7 +439,8 @@
     },
     "hole": {
       "type": "PATTERN",
-      "value": "\\?[\\p{L}0-9_']+"
+      "value": "\\?[\\p{L}0-9_']+",
+      "flags": "u"
     },
     "_immediate_dot": {
       "type": "IMMEDIATE_TOKEN",
@@ -450,13 +451,15 @@
     },
     "_varid": {
       "type": "PATTERN",
-      "value": "[\\p{Ll}_][\\p{L}0-9_']*"
+      "value": "[\\p{Ll}_][\\p{L}0-9_']*",
+      "flags": "u"
     },
     "_immediate_varid": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "[\\p{Ll}_][\\p{L}0-9_']*"
+        "value": "[\\p{Ll}_][\\p{L}0-9_']*",
+        "flags": "u"
       }
     },
     "variable": {
@@ -500,7 +503,8 @@
     },
     "_operator": {
       "type": "PATTERN",
-      "value": "(?:[:!#$%&*+./<=>?@\\\\^|~-]|\\p{S})+"
+      "value": "(?:[:!#$%&*+./<=>?@\\\\^|~-]|\\p{S})+",
+      "flags": "u"
     },
     "operator": {
       "type": "SYMBOL",
@@ -621,7 +625,8 @@
     },
     "_conid": {
       "type": "PATTERN",
-      "value": "[\\p{Lu}_][\\p{L}0-9_']*"
+      "value": "[\\p{Lu}_][\\p{L}0-9_']*",
+      "flags": "u"
     },
     "constructor": {
       "type": "SYMBOL",
