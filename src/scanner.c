@@ -215,7 +215,7 @@ typedef struct {
 #endif
 } State;
 
-State state_new(TSLexer *l, const bool * restrict vs, indent_vec *is) {
+static State state_new(TSLexer *l, const bool * restrict vs, indent_vec *is) {
   return (State) {
     .lexer = l,
     .symbols = vs,
