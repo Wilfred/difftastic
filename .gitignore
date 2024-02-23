@@ -1,7 +1,3 @@
-# Tree-sitter
-Cargo.toml
-bindings/
-
 # Purs
 .psc-ide-port
 
