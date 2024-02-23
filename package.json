@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-purescript",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for PureScript",
   "main": "grammar.js",
   "author": "",
   "license": "MIT",
@@ -26,3 +26,4 @@
     "tree-sitter-cli": "^0.20.8"
   }
 }
+
