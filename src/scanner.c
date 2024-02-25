@@ -86,7 +86,7 @@ static String string_new() {
 typedef struct
 {
   int front, rear, size;
-  unsigned capacity;
+  int capacity;
   char **data;
 } StringQueue;
 
@@ -119,10 +119,9 @@ int isQueueEmpty(StringQueue *queue) {
 // It changes rear and size
 static void enqueueStringQueue(StringQueue *queue, String *item) {
   if (isQueueFull(queue))
-    return;
+    queue->capacity = queue->capacity + 1;;
   queue->rear = (queue->rear + 1) % queue->capacity;
   queue->data[queue->rear] = strdup(item->data);
-  queue->capacity = queue->capacity + 1;
   queue->size = queue->size + 1;
 }
 
@@ -145,20 +144,13 @@ static char *front(StringQueue *queue) {
   return queue->data[queue->front];
 }
 
-// Function to get rear of queue
-static char *rear(StringQueue *queue) {
-  // if (isQueueEmpty(queue))
-  //   return CHAR_MIN;
-  return queue->data[queue->rear];
-}
-
 // END OF --- a array implementation of STRING queue in C
 
 // START OF --- a array implementation of Boolean queue in C
 typedef struct
 {
   int front, rear, size;
-  unsigned capacity;
+  int capacity;
   bool *data;
 } BoolQueue;
 
@@ -192,7 +184,7 @@ int isBoolQueueEmpty(BoolQueue *queue) {
 // It changes rear and size
 static void enqueueBoolQueue(BoolQueue *queue, bool item) {
   if (isBoolQueueFull(queue))
-    return;
+    queue->capacity = queue->capacity + 1;;
   queue->rear = (queue->rear + 1) % queue->capacity;
   queue->data[queue->rear] = item;
   queue->size = queue->size + 1;
@@ -214,13 +206,6 @@ static bool frontBoolQueue(BoolQueue *queue) {
   // if (isBoolQueueEmpty(queue))
   //   return CHAR_MIN;
   return queue->data[queue->front];
-}
-
-// Function to get rear of queue
-static bool rearBoolQueue(BoolQueue *queue) {
-  // if (isBoolQueueEmpty(queue))
-  //   return CHAR_MIN;
-  return queue->data[queue->rear];
 }
 
 // END OF --- a array implementation of Boolean queue in C
@@ -539,6 +524,9 @@ bool exit_if_heredoc_end_delimiter(Scanner *scanner, TSLexer *lexer) {
     }
   }
 
+  printf ("found word inside exit %s \n", word.data);
+  printf ("front of identifier queue %s \n", front(scanner->heredoc.heredoc_identifier_queue));
+
   // if (word == front(scanner->heredoc.heredoc_identifier_queue).data)
   if (! strcmp(word.data, front(scanner->heredoc.heredoc_identifier_queue))) {
     lexer->result_symbol = HEREDOC_END_IDENTIFIER;
@@ -753,13 +741,14 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symb
     lexer->result_symbol = HEREDOC_START_IDENTIFIER;
 
     bool found_delimiter = advance_word(scanner, lexer);
-
+    printf("found delimieter %d \n", found_delimiter);
+    printf("found identifier %d \n", scanner->heredoc.heredoc_identifier_queue->size);
     return found_delimiter;
   }
 
   if (
       (valid_symbols[HEREDOC_CONTENT] || valid_symbols[IMAGINARY_HEREDOC_START])
-      && !isBoolQueueEmpty(scanner->heredoc.heredoc_identifier_queue)
+      && !isQueueEmpty(scanner->heredoc.heredoc_identifier_queue)
   ) {
     // another exit condition
     if (!lexer->lookahead && !scanner->heredoc.started_heredoc_body) {
@@ -773,7 +762,7 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symb
       lexer->mark_end(lexer);
       return true;
     }
-
+    printf("started heredoc body %d \n", scanner->heredoc.started_heredoc_body);
     if (scanner->heredoc.started_heredoc_body) {
       switch (lexer->lookahead) {
         case '\\': {
@@ -854,7 +843,23 @@ static unsigned serialize(Scanner *scanner, char *buffer) {
   return size;
 }
 
+static inline void reset_heredoc(StringQueue *queue) {
+  queue->data = NULL;
+}
+
+void reset (Scanner *scanner) {
+  scanner->heredoc.started_heredoc = false;
+  scanner->heredoc.started_heredoc_body = false;
+  for (uint32_t i = 0; i < scanner->heredoc.heredoc_identifier_queue->size; i++) {
+    reset_heredoc(&scanner->heredoc.heredoc_identifier_queue[i]);
+  }
+}
+
 static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
+  // printf("sdf %d \n", length);
+  // if (length == 0) {
+  //   reset(scanner);
+  // }
 }
 
 void *tree_sitter_perl_external_scanner_create() {
