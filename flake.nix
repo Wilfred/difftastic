@@ -45,6 +45,7 @@
                 buildInputs = [
                   # Tree-sitter tools
                   pkgs.nodejs
+                  # NOTE as of b71a98a on Nixpkgs, TS fails to build with `webUISupport` flag
                   pkgs.tree-sitter
 
                   # For dev workflow automation
