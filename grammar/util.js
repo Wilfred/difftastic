@@ -62,7 +62,7 @@ where = ($, rule) => seq(
 )
 
 // see the documentation references in `./id.js`
-varid_pattern = /[\p{Ll}_][\p{L}0-9_']*/u
+varid_pattern = /[\p{Ll}_][\p{L}0-9_']*/
 
 module.exports = {
   braces,

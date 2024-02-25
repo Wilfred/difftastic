@@ -20,7 +20,7 @@ module.exports = {
   // which complicates the grammar, so just using regex here.
   // Look-around isn't allowed, so this is slightly modified.
   // https://github.com/natefaubion/purescript-language-cst-parser/blob/bf5623e08e1f43f923d4ff3c29cafbda25128768/src/PureScript/CST/Lexer.purs#L503
-  _operator: _ => /(?:[:!#$%&*+./<=>?@\\^|~-]|\p{S})+/u,
+  _operator: _ => /(?:[:!#$%&*+./<=>?@\\^|~-]|\p{S})+/,
   operator: $ => $._operator,
   _minus: $ => alias('-', $.operator),
 
@@ -41,7 +41,7 @@ module.exports = {
   // ------------------------------------------------------------------------
 
   // Same as the varid pattern except this one would have to start with a capital letter.
-  _conid: _ => /[\p{Lu}_][\p{L}0-9_']*/u,
+  _conid: _ => /[\p{Lu}_][\p{L}0-9_']*/,
   constructor: $ => $._conid,
 
   qualified_constructor: $ => qualified($, $.constructor),
