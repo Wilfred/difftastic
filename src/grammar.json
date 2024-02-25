@@ -6206,20 +6206,8 @@
   ],
   "conflicts": [
     [
-      "row_type",
-      "type_name"
-    ],
-    [
       "_field_name_ty",
       "_tyvar_no_annotation"
-    ],
-    [
-      "record_type_literal",
-      "type_name"
-    ],
-    [
-      "_field_name",
-      "pat_field"
     ],
     [
       "_record_update_lhs",
@@ -6238,23 +6226,11 @@
       "_type"
     ],
     [
-      "_exp_infix",
-      "exp_infix"
-    ],
-    [
       "exp_section_left",
       "pat_wildcard"
     ],
     [
       "exp_ticked"
-    ],
-    [
-      "type_name",
-      "_simpletype"
-    ],
-    [
-      "_atype",
-      "constraint"
     ],
     [
       "_fun_name",

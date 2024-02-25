@@ -108,13 +108,7 @@ module.exports = grammar({
      * Rows and records conflict with parenthesized types.
      * Seems to be related to visible type application specifically.
      */
-    [$.row_type, $.type_name],
-    // [$.row_type, $._tyvar_no_annotation],
     [$._field_name_ty, $._tyvar_no_annotation],
-    // [$._row_variable, $._tyvar_no_annotation],
-    [$.record_type_literal, $.type_name],
-
-    [$._field_name, $.pat_field],
 
     /**
      * Record updates `f { x = x }` conflict with function application `f { x: x }`.
@@ -148,11 +142,6 @@ module.exports = grammar({
      */
     [$.type_infix, $._type],
 
-    /**
-     * Same as above, but for expressions.
-     */
-    [$._exp_infix, $.exp_infix],
-
     /*
      * Wildcards in expression sections and pattern wildcards.
      * They should be easily disambiguable but currently the grammar isn't capable of this.
@@ -167,17 +156,6 @@ module.exports = grammar({
      * (note the double '`' ticks)
      */
     [$.exp_ticked],
-
-    /**
-     * Same as above, but with regular types:
-     *
-     * data A a b
-     * data C a b => A a b
-     * data C Int a => A a
-     * data B Int ~ B a => A a
-     */
-    [$.type_name, $._simpletype],
-    [$._atype, $.constraint],
 
     /**
      * Top-level expression splices fundamentally conflict with decls, and since decls start with either `var` or `pat`,
