@@ -1,33 +1,32 @@
 {
   "name": "tree-sitter-purescript",
-  "version": "0.1.0",
-  "description": "Tree-sitter grammar for PureScript",
+  "version": "0.2.0",
+  "description": "PureScript grammar for tree-sitter",
   "repository": "github:postsolar/tree-sitter-purescript",
+  "license": "MIT",
   "main": "bindings/node",
   "keywords": [
-    "parser",
+    "parsing",
+    "incremental",
     "purescript"
   ],
-  "license": "MIT",
-  "gypfile": true,
   "dependencies": {
-    "nan": "^2.17.0"
+    "nan": "^2.18.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.8",
-    "web-tree-sitter": "^0.20.8"
+    "tree-sitter-cli": "^0.21.0"
   },
   "scripts": {
-    "watch": "watchexec -N -r -e js -- tree-sitter generate &",
-    "watch-test": "watchexec -N -r -e js -- 'tree-sitter generate && tree-sitter test' &"
+    "build": "tree-sitter generate --no-bindings",
+    "build-wasm": "tree-sitter build-wasm",
+    "test": "tree-sitter test",
+    "parse": "tree-sitter parse"
   },
   "tree-sitter": [
     {
       "scope": "source.purescript",
-      "file-types": [
-        "purs"
-      ],
-      "injection-regex": "^(purs|purescript)$"
+      "injection-regex": "^(purs|purescript)$",
+      "file-types": [ "purs" ]
     }
   ]
 }

@@ -1,12 +1,23 @@
-VERSION := 0.20.0
+VERSION := 0.2.0
 
-# Repository
+LANGUAGE_NAME := tree-sitter-purescript
+
+# repository
 SRC_DIR := src
 
-PARSER_REPO_URL ?= $(shell git -C $(SRC_DIR) remote get-url origin )
-# the # in the sed pattern has to be escaped or it will be interpreted as a comment
-PARSER_NAME ?= $(shell basename $(PARSER_REPO_URL) | cut -d '-' -f3 | sed 's\#.git\#\#')
-UPPER_PARSER_NAME := $(shell echo $(PARSER_NAME) | tr a-z A-Z )
+PARSER_REPO_URL := $(shell git -C $(SRC_DIR) remote get-url origin 2>/dev/null)
+
+ifeq ($(PARSER_URL),)
+	PARSER_URL := $(subst .git,,$(PARSER_REPO_URL))
+ifeq ($(shell echo $(PARSER_URL) | grep '^[a-z][-+.0-9a-z]*://'),)
+	PARSER_URL := $(subst :,/,$(PARSER_URL))
+	PARSER_URL := $(subst git@,https://,$(PARSER_URL))
+endif
+endif
+
+# ABI versioning
+SONAME_MAJOR := $(word 1,$(subst ., ,$(VERSION)))
+SONAME_MINOR := $(word 2,$(subst ., ,$(VERSION)))
 
 # install directory layout
 PREFIX ?= /usr/local
@@ -14,28 +25,12 @@ INCLUDEDIR ?= $(PREFIX)/include
 LIBDIR ?= $(PREFIX)/lib
 PCLIBDIR ?= $(LIBDIR)/pkgconfig
 
-# collect C++ sources, and link if necessary
-CPPSRC := $(wildcard $(SRC_DIR)/*.cc)
+# object files
+OBJS := $(patsubst %.c,%.o,$(wildcard $(SRC_DIR)/*.c))
 
-ifeq (, $(CPPSRC))
-	ADDITIONALLIBS := 
-else
-	ADDITIONALLIBS := -lc++
-endif
-
-# collect sources
-SRC := $(wildcard $(SRC_DIR)/*.c)
-SRC += $(CPPSRC)
-OBJ := $(addsuffix .o,$(basename $(SRC)))
-
-# ABI versioning
-SONAME_MAJOR := 0
-SONAME_MINOR := 0
-
-CFLAGS ?= -O3 -Wall -Wextra -I$(SRC_DIR)
-CXXFLAGS ?= -O3 -Wall -Wextra -I$(SRC_DIR)
-override CFLAGS += -std=gnu99 -fPIC
-override CXXFLAGS += -fPIC
+# flags
+ARFLAGS := rcs
+override CFLAGS += -I$(SRC_DIR) -std=c11
 
 # OS-specific bits
 ifeq ($(shell uname),Darwin)
@@ -43,50 +38,57 @@ ifeq ($(shell uname),Darwin)
 	SOEXTVER_MAJOR = $(SONAME_MAJOR).dylib
 	SOEXTVER = $(SONAME_MAJOR).$(SONAME_MINOR).dylib
 	LINKSHARED := $(LINKSHARED)-dynamiclib -Wl,
-	ifneq ($(ADDITIONALLIBS),)
-	LINKSHARED := $(LINKSHARED)$(ADDITIONALLIBS),
+	ifneq ($(ADDITIONAL_LIBS),)
+	LINKSHARED := $(LINKSHARED)$(ADDITIONAL_LIBS),
 	endif
-	LINKSHARED := $(LINKSHARED)-install_name,$(LIBDIR)/libtree-sitter-$(PARSER_NAME).$(SONAME_MAJOR).dylib,-rpath,@executable_path/../Frameworks
-else
+	LINKSHARED := $(LINKSHARED)-install_name,$(LIBDIR)/lib$(LANGUAGE_NAME).$(SONAME_MAJOR).dylib,-rpath,@executable_path/../Frameworks
+else ifneq ($(filter $(shell uname),Linux FreeBSD NetBSD DragonFly),)
 	SOEXT = so
 	SOEXTVER_MAJOR = so.$(SONAME_MAJOR)
 	SOEXTVER = so.$(SONAME_MAJOR).$(SONAME_MINOR)
 	LINKSHARED := $(LINKSHARED)-shared -Wl,
-	ifneq ($(ADDITIONALLIBS),)
-	LINKSHARED := $(LINKSHARED)$(ADDITIONALLIBS)
+	ifneq ($(ADDITIONAL_LIBS),)
+	LINKSHARED := $(LINKSHARED)$(ADDITIONAL_LIBS)
 	endif
-	LINKSHARED := $(LINKSHARED)-soname,libtree-sitter-$(PARSER_NAME).so.$(SONAME_MAJOR)
+	LINKSHARED := $(LINKSHARED)-soname,lib$(LANGUAGE_NAME).so.$(SONAME_MAJOR)
+else ifeq ($(OS),Windows_NT)
+	$(error "Windows is not supported")
 endif
-ifneq (,$(filter $(shell uname),FreeBSD NetBSD DragonFly))
+ifneq ($(filter $(shell uname),FreeBSD NetBSD DragonFly),)
 	PCLIBDIR := $(PREFIX)/libdata/pkgconfig
 endif
-				
-# target to generate header is commented-out because the required tree-sitter.h.in file is not in the repo
-#all: libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/$(PARSER_NAME).h
-all: libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXTVER)
 
-libtree-sitter-$(PARSER_NAME).a: $(OBJ)
-	$(AR) rcs $@ $^
+all: lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT) $(LANGUAGE_NAME).pc
 
-libtree-sitter-$(PARSER_NAME).$(SOEXTVER): $(OBJ)
-	$(CC) $(LDFLAGS) $(LINKSHARED) $^ $(LDLIBS) -o $@
-	ln -sf $@ libtree-sitter-$(PARSER_NAME).$(SOEXT)
-	ln -sf $@ libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR)
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) -c $^ -o $@
 
-bindings/c/$(PARSER_NAME).h:
-	sed -e 's|@UPPER_PARSERNAME@|$(UPPER_PARSER_NAME)|' \
-		-e 's|@PARSERNAME@|$(PARSER_NAME)|' \
-		bindings/c/tree-sitter.h.in > $@
+lib$(LANGUAGE_NAME).a: $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
+
+lib$(LANGUAGE_NAME).$(SOEXT): $(OBJS)
+	$(CC) -fPIC $(LDFLAGS) $(LINKSHARED) $^ $(LDLIBS) -o $@
+
+$(LANGUAGE_NAME).pc:
+	sed > $@ bindings/c/$(LANGUAGE_NAME).pc.in \
+		-e 's|@URL@|$(PARSER_URL)|' \
+		-e 's|@VERSION@|$(VERSION)|' \
+		-e 's|@LIBDIR@|$(LIBDIR)|;' \
+		-e 's|@INCLUDEDIR@|$(INCLUDEDIR)|;' \
+		-e 's|=$(PREFIX)|=$${prefix}|' \
+		-e 's|@PREFIX@|$(PREFIX)|' \
+		-e 's|@REQUIRES@|$(REQUIRES)|' \
+		-e 's|@ADDITIONAL_LIBS@|$(ADDITIONAL_LIBS)|'
 
 install: all
-	install -d '$(DESTDIR)$(LIBDIR)'
-	install -m755 libtree-sitter-$(PARSER_NAME).a '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).a
-	install -m755 libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXTVER)
-	ln -sf libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR)
-	ln -sf libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXT)
-	install -d '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter
+	install -Dm644 bindings/c/$(LANGUAGE_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/$(LANGUAGE_NAME).h
+	install -Dm644 $(LANGUAGE_NAME).pc '$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
+	install -Dm755 lib$(LANGUAGE_NAME).a '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).a
+	install -Dm755 lib$(LANGUAGE_NAME).$(SOEXT) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER)
+	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR)
+	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXT)
 
 clean:
-	rm -f $(OBJ) libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXT) libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR) libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/$(PARSER_NAME).h
+	$(RM) $(OBJS) $(LANGUAGE_NAME).pc lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT)
 
 .PHONY: all install clean

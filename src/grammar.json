@@ -6420,35 +6420,23 @@
     }
   ],
   "inline": [
-    "ReferenceError",
     "_stringly",
     "_qvarid",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
     "_var",
     "_qvar",
     "_tyvar",
     "_qconid",
     "_qconsym",
     "_con",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
     "_tyconid",
     "_qtyconid",
     "_qtyconsym",
     "_qtycon",
     "_gtycon",
     "_simple_tycon",
-    "ReferenceError",
     "_simple_qtyconop",
     "_quantifiers",
     "_qualifying_module"
   ],
   "supertypes": []
 }
-
