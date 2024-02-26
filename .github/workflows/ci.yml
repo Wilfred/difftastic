@@ -1,32 +1,78 @@
 name: CI
 
 on:
-  pull_request:
-    branches:
-      - "**"
   push:
-    branches:
-      - "master"
+    branches: ["*"]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    name: Test parser
+    runs-on: ${{matrix.os}}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-14]
+        include:
+          - examples:
+            - { repo: 'numpy/numpy', path: 'examples/numpy' }
+            - { repo: 'django/django', path: 'examples/django' }
+            - { repo: 'pallets/flask', path: 'examples/flask' }
+            - { repo: 'python/cpython', path: 'examples/python' }
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Set up the repo
+        uses: tree-sitter/parser-setup-action@v1.1
         with:
-          node-version: 18
-      - run: npm install
-      - run: npm test
-  test_windows:
-    runs-on: windows-latest
+          node-version: ${{vars.NODE_VERSION}}
+      - name: Set up examples
+        uses: actions/checkout@v4
+        with:
+          repository: ${{matrix.examples.repo}}
+          path: ${{matrix.examples.path}}
+          clean: false
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v1.1
+        with:
+          lint: true
+          test-library: ${{runner.os == 'Linux'}}
+          examples: |
+            examples/examples/**/*.py
+            !examples/cpython/Lib/test/badsyntax_3131.py
+            !examples/cpython/Lib/test/badsyntax_future8.py
+            !examples/cpython/Lib/test/test_compile.py
+            !examples/cpython/Tools/build/generate_re_casefix.py
+  fuzz:
+    name: Fuzz parser
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          node-version: 18
-      - run: npm install
-      - run: npm run-script test-windows
+          fetch-depth: 2
+      - name: Check for scanner changes
+        id: scanner-changes
+        run: |-
+          if git diff --quiet HEAD^ -- src/scanner.c; then
+            printf 'changed=false\n' >> "$GITHUB_OUTPUT"
+          else
+            printf 'changed=true\n' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Fuzz parser
+        uses: tree-sitter/fuzz-action@v4
+        if: steps.scanner-changes.outputs.changed == 'true'
