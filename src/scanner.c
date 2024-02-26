@@ -378,7 +378,7 @@ unsigned tree_sitter_python_external_scanner_serialize(void *payload, char *buff
     }
     size += delimiter_count;
 
-    int iter = 1;
+    uint32_t iter = 1;
     for (; iter < scanner->indents.size && size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
         buffer[size++] = (char)*array_get(&scanner->indents, iter);
     }

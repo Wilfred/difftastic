@@ -1,10 +1,10 @@
-/src/** linguist-vendored
-/examples/* linguist-vendored
+* text eol=lf
 
-src/grammar.json linguist-generated
-src/node-types.json linguist-generated
+src/*.json linguist-generated
 src/parser.c linguist-generated
+src/tree_sitter/* linguist-generated
 
-src/grammar.json -diff
-src/node-types.json -diff
-src/parser.c -diff
+bindings/** linguist-generated
+binding.gyp linguist-generated
+setup.py linguist-generated
+Makefile linguist-generated

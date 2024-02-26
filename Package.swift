@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "TreeSitterPython",
+    platforms: [.macOS(.v10_13), .iOS(.v11)],
     products: [
         .library(name: "TreeSitterPython", targets: ["TreeSitterPython"]),
     ],
@@ -11,18 +12,32 @@ let package = Package(
         .target(name: "TreeSitterPython",
                 path: ".",
                 exclude: [
-                    "binding.gyp",
-                    "bindings",
                     "Cargo.toml",
-                    "corpus",
+                    "Makefile",
+                    "binding.gyp",
+                    "bindings/c",
+                    "bindings/go",
+                    "bindings/node",
+                    "bindings/python",
+                    "bindings/rust",
+                    "examples",
                     "grammar.js",
-                    "LICENSE",
                     "package.json",
-                    "README.md",
+                    "package-lock.json",
+                    "pyproject.toml",
+                    "setup.py",
+                    "test",
+                    "types",
+                    ".editorconfig",
+                    ".github",
+                    ".gitignore",
+                    ".gitattributes",
+                    ".gitmodules",
+                    ".npmignore",
                 ],
                 sources: [
                     "src/parser.c",
-                    "src/scanner.c",
+                    // NOTE: if your language has an external scanner, add it here.
                 ],
                 resources: [
                     .copy("queries")
