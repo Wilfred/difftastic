@@ -419,7 +419,7 @@ module.exports = grammar({
       seq($._immediate_paren, $.group)
     ))),
     field:  $ => prec(13, seq($._expr, '.', field('field', $.ident))),
-    tagged: $ => prec.left(1, seq(field('field', choice($._expr, alias($.builtin, $.ident))), ':', $._expr)),
+    tagged: $ => prec.left(1, seq(field('field', $._expr), ':', $._expr)),
     label: $ => seq('<', $._token_label, '>'),
     ref: $ => seq('@', $._token_label, optional(seq($._immediate_brack, $.content))),
     content: $ => seq(

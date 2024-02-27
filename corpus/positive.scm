@@ -6197,3 +6197,18 @@ positive/416
 				(builtin)
 				(ident))
 			(number))))
+
+
+=====================
+positive/416
+=====================
+#(white + white: 0)
+--------------------
+
+(source_file
+	(group
+		(tagged
+			field: (add
+				(builtin)
+				(builtin))
+			(number))))

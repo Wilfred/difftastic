@@ -2627,22 +2627,8 @@
             "type": "FIELD",
             "name": "field",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_expr"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "builtin"
-                  },
-                  "named": true,
-                  "value": "ident"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_expr"
             }
           },
           {
