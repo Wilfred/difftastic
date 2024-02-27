@@ -2627,8 +2627,22 @@
             "type": "FIELD",
             "name": "field",
             "content": {
-              "type": "SYMBOL",
-              "name": "_expr"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expr"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "builtin"
+                  },
+                  "named": true,
+                  "value": "ident"
+                }
+              ]
             }
           },
           {
@@ -3290,8 +3304,15 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": ":"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 10,
+            "content": {
+              "type": "STRING",
+              "value": ":"
+            }
+          }
         },
         {
           "type": "FIELD",
@@ -4159,4 +4180,3 @@
   ],
   "supertypes": []
 }
-

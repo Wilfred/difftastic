@@ -6142,3 +6142,58 @@ positive/412
 		condition: (ident)
 		(content))
 	(text))
+
+
+=====================
+positive/413
+=====================
+#(text: "hey")
+--------------------
+
+(source_file
+	(group
+		(tagged
+			field: (ident)
+			(string))))
+
+
+=====================
+positive/414
+=====================
+#hello.text
+--------------------
+
+(source_file
+	(field
+		(ident)
+		field: (ident)))
+
+
+=====================
+positive/415
+=====================
+#("a" + "b": 1)
+--------------------
+
+(source_file
+	(group
+		(tagged
+			field: (add
+				(string)
+				(string))
+			(number))))
+
+
+=====================
+positive/416
+=====================
+#(text + world: 1)
+--------------------
+
+(source_file
+	(group
+		(tagged
+			field: (add
+				(builtin)
+				(ident))
+			(number))))
