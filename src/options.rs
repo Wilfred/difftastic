@@ -364,19 +364,23 @@ impl From<&OsStr> for FilePermissions {
     }
 }
 
+#[cfg(unix)]
 impl From<std::fs::Permissions> for FilePermissions {
     fn from(perms: std::fs::Permissions) -> Self {
-        if cfg!(unix) {
-            use std::os::unix::fs::PermissionsExt;
-            Self(format!("{:o}", perms.mode()))
+        use std::os::unix::fs::PermissionsExt;
+        Self(format!("{:o}", perms.mode()))
+    }
+}
+
+#[cfg(not(unix))]
+impl From<std::fs::Permissions> for FilePermissions {
+    fn from(perms: std::fs::Permissions) -> Self {
+        let s = if perms.readonly() {
+            "readonly"
         } else {
-            let s = if perms.readonly() {
-                "readonly"
-            } else {
-                "read-write"
-            };
-            Self(s.to_owned())
-        }
+            "read-write"
+        };
+        Self(s.to_owned())
     }
 }
 
