@@ -29,30 +29,24 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-14]
-        include:
-          - examples:
-            - { repo: 'numpy/numpy', path: 'examples/numpy' }
-            - { repo: 'django/django', path: 'examples/django' }
-            - { repo: 'pallets/flask', path: 'examples/flask' }
-            - { repo: 'python/cpython', path: 'examples/python' }
     steps:
       - name: Set up the repo
         uses: tree-sitter/parser-setup-action@v1.1
         with:
           node-version: ${{vars.NODE_VERSION}}
       - name: Set up examples
-        uses: actions/checkout@v4
-        with:
-          repository: ${{matrix.examples.repo}}
-          path: ${{matrix.examples.path}}
-          clean: false
+        run: |-
+          git clone https://github.com/numpy/numpy examples/numpy --depth=1 --filter=blob:none
+          git clone https://github.com/django/django examples/django --depth=1 --filter=blob:none
+          git clone https://github.com/pallets/flask examples/flask --depth=1 --filter=blob:none
+          git clone https://github.com/python/cpython examples/cpython --depth=1 --filter=blob:none
       - name: Run tests
         uses: tree-sitter/parser-test-action@v1.1
         with:
           lint: true
           test-library: ${{runner.os == 'Linux'}}
           examples: |
-            examples/examples/**/*.py
+            examples/**/*.py
             !examples/cpython/Lib/test/badsyntax_3131.py
             !examples/cpython/Lib/test/badsyntax_future8.py
             !examples/cpython/Lib/test/test_compile.py
