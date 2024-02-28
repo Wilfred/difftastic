@@ -836,7 +836,7 @@ positive/061
 (source_file
 	(set
 		(call
-			item: (builtin)
+			item: (ident)
 			(group
 				(tagged
 					field: (ident)
@@ -855,7 +855,7 @@ positive/062
 	(block
 		(set
 			(call
-				item: (builtin)
+				item: (ident)
 				(group)))))
 
 
@@ -874,7 +874,7 @@ positive/063
 	(block
 		(set
 			(call
-				item: (builtin)
+				item: (ident)
 				(group)))
 		(content
 			(text))))
@@ -1187,7 +1187,7 @@ positive/085
 (source_file
 	(field
 		(call
-			item: (builtin)
+			item: (ident)
 			(group))
 		field: (ident)))
 
@@ -1662,10 +1662,10 @@ positive/118
 
 (source_file
 	(show
-		pattern: (builtin)
+		pattern: (ident)
 		value: (set
 			(call
-				item: (builtin)
+				item: (ident)
 				(group
 					(tagged
 						field: (ident)
@@ -3631,7 +3631,7 @@ positive/257
 	(call
 		item: (call
 			item: (call
-				item: (builtin)
+				item: (ident)
 				(group
 					(tagged
 						field: (ident)
@@ -3655,7 +3655,7 @@ positive/258
 
 (source_file
 	(call
-		item: (builtin)
+		item: (ident)
 		(group
 			(tagged
 				field: (ident)
@@ -3764,18 +3764,18 @@ positive/264
 
 (source_file
 	(let
-		pattern: (builtin)
+		pattern: (ident)
 		value: (group
 			(number)
 			(number)
 			(number)))
 	(call
 		item: (field
-			(builtin)
+			(ident)
 			field: (ident))
 		(group
 			(elude
-				(builtin)))))
+				(ident)))))
 
 
 =====================
@@ -3791,7 +3791,7 @@ positive/265
 (source_file
 	(group
 		(field
-			(builtin)
+			(ident)
 			(comment)
 			field: (ident))))
 
@@ -3804,9 +3804,9 @@ positive/266
 ---------------------
 
 (source_file
-	(builtin)
+	(ident)
 	(text)
-	(builtin)
+	(ident)
 	(text))
 
 
@@ -3826,7 +3826,7 @@ positive/267
 (source_file
 	(group
 		(field
-			(builtin)
+			(ident)
 			(comment)
 			(comment)
 			field: (ident))))
@@ -4041,9 +4041,9 @@ positive/280
 (source_file
 	(set
 		(call
-			item: (builtin)
+			item: (ident)
 			(group
-				(builtin)))
+				(ident)))
 		condition: (ident)))
 
 
@@ -4057,9 +4057,9 @@ if critical
 (source_file
 	(set
 		(call
-			item: (builtin)
+			item: (ident)
 			(group
-				(builtin))))
+				(ident))))
 	(text))
 
 
@@ -4094,7 +4094,7 @@ This list is affected: #[
 	(content
 		(set
 			(call
-				item: (builtin)
+				item: (ident)
 				(group
 					(tagged
 						field: (ident)
@@ -4117,20 +4117,20 @@ positive/284
 
 (source_file
 	(show
-		pattern: (builtin)
+		pattern: (ident)
 		value: (lambda
 			pattern: (ident)
 			value: (call
-				item: (builtin)
+				item: (ident)
 				(content
 					(set
 						(call
-							item: (builtin)
+							item: (ident)
 							(group
-								(builtin))))
+								(ident))))
 					(set
 						(call
-							item: (builtin)
+							item: (ident)
 							(group
 								(tagged
 									field: (ident)
@@ -4138,7 +4138,7 @@ positive/284
 					(text
 						(escape))
 					(call
-						item: (builtin)
+						item: (ident)
 						(group
 							(field
 								(ident)
@@ -4146,9 +4146,9 @@ positive/284
 					(call
 						item: (field
 							(call
-								item: (builtin)
+								item: (ident)
 								(group
-									(builtin)))
+									(ident)))
 							field: (ident))
 						(group))
 					(text
@@ -5030,9 +5030,9 @@ positive/338
 ---------------------
 
 (source_file
-	(builtin)
-	(builtin)
-	(builtin))
+	(ident)
+	(ident)
+	(ident))
 
 
 =====================
@@ -5042,9 +5042,9 @@ positive/339
 ---------------------
 
 (source_file
-	(builtin)
-	(builtin)
-	(builtin))
+	(ident)
+	(ident)
+	(ident))
 
 
 =====================
@@ -5182,12 +5182,12 @@ positive/348
 (source_file
 	(set
 		(call
-			item: (builtin)
+			item: (ident)
 			(group
 				(tagged
 					field: (ident)
 					(call
-						item: (builtin)
+						item: (ident)
 						(group
 							(lambda
 								pattern: (ident)
@@ -5195,14 +5195,14 @@ positive/348
 									(let
 										pattern: (ident)
 										value: (call
-											item: (builtin)
+											item: (ident)
 											(group
 												(call
 													item: (field
 														(call
-															item: (builtin)
+															item: (ident)
 															(group
-																(builtin)))
+																(ident)))
 														field: (ident))
 													(group
 														(ident)))
@@ -5210,7 +5210,7 @@ positive/348
 									(let
 										pattern: (ident)
 										value: (call
-											item: (builtin)
+											item: (ident)
 											(content
 												(text))))
 									(branch
@@ -5219,9 +5219,9 @@ positive/348
 											(group))
 										(block
 											(call
-												item: (builtin)
+												item: (ident)
 												(group
-													(builtin)
+													(ident)
 													(ident))))
 										(block
 											(let
@@ -5237,12 +5237,12 @@ positive/348
 												(add
 													(ident)
 													(call
-														item: (builtin)
+														item: (ident)
 														(group
 															(number
 																(unit)))))
 												(call
-													item: (builtin)
+													item: (ident)
 													(group
 														(ident)))))))))))))))
 
@@ -5760,7 +5760,7 @@ positive/383
 (source_file
 	(strong
 		(call
-			item: (builtin)
+			item: (ident)
 			(group))
 		(item
 			(text))))
@@ -6194,13 +6194,13 @@ positive/416
 	(group
 		(tagged
 			field: (add
-				(builtin)
+				(ident)
 				(ident))
 			(number))))
 
 
 =====================
-positive/416
+positive/417
 =====================
 #(white + white: 0)
 --------------------
@@ -6209,6 +6209,6 @@ positive/416
 	(group
 		(tagged
 			field: (add
-				(builtin)
-				(builtin))
+				(ident)
+				(ident))
 			(number))))

@@ -45,12 +45,9 @@
 (string) @string
 (content ["[" "]"] @operator)
 (bool) @constant.builtin.boolean
-(builtin) @constant.builtin
 (none) @constant.builtin
 (auto) @constant.builtin
 (ident) @variable
-(call
-  item: (builtin) @function.builtin)
 
 ; MARKUP
 (item "-" @markup.list)
