@@ -597,17 +597,24 @@ pub(crate) enum MatchKind {
         self_pos: Vec<SingleLineSpan>,
         opposite_pos: Vec<SingleLineSpan>,
     },
+    /// A novel token in an AST diff.
     Novel {
         highlight: TokenKind,
     },
+    /// When doing a textual line-based diff, the part of a novel line
+    /// that exists on both sides.
     NovelLinePart {
         highlight: TokenKind,
         self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
     },
+    /// When doing a textual line-based diff, the part of a novel line
+    /// that is actually novel. E.g. the newly added word on a line.
     NovelWord {
         highlight: TokenKind,
     },
+    /// A syntactic token that was ignored by the AST diff (e.g. when
+    /// ignoring comments for diffing).
     Ignored {
         highlight: TokenKind,
     },
