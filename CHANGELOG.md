@@ -6,6 +6,11 @@ Updated JavaScript, TypeScript and QML parsers.
 
 Added support for Smali.
 
+### Diffing
+
+Fixed an issue with runaway memory usage on text files with very long
+lines.
+
 ### Display
 
 Fixed an issue where all files would show a permissions change when

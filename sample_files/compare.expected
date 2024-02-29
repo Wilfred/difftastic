@@ -127,6 +127,9 @@ sample_files/julia_before.jl sample_files/julia_after.jl
 sample_files/load_before.js sample_files/load_after.js
 7ead0c677e1ccc5639ea2a8199a8175e  -
 
+sample_files/long_line_before.txt sample_files/long_line_after.txt
+850e2efa67152b79d5b5099f202d61bb  -
+
 sample_files/lua_before.lua sample_files/lua_after.lua
 9f5c85cd6806c724c84afa805da76bb7  -
 
