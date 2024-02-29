@@ -1,3 +1,5 @@
+; See: https://docs.helix-editor.com/guides/textobject.html
+
 ; function.inside & around
 ; ------------------------
 

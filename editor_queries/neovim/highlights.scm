@@ -1,6 +1,7 @@
 ; NOTE: Neovim's highlight order differs from Tree-sitter's and Helix's,
 ; NOTE: as broad captures should be placed first, narrow queries - second.
-; ------------------------------------------------------------------------
+; See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights
+; ----------------------------------------------------------------------------------------------
 
 ; variable
 ; --------

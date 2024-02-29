@@ -22,15 +22,7 @@ Installation assumes you're using [`lazy.nvim`](https://github.com/folke/lazy.nv
 
 1. Clone the repo to any convenient place: `git clone https://github.com/tact-lang/tree-sitter-tact ~/.local/git/tree-sitter-tact` (`~/.local/git` is exemplary, you may choose another directory)
 
-2. Create a folder for queries under your Neovim runtime directory, if not exists:
-  * Windows: `mkdir -p ~\AppData\Local\nvim\queries`
-  * Linux, macOS, *NIX: `mkdir -p ~/.config/nvim/queries`
-
-3. Symlink the `editor_queries/neovim` sub-directory, this will add all the queries:
-  * Windows: `mklink /D ~\AppData\Local\nvim\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\neovim`
-  * Linux, macOS, *NIX: `ln -s ~/.local/git/tree-sitter-tact/editor_queries/neovim ~/.config/nvim/queries/tact`
-
-4. Add the following (partly or as a whole) to your `~/.config/nvim/init.lua` (Or `~\AppData\Local\nvim\init.lua` on Windows):
+2. Add the following (partly or as a whole) to your `~/.config/nvim/init.lua` (Or `~\AppData\Local\nvim\init.lua` on Windows):
 
 For the general Tree-sitter support:
 
@@ -82,7 +74,17 @@ vim.filetype.add({
 })
 ```
 
-5. For further configuration and customization, refer to the following repositories:
+3. Create a folder for queries under your Neovim runtime directory, if not exists:
+  * Windows: `mkdir -p ~\AppData\Local\nvim\queries`
+  * Linux, macOS, *NIX: `mkdir -p ~/.config/nvim/queries`
+
+4. Symlink the `editor_queries/neovim` sub-directory, this will add all the queries:
+  * Windows: `mklink /D ~\AppData\Local\nvim\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\neovim`
+  * Linux, macOS, *NIX: `ln -s ~/.local/git/tree-sitter-tact/editor_queries/neovim ~/.config/nvim/queries/tact`
+
+5. Finally, run the `:TSInstall tact` inside the Neovim.
+
+6. For further configuration and customization, refer to the following repositories:
 * [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 * [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
 * [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context)

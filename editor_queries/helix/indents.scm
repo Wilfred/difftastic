@@ -1,3 +1,5 @@
+; See: https://docs.helix-editor.com/guides/indent.html
+
 ; indent
 ; ------
 
@@ -32,6 +34,8 @@
   ">"
 ] @outdent
 
+; N/A or unused:
+; --------------
 ; indent.always
 ; outdent.always
 ; align
