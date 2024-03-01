@@ -246,3 +246,16 @@ fn dump_syntax() {
         .arg("sample_files/simple_after.js");
     cmd.assert().success();
 }
+
+#[test]
+fn walk_hidden_items() {
+    let mut cmd = get_base_command();
+
+    cmd.args(["sample_files/hidden-before", "sample_files/hidden-after"]);
+
+    let predicate_fn = predicate::str::contains(".hidden/doc.txt")
+        .and(predicate::str::contains(".hidden.txt"))
+        .and(predicate::str::contains("before"))
+        .and(predicate::str::contains("after"));
+    cmd.assert().stdout(predicate_fn);
+}
