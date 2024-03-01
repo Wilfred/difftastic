@@ -253,9 +253,10 @@ fn walk_hidden_items() {
 
     cmd.args(["sample_files/hidden-before", "sample_files/hidden-after"]);
 
-    let predicate_fn = predicate::str::contains(".hidden/doc.txt")
-        .and(predicate::str::contains(".hidden.txt"))
-        .and(predicate::str::contains("before"))
-        .and(predicate::str::contains("after"));
+    let predicate_fn =
+        predicate::str::contains(format!(".hidden{}doc.txt", std::path::MAIN_SEPARATOR))
+            .and(predicate::str::contains(".hidden.txt"))
+            .and(predicate::str::contains("before"))
+            .and(predicate::str::contains("after"));
     cmd.assert().stdout(predicate_fn);
 }
