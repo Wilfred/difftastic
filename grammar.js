@@ -54,8 +54,6 @@ module.exports = grammar({
     [$._range_exp],
     [$._class_instance_exp],
 
-    [$.function_signature],
-
     [$.package_name],
     [$.hash_ref],
 
@@ -66,6 +64,7 @@ module.exports = grammar({
     [$._block_statements],
 
     [$.variable_declaration],
+
   ],
 
   externals: $ => [
@@ -505,38 +504,31 @@ module.exports = grammar({
     ),
 
     // why perl, why!
-    function_definition: $ => seq(
+    function_definition: $ => prec.left(seq(
       optional($.scope),
       'sub',
       field('name', $.identifier),
       choice(
-        // a function declaration to be precise
         seq(
           optional($.function_prototype),
           optional($.function_attribute),
-          optional($.function_signature),
-          $.semi_colon,
-        ),
-        // and here is the function definition WITHOUT signatures
-        seq(
-          optional($.function_prototype),
-          optional($.function_attribute),
-          field('body', $.block),
-        ),
-        // and here is the function definition WITH signatures
-        seq(
-          optional($.function_attribute),
-          optional($.function_signature),
-          field('body', $.block),
+          optional(alias($.array, $.function_signature)),
+          choice(
+            $.semi_colon,
+            field('body', $.block),
+          ),
         ),
         seq(
           ':', 'prototype',
           $.function_prototype,
-          $.function_signature,
-          field('body', $.block),
+          alias($._list, $.function_signature),
+          choice(
+            $.semi_colon,
+            field('body', $.block),
+          ),
         ),
       )
-    ),
+    )),
 
     anonymous_function: $ => seq(
       'sub',
@@ -549,38 +541,26 @@ module.exports = grammar({
       '}'
     )),
 
-    function_prototype: $ => seq(
+    function_prototype: $ => prec(PRECEDENCE.SUB_CALL, seq(
       '(',
       optional($.prototype),
       ')',
-    ),
-    prototype: $ => /[\[\]$@%&*\\]+/, // (\[$@%&*])
+    )),
+    prototype: $ => /[&$@%;*\[\]\\]+/, // (\[$@%;&*])
  
     // sub test2 : Path('/') Args(0) {}
     // colon and space are separators
-    function_attribute: $ => seq(
+    // basically they are :call_expressions()
+    function_attribute: $ => prec.left(seq(
       ':',
       $.identifier,
+      optional(alias($._list, $.function_signature)),
       repeat(seq(
         optional(':'),
         $.identifier,
-      )),
-    ),
-    function_signature: $ => seq(
-      '(',
-      commaSeparated(choice(
-        $._variables,
-        $._string,
-        $.hash_ref,
-        $.array_ref,
-        alias(seq(
-          optional($.scope),
-          $._variables,
-          optional($._initializer),
-        ), $.variable_declaration),
-      )), // TODO: this is more
-      ')',
-    ),
+        optional(alias($._list, $.function_signature)),
+      ))
+    )),
 
     standalone_block: $ => prec(PRECEDENCE.BRACKETS, seq(
       optional(

@@ -65,10 +65,10 @@ print Dumper %{$args};
 )
 
 =================================================
-Subroutine with CODE signature
+Subroutine with CODE signature TODO: (&) doesn't work
 =================================================
 
-sub Run (&) {
+sub Run (&&) {
 
 }
 
