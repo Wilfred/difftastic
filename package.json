@@ -1,9 +1,13 @@
 {
   "name": "@ganezdragon/tree-sitter-perl",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "a tree-sitter for perl language.",
   "main": "bindings/node",
   "scripts": {
+    "install": "prebuild-install || node-gyp rebuild",
+    "pre-build": "prebuild -r electron -t 23.0.0 -t 25.0.0",
+    "build": "tree-sitter generate && node-gyp build",
+    "build-wasm": "tree-sitter build-wasm",
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
     "example": "tree-sitter parse examples/* --quiet --stat"
@@ -20,10 +24,19 @@
   "author": "ganezdragon",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.17.0"
+    "nan": "^2.17.0",
+    "prebuild-install": "^7.1.1"
   },
   "devDependencies": {
+    "@electron/rebuild": "^3.4.1",
+    "node-gyp": "^10.0.1",
+    "prebuild": "^12.1.0",
     "tree-sitter-cli": "^0.20.8"
+  },
+  "overrides": {
+    "prebuild": {
+      "node-gyp": "$node-gyp"
+    }
   },
   "tree-sitter": [
     {

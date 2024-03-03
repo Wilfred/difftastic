@@ -35,9 +35,21 @@ my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
 ---
 
 (source_file
-  (hash_access_variable (hash_access_variable (binary_expression
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)))
-    (call_expression (identifier) (arguments (argument (scalar_variable))))) (hash_access_variable (scalar_variable) (bareword))) (string_single_quoted)) (semi_colon))
+      (variable_declaration
+        (scope)
+        (scalar_variable)
+        (hash_access_variable
+          (hash_access_variable
+            (call_expression
+              (identifier)
+              (arguments
+                (argument
+                  (scalar_variable))))
+            (hash_access_variable
+              (scalar_variable)
+              (bareword)))
+          (string_single_quoted)))
+      (semi_colon))
 
 =================================================
 Subroutine calling another subroutine without params
@@ -53,10 +65,10 @@ print Dumper %{$args};
 )
 
 =================================================
-Subroutine with CODE signature
+Subroutine with CODE signature TODO: (&) doesn't work
 =================================================
 
-sub Run (&) {
+sub Run (&&) {
 
 }
 
