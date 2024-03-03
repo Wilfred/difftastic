@@ -1,7 +1,7 @@
 #include "tree_sitter/parser.h"
 
 #include <assert.h>
-#include <printf.h>  // for debugging
+// #include <printf.h>  // for debugging
 #include <regex.h>
 #include <stdlib.h>
 #include <string.h>
@@ -524,8 +524,8 @@ bool exit_if_heredoc_end_delimiter(Scanner *scanner, TSLexer *lexer) {
     }
   }
 
-  printf ("found word inside exit %s \n", word.data);
-  printf ("front of identifier queue %s \n", front(scanner->heredoc.heredoc_identifier_queue));
+  // printf ("found word inside exit %s \n", word.data);
+  // printf ("front of identifier queue %s \n", front(scanner->heredoc.heredoc_identifier_queue));
 
   // if (word == front(scanner->heredoc.heredoc_identifier_queue).data)
   if (! strcmp(word.data, front(scanner->heredoc.heredoc_identifier_queue))) {
@@ -741,8 +741,8 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symb
     lexer->result_symbol = HEREDOC_START_IDENTIFIER;
 
     bool found_delimiter = advance_word(scanner, lexer);
-    printf("found delimieter %d \n", found_delimiter);
-    printf("found identifier %d \n", scanner->heredoc.heredoc_identifier_queue->size);
+    // printf("found delimieter %d \n", found_delimiter);
+    // printf("found identifier %d \n", scanner->heredoc.heredoc_identifier_queue->size);
     return found_delimiter;
   }
 
@@ -762,7 +762,7 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symb
       lexer->mark_end(lexer);
       return true;
     }
-    printf("started heredoc body %d \n", scanner->heredoc.started_heredoc_body);
+    // printf("started heredoc body %d \n", scanner->heredoc.started_heredoc_body);
     if (scanner->heredoc.started_heredoc_body) {
       switch (lexer->lookahead) {
         case '\\': {
@@ -850,7 +850,7 @@ static inline void reset_heredoc(StringQueue *queue) {
 void reset (Scanner *scanner) {
   scanner->heredoc.started_heredoc = false;
   scanner->heredoc.started_heredoc_body = false;
-  for (uint32_t i = 0; i < scanner->heredoc.heredoc_identifier_queue->size; i++) {
+  for (int i = 0; i < scanner->heredoc.heredoc_identifier_queue->size; i++) {
     reset_heredoc(&scanner->heredoc.heredoc_identifier_queue[i]);
   }
 }

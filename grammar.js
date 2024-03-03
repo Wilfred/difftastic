@@ -481,13 +481,16 @@ module.exports = grammar({
       $.scope,
       // multi declaration
       // or single declaration without brackets
-      choice($.multi_var_declaration, $._variables),
+      choice(
+        $.multi_var_declaration, 
+        field('name', $._variables),
+      ),
       optional($._initializer),
     ),
 
     multi_var_declaration: $ => seq(
       '(',
-      commaSeparated($._variables),
+      commaSeparated(field('name', $._variables)),
       ')',
     ),
 
@@ -512,7 +515,22 @@ module.exports = grammar({
         seq(
           optional($.function_prototype),
           optional($.function_attribute),
-          optional(alias($.array, $.function_signature)),
+          choice(
+            $.semi_colon,
+            field('body', $.block),
+          ),
+        ),
+        seq(
+          $.function_prototype,
+          optional($._function_signature),
+          choice(
+            $.semi_colon,
+            field('body', $.block),
+          ),
+        ),
+        seq(
+          optional($.function_prototype),
+          $._function_signature,
           choice(
             $.semi_colon,
             field('body', $.block),
@@ -521,7 +539,7 @@ module.exports = grammar({
         seq(
           ':', 'prototype',
           $.function_prototype,
-          alias($._list, $.function_signature),
+          $._function_signature,
           choice(
             $.semi_colon,
             field('body', $.block),
@@ -541,6 +559,8 @@ module.exports = grammar({
       '}'
     )),
 
+    _function_signature: $ => alias($.array, $.function_signature),
+
     function_prototype: $ => prec(PRECEDENCE.SUB_CALL, seq(
       '(',
       optional($.prototype),
@@ -551,16 +571,15 @@ module.exports = grammar({
     // sub test2 : Path('/') Args(0) {}
     // colon and space are separators
     // basically they are :call_expressions()
-    function_attribute: $ => prec.left(seq(
+    function_attribute: $ => seq(
       ':',
-      $.identifier,
-      optional(alias($._list, $.function_signature)),
-      repeat(seq(
-        optional(':'),
-        $.identifier,
-        optional(alias($._list, $.function_signature)),
-      ))
-    )),
+      repeat1(
+        seq(
+          $.identifier,
+          optional($._function_signature),
+        )
+      )
+    ),
 
     standalone_block: $ => prec(PRECEDENCE.BRACKETS, seq(
       optional(
