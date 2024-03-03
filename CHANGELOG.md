@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated JavaScript, TypeScript and QML parsers.
+Updated JavaScript, TypeScript, QML and Perl parsers.
 
 Added support for Smali.
 
