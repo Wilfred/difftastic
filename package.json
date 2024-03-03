@@ -1,6 +1,6 @@
 {
   "name": "@ganezdragon/tree-sitter-perl",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "a tree-sitter for perl language.",
   "main": "bindings/node",
   "scripts": {
