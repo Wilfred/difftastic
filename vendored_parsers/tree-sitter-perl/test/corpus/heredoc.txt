@@ -1,0 +1,108 @@
+=================================================
+simple here-doc
+=================================================
+
+print <<EOF;
+hello
+EOF
+
+---
+
+(source_file
+    (call_expression (identifier) (arguments (argument (heredoc_initializer (heredoc_start_identifier))))) (semi_colon)
+    (heredoc_body_statement (heredoc_end_identifier)))
+
+=================================================
+here-doc with interpolation
+=================================================
+
+print <<EOF;
+hello $name
+EOF
+
+---
+
+(source_file
+    (call_expression (identifier) (arguments (argument (heredoc_initializer (heredoc_start_identifier))))) (semi_colon)
+    (heredoc_body_statement (interpolation (scalar_variable)) (heredoc_end_identifier))
+)
+
+=================================================
+here-doc with escape sequence
+=================================================
+
+print <<EOF;
+hello $name \n how are you?
+EOF
+
+---
+
+(source_file
+    (call_expression (identifier) (arguments (argument (heredoc_initializer (heredoc_start_identifier))))) (semi_colon) 
+    (heredoc_body_statement (interpolation (scalar_variable)) (escape_sequence) (heredoc_end_identifier))
+)
+
+=================================================
+here-doc with escaped variables
+=================================================
+
+print <<EOF;
+hello this is a string not a variable \$name
+EOF
+
+---
+
+(source_file
+    (call_expression (identifier) (arguments (argument (heredoc_initializer (heredoc_start_identifier))))) (semi_colon)
+    (heredoc_body_statement (heredoc_end_identifier))
+)
+
+=================================================
+multiple here-doc queued
+=================================================
+
+print(<<EOF, <<MEOW);
+hello
+EOF
+this is the cat
+MEOW
+
+---
+
+(source_file
+    (call_expression (identifier) (parenthesized_argument (arguments
+                                                    (argument (heredoc_initializer (heredoc_start_identifier)))
+                                                    (argument (heredoc_initializer (heredoc_start_identifier)))))) (semi_colon)
+    (heredoc_body_statement (heredoc_end_identifier))
+    (heredoc_body_statement (heredoc_end_identifier))
+)
+
+=================================================
+here-doc indented
+=================================================
+
+print <<~EOF;
+hello
+EOF
+
+---
+
+(source_file
+    (call_expression (identifier) (arguments (argument (heredoc_initializer (heredoc_start_identifier))))) (semi_colon)
+    (heredoc_body_statement (heredoc_end_identifier))
+)
+
+=================================================
+here-doc with \ in identifier
+=================================================
+
+print <<\EOF;
+hello
+EOF
+
+---
+
+(source_file
+    (call_expression (identifier) (arguments (argument (heredoc_initializer (heredoc_start_identifier))))) (semi_colon)
+    (heredoc_body_statement (heredoc_end_identifier))
+)

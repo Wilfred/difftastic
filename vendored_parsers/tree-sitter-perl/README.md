@@ -1,7 +1,9 @@
 # tree-sitter-perl
-a perl parser for javascript
+a perl parser using tree-sitter
 
-## To generate the parser output
+# Getting started
+
+## To just generate the parser output
 `npm run generate`
 
 ## Tests
@@ -11,3 +13,9 @@ a perl parser for javascript
 ## Run examples
 
 `npm run example`
+
+## To build the wasm file
+
+1. Run pre-build `npm run pre-build`
+2. Run build `npm run build`
+3. Generate the wasm file `npm run build-wasm` (make sure you are running docker daemon)
