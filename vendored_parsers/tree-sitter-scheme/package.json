@@ -1,0 +1,29 @@
+{
+  "name": "tree-sitter-scheme",
+  "version": "0.6.0",
+  "description": "Tree-sitter grammar for Scheme",
+  "main": "bindings/node",
+  "scripts": {
+    "build": "npx tree-sitter generate",
+    "test": "npx tree-sitter generate && npx tree-sitter test"
+  },
+  "author": "6cdh",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.17.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.8",
+    "typescript": "^4.9.5",
+    "typescript-language-server": "^2.3.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.scheme",
+      "file-types": [
+        "scm",
+        "ss"
+      ]
+    }
+  ]
+}
