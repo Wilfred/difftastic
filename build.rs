@@ -261,7 +261,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-perl",
             src_dir: "vendored_parsers/tree-sitter-perl-src",
-            extra_files: vec![],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-php",
