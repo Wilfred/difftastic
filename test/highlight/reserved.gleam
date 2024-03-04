@@ -1,16 +1,16 @@
 auto
-// <- warning
+// <- error
 delegate
-// <- warning
+// <- error
 derive
-// <- warning
+// <- error
 else
-// <- warning
+// <- error
 implement
-// <- warning
+// <- error
 macro
-// <- warning
+// <- error
 test
-// <- warning
+// <- error
 echo
-// <- warning
+// <- error

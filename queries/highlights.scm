@@ -72,8 +72,8 @@
 ; Reserved identifiers
 ; TODO: when tree-sitter supports `#any-of?` in the Rust bindings,
 ; refactor this to use `#any-of?` rather than `#match?`
-((identifier) @warning
- (#match? @warning "^(auto|delegate|derive|else|implement|macro|test|echo)$"))
+((identifier) @error
+ (#match? @error "^(auto|delegate|derive|else|implement|macro|test|echo)$"))
 
 ; Variables
 (identifier) @variable
