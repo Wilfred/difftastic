@@ -1,1 +1,0 @@
-../tree-sitter-scala/queries/highlights.scm

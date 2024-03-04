@@ -1,1 +1,0 @@
-examples/elm-ui/tests-rendering/automation/templates/Run.elm

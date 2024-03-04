@@ -1,3 +1,0 @@
-(script
-  (namespace_declaration
-    body: (compound_statement)))
