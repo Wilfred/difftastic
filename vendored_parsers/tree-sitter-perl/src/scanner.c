@@ -245,8 +245,6 @@ static void skip(TSLexer *lexer) {
   lexer->advance(lexer, true);
 }
 
-int iswspace(wint_t wc);
-
 // runs over spaces like a champ
 static void run_over_spaces(TSLexer *lexer) {
   while (iswspace(lexer->lookahead))
