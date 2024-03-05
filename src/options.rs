@@ -352,15 +352,15 @@ impl Display for FilePermissions {
     }
 }
 
-impl From<String> for FilePermissions {
-    fn from(s: String) -> Self {
-        Self(s)
-    }
-}
+impl TryFrom<&OsStr> for FilePermissions {
+    type Error = ();
 
-impl From<&OsStr> for FilePermissions {
-    fn from(s: &OsStr) -> Self {
-        Self(s.to_string_lossy().into_owned())
+    fn try_from(s: &OsStr) -> Result<Self, Self::Error> {
+        if s == "." {
+            Err(())
+        } else {
+            Ok(Self(s.to_string_lossy().into_owned()))
+        }
     }
 }
 
@@ -760,8 +760,8 @@ pub(crate) fn parse_args() -> Mode {
                 display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((*lhs_mode).into()),
-                Some((*rhs_mode).into()),
+                FilePermissions::try_from(*lhs_mode).ok(),
+                FilePermissions::try_from(*rhs_mode).ok(),
                 None,
             )
         }
@@ -778,8 +778,8 @@ pub(crate) fn parse_args() -> Mode {
                 new_name,
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((*lhs_mode).into()),
-                Some((*rhs_mode).into()),
+                FilePermissions::try_from(*lhs_mode).ok(),
+                FilePermissions::try_from(*rhs_mode).ok(),
                 Some(renamed),
             )
         }
