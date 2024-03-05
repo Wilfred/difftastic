@@ -6,6 +6,9 @@ Updated JavaScript, TypeScript, QML and Perl parsers.
 
 `Makefile*.in` is now detected as Makefile syntax.
 
+Improved shebang parsing with whitespace, e.g. `#! /bin/bash` is now
+detected as a shell script.
+
 Added support for Scheme and Smali.
 
 ### Diffing
