@@ -4,6 +4,8 @@
 
 Updated JavaScript, TypeScript, QML and Perl parsers.
 
+`Makefile*.in` is now detected as Makefile syntax.
+
 Added support for Scheme and Smali.
 
 ### Diffing

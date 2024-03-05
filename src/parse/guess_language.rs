@@ -316,7 +316,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "Makefile.am",
             "Makefile.boot",
             "Makefile.frag",
-            "Makefile.in",
+            "Makefile*.in",
             "Makefile.inc",
             "Makefile.wat",
             "makefile",
