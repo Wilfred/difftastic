@@ -345,7 +345,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         Rust => &["*.rs"],
         Scala => &["*.scala", "*.sbt", "*.sc"],
-        Scheme => &["*.scm"],
+        Scheme => &["*.scm", ".sch", ".ss"],
         Smali => &["*.smali"],
         Scss => &["*.scss"],
         Solidity => &["*.sol"],
