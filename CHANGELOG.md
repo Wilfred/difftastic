@@ -4,7 +4,7 @@
 
 Updated JavaScript, TypeScript, QML and Perl parsers.
 
-Added support for Smali.
+Added support for Scheme and Smali.
 
 ### Diffing
 
