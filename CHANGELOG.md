@@ -25,6 +25,8 @@ from `git diff`.
 Fixed an issue with the experimental JSON display mode where it
 ignored `--skip-unchanged`.
 
+Fixed an issue with tabs not being replaced in single-column display.
+
 ## 0.55 (released 1st February 2024)
 
 ### Parsing
