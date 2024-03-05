@@ -2,7 +2,6 @@
 
 #include <assert.h>
 // #include <printf.h>  // for debugging
-#include <regex.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
