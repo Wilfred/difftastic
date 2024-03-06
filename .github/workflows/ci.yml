@@ -50,6 +50,7 @@ jobs:
             !examples/cpython/Lib/test/badsyntax_3131.py
             !examples/cpython/Lib/test/badsyntax_future8.py
             !examples/cpython/Lib/test/test_compile.py
+            !examples/cpython/Lib/test/tokenizedata/badsyntax_3131.py
             !examples/cpython/Tools/build/generate_re_casefix.py
   fuzz:
     name: Fuzz parser
