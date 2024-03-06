@@ -1,5 +1,10 @@
 ## 0.56.1 (unreleased)
 
+### Build
+
+Fixed an issue with building difftastic on aarch64 with rust 1.71 or
+earlier.
+
 ## 0.56 (released 5th March 2024)
 
 ### Parsing
