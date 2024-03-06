@@ -1979,6 +1979,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "]"
         }
@@ -5999,17 +6011,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[Ll]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[jJ]"
-                  }
-                ]
+                "type": "PATTERN",
+                "value": "[jJ]"
               },
               {
                 "type": "BLANK"

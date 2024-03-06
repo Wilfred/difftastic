@@ -479,6 +479,7 @@ module.exports = grammar({
     type_parameter: $ => seq(
       '[',
       commaSep1($.type),
+      optional(','),
       ']',
     ),
 
@@ -1157,7 +1158,7 @@ module.exports = grammar({
           seq(optional(digits), '.', digits, optional(exponent)),
           seq(digits, exponent),
         ),
-        optional(choice(/[Ll]/, /[jJ]/)),
+        optional(/[jJ]/),
       ));
     },
 
