@@ -30,10 +30,12 @@ OBJS := $(patsubst %.c,%.o,$(wildcard $(SRC_DIR)/*.c))
 
 # flags
 ARFLAGS := rcs
-override CFLAGS += -I$(SRC_DIR) -std=c11
+override CFLAGS += -I$(SRC_DIR) -std=c11 -fPIC
 
 # OS-specific bits
-ifeq ($(shell uname),Darwin)
+ifeq ($(OS),Windows_NT)
+	$(error "Windows is not supported")
+else ifeq ($(shell uname),Darwin)
 	SOEXT = dylib
 	SOEXTVER_MAJOR = $(SONAME_MAJOR).dylib
 	SOEXTVER = $(SONAME_MAJOR).$(SONAME_MINOR).dylib
@@ -42,7 +44,7 @@ ifeq ($(shell uname),Darwin)
 	LINKSHARED := $(LINKSHARED)$(ADDITIONAL_LIBS),
 	endif
 	LINKSHARED := $(LINKSHARED)-install_name,$(LIBDIR)/lib$(LANGUAGE_NAME).$(SONAME_MAJOR).dylib,-rpath,@executable_path/../Frameworks
-else ifneq ($(filter $(shell uname),Linux FreeBSD NetBSD DragonFly),)
+else
 	SOEXT = so
 	SOEXTVER_MAJOR = so.$(SONAME_MAJOR)
 	SOEXTVER = so.$(SONAME_MAJOR).$(SONAME_MINOR)
@@ -51,8 +53,6 @@ else ifneq ($(filter $(shell uname),Linux FreeBSD NetBSD DragonFly),)
 	LINKSHARED := $(LINKSHARED)$(ADDITIONAL_LIBS)
 	endif
 	LINKSHARED := $(LINKSHARED)-soname,lib$(LANGUAGE_NAME).so.$(SONAME_MAJOR)
-else ifeq ($(OS),Windows_NT)
-	$(error "Windows is not supported")
 endif
 ifneq ($(filter $(shell uname),FreeBSD NetBSD DragonFly),)
 	PCLIBDIR := $(PREFIX)/libdata/pkgconfig
@@ -60,35 +60,43 @@ endif
 
 all: lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT) $(LANGUAGE_NAME).pc
 
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) -c $^ -o $@
-
 lib$(LANGUAGE_NAME).a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 lib$(LANGUAGE_NAME).$(SOEXT): $(OBJS)
-	$(CC) -fPIC $(LDFLAGS) $(LINKSHARED) $^ $(LDLIBS) -o $@
+	$(CC) $(LDFLAGS) $(LINKSHARED) $^ $(LDLIBS) -o $@
+ifneq ($(STRIP),)
+	$(STRIP) $@
+endif
 
-$(LANGUAGE_NAME).pc:
-	sed > $@ bindings/c/$(LANGUAGE_NAME).pc.in \
-		-e 's|@URL@|$(PARSER_URL)|' \
+$(LANGUAGE_NAME).pc: bindings/c/$(LANGUAGE_NAME).pc.in
+	sed  -e 's|@URL@|$(PARSER_URL)|' \
 		-e 's|@VERSION@|$(VERSION)|' \
-		-e 's|@LIBDIR@|$(LIBDIR)|;' \
-		-e 's|@INCLUDEDIR@|$(INCLUDEDIR)|;' \
-		-e 's|=$(PREFIX)|=$${prefix}|' \
-		-e 's|@PREFIX@|$(PREFIX)|' \
+		-e 's|@LIBDIR@|$(LIBDIR)|' \
+		-e 's|@INCLUDEDIR@|$(INCLUDEDIR)|' \
 		-e 's|@REQUIRES@|$(REQUIRES)|' \
-		-e 's|@ADDITIONAL_LIBS@|$(ADDITIONAL_LIBS)|'
+		-e 's|@ADDITIONAL_LIBS@|$(ADDITIONAL_LIBS)|' \
+		-e 's|=$(PREFIX)|=$${prefix}|' \
+		-e 's|@PREFIX@|$(PREFIX)|' $< > $@
 
 install: all
 	install -Dm644 bindings/c/$(LANGUAGE_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/$(LANGUAGE_NAME).h
 	install -Dm644 $(LANGUAGE_NAME).pc '$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
 	install -Dm755 lib$(LANGUAGE_NAME).a '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).a
-	install -Dm755 lib$(LANGUAGE_NAME).$(SOEXT) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER)
+	install -m755 lib$(LANGUAGE_NAME).$(SOEXT) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER)
 	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR)
 	ln -sf lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXT)
+
+
+uninstall:
+	$(RM) '$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).a \
+		'$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER) \
+		'$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXTVER_MAJOR) \
+		'$(DESTDIR)$(LIBDIR)'/lib$(LANGUAGE_NAME).$(SOEXT) \
+		'$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/$(LANGUAGE_NAME).h \
+		'$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
 
 clean:
 	$(RM) $(OBJS) $(LANGUAGE_NAME).pc lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT)
 
-.PHONY: all install clean
+.PHONY: all install uninstall clean

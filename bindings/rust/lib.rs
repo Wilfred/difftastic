@@ -32,9 +32,6 @@ pub fn language() -> Language {
     unsafe { tree_sitter_python() }
 }
 
-/// The source of the Python tree-sitter grammar description.
-pub const GRAMMAR: &str = include_str!("../../grammar.js");
-
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
