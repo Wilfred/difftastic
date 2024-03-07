@@ -1,5 +1,10 @@
 ## 0.57 (unreleased)
 
+### Parsing
+
+Text file detection is now stricter, considering null bytes as a hint
+that files are binaries.
+
 ### Diffing
 
 Scheme now uses the same slider heuristics as other lisps, preferring
