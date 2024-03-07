@@ -10,6 +10,11 @@ that files are binaries.
 Scheme now uses the same slider heuristics as other lisps, preferring
 the outer delimiter.
 
+### Display
+
+Fixed an issue when reporting changes in binary files, where trailing
+whitespace was inconsistent with other changes shown.
+
 ## 0.56.1 (released 5th March 2024)
 
 ### Build

@@ -856,9 +856,9 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     )
                 );
                 if summary.has_byte_changes {
-                    println!("Binary contents changed.");
+                    println!("Binary contents changed.\n");
                 } else {
-                    println!("No changes.");
+                    println!("No changes.\n");
                 }
             }
         }
@@ -876,7 +876,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     display_options
                 )
             );
-            println!("Binary contents changed.");
+            println!("Binary contents changed.\n");
         }
     }
 }
