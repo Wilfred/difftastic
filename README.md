@@ -132,7 +132,7 @@ $ difft --check-only --exit-code before.js after.js
 This will set the exit code to 0 if there are no syntactic changes, or
 1 if there are changes found.
 
-### How Does It Work?
+### How does it work?
 
 Difftastic treats structural diffing as a graph problem, and uses
 Dijkstra's algorithm.
