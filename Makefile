@@ -1,4 +1,4 @@
-VERSION := 0.0.1
+VERSION := 0.21.0
 
 LANGUAGE_NAME := tree-sitter-python
 
@@ -14,6 +14,8 @@ ifeq ($(shell echo $(PARSER_URL) | grep '^[a-z][-+.0-9a-z]*://'),)
 	PARSER_URL := $(subst git@,https://,$(PARSER_URL))
 endif
 endif
+
+TS ?= tree-sitter
 
 # ABI versioning
 SONAME_MAJOR := $(word 1,$(subst ., ,$(VERSION)))
@@ -79,6 +81,9 @@ $(LANGUAGE_NAME).pc: bindings/c/$(LANGUAGE_NAME).pc.in
 		-e 's|=$(PREFIX)|=$${prefix}|' \
 		-e 's|@PREFIX@|$(PREFIX)|' $< > $@
 
+$(SRC_DIR)/parser.c: grammar.js
+	$(TS) generate --no-bindings
+
 install: all
 	install -Dm644 bindings/c/$(LANGUAGE_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/$(LANGUAGE_NAME).h
 	install -Dm644 $(LANGUAGE_NAME).pc '$(DESTDIR)$(PCLIBDIR)'/$(LANGUAGE_NAME).pc
@@ -99,4 +104,7 @@ uninstall:
 clean:
 	$(RM) $(OBJS) $(LANGUAGE_NAME).pc lib$(LANGUAGE_NAME).a lib$(LANGUAGE_NAME).$(SOEXT)
 
-.PHONY: all install uninstall clean
+test:
+	$(TS) test
+
+.PHONY: all install uninstall clean test

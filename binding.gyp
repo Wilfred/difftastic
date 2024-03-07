@@ -2,8 +2,10 @@
   "targets": [
     {
       "target_name": "tree_sitter_python_binding",
+      "dependencies": [
+        "<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except",
+      ],
       "include_dirs": [
-        "<!(node -e \"require('nan')\")",
         "src",
       ],
       "sources": [
@@ -14,9 +16,6 @@
       "cflags_c": [
         "-std=c11",
       ],
-      "cflags_cc": [
-        "-Wno-cast-function-type",
-      ]
     }
   ]
 }
