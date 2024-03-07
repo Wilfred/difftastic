@@ -36,22 +36,21 @@ jobs:
           node-version: ${{vars.NODE_VERSION}}
       - name: Set up examples
         run: |-
-          git clone https://github.com/numpy/numpy examples/numpy --depth=1 --filter=blob:none
-          git clone https://github.com/django/django examples/django --depth=1 --filter=blob:none
-          git clone https://github.com/pallets/flask examples/flask --depth=1 --filter=blob:none
-          git clone https://github.com/python/cpython examples/cpython --depth=1 --filter=blob:none
+          git clone https://github.com/numpy/numpy examples/numpy --single-branch --depth=1 --filter=blob:none
+          git clone https://github.com/django/django examples/django --single-branch --depth=1 --filter=blob:none
+          git clone https://github.com/pallets/flask examples/flask --single-branch --depth=1 --filter=blob:none
+          git clone https://github.com/python/cpython examples/cpython --single-branch --depth=1 --filter=blob:none
       - name: Run tests
-        uses: tree-sitter/parser-test-action@v1.1
+        uses: tree-sitter/parser-test-action@v1.2
         with:
-          lint: true
+          lint: ${{runner.os == 'Linux'}}
           test-library: ${{runner.os == 'Linux'}}
-          examples: |
+          corpus-files: |
             examples/**/*.py
-            !examples/cpython/Lib/test/badsyntax_3131.py
-            !examples/cpython/Lib/test/badsyntax_future8.py
             !examples/cpython/Lib/test/test_compile.py
-            !examples/cpython/Lib/test/tokenizedata/badsyntax_3131.py
             !examples/cpython/Tools/build/generate_re_casefix.py
+          invalid-files: |
+            examples/cpython/Lib/test/tokenizedata/badsyntax_3131.py
   fuzz:
     name: Fuzz parser
     runs-on: ubuntu-latest

@@ -5,6 +5,7 @@
 [![matrix][matrix]](https://matrix.to/#/#tree-sitter-chat:matrix.org)
 [![crates][crates]](https://crates.io/crates/tree-sitter-python)
 [![npm][npm]](https://www.npmjs.com/package/tree-sitter-python)
+[![pypi][pypi]](https://pypi.org/project/tree-sitter-python/)
 
 Python grammar for [tree-sitter][].
 
@@ -20,3 +21,4 @@ Python grammar for [tree-sitter][].
 [matrix]: https://img.shields.io/matrix/tree-sitter-chat%3Amatrix.org?logo=matrix&label=matrix
 [npm]: https://img.shields.io/npm/v/tree-sitter-python?logo=npm
 [crates]: https://img.shields.io/crates/v/tree-sitter-python?logo=rust
+[pypi]: https://img.shields.io/pypi/v/tree-sitter-python?logo=pypi&logoColor=ffd242
