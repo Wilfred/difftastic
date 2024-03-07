@@ -1,5 +1,10 @@
 ## 0.57 (unreleased)
 
+### Diffing
+
+Scheme now uses the same slider heuristics as other lisps, preferring
+the outer delimiter.
+
 ## 0.56.1 (released 5th March 2024)
 
 ### Build
