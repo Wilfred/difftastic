@@ -1187,7 +1187,8 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "U?LL"
+                    "value": "U?LL",
+                    "flags": "i"
                   }
                 ]
               },
@@ -1374,7 +1375,8 @@
                       },
                       {
                         "type": "PATTERN",
-                        "value": "U?LL"
+                        "value": "U?LL",
+                        "flags": "i"
                       }
                     ]
                   },
@@ -3094,4 +3096,3 @@
     "variable"
   ]
 }
-

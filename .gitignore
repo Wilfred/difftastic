@@ -1,12 +1,38 @@
-*.log
-*.tgz
-.DS_Store
+# Rust artifacts
 Cargo.lock
-build
-node_modules
-package-lock.json
-yarn.lock
-target
+target/
 
-examples/**/*
-!examples/*.*
+# Node artifacts
+build/
+node_modules/
+*.tgz
+
+# Swift artifacts
+.build/
+
+# Go artifacts
+go.sum
+_obj/
+
+# Python artifacts
+.venv/
+dist/
+*.egg-info
+*.whl
+
+# C artifacts
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.pc
+
+# Example dirs
+/examples/*/
+
+# Grammar volatiles
+dsl.d.ts
+*.wasm
+*.obj
+*.o
