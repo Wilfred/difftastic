@@ -1,6 +1,6 @@
 {
-  "name": "@muniftanjim/tree-sitter-lua",
-  "version": "0.0.19",
+  "name": "@tree-sitter-grammars/tree-sitter-lua",
+  "version": "0.1.0",
   "description": "Lua grammar for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-lua",
   "author": "Munif Tanjim (https://muniftanjim.dev)",

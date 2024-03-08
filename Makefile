@@ -1,4 +1,4 @@
-VERSION := 0.0.19
+VERSION := 0.1.0
 
 LANGUAGE_NAME := tree-sitter-lua
 

@@ -8,7 +8,7 @@ jobs:
   npm:
     uses: tree-sitter/workflows/.github/workflows/package-npm.yml@main
     with:
-      package-name: "@muniftanjim/tree-sitter-lua"
+      package-name: "@tree-sitter-grammars/tree-sitter-lua"
     secrets:
       NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
   crates:

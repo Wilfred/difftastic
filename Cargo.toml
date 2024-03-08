@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-lua"
 description = "Lua grammar for tree-sitter"
-version = "0.0.19"
+version = "0.1.0"
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "lua"]
