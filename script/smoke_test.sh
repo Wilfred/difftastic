@@ -35,7 +35,7 @@ run_tree_sitter () {
     echo "Report written to $report_file"
   fi
 
-  actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f1 | rev | sed 's/%//g' )
+  actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f5 | rev | sed 's/;//g' | sed 's/%//g' )
   echo "$actual"
   if (( $(echo "$actual >= $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
