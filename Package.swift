@@ -12,17 +12,27 @@ let package = Package(
         .target(name: "TreeSitterC",
                 path: ".",
                 exclude: [
-                    "binding.gyp",
-                    "bindings",
                     "Cargo.toml",
-                    "examples",
-                    "grammar.js",
-                    "LICENSE",
                     "Makefile",
+                    "binding.gyp",
+                    "bindings/c",
+                    "bindings/go",
+                    "bindings/node",
+                    "bindings/python",
+                    "bindings/rust",
+                    "prebuilds",
+                    "grammar.js",
                     "package.json",
-                    "README.md",
-                    "src/grammar.json",
-                    "src/node-types.json",
+                    "package-lock.json",
+                    "pyproject.toml",
+                    "setup.py",
+                    "test",
+                    "types",
+                    "examples",
+                    ".editorconfig",
+                    ".github",
+                    ".gitignore",
+                    ".gitattributes",
                 ],
                 sources: [
                     "src/parser.c",
@@ -32,5 +42,6 @@ let package = Package(
                 ],
                 publicHeadersPath: "bindings/swift",
                 cSettings: [.headerSearchPath("src")])
-    ]
+    ],
+    cLanguageStandard: .c11
 )

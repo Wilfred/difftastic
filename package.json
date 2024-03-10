@@ -1,35 +1,53 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.20.8",
-  "description": "C grammar for node-tree-sitter",
-  "main": "bindings/node",
-  "keywords": [
-    "parser",
-    "lexer",
-    "c"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tree-sitter/tree-sitter-c.git"
-  },
+  "version": "0.21.0",
+  "description": "C grammar for tree-sitter",
+  "repository": "github:tree-sitter/tree-sitter-bash",
+  "license": "MIT",
   "author": "Max Brunsfeld <maxbrunsfeld@gmail.com>",
   "contributors": [
     "Amaan Qureshi <amaanq12@gmail.com>"
   ],
-  "license": "MIT",
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "c"
+  ],
   "dependencies": {
-    "nan": "^2.18.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.21.0",
+    "prebuildify": "^6.0.0"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate --no-bindings",
     "lint": "eslint grammar.js",
-    "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
-    "test-windows": "tree-sitter test"
+    "test": "tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "tree-sitter": [
     {
@@ -39,9 +57,8 @@
         "h"
       ],
       "injection-regex": "^(c|h)$",
-      "highlights": [
-        "queries/highlights.scm"
-      ]
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm"
     }
   ]
 }

@@ -1,9 +1,3 @@
-// -*- coding: utf-8 -*-
-// ------------------------------------------------------------------------------------------------
-// Copyright © 2021, tree-sitter-c authors.
-// See the LICENSE file in this repo for license details.
-// ------------------------------------------------------------------------------------------------
-
 //! This crate provides a C grammar for the [tree-sitter][] parsing library.
 //!
 //! Typically, you will use the [language][language func] function to add this grammar to a
@@ -13,12 +7,12 @@
 //! use tree_sitter::Parser;
 //!
 //! let code = r#"
-//!     int double(int x) {
-//!         return x * 2;
-//!     }
+//! int double(int x) {
+//!     return x * 2;
+//! }
 //! "#;
 //! let mut parser = Parser::new();
-//! parser.set_language(tree_sitter_c::language()).expect("Error loading C grammar");
+//! parser.set_language(&tree_sitter_c::language()).expect("Error loading C grammar");
 //! let parsed = parser.parse(code, None);
 //! # let parsed = parsed.unwrap();
 //! # let root = parsed.root_node();
@@ -43,8 +37,10 @@ pub fn language() -> Language {
     unsafe { tree_sitter_c() }
 }
 
-/// The source of the C tree-sitter grammar description.
-pub const GRAMMAR: &str = include_str!("../../grammar.js");
+/// The content of the [`node-types.json`][] file for this grammar.
+///
+/// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
+pub const NODE_TYPES: &str = include_str!("../../src/node-types.json");
 
 /// The syntax highlighting query for this language.
 pub const HIGHLIGHT_QUERY: &str = include_str!("../../queries/highlights.scm");
@@ -52,18 +48,13 @@ pub const HIGHLIGHT_QUERY: &str = include_str!("../../queries/highlights.scm");
 /// The symbol tagging query for this language.
 pub const TAGS_QUERY: &str = include_str!("../../queries/tags.scm");
 
-/// The content of the [`node-types.json`][] file for this grammar.
-///
-/// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
-pub const NODE_TYPES: &str = include_str!("../../src/node-types.json");
-
 #[cfg(test)]
 mod tests {
     #[test]
     fn can_load_grammar() {
         let mut parser = tree_sitter::Parser::new();
         parser
-            .set_language(super::language())
+            .set_language(&super::language())
             .expect("Error loading C grammar");
     }
 }
