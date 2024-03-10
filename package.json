@@ -23,7 +23,7 @@
     "node-gyp-build": "^4.8.0"
   },
   "peerDependencies": {
-    "tree-sitter": "0.21.0"
+    "tree-sitter": "^0.21.0"
   },
   "peerDependenciesMeta": {
     "tree_sitter": {
@@ -31,7 +31,7 @@
     }
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.21.0",
+    "tree-sitter-cli": "0.22.6",
     "prettier": "3.0.0-alpha.6",
     "prebuildify": "^6.0.0"
   },
