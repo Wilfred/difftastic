@@ -6,14 +6,14 @@ on:
       - master
 jobs:
   changedfiles:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       all: ${{ steps.changes.outputs.all}}
       c: ${{ steps.changes.outputs.c }}
       gen: ${{ steps.changes.outputs.gen }}
     steps:
       - name: checkout tree-sitter-scala
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 10
 
@@ -30,16 +30,16 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-20.04, macos-latest, windows-2019]
+        os: [ubuntu-latest, macos-latest, windows-2019]
     steps:
       - name: checkout tree-sitter-scala
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 10
 
       - name: checkout scala/scala
         if: ${{ runner.os == 'Linux' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: scala/scala
           ref: v2.13.10
@@ -47,7 +47,7 @@ jobs:
 
       - name: checkout lampepfl/dotty
         if: ${{ runner.os == 'Linux' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: lampepfl/dotty
           ref: 3.3.0
@@ -55,7 +55,7 @@ jobs:
 
       - name: checkout nvim-treesitter/nvim-treesitter
         if: ${{ runner.os == 'Linux' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: nvim-treesitter/nvim-treesitter
           path: nvim_treesitter
@@ -102,7 +102,7 @@ jobs:
 
       - name: Check if queries are out of sync with nvim-treesitter
         if: ${{ runner.os == 'Linux' }}
-        uses: tj-actions/verify-changed-files@v17
+        uses: tj-actions/verify-changed-files@v19
         id: verify-changed-files
         with:
           files: |

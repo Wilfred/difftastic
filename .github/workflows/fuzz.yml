@@ -17,7 +17,7 @@ jobs:
     name: Parser fuzzing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@4
       - uses: vigoux/tree-sitter-fuzz-action@v1
         with:
           language: scala
