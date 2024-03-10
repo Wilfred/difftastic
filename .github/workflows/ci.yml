@@ -60,9 +60,9 @@ jobs:
           repository: nvim-treesitter/nvim-treesitter
           path: nvim_treesitter
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Test C stack code
         run: gcc test/test-stack.c -o a.out && ./a.out
