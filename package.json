@@ -16,20 +16,32 @@
   "files": [
     "grammar.js",
     "binding.gyp",
-    "types/dsl.d.ts",
+    "prebuilds/**",
     "bindings/node/*",
     "queries/**",
     "src/**"
   ],
   "dependencies": {
-    "node-addon-api": "^7.1.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.21.0"
+    "tree-sitter-cli": "^0.21.0",
+    "prebuildify": "^6.0.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "scripts": {
     "build": "tree-sitter generate --no-bindings",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "publishConfig": {
     "access": "public"
@@ -37,6 +49,7 @@
   "tree-sitter": [
     {
       "scope": "source.lua",
+      "injection-regex": "^lua$",
       "highlights": "queries/highlights.scm",
       "injections": "queries/injections.scm",
       "tags": "queries/tags.scm",
