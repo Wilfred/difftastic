@@ -228,6 +228,8 @@ val myChar = 'c'
 
 val otherChar = '\u0041'
 
+val otherChar2 = '\uu0041'
+
 val anotherChar = '\n'
 
 def foo(a: Char = 'c') = a + 'd'
@@ -235,6 +237,9 @@ def foo(a: Char = 'c') = a + 'd'
 --------------------------------------------------------------------------------
 
 (compilation_unit
+  (val_definition
+    (identifier)
+    (character_literal))
   (val_definition
     (identifier)
     (character_literal))
