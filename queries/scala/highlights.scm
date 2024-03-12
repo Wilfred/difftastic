@@ -1,5 +1,11 @@
 ; CREDITS @stumash (stuart.mashaal@gmail.com)
 
+(field_expression field: (identifier) @property)
+(field_expression value: (identifier) @type
+ (#match? @type "^[A-Z]"))
+
+(type_identifier) @type
+
 (class_definition
   name: (identifier) @type)
 
@@ -20,7 +26,7 @@
 
 ;; variables
 
-(class_parameter 
+(class_parameter
   name: (identifier) @parameter)
 
 (self_type (identifier) @parameter)
@@ -32,8 +38,6 @@
 
 (type_definition
   name: (type_identifier) @type.definition)
-
-(type_identifier) @type
 
 ;; val/var definitions/declarations
 
@@ -48,14 +52,6 @@
 
 (var_declaration
   name: (identifier) @variable)
-
-; method definition
-
-(function_declaration
-      name: (identifier) @method)
-
-(function_definition
-      name: (identifier) @method)
 
 ; imports/exports
 
@@ -110,11 +106,15 @@
 (binding
   name: (identifier) @parameter)
 
-; expressions
+; method definition
 
-(field_expression field: (identifier) @property)
-(field_expression value: (identifier) @type
- (#match? @type "^[A-Z]"))
+(function_declaration
+      name: (identifier) @method)
+
+(function_definition
+      name: (identifier) @method)
+
+; expressions
 
 (infix_expression operator: (identifier) @operator)
 (infix_expression operator: (operator_identifier) @operator)
@@ -235,8 +235,8 @@
 
 "return" @keyword.return
 
-(comment) @comment @spell
-(block_comment) @comment @spell
+(comment) @spell @comment
+(block_comment) @spell @comment
 
 ;; `case` is a conditional keyword in case_block
 

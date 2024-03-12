@@ -31,10 +31,14 @@ jobs:
         id: verify-changed-files
         with:
           files: |
+            bindings/c/tree-sitter-scala.h
+            bindings/c/tree-sitter-scala.pc.in
             grammar.js
             src/grammar.json
             src/node-types.json
             src/parser.c
+            src/tree_sitter/alloc.h
+            src/tree_sitter/array.h
             src/tree_sitter/parser.h
 
       - name: Commit changes if necessary

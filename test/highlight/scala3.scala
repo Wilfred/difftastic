@@ -117,7 +117,7 @@ object A:
 //     ^type
 
   ::(123)
-//^function.call
+//^operator
 //   ^number
 
 object bla:
