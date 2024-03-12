@@ -548,8 +548,8 @@ pub(crate) fn set_neighbours<'s, 'b>(
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                let lhs_next = lhs_children.get(0).copied();
-                let rhs_next = rhs_children.get(0).copied();
+                let lhs_next = lhs_children.first().copied();
+                let rhs_next = rhs_children.first().copied();
 
                 // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax);
@@ -672,7 +672,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let lhs_next = children.get(0).copied();
+                let lhs_next = children.first().copied();
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
@@ -737,7 +737,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let rhs_next = children.get(0).copied();
+                let rhs_next = children.first().copied();
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
