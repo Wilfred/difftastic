@@ -7000,11 +7000,7 @@
                           },
                           {
                             "type": "PATTERN",
-                            "value": "u[0-9a-fA-F]{4}"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "u{[0-9a-fA-F]+}"
+                            "value": "uu?[0-9a-fA-F]{4}"
                           },
                           {
                             "type": "PATTERN",
