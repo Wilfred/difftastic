@@ -107,7 +107,7 @@ fn reset_sigpipe() {
 /// The entrypoint.
 fn main() {
     pretty_env_logger::try_init_timed_custom_env("DFT_LOG")
-        .expect("The logger has not been previously initalized");
+        .expect("The logger has not been previously initialized");
     reset_sigpipe();
 
     match options::parse_args() {
@@ -585,8 +585,8 @@ fn diff_file_content(
                                 init_next_prev(&rhs_section_nodes);
 
                                 match mark_syntax(
-                                    lhs_section_nodes.get(0).copied(),
-                                    rhs_section_nodes.get(0).copied(),
+                                    lhs_section_nodes.first().copied(),
+                                    rhs_section_nodes.first().copied(),
                                     &mut change_map,
                                     diff_options.graph_limit,
                                 ) {
@@ -856,9 +856,9 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     )
                 );
                 if summary.has_byte_changes {
-                    println!("Binary contents changed.");
+                    println!("Binary contents changed.\n");
                 } else {
-                    println!("No changes.");
+                    println!("No changes.\n");
                 }
             }
         }
@@ -876,7 +876,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     display_options
                 )
             );
-            println!("Binary contents changed.");
+            println!("Binary contents changed.\n");
         }
     }
 }

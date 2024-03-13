@@ -1,1 +1,0 @@
-../node_modules/tree-sitter-javascript/queries/highlights.scm

@@ -1,0 +1,7 @@
+node_modules/
+build/
+target/
+package-lock.json
+Cargo.lock
+test.scm
+unicode.js

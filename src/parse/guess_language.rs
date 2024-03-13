@@ -66,6 +66,7 @@ pub(crate) enum Language {
     Ruby,
     Rust,
     Scala,
+    Scheme,
     Scss,
     Smali,
     Solidity,
@@ -156,6 +157,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Ruby => "Ruby",
         Rust => "Rust",
         Scala => "Scala",
+        Scheme => "Scheme",
         Smali => "Smali",
         Scss => "SCSS",
         Solidity => "Solidity",
@@ -314,7 +316,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "Makefile.am",
             "Makefile.boot",
             "Makefile.frag",
-            "Makefile.in",
+            "Makefile*.in",
             "Makefile.inc",
             "Makefile.wat",
             "makefile",
@@ -343,6 +345,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         ],
         Rust => &["*.rs"],
         Scala => &["*.scala", "*.sbt", "*.sc"],
+        Scheme => &["*.scm", "*.sch", "*.ss"],
         Smali => &["*.smali"],
         Scss => &["*.scss"],
         Solidity => &["*.sol"],
@@ -544,7 +547,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
 /// Try to guess the language based on a shebang present in the source.
 fn from_shebang(src: &str) -> Option<Language> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(r"#!(?:/usr/bin/env )?([^ ]+)").unwrap();
+        static ref RE: Regex = Regex::new(r"#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
     }
     if let Some(first_line) = src.lines().next() {
         if let Some(cap) = RE.captures(first_line) {
@@ -630,6 +633,12 @@ mod tests {
     fn test_guess_by_env_shebang() {
         let path = Path::new("foo");
         assert_eq!(guess(path, "#!/usr/bin/env python", &[]), Some(Python));
+    }
+
+    #[test]
+    fn test_guess_by_shebang_with_space() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "#! /bin/sh", &[]), Some(Bash));
     }
 
     #[test]

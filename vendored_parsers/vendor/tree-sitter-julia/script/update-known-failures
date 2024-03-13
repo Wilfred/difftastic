@@ -1,5 +1,0 @@
-#!/bin/bash
-
-tree-sitter parse $(find examples -type f -name '*.jl') -q -t \
-  | egrep 'ERROR|\(' \
-  | tee >(tr '\t' ' ' | cut -d' ' -f1 > script/known-failures.txt)

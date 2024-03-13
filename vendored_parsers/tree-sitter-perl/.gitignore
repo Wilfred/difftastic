@@ -6,6 +6,7 @@ node_modules/
 9.3.5/
 bin/
 build/
+prebuilds/
 
 # swift bindings
 .build/

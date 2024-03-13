@@ -1,5 +1,9 @@
 ;; Copied from nvim-treesitter, under Apache License.
 ;; https://github.com/nvim-treesitter/nvim-treesitter/blob/909b5d26fddad5043e354046571e7c7353b53b61/queries/perl/highlights.scm
+;;
+;; Some items have been removed as upstream tree-sitter-perl has
+;; removed some of the node names. The upstream commit is
+;; https://github.com/ganezdragon/tree-sitter-perl/commit/a882a928d4930716896039d1c10e91b6d7444c48
 
 ; Misc keywords
 [
@@ -53,15 +57,6 @@
   (hash_variable)
 ] @variable
 
-; Special builtin variables
-[
-  (special_scalar_variable)
-  (special_array_variable)
-  (special_hash_variable)
-  (special_literal)
-  (super)
-] @variable.builtin
-
 ; Integer numbers
 [
   (integer)
@@ -108,13 +103,6 @@
   name: (identifier) @function)
 
 [
-(function)
-(map)
-(grep)
-(bless)
-] @function
-
-[
 "("
 ")"
 "["
@@ -139,10 +127,8 @@
 (array_dereference)
 (hash_dereference)
 (to_reference)
-(type_glob)
 (hash_access_variable)
 (ternary_expression)
-(ternary_expression_in_hash)
 ] @operator
 
 [
@@ -150,9 +136,6 @@
 (regex_option_for_substitution)
 (regex_option_for_transliteration)
 ] @parameter
-
-(type_glob
-  (identifier) @variable)
 
 [
 (word_list_qw)

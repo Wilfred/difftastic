@@ -127,6 +127,9 @@ sample_files/julia_before.jl sample_files/julia_after.jl
 sample_files/load_before.js sample_files/load_after.js
 7ead0c677e1ccc5639ea2a8199a8175e  -
 
+sample_files/long_line_before.txt sample_files/long_line_after.txt
+850e2efa67152b79d5b5099f202d61bb  -
+
 sample_files/lua_before.lua sample_files/lua_after.lua
 9f5c85cd6806c724c84afa805da76bb7  -
 
@@ -205,6 +208,9 @@ e690af6874c954b271ef7ea8eb1d8af1  -
 sample_files/scala_before.scala sample_files/scala_after.scala
 8b2d6102b120d4a0de790c33409eedc3  -
 
+sample_files/scheme_before.scm sample_files/scheme_after.scm
+d00fcfe46aca3e2877bda566f1a3908b  -
+
 sample_files/simple_before.js sample_files/simple_after.js
 c9c5d1c61b7e8a953a361343bcd13c95  -
 
@@ -240,6 +246,9 @@ sample_files/syntax_error_before.js sample_files/syntax_error_after.js
 
 sample_files/tab_before.c sample_files/tab_after.c
 7e4345e584d440a136f90becb0ef45bc  -
+
+sample_files/tab_before.txt sample_files/tab_after.txt
+c7fcee21dd5ebd251e2cf4cd7d4446d2  -
 
 sample_files/tailwind_before.css sample_files/tailwind_after.css
 db01dde1e8455a144e5bf0511273f674  -

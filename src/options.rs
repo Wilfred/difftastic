@@ -352,31 +352,35 @@ impl Display for FilePermissions {
     }
 }
 
-impl From<String> for FilePermissions {
-    fn from(s: String) -> Self {
-        Self(s)
+impl TryFrom<&OsStr> for FilePermissions {
+    type Error = ();
+
+    fn try_from(s: &OsStr) -> Result<Self, Self::Error> {
+        if s == "." {
+            Err(())
+        } else {
+            Ok(Self(s.to_string_lossy().into_owned()))
+        }
     }
 }
 
-impl From<&OsStr> for FilePermissions {
-    fn from(s: &OsStr) -> Self {
-        Self(s.to_string_lossy().into_owned())
-    }
-}
-
+#[cfg(unix)]
 impl From<std::fs::Permissions> for FilePermissions {
     fn from(perms: std::fs::Permissions) -> Self {
-        if cfg!(unix) {
-            use std::os::unix::fs::PermissionsExt;
-            Self(format!("{:o}", perms.mode()))
+        use std::os::unix::fs::PermissionsExt;
+        Self(format!("{:o}", perms.mode()))
+    }
+}
+
+#[cfg(not(unix))]
+impl From<std::fs::Permissions> for FilePermissions {
+    fn from(perms: std::fs::Permissions) -> Self {
+        let s = if perms.readonly() {
+            "readonly"
         } else {
-            let s = if perms.readonly() {
-                "readonly"
-            } else {
-                "read-write"
-            };
-            Self(s.to_owned())
-        }
+            "read-write"
+        };
+        Self(s.to_owned())
     }
 }
 
@@ -756,8 +760,8 @@ pub(crate) fn parse_args() -> Mode {
                 display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((*lhs_mode).into()),
-                Some((*rhs_mode).into()),
+                FilePermissions::try_from(*lhs_mode).ok(),
+                FilePermissions::try_from(*rhs_mode).ok(),
                 None,
             )
         }
@@ -774,8 +778,8 @@ pub(crate) fn parse_args() -> Mode {
                 new_name,
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((*lhs_mode).into()),
-                Some((*rhs_mode).into()),
+                FilePermissions::try_from(*lhs_mode).ok(),
+                FilePermissions::try_from(*rhs_mode).ok(),
                 Some(renamed),
             )
         }

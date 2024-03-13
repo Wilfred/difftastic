@@ -1,6 +1,0 @@
-node_modules/
-tree-sitter-sql.wasm
-target/
-build/
-venv/
-yarn.lock

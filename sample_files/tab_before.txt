@@ -1,0 +1,9 @@
+export const ORIGIN = new URL(
+	env.VERCEL_ENV === "production"
+		? "https://alpha.sweets.community"
+		: env.VERCEL_ENV === "preview"
+			? `https://${env.VERCEL_URL}`
+			: "http://localhost:3000"
+);
+
+export default env;

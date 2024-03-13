@@ -1,10 +1,44 @@
-## 0.56 (unreleased)
+## 0.57 (unreleased)
 
 ### Parsing
 
-Updated JavaScript, TypeScript and QML parsers.
+Text file detection is now stricter, considering null bytes as a hint
+that files are binaries.
 
-Added support for Smali.
+### Diffing
+
+Scheme now uses the same slider heuristics as other lisps, preferring
+the outer delimiter.
+
+### Display
+
+Fixed an issue when reporting changes in binary files, where trailing
+whitespace was inconsistent with other changes shown.
+
+## 0.56.1 (released 5th March 2024)
+
+### Build
+
+Fixed an issue with building difftastic on aarch64 with rust 1.71 or
+earlier.
+
+## 0.56 (released 5th March 2024)
+
+### Parsing
+
+Updated JavaScript, TypeScript, QML and Perl parsers.
+
+`Makefile*.in` is now detected as Makefile syntax.
+
+Improved shebang parsing with whitespace, e.g. `#! /bin/bash` is now
+detected as a shell script.
+
+Added support for Scheme and Smali.
+
+### Diffing
+
+Fixed an issue with runaway memory usage on text files with very long
+lines.
 
 ### Display
 
@@ -19,6 +53,8 @@ from `git diff`.
 
 Fixed an issue with the experimental JSON display mode where it
 ignored `--skip-unchanged`.
+
+Fixed an issue with tabs not being replaced in single-column display.
 
 ## 0.55 (released 1st February 2024)
 
