@@ -403,7 +403,7 @@ fn allocate_if_new<'s, 'b>(
 
 /// Does this node look like punctuation?
 ///
-/// This check is deliberately conservative, becuase it's hard to
+/// This check is deliberately conservative, because it's hard to
 /// accurately recognise punctuation in a language-agnostic way.
 fn looks_like_punctuation(node: &Syntax) -> bool {
     match node {
