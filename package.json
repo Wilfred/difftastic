@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-devicetree",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Tree-sitter parser for Devicetree files, with support for Zephyr's superset of Devicetree syntax.",
   "main": "bindings/node",
   "types": "bindings/node",
