@@ -1,11 +1,32 @@
-build
-node_modules
-target
-
+# Rust artifacts
 Cargo.lock
-parser.exp
-parser.lib
-parser.obj
-*.log
-*.html
+target/
+
+# Node artifacts
+build/
+prebuilds/
+node_modules/
+
+# Swift artifacts
+.build/
+
+# Python artifacts
+dist/
+*.egg-info
+*.whl
+
+# C artifacts
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.pc
+
+# Examples
+/examples/*/
+
+# Grammar volatiles
 *.wasm
+*.obj
+*.o

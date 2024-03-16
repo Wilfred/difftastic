@@ -1,12 +1,14 @@
 [package]
 name = "tree-sitter-devicetree"
-description = "devicetree grammar for the tree-sitter parsing library"
-version = "0.4.0"
-keywords = ["incremental", "parsing", "devicetree"]
+description = "devicetree grammar for tree-sitter"
+version = "0.10.0"
+authors = ["Joel Spadin <joelspadin@gmail.com>"]
+license = "MIT"
+keywords = ["incremental", "parsing", "tree-sitter", "devicetree"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/joelspadin/tree-sitter-devicetree"
-edition = "2018"
-license = "MIT"
+edition = "2021"
+autoexamples = false
 
 build = "bindings/rust/build.rs"
 include = [
@@ -20,7 +22,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = ">= 0.19, < 0.21"
+tree-sitter = ">= 0.21.0"
 
 [build-dependencies]
-cc = "1.0"
+cc = "1.0.89"
