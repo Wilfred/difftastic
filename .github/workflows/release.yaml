@@ -28,9 +28,8 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{vars.NODE_VERSION}}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{vars.NODE_VERSION}}
 
@@ -40,7 +39,7 @@ jobs:
         run: npm run build:wasm
 
       - name: release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           fail_on_unmatched_files: true
           generate_release_notes: true
