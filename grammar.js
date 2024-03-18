@@ -357,7 +357,15 @@ module.exports = grammar({
         )
       ),
     panic: ($) =>
-      seq("panic", optional(seq("as", field("message", $._expression)))),
+      seq(
+        "panic",
+        optional(
+          choice(
+            seq("(", field("message", $.string), ")"),
+            seq("as", field("message", $._expression))
+          )
+        )
+      ),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
     list: ($) =>
       seq(
