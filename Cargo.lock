@@ -100,12 +100,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f30e7476521f6f8af1a1c4c0b8cc94f0bee37d91763d0ca2665f299b6cd8aec"
 
 [[package]]
-name = "bytecount"
-version = "0.6.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "72feb31ffc86498dacdbd0fcebb56138e7177a8cc5cea4516031d15ae85a742e"
-
-[[package]]
 name = "cc"
 version = "1.0.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -270,6 +264,7 @@ dependencies = [
  "crossterm",
  "glob",
  "hashbrown 0.14.3",
+ "home",
  "humansize",
  "ignore",
  "itertools 0.11.0",
@@ -410,6 +405,15 @@ name = "hermit-abi"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d77f7ec81a6d05a3abb01ab6eb7590f6083d08449fe5a1c8b1e620283546ccb7"
+
+[[package]]
+name = "home"
+version = "0.5.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5444c27eef6923071f7ebcc33e3444508466a76f7a2b93da00ed6e19f30c1ddb"
+dependencies = [
+ "windows-sys",
+]
 
 [[package]]
 name = "humansize"
@@ -1058,12 +1062,13 @@ dependencies = [
 
 [[package]]
 name = "tree_magic_mini"
-version = "3.0.2"
-source = "git+https://github.com/Wilfred/tree_magic?branch=fix-panic-for-empty-strings#13dd6dda15c7062bd8f7dd5bc9bb5b16ce9ee613"
+version = "3.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77ee137597cdb361b55a4746983e4ac1b35ab6024396a419944ad473bb915265"
 dependencies = [
- "bytecount",
  "fnv",
- "lazy_static",
+ "home",
+ "memchr",
  "nom",
  "once_cell",
  "petgraph",
