@@ -20,8 +20,11 @@ The documentation of this implementation is available in [DOC](DOC.md). Because 
 
 ## TODO
 
-- [X] Update 0.10 (complete grammar)
-- [ ] More tests, objectif 1000, current 409
+- [ ] Update 0.11
+  - [X] Hangul script doesn't form words
+  - [ ] Context operator
+  - [ ] No line comment inside block comment
+- [ ] More tests, objectif 1000, current 419
 - [X] Installation
   - [X] Helix
   - [X] Emacs
@@ -76,9 +79,12 @@ The next release of Helix will support Typst. Waiting until then, you can add su
 - Local `~/.config/helix`
 
 
-2. Append the following configuration to the `languages.toml` file.
+2. Append the following configuration to the `languages.toml` file (create it if it doesn't exist).
 
 ```toml
+[language-server.typst-lsp]
+command = "typst-lsp"
+
 [[language]]
 name = "typst"
 scope = "source.typst"
@@ -87,6 +93,7 @@ indent = { tab-width = 2, unit = "  " }
 comment-token = "//"
 injection-regex = "typ(st)?"
 roots = ["typst.toml"]
+language-servers = [ "typst-lsp" ]
 
 [language.auto-pairs]
 '(' = ')'
@@ -104,6 +111,8 @@ source.rev = "master"
 3. Copy the content of the `queries` directory (`highlights.scm` and `injections.scm`) inside your corresponding `runtime/queries/typst` directory. You should have the following structure:
 
 ```
+config.toml
+languages.toml
 runtime
 └── queries
     └── typst

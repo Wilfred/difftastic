@@ -674,6 +674,7 @@ static struct unicode_range ucd_table_xid_start[666] = {
     {0x00030000, 0x0003134a},
     {0x00031350, 0x000323af},
 };
+
 #define UCD_LEN_XID_CONTINUE 775
 static struct unicode_range ucd_table_xid_continue[775] = {
     {0x00000030, 0x00000039},
@@ -1452,8 +1453,10 @@ static struct unicode_range ucd_table_xid_continue[775] = {
     {0x00031350, 0x000323af},
     {0x000e0100, 0x000e01ef},
 };
-#define UCD_LEN_IN_WORD 784
-static struct unicode_range ucd_table_in_word[784] = {
+
+// Alphanumeric except Han, Hiragana, Katakana, Hangul
+#define UCD_LEN_IN_WORD 776
+static struct unicode_range ucd_table_in_word[776] = {
     {0x00000030, 0x00000039},
     {0x00000041, 0x0000005a},
     {0x00000061, 0x0000007a},
@@ -1674,7 +1677,8 @@ static struct unicode_range ucd_table_in_word[784] = {
     {0x000010c7, 0x000010c7},
     {0x000010cd, 0x000010cd},
     {0x000010d0, 0x000010fa},
-    {0x000010fc, 0x00001248},
+    {0x000010fc, 0x000010ff},
+    {0x00001200, 0x00001248},
     {0x0000124a, 0x0000124d},
     {0x00001250, 0x00001256},
     {0x00001258, 0x00001258},
@@ -1815,7 +1819,6 @@ static struct unicode_range ucd_table_in_word[784] = {
     {0x0000303c, 0x0000303c},
     {0x000030fc, 0x000030fc},
     {0x00003105, 0x0000312f},
-    {0x00003131, 0x0000318e},
     {0x00003192, 0x00003195},
     {0x000031a0, 0x000031bf},
     {0x00003220, 0x00003229},
@@ -1847,7 +1850,6 @@ static struct unicode_range ucd_table_in_word[784] = {
     {0x0000a8fb, 0x0000a8fb},
     {0x0000a8fd, 0x0000a92a},
     {0x0000a930, 0x0000a952},
-    {0x0000a960, 0x0000a97c},
     {0x0000a980, 0x0000a9b2},
     {0x0000a9b4, 0x0000a9bf},
     {0x0000a9cf, 0x0000a9d9},
@@ -1871,9 +1873,6 @@ static struct unicode_range ucd_table_in_word[784] = {
     {0x0000ab5c, 0x0000ab69},
     {0x0000ab70, 0x0000abea},
     {0x0000abf0, 0x0000abf9},
-    {0x0000ac00, 0x0000d7a3},
-    {0x0000d7b0, 0x0000d7c6},
-    {0x0000d7cb, 0x0000d7fb},
     {0x0000fb00, 0x0000fb06},
     {0x0000fb13, 0x0000fb17},
     {0x0000fb1d, 0x0000fb28},
@@ -1893,11 +1892,7 @@ static struct unicode_range ucd_table_in_word[784] = {
     {0x0000ff21, 0x0000ff3a},
     {0x0000ff41, 0x0000ff5a},
     {0x0000ff70, 0x0000ff70},
-    {0x0000ff9e, 0x0000ffbe},
-    {0x0000ffc2, 0x0000ffc7},
-    {0x0000ffca, 0x0000ffcf},
-    {0x0000ffd2, 0x0000ffd7},
-    {0x0000ffda, 0x0000ffdc},
+    {0x0000ff9e, 0x0000ff9f},
     {0x00010000, 0x0001000b},
     {0x0001000d, 0x00010026},
     {0x00010028, 0x0001003a},
@@ -2239,3 +2234,4 @@ static struct unicode_range ucd_table_in_word[784] = {
     {0x0001f170, 0x0001f189},
     {0x0001fbf0, 0x0001fbf9},
 };
+
