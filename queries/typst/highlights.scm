@@ -21,6 +21,7 @@
 
 ; OPERATOR
 (in ["in" "not"] @keyword.operator)
+(context "context" @keyword.control)
 (and "and" @keyword.operator)
 (or "or" @keyword.operator)
 (not "not" @keyword.operator)

@@ -48,6 +48,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -212,6 +216,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -443,6 +451,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -602,6 +614,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -773,6 +789,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "end",
             "named": false
           },
@@ -935,6 +955,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "end",
             "named": false
           },
@@ -1091,6 +1115,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -1254,6 +1282,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -1426,6 +1458,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -1619,6 +1655,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -1809,6 +1849,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -1960,6 +2004,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "emph",
           "named": true
         },
@@ -2087,6 +2135,177 @@
     }
   },
   {
+    "type": "context",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "add",
+          "named": true
+        },
+        {
+          "type": "and",
+          "named": true
+        },
+        {
+          "type": "assign",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "branch",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cmp",
+          "named": true
+        },
+        {
+          "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
+          "named": true
+        },
+        {
+          "type": "div",
+          "named": true
+        },
+        {
+          "type": "elude",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "flow",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "group",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "in",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "math",
+          "named": true
+        },
+        {
+          "type": "mul",
+          "named": true
+        },
+        {
+          "type": "none",
+          "named": true
+        },
+        {
+          "type": "not",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "or",
+          "named": true
+        },
+        {
+          "type": "raw_blck",
+          "named": true
+        },
+        {
+          "type": "raw_span",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "set",
+          "named": true
+        },
+        {
+          "type": "show",
+          "named": true
+        },
+        {
+          "type": "sign",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "sub",
+          "named": true
+        },
+        {
+          "type": "tagged",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "div",
     "named": true,
     "fields": {},
@@ -2132,6 +2351,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -2302,6 +2525,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -2450,6 +2677,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -2629,6 +2860,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "escape",
           "named": true
         },
@@ -2800,6 +3035,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -2989,6 +3228,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -3167,6 +3410,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "escape",
           "named": true
         },
@@ -3323,6 +3570,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -3489,6 +3740,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -3641,6 +3896,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -3821,6 +4080,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -4010,6 +4273,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -4177,6 +4444,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -4325,6 +4596,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -4508,6 +4783,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -4667,6 +4946,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -4838,6 +5121,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -4997,6 +5284,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -5183,6 +5474,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -5347,6 +5642,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -5532,6 +5831,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -5692,6 +5995,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -5914,6 +6221,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -6074,6 +6385,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -6256,6 +6571,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -6442,6 +6761,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -6601,6 +6924,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -6772,6 +7099,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -6920,6 +7251,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -7094,6 +7429,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -7272,6 +7611,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -7444,6 +7787,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "div",
             "named": true
           },
@@ -7607,6 +7954,10 @@
           "named": true
         },
         {
+          "type": "context",
+          "named": true
+        },
+        {
           "type": "div",
           "named": true
         },
@@ -7766,6 +8117,10 @@
             "named": true
           },
           {
+            "type": "context",
+            "named": true
+          },
+          {
             "type": "emph",
             "named": true
           },
@@ -7922,6 +8277,10 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "context",
           "named": true
         },
         {
@@ -8122,6 +8481,10 @@
           },
           {
             "type": "content",
+            "named": true
+          },
+          {
+            "type": "context",
             "named": true
           },
           {
@@ -8425,6 +8788,10 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "context",
+    "named": false
   },
   {
     "type": "continue",

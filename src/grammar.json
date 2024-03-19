@@ -1832,6 +1832,10 @@
           {
             "type": "SYMBOL",
             "name": "content"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "context"
           }
         ]
       }
@@ -1943,6 +1947,10 @@
         {
           "type": "SYMBOL",
           "name": "content"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "context"
         },
         {
           "type": "SYMBOL",
@@ -2175,6 +2183,23 @@
           "name": "_immediate"
         }
       ]
+    },
+    "context": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "context"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expr"
+          }
+        ]
+      }
     },
     "tagged": {
       "type": "PREC_LEFT",
