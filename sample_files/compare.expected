@@ -136,6 +136,9 @@ sample_files/lua_before.lua sample_files/lua_after.lua
 sample_files/makefile_before.mk sample_files/makefile_after.mk
 7eea0d919b71161c72a4ef496fff749d  -
 
+sample_files/many_newlines_before.txt sample_files/many_newlines_after.txt
+afc8628f89076423d1453d8e3c84ac92  -
+
 sample_files/metadata_before.clj sample_files/metadata_after.clj
 4ac68277cb69d0648961b891e02d2a7b  -
 

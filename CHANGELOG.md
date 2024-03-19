@@ -10,6 +10,10 @@ that files are binaries.
 Scheme now uses the same slider heuristics as other lisps, preferring
 the outer delimiter.
 
+Fixed an issue with line-based diffing where only the first line in a
+large changed region was highlighted. This was particularly noticeable
+when diffing brand new files.
+
 ### Display
 
 Fixed an issue when reporting changes in binary files, where trailing
