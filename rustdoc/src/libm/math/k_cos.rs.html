@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libm-0.2.7/src/math/k_cos.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>k_cos.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../libm/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+</pre><pre class="rust"><code><span class="comment">// origin: FreeBSD /usr/src/lib/msun/src/k_cos.c
+//
+// ====================================================
+// Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
+//
+// Developed at SunSoft, a Sun Microsystems, Inc. business.
+// Permission to use, copy, modify, and distribute this
+// software is freely granted, provided that this notice
+// is preserved.
+// ====================================================
+
+</span><span class="kw">const </span>C1: f64 = <span class="number">4.16666666666666019037e-02</span>; <span class="comment">/* 0x3FA55555, 0x5555554C */
+</span><span class="kw">const </span>C2: f64 = -<span class="number">1.38888888888741095749e-03</span>; <span class="comment">/* 0xBF56C16C, 0x16C15177 */
+</span><span class="kw">const </span>C3: f64 = <span class="number">2.48015872894767294178e-05</span>; <span class="comment">/* 0x3EFA01A0, 0x19CB1590 */
+</span><span class="kw">const </span>C4: f64 = -<span class="number">2.75573143513906633035e-07</span>; <span class="comment">/* 0xBE927E4F, 0x809C52AD */
+</span><span class="kw">const </span>C5: f64 = <span class="number">2.08757232129817482790e-09</span>; <span class="comment">/* 0x3E21EE9E, 0xBDB4B1C4 */
+</span><span class="kw">const </span>C6: f64 = -<span class="number">1.13596475577881948265e-11</span>; <span class="comment">/* 0xBDA8FAE9, 0xBE8838D4 */
+
+// kernel cos function on [-pi/4, pi/4], pi/4 ~ 0.785398164
+// Input x is assumed to be bounded by ~pi/4 in magnitude.
+// Input y is the tail of x.
+//
+// Algorithm
+//      1. Since cos(-x) = cos(x), we need only to consider positive x.
+//      2. if x &lt; 2^-27 (hx&lt;0x3e400000 0), return 1 with inexact if x!=0.
+//      3. cos(x) is approximated by a polynomial of degree 14 on
+//         [0,pi/4]
+//                                       4            14
+//              cos(x) ~ 1 - x*x/2 + C1*x + ... + C6*x
+//         where the remez error is
+//
+//      |              2     4     6     8     10    12     14 |     -58
+//      |cos(x)-(1-.5*x +C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  )| &lt;= 2
+//      |                                                      |
+//
+//                     4     6     8     10    12     14
+//      4. let r = C1*x +C2*x +C3*x +C4*x +C5*x  +C6*x  , then
+//             cos(x) ~ 1 - x*x/2 + r
+//         since cos(x+y) ~ cos(x) - sin(x)*y
+//                        ~ cos(x) - x*y,
+//         a correction term is necessary in cos(x) and hence
+//              cos(x+y) = 1 - (x*x/2 - (r - x*y))
+//         For better accuracy, rearrange to
+//              cos(x+y) ~ w + (tmp + (r-x*y))
+//         where w = 1 - x*x/2 and tmp is a tiny correction term
+//         (1 - x*x/2 == w + tmp exactly in infinite precision).
+//         The exactness of w + tmp in infinite precision depends on w
+//         and tmp having the same precision as x.  If they have extra
+//         precision due to compiler bugs, then the extra precision is
+//         only good provided it is retained in all terms of the final
+//         expression for cos().  Retention happens in all cases tested
+//         under FreeBSD, so don&#39;t pessimize things by forcibly clipping
+//         any extra precision in w.
+</span><span class="attribute">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>k_cos(x: f64, y: f64) -&gt; f64 {
+    <span class="kw">let </span>z = x * x;
+    <span class="kw">let </span>w = z * z;
+    <span class="kw">let </span>r = z * (C1 + z * (C2 + z * C3)) + w * w * (C4 + z * (C5 + z * C6));
+    <span class="kw">let </span>hz = <span class="number">0.5 </span>* z;
+    <span class="kw">let </span>w = <span class="number">1.0 </span>- hz;
+    w + (((<span class="number">1.0 </span>- w) - hz) + (z * r - x * y))
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="libm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Select a [`ValueParser`] implementation from the intended type"><meta name="keywords" content="rust, rustlang, rust-lang, value_parser"><title>value_parser in clap - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../clap/index.html"><div class="logo-container"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../clap/index.html"><div class="logo-container">
+                    <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In clap</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../clap/index.html">
+                        <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Macro <a href="index.html">clap</a>::<wbr><a class="macro" href="#">value_parser</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/clap/builder/value_parser.rs.html#2137-2143">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><div class="example-wrap"><pre class="rust macro"><code><span class="macro">macro_rules! </span>value_parser {
+    (<span class="macro-nonterminal">$name</span>:ty) =&gt; { ... };
+}</code></pre></div>
+</div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Select a <a href="builder/struct.ValueParser.html" title="ValueParser"><code>ValueParser</code></a> implementation from the intended type</p>
+<p>To register a custom type with this macro, implement <a href="builder/trait.ValueParserFactory.html" title="ValueParserFactory"><code>ValueParserFactory</code></a>.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<p>Usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>cmd = clap::Command::new(<span class="string">&quot;raw&quot;</span>)
+    .arg(
+        clap::Arg::new(<span class="string">&quot;output&quot;</span>)
+            .value_parser(<span class="macro">clap::value_parser!</span>(PathBuf))
+            .required(<span class="bool-val">true</span>)
+    );
+
+<span class="kw">let </span>m = cmd.try_get_matches_from_mut([<span class="string">&quot;cmd&quot;</span>, <span class="string">&quot;file.txt&quot;</span>]).unwrap();
+<span class="kw">let </span>port: <span class="kw-2">&amp;</span>PathBuf = m.get_one(<span class="string">&quot;output&quot;</span>)
+    .expect(<span class="string">&quot;required&quot;</span>);
+<span class="macro">assert_eq!</span>(port, Path::new(<span class="string">&quot;file.txt&quot;</span>));</code></pre></div>
+<p>Supported types:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// Built-in types
+</span><span class="kw">let </span>parser = <span class="macro">clap::value_parser!</span>(String);
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, parser), <span class="string">&quot;ValueParser::string&quot;</span>);
+<span class="kw">let </span>parser = <span class="macro">clap::value_parser!</span>(std::ffi::OsString);
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, parser), <span class="string">&quot;ValueParser::os_string&quot;</span>);
+<span class="kw">let </span>parser = <span class="macro">clap::value_parser!</span>(std::path::PathBuf);
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, parser), <span class="string">&quot;ValueParser::path_buf&quot;</span>);
+<span class="kw">let </span>_parser = <span class="macro">clap::value_parser!</span>(u16).range(<span class="number">3000</span>..);
+<span class="kw">let </span>_parser = <span class="macro">clap::value_parser!</span>(u64).range(<span class="number">3000</span>..);
+
+<span class="comment">// FromStr types
+</span><span class="kw">let </span>parser = <span class="macro">clap::value_parser!</span>(usize);
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, parser), <span class="string">&quot;_AnonymousValueParser(ValueParser::other(usize))&quot;</span>);
+
+<span class="comment">// ValueEnum types
+</span><span class="attribute">#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+</span><span class="kw">enum </span>ColorChoice {
+    Always,
+    Auto,
+    Never,
+}
+<span class="kw">impl </span>clap::ValueEnum <span class="kw">for </span>ColorChoice {
+    <span class="comment">// ...
+</span>}
+<span class="kw">let </span>_parser = <span class="macro">clap::value_parser!</span>(ColorChoice);</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="clap" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

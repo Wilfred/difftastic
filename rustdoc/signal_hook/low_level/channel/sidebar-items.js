@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Channel","A restricted async-signal-safe channel"]]};

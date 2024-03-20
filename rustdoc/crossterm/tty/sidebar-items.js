@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":[["IsTty","Adds the `is_tty` method to types that might represent a terminal"]]};

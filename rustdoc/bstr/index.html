@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A byte string library."><meta name="keywords" content="rust, rustlang, rust-lang, bstr"><title>bstr - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../bstr/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../bstr/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate bstr</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 1.6.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../bstr/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">bstr</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/bstr/lib.rs.html#1-470">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A byte string library.</p>
+<p>Byte strings are just like standard Unicode strings with one very important
+difference: byte strings are only <em>conventionally</em> UTF-8 while Rust’s standard
+Unicode strings are <em>guaranteed</em> to be valid UTF-8. The primary motivation for
+byte strings is for handling arbitrary bytes that are mostly UTF-8.</p>
+<h2 id="overview"><a href="#overview">Overview</a></h2>
+<p>This crate provides two important traits that provide string oriented methods
+on <code>&amp;[u8]</code> and <code>Vec&lt;u8&gt;</code> types:</p>
+<ul>
+<li><a href="trait.ByteSlice.html"><code>ByteSlice</code></a> extends the <code>[u8]</code> type with additional
+string oriented methods.</li>
+<li><a href="trait.ByteVec.html"><code>ByteVec</code></a> extends the <code>Vec&lt;u8&gt;</code> type with additional
+string oriented methods.</li>
+</ul>
+<p>Additionally, this crate provides two concrete byte string types that deref to
+<code>[u8]</code> and <code>Vec&lt;u8&gt;</code>. These are useful for storing byte string types, and come
+with convenient <code>std::fmt::Debug</code> implementations:</p>
+<ul>
+<li><a href="struct.BStr.html"><code>BStr</code></a> is a byte string slice, analogous to <code>str</code>.</li>
+<li><a href="struct.BString.html"><code>BString</code></a> is an owned growable byte string buffer,
+analogous to <code>String</code>.</li>
+</ul>
+<p>Additionally, the free function <a href="fn.B.html"><code>B</code></a> serves as a convenient short
+hand for writing byte string literals.</p>
+<h2 id="quick-examples"><a href="#quick-examples">Quick examples</a></h2>
+<p>Byte strings build on the existing APIs for <code>Vec&lt;u8&gt;</code> and <code>&amp;[u8]</code>, with
+additional string oriented methods. Operations such as iterating over
+graphemes, searching for substrings, replacing substrings, trimming and case
+conversion are examples of things not provided on the standard library <code>&amp;[u8]</code>
+APIs but are provided by this crate. For example, this code iterates over all
+of occurrences of a substring:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteSlice;
+
+<span class="kw">let </span>s = <span class="string">b&quot;foo bar foo foo quux foo&quot;</span>;
+
+<span class="kw">let </span><span class="kw-2">mut </span>matches = <span class="macro">vec!</span>[];
+<span class="kw">for </span>start <span class="kw">in </span>s.find_iter(<span class="string">&quot;foo&quot;</span>) {
+    matches.push(start);
+}
+<span class="macro">assert_eq!</span>(matches, [<span class="number">0</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">21</span>]);</code></pre></div>
+<p>Here’s another example showing how to do a search and replace (and also showing
+use of the <code>B</code> function):</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, ByteSlice};
+
+<span class="kw">let </span>old = B(<span class="string">&quot;foo ☃☃☃ foo foo quux foo&quot;</span>);
+<span class="kw">let </span>new = old.replace(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;hello&quot;</span>);
+<span class="macro">assert_eq!</span>(new, B(<span class="string">&quot;hello ☃☃☃ hello hello quux hello&quot;</span>));</code></pre></div>
+<p>And here’s an example that shows case conversion, even in the presence of
+invalid UTF-8:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{ByteSlice, ByteVec};
+
+<span class="kw">let </span><span class="kw-2">mut </span>lower = Vec::from(<span class="string">&quot;hello β&quot;</span>);
+lower[<span class="number">0</span>] = <span class="string">b&#39;\xFF&#39;</span>;
+<span class="comment">// lowercase β is uppercased to Β
+</span><span class="macro">assert_eq!</span>(lower.to_uppercase(), <span class="string">b&quot;\xFFELLO \xCE\x92&quot;</span>);</code></pre></div>
+<h2 id="convenient-debug-representation"><a href="#convenient-debug-representation">Convenient debug representation</a></h2>
+<p>When working with byte strings, it is often useful to be able to print them
+as if they were byte strings and not sequences of integers. While this crate
+cannot affect the <code>std::fmt::Debug</code> implementations for <code>[u8]</code> and <code>Vec&lt;u8&gt;</code>,
+this crate does provide the <code>BStr</code> and <code>BString</code> types which have convenient
+<code>std::fmt::Debug</code> implementations.</p>
+<p>For example, this</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteSlice;
+
+<span class="kw">let </span><span class="kw-2">mut </span>bytes = Vec::from(<span class="string">&quot;hello β&quot;</span>);
+bytes[<span class="number">0</span>] = <span class="string">b&#39;\xFF&#39;</span>;
+
+<span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, bytes.as_bstr());</code></pre></div>
+<p>will output <code>&quot;\xFFello β&quot;</code>.</p>
+<p>This example works because the
+<a href="trait.ByteSlice.html#method.as_bstr"><code>ByteSlice::as_bstr</code></a>
+method converts any <code>&amp;[u8]</code> to a <code>&amp;BStr</code>.</p>
+<h2 id="when-should-i-use-byte-strings"><a href="#when-should-i-use-byte-strings">When should I use byte strings?</a></h2>
+<p>This library reflects my belief that UTF-8 by convention is a better trade
+off in some circumstances than guaranteed UTF-8.</p>
+<p>The first time this idea hit me was in the implementation of Rust’s regex
+engine. In particular, very little of the internal implementation cares at all
+about searching valid UTF-8 encoded strings. Indeed, internally, the
+implementation converts <code>&amp;str</code> from the API to <code>&amp;[u8]</code> fairly quickly and
+just deals with raw bytes. UTF-8 match boundaries are then guaranteed by the
+finite state machine itself rather than any specific string type. This makes it
+possible to not only run regexes on <code>&amp;str</code> values, but also on <code>&amp;[u8]</code> values.</p>
+<p>Why would you ever want to run a regex on a <code>&amp;[u8]</code> though? Well, <code>&amp;[u8]</code> is
+the fundamental way at which one reads data from all sorts of streams, via the
+standard library’s <a href="https://doc.rust-lang.org/std/io/trait.Read.html"><code>Read</code></a>
+trait. In particular, there is no platform independent way to determine whether
+what you’re reading from is some binary file or a human readable text file.
+Therefore, if you’re writing a program to search files, you probably need to
+deal with <code>&amp;[u8]</code> directly unless you’re okay with first converting it to a
+<code>&amp;str</code> and dropping any bytes that aren’t valid UTF-8. (Or otherwise determine
+the encoding—which is often impractical—and perform a transcoding step.)
+Often, the simplest and most robust way to approach this is to simply treat the
+contents of a file as if it were mostly valid UTF-8 and pass through invalid
+UTF-8 untouched. This may not be the most correct approach though!</p>
+<p>One case in particular exacerbates these issues, and that’s memory mapping
+a file. When you memory map a file, that file may be gigabytes big, but all
+you get is a <code>&amp;[u8]</code>. Converting that to a <code>&amp;str</code> all in one go is generally
+not a good idea because of the costs associated with doing so, and also
+because it generally causes one to do two passes over the data instead of
+one, which is quite undesirable. It is of course usually possible to do it an
+incremental way by only parsing chunks at a time, but this is often complex to
+do or impractical. For example, many regex engines only accept one contiguous
+sequence of bytes at a time with no way to perform incremental matching.</p>
+<h2 id="bstr-in-public-apis"><a href="#bstr-in-public-apis"><code>bstr</code> in public APIs</a></h2>
+<p>This library is past version <code>1</code> and is expected to remain at version <code>1</code> for
+the foreseeable future. Therefore, it is encouraged to put types from <code>bstr</code>
+(like <code>BStr</code> and <code>BString</code>) in your public API if that makes sense for your
+crate.</p>
+<p>With that said, in general, it should be possible to avoid putting anything
+in this crate into your public APIs. Namely, you should never need to use the
+<code>ByteSlice</code> or <code>ByteVec</code> traits as bounds on public APIs, since their only
+purpose is to extend the methods on the concrete types <code>[u8]</code> and <code>Vec&lt;u8&gt;</code>,
+respectively. Similarly, it should not be necessary to put either the <code>BStr</code> or
+<code>BString</code> types into public APIs. If you want to use them internally, then they
+can be converted to/from <code>[u8]</code>/<code>Vec&lt;u8&gt;</code> as needed. The conversions are free.</p>
+<p>So while it shouldn’t ever be 100% necessary to make <code>bstr</code> a public
+dependency, there may be cases where it is convenient to do so. This is an
+explicitly supported use case of <code>bstr</code>, and as such, major version releases
+should be exceptionally rare.</p>
+<h2 id="differences-with-standard-strings"><a href="#differences-with-standard-strings">Differences with standard strings</a></h2>
+<p>The primary difference between <code>[u8]</code> and <code>str</code> is that the former is
+conventionally UTF-8 while the latter is guaranteed to be UTF-8. The phrase
+“conventionally UTF-8” means that a <code>[u8]</code> may contain bytes that do not form
+a valid UTF-8 sequence, but operations defined on the type in this crate are
+generally most useful on valid UTF-8 sequences. For example, iterating over
+Unicode codepoints or grapheme clusters is an operation that is only defined
+on valid UTF-8. Therefore, when invalid UTF-8 is encountered, the Unicode
+replacement codepoint is substituted. Thus, a byte string that is not UTF-8 at
+all is of limited utility when using these crate.</p>
+<p>However, not all operations on byte strings are specifically Unicode aware. For
+example, substring search has no specific Unicode semantics ascribed to it. It
+works just as well for byte strings that are completely valid UTF-8 as for byte
+strings that contain no valid UTF-8 at all. Similarly for replacements and
+various other operations that do not need any Unicode specific tailoring.</p>
+<p>Aside from the difference in how UTF-8 is handled, the APIs between <code>[u8]</code> and
+<code>str</code> (and <code>Vec&lt;u8&gt;</code> and <code>String</code>) are intentionally very similar, including
+maintaining the same behavior for corner cases in things like substring
+splitting. There are, however, some differences:</p>
+<ul>
+<li>Substring search is not done with <code>matches</code>, but instead, <code>find_iter</code>.
+In general, this crate does not define any generic
+<a href="https://doc.rust-lang.org/std/str/pattern/trait.Pattern.html"><code>Pattern</code></a>
+infrastructure, and instead prefers adding new methods for different
+argument types. For example, <code>matches</code> can search by a <code>char</code> or a <code>&amp;str</code>,
+where as <code>find_iter</code> can only search by a byte string. <code>find_char</code> can be
+used for searching by a <code>char</code>.</li>
+<li>Since <code>SliceConcatExt</code> in the standard library is unstable, it is not
+possible to reuse that to implement <code>join</code> and <code>concat</code> methods. Instead,
+<a href="fn.join.html"><code>join</code></a> and <a href="fn.concat.html"><code>concat</code></a> are provided as free
+functions that perform a similar task.</li>
+<li>This library bundles in a few more Unicode operations, such as grapheme,
+word and sentence iterators. More operations, such as normalization and
+case folding, may be provided in the future.</li>
+<li>Some <code>String</code>/<code>str</code> APIs will panic if a particular index was not on a valid
+UTF-8 code unit sequence boundary. Conversely, no such checking is performed
+in this crate, as is consistent with treating byte strings as a sequence of
+bytes. This means callers are responsible for maintaining a UTF-8 invariant
+if that’s important.</li>
+<li>Some routines provided by this crate, such as <code>starts_with_str</code>, have a
+<code>_str</code> suffix to differentiate them from similar routines already defined
+on the <code>[u8]</code> type. The difference is that <code>starts_with</code> requires its
+parameter to be a <code>&amp;[u8]</code>, where as <code>starts_with_str</code> permits its parameter
+to by anything that implements <code>AsRef&lt;[u8]&gt;</code>, which is more flexible. This
+means you can write <code>bytes.starts_with_str(&quot;☃&quot;)</code> instead of
+<code>bytes.starts_with(&quot;☃&quot;.as_bytes())</code>.</li>
+</ul>
+<p>Otherwise, you should find most of the APIs between this crate and the standard
+library string APIs to be very similar, if not identical.</p>
+<h2 id="handling-of-invalid-utf-8"><a href="#handling-of-invalid-utf-8">Handling of invalid UTF-8</a></h2>
+<p>Since byte strings are only <em>conventionally</em> UTF-8, there is no guarantee
+that byte strings contain valid UTF-8. Indeed, it is perfectly legal for a
+byte string to contain arbitrary bytes. However, since this library defines
+a <em>string</em> type, it provides many operations specified by Unicode. These
+operations are typically only defined over codepoints, and thus have no real
+meaning on bytes that are invalid UTF-8 because they do not map to a particular
+codepoint.</p>
+<p>For this reason, whenever operations defined only on codepoints are used, this
+library will automatically convert invalid UTF-8 to the Unicode replacement
+codepoint, <code>U+FFFD</code>, which looks like this: <code>�</code>. For example, an
+<a href="struct.Chars.html">iterator over codepoints</a> will yield a Unicode
+replacement codepoint whenever it comes across bytes that are not valid UTF-8:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteSlice;
+
+<span class="kw">let </span>bs = <span class="string">b&quot;a\xFF\xFFz&quot;</span>;
+<span class="kw">let </span>chars: Vec&lt;char&gt; = bs.chars().collect();
+<span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="string">&#39;a&#39;</span>, <span class="string">&#39;\u{FFFD}&#39;</span>, <span class="string">&#39;\u{FFFD}&#39;</span>, <span class="string">&#39;z&#39;</span>], chars);</code></pre></div>
+<p>There are a few ways in which invalid bytes can be substituted with a Unicode
+replacement codepoint. One way, not used by this crate, is to replace every
+individual invalid byte with a single replacement codepoint. In contrast, the
+approach this crate uses is called the “substitution of maximal subparts,” as
+specified by the Unicode Standard (Chapter 3, Section 9). (This approach is
+also used by <a href="https://www.w3.org/TR/encoding/">W3C’s Encoding Standard</a>.) In
+this strategy, a replacement codepoint is inserted whenever a byte is found
+that cannot possibly lead to a valid UTF-8 code unit sequence. If there were
+previous bytes that represented a <em>prefix</em> of a well-formed UTF-8 code unit
+sequence, then all of those bytes (up to 3) are substituted with a single
+replacement codepoint. For example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteSlice;
+
+<span class="kw">let </span>bs = <span class="string">b&quot;a\xF0\x9F\x87z&quot;</span>;
+<span class="kw">let </span>chars: Vec&lt;char&gt; = bs.chars().collect();
+<span class="comment">// The bytes \xF0\x9F\x87 could lead to a valid UTF-8 sequence, but 3 of them
+// on their own are invalid. Only one replacement codepoint is substituted,
+// which demonstrates the &quot;substitution of maximal subparts&quot; strategy.
+</span><span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="string">&#39;a&#39;</span>, <span class="string">&#39;\u{FFFD}&#39;</span>, <span class="string">&#39;z&#39;</span>], chars);</code></pre></div>
+<p>If you do need to access the raw bytes for some reason in an iterator like
+<code>Chars</code>, then you should use the iterator’s “indices” variant, which gives
+the byte offsets containing the invalid UTF-8 bytes that were substituted with
+the replacement codepoint. For example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, ByteSlice};
+
+<span class="kw">let </span>bs = <span class="string">b&quot;a\xE2\x98z&quot;</span>;
+<span class="kw">let </span>chars: Vec&lt;(usize, usize, char)&gt; = bs.char_indices().collect();
+<span class="comment">// Even though the replacement codepoint is encoded as 3 bytes itself, the
+// byte range given here is only two bytes, corresponding to the original
+// raw bytes.
+</span><span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[(<span class="number">0</span>, <span class="number">1</span>, <span class="string">&#39;a&#39;</span>), (<span class="number">1</span>, <span class="number">3</span>, <span class="string">&#39;\u{FFFD}&#39;</span>), (<span class="number">3</span>, <span class="number">4</span>, <span class="string">&#39;z&#39;</span>)], chars);
+
+<span class="comment">// Thus, getting the original raw bytes is as simple as slicing the original
+// byte string:
+</span><span class="kw">let </span>chars: Vec&lt;<span class="kw-2">&amp;</span>[u8]&gt; = bs.char_indices().map(|(s, e, <span class="kw">_</span>)| <span class="kw-2">&amp;</span>bs[s..e]).collect();
+<span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[B(<span class="string">&quot;a&quot;</span>), B(<span class="string">b&quot;\xE2\x98&quot;</span>), B(<span class="string">&quot;z&quot;</span>)], chars);</code></pre></div>
+<h2 id="file-paths-and-os-strings"><a href="#file-paths-and-os-strings">File paths and OS strings</a></h2>
+<p>One of the premiere features of Rust’s standard library is how it handles file
+paths. In particular, it makes it very hard to write incorrect code while
+simultaneously providing a correct cross platform abstraction for manipulating
+file paths. The key challenge that one faces with file paths across platforms
+is derived from the following observations:</p>
+<ul>
+<li>On most Unix-like systems, file paths are an arbitrary sequence of bytes.</li>
+<li>On Windows, file paths are an arbitrary sequence of 16-bit integers.</li>
+</ul>
+<p>(In both cases, certain sequences aren’t allowed. For example a <code>NUL</code> byte is
+not allowed in either case. But we can ignore this for the purposes of this
+section.)</p>
+<p>Byte strings, like the ones provided in this crate, line up really well with
+file paths on Unix like systems, which are themselves just arbitrary sequences
+of bytes. It turns out that if you treat them as “mostly UTF-8,” then things
+work out pretty well. On the contrary, byte strings <em>don’t</em> really work
+that well on Windows because it’s not possible to correctly roundtrip file
+paths between 16-bit integers and something that looks like UTF-8 <em>without</em>
+explicitly defining an encoding to do this for you, which is anathema to byte
+strings, which are just bytes.</p>
+<p>Rust’s standard library elegantly solves this problem by specifying an
+internal encoding for file paths that’s only used on Windows called
+<a href="https://simonsapin.github.io/wtf-8/">WTF-8</a>. Its key properties are that they
+permit losslessly roundtripping file paths on Windows by extending UTF-8 to
+support an encoding of surrogate codepoints, while simultaneously supporting
+zero-cost conversion from Rust’s Unicode strings to file paths. (Since UTF-8 is
+a proper subset of WTF-8.)</p>
+<p>The fundamental point at which the above strategy fails is when you want to
+treat file paths as things that look like strings in a zero cost way. In most
+cases, this is actually the wrong thing to do, but some cases call for it,
+for example, glob or regex matching on file paths. This is because WTF-8 is
+treated as an internal implementation detail, and there is no way to access
+those bytes via a public API. Therefore, such consumers are limited in what
+they can do:</p>
+<ol>
+<li>One could re-implement WTF-8 and re-encode file paths on Windows to WTF-8
+by accessing their underlying 16-bit integer representation. Unfortunately,
+this isn’t zero cost (it introduces a second WTF-8 decoding step) and it’s
+not clear this is a good thing to do, since WTF-8 should ideally remain an
+internal implementation detail. This is roughly the approach taken by the
+<a href="https://crates.io/crates/os_str_bytes"><code>os_str_bytes</code></a> crate.</li>
+<li>One could instead declare that they will not handle paths on Windows that
+are not valid UTF-16, and return an error when one is encountered.</li>
+<li>Like (2), but instead of returning an error, lossily decode the file path
+on Windows that isn’t valid UTF-16 into UTF-16 by replacing invalid bytes
+with the Unicode replacement codepoint.</li>
+</ol>
+<p>While this library may provide facilities for (1) in the future, currently,
+this library only provides facilities for (2) and (3). In particular, a suite
+of conversion functions are provided that permit converting between byte
+strings, OS strings and file paths. For owned byte strings, they are:</p>
+<ul>
+<li><a href="trait.ByteVec.html#method.from_os_string"><code>ByteVec::from_os_string</code></a></li>
+<li><a href="trait.ByteVec.html#method.from_os_str_lossy"><code>ByteVec::from_os_str_lossy</code></a></li>
+<li><a href="trait.ByteVec.html#method.from_path_buf"><code>ByteVec::from_path_buf</code></a></li>
+<li><a href="trait.ByteVec.html#method.from_path_lossy"><code>ByteVec::from_path_lossy</code></a></li>
+<li><a href="trait.ByteVec.html#method.into_os_string"><code>ByteVec::into_os_string</code></a></li>
+<li><a href="trait.ByteVec.html#method.into_os_string_lossy"><code>ByteVec::into_os_string_lossy</code></a></li>
+<li><a href="trait.ByteVec.html#method.into_path_buf"><code>ByteVec::into_path_buf</code></a></li>
+<li><a href="trait.ByteVec.html#method.into_path_buf_lossy"><code>ByteVec::into_path_buf_lossy</code></a></li>
+</ul>
+<p>For byte string slices, they are:</p>
+<ul>
+<li><a href="trait.ByteSlice.html#method.from_os_str"><code>ByteSlice::from_os_str</code></a></li>
+<li><a href="trait.ByteSlice.html#method.from_path"><code>ByteSlice::from_path</code></a></li>
+<li><a href="trait.ByteSlice.html#method.to_os_str"><code>ByteSlice::to_os_str</code></a></li>
+<li><a href="trait.ByteSlice.html#method.to_os_str_lossy"><code>ByteSlice::to_os_str_lossy</code></a></li>
+<li><a href="trait.ByteSlice.html#method.to_path"><code>ByteSlice::to_path</code></a></li>
+<li><a href="trait.ByteSlice.html#method.to_path_lossy"><code>ByteSlice::to_path_lossy</code></a></li>
+</ul>
+<p>On Unix, all of these conversions are rigorously zero cost, which gives one
+a way to ergonomically deal with raw file paths exactly as they are using
+normal string-related functions. On Windows, these conversion routines perform
+a UTF-8 check and either return an error or lossily decode the file path
+into valid UTF-8, depending on which function you use. This means that you
+cannot roundtrip all file paths on Windows correctly using these conversion
+routines. However, this may be an acceptable downside since such file paths
+are exceptionally rare. Moreover, roundtripping isn’t always necessary, for
+example, if all you’re doing is filtering based on file paths.</p>
+<p>The reason why using byte strings for this is potentially superior than the
+standard library’s approach is that a lot of Rust code is already lossily
+converting file paths to Rust’s Unicode strings, which are required to be valid
+UTF-8, and thus contain latent bugs on Unix where paths with invalid UTF-8 are
+not terribly uncommon. If you instead use byte strings, then you’re guaranteed
+to write correct code for Unix, at the cost of getting a corner case wrong on
+Windows.</p>
+<h2 id="cargo-features"><a href="#cargo-features">Cargo features</a></h2>
+<p>This crates comes with a few features that control standard library, serde
+and Unicode support.</p>
+<ul>
+<li><code>std</code> - <strong>Enabled</strong> by default. This provides APIs that require the standard
+library, such as <code>Vec&lt;u8&gt;</code> and <code>PathBuf</code>. Enabling this feature also enables
+the <code>alloc</code> feature and any other relevant <code>std</code> features for dependencies.</li>
+<li><code>alloc</code> - <strong>Enabled</strong> by default. This provides APIs that require allocations
+via the <code>alloc</code> crate, such as <code>Vec&lt;u8&gt;</code>.</li>
+<li><code>unicode</code> - <strong>Enabled</strong> by default. This provides APIs that require sizable
+Unicode data compiled into the binary. This includes, but is not limited to,
+grapheme/word/sentence segmenters. When this is disabled, basic support such
+as UTF-8 decoding is still included. Note that currently, enabling this
+feature also requires enabling the <code>std</code> feature. It is expected that this
+limitation will be lifted at some point.</li>
+<li><code>serde</code> - Enables implementations of serde traits for <code>BStr</code>, and also
+<code>BString</code> when <code>alloc</code> is enabled.</li>
+</ul>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="io/index.html" title="bstr::io mod">io</a></div><div class="item-right docblock-short">Utilities for working with I/O using byte strings.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.BStr.html" title="bstr::BStr struct">BStr</a></div><div class="item-right docblock-short">A wrapper for <code>&amp;[u8]</code> that provides convenient string oriented trait impls.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.BString.html" title="bstr::BString struct">BString</a></div><div class="item-right docblock-short">A wrapper for <code>Vec&lt;u8&gt;</code> that provides convenient string oriented trait
+impls.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Bytes.html" title="bstr::Bytes struct">Bytes</a></div><div class="item-right docblock-short">An iterator over the bytes in a byte string.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.CharIndices.html" title="bstr::CharIndices struct">CharIndices</a></div><div class="item-right docblock-short">An iterator over Unicode scalar values in a byte string and their
+byte index positions.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Chars.html" title="bstr::Chars struct">Chars</a></div><div class="item-right docblock-short">An iterator over Unicode scalar values in a byte string.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.DrainBytes.html" title="bstr::DrainBytes struct">DrainBytes</a></div><div class="item-right docblock-short">A draining byte oriented iterator for <code>Vec&lt;u8&gt;</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.EscapeBytes.html" title="bstr::EscapeBytes struct">EscapeBytes</a></div><div class="item-right docblock-short">An iterator of <code>char</code> values that represent an escaping of arbitrary bytes.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FieldsWith.html" title="bstr::FieldsWith struct">FieldsWith</a></div><div class="item-right docblock-short">An iterator over fields in the byte string, separated by a predicate over
+codepoints.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Find.html" title="bstr::Find struct">Find</a></div><div class="item-right docblock-short">An iterator over non-overlapping substring matches.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FindReverse.html" title="bstr::FindReverse struct">FindReverse</a></div><div class="item-right docblock-short">An iterator over non-overlapping substring matches in reverse.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Finder.html" title="bstr::Finder struct">Finder</a></div><div class="item-right docblock-short">A single substring searcher fixed to a particular needle.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FinderReverse.html" title="bstr::FinderReverse struct">FinderReverse</a></div><div class="item-right docblock-short">A single substring reverse searcher fixed to a particular needle.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FromUtf8Error.html" title="bstr::FromUtf8Error struct">FromUtf8Error</a></div><div class="item-right docblock-short">An error that may occur when converting a <code>Vec&lt;u8&gt;</code> to a <code>String</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Lines.html" title="bstr::Lines struct">Lines</a></div><div class="item-right docblock-short">An iterator over all lines in a byte string, without their terminators.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.LinesWithTerminator.html" title="bstr::LinesWithTerminator struct">LinesWithTerminator</a></div><div class="item-right docblock-short">An iterator over all lines in a byte string, including their terminators.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Split.html" title="bstr::Split struct">Split</a></div><div class="item-right docblock-short">An iterator over substrings in a byte string, split by a separator.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SplitN.html" title="bstr::SplitN struct">SplitN</a></div><div class="item-right docblock-short">An iterator over at most <code>n</code> substrings in a byte string, split by a
+separator.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SplitNReverse.html" title="bstr::SplitNReverse struct">SplitNReverse</a></div><div class="item-right docblock-short">An iterator over at most <code>n</code> substrings in a byte string, split by a
+separator, in reverse.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SplitReverse.html" title="bstr::SplitReverse struct">SplitReverse</a></div><div class="item-right docblock-short">An iterator over substrings in a byte string, split by a separator, in
+reverse.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Utf8Chunk.html" title="bstr::Utf8Chunk struct">Utf8Chunk</a></div><div class="item-right docblock-short">A chunk of valid UTF-8, possibly followed by invalid UTF-8 bytes.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Utf8Chunks.html" title="bstr::Utf8Chunks struct">Utf8Chunks</a></div><div class="item-right docblock-short">An iterator over chunks of valid UTF-8 in a byte slice.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Utf8Error.html" title="bstr::Utf8Error struct">Utf8Error</a></div><div class="item-right docblock-short">An error that occurs when UTF-8 decoding fails.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ByteSlice.html" title="bstr::ByteSlice trait">ByteSlice</a></div><div class="item-right docblock-short">A trait that extends <code>&amp;[u8]</code> with string oriented methods.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ByteVec.html" title="bstr::ByteVec trait">ByteVec</a></div><div class="item-right docblock-short">A trait that extends <code>Vec&lt;u8&gt;</code> with string oriented methods.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.B.html" title="bstr::B fn">B</a></div><div class="item-right docblock-short">A short-hand constructor for building a <code>&amp;[u8]</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.concat.html" title="bstr::concat fn">concat</a></div><div class="item-right docblock-short">Concatenate the elements given by the iterator together into a single
+<code>Vec&lt;u8&gt;</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.decode_last_utf8.html" title="bstr::decode_last_utf8 fn">decode_last_utf8</a></div><div class="item-right docblock-short">UTF-8 decode a single Unicode scalar value from the end of a slice.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.decode_utf8.html" title="bstr::decode_utf8 fn">decode_utf8</a></div><div class="item-right docblock-short">UTF-8 decode a single Unicode scalar value from the beginning of a slice.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.join.html" title="bstr::join fn">join</a></div><div class="item-right docblock-short">Join the elements given by the iterator with the given separator into a
+single <code>Vec&lt;u8&gt;</code>.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="bstr" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

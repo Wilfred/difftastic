@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A simple logger that can be configured via environment variables, for use with the logging facade exposed by the `log` crate."><meta name="keywords" content="rust, rustlang, rust-lang, env_logger"><title>env_logger - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" href="https://www.rust-lang.org/static/images/favicon.ico"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../env_logger/index.html"><div class="logo-container"><img src="https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../env_logger/index.html"><div class="logo-container">
+                    <img src="https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png" alt="logo"></div></a><h2 class="location"><a href="#">Crate env_logger</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.10.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../env_logger/index.html">
+                        <img src="https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">env_logger</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/env_logger/lib.rs.html#7-1311">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A simple logger that can be configured via environment variables, for use
+with the logging facade exposed by the <a href="https://docs.rs/log/"><code>log</code> crate</a>.</p>
+<p>Despite having “env” in its name, <strong><code>env_logger</code></strong> can also be configured by
+other means besides environment variables. See <a href="https://github.com/env-logger-rs/env_logger/tree/main/examples">the examples</a>
+in the source repository for more approaches.</p>
+<p>By default, <code>env_logger</code> writes logs to <code>stderr</code>, but can be configured to
+instead write them to <code>stdout</code>.</p>
+<h3 id="example"><a href="#example">Example</a></h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>log::{debug, error, log_enabled, info, Level};
+
+env_logger::init();
+
+<span class="macro">debug!</span>(<span class="string">&quot;this is a debug {}&quot;</span>, <span class="string">&quot;message&quot;</span>);
+<span class="macro">error!</span>(<span class="string">&quot;this is printed by default&quot;</span>);
+
+<span class="kw">if </span><span class="macro">log_enabled!</span>(Level::Info) {
+    <span class="kw">let </span>x = <span class="number">3 </span>* <span class="number">4</span>; <span class="comment">// expensive computation
+    </span><span class="macro">info!</span>(<span class="string">&quot;the answer was: {}&quot;</span>, x);
+}</code></pre></div>
+<p>Assumes the binary is <code>main</code>:</p>
+<div class="example-wrap"><pre class="language-{.bash}"><code>$ RUST_LOG=error ./main
+[2017-11-09T02:12:24Z ERROR main] this is printed by default</code></pre></div><div class="example-wrap"><pre class="language-{.bash}"><code>$ RUST_LOG=info ./main
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+[2017-11-09T02:12:24Z INFO main] the answer was: 12</code></pre></div><div class="example-wrap"><pre class="language-{.bash}"><code>$ RUST_LOG=debug ./main
+[2017-11-09T02:12:24Z DEBUG main] this is a debug message
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+[2017-11-09T02:12:24Z INFO main] the answer was: 12</code></pre></div>
+<p>You can also set the log level on a per module basis:</p>
+<div class="example-wrap"><pre class="language-{.bash}"><code>$ RUST_LOG=main=info ./main
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+[2017-11-09T02:12:24Z INFO main] the answer was: 12</code></pre></div>
+<p>And enable all logging:</p>
+<div class="example-wrap"><pre class="language-{.bash}"><code>$ RUST_LOG=main ./main
+[2017-11-09T02:12:24Z DEBUG main] this is a debug message
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+[2017-11-09T02:12:24Z INFO main] the answer was: 12</code></pre></div>
+<p>If the binary name contains hyphens, you will need to replace
+them with underscores:</p>
+<div class="example-wrap"><pre class="language-{.bash}"><code>$ RUST_LOG=my_app ./my-app
+[2017-11-09T02:12:24Z DEBUG my_app] this is a debug message
+[2017-11-09T02:12:24Z ERROR my_app] this is printed by default
+[2017-11-09T02:12:24Z INFO my_app] the answer was: 12</code></pre></div>
+<p>This is because Rust modules and crates cannot contain hyphens
+in their name, although <code>cargo</code> continues to accept them.</p>
+<p>See the documentation for the <a href="https://docs.rs/log/"><code>log</code> crate</a> for more
+information about its API.</p>
+<h3 id="enabling-logging"><a href="#enabling-logging">Enabling logging</a></h3>
+<p>Log levels are controlled on a per-module basis, and <strong>by default all
+logging is disabled except for the <code>error</code> level</strong>.</p>
+<p>Logging is controlled via the <strong><code>RUST_LOG</code></strong> environment variable. The
+value of this environment variable is a comma-separated list of <em>logging
+directives</em>. A logging directive is of the form:</p>
+<div class="example-wrap"><pre class="language-text"><code>example::log::target=level</code></pre></div>
+<p>The log target is typically equal to the path of the module the message
+in question originated from, though it can be overridden.</p>
+<p>The path is rooted in the name of the crate it was compiled for, so if
+your program is in a file called, for example, <code>hello.rs</code>, the path would
+simply be be <code>hello</code>.</p>
+<p>Furthermore, the log can be filtered using prefix-search based on the
+specified log target. A value of, for example, <code>RUST_LOG=example</code>, would
+match all of the messages with targets:</p>
+<ul>
+<li><code>example</code></li>
+<li><code>example::test</code></li>
+<li><code>example::test::module::submodule</code></li>
+<li><code>examples::and_more_examples</code></li>
+</ul>
+<p>When providing the crate name or a module path, explicitly specifying the
+log level is optional. If omitted, all logging for the item will be
+enabled.</p>
+<p>The names of the log levels that may be specified correspond to the
+variations of the <a href="https://docs.rs/log/latest/log/enum.Level.html"><code>log::Level</code></a> enum from the <code>log</code>
+crate. They are:</p>
+<ul>
+<li><code>error</code></li>
+<li><code>warn</code></li>
+<li><code>info</code></li>
+<li><code>debug</code></li>
+<li><code>trace</code></li>
+</ul>
+<p>There is also a pseudo logging level, <code>off</code>, which may be specified to
+disable all logging for a given module or for the entire application. As
+with the logging levels, the letter case is not significant<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
+<p>The letter case is not significant for the logging level names; e.g.,
+<code>debug</code>, <code>DEBUG</code>, and <code>dEbuG</code> all represent the same logging level. For
+consistency, our convention is to use the lower case names. Where our docs
+do use other forms, they do so in the context of specific examples, so you
+won’t be surprised if you see similar usage in the wild.</p>
+<p>As the log level for a module is optional, the module to enable logging for
+is also optional. <strong>If only a level is provided, then the global log
+level for all modules is set to this value.</strong></p>
+<p>Some examples of valid values of <code>RUST_LOG</code> are:</p>
+<ul>
+<li><code>hello</code> turns on all logging for the ‘hello’ module</li>
+<li><code>trace</code> turns on all logging for the application, regardless of its name</li>
+<li><code>TRACE</code> turns on all logging for the application, regardless of its name (same as previous)</li>
+<li><code>info</code> turns on all info logging</li>
+<li><code>INFO</code> turns on all info logging (same as previous)</li>
+<li><code>hello=debug</code> turns on debug logging for ‘hello’</li>
+<li><code>hello=DEBUG</code> turns on debug logging for ‘hello’ (same as previous)</li>
+<li><code>hello,std::option</code> turns on hello, and std’s option logging</li>
+<li><code>error,hello=warn</code> turn on global error logging and also warn for hello</li>
+<li><code>error,hello=off</code>  turn on global error logging, but turn off logging for hello</li>
+<li><code>off</code> turns off all logging for the application</li>
+<li><code>OFF</code> turns off all logging for the application (same as previous)</li>
+</ul>
+<h3 id="filtering-results"><a href="#filtering-results">Filtering results</a></h3>
+<p>A <code>RUST_LOG</code> directive may include a regex filter. The syntax is to append <code>/</code>
+followed by a regex. Each message is checked against the regex, and is only
+logged if it matches. Note that the matching is done after formatting the
+log string but before adding any logging meta-data. There is a single filter
+for all modules.</p>
+<p>Some examples:</p>
+<ul>
+<li><code>hello/foo</code> turns on all logging for the ‘hello’ module where the log
+message includes ‘foo’.</li>
+<li><code>info/f.o</code> turns on all info logging where the log message includes ‘foo’,
+‘f1o’, ‘fao’, etc.</li>
+<li><code>hello=debug/foo*foo</code> turns on debug logging for ‘hello’ where the log
+message includes ‘foofoo’ or ‘fofoo’ or ‘fooooooofoo’, etc.</li>
+<li><code>error,hello=warn/[0-9]scopes</code> turn on global error logging and also
+warn for hello. In both cases the log message must include a single digit
+number followed by ‘scopes’.</li>
+</ul>
+<h3 id="capturing-logs-in-tests"><a href="#capturing-logs-in-tests">Capturing logs in tests</a></h3>
+<p>Records logged during <code>cargo test</code> will not be captured by the test harness by default.
+The <a href="struct.Builder.html#method.is_test"><code>Builder::is_test</code></a> method can be used in unit tests to ensure logs will be captured:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">fn </span>init() {
+        <span class="kw">let _ </span>= env_logger::builder().is_test(<span class="bool-val">true</span>).try_init();
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>it_works() {
+        init();
+
+        <span class="macro">info!</span>(<span class="string">&quot;This record will be captured by `cargo test`&quot;</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="number">2</span>, <span class="number">1 </span>+ <span class="number">1</span>);
+    }
+}</code></pre></div>
+<p>Enabling test capturing comes at the expense of color and other style support
+and may have performance implications.</p>
+<h3 id="disabling-colors"><a href="#disabling-colors">Disabling colors</a></h3>
+<p>Colors and other styles can be configured with the <code>RUST_LOG_STYLE</code>
+environment variable. It accepts the following values:</p>
+<ul>
+<li><code>auto</code> (default) will attempt to print style characters, but don’t force the issue.
+If the console isn’t available on Windows, or if TERM=dumb, for example, then don’t print colors.</li>
+<li><code>always</code> will always print style characters even if they aren’t supported by the terminal.
+This includes emitting ANSI colors on Windows if the console API is unavailable.</li>
+<li><code>never</code> will never print style characters.</li>
+</ul>
+<h3 id="tweaking-the-default-format"><a href="#tweaking-the-default-format">Tweaking the default format</a></h3>
+<p>Parts of the default format can be excluded from the log output using the <a href="struct.Builder.html"><code>Builder</code></a>.
+The following example excludes the timestamp from the log output:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>env_logger::builder()
+    .format_timestamp(<span class="prelude-val">None</span>)
+    .init();</code></pre></div>
+<h4 id="stability-of-the-default-format"><a href="#stability-of-the-default-format">Stability of the default format</a></h4>
+<p>The default format won’t optimise for long-term stability, and explicitly makes no
+guarantees about the stability of its output across major, minor or patch version
+bumps during <code>0.x</code>.</p>
+<p>If you want to capture or interpret the output of <code>env_logger</code> programmatically
+then you should use a custom format.</p>
+<h4 id="using-a-custom-format"><a href="#using-a-custom-format">Using a custom format</a></h4>
+<p>Custom formats can be provided as closures to the <a href="struct.Builder.html"><code>Builder</code></a>.
+These closures take a <a href="fmt/struct.Formatter.html" title="Formatter"><code>Formatter</code></a> and <code>log::Record</code> as arguments:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io::Write;
+
+env_logger::builder()
+    .format(|buf, record| {
+        <span class="macro">writeln!</span>(buf, <span class="string">&quot;{}: {}&quot;</span>, record.level(), record.args())
+    })
+    .init();</code></pre></div>
+<p>See the <a href="fmt/index.html"><code>fmt</code></a> module for more details about custom formats.</p>
+<h3 id="specifying-defaults-for-environment-variables"><a href="#specifying-defaults-for-environment-variables">Specifying defaults for environment variables</a></h3>
+<p><code>env_logger</code> can read configuration from environment variables.
+If these variables aren’t present, the default value to use can be tweaked with the <a href="struct.Env.html"><code>Env</code></a> type.
+The following example defaults to log <code>warn</code> and above if the <code>RUST_LOG</code> environment variable
+isn’t set:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>env_logger::Env;
+
+env_logger::Builder::from_env(Env::default().default_filter_or(<span class="string">&quot;warn&quot;</span>)).init();</code></pre></div>
+<div class="footnotes"><hr><ol><li id="fn1"><p>Similar to the universe of log level names, the <code>off</code> pseudo
+log level feature is also provided by the underlying <code>log</code> crate.&nbsp;<a href="#fnref1">↩</a></p></li></ol></div></div></details><h2 id="reexports" class="small-section-header"><a href="#reexports">Re-exports</a></h2><div class="item-table"><div class="item-row"><div class="item-left import-item" id="reexport.TimestampPrecision"><code>pub use super::<a class="enum" href="fmt/enum.TimestampPrecision.html" title="enum env_logger::fmt::TimestampPrecision">TimestampPrecision</a>;</code></div></div></div><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="filter/index.html" title="env_logger::filter mod">filter</a></div><div class="item-right docblock-short">Filtering for log records.</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="fmt/index.html" title="env_logger::fmt mod">fmt</a></div><div class="item-right docblock-short">Formatting for log records.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Builder.html" title="env_logger::Builder struct">Builder</a></div><div class="item-right docblock-short"><code>Builder</code> acts as builder for initializing a <code>Logger</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Env.html" title="env_logger::Env struct">Env</a></div><div class="item-right docblock-short">Set of environment variables to configure from.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Logger.html" title="env_logger::Logger struct">Logger</a></div><div class="item-right docblock-short">The env logger.</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Target.html" title="env_logger::Target enum">Target</a></div><div class="item-right docblock-short">Log target, either <code>stdout</code>, <code>stderr</code> or a custom pipe.</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.WriteStyle.html" title="env_logger::WriteStyle enum">WriteStyle</a></div><div class="item-right docblock-short">Whether or not to print styles to the target.</div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.DEFAULT_FILTER_ENV.html" title="env_logger::DEFAULT_FILTER_ENV constant">DEFAULT_FILTER_ENV</a></div><div class="item-right docblock-short">The default name for the environment variable to read filters from.</div></div><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.DEFAULT_WRITE_STYLE_ENV.html" title="env_logger::DEFAULT_WRITE_STYLE_ENV constant">DEFAULT_WRITE_STYLE_ENV</a></div><div class="item-right docblock-short">The default name for the environment variable to read style preferences from.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.builder.html" title="env_logger::builder fn">builder</a></div><div class="item-right docblock-short">Create a new builder with the default environment variables.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.from_env.html" title="env_logger::from_env fn">from_env</a><span class="stab deprecated" title="">Deprecated</span></div><div class="item-right docblock-short">Create a builder from the given environment variables.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.init.html" title="env_logger::init fn">init</a></div><div class="item-right docblock-short">Initializes the global logger with an env logger.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.init_from_env.html" title="env_logger::init_from_env fn">init_from_env</a></div><div class="item-right docblock-short">Initializes the global logger with an env logger from the given environment
+variables.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.try_init.html" title="env_logger::try_init fn">try_init</a></div><div class="item-right docblock-short">Attempts to initialize the global logger with an env logger.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.try_init_from_env.html" title="env_logger::try_init_from_env fn">try_init_from_env</a></div><div class="item-right docblock-short">Attempts to initialize the global logger with an env logger from the given
+environment variables.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="env_logger" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

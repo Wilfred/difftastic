@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="github crates-io docs-rs"><meta name="keywords" content="rust, rustlang, rust-lang, rustversion"><title>rustversion - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../rustversion/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../rustversion/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate rustversion</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 1.0.12</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#macros">Macros</a></li><li><a href="#attributes">Attribute Macros</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../rustversion/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">rustversion</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/rustversion/lib.rs.html#1-248">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p><a href="https://github.com/dtolnay/rustversion"><img src="https://img.shields.io/badge/github-8da0cb?style=for-the-badge&amp;labelColor=555555&amp;logo=github" alt="github" /></a> <a href="https://crates.io/crates/rustversion"><img src="https://img.shields.io/badge/crates.io-fc8d62?style=for-the-badge&amp;labelColor=555555&amp;logo=rust" alt="crates-io" /></a> <a href="https://docs.rs/rustversion"><img src="https://img.shields.io/badge/docs.rs-66c2a5?style=for-the-badge&amp;labelColor=555555&amp;logo=docs.rs" alt="docs-rs" /></a></p>
+<br>
+<p>This crate provides macros for conditional compilation according to rustc
+compiler version, analogous to <a href="https://doc.rust-lang.org/reference/conditional-compilation.html#the-cfg-attribute"><code>#[cfg(...)]</code></a> and
+<a href="https://doc.rust-lang.org/reference/conditional-compilation.html#the-cfg_attr-attribute"><code>#[cfg_attr(...)]</code></a>.</p>
+<br>
+<h2 id="selectors"><a href="#selectors">Selectors</a></h2>
+<ul>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::stable]</code></b>
+—<br>
+True on any stable compiler.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::stable(1.34)]</code></b>
+—<br>
+True on exactly the specified stable compiler.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::beta]</code></b>
+—<br>
+True on any beta compiler.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::nightly]</code></b>
+—<br>
+True on any nightly compiler or dev build.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::nightly(2019-01-01)]</code></b>
+—<br>
+True on exactly one nightly.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::since(1.34)]</code></b>
+—<br>
+True on that stable release and any later compiler, including beta and
+nightly.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::since(2019-01-01)]</code></b>
+—<br>
+True on that nightly and all newer ones.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::before(</code></b><i>version or date</i><b><code>)]</code></b>
+—<br>
+Negative of <i>#[rustversion::since(...)]</i>.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::not(</code></b><i>selector</i><b><code>)]</code></b>
+—<br>
+Negative of any selector; for example <i>#[rustversion::not(nightly)]</i>.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::any(</code></b><i>selectors...</i><b><code>)]</code></b>
+—<br>
+True if any of the comma-separated selectors is true; for example
+<i>#[rustversion::any(stable, beta)]</i>.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::all(</code></b><i>selectors...</i><b><code>)]</code></b>
+—<br>
+True if all of the comma-separated selectors are true; for example
+<i>#[rustversion::all(since(1.31), before(1.34))]</i>.
+</p>
+</li>
+<li><p style="margin-left:50px;text-indent:-50px">
+<b><code>#[rustversion::attr(</code></b><i>selector</i><b><code>, </code></b><i>attribute</i><b><code>)]</code></b>
+—<br>
+For conditional inclusion of attributes; analogous to
+<code>cfg_attr</code>.
+</p>
+</li>
+</ul>
+<br>
+<h2 id="use-cases"><a href="#use-cases">Use cases</a></h2>
+<p>Providing additional trait impls as types are stabilized in the standard library
+without breaking compatibility with older compilers; in this case Pin&lt;P&gt;
+stabilized in <a href="https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html#pinning">Rust 1.33</a>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[rustversion::since(<span class="number">1.33</span>)]
+</span><span class="kw">use </span>std::pin::Pin;
+
+<span class="attribute">#[rustversion::since(<span class="number">1.33</span>)]
+</span><span class="kw">impl</span>&lt;P: MyTrait&gt; MyTrait <span class="kw">for </span>Pin&lt;P&gt; {
+    <span class="comment">/* ... */
+</span>}</code></pre></div>
+<p>Similar but for language features; the ability to control alignment greater than
+1 of packed structs was stabilized in <a href="https://github.com/rust-lang/rust/blob/master/RELEASES.md#version-1330-2019-02-28">Rust 1.33</a>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[rustversion::attr(before(<span class="number">1.33</span>), repr(packed))]
+#[rustversion::attr(since(<span class="number">1.33</span>), repr(packed(<span class="number">2</span>)))]
+</span><span class="kw">struct </span>Six(i16, i32);
+
+<span class="kw">fn </span>main() {
+    <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, std::mem::align_of::&lt;Six&gt;());
+}</code></pre></div>
+<p>Augmenting code with <code>const</code> as const impls are stabilized in the standard
+library. This use of <code>const</code> as an attribute is recognized as a special case
+by the rustversion::attr macro.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::time::Duration;
+
+<span class="attribute">#[rustversion::attr(since(<span class="number">1.32</span>), <span class="kw">const</span>)]
+</span><span class="kw">fn </span>duration_as_days(dur: Duration) -&gt; u64 {
+    dur.as_secs() / <span class="number">60 </span>/ <span class="number">60 </span>/ <span class="number">24
+</span>}</code></pre></div>
+<br></div></details><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.cfg.html" title="rustversion::cfg macro">cfg</a></div></div></div><h2 id="attributes" class="small-section-header"><a href="#attributes">Attribute Macros</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.all.html" title="rustversion::all attr">all</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.any.html" title="rustversion::any attr">any</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.attr.html" title="rustversion::attr attr">attr</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.before.html" title="rustversion::before attr">before</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.beta.html" title="rustversion::beta attr">beta</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.nightly.html" title="rustversion::nightly attr">nightly</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.not.html" title="rustversion::not attr">not</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.since.html" title="rustversion::since attr">since</a></div></div><div class="item-row"><div class="item-left module-item"><a class="attr" href="attr.stable.html" title="rustversion::stable attr">stable</a></div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="rustversion" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

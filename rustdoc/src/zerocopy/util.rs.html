@@ -1,0 +1,1618 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/zerocopy-0.7.32/src/util.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>util.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../zerocopy/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2023 The Fuchsia Authors
+//
+// Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
+// &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
+// license &lt;LICENSE-MIT or https://opensource.org/licenses/MIT&gt;, at your option.
+// This file may not be copied, modified, or distributed except according to
+// those terms.
+
+</span><span class="attribute">#[path = <span class="string">&quot;third_party/rust/layout.rs&quot;</span>]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>core_layout;
+
+<span class="kw">use </span>core::{mem, num::NonZeroUsize};
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>ptr {
+    <span class="kw">use </span>core::{
+        fmt::{Debug, Formatter},
+        marker::PhantomData,
+        ptr::NonNull,
+    };
+
+    <span class="kw">use crate</span>::{util::AsAddress, KnownLayout, _CastType};
+
+    <span class="doccomment">/// A raw pointer with more restrictions.
+    ///
+    /// `Ptr&lt;T&gt;` is similar to `NonNull&lt;T&gt;`, but it is more restrictive in the
+    /// following ways:
+    /// - It must derive from a valid allocation
+    /// - It must reference a byte range which is contained inside the
+    ///   allocation from which it derives
+    ///   - As a consequence, the byte range it references must have a size
+    ///     which does not overflow `isize`
+    /// - It must satisfy `T`&#39;s alignment requirement
+    ///
+    /// Thanks to these restrictions, it is easier to prove the soundness of
+    /// some operations using `Ptr`s.
+    ///
+    /// `Ptr&lt;&#39;a, T&gt;` is [covariant] in `&#39;a` and `T`.
+    ///
+    /// [covariant]: https://doc.rust-lang.org/reference/subtyping.html
+    </span><span class="kw">pub struct </span>Ptr&lt;<span class="lifetime">&#39;a</span>, T: <span class="lifetime">&#39;a </span>+ <span class="question-mark">?</span>Sized&gt; {
+        <span class="comment">// INVARIANTS:
+        // 1. `ptr` is derived from some valid Rust allocation, `A`
+        // 2. `ptr` has the same provenance as `A`
+        // 3. `ptr` addresses a byte range which is entirely contained in `A`
+        // 4. `ptr` addresses a byte range whose length fits in an `isize`
+        // 5. `ptr` addresses a byte range which does not wrap around the address
+        //     space
+        // 6. `ptr` is validly-aligned for `T`
+        // 7. `A` is guaranteed to live for at least `&#39;a`
+        // 8. `T: &#39;a`
+        </span>ptr: NonNull&lt;T&gt;,
+        _lifetime: PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>()&gt;,
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized&gt; Copy <span class="kw">for </span>Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt; {}
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized&gt; Clone <span class="kw">for </span>Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+        <span class="attribute">#[inline]
+        </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+            <span class="kw-2">*</span><span class="self">self
+        </span>}
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized&gt; Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+        <span class="doccomment">/// Returns a shared reference to the value.
+        ///
+        /// # Safety
+        ///
+        /// For the duration of `&#39;a`:
+        /// - The referenced memory must contain a validly-initialized `T` for
+        ///   the duration of `&#39;a`.
+        /// - The referenced memory must not also be referenced by any mutable
+        ///   references.
+        /// - The referenced memory must not be mutated, even via an
+        ///   [`UnsafeCell`].
+        /// - There must not exist any references to the same memory region
+        ///   which contain `UnsafeCell`s at byte ranges which are not identical
+        ///   to the byte ranges at which `T` contains `UnsafeCell`s.
+        ///
+        /// [`UnsafeCell`]: core::cell::UnsafeCell
+        </span><span class="comment">// TODO(#429): The safety requirements are likely overly-restrictive.
+        // Notably, mutation via `UnsafeCell`s is probably fine. Once the rules
+        // are more clearly defined, we should relax the safety requirements.
+        // For an example of why this is subtle, see:
+        // https://github.com/rust-lang/unsafe-code-guidelines/issues/463#issuecomment-1736771593
+        </span><span class="attribute">#[allow(unused)]
+        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T {
+            <span class="comment">// SAFETY:
+            // - By invariant, `self.ptr` is properly-aligned for `T`.
+            // - By invariant, `self.ptr` is &quot;dereferenceable&quot; in that it points
+            //   to a single allocation.
+            // - By invariant, the allocation is live for `&#39;a`.
+            // - The caller promises that no mutable references exist to this
+            //   region during `&#39;a`.
+            // - The caller promises that `UnsafeCell`s match exactly.
+            // - The caller promises that no mutation will happen during `&#39;a`,
+            //   even via `UnsafeCell`s.
+            // - The caller promises that the memory region contains a
+            //   validly-intialized `T`.
+            </span><span class="kw">unsafe </span>{ <span class="self">self</span>.ptr.as_ref() }
+        }
+
+        <span class="doccomment">/// Casts to a different (unsized) target type.
+        ///
+        /// # Safety
+        ///
+        /// The caller promises that
+        /// - `cast(p)` is implemented exactly as follows: `|p: *mut T| p as
+        ///   *mut U`.
+        /// - The size of the object referenced by the resulting pointer is less
+        ///   than or equal to the size of the object referenced by `self`.
+        /// - The alignment of `U` is less than or equal to the alignment of
+        ///   `T`.
+        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>cast_unsized&lt;U: <span class="lifetime">&#39;a </span>+ <span class="question-mark">?</span>Sized, F: FnOnce(<span class="kw-2">*mut </span>T) -&gt; <span class="kw-2">*mut </span>U&gt;(
+            <span class="self">self</span>,
+            cast: F,
+        ) -&gt; Ptr&lt;<span class="lifetime">&#39;a</span>, U&gt; {
+            <span class="kw">let </span>ptr = cast(<span class="self">self</span>.ptr.as_ptr());
+            <span class="comment">// SAFETY: Caller promises that `cast` is just an `as` cast. We call
+            // `cast` on `self.ptr.as_ptr()`, which is non-null by construction.
+            </span><span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ NonNull::new_unchecked(ptr) };
+            <span class="comment">// SAFETY:
+            // - By invariant, `self.ptr` is derived from some valid Rust
+            //   allocation, and since `ptr` is just `self.ptr as *mut U`, so is
+            //   `ptr`.
+            // - By invariant, `self.ptr` has the same provenance as `A`, and so
+            //   the same is true of `ptr`.
+            // - By invariant, `self.ptr` addresses a byte range which is
+            //   entirely contained in `A`, and so the same is true of `ptr`.
+            // - By invariant, `self.ptr` addresses a byte range whose length
+            //   fits in an `isize`, and so the same is true of `ptr`.
+            // - By invariant, `self.ptr` addresses a byte range which does not
+            //   wrap around the address space, and so the same is true of
+            //   `ptr`.
+            // - By invariant, `self.ptr` is validly-aligned for `T`. Since
+            //   `ptr` has the same address, and since the caller promises that
+            //   the alignment of `U` is less than or equal to the alignment of
+            //   `T`, `ptr` is validly-aligned for `U`.
+            // - By invariant, `A` is guaranteed to live for at least `&#39;a`.
+            // - `U: &#39;a`
+            </span>Ptr { ptr, _lifetime: PhantomData }
+        }
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Ptr&lt;<span class="lifetime">&#39;a</span>, [u8]&gt; {
+        <span class="doccomment">/// Attempts to cast `self` to a `U` using the given cast type.
+        ///
+        /// Returns `None` if the resulting `U` would be invalidly-aligned or if
+        /// no `U` can fit in `self`. On success, returns a pointer to the
+        /// largest-possible `U` which fits in `self`.
+        ///
+        /// # Safety
+        ///
+        /// The caller may assume that this implementation is correct, and may
+        /// rely on that assumption for the soundness of their code. In
+        /// particular, the caller may assume that, if `try_cast_into` returns
+        /// `Some((ptr, split_at))`, then:
+        /// - If this is a prefix cast, `ptr` refers to the byte range `[0,
+        ///   split_at)` in `self`.
+        /// - If this is a suffix cast, `ptr` refers to the byte range
+        ///   `[split_at, self.len())` in `self`.
+        ///
+        /// # Panics
+        ///
+        /// Panics if `U` is a DST whose trailing slice element is zero-sized.
+        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_cast_into&lt;U: <span class="lifetime">&#39;a </span>+ <span class="question-mark">?</span>Sized + KnownLayout&gt;(
+            <span class="kw-2">&amp;</span><span class="self">self</span>,
+            cast_type: _CastType,
+        ) -&gt; <span class="prelude-ty">Option</span>&lt;(Ptr&lt;<span class="lifetime">&#39;a</span>, U&gt;, usize)&gt; {
+            <span class="comment">// PANICS: By invariant, the byte range addressed by `self.ptr` does
+            // not wrap around the address space. This implies that the sum of
+            // the address (represented as a `usize`) and length do not overflow
+            // `usize`, as required by `validate_cast_and_convert_metadata`.
+            // Thus, this call to `validate_cast_and_convert_metadata` won&#39;t
+            // panic.
+            </span><span class="kw">let </span>(elems, split_at) = U::LAYOUT.validate_cast_and_convert_metadata(
+                AsAddress::addr(<span class="self">self</span>.ptr.as_ptr()),
+                <span class="self">self</span>.len(),
+                cast_type,
+            )<span class="question-mark">?</span>;
+            <span class="kw">let </span>offset = <span class="kw">match </span>cast_type {
+                _CastType::_Prefix =&gt; <span class="number">0</span>,
+                _CastType::_Suffix =&gt; split_at,
+            };
+
+            <span class="kw">let </span>ptr = <span class="self">self</span>.ptr.cast::&lt;u8&gt;().as_ptr();
+            <span class="comment">// SAFETY: `offset` is either `0` or `split_at`.
+            // `validate_cast_and_convert_metadata` promises that `split_at` is
+            // in the range `[0, self.len()]`. Thus, in both cases, `offset` is
+            // in `[0, self.len()]`. Thus:
+            // - The resulting pointer is in or one byte past the end of the
+            //   same byte range as `self.ptr`. Since, by invariant, `self.ptr`
+            //   addresses a byte range entirely contained within a single
+            //   allocation, the pointer resulting from this operation is within
+            //   or one byte past the end of that same allocation.
+            // - By invariant, `self.len() &lt;= isize::MAX`. Since `offset &lt;=
+            //   self.len()`, `offset &lt;= isize::MAX`.
+            // - By invariant, `self.ptr` addresses a byte range which does not
+            //   wrap around the address space. This means that the base pointer
+            //   plus the `self.len()` does not overflow `usize`. Since `offset
+            //   &lt;= self.len()`, this addition does not overflow `usize`.
+            </span><span class="kw">let </span>base = <span class="kw">unsafe </span>{ ptr.add(offset) };
+            <span class="comment">// SAFETY: Since `add` is not allowed to wrap around, the preceding line
+            // produces a pointer whose address is greater than or equal to that of
+            // `ptr`. Since `ptr` is a `NonNull`, `base` is also non-null.
+            </span><span class="kw">let </span>base = <span class="kw">unsafe </span>{ NonNull::new_unchecked(base) };
+            <span class="kw">let </span>ptr = U::raw_from_ptr_len(base, elems);
+            <span class="comment">// SAFETY:
+            // - By invariant, `self.ptr` is derived from some valid Rust
+            //   allocation, `A`, and has the same provenance as `A`. All
+            //   operations performed on `self.ptr` and values derived from it
+            //   in this method preserve provenance, so:
+            //   - `ptr` is derived from a valid Rust allocation, `A`.
+            //   - `ptr` has the same provenance as `A`.
+            // - `validate_cast_and_convert_metadata` promises that the object
+            //   described by `elems` and `split_at` lives at a byte range which
+            //   is a subset of the input byte range. Thus:
+            //   - Since, by invariant, `self.ptr` addresses a byte range
+            //     entirely contained in `A`, so does `ptr`.
+            //   - Since, by invariant, `self.ptr` addresses a range whose
+            //     length is not longer than `isize::MAX` bytes, so does `ptr`.
+            //   - Since, by invariant, `self.ptr` addresses a range which does
+            //     not wrap around the address space, so does `ptr`.
+            // - `validate_cast_and_convert_metadata` promises that the object
+            //   described by `split_at` is validly-aligned for `U`.
+            // - By invariant on `self`, `A` is guaranteed to live for at least
+            //   `&#39;a`.
+            // - `U: &#39;a` by trait bound.
+            </span><span class="prelude-val">Some</span>((Ptr { ptr, _lifetime: PhantomData }, split_at))
+        }
+
+        <span class="doccomment">/// Attempts to cast `self` into a `U`, failing if all of the bytes of
+        /// `self` cannot be treated as a `U`.
+        ///
+        /// In particular, this method fails if `self` is not validly-aligned
+        /// for `U` or if `self`&#39;s size is not a valid size for `U`.
+        ///
+        /// # Safety
+        ///
+        /// On success, the caller may assume that the returned pointer
+        /// references the same byte range as `self`.
+        </span><span class="attribute">#[allow(unused)]
+        #[inline(always)]
+        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_cast_into_no_leftover&lt;U: <span class="lifetime">&#39;a </span>+ <span class="question-mark">?</span>Sized + KnownLayout&gt;(
+            <span class="kw-2">&amp;</span><span class="self">self</span>,
+        ) -&gt; <span class="prelude-ty">Option</span>&lt;Ptr&lt;<span class="lifetime">&#39;a</span>, U&gt;&gt; {
+            <span class="comment">// TODO(#67): Remove this allow. See NonNulSlicelExt for more
+            // details.
+            </span><span class="attribute">#[allow(unstable_name_collisions)]
+            </span><span class="kw">match </span><span class="self">self</span>.try_cast_into(_CastType::_Prefix) {
+                <span class="prelude-val">Some</span>((slf, split_at)) <span class="kw">if </span>split_at == <span class="self">self</span>.len() =&gt; <span class="prelude-val">Some</span>(slf),
+                <span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T&gt; Ptr&lt;<span class="lifetime">&#39;a</span>, [T]&gt; {
+        <span class="doccomment">/// The number of slice elements referenced by `self`.
+        ///
+        /// # Safety
+        ///
+        /// Unsafe code my rely on `len` satisfying the above contract.
+        </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+            <span class="attribute">#[allow(clippy::as_conversions)]
+            </span><span class="kw">let </span>slc = <span class="self">self</span>.ptr.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>[()];
+            <span class="comment">// SAFETY:
+            // - `()` has alignment 1, so `slc` is trivially aligned.
+            // - `slc` was derived from a non-null pointer.
+            // - The size is 0 regardless of the length, so it is sound to
+            //   materialize a reference regardless of location.
+            // - By invariant, `self.ptr` has valid provenance.
+            </span><span class="kw">let </span>slc = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>slc };
+            <span class="comment">// This is correct because the preceding `as` cast preserves the
+            // number of slice elements. Per
+            // https://doc.rust-lang.org/nightly/reference/expressions/operator-expr.html#slice-dst-pointer-to-pointer-cast:
+            //
+            //   For slice types like `[T]` and `[U]`, the raw pointer types
+            //   `*const [T]`, `*mut [T]`, `*const [U]`, and `*mut [U]` encode
+            //   the number of elements in this slice. Casts between these raw
+            //   pointer types preserve the number of elements. Note that, as a
+            //   consequence, such casts do *not* necessarily preserve the size
+            //   of the pointer&#39;s referent (e.g., casting `*const [u16]` to
+            //   `*const [u8]` will result in a raw pointer which refers to an
+            //   object of half the size of the original). The same holds for
+            //   `str` and any compound type whose unsized tail is a slice type,
+            //   such as struct `Foo(i32, [u8])` or `(u64, Foo)`.
+            //
+            // TODO(#429),
+            // TODO(https://github.com/rust-lang/reference/pull/1417): Once this
+            // text is available on the Stable docs, cite those instead of the
+            // Nightly docs.
+            </span>slc.len()
+        }
+
+        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt;&gt; {
+            <span class="comment">// TODO(#429): Once `NonNull::cast` documents that it preserves
+            // provenance, cite those docs.
+            </span><span class="kw">let </span>base = <span class="self">self</span>.ptr.cast::&lt;T&gt;().as_ptr();
+            (<span class="number">0</span>..<span class="self">self</span>.len()).map(<span class="kw">move </span>|i| {
+                <span class="comment">// TODO(https://github.com/rust-lang/rust/issues/74265): Use
+                // `NonNull::get_unchecked_mut`.
+
+                // SAFETY: If the following conditions are not satisfied
+                // `pointer::cast` may induce Undefined Behavior [1]:
+                // &gt; 1. Both the starting and resulting pointer must be either
+                // &gt;    in bounds or one byte past the end of the same allocated
+                // &gt;    object.
+                // &gt; 2. The computed offset, in bytes, cannot overflow an
+                // &gt;    `isize`.
+                // &gt; 3. The offset being in bounds cannot rely on “wrapping
+                // &gt;    around” the address space. That is, the
+                // &gt;    infinite-precision sum must fit in a `usize`.
+                //
+                // [1] https://doc.rust-lang.org/std/primitive.pointer.html#method.add
+                //
+                // We satisfy all three of these conditions here:
+                // 1. `base` (by invariant on `self`) points to an allocated
+                //    object. By contract, `self.len()` accurately reflects the
+                //    number of elements in the slice. `i` is in bounds of
+                //   `c.len()` by construction, and so the result of this
+                //   addition cannot overflow past the end of the allocation
+                //   referred to by `c`.
+                // 2. By invariant on `Ptr`, `self` addresses a byte range whose
+                //    length fits in an `isize`. Since `elem` is contained in
+                //    `self`, the computed offset of `elem` must fit within
+                //    `isize.`
+                // 3. By invariant on `Ptr`, `self` addresses a byte range which
+                //    does not wrap around the address space. Since `elem` is
+                //    contained in `self`, the computed offset of `elem` must
+                //    wrap around the address space.
+                //
+                // TODO(#429): Once `pointer::add` documents that it preserves
+                // provenance, cite those docs.
+                </span><span class="kw">let </span>elem = <span class="kw">unsafe </span>{ base.add(i) };
+
+                <span class="comment">// SAFETY:
+                //  - `elem` must not be null. `base` is constructed from a
+                //    `NonNull` pointer, and the addition that produces `elem`
+                //    must not overflow or wrap around, so `elem &gt;= base &gt; 0`.
+                //
+                // TODO(#429): Once `NonNull::new_unchecked` documents that it
+                // preserves provenance, cite those docs.
+                </span><span class="kw">let </span>elem = <span class="kw">unsafe </span>{ NonNull::new_unchecked(elem) };
+
+                <span class="comment">// SAFETY: The safety invariants of `Ptr` (see definition) are
+                // satisfied:
+                // 1. `elem` is derived from a valid Rust allocation, because
+                //    `self` is derived from a valid Rust allocation, by
+                //    invariant on `Ptr`
+                // 2. `elem` has the same provenance as `self`, because it
+                //    derived from `self` using a series of
+                //    provenance-preserving operations
+                // 3. `elem` is entirely contained in the allocation of `self`
+                //    (see above)
+                // 4. `elem` addresses a byte range whose length fits in an
+                //    `isize` (see above)
+                // 5. `elem` addresses a byte range which does not wrap around
+                //    the address space (see above)
+                // 6. `elem` is validly-aligned for `T`. `self`, which
+                //    represents a `[T]` is validly aligned for `T`, and `elem`
+                //    is an element within that `[T]`
+                // 7. The allocation of `elem` is guaranteed to live for at
+                //    least `&#39;a`, because `elem` is entirely contained in
+                //    `self`, which lives for at least `&#39;a` by invariant on
+                //    `Ptr`.
+                // 8. `T: &#39;a`, because `elem` is an element within `[T]`, and
+                //    `[T]: &#39;a` by invariant on `Ptr`
+                </span>Ptr { ptr: elem, _lifetime: PhantomData }
+            })
+        }
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="lifetime">&#39;a </span>+ <span class="question-mark">?</span>Sized&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt; <span class="kw">for </span>Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+        <span class="attribute">#[inline(always)]
+        </span><span class="kw">fn </span>from(t: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T) -&gt; Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+            <span class="comment">// SAFETY: `t` points to a valid Rust allocation, `A`, by
+            // construction. Thus:
+            // - `ptr` is derived from `A`
+            // - Since we use `NonNull::from`, which preserves provenance, `ptr`
+            //   has the same provenance as `A`
+            // - Since `NonNull::from` creates a pointer which addresses the
+            //   same bytes as `t`, `ptr` addresses a byte range entirely
+            //   contained in (in this case, identical to) `A`
+            // - Since `t: &amp;T`, it addresses no more than `isize::MAX` bytes [1]
+            // - Since `t: &amp;T`, it addresses a byte range which does not wrap
+            //   around the address space [2]
+            // - Since it is constructed from a valid `&amp;T`, `ptr` is
+            //   validly-aligned for `T`
+            // - Since `t: &amp;&#39;a T`, the allocation `A` is guaranteed to live for
+            //   at least `&#39;a`
+            // - `T: &#39;a` by trait bound
+            //
+            // TODO(#429),
+            // TODO(https://github.com/rust-lang/rust/issues/116181): Once it&#39;s
+            // documented, reference the guarantee that `NonNull::from`
+            // preserves provenance.
+            //
+            // TODO(#429),
+            // TODO(https://github.com/rust-lang/unsafe-code-guidelines/issues/465):
+            // - [1] Where does the reference document that allocations fit in
+            //   `isize`?
+            // - [2] Where does the reference document that allocations don&#39;t
+            //   wrap around the address space?
+            </span>Ptr { ptr: NonNull::from(t), _lifetime: PhantomData }
+        }
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="lifetime">&#39;a </span>+ <span class="question-mark">?</span>Sized&gt; Debug <span class="kw">for </span>Ptr&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+        <span class="attribute">#[inline]
+        </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; core::fmt::Result {
+            <span class="self">self</span>.ptr.fmt(f)
+        }
+    }
+
+    <span class="attribute">#[cfg(test)]
+    </span><span class="kw">mod </span>tests {
+        <span class="kw">use </span>core::mem::{<span class="self">self</span>, MaybeUninit};
+
+        <span class="kw">use super</span>::<span class="kw-2">*</span>;
+        <span class="kw">use crate</span>::{util::testutil::AU64, FromBytes};
+
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>test_ptrtry_cast_into_soundness() {
+            <span class="comment">// This test is designed so that if `Ptr::try_cast_into_xxx` are
+            // buggy, it will manifest as unsoundness that Miri can detect.
+
+            // - If `size_of::&lt;T&gt;() == 0`, `N == 4`
+            // - Else, `N == 4 * size_of::&lt;T&gt;()`
+            </span><span class="kw">fn </span>test&lt;<span class="kw">const </span>N: usize, T: <span class="question-mark">?</span>Sized + KnownLayout + FromBytes&gt;() {
+                <span class="kw">let </span><span class="kw-2">mut </span>bytes = [MaybeUninit::&lt;u8&gt;::uninit(); N];
+                <span class="kw">let </span>initialized = [MaybeUninit::new(<span class="number">0u8</span>); N];
+                <span class="kw">for </span>start <span class="kw">in </span><span class="number">0</span>..=bytes.len() {
+                    <span class="kw">for </span>end <span class="kw">in </span>start..=bytes.len() {
+                        <span class="comment">// Set all bytes to uninitialized other than those in
+                        // the range we&#39;re going to pass to `try_cast_from`.
+                        // This allows Miri to detect out-of-bounds reads
+                        // because they read uninitialized memory. Without this,
+                        // some out-of-bounds reads would still be in-bounds of
+                        // `bytes`, and so might spuriously be accepted.
+                        </span>bytes = [MaybeUninit::&lt;u8&gt;::uninit(); N];
+                        <span class="kw">let </span>bytes = <span class="kw-2">&amp;mut </span>bytes[start..end];
+                        <span class="comment">// Initialize only the byte range we&#39;re going to pass to
+                        // `try_cast_from`.
+                        </span>bytes.copy_from_slice(<span class="kw-2">&amp;</span>initialized[start..end]);
+
+                        <span class="kw">let </span>bytes = {
+                            <span class="kw">let </span>bytes: <span class="kw-2">*const </span>[MaybeUninit&lt;u8&gt;] = bytes;
+                            <span class="attribute">#[allow(clippy::as_conversions)]
+                            </span><span class="kw">let </span>bytes = bytes <span class="kw">as </span><span class="kw-2">*const </span>[u8];
+                            <span class="comment">// SAFETY: We just initialized these bytes to valid
+                            // `u8`s.
+                            </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>bytes }
+                        };
+
+                        <span class="doccomment">/// # Safety
+                        ///
+                        /// - `slf` must reference a byte range which is
+                        ///   entirely initialized.
+                        /// - `slf` must reference a byte range which is only
+                        ///   referenced by shared references which do not
+                        ///   contain `UnsafeCell`s during its lifetime.
+                        </span><span class="kw">unsafe fn </span>validate_and_get_len&lt;T: <span class="question-mark">?</span>Sized + KnownLayout + FromBytes&gt;(
+                            slf: Ptr&lt;<span class="lifetime">&#39;_</span>, T&gt;,
+                        ) -&gt; usize {
+                            <span class="comment">// SAFETY:
+                            // - Since all bytes in `slf` are initialized and
+                            //   `T: FromBytes`, `slf` contains a valid `T`.
+                            // - The caller promises that the referenced memory
+                            //   is not also referenced by any mutable
+                            //   references.
+                            // - The caller promises that the referenced memory
+                            //   is not also referenced as a type which contains
+                            //   `UnsafeCell`s.
+                            </span><span class="kw">let </span>t = <span class="kw">unsafe </span>{ slf.as_ref() };
+
+                            <span class="kw">let </span>bytes = {
+                                <span class="kw">let </span>len = mem::size_of_val(t);
+                                <span class="kw">let </span>t: <span class="kw-2">*const </span>T = t;
+                                <span class="comment">// SAFETY:
+                                // - We know `t`&#39;s bytes are all initialized
+                                //   because we just read it from `slf`, which
+                                //   points to an initialized range of bytes. If
+                                //   there&#39;s a bug and this doesn&#39;t hold, then
+                                //   that&#39;s exactly what we&#39;re hoping Miri will
+                                //   catch!
+                                // - Since `T: FromBytes`, `T` doesn&#39;t contain
+                                //   any `UnsafeCell`s, so it&#39;s okay for `t: T`
+                                //   and a `&amp;[u8]` to the same memory to be
+                                //   alive concurrently.
+                                </span><span class="kw">unsafe </span>{ core::slice::from_raw_parts(t.cast::&lt;u8&gt;(), len) }
+                            };
+
+                            <span class="comment">// This assertion ensures that `t`&#39;s bytes are read
+                            // and compared to another value, which in turn
+                            // ensures that Miri gets a chance to notice if any
+                            // of `t`&#39;s bytes are uninitialized, which they
+                            // shouldn&#39;t be (see the comment above).
+                            </span><span class="macro">assert_eq!</span>(bytes, <span class="macro">vec!</span>[<span class="number">0u8</span>; bytes.len()]);
+
+                            mem::size_of_val(t)
+                        }
+
+                        <span class="kw">for </span>cast_type <span class="kw">in </span>[_CastType::_Prefix, _CastType::_Suffix] {
+                            <span class="kw">if let </span><span class="prelude-val">Some</span>((slf, split_at)) =
+                                Ptr::from(bytes).try_cast_into::&lt;T&gt;(cast_type)
+                            {
+                                <span class="comment">// SAFETY: All bytes in `bytes` have been
+                                // initialized.
+                                </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ validate_and_get_len(slf) };
+                                <span class="kw">match </span>cast_type {
+                                    _CastType::_Prefix =&gt; <span class="macro">assert_eq!</span>(split_at, len),
+                                    _CastType::_Suffix =&gt; <span class="macro">assert_eq!</span>(split_at, bytes.len() - len),
+                                }
+                            }
+                        }
+
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(slf) = Ptr::from(bytes).try_cast_into_no_leftover::&lt;T&gt;() {
+                            <span class="comment">// SAFETY: All bytes in `bytes` have been
+                            // initialized.
+                            </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ validate_and_get_len(slf) };
+                            <span class="macro">assert_eq!</span>(len, bytes.len());
+                        }
+                    }
+                }
+            }
+
+            <span class="macro">macro_rules! </span>test {
+            ($(<span class="macro-nonterminal">$ty</span>:ty),<span class="kw-2">*</span>) =&gt; {
+                $({
+                    <span class="kw">const </span>S: usize = core::mem::size_of::&lt;<span class="macro-nonterminal">$ty</span>&gt;();
+                    <span class="kw">const </span>N: usize = <span class="kw">if </span>S == <span class="number">0 </span>{ <span class="number">4 </span>} <span class="kw">else </span>{ S * <span class="number">4 </span>};
+                    test::&lt;N, <span class="macro-nonterminal">$ty</span>&gt;();
+                    <span class="comment">// We don&#39;t support casting into DSTs whose trailing slice
+                    // element is a ZST.
+                    </span><span class="kw">if </span>S &gt; <span class="number">0 </span>{
+                        test::&lt;N, [<span class="macro-nonterminal">$ty</span>]&gt;();
+                    }
+                    <span class="comment">// TODO: Test with a slice DST once we have any that
+                    // implement `KnownLayout + FromBytes`.
+                </span>})*
+            };
+        }
+
+            <span class="macro">test!</span>(());
+            <span class="macro">test!</span>(u8, u16, u32, u64, u128, usize, AU64);
+            <span class="macro">test!</span>(i8, i16, i32, i64, i128, isize);
+            <span class="macro">test!</span>(f32, f64);
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>AsAddress {
+    <span class="kw">fn </span>addr(<span class="self">self</span>) -&gt; usize;
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized&gt; AsAddress <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T {
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>addr(<span class="self">self</span>) -&gt; usize {
+        <span class="kw">let </span>ptr: <span class="kw-2">*const </span>T = <span class="self">self</span>;
+        AsAddress::addr(ptr)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized&gt; AsAddress <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T {
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>addr(<span class="self">self</span>) -&gt; usize {
+        <span class="kw">let </span>ptr: <span class="kw-2">*const </span>T = <span class="self">self</span>;
+        AsAddress::addr(ptr)
+    }
+}
+
+<span class="kw">impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; AsAddress <span class="kw">for </span><span class="kw-2">*const </span>T {
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>addr(<span class="self">self</span>) -&gt; usize {
+        <span class="comment">// TODO(#181), TODO(https://github.com/rust-lang/rust/issues/95228): Use
+        // `.addr()` instead of `as usize` once it&#39;s stable, and get rid of this
+        // `allow`. Currently, `as usize` is the only way to accomplish this.
+        </span><span class="attribute">#[allow(clippy::as_conversions)]
+        #[cfg_attr(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS, allow(lossy_provenance_casts))]
+        </span><span class="kw">return </span><span class="self">self</span>.cast::&lt;()&gt;() <span class="kw">as </span>usize;
+    }
+}
+
+<span class="kw">impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; AsAddress <span class="kw">for </span><span class="kw-2">*mut </span>T {
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>addr(<span class="self">self</span>) -&gt; usize {
+        <span class="kw">let </span>ptr: <span class="kw-2">*const </span>T = <span class="self">self</span>;
+        AsAddress::addr(ptr)
+    }
+}
+
+<span class="doccomment">/// Is `t` aligned to `mem::align_of::&lt;U&gt;()`?
+</span><span class="attribute">#[inline(always)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>aligned_to&lt;T: AsAddress, U&gt;(t: T) -&gt; bool {
+    <span class="comment">// `mem::align_of::&lt;U&gt;()` is guaranteed to return a non-zero value, which in
+    // turn guarantees that this mod operation will not panic.
+    </span><span class="attribute">#[allow(clippy::arithmetic_side_effects)]
+    </span><span class="kw">let </span>remainder = t.addr() % mem::align_of::&lt;U&gt;();
+    remainder == <span class="number">0
+</span>}
+
+<span class="doccomment">/// Round `n` down to the largest value `m` such that `m &lt;= n` and `m % align ==
+/// 0`.
+///
+/// # Panics
+///
+/// May panic if `align` is not a power of two. Even if it doesn&#39;t panic in this
+/// case, it will produce nonsense results.
+</span><span class="attribute">#[inline(always)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>round_down_to_next_multiple_of_alignment(
+    n: usize,
+    align: NonZeroUsize,
+) -&gt; usize {
+    <span class="kw">let </span>align = align.get();
+    <span class="macro">debug_assert!</span>(align.is_power_of_two());
+
+    <span class="comment">// Subtraction can&#39;t underflow because `align.get() &gt;= 1`.
+    </span><span class="attribute">#[allow(clippy::arithmetic_side_effects)]
+    </span><span class="kw">let </span>mask = !(align - <span class="number">1</span>);
+    n &amp; mask
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>max(a: NonZeroUsize, b: NonZeroUsize) -&gt; NonZeroUsize {
+    <span class="kw">if </span>a.get() &lt; b.get() {
+        b
+    } <span class="kw">else </span>{
+        a
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>min(a: NonZeroUsize, b: NonZeroUsize) -&gt; NonZeroUsize {
+    <span class="kw">if </span>a.get() &gt; b.get() {
+        b
+    } <span class="kw">else </span>{
+        a
+    }
+}
+
+<span class="doccomment">/// Since we support multiple versions of Rust, there are often features which
+/// have been stabilized in the most recent stable release which do not yet
+/// exist (stably) on our MSRV. This module provides polyfills for those
+/// features so that we can write more &quot;modern&quot; code, and just remove the
+/// polyfill once our MSRV supports the corresponding feature. Without this,
+/// we&#39;d have to write worse/more verbose code and leave TODO comments sprinkled
+/// throughout the codebase to update to the new pattern once it&#39;s stabilized.
+///
+/// Each trait is imported as `_` at the crate root; each polyfill should &quot;just
+/// work&quot; at usage sites.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>polyfills {
+    <span class="kw">use </span>core::ptr::{<span class="self">self</span>, NonNull};
+
+    <span class="comment">// A polyfill for `NonNull::slice_from_raw_parts` that we can use before our
+    // MSRV is 1.70, when that function was stabilized.
+    //
+    // TODO(#67): Once our MSRV is 1.70, remove this.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>NonNullExt&lt;T&gt; {
+        <span class="kw">fn </span>slice_from_raw_parts(data: <span class="self">Self</span>, len: usize) -&gt; NonNull&lt;[T]&gt;;
+    }
+
+    <span class="kw">impl</span>&lt;T&gt; NonNullExt&lt;T&gt; <span class="kw">for </span>NonNull&lt;T&gt; {
+        <span class="attribute">#[inline(always)]
+        </span><span class="kw">fn </span>slice_from_raw_parts(data: <span class="self">Self</span>, len: usize) -&gt; NonNull&lt;[T]&gt; {
+            <span class="kw">let </span>ptr = ptr::slice_from_raw_parts_mut(data.as_ptr(), len);
+            <span class="comment">// SAFETY: `ptr` is converted from `data`, which is non-null.
+            </span><span class="kw">unsafe </span>{ NonNull::new_unchecked(ptr) }
+        }
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>testutil {
+    <span class="kw">use </span>core::fmt::{<span class="self">self</span>, Display, Formatter};
+
+    <span class="kw">use crate</span>::<span class="kw-2">*</span>;
+
+    <span class="doccomment">/// A `T` which is aligned to at least `align_of::&lt;A&gt;()`.
+    </span><span class="attribute">#[derive(Default)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Align&lt;T, A&gt; {
+        <span class="kw">pub</span>(<span class="kw">crate</span>) t: T,
+        _a: [A; <span class="number">0</span>],
+    }
+
+    <span class="kw">impl</span>&lt;T: Default, A&gt; Align&lt;T, A&gt; {
+        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_default(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+            <span class="self">self</span>.t = T::default();
+        }
+    }
+
+    <span class="kw">impl</span>&lt;T, A&gt; Align&lt;T, A&gt; {
+        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new(t: T) -&gt; Align&lt;T, A&gt; {
+            Align { t, _a: [] }
+        }
+    }
+
+    <span class="comment">// A `u64` with alignment 8.
+    //
+    // Though `u64` has alignment 8 on some platforms, it&#39;s not guaranteed.
+    // By contrast, `AU64` is guaranteed to have alignment 8.
+    </span><span class="attribute">#[derive(
+        KnownLayout,
+        FromZeroes,
+        FromBytes,
+        AsBytes,
+        Eq,
+        PartialEq,
+        Ord,
+        PartialOrd,
+        Default,
+        Debug,
+        Copy,
+        Clone,
+    )]
+    #[repr(C, align(<span class="number">8</span>))]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>AU64(<span class="kw">pub</span>(<span class="kw">crate</span>) u64);
+
+    <span class="kw">impl </span>AU64 {
+        <span class="comment">// Converts this `AU64` to bytes using this platform&#39;s endianness.
+        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_bytes(<span class="self">self</span>) -&gt; [u8; <span class="number">8</span>] {
+            <span class="macro">crate::transmute!</span>(<span class="self">self</span>)
+        }
+    }
+
+    <span class="kw">impl </span>Display <span class="kw">for </span>AU64 {
+        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            Display::fmt(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, f)
+        }
+    }
+
+    <span class="attribute">#[derive(
+        FromZeroes, FromBytes, Eq, PartialEq, Ord, PartialOrd, Default, Debug, Copy, Clone,
+    )]
+    #[repr(C)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Nested&lt;T, U: <span class="question-mark">?</span>Sized&gt; {
+        _t: T,
+        _u: U,
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_round_down_to_next_multiple_of_alignment() {
+        <span class="kw">fn </span>alt_impl(n: usize, align: NonZeroUsize) -&gt; usize {
+            <span class="kw">let </span>mul = n / align.get();
+            mul * align.get()
+        }
+
+        <span class="kw">for </span>align <span class="kw">in </span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>] {
+            <span class="kw">for </span>n <span class="kw">in </span><span class="number">0</span>..<span class="number">256 </span>{
+                <span class="kw">let </span>align = NonZeroUsize::new(align).unwrap();
+                <span class="kw">let </span>want = alt_impl(n, align);
+                <span class="kw">let </span>got = round_down_to_next_multiple_of_alignment(n, align);
+                <span class="macro">assert_eq!</span>(got, want, <span class="string">&quot;round_down_to_next_multiple_of_alignment({n}, {align})&quot;</span>);
+            }
+        }
+    }
+}
+
+<span class="attribute">#[cfg(kani)]
+</span><span class="kw">mod </span>proofs {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[kani::proof]
+    </span><span class="kw">fn </span>prove_round_down_to_next_multiple_of_alignment() {
+        <span class="kw">fn </span>model_impl(n: usize, align: NonZeroUsize) -&gt; usize {
+            <span class="macro">assert!</span>(align.get().is_power_of_two());
+            <span class="kw">let </span>mul = n / align.get();
+            mul * align.get()
+        }
+
+        <span class="kw">let </span>align: NonZeroUsize = kani::any();
+        kani::assume(align.get().is_power_of_two());
+        <span class="kw">let </span>n: usize = kani::any();
+
+        <span class="kw">let </span>expected = model_impl(n, align);
+        <span class="kw">let </span>actual = round_down_to_next_multiple_of_alignment(n, align);
+        <span class="macro">assert_eq!</span>(expected, actual, <span class="string">&quot;round_down_to_next_multiple_of_alignment({n}, {align})&quot;</span>);
+    }
+
+    <span class="comment">// Restricted to nightly since we use the unstable `usize::next_multiple_of`
+    // in our model implementation.
+    </span><span class="attribute">#[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+    #[kani::proof]
+    </span><span class="kw">fn </span>prove_padding_needed_for() {
+        <span class="kw">fn </span>model_impl(len: usize, align: NonZeroUsize) -&gt; usize {
+            <span class="kw">let </span>padded = len.next_multiple_of(align.get());
+            <span class="kw">let </span>padding = padded - len;
+            padding
+        }
+
+        <span class="kw">let </span>align: NonZeroUsize = kani::any();
+        kani::assume(align.get().is_power_of_two());
+        <span class="kw">let </span>len: usize = kani::any();
+        <span class="comment">// Constrain `len` to valid Rust lengths, since our model implementation
+        // isn&#39;t robust to overflow.
+        </span>kani::assume(len &lt;= isize::MAX <span class="kw">as </span>usize);
+        kani::assume(align.get() &lt; <span class="number">1 </span>&lt;&lt; <span class="number">29</span>);
+
+        <span class="kw">let </span>expected = model_impl(len, align);
+        <span class="kw">let </span>actual = core_layout::padding_needed_for(len, align);
+        <span class="macro">assert_eq!</span>(expected, actual, <span class="string">&quot;padding_needed_for({len}, {align})&quot;</span>);
+
+        <span class="kw">let </span>padded_len = actual + len;
+        <span class="macro">assert_eq!</span>(padded_len % align, <span class="number">0</span>);
+        <span class="macro">assert!</span>(padded_len / align &gt;= len / align);
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="zerocopy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,1672 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/aho-corasick-1.1.2/src/dfa.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../aho_corasick/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../aho_corasick/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../aho_corasick/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+Provides direct access to a DFA implementation of Aho-Corasick.
+
+This is a low-level API that generally only needs to be used in niche
+circumstances. When possible, prefer using [`AhoCorasick`](crate::AhoCorasick)
+instead of a DFA directly. Using an `DFA` directly is typically only necessary
+when one needs access to the [`Automaton`] trait implementation.
+*/
+
+</span><span class="kw">use </span>alloc::{vec, vec::Vec};
+
+<span class="kw">use crate</span>::{
+    automaton::Automaton,
+    nfa::noncontiguous,
+    util::{
+        alphabet::ByteClasses,
+        error::{BuildError, MatchError},
+        int::{Usize, U32},
+        prefilter::Prefilter,
+        primitives::{IteratorIndexExt, PatternID, SmallIndex, StateID},
+        search::{Anchored, MatchKind, StartKind},
+        special::Special,
+    },
+};
+
+<span class="doccomment">/// A DFA implementation of Aho-Corasick.
+///
+/// When possible, prefer using [`AhoCorasick`](crate::AhoCorasick) instead of
+/// this type directly. Using a `DFA` directly is typically only necessary when
+/// one needs access to the [`Automaton`] trait implementation.
+///
+/// This DFA can only be built by first constructing a [`noncontiguous::NFA`].
+/// Both [`DFA::new`] and [`Builder::build`] do this for you automatically, but
+/// [`Builder::build_from_noncontiguous`] permits doing it explicitly.
+///
+/// A DFA provides the best possible search performance (in this crate) via two
+/// mechanisms:
+///
+/// * All states use a dense representation for their transitions.
+/// * All failure transitions are pre-computed such that they are never
+/// explicitly handled at search time.
+///
+/// These two facts combined mean that every state transition is performed
+/// using a constant number of instructions. However, this comes at
+/// great cost. The memory usage of a DFA can be quite exorbitant.
+/// It is potentially multiple orders of magnitude greater than a
+/// [`contiguous::NFA`](crate::nfa::contiguous::NFA) for example. In exchange,
+/// a DFA will typically have better search speed than a `contiguous::NFA`, but
+/// not by orders of magnitude.
+///
+/// Unless you have a small number of patterns or memory usage is not a concern
+/// and search performance is critical, a DFA is usually not the best choice.
+///
+/// Moreover, unlike the NFAs in this crate, it is costly for a DFA to
+/// support for anchored and unanchored search configurations. Namely,
+/// since failure transitions are pre-computed, supporting both anchored
+/// and unanchored searches requires a duplication of the transition table,
+/// making the memory usage of such a DFA ever bigger. (The NFAs in this crate
+/// unconditionally support both anchored and unanchored searches because there
+/// is essentially no added cost for doing so.) It is for this reason that
+/// a DFA&#39;s support for anchored and unanchored searches can be configured
+/// via [`Builder::start_kind`]. By default, a DFA only supports unanchored
+/// searches.
+///
+/// # Example
+///
+/// This example shows how to build an `DFA` directly and use it to execute
+/// [`Automaton::try_find`]:
+///
+/// ```
+/// use aho_corasick::{
+///     automaton::Automaton,
+///     dfa::DFA,
+///     Input, Match,
+/// };
+///
+/// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
+/// let haystack = &quot;abcd&quot;;
+///
+/// let nfa = DFA::new(patterns).unwrap();
+/// assert_eq!(
+///     Some(Match::must(0, 1..2)),
+///     nfa.try_find(&amp;Input::new(haystack))?,
+/// );
+/// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+/// ```
+///
+/// It is also possible to implement your own version of `try_find`. See the
+/// [`Automaton`] documentation for an example.
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>DFA {
+    <span class="doccomment">/// The DFA transition table. IDs in this table are pre-multiplied. So
+    /// instead of the IDs being 0, 1, 2, 3, ..., they are 0*stride, 1*stride,
+    /// 2*stride, 3*stride, ...
+    </span>trans: Vec&lt;StateID&gt;,
+    <span class="doccomment">/// The matches for every match state in this DFA. This is first indexed by
+    /// state index (so that&#39;s `sid &gt;&gt; stride2`) and then by order in which the
+    /// matches are meant to occur.
+    </span>matches: Vec&lt;Vec&lt;PatternID&gt;&gt;,
+    <span class="doccomment">/// The amount of heap memory used, in bytes, by the inner Vecs of
+    /// &#39;matches&#39;.
+    </span>matches_memory_usage: usize,
+    <span class="doccomment">/// The length of each pattern. This is used to compute the start offset
+    /// of a match.
+    </span>pattern_lens: Vec&lt;SmallIndex&gt;,
+    <span class="doccomment">/// A prefilter for accelerating searches, if one exists.
+    </span>prefilter: <span class="prelude-ty">Option</span>&lt;Prefilter&gt;,
+    <span class="doccomment">/// The match semantics built into this DFA.
+    </span>match_kind: MatchKind,
+    <span class="doccomment">/// The total number of states in this DFA.
+    </span>state_len: usize,
+    <span class="doccomment">/// The alphabet size, or total number of equivalence classes, for this
+    /// DFA. Note that the actual number of transitions in each state is
+    /// stride=2^stride2, where stride is the smallest power of 2 greater than
+    /// or equal to alphabet_len. We do things this way so that we can use
+    /// bitshifting to go from a state ID to an index into &#39;matches&#39;.
+    </span>alphabet_len: usize,
+    <span class="doccomment">/// The exponent with a base 2, such that stride=2^stride2. Given a state
+    /// index &#39;i&#39;, its state identifier is &#39;i &lt;&lt; stride2&#39;. Given a state
+    /// identifier &#39;sid&#39;, its state index is &#39;sid &gt;&gt; stride2&#39;.
+    </span>stride2: usize,
+    <span class="doccomment">/// The equivalence classes for this DFA. All transitions are defined on
+    /// equivalence classes and not on the 256 distinct byte values.
+    </span>byte_classes: ByteClasses,
+    <span class="doccomment">/// The length of the shortest pattern in this automaton.
+    </span>min_pattern_len: usize,
+    <span class="doccomment">/// The length of the longest pattern in this automaton.
+    </span>max_pattern_len: usize,
+    <span class="doccomment">/// The information required to deduce which states are &quot;special&quot; in this
+    /// DFA.
+    </span>special: Special,
+}
+
+<span class="kw">impl </span>DFA {
+    <span class="doccomment">/// Create a new Aho-Corasick DFA using the default configuration.
+    ///
+    /// Use a [`Builder`] if you want to change the configuration.
+    </span><span class="kw">pub fn </span>new&lt;I, P&gt;(patterns: I) -&gt; <span class="prelude-ty">Result</span>&lt;DFA, BuildError&gt;
+    <span class="kw">where
+        </span>I: IntoIterator&lt;Item = P&gt;,
+        P: AsRef&lt;[u8]&gt;,
+    {
+        DFA::builder().build(patterns)
+    }
+
+    <span class="doccomment">/// A convenience method for returning a new Aho-Corasick DFA builder.
+    ///
+    /// This usually permits one to just import the `DFA` type.
+    </span><span class="kw">pub fn </span>builder() -&gt; Builder {
+        Builder::new()
+    }
+}
+
+<span class="kw">impl </span>DFA {
+    <span class="doccomment">/// A sentinel state ID indicating that a search should stop once it has
+    /// entered this state. When a search stops, it returns a match if one has
+    /// been found, otherwise no match. A DFA always has an actual dead state
+    /// at this ID.
+    ///
+    /// N.B. DFAs, unlike NFAs, do not have any notion of a FAIL state.
+    /// Namely, the whole point of a DFA is that the FAIL state is completely
+    /// compiled away. That is, DFA construction involves pre-computing the
+    /// failure transitions everywhere, such that failure transitions are no
+    /// longer used at search time. This, combined with its uniformly dense
+    /// representation, are the two most important factors in why it&#39;s faster
+    /// than the NFAs in this crate.
+    </span><span class="kw">const </span>DEAD: StateID = StateID::new_unchecked(<span class="number">0</span>);
+
+    <span class="doccomment">/// Adds the given pattern IDs as matches to the given state and also
+    /// records the added memory usage.
+    </span><span class="kw">fn </span>set_matches(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        sid: StateID,
+        pids: <span class="kw">impl </span>Iterator&lt;Item = PatternID&gt;,
+    ) {
+        <span class="kw">let </span>index = (sid.as_usize() &gt;&gt; <span class="self">self</span>.stride2).checked_sub(<span class="number">2</span>).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>at_least_one = <span class="bool-val">false</span>;
+        <span class="kw">for </span>pid <span class="kw">in </span>pids {
+            <span class="self">self</span>.matches[index].push(pid);
+            <span class="self">self</span>.matches_memory_usage += PatternID::SIZE;
+            at_least_one = <span class="bool-val">true</span>;
+        }
+        <span class="macro">assert!</span>(at_least_one, <span class="string">&quot;match state must have non-empty pids&quot;</span>);
+    }
+}
+
+<span class="comment">// SAFETY: &#39;start_state&#39; always returns a valid state ID, &#39;next_state&#39; always
+// returns a valid state ID given a valid state ID. We otherwise claim that
+// all other methods are correct as well.
+</span><span class="kw">unsafe impl </span>Automaton <span class="kw">for </span>DFA {
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>start_state(<span class="kw-2">&amp;</span><span class="self">self</span>, anchored: Anchored) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, MatchError&gt; {
+        <span class="comment">// Either of the start state IDs can be DEAD, in which case, support
+        // for that type of search is not provided by this DFA. Which start
+        // state IDs are inactive depends on the &#39;StartKind&#39; configuration at
+        // DFA construction time.
+        </span><span class="kw">match </span>anchored {
+            Anchored::No =&gt; {
+                <span class="kw">let </span>start = <span class="self">self</span>.special.start_unanchored_id;
+                <span class="kw">if </span>start == DFA::DEAD {
+                    <span class="prelude-val">Err</span>(MatchError::invalid_input_unanchored())
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">Ok</span>(start)
+                }
+            }
+            Anchored::Yes =&gt; {
+                <span class="kw">let </span>start = <span class="self">self</span>.special.start_anchored_id;
+                <span class="kw">if </span>start == DFA::DEAD {
+                    <span class="prelude-val">Err</span>(MatchError::invalid_input_anchored())
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">Ok</span>(start)
+                }
+            }
+        }
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>next_state(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        _anchored: Anchored,
+        sid: StateID,
+        byte: u8,
+    ) -&gt; StateID {
+        <span class="kw">let </span>class = <span class="self">self</span>.byte_classes.get(byte);
+        <span class="self">self</span>.trans[(sid.as_u32() + u32::from(class)).as_usize()]
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>is_special(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID) -&gt; bool {
+        sid &lt;= <span class="self">self</span>.special.max_special_id
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>is_dead(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID) -&gt; bool {
+        sid == DFA::DEAD
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>is_match(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID) -&gt; bool {
+        !<span class="self">self</span>.is_dead(sid) &amp;&amp; sid &lt;= <span class="self">self</span>.special.max_match_id
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>is_start(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID) -&gt; bool {
+        sid == <span class="self">self</span>.special.start_unanchored_id
+            || sid == <span class="self">self</span>.special.start_anchored_id
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>match_kind(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MatchKind {
+        <span class="self">self</span>.match_kind
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>patterns_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.pattern_lens.len()
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>pattern_len(<span class="kw-2">&amp;</span><span class="self">self</span>, pid: PatternID) -&gt; usize {
+        <span class="self">self</span>.pattern_lens[pid].as_usize()
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>min_pattern_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.min_pattern_len
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>max_pattern_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.max_pattern_len
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>match_len(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID) -&gt; usize {
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.is_match(sid));
+        <span class="kw">let </span>offset = (sid.as_usize() &gt;&gt; <span class="self">self</span>.stride2) - <span class="number">2</span>;
+        <span class="self">self</span>.matches[offset].len()
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>match_pattern(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID, index: usize) -&gt; PatternID {
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.is_match(sid));
+        <span class="kw">let </span>offset = (sid.as_usize() &gt;&gt; <span class="self">self</span>.stride2) - <span class="number">2</span>;
+        <span class="self">self</span>.matches[offset][index]
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="kw">use </span>core::mem::size_of;
+
+        (<span class="self">self</span>.trans.len() * size_of::&lt;u32&gt;())
+            + (<span class="self">self</span>.matches.len() * size_of::&lt;Vec&lt;PatternID&gt;&gt;())
+            + <span class="self">self</span>.matches_memory_usage
+            + (<span class="self">self</span>.pattern_lens.len() * size_of::&lt;SmallIndex&gt;())
+            + <span class="self">self</span>.prefilter.as_ref().map_or(<span class="number">0</span>, |p| p.memory_usage())
+    }
+
+    <span class="attribute">#[inline(always)]
+    </span><span class="kw">fn </span>prefilter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Prefilter&gt; {
+        <span class="self">self</span>.prefilter.as_ref()
+    }
+}
+
+<span class="kw">impl </span>core::fmt::Debug <span class="kw">for </span>DFA {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
+        <span class="kw">use crate</span>::{
+            automaton::{fmt_state_indicator, sparse_transitions},
+            util::debug::DebugByte,
+        };
+
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;dfa::DFA(&quot;</span>)<span class="question-mark">?</span>;
+        <span class="kw">for </span>index <span class="kw">in </span><span class="number">0</span>..<span class="self">self</span>.state_len {
+            <span class="kw">let </span>sid = StateID::new_unchecked(index &lt;&lt; <span class="self">self</span>.stride2);
+            <span class="comment">// While we do currently include the FAIL state in the transition
+            // table (to simplify construction), it is never actually used. It
+            // poses problems with the code below because it gets treated as
+            // a match state incidentally when it is, of course, not. So we
+            // special case it. The fail state is always the first state after
+            // the dead state.
+            //
+            // If the construction is changed to remove the fail state (it
+            // probably should be), then this special case should be updated.
+            </span><span class="kw">if </span>index == <span class="number">1 </span>{
+                <span class="macro">writeln!</span>(f, <span class="string">&quot;F {:06}:&quot;</span>, sid.as_usize())<span class="question-mark">?</span>;
+                <span class="kw">continue</span>;
+            }
+            fmt_state_indicator(f, <span class="self">self</span>, sid)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{:06}: &quot;</span>, sid.as_usize())<span class="question-mark">?</span>;
+
+            <span class="kw">let </span>it = (<span class="number">0</span>..<span class="self">self</span>.byte_classes.alphabet_len()).map(|class| {
+                (class.as_u8(), <span class="self">self</span>.trans[sid.as_usize() + class])
+            });
+            <span class="kw">for </span>(i, (start, end, next)) <span class="kw">in </span>sparse_transitions(it).enumerate() {
+                <span class="kw">if </span>i &gt; <span class="number">0 </span>{
+                    <span class="macro">write!</span>(f, <span class="string">&quot;, &quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>start == end {
+                    <span class="macro">write!</span>(
+                        f,
+                        <span class="string">&quot;{:?} =&gt; {:?}&quot;</span>,
+                        DebugByte(start),
+                        next.as_usize()
+                    )<span class="question-mark">?</span>;
+                } <span class="kw">else </span>{
+                    <span class="macro">write!</span>(
+                        f,
+                        <span class="string">&quot;{:?}-{:?} =&gt; {:?}&quot;</span>,
+                        DebugByte(start),
+                        DebugByte(end),
+                        next.as_usize()
+                    )<span class="question-mark">?</span>;
+                }
+            }
+            <span class="macro">write!</span>(f, <span class="string">&quot;\n&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">if </span><span class="self">self</span>.is_match(sid) {
+                <span class="macro">write!</span>(f, <span class="string">&quot; matches: &quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="self">self</span>.match_len(sid) {
+                    <span class="kw">if </span>i &gt; <span class="number">0 </span>{
+                        <span class="macro">write!</span>(f, <span class="string">&quot;, &quot;</span>)<span class="question-mark">?</span>;
+                    }
+                    <span class="kw">let </span>pid = <span class="self">self</span>.match_pattern(sid, i);
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, pid.as_usize())<span class="question-mark">?</span>;
+                }
+                <span class="macro">write!</span>(f, <span class="string">&quot;\n&quot;</span>)<span class="question-mark">?</span>;
+            }
+        }
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;match kind: {:?}&quot;</span>, <span class="self">self</span>.match_kind)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;prefilter: {:?}&quot;</span>, <span class="self">self</span>.prefilter.is_some())<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;state length: {:?}&quot;</span>, <span class="self">self</span>.state_len)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;pattern length: {:?}&quot;</span>, <span class="self">self</span>.patterns_len())<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;shortest pattern length: {:?}&quot;</span>, <span class="self">self</span>.min_pattern_len)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;longest pattern length: {:?}&quot;</span>, <span class="self">self</span>.max_pattern_len)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;alphabet length: {:?}&quot;</span>, <span class="self">self</span>.alphabet_len)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;stride: {:?}&quot;</span>, <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.stride2)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;byte classes: {:?}&quot;</span>, <span class="self">self</span>.byte_classes)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;memory usage: {:?}&quot;</span>, <span class="self">self</span>.memory_usage())<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// A builder for configuring an Aho-Corasick DFA.
+///
+/// This builder has a subset of the options available to a
+/// [`AhoCorasickBuilder`](crate::AhoCorasickBuilder). Of the shared options,
+/// their behavior is identical.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Builder {
+    noncontiguous: noncontiguous::Builder,
+    start_kind: StartKind,
+    byte_classes: bool,
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>Builder {
+    <span class="kw">fn </span>default() -&gt; Builder {
+        Builder {
+            noncontiguous: noncontiguous::Builder::new(),
+            start_kind: StartKind::Unanchored,
+            byte_classes: <span class="bool-val">true</span>,
+        }
+    }
+}
+
+<span class="kw">impl </span>Builder {
+    <span class="doccomment">/// Create a new builder for configuring an Aho-Corasick DFA.
+    </span><span class="kw">pub fn </span>new() -&gt; Builder {
+        Builder::default()
+    }
+
+    <span class="doccomment">/// Build an Aho-Corasick DFA from the given iterator of patterns.
+    ///
+    /// A builder may be reused to create more DFAs.
+    </span><span class="kw">pub fn </span>build&lt;I, P&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, patterns: I) -&gt; <span class="prelude-ty">Result</span>&lt;DFA, BuildError&gt;
+    <span class="kw">where
+        </span>I: IntoIterator&lt;Item = P&gt;,
+        P: AsRef&lt;[u8]&gt;,
+    {
+        <span class="kw">let </span>nnfa = <span class="self">self</span>.noncontiguous.build(patterns)<span class="question-mark">?</span>;
+        <span class="self">self</span>.build_from_noncontiguous(<span class="kw-2">&amp;</span>nnfa)
+    }
+
+    <span class="doccomment">/// Build an Aho-Corasick DFA from the given noncontiguous NFA.
+    ///
+    /// Note that when this method is used, only the `start_kind` and
+    /// `byte_classes` settings on this builder are respected. The other
+    /// settings only apply to the initial construction of the Aho-Corasick
+    /// automaton. Since using this method requires that initial construction
+    /// has already completed, all settings impacting only initial construction
+    /// are no longer relevant.
+    </span><span class="kw">pub fn </span>build_from_noncontiguous(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        nnfa: <span class="kw-2">&amp;</span>noncontiguous::NFA,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DFA, BuildError&gt; {
+        <span class="macro">debug!</span>(<span class="string">&quot;building DFA&quot;</span>);
+        <span class="kw">let </span>byte_classes = <span class="kw">if </span><span class="self">self</span>.byte_classes {
+            nnfa.byte_classes().clone()
+        } <span class="kw">else </span>{
+            ByteClasses::singletons()
+        };
+        <span class="kw">let </span>state_len = <span class="kw">match </span><span class="self">self</span>.start_kind {
+            StartKind::Unanchored | StartKind::Anchored =&gt; nnfa.states().len(),
+            StartKind::Both =&gt; {
+                <span class="comment">// These unwraps are OK because we know that the number of
+                // NFA states is &lt; StateID::LIMIT which is in turn less than
+                // i32::MAX. Thus, there is always room to multiply by 2.
+                // Finally, the number of states is always at least 4 in the
+                // NFA (DEAD, FAIL, START-UNANCHORED, START-ANCHORED), so the
+                // subtraction of 4 is okay.
+                //
+                // Note that we subtract 4 because the &quot;anchored&quot; part of
+                // the DFA duplicates the unanchored part (without failure
+                // transitions), but reuses the DEAD, FAIL and START states.
+                </span>nnfa.states()
+                    .len()
+                    .checked_mul(<span class="number">2</span>)
+                    .unwrap()
+                    .checked_sub(<span class="number">4</span>)
+                    .unwrap()
+            }
+        };
+        <span class="kw">let </span>trans_len =
+            <span class="kw">match </span>state_len.checked_shl(byte_classes.stride2().as_u32()) {
+                <span class="prelude-val">Some</span>(trans_len) =&gt; trans_len,
+                <span class="prelude-val">None </span>=&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(BuildError::state_id_overflow(
+                        StateID::MAX.as_u64(),
+                        usize::MAX.as_u64(),
+                    ))
+                }
+            };
+        StateID::new(trans_len.checked_sub(byte_classes.stride()).unwrap())
+            .map_err(|e| {
+                BuildError::state_id_overflow(
+                    StateID::MAX.as_u64(),
+                    e.attempted(),
+                )
+            })<span class="question-mark">?</span>;
+        <span class="kw">let </span>num_match_states = <span class="kw">match </span><span class="self">self</span>.start_kind {
+            StartKind::Unanchored | StartKind::Anchored =&gt; {
+                nnfa.special().max_match_id.as_usize().checked_sub(<span class="number">1</span>).unwrap()
+            }
+            StartKind::Both =&gt; nnfa
+                .special()
+                .max_match_id
+                .as_usize()
+                .checked_sub(<span class="number">1</span>)
+                .unwrap()
+                .checked_mul(<span class="number">2</span>)
+                .unwrap(),
+        };
+        <span class="kw">let </span><span class="kw-2">mut </span>dfa = DFA {
+            trans: <span class="macro">vec!</span>[DFA::DEAD; trans_len],
+            matches: <span class="macro">vec!</span>[<span class="macro">vec!</span>[]; num_match_states],
+            matches_memory_usage: <span class="number">0</span>,
+            pattern_lens: nnfa.pattern_lens_raw().to_vec(),
+            prefilter: nnfa.prefilter().map(|p| p.clone()),
+            match_kind: nnfa.match_kind(),
+            state_len,
+            alphabet_len: byte_classes.alphabet_len(),
+            stride2: byte_classes.stride2(),
+            byte_classes,
+            min_pattern_len: nnfa.min_pattern_len(),
+            max_pattern_len: nnfa.max_pattern_len(),
+            <span class="comment">// The special state IDs are set later.
+            </span>special: Special::zero(),
+        };
+        <span class="kw">match </span><span class="self">self</span>.start_kind {
+            StartKind::Both =&gt; {
+                <span class="self">self</span>.finish_build_both_starts(nnfa, <span class="kw-2">&amp;mut </span>dfa);
+            }
+            StartKind::Unanchored =&gt; {
+                <span class="self">self</span>.finish_build_one_start(Anchored::No, nnfa, <span class="kw-2">&amp;mut </span>dfa);
+            }
+            StartKind::Anchored =&gt; {
+                <span class="self">self</span>.finish_build_one_start(Anchored::Yes, nnfa, <span class="kw-2">&amp;mut </span>dfa)
+            }
+        }
+        <span class="macro">debug!</span>(
+            <span class="string">&quot;DFA built, &lt;states: {:?}, size: {:?}, \
+             alphabet len: {:?}, stride: {:?}&gt;&quot;</span>,
+            dfa.state_len,
+            dfa.memory_usage(),
+            dfa.byte_classes.alphabet_len(),
+            dfa.byte_classes.stride(),
+        );
+        <span class="comment">// The vectors can grow ~twice as big during construction because a
+        // Vec amortizes growth. But here, let&#39;s shrink things back down to
+        // what we actually need since we&#39;re never going to add more to it.
+        </span>dfa.trans.shrink_to_fit();
+        dfa.pattern_lens.shrink_to_fit();
+        dfa.matches.shrink_to_fit();
+        <span class="comment">// TODO: We might also want to shrink each Vec inside of `dfa.matches`,
+        // or even better, convert it to one contiguous allocation. But I think
+        // I went with nested allocs for good reason (can&#39;t remember), so this
+        // may be tricky to do. I decided not to shrink them here because it
+        // might require a fair bit of work to do. It&#39;s unclear whether it&#39;s
+        // worth it.
+        </span><span class="prelude-val">Ok</span>(dfa)
+    }
+
+    <span class="doccomment">/// Finishes building a DFA for either unanchored or anchored searches,
+    /// but NOT both.
+    </span><span class="kw">fn </span>finish_build_one_start(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        anchored: Anchored,
+        nnfa: <span class="kw-2">&amp;</span>noncontiguous::NFA,
+        dfa: <span class="kw-2">&amp;mut </span>DFA,
+    ) {
+        <span class="comment">// This function always succeeds because we check above that all of the
+        // states in the NFA can be mapped to DFA state IDs.
+        </span><span class="kw">let </span>stride2 = dfa.stride2;
+        <span class="kw">let </span>old2new = |oldsid: StateID| {
+            StateID::new_unchecked(oldsid.as_usize() &lt;&lt; stride2)
+        };
+        <span class="kw">for </span>(oldsid, state) <span class="kw">in </span>nnfa.states().iter().with_state_ids() {
+            <span class="kw">let </span>newsid = old2new(oldsid);
+            <span class="kw">if </span>state.is_match() {
+                dfa.set_matches(newsid, nnfa.iter_matches(oldsid));
+            }
+            sparse_iter(
+                nnfa,
+                oldsid,
+                <span class="kw-2">&amp;</span>dfa.byte_classes,
+                |byte, class, <span class="kw-2">mut </span>oldnextsid| {
+                    <span class="kw">if </span>oldnextsid == noncontiguous::NFA::FAIL {
+                        <span class="kw">if </span>anchored.is_anchored() {
+                            oldnextsid = noncontiguous::NFA::DEAD;
+                        } <span class="kw">else if </span>state.fail() == noncontiguous::NFA::DEAD {
+                            <span class="comment">// This is a special case that avoids following
+                            // DEAD transitions in a non-contiguous NFA.
+                            // Following these transitions is pretty slow
+                            // because the non-contiguous NFA will always use
+                            // a sparse representation for it (because the
+                            // DEAD state is usually treated as a sentinel).
+                            // The *vast* majority of failure states are DEAD
+                            // states, so this winds up being pretty slow if
+                            // we go through the non-contiguous NFA state
+                            // transition logic. Instead, just do it ourselves.
+                            </span>oldnextsid = noncontiguous::NFA::DEAD;
+                        } <span class="kw">else </span>{
+                            oldnextsid = nnfa.next_state(
+                                Anchored::No,
+                                state.fail(),
+                                byte,
+                            );
+                        }
+                    }
+                    dfa.trans[newsid.as_usize() + usize::from(class)] =
+                        old2new(oldnextsid);
+                },
+            );
+        }
+        <span class="comment">// Now that we&#39;ve remapped all the IDs in our states, all that&#39;s left
+        // is remapping the special state IDs.
+        </span><span class="kw">let </span>old = nnfa.special();
+        <span class="kw">let </span>new = <span class="kw-2">&amp;mut </span>dfa.special;
+        new.max_special_id = old2new(old.max_special_id);
+        new.max_match_id = old2new(old.max_match_id);
+        <span class="kw">if </span>anchored.is_anchored() {
+            new.start_unanchored_id = DFA::DEAD;
+            new.start_anchored_id = old2new(old.start_anchored_id);
+        } <span class="kw">else </span>{
+            new.start_unanchored_id = old2new(old.start_unanchored_id);
+            new.start_anchored_id = DFA::DEAD;
+        }
+    }
+
+    <span class="doccomment">/// Finishes building a DFA that supports BOTH unanchored and anchored
+    /// searches. It works by inter-leaving unanchored states with anchored
+    /// states in the same transition table. This way, we avoid needing to
+    /// re-shuffle states afterward to ensure that our states still look like
+    /// DEAD, MATCH, ..., START-UNANCHORED, START-ANCHORED, NON-MATCH, ...
+    ///
+    /// Honestly this is pretty inscrutable... Simplifications are most
+    /// welcome.
+    </span><span class="kw">fn </span>finish_build_both_starts(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        nnfa: <span class="kw-2">&amp;</span>noncontiguous::NFA,
+        dfa: <span class="kw-2">&amp;mut </span>DFA,
+    ) {
+        <span class="kw">let </span>stride2 = dfa.stride2;
+        <span class="kw">let </span>stride = <span class="number">1 </span>&lt;&lt; stride2;
+        <span class="kw">let </span><span class="kw-2">mut </span>remap_unanchored = <span class="macro">vec!</span>[DFA::DEAD; nnfa.states().len()];
+        <span class="kw">let </span><span class="kw-2">mut </span>remap_anchored = <span class="macro">vec!</span>[DFA::DEAD; nnfa.states().len()];
+        <span class="kw">let </span><span class="kw-2">mut </span>is_anchored = <span class="macro">vec!</span>[<span class="bool-val">false</span>; dfa.state_len];
+        <span class="kw">let </span><span class="kw-2">mut </span>newsid = DFA::DEAD;
+        <span class="kw">let </span>next_dfa_id =
+            |sid: StateID| StateID::new_unchecked(sid.as_usize() + stride);
+        <span class="kw">for </span>(oldsid, state) <span class="kw">in </span>nnfa.states().iter().with_state_ids() {
+            <span class="kw">if </span>oldsid == noncontiguous::NFA::DEAD
+                || oldsid == noncontiguous::NFA::FAIL
+            {
+                remap_unanchored[oldsid] = newsid;
+                remap_anchored[oldsid] = newsid;
+                newsid = next_dfa_id(newsid);
+            } <span class="kw">else if </span>oldsid == nnfa.special().start_unanchored_id
+                || oldsid == nnfa.special().start_anchored_id
+            {
+                <span class="kw">if </span>oldsid == nnfa.special().start_unanchored_id {
+                    remap_unanchored[oldsid] = newsid;
+                    remap_anchored[oldsid] = DFA::DEAD;
+                } <span class="kw">else </span>{
+                    remap_unanchored[oldsid] = DFA::DEAD;
+                    remap_anchored[oldsid] = newsid;
+                    is_anchored[newsid.as_usize() &gt;&gt; stride2] = <span class="bool-val">true</span>;
+                }
+                <span class="kw">if </span>state.is_match() {
+                    dfa.set_matches(newsid, nnfa.iter_matches(oldsid));
+                }
+                sparse_iter(
+                    nnfa,
+                    oldsid,
+                    <span class="kw-2">&amp;</span>dfa.byte_classes,
+                    |<span class="kw">_</span>, class, oldnextsid| {
+                        <span class="kw">let </span>class = usize::from(class);
+                        <span class="kw">if </span>oldnextsid == noncontiguous::NFA::FAIL {
+                            dfa.trans[newsid.as_usize() + class] = DFA::DEAD;
+                        } <span class="kw">else </span>{
+                            dfa.trans[newsid.as_usize() + class] = oldnextsid;
+                        }
+                    },
+                );
+                newsid = next_dfa_id(newsid);
+            } <span class="kw">else </span>{
+                <span class="kw">let </span>unewsid = newsid;
+                newsid = next_dfa_id(newsid);
+                <span class="kw">let </span>anewsid = newsid;
+                newsid = next_dfa_id(newsid);
+
+                remap_unanchored[oldsid] = unewsid;
+                remap_anchored[oldsid] = anewsid;
+                is_anchored[anewsid.as_usize() &gt;&gt; stride2] = <span class="bool-val">true</span>;
+                <span class="kw">if </span>state.is_match() {
+                    dfa.set_matches(unewsid, nnfa.iter_matches(oldsid));
+                    dfa.set_matches(anewsid, nnfa.iter_matches(oldsid));
+                }
+                sparse_iter(
+                    nnfa,
+                    oldsid,
+                    <span class="kw-2">&amp;</span>dfa.byte_classes,
+                    |byte, class, oldnextsid| {
+                        <span class="kw">let </span>class = usize::from(class);
+                        <span class="kw">if </span>oldnextsid == noncontiguous::NFA::FAIL {
+                            <span class="kw">let </span>oldnextsid =
+                                <span class="kw">if </span>state.fail() == noncontiguous::NFA::DEAD {
+                                    noncontiguous::NFA::DEAD
+                                } <span class="kw">else </span>{
+                                    nnfa.next_state(
+                                        Anchored::No,
+                                        state.fail(),
+                                        byte,
+                                    )
+                                };
+                            dfa.trans[unewsid.as_usize() + class] = oldnextsid;
+                        } <span class="kw">else </span>{
+                            dfa.trans[unewsid.as_usize() + class] = oldnextsid;
+                            dfa.trans[anewsid.as_usize() + class] = oldnextsid;
+                        }
+                    },
+                );
+            }
+        }
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..dfa.state_len {
+            <span class="kw">let </span>sid = i &lt;&lt; stride2;
+            <span class="kw">if </span>is_anchored[i] {
+                <span class="kw">for </span>next <span class="kw">in </span>dfa.trans[sid..][..stride].iter_mut() {
+                    <span class="kw-2">*</span>next = remap_anchored[<span class="kw-2">*</span>next];
+                }
+            } <span class="kw">else </span>{
+                <span class="kw">for </span>next <span class="kw">in </span>dfa.trans[sid..][..stride].iter_mut() {
+                    <span class="kw-2">*</span>next = remap_unanchored[<span class="kw-2">*</span>next];
+                }
+            }
+        }
+        <span class="comment">// Now that we&#39;ve remapped all the IDs in our states, all that&#39;s left
+        // is remapping the special state IDs.
+        </span><span class="kw">let </span>old = nnfa.special();
+        <span class="kw">let </span>new = <span class="kw-2">&amp;mut </span>dfa.special;
+        new.max_special_id = remap_anchored[old.max_special_id];
+        new.max_match_id = remap_anchored[old.max_match_id];
+        new.start_unanchored_id = remap_unanchored[old.start_unanchored_id];
+        new.start_anchored_id = remap_anchored[old.start_anchored_id];
+    }
+
+    <span class="doccomment">/// Set the desired match semantics.
+    ///
+    /// This only applies when using [`Builder::build`] and not
+    /// [`Builder::build_from_noncontiguous`].
+    ///
+    /// See
+    /// [`AhoCorasickBuilder::match_kind`](crate::AhoCorasickBuilder::match_kind)
+    /// for more documentation and examples.
+    </span><span class="kw">pub fn </span>match_kind(<span class="kw-2">&amp;mut </span><span class="self">self</span>, kind: MatchKind) -&gt; <span class="kw-2">&amp;mut </span>Builder {
+        <span class="self">self</span>.noncontiguous.match_kind(kind);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Enable ASCII-aware case insensitive matching.
+    ///
+    /// This only applies when using [`Builder::build`] and not
+    /// [`Builder::build_from_noncontiguous`].
+    ///
+    /// See
+    /// [`AhoCorasickBuilder::ascii_case_insensitive`](crate::AhoCorasickBuilder::ascii_case_insensitive)
+    /// for more documentation and examples.
+    </span><span class="kw">pub fn </span>ascii_case_insensitive(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) -&gt; <span class="kw-2">&amp;mut </span>Builder {
+        <span class="self">self</span>.noncontiguous.ascii_case_insensitive(yes);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Enable heuristic prefilter optimizations.
+    ///
+    /// This only applies when using [`Builder::build`] and not
+    /// [`Builder::build_from_noncontiguous`].
+    ///
+    /// See
+    /// [`AhoCorasickBuilder::prefilter`](crate::AhoCorasickBuilder::prefilter)
+    /// for more documentation and examples.
+    </span><span class="kw">pub fn </span>prefilter(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) -&gt; <span class="kw-2">&amp;mut </span>Builder {
+        <span class="self">self</span>.noncontiguous.prefilter(yes);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Sets the starting state configuration for the automaton.
+    ///
+    /// See
+    /// [`AhoCorasickBuilder::start_kind`](crate::AhoCorasickBuilder::start_kind)
+    /// for more documentation and examples.
+    </span><span class="kw">pub fn </span>start_kind(<span class="kw-2">&amp;mut </span><span class="self">self</span>, kind: StartKind) -&gt; <span class="kw-2">&amp;mut </span>Builder {
+        <span class="self">self</span>.start_kind = kind;
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// A debug setting for whether to attempt to shrink the size of the
+    /// automaton&#39;s alphabet or not.
+    ///
+    /// This should never be enabled unless you&#39;re debugging an automaton.
+    /// Namely, disabling byte classes makes transitions easier to reason
+    /// about, since they use the actual bytes instead of equivalence classes.
+    /// Disabling this confers no performance benefit at search time.
+    ///
+    /// See
+    /// [`AhoCorasickBuilder::byte_classes`](crate::AhoCorasickBuilder::byte_classes)
+    /// for more documentation and examples.
+    </span><span class="kw">pub fn </span>byte_classes(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) -&gt; <span class="kw-2">&amp;mut </span>Builder {
+        <span class="self">self</span>.byte_classes = yes;
+        <span class="self">self
+    </span>}
+}
+
+<span class="doccomment">/// Iterate over all possible equivalence class transitions in this state.
+/// The closure is called for all transitions with a distinct equivalence
+/// class, even those not explicitly represented in this sparse state. For
+/// any implicitly defined transitions, the given closure is called with
+/// the fail state ID.
+///
+/// The closure is guaranteed to be called precisely
+/// `byte_classes.alphabet_len()` times, once for every possible class in
+/// ascending order.
+</span><span class="kw">fn </span>sparse_iter&lt;F: FnMut(u8, u8, StateID)&gt;(
+    nnfa: <span class="kw-2">&amp;</span>noncontiguous::NFA,
+    oldsid: StateID,
+    classes: <span class="kw-2">&amp;</span>ByteClasses,
+    <span class="kw-2">mut </span>f: F,
+) {
+    <span class="kw">let </span><span class="kw-2">mut </span>prev_class = <span class="prelude-val">None</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>byte = <span class="number">0usize</span>;
+    <span class="kw">for </span>t <span class="kw">in </span>nnfa.iter_trans(oldsid) {
+        <span class="kw">while </span>byte &lt; usize::from(t.byte()) {
+            <span class="kw">let </span>rep = byte.as_u8();
+            <span class="kw">let </span>class = classes.get(rep);
+            byte += <span class="number">1</span>;
+            <span class="kw">if </span>prev_class != <span class="prelude-val">Some</span>(class) {
+                f(rep, class, noncontiguous::NFA::FAIL);
+                prev_class = <span class="prelude-val">Some</span>(class);
+            }
+        }
+        <span class="kw">let </span>rep = t.byte();
+        <span class="kw">let </span>class = classes.get(rep);
+        byte += <span class="number">1</span>;
+        <span class="kw">if </span>prev_class != <span class="prelude-val">Some</span>(class) {
+            f(rep, class, t.next());
+            prev_class = <span class="prelude-val">Some</span>(class);
+        }
+    }
+    <span class="kw">for </span>b <span class="kw">in </span>byte..=<span class="number">255 </span>{
+        <span class="kw">let </span>rep = b.as_u8();
+        <span class="kw">let </span>class = classes.get(rep);
+        <span class="kw">if </span>prev_class != <span class="prelude-val">Some</span>(class) {
+            f(rep, class, noncontiguous::NFA::FAIL);
+            prev_class = <span class="prelude-val">Some</span>(class);
+        }
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="aho_corasick" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["split_words","Split `s` into a vec of things that look like words and individual non-word characters."],["split_words_and_numbers","Split `s` into a vec of things that look like words and individual non-word characters."]]};

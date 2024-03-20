@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Compile-time string formatting."><meta name="keywords" content="rust, rustlang, rust-lang, const_format"><title>const_format - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../const_format/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../const_format/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate const_format</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.2.23</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../const_format/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">const_format</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/const_format/lib.rs.html#1-510">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Compile-time string formatting.</p>
+<p>This crate provides types and macros for formatting strings at compile-time.</p>
+<h2 id="rust-versions"><a href="#rust-versions">Rust versions</a></h2>
+<p>There are some features that require Rust 1.46.0,
+some that require Rust 1.51.0,
+and others that require Rust nightly,
+the sections below describe the features that are available for each version.</p>
+<h4 id="rust-1460"><a href="#rust-1460">Rust 1.46.0</a></h4>
+<p>These macros are the only things available in Rust 1.46.0:</p>
+<ul>
+<li>
+<p><a href="./macro.concatcp.html"><code>concatcp</code></a>:
+Concatenates <code>integers</code>, <code>bool</code>, <code>char</code>, and <code>&amp;str</code> constants into a <code>&amp;'static str</code> constant.</p>
+</li>
+<li>
+<p><a href="./macro.formatcp.html"><code>formatcp</code></a>:
+<a href="https://doc.rust-lang.org/std/macro.format.html"><code>format</code></a>-like formatting which takes <code>integers</code>, <code>bool</code>, <code>char</code>, and <code>&amp;str</code> constants,
+and emits a <code>&amp;'static str</code> constant.</p>
+</li>
+<li>
+<p><a href="./macro.str_get.html"><code>str_get</code></a>:
+Indexes a <code>&amp;'static str</code> constant, returning <code>None</code> when the index is out of bounds.</p>
+</li>
+<li>
+<p><a href="./macro.str_index.html"><code>str_index</code></a>:
+Indexes a <code>&amp;'static str</code> constant.</p>
+</li>
+<li>
+<p><a href="./macro.str_repeat.html"><code>str_repeat</code></a>:
+Creates a <code>&amp;'static str</code> by repeating a <code>&amp;'static str</code> constant <code>times</code> times.</p>
+</li>
+<li>
+<p><a href="./macro.str_splice.html"><code>str_splice</code></a>:
+Replaces a substring in a <code>&amp;'static str</code> constant.</p>
+</li>
+</ul>
+<h4 id="rust-1510"><a href="#rust-1510">Rust 1.51.0</a></h4>
+<p>By enabling the “const_generics” feature, you can use these macros:</p>
+<ul>
+<li>
+<p><a href="./macro.map_ascii_case.html"><code>map_ascii_case</code></a>:
+Converts a <code>&amp;'static str</code> constant to a different casing style,
+determined by a <a href="./enum.Case.html"><code>Case</code></a> argument.</p>
+</li>
+<li>
+<p><a href="./macro.str_replace.html"><code>str_replace</code></a>:
+Replaces all the instances of a pattern in a <code>&amp;'static str</code> constant with
+another <code>&amp;'static str</code> constant.</p>
+</li>
+</ul>
+<h4 id="rust-1570"><a href="#rust-1570">Rust 1.57.0</a></h4>
+<p>The “assertcp” feature enables the <a href="./macro.assertcp.html"><code>assertcp</code></a>, <a href="./macro.assertcp_eq.html"><code>assertcp_eq</code></a>,
+and <a href="./macro.assertcp_ne.html"><code>assertcp_ne</code></a> macros.
+These macros are like the standard library assert macros,
+but evaluated at compile-time,
+with the limitation that they can only have primitive types as arguments
+(just like <a href="./macro.concatcp.html"><code>concatcp</code></a> and <a href="./macro.formatcp.html"><code>formatcp</code></a>).</p>
+<h4 id="rust-nightly"><a href="#rust-nightly">Rust nightly</a></h4>
+<p>By enabling the “fmt” feature, you can use a <a href="https://doc.rust-lang.org/std/fmt/index.html"><code>std::fmt</code></a>-like API.</p>
+<p>This requires the nightly compiler because it uses mutable references in const fn,
+which have not been stabilized as of writing these docs.</p>
+<p>All the other features of this crate are implemented on top of the <a href="./fmt/index.html"><code>const_format::fmt</code></a> API:</p>
+<ul>
+<li>
+<p><a href="./macro.concatc.html"><code>concatc</code></a>:
+Concatenates many standard library and user defined types into a <code>&amp;'static str</code> constant.</p>
+</li>
+<li>
+<p><a href="./macro.formatc.html"><code>formatc</code></a>:
+<a href="https://doc.rust-lang.org/std/macro.format.html"><code>format</code></a>-like macro that can format many standard library and user defined types into
+a <code>&amp;'static str</code> constant.</p>
+</li>
+<li>
+<p><a href="./macro.writec.html"><code>writec</code></a>:
+<a href="https://doc.rust-lang.org/std/macro.write.html"><code>write</code></a>-like macro that can format many standard library and user defined types
+into a type that implements <a href="./marker_traits/trait.WriteMarker.html"><code>WriteMarker</code></a>.</p>
+</li>
+</ul>
+<p>The “derive” feature enables the <a href="./derive.ConstDebug.html"><code>ConstDebug</code></a> macro,
+and the “fmt” feature.<br>
+<a href="./derive.ConstDebug.html"><code>ConstDebug</code></a> derives the <a href="./marker_traits/trait.FormatMarker.html"><code>FormatMarker</code></a> trait,
+and implements an inherent <code>const_debug_fmt</code> method for compile-time debug formatting.</p>
+<p>The “assertc” feature enables the <a href="./macro.assertc.html"><code>assertc</code></a>, <a href="./macro.assertc_eq.html"><code>assertc_eq</code></a>, <a href="./macro.assertc_ne.html"><code>assertc_ne</code></a> macros,
+and the “fmt” feature.<br>
+These macros are like the standard library assert macros, but evaluated at compile-time.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2><h4 id="concatenation-of-primitive-types"><a href="#concatenation-of-primitive-types">Concatenation of primitive types</a></h4>
+<p>This example works in Rust 1.46.0.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::concatcp;
+
+<span class="kw">const </span>NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;Bob&quot;</span>;
+<span class="kw">const </span>FOO: <span class="kw-2">&amp;</span>str = <span class="macro">concatcp!</span>(NAME, <span class="string">&quot;, age &quot;</span>, <span class="number">21u8</span>,<span class="string">&quot;!&quot;</span>);
+
+<span class="macro">assert_eq!</span>(FOO, <span class="string">&quot;Bob, age 21!&quot;</span>);</code></pre></div>
+<h4 id="formatting-primitive-types"><a href="#formatting-primitive-types">Formatting primitive types</a></h4>
+<p>This example works in Rust 1.46.0.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::formatcp;
+
+<span class="kw">const </span>NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;John&quot;</span>;
+
+<span class="kw">const </span>FOO: <span class="kw-2">&amp;</span>str = <span class="macro">formatcp!</span>(<span class="string">&quot;{NAME}, age {}!&quot;</span>, compute_age(NAME));
+
+<span class="macro">assert_eq!</span>(FOO, <span class="string">&quot;John, age 24!&quot;</span>);
+
+</code></pre></div>
+<h4 id="formatting-custom-types"><a href="#formatting-custom-types">Formatting custom types</a></h4>
+<p>This example demonstrates how you can use the <a href="./derive.ConstDebug.html"><code>ConstDebug</code></a> derive macro,
+and then format the type into a <code>&amp;'static str</code> constant.</p>
+<p>This example requires Rust nightly, and the “derive” feature.</p>
+
+<div class="example-wrap ignore"><div class='tooltip'>ⓘ</div><pre class="rust rust-example-rendered"><code><span class="attribute">#![feature(const_mut_refs)]
+
+</span><span class="kw">use </span>const_format::{ConstDebug, formatc};
+
+<span class="attribute">#[derive(ConstDebug)]
+</span><span class="kw">struct </span>Message{
+    ip: [Octet; <span class="number">4</span>],
+    value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+}
+
+<span class="attribute">#[derive(ConstDebug)]
+</span><span class="kw">struct </span>Octet(u8);
+
+<span class="kw">const </span>MSG: Message = Message{
+    ip: [Octet(<span class="number">127</span>), Octet(<span class="number">0</span>), Octet(<span class="number">0</span>), Octet(<span class="number">1</span>)],
+    value: <span class="string">&quot;Hello, World!&quot;</span>,
+};
+
+<span class="kw">const </span>FOO: <span class="kw-2">&amp;</span>str = <span class="macro">formatc!</span>(<span class="string">&quot;{:?}&quot;</span>, MSG);
+
+<span class="macro">assert_eq!</span>(
+    FOO,
+    <span class="string">&quot;Message { ip: [Octet(127), Octet(0), Octet(0), Octet(1)], value: \&quot;Hello, World!\&quot; }&quot;
+</span>);
+</code></pre></div>
+<h4 id="formatted-const-assertions"><a href="#formatted-const-assertions">Formatted const assertions</a></h4>
+<p>This example demonstrates how you can use the <a href="./macro.assertcp_ne.html"><code>assertcp_ne</code></a> macro to
+do compile-time inequality assertions with formatted error messages.</p>
+<p>This requires the “assertcp” feature,
+because using the <code>panic</code> macro at compile-time requires Rust 1.57.0.</p>
+
+<div class="example-wrap ignore"><div class='tooltip'>ⓘ</div><pre class="rust rust-example-rendered"><code><span class="attribute">#![feature(const_mut_refs)]
+
+</span><span class="kw">use </span>const_format::assertcp_ne;
+
+<span class="macro">macro_rules! </span>check_valid_pizza{
+    (<span class="macro-nonterminal">$user</span>:expr, <span class="macro-nonterminal">$topping</span>:expr) =&gt; {
+        <span class="macro">assertcp_ne!</span>(
+            <span class="macro-nonterminal">$topping</span>,
+            <span class="string">&quot;pineapple&quot;</span>,
+            <span class="string">&quot;You can&#39;t put pineapple on pizza, {}&quot;</span>,
+            <span class="macro-nonterminal">$user</span>,
+        );
+    }
+}
+
+<span class="macro">check_valid_pizza!</span>(<span class="string">&quot;John&quot;</span>, <span class="string">&quot;salami&quot;</span>);
+<span class="macro">check_valid_pizza!</span>(<span class="string">&quot;Dave&quot;</span>, <span class="string">&quot;sausage&quot;</span>);
+<span class="macro">check_valid_pizza!</span>(<span class="string">&quot;Bob&quot;</span>, <span class="string">&quot;pineapple&quot;</span>);
+</code></pre></div>
+<p>This is the compiler output:</p>
+<div class="example-wrap"><pre class="language-text"><code>error[E0080]: evaluation of constant value failed
+  --&gt; src/lib.rs:178:27
+   |
+20 | check_valid_pizza!(&quot;Bob&quot;, &quot;pineapple&quot;);
+   |                           ^^^^^^^^^^^ the evaluated program panicked at &#39;
+assertion failed: `(left != right)`
+ left: `&quot;pineapple&quot;`
+right: `&quot;pineapple&quot;`
+You can&#39;t put pineapple on pizza, Bob
+&#39;, src/lib.rs:20:27
+
+</code></pre></div><div id="macro-limitations"></div>
+<h2 id="limitations"><a href="#limitations">Limitations</a></h2>
+<p>All of the macros from <code>const_format</code> have these limitations:</p>
+<ul>
+<li>
+<p>The formatting macros that expand to
+<code>&amp;'static str</code>s can only use constants from concrete types,
+so while a <code>Type::&lt;u8&gt;::FOO</code> argument would be fine,
+<code>Type::&lt;T&gt;::FOO</code> would not be (<code>T</code> being a type parameter).</p>
+</li>
+<li>
+<p>Integer arguments must have a type inferrable from context,
+<a href="#integer-args">more details in the Integer arguments section</a>.</p>
+</li>
+<li>
+<p>They cannot be used places that take string literals.
+So <code>#[doc = &quot;foobar&quot;]</code> cannot be replaced with <code>#[doc = concatcp!(&quot;foo&quot;, &quot;bar&quot;) ]</code>.</p>
+</li>
+</ul>
+<p><span id="integer-args"></span></p>
+<h4 id="integer-arguments"><a href="#integer-arguments">Integer arguments</a></h4>
+<p>Integer arguments must have a type inferrable from context.
+so if you only pass an integer literal it must have a suffix.</p>
+<p>Example of what does compile:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">const </span>N: u32 = <span class="number">1</span>;
+<span class="macro">assert_eq!</span>(<span class="macro">const_format::concatcp!</span>(N + <span class="number">1</span>, <span class="number">2 </span>+ N), <span class="string">&quot;23&quot;</span>);
+
+<span class="macro">assert_eq!</span>(<span class="macro">const_format::concatcp!</span>(<span class="number">2u32</span>, <span class="number">2 </span>+ <span class="number">1u8</span>, <span class="number">3u8 </span>+ <span class="number">1</span>), <span class="string">&quot;234&quot;</span>);</code></pre></div>
+<p>Example of what does not compile:</p>
+
+<div class="example-wrap compile_fail"><div class='tooltip'>ⓘ</div><pre class="rust rust-example-rendered"><code><span class="macro">assert_eq!</span>(<span class="macro">const_format::concatcp!</span>(<span class="number">1 </span>+ <span class="number">1</span>, <span class="number">2 </span>+ <span class="number">1</span>), <span class="string">&quot;23&quot;</span>);</code></pre></div>
+<h2 id="renaming-crate"><a href="#renaming-crate">Renaming crate</a></h2>
+<p>All function-like macros from <code>const_format</code> can be used when the crate is renamed.</p>
+<p>The <a href="./derive.ConstDebug.html"><code>ConstDebug</code></a> derive macro has the <code>#[cdeb(crate = &quot;foo::bar&quot;)]</code> attribute to
+tell it where to find the <code>const_format</code> crate.</p>
+<p>Example of renaming the <code>const_format</code> crate in the Cargo.toml file:</p>
+<div class="example-wrap"><pre class="language-toml"><code>cfmt = {version = &quot;0.*&quot;, package = &quot;const_format&quot;}</code></pre></div><h2 id="cargo-features"><a href="#cargo-features">Cargo features</a></h2>
+<ul>
+<li>
+<p>“fmt”: Enables the <a href="https://doc.rust-lang.org/std/fmt/index.html"><code>std::fmt</code></a>-like API,
+requires Rust nightly because it uses mutable references in const fn.<br>
+This feature includes the <a href="./macro.formatc.html"><code>formatc</code></a>/<a href="./macro.writec.html"><code>writec</code></a> formatting macros.</p>
+</li>
+<li>
+<p>“derive”: implies the “fmt” feature,
+provides the <a href="./derive.ConstDebug.html"><code>ConstDebug</code></a> derive macro to format user-defined types at compile-time.<br>
+This implicitly uses the <code>syn</code> crate, so clean compiles take a bit longer than without the feature.</p>
+</li>
+<li>
+<p>“assertc”: implies the “fmt” feature,
+enables the <a href="./macro.assertc.html"><code>assertc</code></a>, <a href="./macro.assertc_eq.html"><code>assertc_eq</code></a>, and <a href="./macro.assertc_ne.html"><code>assertc_ne</code></a> assertion macros.<br>
+This feature was previously named “assert”,
+but it was renamed to avoid confusion with the “assertcp” feature.</p>
+</li>
+<li>
+<p>“assertcp”: Requires Rust 1.57.0, implies the “const_generics” feature.
+Enables the <a href="./macro.assertcp.html"><code>assertcp</code></a>, <a href="./macro.assertcp_eq.html"><code>assertcp_eq</code></a>, and <a href="./macro.assertcp_ne.html"><code>assertcp_ne</code></a> assertion macros.</p>
+</li>
+<li>
+<p>“constant_time_as_str”: implies the “fmt” feature.
+An optimization that requires a few additional nightly features,
+allowing the <code>as_bytes_alt</code> methods and <code>slice_up_to_len_alt</code> methods to run
+in constant time, rather than linear time proportional to the truncated part of the slice.</p>
+</li>
+<li>
+<p>“const_generics”: Requires Rust 1.51.0.
+Enables the macros listed in the <a href="#rust-1510">Rust 1.51.0</a> section.
+Also changes the the implementation of the <a href="./macro.concatcp.html"><code>concatcp</code></a> and <a href="./macro.formatcp.html"><code>formatcp</code></a>
+macros to use const generics.</p>
+</li>
+</ul>
+<h2 id="no-std-support"><a href="#no-std-support">No-std support</a></h2>
+<p><code>const_format</code> is unconditionally <code>#![no_std]</code>, it can be used anywhere Rust can be used.</p>
+<h2 id="minimum-supported-rust-version"><a href="#minimum-supported-rust-version">Minimum Supported Rust Version</a></h2>
+<p><code>const_format</code> requires Rust 1.46.0, because it uses looping an branching in const contexts.</p>
+<p>Features that require newer versions of Rust, or the nightly compiler,
+need to be explicitly enabled with cargo features.</p>
+</div></details><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.concatcp.html" title="const_format::concatcp macro">concatcp</a></div><div class="item-right docblock-short">Concatenates constants of primitive types into a <code>&amp;'static str</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.formatcp.html" title="const_format::formatcp macro">formatcp</a></div><div class="item-right docblock-short">Formats constants of primitive types into a <code>&amp;'static str</code></div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.str_get.html" title="const_format::str_get macro">str_get</a></div><div class="item-right docblock-short">Indexes a <code>&amp;'static str</code> constant,
+returning <code>None</code> when the index is not on a character boundary.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.str_index.html" title="const_format::str_index macro">str_index</a></div><div class="item-right docblock-short">Indexes a <code>&amp;'static str</code> constant.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.str_repeat.html" title="const_format::str_repeat macro">str_repeat</a></div><div class="item-right docblock-short">Creates a <code>&amp;'static str</code> by repeating a <code>&amp;'static str</code> constant <code>times</code> times</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.str_splice.html" title="const_format::str_splice macro">str_splice</a></div><div class="item-right docblock-short">Replaces a substring in a <code>&amp;'static str</code> constant.
+Returns both the new resulting <code>&amp;'static str</code>, and the replaced substring.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SplicedStr.html" title="const_format::SplicedStr struct">SplicedStr</a></div><div class="item-right docblock-short">The return value of <a href="./macro.str_splice.html"><code>str_splice</code></a></div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="const_format" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

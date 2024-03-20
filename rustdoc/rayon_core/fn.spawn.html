@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Fires off a task into the Rayon threadpool in the “static” or “global” scope.  Just like a standard thread, this task is not tied to the current stack frame, and hence it cannot hold any references other than those with `&#x27;static` lifetime. If you want to spawn a task that references stack data, use the `scope()` function to create a scope."><meta name="keywords" content="rust, rustlang, rust-lang, spawn"><title>spawn in rayon_core - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../rayon_core/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../rayon_core/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In rayon_core</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../rayon_core/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Function <a href="index.html">rayon_core</a>::<wbr><a class="fn" href="#">spawn</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/rayon_core/spawn/mod.rs.html#60-66">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust fn"><code>pub fn spawn&lt;F&gt;(func: F)<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>() + <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,</span></code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Fires off a task into the Rayon threadpool in the “static” or
+“global” scope.  Just like a standard thread, this task is not
+tied to the current stack frame, and hence it cannot hold any
+references other than those with <code>'static</code> lifetime. If you want
+to spawn a task that references stack data, use <a href="fn.scope.html">the <code>scope()</code>
+function</a> to create a scope.</p>
+<p>Since tasks spawned with this function cannot hold references into
+the enclosing stack frame, you almost certainly want to use a
+<code>move</code> closure as their argument (otherwise, the closure will
+typically hold references to any variables from the enclosing
+function that you happen to use).</p>
+<p>This API assumes that the closure is executed purely for its
+side-effects (i.e., it might send messages, modify data protected
+by a mutex, or some such thing).</p>
+<p>There is no guaranteed order of execution for spawns, given that
+other threads may steal tasks at any time. However, they are
+generally prioritized in a LIFO order on the thread from which
+they were spawned. Other threads always steal from the other end of
+the deque, like FIFO order.  The idea is that “recent” tasks are
+most likely to be fresh in the local CPU’s cache, while other
+threads can steal older “stale” tasks.  For an alternate approach,
+consider <a href="fn.spawn_fifo.html"><code>spawn_fifo()</code></a> instead.</p>
+<h2 id="panic-handling"><a href="#panic-handling">Panic handling</a></h2>
+<p>If this closure should panic, the resulting panic will be
+propagated to the panic handler registered in the <code>ThreadPoolBuilder</code>,
+if any.  See <a href="struct.ThreadPoolBuilder.html#method.panic_handler"><code>ThreadPoolBuilder::panic_handler()</code></a> for more
+details.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<p>This code creates a Rayon task that increments a global counter.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::sync::atomic::{AtomicUsize, Ordering, ATOMIC_USIZE_INIT};
+
+<span class="kw">static </span>GLOBAL_COUNTER: AtomicUsize = ATOMIC_USIZE_INIT;
+
+rayon::spawn(<span class="kw">move </span>|| {
+    GLOBAL_COUNTER.fetch_add(<span class="number">1</span>, Ordering::SeqCst);
+});</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="rayon_core" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

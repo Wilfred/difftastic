@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This crate provides a safe and simple cross platform way to determine whether two file paths refer to the same file or directory."><meta name="keywords" content="rust, rustlang, rust-lang, same_file"><title>same_file - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../same_file/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../same_file/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate same_file</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 1.0.6</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../same_file/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">same_file</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/same_file/lib.rs.html#1-572">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This crate provides a safe and simple <strong>cross platform</strong> way to determine
+whether two file paths refer to the same file or directory.</p>
+<p>Most uses of this crate should be limited to the top-level <a href="fn.is_same_file.html"><code>is_same_file</code></a>
+function, which takes two file paths and returns true if they refer to the
+same file or directory:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>same_file::is_same_file;
+
+<span class="macro">assert!</span>(is_same_file(<span class="string">&quot;/bin/sh&quot;</span>, <span class="string">&quot;/usr/bin/sh&quot;</span>)<span class="question-mark">?</span>);</code></pre></div>
+<p>Additionally, this crate provides a <a href="struct.Handle.html"><code>Handle</code></a> type that permits a more efficient
+equality check depending on your access pattern. For example, if one wanted to
+check whether any path in a list of paths corresponded to the process’ stdout
+handle, then one could build a handle once for stdout. The equality check for
+each file in the list then only requires one stat call instead of two. The code
+might look like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>same_file::Handle;
+
+<span class="kw">let </span>candidates = <span class="kw-2">&amp;</span>[
+    <span class="string">&quot;examples/is_same_file.rs&quot;</span>,
+    <span class="string">&quot;examples/is_stderr.rs&quot;</span>,
+    <span class="string">&quot;examples/stderr&quot;</span>,
+];
+<span class="kw">let </span>stdout_handle = Handle::stdout()<span class="question-mark">?</span>;
+<span class="kw">for </span>candidate <span class="kw">in </span>candidates {
+    <span class="kw">let </span>handle = Handle::from_path(candidate)<span class="question-mark">?</span>;
+    <span class="kw">if </span>stdout_handle == handle {
+        <span class="macro">println!</span>(<span class="string">&quot;{:?} is stdout!&quot;</span>, candidate);
+    } <span class="kw">else </span>{
+        <span class="macro">println!</span>(<span class="string">&quot;{:?} is NOT stdout!&quot;</span>, candidate);
+    }
+}</code></pre></div>
+<p>See <a href="https://github.com/BurntSushi/same-file/blob/master/examples/is_same_file.rs"><code>examples/is_stderr.rs</code></a> for a runnable example and compare the output of:</p>
+<ul>
+<li><code>cargo run --example is_stderr 2&gt; examples/stderr</code> and</li>
+<li><code>cargo run --example is_stderr</code>.</li>
+</ul>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Handle.html" title="same_file::Handle struct">Handle</a></div><div class="item-right docblock-short">A handle to a file that can be tested for equality with other handles.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.is_same_file.html" title="same_file::is_same_file fn">is_same_file</a></div><div class="item-right docblock-short">Returns true if the two file paths may correspond to the same file.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="same_file" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

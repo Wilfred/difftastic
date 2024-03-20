@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A mutual exclusion primitive useful for protecting shared data"><meta name="keywords" content="rust, rustlang, rust-lang, Mutex"><title>Mutex in parking_lot - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc type"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../parking_lot/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../parking_lot/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Mutex</a></h2><div class="sidebar-elems"><h2 class="location"><a href="index.html">In parking_lot</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../parking_lot/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Type Definition <a href="index.html">parking_lot</a>::<wbr><a class="type" href="#">Mutex</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/parking_lot/mutex.rs.html#87">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust typedef"><code>pub type Mutex&lt;T&gt; = <a class="struct" href="../lock_api/mutex/struct.Mutex.html" title="struct lock_api::mutex::Mutex">Mutex</a>&lt;<a class="struct" href="struct.RawMutex.html" title="struct parking_lot::RawMutex">RawMutex</a>, T&gt;;</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A mutual exclusion primitive useful for protecting shared data</p>
+<p>This mutex will block threads waiting for the lock to become available. The
+mutex can be statically initialized or created by the <code>new</code>
+constructor. Each mutex has a type parameter which represents the data that
+it is protecting. The data can only be accessed through the RAII guards
+returned from <code>lock</code> and <code>try_lock</code>, which guarantees that the data is only
+ever accessed when the mutex is locked.</p>
+<h2 id="fairness"><a href="#fairness">Fairness</a></h2>
+<p>A typical unfair lock can often end up in a situation where a single thread
+quickly acquires and releases the same mutex in succession, which can starve
+other threads waiting to acquire the mutex. While this improves throughput
+because it doesn’t force a context switch when a thread tries to re-acquire
+a mutex it has just released, this can starve other threads.</p>
+<p>This mutex uses <a href="https://trac.webkit.org/changeset/203350">eventual fairness</a>
+to ensure that the lock will be fair on average without sacrificing
+throughput. This is done by forcing a fair unlock on average every 0.5ms,
+which will force the lock to go to the next thread waiting for the mutex.</p>
+<p>Additionally, any critical section longer than 1ms will always use a fair
+unlock, which has a negligible impact on throughput considering the length
+of the critical section.</p>
+<p>You can also force a fair unlock by calling <code>MutexGuard::unlock_fair</code> when
+unlocking a mutex instead of simply dropping the <code>MutexGuard</code>.</p>
+<h2 id="differences-from-the-standard-library-mutex"><a href="#differences-from-the-standard-library-mutex">Differences from the standard library <code>Mutex</code></a></h2>
+<ul>
+<li>No poisoning, the lock is released normally on panic.</li>
+<li>Only requires 1 byte of space, whereas the standard library boxes the
+<code>Mutex</code> due to platform limitations.</li>
+<li>Can be statically constructed.</li>
+<li>Does not require any drop glue when dropped.</li>
+<li>Inline fast path for the uncontended case.</li>
+<li>Efficient handling of micro-contention using adaptive spinning.</li>
+<li>Allows raw locking &amp; unlocking without a guard.</li>
+<li>Supports eventual fairness so that the mutex is fair on average.</li>
+<li>Optionally allows making the mutex fair by calling <code>MutexGuard::unlock_fair</code>.</li>
+</ul>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>parking_lot::Mutex;
+<span class="kw">use </span>std::sync::{Arc, mpsc::channel};
+<span class="kw">use </span>std::thread;
+
+<span class="kw">const </span>N: usize = <span class="number">10</span>;
+
+<span class="comment">// Spawn a few threads to increment a shared variable (non-atomically), and
+// let the main thread know once all increments are done.
+//
+// Here we&#39;re using an Arc to share memory among threads, and the data inside
+// the Arc is protected with a mutex.
+</span><span class="kw">let </span>data = Arc::new(Mutex::new(<span class="number">0</span>));
+
+<span class="kw">let </span>(tx, rx) = channel();
+<span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10 </span>{
+    <span class="kw">let </span>(data, tx) = (Arc::clone(<span class="kw-2">&amp;</span>data), tx.clone());
+    thread::spawn(<span class="kw">move </span>|| {
+        <span class="comment">// The shared state can only be accessed once the lock is held.
+        // Our non-atomic increment is safe because we&#39;re the only thread
+        // which can access the shared state when the lock is held.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>data = data.lock();
+        <span class="kw-2">*</span>data += <span class="number">1</span>;
+        <span class="kw">if </span><span class="kw-2">*</span>data == N {
+            tx.send(()).unwrap();
+        }
+        <span class="comment">// the lock is unlocked here when `data` goes out of scope.
+    </span>});
+}
+
+rx.recv().unwrap();</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="parking_lot" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

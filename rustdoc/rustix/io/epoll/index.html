@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="epoll support."><meta name="keywords" content="rust, rustlang, rust-lang, epoll"><title>rustix::io::epoll - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../rustix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../rustix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Module epoll</a></h2><div class="sidebar-elems"><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../rustix/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Module <a href="../../index.html">rustix</a>::<wbr><a href="../index.html">io</a>::<wbr><a class="mod" href="#">epoll</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../../src/rustix/backend/linux_raw/io/epoll.rs.html#1-352">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>epoll support.</p>
+<p>This is an experiment, and it isn’t yet clear whether epoll is the right
+level of abstraction at which to introduce safety. But it works fairly well
+in simple examples 🙂.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>io_lifetimes::AsFd;
+<span class="kw">use </span>rustix::io::{epoll, ioctl_fionbio, read, write};
+<span class="kw">use </span>rustix::net::{
+    accept, bind_v4, listen, socket, AddressFamily, Ipv4Addr, Protocol, SocketAddrV4,
+    SocketType,
+};
+<span class="kw">use </span>std::collections::HashMap;
+<span class="kw">use </span>std::os::unix::io::AsRawFd;
+
+<span class="comment">// Create a socket and listen on it.
+</span><span class="kw">let </span>listen_sock = socket(AddressFamily::INET, SocketType::STREAM, Protocol::default())<span class="question-mark">?</span>;
+bind_v4(<span class="kw-2">&amp;</span>listen_sock, <span class="kw-2">&amp;</span>SocketAddrV4::new(Ipv4Addr::LOCALHOST, <span class="number">0</span>))<span class="question-mark">?</span>;
+listen(<span class="kw-2">&amp;</span>listen_sock, <span class="number">1</span>)<span class="question-mark">?</span>;
+
+<span class="comment">// Create an epoll object. Using `Owning` here means the epoll object will
+// take ownership of the file descriptors registered with it.
+</span><span class="kw">let </span>epoll = epoll::epoll_create(epoll::CreateFlags::CLOEXEC)<span class="question-mark">?</span>;
+
+<span class="comment">// Register the socket with the epoll object.
+</span>epoll::epoll_add(<span class="kw-2">&amp;</span>epoll, <span class="kw-2">&amp;</span>listen_sock, <span class="number">1</span>, epoll::EventFlags::IN)<span class="question-mark">?</span>;
+
+<span class="comment">// Keep track of the sockets we&#39;ve opened.
+</span><span class="kw">let </span><span class="kw-2">mut </span>next_id = <span class="number">2</span>;
+<span class="kw">let </span><span class="kw-2">mut </span>sockets = HashMap::new();
+
+<span class="comment">// Process events.
+</span><span class="kw">let </span><span class="kw-2">mut </span>event_list = epoll::EventVec::with_capacity(<span class="number">4</span>);
+<span class="kw">loop </span>{
+    epoll::epoll_wait(<span class="kw-2">&amp;</span>epoll, <span class="kw-2">&amp;mut </span>event_list, -<span class="number">1</span>)<span class="question-mark">?</span>;
+    <span class="kw">for </span>(_event_flags, target) <span class="kw">in </span><span class="kw-2">&amp;</span>event_list {
+        <span class="kw">if </span>target == <span class="number">1 </span>{
+            <span class="comment">// Accept a new connection, set it to non-blocking, and
+            // register to be notified when it&#39;s ready to write to.
+            </span><span class="kw">let </span>conn_sock = accept(<span class="kw-2">&amp;</span>listen_sock)<span class="question-mark">?</span>;
+            ioctl_fionbio(<span class="kw-2">&amp;</span>conn_sock, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+            epoll::epoll_add(
+                <span class="kw-2">&amp;</span>epoll,
+                <span class="kw-2">&amp;</span>conn_sock,
+                next_id,
+                epoll::EventFlags::OUT | epoll::EventFlags::ET,
+            )<span class="question-mark">?</span>;
+
+            <span class="comment">// Keep track of the socket.
+            </span>sockets.insert(next_id, conn_sock);
+            next_id += <span class="number">1</span>;
+        } <span class="kw">else </span>{
+            <span class="comment">// Write a message to the stream and then unregister it.
+            </span><span class="kw">let </span>target = sockets.remove(<span class="kw-2">&amp;</span>target).unwrap();
+            write(<span class="kw-2">&amp;</span>target, <span class="string">b&quot;hello\n&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">let _ </span>= epoll::epoll_del(<span class="kw-2">&amp;</span>epoll, <span class="kw-2">&amp;</span>target)<span class="question-mark">?</span>;
+        }
+    }
+}</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.CreateFlags.html" title="rustix::io::epoll::CreateFlags struct">CreateFlags</a></div><div class="item-right docblock-short"><code>EPOLL_*</code> for use with [<code>Epoll::new</code>].</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.EventFlags.html" title="rustix::io::epoll::EventFlags struct">EventFlags</a></div><div class="item-right docblock-short"><code>EPOLL*</code> for use with [<code>Epoll::add</code>].</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.EventVec.html" title="rustix::io::epoll::EventVec struct">EventVec</a></div><div class="item-right docblock-short">A vector of <code>Event</code>s, plus context for interpreting them.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Iter.html" title="rustix::io::epoll::Iter struct">Iter</a></div><div class="item-right docblock-short">An iterator over the <code>Event</code>s in an <code>EventVec</code>.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.epoll_add.html" title="rustix::io::epoll::epoll_add fn">epoll_add</a></div><div class="item-right docblock-short"><code>epoll_ctl(self, EPOLL_CTL_ADD, data, event)</code>—Adds an element to an
+<code>Epoll</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.epoll_create.html" title="rustix::io::epoll::epoll_create fn">epoll_create</a></div><div class="item-right docblock-short"><code>epoll_create1(flags)</code>—Creates a new <code>Epoll</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.epoll_del.html" title="rustix::io::epoll::epoll_del fn">epoll_del</a></div><div class="item-right docblock-short"><code>epoll_ctl(self, EPOLL_CTL_DEL, target, NULL)</code>—Removes an element in
+this <code>Epoll</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.epoll_mod.html" title="rustix::io::epoll::epoll_mod fn">epoll_mod</a></div><div class="item-right docblock-short"><code>epoll_ctl(self, EPOLL_CTL_MOD, target, event)</code>—Modifies an element in
+this <code>Epoll</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.epoll_wait.html" title="rustix::io::epoll::epoll_wait fn">epoll_wait</a></div><div class="item-right docblock-short"><code>epoll_wait(self, events, timeout)</code>—Waits for registered events of
+interest.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rustix" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

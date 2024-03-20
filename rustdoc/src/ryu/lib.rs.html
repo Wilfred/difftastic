@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/ryu-1.0.15/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../ryu/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../ryu/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../ryu/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+</pre><pre class="rust"><code><span class="doccomment">//! [![github]](https://github.com/dtolnay/ryu)&amp;ensp;[![crates-io]](https://crates.io/crates/ryu)&amp;ensp;[![docs-rs]](https://docs.rs/ryu)
+//!
+//! [github]: https://img.shields.io/badge/github-8da0cb?style=for-the-badge&amp;labelColor=555555&amp;logo=github
+//! [crates-io]: https://img.shields.io/badge/crates.io-fc8d62?style=for-the-badge&amp;labelColor=555555&amp;logo=rust
+//! [docs-rs]: https://img.shields.io/badge/docs.rs-66c2a5?style=for-the-badge&amp;labelColor=555555&amp;logo=docs.rs
+//!
+//! &lt;br&gt;
+//!
+//! Pure Rust implementation of Ryū, an algorithm to quickly convert floating
+//! point numbers to decimal strings.
+//!
+//! The PLDI&#39;18 paper [*Ryū: fast float-to-string conversion*][paper] by Ulf
+//! Adams includes a complete correctness proof of the algorithm. The paper is
+//! available under the creative commons CC-BY-SA license.
+//!
+//! This Rust implementation is a line-by-line port of Ulf Adams&#39; implementation
+//! in C, [https://github.com/ulfjack/ryu][upstream].
+//!
+//! [paper]: https://dl.acm.org/citation.cfm?id=3192369
+//! [upstream]: https://github.com/ulfjack/ryu
+//!
+//! # Example
+//!
+//! ```
+//! fn main() {
+//!     let mut buffer = ryu::Buffer::new();
+//!     let printed = buffer.format(1.234);
+//!     assert_eq!(printed, &quot;1.234&quot;);
+//! }
+//! ```
+//!
+//! ## Performance (lower is better)
+//!
+//! ![performance](https://raw.githubusercontent.com/dtolnay/ryu/master/performance.png)
+//!
+//! You can run upstream&#39;s benchmarks with:
+//!
+//! ```console
+//! $ git clone https://github.com/ulfjack/ryu c-ryu
+//! $ cd c-ryu
+//! $ bazel run -c opt //ryu/benchmark
+//! ```
+//!
+//! And the same benchmark against our implementation with:
+//!
+//! ```console
+//! $ git clone https://github.com/dtolnay/ryu rust-ryu
+//! $ cd rust-ryu
+//! $ cargo run --example upstream_benchmark --release
+//! ```
+//!
+//! These benchmarks measure the average time to print a 32-bit float and average
+//! time to print a 64-bit float, where the inputs are distributed as uniform random
+//! bit patterns 32 and 64 bits wide.
+//!
+//! The upstream C code, the unsafe direct Rust port, and the safe pretty Rust API
+//! all perform the same, taking around 21 nanoseconds to format a 32-bit float and
+//! 31 nanoseconds to format a 64-bit float.
+//!
+//! There is also a Rust-specific benchmark comparing this implementation to the
+//! standard library which you can run with:
+//!
+//! ```console
+//! $ cargo bench
+//! ```
+//!
+//! The benchmark shows Ryū approximately 2-5x faster than the standard library
+//! across a range of f32 and f64 inputs. Measurements are in nanoseconds per
+//! iteration; smaller is better.
+//!
+//! ## Formatting
+//!
+//! This library tends to produce more human-readable output than the standard
+//! library&#39;s to\_string, which never uses scientific notation. Here are two
+//! examples:
+//!
+//! - *ryu:* 1.23e40, *std:* 12300000000000000000000000000000000000000
+//! - *ryu:* 1.23e-40, *std:* 0.000000000000000000000000000000000000000123
+//!
+//! Both libraries print short decimals such as 0.0000123 without scientific
+//! notation.
+
+</span><span class="attribute">#![no_std]
+#![doc(html_root_url = <span class="string">&quot;https://docs.rs/ryu/1.0.15&quot;</span>)]
+#![allow(
+    clippy::cast_lossless,
+    clippy::cast_possible_truncation,
+    clippy::cast_possible_wrap,
+    clippy::cast_sign_loss,
+    clippy::checked_conversions,
+    clippy::doc_markdown,
+    clippy::expl_impl_clone_on_copy,
+    clippy::if_not_else,
+    clippy::many_single_char_names,
+    clippy::missing_panics_doc,
+    clippy::module_name_repetitions,
+    clippy::must_use_candidate,
+    clippy::similar_names,
+    clippy::too_many_lines,
+    clippy::unreadable_literal,
+    clippy::unseparated_literal_suffix,
+    clippy::wildcard_imports
+)]
+
+</span><span class="kw">mod </span>buffer;
+<span class="kw">mod </span>common;
+<span class="kw">mod </span>d2s;
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;small&quot;</span>))]
+</span><span class="kw">mod </span>d2s_full_table;
+<span class="kw">mod </span>d2s_intrinsics;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;small&quot;</span>)]
+</span><span class="kw">mod </span>d2s_small_table;
+<span class="kw">mod </span>digit_table;
+<span class="kw">mod </span>f2s;
+<span class="kw">mod </span>f2s_intrinsics;
+<span class="kw">mod </span>pretty;
+
+<span class="kw">pub use </span><span class="kw">crate</span>::buffer::{Buffer, Float};
+
+<span class="doccomment">/// Unsafe functions that mirror the API of the C implementation of Ryū.
+</span><span class="kw">pub mod </span>raw {
+    <span class="kw">pub use </span><span class="kw">crate</span>::pretty::{format32, format64};
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ryu" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

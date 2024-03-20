@@ -1,0 +1,1684 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-core-1.11.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../rayon_core/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../rayon_core/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../rayon_core/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Rayon-core houses the core stable APIs of Rayon.
+//!
+//! These APIs have been mirrored in the Rayon crate and it is recommended to use these from there.
+//!
+//! [`join`] is used to take two closures and potentially run them in parallel.
+//!   - It will run in parallel if task B gets stolen before task A can finish.
+//!   - It will run sequentially if task A finishes before task B is stolen and can continue on task B.
+//!
+//! [`scope`] creates a scope in which you can run any number of parallel tasks.
+//! These tasks can spawn nested tasks and scopes, but given the nature of work stealing, the order of execution can not be guaranteed.
+//! The scope will exist until all tasks spawned within the scope have been completed.
+//!
+//! [`spawn`] add a task into the &#39;static&#39; or &#39;global&#39; scope, or a local scope created by the [`scope()`] function.
+//!
+//! [`ThreadPool`] can be used to create your own thread pools (using [`ThreadPoolBuilder`]) or to customize the global one.
+//! Tasks spawned within the pool (using [`install()`], [`join()`], etc.) will be added to a deque,
+//! where it becomes available for work stealing from other threads in the local threadpool.
+//!
+//! [`join`]: fn.join.html
+//! [`scope`]: fn.scope.html
+//! [`scope()`]: fn.scope.html
+//! [`spawn`]: fn.spawn.html
+//! [`ThreadPool`]: struct.threadpool.html
+//! [`install()`]: struct.ThreadPool.html#method.install
+//! [`spawn()`]: struct.ThreadPool.html#method.spawn
+//! [`join()`]: struct.ThreadPool.html#method.join
+//! [`ThreadPoolBuilder`]: struct.ThreadPoolBuilder.html
+//!
+//! # Global fallback when threading is unsupported
+//!
+//! Rayon uses `std` APIs for threading, but some targets have incomplete implementations that
+//! always return `Unsupported` errors. The WebAssembly `wasm32-unknown-unknown` and `wasm32-wasi`
+//! targets are notable examples of this. Rather than panicking on the unsupported error when
+//! creating the implicit global threadpool, Rayon configures a fallback mode instead.
+//!
+//! This fallback mode mostly functions as if it were using a single-threaded &quot;pool&quot;, like setting
+//! `RAYON_NUM_THREADS=1`. For example, `join` will execute its two closures sequentially, since
+//! there is no other thread to share the work. However, since the pool is not running independent
+//! of the main thread, non-blocking calls like `spawn` may not execute at all, unless a lower-
+//! priority call like `broadcast` gives them an opening. The fallback mode does not try to emulate
+//! anything like thread preemption or `async` task switching, but `yield_now` or `yield_local`
+//! can also volunteer execution time.
+//!
+//! Explicit `ThreadPoolBuilder` methods always report their error without any fallback.
+//!
+//! # Restricting multiple versions
+//!
+//! In order to ensure proper coordination between threadpools, and especially
+//! to make sure there&#39;s only one global threadpool, `rayon-core` is actively
+//! restricted from building multiple versions of itself into a single target.
+//! You may see a build error like this in violation:
+//!
+//! ```text
+//! error: native library `rayon-core` is being linked to by more
+//! than one package, and can only be linked to by one package
+//! ```
+//!
+//! While we strive to keep `rayon-core` semver-compatible, it&#39;s still
+//! possible to arrive at this situation if different crates have overly
+//! restrictive tilde or inequality requirements for `rayon-core`.  The
+//! conflicting requirements will need to be resolved before the build will
+//! succeed.
+
+</span><span class="attribute">#![deny(missing_debug_implementations)]
+#![deny(missing_docs)]
+#![deny(unreachable_pub)]
+#![warn(rust_2018_idioms)]
+
+</span><span class="kw">use </span>std::any::Any;
+<span class="kw">use </span>std::env;
+<span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::io;
+<span class="kw">use </span>std::marker::PhantomData;
+<span class="kw">use </span>std::str::FromStr;
+
+<span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>log;
+<span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>private;
+
+<span class="kw">mod </span>broadcast;
+<span class="kw">mod </span>job;
+<span class="kw">mod </span>join;
+<span class="kw">mod </span>latch;
+<span class="kw">mod </span>registry;
+<span class="kw">mod </span>scope;
+<span class="kw">mod </span>sleep;
+<span class="kw">mod </span>spawn;
+<span class="kw">mod </span>thread_pool;
+<span class="kw">mod </span>unwind;
+
+<span class="kw">mod </span>compile_fail;
+<span class="kw">mod </span>test;
+
+<span class="kw">pub use </span><span class="self">self</span>::broadcast::{broadcast, spawn_broadcast, BroadcastContext};
+<span class="kw">pub use </span><span class="self">self</span>::join::{join, join_context};
+<span class="kw">pub use </span><span class="self">self</span>::registry::ThreadBuilder;
+<span class="kw">pub use </span><span class="self">self</span>::scope::{in_place_scope, scope, Scope};
+<span class="kw">pub use </span><span class="self">self</span>::scope::{in_place_scope_fifo, scope_fifo, ScopeFifo};
+<span class="kw">pub use </span><span class="self">self</span>::spawn::{spawn, spawn_fifo};
+<span class="kw">pub use </span><span class="self">self</span>::thread_pool::current_thread_has_pending_tasks;
+<span class="kw">pub use </span><span class="self">self</span>::thread_pool::current_thread_index;
+<span class="kw">pub use </span><span class="self">self</span>::thread_pool::ThreadPool;
+<span class="kw">pub use </span><span class="self">self</span>::thread_pool::{yield_local, yield_now, Yield};
+
+<span class="kw">use </span><span class="self">self</span>::registry::{CustomSpawn, DefaultSpawn, ThreadSpawn};
+
+<span class="doccomment">/// Returns the maximum number of threads that Rayon supports in a single thread-pool.
+///
+/// If a higher thread count is requested by calling `ThreadPoolBuilder::num_threads` or by setting
+/// the `RAYON_NUM_THREADS` environment variable, then it will be reduced to this maximum.
+///
+/// The value may vary between different targets, and is subject to change in new Rayon versions.
+</span><span class="kw">pub fn </span>max_num_threads() -&gt; usize {
+    <span class="comment">// We are limited by the bits available in the sleep counter&#39;s `AtomicUsize`.
+    </span><span class="kw">crate</span>::sleep::THREADS_MAX
+}
+
+<span class="doccomment">/// Returns the number of threads in the current registry. If this
+/// code is executing within a Rayon thread-pool, then this will be
+/// the number of threads for the thread-pool of the current
+/// thread. Otherwise, it will be the number of threads for the global
+/// thread-pool.
+///
+/// This can be useful when trying to judge how many times to split
+/// parallel work (the parallel iterator traits use this value
+/// internally for this purpose).
+///
+/// # Future compatibility note
+///
+/// Note that unless this thread-pool was created with a
+/// builder that specifies the number of threads, then this
+/// number may vary over time in future versions (see [the
+/// `num_threads()` method for details][snt]).
+///
+/// [snt]: struct.ThreadPoolBuilder.html#method.num_threads
+</span><span class="kw">pub fn </span>current_num_threads() -&gt; usize {
+    <span class="kw">crate</span>::registry::Registry::current_num_threads()
+}
+
+<span class="doccomment">/// Error when initializing a thread pool.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ThreadPoolBuildError {
+    kind: ErrorKind,
+}
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">enum </span>ErrorKind {
+    GlobalPoolAlreadyInitialized,
+    IOError(io::Error),
+}
+
+<span class="doccomment">/// Used to create a new [`ThreadPool`] or to configure the global rayon thread pool.
+/// ## Creating a ThreadPool
+/// The following creates a thread pool with 22 threads.
+///
+/// ```rust
+/// # use rayon_core as rayon;
+/// let pool = rayon::ThreadPoolBuilder::new().num_threads(22).build().unwrap();
+/// ```
+///
+/// To instead configure the global thread pool, use [`build_global()`]:
+///
+/// ```rust
+/// # use rayon_core as rayon;
+/// rayon::ThreadPoolBuilder::new().num_threads(22).build_global().unwrap();
+/// ```
+///
+/// [`ThreadPool`]: struct.ThreadPool.html
+/// [`build_global()`]: struct.ThreadPoolBuilder.html#method.build_global
+</span><span class="kw">pub struct </span>ThreadPoolBuilder&lt;S = DefaultSpawn&gt; {
+    <span class="doccomment">/// The number of threads in the rayon thread pool.
+    /// If zero will use the RAYON_NUM_THREADS environment variable.
+    /// If RAYON_NUM_THREADS is invalid or zero will use the default.
+    </span>num_threads: usize,
+
+    <span class="doccomment">/// Custom closure, if any, to handle a panic that we cannot propagate
+    /// anywhere else.
+    </span>panic_handler: <span class="prelude-ty">Option</span>&lt;Box&lt;PanicHandler&gt;&gt;,
+
+    <span class="doccomment">/// Closure to compute the name of a thread.
+    </span>get_thread_name: <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>FnMut(usize) -&gt; String&gt;&gt;,
+
+    <span class="doccomment">/// The stack size for the created worker threads
+    </span>stack_size: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+
+    <span class="doccomment">/// Closure invoked on worker thread start.
+    </span>start_handler: <span class="prelude-ty">Option</span>&lt;Box&lt;StartHandler&gt;&gt;,
+
+    <span class="doccomment">/// Closure invoked on worker thread exit.
+    </span>exit_handler: <span class="prelude-ty">Option</span>&lt;Box&lt;ExitHandler&gt;&gt;,
+
+    <span class="doccomment">/// Closure invoked to spawn threads.
+    </span>spawn_handler: S,
+
+    <span class="doccomment">/// If false, worker threads will execute spawned jobs in a
+    /// &quot;depth-first&quot; fashion. If true, they will do a &quot;breadth-first&quot;
+    /// fashion. Depth-first is the default.
+    </span>breadth_first: bool,
+}
+
+<span class="doccomment">/// Contains the rayon thread pool configuration. Use [`ThreadPoolBuilder`] instead.
+///
+/// [`ThreadPoolBuilder`]: struct.ThreadPoolBuilder.html
+</span><span class="attribute">#[deprecated(note = <span class="string">&quot;Use `ThreadPoolBuilder`&quot;</span>)]
+#[derive(Default)]
+</span><span class="kw">pub struct </span>Configuration {
+    builder: ThreadPoolBuilder,
+}
+
+<span class="doccomment">/// The type for a panic handling closure. Note that this same closure
+/// may be invoked multiple times in parallel.
+</span><span class="kw">type </span>PanicHandler = <span class="kw">dyn </span>Fn(Box&lt;<span class="kw">dyn </span>Any + Send&gt;) + Send + Sync;
+
+<span class="doccomment">/// The type for a closure that gets invoked when a thread starts. The
+/// closure is passed the index of the thread on which it is invoked.
+/// Note that this same closure may be invoked multiple times in parallel.
+</span><span class="kw">type </span>StartHandler = <span class="kw">dyn </span>Fn(usize) + Send + Sync;
+
+<span class="doccomment">/// The type for a closure that gets invoked when a thread exits. The
+/// closure is passed the index of the thread on which is is invoked.
+/// Note that this same closure may be invoked multiple times in parallel.
+</span><span class="kw">type </span>ExitHandler = <span class="kw">dyn </span>Fn(usize) + Send + Sync;
+
+<span class="comment">// NB: We can&#39;t `#[derive(Default)]` because `S` is left ambiguous.
+</span><span class="kw">impl </span>Default <span class="kw">for </span>ThreadPoolBuilder {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        ThreadPoolBuilder {
+            num_threads: <span class="number">0</span>,
+            panic_handler: <span class="prelude-val">None</span>,
+            get_thread_name: <span class="prelude-val">None</span>,
+            stack_size: <span class="prelude-val">None</span>,
+            start_handler: <span class="prelude-val">None</span>,
+            exit_handler: <span class="prelude-val">None</span>,
+            spawn_handler: DefaultSpawn,
+            breadth_first: <span class="bool-val">false</span>,
+        }
+    }
+}
+
+<span class="kw">impl </span>ThreadPoolBuilder {
+    <span class="doccomment">/// Creates and returns a valid rayon thread pool builder, but does not initialize it.
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::default()
+    }
+}
+
+<span class="doccomment">/// Note: the `S: ThreadSpawn` constraint is an internal implementation detail for the
+/// default spawn and those set by [`spawn_handler`](#method.spawn_handler).
+</span><span class="kw">impl</span>&lt;S&gt; ThreadPoolBuilder&lt;S&gt;
+<span class="kw">where
+    </span>S: ThreadSpawn,
+{
+    <span class="doccomment">/// Creates a new `ThreadPool` initialized using this configuration.
+    </span><span class="kw">pub fn </span>build(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ThreadPool, ThreadPoolBuildError&gt; {
+        ThreadPool::build(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Initializes the global thread pool. This initialization is
+    /// **optional**.  If you do not call this function, the thread pool
+    /// will be automatically initialized with the default
+    /// configuration. Calling `build_global` is not recommended, except
+    /// in two scenarios:
+    ///
+    /// - You wish to change the default configuration.
+    /// - You are running a benchmark, in which case initializing may
+    ///   yield slightly more consistent results, since the worker threads
+    ///   will already be ready to go even in the first iteration.  But
+    ///   this cost is minimal.
+    ///
+    /// Initialization of the global thread pool happens exactly
+    /// once. Once started, the configuration cannot be
+    /// changed. Therefore, if you call `build_global` a second time, it
+    /// will return an error. An `Ok` result indicates that this
+    /// is the first initialization of the thread pool.
+    </span><span class="kw">pub fn </span>build_global(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), ThreadPoolBuildError&gt; {
+        <span class="kw">let </span>registry = registry::init_global_registry(<span class="self">self</span>)<span class="question-mark">?</span>;
+        registry.wait_until_primed();
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="kw">impl </span>ThreadPoolBuilder {
+    <span class="doccomment">/// Creates a scoped `ThreadPool` initialized using this configuration.
+    ///
+    /// This is a convenience function for building a pool using [`crossbeam::scope`]
+    /// to spawn threads in a [`spawn_handler`](#method.spawn_handler).
+    /// The threads in this pool will start by calling `wrapper`, which should
+    /// do initialization and continue by calling `ThreadBuilder::run()`.
+    ///
+    /// [`crossbeam::scope`]: https://docs.rs/crossbeam/0.8/crossbeam/fn.scope.html
+    ///
+    /// # Examples
+    ///
+    /// A scoped pool may be useful in combination with scoped thread-local variables.
+    ///
+    /// ```
+    /// # use rayon_core as rayon;
+    ///
+    /// scoped_tls::scoped_thread_local!(static POOL_DATA: Vec&lt;i32&gt;);
+    ///
+    /// fn main() -&gt; Result&lt;(), rayon::ThreadPoolBuildError&gt; {
+    ///     let pool_data = vec![1, 2, 3];
+    ///
+    ///     // We haven&#39;t assigned any TLS data yet.
+    ///     assert!(!POOL_DATA.is_set());
+    ///
+    ///     rayon::ThreadPoolBuilder::new()
+    ///         .build_scoped(
+    ///             // Borrow `pool_data` in TLS for each thread.
+    ///             |thread| POOL_DATA.set(&amp;pool_data, || thread.run()),
+    ///             // Do some work that needs the TLS data.
+    ///             |pool| pool.install(|| assert!(POOL_DATA.is_set())),
+    ///         )?;
+    ///
+    ///     // Once we&#39;ve returned, `pool_data` is no longer borrowed.
+    ///     drop(pool_data);
+    ///     Ok(())
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>build_scoped&lt;W, F, R&gt;(<span class="self">self</span>, wrapper: W, with_pool: F) -&gt; <span class="prelude-ty">Result</span>&lt;R, ThreadPoolBuildError&gt;
+    <span class="kw">where
+        </span>W: Fn(ThreadBuilder) + Sync, <span class="comment">// expected to call `run()`
+        </span>F: FnOnce(<span class="kw-2">&amp;</span>ThreadPool) -&gt; R,
+    {
+        <span class="kw">let </span>result = crossbeam_utils::thread::scope(|scope| {
+            <span class="kw">let </span>wrapper = <span class="kw-2">&amp;</span>wrapper;
+            <span class="kw">let </span>pool = <span class="self">self
+                </span>.spawn_handler(|thread| {
+                    <span class="kw">let </span><span class="kw-2">mut </span>builder = scope.builder();
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(name) = thread.name() {
+                        builder = builder.name(name.to_string());
+                    }
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(size) = thread.stack_size() {
+                        builder = builder.stack_size(size);
+                    }
+                    builder.spawn(<span class="kw">move </span>|<span class="kw">_</span>| wrapper(thread))<span class="question-mark">?</span>;
+                    <span class="prelude-val">Ok</span>(())
+                })
+                .build()<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(with_pool(<span class="kw-2">&amp;</span>pool))
+        });
+
+        <span class="kw">match </span>result {
+            <span class="prelude-val">Ok</span>(result) =&gt; result,
+            <span class="prelude-val">Err</span>(err) =&gt; unwind::resume_unwinding(err),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;S&gt; ThreadPoolBuilder&lt;S&gt; {
+    <span class="doccomment">/// Sets a custom function for spawning threads.
+    ///
+    /// Note that the threads will not exit until after the pool is dropped. It
+    /// is up to the caller to wait for thread termination if that is important
+    /// for any invariants. For instance, threads created in [`crossbeam::scope`]
+    /// will be joined before that scope returns, and this will block indefinitely
+    /// if the pool is leaked. Furthermore, the global thread pool doesn&#39;t terminate
+    /// until the entire process exits!
+    ///
+    /// [`crossbeam::scope`]: https://docs.rs/crossbeam/0.8/crossbeam/fn.scope.html
+    ///
+    /// # Examples
+    ///
+    /// A minimal spawn handler just needs to call `run()` from an independent thread.
+    ///
+    /// ```
+    /// # use rayon_core as rayon;
+    /// fn main() -&gt; Result&lt;(), rayon::ThreadPoolBuildError&gt; {
+    ///     let pool = rayon::ThreadPoolBuilder::new()
+    ///         .spawn_handler(|thread| {
+    ///             std::thread::spawn(|| thread.run());
+    ///             Ok(())
+    ///         })
+    ///         .build()?;
+    ///
+    ///     pool.install(|| println!(&quot;Hello from my custom thread!&quot;));
+    ///     Ok(())
+    /// }
+    /// ```
+    ///
+    /// The default spawn handler sets the name and stack size if given, and propagates
+    /// any errors from the thread builder.
+    ///
+    /// ```
+    /// # use rayon_core as rayon;
+    /// fn main() -&gt; Result&lt;(), rayon::ThreadPoolBuildError&gt; {
+    ///     let pool = rayon::ThreadPoolBuilder::new()
+    ///         .spawn_handler(|thread| {
+    ///             let mut b = std::thread::Builder::new();
+    ///             if let Some(name) = thread.name() {
+    ///                 b = b.name(name.to_owned());
+    ///             }
+    ///             if let Some(stack_size) = thread.stack_size() {
+    ///                 b = b.stack_size(stack_size);
+    ///             }
+    ///             b.spawn(|| thread.run())?;
+    ///             Ok(())
+    ///         })
+    ///         .build()?;
+    ///
+    ///     pool.install(|| println!(&quot;Hello from my fully custom thread!&quot;));
+    ///     Ok(())
+    /// }
+    /// ```
+    ///
+    /// This can also be used for a pool of scoped threads like [`crossbeam::scope`],
+    /// or [`std::thread::scope`] introduced in Rust 1.63, which is encapsulated in
+    /// [`build_scoped`](#method.build_scoped).
+    ///
+    /// [`std::thread::scope`]: https://doc.rust-lang.org/std/thread/fn.scope.html
+    ///
+    /// ```
+    /// # use rayon_core as rayon;
+    /// fn main() -&gt; Result&lt;(), rayon::ThreadPoolBuildError&gt; {
+    ///     std::thread::scope(|scope| {
+    ///         let pool = rayon::ThreadPoolBuilder::new()
+    ///             .spawn_handler(|thread| {
+    ///                 let mut builder = std::thread::Builder::new();
+    ///                 if let Some(name) = thread.name() {
+    ///                     builder = builder.name(name.to_string());
+    ///                 }
+    ///                 if let Some(size) = thread.stack_size() {
+    ///                     builder = builder.stack_size(size);
+    ///                 }
+    ///                 builder.spawn_scoped(scope, || {
+    ///                     // Add any scoped initialization here, then run!
+    ///                     thread.run()
+    ///                 })?;
+    ///                 Ok(())
+    ///             })
+    ///             .build()?;
+    ///
+    ///         pool.install(|| println!(&quot;Hello from my custom scoped thread!&quot;));
+    ///         Ok(())
+    ///     })
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>spawn_handler&lt;F&gt;(<span class="self">self</span>, spawn: F) -&gt; ThreadPoolBuilder&lt;CustomSpawn&lt;F&gt;&gt;
+    <span class="kw">where
+        </span>F: FnMut(ThreadBuilder) -&gt; io::Result&lt;()&gt;,
+    {
+        ThreadPoolBuilder {
+            spawn_handler: CustomSpawn::new(spawn),
+            <span class="comment">// ..self
+            </span>num_threads: <span class="self">self</span>.num_threads,
+            panic_handler: <span class="self">self</span>.panic_handler,
+            get_thread_name: <span class="self">self</span>.get_thread_name,
+            stack_size: <span class="self">self</span>.stack_size,
+            start_handler: <span class="self">self</span>.start_handler,
+            exit_handler: <span class="self">self</span>.exit_handler,
+            breadth_first: <span class="self">self</span>.breadth_first,
+        }
+    }
+
+    <span class="doccomment">/// Returns a reference to the current spawn handler.
+    </span><span class="kw">fn </span>get_spawn_handler(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>S {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.spawn_handler
+    }
+
+    <span class="doccomment">/// Get the number of threads that will be used for the thread
+    /// pool. See `num_threads()` for more information.
+    </span><span class="kw">fn </span>get_num_threads(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="kw">if </span><span class="self">self</span>.num_threads &gt; <span class="number">0 </span>{
+            <span class="self">self</span>.num_threads
+        } <span class="kw">else </span>{
+            <span class="kw">match </span>env::var(<span class="string">&quot;RAYON_NUM_THREADS&quot;</span>)
+                .ok()
+                .and_then(|s| usize::from_str(<span class="kw-2">&amp;</span>s).ok())
+            {
+                <span class="prelude-val">Some</span>(x) <span class="kw">if </span>x &gt; <span class="number">0 </span>=&gt; <span class="kw">return </span>x,
+                <span class="prelude-val">Some</span>(x) <span class="kw">if </span>x == <span class="number">0 </span>=&gt; <span class="kw">return </span>num_cpus::get(),
+                <span class="kw">_ </span>=&gt; {}
+            }
+
+            <span class="comment">// Support for deprecated `RAYON_RS_NUM_CPUS`.
+            </span><span class="kw">match </span>env::var(<span class="string">&quot;RAYON_RS_NUM_CPUS&quot;</span>)
+                .ok()
+                .and_then(|s| usize::from_str(<span class="kw-2">&amp;</span>s).ok())
+            {
+                <span class="prelude-val">Some</span>(x) <span class="kw">if </span>x &gt; <span class="number">0 </span>=&gt; x,
+                <span class="kw">_ </span>=&gt; num_cpus::get(),
+            }
+        }
+    }
+
+    <span class="doccomment">/// Get the thread name for the thread with the given index.
+    </span><span class="kw">fn </span>get_thread_name(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
+        <span class="kw">let </span>f = <span class="self">self</span>.get_thread_name.as_mut()<span class="question-mark">?</span>;
+        <span class="prelude-val">Some</span>(f(index))
+    }
+
+    <span class="doccomment">/// Sets a closure which takes a thread index and returns
+    /// the thread&#39;s name.
+    </span><span class="kw">pub fn </span>thread_name&lt;F&gt;(<span class="kw-2">mut </span><span class="self">self</span>, closure: F) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>F: FnMut(usize) -&gt; String + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.get_thread_name = <span class="prelude-val">Some</span>(Box::new(closure));
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Sets the number of threads to be used in the rayon threadpool.
+    ///
+    /// If you specify a non-zero number of threads using this
+    /// function, then the resulting thread-pools are guaranteed to
+    /// start at most this number of threads.
+    ///
+    /// If `num_threads` is 0, or you do not call this function, then
+    /// the Rayon runtime will select the number of threads
+    /// automatically. At present, this is based on the
+    /// `RAYON_NUM_THREADS` environment variable (if set),
+    /// or the number of logical CPUs (otherwise).
+    /// In the future, however, the default behavior may
+    /// change to dynamically add or remove threads as needed.
+    ///
+    /// **Future compatibility warning:** Given the default behavior
+    /// may change in the future, if you wish to rely on a fixed
+    /// number of threads, you should use this function to specify
+    /// that number. To reproduce the current default behavior, you
+    /// may wish to use the [`num_cpus`
+    /// crate](https://crates.io/crates/num_cpus) to query the number
+    /// of CPUs dynamically.
+    ///
+    /// **Old environment variable:** `RAYON_NUM_THREADS` is a one-to-one
+    /// replacement of the now deprecated `RAYON_RS_NUM_CPUS` environment
+    /// variable. If both variables are specified, `RAYON_NUM_THREADS` will
+    /// be preferred.
+    </span><span class="kw">pub fn </span>num_threads(<span class="kw-2">mut </span><span class="self">self</span>, num_threads: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.num_threads = num_threads;
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns a copy of the current panic handler.
+    </span><span class="kw">fn </span>take_panic_handler(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Box&lt;PanicHandler&gt;&gt; {
+        <span class="self">self</span>.panic_handler.take()
+    }
+
+    <span class="doccomment">/// Normally, whenever Rayon catches a panic, it tries to
+    /// propagate it to someplace sensible, to try and reflect the
+    /// semantics of sequential execution. But in some cases,
+    /// particularly with the `spawn()` APIs, there is no
+    /// obvious place where we should propagate the panic to.
+    /// In that case, this panic handler is invoked.
+    ///
+    /// If no panic handler is set, the default is to abort the
+    /// process, under the principle that panics should not go
+    /// unobserved.
+    ///
+    /// If the panic handler itself panics, this will abort the
+    /// process. To prevent this, wrap the body of your panic handler
+    /// in a call to `std::panic::catch_unwind()`.
+    </span><span class="kw">pub fn </span>panic_handler&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, panic_handler: H) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>H: Fn(Box&lt;<span class="kw">dyn </span>Any + Send&gt;) + Send + Sync + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.panic_handler = <span class="prelude-val">Some</span>(Box::new(panic_handler));
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Get the stack size of the worker threads
+    </span><span class="kw">fn </span>get_stack_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="self">self</span>.stack_size
+    }
+
+    <span class="doccomment">/// Sets the stack size of the worker threads
+    </span><span class="kw">pub fn </span>stack_size(<span class="kw-2">mut </span><span class="self">self</span>, stack_size: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.stack_size = <span class="prelude-val">Some</span>(stack_size);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// **(DEPRECATED)** Suggest to worker threads that they execute
+    /// spawned jobs in a &quot;breadth-first&quot; fashion.
+    ///
+    /// Typically, when a worker thread is idle or blocked, it will
+    /// attempt to execute the job from the *top* of its local deque of
+    /// work (i.e., the job most recently spawned). If this flag is set
+    /// to true, however, workers will prefer to execute in a
+    /// *breadth-first* fashion -- that is, they will search for jobs at
+    /// the *bottom* of their local deque. (At present, workers *always*
+    /// steal from the bottom of other workers&#39; deques, regardless of
+    /// the setting of this flag.)
+    ///
+    /// If you think of the tasks as a tree, where a parent task
+    /// spawns its children in the tree, then this flag loosely
+    /// corresponds to doing a breadth-first traversal of the tree,
+    /// whereas the default would be to do a depth-first traversal.
+    ///
+    /// **Note that this is an &quot;execution hint&quot;.** Rayon&#39;s task
+    /// execution is highly dynamic and the precise order in which
+    /// independent tasks are executed is not intended to be
+    /// guaranteed.
+    ///
+    /// This `breadth_first()` method is now deprecated per [RFC #1],
+    /// and in the future its effect may be removed. Consider using
+    /// [`scope_fifo()`] for a similar effect.
+    ///
+    /// [RFC #1]: https://github.com/rayon-rs/rfcs/blob/master/accepted/rfc0001-scope-scheduling.md
+    /// [`scope_fifo()`]: fn.scope_fifo.html
+    </span><span class="attribute">#[deprecated(note = <span class="string">&quot;use `scope_fifo` and `spawn_fifo` for similar effect&quot;</span>)]
+    </span><span class="kw">pub fn </span>breadth_first(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.breadth_first = <span class="bool-val">true</span>;
+        <span class="self">self
+    </span>}
+
+    <span class="kw">fn </span>get_breadth_first(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.breadth_first
+    }
+
+    <span class="doccomment">/// Takes the current thread start callback, leaving `None`.
+    </span><span class="kw">fn </span>take_start_handler(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Box&lt;StartHandler&gt;&gt; {
+        <span class="self">self</span>.start_handler.take()
+    }
+
+    <span class="doccomment">/// Sets a callback to be invoked on thread start.
+    ///
+    /// The closure is passed the index of the thread on which it is invoked.
+    /// Note that this same closure may be invoked multiple times in parallel.
+    /// If this closure panics, the panic will be passed to the panic handler.
+    /// If that handler returns, then startup will continue normally.
+    </span><span class="kw">pub fn </span>start_handler&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, start_handler: H) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>H: Fn(usize) + Send + Sync + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.start_handler = <span class="prelude-val">Some</span>(Box::new(start_handler));
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns a current thread exit callback, leaving `None`.
+    </span><span class="kw">fn </span>take_exit_handler(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Box&lt;ExitHandler&gt;&gt; {
+        <span class="self">self</span>.exit_handler.take()
+    }
+
+    <span class="doccomment">/// Sets a callback to be invoked on thread exit.
+    ///
+    /// The closure is passed the index of the thread on which it is invoked.
+    /// Note that this same closure may be invoked multiple times in parallel.
+    /// If this closure panics, the panic will be passed to the panic handler.
+    /// If that handler returns, then the thread will exit normally.
+    </span><span class="kw">pub fn </span>exit_handler&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, exit_handler: H) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>H: Fn(usize) + Send + Sync + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.exit_handler = <span class="prelude-val">Some</span>(Box::new(exit_handler));
+        <span class="self">self
+    </span>}
+}
+
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">impl </span>Configuration {
+    <span class="doccomment">/// Creates and return a valid rayon thread pool configuration, but does not initialize it.
+    </span><span class="kw">pub fn </span>new() -&gt; Configuration {
+        Configuration {
+            builder: ThreadPoolBuilder::new(),
+        }
+    }
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::build`.
+    </span><span class="kw">pub fn </span>build(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ThreadPool, Box&lt;<span class="kw">dyn </span>Error + <span class="lifetime">&#39;static</span>&gt;&gt; {
+        <span class="self">self</span>.builder.build().map_err(Box::from)
+    }
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::thread_name`.
+    </span><span class="kw">pub fn </span>thread_name&lt;F&gt;(<span class="kw-2">mut </span><span class="self">self</span>, closure: F) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>F: FnMut(usize) -&gt; String + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.thread_name(closure);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::num_threads`.
+    </span><span class="kw">pub fn </span>num_threads(<span class="kw-2">mut </span><span class="self">self</span>, num_threads: usize) -&gt; Configuration {
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.num_threads(num_threads);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::panic_handler`.
+    </span><span class="kw">pub fn </span>panic_handler&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, panic_handler: H) -&gt; Configuration
+    <span class="kw">where
+        </span>H: Fn(Box&lt;<span class="kw">dyn </span>Any + Send&gt;) + Send + Sync + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.panic_handler(panic_handler);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::stack_size`.
+    </span><span class="kw">pub fn </span>stack_size(<span class="kw-2">mut </span><span class="self">self</span>, stack_size: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.stack_size(stack_size);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::breadth_first`.
+    </span><span class="kw">pub fn </span>breadth_first(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.breadth_first();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::start_handler`.
+    </span><span class="kw">pub fn </span>start_handler&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, start_handler: H) -&gt; Configuration
+    <span class="kw">where
+        </span>H: Fn(usize) + Send + Sync + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.start_handler(start_handler);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::exit_handler`.
+    </span><span class="kw">pub fn </span>exit_handler&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, exit_handler: H) -&gt; Configuration
+    <span class="kw">where
+        </span>H: Fn(usize) + Send + Sync + <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.exit_handler(exit_handler);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns a ThreadPoolBuilder with identical parameters.
+    </span><span class="kw">fn </span>into_builder(<span class="self">self</span>) -&gt; ThreadPoolBuilder {
+        <span class="self">self</span>.builder
+    }
+}
+
+<span class="kw">impl </span>ThreadPoolBuildError {
+    <span class="kw">fn </span>new(kind: ErrorKind) -&gt; ThreadPoolBuildError {
+        ThreadPoolBuildError { kind }
+    }
+
+    <span class="kw">fn </span>is_unsupported(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="macro">matches!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.kind, ErrorKind::IOError(e) <span class="kw">if </span>e.kind() == io::ErrorKind::Unsupported)
+    }
+}
+
+<span class="kw">const </span>GLOBAL_POOL_ALREADY_INITIALIZED: <span class="kw-2">&amp;</span>str =
+    <span class="string">&quot;The global thread pool has already been initialized.&quot;</span>;
+
+<span class="kw">impl </span>Error <span class="kw">for </span>ThreadPoolBuildError {
+    <span class="attribute">#[allow(deprecated)]
+    </span><span class="kw">fn </span>description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="kw">match </span><span class="self">self</span>.kind {
+            ErrorKind::GlobalPoolAlreadyInitialized =&gt; GLOBAL_POOL_ALREADY_INITIALIZED,
+            ErrorKind::IOError(<span class="kw-2">ref </span>e) =&gt; e.description(),
+        }
+    }
+
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>Error + <span class="lifetime">&#39;static</span>)&gt; {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.kind {
+            ErrorKind::GlobalPoolAlreadyInitialized =&gt; <span class="prelude-val">None</span>,
+            ErrorKind::IOError(e) =&gt; <span class="prelude-val">Some</span>(e),
+        }
+    }
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>ThreadPoolBuildError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.kind {
+            ErrorKind::GlobalPoolAlreadyInitialized =&gt; GLOBAL_POOL_ALREADY_INITIALIZED.fmt(f),
+            ErrorKind::IOError(e) =&gt; e.fmt(f),
+        }
+    }
+}
+
+<span class="doccomment">/// Deprecated in favor of `ThreadPoolBuilder::build_global`.
+</span><span class="attribute">#[deprecated(note = <span class="string">&quot;use `ThreadPoolBuilder::build_global`&quot;</span>)]
+#[allow(deprecated)]
+</span><span class="kw">pub fn </span>initialize(config: Configuration) -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt; {
+    config.into_builder().build_global().map_err(Box::from)
+}
+
+<span class="kw">impl</span>&lt;S&gt; fmt::Debug <span class="kw">for </span>ThreadPoolBuilder&lt;S&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">let </span>ThreadPoolBuilder {
+            <span class="kw-2">ref </span>num_threads,
+            <span class="kw-2">ref </span>get_thread_name,
+            <span class="kw-2">ref </span>panic_handler,
+            <span class="kw-2">ref </span>stack_size,
+            <span class="kw-2">ref </span>start_handler,
+            <span class="kw-2">ref </span>exit_handler,
+            spawn_handler: <span class="kw">_</span>,
+            <span class="kw-2">ref </span>breadth_first,
+        } = <span class="kw-2">*</span><span class="self">self</span>;
+
+        <span class="comment">// Just print `Some(&lt;closure&gt;)` or `None` to the debug
+        // output.
+        </span><span class="kw">struct </span>ClosurePlaceholder;
+        <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ClosurePlaceholder {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+                f.write_str(<span class="string">&quot;&lt;closure&gt;&quot;</span>)
+            }
+        }
+        <span class="kw">let </span>get_thread_name = get_thread_name.as_ref().map(|<span class="kw">_</span>| ClosurePlaceholder);
+        <span class="kw">let </span>panic_handler = panic_handler.as_ref().map(|<span class="kw">_</span>| ClosurePlaceholder);
+        <span class="kw">let </span>start_handler = start_handler.as_ref().map(|<span class="kw">_</span>| ClosurePlaceholder);
+        <span class="kw">let </span>exit_handler = exit_handler.as_ref().map(|<span class="kw">_</span>| ClosurePlaceholder);
+
+        f.debug_struct(<span class="string">&quot;ThreadPoolBuilder&quot;</span>)
+            .field(<span class="string">&quot;num_threads&quot;</span>, num_threads)
+            .field(<span class="string">&quot;get_thread_name&quot;</span>, <span class="kw-2">&amp;</span>get_thread_name)
+            .field(<span class="string">&quot;panic_handler&quot;</span>, <span class="kw-2">&amp;</span>panic_handler)
+            .field(<span class="string">&quot;stack_size&quot;</span>, <span class="kw-2">&amp;</span>stack_size)
+            .field(<span class="string">&quot;start_handler&quot;</span>, <span class="kw-2">&amp;</span>start_handler)
+            .field(<span class="string">&quot;exit_handler&quot;</span>, <span class="kw-2">&amp;</span>exit_handler)
+            .field(<span class="string">&quot;breadth_first&quot;</span>, <span class="kw-2">&amp;</span>breadth_first)
+            .finish()
+    }
+}
+
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Configuration {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.builder.fmt(f)
+    }
+}
+
+<span class="doccomment">/// Provides the calling context to a closure called by `join_context`.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>FnContext {
+    migrated: bool,
+
+    <span class="doccomment">/// disable `Send` and `Sync`, just for a little future-proofing.
+    </span>_marker: PhantomData&lt;<span class="kw-2">*mut </span>()&gt;,
+}
+
+<span class="kw">impl </span>FnContext {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new(migrated: bool) -&gt; <span class="self">Self </span>{
+        FnContext {
+            migrated,
+            _marker: PhantomData,
+        }
+    }
+}
+
+<span class="kw">impl </span>FnContext {
+    <span class="doccomment">/// Returns `true` if the closure was called from a different thread
+    /// than it was provided from.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>migrated(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.migrated
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="rayon_core" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

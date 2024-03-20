@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["format32","Print f32 to the given buffer and return number of bytes written."],["format64","Print f64 to the given buffer and return number of bytes written."]]};

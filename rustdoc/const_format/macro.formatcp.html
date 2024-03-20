@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Formats constants of primitive types into a `&amp;&#x27;static str`"><meta name="keywords" content="rust, rustlang, rust-lang, formatcp"><title>formatcp in const_format - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../const_format/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../const_format/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In const_format</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../const_format/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Macro <a href="index.html">const_format</a>::<wbr><a class="macro" href="#">formatcp</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/const_format/macros/fmt_macros.rs.html#260-271">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><div class="example-wrap"><pre class="rust macro"><code><span class="macro">macro_rules! </span>formatcp {
+    (<span class="macro-nonterminal">$format_string</span>:expr $( $(, <span class="macro-nonterminal">$expr</span>:expr )+ )<span class="question-mark">? </span>$(,)<span class="question-mark">? </span>) =&gt; { ... };
+}</code></pre></div>
+</div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Formats constants of primitive types into a <code>&amp;'static str</code></p>
+<p><a href="#examples">For <strong>examples</strong> look here</a></p>
+<p><code>formatcp</code> stands for “format constants (of) primitives”</p>
+<h2 id="syntax"><a href="#syntax">Syntax</a></h2>
+<p>This macro uses a limited version of the syntax from the standard library <a href="https://doc.rust-lang.org/std/macro.format.html"><code>format</code></a> macro,
+it can do these things:</p>
+<ul>
+<li>
+<p>Take positional arguments: <code>formatcp!(&quot;{}{0}&quot;, &quot;hello&quot; )</code></p>
+</li>
+<li>
+<p>Take named arguments: <code>formatcp!(&quot;{a}{a}&quot;, a = &quot;hello&quot; )</code></p>
+</li>
+<li>
+<p>Use constants from scope as arguments: <code>formatcp!(&quot;{FOO}&quot;)</code>,
+equivalent to the <a href="https://github.com/rust-lang/rfcs/blob/master/text/2795-format-args-implicit-identifiers.md"><code>format_args_implicits</code> RFC</a></p>
+</li>
+<li>
+<p>Use Debug-like formatting (eg: <code>formatcp!(&quot;{:?}&quot;, &quot;hello&quot; )</code>:
+Similar to how Debug formatting in the standard library works,
+except that it does not escape unicode characters.`</p>
+</li>
+<li>
+<p>Use Hexsadecimal formatting (eg: <code>formatcp!(&quot;{:x}&quot;, &quot;hello&quot; )</code>):
+Formats numbers as capitalized hexadecimal,
+The alternate version (written as <code>&quot;{:#x}&quot;</code>), prefixes the number with <code>0x</code></p>
+</li>
+<li>
+<p>Use Binary formatting (eg: <code>formatcp!(&quot;{:b}&quot;, &quot;hello&quot; )</code>).
+The alternate version (written as <code>&quot;{:#b}&quot;</code>), prefixes the number with <code>0b</code></p>
+</li>
+<li>
+<p>Use Display formatting: <code>formatcp!(&quot;{}&quot;, &quot;hello&quot; )</code></p>
+</li>
+</ul>
+<h2 id="limitations"><a href="#limitations">Limitations</a></h2>
+<p>This macro can only take constants of these types as inputs:</p>
+<ul>
+<li>
+<p><code>&amp;str</code></p>
+</li>
+<li>
+<p><code>i*</code>/<code>u*</code> (all the primitive integer types).</p>
+</li>
+<li>
+<p><code>char</code></p>
+</li>
+<li>
+<p><code>bool</code></p>
+</li>
+</ul>
+<p>This macro also shares
+<a href="./index.html#macro-limitations">the limitations described in here</a>
+as well.</p>
+<h2 id="formating-behavior"><a href="#formating-behavior">Formating behavior</a></h2><h4 id="debug-like"><a href="#debug-like">Debug-like</a></h4>
+<p>The <code>{:?}</code> formatter formats things similarly to how Debug does it.</p>
+<p>For <code>&amp;'static str</code> it does these things:</p>
+<ul>
+<li>Prepend and append the double quote character (<code>&quot;</code>).</li>
+<li>Escape the <code>'\t'</code>,<code>'\n'</code>,<code>'\r'</code>,<code>'\\'</code>, <code>'\''</code>, and<code>'\&quot;'</code> characters.</li>
+<li>Escape control characters with <code>\xYY</code>,
+where <code>YY</code> is the hexadecimal value of the control character.</li>
+</ul>
+<p>Example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::formatcp;
+
+<span class="macro">assert_eq!</span>(<span class="macro">formatcp!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="string">r#&quot; \ &quot; ó &quot;#</span>), <span class="string">r#&quot;&quot; \\ \&quot; ó &quot;&quot;#</span>);</code></pre></div>
+<p>For <code>char</code> it does these things:</p>
+<ul>
+<li>Prepend and append the single quote character (<code>'</code>).</li>
+<li>Uses the same escapes as <code>&amp;'static str</code>.</li>
+</ul>
+<h4 id="display"><a href="#display">Display</a></h4>
+<p>The <code>{}</code>/<code>{:}</code> formatter works the same as in <a href="https://doc.rust-lang.org/std/macro.format.html"><code>format</code></a>.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2><h4 id="implicit-argument"><a href="#implicit-argument">Implicit argument</a></h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::formatcp;
+
+<span class="kw">const </span>NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;John&quot;</span>;
+
+<span class="kw">const </span>MSG: <span class="kw-2">&amp;</span>str = <span class="macro">formatcp!</span>(<span class="string">&quot;Hello {NAME}, your name is {} bytes long&quot;</span>, NAME.len());
+
+<span class="macro">assert_eq!</span>(MSG, <span class="string">&quot;Hello John, your name is 4 bytes long&quot;</span>);
+</code></pre></div>
+<h4 id="repeating-arguments"><a href="#repeating-arguments">Repeating arguments</a></h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::formatcp;
+
+<span class="kw">const </span>MSG: <span class="kw-2">&amp;</span>str = <span class="macro">formatcp!</span>(<span class="string">&quot;{0}{S}{0}{S}{0}&quot;</span>, <span class="string">&quot;SPAM&quot;</span>, S = <span class="string">&quot;   &quot;</span>);
+
+<span class="macro">assert_eq!</span>(MSG, <span class="string">&quot;SPAM   SPAM   SPAM&quot;</span>);
+</code></pre></div>
+<h4 id="debug-like-and-display-formatting"><a href="#debug-like-and-display-formatting">Debug-like and Display formatting</a></h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::formatcp;
+
+{
+    <span class="kw">const </span>TEXT: <span class="kw-2">&amp;</span>str = <span class="string">r#&quot;hello &quot; \ world&quot;#</span>;
+    <span class="kw">const </span>MSG: <span class="kw-2">&amp;</span>str = <span class="macro">formatcp!</span>(<span class="string">&quot;{TEXT}____{TEXT:?}&quot;</span>);
+    
+    <span class="macro">assert_eq!</span>(MSG, <span class="string">r#&quot;hello &quot; \ world____&quot;hello \&quot; \\ world&quot;&quot;#</span>);
+}
+{
+    <span class="kw">const </span>CHARS: <span class="kw-2">&amp;</span>str = <span class="macro">formatcp!</span>(<span class="string">&quot;{0:?} - {0} - {1} - {1:?}&quot;</span>, <span class="string">&#39;&quot;&#39;</span>, <span class="string">&#39;👀&#39;</span>);
+    
+    <span class="macro">assert_eq!</span>(CHARS, <span class="string">r#&quot;&#39;\&quot;&#39; - &quot; - 👀 - &#39;👀&#39;&quot;#</span>);
+}</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="const_format" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

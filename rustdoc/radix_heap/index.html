@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="radix-heap"><meta name="keywords" content="rust, rustlang, rust-lang, radix_heap"><title>radix_heap - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../radix_heap/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../radix_heap/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate radix_heap</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.4.2</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../radix_heap/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">radix_heap</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/radix_heap/lib.rs.html#1-823">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="radix-heap"><a href="#radix-heap">radix-heap</a></h2>
+<p>Fast monotone priority queues.</p>
+<p>A monotone priority queue is a priority queue that requires the extracted elements follow a
+monotonic sequence. This means that, for a max-radix-heap, you cannot insert an element into a
+radix heap that is larger than the last extracted element.</p>
+<p>The key of the last extracted element is called the “top” key of the radix heap. Thus any value
+pushed onto the heap must be less than or equal to the top key.</p>
+<p>In return for this restriction, the radix heap provides two major benefits:</p>
+<ul>
+<li>
+<p>Inserts are <code>O(1)</code> and popping an element is amortized <code>O(log m)</code> where <code>m</code> is the difference
+between a popped key and the top key at the time the element was inserted.</p>
+<p>Note that this is independent of the number of elements in the radix heap. This means that for
+workloads where this difference is bounded by a constant, the radix heap has O(1) pop.</p>
+</li>
+<li>
+<p>It is trivial to implement first-in-last-out order for equal keys in a radix heap. When
+implementing pathfinding, this corresponds to “tie-breaking” which can significantly improve
+performance. This is also possible to implement with a binary heap, but comes for free with a
+radix heap.</p>
+</li>
+<li>
+<p>A radix heap has generally better cache coherence than a binary heap.</p>
+</li>
+</ul>
+<h2 id="performance"><a href="#performance">Performance</a></h2>
+<p>Here is a summary of the benchmarks from running them on my machine:</p>
+<div class="example-wrap"><pre class="language-text"><code>astar_radix             time:   [2.6594 us 2.6622 us 2.6651 us]
+astar_binary            time:   [5.3698 us 5.3762 us 5.3827 us]
+pushpop_radix           time:   [97.601 us 97.784 us 97.987 us]
+pushpop_binary          time:   [507.28 us 507.44 us 507.60 us]</code></pre></div>
+<p><code>astar</code> is a benchmark using a map from the
+<a href="https://movingai.com/benchmarks/grids.html">2D Pathfinding Banchmarks</a>.</p>
+<p><code>pushpop</code> is a more heap-focused benchmark where values are repeatedly pushed and popped off a heap.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">extern crate </span>radix_heap;
+<span class="kw">let </span><span class="kw-2">mut </span>heap = radix_heap::RadixHeapMap::new();
+
+heap.push(<span class="number">7</span>, <span class="string">&#39;a&#39;</span>);
+heap.push(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>);
+heap.push(<span class="number">9</span>, <span class="string">&#39;c&#39;</span>);
+
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">None</span>);
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">Some</span>((<span class="number">9</span>, <span class="string">&#39;c&#39;</span>)));
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">Some</span>(<span class="number">9</span>));
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">Some</span>((<span class="number">7</span>, <span class="string">&#39;a&#39;</span>)));
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">Some</span>(<span class="number">7</span>));
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">Some</span>((<span class="number">2</span>, <span class="string">&#39;b&#39;</span>)));
+<span class="macro">assert!</span>(heap.top() == <span class="prelude-val">Some</span>(<span class="number">2</span>));
+<span class="macro">assert!</span>(heap.pop() == <span class="prelude-val">None</span>);</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.IntoIter.html" title="radix_heap::IntoIter struct">IntoIter</a></div><div class="item-right docblock-short">An owning iterator over key-value pairs in a RadixHeapMap.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Iter.html" title="radix_heap::Iter struct">Iter</a></div><div class="item-right docblock-short">An iterator over key-value pairs in a RadixHeapMap.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Keys.html" title="radix_heap::Keys struct">Keys</a></div><div class="item-right docblock-short">An iterator over keys in a RadixHeapMap.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RadixHeapMap.html" title="radix_heap::RadixHeapMap struct">RadixHeapMap</a></div><div class="item-right docblock-short">A montone priority queue implemented using a radix heap.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Values.html" title="radix_heap::Values struct">Values</a></div><div class="item-right docblock-short">An iterator over values in a RadixHeapMap.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Radix.html" title="radix_heap::Radix trait">Radix</a></div><div class="item-right docblock-short">A number that can be compared using radix distance</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="radix_heap" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

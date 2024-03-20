@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>贡献 - Difftastic Manual</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="The manual for difftastic, the structural dif tool">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> 安装</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> 使用</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li><li class="chapter-item expanded "><a href="fossil.html"><strong aria-hidden="true">3.3.</strong> Fossil</a></li></ol></li><li class="chapter-item expanded "><a href="languages_supported.html"><strong aria-hidden="true">4.</strong> 支持的语言</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">5.</strong> 解析</a></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">6.</strong> 差异分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">6.1.</strong> 棘手的例子</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html" class="active"><strong aria-hidden="true">7.</strong> 贡献</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">7.1.</strong> 解析器依赖库</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">7.2.</strong> 添加解析器</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">8.</strong> 词典</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">9.</strong> 其它项目</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">9.1.</strong> 树状差异分析</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/wilfred/difftastic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="贡献"><a class="header" href="#贡献">贡献</a></h1>
+<h2 id="构建"><a class="header" href="#构建">构建</a></h2>
+<p>用<a href="https://rustup.rs/">rustup</a>安装Rust，然后克隆代码。</p>
+<pre><code>$ git clone git@github.com:Wilfred/difftastic.git
+$ cd difftastic
+</code></pre>
+<p>Difftastic使用<a href="https://doc.rust-lang.org/cargo/">Cargo</a>进行构建。</p>
+<pre><code>$ cargo build
+</code></pre>
+<p>调试构建的速度明显比发布构建的速度慢。对于超过50行的文件，通常建议使用一个优化的构建。</p>
+<pre><code>$ cargo build --release
+</code></pre>
+<h2 id="manual说明书"><a class="header" href="#manual说明书">Manual说明书</a></h2>
+<p>这个网站是用<a href="https://github.com/rust-lang/mdBook/">mdbook</a>。mdbook可以用Cargo安装。</p>
+<pre><code>$ cargo install mdbook
+</code></pre>
+<p>然后你可以使用<code>mdbook</code>二进制文件来建立和在本地运行网站。</p>
+<pre><code>$ cd manual
+$ mdbook serve
+</code></pre>
+<h2 id="api文档"><a class="header" href="#api文档">API文档</a></h2>
+<p>你可以浏览由rustdoc生成的内部API文档<a href="https://difftastic.wilfred.me.uk/rustdoc/difft/">在这里</a>。</p>
+<p>Difftastic的内部文档在docs.rs上没有提供，因为它<a href="https://difftastic.wilfred.me.uk/rustdoc/difft/">不支持二进制工具箱</a>。</p>
+<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
+<pre><code>$ cargo test
+</code></pre>
+<p>在<code>sample_files/</code>中也有几个文件你可以使用。</p>
+<p>测试difftastic的最好方法是在真实项目查看历史。设置<code>GIT_EXTERNAL_DIFF</code>指向你当前的构建。</p>
+<p>例如，你可以在自己的源代码上运行Difftastic。</p>
+<pre><code>$ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
+</code></pre>
+<h2 id="记录"><a class="header" href="#记录">记录</a></h2>
+<p>Difftastic使用<code>pretty_env_logger</code>库来记录一些额外的调试信息。</p>
+<pre><code>$ DFT_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+</code></pre>
+<p>请参阅<a href="https://docs.rs/env_logger/0.9.0/env_logger/"><code>env_logger</code></a>以获得完整的细节。</p>
+<h2 id="调试"><a class="header" href="#调试">调试</a></h2>
+<p>如果你有一个特别慢的文件，你可以使用 <a href="https://github.com/flamegraph-rs/flamegraph">cargo-flamegraph</a> 来查看是哪些函数慢的。</p>
+<pre><code>$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>内存的使用情况也是值得关注，因为图的遍历错误会导致巨大的内存消耗。</p>
+<pre><code>$ /usr/bin/time -v ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>如果定时测量有噪音，Linux的<code>perf</code>工具将报告 执行的指令，这也是更加稳定的。</p>
+<pre><code>$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+$ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
+</code></pre>
+<p>还有很多剖析技术在<a href="https://nnethercote.github.io/perf-book/">The Rust性能手册</a>中讨论了。</p>
+<h2 id="发布"><a class="header" href="#发布">发布</a></h2>
+<p>使用Cargo创建一个新的版本，并在git中标记它。Difftastic有一个帮助脚本：</p>
+<pre><code>$ ./scripts/release.sh
+</code></pre>
+<p>现在你可以增加Cargo.toml中的版本，并在
+CHANGELOG.md加一个新的条目。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="tricky_cases.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="parser_vendoring.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="tricky_cases.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="parser_vendoring.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

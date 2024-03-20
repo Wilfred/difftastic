@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["FileContent",""],["FileFormat",""]],"struct":[["DiffResult",""]]};

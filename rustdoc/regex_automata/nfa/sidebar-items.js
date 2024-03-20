@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["thompson","Defines a Thompson NFA and provides the `PikeVM` and `BoundedBacktracker` regex engines."]]};

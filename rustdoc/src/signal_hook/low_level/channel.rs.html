@@ -1,0 +1,472 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/signal-hook-0.3.17/src/low_level/channel.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>channel.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../signal_hook/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../signal_hook/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../signal_hook/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+</pre><pre class="rust"><code><span class="doccomment">//! A restricted channel to pass data from signal handler.
+//!
+//! When trying to communicate data from signal handler to the outside world, one can use an atomic
+//! variable (as it doesn&#39;t lock, so it can be made async-signal-safe). But this won&#39;t work for
+//! larger data.
+//!
+//! This module provides a channel that can be used for that purpose. It is used by certain
+//! [exfiltrators][crate::iterator::exfiltrator], but can be used as building block for custom
+//! actions. In general, this is not a ready-made end-user API.
+//!
+//! # How does it work
+//!
+//! Each channel has a fixed number of slots and two queues (one for empty slots, one for full
+//! slots). A signal handler takes a slot out of the empty one, fills it and passes it into the
+//! full one. Outside of signal handler, it can take the value out of the full queue and return the
+//! slot to the empty queue.
+//!
+//! The queues are implemented as bit-encoded indexes of the slots in the storage. The bits are
+//! stored in an atomic variable.
+//!
+//! Note that the algorithm allows for a slot to be in neither queue (when it is being emptied or
+//! filled).
+//!
+//! # Fallible allocation of a slot
+//!
+//! It is apparent that allocation of a new slot can fail (there&#39;s nothing in the empty slot). In
+//! such case, there&#39;s no way to send the new value out of the handler (there&#39;s no way to safely
+//! wait for a slot to appear, because the handler can be blocking the thread that is responsible
+//! for emptying them). But that&#39;s considered acceptable ‒ even the kernel collates the same kinds
+//! of signals together if they are not consumed by application fast enough and there are no free
+//! slots exactly because some are being filled, emptied or are full ‒ in particular, the whole
+//! system will yield a signal.
+//!
+//! This assumes that separate signals don&#39;t share the same buffer and that there&#39;s only one reader
+//! (using multiple readers is still safe, but it is possible that all slots would be inside the
+//! readers, but already empty, so the above argument would not hold).
+
+</span><span class="comment">// TODO: Other sizes? Does anyone need more than 5 slots?
+
+</span><span class="kw">use </span>std::cell::UnsafeCell;
+<span class="kw">use </span>std::sync::atomic::{AtomicU16, Ordering};
+
+<span class="kw">const </span>SLOTS: usize = <span class="number">5</span>;
+<span class="kw">const </span>BITS: u16 = <span class="number">3</span>;
+<span class="kw">const </span>MASK: u16 = <span class="number">0b111</span>;
+
+<span class="kw">fn </span>get(n: u16, idx: u16) -&gt; u16 {
+    (n &gt;&gt; (BITS * idx)) &amp; MASK
+}
+
+<span class="kw">fn </span>set(n: u16, idx: u16, v: u16) -&gt; u16 {
+    <span class="kw">let </span>v = v &lt;&lt; (BITS * idx);
+    <span class="kw">let </span>mask = MASK &lt;&lt; (BITS * idx);
+    (n &amp; !mask) | v
+}
+
+<span class="kw">fn </span>enqueue(q: <span class="kw-2">&amp;</span>AtomicU16, val: u16) {
+    <span class="kw">let </span><span class="kw-2">mut </span>current = q.load(Ordering::Relaxed);
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>empty = (<span class="number">0</span>..SLOTS <span class="kw">as </span>u16)
+            .find(|i| get(current, <span class="kw-2">*</span>i) == <span class="number">0</span>)
+            .expect(<span class="string">&quot;No empty slot available&quot;</span>);
+        <span class="kw">let </span>modified = set(current, empty, val);
+        <span class="kw">match </span>q.compare_exchange_weak(current, modified, Ordering::Release, Ordering::Relaxed) {
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">break</span>,
+            <span class="prelude-val">Err</span>(changed) =&gt; current = changed, <span class="comment">// And retry with the changed value
+        </span>}
+    }
+}
+
+<span class="kw">fn </span>dequeue(q: <span class="kw-2">&amp;</span>AtomicU16) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>current = q.load(Ordering::Relaxed);
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>val = current &amp; MASK;
+        <span class="comment">// It&#39;s completely empty
+        </span><span class="kw">if </span>val == <span class="number">0 </span>{
+            <span class="kw">break </span><span class="prelude-val">None</span>;
+        }
+        <span class="kw">let </span>modified = current &gt;&gt; BITS;
+        <span class="kw">match </span>q.compare_exchange_weak(current, modified, Ordering::Acquire, Ordering::Relaxed) {
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">break </span><span class="prelude-val">Some</span>(val),
+            <span class="prelude-val">Err</span>(changed) =&gt; current = changed,
+        }
+    }
+}
+
+<span class="doccomment">/// A restricted async-signal-safe channel
+///
+/// This is a bit like the usual channel used for inter-thread communication, but with several
+/// restrictions:
+///
+/// * There&#39;s a limited number of slots (currently 5).
+/// * There&#39;s no way to wait for a place in it or for a value. If value is not available, `None` is
+///   returned. If there&#39;s no space for a value, the value is silently dropped.
+///
+/// In exchange for that, all the operations on that channel are async-signal-safe. That means it
+/// is possible to use it to communicate between a signal handler and the rest of the world with it
+/// (specifically, it&#39;s designed to send information from the handler to the rest of the
+/// application). The throwing out of values when full is in line with collating of the same type
+/// in kernel (you should not use the same channel for multiple different signals).
+///
+/// Technically, this is a MPMC queue which preserves order, but it is expected to be used in MPSC
+/// mode mostly (in theory, multiple threads can be executing a signal handler for the same signal
+/// at the same time). The channel is not responsible for wakeups.
+///
+/// While the channel is async-signal-safe, you still need to make sure *creating* of the values is
+/// too (it should not contain anything that allocates, for example ‒ so no `String`s inside, etc).
+///
+/// The code was *not* tuned for performance (signals are not expected to happen often).
+</span><span class="kw">pub struct </span>Channel&lt;T&gt; {
+    storage: [UnsafeCell&lt;<span class="prelude-ty">Option</span>&lt;T&gt;&gt;; SLOTS],
+    empty: AtomicU16,
+    full: AtomicU16,
+}
+
+<span class="kw">impl</span>&lt;T&gt; Channel&lt;T&gt; {
+    <span class="doccomment">/// Creates a new channel with nothing in it.
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>storage = Default::default();
+        <span class="kw">let </span>me = <span class="self">Self </span>{
+            storage,
+            empty: AtomicU16::new(<span class="number">0</span>),
+            full: AtomicU16::new(<span class="number">0</span>),
+        };
+
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">1</span>..SLOTS + <span class="number">1 </span>{
+            enqueue(<span class="kw-2">&amp;</span>me.empty, i <span class="kw">as </span>u16);
+        }
+
+        me
+    }
+
+    <span class="doccomment">/// Inserts a value into the channel.
+    ///
+    /// If the value doesn&#39;t fit, it is silently dropped. Never blocks.
+    </span><span class="kw">pub fn </span>send(<span class="kw-2">&amp;</span><span class="self">self</span>, val: T) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(empty_idx) = dequeue(<span class="kw-2">&amp;</span><span class="self">self</span>.empty) {
+            <span class="kw">unsafe </span>{ <span class="kw-2">*</span><span class="self">self</span>.storage[empty_idx <span class="kw">as </span>usize - <span class="number">1</span>].get() = <span class="prelude-val">Some</span>(val) };
+            enqueue(<span class="kw-2">&amp;</span><span class="self">self</span>.full, empty_idx);
+        }
+    }
+
+    <span class="doccomment">/// Takes a value from the channel.
+    ///
+    /// Or returns `None` if the channel is empty. Never blocks.
+    </span><span class="kw">pub fn </span>recv(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+        dequeue(<span class="kw-2">&amp;</span><span class="self">self</span>.full).map(|idx| {
+            <span class="kw">let </span>result = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span><span class="self">self</span>.storage[idx <span class="kw">as </span>usize - <span class="number">1</span>].get() }
+                .take()
+                .expect(<span class="string">&quot;Full slot with nothing in it&quot;</span>);
+            enqueue(<span class="kw-2">&amp;</span><span class="self">self</span>.empty, idx);
+            result
+        })
+    }
+}
+
+<span class="kw">impl</span>&lt;T&gt; Default <span class="kw">for </span>Channel&lt;T&gt; {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new()
+    }
+}
+
+<span class="kw">unsafe impl</span>&lt;T: Send&gt; Send <span class="kw">for </span>Channel&lt;T&gt; {}
+
+<span class="comment">// Yes, really Send -&gt; Sync. Having a reference to Channel allows Sending Ts, but not having refs
+// on them.
+</span><span class="kw">unsafe impl</span>&lt;T: Send&gt; Sync <span class="kw">for </span>Channel&lt;T&gt; {}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::sync::Arc;
+    <span class="kw">use </span>std::thread;
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>new_empty() {
+        <span class="kw">let </span>channel = Channel::&lt;usize&gt;::new();
+        <span class="macro">assert!</span>(channel.recv().is_none());
+        <span class="macro">assert!</span>(channel.recv().is_none());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pass_value() {
+        <span class="kw">let </span>channel = Channel::new();
+        channel.send(<span class="number">42</span>);
+        <span class="macro">assert_eq!</span>(<span class="number">42</span>, channel.recv().unwrap());
+        <span class="macro">assert!</span>(channel.recv().is_none());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>multiple() {
+        <span class="kw">let </span>channel = Channel::new();
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">1000 </span>{
+            channel.send(i);
+            <span class="macro">assert_eq!</span>(i, channel.recv().unwrap());
+            <span class="macro">assert!</span>(channel.recv().is_none());
+        }
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>overflow() {
+        <span class="kw">let </span>channel = Channel::new();
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
+            channel.send(i);
+        }
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">5 </span>{
+            <span class="macro">assert_eq!</span>(i, channel.recv().unwrap());
+        }
+        <span class="macro">assert!</span>(channel.recv().is_none());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>multi_thread() {
+        <span class="kw">let </span>channel = Arc::new(Channel::&lt;usize&gt;::new());
+
+        <span class="kw">let </span>sender = thread::spawn({
+            <span class="kw">let </span>channel = Arc::clone(<span class="kw-2">&amp;</span>channel);
+            <span class="kw">move </span>|| {
+                <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
+                    channel.send(i);
+                }
+            }
+        });
+
+        <span class="kw">let </span><span class="kw-2">mut </span>results = Vec::new();
+        <span class="kw">while </span>results.len() &lt; <span class="number">4 </span>{
+            results.extend(channel.recv());
+        }
+
+        <span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], results);
+
+        sender.join().unwrap();
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="signal_hook" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

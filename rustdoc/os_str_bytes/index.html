@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This crate allows interacting with the data stored by [`OsStr`] and [`OsString`], without resorting to panics or corruption for invalid UTF-8. Thus, methods can be used that are already defined on [`[u8]`][slice] and [`Vec&lt;u8&gt;`]."><meta name="keywords" content="rust, rustlang, rust-lang, os_str_bytes"><title>os_str_bytes - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../os_str_bytes/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../os_str_bytes/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate os_str_bytes</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 6.0.1</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../os_str_bytes/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">os_str_bytes</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/os_str_bytes/lib.rs.html#1-432">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This crate allows interacting with the data stored by <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="OsStr"><code>OsStr</code></a> and
+<a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="OsString"><code>OsString</code></a>, without resorting to panics or corruption for invalid UTF-8.
+Thus, methods can be used that are already defined on <a href="https://doc.rust-lang.org/1.65.0/std/primitive.slice.html" title="slice"><code>[u8]</code></a> and
+<a href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="Vec&lt;u8&gt;"><code>Vec&lt;u8&gt;</code></a>.</p>
+<p>Typically, the only way to losslessly construct <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="OsStr"><code>OsStr</code></a> or <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="OsString"><code>OsString</code></a>
+from a byte sequence is to use <code>OsStr::new(str::from_utf8(bytes)?)</code>, which
+requires the bytes to be valid in UTF-8. However, since this crate makes
+conversions directly between the platform encoding and raw bytes, even some
+strings invalid in UTF-8 can be converted.</p>
+<p>In most cases, <a href="struct.RawOsStr.html" title="RawOsStr"><code>RawOsStr</code></a> and <a href="struct.RawOsString.html" title="RawOsString"><code>RawOsString</code></a> should be used.
+<a href="trait.OsStrBytes.html" title="OsStrBytes"><code>OsStrBytes</code></a> and <a href="trait.OsStringBytes.html" title="OsStringBytes"><code>OsStringBytes</code></a> provide lower-level APIs that are
+easier to misuse.</p>
+<h2 id="encoding"><a href="#encoding">Encoding</a></h2>
+<p>The encoding of bytes returned or accepted by methods of this crate is
+intentionally left unspecified. It may vary for different platforms, so
+defining it would run contrary to the goal of generic string handling.
+However, the following invariants will always be upheld:</p>
+<ul>
+<li>
+<p>The encoding will be compatible with UTF-8. In particular, splitting an
+encoded byte sequence by a UTF-8–encoded character always produces other
+valid byte sequences. They can be re-encoded without error using
+<a href="trait.OsStrBytes.html#tymethod.from_raw_bytes" title="OsStrBytes::from_raw_bytes"><code>OsStrBytes::from_raw_bytes</code></a> and similar methods.</p>
+</li>
+<li>
+<p>All characters valid in platform strings are representable. <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="OsStr"><code>OsStr</code></a> and
+<a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="OsString"><code>OsString</code></a> can always be losslessly reconstructed from extracted bytes.</p>
+</li>
+</ul>
+<p>Note that the chosen encoding may not match how Rust stores these strings
+internally, which is undocumented. For instance, the result of calling
+<a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html#method.len" title="OsStr::len"><code>OsStr::len</code></a> will not necessarily match the number of bytes this crate
+uses to represent the same string.</p>
+<p>Additionally, concatenation may yield unexpected results without a UTF-8
+separator. If two platform strings need to be concatenated, the only safe
+way to do so is using <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html#method.push" title="OsString::push"><code>OsString::push</code></a>. This limitation also makes it
+undesirable to use the bytes in interchange.</p>
+<p>Since this encoding can change between versions and platforms, it should
+not be used for storage. The standard library provides implementations of
+<a href="https://doc.rust-lang.org/1.65.0/std/os/unix/ffi/os_str/trait.OsStrExt.html"><code>OsStrExt</code></a> and <a href="https://doc.rust-lang.org/1.65.0/std/os/unix/ffi/os_str/trait.OsStringExt.html"><code>OsStringExt</code></a> for various platforms, which should be
+preferred for that use case.</p>
+<h2 id="user-input"><a href="#user-input">User Input</a></h2>
+<p>Traits in this crate should ideally not be used to convert byte sequences
+that did not originate from <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="OsStr"><code>OsStr</code></a> or a related struct. The encoding
+used by this crate is an implementation detail, so it does not make sense
+to expose it to users.</p>
+<p>Crate <a href="https://crates.io/crates/bstr">bstr</a> offers some useful alternative methods, such as
+<a href="https://docs.rs/bstr/0.2.12/bstr/trait.ByteSlice.html#method.to_os_str"><code>ByteSlice::to_os_str</code></a> and <a href="https://docs.rs/bstr/0.2.12/bstr/trait.ByteVec.html#method.into_os_string"><code>ByteVec::into_os_string</code></a>, that are meant
+for user input. But, they reject some byte sequences used to represent
+valid platform strings, which would be undesirable for reliable path
+handling. They are best used only when accepting unknown input.</p>
+<p>This crate is meant to help when you already have an instance of <a href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="OsStr"><code>OsStr</code></a>
+and need to modify the data in a lossless way.</p>
+<h2 id="features"><a href="#features">Features</a></h2>
+<p>These features are optional and can be enabled or disabled in a
+“Cargo.toml” file.</p>
+<h4 id="default-features"><a href="#default-features">Default Features</a></h4>
+<ul>
+<li>
+<p><strong>memchr</strong> -
+Changes the implementation to use crate <a href="https://crates.io/crates/memchr">memchr</a> for better performance.
+This feature is useless when “raw_os_str” is disabled.</p>
+<p>For more information, see <a href="struct.RawOsStr.html#complexity"><code>RawOsStr</code></a>.</p>
+</li>
+<li>
+<p><strong>raw_os_str</strong> -
+Enables use of <a href="struct.RawOsStr.html" title="RawOsStr"><code>RawOsStr</code></a> and <a href="struct.RawOsString.html" title="RawOsString"><code>RawOsString</code></a>.</p>
+</li>
+</ul>
+<h4 id="optional-features"><a href="#optional-features">Optional Features</a></h4>
+<ul>
+<li>
+<p><strong>print_bytes</strong> -
+Provides implementations of [<code>print_bytes::ToBytes</code>] for <a href="struct.RawOsStr.html" title="RawOsStr"><code>RawOsStr</code></a> and
+<a href="struct.RawOsString.html" title="RawOsString"><code>RawOsString</code></a>.</p>
+</li>
+<li>
+<p><strong>uniquote</strong> -
+Provides implementations of [<code>uniquote::Quote</code>] for <a href="struct.RawOsStr.html" title="RawOsStr"><code>RawOsStr</code></a> and
+<a href="struct.RawOsString.html" title="RawOsString"><code>RawOsString</code></a>.</p>
+</li>
+</ul>
+<h2 id="implementation"><a href="#implementation">Implementation</a></h2>
+<p>Some methods return <a href="https://doc.rust-lang.org/1.65.0/alloc/borrow/enum.Cow.html" title="Cow"><code>Cow</code></a> to account for platform differences. However,
+no guarantee is made that the same variant of that enum will always be
+returned for the same platform. Whichever can be constructed most
+efficiently will be returned.</p>
+<p>All traits are <a href="https://rust-lang.github.io/api-guidelines/future-proofing.html#c-sealed">sealed</a>, meaning that they can only be implemented by this
+crate. Otherwise, backward compatibility would be more difficult to
+maintain for new features.</p>
+<h2 id="complexity"><a href="#complexity">Complexity</a></h2>
+<p>The time complexities of trait methods will vary based on what
+functionality is available for the platform. At worst, they will all be
+linear, but some can take constant time. For example,
+<a href="trait.OsStringBytes.html#tymethod.from_raw_vec" title="OsStringBytes::from_raw_vec"><code>OsStringBytes::from_raw_vec</code></a> might be able to reuse the allocation for
+its argument.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::env;
+<span class="kw">use </span>std::fs;
+
+<span class="kw">use </span>os_str_bytes::OsStrBytes;
+
+<span class="kw">for </span>file <span class="kw">in </span>env::args_os().skip(<span class="number">1</span>) {
+    <span class="kw">if </span>file.to_raw_bytes().first() != <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&#39;-&#39;</span>) {
+        <span class="kw">let </span>string = <span class="string">&quot;Hello, world!&quot;</span>;
+        fs::write(<span class="kw-2">&amp;</span>file, string)<span class="question-mark">?</span>;
+        <span class="macro">assert_eq!</span>(string, fs::read_to_string(file)<span class="question-mark">?</span>);
+    }
+}</code></pre></div>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="iter/index.html" title="os_str_bytes::iter mod">iter</a></div><div class="item-right docblock-short">Iterators provided by this crate.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.EncodingError.html" title="os_str_bytes::EncodingError struct">EncodingError</a></div><div class="item-right docblock-short">The error that occurs when a byte sequence is not representable in the
+platform encoding.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RawOsStr.html" title="os_str_bytes::RawOsStr struct">RawOsStr</a></div><div class="item-right docblock-short">A container for the byte strings converted by <a href="trait.OsStrBytes.html" title="OsStrBytes"><code>OsStrBytes</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RawOsString.html" title="os_str_bytes::RawOsString struct">RawOsString</a></div><div class="item-right docblock-short">A container for the byte strings converted by <a href="trait.OsStringBytes.html" title="OsStringBytes"><code>OsStringBytes</code></a>.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.OsStrBytes.html" title="os_str_bytes::OsStrBytes trait">OsStrBytes</a></div><div class="item-right docblock-short">A platform agnostic variant of <a href="https://doc.rust-lang.org/1.65.0/std/os/unix/ffi/os_str/trait.OsStrExt.html"><code>OsStrExt</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.OsStringBytes.html" title="os_str_bytes::OsStringBytes trait">OsStringBytes</a></div><div class="item-right docblock-short">A platform agnostic variant of <a href="https://doc.rust-lang.org/1.65.0/std/os/unix/ffi/os_str/trait.OsStringExt.html"><code>OsStringExt</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Pattern.html" title="os_str_bytes::Pattern trait">Pattern</a></div><div class="item-right docblock-short">Allows a type to be used for searching by <a href="struct.RawOsStr.html"><code>RawOsStr</code></a> and <a href="struct.RawOsString.html"><code>RawOsString</code></a>.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="os_str_bytes" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,478 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>棘手的例子 - Difftastic Manual</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="The manual for difftastic, the structural dif tool">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> 安装</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> 使用</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li><li class="chapter-item expanded "><a href="fossil.html"><strong aria-hidden="true">3.3.</strong> Fossil</a></li></ol></li><li class="chapter-item expanded "><a href="languages_supported.html"><strong aria-hidden="true">4.</strong> 支持的语言</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">5.</strong> 解析</a></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">6.</strong> 差异分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html" class="active"><strong aria-hidden="true">6.1.</strong> 棘手的例子</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">7.</strong> 贡献</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">7.1.</strong> 解析器依赖库</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">7.2.</strong> 添加解析器</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">8.</strong> 词典</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">9.</strong> 其它项目</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">9.1.</strong> 树状差异分析</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/wilfred/difftastic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="棘手的例子"><a class="header" href="#棘手的例子">棘手的例子</a></h1>
+<p>树状差异分析有时具有挑战性。本页展示了开发过程中观察到的困难情况和处理结果。</p>
+<p>并非所有这些情况在 Difftastic 中都能很好地工作。</p>
+<h2 id="添加定界符"><a class="header" href="#添加定界符">添加定界符</a></h2>
+<pre><code>;; Before
+x
+
+;; After
+(x)
+</code></pre>
+<p>可能输出：<code><span style="background-color: PaleGreen; color: #000">(x)</span></code></p>
+<p>理想输出：<code><span style="background-color: PaleGreen; color: #000">(</span>x<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>这十分棘手，因为 <code>x</code> 改变了在树中的深度，但其本身却未发生改变。</p>
+<p>并不是所有的树状差异分析算法可以处理这个例子。同时仔细地展示出范例是具有挑战性的：我们希望高亮已改变的定界符，而非他们的内容。这同样在更大的表达式中具有挑战性。</p>
+<p><strong>Difftastic</strong>：Difftastic 即使认为节点在不同深度，在这种情况下也能实现预期结果。</p>
+<h2 id="改变定界符"><a class="header" href="#改变定界符">改变定界符</a></h2>
+<pre><code>;; Before
+(x)
+
+;; After
+[x]
+</code></pre>
+<p>理想输出：<code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span></code>, <code><span style="background-color: PaleGreen; color: #000">[</span>x<span style="background-color: PaleGreen; color: #000">]</span></code></p>
+<p>正如这个例子，我们想要高亮定界符而非 <code>x</code> 这个内容。</p>
+<p><strong>Difftastic</strong>：通过树状差异分析，Difftastic 正确处理这个问题。</p>
+<h2 id="扩展定界符"><a class="header" href="#扩展定界符">扩展定界符</a></h2>
+<pre><code>;; Before
+(x) y
+
+;; After
+(x y)
+</code></pre>
+<p>可能输出 1：<code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span> y</code>, <code><span style="background-color: PaleGreen; color: #000">(</span>x y<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>可能输出 2：<code>(x) <span style="background-color: #fbbd98; color: #000">y</span></code>, <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code></p>
+<p>目前还不清楚在这种情况下，哪个结果更好。</p>
+<p><strong>Difftastic</strong>：Difftastic 目前显示结果 2，但这种情况下对成本模型很敏感。一些以前版本的 Difftastic 显示结果 1。</p>
+<h2 id="缩小定界符"><a class="header" href="#缩小定界符">缩小定界符</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(x) y
+</code></pre>
+<p>这与扩展定界符的情况类似。</p>
+<h2 id="使定界符不连贯"><a class="header" href="#使定界符不连贯">使定界符不连贯</a></h2>
+<pre><code>;; Before
+(foo (bar))
+
+;; After
+(foo (novel) (bar))
+</code></pre>
+<p>理想输出：<code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar)</code></p>
+<p>很容易会变成 <code>(foo (<span style="background-color:PaleGreen; color: #000">novel</span>) <span style="background-color:PaleGreen; color: #000">(</span>bar<span style="background-color:PaleGreen; color: #000">)</span>)</code>，
+其中后一组的定界符会被选中。</p>
+<h2 id="重新组织大节点"><a class="header" href="#重新组织大节点">重新组织大节点</a></h2>
+<pre><code>;; Before
+[[foo]]
+(x y)
+
+;; After
+([[foo]] x y)
+</code></pre>
+<p>我们想高亮 <code>[[foo]]</code> 被移到了括号内。然而，一个简单的语法差异者更倾向于认为在前面删除 <code>()</code> 并在后面增加 <code>()</code>，因为这是最小的差异表现（见<a href="https://github.com/Wilfred/difftastic/issues/44">议题 #44</a>）。</p>
+<h2 id="在列表内重新排列"><a class="header" href="#在列表内重新排列">在列表内重新排列</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(y x)
+</code></pre>
+<p>理想输出：<code>(<span style="background-color: PaleGreen; color: #000">y</span> <span style="background-color: PaleGreen; color: #000">x</span>)</code></p>
+<p>我们想高亮列表内容，而非定界符。</p>
+<h2 id="中间插入"><a class="header" href="#中间插入">中间插入</a></h2>
+<pre><code>// Before
+foo(bar(123))
+
+// After
+foo(extra(bar(123)))
+</code></pre>
+<p>理想输出：<code>foo(<span style="background-color: PaleGreen; color: #000">extra(</span>bar(123)<span style="background-color: PaleGreen; color: #000">)</span>)</code></p>
+<p>我们想把 <code>foo</code> 和 <code>bar</code> 看作是未改变的。这种情况对树进行自下而上然后自上而下匹配的衍合算法具有挑战性。</p>
+<h2 id="标点符号元素"><a class="header" href="#标点符号元素">标点符号元素</a></h2>
+<pre><code>// Before
+foo(1, bar)
+
+// After
+foo(bar, 2)
+</code></pre>
+<p>可能输出：<code>foo(<span style="background-color: PaleGreen; color: #000">bar</span>, <span style="background-color: PaleGreen; color: #000">2</span>)</code></p>
+<p>理想输出：<code>foo(bar<span style="background-color: PaleGreen; color: #000">,</span> <span style="background-color: PaleGreen; color: #000">2</span>)</code></p>
+<p><code>()</code> 内有两个元素，我们可以认为 <code>bar</code> 和 <code>,</code> 中有一个未改变（但不能认为两者都不改变，因为它们已经重新排序）。</p>
+<p>我们想把 <code>bar</code> 看作是未改变的，因为它相比于 <code>,</code> 元素更加重要。在语言不可知的方式下完成这一点存在困难，所以 Difftastic 有一个小的低优先级标点符号元素列表。</p>
+<h2 id="滑块平移"><a class="header" href="#滑块平移">滑块（平移）</a></h2>
+<p>在基于文本的差异分析中，滑块是一个常见的问题，即行与行之间以混乱的方式进行匹配。</p>
+<p>它们通常看起来像这样。差异分析必须任意选择一个包含分隔符的行，但它选择了错误的行。</p>
+<pre><code>+ }
++
++ function foo () {
+  }
+</code></pre>
+<p>git-diff 有一些启发式方法（比如 Patience Diff）降低这种风险，但这个问题仍可能发生。</p>
+<p>在树状差异分析时也有类似的问题。</p>
+<pre><code>;; Before
+A B
+C D
+
+;; After
+A B
+A B
+C D
+</code></pre>
+<p>可能输出：</p>
+<pre><code>A <span style="background-color: PaleGreen; color: #000">B</span>
+<span style="background-color: PaleGreen; color: #000">A</span> B
+C D
+</code></pre>
+<p>理想输出：</p>
+<pre><code>A B
+<span style="background-color: PaleGreen; color: #000">A</span> <span style="background-color: PaleGreen; color: #000">B</span>
+C D
+</code></pre>
+<p>理想情况下，我们更期望将连续节点标记为新的。从最长共子序列算法（LCS）看，这两个选择等价。</p>
+<h2 id="滑块嵌套"><a class="header" href="#滑块嵌套">滑块（嵌套）</a></h2>
+<pre><code>// Before
+old1(old2)
+
+// After
+old1(new1(old2))
+</code></pre>
+<p>可能输出：<code>old1<span style="background-color: PaleGreen; color: #000">(new1</span>(old2)<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>理想输出：<code>old1(<span style="background-color: PaleGreen; color: #000">new1(</span>old2<span style="background-color: PaleGreen; color: #000">)</span>)</code></p>
+<p>正确的答案是取决于语言。大多数语言希望优先使用内部定界符，而 Lisps 与 JSON 则期望使用外部定界符。</p>
+<h2 id="最小化深度改变"><a class="header" href="#最小化深度改变">最小化深度改变</a></h2>
+<pre><code>// Before
+if true {
+  foo(123);
+}
+foo(456);
+
+// After
+foo(789);
+</code></pre>
+<p>我们认为 <code>foo(123)</code> 与 <code>foo(456)</code> 中，哪个与 <code>foo(789)</code> 匹配？Difftastic 优先考虑 <code>foo(456)</code>，因为其优先考虑相同嵌套深度的节点。</p>
+<h2 id="有少量相似处的替代做法"><a class="header" href="#有少量相似处的替代做法">有少量相似处的替代做法</a></h2>
+<pre><code>// Before
+function foo(x) { return x + 1; }
+
+// After
+function bar(y) { baz(y); }
+</code></pre>
+<p>可能结果：<code>function <span style="background-color: PaleGreen; color: #000">bar</span>(<span style="background-color: PaleGreen; color: #000">y</span>) { <span style="background-color: PaleGreen; color: #000">baz(y)</span>; }</code></p>
+<p>在这个例子中，我们删除了一个函数并写了一个完全不同的函数。树状结构差异分析可能会匹配 <code>function</code> 和外部定界符，从而导致高亮许多令人困惑的小变化。</p>
+<p>与滑块一样，替代问题也可能发生在基于文本的行差中。如果有少量的共同行，行差就会陷入困境。但树状结构差异分析的精确、细化行为会使这个问题更加普遍。</p>
+<h2 id="匹配注释中的子字符串"><a class="header" href="#匹配注释中的子字符串">匹配注释中的子字符串</a></h2>
+<pre><code>// Before
+/* The quick brown fox. */
+foobar();
+
+// After
+/* The slow brown fox. */
+foobaz();
+</code></pre>
+<p><code>foobar</code> 和 <code>foobaz</code> 完全不同，它们的共同前缀 <code>fooba</code> 不应该被匹配。然而，为注释匹配共同的前缀或后缀是可取的。</p>
+<h2 id="多行注释"><a class="header" href="#多行注释">多行注释</a></h2>
+<pre><code>// Before
+/* Hello
+ * World. */
+
+// After
+if (x) {
+  /* Hello
+   * World. */
+}
+</code></pre>
+<p>这两个注释的内部内容在技术上是不同的。然而，我们期望把它们当作是相同的。</p>
+<h2 id="文档注释的换行"><a class="header" href="#文档注释的换行">文档注释的换行</a></h2>
+<p>块状评论的前缀并没有什么意义。</p>
+<pre><code>// Before
+/* The quick brown fox jumps 
+ * over the lazy dog. */
+
+// After
+/* The quick brown fox immediately
+ * jumps over the lazy dog. */
+</code></pre>
+<p>里面的内容已经从 <code>jumps * over</code> 变成了 <code>immediately * jumps over</code>。然而，<code>*</code> 是装饰性的，我们并不关心它的移动。</p>
+<h2 id="长字符串的小变化"><a class="header" href="#长字符串的小变化">长字符串的小变化</a></h2>
+<pre><code>// Before
+&quot;&quot;&quot;A very long string
+with lots of words about
+lots of stuff.&quot;&quot;&quot;
+
+// After
+&quot;&quot;&quot;A very long string
+with lots of NOVEL words about
+lots of stuff.&quot;&quot;&quot;
+</code></pre>
+<p>将整个字符串字头高亮为被删除并被一个新的字符串字头取代是正确的。然而，这让人很难看出实际改变了什么。</p>
+<p>很明显，变量名应该被元素化处理，并且注释是安全的，可以显示子字符串的变化。但不清楚如何处理一个 20 行字符串字面值的小变化。</p>
+<p>在空格上分割字符串并加以区别很具有挑战性，但用户仍期望知道字符串内部的空白何时改变。<code>&quot; &quot;</code> 与 <code>&quot;  &quot;</code> 是不同的。</p>
+<h2 id="自动格式化工具的拼写"><a class="header" href="#自动格式化工具的拼写">自动格式化工具的拼写</a></h2>
+<pre><code>// Before
+foo(&quot;looooong&quot;, &quot;also looooong&quot;);
+
+// Before
+foo(
+  &quot;looooong&quot;,
+  &quot;novel&quot;,
+  &quot;also looooong&quot;,
+);
+</code></pre>
+<p>自动格式化（例如 <a href="https://prettier.io/">Prettier</a>）有时会在格式化时添加或删除标点符号，其中逗号和括号最常见。</p>
+<p>语法差异可以忽略空白处的变化，但它必须假定标点符号有意义。这可能导致标点符号的变化被突出显示，而这可能与相关的内容变化相差甚远。</p>
+<h2 id="新空行"><a class="header" href="#新空行">新空行</a></h2>
+<p>空行对于语法差异分析来说是一种挑战。我们要比较的是语法标记，所以我们不会看到空行。</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+
+B
+</code></pre>
+<p>一般来说，我们期望语法差异能够忽略空行。在第一个例子中，这应该不会显示任何变化。</p>
+<p>这有时是有问题的，因为它可以会意外地隐藏被重新格式化的代码。</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+X
+
+Y
+B
+</code></pre>
+<p>在第二个例子中，我们插入了 X 和 Y 以及一个空行。我们想把空行作为一个补充来高亮。</p>
+<pre><code>// Before
+A
+
+
+B
+
+// After
+A
+X
+B
+</code></pre>
+<p>在第三个例子中，语法差异分析只看到了一个增加。从用户角度来看，也有两个空行被删除。</p>
+<h2 id="无效语法"><a class="header" href="#无效语法">无效语法</a></h2>
+<p>我们不能保证我们得到的输入是有效的语法。即使代码是有效的，它也可能使用解析器不支持的语法。</p>
+<p><strong>Difftastic</strong>：如果发生任何解析错误，Difftastic 将退回到基于文本的差异，以避免差异不完整的语法树。发生这种情况时，文件头会报告错误计数。</p>
+<pre><code>$ difft sample_files/syntax_error_before.js sample_files/syntax_error_after.js
+sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+...
+</code></pre>
+<p>用户可以选择通过将 <code>DFT_PARSE_ERROR_LIMIT</code> 设置为一个更大的值，加入语法差异分析。在这种模式下，Difftastic 会将树状差异分析的错误节点看作元素，并像通常一样进行树状差异分析。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="diffing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="contributing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="diffing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="contributing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

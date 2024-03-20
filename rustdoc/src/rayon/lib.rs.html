@@ -1,0 +1,322 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.7.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../rayon/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../rayon/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../rayon/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+</pre><pre class="rust"><code><span class="attribute">#![deny(missing_debug_implementations)]
+#![deny(missing_docs)]
+#![deny(unreachable_pub)]
+#![warn(rust_2018_idioms)]
+
+</span><span class="doccomment">//! Data-parallelism library that makes it easy to convert sequential
+//! computations into parallel
+//!
+//! Rayon is lightweight and convenient for introducing parallelism into existing
+//! code. It guarantees data-race free executions and takes advantage of
+//! parallelism when sensible, based on work-load at runtime.
+//!
+//! # How to use Rayon
+//!
+//! There are two ways to use Rayon:
+//!
+//! - **High-level parallel constructs** are the simplest way to use Rayon and also
+//!   typically the most efficient.
+//!   - [Parallel iterators][iter module] make it easy to convert a sequential iterator to
+//!     execute in parallel.
+//!     - The [`ParallelIterator`] trait defines general methods for all parallel iterators.
+//!     - The [`IndexedParallelIterator`] trait adds methods for iterators that support random
+//!       access.
+//!   - The [`par_sort`] method sorts `&amp;mut [T]` slices (or vectors) in parallel.
+//!   - [`par_extend`] can be used to efficiently grow collections with items produced
+//!     by a parallel iterator.
+//! - **Custom tasks** let you divide your work into parallel tasks yourself.
+//!   - [`join`] is used to subdivide a task into two pieces.
+//!   - [`scope`] creates a scope within which you can create any number of parallel tasks.
+//!   - [`ThreadPoolBuilder`] can be used to create your own thread pools or customize
+//!     the global one.
+//!
+//! [iter module]: iter/index.html
+//! [`join`]: fn.join.html
+//! [`scope`]: fn.scope.html
+//! [`par_sort`]: slice/trait.ParallelSliceMut.html#method.par_sort
+//! [`par_extend`]: iter/trait.ParallelExtend.html#tymethod.par_extend
+//! [`ThreadPoolBuilder`]: struct.ThreadPoolBuilder.html
+//!
+//! # Basic usage and the Rayon prelude
+//!
+//! First, you will need to add `rayon` to your `Cargo.toml`.
+//!
+//! Next, to use parallel iterators or the other high-level methods,
+//! you need to import several traits. Those traits are bundled into
+//! the module [`rayon::prelude`]. It is recommended that you import
+//! all of these traits at once by adding `use rayon::prelude::*` at
+//! the top of each module that uses Rayon methods.
+//!
+//! These traits give you access to the `par_iter` method which provides
+//! parallel implementations of many iterative functions such as [`map`],
+//! [`for_each`], [`filter`], [`fold`], and [more].
+//!
+//! [`rayon::prelude`]: prelude/index.html
+//! [`map`]: iter/trait.ParallelIterator.html#method.map
+//! [`for_each`]: iter/trait.ParallelIterator.html#method.for_each
+//! [`filter`]: iter/trait.ParallelIterator.html#method.filter
+//! [`fold`]: iter/trait.ParallelIterator.html#method.fold
+//! [more]: iter/trait.ParallelIterator.html#provided-methods
+//! [`ParallelIterator`]: iter/trait.ParallelIterator.html
+//! [`IndexedParallelIterator`]: iter/trait.IndexedParallelIterator.html
+//!
+//! # Crate Layout
+//!
+//! Rayon extends many of the types found in the standard library with
+//! parallel iterator implementations. The modules in the `rayon`
+//! crate mirror [`std`] itself: so, e.g., the `option` module in
+//! Rayon contains parallel iterators for the `Option` type, which is
+//! found in [the `option` module of `std`]. Similarly, the
+//! `collections` module in Rayon offers parallel iterator types for
+//! [the `collections` from `std`]. You will rarely need to access
+//! these submodules unless you need to name iterator types
+//! explicitly.
+//!
+//! [the `option` module of `std`]: https://doc.rust-lang.org/std/option/index.html
+//! [the `collections` from `std`]: https://doc.rust-lang.org/std/collections/index.html
+//! [`std`]: https://doc.rust-lang.org/std/
+//!
+//! # Targets without threading
+//!
+//! Rayon has limited support for targets without `std` threading implementations.
+//! See the [`rayon_core`] documentation for more information about its global fallback.
+//!
+//! # Other questions?
+//!
+//! See [the Rayon FAQ][faq].
+//!
+//! [faq]: https://github.com/rayon-rs/rayon/blob/master/FAQ.md
+
+</span><span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>delegate;
+
+<span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>private;
+
+<span class="kw">mod </span>split_producer;
+
+<span class="kw">pub mod </span>array;
+<span class="kw">pub mod </span>collections;
+<span class="kw">pub mod </span>iter;
+<span class="kw">pub mod </span>option;
+<span class="kw">pub mod </span>prelude;
+<span class="kw">pub mod </span>range;
+<span class="kw">pub mod </span>range_inclusive;
+<span class="kw">pub mod </span>result;
+<span class="kw">pub mod </span>slice;
+<span class="kw">pub mod </span>str;
+<span class="kw">pub mod </span>string;
+<span class="kw">pub mod </span>vec;
+
+<span class="kw">mod </span>math;
+<span class="kw">mod </span>par_either;
+
+<span class="kw">mod </span>compile_fail;
+
+<span class="kw">pub use </span>rayon_core::FnContext;
+<span class="kw">pub use </span>rayon_core::ThreadBuilder;
+<span class="kw">pub use </span>rayon_core::ThreadPool;
+<span class="kw">pub use </span>rayon_core::ThreadPoolBuildError;
+<span class="kw">pub use </span>rayon_core::ThreadPoolBuilder;
+<span class="kw">pub use </span>rayon_core::{broadcast, spawn_broadcast, BroadcastContext};
+<span class="kw">pub use </span>rayon_core::{current_num_threads, current_thread_index, max_num_threads};
+<span class="kw">pub use </span>rayon_core::{in_place_scope, scope, Scope};
+<span class="kw">pub use </span>rayon_core::{in_place_scope_fifo, scope_fifo, ScopeFifo};
+<span class="kw">pub use </span>rayon_core::{join, join_context};
+<span class="kw">pub use </span>rayon_core::{spawn, spawn_fifo};
+<span class="kw">pub use </span>rayon_core::{yield_local, yield_now, Yield};
+
+<span class="doccomment">/// We need to transmit raw pointers across threads. It is possible to do this
+/// without any unsafe code by converting pointers to usize or to AtomicPtr&lt;T&gt;
+/// then back to a raw pointer for use. We prefer this approach because code
+/// that uses this type is more explicit.
+///
+/// Unsafe code is still required to dereference the pointer, so this type is
+/// not unsound on its own, although it does partly lift the unconditional
+/// !Send and !Sync on raw pointers. As always, dereference with care.
+</span><span class="kw">struct </span>SendPtr&lt;T&gt;(<span class="kw-2">*mut </span>T);
+
+<span class="comment">// SAFETY: !Send for raw pointers is not for safety, just as a lint
+</span><span class="kw">unsafe impl</span>&lt;T: Send&gt; Send <span class="kw">for </span>SendPtr&lt;T&gt; {}
+
+<span class="comment">// SAFETY: !Sync for raw pointers is not for safety, just as a lint
+</span><span class="kw">unsafe impl</span>&lt;T: Send&gt; Sync <span class="kw">for </span>SendPtr&lt;T&gt; {}
+
+<span class="kw">impl</span>&lt;T&gt; SendPtr&lt;T&gt; {
+    <span class="comment">// Helper to avoid disjoint captures of `send_ptr.0`
+    </span><span class="kw">fn </span>get(<span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>T {
+        <span class="self">self</span>.<span class="number">0
+    </span>}
+}
+
+<span class="comment">// Implement Clone without the T: Clone bound from the derive
+</span><span class="kw">impl</span>&lt;T&gt; Clone <span class="kw">for </span>SendPtr&lt;T&gt; {
+    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0</span>)
+    }
+}
+
+<span class="comment">// Implement Copy without the T: Copy bound from the derive
+</span><span class="kw">impl</span>&lt;T&gt; Copy <span class="kw">for </span>SendPtr&lt;T&gt; {}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="rayon" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

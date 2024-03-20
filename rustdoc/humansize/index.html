@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Humansize"><meta name="keywords" content="rust, rustlang, rust-lang, humansize"><title>humansize - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../humansize/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../humansize/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate humansize</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 2.1.3</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../humansize/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">humansize</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/humansize/lib.rs.html#1-147">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="humansize"><a href="#humansize"><strong>Humansize</strong></a></h2><h3 id="features"><a href="#features">Features</a></h3>
+<p>Humansize is a humanization library for information size that is:</p>
+<ul>
+<li>Simple &amp; convenient to use</li>
+<li>Customizable</li>
+<li>Supports byte or bit sizes</li>
+<li><code>no-std</code></li>
+<li>Optionally non-allocating</li>
+<li>Optionally accepts signed values</li>
+</ul>
+<h3 id="how-to-use-it"><a href="#how-to-use-it">How to use it…</a></h3>
+<p>Add humansize as a dependency to your project’s <code>cargo.toml</code>:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+...
+humansize = &quot;2.0.0&quot;</code></pre></div><h4 id="-to-easily-format-a-size"><a href="#-to-easily-format-a-size">… to easily format a size:</a></h4>
+<ol>
+<li>Import the <code>format_size</code> function as well as your preferred set of defaults:
+<ul>
+<li><code>DECIMAL</code> (SI)</li>
+<li><code>BINARY</code> (IEC)</li>
+<li><code>WINDOWS</code> (IEC values but SI units)</li>
+</ul>
+</li>
+<li>Call <code>format_size</code> with an unsigned integer</li>
+</ol>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>humansize::{format_size, DECIMAL};
+
+<span class="kw">let </span>size = <span class="number">1_000_000u64</span>;
+<span class="kw">let </span>res: String = format_size(size, DECIMAL);
+
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>res, <span class="string">&quot;1 MB&quot;</span>);
+</code></pre></div>
+<h4 id="-to-format-many-sizes"><a href="#-to-format-many-sizes">… to format many sizes:</a></h4>
+<p>To improve reusability, you can use <code>create_format</code>, which returns a formatter function akin to <code>format_size</code> but with the options argument curried so it doesn’t need to be specified again:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>humansize::{make_format, DECIMAL};
+
+<span class="kw">let </span>formatter = make_format(DECIMAL);
+
+<span class="macro">assert_eq!</span>(formatter(<span class="number">1_000_000u64</span>), <span class="string">&quot;1 MB&quot;</span>);
+<span class="macro">assert_eq!</span>(formatter(<span class="number">1_000_000_000u64</span>), <span class="string">&quot;1 GB&quot;</span>);
+<span class="comment">//...
+</span></code></pre></div>
+<h4 id="-to-avoid-allocation"><a href="#-to-avoid-allocation">… to avoid allocation:</a></h4>
+<p>Specify the <code>no_alloc</code> feature flag in your project’s <code>cargo.toml</code>:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+...
+humansize = { version = &quot;2.0.0&quot;, features = [&quot;no_alloc&quot;] }</code></pre></div>
+<p>This excludes all allocating code from compilation. You may now use the library’s internal <code>SizeFormatter</code> struct, which implements <code>core::fmt::display</code> so that you can <code>write!</code> it to a custom buffer of your choice:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>humansize::{SizeFormatter, DECIMAL};
+
+<span class="kw">let </span>formatter = SizeFormatter::new(<span class="number">1_000_000usize</span>, DECIMAL);
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, formatter), <span class="string">&quot;1 MB&quot;</span>);</code></pre></div>
+<h4 id="-with-the-impl-style-api"><a href="#-with-the-impl-style-api">… with the <code>impl</code> style API:</a></h4>
+<p>For stylistic reasons, you may prefer to use the impl-style API of earlier versions of the crate.
+To do so, specify the <code>impl-style</code> feature flag in your project’s <code>cargo.toml</code>:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+...
+humansize = { version = &quot;2.0.0&quot;, features = [&quot;impl_style&quot;] }</code></pre></div>
+<p>Enabling this feature makes two methods available:</p>
+<ul>
+<li><code>format_size</code> on unsigned integers types</li>
+<li><code>format_size_i</code> on signed integer types.</li>
+</ul>
+<p>To use it, bring the FormatSize trait into scope and call its method on an integer type:</p>
+
+<div class="example-wrap ignore"><div class='tooltip'>ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">use </span>humansize::{FormatSize, FormatSizeI DECIMAL};
+
+<span class="macro">assert_eq!</span>(<span class="number">1_000_000u64</span>.format_size(DECIMAL), <span class="string">&quot;1 MB&quot;</span>);
+<span class="macro">assert_eq!</span>((-<span class="number">1_000_000</span>).format_size_i(DECIMAL), <span class="string">&quot;-1 MB&quot;</span>);</code></pre></div>
+<h4 id="-to-further-customize-the-output"><a href="#-to-further-customize-the-output">… to further customize the output:</a></h4>
+<p>Humansize exports three default option sets:</p>
+<ul>
+<li><code>Decimal</code>: kilo = 1000, unit format is <code>XB</code>.</li>
+<li><code>Binary</code>: kilo = 1024, unit format is <code>XiB</code>.</li>
+<li><code>WINDOWS</code> (Windows): kilo = 1024, unit format is <code>XB</code>.</li>
+</ul>
+<p>The formatting can be further customized by providing providing your own option set. See the documentation of the <code>FormatSizeOptions</code> struct to see all the addressable parameters, and <a href="examples/custom_options.rs">this example</a> for its usage.</p>
+<h4 id="-to-accept-negative-values"><a href="#-to-accept-negative-values">… to accept negative values:</a></h4>
+<p>The solutions presented above only accept unsigned integer types as input (<code>usize</code>, <code>8</code>, <code>u16</code>, <code>u32</code> and <code>u64</code>). If however accepting negative values is correct for your application, a signed alternative exists for each of them that will accept signed integer types, and format them accordingly if negative:</p>
+<ul>
+<li><code>format_size</code> : <code>format_size_i</code></li>
+<li><code>create_format</code> : <code>create_format_i</code></li>
+<li><code>FormatSize</code> trait : <code>FormatSizeI</code> trait</li>
+<li><code>SizeFormatter</code> : <code>ISizeFormatter</code></li>
+</ul>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>humansize::{format_size_i, make_format_i, ISizeFormatter, DECIMAL};
+
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>format_size_i(-<span class="number">1_000_000</span>, DECIMAL), <span class="string">&quot;-1 MB&quot;</span>);
+
+<span class="kw">let </span>signed_formatter = make_format_i(DECIMAL);
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>signed_formatter(-<span class="number">1_000_000</span>), <span class="string">&quot;-1 MB&quot;</span>);
+
+<span class="comment">// With the `impl-style` feature enabled:
+// use humansize::FormatSizeI;
+// assert_eq(-1_000_000.format_size(DECIMAL), &quot;-1 MB&quot;);
+
+</span><span class="kw">let </span>signed_size_formatter = ISizeFormatter::new(-<span class="number">1_000_000</span>, DECIMAL);
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, signed_size_formatter), <span class="string">&quot;-1 MB&quot;</span>);
+</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FormatSizeOptions.html" title="humansize::FormatSizeOptions struct">FormatSizeOptions</a></div><div class="item-right docblock-short">Holds the options for the <code>file_size</code> method.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ISizeFormatter.html" title="humansize::ISizeFormatter struct">ISizeFormatter</a></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SizeFormatter.html" title="humansize::SizeFormatter struct">SizeFormatter</a></div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.BaseUnit.html" title="humansize::BaseUnit enum">BaseUnit</a></div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.FixedAt.html" title="humansize::FixedAt enum">FixedAt</a></div><div class="item-right docblock-short">Forces a certain representation of the resulting file size.</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Kilo.html" title="humansize::Kilo enum">Kilo</a></div><div class="item-right docblock-short">Holds the standard to use when displaying the size.</div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.BINARY.html" title="humansize::BINARY constant">BINARY</a></div><div class="item-right docblock-short">Options to display sizes in the SI format.</div></div><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.DECIMAL.html" title="humansize::DECIMAL constant">DECIMAL</a></div><div class="item-right docblock-short">Options to display sizes in the SI (decimal) format.</div></div><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.WINDOWS.html" title="humansize::WINDOWS constant">WINDOWS</a></div><div class="item-right docblock-short">Options to display sizes in the “WINDOWS” format.
+Uses 1024 as the value of the <code>Kilo</code>, but displays decimal-style units (<code>kB</code>, not <code>KiB</code>).</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Signed.html" title="humansize::Signed trait">Signed</a></div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ToF64.html" title="humansize::ToF64 trait">ToF64</a></div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Unsigned.html" title="humansize::Unsigned trait">Unsigned</a></div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.format_size.html" title="humansize::format_size fn">format_size</a></div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.format_size_i.html" title="humansize::format_size_i fn">format_size_i</a></div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.make_format.html" title="humansize::make_format fn">make_format</a></div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.make_format_i.html" title="humansize::make_format_i fn">make_format_i</a></div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="humansize" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

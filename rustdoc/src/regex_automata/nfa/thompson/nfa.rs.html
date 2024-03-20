@@ -1,0 +1,4204 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-automata-0.3.9/src/nfa/thompson/nfa.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>nfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../regex_automata/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
+<span id="1267">1267</span>
+<span id="1268">1268</span>
+<span id="1269">1269</span>
+<span id="1270">1270</span>
+<span id="1271">1271</span>
+<span id="1272">1272</span>
+<span id="1273">1273</span>
+<span id="1274">1274</span>
+<span id="1275">1275</span>
+<span id="1276">1276</span>
+<span id="1277">1277</span>
+<span id="1278">1278</span>
+<span id="1279">1279</span>
+<span id="1280">1280</span>
+<span id="1281">1281</span>
+<span id="1282">1282</span>
+<span id="1283">1283</span>
+<span id="1284">1284</span>
+<span id="1285">1285</span>
+<span id="1286">1286</span>
+<span id="1287">1287</span>
+<span id="1288">1288</span>
+<span id="1289">1289</span>
+<span id="1290">1290</span>
+<span id="1291">1291</span>
+<span id="1292">1292</span>
+<span id="1293">1293</span>
+<span id="1294">1294</span>
+<span id="1295">1295</span>
+<span id="1296">1296</span>
+<span id="1297">1297</span>
+<span id="1298">1298</span>
+<span id="1299">1299</span>
+<span id="1300">1300</span>
+<span id="1301">1301</span>
+<span id="1302">1302</span>
+<span id="1303">1303</span>
+<span id="1304">1304</span>
+<span id="1305">1305</span>
+<span id="1306">1306</span>
+<span id="1307">1307</span>
+<span id="1308">1308</span>
+<span id="1309">1309</span>
+<span id="1310">1310</span>
+<span id="1311">1311</span>
+<span id="1312">1312</span>
+<span id="1313">1313</span>
+<span id="1314">1314</span>
+<span id="1315">1315</span>
+<span id="1316">1316</span>
+<span id="1317">1317</span>
+<span id="1318">1318</span>
+<span id="1319">1319</span>
+<span id="1320">1320</span>
+<span id="1321">1321</span>
+<span id="1322">1322</span>
+<span id="1323">1323</span>
+<span id="1324">1324</span>
+<span id="1325">1325</span>
+<span id="1326">1326</span>
+<span id="1327">1327</span>
+<span id="1328">1328</span>
+<span id="1329">1329</span>
+<span id="1330">1330</span>
+<span id="1331">1331</span>
+<span id="1332">1332</span>
+<span id="1333">1333</span>
+<span id="1334">1334</span>
+<span id="1335">1335</span>
+<span id="1336">1336</span>
+<span id="1337">1337</span>
+<span id="1338">1338</span>
+<span id="1339">1339</span>
+<span id="1340">1340</span>
+<span id="1341">1341</span>
+<span id="1342">1342</span>
+<span id="1343">1343</span>
+<span id="1344">1344</span>
+<span id="1345">1345</span>
+<span id="1346">1346</span>
+<span id="1347">1347</span>
+<span id="1348">1348</span>
+<span id="1349">1349</span>
+<span id="1350">1350</span>
+<span id="1351">1351</span>
+<span id="1352">1352</span>
+<span id="1353">1353</span>
+<span id="1354">1354</span>
+<span id="1355">1355</span>
+<span id="1356">1356</span>
+<span id="1357">1357</span>
+<span id="1358">1358</span>
+<span id="1359">1359</span>
+<span id="1360">1360</span>
+<span id="1361">1361</span>
+<span id="1362">1362</span>
+<span id="1363">1363</span>
+<span id="1364">1364</span>
+<span id="1365">1365</span>
+<span id="1366">1366</span>
+<span id="1367">1367</span>
+<span id="1368">1368</span>
+<span id="1369">1369</span>
+<span id="1370">1370</span>
+<span id="1371">1371</span>
+<span id="1372">1372</span>
+<span id="1373">1373</span>
+<span id="1374">1374</span>
+<span id="1375">1375</span>
+<span id="1376">1376</span>
+<span id="1377">1377</span>
+<span id="1378">1378</span>
+<span id="1379">1379</span>
+<span id="1380">1380</span>
+<span id="1381">1381</span>
+<span id="1382">1382</span>
+<span id="1383">1383</span>
+<span id="1384">1384</span>
+<span id="1385">1385</span>
+<span id="1386">1386</span>
+<span id="1387">1387</span>
+<span id="1388">1388</span>
+<span id="1389">1389</span>
+<span id="1390">1390</span>
+<span id="1391">1391</span>
+<span id="1392">1392</span>
+<span id="1393">1393</span>
+<span id="1394">1394</span>
+<span id="1395">1395</span>
+<span id="1396">1396</span>
+<span id="1397">1397</span>
+<span id="1398">1398</span>
+<span id="1399">1399</span>
+<span id="1400">1400</span>
+<span id="1401">1401</span>
+<span id="1402">1402</span>
+<span id="1403">1403</span>
+<span id="1404">1404</span>
+<span id="1405">1405</span>
+<span id="1406">1406</span>
+<span id="1407">1407</span>
+<span id="1408">1408</span>
+<span id="1409">1409</span>
+<span id="1410">1410</span>
+<span id="1411">1411</span>
+<span id="1412">1412</span>
+<span id="1413">1413</span>
+<span id="1414">1414</span>
+<span id="1415">1415</span>
+<span id="1416">1416</span>
+<span id="1417">1417</span>
+<span id="1418">1418</span>
+<span id="1419">1419</span>
+<span id="1420">1420</span>
+<span id="1421">1421</span>
+<span id="1422">1422</span>
+<span id="1423">1423</span>
+<span id="1424">1424</span>
+<span id="1425">1425</span>
+<span id="1426">1426</span>
+<span id="1427">1427</span>
+<span id="1428">1428</span>
+<span id="1429">1429</span>
+<span id="1430">1430</span>
+<span id="1431">1431</span>
+<span id="1432">1432</span>
+<span id="1433">1433</span>
+<span id="1434">1434</span>
+<span id="1435">1435</span>
+<span id="1436">1436</span>
+<span id="1437">1437</span>
+<span id="1438">1438</span>
+<span id="1439">1439</span>
+<span id="1440">1440</span>
+<span id="1441">1441</span>
+<span id="1442">1442</span>
+<span id="1443">1443</span>
+<span id="1444">1444</span>
+<span id="1445">1445</span>
+<span id="1446">1446</span>
+<span id="1447">1447</span>
+<span id="1448">1448</span>
+<span id="1449">1449</span>
+<span id="1450">1450</span>
+<span id="1451">1451</span>
+<span id="1452">1452</span>
+<span id="1453">1453</span>
+<span id="1454">1454</span>
+<span id="1455">1455</span>
+<span id="1456">1456</span>
+<span id="1457">1457</span>
+<span id="1458">1458</span>
+<span id="1459">1459</span>
+<span id="1460">1460</span>
+<span id="1461">1461</span>
+<span id="1462">1462</span>
+<span id="1463">1463</span>
+<span id="1464">1464</span>
+<span id="1465">1465</span>
+<span id="1466">1466</span>
+<span id="1467">1467</span>
+<span id="1468">1468</span>
+<span id="1469">1469</span>
+<span id="1470">1470</span>
+<span id="1471">1471</span>
+<span id="1472">1472</span>
+<span id="1473">1473</span>
+<span id="1474">1474</span>
+<span id="1475">1475</span>
+<span id="1476">1476</span>
+<span id="1477">1477</span>
+<span id="1478">1478</span>
+<span id="1479">1479</span>
+<span id="1480">1480</span>
+<span id="1481">1481</span>
+<span id="1482">1482</span>
+<span id="1483">1483</span>
+<span id="1484">1484</span>
+<span id="1485">1485</span>
+<span id="1486">1486</span>
+<span id="1487">1487</span>
+<span id="1488">1488</span>
+<span id="1489">1489</span>
+<span id="1490">1490</span>
+<span id="1491">1491</span>
+<span id="1492">1492</span>
+<span id="1493">1493</span>
+<span id="1494">1494</span>
+<span id="1495">1495</span>
+<span id="1496">1496</span>
+<span id="1497">1497</span>
+<span id="1498">1498</span>
+<span id="1499">1499</span>
+<span id="1500">1500</span>
+<span id="1501">1501</span>
+<span id="1502">1502</span>
+<span id="1503">1503</span>
+<span id="1504">1504</span>
+<span id="1505">1505</span>
+<span id="1506">1506</span>
+<span id="1507">1507</span>
+<span id="1508">1508</span>
+<span id="1509">1509</span>
+<span id="1510">1510</span>
+<span id="1511">1511</span>
+<span id="1512">1512</span>
+<span id="1513">1513</span>
+<span id="1514">1514</span>
+<span id="1515">1515</span>
+<span id="1516">1516</span>
+<span id="1517">1517</span>
+<span id="1518">1518</span>
+<span id="1519">1519</span>
+<span id="1520">1520</span>
+<span id="1521">1521</span>
+<span id="1522">1522</span>
+<span id="1523">1523</span>
+<span id="1524">1524</span>
+<span id="1525">1525</span>
+<span id="1526">1526</span>
+<span id="1527">1527</span>
+<span id="1528">1528</span>
+<span id="1529">1529</span>
+<span id="1530">1530</span>
+<span id="1531">1531</span>
+<span id="1532">1532</span>
+<span id="1533">1533</span>
+<span id="1534">1534</span>
+<span id="1535">1535</span>
+<span id="1536">1536</span>
+<span id="1537">1537</span>
+<span id="1538">1538</span>
+<span id="1539">1539</span>
+<span id="1540">1540</span>
+<span id="1541">1541</span>
+<span id="1542">1542</span>
+<span id="1543">1543</span>
+<span id="1544">1544</span>
+<span id="1545">1545</span>
+<span id="1546">1546</span>
+<span id="1547">1547</span>
+<span id="1548">1548</span>
+<span id="1549">1549</span>
+<span id="1550">1550</span>
+<span id="1551">1551</span>
+<span id="1552">1552</span>
+<span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
+<span id="1578">1578</span>
+<span id="1579">1579</span>
+<span id="1580">1580</span>
+<span id="1581">1581</span>
+<span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
+<span id="1592">1592</span>
+<span id="1593">1593</span>
+<span id="1594">1594</span>
+<span id="1595">1595</span>
+<span id="1596">1596</span>
+<span id="1597">1597</span>
+<span id="1598">1598</span>
+<span id="1599">1599</span>
+<span id="1600">1600</span>
+<span id="1601">1601</span>
+<span id="1602">1602</span>
+<span id="1603">1603</span>
+<span id="1604">1604</span>
+<span id="1605">1605</span>
+<span id="1606">1606</span>
+<span id="1607">1607</span>
+<span id="1608">1608</span>
+<span id="1609">1609</span>
+<span id="1610">1610</span>
+<span id="1611">1611</span>
+<span id="1612">1612</span>
+<span id="1613">1613</span>
+<span id="1614">1614</span>
+<span id="1615">1615</span>
+<span id="1616">1616</span>
+<span id="1617">1617</span>
+<span id="1618">1618</span>
+<span id="1619">1619</span>
+<span id="1620">1620</span>
+<span id="1621">1621</span>
+<span id="1622">1622</span>
+<span id="1623">1623</span>
+<span id="1624">1624</span>
+<span id="1625">1625</span>
+<span id="1626">1626</span>
+<span id="1627">1627</span>
+<span id="1628">1628</span>
+<span id="1629">1629</span>
+<span id="1630">1630</span>
+<span id="1631">1631</span>
+<span id="1632">1632</span>
+<span id="1633">1633</span>
+<span id="1634">1634</span>
+<span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
+<span id="1638">1638</span>
+<span id="1639">1639</span>
+<span id="1640">1640</span>
+<span id="1641">1641</span>
+<span id="1642">1642</span>
+<span id="1643">1643</span>
+<span id="1644">1644</span>
+<span id="1645">1645</span>
+<span id="1646">1646</span>
+<span id="1647">1647</span>
+<span id="1648">1648</span>
+<span id="1649">1649</span>
+<span id="1650">1650</span>
+<span id="1651">1651</span>
+<span id="1652">1652</span>
+<span id="1653">1653</span>
+<span id="1654">1654</span>
+<span id="1655">1655</span>
+<span id="1656">1656</span>
+<span id="1657">1657</span>
+<span id="1658">1658</span>
+<span id="1659">1659</span>
+<span id="1660">1660</span>
+<span id="1661">1661</span>
+<span id="1662">1662</span>
+<span id="1663">1663</span>
+<span id="1664">1664</span>
+<span id="1665">1665</span>
+<span id="1666">1666</span>
+<span id="1667">1667</span>
+<span id="1668">1668</span>
+<span id="1669">1669</span>
+<span id="1670">1670</span>
+<span id="1671">1671</span>
+<span id="1672">1672</span>
+<span id="1673">1673</span>
+<span id="1674">1674</span>
+<span id="1675">1675</span>
+<span id="1676">1676</span>
+<span id="1677">1677</span>
+<span id="1678">1678</span>
+<span id="1679">1679</span>
+<span id="1680">1680</span>
+<span id="1681">1681</span>
+<span id="1682">1682</span>
+<span id="1683">1683</span>
+<span id="1684">1684</span>
+<span id="1685">1685</span>
+<span id="1686">1686</span>
+<span id="1687">1687</span>
+<span id="1688">1688</span>
+<span id="1689">1689</span>
+<span id="1690">1690</span>
+<span id="1691">1691</span>
+<span id="1692">1692</span>
+<span id="1693">1693</span>
+<span id="1694">1694</span>
+<span id="1695">1695</span>
+<span id="1696">1696</span>
+<span id="1697">1697</span>
+<span id="1698">1698</span>
+<span id="1699">1699</span>
+<span id="1700">1700</span>
+<span id="1701">1701</span>
+<span id="1702">1702</span>
+<span id="1703">1703</span>
+<span id="1704">1704</span>
+<span id="1705">1705</span>
+<span id="1706">1706</span>
+<span id="1707">1707</span>
+<span id="1708">1708</span>
+<span id="1709">1709</span>
+<span id="1710">1710</span>
+<span id="1711">1711</span>
+<span id="1712">1712</span>
+<span id="1713">1713</span>
+<span id="1714">1714</span>
+<span id="1715">1715</span>
+<span id="1716">1716</span>
+<span id="1717">1717</span>
+<span id="1718">1718</span>
+<span id="1719">1719</span>
+<span id="1720">1720</span>
+<span id="1721">1721</span>
+<span id="1722">1722</span>
+<span id="1723">1723</span>
+<span id="1724">1724</span>
+<span id="1725">1725</span>
+<span id="1726">1726</span>
+<span id="1727">1727</span>
+<span id="1728">1728</span>
+<span id="1729">1729</span>
+<span id="1730">1730</span>
+<span id="1731">1731</span>
+<span id="1732">1732</span>
+<span id="1733">1733</span>
+<span id="1734">1734</span>
+<span id="1735">1735</span>
+<span id="1736">1736</span>
+<span id="1737">1737</span>
+<span id="1738">1738</span>
+<span id="1739">1739</span>
+<span id="1740">1740</span>
+<span id="1741">1741</span>
+<span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
+<span id="1761">1761</span>
+<span id="1762">1762</span>
+<span id="1763">1763</span>
+<span id="1764">1764</span>
+<span id="1765">1765</span>
+<span id="1766">1766</span>
+<span id="1767">1767</span>
+<span id="1768">1768</span>
+<span id="1769">1769</span>
+<span id="1770">1770</span>
+<span id="1771">1771</span>
+<span id="1772">1772</span>
+<span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
+<span id="1808">1808</span>
+<span id="1809">1809</span>
+<span id="1810">1810</span>
+<span id="1811">1811</span>
+<span id="1812">1812</span>
+<span id="1813">1813</span>
+<span id="1814">1814</span>
+<span id="1815">1815</span>
+<span id="1816">1816</span>
+<span id="1817">1817</span>
+<span id="1818">1818</span>
+<span id="1819">1819</span>
+<span id="1820">1820</span>
+<span id="1821">1821</span>
+<span id="1822">1822</span>
+<span id="1823">1823</span>
+<span id="1824">1824</span>
+<span id="1825">1825</span>
+<span id="1826">1826</span>
+<span id="1827">1827</span>
+<span id="1828">1828</span>
+<span id="1829">1829</span>
+<span id="1830">1830</span>
+<span id="1831">1831</span>
+<span id="1832">1832</span>
+<span id="1833">1833</span>
+<span id="1834">1834</span>
+<span id="1835">1835</span>
+<span id="1836">1836</span>
+<span id="1837">1837</span>
+<span id="1838">1838</span>
+<span id="1839">1839</span>
+<span id="1840">1840</span>
+<span id="1841">1841</span>
+<span id="1842">1842</span>
+<span id="1843">1843</span>
+<span id="1844">1844</span>
+<span id="1845">1845</span>
+<span id="1846">1846</span>
+<span id="1847">1847</span>
+<span id="1848">1848</span>
+<span id="1849">1849</span>
+<span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
+<span id="1875">1875</span>
+<span id="1876">1876</span>
+<span id="1877">1877</span>
+<span id="1878">1878</span>
+<span id="1879">1879</span>
+<span id="1880">1880</span>
+<span id="1881">1881</span>
+<span id="1882">1882</span>
+<span id="1883">1883</span>
+<span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
+<span id="1915">1915</span>
+<span id="1916">1916</span>
+<span id="1917">1917</span>
+<span id="1918">1918</span>
+<span id="1919">1919</span>
+<span id="1920">1920</span>
+<span id="1921">1921</span>
+<span id="1922">1922</span>
+<span id="1923">1923</span>
+<span id="1924">1924</span>
+<span id="1925">1925</span>
+<span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
+<span id="1938">1938</span>
+<span id="1939">1939</span>
+<span id="1940">1940</span>
+<span id="1941">1941</span>
+<span id="1942">1942</span>
+<span id="1943">1943</span>
+<span id="1944">1944</span>
+<span id="1945">1945</span>
+<span id="1946">1946</span>
+<span id="1947">1947</span>
+<span id="1948">1948</span>
+<span id="1949">1949</span>
+<span id="1950">1950</span>
+<span id="1951">1951</span>
+<span id="1952">1952</span>
+<span id="1953">1953</span>
+<span id="1954">1954</span>
+<span id="1955">1955</span>
+<span id="1956">1956</span>
+<span id="1957">1957</span>
+<span id="1958">1958</span>
+<span id="1959">1959</span>
+<span id="1960">1960</span>
+<span id="1961">1961</span>
+<span id="1962">1962</span>
+<span id="1963">1963</span>
+<span id="1964">1964</span>
+<span id="1965">1965</span>
+<span id="1966">1966</span>
+<span id="1967">1967</span>
+<span id="1968">1968</span>
+<span id="1969">1969</span>
+<span id="1970">1970</span>
+<span id="1971">1971</span>
+<span id="1972">1972</span>
+<span id="1973">1973</span>
+<span id="1974">1974</span>
+<span id="1975">1975</span>
+<span id="1976">1976</span>
+<span id="1977">1977</span>
+<span id="1978">1978</span>
+<span id="1979">1979</span>
+<span id="1980">1980</span>
+<span id="1981">1981</span>
+<span id="1982">1982</span>
+<span id="1983">1983</span>
+<span id="1984">1984</span>
+<span id="1985">1985</span>
+<span id="1986">1986</span>
+<span id="1987">1987</span>
+<span id="1988">1988</span>
+<span id="1989">1989</span>
+<span id="1990">1990</span>
+<span id="1991">1991</span>
+<span id="1992">1992</span>
+<span id="1993">1993</span>
+<span id="1994">1994</span>
+<span id="1995">1995</span>
+<span id="1996">1996</span>
+<span id="1997">1997</span>
+<span id="1998">1998</span>
+<span id="1999">1999</span>
+<span id="2000">2000</span>
+<span id="2001">2001</span>
+<span id="2002">2002</span>
+<span id="2003">2003</span>
+<span id="2004">2004</span>
+<span id="2005">2005</span>
+<span id="2006">2006</span>
+<span id="2007">2007</span>
+<span id="2008">2008</span>
+<span id="2009">2009</span>
+<span id="2010">2010</span>
+<span id="2011">2011</span>
+<span id="2012">2012</span>
+<span id="2013">2013</span>
+<span id="2014">2014</span>
+<span id="2015">2015</span>
+<span id="2016">2016</span>
+<span id="2017">2017</span>
+<span id="2018">2018</span>
+<span id="2019">2019</span>
+<span id="2020">2020</span>
+<span id="2021">2021</span>
+<span id="2022">2022</span>
+<span id="2023">2023</span>
+<span id="2024">2024</span>
+<span id="2025">2025</span>
+<span id="2026">2026</span>
+<span id="2027">2027</span>
+<span id="2028">2028</span>
+<span id="2029">2029</span>
+<span id="2030">2030</span>
+<span id="2031">2031</span>
+<span id="2032">2032</span>
+<span id="2033">2033</span>
+<span id="2034">2034</span>
+<span id="2035">2035</span>
+<span id="2036">2036</span>
+<span id="2037">2037</span>
+<span id="2038">2038</span>
+<span id="2039">2039</span>
+<span id="2040">2040</span>
+<span id="2041">2041</span>
+<span id="2042">2042</span>
+<span id="2043">2043</span>
+<span id="2044">2044</span>
+<span id="2045">2045</span>
+<span id="2046">2046</span>
+<span id="2047">2047</span>
+<span id="2048">2048</span>
+<span id="2049">2049</span>
+<span id="2050">2050</span>
+<span id="2051">2051</span>
+<span id="2052">2052</span>
+<span id="2053">2053</span>
+<span id="2054">2054</span>
+<span id="2055">2055</span>
+<span id="2056">2056</span>
+<span id="2057">2057</span>
+<span id="2058">2058</span>
+<span id="2059">2059</span>
+<span id="2060">2060</span>
+<span id="2061">2061</span>
+<span id="2062">2062</span>
+<span id="2063">2063</span>
+<span id="2064">2064</span>
+<span id="2065">2065</span>
+<span id="2066">2066</span>
+<span id="2067">2067</span>
+<span id="2068">2068</span>
+<span id="2069">2069</span>
+<span id="2070">2070</span>
+<span id="2071">2071</span>
+<span id="2072">2072</span>
+<span id="2073">2073</span>
+<span id="2074">2074</span>
+<span id="2075">2075</span>
+<span id="2076">2076</span>
+<span id="2077">2077</span>
+<span id="2078">2078</span>
+<span id="2079">2079</span>
+<span id="2080">2080</span>
+<span id="2081">2081</span>
+<span id="2082">2082</span>
+<span id="2083">2083</span>
+<span id="2084">2084</span>
+<span id="2085">2085</span>
+<span id="2086">2086</span>
+<span id="2087">2087</span>
+<span id="2088">2088</span>
+<span id="2089">2089</span>
+<span id="2090">2090</span>
+<span id="2091">2091</span>
+<span id="2092">2092</span>
+<span id="2093">2093</span>
+<span id="2094">2094</span>
+<span id="2095">2095</span>
+<span id="2096">2096</span>
+<span id="2097">2097</span>
+<span id="2098">2098</span>
+<span id="2099">2099</span>
+<span id="2100">2100</span>
+<span id="2101">2101</span>
+</pre><pre class="rust"><code><span class="kw">use </span>core::{fmt, mem};
+
+<span class="kw">use </span>alloc::{boxed::Box, format, string::String, sync::Arc, vec, vec::Vec};
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;syntax&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::nfa::thompson::{
+    compiler::{Compiler, Config},
+    error::BuildError,
+};
+<span class="kw">use crate</span>::{
+    nfa::thompson::builder::Builder,
+    util::{
+        alphabet::{<span class="self">self</span>, ByteClassSet, ByteClasses},
+        captures::{GroupInfo, GroupInfoError},
+        look::{Look, LookMatcher, LookSet},
+        primitives::{
+            IteratorIndexExt, PatternID, PatternIDIter, SmallIndex, StateID,
+        },
+        sparse_set::SparseSet,
+    },
+};
+
+<span class="doccomment">/// A byte oriented Thompson non-deterministic finite automaton (NFA).
+///
+/// A Thompson NFA is a finite state machine that permits unconditional epsilon
+/// transitions, but guarantees that there exists at most one non-epsilon
+/// transition for each element in the alphabet for each state.
+///
+/// An NFA may be used directly for searching, for analysis or to build
+/// a deterministic finite automaton (DFA).
+///
+/// # Cheap clones
+///
+/// Since an NFA is a core data type in this crate that many other regex
+/// engines are based on top of, it is convenient to give ownership of an NFA
+/// to said regex engines. Because of this, an NFA uses reference counting
+/// internally. Therefore, it is cheap to clone and it is encouraged to do so.
+///
+/// # Capabilities
+///
+/// Using an NFA for searching via the
+/// [`PikeVM`](crate::nfa::thompson::pikevm::PikeVM) provides the most amount
+/// of &quot;power&quot; of any regex engine in this crate. Namely, it supports the
+/// following in all cases:
+///
+/// 1. Detection of a match.
+/// 2. Location of a match, including both the start and end offset, in a
+/// single pass of the haystack.
+/// 3. Location of matching capturing groups.
+/// 4. Handles multiple patterns, including (1)-(3) when multiple patterns are
+/// present.
+///
+/// # Capturing Groups
+///
+/// Groups refer to parenthesized expressions inside a regex pattern. They look
+/// like this, where `exp` is an arbitrary regex:
+///
+/// * `(exp)` - An unnamed capturing group.
+/// * `(?P&lt;name&gt;exp)` or `(?&lt;name&gt;exp)` - A named capturing group.
+/// * `(?:exp)` - A non-capturing group.
+/// * `(?i:exp)` - A non-capturing group that sets flags.
+///
+/// Only the first two forms are said to be _capturing_. Capturing
+/// means that the last position at which they match is reportable. The
+/// [`Captures`](crate::util::captures::Captures) type provides convenient
+/// access to the match positions of capturing groups, which includes looking
+/// up capturing groups by their name.
+///
+/// # Byte oriented
+///
+/// This NFA is byte oriented, which means that all of its transitions are
+/// defined on bytes. In other words, the alphabet of an NFA consists of the
+/// 256 different byte values.
+///
+/// While DFAs nearly demand that they be byte oriented for performance
+/// reasons, an NFA could conceivably be *Unicode codepoint* oriented. Indeed,
+/// a previous version of this NFA supported both byte and codepoint oriented
+/// modes. A codepoint oriented mode can work because an NFA fundamentally uses
+/// a sparse representation of transitions, which works well with the large
+/// sparse space of Unicode codepoints.
+///
+/// Nevertheless, this NFA is only byte oriented. This choice is primarily
+/// driven by implementation simplicity, and also in part memory usage. In
+/// practice, performance between the two is roughly comparable. However,
+/// building a DFA (including a hybrid DFA) really wants a byte oriented NFA.
+/// So if we do have a codepoint oriented NFA, then we also need to generate
+/// byte oriented NFA in order to build an hybrid NFA/DFA. Thus, by only
+/// generating byte oriented NFAs, we can produce one less NFA. In other words,
+/// if we made our NFA codepoint oriented, we&#39;d need to *also* make it support
+/// a byte oriented mode, which is more complicated. But a byte oriented mode
+/// can support everything.
+///
+/// # Differences with DFAs
+///
+/// At the theoretical level, the precise difference between an NFA and a DFA
+/// is that, in a DFA, for every state, an input symbol unambiguously refers
+/// to a single transition _and_ that an input symbol is required for each
+/// transition. At a practical level, this permits DFA implementations to be
+/// implemented at their core with a small constant number of CPU instructions
+/// for each byte of input searched. In practice, this makes them quite a bit
+/// faster than NFAs _in general_. Namely, in order to execute a search for any
+/// Thompson NFA, one needs to keep track of a _set_ of states, and execute
+/// the possible transitions on all of those states for each input symbol.
+/// Overall, this results in much more overhead. To a first approximation, one
+/// can expect DFA searches to be about an order of magnitude faster.
+///
+/// So why use an NFA at all? The main advantage of an NFA is that it takes
+/// linear time (in the size of the pattern string after repetitions have been
+/// expanded) to build and linear memory usage. A DFA, on the other hand, may
+/// take exponential time and/or space to build. Even in non-pathological
+/// cases, DFAs often take quite a bit more memory than their NFA counterparts,
+/// _especially_ if large Unicode character classes are involved. Of course,
+/// an NFA also provides additional capabilities. For example, it can match
+/// Unicode word boundaries on non-ASCII text and resolve the positions of
+/// capturing groups.
+///
+/// Note that a [`hybrid::regex::Regex`](crate::hybrid::regex::Regex) strikes a
+/// good balance between an NFA and a DFA. It avoids the exponential build time
+/// of a DFA while maintaining its fast search time. The downside of a hybrid
+/// NFA/DFA is that in some cases it can be slower at search time than the NFA.
+/// (It also has less functionality than a pure NFA. It cannot handle Unicode
+/// word boundaries on non-ASCII text and cannot resolve capturing groups.)
+///
+/// # Example
+///
+/// This shows how to build an NFA with the default configuration and execute a
+/// search using the Pike VM.
+///
+/// ```
+/// use regex_automata::{nfa::thompson::pikevm::PikeVM, Match};
+///
+/// let re = PikeVM::new(r&quot;foo[0-9]+&quot;)?;
+/// let mut cache = re.create_cache();
+/// let mut caps = re.create_captures();
+///
+/// let expected = Some(Match::must(0, 0..8));
+/// re.captures(&amp;mut cache, b&quot;foo12345&quot;, &amp;mut caps);
+/// assert_eq!(expected, caps.get_match());
+///
+/// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+/// ```
+///
+/// # Example: resolving capturing groups
+///
+/// This example shows how to parse some simple dates and extract the
+/// components of each date via capturing groups.
+///
+/// ```
+/// # if cfg!(miri) { return Ok(()); } // miri takes too long
+/// use regex_automata::{
+///     nfa::thompson::pikevm::PikeVM,
+///     util::captures::Captures,
+/// };
+///
+/// let vm = PikeVM::new(r&quot;(?P&lt;y&gt;\d{4})-(?P&lt;m&gt;\d{2})-(?P&lt;d&gt;\d{2})&quot;)?;
+/// let mut cache = vm.create_cache();
+///
+/// let haystack = &quot;2012-03-14, 2013-01-01 and 2014-07-05&quot;;
+/// let all: Vec&lt;Captures&gt; = vm.captures_iter(
+///     &amp;mut cache, haystack.as_bytes()
+/// ).collect();
+/// // There should be a total of 3 matches.
+/// assert_eq!(3, all.len());
+/// // The year from the second match is &#39;2013&#39;.
+/// let span = all[1].get_group_by_name(&quot;y&quot;).unwrap();
+/// assert_eq!(&quot;2013&quot;, &amp;haystack[span]);
+///
+/// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+/// ```
+///
+/// This example shows that only the last match of a capturing group is
+/// reported, even if it had to match multiple times for an overall match
+/// to occur.
+///
+/// ```
+/// use regex_automata::{nfa::thompson::pikevm::PikeVM, Span};
+///
+/// let re = PikeVM::new(r&quot;([a-z]){4}&quot;)?;
+/// let mut cache = re.create_cache();
+/// let mut caps = re.create_captures();
+///
+/// let haystack = b&quot;quux&quot;;
+/// re.captures(&amp;mut cache, haystack, &amp;mut caps);
+/// assert!(caps.is_match());
+/// assert_eq!(Some(Span::from(3..4)), caps.get_group(1));
+///
+/// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+/// ```
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>NFA(
+    <span class="comment">// We make NFAs reference counted primarily for two reasons. First is that
+    // the NFA type itself is quite large (at least 0.5KB), and so it makes
+    // sense to put it on the heap by default anyway. Second is that, for Arc
+    // specifically, this enables cheap clones. This tends to be useful because
+    // several structures (the backtracker, the Pike VM, the hybrid NFA/DFA)
+    // all want to hang on to an NFA for use during search time. We could
+    // provide the NFA at search time via a function argument, but this makes
+    // for an unnecessarily annoying API. Instead, we just let each structure
+    // share ownership of the NFA. Using a deep clone would not be smart, since
+    // the NFA can use quite a bit of heap space.
+    </span>Arc&lt;Inner&gt;,
+);
+
+<span class="kw">impl </span>NFA {
+    <span class="doccomment">/// Parse the given regular expression using a default configuration and
+    /// build an NFA from it.
+    ///
+    /// If you want a non-default configuration, then use the NFA
+    /// [`Compiler`] with a [`Config`].
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::pikevm::PikeVM, Match};
+    ///
+    /// let re = PikeVM::new(r&quot;foo[0-9]+&quot;)?;
+    /// let (mut cache, mut caps) = (re.create_cache(), re.create_captures());
+    ///
+    /// let expected = Some(Match::must(0, 0..8));
+    /// re.captures(&amp;mut cache, b&quot;foo12345&quot;, &amp;mut caps);
+    /// assert_eq!(expected, caps.get_match());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;syntax&quot;</span>)]
+    </span><span class="kw">pub fn </span>new(pattern: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;NFA, BuildError&gt; {
+        NFA::compiler().build(pattern)
+    }
+
+    <span class="doccomment">/// Parse the given regular expressions using a default configuration and
+    /// build a multi-NFA from them.
+    ///
+    /// If you want a non-default configuration, then use the NFA
+    /// [`Compiler`] with a [`Config`].
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::pikevm::PikeVM, Match};
+    ///
+    /// let re = PikeVM::new_many(&amp;[&quot;[0-9]+&quot;, &quot;[a-z]+&quot;])?;
+    /// let (mut cache, mut caps) = (re.create_cache(), re.create_captures());
+    ///
+    /// let expected = Some(Match::must(1, 0..3));
+    /// re.captures(&amp;mut cache, b&quot;foo12345bar&quot;, &amp;mut caps);
+    /// assert_eq!(expected, caps.get_match());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;syntax&quot;</span>)]
+    </span><span class="kw">pub fn </span>new_many&lt;P: AsRef&lt;str&gt;&gt;(patterns: <span class="kw-2">&amp;</span>[P]) -&gt; <span class="prelude-ty">Result</span>&lt;NFA, BuildError&gt; {
+        NFA::compiler().build_many(patterns)
+    }
+
+    <span class="doccomment">/// Returns an NFA with a single regex pattern that always matches at every
+    /// position.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::{NFA, pikevm::PikeVM}, Match};
+    ///
+    /// let re = PikeVM::new_from_nfa(NFA::always_match())?;
+    /// let (mut cache, mut caps) = (re.create_cache(), re.create_captures());
+    ///
+    /// let expected = Some(Match::must(0, 0..0));
+    /// re.captures(&amp;mut cache, b&quot;&quot;, &amp;mut caps);
+    /// assert_eq!(expected, caps.get_match());
+    /// re.captures(&amp;mut cache, b&quot;foo&quot;, &amp;mut caps);
+    /// assert_eq!(expected, caps.get_match());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="kw">pub fn </span>always_match() -&gt; NFA {
+        <span class="comment">// We could use NFA::new(&quot;&quot;) here and we&#39;d get the same semantics, but
+        // hand-assembling the NFA (as below) does the same thing with a fewer
+        // number of states. It also avoids needing the &#39;syntax&#39; feature
+        // enabled.
+        //
+        // Technically all we need is the &quot;match&quot; state, but we add the
+        // &quot;capture&quot; states so that the PikeVM can use this NFA.
+        //
+        // The unwraps below are OK because we add so few states that they will
+        // never exhaust any default limits in any environment.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>builder = Builder::new();
+        <span class="kw">let </span>pid = builder.start_pattern().unwrap();
+        <span class="macro">assert_eq!</span>(pid.as_usize(), <span class="number">0</span>);
+        <span class="kw">let </span>start_id =
+            builder.add_capture_start(StateID::ZERO, <span class="number">0</span>, <span class="prelude-val">None</span>).unwrap();
+        <span class="kw">let </span>end_id = builder.add_capture_end(StateID::ZERO, <span class="number">0</span>).unwrap();
+        <span class="kw">let </span>match_id = builder.add_match().unwrap();
+        builder.patch(start_id, end_id).unwrap();
+        builder.patch(end_id, match_id).unwrap();
+        <span class="kw">let </span>pid = builder.finish_pattern(start_id).unwrap();
+        <span class="macro">assert_eq!</span>(pid.as_usize(), <span class="number">0</span>);
+        builder.build(start_id, start_id).unwrap()
+    }
+
+    <span class="doccomment">/// Returns an NFA that never matches at any position.
+    ///
+    /// This is a convenience routine for creating an NFA with zero patterns.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::{NFA, pikevm::PikeVM};
+    ///
+    /// let re = PikeVM::new_from_nfa(NFA::never_match())?;
+    /// let (mut cache, mut caps) = (re.create_cache(), re.create_captures());
+    ///
+    /// re.captures(&amp;mut cache, b&quot;&quot;, &amp;mut caps);
+    /// assert!(!caps.is_match());
+    /// re.captures(&amp;mut cache, b&quot;foo&quot;, &amp;mut caps);
+    /// assert!(!caps.is_match());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="kw">pub fn </span>never_match() -&gt; NFA {
+        <span class="comment">// This always succeeds because it only requires one NFA state, which
+        // will never exhaust any (default) limits.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>builder = Builder::new();
+        <span class="kw">let </span>sid = builder.add_fail().unwrap();
+        builder.build(sid, sid).unwrap()
+    }
+
+    <span class="doccomment">/// Return a default configuration for an `NFA`.
+    ///
+    /// This is a convenience routine to avoid needing to import the `Config`
+    /// type when customizing the construction of an NFA.
+    ///
+    /// # Example
+    ///
+    /// This example shows how to build an NFA with a small size limit that
+    /// results in a compilation error for any regex that tries to use more
+    /// heap memory than the configured limit.
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::{NFA, pikevm::PikeVM};
+    ///
+    /// let result = PikeVM::builder()
+    ///     .thompson(NFA::config().nfa_size_limit(Some(1_000)))
+    ///     // Remember, \w is Unicode-aware by default and thus huge.
+    ///     .build(r&quot;\w+&quot;);
+    /// assert!(result.is_err());
+    /// ```
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;syntax&quot;</span>)]
+    </span><span class="kw">pub fn </span>config() -&gt; Config {
+        Config::new()
+    }
+
+    <span class="doccomment">/// Return a compiler for configuring the construction of an `NFA`.
+    ///
+    /// This is a convenience routine to avoid needing to import the
+    /// [`Compiler`] type in common cases.
+    ///
+    /// # Example
+    ///
+    /// This example shows how to build an NFA that is permitted match invalid
+    /// UTF-8. Without the additional syntax configuration here, compilation of
+    /// `(?-u:.)` would fail because it is permitted to match invalid UTF-8.
+    ///
+    /// ```
+    /// use regex_automata::{
+    ///     nfa::thompson::pikevm::PikeVM,
+    ///     util::syntax,
+    ///     Match,
+    /// };
+    ///
+    /// let re = PikeVM::builder()
+    ///     .syntax(syntax::Config::new().utf8(false))
+    ///     .build(r&quot;[a-z]+(?-u:.)&quot;)?;
+    /// let (mut cache, mut caps) = (re.create_cache(), re.create_captures());
+    ///
+    /// let expected = Some(Match::must(0, 1..5));
+    /// re.captures(&amp;mut cache, b&quot;\xFFabc\xFF&quot;, &amp;mut caps);
+    /// assert_eq!(expected, caps.get_match());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;syntax&quot;</span>)]
+    </span><span class="kw">pub fn </span>compiler() -&gt; Compiler {
+        Compiler::new()
+    }
+
+    <span class="doccomment">/// Returns an iterator over all pattern identifiers in this NFA.
+    ///
+    /// Pattern IDs are allocated in sequential order starting from zero,
+    /// where the order corresponds to the order of patterns provided to the
+    /// [`NFA::new_many`] constructor.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, PatternID};
+    ///
+    /// let nfa = NFA::new_many(&amp;[&quot;[0-9]+&quot;, &quot;[a-z]+&quot;, &quot;[A-Z]+&quot;])?;
+    /// let pids: Vec&lt;PatternID&gt; = nfa.patterns().collect();
+    /// assert_eq!(pids, vec![
+    ///     PatternID::must(0),
+    ///     PatternID::must(1),
+    ///     PatternID::must(2),
+    /// ]);
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="kw">pub fn </span>patterns(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PatternIter&lt;<span class="lifetime">&#39;_</span>&gt; {
+        PatternIter {
+            it: PatternID::iter(<span class="self">self</span>.pattern_len()),
+            _marker: core::marker::PhantomData,
+        }
+    }
+
+    <span class="doccomment">/// Returns the total number of regex patterns in this NFA.
+    ///
+    /// This may return zero if the NFA was constructed with no patterns. In
+    /// this case, the NFA can never produce a match for any input.
+    ///
+    /// This is guaranteed to be no bigger than [`PatternID::LIMIT`] because
+    /// NFA construction will fail if too many patterns are added.
+    ///
+    /// It is always true that `nfa.patterns().count() == nfa.pattern_len()`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::NFA;
+    ///
+    /// let nfa = NFA::new_many(&amp;[&quot;[0-9]+&quot;, &quot;[a-z]+&quot;, &quot;[A-Z]+&quot;])?;
+    /// assert_eq!(3, nfa.pattern_len());
+    ///
+    /// let nfa = NFA::never_match();
+    /// assert_eq!(0, nfa.pattern_len());
+    ///
+    /// let nfa = NFA::always_match();
+    /// assert_eq!(1, nfa.pattern_len());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>pattern_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.<span class="number">0</span>.start_pattern.len()
+    }
+
+    <span class="doccomment">/// Return the state identifier of the initial anchored state of this NFA.
+    ///
+    /// The returned identifier is guaranteed to be a valid index into the
+    /// slice returned by [`NFA::states`], and is also a valid argument to
+    /// [`NFA::state`].
+    ///
+    /// # Example
+    ///
+    /// This example shows a somewhat contrived example where we can easily
+    /// predict the anchored starting state.
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::{NFA, State, WhichCaptures};
+    ///
+    /// let nfa = NFA::compiler()
+    ///     .configure(NFA::config().which_captures(WhichCaptures::None))
+    ///     .build(&quot;a&quot;)?;
+    /// let state = nfa.state(nfa.start_anchored());
+    /// match *state {
+    ///     State::ByteRange { trans } =&gt; {
+    ///         assert_eq!(b&#39;a&#39;, trans.start);
+    ///         assert_eq!(b&#39;a&#39;, trans.end);
+    ///     }
+    ///     _ =&gt; unreachable!(&quot;unexpected state&quot;),
+    /// }
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>start_anchored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StateID {
+        <span class="self">self</span>.<span class="number">0</span>.start_anchored
+    }
+
+    <span class="doccomment">/// Return the state identifier of the initial unanchored state of this
+    /// NFA.
+    ///
+    /// This is equivalent to the identifier returned by
+    /// [`NFA::start_anchored`] when the NFA has no unanchored starting state.
+    ///
+    /// The returned identifier is guaranteed to be a valid index into the
+    /// slice returned by [`NFA::states`], and is also a valid argument to
+    /// [`NFA::state`].
+    ///
+    /// # Example
+    ///
+    /// This example shows that the anchored and unanchored starting states
+    /// are equivalent when an anchored NFA is built.
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::NFA;
+    ///
+    /// let nfa = NFA::new(&quot;^a&quot;)?;
+    /// assert_eq!(nfa.start_anchored(), nfa.start_unanchored());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>start_unanchored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StateID {
+        <span class="self">self</span>.<span class="number">0</span>.start_unanchored
+    }
+
+    <span class="doccomment">/// Return the state identifier of the initial anchored state for the given
+    /// pattern, or `None` if there is no pattern corresponding to the given
+    /// identifier.
+    ///
+    /// If one uses the starting state for a particular pattern, then the only
+    /// match that can be returned is for the corresponding pattern.
+    ///
+    /// The returned identifier is guaranteed to be a valid index into the
+    /// slice returned by [`NFA::states`], and is also a valid argument to
+    /// [`NFA::state`].
+    ///
+    /// # Errors
+    ///
+    /// If the pattern doesn&#39;t exist in this NFA, then this returns an error.
+    /// This occurs when `pid.as_usize() &gt;= nfa.pattern_len()`.
+    ///
+    /// # Example
+    ///
+    /// This example shows that the anchored and unanchored starting states
+    /// are equivalent when an anchored NFA is built.
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, PatternID};
+    ///
+    /// let nfa = NFA::new_many(&amp;[&quot;^a&quot;, &quot;^b&quot;])?;
+    /// // The anchored and unanchored states for the entire NFA are the same,
+    /// // since all of the patterns are anchored.
+    /// assert_eq!(nfa.start_anchored(), nfa.start_unanchored());
+    /// // But the anchored starting states for each pattern are distinct,
+    /// // because these starting states can only lead to matches for the
+    /// // corresponding pattern.
+    /// let anchored = Some(nfa.start_anchored());
+    /// assert_ne!(anchored, nfa.start_pattern(PatternID::must(0)));
+    /// assert_ne!(anchored, nfa.start_pattern(PatternID::must(1)));
+    /// // Requesting a pattern not in the NFA will result in None:
+    /// assert_eq!(None, nfa.start_pattern(PatternID::must(2)));
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>start_pattern(<span class="kw-2">&amp;</span><span class="self">self</span>, pid: PatternID) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.start_pattern.get(pid.as_usize()).copied()
+    }
+
+    <span class="doccomment">/// Get the byte class set for this NFA.
+    ///
+    /// A byte class set is a partitioning of this NFA&#39;s alphabet into
+    /// equivalence classes. Any two bytes in the same equivalence class are
+    /// guaranteed to never discriminate between a match or a non-match. (The
+    /// partitioning may not be minimal.)
+    ///
+    /// Byte classes are used internally by this crate when building DFAs.
+    /// Namely, among other optimizations, they enable a space optimization
+    /// where the DFA&#39;s internal alphabet is defined over the equivalence
+    /// classes of bytes instead of all possible byte values. The former is
+    /// often quite a bit smaller than the latter, which permits the DFA to use
+    /// less space for its transition table.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>byte_class_set(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ByteClassSet {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.byte_class_set
+    }
+
+    <span class="doccomment">/// Get the byte classes for this NFA.
+    ///
+    /// Byte classes represent a partitioning of this NFA&#39;s alphabet into
+    /// equivalence classes. Any two bytes in the same equivalence class are
+    /// guaranteed to never discriminate between a match or a non-match. (The
+    /// partitioning may not be minimal.)
+    ///
+    /// Byte classes are used internally by this crate when building DFAs.
+    /// Namely, among other optimizations, they enable a space optimization
+    /// where the DFA&#39;s internal alphabet is defined over the equivalence
+    /// classes of bytes instead of all possible byte values. The former is
+    /// often quite a bit smaller than the latter, which permits the DFA to use
+    /// less space for its transition table.
+    ///
+    /// # Example
+    ///
+    /// This example shows how to query the class of various bytes.
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::NFA;
+    ///
+    /// let nfa = NFA::new(&quot;[a-z]+&quot;)?;
+    /// let classes = nfa.byte_classes();
+    /// // &#39;a&#39; and &#39;z&#39; are in the same class for this regex.
+    /// assert_eq!(classes.get(b&#39;a&#39;), classes.get(b&#39;z&#39;));
+    /// // But &#39;a&#39; and &#39;A&#39; are not.
+    /// assert_ne!(classes.get(b&#39;a&#39;), classes.get(b&#39;A&#39;));
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>byte_classes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ByteClasses {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.byte_classes
+    }
+
+    <span class="doccomment">/// Return a reference to the NFA state corresponding to the given ID.
+    ///
+    /// This is a convenience routine for `nfa.states()[id]`.
+    ///
+    /// # Panics
+    ///
+    /// This panics when the given identifier does not reference a valid state.
+    /// That is, when `id.as_usize() &gt;= nfa.states().len()`.
+    ///
+    /// # Example
+    ///
+    /// The anchored state for a pattern will typically correspond to a
+    /// capturing state for that pattern. (Although, this is not an API
+    /// guarantee!)
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::{NFA, State}, PatternID};
+    ///
+    /// let nfa = NFA::new(&quot;a&quot;)?;
+    /// let state = nfa.state(nfa.start_pattern(PatternID::ZERO).unwrap());
+    /// match *state {
+    ///     State::Capture { slot, .. } =&gt; {
+    ///         assert_eq!(0, slot.as_usize());
+    ///     }
+    ///     _ =&gt; unreachable!(&quot;unexpected state&quot;),
+    /// }
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>state(<span class="kw-2">&amp;</span><span class="self">self</span>, id: StateID) -&gt; <span class="kw-2">&amp;</span>State {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.states()[id]
+    }
+
+    <span class="doccomment">/// Returns a slice of all states in this NFA.
+    ///
+    /// The slice returned is indexed by `StateID`. This provides a convenient
+    /// way to access states while following transitions among those states.
+    ///
+    /// # Example
+    ///
+    /// This demonstrates that disabling UTF-8 mode can shrink the size of the
+    /// NFA considerably in some cases, especially when using Unicode character
+    /// classes.
+    ///
+    /// ```
+    /// # if cfg!(miri) { return Ok(()); } // miri takes too long
+    /// use regex_automata::nfa::thompson::NFA;
+    ///
+    /// let nfa_unicode = NFA::new(r&quot;\w&quot;)?;
+    /// let nfa_ascii = NFA::new(r&quot;(?-u)\w&quot;)?;
+    /// // Yes, a factor of 45 difference. No lie.
+    /// assert!(40 * nfa_ascii.states().len() &lt; nfa_unicode.states().len());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>states(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[State] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.states
+    }
+
+    <span class="doccomment">/// Returns the capturing group info for this NFA.
+    ///
+    /// The [`GroupInfo`] provides a way to map to and from capture index
+    /// and capture name for each pattern. It also provides a mapping from
+    /// each of the capturing groups in every pattern to their corresponding
+    /// slot offsets encoded in [`State::Capture`] states.
+    ///
+    /// Note that `GroupInfo` uses reference counting internally, such that
+    /// cloning a `GroupInfo` is very cheap.
+    ///
+    /// # Example
+    ///
+    /// This example shows how to get a list of all capture group names for
+    /// a particular pattern.
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, PatternID};
+    ///
+    /// let nfa = NFA::new(r&quot;(a)(?P&lt;foo&gt;b)(c)(d)(?P&lt;bar&gt;e)&quot;)?;
+    /// // The first is the implicit group that is always unnammed. The next
+    /// // 5 groups are the explicit groups found in the concrete syntax above.
+    /// let expected = vec![None, None, Some(&quot;foo&quot;), None, None, Some(&quot;bar&quot;)];
+    /// let got: Vec&lt;Option&lt;&amp;str&gt;&gt; =
+    ///     nfa.group_info().pattern_names(PatternID::ZERO).collect();
+    /// assert_eq!(expected, got);
+    ///
+    /// // Using an invalid pattern ID will result in nothing yielded.
+    /// let got = nfa.group_info().pattern_names(PatternID::must(999)).count();
+    /// assert_eq!(0, got);
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>group_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>GroupInfo {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.group_info()
+    }
+
+    <span class="doccomment">/// Returns true if and only if this NFA has at least one
+    /// [`Capture`](State::Capture) in its sequence of states.
+    ///
+    /// This is useful as a way to perform a quick test before attempting
+    /// something that does or does not require capture states. For example,
+    /// some regex engines (like the PikeVM) require capture states in order to
+    /// work at all.
+    ///
+    /// # Example
+    ///
+    /// This example shows a few different NFAs and whether they have captures
+    /// or not.
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::{NFA, WhichCaptures};
+    ///
+    /// // Obviously has capture states.
+    /// let nfa = NFA::new(&quot;(a)&quot;)?;
+    /// assert!(nfa.has_capture());
+    ///
+    /// // Less obviously has capture states, because every pattern has at
+    /// // least one anonymous capture group corresponding to the match for the
+    /// // entire pattern.
+    /// let nfa = NFA::new(&quot;a&quot;)?;
+    /// assert!(nfa.has_capture());
+    ///
+    /// // Other than hand building your own NFA, this is the only way to build
+    /// // an NFA without capturing groups. In general, you should only do this
+    /// // if you don&#39;t intend to use any of the NFA-oriented regex engines.
+    /// // Overall, capturing groups don&#39;t have many downsides. Although they
+    /// // can add a bit of noise to simple NFAs, so it can be nice to disable
+    /// // them for debugging purposes.
+    /// //
+    /// // Notice that &#39;has_capture&#39; is false here even when we have an
+    /// // explicit capture group in the pattern.
+    /// let nfa = NFA::compiler()
+    ///     .configure(NFA::config().which_captures(WhichCaptures::None))
+    ///     .build(&quot;(a)&quot;)?;
+    /// assert!(!nfa.has_capture());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>has_capture(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0</span>.has_capture
+    }
+
+    <span class="doccomment">/// Returns true if and only if this NFA can match the empty string.
+    /// When it returns false, all possible matches are guaranteed to have a
+    /// non-zero length.
+    ///
+    /// This is useful as cheap way to know whether code needs to handle the
+    /// case of a zero length match. This is particularly important when UTF-8
+    /// modes are enabled, as when UTF-8 mode is enabled, empty matches that
+    /// split a codepoint must never be reported. This extra handling can
+    /// sometimes be costly, and since regexes matching an empty string are
+    /// somewhat rare, it can be beneficial to treat such regexes specially.
+    ///
+    /// # Example
+    ///
+    /// This example shows a few different NFAs and whether they match the
+    /// empty string or not. Notice the empty string isn&#39;t merely a matter
+    /// of a string of length literally `0`, but rather, whether a match can
+    /// occur between specific pairs of bytes.
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, util::syntax};
+    ///
+    /// // The empty regex matches the empty string.
+    /// let nfa = NFA::new(&quot;&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;empty matches empty&quot;);
+    /// // The &#39;+&#39; repetition operator requires at least one match, and so
+    /// // does not match the empty string.
+    /// let nfa = NFA::new(&quot;a+&quot;)?;
+    /// assert!(!nfa.has_empty(), &quot;+ does not match empty&quot;);
+    /// // But the &#39;*&#39; repetition operator does.
+    /// let nfa = NFA::new(&quot;a*&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;* does match empty&quot;);
+    /// // And wrapping &#39;+&#39; in an operator that can match an empty string also
+    /// // causes it to match the empty string too.
+    /// let nfa = NFA::new(&quot;(a+)*&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;+ inside of * matches empty&quot;);
+    ///
+    /// // If a regex is just made of a look-around assertion, even if the
+    /// // assertion requires some kind of non-empty string around it (such as
+    /// // \b), then it is still treated as if it matches the empty string.
+    /// // Namely, if a match occurs of just a look-around assertion, then the
+    /// // match returned is empty.
+    /// let nfa = NFA::compiler()
+    ///     .syntax(syntax::Config::new().utf8(false))
+    ///     .build(r&quot;^$\A\z\b\B(?-u:\b\B)&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;assertions match empty&quot;);
+    /// // Even when an assertion is wrapped in a &#39;+&#39;, it still matches the
+    /// // empty string.
+    /// let nfa = NFA::new(r&quot;\b+&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;+ of an assertion matches empty&quot;);
+    ///
+    /// // An alternation with even one branch that can match the empty string
+    /// // is also said to match the empty string overall.
+    /// let nfa = NFA::new(&quot;foo|(bar)?|quux&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;alternations can match empty&quot;);
+    ///
+    /// // An NFA that matches nothing does not match the empty string.
+    /// let nfa = NFA::new(&quot;[a&amp;&amp;b]&quot;)?;
+    /// assert!(!nfa.has_empty(), &quot;never matching means not matching empty&quot;);
+    /// // But if it&#39;s wrapped in something that doesn&#39;t require a match at
+    /// // all, then it can match the empty string!
+    /// let nfa = NFA::new(&quot;[a&amp;&amp;b]*&quot;)?;
+    /// assert!(nfa.has_empty(), &quot;* on never-match still matches empty&quot;);
+    /// // Since a &#39;+&#39; requires a match, using it on something that can never
+    /// // match will itself produce a regex that can never match anything,
+    /// // and thus does not match the empty string.
+    /// let nfa = NFA::new(&quot;[a&amp;&amp;b]+&quot;)?;
+    /// assert!(!nfa.has_empty(), &quot;+ on never-match still matches nothing&quot;);
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>has_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0</span>.has_empty
+    }
+
+    <span class="doccomment">/// Whether UTF-8 mode is enabled for this NFA or not.
+    ///
+    /// When UTF-8 mode is enabled, all matches reported by a regex engine
+    /// derived from this NFA are guaranteed to correspond to spans of valid
+    /// UTF-8. This includes zero-width matches. For example, the regex engine
+    /// must guarantee that the empty regex will not match at the positions
+    /// between code units in the UTF-8 encoding of a single codepoint.
+    ///
+    /// See [`Config::utf8`] for more information.
+    ///
+    /// This is enabled by default.
+    ///
+    /// # Example
+    ///
+    /// This example shows how UTF-8 mode can impact the match spans that may
+    /// be reported in certain cases.
+    ///
+    /// ```
+    /// use regex_automata::{
+    ///     nfa::thompson::{self, pikevm::PikeVM},
+    ///     Match, Input,
+    /// };
+    ///
+    /// let re = PikeVM::new(&quot;&quot;)?;
+    /// let (mut cache, mut caps) = (re.create_cache(), re.create_captures());
+    ///
+    /// // UTF-8 mode is enabled by default.
+    /// let mut input = Input::new(&quot;☃&quot;);
+    /// re.search(&amp;mut cache, &amp;input, &amp;mut caps);
+    /// assert_eq!(Some(Match::must(0, 0..0)), caps.get_match());
+    ///
+    /// // Even though an empty regex matches at 1..1, our next match is
+    /// // 3..3 because 1..1 and 2..2 split the snowman codepoint (which is
+    /// // three bytes long).
+    /// input.set_start(1);
+    /// re.search(&amp;mut cache, &amp;input, &amp;mut caps);
+    /// assert_eq!(Some(Match::must(0, 3..3)), caps.get_match());
+    ///
+    /// // But if we disable UTF-8, then we&#39;ll get matches at 1..1 and 2..2:
+    /// let re = PikeVM::builder()
+    ///     .thompson(thompson::Config::new().utf8(false))
+    ///     .build(&quot;&quot;)?;
+    /// re.search(&amp;mut cache, &amp;input, &amp;mut caps);
+    /// assert_eq!(Some(Match::must(0, 1..1)), caps.get_match());
+    ///
+    /// input.set_start(2);
+    /// re.search(&amp;mut cache, &amp;input, &amp;mut caps);
+    /// assert_eq!(Some(Match::must(0, 2..2)), caps.get_match());
+    ///
+    /// input.set_start(3);
+    /// re.search(&amp;mut cache, &amp;input, &amp;mut caps);
+    /// assert_eq!(Some(Match::must(0, 3..3)), caps.get_match());
+    ///
+    /// input.set_start(4);
+    /// re.search(&amp;mut cache, &amp;input, &amp;mut caps);
+    /// assert_eq!(None, caps.get_match());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_utf8(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0</span>.utf8
+    }
+
+    <span class="doccomment">/// Returns true when this NFA is meant to be matched in reverse.
+    ///
+    /// Generally speaking, when this is true, it means the NFA is supposed to
+    /// be used in conjunction with moving backwards through the haystack. That
+    /// is, from a higher memory address to a lower memory address.
+    ///
+    /// It is often the case that lower level routines dealing with an NFA
+    /// don&#39;t need to care about whether it is &quot;meant&quot; to be matched in reverse
+    /// or not. However, there are some specific cases where it matters. For
+    /// example, the implementation of CRLF-aware `^` and `$` line anchors
+    /// needs to know whether the search is in the forward or reverse
+    /// direction. In the forward direction, neither `^` nor `$` should match
+    /// when a `\r` has been seen previously and a `\n` is next. However, in
+    /// the reverse direction, neither `^` nor `$` should match when a `\n`
+    /// has been seen previously and a `\r` is next. This fundamentally changes
+    /// how the state machine is constructed, and thus needs to be altered
+    /// based on the direction of the search.
+    ///
+    /// This is automatically set when using a [`Compiler`] with a configuration
+    /// where [`Config::reverse`] is enabled. If you&#39;re building your own NFA
+    /// by hand via a [`Builder`]
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_reverse(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0</span>.reverse
+    }
+
+    <span class="doccomment">/// Returns true if and only if all starting states for this NFA correspond
+    /// to the beginning of an anchored search.
+    ///
+    /// Typically, an NFA will have both an anchored and an unanchored starting
+    /// state. Namely, because it tends to be useful to have both and the cost
+    /// of having an unanchored starting state is almost zero (for an NFA).
+    /// However, if all patterns in the NFA are themselves anchored, then even
+    /// the unanchored starting state will correspond to an anchored search
+    /// since the pattern doesn&#39;t permit anything else.
+    ///
+    /// # Example
+    ///
+    /// This example shows a few different scenarios where this method&#39;s
+    /// return value varies.
+    ///
+    /// ```
+    /// use regex_automata::nfa::thompson::NFA;
+    ///
+    /// // The unanchored starting state permits matching this pattern anywhere
+    /// // in a haystack, instead of just at the beginning.
+    /// let nfa = NFA::new(&quot;a&quot;)?;
+    /// assert!(!nfa.is_always_start_anchored());
+    ///
+    /// // In this case, the pattern is itself anchored, so there is no way
+    /// // to run an unanchored search.
+    /// let nfa = NFA::new(&quot;^a&quot;)?;
+    /// assert!(nfa.is_always_start_anchored());
+    ///
+    /// // When multiline mode is enabled, &#39;^&#39; can match at the start of a line
+    /// // in addition to the start of a haystack, so an unanchored search is
+    /// // actually possible.
+    /// let nfa = NFA::new(&quot;(?m)^a&quot;)?;
+    /// assert!(!nfa.is_always_start_anchored());
+    ///
+    /// // Weird cases also work. A pattern is only considered anchored if all
+    /// // matches may only occur at the start of a haystack.
+    /// let nfa = NFA::new(&quot;(^a)|a&quot;)?;
+    /// assert!(!nfa.is_always_start_anchored());
+    ///
+    /// // When multiple patterns are present, if they are all anchored, then
+    /// // the NFA is always anchored too.
+    /// let nfa = NFA::new_many(&amp;[&quot;^a&quot;, &quot;^b&quot;, &quot;^c&quot;])?;
+    /// assert!(nfa.is_always_start_anchored());
+    ///
+    /// // But if one pattern is unanchored, then the NFA must permit an
+    /// // unanchored search.
+    /// let nfa = NFA::new_many(&amp;[&quot;^a&quot;, &quot;b&quot;, &quot;^c&quot;])?;
+    /// assert!(!nfa.is_always_start_anchored());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_always_start_anchored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.start_anchored() == <span class="self">self</span>.start_unanchored()
+    }
+
+    <span class="doccomment">/// Returns the look-around matcher associated with this NFA.
+    ///
+    /// A look-around matcher determines how to match look-around assertions.
+    /// In particular, some assertions are configurable. For example, the
+    /// `(?m:^)` and `(?m:$)` assertions can have their line terminator changed
+    /// from the default of `\n` to any other byte.
+    ///
+    /// If the NFA was built using a [`Compiler`], then this matcher
+    /// can be set via the [`Config::look_matcher`] configuration
+    /// knob. Otherwise, if you&#39;ve built an NFA by hand, it is set via
+    /// [`Builder::set_look_matcher`].
+    ///
+    /// # Example
+    ///
+    /// This shows how to change the line terminator for multi-line assertions.
+    ///
+    /// ```
+    /// use regex_automata::{
+    ///     nfa::thompson::{self, pikevm::PikeVM},
+    ///     util::look::LookMatcher,
+    ///     Match, Input,
+    /// };
+    ///
+    /// let mut lookm = LookMatcher::new();
+    /// lookm.set_line_terminator(b&#39;\x00&#39;);
+    ///
+    /// let re = PikeVM::builder()
+    ///     .thompson(thompson::Config::new().look_matcher(lookm))
+    ///     .build(r&quot;(?m)^[a-z]+$&quot;)?;
+    /// let mut cache = re.create_cache();
+    ///
+    /// // Multi-line assertions now use NUL as a terminator.
+    /// assert_eq!(
+    ///     Some(Match::must(0, 1..4)),
+    ///     re.find(&amp;mut cache, b&quot;\x00abc\x00&quot;),
+    /// );
+    /// // ... and \n is no longer recognized as a terminator.
+    /// assert_eq!(
+    ///     None,
+    ///     re.find(&amp;mut cache, b&quot;\nabc\n&quot;),
+    /// );
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>look_matcher(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>LookMatcher {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.look_matcher
+    }
+
+    <span class="doccomment">/// Returns the union of all look-around assertions used throughout this
+    /// NFA. When the returned set is empty, it implies that the NFA has no
+    /// look-around assertions and thus zero conditional epsilon transitions.
+    ///
+    /// This is useful in some cases enabling optimizations. It is not
+    /// unusual, for example, for optimizations to be of the form, &quot;for any
+    /// regex with zero conditional epsilon transitions, do ...&quot; where &quot;...&quot;
+    /// is some kind of optimization.
+    ///
+    /// This isn&#39;t only helpful for optimizations either. Sometimes look-around
+    /// assertions are difficult to support. For example, many of the DFAs in
+    /// this crate don&#39;t support Unicode word boundaries or handle them using
+    /// heuristics. Handling that correctly typically requires some kind of
+    /// cheap check of whether the NFA has a Unicode word boundary in the first
+    /// place.
+    ///
+    /// # Example
+    ///
+    /// This example shows how this routine varies based on the regex pattern:
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, util::look::Look};
+    ///
+    /// // No look-around at all.
+    /// let nfa = NFA::new(&quot;a&quot;)?;
+    /// assert!(nfa.look_set_any().is_empty());
+    ///
+    /// // When multiple patterns are present, since this returns the union,
+    /// // it will include look-around assertions that only appear in one
+    /// // pattern.
+    /// let nfa = NFA::new_many(&amp;[&quot;a&quot;, &quot;b&quot;, &quot;a^b&quot;, &quot;c&quot;])?;
+    /// assert!(nfa.look_set_any().contains(Look::Start));
+    ///
+    /// // Some groups of assertions have various shortcuts. For example:
+    /// let nfa = NFA::new(r&quot;(?-u:\b)&quot;)?;
+    /// assert!(nfa.look_set_any().contains_word());
+    /// assert!(!nfa.look_set_any().contains_word_unicode());
+    /// assert!(nfa.look_set_any().contains_word_ascii());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>look_set_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LookSet {
+        <span class="self">self</span>.<span class="number">0</span>.look_set_any
+    }
+
+    <span class="doccomment">/// Returns the union of all prefix look-around assertions for every
+    /// pattern in this NFA. When the returned set is empty, it implies none of
+    /// the patterns require moving through a conditional epsilon transition
+    /// before inspecting the first byte in the haystack.
+    ///
+    /// This can be useful for determining what kinds of assertions need to be
+    /// satisfied at the beginning of a search. For example, typically DFAs
+    /// in this crate will build a distinct starting state for each possible
+    /// starting configuration that might result in look-around assertions
+    /// being satisfied differently. However, if the set returned here is
+    /// empty, then you know that the start state is invariant because there
+    /// are no conditional epsilon transitions to consider.
+    ///
+    /// # Example
+    ///
+    /// This example shows how this routine varies based on the regex pattern:
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, util::look::Look};
+    ///
+    /// // No look-around at all.
+    /// let nfa = NFA::new(&quot;a&quot;)?;
+    /// assert!(nfa.look_set_prefix_any().is_empty());
+    ///
+    /// // When multiple patterns are present, since this returns the union,
+    /// // it will include look-around assertions that only appear in one
+    /// // pattern. But it will only include assertions that are in the prefix
+    /// // of a pattern. For example, this includes &#39;^&#39; but not &#39;$&#39; even though
+    /// // &#39;$&#39; does appear.
+    /// let nfa = NFA::new_many(&amp;[&quot;a&quot;, &quot;b&quot;, &quot;^ab$&quot;, &quot;c&quot;])?;
+    /// assert!(nfa.look_set_prefix_any().contains(Look::Start));
+    /// assert!(!nfa.look_set_prefix_any().contains(Look::End));
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>look_set_prefix_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LookSet {
+        <span class="self">self</span>.<span class="number">0</span>.look_set_prefix_any
+    }
+
+    <span class="comment">// FIXME: The `look_set_prefix_all` computation was not correct, and it
+    // seemed a little tricky to fix it. Since I wasn&#39;t actually using it for
+    // anything, I just decided to remove it in the run up to the regex 1.9
+    // release. If you need this, please file an issue.
+    /*
+    /// Returns the intersection of all prefix look-around assertions for every
+    /// pattern in this NFA. When the returned set is empty, it implies at
+    /// least one of the patterns does not require moving through a conditional
+    /// epsilon transition before inspecting the first byte in the haystack.
+    /// Conversely, when the set contains an assertion, it implies that every
+    /// pattern in the NFA also contains that assertion in its prefix.
+    ///
+    /// This can be useful for determining what kinds of assertions need to be
+    /// satisfied at the beginning of a search. For example, if you know that
+    /// [`Look::Start`] is in the prefix intersection set returned here, then
+    /// you know that all searches, regardless of input configuration, will be
+    /// anchored.
+    ///
+    /// # Example
+    ///
+    /// This example shows how this routine varies based on the regex pattern:
+    ///
+    /// ```
+    /// use regex_automata::{nfa::thompson::NFA, util::look::Look};
+    ///
+    /// // No look-around at all.
+    /// let nfa = NFA::new(&quot;a&quot;)?;
+    /// assert!(nfa.look_set_prefix_all().is_empty());
+    ///
+    /// // When multiple patterns are present, since this returns the
+    /// // intersection, it will only include assertions present in every
+    /// // prefix, and only the prefix.
+    /// let nfa = NFA::new_many(&amp;[&quot;^a$&quot;, &quot;^b$&quot;, &quot;$^ab$&quot;, &quot;^c$&quot;])?;
+    /// assert!(nfa.look_set_prefix_all().contains(Look::Start));
+    /// assert!(!nfa.look_set_prefix_all().contains(Look::End));
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    #[inline]
+    pub fn look_set_prefix_all(&amp;self) -&gt; LookSet {
+        self.0.look_set_prefix_all
+    }
+    */
+
+    </span><span class="doccomment">/// Returns the memory usage, in bytes, of this NFA.
+    ///
+    /// This does **not** include the stack size used up by this NFA. To
+    /// compute that, use `std::mem::size_of::&lt;NFA&gt;()`.
+    ///
+    /// # Example
+    ///
+    /// This example shows that large Unicode character classes can use quite
+    /// a bit of memory.
+    ///
+    /// ```
+    /// # if cfg!(miri) { return Ok(()); } // miri takes too long
+    /// use regex_automata::nfa::thompson::NFA;
+    ///
+    /// let nfa_unicode = NFA::new(r&quot;\w&quot;)?;
+    /// let nfa_ascii = NFA::new(r&quot;(?-u:\w)&quot;)?;
+    ///
+    /// assert!(10 * nfa_ascii.memory_usage() &lt; nfa_unicode.memory_usage());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="kw">use </span>core::mem::size_of;
+
+        size_of::&lt;Inner&gt;() <span class="comment">// allocated on the heap via Arc
+            </span>+ <span class="self">self</span>.<span class="number">0</span>.states.len() * size_of::&lt;State&gt;()
+            + <span class="self">self</span>.<span class="number">0</span>.start_pattern.len() * size_of::&lt;StateID&gt;()
+            + <span class="self">self</span>.<span class="number">0</span>.group_info.memory_usage()
+            + <span class="self">self</span>.<span class="number">0</span>.memory_extra
+    }
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>NFA {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.<span class="number">0</span>.fmt(f)
+    }
+}
+
+<span class="doccomment">/// The &quot;inner&quot; part of the NFA. We split this part out so that we can easily
+/// wrap it in an `Arc` above in the definition of `NFA`.
+///
+/// See builder.rs for the code that actually builds this type. This module
+/// does provide (internal) mutable methods for adding things to this
+/// NFA before finalizing it, but the high level construction process is
+/// controlled by the builder abstraction. (Which is complicated enough to
+/// get its own module.)
+</span><span class="attribute">#[derive(Default)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>Inner {
+    <span class="doccomment">/// The state sequence. This sequence is guaranteed to be indexable by all
+    /// starting state IDs, and it is also guaranteed to contain at most one
+    /// `Match` state for each pattern compiled into this NFA. (A pattern may
+    /// not have a corresponding `Match` state if a `Match` state is impossible
+    /// to reach.)
+    </span>states: Vec&lt;State&gt;,
+    <span class="doccomment">/// The anchored starting state of this NFA.
+    </span>start_anchored: StateID,
+    <span class="doccomment">/// The unanchored starting state of this NFA.
+    </span>start_unanchored: StateID,
+    <span class="doccomment">/// The starting states for each individual pattern. Starting at any
+    /// of these states will result in only an anchored search for the
+    /// corresponding pattern. The vec is indexed by pattern ID. When the NFA
+    /// contains a single regex, then `start_pattern[0]` and `start_anchored`
+    /// are always equivalent.
+    </span>start_pattern: Vec&lt;StateID&gt;,
+    <span class="doccomment">/// Info about the capturing groups in this NFA. This is responsible for
+    /// mapping groups to slots, mapping groups to names and names to groups.
+    </span>group_info: GroupInfo,
+    <span class="doccomment">/// A representation of equivalence classes over the transitions in this
+    /// NFA. Two bytes in the same equivalence class must not discriminate
+    /// between a match or a non-match. This map can be used to shrink the
+    /// total size of a DFA&#39;s transition table with a small match-time cost.
+    ///
+    /// Note that the NFA&#39;s transitions are *not* defined in terms of these
+    /// equivalence classes. The NFA&#39;s transitions are defined on the original
+    /// byte values. For the most part, this is because they wouldn&#39;t really
+    /// help the NFA much since the NFA already uses a sparse representation
+    /// to represent transitions. Byte classes are most effective in a dense
+    /// representation.
+    </span>byte_class_set: ByteClassSet,
+    <span class="doccomment">/// This is generated from `byte_class_set`, and essentially represents the
+    /// same thing but supports different access patterns. Namely, this permits
+    /// looking up the equivalence class of a byte very cheaply.
+    ///
+    /// Ideally we would just store this, but because of annoying code
+    /// structure reasons, we keep both this and `byte_class_set` around for
+    /// now. I think I would prefer that `byte_class_set` were computed in the
+    /// `Builder`, but right now, we compute it as states are added to the
+    /// `NFA`.
+    </span>byte_classes: ByteClasses,
+    <span class="doccomment">/// Whether this NFA has a `Capture` state anywhere.
+    </span>has_capture: bool,
+    <span class="doccomment">/// When the empty string is in the language matched by this NFA.
+    </span>has_empty: bool,
+    <span class="doccomment">/// Whether UTF-8 mode is enabled for this NFA. Briefly, this means that
+    /// all non-empty matches produced by this NFA correspond to spans of valid
+    /// UTF-8, and any empty matches produced by this NFA that split a UTF-8
+    /// encoded codepoint should be filtered out by the corresponding regex
+    /// engine.
+    </span>utf8: bool,
+    <span class="doccomment">/// Whether this NFA is meant to be matched in reverse or not.
+    </span>reverse: bool,
+    <span class="doccomment">/// The matcher to be used for look-around assertions.
+    </span>look_matcher: LookMatcher,
+    <span class="doccomment">/// The union of all look-around assertions that occur anywhere within
+    /// this NFA. If this set is empty, then it means there are precisely zero
+    /// conditional epsilon transitions in the NFA.
+    </span>look_set_any: LookSet,
+    <span class="doccomment">/// The union of all look-around assertions that occur as a zero-length
+    /// prefix for any of the patterns in this NFA.
+    </span>look_set_prefix_any: LookSet,
+    <span class="comment">/*
+    /// The intersection of all look-around assertions that occur as a
+    /// zero-length prefix for any of the patterns in this NFA.
+    look_set_prefix_all: LookSet,
+    */
+    </span><span class="doccomment">/// Heap memory used indirectly by NFA states and other things (like the
+    /// various capturing group representations above). Since each state
+    /// might use a different amount of heap, we need to keep track of this
+    /// incrementally.
+    </span>memory_extra: usize,
+}
+
+<span class="kw">impl </span>Inner {
+    <span class="doccomment">/// Runs any last finalization bits and turns this into a full NFA.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>into_nfa(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; NFA {
+        <span class="self">self</span>.byte_classes = <span class="self">self</span>.byte_class_set.byte_classes();
+        <span class="comment">// Do epsilon closure from the start state of every pattern in order
+        // to compute various properties such as look-around assertions and
+        // whether the empty string can be matched.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>stack = <span class="macro">vec!</span>[];
+        <span class="kw">let </span><span class="kw-2">mut </span>seen = SparseSet::new(<span class="self">self</span>.states.len());
+        <span class="kw">for </span><span class="kw-2">&amp;</span>start_id <span class="kw">in </span><span class="self">self</span>.start_pattern.iter() {
+            stack.push(start_id);
+            seen.clear();
+            <span class="comment">// let mut prefix_all = LookSet::full();
+            </span><span class="kw">let </span><span class="kw-2">mut </span>prefix_any = LookSet::empty();
+            <span class="kw">while let </span><span class="prelude-val">Some</span>(sid) = stack.pop() {
+                <span class="kw">if </span>!seen.insert(sid) {
+                    <span class="kw">continue</span>;
+                }
+                <span class="kw">match </span><span class="self">self</span>.states[sid] {
+                    State::ByteRange { .. }
+                    | State::Dense { .. }
+                    | State::Fail =&gt; <span class="kw">continue</span>,
+                    State::Sparse(<span class="kw">_</span>) =&gt; {
+                        <span class="comment">// This snippet below will rewrite this sparse state
+                        // as a dense state. By doing it here, we apply this
+                        // optimization to all hot &quot;sparse&quot; states since these
+                        // are the states that are reachable from the start
+                        // state via an epsilon closure.
+                        //
+                        // Unfortunately, this optimization did not seem to
+                        // help much in some very limited ad hoc benchmarking.
+                        //
+                        // I left the &#39;Dense&#39; state type in place in case we
+                        // want to revisit this, but I suspect the real way
+                        // to make forward progress is a more fundamental
+                        // rearchitecting of how data in the NFA is laid out.
+                        // I think we should consider a single contiguous
+                        // allocation instead of all this indirection and
+                        // potential heap allocations for every state. But this
+                        // is a large re-design and will require API breaking
+                        // changes.
+                        // self.memory_extra -= self.states[sid].memory_usage();
+                        // let trans = DenseTransitions::from_sparse(sparse);
+                        // self.states[sid] = State::Dense(trans);
+                        // self.memory_extra += self.states[sid].memory_usage();
+                        </span><span class="kw">continue</span>;
+                    }
+                    State::Match { .. } =&gt; <span class="self">self</span>.has_empty = <span class="bool-val">true</span>,
+                    State::Look { look, next } =&gt; {
+                        prefix_any = prefix_any.insert(look);
+                        stack.push(next);
+                    }
+                    State::Union { <span class="kw-2">ref </span>alternates } =&gt; {
+                        <span class="comment">// Order doesn&#39;t matter here, since we&#39;re just dealing
+                        // with look-around sets. But if we do richer analysis
+                        // here that needs to care about preference order, then
+                        // this should be done in reverse.
+                        </span>stack.extend(alternates.iter());
+                    }
+                    State::BinaryUnion { alt1, alt2 } =&gt; {
+                        stack.push(alt2);
+                        stack.push(alt1);
+                    }
+                    State::Capture { next, .. } =&gt; {
+                        stack.push(next);
+                    }
+                }
+            }
+            <span class="self">self</span>.look_set_prefix_any =
+                <span class="self">self</span>.look_set_prefix_any.union(prefix_any);
+        }
+        NFA(Arc::new(<span class="self">self</span>))
+    }
+
+    <span class="doccomment">/// Returns the capturing group info for this NFA.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>group_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>GroupInfo {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.group_info
+    }
+
+    <span class="doccomment">/// Add the given state to this NFA after allocating a fresh identifier for
+    /// it.
+    ///
+    /// This panics if too many states are added such that a fresh identifier
+    /// could not be created. (Currently, the only caller of this routine is
+    /// a `Builder`, and it upholds this invariant.)
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>add(<span class="kw-2">&amp;mut </span><span class="self">self</span>, state: State) -&gt; StateID {
+        <span class="kw">match </span>state {
+            State::ByteRange { <span class="kw-2">ref </span>trans } =&gt; {
+                <span class="self">self</span>.byte_class_set.set_range(trans.start, trans.end);
+            }
+            State::Sparse(<span class="kw-2">ref </span>sparse) =&gt; {
+                <span class="kw">for </span>trans <span class="kw">in </span>sparse.transitions.iter() {
+                    <span class="self">self</span>.byte_class_set.set_range(trans.start, trans.end);
+                }
+            }
+            State::Dense { .. } =&gt; <span class="macro">unreachable!</span>(),
+            State::Look { look, .. } =&gt; {
+                <span class="self">self</span>.look_matcher
+                    .add_to_byteset(look, <span class="kw-2">&amp;mut </span><span class="self">self</span>.byte_class_set);
+                <span class="self">self</span>.look_set_any = <span class="self">self</span>.look_set_any.insert(look);
+            }
+            State::Capture { .. } =&gt; {
+                <span class="self">self</span>.has_capture = <span class="bool-val">true</span>;
+            }
+            State::Union { .. }
+            | State::BinaryUnion { .. }
+            | State::Fail
+            | State::Match { .. } =&gt; {}
+        }
+
+        <span class="kw">let </span>id = StateID::new(<span class="self">self</span>.states.len()).unwrap();
+        <span class="self">self</span>.memory_extra += state.memory_usage();
+        <span class="self">self</span>.states.push(state);
+        id
+    }
+
+    <span class="doccomment">/// Set the starting state identifiers for this NFA.
+    ///
+    /// `start_anchored` and `start_unanchored` may be equivalent. When they
+    /// are, then the NFA can only execute anchored searches. This might
+    /// occur, for example, for patterns that are unconditionally anchored.
+    /// e.g., `^foo`.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_starts(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        start_anchored: StateID,
+        start_unanchored: StateID,
+        start_pattern: <span class="kw-2">&amp;</span>[StateID],
+    ) {
+        <span class="self">self</span>.start_anchored = start_anchored;
+        <span class="self">self</span>.start_unanchored = start_unanchored;
+        <span class="self">self</span>.start_pattern = start_pattern.to_vec();
+    }
+
+    <span class="doccomment">/// Sets the UTF-8 mode of this NFA.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_utf8(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) {
+        <span class="self">self</span>.utf8 = yes;
+    }
+
+    <span class="doccomment">/// Sets the reverse mode of this NFA.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_reverse(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) {
+        <span class="self">self</span>.reverse = yes;
+    }
+
+    <span class="doccomment">/// Sets the look-around assertion matcher for this NFA.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_look_matcher(<span class="kw-2">&amp;mut </span><span class="self">self</span>, m: LookMatcher) {
+        <span class="self">self</span>.look_matcher = m;
+    }
+
+    <span class="doccomment">/// Set the capturing groups for this NFA.
+    ///
+    /// The given slice should contain the capturing groups for each pattern,
+    /// The capturing groups in turn should correspond to the total number of
+    /// capturing groups in the pattern, including the anonymous first capture
+    /// group for each pattern. If a capturing group does have a name, then it
+    /// should be provided as a Arc&lt;str&gt;.
+    ///
+    /// This returns an error if a corresponding `GroupInfo` could not be
+    /// built.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_captures(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        captures: <span class="kw-2">&amp;</span>[Vec&lt;<span class="prelude-ty">Option</span>&lt;Arc&lt;str&gt;&gt;&gt;],
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), GroupInfoError&gt; {
+        <span class="self">self</span>.group_info = GroupInfo::new(
+            captures.iter().map(|x| x.iter().map(|y| y.as_ref())),
+        )<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// Remap the transitions in every state of this NFA using the given map.
+    /// The given map should be indexed according to state ID namespace used by
+    /// the transitions of the states currently in this NFA.
+    ///
+    /// This is particularly useful to the NFA builder, since it is convenient
+    /// to add NFA states in order to produce their final IDs. Then, after all
+    /// of the intermediate &quot;empty&quot; states (unconditional epsilon transitions)
+    /// have been removed from the builder&#39;s representation, we can re-map all
+    /// of the transitions in the states already added to their final IDs.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>remap(<span class="kw-2">&amp;mut </span><span class="self">self</span>, old_to_new: <span class="kw-2">&amp;</span>[StateID]) {
+        <span class="kw">for </span>state <span class="kw">in </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.states {
+            state.remap(old_to_new);
+        }
+        <span class="self">self</span>.start_anchored = old_to_new[<span class="self">self</span>.start_anchored];
+        <span class="self">self</span>.start_unanchored = old_to_new[<span class="self">self</span>.start_unanchored];
+        <span class="kw">for </span>id <span class="kw">in </span><span class="self">self</span>.start_pattern.iter_mut() {
+            <span class="kw-2">*</span>id = old_to_new[<span class="kw-2">*</span>id];
+        }
+    }
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Inner {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;thompson::NFA(&quot;</span>)<span class="question-mark">?</span>;
+        <span class="kw">for </span>(sid, state) <span class="kw">in </span><span class="self">self</span>.states.iter().with_state_ids() {
+            <span class="kw">let </span>status = <span class="kw">if </span>sid == <span class="self">self</span>.start_anchored {
+                <span class="string">&#39;^&#39;
+            </span>} <span class="kw">else if </span>sid == <span class="self">self</span>.start_unanchored {
+                <span class="string">&#39;&gt;&#39;
+            </span>} <span class="kw">else </span>{
+                <span class="string">&#39; &#39;
+            </span>};
+            <span class="macro">writeln!</span>(f, <span class="string">&quot;{}{:06?}: {:?}&quot;</span>, status, sid.as_usize(), state)<span class="question-mark">?</span>;
+        }
+        <span class="kw">let </span>pattern_len = <span class="self">self</span>.start_pattern.len();
+        <span class="kw">if </span>pattern_len &gt; <span class="number">1 </span>{
+            <span class="macro">writeln!</span>(f, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">for </span>pid <span class="kw">in </span><span class="number">0</span>..pattern_len {
+                <span class="kw">let </span>sid = <span class="self">self</span>.start_pattern[pid];
+                <span class="macro">writeln!</span>(f, <span class="string">&quot;START({:06?}): {:?}&quot;</span>, pid, sid.as_usize())<span class="question-mark">?</span>;
+            }
+        }
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(
+            f,
+            <span class="string">&quot;transition equivalence classes: {:?}&quot;</span>,
+            <span class="self">self</span>.byte_classes,
+        )<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// A state in an NFA.
+///
+/// In theory, it can help to conceptualize an `NFA` as a graph consisting of
+/// `State`s. Each `State` contains its complete set of outgoing transitions.
+///
+/// In practice, it can help to conceptualize an `NFA` as a sequence of
+/// instructions for a virtual machine. Each `State` says what to do and where
+/// to go next.
+///
+/// Strictly speaking, the practical interpretation is the most correct one,
+/// because of the [`Capture`](State::Capture) state. Namely, a `Capture`
+/// state always forwards execution to another state unconditionally. Its only
+/// purpose is to cause a side effect: the recording of the current input
+/// position at a particular location in memory. In this sense, an `NFA`
+/// has more power than a theoretical non-deterministic finite automaton.
+///
+/// For most uses of this crate, it is likely that one may never even need to
+/// be aware of this type at all. The main use cases for looking at `State`s
+/// directly are if you need to write your own search implementation or if you
+/// need to do some kind of analysis on the NFA.
+</span><span class="attribute">#[derive(Clone, Eq, PartialEq)]
+</span><span class="kw">pub enum </span>State {
+    <span class="doccomment">/// A state with a single transition that can only be taken if the current
+    /// input symbol is in a particular range of bytes.
+    </span>ByteRange {
+        <span class="doccomment">/// The transition from this state to the next.
+        </span>trans: Transition,
+    },
+    <span class="doccomment">/// A state with possibly many transitions represented in a sparse fashion.
+    /// Transitions are non-overlapping and ordered lexicographically by input
+    /// range.
+    ///
+    /// In practice, this is used for encoding UTF-8 automata. Its presence is
+    /// primarily an optimization that avoids many additional unconditional
+    /// epsilon transitions (via [`Union`](State::Union) states), and thus
+    /// decreases the overhead of traversing the NFA. This can improve both
+    /// matching time and DFA construction time.
+    </span>Sparse(SparseTransitions),
+    <span class="doccomment">/// A dense representation of a state with multiple transitions.
+    </span>Dense(DenseTransitions),
+    <span class="doccomment">/// A conditional epsilon transition satisfied via some sort of
+    /// look-around. Look-around is limited to anchor and word boundary
+    /// assertions.
+    ///
+    /// Look-around states are meant to be evaluated while performing epsilon
+    /// closure (computing the set of states reachable from a particular state
+    /// via only epsilon transitions). If the current position in the haystack
+    /// satisfies the look-around assertion, then you&#39;re permitted to follow
+    /// that epsilon transition.
+    </span>Look {
+        <span class="doccomment">/// The look-around assertion that must be satisfied before moving
+        /// to `next`.
+        </span>look: Look,
+        <span class="doccomment">/// The state to transition to if the look-around assertion is
+        /// satisfied.
+        </span>next: StateID,
+    },
+    <span class="doccomment">/// An alternation such that there exists an epsilon transition to all
+    /// states in `alternates`, where matches found via earlier transitions
+    /// are preferred over later transitions.
+    </span>Union {
+        <span class="doccomment">/// An ordered sequence of unconditional epsilon transitions to other
+        /// states. Transitions earlier in the sequence are preferred over
+        /// transitions later in the sequence.
+        </span>alternates: Box&lt;[StateID]&gt;,
+    },
+    <span class="doccomment">/// An alternation such that there exists precisely two unconditional
+    /// epsilon transitions, where matches found via `alt1` are preferred over
+    /// matches found via `alt2`.
+    ///
+    /// This state exists as a common special case of Union where there are
+    /// only two alternates. In this case, we don&#39;t need any allocations to
+    /// represent the state. This saves a bit of memory and also saves an
+    /// additional memory access when traversing the NFA.
+    </span>BinaryUnion {
+        <span class="doccomment">/// An unconditional epsilon transition to another NFA state. This
+        /// is preferred over `alt2`.
+        </span>alt1: StateID,
+        <span class="doccomment">/// An unconditional epsilon transition to another NFA state. Matches
+        /// reported via this transition should only be reported if no matches
+        /// were found by following `alt1`.
+        </span>alt2: StateID,
+    },
+    <span class="doccomment">/// An empty state that records a capture location.
+    ///
+    /// From the perspective of finite automata, this is precisely equivalent
+    /// to an unconditional epsilon transition, but serves the purpose of
+    /// instructing NFA simulations to record additional state when the finite
+    /// state machine passes through this epsilon transition.
+    ///
+    /// `slot` in this context refers to the specific capture group slot
+    /// offset that is being recorded. Each capturing group has two slots
+    /// corresponding to the start and end of the matching portion of that
+    /// group.
+    ///
+    /// The pattern ID and capture group index are also included in this state
+    /// in case they are useful. But mostly, all you&#39;ll need is `next` and
+    /// `slot`.
+    </span>Capture {
+        <span class="doccomment">/// The state to transition to, unconditionally.
+        </span>next: StateID,
+        <span class="doccomment">/// The pattern ID that this capture belongs to.
+        </span>pattern_id: PatternID,
+        <span class="doccomment">/// The capture group index that this capture belongs to. Capture group
+        /// indices are local to each pattern. For example, when capturing
+        /// groups are enabled, every pattern has a capture group at index
+        /// `0`.
+        </span>group_index: SmallIndex,
+        <span class="doccomment">/// The slot index for this capture. Every capturing group has two
+        /// slots: one for the start haystack offset and one for the end
+        /// haystack offset. Unlike capture group indices, slot indices are
+        /// global across all patterns in this NFA. That is, each slot belongs
+        /// to a single pattern, but there is only one slot at index `i`.
+        </span>slot: SmallIndex,
+    },
+    <span class="doccomment">/// A state that cannot be transitioned out of. This is useful for cases
+    /// where you want to prevent matching from occurring. For example, if your
+    /// regex parser permits empty character classes, then one could choose
+    /// a `Fail` state to represent them. (An empty character class can be
+    /// thought of as an empty set. Since nothing is in an empty set, they can
+    /// never match anything.)
+    </span>Fail,
+    <span class="doccomment">/// A match state. There is at least one such occurrence of this state for
+    /// each regex that can match that is in this NFA.
+    </span>Match {
+        <span class="doccomment">/// The matching pattern ID.
+        </span>pattern_id: PatternID,
+    },
+}
+
+<span class="kw">impl </span>State {
+    <span class="doccomment">/// Returns true if and only if this state contains one or more epsilon
+    /// transitions.
+    ///
+    /// In practice, a state has no outgoing transitions (like `Match`), has
+    /// only non-epsilon transitions (like `ByteRange`) or has only epsilon
+    /// transitions (like `Union`).
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use regex_automata::{
+    ///     nfa::thompson::{State, Transition},
+    ///     util::primitives::{PatternID, StateID, SmallIndex},
+    /// };
+    ///
+    /// // Capture states are epsilon transitions.
+    /// let state = State::Capture {
+    ///     next: StateID::ZERO,
+    ///     pattern_id: PatternID::ZERO,
+    ///     group_index: SmallIndex::ZERO,
+    ///     slot: SmallIndex::ZERO,
+    /// };
+    /// assert!(state.is_epsilon());
+    ///
+    /// // ByteRange states are not.
+    /// let state = State::ByteRange {
+    ///     trans: Transition { start: b&#39;a&#39;, end: b&#39;z&#39;, next: StateID::ZERO },
+    /// };
+    /// assert!(!state.is_epsilon());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_epsilon(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            State::ByteRange { .. }
+            | State::Sparse { .. }
+            | State::Dense { .. }
+            | State::Fail
+            | State::Match { .. } =&gt; <span class="bool-val">false</span>,
+            State::Look { .. }
+            | State::Union { .. }
+            | State::BinaryUnion { .. }
+            | State::Capture { .. } =&gt; <span class="bool-val">true</span>,
+        }
+    }
+
+    <span class="doccomment">/// Returns the heap memory usage of this NFA state in bytes.
+    </span><span class="kw">fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            State::ByteRange { .. }
+            | State::Look { .. }
+            | State::BinaryUnion { .. }
+            | State::Capture { .. }
+            | State::Match { .. }
+            | State::Fail =&gt; <span class="number">0</span>,
+            State::Sparse(SparseTransitions { <span class="kw-2">ref </span>transitions }) =&gt; {
+                transitions.len() * mem::size_of::&lt;Transition&gt;()
+            }
+            State::Dense { .. } =&gt; <span class="number">256 </span>* mem::size_of::&lt;StateID&gt;(),
+            State::Union { <span class="kw-2">ref </span>alternates } =&gt; {
+                alternates.len() * mem::size_of::&lt;StateID&gt;()
+            }
+        }
+    }
+
+    <span class="doccomment">/// Remap the transitions in this state using the given map. Namely, the
+    /// given map should be indexed according to the transitions currently
+    /// in this state.
+    ///
+    /// This is used during the final phase of the NFA compiler, which turns
+    /// its intermediate NFA into the final NFA.
+    </span><span class="kw">fn </span>remap(<span class="kw-2">&amp;mut </span><span class="self">self</span>, remap: <span class="kw-2">&amp;</span>[StateID]) {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            State::ByteRange { <span class="kw-2">ref mut </span>trans } =&gt; {
+                trans.next = remap[trans.next]
+            }
+            State::Sparse(SparseTransitions { <span class="kw-2">ref mut </span>transitions }) =&gt; {
+                <span class="kw">for </span>t <span class="kw">in </span>transitions.iter_mut() {
+                    t.next = remap[t.next];
+                }
+            }
+            State::Dense(DenseTransitions { <span class="kw-2">ref mut </span>transitions }) =&gt; {
+                <span class="kw">for </span>sid <span class="kw">in </span>transitions.iter_mut() {
+                    <span class="kw-2">*</span>sid = remap[<span class="kw-2">*</span>sid];
+                }
+            }
+            State::Look { <span class="kw-2">ref mut </span>next, .. } =&gt; <span class="kw-2">*</span>next = remap[<span class="kw-2">*</span>next],
+            State::Union { <span class="kw-2">ref mut </span>alternates } =&gt; {
+                <span class="kw">for </span>alt <span class="kw">in </span>alternates.iter_mut() {
+                    <span class="kw-2">*</span>alt = remap[<span class="kw-2">*</span>alt];
+                }
+            }
+            State::BinaryUnion { <span class="kw-2">ref mut </span>alt1, <span class="kw-2">ref mut </span>alt2 } =&gt; {
+                <span class="kw-2">*</span>alt1 = remap[<span class="kw-2">*</span>alt1];
+                <span class="kw-2">*</span>alt2 = remap[<span class="kw-2">*</span>alt2];
+            }
+            State::Capture { <span class="kw-2">ref mut </span>next, .. } =&gt; <span class="kw-2">*</span>next = remap[<span class="kw-2">*</span>next],
+            State::Fail =&gt; {}
+            State::Match { .. } =&gt; {}
+        }
+    }
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>State {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            State::ByteRange { <span class="kw-2">ref </span>trans } =&gt; trans.fmt(f),
+            State::Sparse(SparseTransitions { <span class="kw-2">ref </span>transitions }) =&gt; {
+                <span class="kw">let </span>rs = transitions
+                    .iter()
+                    .map(|t| <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, t))
+                    .collect::&lt;Vec&lt;String&gt;&gt;()
+                    .join(<span class="string">&quot;, &quot;</span>);
+                <span class="macro">write!</span>(f, <span class="string">&quot;sparse({})&quot;</span>, rs)
+            }
+            State::Dense(<span class="kw-2">ref </span>dense) =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;dense(&quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">for </span>(i, t) <span class="kw">in </span>dense.iter().enumerate() {
+                    <span class="kw">if </span>i &gt; <span class="number">0 </span>{
+                        <span class="macro">write!</span>(f, <span class="string">&quot;, &quot;</span>)<span class="question-mark">?</span>;
+                    }
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{:?}&quot;</span>, t)<span class="question-mark">?</span>;
+                }
+                <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)
+            }
+            State::Look { <span class="kw-2">ref </span>look, next } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;{:?} =&gt; {:?}&quot;</span>, look, next.as_usize())
+            }
+            State::Union { <span class="kw-2">ref </span>alternates } =&gt; {
+                <span class="kw">let </span>alts = alternates
+                    .iter()
+                    .map(|id| <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, id.as_usize()))
+                    .collect::&lt;Vec&lt;String&gt;&gt;()
+                    .join(<span class="string">&quot;, &quot;</span>);
+                <span class="macro">write!</span>(f, <span class="string">&quot;union({})&quot;</span>, alts)
+            }
+            State::BinaryUnion { alt1, alt2 } =&gt; {
+                <span class="macro">write!</span>(
+                    f,
+                    <span class="string">&quot;binary-union({}, {})&quot;</span>,
+                    alt1.as_usize(),
+                    alt2.as_usize()
+                )
+            }
+            State::Capture { next, pattern_id, group_index, slot } =&gt; {
+                <span class="macro">write!</span>(
+                    f,
+                    <span class="string">&quot;capture(pid={:?}, group={:?}, slot={:?}) =&gt; {:?}&quot;</span>,
+                    pattern_id.as_usize(),
+                    group_index.as_usize(),
+                    slot.as_usize(),
+                    next.as_usize(),
+                )
+            }
+            State::Fail =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FAIL&quot;</span>),
+            State::Match { pattern_id } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;MATCH({:?})&quot;</span>, pattern_id.as_usize())
+            }
+        }
+    }
+}
+
+<span class="doccomment">/// A sequence of transitions used to represent a sparse state.
+///
+/// This is the primary representation of a [`Sparse`](State::Sparse) state.
+/// It corresponds to a sorted sequence of transitions with non-overlapping
+/// byte ranges. If the byte at the current position in the haystack matches
+/// one of the byte ranges, then the finite state machine should take the
+/// corresponding transition.
+</span><span class="attribute">#[derive(Clone, Debug, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>SparseTransitions {
+    <span class="doccomment">/// The sorted sequence of non-overlapping transitions.
+    </span><span class="kw">pub </span>transitions: Box&lt;[Transition]&gt;,
+}
+
+<span class="kw">impl </span>SparseTransitions {
+    <span class="doccomment">/// This follows the matching transition for a particular byte.
+    ///
+    /// The matching transition is found by looking for a matching byte
+    /// range (there is at most one) corresponding to the position `at` in
+    /// `haystack`.
+    ///
+    /// If `at &gt;= haystack.len()`, then this returns `None`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, haystack: <span class="kw-2">&amp;</span>[u8], at: usize) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        haystack.get(at).and_then(|<span class="kw-2">&amp;</span>b| <span class="self">self</span>.matches_byte(b))
+    }
+
+    <span class="doccomment">/// This follows the matching transition for any member of the alphabet.
+    ///
+    /// The matching transition is found by looking for a matching byte
+    /// range (there is at most one) corresponding to the position `at` in
+    /// `haystack`. If the given alphabet unit is [`EOI`](alphabet::Unit::eoi),
+    /// then this always returns `None`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matches_unit(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        unit: alphabet::Unit,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        unit.as_u8().map_or(<span class="prelude-val">None</span>, |byte| <span class="self">self</span>.matches_byte(byte))
+    }
+
+    <span class="doccomment">/// This follows the matching transition for a particular byte.
+    ///
+    /// The matching transition is found by looking for a matching byte range
+    /// (there is at most one) corresponding to the byte given.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>matches_byte(<span class="kw-2">&amp;</span><span class="self">self</span>, byte: u8) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        <span class="kw">for </span>t <span class="kw">in </span><span class="self">self</span>.transitions.iter() {
+            <span class="kw">if </span>t.start &gt; byte {
+                <span class="kw">break</span>;
+            } <span class="kw">else if </span>t.matches_byte(byte) {
+                <span class="kw">return </span><span class="prelude-val">Some</span>(t.next);
+            }
+        }
+        <span class="prelude-val">None
+
+        </span><span class="comment">/*
+        // This is an alternative implementation that uses binary search. In
+        // some ad hoc experiments, like
+        //
+        //   smallishru=OpenSubtitles2018.raw.sample.smallish.ru
+        //   regex-cli find nfa thompson pikevm -b &quot;@$smallishru&quot; &#39;\b\w+\b&#39;
+        //
+        // I could not observe any improvement, and in fact, things seemed to
+        // be a bit slower. I can see an improvement in at least one benchmark:
+        //
+        //   allcpssmall=all-codepoints-utf8-10x
+        //   regex-cli find nfa thompson pikevm @$allcpssmall &#39;\pL{100}&#39;
+        //
+        // Where total search time goes from 3.2s to 2.4s when using binary
+        // search.
+        self.transitions
+            .binary_search_by(|t| {
+                if t.end &lt; byte {
+                    core::cmp::Ordering::Less
+                } else if t.start &gt; byte {
+                    core::cmp::Ordering::Greater
+                } else {
+                    core::cmp::Ordering::Equal
+                }
+            })
+            .ok()
+            .map(|i| self.transitions[i].next)
+        */
+    </span>}
+}
+
+<span class="doccomment">/// A sequence of transitions used to represent a dense state.
+///
+/// This is the primary representation of a [`Dense`](State::Dense) state. It
+/// provides constant time matching. That is, given a byte in a haystack and
+/// a `DenseTransitions`, one can determine if the state matches in constant
+/// time.
+///
+/// This is in contrast to `SparseTransitions`, whose time complexity is
+/// necessarily bigger than constant time. Also in contrast, `DenseTransitions`
+/// usually requires (much) more heap memory.
+</span><span class="attribute">#[derive(Clone, Debug, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>DenseTransitions {
+    <span class="doccomment">/// A dense representation of this state&#39;s transitions on the heap. This
+    /// always has length 256.
+    </span><span class="kw">pub </span>transitions: Box&lt;[StateID]&gt;,
+}
+
+<span class="kw">impl </span>DenseTransitions {
+    <span class="doccomment">/// This follows the matching transition for a particular byte.
+    ///
+    /// The matching transition is found by looking for a transition that
+    /// doesn&#39;t correspond to `StateID::ZERO` for the byte `at` the given
+    /// position in `haystack`.
+    ///
+    /// If `at &gt;= haystack.len()`, then this returns `None`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, haystack: <span class="kw-2">&amp;</span>[u8], at: usize) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        haystack.get(at).and_then(|<span class="kw-2">&amp;</span>b| <span class="self">self</span>.matches_byte(b))
+    }
+
+    <span class="doccomment">/// This follows the matching transition for any member of the alphabet.
+    ///
+    /// The matching transition is found by looking for a transition that
+    /// doesn&#39;t correspond to `StateID::ZERO` for the byte `at` the given
+    /// position in `haystack`.
+    ///
+    /// If `at &gt;= haystack.len()` or if the given alphabet unit is
+    /// [`EOI`](alphabet::Unit::eoi), then this returns `None`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matches_unit(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        unit: alphabet::Unit,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        unit.as_u8().map_or(<span class="prelude-val">None</span>, |byte| <span class="self">self</span>.matches_byte(byte))
+    }
+
+    <span class="doccomment">/// This follows the matching transition for a particular byte.
+    ///
+    /// The matching transition is found by looking for a transition that
+    /// doesn&#39;t correspond to `StateID::ZERO` for the given `byte`.
+    ///
+    /// If `at &gt;= haystack.len()`, then this returns `None`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>matches_byte(<span class="kw-2">&amp;</span><span class="self">self</span>, byte: u8) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        <span class="kw">let </span>next = <span class="self">self</span>.transitions[usize::from(byte)];
+        <span class="kw">if </span>next == StateID::ZERO {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="prelude-val">Some</span>(next)
+        }
+    }
+
+    <span class="comment">/*
+    /// The dense state optimization isn&#39;t currently enabled, so permit a
+    /// little bit of dead code.
+    pub(crate) fn from_sparse(sparse: &amp;SparseTransitions) -&gt; DenseTransitions {
+        let mut dense = vec![StateID::ZERO; 256];
+        for t in sparse.transitions.iter() {
+            for b in t.start..=t.end {
+                dense[usize::from(b)] = t.next;
+            }
+        }
+        DenseTransitions { transitions: dense.into_boxed_slice() }
+    }
+    */
+
+    </span><span class="doccomment">/// Returns an iterator over all transitions that don&#39;t point to
+    /// `StateID::ZERO`.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Transition&gt; + <span class="lifetime">&#39;_ </span>{
+        <span class="kw">use </span><span class="kw">crate</span>::util::int::Usize;
+        <span class="self">self</span>.transitions
+            .iter()
+            .enumerate()
+            .filter(|<span class="kw-2">&amp;</span>(<span class="kw">_</span>, <span class="kw-2">&amp;</span>sid)| sid != StateID::ZERO)
+            .map(|(byte, <span class="kw-2">&amp;</span>next)| Transition {
+                start: byte.as_u8(),
+                end: byte.as_u8(),
+                next,
+            })
+    }
+}
+
+<span class="doccomment">/// A single transition to another state.
+///
+/// This transition may only be followed if the current byte in the haystack
+/// falls in the inclusive range of bytes specified.
+</span><span class="attribute">#[derive(Clone, Copy, Eq, Hash, PartialEq)]
+</span><span class="kw">pub struct </span>Transition {
+    <span class="doccomment">/// The inclusive start of the byte range.
+    </span><span class="kw">pub </span>start: u8,
+    <span class="doccomment">/// The inclusive end of the byte range.
+    </span><span class="kw">pub </span>end: u8,
+    <span class="doccomment">/// The identifier of the state to transition to.
+    </span><span class="kw">pub </span>next: StateID,
+}
+
+<span class="kw">impl </span>Transition {
+    <span class="doccomment">/// Returns true if the position `at` in `haystack` falls in this
+    /// transition&#39;s range of bytes.
+    ///
+    /// If `at &gt;= haystack.len()`, then this returns `false`.
+    </span><span class="kw">pub fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, haystack: <span class="kw-2">&amp;</span>[u8], at: usize) -&gt; bool {
+        haystack.get(at).map_or(<span class="bool-val">false</span>, |<span class="kw-2">&amp;</span>b| <span class="self">self</span>.matches_byte(b))
+    }
+
+    <span class="doccomment">/// Returns true if the given alphabet unit falls in this transition&#39;s
+    /// range of bytes. If the given unit is [`EOI`](alphabet::Unit::eoi), then
+    /// this returns `false`.
+    </span><span class="kw">pub fn </span>matches_unit(<span class="kw-2">&amp;</span><span class="self">self</span>, unit: alphabet::Unit) -&gt; bool {
+        unit.as_u8().map_or(<span class="bool-val">false</span>, |byte| <span class="self">self</span>.matches_byte(byte))
+    }
+
+    <span class="doccomment">/// Returns true if the given byte falls in this transition&#39;s range of
+    /// bytes.
+    </span><span class="kw">pub fn </span>matches_byte(<span class="kw-2">&amp;</span><span class="self">self</span>, byte: u8) -&gt; bool {
+        <span class="self">self</span>.start &lt;= byte &amp;&amp; byte &lt;= <span class="self">self</span>.end
+    }
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Transition {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">use </span><span class="kw">crate</span>::util::escape::DebugByte;
+
+        <span class="kw">let </span>Transition { start, end, next } = <span class="kw-2">*</span><span class="self">self</span>;
+        <span class="kw">if </span><span class="self">self</span>.start == <span class="self">self</span>.end {
+            <span class="macro">write!</span>(f, <span class="string">&quot;{:?} =&gt; {:?}&quot;</span>, DebugByte(start), next.as_usize())
+        } <span class="kw">else </span>{
+            <span class="macro">write!</span>(
+                f,
+                <span class="string">&quot;{:?}-{:?} =&gt; {:?}&quot;</span>,
+                DebugByte(start),
+                DebugByte(end),
+                next.as_usize(),
+            )
+        }
+    }
+}
+
+<span class="doccomment">/// An iterator over all pattern IDs in an NFA.
+///
+/// This iterator is created by [`NFA::patterns`].
+///
+/// The lifetime parameter `&#39;a` refers to the lifetime of the NFA from which
+/// this pattern iterator was created.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>PatternIter&lt;<span class="lifetime">&#39;a</span>&gt; {
+    it: PatternIDIter,
+    <span class="doccomment">/// We explicitly associate a lifetime with this iterator even though we
+    /// don&#39;t actually borrow anything from the NFA. We do this for backward
+    /// compatibility purposes. If we ever do need to borrow something from
+    /// the NFA, then we can and just get rid of this marker without breaking
+    /// the public API.
+    </span>_marker: core::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>()&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>PatternIter&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Item = PatternID;
+
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PatternID&gt; {
+        <span class="self">self</span>.it.next()
+    }
+}
+
+<span class="attribute">#[cfg(all(test, feature = <span class="string">&quot;nfa-pikevm&quot;</span>))]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use crate</span>::{nfa::thompson::pikevm::PikeVM, Input};
+
+    <span class="comment">// This asserts that an NFA state doesn&#39;t have its size changed. It is
+    // *really* easy to accidentally increase the size, and thus potentially
+    // dramatically increase the memory usage of every NFA.
+    //
+    // This assert doesn&#39;t mean we absolutely cannot increase the size of an
+    // NFA state. We can. It&#39;s just here to make sure we do it knowingly and
+    // intentionally.
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>state_has_small_size() {
+        <span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;64&quot;</span>)]
+        </span><span class="macro">assert_eq!</span>(<span class="number">24</span>, core::mem::size_of::&lt;State&gt;());
+        <span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;32&quot;</span>)]
+        </span><span class="macro">assert_eq!</span>(<span class="number">20</span>, core::mem::size_of::&lt;State&gt;());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>always_match() {
+        <span class="kw">let </span>re = PikeVM::new_from_nfa(NFA::always_match()).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>cache = re.create_cache();
+        <span class="kw">let </span><span class="kw-2">mut </span>caps = re.create_captures();
+        <span class="kw">let </span><span class="kw-2">mut </span>find = |haystack, start, end| {
+            <span class="kw">let </span>input = Input::new(haystack).range(start..end);
+            re.search(<span class="kw-2">&amp;mut </span>cache, <span class="kw-2">&amp;</span>input, <span class="kw-2">&amp;mut </span>caps);
+            caps.get_match().map(|m| m.end())
+        };
+
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), find(<span class="string">&quot;&quot;</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), find(<span class="string">&quot;a&quot;</span>, <span class="number">0</span>, <span class="number">1</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">1</span>), find(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>, <span class="number">1</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), find(<span class="string">&quot;ab&quot;</span>, <span class="number">0</span>, <span class="number">2</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">1</span>), find(<span class="string">&quot;ab&quot;</span>, <span class="number">1</span>, <span class="number">2</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), find(<span class="string">&quot;ab&quot;</span>, <span class="number">2</span>, <span class="number">2</span>));
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>never_match() {
+        <span class="kw">let </span>re = PikeVM::new_from_nfa(NFA::never_match()).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>cache = re.create_cache();
+        <span class="kw">let </span><span class="kw-2">mut </span>caps = re.create_captures();
+        <span class="kw">let </span><span class="kw-2">mut </span>find = |haystack, start, end| {
+            <span class="kw">let </span>input = Input::new(haystack).range(start..end);
+            re.search(<span class="kw-2">&amp;mut </span>cache, <span class="kw-2">&amp;</span>input, <span class="kw-2">&amp;mut </span>caps);
+            caps.get_match().map(|m| m.end())
+        };
+
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, find(<span class="string">&quot;&quot;</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, find(<span class="string">&quot;a&quot;</span>, <span class="number">0</span>, <span class="number">1</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, find(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>, <span class="number">1</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, find(<span class="string">&quot;ab&quot;</span>, <span class="number">0</span>, <span class="number">2</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, find(<span class="string">&quot;ab&quot;</span>, <span class="number">1</span>, <span class="number">2</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, find(<span class="string">&quot;ab&quot;</span>, <span class="number">2</span>, <span class="number">2</span>));
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="regex_automata" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A trait that extends `Vec&lt;u8&gt;` with string oriented methods."><meta name="keywords" content="rust, rustlang, rust-lang, ByteVec"><title>ByteVec in bstr - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../bstr/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../bstr/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">ByteVec</a></h2><div class="sidebar-elems"><section><div class="block"><h3 class="sidebar-title"><a href="#provided-methods">Provided Methods</a></h3><ul><li><a href="#method.drain_bytes">drain_bytes</a></li><li><a href="#method.from_os_str_lossy">from_os_str_lossy</a></li><li><a href="#method.from_os_string">from_os_string</a></li><li><a href="#method.from_path_buf">from_path_buf</a></li><li><a href="#method.from_path_lossy">from_path_lossy</a></li><li><a href="#method.from_slice">from_slice</a></li><li><a href="#method.insert_char">insert_char</a></li><li><a href="#method.insert_str">insert_str</a></li><li><a href="#method.into_os_string">into_os_string</a></li><li><a href="#method.into_os_string_lossy">into_os_string_lossy</a></li><li><a href="#method.into_path_buf">into_path_buf</a></li><li><a href="#method.into_path_buf_lossy">into_path_buf_lossy</a></li><li><a href="#method.into_string">into_string</a></li><li><a href="#method.into_string_lossy">into_string_lossy</a></li><li><a href="#method.into_string_unchecked">into_string_unchecked</a></li><li><a href="#method.pop_byte">pop_byte</a></li><li><a href="#method.pop_char">pop_char</a></li><li><a href="#method.push_byte">push_byte</a></li><li><a href="#method.push_char">push_char</a></li><li><a href="#method.push_str">push_str</a></li><li><a href="#method.remove_char">remove_char</a></li><li><a href="#method.replace_range">replace_range</a></li><li><a href="#method.unescape_bytes">unescape_bytes</a></li></ul></div><div class="block"><h3 class="sidebar-title"><a href="#foreign-impls">Implementations on Foreign Types</a></h3><ul><li><a href="#impl-ByteVec-for-Vec%3Cu8%3E">Vec&lt;u8&gt;</a></li></ul></div><div class="block"><h3 class="sidebar-title"><a href="#implementors">Implementors</a></h3></div></section><h2 class="location"><a href="index.html">In bstr</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../bstr/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Trait <a href="index.html">bstr</a>::<wbr><a class="trait" href="#">ByteVec</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/bstr/ext_vec.rs.html#126-1003">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust trait"><code>pub trait ByteVec: Sealed {
+<details class="rustdoc-toggle type-contents-toggle"><summary class="hideme"><span>Show 23 methods</span></summary>    fn <a href="#method.from_slice" class="fnname">from_slice</a>&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;&gt;(bytes: B) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;A&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.Write.html" title="trait std::io::Write">Write</a> for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/alloc/trait.Allocator.html" title="trait core::alloc::Allocator">Allocator</a>,</span></span></code></span></span></span></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.from_os_string" class="fnname">from_os_string</a>(os_str: <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;, <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>&gt; { ... }
+<span class="item-spacer"></span>    fn <a href="#method.from_os_str_lossy" class="fnname">from_os_str_lossy</a>&lt;'a&gt;(os_str: &amp;'a <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/alloc/borrow/enum.Cow.html" title="enum alloc::borrow::Cow">Cow</a>&lt;'a, [<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt; { ... }
+<span class="item-spacer"></span>    fn <a href="#method.from_path_buf" class="fnname">from_path_buf</a>(path: <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;, <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt; { ... }
+<span class="item-spacer"></span>    fn <a href="#method.from_path_lossy" class="fnname">from_path_lossy</a>&lt;'a&gt;(path: &amp;'a <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/alloc/borrow/enum.Cow.html" title="enum alloc::borrow::Cow">Cow</a>&lt;'a, [<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt; { ... }
+<span class="item-spacer"></span>    fn <a href="#method.unescape_bytes" class="fnname">unescape_bytes</a>&lt;S:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.str.html">str</a>&gt;&gt;(escaped: S) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;A&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.Write.html" title="trait std::io::Write">Write</a> for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/alloc/trait.Allocator.html" title="trait core::alloc::Allocator">Allocator</a>,</span></span></code></span></span></span></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.push_byte" class="fnname">push_byte</a>(&amp;mut self, byte: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>) { ... }
+<span class="item-spacer"></span>    fn <a href="#method.push_char" class="fnname">push_char</a>(&amp;mut self, ch: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a>) { ... }
+<span class="item-spacer"></span>    fn <a href="#method.push_str" class="fnname">push_str</a>&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;&gt;(&amp;mut self, bytes: B) { ... }
+<span class="item-spacer"></span>    fn <a href="#method.into_string" class="fnname">into_string</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>, <a class="struct" href="struct.FromUtf8Error.html" title="struct bstr::FromUtf8Error">FromUtf8Error</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.into_string_lossy" class="fnname">into_string_lossy</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    unsafe fn <a href="#method.into_string_unchecked" class="fnname">into_string_unchecked</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.into_os_string" class="fnname">into_os_string</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>, <a class="struct" href="struct.FromUtf8Error.html" title="struct bstr::FromUtf8Error">FromUtf8Error</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.into_os_string_lossy" class="fnname">into_os_string_lossy</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.into_path_buf" class="fnname">into_path_buf</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>, <a class="struct" href="struct.FromUtf8Error.html" title="struct bstr::FromUtf8Error">FromUtf8Error</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.into_path_buf_lossy" class="fnname">into_path_buf_lossy</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.pop_byte" class="fnname">pop_byte</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt; { ... }
+<span class="item-spacer"></span>    fn <a href="#method.pop_char" class="fnname">pop_char</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a>&gt; { ... }
+<span class="item-spacer"></span>    fn <a href="#method.remove_char" class="fnname">remove_char</a>(&amp;mut self, at: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.insert_char" class="fnname">insert_char</a>(&amp;mut self, at: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>, ch: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a>) { ... }
+<span class="item-spacer"></span>    fn <a href="#method.insert_str" class="fnname">insert_str</a>&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;&gt;(&amp;mut self, at: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>, bytes: B) { ... }
+<span class="item-spacer"></span>    fn <a href="#method.replace_range" class="fnname">replace_range</a>&lt;R, B&gt;(&amp;mut self, range: R, replace_with: B)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/range/trait.RangeBounds.html" title="trait core::ops::range::RangeBounds">RangeBounds</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;</span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.drain_bytes" class="fnname">drain_bytes</a>&lt;R&gt;(&amp;mut self, range: R) -&gt; <a class="struct" href="struct.DrainBytes.html" title="struct bstr::DrainBytes">DrainBytes</a>&lt;'_&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="struct.DrainBytes.html" title="struct bstr::DrainBytes">DrainBytes</a>&lt;'a&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a> for <a class="struct" href="struct.DrainBytes.html" title="struct bstr::DrainBytes">DrainBytes</a>&lt;'a&gt;</span><span class="where fmt-newline">    type <a href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item" class="associatedtype">Item</a> = <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>;</span></code></span></span></span></span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/range/trait.RangeBounds.html" title="trait core::ops::range::RangeBounds">RangeBounds</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>&gt;</span>,
+    { ... }
+</details>}</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A trait that extends <code>Vec&lt;u8&gt;</code> with string oriented methods.</p>
+<p>Note that when using the constructor methods, such as
+<code>ByteVec::from_slice</code>, one should actually call them using the concrete
+type. For example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>s = Vec::from_slice(<span class="string">b&quot;abc&quot;</span>); <span class="comment">// NOT ByteVec::from_slice(&quot;...&quot;)
+</span><span class="macro">assert_eq!</span>(s, B(<span class="string">&quot;abc&quot;</span>));</code></pre></div>
+<p>This trait is sealed and cannot be implemented outside of <code>bstr</code>.</p>
+</div></details><h2 id="provided-methods" class="small-section-header">Provided Methods<a href="#provided-methods" class="anchor"></a></h2><div class="methods"><details class="rustdoc-toggle" open><summary><div id="method.from_slice" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#160-162">source</a><h4 class="code-header">fn <a href="#method.from_slice" class="fnname">from_slice</a>&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;&gt;(bytes: B) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;A&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.Write.html" title="trait std::io::Write">Write</a> for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/alloc/trait.Allocator.html" title="trait core::alloc::Allocator">Allocator</a>,</span></span></code></span></span></span></span></h4></div></summary><div class="docblock"><p>Create a new owned byte string from the given byte slice.</p>
+<h5 id="examples"><a href="#examples">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>s = Vec::from_slice(<span class="string">b&quot;abc&quot;</span>);
+<span class="macro">assert_eq!</span>(s, B(<span class="string">&quot;abc&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.from_os_string" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#185-201">source</a><h4 class="code-header">fn <a href="#method.from_os_string" class="fnname">from_os_string</a>(os_str: <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;, <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>&gt;</h4></div></summary><div class="docblock"><p>Create a new byte string from an owned OS string.</p>
+<p>When the underlying bytes of OS strings are accessible, then this
+always succeeds and is zero cost. Otherwise, this returns the given
+<code>OsString</code> if it is not valid UTF-8.</p>
+<h5 id="examples-1"><a href="#examples-1">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::ffi::OsString;
+
+<span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>os_str = OsString::from(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>bs = Vec::from_os_string(os_str).expect(<span class="string">&quot;valid UTF-8&quot;</span>);
+<span class="macro">assert_eq!</span>(bs, B(<span class="string">&quot;foo&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.from_os_str_lossy" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#226-245">source</a><h4 class="code-header">fn <a href="#method.from_os_str_lossy" class="fnname">from_os_str_lossy</a>&lt;'a&gt;(os_str: &amp;'a <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/alloc/borrow/enum.Cow.html" title="enum alloc::borrow::Cow">Cow</a>&lt;'a, [<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;</h4></div></summary><div class="docblock"><p>Lossily create a new byte string from an OS string slice.</p>
+<p>When the underlying bytes of OS strings are accessible, then this is
+zero cost and always returns a slice. Otherwise, a UTF-8 check is
+performed and if the given OS string is not valid UTF-8, then it is
+lossily decoded into valid UTF-8 (with invalid bytes replaced by the
+Unicode replacement codepoint).</p>
+<h5 id="examples-2"><a href="#examples-2">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::ffi::OsStr;
+
+<span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>os_str = OsStr::new(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>bs = Vec::from_os_str_lossy(os_str);
+<span class="macro">assert_eq!</span>(bs, B(<span class="string">&quot;foo&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.from_path_buf" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#268-270">source</a><h4 class="code-header">fn <a href="#method.from_path_buf" class="fnname">from_path_buf</a>(path: <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;, <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;</h4></div></summary><div class="docblock"><p>Create a new byte string from an owned file path.</p>
+<p>When the underlying bytes of paths are accessible, then this always
+succeeds and is zero cost. Otherwise, this returns the given <code>PathBuf</code>
+if it is not valid UTF-8.</p>
+<h5 id="examples-3"><a href="#examples-3">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::path::PathBuf;
+
+<span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>path = PathBuf::from(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>bs = Vec::from_path_buf(path).expect(<span class="string">&quot;must be valid UTF-8&quot;</span>);
+<span class="macro">assert_eq!</span>(bs, B(<span class="string">&quot;foo&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.from_path_lossy" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#295-297">source</a><h4 class="code-header">fn <a href="#method.from_path_lossy" class="fnname">from_path_lossy</a>&lt;'a&gt;(path: &amp;'a <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/alloc/borrow/enum.Cow.html" title="enum alloc::borrow::Cow">Cow</a>&lt;'a, [<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;</h4></div></summary><div class="docblock"><p>Lossily create a new byte string from a file path.</p>
+<p>When the underlying bytes of paths are accessible, then this is
+zero cost and always returns a slice. Otherwise, a UTF-8 check is
+performed and if the given path is not valid UTF-8, then it is lossily
+decoded into valid UTF-8 (with invalid bytes replaced by the Unicode
+replacement codepoint).</p>
+<h5 id="examples-4"><a href="#examples-4">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::path::Path;
+
+<span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>path = Path::new(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>bs = Vec::from_path_lossy(path);
+<span class="macro">assert_eq!</span>(bs, B(<span class="string">&quot;foo&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.unescape_bytes" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#395-398">source</a><h4 class="code-header">fn <a href="#method.unescape_bytes" class="fnname">unescape_bytes</a>&lt;S:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.str.html">str</a>&gt;&gt;(escaped: S) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;A&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.Write.html" title="trait std::io::Write">Write</a> for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, A&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/alloc/trait.Allocator.html" title="trait core::alloc::Allocator">Allocator</a>,</span></span></code></span></span></span></span></h4></div></summary><div class="docblock"><p>Unescapes the given string into its raw bytes.</p>
+<p>This looks for the escape sequences <code>\xNN</code>, <code>\0</code>, <code>\r</code>, <code>\n</code>, <code>\t</code>
+and <code>\</code> and translates them into their corresponding unescaped form.</p>
+<p>Incomplete escape sequences or things that look like escape sequences
+but are not (for example, <code>\i</code> or <code>\xYZ</code>) are passed through literally.</p>
+<p>This is the dual of <a href="trait.ByteSlice.html#method.escape_bytes" title="ByteSlice::escape_bytes"><code>ByteSlice::escape_bytes</code></a>.</p>
+<p>Note that the zero or NUL byte may be represented as either <code>\0</code> or
+<code>\x00</code>. Both will be unescaped into the zero byte.</p>
+<h5 id="examples-5"><a href="#examples-5">Examples</a></h5>
+<p>This shows basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, BString, ByteVec};
+
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">b&quot;foo\xFFbar&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;foo\xFFbar&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">b&quot;foo\nbar&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;foo\nbar&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">b&quot;foo\tbar&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;foo\tbar&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">b&quot;foo\\bar&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;foo\\bar&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">&quot;foo☃bar&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;foo☃bar&quot;</span>),
+);
+</code></pre></div>
+<p>This shows some examples of how incomplete or “incorrect” escape
+sequences get passed through literally.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, BString, ByteVec};
+
+<span class="comment">// Show some incomplete escape sequences.
+</span><span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\\&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\x&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\x&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\xA&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\xA&quot;</span>),
+);
+<span class="comment">// And now some that kind of look like escape
+// sequences, but aren&#39;t.
+</span><span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\xZ&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\xZ&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\xZZ&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\xZZ&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\i&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\i&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\u&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\u&quot;</span>),
+);
+<span class="macro">assert_eq!</span>(
+    BString::from(<span class="string">br&quot;\u{2603}&quot;</span>),
+    Vec::unescape_bytes(<span class="string">r&quot;\u{2603}&quot;</span>),
+);
+</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.push_byte" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#420-422">source</a><h4 class="code-header">fn <a href="#method.push_byte" class="fnname">push_byte</a>(&amp;mut self, byte: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>)</h4></div></summary><div class="docblock"><p>Appends the given byte to the end of this byte string.</p>
+<p>Note that this is equivalent to the generic <code>Vec::push</code> method. This
+method is provided to permit callers to explicitly differentiate
+between pushing bytes, codepoints and strings.</p>
+<h5 id="examples-6"><a href="#examples-6">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = &lt;Vec&lt;u8&gt;&gt;::from(<span class="string">&quot;abc&quot;</span>);
+s.push_byte(<span class="string">b&#39;\xE2&#39;</span>);
+s.push_byte(<span class="string">b&#39;\x98&#39;</span>);
+s.push_byte(<span class="string">b&#39;\x83&#39;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;abc☃&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.push_char" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#440-447">source</a><h4 class="code-header">fn <a href="#method.push_char" class="fnname">push_char</a>(&amp;mut self, ch: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a>)</h4></div></summary><div class="docblock"><p>Appends the given <code>char</code> to the end of this byte string.</p>
+<h5 id="examples-7"><a href="#examples-7">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = &lt;Vec&lt;u8&gt;&gt;::from(<span class="string">&quot;abc&quot;</span>);
+s.push_char(<span class="string">&#39;1&#39;</span>);
+s.push_char(<span class="string">&#39;2&#39;</span>);
+s.push_char(<span class="string">&#39;3&#39;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;abc123&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.push_str" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#465-467">source</a><h4 class="code-header">fn <a href="#method.push_str" class="fnname">push_str</a>&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;&gt;(&amp;mut self, bytes: B)</h4></div></summary><div class="docblock"><p>Appends the given slice to the end of this byte string. This accepts
+any type that be converted to a <code>&amp;[u8]</code>. This includes, but is not
+limited to, <code>&amp;str</code>, <code>&amp;BStr</code>, and of course, <code>&amp;[u8]</code> itself.</p>
+<h5 id="examples-8"><a href="#examples-8">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = &lt;Vec&lt;u8&gt;&gt;::from(<span class="string">&quot;abc&quot;</span>);
+s.push_str(<span class="string">b&quot;123&quot;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;abc123&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_string" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#508-520">source</a><h4 class="code-header">fn <a href="#method.into_string" class="fnname">into_string</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>, <a class="struct" href="struct.FromUtf8Error.html" title="struct bstr::FromUtf8Error">FromUtf8Error</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Converts a <code>Vec&lt;u8&gt;</code> into a <code>String</code> if and only if this byte string is
+valid UTF-8.</p>
+<p>If it is not valid UTF-8, then a
+<a href="struct.FromUtf8Error.html"><code>FromUtf8Error</code></a>
+is returned. (This error can be used to examine why UTF-8 validation
+failed, or to regain the original byte string.)</p>
+<h5 id="examples-9"><a href="#examples-9">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span>bytes = Vec::from(<span class="string">&quot;hello&quot;</span>);
+<span class="kw">let </span>string = bytes.into_string().unwrap();
+
+<span class="macro">assert_eq!</span>(<span class="string">&quot;hello&quot;</span>, string);</code></pre></div>
+<p>If this byte string is not valid UTF-8, then an error will be returned.
+That error can then be used to inspect the location at which invalid
+UTF-8 was found, or to regain the original byte string:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::{B, ByteVec};
+
+<span class="kw">let </span>bytes = Vec::from_slice(<span class="string">b&quot;foo\xFFbar&quot;</span>);
+<span class="kw">let </span>err = bytes.into_string().unwrap_err();
+
+<span class="macro">assert_eq!</span>(err.utf8_error().valid_up_to(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(err.utf8_error().error_len(), <span class="prelude-val">Some</span>(<span class="number">1</span>));
+
+<span class="comment">// At no point in this example is an allocation performed.
+</span><span class="kw">let </span>bytes = Vec::from(err.into_vec());
+<span class="macro">assert_eq!</span>(bytes, B(<span class="string">b&quot;foo\xFFbar&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_string_lossy" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#538-550">source</a><h4 class="code-header">fn <a href="#method.into_string_lossy" class="fnname">into_string_lossy</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Lossily converts a <code>Vec&lt;u8&gt;</code> into a <code>String</code>. If this byte string
+contains invalid UTF-8, then the invalid bytes are replaced with the
+Unicode replacement codepoint.</p>
+<h5 id="examples-10"><a href="#examples-10">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span>bytes = Vec::from_slice(<span class="string">b&quot;foo\xFFbar&quot;</span>);
+<span class="kw">let </span>string = bytes.into_string_lossy();
+<span class="macro">assert_eq!</span>(string, <span class="string">&quot;foo\u{FFFD}bar&quot;</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_string_unchecked" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#579-584">source</a><h4 class="code-header">unsafe fn <a href="#method.into_string_unchecked" class="fnname">into_string_unchecked</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Unsafely convert this byte string into a <code>String</code>, without checking for
+valid UTF-8.</p>
+<h5 id="safety"><a href="#safety">Safety</a></h5>
+<p>Callers <em>must</em> ensure that this byte string is valid UTF-8 before
+calling this method. Converting a byte string into a <code>String</code> that is
+not valid UTF-8 is considered undefined behavior.</p>
+<p>This routine is useful in performance sensitive contexts where the
+UTF-8 validity of the byte string is already known and it is
+undesirable to pay the cost of an additional UTF-8 validation check
+that <a href="#method.into_string"><code>into_string</code></a> performs.</p>
+<h5 id="examples-11"><a href="#examples-11">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="comment">// SAFETY: This is safe because string literals are guaranteed to be
+// valid UTF-8 by the Rust compiler.
+</span><span class="kw">let </span>s = <span class="kw">unsafe </span>{ Vec::from(<span class="string">&quot;☃βツ&quot;</span>).into_string_unchecked() };
+<span class="macro">assert_eq!</span>(<span class="string">&quot;☃βツ&quot;</span>, s);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_os_string" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#607-626">source</a><h4 class="code-header">fn <a href="#method.into_os_string" class="fnname">into_os_string</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>, <a class="struct" href="struct.FromUtf8Error.html" title="struct bstr::FromUtf8Error">FromUtf8Error</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Converts this byte string into an OS string, in place.</p>
+<p>When OS strings can be constructed from arbitrary byte sequences, this
+always succeeds and is zero cost. Otherwise, if this byte string is not
+valid UTF-8, then an error (with the original byte string) is returned.</p>
+<h5 id="examples-12"><a href="#examples-12">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::ffi::OsStr;
+
+<span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span>bs = Vec::from(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>os_str = bs.into_os_string().expect(<span class="string">&quot;should be valid UTF-8&quot;</span>);
+<span class="macro">assert_eq!</span>(os_str, OsStr::new(<span class="string">&quot;foo&quot;</span>));</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_os_string_lossy" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#651-670">source</a><h4 class="code-header">fn <a href="#method.into_os_string_lossy" class="fnname">into_os_string_lossy</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Lossily converts this byte string into an OS string, in place.</p>
+<p>When OS strings can be constructed from arbitrary byte sequences, this
+is zero cost and always returns a slice. Otherwise, this will perform a
+UTF-8 check and lossily convert this byte string into valid UTF-8 using
+the Unicode replacement codepoint.</p>
+<p>Note that this can prevent the correct roundtripping of file paths when
+the representation of <code>OsString</code> is opaque.</p>
+<h5 id="examples-13"><a href="#examples-13">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span>bs = Vec::from_slice(<span class="string">b&quot;foo\xFFbar&quot;</span>);
+<span class="kw">let </span>os_str = bs.into_os_string_lossy();
+<span class="macro">assert_eq!</span>(os_str.to_string_lossy(), <span class="string">&quot;foo\u{FFFD}bar&quot;</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_path_buf" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#691-696">source</a><h4 class="code-header">fn <a href="#method.into_path_buf" class="fnname">into_path_buf</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>, <a class="struct" href="struct.FromUtf8Error.html" title="struct bstr::FromUtf8Error">FromUtf8Error</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Converts this byte string into an owned file path, in place.</p>
+<p>When paths can be constructed from arbitrary byte sequences, this
+always succeeds and is zero cost. Otherwise, if this byte string is not
+valid UTF-8, then an error (with the original byte string) is returned.</p>
+<h5 id="examples-14"><a href="#examples-14">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span>bs = Vec::from(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>path = bs.into_path_buf().expect(<span class="string">&quot;should be valid UTF-8&quot;</span>);
+<span class="macro">assert_eq!</span>(path.as_os_str(), <span class="string">&quot;foo&quot;</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.into_path_buf_lossy" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#721-726">source</a><h4 class="code-header">fn <a href="#method.into_path_buf_lossy" class="fnname">into_path_buf_lossy</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Lossily converts this byte string into an owned file path, in place.</p>
+<p>When paths can be constructed from arbitrary byte sequences, this is
+zero cost and always returns a slice. Otherwise, this will perform a
+UTF-8 check and lossily convert this byte string into valid UTF-8 using
+the Unicode replacement codepoint.</p>
+<p>Note that this can prevent the correct roundtripping of file paths when
+the representation of <code>PathBuf</code> is opaque.</p>
+<h5 id="examples-15"><a href="#examples-15">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span>bs = Vec::from_slice(<span class="string">b&quot;foo\xFFbar&quot;</span>);
+<span class="kw">let </span>path = bs.into_path_buf_lossy();
+<span class="macro">assert_eq!</span>(path.to_string_lossy(), <span class="string">&quot;foo\u{FFFD}bar&quot;</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.pop_byte" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#753-755">source</a><h4 class="code-header">fn <a href="#method.pop_byte" class="fnname">pop_byte</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;</h4></div></summary><div class="docblock"><p>Removes the last byte from this <code>Vec&lt;u8&gt;</code> and returns it.</p>
+<p>If this byte string is empty, then <code>None</code> is returned.</p>
+<p>If the last codepoint in this byte string is not ASCII, then removing
+the last byte could make this byte string contain invalid UTF-8.</p>
+<p>Note that this is equivalent to the generic <code>Vec::pop</code> method. This
+method is provided to permit callers to explicitly differentiate
+between popping bytes and codepoints.</p>
+<h5 id="examples-16"><a href="#examples-16">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foo&quot;</span>);
+<span class="macro">assert_eq!</span>(s.pop_byte(), <span class="prelude-val">Some</span>(<span class="string">b&#39;o&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_byte(), <span class="prelude-val">Some</span>(<span class="string">b&#39;o&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_byte(), <span class="prelude-val">Some</span>(<span class="string">b&#39;f&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_byte(), <span class="prelude-val">None</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.pop_char" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#799-807">source</a><h4 class="code-header">fn <a href="#method.pop_char" class="fnname">pop_char</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a>&gt;</h4></div></summary><div class="docblock"><p>Removes the last codepoint from this <code>Vec&lt;u8&gt;</code> and returns it.</p>
+<p>If this byte string is empty, then <code>None</code> is returned. If the last
+bytes of this byte string do not correspond to a valid UTF-8 code unit
+sequence, then the Unicode replacement codepoint is yielded instead in
+accordance with the
+<a href="index.html#handling-of-invalid-utf8-8">replacement codepoint substitution policy</a>.</p>
+<h5 id="examples-17"><a href="#examples-17">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foo&quot;</span>);
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;o&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;o&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;f&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">None</span>);</code></pre></div>
+<p>This shows the replacement codepoint substitution policy. Note that
+the first pop yields a replacement codepoint but actually removes two
+bytes. This is in contrast with subsequent pops when encountering
+<code>\xFF</code> since <code>\xFF</code> is never a valid prefix for any valid UTF-8
+code unit sequence.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from_slice(<span class="string">b&quot;f\xFF\xFF\xFFoo\xE2\x98&quot;</span>);
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;\u{FFFD}&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;o&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;o&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;\u{FFFD}&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;\u{FFFD}&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;\u{FFFD}&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">Some</span>(<span class="string">&#39;f&#39;</span>));
+<span class="macro">assert_eq!</span>(s.pop_char(), <span class="prelude-val">None</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.remove_char" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#843-853">source</a><h4 class="code-header">fn <a href="#method.remove_char" class="fnname">remove_char</a>(&amp;mut self, at: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a></h4></div></summary><div class="docblock"><p>Removes a <code>char</code> from this <code>Vec&lt;u8&gt;</code> at the given byte position and
+returns it.</p>
+<p>If the bytes at the given position do not lead to a valid UTF-8 code
+unit sequence, then a
+<a href="index.html#handling-of-invalid-utf8-8">replacement codepoint is returned instead</a>.</p>
+<h5 id="panics"><a href="#panics">Panics</a></h5>
+<p>Panics if <code>at</code> is larger than or equal to this byte string’s length.</p>
+<h5 id="examples-18"><a href="#examples-18">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foo☃bar&quot;</span>);
+<span class="macro">assert_eq!</span>(s.remove_char(<span class="number">3</span>), <span class="string">&#39;☃&#39;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">b&quot;foobar&quot;</span>);</code></pre></div>
+<p>This example shows how the Unicode replacement codepoint policy is
+used:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from_slice(<span class="string">b&quot;foo\xFFbar&quot;</span>);
+<span class="macro">assert_eq!</span>(s.remove_char(<span class="number">3</span>), <span class="string">&#39;\u{FFFD}&#39;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">b&quot;foobar&quot;</span>);</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.insert_char" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#877-879">source</a><h4 class="code-header">fn <a href="#method.insert_char" class="fnname">insert_char</a>(&amp;mut self, at: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>, ch: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.char.html">char</a>)</h4></div></summary><div class="docblock"><p>Inserts the given codepoint into this <code>Vec&lt;u8&gt;</code> at a particular byte
+position.</p>
+<p>This is an <code>O(n)</code> operation as it may copy a number of elements in this
+byte string proportional to its length.</p>
+<h5 id="panics-1"><a href="#panics-1">Panics</a></h5>
+<p>Panics if <code>at</code> is larger than the byte string’s length.</p>
+<h5 id="examples-19"><a href="#examples-19">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foobar&quot;</span>);
+s.insert_char(<span class="number">3</span>, <span class="string">&#39;☃&#39;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;foo☃bar&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.insert_str" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#907-937">source</a><h4 class="code-header">fn <a href="#method.insert_str" class="fnname">insert_str</a>&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;&gt;(&amp;mut self, at: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>, bytes: B)</h4></div></summary><div class="docblock"><p>Inserts the given byte string into this byte string at a particular
+byte position.</p>
+<p>This is an <code>O(n)</code> operation as it may copy a number of elements in this
+byte string proportional to its length.</p>
+<p>The given byte string may be any type that can be cheaply converted
+into a <code>&amp;[u8]</code>. This includes, but is not limited to, <code>&amp;str</code> and
+<code>&amp;[u8]</code>.</p>
+<h5 id="panics-2"><a href="#panics-2">Panics</a></h5>
+<p>Panics if <code>at</code> is larger than the byte string’s length.</p>
+<h5 id="examples-20"><a href="#examples-20">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foobar&quot;</span>);
+s.insert_str(<span class="number">3</span>, <span class="string">&quot;☃☃☃&quot;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;foo☃☃☃bar&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.replace_range" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#959-965">source</a><h4 class="code-header">fn <a href="#method.replace_range" class="fnname">replace_range</a>&lt;R, B&gt;(&amp;mut self, range: R, replace_with: B)<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/range/trait.RangeBounds.html" title="trait core::ops::range::RangeBounds">RangeBounds</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;B: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]&gt;,</span></h4></div></summary><div class="docblock"><p>Removes the specified range in this byte string and replaces it with
+the given bytes. The given bytes do not need to have the same length
+as the range provided.</p>
+<h5 id="panics-3"><a href="#panics-3">Panics</a></h5>
+<p>Panics if the given range is invalid.</p>
+<h5 id="examples-21"><a href="#examples-21">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foobar&quot;</span>);
+s.replace_range(<span class="number">2</span>..<span class="number">4</span>, <span class="string">&quot;xxxxx&quot;</span>);
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;foxxxxxar&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.drain_bytes" class="method has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#997-1002">source</a><h4 class="code-header">fn <a href="#method.drain_bytes" class="fnname">drain_bytes</a>&lt;R&gt;(&amp;mut self, range: R) -&gt; <a class="struct" href="struct.DrainBytes.html" title="struct bstr::DrainBytes">DrainBytes</a>&lt;'_&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="struct.DrainBytes.html" title="struct bstr::DrainBytes">DrainBytes</a>&lt;'a&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a> for <a class="struct" href="struct.DrainBytes.html" title="struct bstr::DrainBytes">DrainBytes</a>&lt;'a&gt;</span><span class="where fmt-newline">    type <a href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item" class="associatedtype">Item</a> = <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>;</span></code></span></span></span></span><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/range/trait.RangeBounds.html" title="trait core::ops::range::RangeBounds">RangeBounds</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>&gt;,</span></h4></div></summary><div class="docblock"><p>Creates a draining iterator that removes the specified range in this
+<code>Vec&lt;u8&gt;</code> and yields each of the removed bytes.</p>
+<p>Note that the elements specified by the given range are removed
+regardless of whether the returned iterator is fully exhausted.</p>
+<p>Also note that is is unspecified how many bytes are removed from the
+<code>Vec&lt;u8&gt;</code> if the <code>DrainBytes</code> iterator is leaked.</p>
+<h5 id="panics-4"><a href="#panics-4">Panics</a></h5>
+<p>Panics if the given range is not valid.</p>
+<h5 id="examples-22"><a href="#examples-22">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bstr::ByteVec;
+
+<span class="kw">let </span><span class="kw-2">mut </span>s = Vec::from(<span class="string">&quot;foobar&quot;</span>);
+{
+    <span class="kw">let </span><span class="kw-2">mut </span>drainer = s.drain_bytes(<span class="number">2</span>..<span class="number">4</span>);
+    <span class="macro">assert_eq!</span>(drainer.next(), <span class="prelude-val">Some</span>(<span class="string">b&#39;o&#39;</span>));
+    <span class="macro">assert_eq!</span>(drainer.next(), <span class="prelude-val">Some</span>(<span class="string">b&#39;b&#39;</span>));
+    <span class="macro">assert_eq!</span>(drainer.next(), <span class="prelude-val">None</span>);
+}
+<span class="macro">assert_eq!</span>(s, <span class="string">&quot;foar&quot;</span>.as_bytes());</code></pre></div>
+</div></details></div><h2 id="foreign-impls" class="small-section-header">Implementations on Foreign Types<a href="#foreign-impls" class="anchor"></a></h2><section id="impl-ByteVec-for-Vec%3Cu8%3E" class="impl has-srclink"><a class="srclink rightside" href="../src/bstr/ext_vec.rs.html#88-103">source</a><a href="#impl-ByteVec-for-Vec%3Cu8%3E" class="anchor"></a><h3 class="code-header in-band">impl <a class="trait" href="trait.ByteVec.html" title="trait bstr::ByteVec">ByteVec</a> for <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;</h3></section><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor"></a></h2><div class="item-list" id="implementors-list"></div><script src="../implementors/bstr/ext_vec/trait.ByteVec.js" data-ignore-extern-crates="alloc" async></script></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="bstr" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

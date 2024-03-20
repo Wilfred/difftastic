@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.149/src/fixed_width_ints.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>fixed_width_ints.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libc/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../libc/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libc/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+</pre><pre class="rust"><code><span class="doccomment">//! This module contains type aliases for C&#39;s fixed-width integer types .
+//!
+//! These aliases are deprecated: use the Rust types instead.
+
+</span><span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use i8 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>int8_t = i8;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use i16 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>int16_t = i16;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use i32 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>int32_t = i32;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use i64 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>int64_t = i64;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use u8 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>uint8_t = u8;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use u16 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>uint16_t = u16;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use u32 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>uint32_t = u32;
+<span class="attribute">#[deprecated(since = <span class="string">&quot;0.2.55&quot;</span>, note = <span class="string">&quot;Use u64 instead.&quot;</span>)]
+</span><span class="kw">pub type </span>uint64_t = u64;
+
+<span class="macro">cfg_if! </span>{
+    <span class="kw">if </span><span class="attribute">#[cfg(all(libc_int128, target_arch = <span class="string">&quot;aarch64&quot;</span>, not(target_os = <span class="string">&quot;windows&quot;</span>)))] </span>{
+        <span class="comment">// This introduces partial support for FFI with __int128 and
+        // equivalent types on platforms where Rust&#39;s definition is validated
+        // to match the standard C ABI of that platform.
+        //
+        // Rust does not guarantee u128/i128 are sound for FFI, and its
+        // definitions are in fact known to be incompatible. [0]
+        //
+        // However these problems aren&#39;t fundamental, and are just platform
+        // inconsistencies. Specifically at the time of this writing:
+        //
+        // * For x64 SysV ABIs (everything but Windows), the types are underaligned.
+        // * For all Windows ABIs, Microsoft doesn&#39;t actually officially define __int128,
+        //   and as a result different implementations don&#39;t actually agree on its ABI.
+        //
+        // But on the other major aarch64 platforms (android, linux, ios, macos) we have
+        // validated that rustc has the right ABI for these types. This is important because
+        // aarch64 uses these types in some fundamental OS types like user_fpsimd_struct,
+        // which represents saved simd registers.
+        //
+        // Any API which uses these types will need to `#[ignore(improper_ctypes)]`
+        // until the upstream rust issue is resolved, but this at least lets us make
+        // progress on platforms where this type is important.
+        //
+        // The list of supported architectures and OSes is intentionally very restricted,
+        // as careful work needs to be done to verify that a particular platform
+        // has a conformant ABI.
+        //
+        // [0]: https://github.com/rust-lang/rust/issues/54341
+
+        </span><span class="doccomment">/// C `__int128` (a GCC extension that&#39;s part of many ABIs)
+        </span><span class="kw">pub type </span>__int128 = i128;
+        <span class="doccomment">/// C `unsigned __int128` (a GCC extension that&#39;s part of many ABIs)
+        </span><span class="kw">pub type </span>__uint128 = u128;
+        <span class="doccomment">/// C __int128_t (alternate name for [__int128][])
+        </span><span class="kw">pub type </span>__int128_t = i128;
+        <span class="doccomment">/// C __uint128_t (alternate name for [__uint128][])
+        </span><span class="kw">pub type </span>__uint128_t = u128;
+
+        <span class="macro">cfg_if! </span>{
+            <span class="kw">if </span><span class="attribute">#[cfg(libc_underscore_const_names)] </span>{
+                <span class="macro">macro_rules! </span>static_assert_eq {
+                    (<span class="macro-nonterminal">$a</span>:expr, <span class="macro-nonterminal">$b</span>:expr) =&gt; {
+                        <span class="kw">const _</span>: [(); <span class="macro-nonterminal">$a</span>] = [(); <span class="macro-nonterminal">$b</span>];
+                    };
+                }
+
+                <span class="comment">// NOTE: if you add more platforms to here, you may need to cfg
+                // these consts. They should always match the platform&#39;s values
+                // for `sizeof(__int128)` and `_Alignof(__int128)`.
+                </span><span class="kw">const </span>_SIZE_128: usize = <span class="number">16</span>;
+                <span class="kw">const </span>_ALIGN_128: usize = <span class="number">16</span>;
+
+                <span class="comment">// Since Rust doesn&#39;t officially guarantee that these types
+                // have compatible ABIs, we const assert that these values have the
+                // known size/align of the target platform&#39;s libc. If rustc ever
+                // tries to regress things, it will cause a compilation error.
+                //
+                // This isn&#39;t a bullet-proof solution because e.g. it doesn&#39;t
+                // catch the fact that llvm and gcc disagree on how x64 __int128
+                // is actually *passed* on the stack (clang underaligns it for
+                // the same reason that rustc *never* properly aligns it).
+                </span><span class="macro">static_assert_eq!</span>(core::mem::size_of::&lt;__int128&gt;(), _SIZE_128);
+                <span class="macro">static_assert_eq!</span>(core::mem::align_of::&lt;__int128&gt;(), _ALIGN_128);
+
+                <span class="macro">static_assert_eq!</span>(core::mem::size_of::&lt;__uint128&gt;(), _SIZE_128);
+                <span class="macro">static_assert_eq!</span>(core::mem::align_of::&lt;__uint128&gt;(), _ALIGN_128);
+
+                <span class="macro">static_assert_eq!</span>(core::mem::size_of::&lt;__int128_t&gt;(), _SIZE_128);
+                <span class="macro">static_assert_eq!</span>(core::mem::align_of::&lt;__int128_t&gt;(), _ALIGN_128);
+
+                <span class="macro">static_assert_eq!</span>(core::mem::size_of::&lt;__uint128_t&gt;(), _SIZE_128);
+                <span class="macro">static_assert_eq!</span>(core::mem::align_of::&lt;__uint128_t&gt;(), _ALIGN_128);
+            }
+        }
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libc" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

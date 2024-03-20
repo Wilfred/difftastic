@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libm-0.2.7/src/math/k_sin.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>k_sin.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../libm/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+</pre><pre class="rust"><code><span class="comment">// origin: FreeBSD /usr/src/lib/msun/src/k_sin.c
+//
+// ====================================================
+// Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
+//
+// Developed at SunSoft, a Sun Microsystems, Inc. business.
+// Permission to use, copy, modify, and distribute this
+// software is freely granted, provided that this notice
+// is preserved.
+// ====================================================
+
+</span><span class="kw">const </span>S1: f64 = -<span class="number">1.66666666666666324348e-01</span>; <span class="comment">/* 0xBFC55555, 0x55555549 */
+</span><span class="kw">const </span>S2: f64 = <span class="number">8.33333333332248946124e-03</span>; <span class="comment">/* 0x3F811111, 0x1110F8A6 */
+</span><span class="kw">const </span>S3: f64 = -<span class="number">1.98412698298579493134e-04</span>; <span class="comment">/* 0xBF2A01A0, 0x19C161D5 */
+</span><span class="kw">const </span>S4: f64 = <span class="number">2.75573137070700676789e-06</span>; <span class="comment">/* 0x3EC71DE3, 0x57B1FE7D */
+</span><span class="kw">const </span>S5: f64 = -<span class="number">2.50507602534068634195e-08</span>; <span class="comment">/* 0xBE5AE5E6, 0x8A2B9CEB */
+</span><span class="kw">const </span>S6: f64 = <span class="number">1.58969099521155010221e-10</span>; <span class="comment">/* 0x3DE5D93A, 0x5ACFD57C */
+
+// kernel sin function on ~[-pi/4, pi/4] (except on -0), pi/4 ~ 0.7854
+// Input x is assumed to be bounded by ~pi/4 in magnitude.
+// Input y is the tail of x.
+// Input iy indicates whether y is 0. (if iy=0, y assume to be 0).
+//
+// Algorithm
+//      1. Since sin(-x) = -sin(x), we need only to consider positive x.
+//      2. Callers must return sin(-0) = -0 without calling here since our
+//         odd polynomial is not evaluated in a way that preserves -0.
+//         Callers may do the optimization sin(x) ~ x for tiny x.
+//      3. sin(x) is approximated by a polynomial of degree 13 on
+//         [0,pi/4]
+//                               3            13
+//              sin(x) ~ x + S1*x + ... + S6*x
+//         where
+//
+//      |sin(x)         2     4     6     8     10     12  |     -58
+//      |----- - (1+S1*x +S2*x +S3*x +S4*x +S5*x  +S6*x   )| &lt;= 2
+//      |  x                                               |
+//
+//      4. sin(x+y) = sin(x) + sin&#39;(x&#39;)*y
+//                  ~ sin(x) + (1-x*x/2)*y
+//         For better accuracy, let
+//                   3      2      2      2      2
+//              r = x *(S2+x *(S3+x *(S4+x *(S5+x *S6))))
+//         then                   3    2
+//              sin(x) = x + (S1*x + (x *(r-y/2)+y))
+</span><span class="attribute">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>k_sin(x: f64, y: f64, iy: i32) -&gt; f64 {
+    <span class="kw">let </span>z = x * x;
+    <span class="kw">let </span>w = z * z;
+    <span class="kw">let </span>r = S2 + z * (S3 + z * S4) + z * w * (S5 + z * S6);
+    <span class="kw">let </span>v = z * x;
+    <span class="kw">if </span>iy == <span class="number">0 </span>{
+        x + v * (S1 + z * r)
+    } <span class="kw">else </span>{
+        x - ((z * (<span class="number">0.5 </span>* y - v * r) - y) - v * S1)
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="libm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

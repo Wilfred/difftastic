@@ -1,0 +1,1058 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-automata-0.3.9/src/nfa/thompson/literal_trie.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>literal_trie.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../regex_automata/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+</pre><pre class="rust"><code><span class="kw">use </span>core::mem;
+
+<span class="kw">use </span>alloc::{vec, vec::Vec};
+
+<span class="kw">use crate</span>::{
+    nfa::thompson::{<span class="self">self</span>, compiler::ThompsonRef, BuildError, Builder},
+    util::primitives::{IteratorIndexExt, StateID},
+};
+
+<span class="doccomment">/// A trie that preserves leftmost-first match semantics.
+///
+/// This is a purpose-built data structure for optimizing &#39;lit1|lit2|..|litN&#39;
+/// patterns. It can *only* handle alternations of literals, which makes it
+/// somewhat restricted in its scope, but literal alternations are fairly
+/// common.
+///
+/// At a 5,000 foot level, the main idea of this trie is make an alternation of
+/// literals look more like a DFA than an NFA via epsilon removal.
+///
+/// More precisely, the main issue is in how alternations are compiled into
+/// a Thompson NFA. Namely, each alternation gets a single NFA &quot;union&quot; state
+/// with an epsilon transition for every branch of the alternation pointing to
+/// an NFA state corresponding to the start of that branch. The main problem
+/// with this representation is the cost of computing an epsilon closure. Once
+/// you hit the alternation&#39;s start state, it acts as a sort of &quot;clog&quot; that
+/// requires you to traverse all of the epsilon transitions to compute the full
+/// closure.
+///
+/// While fixing such clogs in the general case is pretty tricky without going
+/// to a DFA (or perhaps a Glushkov NFA, but that comes with other problems).
+/// But at least in the case of an alternation of literals, we can convert
+/// that to a prefix trie without too much cost. In theory, that&#39;s all you
+/// really need to do: build the trie and then compile it to a Thompson NFA.
+/// For example, if you have the pattern &#39;bar|baz|foo&#39;, then using a trie, it
+/// is transformed to something like &#39;b(a(r|z))|f&#39;. This reduces the clog by
+/// reducing the number of epsilon transitions out of the alternation&#39;s start
+/// state from 3 to 2 (it actually gets down to 1 when you use a sparse state,
+/// which we do below). It&#39;s a small effect here, but when your alternation is
+/// huge, the savings is also huge.
+///
+/// And that is... essentially what a LiteralTrie does. But there is one
+/// hiccup. Consider a regex like &#39;sam|samwise&#39;. How does a prefix trie compile
+/// that when leftmost-first semantics are used? If &#39;sam|samwise&#39; was the
+/// entire regex, then you could just drop the &#39;samwise&#39; branch entirely since
+/// it is impossible to match (&#39;sam&#39; will always take priority, and since it
+/// is a prefix of &#39;samwise&#39;, &#39;samwise&#39; will never match). But what about the
+/// regex &#39;\b(sam|samwise)\b&#39;? In that case, you can&#39;t remove &#39;samwise&#39; because
+/// it might match when &#39;sam&#39; doesn&#39;t fall on a word boundary.
+///
+/// The main idea is that &#39;sam|samwise&#39; can be translated to &#39;sam(?:|wise)&#39;,
+/// which is a precisely equivalent regex that also gets rid of the clog.
+///
+/// Another example is &#39;zapper|z|zap&#39;. That gets translated to
+/// &#39;z(?:apper||ap)&#39;.
+///
+/// We accomplish this by giving each state in the trie multiple &quot;chunks&quot; of
+/// transitions. Each chunk barrier represents a match. The idea is that once
+/// you know a match occurs, none of the transitions after the match can be
+/// re-ordered and mixed in with the transitions before the match. Otherwise,
+/// the match semantics could be changed.
+///
+/// See the &#39;State&#39; data type for a bit more detail.
+///
+/// Future work:
+///
+/// * In theory, it would be nice to generalize the idea of removing clogs and
+/// apply it to the NFA graph itself. Then this could in theory work for
+/// case insensitive alternations of literals, or even just alternations where
+/// each branch starts with a non-epsilon transition.
+/// * Could we instead use the Aho-Corasick algorithm here? The aho-corasick
+/// crate deals with leftmost-first matches correctly, but I think this implies
+/// encoding failure transitions into a Thompson NFA somehow. Which seems fine,
+/// because failure transitions are just unconditional epsilon transitions?
+/// * Or perhaps even better, could we use an aho_corasick::AhoCorasick
+/// directly? At time of writing, 0.7 is the current version of the
+/// aho-corasick crate, and that definitely cannot be used as-is. But if we
+/// expose the underlying finite state machine API, then could we use it? That
+/// would be super. If we could figure that out, it might also lend itself to
+/// more general composition of finite state machines.
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>LiteralTrie {
+    <span class="doccomment">/// The set of trie states. Each state contains one or more chunks, where
+    /// each chunk is a sparse set of transitions to other states. A leaf state
+    /// is always a match state that contains only empty chunks (i.e., no
+    /// transitions).
+    </span>states: Vec&lt;State&gt;,
+    <span class="doccomment">/// Whether to add literals in reverse to the trie. Useful when building
+    /// a reverse NFA automaton.
+    </span>rev: bool,
+}
+
+<span class="kw">impl </span>LiteralTrie {
+    <span class="doccomment">/// Create a new literal trie that adds literals in the forward direction.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>forward() -&gt; LiteralTrie {
+        <span class="kw">let </span>root = State::default();
+        LiteralTrie { states: <span class="macro">vec!</span>[root], rev: <span class="bool-val">false </span>}
+    }
+
+    <span class="doccomment">/// Create a new literal trie that adds literals in reverse.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>reverse() -&gt; LiteralTrie {
+        <span class="kw">let </span>root = State::default();
+        LiteralTrie { states: <span class="macro">vec!</span>[root], rev: <span class="bool-val">true </span>}
+    }
+
+    <span class="doccomment">/// Add the given literal to this trie.
+    ///
+    /// If the literal could not be added because the `StateID` space was
+    /// exhausted, then an error is returned. If an error returns, the trie
+    /// is in an unspecified state.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add(<span class="kw-2">&amp;mut </span><span class="self">self</span>, bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), BuildError&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>prev = StateID::ZERO;
+        <span class="kw">let </span><span class="kw-2">mut </span>it = bytes.iter().copied();
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(b) = <span class="kw">if </span><span class="self">self</span>.rev { it.next_back() } <span class="kw">else </span>{ it.next() } {
+            prev = <span class="self">self</span>.get_or_add_state(prev, b)<span class="question-mark">?</span>;
+        }
+        <span class="self">self</span>.states[prev].add_match();
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// If the given transition is defined, then return the next state ID.
+    /// Otherwise, add the transition to `from` and point it to a new state.
+    ///
+    /// If a new state ID could not be allocated, then an error is returned.
+    </span><span class="kw">fn </span>get_or_add_state(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        from: StateID,
+        byte: u8,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="kw">let </span>active = <span class="self">self</span>.states[from].active_chunk();
+        <span class="kw">match </span>active.binary_search_by_key(<span class="kw-2">&amp;</span>byte, |t| t.byte) {
+            <span class="prelude-val">Ok</span>(i) =&gt; <span class="prelude-val">Ok</span>(active[i].next),
+            <span class="prelude-val">Err</span>(i) =&gt; {
+                <span class="comment">// Add a new state and get its ID.
+                </span><span class="kw">let </span>next = StateID::new(<span class="self">self</span>.states.len()).map_err(|<span class="kw">_</span>| {
+                    BuildError::too_many_states(<span class="self">self</span>.states.len())
+                })<span class="question-mark">?</span>;
+                <span class="self">self</span>.states.push(State::default());
+                <span class="comment">// Offset our position to account for all transitions and not
+                // just the ones in the active chunk.
+                </span><span class="kw">let </span>i = <span class="self">self</span>.states[from].active_chunk_start() + i;
+                <span class="kw">let </span>t = Transition { byte, next };
+                <span class="self">self</span>.states[from].transitions.insert(i, t);
+                <span class="prelude-val">Ok</span>(next)
+            }
+        }
+    }
+
+    <span class="doccomment">/// Compile this literal trie to the NFA builder given.
+    ///
+    /// This forwards any errors that may occur while using the given builder.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>compile(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        builder: <span class="kw-2">&amp;mut </span>Builder,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;ThompsonRef, BuildError&gt; {
+        <span class="comment">// Compilation proceeds via depth-first traversal of the trie.
+        //
+        // This is overall pretty brutal. The recursive version of this is
+        // deliciously simple. (See &#39;compile_to_hir&#39; below for what it might
+        // look like.) But recursion on a trie means your call stack grows
+        // in accordance with the longest literal, which just does not seem
+        // appropriate. So we push the call stack to the heap. But as a result,
+        // the trie traversal becomes pretty brutal because we essentially
+        // have to encode the state of a double for-loop into an explicit call
+        // frame. If someone can simplify this without using recursion, that&#39;d
+        // be great.
+
+        // &#39;end&#39; is our match state for this trie, but represented in the the
+        // NFA. Any time we see a match in the trie, we insert a transition
+        // from the current state we&#39;re in to &#39;end&#39;.
+        </span><span class="kw">let </span>end = builder.add_empty()<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>stack = <span class="macro">vec!</span>[];
+        <span class="kw">let </span><span class="kw-2">mut </span>f = Frame::new(<span class="kw-2">&amp;</span><span class="self">self</span>.states[StateID::ZERO]);
+        <span class="kw">loop </span>{
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(t) = f.transitions.next() {
+                <span class="kw">if </span><span class="self">self</span>.states[t.next].is_leaf() {
+                    f.sparse.push(thompson::Transition {
+                        start: t.byte,
+                        end: t.byte,
+                        next: end,
+                    });
+                } <span class="kw">else </span>{
+                    f.sparse.push(thompson::Transition {
+                        start: t.byte,
+                        end: t.byte,
+                        <span class="comment">// This is a little funny, but when the frame we create
+                        // below completes, it will pop this parent frame off
+                        // and modify this transition to point to the correct
+                        // state.
+                        </span>next: StateID::ZERO,
+                    });
+                    stack.push(f);
+                    f = Frame::new(<span class="kw-2">&amp;</span><span class="self">self</span>.states[t.next]);
+                }
+                <span class="kw">continue</span>;
+            }
+            <span class="comment">// At this point, we have visited all transitions in f.chunk, so
+            // add it as a sparse NFA state. Unless the chunk was empty, in
+            // which case, we don&#39;t do anything.
+            </span><span class="kw">if </span>!f.sparse.is_empty() {
+                <span class="kw">let </span>chunk_id = <span class="kw">if </span>f.sparse.len() == <span class="number">1 </span>{
+                    builder.add_range(f.sparse.pop().unwrap())<span class="question-mark">?
+                </span>} <span class="kw">else </span>{
+                    <span class="kw">let </span>sparse = mem::replace(<span class="kw-2">&amp;mut </span>f.sparse, <span class="macro">vec!</span>[]);
+                    builder.add_sparse(sparse)<span class="question-mark">?
+                </span>};
+                f.union.push(chunk_id);
+            }
+            <span class="comment">// Now we need to look to see if there are other chunks to visit.
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(chunk) = f.chunks.next() {
+                <span class="comment">// If we&#39;re here, it means we&#39;re on the second (or greater)
+                // chunk, which implies there is a match at this point. So
+                // connect this state to the final end state.
+                </span>f.union.push(end);
+                <span class="comment">// Advance to the next chunk.
+                </span>f.transitions = chunk.iter();
+                <span class="kw">continue</span>;
+            }
+            <span class="comment">// Now that we are out of chunks, we have completely visited
+            // this state. So turn our union of chunks into an NFA union
+            // state, and add that union state to the parent state&#39;s current
+            // sparse state. (If there is no parent, we&#39;re done.)
+            </span><span class="kw">let </span>start = builder.add_union(f.union)<span class="question-mark">?</span>;
+            <span class="kw">match </span>stack.pop() {
+                <span class="prelude-val">None </span>=&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Ok</span>(ThompsonRef { start, end });
+                }
+                <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>parent) =&gt; {
+                    <span class="comment">// OK because the only way a frame gets pushed on to the
+                    // stack (aside from the root) is when a transition has
+                    // been added to &#39;sparse&#39;.
+                    </span>parent.sparse.last_mut().unwrap().next = start;
+                    f = parent;
+                }
+            }
+        }
+    }
+
+    <span class="doccomment">/// Converts this trie to an equivalent HIR expression.
+    ///
+    /// We don&#39;t actually use this, but it&#39;s useful for tests. In particular,
+    /// it provides a (somewhat) human readable representation of the trie
+    /// itself.
+    </span><span class="attribute">#[cfg(test)]
+    </span><span class="kw">fn </span>compile_to_hir(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; regex_syntax::hir::Hir {
+        <span class="self">self</span>.compile_state_to_hir(StateID::ZERO)
+    }
+
+    <span class="doccomment">/// The recursive implementation of &#39;to_hir&#39;.
+    ///
+    /// Notice how simple this is compared to &#39;compile&#39; above. &#39;compile&#39; could
+    /// be similarly simple, but we opt to not use recursion in order to avoid
+    /// overflowing the stack in the case of a longer literal.
+    </span><span class="attribute">#[cfg(test)]
+    </span><span class="kw">fn </span>compile_state_to_hir(<span class="kw-2">&amp;</span><span class="self">self</span>, sid: StateID) -&gt; regex_syntax::hir::Hir {
+        <span class="kw">use </span>regex_syntax::hir::Hir;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>alt = <span class="macro">vec!</span>[];
+        <span class="kw">for </span>(i, chunk) <span class="kw">in </span><span class="self">self</span>.states[sid].chunks().enumerate() {
+            <span class="kw">if </span>i &gt; <span class="number">0 </span>{
+                alt.push(Hir::empty());
+            }
+            <span class="kw">if </span>chunk.is_empty() {
+                <span class="kw">continue</span>;
+            }
+            <span class="kw">let </span><span class="kw-2">mut </span>chunk_alt = <span class="macro">vec!</span>[];
+            <span class="kw">for </span>t <span class="kw">in </span>chunk.iter() {
+                chunk_alt.push(Hir::concat(<span class="macro">vec!</span>[
+                    Hir::literal(<span class="macro">vec!</span>[t.byte]),
+                    <span class="self">self</span>.compile_state_to_hir(t.next),
+                ]));
+            }
+            alt.push(Hir::alternation(chunk_alt));
+        }
+        Hir::alternation(alt)
+    }
+}
+
+<span class="kw">impl </span>core::fmt::Debug <span class="kw">for </span>LiteralTrie {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;LiteralTrie(&quot;</span>)<span class="question-mark">?</span>;
+        <span class="kw">for </span>(sid, state) <span class="kw">in </span><span class="self">self</span>.states.iter().with_state_ids() {
+            <span class="macro">writeln!</span>(f, <span class="string">&quot;{:06?}: {:?}&quot;</span>, sid.as_usize(), state)<span class="question-mark">?</span>;
+        }
+        <span class="macro">writeln!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// An explicit stack frame used for traversing the trie without using
+/// recursion.
+///
+/// Each frame is tied to the traversal of a single trie state. The frame is
+/// dropped once the entire state (and all of its children) have been visited.
+/// The &quot;output&quot; of compiling a state is the &#39;union&#39; vector, which is turn
+/// converted to a NFA union state. Each branch of the union corresponds to a
+/// chunk in the trie state.
+///
+/// &#39;sparse&#39; corresponds to the set of transitions for a particular chunk in a
+/// trie state. It is ultimately converted to an NFA sparse state. The &#39;sparse&#39;
+/// field, after being converted to a sparse NFA state, is reused for any
+/// subsequent chunks in the trie state, if any exist.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>Frame&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// The remaining chunks to visit for a trie state.
+    </span>chunks: StateChunksIter&lt;<span class="lifetime">&#39;a</span>&gt;,
+    <span class="doccomment">/// The transitions of the current chunk that we&#39;re iterating over. Since
+    /// every trie state has at least one chunk, every frame is initialized
+    /// with the first chunk&#39;s transitions ready to be consumed.
+    </span>transitions: core::slice::Iter&lt;<span class="lifetime">&#39;a</span>, Transition&gt;,
+    <span class="doccomment">/// The NFA state IDs pointing to the start of each chunk compiled by
+    /// this trie state. This ultimately gets converted to an NFA union once
+    /// the entire trie state (and all of its children) have been compiled.
+    /// The order of these matters for leftmost-first match semantics, since
+    /// earlier matches in the union are preferred over later ones.
+    </span><span class="kw">union</span>: Vec&lt;StateID&gt;,
+    <span class="doccomment">/// The actual NFA transitions for a single chunk in a trie state. This
+    /// gets converted to an NFA sparse state, and its corresponding NFA state
+    /// ID should get added to &#39;union&#39;.
+    </span>sparse: Vec&lt;thompson::Transition&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Frame&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// Create a new stack frame for trie traversal. This initializes the
+    /// &#39;transitions&#39; iterator to the transitions for the first chunk, with the
+    /// &#39;chunks&#39; iterator being every chunk after the first one.
+    </span><span class="kw">fn </span>new(state: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>State) -&gt; Frame&lt;<span class="lifetime">&#39;a</span>&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>chunks = state.chunks();
+        <span class="comment">// every state has at least 1 chunk
+        </span><span class="kw">let </span>chunk = chunks.next().unwrap();
+        <span class="kw">let </span>transitions = chunk.iter();
+        Frame { chunks, transitions, <span class="kw">union</span>: <span class="macro">vec!</span>[], sparse: <span class="macro">vec!</span>[] }
+    }
+}
+
+<span class="doccomment">/// A state in a trie.
+///
+/// This uses a sparse representation. Since we don&#39;t use literal tries
+/// for searching, and ultimately (and compilation requires visiting every
+/// transition anyway), we use a sparse representation for transitions. This
+/// means we save on memory, at the expense of &#39;LiteralTrie::add&#39; being perhaps
+/// a bit slower.
+///
+/// While &#39;transitions&#39; is pretty standard as far as tries goes, the &#39;chunks&#39;
+/// piece here is more unusual. In effect, &#39;chunks&#39; defines a partitioning
+/// of &#39;transitions&#39;, where each chunk corresponds to a distinct set of
+/// transitions. The key invariant is that a transition in one chunk cannot
+/// be moved to another chunk. This is the secret sauce that preserve
+/// leftmost-first match semantics.
+///
+/// A new chunk is added whenever we mark a state as a match state. Once a
+/// new chunk is added, the old active chunk is frozen and is never mutated
+/// again. The new chunk becomes the active chunk, which is defined as
+/// &#39;&amp;transitions[chunks.last().map_or(0, |c| c.1)..]&#39;. Thus, a state where
+/// &#39;chunks&#39; is empty actually contains one chunk. Thus, every state contains
+/// at least one (possibly empty) chunk.
+///
+/// A &quot;leaf&quot; state is a state that has no outgoing transitions (so
+/// &#39;transitions&#39; is empty). Note that there is no way for a leaf state to be a
+/// non-matching state. (Although while building the trie, within &#39;add&#39;, a leaf
+/// state may exist while not containing any matches. But this invariant is
+/// only broken within &#39;add&#39;. Once &#39;add&#39; returns, the invariant is upheld.)
+</span><span class="attribute">#[derive(Clone, Default)]
+</span><span class="kw">struct </span>State {
+    transitions: Vec&lt;Transition&gt;,
+    chunks: Vec&lt;(usize, usize)&gt;,
+}
+
+<span class="kw">impl </span>State {
+    <span class="doccomment">/// Mark this state as a match state and freeze the active chunk such that
+    /// it can not be further mutated.
+    </span><span class="kw">fn </span>add_match(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="comment">// This is not strictly necessary, but there&#39;s no point in recording
+        // another match by adding another chunk if the state has no
+        // transitions. Note though that we only skip this if we already know
+        // this is a match state, which is only true if &#39;chunks&#39; is not empty.
+        // Basically, if we didn&#39;t do this, nothing semantically would change,
+        // but we&#39;d end up pushing another chunk and potentially triggering an
+        // alloc.
+        </span><span class="kw">if </span><span class="self">self</span>.transitions.is_empty() &amp;&amp; !<span class="self">self</span>.chunks.is_empty() {
+            <span class="kw">return</span>;
+        }
+        <span class="kw">let </span>chunk_start = <span class="self">self</span>.active_chunk_start();
+        <span class="kw">let </span>chunk_end = <span class="self">self</span>.transitions.len();
+        <span class="self">self</span>.chunks.push((chunk_start, chunk_end));
+    }
+
+    <span class="doccomment">/// Returns true if and only if this state is a leaf state. That is, a
+    /// state that has no outgoing transitions.
+    </span><span class="kw">fn </span>is_leaf(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.transitions.is_empty()
+    }
+
+    <span class="doccomment">/// Returns an iterator over all of the chunks (including the currently
+    /// active chunk) in this state. Since the active chunk is included, the
+    /// iterator is guaranteed to always yield at least one chunk (although the
+    /// chunk may be empty).
+    </span><span class="kw">fn </span>chunks(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StateChunksIter&lt;<span class="lifetime">&#39;_</span>&gt; {
+        StateChunksIter {
+            transitions: <span class="kw-2">&amp;*</span><span class="self">self</span>.transitions,
+            chunks: <span class="self">self</span>.chunks.iter(),
+            active: <span class="prelude-val">Some</span>(<span class="self">self</span>.active_chunk()),
+        }
+    }
+
+    <span class="doccomment">/// Returns the active chunk as a slice of transitions.
+    </span><span class="kw">fn </span>active_chunk(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Transition] {
+        <span class="kw">let </span>start = <span class="self">self</span>.active_chunk_start();
+        <span class="kw-2">&amp;</span><span class="self">self</span>.transitions[start..]
+    }
+
+    <span class="doccomment">/// Returns the index into &#39;transitions&#39; where the active chunk starts.
+    </span><span class="kw">fn </span>active_chunk_start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.chunks.last().map_or(<span class="number">0</span>, |<span class="kw-2">&amp;</span>(<span class="kw">_</span>, end)| end)
+    }
+}
+
+<span class="kw">impl </span>core::fmt::Debug <span class="kw">for </span>State {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
+        <span class="kw">let </span><span class="kw-2">mut </span>spacing = <span class="string">&quot; &quot;</span>;
+        <span class="kw">for </span>(i, chunk) <span class="kw">in </span><span class="self">self</span>.chunks().enumerate() {
+            <span class="kw">if </span>i &gt; <span class="number">0 </span>{
+                <span class="macro">write!</span>(f, <span class="string">&quot;{}MATCH&quot;</span>, spacing)<span class="question-mark">?</span>;
+            }
+            spacing = <span class="string">&quot;&quot;</span>;
+            <span class="kw">for </span>(j, t) <span class="kw">in </span>chunk.iter().enumerate() {
+                spacing = <span class="string">&quot; &quot;</span>;
+                <span class="kw">if </span>j == <span class="number">0 </span>&amp;&amp; i &gt; <span class="number">0 </span>{
+                    <span class="macro">write!</span>(f, <span class="string">&quot; &quot;</span>)<span class="question-mark">?</span>;
+                } <span class="kw">else if </span>j &gt; <span class="number">0 </span>{
+                    <span class="macro">write!</span>(f, <span class="string">&quot;, &quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="macro">write!</span>(f, <span class="string">&quot;{:?}&quot;</span>, t)<span class="question-mark">?</span>;
+            }
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="doccomment">/// An iterator over all of the chunks in a state, including the active chunk.
+///
+/// This iterator is created by `State::chunks`. We name this iterator so that
+/// we can include it in the `Frame` type for non-recursive trie traversal.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>StateChunksIter&lt;<span class="lifetime">&#39;a</span>&gt; {
+    transitions: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Transition],
+    chunks: core::slice::Iter&lt;<span class="lifetime">&#39;a</span>, (usize, usize)&gt;,
+    active: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Transition]&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>StateChunksIter&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Transition];
+
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Transition]&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>(start, end)) = <span class="self">self</span>.chunks.next() {
+            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.transitions[start..end]);
+        }
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(chunk) = <span class="self">self</span>.active.take() {
+            <span class="kw">return </span><span class="prelude-val">Some</span>(chunk);
+        }
+        <span class="prelude-val">None
+    </span>}
+}
+
+<span class="doccomment">/// A single transition in a trie to another state.
+</span><span class="attribute">#[derive(Clone, Copy)]
+</span><span class="kw">struct </span>Transition {
+    byte: u8,
+    next: StateID,
+}
+
+<span class="kw">impl </span>core::fmt::Debug <span class="kw">for </span>Transition {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
+        <span class="macro">write!</span>(
+            f,
+            <span class="string">&quot;{:?} =&gt; {}&quot;</span>,
+            <span class="kw">crate</span>::util::escape::DebugByte(<span class="self">self</span>.byte),
+            <span class="self">self</span>.next.as_usize()
+        )
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>bstr::B;
+    <span class="kw">use </span>regex_syntax::hir::Hir;
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>zap() {
+        <span class="kw">let </span><span class="kw-2">mut </span>trie = LiteralTrie::forward();
+        trie.add(<span class="string">b&quot;zapper&quot;</span>).unwrap();
+        trie.add(<span class="string">b&quot;z&quot;</span>).unwrap();
+        trie.add(<span class="string">b&quot;zap&quot;</span>).unwrap();
+
+        <span class="kw">let </span>got = trie.compile_to_hir();
+        <span class="kw">let </span>expected = Hir::concat(<span class="macro">vec!</span>[
+            Hir::literal(B(<span class="string">&quot;z&quot;</span>)),
+            Hir::alternation(<span class="macro">vec!</span>[
+                Hir::literal(B(<span class="string">&quot;apper&quot;</span>)),
+                Hir::empty(),
+                Hir::literal(B(<span class="string">&quot;ap&quot;</span>)),
+            ]),
+        ]);
+        <span class="macro">assert_eq!</span>(expected, got);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>maker() {
+        <span class="kw">let </span><span class="kw-2">mut </span>trie = LiteralTrie::forward();
+        trie.add(<span class="string">b&quot;make&quot;</span>).unwrap();
+        trie.add(<span class="string">b&quot;maple&quot;</span>).unwrap();
+        trie.add(<span class="string">b&quot;maker&quot;</span>).unwrap();
+
+        <span class="kw">let </span>got = trie.compile_to_hir();
+        <span class="kw">let </span>expected = Hir::concat(<span class="macro">vec!</span>[
+            Hir::literal(B(<span class="string">&quot;ma&quot;</span>)),
+            Hir::alternation(<span class="macro">vec!</span>[
+                Hir::concat(<span class="macro">vec!</span>[
+                    Hir::literal(B(<span class="string">&quot;ke&quot;</span>)),
+                    Hir::alternation(<span class="macro">vec!</span>[Hir::empty(), Hir::literal(B(<span class="string">&quot;r&quot;</span>))]),
+                ]),
+                Hir::literal(B(<span class="string">&quot;ple&quot;</span>)),
+            ]),
+        ]);
+        <span class="macro">assert_eq!</span>(expected, got);
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="regex_automata" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

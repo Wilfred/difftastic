@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A lightweight logging facade."><meta name="keywords" content="rust, rustlang, rust-lang, log"><title>log - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" href="https://www.rust-lang.org/favicon.ico"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../log/index.html"><div class="logo-container"><img src="https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../log/index.html"><div class="logo-container">
+                    <img src="https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png" alt="logo"></div></a><h2 class="location"><a href="#">Crate log</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.4.17</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../log/index.html">
+                        <img src="https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">log</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/log/lib.rs.html#11-1971">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A lightweight logging facade.</p>
+<p>The <code>log</code> crate provides a single logging API that abstracts over the
+actual logging implementation. Libraries can use the logging API provided
+by this crate, and the consumer of those libraries can choose the logging
+implementation that is most suitable for its use case.</p>
+<p>If no logging implementation is selected, the facade falls back to a “noop”
+implementation that ignores all log messages. The overhead in this case
+is very small - just an integer load, comparison and jump.</p>
+<p>A log request consists of a <em>target</em>, a <em>level</em>, and a <em>body</em>. A target is a
+string which defaults to the module path of the location of the log request,
+though that default may be overridden. Logger implementations typically use
+the target to filter requests based on some user configuration.</p>
+<h2 id="usage"><a href="#usage">Usage</a></h2>
+<p>The basic use of the log crate is through the five logging macros: <a href="./macro.error.html"><code>error!</code></a>,
+<a href="./macro.warn.html"><code>warn!</code></a>, <a href="./macro.info.html"><code>info!</code></a>, <a href="./macro.debug.html"><code>debug!</code></a> and <a href="./macro.trace.html"><code>trace!</code></a>
+where <code>error!</code> represents the highest-priority log messages
+and <code>trace!</code> the lowest. The log messages are filtered by configuring
+the log level to exclude messages with a lower priority.
+Each of these macros accept format strings similarly to <a href="https://doc.rust-lang.org/stable/std/macro.println.html"><code>println!</code></a>.</p>
+<h3 id="in-libraries"><a href="#in-libraries">In libraries</a></h3>
+<p>Libraries should link only to the <code>log</code> crate, and use the provided
+macros to log whatever information will be useful to downstream consumers.</p>
+<h4 id="examples"><a href="#examples">Examples</a></h4>
+<div class="example-wrap edition"><div class='tooltip' data-edition="2018">ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">use </span>log::{info, warn};
+
+<span class="kw">pub fn </span>shave_the_yak(yak: <span class="kw-2">&amp;mut </span>Yak) {
+    <span class="macro">info!</span>(target: <span class="string">&quot;yak_events&quot;</span>, <span class="string">&quot;Commencing yak shaving for {:?}&quot;</span>, yak);
+
+    <span class="kw">loop </span>{
+        <span class="kw">match </span>find_a_razor() {
+            <span class="prelude-val">Ok</span>(razor) =&gt; {
+                <span class="macro">info!</span>(<span class="string">&quot;Razor located: {}&quot;</span>, razor);
+                yak.shave(razor);
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="macro">warn!</span>(<span class="string">&quot;Unable to locate a razor: {}, retrying&quot;</span>, err);
+            }
+        }
+    }
+}</code></pre></div>
+<h3 id="in-executables"><a href="#in-executables">In executables</a></h3>
+<p>Executables should choose a logging implementation and initialize it early in the
+runtime of the program. Logging implementations will typically include a
+function to do this. Any log messages generated before
+the implementation is initialized will be ignored.</p>
+<p>The executable itself may use the <code>log</code> crate to log as well.</p>
+<h4 id="warning"><a href="#warning">Warning</a></h4>
+<p>The logging system may only be initialized once.</p>
+<h3 id="structured-logging"><a href="#structured-logging">Structured logging</a></h3>
+<p>If you enable the <code>kv_unstable</code> feature you can associate structured values
+with your log records. If we take the example from before, we can include
+some additional context besides what’s in the formatted message:</p>
+
+<div class="example-wrap edition"><div class='tooltip' data-edition="2018">ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">use </span>log::{info, warn, as_serde, as_error};
+
+<span class="kw">pub fn </span>shave_the_yak(yak: <span class="kw-2">&amp;mut </span>Yak) {
+    <span class="macro">info!</span>(target: <span class="string">&quot;yak_events&quot;</span>, yak = <span class="macro">as_serde!</span>(yak); <span class="string">&quot;Commencing yak shaving&quot;</span>);
+
+    <span class="kw">loop </span>{
+        <span class="kw">match </span>find_a_razor() {
+            <span class="prelude-val">Ok</span>(razor) =&gt; {
+                <span class="macro">info!</span>(razor = razor; <span class="string">&quot;Razor located&quot;</span>);
+                yak.shave(razor);
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="macro">warn!</span>(err = <span class="macro">as_error!</span>(err); <span class="string">&quot;Unable to locate a razor, retrying&quot;</span>);
+            }
+        }
+    }
+}</code></pre></div>
+<h2 id="available-logging-implementations"><a href="#available-logging-implementations">Available logging implementations</a></h2>
+<p>In order to produce log output executables have to use
+a logger implementation compatible with the facade.
+There are many available implementations to choose from,
+here are some of the most popular ones:</p>
+<ul>
+<li>Simple minimal loggers:
+<ul>
+<li><a href="https://docs.rs/env_logger/*/env_logger/">env_logger</a></li>
+<li><a href="https://github.com/borntyping/rust-simple_logger">simple_logger</a></li>
+<li><a href="https://github.com/drakulix/simplelog.rs">simplelog</a></li>
+<li><a href="https://docs.rs/pretty_env_logger/*/pretty_env_logger/">pretty_env_logger</a></li>
+<li><a href="https://docs.rs/stderrlog/*/stderrlog/">stderrlog</a></li>
+<li><a href="https://docs.rs/flexi_logger/*/flexi_logger/">flexi_logger</a></li>
+</ul>
+</li>
+<li>Complex configurable frameworks:
+<ul>
+<li><a href="https://docs.rs/log4rs/*/log4rs/">log4rs</a></li>
+<li><a href="https://docs.rs/fern/*/fern/">fern</a></li>
+</ul>
+</li>
+<li>Adaptors for other facilities:
+<ul>
+<li><a href="https://docs.rs/syslog/*/syslog/">syslog</a></li>
+<li><a href="https://docs.rs/slog-stdlog/*/slog_stdlog/">slog-stdlog</a></li>
+<li><a href="https://docs.rs/systemd-journal-logger/*/systemd_journal_logger/">systemd-journal-logger</a></li>
+<li><a href="https://docs.rs/android_log/*/android_log/">android_log</a></li>
+<li><a href="https://docs.rs/win_dbg_logger/*/win_dbg_logger/">win_dbg_logger</a></li>
+<li>[db_logger]</li>
+</ul>
+</li>
+<li>For WebAssembly binaries:
+<ul>
+<li><a href="https://docs.rs/console_log/*/console_log/">console_log</a></li>
+</ul>
+</li>
+<li>For dynamic libraries:
+<ul>
+<li>You may need to construct an FFI-safe wrapper over <code>log</code> to initialize in your libraries</li>
+</ul>
+</li>
+</ul>
+<h2 id="implementing-a-logger"><a href="#implementing-a-logger">Implementing a Logger</a></h2>
+<p>Loggers implement the <a href="trait.Log.html"><code>Log</code></a> trait. Here’s a very basic example that simply
+logs all messages at the <a href="enum.Level.html"><code>Error</code></a>, <a href="enum.Level.html"><code>Warn</code></a> or
+<a href="enum.Level.html"><code>Info</code></a> levels to stdout:</p>
+
+<div class="example-wrap edition"><div class='tooltip' data-edition="2018">ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">use </span>log::{Record, Level, Metadata};
+
+<span class="kw">struct </span>SimpleLogger;
+
+<span class="kw">impl </span>log::Log <span class="kw">for </span>SimpleLogger {
+    <span class="kw">fn </span>enabled(<span class="kw-2">&amp;</span><span class="self">self</span>, metadata: <span class="kw-2">&amp;</span>Metadata) -&gt; bool {
+        metadata.level() &lt;= Level::Info
+    }
+
+    <span class="kw">fn </span>log(<span class="kw-2">&amp;</span><span class="self">self</span>, record: <span class="kw-2">&amp;</span>Record) {
+        <span class="kw">if </span><span class="self">self</span>.enabled(record.metadata()) {
+            <span class="macro">println!</span>(<span class="string">&quot;{} - {}&quot;</span>, record.level(), record.args());
+        }
+    }
+
+    <span class="kw">fn </span>flush(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
+}
+</code></pre></div>
+<p>Loggers are installed by calling the <a href="fn.set_logger.html"><code>set_logger</code></a> function. The maximum
+log level also needs to be adjusted via the <a href="fn.set_max_level.html"><code>set_max_level</code></a> function. The
+logging facade uses this as an optimization to improve performance of log
+messages at levels that are disabled. It’s important to set it, as it
+defaults to <a href="enum.LevelFilter.html"><code>Off</code></a>, so no log messages will ever be captured!
+In the case of our example logger, we’ll want to set the maximum log level
+to <a href="enum.LevelFilter.html"><code>Info</code></a>, since we ignore any <a href="enum.Level.html"><code>Debug</code></a> or
+<a href="enum.Level.html"><code>Trace</code></a> level log messages. A logging implementation should
+provide a function that wraps a call to <a href="fn.set_logger.html"><code>set_logger</code></a> and
+<a href="fn.set_max_level.html"><code>set_max_level</code></a>, handling initialization of the logger:</p>
+
+<div class="example-wrap edition"><div class='tooltip' data-edition="2018">ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">use </span>log::{SetLoggerError, LevelFilter};
+
+<span class="kw">static </span>LOGGER: SimpleLogger = SimpleLogger;
+
+<span class="kw">pub fn </span>init() -&gt; <span class="prelude-ty">Result</span>&lt;(), SetLoggerError&gt; {
+    log::set_logger(<span class="kw-2">&amp;</span>LOGGER)
+        .map(|()| log::set_max_level(LevelFilter::Info))
+}</code></pre></div>
+<p>Implementations that adjust their configurations at runtime should take care
+to adjust the maximum log level as well.</p>
+<h2 id="use-with-std"><a href="#use-with-std">Use with <code>std</code></a></h2>
+<p><code>set_logger</code> requires you to provide a <code>&amp;'static Log</code>, which can be hard to
+obtain if your logger depends on some runtime configuration. The
+<code>set_boxed_logger</code> function is available with the <code>std</code> Cargo feature. It is
+identical to <code>set_logger</code> except that it takes a <code>Box&lt;Log&gt;</code> rather than a
+<code>&amp;'static Log</code>:</p>
+
+<div class="example-wrap edition"><div class='tooltip' data-edition="2018">ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">pub fn </span>init() -&gt; <span class="prelude-ty">Result</span>&lt;(), SetLoggerError&gt; {
+    log::set_boxed_logger(Box::new(SimpleLogger))
+        .map(|()| log::set_max_level(LevelFilter::Info))
+}</code></pre></div>
+<h2 id="compile-time-filters"><a href="#compile-time-filters">Compile time filters</a></h2>
+<p>Log levels can be statically disabled at compile time via Cargo features. Log invocations at
+disabled levels will be skipped and will not even be present in the resulting binary.
+This level is configured separately for release and debug builds. The features are:</p>
+<ul>
+<li><code>max_level_off</code></li>
+<li><code>max_level_error</code></li>
+<li><code>max_level_warn</code></li>
+<li><code>max_level_info</code></li>
+<li><code>max_level_debug</code></li>
+<li><code>max_level_trace</code></li>
+<li><code>release_max_level_off</code></li>
+<li><code>release_max_level_error</code></li>
+<li><code>release_max_level_warn</code></li>
+<li><code>release_max_level_info</code></li>
+<li><code>release_max_level_debug</code></li>
+<li><code>release_max_level_trace</code></li>
+</ul>
+<p>These features control the value of the <code>STATIC_MAX_LEVEL</code> constant. The logging macros check
+this value before logging a message. By default, no levels are disabled.</p>
+<p>Libraries should avoid using the max level features because they’re global and can’t be changed
+once they’re set.</p>
+<p>For example, a crate can disable trace level logs in debug builds and trace, debug, and info
+level logs in release builds with the following configuration:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+log = { version = &quot;0.4&quot;, features = [&quot;max_level_debug&quot;, &quot;release_max_level_warn&quot;] }</code></pre></div><h2 id="crate-feature-flags"><a href="#crate-feature-flags">Crate Feature Flags</a></h2>
+<p>The following crate feature flags are available in addition to the filters. They are
+configured in your <code>Cargo.toml</code>.</p>
+<ul>
+<li><code>std</code> allows use of <code>std</code> crate instead of the default <code>core</code>. Enables using <code>std::error</code> and
+<code>set_boxed_logger</code> functionality.</li>
+<li><code>serde</code> enables support for serialization and deserialization of <code>Level</code> and <code>LevelFilter</code>.</li>
+</ul>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+log = { version = &quot;0.4&quot;, features = [&quot;std&quot;, &quot;serde&quot;] }</code></pre></div><h2 id="version-compatibility"><a href="#version-compatibility">Version compatibility</a></h2>
+<p>The 0.3 and 0.4 versions of the <code>log</code> crate are almost entirely compatible. Log messages
+made using <code>log</code> 0.3 will forward transparently to a logger implementation using <code>log</code> 0.4. Log
+messages made using <code>log</code> 0.4 will forward to a logger implementation using <code>log</code> 0.3, but the
+module path and file name information associated with the message will unfortunately be lost.</p>
+</div></details><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.debug.html" title="log::debug macro">debug</a></div><div class="item-right docblock-short">Logs a message at the debug level.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.error.html" title="log::error macro">error</a></div><div class="item-right docblock-short">Logs a message at the error level.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.info.html" title="log::info macro">info</a></div><div class="item-right docblock-short">Logs a message at the info level.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.log.html" title="log::log macro">log</a></div><div class="item-right docblock-short">The standard logging macro.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.log_enabled.html" title="log::log_enabled macro">log_enabled</a></div><div class="item-right docblock-short">Determines if a message logged at the specified level in that module will
+be logged.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.trace.html" title="log::trace macro">trace</a></div><div class="item-right docblock-short">Logs a message at the trace level.</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.warn.html" title="log::warn macro">warn</a></div><div class="item-right docblock-short">Logs a message at the warn level.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Metadata.html" title="log::Metadata struct">Metadata</a></div><div class="item-right docblock-short">Metadata about a log message.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.MetadataBuilder.html" title="log::MetadataBuilder struct">MetadataBuilder</a></div><div class="item-right docblock-short">Builder for <a href="struct.Metadata.html"><code>Metadata</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ParseLevelError.html" title="log::ParseLevelError struct">ParseLevelError</a></div><div class="item-right docblock-short">The type returned by <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html#tymethod.from_str"><code>from_str</code></a> when the string doesn’t match any of the log levels.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Record.html" title="log::Record struct">Record</a></div><div class="item-right docblock-short">The “payload” of a log message.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RecordBuilder.html" title="log::RecordBuilder struct">RecordBuilder</a></div><div class="item-right docblock-short">Builder for <a href="struct.Record.html"><code>Record</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetLoggerError.html" title="log::SetLoggerError struct">SetLoggerError</a></div><div class="item-right docblock-short">The type returned by <a href="fn.set_logger.html"><code>set_logger</code></a> if <a href="fn.set_logger.html"><code>set_logger</code></a> has already been called.</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Level.html" title="log::Level enum">Level</a></div><div class="item-right docblock-short">An enum representing the available verbosity levels of the logger.</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.LevelFilter.html" title="log::LevelFilter enum">LevelFilter</a></div><div class="item-right docblock-short">An enum representing the available verbosity level filters of the logger.</div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.STATIC_MAX_LEVEL.html" title="log::STATIC_MAX_LEVEL constant">STATIC_MAX_LEVEL</a></div><div class="item-right docblock-short">The statically resolved maximum log level.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Log.html" title="log::Log trait">Log</a></div><div class="item-right docblock-short">A trait encapsulating the operations required of a logger.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.logger.html" title="log::logger fn">logger</a></div><div class="item-right docblock-short">Returns a reference to the logger.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.max_level.html" title="log::max_level fn">max_level</a></div><div class="item-right docblock-short">Returns the current maximum log level.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.set_boxed_logger.html" title="log::set_boxed_logger fn">set_boxed_logger</a></div><div class="item-right docblock-short">Sets the global logger to a <code>Box&lt;Log&gt;</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.set_logger.html" title="log::set_logger fn">set_logger</a></div><div class="item-right docblock-short">Sets the global logger to a <code>&amp;'static Log</code>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.set_logger_racy.html" title="log::set_logger_racy fn">set_logger_racy</a><a title="unsafe function" href="#"><sup>⚠</sup></a></div><div class="item-right docblock-short">A thread-unsafe version of <a href="fn.set_logger.html"><code>set_logger</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.set_max_level.html" title="log::set_max_level fn">set_max_level</a></div><div class="item-right docblock-short">Sets the global maximum log level.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="log" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

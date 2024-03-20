@@ -1,0 +1,1222 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-automata-0.3.9/src/util/determinize/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../regex_automata/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+This module contains types and routines for implementing determinization.
+
+In this crate, there are at least two places where we implement
+determinization: fully ahead-of-time compiled DFAs in the `dfa` module and
+lazily compiled DFAs in the `hybrid` module. The stuff in this module
+corresponds to the things that are in common between these implementations.
+
+There are three broad things that our implementations of determinization have
+in common, as defined by this module:
+
+* The classification of start states. That is, whether we&#39;re dealing with
+word boundaries, line boundaries, etc., is all the same. This also includes
+the look-behind assertions that are satisfied by each starting state
+classification.
+* The representation of DFA states as sets of NFA states, including
+convenience types for building these DFA states that are amenable to reusing
+allocations.
+* Routines for the &quot;classical&quot; parts of determinization: computing the
+epsilon closure, tracking match states (with corresponding pattern IDs, since
+we support multi-pattern finite automata) and, of course, computing the
+transition function between states for units of input.
+
+I did consider a couple of alternatives to this particular form of code reuse:
+
+1. Don&#39;t do any code reuse. The problem here is that we *really* want both
+forms of determinization to do exactly identical things when it comes to
+their handling of NFA states. While our tests generally ensure this, the code
+is tricky and large enough where not reusing code is a pretty big bummer.
+
+2. Implement all of determinization once and make it generic over fully
+compiled DFAs and lazily compiled DFAs. While I didn&#39;t actually try this
+approach, my instinct is that it would be more complex than is needed here.
+And the interface required would be pretty hairy. Instead, I think splitting
+it into logical sub-components works better.
+*/
+
+</span><span class="kw">use </span>alloc::vec::Vec;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::state::{
+    State, StateBuilderEmpty, StateBuilderMatches, StateBuilderNFA,
+};
+
+<span class="kw">use crate</span>::{
+    nfa::thompson,
+    util::{
+        alphabet,
+        look::{Look, LookSet},
+        primitives::StateID,
+        search::MatchKind,
+        sparse_set::{SparseSet, SparseSets},
+        start::Start,
+        utf8,
+    },
+};
+
+<span class="kw">mod </span>state;
+
+<span class="doccomment">/// Compute the set of all reachable NFA states, including the full epsilon
+/// closure, from a DFA state for a single unit of input. The set of reachable
+/// states is returned as a `StateBuilderNFA`. The `StateBuilderNFA` returned
+/// also includes any look-behind assertions satisfied by `unit`, in addition
+/// to whether it is a match state. For multi-pattern DFAs, the builder will
+/// also include the pattern IDs that match (in the order seen).
+///
+/// `nfa` must be able to resolve any NFA state in `state` and any NFA state
+/// reachable via the epsilon closure of any NFA state in `state`. `sparses`
+/// must have capacity equivalent to `nfa.len()`.
+///
+/// `match_kind` should correspond to the match semantics implemented by the
+/// DFA being built. Generally speaking, for leftmost-first match semantics,
+/// states that appear after the first NFA match state will not be included in
+/// the `StateBuilderNFA` returned since they are impossible to visit.
+///
+/// `sparses` is used as scratch space for NFA traversal. Other than their
+/// capacity requirements (detailed above), there are no requirements on what&#39;s
+/// contained within them (if anything). Similarly, what&#39;s inside of them once
+/// this routine returns is unspecified.
+///
+/// `stack` must have length 0. It is used as scratch space for depth first
+/// traversal. After returning, it is guaranteed that `stack` will have length
+/// 0.
+///
+/// `state` corresponds to the current DFA state on which one wants to compute
+/// the transition for the input `unit`.
+///
+/// `empty_builder` corresponds to the builder allocation to use to produce a
+/// complete `StateBuilderNFA` state. If the state is not needed (or is already
+/// cached), then it can be cleared and reused without needing to create a new
+/// `State`. The `StateBuilderNFA` state returned is final and ready to be
+/// turned into a `State` if necessary.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>next(
+    nfa: <span class="kw-2">&amp;</span>thompson::NFA,
+    match_kind: MatchKind,
+    sparses: <span class="kw-2">&amp;mut </span>SparseSets,
+    stack: <span class="kw-2">&amp;mut </span>Vec&lt;StateID&gt;,
+    state: <span class="kw-2">&amp;</span>State,
+    unit: alphabet::Unit,
+    empty_builder: StateBuilderEmpty,
+) -&gt; StateBuilderNFA {
+    sparses.clear();
+
+    <span class="comment">// Whether the NFA is matched in reverse or not. We use this in some
+    // conditional logic for dealing with the exceptionally annoying CRLF-aware
+    // line anchors.
+    </span><span class="kw">let </span>rev = nfa.is_reverse();
+    <span class="comment">// The look-around matcher that our NFA is configured with. We don&#39;t
+    // actually use it to match look-around assertions, but we do need its
+    // configuration for constructing states consistent with how it matches.
+    </span><span class="kw">let </span>lookm = nfa.look_matcher();
+
+    <span class="comment">// Put the NFA state IDs into a sparse set in case we need to
+    // re-compute their epsilon closure.
+    //
+    // Doing this state shuffling is technically not necessary unless some
+    // kind of look-around is used in the DFA. Some ad hoc experiments
+    // suggested that avoiding this didn&#39;t lead to much of an improvement,
+    // but perhaps more rigorous experimentation should be done. And in
+    // particular, avoiding this check requires some light refactoring of
+    // the code below.
+    </span>state.iter_nfa_state_ids(|nfa_id| {
+        sparses.set1.insert(nfa_id);
+    });
+
+    <span class="comment">// Compute look-ahead assertions originating from the current state. Based
+    // on the input unit we&#39;re transitioning over, some additional set of
+    // assertions may be true. Thus, we re-compute this state&#39;s epsilon closure
+    // (but only if necessary). Notably, when we build a DFA state initially,
+    // we don&#39;t enable any look-ahead assertions because we don&#39;t know whether
+    // they&#39;re true or not at that point.
+    </span><span class="kw">if </span>!state.look_need().is_empty() {
+        <span class="comment">// Add look-ahead assertions that are now true based on the current
+        // input unit.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>look_have = state.look_have().clone();
+        <span class="kw">match </span>unit.as_u8() {
+            <span class="prelude-val">Some</span>(<span class="string">b&#39;\r&#39;</span>) =&gt; {
+                <span class="kw">if </span>!rev || !state.is_half_crlf() {
+                    look_have = look_have.insert(Look::EndCRLF);
+                }
+            }
+            <span class="prelude-val">Some</span>(<span class="string">b&#39;\n&#39;</span>) =&gt; {
+                <span class="kw">if </span>rev || !state.is_half_crlf() {
+                    look_have = look_have.insert(Look::EndCRLF);
+                }
+            }
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {}
+            <span class="prelude-val">None </span>=&gt; {
+                look_have = look_have.insert(Look::End);
+                look_have = look_have.insert(Look::EndLF);
+                look_have = look_have.insert(Look::EndCRLF);
+            }
+        }
+        <span class="kw">if </span>unit.is_byte(lookm.get_line_terminator()) {
+            look_have = look_have.insert(Look::EndLF);
+        }
+        <span class="kw">if </span>state.is_half_crlf()
+            &amp;&amp; ((rev &amp;&amp; !unit.is_byte(<span class="string">b&#39;\r&#39;</span>))
+                || (!rev &amp;&amp; !unit.is_byte(<span class="string">b&#39;\n&#39;</span>)))
+        {
+            look_have = look_have.insert(Look::StartCRLF);
+        }
+        <span class="kw">if </span>state.is_from_word() == unit.is_word_byte() {
+            look_have = look_have.insert(Look::WordUnicodeNegate);
+            look_have = look_have.insert(Look::WordAsciiNegate);
+        } <span class="kw">else </span>{
+            look_have = look_have.insert(Look::WordUnicode);
+            look_have = look_have.insert(Look::WordAscii);
+        }
+        <span class="comment">// If we have new assertions satisfied that are among the set of
+        // assertions that exist in this state (that is, just because we added
+        // an EndLF assertion above doesn&#39;t mean there is an EndLF conditional
+        // epsilon transition in this state), then we re-compute this state&#39;s
+        // epsilon closure using the updated set of assertions.
+        //
+        // Note that since our DFA states omit unconditional epsilon
+        // transitions, this check is necessary for correctness. If we re-did
+        // the epsilon closure below needlessly, it could change based on the
+        // fact that we omitted epsilon states originally.
+        </span><span class="kw">if </span>!look_have
+            .subtract(state.look_have())
+            .intersect(state.look_need())
+            .is_empty()
+        {
+            <span class="kw">for </span>nfa_id <span class="kw">in </span>sparses.set1.iter() {
+                epsilon_closure(
+                    nfa,
+                    nfa_id,
+                    look_have,
+                    stack,
+                    <span class="kw-2">&amp;mut </span>sparses.set2,
+                );
+            }
+            sparses.swap();
+            sparses.set2.clear();
+        }
+    }
+
+    <span class="comment">// Convert our empty builder into one that can record assertions and match
+    // pattern IDs.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>builder = empty_builder.into_matches();
+    <span class="comment">// Set whether the StartLF look-behind assertion is true for this
+    // transition or not. The look-behind assertion for ASCII word boundaries
+    // is handled below.
+    </span><span class="kw">if </span>nfa.look_set_any().contains_anchor_line()
+        &amp;&amp; unit.is_byte(lookm.get_line_terminator())
+    {
+        <span class="comment">// Why only handle StartLF here and not Start? That&#39;s because Start
+        // can only impact the starting state, which is special cased in
+        // start state handling.
+        </span>builder.set_look_have(|have| have.insert(Look::StartLF));
+    }
+    <span class="comment">// We also need to add StartCRLF to our assertions too, if we can. This
+    // is unfortunately a bit more complicated, because it depends on the
+    // direction of the search. In the forward direction, ^ matches after a
+    // \n, but in the reverse direction, ^ only matches after a \r. (This is
+    // further complicated by the fact that reverse a regex means changing a ^
+    // to a $ and vice versa.)
+    </span><span class="kw">if </span>nfa.look_set_any().contains_anchor_crlf()
+        &amp;&amp; ((rev &amp;&amp; unit.is_byte(<span class="string">b&#39;\r&#39;</span>)) || (!rev &amp;&amp; unit.is_byte(<span class="string">b&#39;\n&#39;</span>)))
+    {
+        builder.set_look_have(|have| have.insert(Look::StartCRLF));
+    }
+    <span class="kw">for </span>nfa_id <span class="kw">in </span>sparses.set1.iter() {
+        <span class="kw">match </span><span class="kw-2">*</span>nfa.state(nfa_id) {
+            thompson::State::Union { .. }
+            | thompson::State::BinaryUnion { .. }
+            | thompson::State::Fail
+            | thompson::State::Look { .. }
+            | thompson::State::Capture { .. } =&gt; {}
+            thompson::State::Match { pattern_id } =&gt; {
+                <span class="comment">// Notice here that we are calling the NEW state a match
+                // state if the OLD state we are transitioning from
+                // contains an NFA match state. This is precisely how we
+                // delay all matches by one byte and also what therefore
+                // guarantees that starting states cannot be match states.
+                //
+                // If we didn&#39;t delay matches by one byte, then whether
+                // a DFA is a matching state or not would be determined
+                // by whether one of its own constituent NFA states
+                // was a match state. (And that would be done in
+                // &#39;add_nfa_states&#39;.)
+                //
+                // Also, &#39;add_match_pattern_id&#39; requires that callers never
+                // pass duplicative pattern IDs. We do in fact uphold that
+                // guarantee here, but it&#39;s subtle. In particular, a Thompson
+                // NFA guarantees that each pattern has exactly one match
+                // state. Moreover, since we&#39;re iterating over the NFA state
+                // IDs in a set, we are guarateed not to have any duplicative
+                // match states. Thus, it is impossible to add the same pattern
+                // ID more than once.
+                //
+                // N.B. We delay matches by 1 byte as a way to hack 1-byte
+                // look-around into DFA searches. This lets us support ^, $
+                // and ASCII-only \b. The delay is also why we need a special
+                // &quot;end-of-input&quot; (EOI) sentinel and why we need to follow the
+                // EOI sentinel at the end of every search. This final EOI
+                // transition is necessary to report matches found at the end
+                // of a haystack.
+                </span>builder.add_match_pattern_id(pattern_id);
+                <span class="kw">if </span>!match_kind.continue_past_first_match() {
+                    <span class="kw">break</span>;
+                }
+            }
+            thompson::State::ByteRange { <span class="kw-2">ref </span>trans } =&gt; {
+                <span class="kw">if </span>trans.matches_unit(unit) {
+                    epsilon_closure(
+                        nfa,
+                        trans.next,
+                        builder.look_have(),
+                        stack,
+                        <span class="kw-2">&amp;mut </span>sparses.set2,
+                    );
+                }
+            }
+            thompson::State::Sparse(<span class="kw-2">ref </span>sparse) =&gt; {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(next) = sparse.matches_unit(unit) {
+                    epsilon_closure(
+                        nfa,
+                        next,
+                        builder.look_have(),
+                        stack,
+                        <span class="kw-2">&amp;mut </span>sparses.set2,
+                    );
+                }
+            }
+            thompson::State::Dense(<span class="kw-2">ref </span>dense) =&gt; {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(next) = dense.matches_unit(unit) {
+                    epsilon_closure(
+                        nfa,
+                        next,
+                        builder.look_have(),
+                        stack,
+                        <span class="kw-2">&amp;mut </span>sparses.set2,
+                    );
+                }
+            }
+        }
+    }
+    <span class="comment">// We only set the word byte if there&#39;s a word boundary look-around
+    // anywhere in this regex. Otherwise, there&#39;s no point in bloating the
+    // number of states if we don&#39;t have one.
+    //
+    // We also only set it when the state has a non-zero number of NFA states.
+    // Otherwise, we could wind up with states that *should* be DEAD states
+    // but are otherwise distinct from DEAD states because of this look-behind
+    // assertion being set. While this can&#39;t technically impact correctness *in
+    // theory*, it can create pathological DFAs that consume input until EOI or
+    // a quit byte is seen. Consuming until EOI isn&#39;t a correctness problem,
+    // but a (serious) perf problem. Hitting a quit byte, however, could be a
+    // correctness problem since it could cause search routines to report an
+    // error instead of a detected match once the quit state is entered. (The
+    // search routine could be made to be a bit smarter by reporting a match
+    // if one was detected once it enters a quit state (and indeed, the search
+    // routines in this crate do just that), but it seems better to prevent
+    // these things by construction if possible.)
+    </span><span class="kw">if </span>!sparses.set2.is_empty() {
+        <span class="kw">if </span>nfa.look_set_any().contains_word() &amp;&amp; unit.is_word_byte() {
+            builder.set_is_from_word();
+        }
+        <span class="kw">if </span>nfa.look_set_any().contains_anchor_crlf()
+            &amp;&amp; ((rev &amp;&amp; unit.is_byte(<span class="string">b&#39;\n&#39;</span>)) || (!rev &amp;&amp; unit.is_byte(<span class="string">b&#39;\r&#39;</span>)))
+        {
+            builder.set_is_half_crlf();
+        }
+    }
+    <span class="kw">let </span><span class="kw-2">mut </span>builder_nfa = builder.into_nfa();
+    add_nfa_states(nfa, <span class="kw-2">&amp;</span>sparses.set2, <span class="kw-2">&amp;mut </span>builder_nfa);
+    builder_nfa
+}
+
+<span class="doccomment">/// Compute the epsilon closure for the given NFA state. The epsilon closure
+/// consists of all NFA state IDs, including `start_nfa_id`, that can be
+/// reached from `start_nfa_id` without consuming any input. These state IDs
+/// are written to `set` in the order they are visited, but only if they are
+/// not already in `set`. `start_nfa_id` must be a valid state ID for the NFA
+/// given.
+///
+/// `look_have` consists of the satisfied assertions at the current
+/// position. For conditional look-around epsilon transitions, these are
+/// only followed if they are satisfied by `look_have`.
+///
+/// `stack` must have length 0. It is used as scratch space for depth first
+/// traversal. After returning, it is guaranteed that `stack` will have length
+/// 0.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>epsilon_closure(
+    nfa: <span class="kw-2">&amp;</span>thompson::NFA,
+    start_nfa_id: StateID,
+    look_have: LookSet,
+    stack: <span class="kw-2">&amp;mut </span>Vec&lt;StateID&gt;,
+    set: <span class="kw-2">&amp;mut </span>SparseSet,
+) {
+    <span class="macro">assert!</span>(stack.is_empty());
+    <span class="comment">// If this isn&#39;t an epsilon state, then the epsilon closure is always just
+    // itself, so there&#39;s no need to spin up the machinery below to handle it.
+    </span><span class="kw">if </span>!nfa.state(start_nfa_id).is_epsilon() {
+        set.insert(start_nfa_id);
+        <span class="kw">return</span>;
+    }
+
+    stack.push(start_nfa_id);
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>id) = stack.pop() {
+        <span class="comment">// In many cases, we can avoid stack operations when an NFA state only
+        // adds one new state to visit. In that case, we just set our ID to
+        // that state and mush on. We only use the stack when an NFA state
+        // introduces multiple new states to visit.
+        </span><span class="kw">loop </span>{
+            <span class="comment">// Insert this NFA state, and if it&#39;s already in the set and thus
+            // already visited, then we can move on to the next one.
+            </span><span class="kw">if </span>!set.insert(id) {
+                <span class="kw">break</span>;
+            }
+            <span class="kw">match </span><span class="kw-2">*</span>nfa.state(id) {
+                thompson::State::ByteRange { .. }
+                | thompson::State::Sparse { .. }
+                | thompson::State::Dense { .. }
+                | thompson::State::Fail
+                | thompson::State::Match { .. } =&gt; <span class="kw">break</span>,
+                thompson::State::Look { look, next } =&gt; {
+                    <span class="kw">if </span>!look_have.contains(look) {
+                        <span class="kw">break</span>;
+                    }
+                    id = next;
+                }
+                thompson::State::Union { <span class="kw-2">ref </span>alternates } =&gt; {
+                    id = <span class="kw">match </span>alternates.get(<span class="number">0</span>) {
+                        <span class="prelude-val">None </span>=&gt; <span class="kw">break</span>,
+                        <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>id) =&gt; id,
+                    };
+                    <span class="comment">// We need to process our alternates in order to preserve
+                    // match preferences, so put the earliest alternates closer
+                    // to the top of the stack.
+                    </span>stack.extend(alternates[<span class="number">1</span>..].iter().rev());
+                }
+                thompson::State::BinaryUnion { alt1, alt2 } =&gt; {
+                    id = alt1;
+                    stack.push(alt2);
+                }
+                thompson::State::Capture { next, .. } =&gt; {
+                    id = next;
+                }
+            }
+        }
+    }
+}
+
+<span class="doccomment">/// Add the NFA state IDs in the given `set` to the given DFA builder state.
+/// The order in which states are added corresponds to the order in which they
+/// were added to `set`.
+///
+/// The DFA builder state given should already have its complete set of match
+/// pattern IDs added (if any) and any look-behind assertions (StartLF, Start
+/// and whether this state is being generated for a transition over a word byte
+/// when applicable) that are true immediately prior to transitioning into this
+/// state (via `builder.look_have()`). The match pattern IDs should correspond
+/// to matches that occurred on the previous transition, since all matches are
+/// delayed by one byte. The things that should _not_ be set are look-ahead
+/// assertions (EndLF, End and whether the next byte is a word byte or not).
+/// The builder state should also not have anything in `look_need` set, as this
+/// routine will compute that for you.
+///
+/// The given NFA should be able to resolve all identifiers in `set` to a
+/// particular NFA state. Additionally, `set` must have capacity equivalent
+/// to `nfa.len()`.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add_nfa_states(
+    nfa: <span class="kw-2">&amp;</span>thompson::NFA,
+    set: <span class="kw-2">&amp;</span>SparseSet,
+    builder: <span class="kw-2">&amp;mut </span>StateBuilderNFA,
+) {
+    <span class="kw">for </span>nfa_id <span class="kw">in </span>set.iter() {
+        <span class="kw">match </span><span class="kw-2">*</span>nfa.state(nfa_id) {
+            thompson::State::ByteRange { .. } =&gt; {
+                builder.add_nfa_state_id(nfa_id);
+            }
+            thompson::State::Sparse { .. } =&gt; {
+                builder.add_nfa_state_id(nfa_id);
+            }
+            thompson::State::Dense { .. } =&gt; {
+                builder.add_nfa_state_id(nfa_id);
+            }
+            thompson::State::Look { look, .. } =&gt; {
+                builder.add_nfa_state_id(nfa_id);
+                builder.set_look_need(|need| need.insert(look));
+            }
+            thompson::State::Union { .. }
+            | thompson::State::BinaryUnion { .. } =&gt; {
+                <span class="comment">// Pure epsilon transitions don&#39;t need to be tracked as part
+                // of the DFA state. Tracking them is actually superfluous;
+                // they won&#39;t cause any harm other than making determinization
+                // slower.
+                //
+                // Why aren&#39;t these needed? Well, in an NFA, epsilon
+                // transitions are really just jumping points to other states.
+                // So once you hit an epsilon transition, the same set of
+                // resulting states always appears. Therefore, putting them in
+                // a DFA&#39;s set of ordered NFA states is strictly redundant.
+                //
+                // Look-around states are also epsilon transitions, but
+                // they are *conditional*. So their presence could be
+                // discriminatory, and thus, they are tracked above.
+                //
+                // But wait... why are epsilon states in our `set` in the first
+                // place? Why not just leave them out? They&#39;re in our `set`
+                // because it was generated by computing an epsilon closure,
+                // and we want to keep track of all states we visited to avoid
+                // re-visiting them. In exchange, we have to do this second
+                // iteration over our collected states to finalize our DFA
+                // state. In theory, we could avoid this second iteration if
+                // we maintained two sets during epsilon closure: the set of
+                // visited states (to avoid cycles) and the set of states that
+                // will actually be used to construct the next DFA state.
+                //
+                // Note that this optimization requires that we re-compute the
+                // epsilon closure to account for look-ahead in &#39;next&#39; *only
+                // when necessary*. Namely, only when the set of look-around
+                // assertions changes and only when those changes are within
+                // the set of assertions that are needed in order to step
+                // through the closure correctly. Otherwise, if we re-do the
+                // epsilon closure needlessly, it could change based on the
+                // fact that we are omitting epsilon states here.
+                //
+                // -----
+                //
+                // Welp, scratch the above. It turns out that recording these
+                // is in fact necessary to seemingly handle one particularly
+                // annoying case: when a conditional epsilon transition is
+                // put inside of a repetition operator. One specific case I
+                // ran into was the regex `(?:\b|%)+` on the haystack `z%`.
+                // The correct leftmost first matches are: [0, 0] and [1, 1].
+                // But the DFA was reporting [0, 0] and [1, 2]. To understand
+                // why this happens, consider the NFA for the aforementioned
+                // regex:
+                //
+                //     &gt;000000: binary-union(4, 1)
+                //      000001: \x00-\xFF =&gt; 0
+                //      000002: WordAscii =&gt; 5
+                //      000003: % =&gt; 5
+                //     ^000004: binary-union(2, 3)
+                //      000005: binary-union(4, 6)
+                //      000006: MATCH(0)
+                //
+                // The problem here is that one of the DFA start states is
+                // going to consist of the NFA states [2, 3] by computing the
+                // epsilon closure of state 4. State 4 isn&#39;t included because
+                // we previously were not keeping track of union states. But
+                // only a subset of transitions out of this state will be able
+                // to follow WordAscii, and in those cases, the epsilon closure
+                // is redone. The only problem is that computing the epsilon
+                // closure from [2, 3] is different than computing the epsilon
+                // closure from [4]. In the former case, assuming the WordAscii
+                // assertion is satisfied, you get: [2, 3, 6]. In the latter
+                // case, you get: [2, 6, 3]. Notice that &#39;6&#39; is the match state
+                // and appears AFTER &#39;3&#39; in the former case. This leads to a
+                // preferential but incorrect match of &#39;%&#39; before returning
+                // a match. In the latter case, the match is preferred over
+                // continuing to accept the &#39;%&#39;.
+                //
+                // It almost feels like we might be able to fix the NFA states
+                // to avoid this, or to at least only keep track of union
+                // states where this actually matters, since in the vast
+                // majority of cases, this doesn&#39;t matter.
+                //
+                // Another alternative would be to define a new HIR property
+                // called &quot;assertion is repeated anywhere&quot; and compute it
+                // inductively over the entire pattern. If it happens anywhere,
+                // which is probably pretty rare, then we record union states.
+                // Otherwise we don&#39;t.
+                </span>builder.add_nfa_state_id(nfa_id);
+            }
+            <span class="comment">// Capture states we definitely do not need to record, since they
+            // are unconditional epsilon transitions with no branching.
+            </span>thompson::State::Capture { .. } =&gt; {}
+            <span class="comment">// It&#39;s not totally clear whether we need to record fail states or
+            // not, but we do so out of an abundance of caution. Since they are
+            // quite rare in practice, there isn&#39;t much cost to recording them.
+            </span>thompson::State::Fail =&gt; {
+                builder.add_nfa_state_id(nfa_id);
+            }
+            thompson::State::Match { .. } =&gt; {
+                <span class="comment">// Normally, the NFA match state doesn&#39;t actually need to
+                // be inside the DFA state. But since we delay matches by
+                // one byte, the matching DFA state corresponds to states
+                // that transition from the one we&#39;re building here. And
+                // the way we detect those cases is by looking for an NFA
+                // match state. See &#39;next&#39; for how this is handled.
+                </span>builder.add_nfa_state_id(nfa_id);
+            }
+        }
+    }
+    <span class="comment">// If we know this state contains no look-around assertions, then
+    // there&#39;s no reason to track which look-around assertions were
+    // satisfied when this state was created.
+    </span><span class="kw">if </span>builder.look_need().is_empty() {
+        builder.set_look_have(|<span class="kw">_</span>| LookSet::empty());
+    }
+}
+
+<span class="doccomment">/// Sets the appropriate look-behind assertions on the given state based on
+/// this starting configuration.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_lookbehind_from_start(
+    nfa: <span class="kw-2">&amp;</span>thompson::NFA,
+    start: <span class="kw-2">&amp;</span>Start,
+    builder: <span class="kw-2">&amp;mut </span>StateBuilderMatches,
+) {
+    <span class="kw">let </span>rev = nfa.is_reverse();
+    <span class="kw">let </span>lineterm = nfa.look_matcher().get_line_terminator();
+    <span class="kw">match </span><span class="kw-2">*</span>start {
+        Start::NonWordByte =&gt; {}
+        Start::WordByte =&gt; {
+            builder.set_is_from_word();
+        }
+        Start::Text =&gt; {
+            builder.set_look_have(|have| {
+                have.insert(Look::Start)
+                    .insert(Look::StartLF)
+                    .insert(Look::StartCRLF)
+            });
+        }
+        Start::LineLF =&gt; {
+            <span class="kw">if </span>rev {
+                builder.set_is_half_crlf();
+                builder.set_look_have(|have| have.insert(Look::StartLF));
+            } <span class="kw">else </span>{
+                builder.set_look_have(|have| have.insert(Look::StartCRLF));
+            }
+            <span class="kw">if </span>lineterm == <span class="string">b&#39;\n&#39; </span>{
+                builder.set_look_have(|have| have.insert(Look::StartLF));
+            }
+        }
+        Start::LineCR =&gt; {
+            <span class="kw">if </span>rev {
+                builder.set_look_have(|have| have.insert(Look::StartCRLF));
+            } <span class="kw">else </span>{
+                builder.set_is_half_crlf();
+            }
+            <span class="kw">if </span>lineterm == <span class="string">b&#39;\r&#39; </span>{
+                builder.set_look_have(|have| have.insert(Look::StartLF));
+            }
+        }
+        Start::CustomLineTerminator =&gt; {
+            builder.set_look_have(|have| have.insert(Look::StartLF));
+            <span class="comment">// This is a bit of a tricky case, but if the line terminator was
+            // set to a word byte, then we also need to behave as if the start
+            // configuration is Start::WordByte. That is, we need to mark our
+            // state as having come from a word byte.
+            </span><span class="kw">if </span>utf8::is_word_byte(lineterm) {
+                builder.set_is_from_word();
+            }
+        }
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="regex_automata" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

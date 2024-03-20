@@ -1,0 +1,496 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/const_format_proc_macros-0.2.22/src/format_str/parsing.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parsing.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../const_format_proc_macros/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../const_format_proc_macros/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../const_format_proc_macros/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+</pre><pre class="rust"><code><span class="kw">use super</span>::{FmtArg, FmtStrComponent, FormatStr, ParseError, ParseErrorKind, WhichArg};
+
+<span class="kw">use crate</span>::{
+    formatting::{FormattingFlags, IsAlternate, NumberFormatting},
+    parse_utils::StrRawness,
+};
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">impl </span>FmtStrComponent {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::Str(s.to_string(), StrRawness::dummy())
+    }
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>arg(which_arg: WhichArg, formatting: FormattingFlags) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::Arg(FmtArg {
+            which_arg,
+            formatting,
+            rawness: StrRawness::dummy(),
+        })
+    }
+}
+
+<span class="kw">impl </span>FmtArg {
+    <span class="kw">fn </span>new(which_arg: WhichArg, formatting: FormattingFlags, rawness: StrRawness) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            which_arg,
+            formatting,
+            rawness,
+        }
+    }
+}
+
+<span class="attribute">#[allow(dead_code)]
+</span><span class="kw">impl </span>WhichArg {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>ident(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::Ident(s.to_string())
+    }
+}
+
+<span class="comment">/////////////////////////////////////
+
+</span><span class="attribute">#[cfg(test)]
+</span><span class="kw">impl </span>std::str::FromStr <span class="kw">for </span>FormatStr {
+    <span class="kw">type </span><span class="prelude-val">Err </span>= ParseError;
+
+    <span class="kw">fn </span>from_str(input: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;FormatStr, ParseError&gt; {
+        parse_format_str(input, StrRawness::dummy())
+    }
+}
+
+<span class="kw">impl </span>FormatStr {
+    <span class="kw">pub fn </span>parse(input: <span class="kw-2">&amp;</span>str, rawness: StrRawness) -&gt; <span class="prelude-ty">Result</span>&lt;FormatStr, ParseError&gt; {
+        parse_format_str(input, rawness)
+    }
+}
+
+<span class="kw">fn </span>parse_format_str(input: <span class="kw-2">&amp;</span>str, rawness: StrRawness) -&gt; <span class="prelude-ty">Result</span>&lt;FormatStr, ParseError&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>components = Vec::&lt;FmtStrComponent&gt;::new();
+
+    <span class="kw">let </span><span class="kw-2">mut </span>arg_start = <span class="number">0</span>;
+
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>open_pos = input.find_from(<span class="string">&#39;{&#39;</span>, arg_start);
+
+        <span class="kw">let </span>str = <span class="kw-2">&amp;</span>input[arg_start..open_pos.unwrap_or(input.len())];
+        components.push_arg_str(parse_mid_str(str, arg_start)<span class="question-mark">?</span>, rawness);
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(open_pos) = open_pos {
+            <span class="kw">let </span>after_open = open_pos + <span class="number">1</span>;
+            <span class="kw">if </span>input[after_open..].starts_with(<span class="string">&#39;{&#39;</span>) {
+                components.push_arg_str(<span class="string">&quot;{&quot;</span>.to_string(), rawness);
+
+                arg_start = open_pos + <span class="number">2</span>;
+            } <span class="kw">else if let </span><span class="prelude-val">Some</span>(close_pos) = input.find_from(<span class="string">&#39;}&#39;</span>, after_open) {
+                <span class="kw">let </span>after_close = close_pos + <span class="number">1</span>;
+
+                <span class="kw">let </span>arg = parse_fmt_arg(<span class="kw-2">&amp;</span>input[after_open..close_pos], after_open, rawness)<span class="question-mark">?</span>;
+                components.push(FmtStrComponent::Arg(arg));
+
+                arg_start = after_close;
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError {
+                    pos: open_pos,
+                    kind: ParseErrorKind::UnclosedArg,
+                });
+            }
+        } <span class="kw">else </span>{
+            <span class="kw">break</span>;
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(FormatStr { list: components })
+}
+
+<span class="doccomment">/// Parses the text between arguments, to unescape `}}` into `}`
+</span><span class="kw">fn </span>parse_mid_str(str: <span class="kw-2">&amp;</span>str, starts_at: usize) -&gt; <span class="prelude-ty">Result</span>&lt;String, ParseError&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = String::with_capacity(str.len());
+
+    <span class="kw">let </span><span class="kw-2">mut </span>starts_pos = <span class="number">0</span>;
+    <span class="kw">let </span>bytes = str.as_bytes();
+
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(close_pos) = str.find_from(<span class="string">&#39;}&#39;</span>, starts_pos) {
+        <span class="kw">let </span>after_close = close_pos + <span class="number">1</span>;
+        <span class="kw">if </span>bytes.get(after_close) == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&#39;}&#39;</span>) {
+            buffer.push_str(<span class="kw-2">&amp;</span>str[starts_pos..after_close]);
+            starts_pos = after_close + <span class="number">1</span>;
+        } <span class="kw">else </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError {
+                pos: starts_at + close_pos,
+                kind: ParseErrorKind::InvalidClosedArg,
+            });
+        }
+    }
+    buffer.push_str(<span class="kw-2">&amp;</span>str[starts_pos..]);
+
+    <span class="prelude-val">Ok</span>(buffer)
+}
+
+<span class="doccomment">/// Parses the format arguments (`{:?}`, `{foo:}`, `{0}`, etc).
+///
+/// `starts_at` is the offset of `input` in the formatting string.
+</span><span class="kw">fn </span>parse_fmt_arg(input: <span class="kw-2">&amp;</span>str, starts_at: usize, rawness: StrRawness) -&gt; <span class="prelude-ty">Result</span>&lt;FmtArg, ParseError&gt; {
+    <span class="kw">let </span>colon = input.find(<span class="string">&#39;:&#39;</span>);
+
+    <span class="kw">let </span>which_arg_str = <span class="kw-2">&amp;</span>input[..colon.unwrap_or(input.len())];
+    <span class="kw">let </span>formatting_str = colon.map_or(<span class="string">&quot;&quot;</span>, |x| <span class="kw-2">&amp;</span>input[x + <span class="number">1</span>..]);
+    <span class="kw">let </span>formatting_starts_at = colon.map_or(input.len(), |x| starts_at + x + <span class="number">1</span>);
+
+    <span class="prelude-val">Ok</span>(FmtArg::new(
+        parse_which_arg(which_arg_str, starts_at)<span class="question-mark">?</span>,
+        parse_formatting(formatting_str, formatting_starts_at)<span class="question-mark">?</span>,
+        rawness,
+    ))
+}
+
+<span class="doccomment">/// Parses the name of the argument in `{foo}`, `{}`, `{bar:?}`
+///
+/// `starts_at` is the offset of `input` in the formatting string.
+</span><span class="kw">fn </span>parse_which_arg(input: <span class="kw-2">&amp;</span>str, starts_at: usize) -&gt; <span class="prelude-ty">Result</span>&lt;WhichArg, ParseError&gt; {
+    <span class="kw">if </span>input.is_empty() {
+        <span class="prelude-val">Ok</span>(WhichArg::Positional(<span class="prelude-val">None</span>))
+    } <span class="kw">else if </span>input.as_bytes()[<span class="number">0</span>].is_ascii_digit() {
+        <span class="kw">match </span>input.parse::&lt;usize&gt;() {
+            <span class="prelude-val">Ok</span>(number) =&gt; <span class="prelude-val">Ok</span>(WhichArg::Positional(<span class="prelude-val">Some</span>(number))),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(ParseError {
+                pos: starts_at,
+                kind: ParseErrorKind::NotANumber {
+                    what: input.to_string(),
+                },
+            }),
+        }
+    } <span class="kw">else </span>{
+        parse_ident(input, starts_at)
+    }
+}
+
+<span class="doccomment">/// Parses the `?` and other formatters inside formatting arguments (`{}`).
+///
+/// `starts_at` is the offset of `input` in the formatting string.
+</span><span class="kw">fn </span>parse_formatting(input: <span class="kw-2">&amp;</span>str, starts_at: usize) -&gt; <span class="prelude-ty">Result</span>&lt;FormattingFlags, ParseError&gt; {
+    <span class="kw">match </span>input {
+        <span class="string">&quot;#&quot; </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(FormattingFlags::display(IsAlternate::Yes)),
+        <span class="string">&quot;&quot; </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(FormattingFlags::display(IsAlternate::No)),
+        <span class="kw">_ </span>=&gt; {}
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>bytes = input.as_bytes();
+
+    <span class="kw">let </span>make_error = || ParseError {
+        pos: starts_at,
+        kind: ParseErrorKind::UnknownFormatting {
+            what: input.to_string(),
+        },
+    };
+
+    <span class="kw">if let </span>[before @ .., <span class="string">b&#39;?&#39;</span>] = bytes {
+        bytes = before;
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>num_fmt = NumberFormatting::Decimal;
+    <span class="kw">let </span><span class="kw-2">mut </span>is_alternate = IsAlternate::No;
+
+    <span class="kw">for </span>byte <span class="kw">in </span>bytes {
+        <span class="kw">match </span>byte {
+            <span class="string">b&#39;b&#39; </span><span class="kw">if </span>num_fmt.is_regular() =&gt; num_fmt = NumberFormatting::Binary,
+            <span class="string">b&#39;x&#39; </span><span class="kw">if </span>num_fmt.is_regular() =&gt; num_fmt = NumberFormatting::Hexadecimal,
+            <span class="string">b&#39;#&#39; </span>=&gt; is_alternate = IsAlternate::Yes,
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(make_error()),
+        }
+    }
+    <span class="prelude-val">Ok</span>(FormattingFlags::debug(num_fmt, is_alternate))
+}
+
+<span class="doccomment">/// Parses an identifier in a formatting argument.
+///
+/// `starts_at` is the offset of `input` in the formatting string.
+</span><span class="kw">fn </span>parse_ident(ident_str: <span class="kw-2">&amp;</span>str, starts_at: usize) -&gt; <span class="prelude-ty">Result</span>&lt;WhichArg, ParseError&gt; {
+    <span class="kw">if </span>is_ident(ident_str) {
+        <span class="prelude-val">Ok</span>(WhichArg::Ident(ident_str.to_string()))
+    } <span class="kw">else </span>{
+        <span class="prelude-val">Err</span>(ParseError {
+            pos: starts_at,
+            kind: ParseErrorKind::NotAnIdent {
+                what: ident_str.to_string(),
+            },
+        })
+    }
+}
+
+<span class="comment">////////////////////////////////////////////////////////////////////////////////
+
+</span><span class="kw">fn </span>is_ident(s: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    <span class="kw">use </span>unicode_xid::UnicodeXID;
+
+    <span class="kw">if </span>s.is_empty() || s == <span class="string">&quot;_&quot; </span>{
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>chars = s.chars();
+    <span class="kw">let </span>first = chars.next().unwrap();
+
+    <span class="comment">// For some reason &#39;_&#39; is not considered a valid character for the stard of an ident
+    </span>(first.is_xid_start() || first == <span class="string">&#39;_&#39;</span>) &amp;&amp; chars.all(|c| c.is_xid_continue())
+}
+
+<span class="comment">////////////////////////////////////////////////////////////////////////////////
+
+</span><span class="kw">trait </span>VecExt {
+    <span class="kw">fn </span>push_arg_str(<span class="kw-2">&amp;mut </span><span class="self">self</span>, str: String, rawness: StrRawness);
+}
+
+<span class="kw">impl </span>VecExt <span class="kw">for </span>Vec&lt;FmtStrComponent&gt; {
+    <span class="kw">fn </span>push_arg_str(<span class="kw-2">&amp;mut </span><span class="self">self</span>, str: String, rawness: StrRawness) {
+        <span class="kw">if </span>!str.is_empty() {
+            <span class="self">self</span>.push(FmtStrComponent::Str(str, rawness));
+        }
+    }
+}
+
+<span class="kw">trait </span>StrExt {
+    <span class="kw">fn </span>find_from(<span class="kw-2">&amp;</span><span class="self">self</span>, c: char, from: usize) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt;;
+}
+
+<span class="kw">impl </span>StrExt <span class="kw">for </span>str {
+    <span class="kw">fn </span>find_from(<span class="kw-2">&amp;</span><span class="self">self</span>, c: char, from: usize) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="self">self</span>[from..].find(c).map(|p| p + from)
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="const_format_proc_macros" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

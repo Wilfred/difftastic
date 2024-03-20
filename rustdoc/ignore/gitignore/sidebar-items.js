@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Gitignore","Gitignore is a matcher for the globs in one or more gitignore files in the same directory."],["GitignoreBuilder","Builds a matcher for a single set of globs from a .gitignore file."],["Glob","Glob represents a single glob in a gitignore file."]]};

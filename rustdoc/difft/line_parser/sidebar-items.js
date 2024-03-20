@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":[["MAX_WORDS_IN_LINE",""]],"enum":[["TextChangeKind",""]],"fn":[["change_positions",""],["changed_parts",""],["line_len_in_bytes",""],["merge_novel","Merge contiguous sequences marked as novel."],["split_lines_keep_newline",""]]};

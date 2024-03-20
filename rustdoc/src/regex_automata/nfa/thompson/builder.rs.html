@@ -1,0 +1,2676 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-automata-0.3.9/src/nfa/thompson/builder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>builder.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../regex_automata/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
+<span id="1267">1267</span>
+<span id="1268">1268</span>
+<span id="1269">1269</span>
+<span id="1270">1270</span>
+<span id="1271">1271</span>
+<span id="1272">1272</span>
+<span id="1273">1273</span>
+<span id="1274">1274</span>
+<span id="1275">1275</span>
+<span id="1276">1276</span>
+<span id="1277">1277</span>
+<span id="1278">1278</span>
+<span id="1279">1279</span>
+<span id="1280">1280</span>
+<span id="1281">1281</span>
+<span id="1282">1282</span>
+<span id="1283">1283</span>
+<span id="1284">1284</span>
+<span id="1285">1285</span>
+<span id="1286">1286</span>
+<span id="1287">1287</span>
+<span id="1288">1288</span>
+<span id="1289">1289</span>
+<span id="1290">1290</span>
+<span id="1291">1291</span>
+<span id="1292">1292</span>
+<span id="1293">1293</span>
+<span id="1294">1294</span>
+<span id="1295">1295</span>
+<span id="1296">1296</span>
+<span id="1297">1297</span>
+<span id="1298">1298</span>
+<span id="1299">1299</span>
+<span id="1300">1300</span>
+<span id="1301">1301</span>
+<span id="1302">1302</span>
+<span id="1303">1303</span>
+<span id="1304">1304</span>
+<span id="1305">1305</span>
+<span id="1306">1306</span>
+<span id="1307">1307</span>
+<span id="1308">1308</span>
+<span id="1309">1309</span>
+<span id="1310">1310</span>
+<span id="1311">1311</span>
+<span id="1312">1312</span>
+<span id="1313">1313</span>
+<span id="1314">1314</span>
+<span id="1315">1315</span>
+<span id="1316">1316</span>
+<span id="1317">1317</span>
+<span id="1318">1318</span>
+<span id="1319">1319</span>
+<span id="1320">1320</span>
+<span id="1321">1321</span>
+<span id="1322">1322</span>
+<span id="1323">1323</span>
+<span id="1324">1324</span>
+<span id="1325">1325</span>
+<span id="1326">1326</span>
+<span id="1327">1327</span>
+<span id="1328">1328</span>
+<span id="1329">1329</span>
+<span id="1330">1330</span>
+<span id="1331">1331</span>
+<span id="1332">1332</span>
+<span id="1333">1333</span>
+<span id="1334">1334</span>
+<span id="1335">1335</span>
+<span id="1336">1336</span>
+<span id="1337">1337</span>
+</pre><pre class="rust"><code><span class="kw">use </span>core::mem;
+
+<span class="kw">use </span>alloc::{sync::Arc, vec, vec::Vec};
+
+<span class="kw">use crate</span>::{
+    nfa::thompson::{
+        error::BuildError,
+        nfa::{<span class="self">self</span>, SparseTransitions, Transition, NFA},
+    },
+    util::{
+        look::{Look, LookMatcher},
+        primitives::{IteratorIndexExt, PatternID, SmallIndex, StateID},
+    },
+};
+
+<span class="doccomment">/// An intermediate NFA state used during construction.
+///
+/// During construction of an NFA, it is often convenient to work with states
+/// that are amenable to mutation and other carry more information than we
+/// otherwise need once an NFA has been built. This type represents those
+/// needs.
+///
+/// Once construction is finished, the builder will convert these states to a
+/// [`nfa::thompson::State`](crate::nfa::thompson::State). This conversion not
+/// only results in a simpler representation, but in some cases, entire classes
+/// of states are completely removed (such as [`State::Empty`]).
+</span><span class="attribute">#[derive(Clone, Debug, Eq, PartialEq)]
+</span><span class="kw">enum </span>State {
+    <span class="doccomment">/// An empty state whose only purpose is to forward the automaton to
+    /// another state via an unconditional epsilon transition.
+    ///
+    /// Unconditional epsilon transitions are quite useful during the
+    /// construction of an NFA, as they permit the insertion of no-op
+    /// placeholders that make it easier to compose NFA sub-graphs. When
+    /// the Thompson NFA builder produces a final NFA, all unconditional
+    /// epsilon transitions are removed, and state identifiers are remapped
+    /// accordingly.
+    </span>Empty {
+        <span class="doccomment">/// The next state that this state should transition to.
+        </span>next: StateID,
+    },
+    <span class="doccomment">/// A state that only transitions to another state if the current input
+    /// byte is in a particular range of bytes.
+    </span>ByteRange { trans: Transition },
+    <span class="doccomment">/// A state with possibly many transitions, represented in a sparse
+    /// fashion. Transitions must be ordered lexicographically by input range
+    /// and be non-overlapping. As such, this may only be used when every
+    /// transition has equal priority. (In practice, this is only used for
+    /// encoding large UTF-8 automata.) In contrast, a `Union` state has each
+    /// alternate in order of priority. Priority is used to implement greedy
+    /// matching and also alternations themselves, e.g., `abc|a` where `abc`
+    /// has priority over `a`.
+    ///
+    /// To clarify, it is possible to remove `Sparse` and represent all things
+    /// that `Sparse` is used for via `Union`. But this creates a more bloated
+    /// NFA with more epsilon transitions than is necessary in the special case
+    /// of character classes.
+    </span>Sparse { transitions: Vec&lt;Transition&gt; },
+    <span class="doccomment">/// A conditional epsilon transition satisfied via some sort of
+    /// look-around.
+    </span>Look { look: Look, next: StateID },
+    <span class="doccomment">/// An empty state that records the start of a capture location. This is an
+    /// unconditional epsilon transition like `Empty`, except it can be used to
+    /// record position information for a capture group when using the NFA for
+    /// search.
+    </span>CaptureStart {
+        <span class="doccomment">/// The ID of the pattern that this capture was defined.
+        </span>pattern_id: PatternID,
+        <span class="doccomment">/// The capture group index that this capture state corresponds to.
+        /// The capture group index is always relative to its corresponding
+        /// pattern. Therefore, in the presence of multiple patterns, both the
+        /// pattern ID and the capture group index are required to uniquely
+        /// identify a capturing group.
+        </span>group_index: SmallIndex,
+        <span class="doccomment">/// The next state that this state should transition to.
+        </span>next: StateID,
+    },
+    <span class="doccomment">/// An empty state that records the end of a capture location. This is an
+    /// unconditional epsilon transition like `Empty`, except it can be used to
+    /// record position information for a capture group when using the NFA for
+    /// search.
+    </span>CaptureEnd {
+        <span class="doccomment">/// The ID of the pattern that this capture was defined.
+        </span>pattern_id: PatternID,
+        <span class="doccomment">/// The capture group index that this capture state corresponds to.
+        /// The capture group index is always relative to its corresponding
+        /// pattern. Therefore, in the presence of multiple patterns, both the
+        /// pattern ID and the capture group index are required to uniquely
+        /// identify a capturing group.
+        </span>group_index: SmallIndex,
+        <span class="doccomment">/// The next state that this state should transition to.
+        </span>next: StateID,
+    },
+    <span class="doccomment">/// An alternation such that there exists an epsilon transition to all
+    /// states in `alternates`, where matches found via earlier transitions
+    /// are preferred over later transitions.
+    </span>Union { alternates: Vec&lt;StateID&gt; },
+    <span class="doccomment">/// An alternation such that there exists an epsilon transition to all
+    /// states in `alternates`, where matches found via later transitions are
+    /// preferred over earlier transitions.
+    ///
+    /// This &quot;reverse&quot; state exists for convenience during compilation that
+    /// permits easy construction of non-greedy combinations of NFA states. At
+    /// the end of compilation, Union and UnionReverse states are merged into
+    /// one Union type of state, where the latter has its epsilon transitions
+    /// reversed to reflect the priority inversion.
+    ///
+    /// The &quot;convenience&quot; here arises from the fact that as new states are
+    /// added to the list of `alternates`, we would like that add operation
+    /// to be amortized constant time. But if we used a `Union`, we&#39;d need to
+    /// prepend the state, which takes O(n) time. There are other approaches we
+    /// could use to solve this, but this seems simple enough.
+    </span>UnionReverse { alternates: Vec&lt;StateID&gt; },
+    <span class="doccomment">/// A state that cannot be transitioned out of. This is useful for cases
+    /// where you want to prevent matching from occurring. For example, if your
+    /// regex parser permits empty character classes, then one could choose a
+    /// `Fail` state to represent it.
+    </span>Fail,
+    <span class="doccomment">/// A match state. There is at most one such occurrence of this state in
+    /// an NFA for each pattern compiled into the NFA. At time of writing, a
+    /// match state is always produced for every pattern given, but in theory,
+    /// if a pattern can never lead to a match, then the match state could be
+    /// omitted.
+    ///
+    /// `pattern_id` refers to the ID of the pattern itself, which corresponds
+    /// to the pattern&#39;s index (starting at 0).
+    </span>Match { pattern_id: PatternID },
+}
+
+<span class="kw">impl </span>State {
+    <span class="doccomment">/// If this state is an unconditional epsilon transition, then this returns
+    /// the target of the transition.
+    </span><span class="kw">fn </span>goto(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;StateID&gt; {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            State::Empty { next } =&gt; <span class="prelude-val">Some</span>(next),
+            State::Union { <span class="kw-2">ref </span>alternates } <span class="kw">if </span>alternates.len() == <span class="number">1 </span>=&gt; {
+                <span class="prelude-val">Some</span>(alternates[<span class="number">0</span>])
+            }
+            State::UnionReverse { <span class="kw-2">ref </span>alternates }
+                <span class="kw">if </span>alternates.len() == <span class="number">1 </span>=&gt;
+            {
+                <span class="prelude-val">Some</span>(alternates[<span class="number">0</span>])
+            }
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Returns the heap memory usage, in bytes, of this state.
+    </span><span class="kw">fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            State::Empty { .. }
+            | State::ByteRange { .. }
+            | State::Look { .. }
+            | State::CaptureStart { .. }
+            | State::CaptureEnd { .. }
+            | State::Fail
+            | State::Match { .. } =&gt; <span class="number">0</span>,
+            State::Sparse { <span class="kw-2">ref </span>transitions } =&gt; {
+                transitions.len() * mem::size_of::&lt;Transition&gt;()
+            }
+            State::Union { <span class="kw-2">ref </span>alternates } =&gt; {
+                alternates.len() * mem::size_of::&lt;StateID&gt;()
+            }
+            State::UnionReverse { <span class="kw-2">ref </span>alternates } =&gt; {
+                alternates.len() * mem::size_of::&lt;StateID&gt;()
+            }
+        }
+    }
+}
+
+<span class="doccomment">/// An abstraction for building Thompson NFAs by hand.
+///
+/// A builder is what a [`thompson::Compiler`](crate::nfa::thompson::Compiler)
+/// uses internally to translate a regex&#39;s high-level intermediate
+/// representation into an [`NFA`].
+///
+/// The primary function of this builder is to abstract away the internal
+/// representation of an NFA and make it difficult to produce NFAs are that
+/// internally invalid or inconsistent. This builder also provides a way to
+/// add &quot;empty&quot; states (which can be thought of as unconditional epsilon
+/// transitions), despite the fact that [`thompson::State`](nfa::State) does
+/// not have any &quot;empty&quot; representation. The advantage of &quot;empty&quot; states is
+/// that they make the code for constructing a Thompson NFA logically simpler.
+///
+/// Many of the routines on this builder may panic or return errors. Generally
+/// speaking, panics occur when an invalid sequence of method calls were made,
+/// where as an error occurs if things get too big. (Where &quot;too big&quot; might mean
+/// exhausting identifier space or using up too much heap memory in accordance
+/// with the configured [`size_limit`](Builder::set_size_limit).)
+///
+/// # Overview
+///
+/// ## Adding multiple patterns
+///
+/// Each pattern you add to an NFA should correspond to a pair of
+/// [`Builder::start_pattern`] and [`Builder::finish_pattern`] calls, with
+/// calls inbetween that add NFA states for that pattern. NFA states may be
+/// added without first calling `start_pattern`, with the exception of adding
+/// capturing states.
+///
+/// ## Adding NFA states
+///
+/// Here is a very brief overview of each of the methods that add NFA states.
+/// Every method adds a single state.
+///
+/// * [`add_empty`](Builder::add_empty): Add a state with a single
+/// unconditional epsilon transition to another state.
+/// * [`add_union`](Builder::add_union): Adds a state with unconditional
+/// epsilon transitions to two or more states, with earlier transitions
+/// preferred over later ones.
+/// * [`add_union_reverse`](Builder::add_union_reverse): Adds a state with
+/// unconditional epsilon transitions to two or more states, with later
+/// transitions preferred over earlier ones.
+/// * [`add_range`](Builder::add_range): Adds a state with a single transition
+/// to another state that can only be followed if the current input byte is
+/// within the range given.
+/// * [`add_sparse`](Builder::add_sparse): Adds a state with two or more
+/// range transitions to other states, where a transition is only followed
+/// if the current input byte is within one of the ranges. All transitions
+/// in this state have equal priority, and the corresponding ranges must be
+/// non-overlapping.
+/// * [`add_look`](Builder::add_look): Adds a state with a single *conditional*
+/// epsilon transition to another state, where the condition depends on a
+/// limited look-around property.
+/// * [`add_capture_start`](Builder::add_capture_start): Adds a state with
+/// a single unconditional epsilon transition that also instructs an NFA
+/// simulation to record the current input position to a specific location in
+/// memory. This is intended to represent the starting location of a capturing
+/// group.
+/// * [`add_capture_end`](Builder::add_capture_end): Adds a state with
+/// a single unconditional epsilon transition that also instructs an NFA
+/// simulation to record the current input position to a specific location in
+/// memory. This is intended to represent the ending location of a capturing
+/// group.
+/// * [`add_fail`](Builder::add_fail): Adds a state that never transitions to
+/// another state.
+/// * [`add_match`](Builder::add_match): Add a state that indicates a match has
+/// been found for a particular pattern. A match state is a final state with
+/// no outgoing transitions.
+///
+/// ## Setting transitions between NFA states
+///
+/// The [`Builder::patch`] method creates a transition from one state to the
+/// next. If the `from` state corresponds to a state that supports multiple
+/// outgoing transitions (such as &quot;union&quot;), then this adds the corresponding
+/// transition. Otherwise, it sets the single transition. (This routine panics
+/// if `from` corresponds to a state added by `add_sparse`, since sparse states
+/// need more specialized handling.)
+///
+/// # Example
+///
+/// This annotated example shows how to hand construct the regex `[a-z]+`
+/// (without an unanchored prefix).
+///
+/// ```
+/// use regex_automata::{
+///     nfa::thompson::{pikevm::PikeVM, Builder, Transition},
+///     util::primitives::StateID,
+///     Match,
+/// };
+///
+/// let mut builder = Builder::new();
+/// // Before adding NFA states for our pattern, we need to tell the builder
+/// // that we are starting the pattern.
+/// builder.start_pattern()?;
+/// // Since we use the Pike VM below for searching, we need to add capturing
+/// // states. If you&#39;re just going to build a DFA from the NFA, then capturing
+/// // states do not need to be added.
+/// let start = builder.add_capture_start(StateID::ZERO, 0, None)?;
+/// let range = builder.add_range(Transition {
+///     // We don&#39;t know the state ID of the &#39;next&#39; state yet, so we just fill
+///     // in a dummy &#39;ZERO&#39; value.
+///     start: b&#39;a&#39;, end: b&#39;z&#39;, next: StateID::ZERO,
+/// })?;
+/// // This state will point back to &#39;range&#39;, but also enable us to move ahead.
+/// // That is, this implements the &#39;+&#39; repetition operator. We add &#39;range&#39; and
+/// // then &#39;end&#39; below to this alternation.
+/// let alt = builder.add_union(vec![])?;
+/// // The final state before the match state, which serves to capture the
+/// // end location of the match.
+/// let end = builder.add_capture_end(StateID::ZERO, 0)?;
+/// // The match state for our pattern.
+/// let mat = builder.add_match()?;
+/// // Now we fill in the transitions between states.
+/// builder.patch(start, range)?;
+/// builder.patch(range, alt)?;
+/// // If we added &#39;end&#39; before &#39;range&#39;, then we&#39;d implement non-greedy
+/// // matching, i.e., &#39;+?&#39;.
+/// builder.patch(alt, range)?;
+/// builder.patch(alt, end)?;
+/// builder.patch(end, mat)?;
+/// // We must explicitly finish pattern and provide the starting state ID for
+/// // this particular pattern.
+/// builder.finish_pattern(start)?;
+/// // Finally, when we build the NFA, we provide the anchored and unanchored
+/// // starting state IDs. Since we didn&#39;t bother with an unanchored prefix
+/// // here, we only support anchored searching. Thus, both starting states are
+/// // the same.
+/// let nfa = builder.build(start, start)?;
+///
+/// // Now build a Pike VM from our NFA, and use it for searching. This shows
+/// // how we can use a regex engine without ever worrying about syntax!
+/// let re = PikeVM::new_from_nfa(nfa)?;
+/// let mut cache = re.create_cache();
+/// let mut caps = re.create_captures();
+/// let expected = Some(Match::must(0, 0..3));
+/// re.captures(&amp;mut cache, &quot;foo0&quot;, &amp;mut caps);
+/// assert_eq!(expected, caps.get_match());
+///
+/// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+/// ```
+</span><span class="attribute">#[derive(Clone, Debug, Default)]
+</span><span class="kw">pub struct </span>Builder {
+    <span class="doccomment">/// The ID of the pattern that we&#39;re currently building.
+    ///
+    /// Callers are required to set (and unset) this by calling
+    /// {start,finish}_pattern. Otherwise, most methods will panic.
+    </span>pattern_id: <span class="prelude-ty">Option</span>&lt;PatternID&gt;,
+    <span class="doccomment">/// A sequence of intermediate NFA states. Once a state is added to this
+    /// sequence, it is assigned a state ID equivalent to its index. Once a
+    /// state is added, it is still expected to be mutated, e.g., to set its
+    /// transition to a state that didn&#39;t exist at the time it was added.
+    </span>states: Vec&lt;State&gt;,
+    <span class="doccomment">/// The starting states for each individual pattern. Starting at any
+    /// of these states will result in only an anchored search for the
+    /// corresponding pattern. The vec is indexed by pattern ID. When the NFA
+    /// contains a single regex, then `start_pattern[0]` and `start_anchored`
+    /// are always equivalent.
+    </span>start_pattern: Vec&lt;StateID&gt;,
+    <span class="doccomment">/// A map from pattern ID to capture group index to name. (If no name
+    /// exists, then a None entry is present. Thus, all capturing groups are
+    /// present in this mapping.)
+    ///
+    /// The outer vec is indexed by pattern ID, while the inner vec is indexed
+    /// by capture index offset for the corresponding pattern.
+    ///
+    /// The first capture group for each pattern is always unnamed and is thus
+    /// always None.
+    </span>captures: Vec&lt;Vec&lt;<span class="prelude-ty">Option</span>&lt;Arc&lt;str&gt;&gt;&gt;&gt;,
+    <span class="doccomment">/// The combined memory used by each of the &#39;State&#39;s in &#39;states&#39;. This
+    /// only includes heap usage by each state, and not the size of the state
+    /// itself. In other words, this tracks heap memory used that isn&#39;t
+    /// captured via `size_of::&lt;State&gt;() * states.len()`.
+    </span>memory_states: usize,
+    <span class="doccomment">/// Whether this NFA only matches UTF-8 and whether regex engines using
+    /// this NFA for searching should report empty matches that split a
+    /// codepoint.
+    </span>utf8: bool,
+    <span class="doccomment">/// Whether this NFA should be matched in reverse or not.
+    </span>reverse: bool,
+    <span class="doccomment">/// The matcher to use for look-around assertions.
+    </span>look_matcher: LookMatcher,
+    <span class="doccomment">/// A size limit to respect when building an NFA. If the total heap memory
+    /// of the intermediate NFA states exceeds (or would exceed) this amount,
+    /// then an error is returned.
+    </span>size_limit: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+}
+
+<span class="kw">impl </span>Builder {
+    <span class="doccomment">/// Create a new builder for hand-assembling NFAs.
+    </span><span class="kw">pub fn </span>new() -&gt; Builder {
+        Builder::default()
+    }
+
+    <span class="doccomment">/// Clear this builder.
+    ///
+    /// Clearing removes all state associated with building an NFA, but does
+    /// not reset configuration (such as size limits and whether the NFA
+    /// should only match UTF-8). After clearing, the builder can be reused to
+    /// assemble an entirely new NFA.
+    </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.pattern_id = <span class="prelude-val">None</span>;
+        <span class="self">self</span>.states.clear();
+        <span class="self">self</span>.start_pattern.clear();
+        <span class="self">self</span>.captures.clear();
+        <span class="self">self</span>.memory_states = <span class="number">0</span>;
+    }
+
+    <span class="doccomment">/// Assemble a [`NFA`] from the states added so far.
+    ///
+    /// After building an NFA, more states may be added and `build` may be
+    /// called again. To reuse a builder to produce an entirely new NFA from
+    /// scratch, call the [`clear`](Builder::clear) method first.
+    ///
+    /// `start_anchored` refers to the ID of the starting state that anchored
+    /// searches should use. That is, searches who matches are limited to the
+    /// starting position of the search.
+    ///
+    /// `start_unanchored` refers to the ID of the starting state that
+    /// unanchored searches should use. This permits searches to report matches
+    /// that start after the beginning of the search. In cases where unanchored
+    /// searches are not supported, the unanchored starting state ID must be
+    /// the same as the anchored starting state ID.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if there was a problem producing the final NFA.
+    /// In particular, this might include an error if the capturing groups
+    /// added to this builder violate any of the invariants documented on
+    /// [`GroupInfo`](crate::util::captures::GroupInfo).
+    ///
+    /// # Panics
+    ///
+    /// If `start_pattern` was called, then `finish_pattern` must be called
+    /// before `build`, otherwise this panics.
+    ///
+    /// This may panic for other invalid uses of a builder. For example, if
+    /// a &quot;start capture&quot; state was added without a corresponding &quot;end capture&quot;
+    /// state.
+    </span><span class="kw">pub fn </span>build(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        start_anchored: StateID,
+        start_unanchored: StateID,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;NFA, BuildError&gt; {
+        <span class="macro">assert!</span>(<span class="self">self</span>.pattern_id.is_none(), <span class="string">&quot;must call &#39;finish_pattern&#39; first&quot;</span>);
+        <span class="macro">debug!</span>(
+            <span class="string">&quot;intermediate NFA compilation via builder is complete, \
+             intermediate NFA size: {} states, {} bytes on heap&quot;</span>,
+            <span class="self">self</span>.states.len(),
+            <span class="self">self</span>.memory_usage(),
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>nfa = nfa::Inner::default();
+        nfa.set_utf8(<span class="self">self</span>.utf8);
+        nfa.set_reverse(<span class="self">self</span>.reverse);
+        nfa.set_look_matcher(<span class="self">self</span>.look_matcher.clone());
+        <span class="comment">// A set of compiler internal state IDs that correspond to states
+        // that are exclusively epsilon transitions, i.e., goto instructions,
+        // combined with the state that they point to. This is used to
+        // record said states while transforming the compiler&#39;s internal NFA
+        // representation to the external form.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>empties = <span class="macro">vec!</span>[];
+        <span class="comment">// A map used to re-map state IDs when translating this builder&#39;s
+        // internal NFA state representation to the final NFA representation.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>remap = <span class="macro">vec!</span>[];
+        remap.resize(<span class="self">self</span>.states.len(), StateID::ZERO);
+
+        nfa.set_starts(start_anchored, start_unanchored, <span class="kw-2">&amp;</span><span class="self">self</span>.start_pattern);
+        nfa.set_captures(<span class="kw-2">&amp;</span><span class="self">self</span>.captures).map_err(BuildError::captures)<span class="question-mark">?</span>;
+        <span class="comment">// The idea here is to convert our intermediate states to their final
+        // form. The only real complexity here is the process of converting
+        // transitions, which are expressed in terms of state IDs. The new
+        // set of states will be smaller because of partial epsilon removal,
+        // so the state IDs will not be the same.
+        </span><span class="kw">for </span>(sid, state) <span class="kw">in </span><span class="self">self</span>.states.iter().with_state_ids() {
+            <span class="kw">match </span><span class="kw-2">*</span>state {
+                State::Empty { next } =&gt; {
+                    <span class="comment">// Since we&#39;re removing empty states, we need to handle
+                    // them later since we don&#39;t yet know which new state this
+                    // empty state will be mapped to.
+                    </span>empties.push((sid, next));
+                }
+                State::ByteRange { trans } =&gt; {
+                    remap[sid] = nfa.add(nfa::State::ByteRange { trans });
+                }
+                State::Sparse { <span class="kw-2">ref </span>transitions } =&gt; {
+                    remap[sid] = <span class="kw">match </span>transitions.len() {
+                        <span class="number">0 </span>=&gt; nfa.add(nfa::State::Fail),
+                        <span class="number">1 </span>=&gt; nfa.add(nfa::State::ByteRange {
+                            trans: transitions[<span class="number">0</span>],
+                        }),
+                        <span class="kw">_ </span>=&gt; {
+                            <span class="kw">let </span>transitions =
+                                transitions.to_vec().into_boxed_slice();
+                            <span class="kw">let </span>sparse = SparseTransitions { transitions };
+                            nfa.add(nfa::State::Sparse(sparse))
+                        }
+                    }
+                }
+                State::Look { look, next } =&gt; {
+                    remap[sid] = nfa.add(nfa::State::Look { look, next });
+                }
+                State::CaptureStart { pattern_id, group_index, next } =&gt; {
+                    <span class="comment">// We can&#39;t remove this empty state because of the side
+                    // effect of capturing an offset for this capture slot.
+                    </span><span class="kw">let </span>slot = nfa
+                        .group_info()
+                        .slot(pattern_id, group_index.as_usize())
+                        .expect(<span class="string">&quot;invalid capture index&quot;</span>);
+                    <span class="kw">let </span>slot =
+                        SmallIndex::new(slot).expect(<span class="string">&quot;a small enough slot&quot;</span>);
+                    remap[sid] = nfa.add(nfa::State::Capture {
+                        next,
+                        pattern_id,
+                        group_index,
+                        slot,
+                    });
+                }
+                State::CaptureEnd { pattern_id, group_index, next } =&gt; {
+                    <span class="comment">// We can&#39;t remove this empty state because of the side
+                    // effect of capturing an offset for this capture slot.
+                    // Also, this always succeeds because we check that all
+                    // slot indices are valid for all capture indices when they
+                    // are initially added.
+                    </span><span class="kw">let </span>slot = nfa
+                        .group_info()
+                        .slot(pattern_id, group_index.as_usize())
+                        .expect(<span class="string">&quot;invalid capture index&quot;</span>)
+                        .checked_add(<span class="number">1</span>)
+                        .unwrap();
+                    <span class="kw">let </span>slot =
+                        SmallIndex::new(slot).expect(<span class="string">&quot;a small enough slot&quot;</span>);
+                    remap[sid] = nfa.add(nfa::State::Capture {
+                        next,
+                        pattern_id,
+                        group_index,
+                        slot,
+                    });
+                }
+                State::Union { <span class="kw-2">ref </span>alternates } =&gt; {
+                    <span class="kw">if </span>alternates.is_empty() {
+                        remap[sid] = nfa.add(nfa::State::Fail);
+                    } <span class="kw">else if </span>alternates.len() == <span class="number">1 </span>{
+                        empties.push((sid, alternates[<span class="number">0</span>]));
+                        remap[sid] = alternates[<span class="number">0</span>];
+                    } <span class="kw">else if </span>alternates.len() == <span class="number">2 </span>{
+                        remap[sid] = nfa.add(nfa::State::BinaryUnion {
+                            alt1: alternates[<span class="number">0</span>],
+                            alt2: alternates[<span class="number">1</span>],
+                        });
+                    } <span class="kw">else </span>{
+                        <span class="kw">let </span>alternates =
+                            alternates.to_vec().into_boxed_slice();
+                        remap[sid] = nfa.add(nfa::State::Union { alternates });
+                    }
+                }
+                State::UnionReverse { <span class="kw-2">ref </span>alternates } =&gt; {
+                    <span class="kw">if </span>alternates.is_empty() {
+                        remap[sid] = nfa.add(nfa::State::Fail);
+                    } <span class="kw">else if </span>alternates.len() == <span class="number">1 </span>{
+                        empties.push((sid, alternates[<span class="number">0</span>]));
+                        remap[sid] = alternates[<span class="number">0</span>];
+                    } <span class="kw">else if </span>alternates.len() == <span class="number">2 </span>{
+                        remap[sid] = nfa.add(nfa::State::BinaryUnion {
+                            alt1: alternates[<span class="number">1</span>],
+                            alt2: alternates[<span class="number">0</span>],
+                        });
+                    } <span class="kw">else </span>{
+                        <span class="kw">let </span><span class="kw-2">mut </span>alternates =
+                            alternates.to_vec().into_boxed_slice();
+                        alternates.reverse();
+                        remap[sid] = nfa.add(nfa::State::Union { alternates });
+                    }
+                }
+                State::Fail =&gt; {
+                    remap[sid] = nfa.add(nfa::State::Fail);
+                }
+                State::Match { pattern_id } =&gt; {
+                    remap[sid] = nfa.add(nfa::State::Match { pattern_id });
+                }
+            }
+        }
+        <span class="comment">// Some of the new states still point to empty state IDs, so we need to
+        // follow each of them and remap the empty state IDs to their non-empty
+        // state IDs.
+        //
+        // We also keep track of which states we&#39;ve already mapped. This helps
+        // avoid quadratic behavior in a long chain of empty states. For
+        // example, in &#39;a{0}{50000}&#39;.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>remapped = <span class="macro">vec!</span>[<span class="bool-val">false</span>; <span class="self">self</span>.states.len()];
+        <span class="kw">for </span><span class="kw-2">&amp;</span>(empty_id, empty_next) <span class="kw">in </span>empties.iter() {
+            <span class="kw">if </span>remapped[empty_id] {
+                <span class="kw">continue</span>;
+            }
+            <span class="comment">// empty states can point to other empty states, forming a chain.
+            // So we must follow the chain until the end, which must end at
+            // a non-empty state, and therefore, a state that is correctly
+            // remapped. We are guaranteed to terminate because our compiler
+            // never builds a loop among only empty states.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>new_next = empty_next;
+            <span class="kw">while let </span><span class="prelude-val">Some</span>(next) = <span class="self">self</span>.states[new_next].goto() {
+                new_next = next;
+            }
+            remap[empty_id] = remap[new_next];
+            remapped[empty_id] = <span class="bool-val">true</span>;
+
+            <span class="comment">// Now that we&#39;ve remapped the main &#39;empty_id&#39; above, we re-follow
+            // the chain from above and remap every empty state we found along
+            // the way to our ultimate non-empty target. We are careful to set
+            // &#39;remapped&#39; to true for each such state. We thus will not need
+            // to re-compute this chain for any subsequent empty states in
+            // &#39;empties&#39; that are part of this chain.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>next2 = empty_next;
+            <span class="kw">while let </span><span class="prelude-val">Some</span>(next) = <span class="self">self</span>.states[next2].goto() {
+                remap[next2] = remap[new_next];
+                remapped[next2] = <span class="bool-val">true</span>;
+                next2 = next;
+            }
+        }
+        <span class="comment">// Finally remap all of the state IDs.
+        </span>nfa.remap(<span class="kw-2">&amp;</span>remap);
+        <span class="kw">let </span>final_nfa = nfa.into_nfa();
+        <span class="macro">debug!</span>(
+            <span class="string">&quot;NFA compilation via builder complete, \
+             final NFA size: {} states, {} bytes on heap, \
+             has empty? {:?}, utf8? {:?}&quot;</span>,
+            final_nfa.states().len(),
+            final_nfa.memory_usage(),
+            final_nfa.has_empty(),
+            final_nfa.is_utf8(),
+        );
+        <span class="prelude-val">Ok</span>(final_nfa)
+    }
+
+    <span class="doccomment">/// Start the assembly of a pattern in this NFA.
+    ///
+    /// Upon success, this returns the identifier for the new pattern.
+    /// Identifiers start at `0` and are incremented by 1 for each new pattern.
+    ///
+    /// It is necessary to call this routine before adding capturing states.
+    /// Otherwise, any other NFA state may be added before starting a pattern.
+    ///
+    /// # Errors
+    ///
+    /// If the pattern identifier space is exhausted, then this returns an
+    /// error.
+    ///
+    /// # Panics
+    ///
+    /// If this is called while assembling another pattern (i.e., before
+    /// `finish_pattern` is called), then this panics.
+    </span><span class="kw">pub fn </span>start_pattern(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;PatternID, BuildError&gt; {
+        <span class="macro">assert!</span>(<span class="self">self</span>.pattern_id.is_none(), <span class="string">&quot;must call &#39;finish_pattern&#39; first&quot;</span>);
+
+        <span class="kw">let </span>proposed = <span class="self">self</span>.start_pattern.len();
+        <span class="kw">let </span>pid = PatternID::new(proposed)
+            .map_err(|<span class="kw">_</span>| BuildError::too_many_patterns(proposed))<span class="question-mark">?</span>;
+        <span class="self">self</span>.pattern_id = <span class="prelude-val">Some</span>(pid);
+        <span class="comment">// This gets filled in when &#39;finish_pattern&#39; is called.
+        </span><span class="self">self</span>.start_pattern.push(StateID::ZERO);
+        <span class="prelude-val">Ok</span>(pid)
+    }
+
+    <span class="doccomment">/// Finish the assembly of a pattern in this NFA.
+    ///
+    /// Upon success, this returns the identifier for the new pattern.
+    /// Identifiers start at `0` and are incremented by 1 for each new
+    /// pattern. This is the same identifier returned by the corresponding
+    /// `start_pattern` call.
+    ///
+    /// Note that `start_pattern` and `finish_pattern` pairs cannot be
+    /// interleaved or nested. A correct `finish_pattern` call _always_
+    /// corresponds to the most recently called `start_pattern` routine.
+    ///
+    /// # Errors
+    ///
+    /// This currently never returns an error, but this is subject to change.
+    ///
+    /// # Panics
+    ///
+    /// If this is called without a corresponding `start_pattern` call, then
+    /// this panics.
+    </span><span class="kw">pub fn </span>finish_pattern(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        start_id: StateID,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;PatternID, BuildError&gt; {
+        <span class="kw">let </span>pid = <span class="self">self</span>.current_pattern_id();
+        <span class="self">self</span>.start_pattern[pid] = start_id;
+        <span class="self">self</span>.pattern_id = <span class="prelude-val">None</span>;
+        <span class="prelude-val">Ok</span>(pid)
+    }
+
+    <span class="doccomment">/// Returns the pattern identifier of the current pattern.
+    ///
+    /// # Panics
+    ///
+    /// If this doesn&#39;t occur after a `start_pattern` call and before the
+    /// corresponding `finish_pattern` call, then this panics.
+    </span><span class="kw">pub fn </span>current_pattern_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PatternID {
+        <span class="self">self</span>.pattern_id.expect(<span class="string">&quot;must call &#39;start_pattern&#39; first&quot;</span>)
+    }
+
+    <span class="doccomment">/// Returns the number of patterns added to this builder so far.
+    ///
+    /// This only includes patterns that have had `finish_pattern` called
+    /// for them.
+    </span><span class="kw">pub fn </span>pattern_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.start_pattern.len()
+    }
+
+    <span class="doccomment">/// Add an &quot;empty&quot; NFA state.
+    ///
+    /// An &quot;empty&quot; NFA state is a state with a single unconditional epsilon
+    /// transition to another NFA state. Such empty states are removed before
+    /// building the final [`NFA`] (which has no such &quot;empty&quot; states), but they
+    /// can be quite useful in the construction process of an NFA.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    </span><span class="kw">pub fn </span>add_empty(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::Empty { next: StateID::ZERO })
+    }
+
+    <span class="doccomment">/// Add a &quot;union&quot; NFA state.
+    ///
+    /// A &quot;union&quot; NFA state that contains zero or more unconditional epsilon
+    /// transitions to other NFA states. The order of these transitions
+    /// reflects a priority order where earlier transitions are preferred over
+    /// later transitions.
+    ///
+    /// Callers may provide an empty set of alternates to this method call, and
+    /// then later add transitions via `patch`. At final build time, a &quot;union&quot;
+    /// state with no alternates is converted to a &quot;fail&quot; state, and a &quot;union&quot;
+    /// state with exactly one alternate is treated as if it were an &quot;empty&quot;
+    /// state.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    </span><span class="kw">pub fn </span>add_union(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        alternates: Vec&lt;StateID&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::Union { alternates })
+    }
+
+    <span class="doccomment">/// Add a &quot;reverse union&quot; NFA state.
+    ///
+    /// A &quot;reverse union&quot; NFA state contains zero or more unconditional epsilon
+    /// transitions to other NFA states. The order of these transitions
+    /// reflects a priority order where later transitions are preferred
+    /// over earlier transitions. This is an inverted priority order when
+    /// compared to `add_union`. This is useful, for example, for implementing
+    /// non-greedy repetition operators.
+    ///
+    /// Callers may provide an empty set of alternates to this method call, and
+    /// then later add transitions via `patch`. At final build time, a &quot;reverse
+    /// union&quot; state with no alternates is converted to a &quot;fail&quot; state, and a
+    /// &quot;reverse union&quot; state with exactly one alternate is treated as if it
+    /// were an &quot;empty&quot; state.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    </span><span class="kw">pub fn </span>add_union_reverse(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        alternates: Vec&lt;StateID&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::UnionReverse { alternates })
+    }
+
+    <span class="doccomment">/// Add a &quot;range&quot; NFA state.
+    ///
+    /// A &quot;range&quot; NFA state is a state with one outgoing transition to another
+    /// state, where that transition may only be followed if the current input
+    /// byte falls between a range of bytes given.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    </span><span class="kw">pub fn </span>add_range(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        trans: Transition,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::ByteRange { trans })
+    }
+
+    <span class="doccomment">/// Add a &quot;sparse&quot; NFA state.
+    ///
+    /// A &quot;sparse&quot; NFA state contains zero or more outgoing transitions, where
+    /// the transition to be followed (if any) is chosen based on whether the
+    /// current input byte falls in the range of one such transition. The
+    /// transitions given *must* be non-overlapping and in ascending order. (A
+    /// &quot;sparse&quot; state with no transitions is equivalent to a &quot;fail&quot; state.)
+    ///
+    /// A &quot;sparse&quot; state is like adding a &quot;union&quot; state and pointing it at a
+    /// bunch of &quot;range&quot; states, except that the different alternates have
+    /// equal priority.
+    ///
+    /// Note that a &quot;sparse&quot; state is the only state that cannot be patched.
+    /// This is because a &quot;sparse&quot; state has many transitions, each of which
+    /// may point to a different NFA state. Moreover, adding more such
+    /// transitions requires more than just an NFA state ID to point to. It
+    /// also requires a byte range. The `patch` routine does not support the
+    /// additional information required. Therefore, callers must ensure that
+    /// all outgoing transitions for this state are included when `add_sparse`
+    /// is called. There is no way to add more later.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    ///
+    /// # Panics
+    ///
+    /// This routine _may_ panic if the transitions given overlap or are not
+    /// in ascending order.
+    </span><span class="kw">pub fn </span>add_sparse(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        transitions: Vec&lt;Transition&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::Sparse { transitions })
+    }
+
+    <span class="doccomment">/// Add a &quot;look&quot; NFA state.
+    ///
+    /// A &quot;look&quot; NFA state corresponds to a state with exactly one
+    /// *conditional* epsilon transition to another NFA state. Namely, it
+    /// represents one of a small set of simplistic look-around operators.
+    ///
+    /// Callers may provide a &quot;dummy&quot; state ID (typically [`StateID::ZERO`]),
+    /// and then change it later with [`patch`](Builder::patch).
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    </span><span class="kw">pub fn </span>add_look(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        next: StateID,
+        look: Look,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::Look { look, next })
+    }
+
+    <span class="doccomment">/// Add a &quot;start capture&quot; NFA state.
+    ///
+    /// A &quot;start capture&quot; NFA state corresponds to a state with exactly one
+    /// outgoing unconditional epsilon transition to another state. Unlike
+    /// &quot;empty&quot; states, a &quot;start capture&quot; state also carries with it an
+    /// instruction for saving the current position of input to a particular
+    /// location in memory. NFA simulations, like the Pike VM, may use this
+    /// information to report the match locations of capturing groups in a
+    /// regex pattern.
+    ///
+    /// If the corresponding capturing group has a name, then callers should
+    /// include it here.
+    ///
+    /// Callers may provide a &quot;dummy&quot; state ID (typically [`StateID::ZERO`]),
+    /// and then change it later with [`patch`](Builder::patch).
+    ///
+    /// Note that unlike `start_pattern`/`finish_pattern`, capturing start and
+    /// end states may be interleaved. Indeed, it is typical for many &quot;start
+    /// capture&quot; NFA states to appear before the first &quot;end capture&quot; state.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded or if the given
+    /// capture index overflows `usize`.
+    ///
+    /// While the above are the only conditions in which this routine can
+    /// currently return an error, it is possible to call this method with an
+    /// inputs that results in the final `build()` step failing to produce an
+    /// NFA. For example, if one adds two distinct capturing groups with the
+    /// same name, then that will result in `build()` failing with an error.
+    ///
+    /// See the [`GroupInfo`](crate::util::captures::GroupInfo) type for
+    /// more information on what qualifies as valid capturing groups.
+    ///
+    /// # Example
+    ///
+    /// This example shows that an error occurs when one tries to add multiple
+    /// capturing groups with the same name to the same pattern.
+    ///
+    /// ```
+    /// use regex_automata::{
+    ///     nfa::thompson::Builder,
+    ///     util::primitives::StateID,
+    /// };
+    ///
+    /// let name = Some(std::sync::Arc::from(&quot;foo&quot;));
+    /// let mut builder = Builder::new();
+    /// builder.start_pattern()?;
+    /// // 0th capture group should always be unnamed.
+    /// let start = builder.add_capture_start(StateID::ZERO, 0, None)?;
+    /// // OK
+    /// builder.add_capture_start(StateID::ZERO, 1, name.clone())?;
+    /// // This is not OK, but &#39;add_capture_start&#39; still succeeds. We don&#39;t
+    /// // get an error until we call &#39;build&#39; below. Without this call, the
+    /// // call to &#39;build&#39; below would succeed.
+    /// builder.add_capture_start(StateID::ZERO, 2, name.clone())?;
+    /// // Finish our pattern so we can try to build the NFA.
+    /// builder.finish_pattern(start)?;
+    /// let result = builder.build(start, start);
+    /// assert!(result.is_err());
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    ///
+    /// However, adding multiple capturing groups with the same name to
+    /// distinct patterns is okay:
+    ///
+    /// ```
+    /// use std::sync::Arc;
+    ///
+    /// use regex_automata::{
+    ///     nfa::thompson::{pikevm::PikeVM, Builder, Transition},
+    ///     util::{
+    ///         captures::Captures,
+    ///         primitives::{PatternID, StateID},
+    ///     },
+    ///     Span,
+    /// };
+    ///
+    /// // Hand-compile the patterns &#39;(?P&lt;foo&gt;[a-z])&#39; and &#39;(?P&lt;foo&gt;[A-Z])&#39;.
+    /// let mut builder = Builder::new();
+    /// // We compile them to support an unanchored search, which requires
+    /// // adding an implicit &#39;(?s-u:.)*?&#39; prefix before adding either pattern.
+    /// let unanchored_prefix = builder.add_union_reverse(vec![])?;
+    /// let any = builder.add_range(Transition {
+    ///     start: b&#39;\x00&#39;, end: b&#39;\xFF&#39;, next: StateID::ZERO,
+    /// })?;
+    /// builder.patch(unanchored_prefix, any)?;
+    /// builder.patch(any, unanchored_prefix)?;
+    ///
+    /// // Compile an alternation that permits matching multiple patterns.
+    /// let alt = builder.add_union(vec![])?;
+    /// builder.patch(unanchored_prefix, alt)?;
+    ///
+    /// // Compile &#39;(?P&lt;foo&gt;[a-z]+)&#39;.
+    /// builder.start_pattern()?;
+    /// let start0 = builder.add_capture_start(StateID::ZERO, 0, None)?;
+    /// // N.B. 0th capture group must always be unnamed.
+    /// let foo_start0 = builder.add_capture_start(
+    ///     StateID::ZERO, 1, Some(Arc::from(&quot;foo&quot;)),
+    /// )?;
+    /// let lowercase = builder.add_range(Transition {
+    ///     start: b&#39;a&#39;, end: b&#39;z&#39;, next: StateID::ZERO,
+    /// })?;
+    /// let foo_end0 = builder.add_capture_end(StateID::ZERO, 1)?;
+    /// let end0 = builder.add_capture_end(StateID::ZERO, 0)?;
+    /// let match0 = builder.add_match()?;
+    /// builder.patch(start0, foo_start0)?;
+    /// builder.patch(foo_start0, lowercase)?;
+    /// builder.patch(lowercase, foo_end0)?;
+    /// builder.patch(foo_end0, end0)?;
+    /// builder.patch(end0, match0)?;
+    /// builder.finish_pattern(start0)?;
+    ///
+    /// // Compile &#39;(?P&lt;foo&gt;[A-Z]+)&#39;.
+    /// builder.start_pattern()?;
+    /// let start1 = builder.add_capture_start(StateID::ZERO, 0, None)?;
+    /// // N.B. 0th capture group must always be unnamed.
+    /// let foo_start1 = builder.add_capture_start(
+    ///     StateID::ZERO, 1, Some(Arc::from(&quot;foo&quot;)),
+    /// )?;
+    /// let uppercase = builder.add_range(Transition {
+    ///     start: b&#39;A&#39;, end: b&#39;Z&#39;, next: StateID::ZERO,
+    /// })?;
+    /// let foo_end1 = builder.add_capture_end(StateID::ZERO, 1)?;
+    /// let end1 = builder.add_capture_end(StateID::ZERO, 0)?;
+    /// let match1 = builder.add_match()?;
+    /// builder.patch(start1, foo_start1)?;
+    /// builder.patch(foo_start1, uppercase)?;
+    /// builder.patch(uppercase, foo_end1)?;
+    /// builder.patch(foo_end1, end1)?;
+    /// builder.patch(end1, match1)?;
+    /// builder.finish_pattern(start1)?;
+    ///
+    /// // Now add the patterns to our alternation that we started above.
+    /// builder.patch(alt, start0)?;
+    /// builder.patch(alt, start1)?;
+    ///
+    /// // Finally build the NFA. The first argument is the anchored starting
+    /// // state (the pattern alternation) where as the second is the
+    /// // unanchored starting state (the unanchored prefix).
+    /// let nfa = builder.build(alt, unanchored_prefix)?;
+    ///
+    /// // Now build a Pike VM from our NFA and access the &#39;foo&#39; capture
+    /// // group regardless of which pattern matched, since it is defined
+    /// // for both patterns.
+    /// let vm = PikeVM::new_from_nfa(nfa)?;
+    /// let mut cache = vm.create_cache();
+    /// let caps: Vec&lt;Captures&gt; =
+    ///     vm.captures_iter(&amp;mut cache, &quot;0123aAaAA&quot;).collect();
+    /// assert_eq!(5, caps.len());
+    ///
+    /// assert_eq!(Some(PatternID::must(0)), caps[0].pattern());
+    /// assert_eq!(Some(Span::from(4..5)), caps[0].get_group_by_name(&quot;foo&quot;));
+    ///
+    /// assert_eq!(Some(PatternID::must(1)), caps[1].pattern());
+    /// assert_eq!(Some(Span::from(5..6)), caps[1].get_group_by_name(&quot;foo&quot;));
+    ///
+    /// assert_eq!(Some(PatternID::must(0)), caps[2].pattern());
+    /// assert_eq!(Some(Span::from(6..7)), caps[2].get_group_by_name(&quot;foo&quot;));
+    ///
+    /// assert_eq!(Some(PatternID::must(1)), caps[3].pattern());
+    /// assert_eq!(Some(Span::from(7..8)), caps[3].get_group_by_name(&quot;foo&quot;));
+    ///
+    /// assert_eq!(Some(PatternID::must(1)), caps[4].pattern());
+    /// assert_eq!(Some(Span::from(8..9)), caps[4].get_group_by_name(&quot;foo&quot;));
+    ///
+    /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+    /// ```
+    </span><span class="kw">pub fn </span>add_capture_start(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        next: StateID,
+        group_index: u32,
+        name: <span class="prelude-ty">Option</span>&lt;Arc&lt;str&gt;&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="kw">let </span>pid = <span class="self">self</span>.current_pattern_id();
+        <span class="kw">let </span>group_index = <span class="kw">match </span>SmallIndex::try_from(group_index) {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(BuildError::invalid_capture_index(group_index))
+            }
+            <span class="prelude-val">Ok</span>(group_index) =&gt; group_index,
+        };
+        <span class="comment">// Make sure we have space to insert our (pid,index)|--&gt;name mapping.
+        </span><span class="kw">if </span>pid.as_usize() &gt;= <span class="self">self</span>.captures.len() {
+            <span class="kw">for _ in </span><span class="number">0</span>..=(pid.as_usize() - <span class="self">self</span>.captures.len()) {
+                <span class="self">self</span>.captures.push(<span class="macro">vec!</span>[]);
+            }
+        }
+        <span class="comment">// In the case where &#39;group_index &lt; self.captures[pid].len()&#39;, it means
+        // that we are adding a duplicate capture group. This is somewhat
+        // weird, but permissible because the capture group itself can be
+        // repeated in the syntax. For example, &#39;([a-z]){4}&#39; will produce 4
+        // capture groups. In practice, only the last will be set at search
+        // time when a match occurs. For duplicates, we don&#39;t need to push
+        // anything other than a CaptureStart NFA state.
+        </span><span class="kw">if </span>group_index.as_usize() &gt;= <span class="self">self</span>.captures[pid].len() {
+            <span class="comment">// For discontiguous indices, push placeholders for earlier capture
+            // groups that weren&#39;t explicitly added.
+            </span><span class="kw">for _ in </span><span class="number">0</span>..(group_index.as_usize() - <span class="self">self</span>.captures[pid].len()) {
+                <span class="self">self</span>.captures[pid].push(<span class="prelude-val">None</span>);
+            }
+            <span class="self">self</span>.captures[pid].push(name);
+        }
+        <span class="self">self</span>.add(State::CaptureStart { pattern_id: pid, group_index, next })
+    }
+
+    <span class="doccomment">/// Add a &quot;end capture&quot; NFA state.
+    ///
+    /// A &quot;end capture&quot; NFA state corresponds to a state with exactly one
+    /// outgoing unconditional epsilon transition to another state. Unlike
+    /// &quot;empty&quot; states, a &quot;end capture&quot; state also carries with it an
+    /// instruction for saving the current position of input to a particular
+    /// location in memory. NFA simulations, like the Pike VM, may use this
+    /// information to report the match locations of capturing groups in a
+    ///
+    /// Callers may provide a &quot;dummy&quot; state ID (typically [`StateID::ZERO`]),
+    /// and then change it later with [`patch`](Builder::patch).
+    ///
+    /// Note that unlike `start_pattern`/`finish_pattern`, capturing start and
+    /// end states may be interleaved. Indeed, it is typical for many &quot;start
+    /// capture&quot; NFA states to appear before the first &quot;end capture&quot; state.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded or if the given
+    /// capture index overflows `usize`.
+    ///
+    /// While the above are the only conditions in which this routine can
+    /// currently return an error, it is possible to call this method with an
+    /// inputs that results in the final `build()` step failing to produce an
+    /// NFA. For example, if one adds two distinct capturing groups with the
+    /// same name, then that will result in `build()` failing with an error.
+    ///
+    /// See the [`GroupInfo`](crate::util::captures::GroupInfo) type for
+    /// more information on what qualifies as valid capturing groups.
+    </span><span class="kw">pub fn </span>add_capture_end(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        next: StateID,
+        group_index: u32,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="kw">let </span>pid = <span class="self">self</span>.current_pattern_id();
+        <span class="kw">let </span>group_index = <span class="kw">match </span>SmallIndex::try_from(group_index) {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(BuildError::invalid_capture_index(group_index))
+            }
+            <span class="prelude-val">Ok</span>(group_index) =&gt; group_index,
+        };
+        <span class="self">self</span>.add(State::CaptureEnd { pattern_id: pid, group_index, next })
+    }
+
+    <span class="doccomment">/// Adds a &quot;fail&quot; NFA state.
+    ///
+    /// A &quot;fail&quot; state is simply a state that has no outgoing transitions. It
+    /// acts as a way to cause a search to stop without reporting a match.
+    /// For example, one way to represent an NFA with zero patterns is with a
+    /// single &quot;fail&quot; state.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    </span><span class="kw">pub fn </span>add_fail(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="self">self</span>.add(State::Fail)
+    }
+
+    <span class="doccomment">/// Adds a &quot;match&quot; NFA state.
+    ///
+    /// A &quot;match&quot; state has no outgoing transitions (just like a &quot;fail&quot;
+    /// state), but it has special significance in that if a search enters
+    /// this state, then a match has been found. The match state that is added
+    /// automatically has the current pattern ID associated with it. This is
+    /// used to report the matching pattern ID at search time.
+    ///
+    /// # Errors
+    ///
+    /// This returns an error if the state identifier space is exhausted, or if
+    /// the configured heap size limit has been exceeded.
+    ///
+    /// # Panics
+    ///
+    /// This must be called after a `start_pattern` call but before the
+    /// corresponding `finish_pattern` call. Otherwise, it panics.
+    </span><span class="kw">pub fn </span>add_match(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="kw">let </span>pattern_id = <span class="self">self</span>.current_pattern_id();
+        <span class="kw">let </span>sid = <span class="self">self</span>.add(State::Match { pattern_id })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(sid)
+    }
+
+    <span class="doccomment">/// The common implementation of &quot;add a state.&quot; It handles the common
+    /// error cases of state ID exhausting (by owning state ID allocation) and
+    /// whether the size limit has been exceeded.
+    </span><span class="kw">fn </span>add(<span class="kw-2">&amp;mut </span><span class="self">self</span>, state: State) -&gt; <span class="prelude-ty">Result</span>&lt;StateID, BuildError&gt; {
+        <span class="kw">let </span>id = StateID::new(<span class="self">self</span>.states.len())
+            .map_err(|<span class="kw">_</span>| BuildError::too_many_states(<span class="self">self</span>.states.len()))<span class="question-mark">?</span>;
+        <span class="self">self</span>.memory_states += state.memory_usage();
+        <span class="self">self</span>.states.push(state);
+        <span class="self">self</span>.check_size_limit()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(id)
+    }
+
+    <span class="doccomment">/// Add a transition from one state to another.
+    ///
+    /// This routine is called &quot;patch&quot; since it is very common to add the
+    /// states you want, typically with &quot;dummy&quot; state ID transitions, and then
+    /// &quot;patch&quot; in the real state IDs later. This is because you don&#39;t always
+    /// know all of the necessary state IDs to add because they might not
+    /// exist yet.
+    ///
+    /// # Errors
+    ///
+    /// This may error if patching leads to an increase in heap usage beyond
+    /// the configured size limit. Heap usage only grows when patching adds a
+    /// new transition (as in the case of a &quot;union&quot; state).
+    ///
+    /// # Panics
+    ///
+    /// This panics if `from` corresponds to a &quot;sparse&quot; state. When &quot;sparse&quot;
+    /// states are added, there is no way to patch them after-the-fact. (If you
+    /// have a use case where this would be helpful, please file an issue. It
+    /// will likely require a new API.)
+    </span><span class="kw">pub fn </span>patch(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        from: StateID,
+        to: StateID,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), BuildError&gt; {
+        <span class="kw">let </span>old_memory_states = <span class="self">self</span>.memory_states;
+        <span class="kw">match </span><span class="self">self</span>.states[from] {
+            State::Empty { <span class="kw-2">ref mut </span>next } =&gt; {
+                <span class="kw-2">*</span>next = to;
+            }
+            State::ByteRange { <span class="kw-2">ref mut </span>trans } =&gt; {
+                trans.next = to;
+            }
+            State::Sparse { .. } =&gt; {
+                <span class="macro">panic!</span>(<span class="string">&quot;cannot patch from a sparse NFA state&quot;</span>)
+            }
+            State::Look { <span class="kw-2">ref mut </span>next, .. } =&gt; {
+                <span class="kw-2">*</span>next = to;
+            }
+            State::Union { <span class="kw-2">ref mut </span>alternates } =&gt; {
+                alternates.push(to);
+                <span class="self">self</span>.memory_states += mem::size_of::&lt;StateID&gt;();
+            }
+            State::UnionReverse { <span class="kw-2">ref mut </span>alternates } =&gt; {
+                alternates.push(to);
+                <span class="self">self</span>.memory_states += mem::size_of::&lt;StateID&gt;();
+            }
+            State::CaptureStart { <span class="kw-2">ref mut </span>next, .. } =&gt; {
+                <span class="kw-2">*</span>next = to;
+            }
+            State::CaptureEnd { <span class="kw-2">ref mut </span>next, .. } =&gt; {
+                <span class="kw-2">*</span>next = to;
+            }
+            State::Fail =&gt; {}
+            State::Match { .. } =&gt; {}
+        }
+        <span class="kw">if </span>old_memory_states != <span class="self">self</span>.memory_states {
+            <span class="self">self</span>.check_size_limit()<span class="question-mark">?</span>;
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// Set whether the NFA produced by this builder should only match UTF-8.
+    ///
+    /// This should be set when both of the following are true:
+    ///
+    /// 1. The caller guarantees that the NFA created by this build will only
+    /// report non-empty matches with spans that are valid UTF-8.
+    /// 2. The caller desires regex engines using this NFA to avoid reporting
+    /// empty matches with a span that splits a valid UTF-8 encoded codepoint.
+    ///
+    /// Property (1) is not checked. Instead, this requires the caller to
+    /// promise that it is true. Property (2) corresponds to the behavior of
+    /// regex engines using the NFA created by this builder. Namely, there
+    /// is no way in the NFA&#39;s graph itself to say that empty matches found
+    /// by, for example, the regex `a*` will fall on valid UTF-8 boundaries.
+    /// Instead, this option is used to communicate the UTF-8 semantic to regex
+    /// engines that will typically implement it as a post-processing step by
+    /// filtering out empty matches that don&#39;t fall on UTF-8 boundaries.
+    ///
+    /// If you&#39;re building an NFA from an HIR (and not using a
+    /// [`thompson::Compiler`](crate::nfa::thompson::Compiler)), then you can
+    /// use the [`syntax::Config::utf8`](crate::util::syntax::Config::utf8)
+    /// option to guarantee that if the HIR detects a non-empty match, then it
+    /// is guaranteed to be valid UTF-8.
+    ///
+    /// Note that property (2) does *not* specify the behavior of executing
+    /// a search on a haystack that is not valid UTF-8. Therefore, if you&#39;re
+    /// *not* running this NFA on strings that are guaranteed to be valid
+    /// UTF-8, you almost certainly do not want to enable this option.
+    /// Similarly, if you are running the NFA on strings that *are* guaranteed
+    /// to be valid UTF-8, then you almost certainly want to enable this option
+    /// unless you can guarantee that your NFA will never produce a zero-width
+    /// match.
+    ///
+    /// It is disabled by default.
+    </span><span class="kw">pub fn </span>set_utf8(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) {
+        <span class="self">self</span>.utf8 = yes;
+    }
+
+    <span class="doccomment">/// Returns whether UTF-8 mode is enabled for this builder.
+    ///
+    /// See [`Builder::set_utf8`] for more details about what &quot;UTF-8 mode&quot; is.
+    </span><span class="kw">pub fn </span>get_utf8(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.utf8
+    }
+
+    <span class="doccomment">/// Sets whether the NFA produced by this builder should be matched in
+    /// reverse or not. Generally speaking, when enabled, the NFA produced
+    /// should be matched by moving backwards through a haystack, from a higher
+    /// memory address to a lower memory address.
+    ///
+    /// See also [`NFA::is_reverse`] for more details.
+    ///
+    /// This is disabled by default, which means NFAs are by default matched
+    /// in the forward direction.
+    </span><span class="kw">pub fn </span>set_reverse(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) {
+        <span class="self">self</span>.reverse = yes;
+    }
+
+    <span class="doccomment">/// Returns whether reverse mode is enabled for this builder.
+    ///
+    /// See [`Builder::set_reverse`] for more details about what &quot;reverse mode&quot;
+    /// is.
+    </span><span class="kw">pub fn </span>get_reverse(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.reverse
+    }
+
+    <span class="doccomment">/// Sets the look-around matcher that should be used for the resulting NFA.
+    ///
+    /// A look-around matcher can be used to configure how look-around
+    /// assertions are matched. For example, a matcher might carry
+    /// configuration that changes the line terminator used for `(?m:^)` and
+    /// `(?m:$)` assertions.
+    </span><span class="kw">pub fn </span>set_look_matcher(<span class="kw-2">&amp;mut </span><span class="self">self</span>, m: LookMatcher) {
+        <span class="self">self</span>.look_matcher = m;
+    }
+
+    <span class="doccomment">/// Returns the look-around matcher used for this builder.
+    ///
+    /// If a matcher was not explicitly set, then `LookMatcher::default()` is
+    /// returned.
+    </span><span class="kw">pub fn </span>get_look_matcher(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>LookMatcher {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.look_matcher
+    }
+
+    <span class="doccomment">/// Set the size limit on this builder.
+    ///
+    /// Setting the size limit will also check whether the NFA built so far
+    /// fits within the given size limit. If it doesn&#39;t, then an error is
+    /// returned.
+    ///
+    /// By default, there is no configured size limit.
+    </span><span class="kw">pub fn </span>set_size_limit(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        limit: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), BuildError&gt; {
+        <span class="self">self</span>.size_limit = limit;
+        <span class="self">self</span>.check_size_limit()
+    }
+
+    <span class="doccomment">/// Return the currently configured size limit.
+    ///
+    /// By default, this returns `None`, which corresponds to no configured
+    /// size limit.
+    </span><span class="kw">pub fn </span>get_size_limit(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="self">self</span>.size_limit
+    }
+
+    <span class="doccomment">/// Returns the heap memory usage, in bytes, used by the NFA states added
+    /// so far.
+    ///
+    /// Note that this is an approximation of how big the final NFA will be.
+    /// In practice, the final NFA will likely be a bit smaller because of
+    /// its simpler state representation. (For example, using things like
+    /// `Box&lt;[StateID]&gt;` instead of `Vec&lt;StateID&gt;`.)
+    </span><span class="kw">pub fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.states.len() * mem::size_of::&lt;State&gt;() + <span class="self">self</span>.memory_states
+    }
+
+    <span class="kw">fn </span>check_size_limit(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), BuildError&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(limit) = <span class="self">self</span>.size_limit {
+            <span class="kw">if </span><span class="self">self</span>.memory_usage() &gt; limit {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(BuildError::exceeded_size_limit(limit));
+            }
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="comment">// This asserts that a builder state doesn&#39;t have its size changed. It is
+    // *really* easy to accidentally increase the size, and thus potentially
+    // dramatically increase the memory usage of NFA builder.
+    //
+    // This assert doesn&#39;t mean we absolutely cannot increase the size of a
+    // builder state. We can. It&#39;s just here to make sure we do it knowingly
+    // and intentionally.
+    //
+    // A builder state is unfortunately a little bigger than an NFA state,
+    // since we really want to support adding things to a pre-existing state.
+    // i.e., We use Vec&lt;thing&gt; instead of Box&lt;[thing]&gt;. So we end up using an
+    // extra 8 bytes per state. Sad, but at least it gets freed once the NFA
+    // is built.
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>state_has_small_size() {
+        <span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;64&quot;</span>)]
+        </span><span class="macro">assert_eq!</span>(<span class="number">32</span>, core::mem::size_of::&lt;State&gt;());
+        <span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;32&quot;</span>)]
+        </span><span class="macro">assert_eq!</span>(<span class="number">16</span>, core::mem::size_of::&lt;State&gt;());
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="regex_automata" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

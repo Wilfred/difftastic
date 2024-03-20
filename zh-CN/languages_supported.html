@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>支持的语言 - Difftastic Manual</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="The manual for difftastic, the structural dif tool">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> 安装</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> 使用</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li><li class="chapter-item expanded "><a href="fossil.html"><strong aria-hidden="true">3.3.</strong> Fossil</a></li></ol></li><li class="chapter-item expanded "><a href="languages_supported.html" class="active"><strong aria-hidden="true">4.</strong> 支持的语言</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">5.</strong> 解析</a></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">6.</strong> 差异分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">6.1.</strong> 棘手的例子</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">7.</strong> 贡献</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">7.1.</strong> 解析器依赖库</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">7.2.</strong> 添加解析器</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">8.</strong> 词典</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">9.</strong> 其它项目</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">9.1.</strong> 树状差异分析</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/wilfred/difftastic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="支持的语言"><a class="header" href="#支持的语言">支持的语言</a></h1>
+<p>本页列出了 Difftastic 支持的所有语言。你也可以用 <code>difft --list-languages</code> 查看你当前安装的版本所支持的语言。</p>
+<h2 id="编程语言"><a class="header" href="#编程语言">编程语言</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>语言</th><th>使用的解析器</th></tr></thead><tbody>
+<tr><td>Bash</td><td><a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter/tree-sitter-bash</a></td></tr>
+<tr><td>Apex</td><td><a href="https://github.com/aheber/tree-sitter-sfapex">aheber/tree-sitter-sfapex</a></td></tr>
+<tr><td>C</td><td><a href="https://github.com/tree-sitter/tree-sitter-c">tree-sitter/tree-sitter-c</a></td></tr>
+<tr><td>C++</td><td><a href="https://github.com/tree-sitter/tree-sitter-cpp">tree-sitter/tree-sitter-cpp</a></td></tr>
+<tr><td>C#</td><td><a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter/tree-sitter-c-sharp</a></td></tr>
+<tr><td>Clojure</td><td><a href="https://github.com/sogaiu/tree-sitter-clojure">sogaiu/tree-sitter-clojure</a> (<a href="https://github.com/sogaiu/tree-sitter-clojure/tree/issue-21">branched</a>)</td></tr>
+<tr><td>CMake</td><td><a href="https://github.com/uyha/tree-sitter-cmake">uyha/tree-sitter-cmake</a></td></tr>
+<tr><td>Common Lisp</td><td><a href="https://github.com/theHamsta/tree-sitter-commonlisp">theHamsta/tree-sitter-commonlisp</a></td></tr>
+<tr><td>Dart</td><td><a href="https://github.com/UserNobody14/tree-sitter-dart">UserNobody14/tree-sitter-dart</a></td></tr>
+<tr><td>Elixir</td><td><a href="https://github.com/elixir-lang/tree-sitter-elixir">elixir-lang/tree-sitter-elixir</a></td></tr>
+<tr><td>Elm</td><td><a href="https://github.com/elm-tooling/tree-sitter-elm">elm-tooling/tree-sitter-elm</a></td></tr>
+<tr><td>Elvish</td><td><a href="https://github.com/ckafi/tree-sitter-elvish">ckafi/tree-sitter-elvish</a></td></tr>
+<tr><td>Erlang</td><td><a href="https://github.com/WhatsApp/tree-sitter-erlang">WhatsApp/tree-sitter-erlang</a></td></tr>
+<tr><td>Emacs Lisp</td><td><a href="https://github.com/Wilfred/tree-sitter-elisp">wilfred/tree-sitter-elisp</a></td></tr>
+<tr><td>Gleam</td><td><a href="https://github.com/gleam-lang/tree-sitter-gleam">gleam-lang/tree-sitter-gleam</a></td></tr>
+<tr><td>Go</td><td><a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter/tree-sitter-go</a></td></tr>
+<tr><td>Hack</td><td><a href="https://github.com/slackhq/tree-sitter-hack">slackhq/tree-sitter-hack</a></td></tr>
+<tr><td>Hare</td><td><a href="https://git.sr.ht/~ecmma/tree-sitter-hare">ecmma/tree-sitter-hare</a></td></tr>
+<tr><td>Haskell</td><td><a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter/tree-sitter-haskell</a></td></tr>
+<tr><td>Janet</td><td><a href="https://github.com/sogaiu/tree-sitter-janet-simple">sogaiu/tree-sitter-janet-simple</a></td></tr>
+<tr><td>Java</td><td><a href="https://github.com/tree-sitter/tree-sitter-java">tree-sitter/tree-sitter-java</a></td></tr>
+<tr><td>JavaScript, JSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-javascript">tree-sitter/tree-sitter-javascript</a></td></tr>
+<tr><td>Julia</td><td><a href="https://github.com/tree-sitter/tree-sitter-julia">tree-sitter/tree-sitter-julia</a></td></tr>
+<tr><td>Kotlin</td><td><a href="https://github.com/fwcd/tree-sitter-kotlin">fwcd/tree-sitter-kotlin</a></td></tr>
+<tr><td>Lua</td><td><a href="https://github.com/nvim-treesitter/tree-sitter-lua">nvim-treesitter/tree-sitter-lua</a></td></tr>
+<tr><td>Make</td><td><a href="https://github.com/alemuller/tree-sitter-make">alemuller/tree-sitter-make</a></td></tr>
+<tr><td>Nix</td><td><a href="https://github.com/cstrahan/tree-sitter-nix">cstrahan/tree-sitter-nix</a></td></tr>
+<tr><td>OCaml</td><td><a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter/tree-sitter-ocaml</a></td></tr>
+<tr><td>Perl</td><td><a href="https://github.com/ganezdragon/tree-sitter-perl">ganezdragon/tree-sitter-perl</a></td></tr>
+<tr><td>PHP</td><td><a href="https://github.com/tree-sitter/tree-sitter-php">tree-sitter/tree-sitter-php</a></td></tr>
+<tr><td>Python</td><td><a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter/tree-sitter-python</a></td></tr>
+<tr><td>QML</td><td><a href="https://github.com/yuja/tree-sitter-qmljs">tree-sitter/tree-sitter-qmljs</a></td></tr>
+<tr><td>R</td><td><a href="https://github.com/r-lib/tree-sitter-r">r-lib/tree-sitter-r</a></td></tr>
+<tr><td>Racket</td><td><a href="https://github.com/6cdh/tree-sitter-racket">6cdh/tree-sitter-racket</a></td></tr>
+<tr><td>Ruby</td><td><a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter/tree-sitter-ruby</a></td></tr>
+<tr><td>Rust</td><td><a href="https://github.com/tree-sitter/tree-sitter-rust">tree-sitter/tree-sitter-rust</a> (<a href="https://github.com/Wilfred/tree-sitter-rust/tree/non_special_token">forked</a>)</td></tr>
+<tr><td>Scala</td><td><a href="https://github.com/tree-sitter/tree-sitter-scala">tree-sitter/tree-sitter-scala</a></td></tr>
+<tr><td>SQL</td><td><a href="https://github.com/m-novikov/tree-sitter-sql">m-novikov/tree-sitter-sql</a></td></tr>
+<tr><td>Swift</td><td><a href="https://github.com/alex-pinkus/tree-sitter-swift">alex-pinkus/tree-sitter-swift</a></td></tr>
+<tr><td>TypeScript, TSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter/tree-sitter-typescript</a></td></tr>
+<tr><td>Zig</td><td><a href="https://github.com/maxxnino/tree-sitter-zig">maxxnino/tree-sitter-zig</a></td></tr>
+</tbody></table>
+</div>
+<h2 id="结构化文本格式"><a class="header" href="#结构化文本格式">结构化文本格式</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>语言</th><th>使用的解析器</th></tr></thead><tbody>
+<tr><td>CSS</td><td><a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter/tree-sitter-css</a></td></tr>
+<tr><td>HCL</td><td><a href="https://github.com/MichaHoffmann/tree-sitter-hcl">MichaHoffmann/tree-sitter-hcl</a></td></tr>
+<tr><td>HTML</td><td><a href="https://github.com/tree-sitter/tree-sitter-html">tree-sitter/tree-sitter-html</a></td></tr>
+<tr><td>JSON</td><td><a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter/tree-sitter-json</a></td></tr>
+<tr><td>Newick</td><td><a href="https://github.com/delehef/tree-sitter-newick">delehef/tree-sitter-newick</a></td></tr>
+<tr><td>TOML</td><td><a href="https://github.com/ikatyang/tree-sitter-toml">ikatyang/tree-sitter-toml</a></td></tr>
+<tr><td>YAML</td><td><a href="https://github.com/ikatyang/tree-sitter-yaml">ikatyang/tree-sitter-yaml</a></td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="fossil.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="parsing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="fossil.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="parsing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["ContextKind","Semantics for a piece of error information"],["ContextValue","A piece of error information"],["ErrorKind","Command line argument parser kind of error"]],"struct":[["Error","Command Line Argument Parser Error"]],"type":[["Result","Short hand for `Result` type"]]};

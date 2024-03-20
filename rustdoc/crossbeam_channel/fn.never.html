@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Creates a receiver that never delivers messages."><meta name="keywords" content="rust, rustlang, rust-lang, never"><title>never in crossbeam_channel - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../crossbeam_channel/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../crossbeam_channel/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In crossbeam_channel</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../crossbeam_channel/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Function <a href="index.html">crossbeam_channel</a>::<wbr><a class="fn" href="#">never</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/crossbeam_channel/channel.rs.html#265-269">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust fn"><code>pub fn never&lt;T&gt;() -&gt; <a class="struct" href="struct.Receiver.html" title="struct crossbeam_channel::Receiver">Receiver</a>&lt;T&gt;</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Creates a receiver that never delivers messages.</p>
+<p>The channel is bounded with capacity of 0 and never gets disconnected.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<p>Using a <code>never</code> channel to optionally add a timeout to <a href="macro.select.html"><code>select!</code></a>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::thread;
+<span class="kw">use </span>std::time::Duration;
+<span class="kw">use </span>crossbeam_channel::{after, select, never, unbounded};
+
+<span class="kw">let </span>(s, r) = unbounded();
+
+thread::spawn(<span class="kw">move </span>|| {
+    thread::sleep(Duration::from_secs(<span class="number">1</span>));
+    s.send(<span class="number">1</span>).unwrap();
+});
+
+<span class="comment">// Suppose this duration can be a `Some` or a `None`.
+</span><span class="kw">let </span>duration = <span class="prelude-val">Some</span>(Duration::from_millis(<span class="number">100</span>));
+
+<span class="comment">// Create a channel that times out after the specified duration.
+</span><span class="kw">let </span>timeout = duration
+    .map(|d| after(d))
+    .unwrap_or(never());
+
+<span class="macro">select! </span>{
+    recv(r) -&gt; msg =&gt; <span class="macro">assert_eq!</span>(msg, <span class="prelude-val">Ok</span>(<span class="number">1</span>)),
+    recv(timeout) -&gt; <span class="kw">_ </span>=&gt; <span class="macro">println!</span>(<span class="string">&quot;timed out&quot;</span>),
+}</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="crossbeam_channel" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

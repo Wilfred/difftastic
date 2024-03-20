@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Add custom properties to enum variants."><meta name="keywords" content="rust, rustlang, rust-lang, EnumProperty"><title>EnumProperty in strum_macros - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc derive"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../strum_macros/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../strum_macros/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In strum_macros</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../strum_macros/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Derive Macro <a href="index.html">strum_macros</a>::<wbr><a class="derive" href="#">EnumProperty</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/strum_macros/lib.rs.html#628-635">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust derive"><code>#[derive(EnumProperty)]
+{
+    // Attributes available to this derive:
+    #[strum]
+}
+</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Add custom properties to enum variants.</p>
+<p>Enables the encoding of arbitary constants into enum variants. This method
+currently only supports adding additional string values. Other types of literals are still
+experimental in the rustc compiler. The generated code works by nesting match statements.
+The first match statement matches on the type of the enum, and the inner match statement
+matches on the name of the property requested. This design works well for enums with a small
+number of variants and properties, but scales linearly with the number of variants so may not
+be the best choice in all situations.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="kw">use </span>strum_macros;
+<span class="comment">// bring the trait into scope
+</span><span class="kw">use </span>strum::EnumProperty;
+
+<span class="attribute">#[derive(strum_macros::EnumProperty, Debug)]
+#[allow(dead_code)]
+</span><span class="kw">enum </span>Color {
+    <span class="attribute">#[strum(props(Red = <span class="string">&quot;255&quot;</span>, Blue = <span class="string">&quot;255&quot;</span>, Green = <span class="string">&quot;255&quot;</span>))]
+    </span>White,
+    <span class="attribute">#[strum(props(Red = <span class="string">&quot;0&quot;</span>, Blue = <span class="string">&quot;0&quot;</span>, Green = <span class="string">&quot;0&quot;</span>))]
+    </span>Black,
+    <span class="attribute">#[strum(props(Red = <span class="string">&quot;0&quot;</span>, Blue = <span class="string">&quot;255&quot;</span>, Green = <span class="string">&quot;0&quot;</span>))]
+    </span>Blue,
+    <span class="attribute">#[strum(props(Red = <span class="string">&quot;255&quot;</span>, Blue = <span class="string">&quot;0&quot;</span>, Green = <span class="string">&quot;0&quot;</span>))]
+    </span>Red,
+    <span class="attribute">#[strum(props(Red = <span class="string">&quot;0&quot;</span>, Blue = <span class="string">&quot;0&quot;</span>, Green = <span class="string">&quot;255&quot;</span>))]
+    </span>Green,
+}
+
+<span class="kw">let </span>my_color = Color::Red;
+<span class="kw">let </span>display = <span class="macro">format!</span>(
+    <span class="string">&quot;My color is {:?}. It&#39;s RGB is {},{},{}&quot;</span>,
+    my_color,
+    my_color.get_str(<span class="string">&quot;Red&quot;</span>).unwrap(),
+    my_color.get_str(<span class="string">&quot;Green&quot;</span>).unwrap(),
+    my_color.get_str(<span class="string">&quot;Blue&quot;</span>).unwrap()
+);
+<span class="macro">assert_eq!</span>(<span class="string">&quot;My color is Red. It\&#39;s RGB is 255,0,0&quot;</span>, <span class="kw-2">&amp;</span>display);</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="strum_macros" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,1294 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/thread_local-1.1.7/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../thread_local/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../thread_local/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../thread_local/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2017 Amanieu d&#39;Antras
+//
+// Licensed under the Apache License, Version 2.0, &lt;LICENSE-APACHE or
+// http://apache.org/licenses/LICENSE-2.0&gt; or the MIT license &lt;LICENSE-MIT or
+// http://opensource.org/licenses/MIT&gt;, at your option. This file may not be
+// copied, modified, or distributed except according to those terms.
+
+</span><span class="doccomment">//! Per-object thread-local storage
+//!
+//! This library provides the `ThreadLocal` type which allows a separate copy of
+//! an object to be used for each thread. This allows for per-object
+//! thread-local storage, unlike the standard library&#39;s `thread_local!` macro
+//! which only allows static thread-local storage.
+//!
+//! Per-thread objects are not destroyed when a thread exits. Instead, objects
+//! are only destroyed when the `ThreadLocal` containing them is destroyed.
+//!
+//! You can also iterate over the thread-local values of all thread in a
+//! `ThreadLocal` object using the `iter_mut` and `into_iter` methods. This can
+//! only be done if you have mutable access to the `ThreadLocal` object, which
+//! guarantees that you are the only thread currently accessing it.
+//!
+//! Note that since thread IDs are recycled when a thread exits, it is possible
+//! for one thread to retrieve the object of another thread. Since this can only
+//! occur after a thread has exited this does not lead to any race conditions.
+//!
+//! # Examples
+//!
+//! Basic usage of `ThreadLocal`:
+//!
+//! ```rust
+//! use thread_local::ThreadLocal;
+//! let tls: ThreadLocal&lt;u32&gt; = ThreadLocal::new();
+//! assert_eq!(tls.get(), None);
+//! assert_eq!(tls.get_or(|| 5), &amp;5);
+//! assert_eq!(tls.get(), Some(&amp;5));
+//! ```
+//!
+//! Combining thread-local values into a single result:
+//!
+//! ```rust
+//! use thread_local::ThreadLocal;
+//! use std::sync::Arc;
+//! use std::cell::Cell;
+//! use std::thread;
+//!
+//! let tls = Arc::new(ThreadLocal::new());
+//!
+//! // Create a bunch of threads to do stuff
+//! for _ in 0..5 {
+//!     let tls2 = tls.clone();
+//!     thread::spawn(move || {
+//!         // Increment a counter to count some event...
+//!         let cell = tls2.get_or(|| Cell::new(0));
+//!         cell.set(cell.get() + 1);
+//!     }).join().unwrap();
+//! }
+//!
+//! // Once all threads are done, collect the counter values and return the
+//! // sum of all thread-local counter values.
+//! let tls = Arc::try_unwrap(tls).unwrap();
+//! let total = tls.into_iter().fold(0, |x, y| x + y.get());
+//! assert_eq!(total, 5);
+//! ```
+
+</span><span class="attribute">#![warn(missing_docs)]
+#![allow(clippy::mutex_atomic)]
+#![cfg_attr(feature = <span class="string">&quot;nightly&quot;</span>, feature(thread_local))]
+
+</span><span class="kw">mod </span>cached;
+<span class="kw">mod </span>thread_id;
+<span class="kw">mod </span>unreachable;
+
+<span class="attribute">#[allow(deprecated)]
+</span><span class="kw">pub use </span>cached::{CachedIntoIter, CachedIterMut, CachedThreadLocal};
+
+<span class="kw">use </span>std::cell::UnsafeCell;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::iter::FusedIterator;
+<span class="kw">use </span>std::mem;
+<span class="kw">use </span>std::mem::MaybeUninit;
+<span class="kw">use </span>std::panic::UnwindSafe;
+<span class="kw">use </span>std::ptr;
+<span class="kw">use </span>std::sync::atomic::{AtomicBool, AtomicPtr, AtomicUsize, Ordering};
+<span class="kw">use </span>thread_id::Thread;
+<span class="kw">use </span>unreachable::UncheckedResultExt;
+
+<span class="comment">// Use usize::BITS once it has stabilized and the MSRV has been bumped.
+</span><span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;16&quot;</span>)]
+</span><span class="kw">const </span>POINTER_WIDTH: u8 = <span class="number">16</span>;
+<span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;32&quot;</span>)]
+</span><span class="kw">const </span>POINTER_WIDTH: u8 = <span class="number">32</span>;
+<span class="attribute">#[cfg(target_pointer_width = <span class="string">&quot;64&quot;</span>)]
+</span><span class="kw">const </span>POINTER_WIDTH: u8 = <span class="number">64</span>;
+
+<span class="doccomment">/// The total number of buckets stored in each thread local.
+</span><span class="kw">const </span>BUCKETS: usize = (POINTER_WIDTH + <span class="number">1</span>) <span class="kw">as </span>usize;
+
+<span class="doccomment">/// Thread-local variable wrapper
+///
+/// See the [module-level documentation](index.html) for more.
+</span><span class="kw">pub struct </span>ThreadLocal&lt;T: Send&gt; {
+    <span class="doccomment">/// The buckets in the thread local. The nth bucket contains `2^(n-1)`
+    /// elements. Each bucket is lazily allocated.
+    </span>buckets: [AtomicPtr&lt;Entry&lt;T&gt;&gt;; BUCKETS],
+
+    <span class="doccomment">/// The number of values in the thread local. This can be less than the real number of values,
+    /// but is never more.
+    </span>values: AtomicUsize,
+}
+
+<span class="kw">struct </span>Entry&lt;T&gt; {
+    present: AtomicBool,
+    value: UnsafeCell&lt;MaybeUninit&lt;T&gt;&gt;,
+}
+
+<span class="kw">impl</span>&lt;T&gt; Drop <span class="kw">for </span>Entry&lt;T&gt; {
+    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">unsafe </span>{
+            <span class="kw">if </span><span class="kw-2">*</span><span class="self">self</span>.present.get_mut() {
+                ptr::drop_in_place((<span class="kw-2">*</span><span class="self">self</span>.value.get()).as_mut_ptr());
+            }
+        }
+    }
+}
+
+<span class="comment">// ThreadLocal is always Sync, even if T isn&#39;t
+</span><span class="kw">unsafe impl</span>&lt;T: Send&gt; Sync <span class="kw">for </span>ThreadLocal&lt;T&gt; {}
+
+<span class="kw">impl</span>&lt;T: Send&gt; Default <span class="kw">for </span>ThreadLocal&lt;T&gt; {
+    <span class="kw">fn </span>default() -&gt; ThreadLocal&lt;T&gt; {
+        ThreadLocal::new()
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send&gt; Drop <span class="kw">for </span>ThreadLocal&lt;T&gt; {
+    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">let </span><span class="kw-2">mut </span>bucket_size = <span class="number">1</span>;
+
+        <span class="comment">// Free each non-null bucket
+        </span><span class="kw">for </span>(i, bucket) <span class="kw">in </span><span class="self">self</span>.buckets.iter_mut().enumerate() {
+            <span class="kw">let </span>bucket_ptr = <span class="kw-2">*</span>bucket.get_mut();
+
+            <span class="kw">let </span>this_bucket_size = bucket_size;
+            <span class="kw">if </span>i != <span class="number">0 </span>{
+                bucket_size &lt;&lt;= <span class="number">1</span>;
+            }
+
+            <span class="kw">if </span>bucket_ptr.is_null() {
+                <span class="kw">continue</span>;
+            }
+
+            <span class="kw">unsafe </span>{ deallocate_bucket(bucket_ptr, this_bucket_size) };
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send&gt; ThreadLocal&lt;T&gt; {
+    <span class="doccomment">/// Creates a new empty `ThreadLocal`.
+    </span><span class="kw">pub fn </span>new() -&gt; ThreadLocal&lt;T&gt; {
+        <span class="self">Self</span>::with_capacity(<span class="number">2</span>)
+    }
+
+    <span class="doccomment">/// Creates a new `ThreadLocal` with an initial capacity. If less than the capacity threads
+    /// access the thread local it will never reallocate. The capacity may be rounded up to the
+    /// nearest power of two.
+    </span><span class="kw">pub fn </span>with_capacity(capacity: usize) -&gt; ThreadLocal&lt;T&gt; {
+        <span class="kw">let </span>allocated_buckets = capacity
+            .checked_sub(<span class="number">1</span>)
+            .map(|c| usize::from(POINTER_WIDTH) - (c.leading_zeros() <span class="kw">as </span>usize) + <span class="number">1</span>)
+            .unwrap_or(<span class="number">0</span>);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>buckets = [ptr::null_mut(); BUCKETS];
+        <span class="kw">let </span><span class="kw-2">mut </span>bucket_size = <span class="number">1</span>;
+        <span class="kw">for </span>(i, bucket) <span class="kw">in </span>buckets[..allocated_buckets].iter_mut().enumerate() {
+            <span class="kw-2">*</span>bucket = allocate_bucket::&lt;T&gt;(bucket_size);
+
+            <span class="kw">if </span>i != <span class="number">0 </span>{
+                bucket_size &lt;&lt;= <span class="number">1</span>;
+            }
+        }
+
+        ThreadLocal {
+            <span class="comment">// Safety: AtomicPtr has the same representation as a pointer and arrays have the same
+            // representation as a sequence of their inner type.
+            </span>buckets: <span class="kw">unsafe </span>{ mem::transmute(buckets) },
+            values: AtomicUsize::new(<span class="number">0</span>),
+        }
+    }
+
+    <span class="doccomment">/// Returns the element for the current thread, if it exists.
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+        <span class="self">self</span>.get_inner(thread_id::get())
+    }
+
+    <span class="doccomment">/// Returns the element for the current thread, or creates it if it doesn&#39;t
+    /// exist.
+    </span><span class="kw">pub fn </span>get_or&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, create: F) -&gt; <span class="kw-2">&amp;</span>T
+    <span class="kw">where
+        </span>F: FnOnce() -&gt; T,
+    {
+        <span class="kw">unsafe </span>{
+            <span class="self">self</span>.get_or_try(|| <span class="prelude-val">Ok</span>::&lt;T, ()&gt;(create()))
+                .unchecked_unwrap_ok()
+        }
+    }
+
+    <span class="doccomment">/// Returns the element for the current thread, or creates it if it doesn&#39;t
+    /// exist. If `create` fails, that error is returned and no element is
+    /// added.
+    </span><span class="kw">pub fn </span>get_or_try&lt;F, E&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, create: F) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>T, E&gt;
+    <span class="kw">where
+        </span>F: FnOnce() -&gt; <span class="prelude-ty">Result</span>&lt;T, E&gt;,
+    {
+        <span class="kw">let </span>thread = thread_id::get();
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(val) = <span class="self">self</span>.get_inner(thread) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(val);
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.insert(create()<span class="question-mark">?</span>))
+    }
+
+    <span class="kw">fn </span>get_inner(<span class="kw-2">&amp;</span><span class="self">self</span>, thread: Thread) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+        <span class="kw">let </span>bucket_ptr =
+            <span class="kw">unsafe </span>{ <span class="self">self</span>.buckets.get_unchecked(thread.bucket) }.load(Ordering::Acquire);
+        <span class="kw">if </span>bucket_ptr.is_null() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>entry = <span class="kw-2">&amp;*</span>bucket_ptr.add(thread.index);
+            <span class="comment">// Read without atomic operations as only this thread can set the value.
+            </span><span class="kw">if </span>(<span class="kw-2">&amp;</span>entry.present <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>bool).read() {
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;*</span>entry.value.get()).as_ptr())
+            } <span class="kw">else </span>{
+                <span class="prelude-val">None
+            </span>}
+        }
+    }
+
+    <span class="attribute">#[cold]
+    </span><span class="kw">fn </span>insert(<span class="kw-2">&amp;</span><span class="self">self</span>, data: T) -&gt; <span class="kw-2">&amp;</span>T {
+        <span class="kw">let </span>thread = thread_id::get();
+        <span class="kw">let </span>bucket_atomic_ptr = <span class="kw">unsafe </span>{ <span class="self">self</span>.buckets.get_unchecked(thread.bucket) };
+        <span class="kw">let </span>bucket_ptr: <span class="kw-2">*const </span><span class="kw">_ </span>= bucket_atomic_ptr.load(Ordering::Acquire);
+
+        <span class="comment">// If the bucket doesn&#39;t already exist, we need to allocate it
+        </span><span class="kw">let </span>bucket_ptr = <span class="kw">if </span>bucket_ptr.is_null() {
+            <span class="kw">let </span>new_bucket = allocate_bucket(thread.bucket_size);
+
+            <span class="kw">match </span>bucket_atomic_ptr.compare_exchange(
+                ptr::null_mut(),
+                new_bucket,
+                Ordering::AcqRel,
+                Ordering::Acquire,
+            ) {
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; new_bucket,
+                <span class="comment">// If the bucket value changed (from null), that means
+                // another thread stored a new bucket before we could,
+                // and we can free our bucket and use that one instead
+                </span><span class="prelude-val">Err</span>(bucket_ptr) =&gt; {
+                    <span class="kw">unsafe </span>{ deallocate_bucket(new_bucket, thread.bucket_size) }
+                    bucket_ptr
+                }
+            }
+        } <span class="kw">else </span>{
+            bucket_ptr
+        };
+
+        <span class="comment">// Insert the new element into the bucket
+        </span><span class="kw">let </span>entry = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>bucket_ptr.add(thread.index) };
+        <span class="kw">let </span>value_ptr = entry.value.get();
+        <span class="kw">unsafe </span>{ value_ptr.write(MaybeUninit::new(data)) };
+        entry.present.store(<span class="bool-val">true</span>, Ordering::Release);
+
+        <span class="self">self</span>.values.fetch_add(<span class="number">1</span>, Ordering::Release);
+
+        <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;*</span>value_ptr).as_ptr() }
+    }
+
+    <span class="doccomment">/// Returns an iterator over the local values of all threads in unspecified
+    /// order.
+    ///
+    /// This call can be done safely, as `T` is required to implement [`Sync`].
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Iter&lt;<span class="lifetime">&#39;_</span>, T&gt;
+    <span class="kw">where
+        </span>T: Sync,
+    {
+        Iter {
+            thread_local: <span class="self">self</span>,
+            raw: RawIter::new(),
+        }
+    }
+
+    <span class="doccomment">/// Returns a mutable iterator over the local values of all threads in
+    /// unspecified order.
+    ///
+    /// Since this call borrows the `ThreadLocal` mutably, this operation can
+    /// be done safely---the mutable borrow statically guarantees no other
+    /// threads are currently accessing their associated values.
+    </span><span class="kw">pub fn </span>iter_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; IterMut&lt;T&gt; {
+        IterMut {
+            thread_local: <span class="self">self</span>,
+            raw: RawIter::new(),
+        }
+    }
+
+    <span class="doccomment">/// Removes all thread-specific values from the `ThreadLocal`, effectively
+    /// reseting it to its original state.
+    ///
+    /// Since this call borrows the `ThreadLocal` mutably, this operation can
+    /// be done safely---the mutable borrow statically guarantees no other
+    /// threads are currently accessing their associated values.
+    </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw-2">*</span><span class="self">self </span>= ThreadLocal::new();
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send&gt; IntoIterator <span class="kw">for </span>ThreadLocal&lt;T&gt; {
+    <span class="kw">type </span>Item = T;
+    <span class="kw">type </span>IntoIter = IntoIter&lt;T&gt;;
+
+    <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; IntoIter&lt;T&gt; {
+        IntoIter {
+            thread_local: <span class="self">self</span>,
+            raw: RawIter::new(),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Send + Sync&gt; IntoIterator <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ThreadLocal&lt;T&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T;
+    <span class="kw">type </span>IntoIter = Iter&lt;<span class="lifetime">&#39;a</span>, T&gt;;
+
+    <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="self">Self</span>::IntoIter {
+        <span class="self">self</span>.iter()
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Send&gt; IntoIterator <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>ThreadLocal&lt;T&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T;
+    <span class="kw">type </span>IntoIter = IterMut&lt;<span class="lifetime">&#39;a</span>, T&gt;;
+
+    <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; IterMut&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+        <span class="self">self</span>.iter_mut()
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send + Default&gt; ThreadLocal&lt;T&gt; {
+    <span class="doccomment">/// Returns the element for the current thread, or creates a default one if
+    /// it doesn&#39;t exist.
+    </span><span class="kw">pub fn </span>get_or_default(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+        <span class="self">self</span>.get_or(Default::default)
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send + fmt::Debug&gt; fmt::Debug <span class="kw">for </span>ThreadLocal&lt;T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;ThreadLocal {{ local_data: {:?} }}&quot;</span>, <span class="self">self</span>.get())
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send + UnwindSafe&gt; UnwindSafe <span class="kw">for </span>ThreadLocal&lt;T&gt; {}
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>RawIter {
+    yielded: usize,
+    bucket: usize,
+    bucket_size: usize,
+    index: usize,
+}
+<span class="kw">impl </span>RawIter {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            yielded: <span class="number">0</span>,
+            bucket: <span class="number">0</span>,
+            bucket_size: <span class="number">1</span>,
+            index: <span class="number">0</span>,
+        }
+    }
+
+    <span class="kw">fn </span>next&lt;<span class="lifetime">&#39;a</span>, T: Send + Sync&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, thread_local: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ThreadLocal&lt;T&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt; {
+        <span class="kw">while </span><span class="self">self</span>.bucket &lt; BUCKETS {
+            <span class="kw">let </span>bucket = <span class="kw">unsafe </span>{ thread_local.buckets.get_unchecked(<span class="self">self</span>.bucket) };
+            <span class="kw">let </span>bucket = bucket.load(Ordering::Acquire);
+
+            <span class="kw">if </span>!bucket.is_null() {
+                <span class="kw">while </span><span class="self">self</span>.index &lt; <span class="self">self</span>.bucket_size {
+                    <span class="kw">let </span>entry = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>bucket.add(<span class="self">self</span>.index) };
+                    <span class="self">self</span>.index += <span class="number">1</span>;
+                    <span class="kw">if </span>entry.present.load(Ordering::Acquire) {
+                        <span class="self">self</span>.yielded += <span class="number">1</span>;
+                        <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;*</span>entry.value.get()).as_ptr() });
+                    }
+                }
+            }
+
+            <span class="self">self</span>.next_bucket();
+        }
+        <span class="prelude-val">None
+    </span>}
+    <span class="kw">fn </span>next_mut&lt;<span class="lifetime">&#39;a</span>, T: Send&gt;(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        thread_local: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>ThreadLocal&lt;T&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Entry&lt;T&gt;&gt; {
+        <span class="kw">if </span><span class="kw-2">*</span>thread_local.values.get_mut() == <span class="self">self</span>.yielded {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="kw">loop </span>{
+            <span class="kw">let </span>bucket = <span class="kw">unsafe </span>{ thread_local.buckets.get_unchecked_mut(<span class="self">self</span>.bucket) };
+            <span class="kw">let </span>bucket = <span class="kw-2">*</span>bucket.get_mut();
+
+            <span class="kw">if </span>!bucket.is_null() {
+                <span class="kw">while </span><span class="self">self</span>.index &lt; <span class="self">self</span>.bucket_size {
+                    <span class="kw">let </span>entry = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span>bucket.add(<span class="self">self</span>.index) };
+                    <span class="self">self</span>.index += <span class="number">1</span>;
+                    <span class="kw">if </span><span class="kw-2">*</span>entry.present.get_mut() {
+                        <span class="self">self</span>.yielded += <span class="number">1</span>;
+                        <span class="kw">return </span><span class="prelude-val">Some</span>(entry);
+                    }
+                }
+            }
+
+            <span class="self">self</span>.next_bucket();
+        }
+    }
+
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>next_bucket(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">if </span><span class="self">self</span>.bucket != <span class="number">0 </span>{
+            <span class="self">self</span>.bucket_size &lt;&lt;= <span class="number">1</span>;
+        }
+        <span class="self">self</span>.bucket += <span class="number">1</span>;
+        <span class="self">self</span>.index = <span class="number">0</span>;
+    }
+
+    <span class="kw">fn </span>size_hint&lt;T: Send&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, thread_local: <span class="kw-2">&amp;</span>ThreadLocal&lt;T&gt;) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">let </span>total = thread_local.values.load(Ordering::Acquire);
+        (total - <span class="self">self</span>.yielded, <span class="prelude-val">None</span>)
+    }
+    <span class="kw">fn </span>size_hint_frozen&lt;T: Send&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, thread_local: <span class="kw-2">&amp;</span>ThreadLocal&lt;T&gt;) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">let </span>total = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(<span class="kw-2">&amp;</span>thread_local.values <span class="kw">as </span><span class="kw-2">*const </span>AtomicUsize <span class="kw">as </span><span class="kw-2">*const </span>usize) };
+        <span class="kw">let </span>remaining = total - <span class="self">self</span>.yielded;
+        (remaining, <span class="prelude-val">Some</span>(remaining))
+    }
+}
+
+<span class="doccomment">/// Iterator over the contents of a `ThreadLocal`.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Iter&lt;<span class="lifetime">&#39;a</span>, T: Send + Sync&gt; {
+    thread_local: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ThreadLocal&lt;T&gt;,
+    raw: RawIter,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Send + Sync&gt; Iterator <span class="kw">for </span>Iter&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T;
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="self">self</span>.raw.next(<span class="self">self</span>.thread_local)
+    }
+    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="self">self</span>.raw.size_hint(<span class="self">self</span>.thread_local)
+    }
+}
+<span class="kw">impl</span>&lt;T: Send + Sync&gt; FusedIterator <span class="kw">for </span>Iter&lt;<span class="lifetime">&#39;_</span>, T&gt; {}
+
+<span class="doccomment">/// Mutable iterator over the contents of a `ThreadLocal`.
+</span><span class="kw">pub struct </span>IterMut&lt;<span class="lifetime">&#39;a</span>, T: Send&gt; {
+    thread_local: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>ThreadLocal&lt;T&gt;,
+    raw: RawIter,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Send&gt; Iterator <span class="kw">for </span>IterMut&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T;
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>T&gt; {
+        <span class="self">self</span>.raw
+            .next_mut(<span class="self">self</span>.thread_local)
+            .map(|entry| <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span>(<span class="kw-2">&amp;mut *</span>entry.value.get()).as_mut_ptr() })
+    }
+    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="self">self</span>.raw.size_hint_frozen(<span class="self">self</span>.thread_local)
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send&gt; ExactSizeIterator <span class="kw">for </span>IterMut&lt;<span class="lifetime">&#39;_</span>, T&gt; {}
+<span class="kw">impl</span>&lt;T: Send&gt; FusedIterator <span class="kw">for </span>IterMut&lt;<span class="lifetime">&#39;_</span>, T&gt; {}
+
+<span class="comment">// Manual impl so we don&#39;t call Debug on the ThreadLocal, as doing so would create a reference to
+// this thread&#39;s value that potentially aliases with a mutable reference we have given out.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Send + fmt::Debug&gt; fmt::Debug <span class="kw">for </span>IterMut&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">&quot;IterMut&quot;</span>).field(<span class="string">&quot;raw&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.raw).finish()
+    }
+}
+
+<span class="doccomment">/// An iterator that moves out of a `ThreadLocal`.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>IntoIter&lt;T: Send&gt; {
+    thread_local: ThreadLocal&lt;T&gt;,
+    raw: RawIter,
+}
+
+<span class="kw">impl</span>&lt;T: Send&gt; Iterator <span class="kw">for </span>IntoIter&lt;T&gt; {
+    <span class="kw">type </span>Item = T;
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+        <span class="self">self</span>.raw.next_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>.thread_local).map(|entry| {
+            <span class="kw-2">*</span>entry.present.get_mut() = <span class="bool-val">false</span>;
+            <span class="kw">unsafe </span>{
+                std::mem::replace(<span class="kw-2">&amp;mut *</span>entry.value.get(), MaybeUninit::uninit()).assume_init()
+            }
+        })
+    }
+    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="self">self</span>.raw.size_hint_frozen(<span class="kw-2">&amp;</span><span class="self">self</span>.thread_local)
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Send&gt; ExactSizeIterator <span class="kw">for </span>IntoIter&lt;T&gt; {}
+<span class="kw">impl</span>&lt;T: Send&gt; FusedIterator <span class="kw">for </span>IntoIter&lt;T&gt; {}
+
+<span class="kw">fn </span>allocate_bucket&lt;T&gt;(size: usize) -&gt; <span class="kw-2">*mut </span>Entry&lt;T&gt; {
+    Box::into_raw(
+        (<span class="number">0</span>..size)
+            .map(|<span class="kw">_</span>| Entry::&lt;T&gt; {
+                present: AtomicBool::new(<span class="bool-val">false</span>),
+                value: UnsafeCell::new(MaybeUninit::uninit()),
+            })
+            .collect(),
+    ) <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_
+</span>}
+
+<span class="kw">unsafe fn </span>deallocate_bucket&lt;T&gt;(bucket: <span class="kw-2">*mut </span>Entry&lt;T&gt;, size: usize) {
+    <span class="kw">let _ </span>= Box::from_raw(std::slice::from_raw_parts_mut(bucket, size));
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span><span class="kw">super</span>::ThreadLocal;
+    <span class="kw">use </span>std::cell::RefCell;
+    <span class="kw">use </span>std::sync::atomic::AtomicUsize;
+    <span class="kw">use </span>std::sync::atomic::Ordering::Relaxed;
+    <span class="kw">use </span>std::sync::Arc;
+    <span class="kw">use </span>std::thread;
+
+    <span class="kw">fn </span>make_create() -&gt; Arc&lt;<span class="kw">dyn </span>Fn() -&gt; usize + Send + Sync&gt; {
+        <span class="kw">let </span>count = AtomicUsize::new(<span class="number">0</span>);
+        Arc::new(<span class="kw">move </span>|| count.fetch_add(<span class="number">1</span>, Relaxed))
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>same_thread() {
+        <span class="kw">let </span>create = make_create();
+        <span class="kw">let </span><span class="kw-2">mut </span>tls = ThreadLocal::new();
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, tls.get());
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ThreadLocal { local_data: None }&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="kw-2">&amp;</span>tls));
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="kw-2">*</span>tls.get_or(|| create()));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>), tls.get());
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="kw-2">*</span>tls.get_or(|| create()));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>), tls.get());
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="kw-2">*</span>tls.get_or(|| create()));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>), tls.get());
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ThreadLocal { local_data: Some(0) }&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="kw-2">&amp;</span>tls));
+        tls.clear();
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, tls.get());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>different_thread() {
+        <span class="kw">let </span>create = make_create();
+        <span class="kw">let </span>tls = Arc::new(ThreadLocal::new());
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, tls.get());
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="kw-2">*</span>tls.get_or(|| create()));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>), tls.get());
+
+        <span class="kw">let </span>tls2 = tls.clone();
+        <span class="kw">let </span>create2 = create.clone();
+        thread::spawn(<span class="kw">move </span>|| {
+            <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, tls2.get());
+            <span class="macro">assert_eq!</span>(<span class="number">1</span>, <span class="kw-2">*</span>tls2.get_or(|| create2()));
+            <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">1</span>), tls2.get());
+        })
+        .join()
+        .unwrap();
+
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>), tls.get());
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, <span class="kw-2">*</span>tls.get_or(|| create()));
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>iter() {
+        <span class="kw">let </span>tls = Arc::new(ThreadLocal::new());
+        tls.get_or(|| Box::new(<span class="number">1</span>));
+
+        <span class="kw">let </span>tls2 = tls.clone();
+        thread::spawn(<span class="kw">move </span>|| {
+            tls2.get_or(|| Box::new(<span class="number">2</span>));
+            <span class="kw">let </span>tls3 = tls2.clone();
+            thread::spawn(<span class="kw">move </span>|| {
+                tls3.get_or(|| Box::new(<span class="number">3</span>));
+            })
+            .join()
+            .unwrap();
+            drop(tls2);
+        })
+        .join()
+        .unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>tls = Arc::try_unwrap(tls).unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>v = tls.iter().map(|x| <span class="kw-2">**</span>x).collect::&lt;Vec&lt;i32&gt;&gt;();
+        v.sort_unstable();
+        <span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], v);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>v = tls.iter_mut().map(|x| <span class="kw-2">**</span>x).collect::&lt;Vec&lt;i32&gt;&gt;();
+        v.sort_unstable();
+        <span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], v);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>v = tls.into_iter().map(|x| <span class="kw-2">*</span>x).collect::&lt;Vec&lt;i32&gt;&gt;();
+        v.sort_unstable();
+        <span class="macro">assert_eq!</span>(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], v);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_drop() {
+        <span class="kw">let </span>local = ThreadLocal::new();
+        <span class="kw">struct </span>Dropped(Arc&lt;AtomicUsize&gt;);
+        <span class="kw">impl </span>Drop <span class="kw">for </span>Dropped {
+            <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+                <span class="self">self</span>.<span class="number">0</span>.fetch_add(<span class="number">1</span>, Relaxed);
+            }
+        }
+
+        <span class="kw">let </span>dropped = Arc::new(AtomicUsize::new(<span class="number">0</span>));
+        local.get_or(|| Dropped(dropped.clone()));
+        <span class="macro">assert_eq!</span>(dropped.load(Relaxed), <span class="number">0</span>);
+        drop(local);
+        <span class="macro">assert_eq!</span>(dropped.load(Relaxed), <span class="number">1</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>is_sync() {
+        <span class="kw">fn </span>foo&lt;T: Sync&gt;() {}
+        foo::&lt;ThreadLocal&lt;String&gt;&gt;();
+        foo::&lt;ThreadLocal&lt;RefCell&lt;String&gt;&gt;&gt;();
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="thread_local" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

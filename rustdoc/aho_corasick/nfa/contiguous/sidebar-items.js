@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Builder","A builder for configuring an Aho-Corasick contiguous NFA."],["NFA","A contiguous NFA implementation of Aho-Corasick."]]};

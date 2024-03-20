@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/petgraph-0.6.1/src/unionfind.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>unionfind.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../petgraph/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../petgraph/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../petgraph/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+</pre><pre class="rust"><code><span class="doccomment">//! `UnionFind&lt;K&gt;` is a disjoint-set data structure.
+
+</span><span class="kw">use </span><span class="kw">super</span>::graph::IndexType;
+<span class="kw">use </span>std::cmp::Ordering;
+
+<span class="doccomment">/// `UnionFind&lt;K&gt;` is a disjoint-set data structure. It tracks set membership of *n* elements
+/// indexed from *0* to *n - 1*. The scalar type is `K` which must be an unsigned integer type.
+///
+/// &lt;http://en.wikipedia.org/wiki/Disjoint-set_data_structure&gt;
+///
+/// Too awesome not to quote:
+///
+/// “The amortized time per operation is **O(α(n))** where **α(n)** is the
+/// inverse of **f(x) = A(x, x)** with **A** being the extremely fast-growing Ackermann function.”
+</span><span class="attribute">#[derive(Debug, Clone)]
+</span><span class="kw">pub struct </span>UnionFind&lt;K&gt; {
+    <span class="comment">// For element at index *i*, store the index of its parent; the representative itself
+    // stores its own index. This forms equivalence classes which are the disjoint sets, each
+    // with a unique representative.
+    </span>parent: Vec&lt;K&gt;,
+    <span class="comment">// It is a balancing tree structure,
+    // so the ranks are logarithmic in the size of the container -- a byte is more than enough.
+    //
+    // Rank is separated out both to save space and to save cache in when searching in the parent
+    // vector.
+    </span>rank: Vec&lt;u8&gt;,
+}
+
+<span class="attribute">#[inline]
+</span><span class="kw">unsafe fn </span>get_unchecked&lt;K&gt;(xs: <span class="kw-2">&amp;</span>[K], index: usize) -&gt; <span class="kw-2">&amp;</span>K {
+    <span class="macro">debug_assert!</span>(index &lt; xs.len());
+    xs.get_unchecked(index)
+}
+
+<span class="attribute">#[inline]
+</span><span class="kw">unsafe fn </span>get_unchecked_mut&lt;K&gt;(xs: <span class="kw-2">&amp;mut </span>[K], index: usize) -&gt; <span class="kw-2">&amp;mut </span>K {
+    <span class="macro">debug_assert!</span>(index &lt; xs.len());
+    xs.get_unchecked_mut(index)
+}
+
+<span class="kw">impl</span>&lt;K&gt; UnionFind&lt;K&gt;
+<span class="kw">where
+    </span>K: IndexType,
+{
+    <span class="doccomment">/// Create a new `UnionFind` of `n` disjoint sets.
+    </span><span class="kw">pub fn </span>new(n: usize) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>rank = <span class="macro">vec!</span>[<span class="number">0</span>; n];
+        <span class="kw">let </span>parent = (<span class="number">0</span>..n).map(K::new).collect::&lt;Vec&lt;K&gt;&gt;();
+
+        UnionFind { parent, rank }
+    }
+
+    <span class="doccomment">/// Return the representative for `x`.
+    ///
+    /// **Panics** if `x` is out of bounds.
+    </span><span class="kw">pub fn </span>find(<span class="kw-2">&amp;</span><span class="self">self</span>, x: K) -&gt; K {
+        <span class="macro">assert!</span>(x.index() &lt; <span class="self">self</span>.parent.len());
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>x = x;
+            <span class="kw">loop </span>{
+                <span class="comment">// Use unchecked indexing because we can trust the internal set ids.
+                </span><span class="kw">let </span>xparent = <span class="kw-2">*</span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.parent, x.index());
+                <span class="kw">if </span>xparent == x {
+                    <span class="kw">break</span>;
+                }
+                x = xparent;
+            }
+            x
+        }
+    }
+
+    <span class="doccomment">/// Return the representative for `x`.
+    ///
+    /// Write back the found representative, flattening the internal
+    /// datastructure in the process and quicken future lookups.
+    ///
+    /// **Panics** if `x` is out of bounds.
+    </span><span class="kw">pub fn </span>find_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: K) -&gt; K {
+        <span class="macro">assert!</span>(x.index() &lt; <span class="self">self</span>.parent.len());
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.find_mut_recursive(x) }
+    }
+
+    <span class="kw">unsafe fn </span>find_mut_recursive(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>x: K) -&gt; K {
+        <span class="kw">let </span><span class="kw-2">mut </span>parent = <span class="kw-2">*</span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.parent, x.index());
+        <span class="kw">while </span>parent != x {
+            <span class="kw">let </span>grandparent = <span class="kw-2">*</span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.parent, parent.index());
+            <span class="kw-2">*</span>get_unchecked_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>.parent, x.index()) = grandparent;
+            x = parent;
+            parent = grandparent;
+        }
+        x
+    }
+
+    <span class="doccomment">/// Returns `true` if the given elements belong to the same set, and returns
+    /// `false` otherwise.
+    </span><span class="kw">pub fn </span>equiv(<span class="kw-2">&amp;</span><span class="self">self</span>, x: K, y: K) -&gt; bool {
+        <span class="self">self</span>.find(x) == <span class="self">self</span>.find(y)
+    }
+
+    <span class="doccomment">/// Unify the two sets containing `x` and `y`.
+    ///
+    /// Return `false` if the sets were already the same, `true` if they were unified.
+    ///
+    /// **Panics** if `x` or `y` is out of bounds.
+    </span><span class="kw">pub fn </span>union(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: K, y: K) -&gt; bool {
+        <span class="kw">if </span>x == y {
+            <span class="kw">return </span><span class="bool-val">false</span>;
+        }
+        <span class="kw">let </span>xrep = <span class="self">self</span>.find_mut(x);
+        <span class="kw">let </span>yrep = <span class="self">self</span>.find_mut(y);
+
+        <span class="kw">if </span>xrep == yrep {
+            <span class="kw">return </span><span class="bool-val">false</span>;
+        }
+
+        <span class="kw">let </span>xrepu = xrep.index();
+        <span class="kw">let </span>yrepu = yrep.index();
+        <span class="kw">let </span>xrank = <span class="self">self</span>.rank[xrepu];
+        <span class="kw">let </span>yrank = <span class="self">self</span>.rank[yrepu];
+
+        <span class="comment">// The rank corresponds roughly to the depth of the treeset, so put the
+        // smaller set below the larger
+        </span><span class="kw">match </span>xrank.cmp(<span class="kw-2">&amp;</span>yrank) {
+            Ordering::Less =&gt; <span class="self">self</span>.parent[xrepu] = yrep,
+            Ordering::Greater =&gt; <span class="self">self</span>.parent[yrepu] = xrep,
+            Ordering::Equal =&gt; {
+                <span class="self">self</span>.parent[yrepu] = xrep;
+                <span class="self">self</span>.rank[xrepu] += <span class="number">1</span>;
+            }
+        }
+        <span class="bool-val">true
+    </span>}
+
+    <span class="doccomment">/// Return a vector mapping each element to its representative.
+    </span><span class="kw">pub fn </span>into_labeling(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Vec&lt;K&gt; {
+        <span class="comment">// write in the labeling of each element
+        </span><span class="kw">unsafe </span>{
+            <span class="kw">for </span>ix <span class="kw">in </span><span class="number">0</span>..<span class="self">self</span>.parent.len() {
+                <span class="kw">let </span>k = <span class="kw-2">*</span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.parent, ix);
+                <span class="kw">let </span>xrep = <span class="self">self</span>.find_mut_recursive(k);
+                <span class="kw-2">*</span><span class="self">self</span>.parent.get_unchecked_mut(ix) = xrep;
+            }
+        }
+        <span class="self">self</span>.parent
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="petgraph" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

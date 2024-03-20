@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Define a type that supports parsing and printing a multi-character symbol as if it were a punctuation token."><meta name="keywords" content="rust, rustlang, rust-lang, custom_punctuation"><title>custom_punctuation in syn - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../syn/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../syn/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In syn</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../syn/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Macro <a href="index.html">syn</a>::<wbr><a class="macro" href="#">custom_punctuation</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/syn/custom_punctuation.rs.html#78-108">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><div class="example-wrap"><pre class="rust macro"><code><span class="macro">macro_rules! </span>custom_punctuation {
+    (<span class="macro-nonterminal">$ident</span>:ident, $(<span class="macro-nonterminal">$tt</span>:tt)+) =&gt; { ... };
+}</code></pre></div>
+</div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Define a type that supports parsing and printing a multi-character symbol
+as if it were a punctuation token.</p>
+<h2 id="usage"><a href="#usage">Usage</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">syn::custom_punctuation!</span>(LeftRightArrow, &lt;=&gt;);</code></pre></div>
+<p>The generated syntax tree node supports the following operations just like
+any built-in punctuation token.</p>
+<ul>
+<li>
+<p><a href="parse/struct.ParseBuffer.html#method.peek">Peeking</a> — <code>input.peek(LeftRightArrow)</code></p>
+</li>
+<li>
+<p><a href="parse/struct.ParseBuffer.html#method.parse">Parsing</a> — <code>input.parse::&lt;LeftRightArrow&gt;()?</code></p>
+</li>
+<li>
+<p><a href="../quote/to_tokens/trait.ToTokens.html">Printing</a> — <code>quote!( ... #lrarrow ... )</code></p>
+</li>
+<li>
+<p>Construction from a <a href="../proc_macro2/struct.Span.html"><code>Span</code></a> — <code>let lrarrow = LeftRightArrow(sp)</code></p>
+</li>
+<li>
+<p>Construction from multiple <a href="../proc_macro2/struct.Span.html"><code>Span</code></a> — <code>let lrarrow = LeftRightArrow([sp, sp, sp])</code></p>
+</li>
+<li>
+<p>Field access to its spans — <code>let spans = lrarrow.spans</code></p>
+</li>
+</ul>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>proc_macro2::{TokenStream, TokenTree};
+<span class="kw">use </span>syn::parse::{Parse, ParseStream, Peek, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>syn::punctuated::Punctuated;
+<span class="kw">use </span>syn::Expr;
+
+<span class="macro">syn::custom_punctuation!</span>(PathSeparator, &lt;/&gt;);
+
+<span class="comment">// expr &lt;/&gt; expr &lt;/&gt; expr ...
+</span><span class="kw">struct </span>PathSegments {
+    segments: Punctuated&lt;Expr, PathSeparator&gt;,
+}
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>PathSegments {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>segments = Punctuated::new();
+
+        <span class="kw">let </span>first = parse_until(input, PathSeparator)<span class="question-mark">?</span>;
+        segments.push_value(syn::parse2(first)<span class="question-mark">?</span>);
+
+        <span class="kw">while </span>input.peek(PathSeparator) {
+            segments.push_punct(input.parse()<span class="question-mark">?</span>);
+
+            <span class="kw">let </span>next = parse_until(input, PathSeparator)<span class="question-mark">?</span>;
+            segments.push_value(syn::parse2(next)<span class="question-mark">?</span>);
+        }
+
+        <span class="prelude-val">Ok</span>(PathSegments { segments })
+    }
+}
+
+<span class="kw">fn </span>parse_until&lt;E: Peek&gt;(input: ParseStream, end: E) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>tokens = TokenStream::new();
+    <span class="kw">while </span>!input.is_empty() &amp;&amp; !input.peek(end) {
+        <span class="kw">let </span>next: TokenTree = input.parse()<span class="question-mark">?</span>;
+        tokens.extend(<span class="prelude-val">Some</span>(next));
+    }
+    <span class="prelude-val">Ok</span>(tokens)
+}
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>input = <span class="string">r#&quot; a::b &lt;/&gt; c::d::e &quot;#</span>;
+    <span class="kw">let _</span>: PathSegments = syn::parse_str(input).unwrap();
+}</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="syn" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

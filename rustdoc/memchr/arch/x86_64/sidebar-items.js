@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["avx2","Algorithms for the `x86_64` target using 256-bit vectors via AVX2."],["sse2","Algorithms for the `x86_64` target using 128-bit vectors via SSE2."]]};

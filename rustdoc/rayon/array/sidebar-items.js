@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["IntoIter","Parallel iterator that moves out of an array."]]};

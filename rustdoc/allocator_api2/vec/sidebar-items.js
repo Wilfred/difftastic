@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Drain","A draining iterator for `Vec<T>`."],["IntoIter","An iterator that moves out of a vector."],["Splice","A splicing iterator for `Vec`."],["Vec","A contiguous growable array type, written as `Vec<T>`, short for ‘vector’."]]};

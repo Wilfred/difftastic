@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["guess_language","Guess which programming language a file is written in."],["syntax","Syntax tree definitions with change metadata."],["tree_sitter_parser","Load and configure parsers written with tree-sitter."]]};

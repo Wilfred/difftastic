@@ -1,0 +1,654 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/aho-corasick-1.1.2/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../aho_corasick/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../aho_corasick/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../aho_corasick/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+A library for finding occurrences of many patterns at once. This library
+provides multiple pattern search principally through an implementation of the
+[Aho-Corasick algorithm](https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm),
+which builds a fast finite state machine for executing searches in linear time.
+
+Additionally, this library provides a number of configuration options for
+building the automaton that permit controlling the space versus time trade
+off. Other features include simple ASCII case insensitive matching, finding
+overlapping matches, replacements, searching streams and even searching and
+replacing text in streams.
+
+Finally, unlike most other Aho-Corasick implementations, this one
+supports enabling [leftmost-first](MatchKind::LeftmostFirst) or
+[leftmost-longest](MatchKind::LeftmostLongest) match semantics, using a
+(seemingly) novel alternative construction algorithm. For more details on what
+match semantics means, see the [`MatchKind`] type.
+
+# Overview
+
+This section gives a brief overview of the primary types in this crate:
+
+* [`AhoCorasick`] is the primary type and represents an Aho-Corasick automaton.
+This is the type you use to execute searches.
+* [`AhoCorasickBuilder`] can be used to build an Aho-Corasick automaton, and
+supports configuring a number of options.
+* [`Match`] represents a single match reported by an Aho-Corasick automaton.
+Each match has two pieces of information: the pattern that matched and the
+start and end byte offsets corresponding to the position in the haystack at
+which it matched.
+
+# Example: basic searching
+
+This example shows how to search for occurrences of multiple patterns
+simultaneously. Each match includes the pattern that matched along with the
+byte offsets of the match.
+
+```
+use aho_corasick::{AhoCorasick, PatternID};
+
+let patterns = &amp;[&quot;apple&quot;, &quot;maple&quot;, &quot;Snapple&quot;];
+let haystack = &quot;Nobody likes maple in their apple flavored Snapple.&quot;;
+
+let ac = AhoCorasick::new(patterns).unwrap();
+let mut matches = vec![];
+for mat in ac.find_iter(haystack) {
+    matches.push((mat.pattern(), mat.start(), mat.end()));
+}
+assert_eq!(matches, vec![
+    (PatternID::must(1), 13, 18),
+    (PatternID::must(0), 28, 33),
+    (PatternID::must(2), 43, 50),
+]);
+```
+
+# Example: case insensitivity
+
+This is like the previous example, but matches `Snapple` case insensitively
+using `AhoCorasickBuilder`:
+
+```
+use aho_corasick::{AhoCorasick, PatternID};
+
+let patterns = &amp;[&quot;apple&quot;, &quot;maple&quot;, &quot;snapple&quot;];
+let haystack = &quot;Nobody likes maple in their apple flavored Snapple.&quot;;
+
+let ac = AhoCorasick::builder()
+    .ascii_case_insensitive(true)
+    .build(patterns)
+    .unwrap();
+let mut matches = vec![];
+for mat in ac.find_iter(haystack) {
+    matches.push((mat.pattern(), mat.start(), mat.end()));
+}
+assert_eq!(matches, vec![
+    (PatternID::must(1), 13, 18),
+    (PatternID::must(0), 28, 33),
+    (PatternID::must(2), 43, 50),
+]);
+```
+
+# Example: replacing matches in a stream
+
+This example shows how to execute a search and replace on a stream without
+loading the entire stream into memory first.
+
+```
+# #[cfg(feature = &quot;std&quot;)] {
+use aho_corasick::AhoCorasick;
+
+# fn example() -&gt; Result&lt;(), std::io::Error&gt; {
+let patterns = &amp;[&quot;fox&quot;, &quot;brown&quot;, &quot;quick&quot;];
+let replace_with = &amp;[&quot;sloth&quot;, &quot;grey&quot;, &quot;slow&quot;];
+
+// In a real example, these might be `std::fs::File`s instead. All you need to
+// do is supply a pair of `std::io::Read` and `std::io::Write` implementations.
+let rdr = &quot;The quick brown fox.&quot;;
+let mut wtr = vec![];
+
+let ac = AhoCorasick::new(patterns).unwrap();
+ac.try_stream_replace_all(rdr.as_bytes(), &amp;mut wtr, replace_with)?;
+assert_eq!(b&quot;The slow grey sloth.&quot;.to_vec(), wtr);
+# Ok(()) }; example().unwrap()
+# }
+```
+
+# Example: finding the leftmost first match
+
+In the textbook description of Aho-Corasick, its formulation is typically
+structured such that it reports all possible matches, even when they overlap
+with another. In many cases, overlapping matches may not be desired, such as
+the case of finding all successive non-overlapping matches like you might with
+a standard regular expression.
+
+Unfortunately the &quot;obvious&quot; way to modify the Aho-Corasick algorithm to do
+this doesn&#39;t always work in the expected way, since it will report matches as
+soon as they are seen. For example, consider matching the regex `Samwise|Sam`
+against the text `Samwise`. Most regex engines (that are Perl-like, or
+non-POSIX) will report `Samwise` as a match, but the standard Aho-Corasick
+algorithm modified for reporting non-overlapping matches will report `Sam`.
+
+A novel contribution of this library is the ability to change the match
+semantics of Aho-Corasick (without additional search time overhead) such that
+`Samwise` is reported instead. For example, here&#39;s the standard approach:
+
+```
+use aho_corasick::AhoCorasick;
+
+let patterns = &amp;[&quot;Samwise&quot;, &quot;Sam&quot;];
+let haystack = &quot;Samwise&quot;;
+
+let ac = AhoCorasick::new(patterns).unwrap();
+let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
+assert_eq!(&quot;Sam&quot;, &amp;haystack[mat.start()..mat.end()]);
+```
+
+And now here&#39;s the leftmost-first version, which matches how a Perl-like
+regex will work:
+
+```
+use aho_corasick::{AhoCorasick, MatchKind};
+
+let patterns = &amp;[&quot;Samwise&quot;, &quot;Sam&quot;];
+let haystack = &quot;Samwise&quot;;
+
+let ac = AhoCorasick::builder()
+    .match_kind(MatchKind::LeftmostFirst)
+    .build(patterns)
+    .unwrap();
+let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
+assert_eq!(&quot;Samwise&quot;, &amp;haystack[mat.start()..mat.end()]);
+```
+
+In addition to leftmost-first semantics, this library also supports
+leftmost-longest semantics, which match the POSIX behavior of a regular
+expression alternation. See [`MatchKind`] for more details.
+
+# Prefilters
+
+While an Aho-Corasick automaton can perform admirably when compared to more
+naive solutions, it is generally slower than more specialized algorithms that
+are accelerated using vector instructions such as SIMD.
+
+For that reason, this library will internally use a &quot;prefilter&quot; to attempt
+to accelerate searches when possible. Currently, this library has several
+different algorithms it might use depending on the patterns provided. Once the
+number of patterns gets too big, prefilters are no longer used.
+
+While a prefilter is generally good to have on by default since it works
+well in the common case, it can lead to less predictable or even sub-optimal
+performance in some cases. For that reason, prefilters can be explicitly
+disabled via [`AhoCorasickBuilder::prefilter`].
+
+# Lower level APIs
+
+This crate also provides several sub-modules that collectively expose many of
+the implementation details of the main [`AhoCorasick`] type. Most users of this
+library can completely ignore the submodules and their contents, but if you
+needed finer grained control, some parts of them may be useful to you. Here is
+a brief overview of each and why you might want to use them:
+
+* The [`packed`] sub-module contains a lower level API for using fast
+vectorized routines for finding a small number of patterns in a haystack.
+You might want to use this API when you want to completely side-step using
+Aho-Corasick automata. Otherwise, the fast vectorized routines are used
+automatically as prefilters for `AhoCorasick` searches whenever possible.
+* The [`automaton`] sub-module provides a lower level finite state
+machine interface that the various Aho-Corasick implementations in
+this crate implement. This sub-module&#39;s main contribution is the
+[`Automaton`](automaton::Automaton) trait, which permits manually walking the
+state transitions of an Aho-Corasick automaton.
+* The [`dfa`] and [`nfa`] sub-modules provide DFA and NFA implementations of
+the aforementioned `Automaton` trait. The main reason one might want to use
+these sub-modules is to get access to a type that implements the `Automaton`
+trait. (The top-level `AhoCorasick` type does not implement the `Automaton`
+trait.)
+
+As mentioned above, if you aren&#39;t sure whether you need these sub-modules,
+you should be able to safely ignore them and just focus on the [`AhoCorasick`]
+type.
+
+# Crate features
+
+This crate exposes a few features for controlling dependency usage and whether
+this crate can be used without the standard library.
+
+* **std** -
+  Enables support for the standard library. This feature is enabled by
+  default. When disabled, only `core` and `alloc` are used. At an API
+  level, enabling `std` enables `std::error::Error` trait impls for the
+  various error types, and higher level stream search routines such as
+  [`AhoCorasick::try_stream_find_iter`]. But the `std` feature is also required
+  to enable vectorized prefilters. Prefilters can greatly accelerate searches,
+  but generally only apply when the number of patterns is small (less than
+  ~100).
+* **perf-literal** -
+  Enables support for literal prefilters that use vectorized routines from
+  external crates. This feature is enabled by default. If you&#39;re only using
+  Aho-Corasick for large numbers of patterns or otherwise can abide lower
+  throughput when searching with a small number of patterns, then it is
+  reasonable to disable this feature.
+* **logging** -
+  Enables a dependency on the `log` crate and emits messages to aide in
+  diagnostics. This feature is disabled by default.
+*/
+
+</span><span class="attribute">#![no_std]
+#![deny(missing_docs)]
+#![deny(rustdoc::broken_intra_doc_links)]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
+</span><span class="kw">extern crate </span>alloc;
+<span class="attribute">#[cfg(any(test, feature = <span class="string">&quot;std&quot;</span>))]
+</span><span class="kw">extern crate </span>std;
+
+<span class="attribute">#[cfg(doctest)]
+</span><span class="macro">doc_comment::doctest!</span>(<span class="string">&quot;../README.md&quot;</span>);
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::ahocorasick::StreamFindIter;
+<span class="kw">pub use crate</span>::{
+    ahocorasick::{
+        AhoCorasick, AhoCorasickBuilder, AhoCorasickKind, FindIter,
+        FindOverlappingIter,
+    },
+    util::{
+        error::{BuildError, MatchError, MatchErrorKind},
+        primitives::{PatternID, PatternIDError},
+        search::{Anchored, Input, Match, MatchKind, Span, StartKind},
+    },
+};
+
+<span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>macros;
+
+<span class="kw">mod </span>ahocorasick;
+<span class="kw">pub mod </span>automaton;
+<span class="kw">pub mod </span>dfa;
+<span class="kw">pub mod </span>nfa;
+<span class="kw">pub mod </span>packed;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests;
+<span class="comment">// I wrote out the module for implementing fst::Automaton only to later realize
+// that this would make fst a public dependency and fst is not at 1.0 yet. I
+// decided to just keep the code in tree, but build it only during tests.
+//
+// TODO: I think I&#39;ve changed my mind again. I&#39;m considering pushing it out
+// into either a separate crate or into &#39;fst&#39; directly as an optional feature.
+// #[cfg(test)]
+// #[allow(dead_code)]
+// mod transducer;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>util;
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>testoibits {
+    <span class="kw">use </span>std::panic::{RefUnwindSafe, UnwindSafe};
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="kw">fn </span>assert_all&lt;T: Send + Sync + UnwindSafe + RefUnwindSafe&gt;() {}
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>oibits_main() {
+        assert_all::&lt;AhoCorasick&gt;();
+        assert_all::&lt;AhoCorasickBuilder&gt;();
+        assert_all::&lt;AhoCorasickKind&gt;();
+        assert_all::&lt;FindIter&gt;();
+        assert_all::&lt;FindOverlappingIter&gt;();
+
+        assert_all::&lt;BuildError&gt;();
+        assert_all::&lt;MatchError&gt;();
+        assert_all::&lt;MatchErrorKind&gt;();
+
+        assert_all::&lt;Anchored&gt;();
+        assert_all::&lt;Input&gt;();
+        assert_all::&lt;Match&gt;();
+        assert_all::&lt;MatchKind&gt;();
+        assert_all::&lt;Span&gt;();
+        assert_all::&lt;StartKind&gt;();
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>oibits_automaton() {
+        <span class="kw">use crate</span>::{automaton, dfa::DFA};
+
+        assert_all::&lt;automaton::FindIter&lt;DFA&gt;&gt;();
+        assert_all::&lt;automaton::FindOverlappingIter&lt;DFA&gt;&gt;();
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+        </span>assert_all::&lt;automaton::StreamFindIter&lt;DFA, std::io::Stdin&gt;&gt;();
+        assert_all::&lt;automaton::OverlappingState&gt;();
+
+        assert_all::&lt;automaton::Prefilter&gt;();
+        assert_all::&lt;automaton::Candidate&gt;();
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>oibits_packed() {
+        <span class="kw">use </span><span class="kw">crate</span>::packed;
+
+        assert_all::&lt;packed::Config&gt;();
+        assert_all::&lt;packed::Builder&gt;();
+        assert_all::&lt;packed::Searcher&gt;();
+        assert_all::&lt;packed::FindIter&gt;();
+        assert_all::&lt;packed::MatchKind&gt;();
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="aho_corasick" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,2768 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-2.0.49/src/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../syn/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../syn/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
+<span id="1267">1267</span>
+<span id="1268">1268</span>
+<span id="1269">1269</span>
+<span id="1270">1270</span>
+<span id="1271">1271</span>
+<span id="1272">1272</span>
+<span id="1273">1273</span>
+<span id="1274">1274</span>
+<span id="1275">1275</span>
+<span id="1276">1276</span>
+<span id="1277">1277</span>
+<span id="1278">1278</span>
+<span id="1279">1279</span>
+<span id="1280">1280</span>
+<span id="1281">1281</span>
+<span id="1282">1282</span>
+<span id="1283">1283</span>
+<span id="1284">1284</span>
+<span id="1285">1285</span>
+<span id="1286">1286</span>
+<span id="1287">1287</span>
+<span id="1288">1288</span>
+<span id="1289">1289</span>
+<span id="1290">1290</span>
+<span id="1291">1291</span>
+<span id="1292">1292</span>
+<span id="1293">1293</span>
+<span id="1294">1294</span>
+<span id="1295">1295</span>
+<span id="1296">1296</span>
+<span id="1297">1297</span>
+<span id="1298">1298</span>
+<span id="1299">1299</span>
+<span id="1300">1300</span>
+<span id="1301">1301</span>
+<span id="1302">1302</span>
+<span id="1303">1303</span>
+<span id="1304">1304</span>
+<span id="1305">1305</span>
+<span id="1306">1306</span>
+<span id="1307">1307</span>
+<span id="1308">1308</span>
+<span id="1309">1309</span>
+<span id="1310">1310</span>
+<span id="1311">1311</span>
+<span id="1312">1312</span>
+<span id="1313">1313</span>
+<span id="1314">1314</span>
+<span id="1315">1315</span>
+<span id="1316">1316</span>
+<span id="1317">1317</span>
+<span id="1318">1318</span>
+<span id="1319">1319</span>
+<span id="1320">1320</span>
+<span id="1321">1321</span>
+<span id="1322">1322</span>
+<span id="1323">1323</span>
+<span id="1324">1324</span>
+<span id="1325">1325</span>
+<span id="1326">1326</span>
+<span id="1327">1327</span>
+<span id="1328">1328</span>
+<span id="1329">1329</span>
+<span id="1330">1330</span>
+<span id="1331">1331</span>
+<span id="1332">1332</span>
+<span id="1333">1333</span>
+<span id="1334">1334</span>
+<span id="1335">1335</span>
+<span id="1336">1336</span>
+<span id="1337">1337</span>
+<span id="1338">1338</span>
+<span id="1339">1339</span>
+<span id="1340">1340</span>
+<span id="1341">1341</span>
+<span id="1342">1342</span>
+<span id="1343">1343</span>
+<span id="1344">1344</span>
+<span id="1345">1345</span>
+<span id="1346">1346</span>
+<span id="1347">1347</span>
+<span id="1348">1348</span>
+<span id="1349">1349</span>
+<span id="1350">1350</span>
+<span id="1351">1351</span>
+<span id="1352">1352</span>
+<span id="1353">1353</span>
+<span id="1354">1354</span>
+<span id="1355">1355</span>
+<span id="1356">1356</span>
+<span id="1357">1357</span>
+<span id="1358">1358</span>
+<span id="1359">1359</span>
+<span id="1360">1360</span>
+<span id="1361">1361</span>
+<span id="1362">1362</span>
+<span id="1363">1363</span>
+<span id="1364">1364</span>
+<span id="1365">1365</span>
+<span id="1366">1366</span>
+<span id="1367">1367</span>
+<span id="1368">1368</span>
+<span id="1369">1369</span>
+<span id="1370">1370</span>
+<span id="1371">1371</span>
+<span id="1372">1372</span>
+<span id="1373">1373</span>
+<span id="1374">1374</span>
+<span id="1375">1375</span>
+<span id="1376">1376</span>
+<span id="1377">1377</span>
+<span id="1378">1378</span>
+<span id="1379">1379</span>
+<span id="1380">1380</span>
+<span id="1381">1381</span>
+<span id="1382">1382</span>
+<span id="1383">1383</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Parsing interface for parsing a token stream into a syntax tree node.
+//!
+//! Parsing in Syn is built on parser functions that take in a [`ParseStream`]
+//! and produce a [`Result&lt;T&gt;`] where `T` is some syntax tree node. Underlying
+//! these parser functions is a lower level mechanism built around the
+//! [`Cursor`] type. `Cursor` is a cheaply copyable cursor over a range of
+//! tokens in a token stream.
+//!
+//! [`Result&lt;T&gt;`]: Result
+//! [`Cursor`]: crate::buffer::Cursor
+//!
+//! # Example
+//!
+//! Here is a snippet of parsing code to get a feel for the style of the
+//! library. We define data structures for a subset of Rust syntax including
+//! enums (not shown) and structs, then provide implementations of the [`Parse`]
+//! trait to parse these syntax tree data structures from a token stream.
+//!
+//! Once `Parse` impls have been defined, they can be called conveniently from a
+//! procedural macro through [`parse_macro_input!`] as shown at the bottom of
+//! the snippet. If the caller provides syntactically invalid input to the
+//! procedural macro, they will receive a helpful compiler error message
+//! pointing out the exact token that triggered the failure to parse.
+//!
+//! [`parse_macro_input!`]: crate::parse_macro_input!
+//!
+//! ```
+//! # extern crate proc_macro;
+//! #
+//! use proc_macro::TokenStream;
+//! use syn::{braced, parse_macro_input, token, Field, Ident, Result, Token};
+//! use syn::parse::{Parse, ParseStream};
+//! use syn::punctuated::Punctuated;
+//!
+//! enum Item {
+//!     Struct(ItemStruct),
+//!     Enum(ItemEnum),
+//! }
+//!
+//! struct ItemStruct {
+//!     struct_token: Token![struct],
+//!     ident: Ident,
+//!     brace_token: token::Brace,
+//!     fields: Punctuated&lt;Field, Token![,]&gt;,
+//! }
+//! #
+//! # enum ItemEnum {}
+//!
+//! impl Parse for Item {
+//!     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+//!         let lookahead = input.lookahead1();
+//!         if lookahead.peek(Token![struct]) {
+//!             input.parse().map(Item::Struct)
+//!         } else if lookahead.peek(Token![enum]) {
+//!             input.parse().map(Item::Enum)
+//!         } else {
+//!             Err(lookahead.error())
+//!         }
+//!     }
+//! }
+//!
+//! impl Parse for ItemStruct {
+//!     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+//!         let content;
+//!         Ok(ItemStruct {
+//!             struct_token: input.parse()?,
+//!             ident: input.parse()?,
+//!             brace_token: braced!(content in input),
+//!             fields: content.parse_terminated(Field::parse_named, Token![,])?,
+//!         })
+//!     }
+//! }
+//! #
+//! # impl Parse for ItemEnum {
+//! #     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+//! #         unimplemented!()
+//! #     }
+//! # }
+//!
+//! # const IGNORE: &amp;str = stringify! {
+//! #[proc_macro]
+//! # };
+//! pub fn my_macro(tokens: TokenStream) -&gt; TokenStream {
+//!     let input = parse_macro_input!(tokens as Item);
+//!
+//!     /* ... */
+//! #   TokenStream::new()
+//! }
+//! ```
+//!
+//! # The `syn::parse*` functions
+//!
+//! The [`syn::parse`], [`syn::parse2`], and [`syn::parse_str`] functions serve
+//! as an entry point for parsing syntax tree nodes that can be parsed in an
+//! obvious default way. These functions can return any syntax tree node that
+//! implements the [`Parse`] trait, which includes most types in Syn.
+//!
+//! [`syn::parse`]: crate::parse()
+//! [`syn::parse2`]: crate::parse2()
+//! [`syn::parse_str`]: crate::parse_str()
+//!
+//! ```
+//! use syn::Type;
+//!
+//! # fn run_parser() -&gt; syn::Result&lt;()&gt; {
+//! let t: Type = syn::parse_str(&quot;std::collections::HashMap&lt;String, Value&gt;&quot;)?;
+//! #     Ok(())
+//! # }
+//! #
+//! # run_parser().unwrap();
+//! ```
+//!
+//! The [`parse_quote!`] macro also uses this approach.
+//!
+//! [`parse_quote!`]: crate::parse_quote!
+//!
+//! # The `Parser` trait
+//!
+//! Some types can be parsed in several ways depending on context. For example
+//! an [`Attribute`] can be either &quot;outer&quot; like `#[...]` or &quot;inner&quot; like
+//! `#![...]` and parsing the wrong one would be a bug. Similarly [`Punctuated`]
+//! may or may not allow trailing punctuation, and parsing it the wrong way
+//! would either reject valid input or accept invalid input.
+//!
+//! [`Attribute`]: crate::Attribute
+//! [`Punctuated`]: crate::punctuated
+//!
+//! The `Parse` trait is not implemented in these cases because there is no good
+//! behavior to consider the default.
+//!
+//! ```compile_fail
+//! # extern crate proc_macro;
+//! #
+//! # use syn::punctuated::Punctuated;
+//! # use syn::{PathSegment, Result, Token};
+//! #
+//! # fn f(tokens: proc_macro::TokenStream) -&gt; Result&lt;()&gt; {
+//! #
+//! // Can&#39;t parse `Punctuated` without knowing whether trailing punctuation
+//! // should be allowed in this context.
+//! let path: Punctuated&lt;PathSegment, Token![::]&gt; = syn::parse(tokens)?;
+//! #
+//! #     Ok(())
+//! # }
+//! ```
+//!
+//! In these cases the types provide a choice of parser functions rather than a
+//! single `Parse` implementation, and those parser functions can be invoked
+//! through the [`Parser`] trait.
+//!
+//!
+//! ```
+//! # extern crate proc_macro;
+//! #
+//! use proc_macro::TokenStream;
+//! use syn::parse::Parser;
+//! use syn::punctuated::Punctuated;
+//! use syn::{Attribute, Expr, PathSegment, Result, Token};
+//!
+//! fn call_some_parser_methods(input: TokenStream) -&gt; Result&lt;()&gt; {
+//!     // Parse a nonempty sequence of path segments separated by `::` punctuation
+//!     // with no trailing punctuation.
+//!     let tokens = input.clone();
+//!     let parser = Punctuated::&lt;PathSegment, Token![::]&gt;::parse_separated_nonempty;
+//!     let _path = parser.parse(tokens)?;
+//!
+//!     // Parse a possibly empty sequence of expressions terminated by commas with
+//!     // an optional trailing punctuation.
+//!     let tokens = input.clone();
+//!     let parser = Punctuated::&lt;Expr, Token![,]&gt;::parse_terminated;
+//!     let _args = parser.parse(tokens)?;
+//!
+//!     // Parse zero or more outer attributes but not inner attributes.
+//!     let tokens = input.clone();
+//!     let parser = Attribute::parse_outer;
+//!     let _attrs = parser.parse(tokens)?;
+//!
+//!     Ok(())
+//! }
+//! ```
+
+</span><span class="attribute">#[path = <span class="string">&quot;discouraged.rs&quot;</span>]
+</span><span class="kw">pub mod </span>discouraged;
+
+<span class="kw">use </span><span class="kw">crate</span>::buffer::{Cursor, TokenBuffer};
+<span class="kw">use </span><span class="kw">crate</span>::error;
+<span class="kw">use </span><span class="kw">crate</span>::lookahead;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;proc-macro&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::proc_macro;
+<span class="kw">use </span><span class="kw">crate</span>::punctuated::Punctuated;
+<span class="kw">use </span><span class="kw">crate</span>::token::Token;
+<span class="kw">use </span>proc_macro2::{<span class="self">self</span>, Delimiter, Group, Literal, Punct, Span, TokenStream, TokenTree};
+<span class="kw">use </span>std::cell::Cell;
+<span class="kw">use </span>std::fmt::{<span class="self">self</span>, Debug, Display};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)]
+</span><span class="kw">use </span>std::hash::{Hash, Hasher};
+<span class="kw">use </span>std::marker::PhantomData;
+<span class="kw">use </span>std::mem;
+<span class="kw">use </span>std::ops::Deref;
+<span class="kw">use </span>std::rc::Rc;
+<span class="kw">use </span>std::str::FromStr;
+
+<span class="kw">pub use </span><span class="kw">crate</span>::error::{Error, <span class="prelude-ty">Result</span>};
+<span class="kw">pub use </span><span class="kw">crate</span>::lookahead::{Lookahead1, Peek};
+
+<span class="doccomment">/// Parsing interface implemented by all types that can be parsed in a default
+/// way from a token stream.
+///
+/// Refer to the [module documentation] for details about implementing and using
+/// the `Parse` trait.
+///
+/// [module documentation]: self
+</span><span class="kw">pub trait </span>Parse: Sized {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt;;
+}
+
+<span class="doccomment">/// Input to a Syn parser function.
+///
+/// See the methods of this type under the documentation of [`ParseBuffer`]. For
+/// an overview of parsing in Syn, refer to the [module documentation].
+///
+/// [module documentation]: self
+</span><span class="kw">pub type </span>ParseStream&lt;<span class="lifetime">&#39;a</span>&gt; = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ParseBuffer&lt;<span class="lifetime">&#39;a</span>&gt;;
+
+<span class="doccomment">/// Cursor position within a buffered token stream.
+///
+/// This type is more commonly used through the type alias [`ParseStream`] which
+/// is an alias for `&amp;ParseBuffer`.
+///
+/// `ParseStream` is the input type for all parser functions in Syn. They have
+/// the signature `fn(ParseStream) -&gt; Result&lt;T&gt;`.
+///
+/// ## Calling a parser function
+///
+/// There is no public way to construct a `ParseBuffer`. Instead, if you are
+/// looking to invoke a parser function that requires `ParseStream` as input,
+/// you will need to go through one of the public parsing entry points.
+///
+/// - The [`parse_macro_input!`] macro if parsing input of a procedural macro;
+/// - One of [the `syn::parse*` functions][syn-parse]; or
+/// - A method of the [`Parser`] trait.
+///
+/// [`parse_macro_input!`]: crate::parse_macro_input!
+/// [syn-parse]: self#the-synparse-functions
+</span><span class="kw">pub struct </span>ParseBuffer&lt;<span class="lifetime">&#39;a</span>&gt; {
+    scope: Span,
+    <span class="comment">// Instead of Cell&lt;Cursor&lt;&#39;a&gt;&gt; so that ParseBuffer&lt;&#39;a&gt; is covariant in &#39;a.
+    // The rest of the code in this module needs to be careful that only a
+    // cursor derived from this `cell` is ever assigned to this `cell`.
+    //
+    // Cell&lt;Cursor&lt;&#39;a&gt;&gt; cannot be covariant in &#39;a because then we could take a
+    // ParseBuffer&lt;&#39;a&gt;, upcast to ParseBuffer&lt;&#39;short&gt; for some lifetime shorter
+    // than &#39;a, and then assign a Cursor&lt;&#39;short&gt; into the Cell.
+    //
+    // By extension, it would not be safe to expose an API that accepts a
+    // Cursor&lt;&#39;a&gt; and trusts that it lives as long as the cursor currently in
+    // the cell.
+    </span>cell: Cell&lt;Cursor&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
+    marker: PhantomData&lt;Cursor&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+    unexpected: Cell&lt;<span class="prelude-ty">Option</span>&lt;Rc&lt;Cell&lt;Unexpected&gt;&gt;&gt;&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Drop <span class="kw">for </span>ParseBuffer&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(unexpected_span) = span_of_unexpected_ignoring_nones(<span class="self">self</span>.cursor()) {
+            <span class="kw">let </span>(inner, old_span) = inner_unexpected(<span class="self">self</span>);
+            <span class="kw">if </span>old_span.is_none() {
+                inner.set(Unexpected::Some(unexpected_span));
+            }
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Display <span class="kw">for </span>ParseBuffer&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        Display::fmt(<span class="kw-2">&amp;</span><span class="self">self</span>.cursor().token_stream(), f)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>ParseBuffer&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        Debug::fmt(<span class="kw-2">&amp;</span><span class="self">self</span>.cursor().token_stream(), f)
+    }
+}
+
+<span class="doccomment">/// Cursor state associated with speculative parsing.
+///
+/// This type is the input of the closure provided to [`ParseStream::step`].
+///
+/// [`ParseStream::step`]: ParseBuffer::step
+///
+/// # Example
+///
+/// ```
+/// use proc_macro2::TokenTree;
+/// use syn::Result;
+/// use syn::parse::ParseStream;
+///
+/// // This function advances the stream past the next occurrence of `@`. If
+/// // no `@` is present in the stream, the stream position is unchanged and
+/// // an error is returned.
+/// fn skip_past_next_at(input: ParseStream) -&gt; Result&lt;()&gt; {
+///     input.step(|cursor| {
+///         let mut rest = *cursor;
+///         while let Some((tt, next)) = rest.token_tree() {
+///             match &amp;tt {
+///                 TokenTree::Punct(punct) if punct.as_char() == &#39;@&#39; =&gt; {
+///                     return Ok(((), next));
+///                 }
+///                 _ =&gt; rest = next,
+///             }
+///         }
+///         Err(cursor.error(&quot;no `@` was found after this point&quot;))
+///     })
+/// }
+/// #
+/// # fn remainder_after_skipping_past_next_at(
+/// #     input: ParseStream,
+/// # ) -&gt; Result&lt;proc_macro2::TokenStream&gt; {
+/// #     skip_past_next_at(input)?;
+/// #     input.parse()
+/// # }
+/// #
+/// # use syn::parse::Parser;
+/// # let remainder = remainder_after_skipping_past_next_at
+/// #     .parse_str(&quot;a @ b c&quot;)
+/// #     .unwrap();
+/// # assert_eq!(remainder.to_string(), &quot;b c&quot;);
+/// ```
+</span><span class="kw">pub struct </span>StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; {
+    scope: Span,
+    <span class="comment">// This field is covariant in &#39;c.
+    </span>cursor: Cursor&lt;<span class="lifetime">&#39;c</span>&gt;,
+    <span class="comment">// This field is contravariant in &#39;c. Together these make StepCursor
+    // invariant in &#39;c. Also covariant in &#39;a. The user cannot cast &#39;c to a
+    // different lifetime but can upcast into a StepCursor with a shorter
+    // lifetime &#39;a.
+    //
+    // As long as we only ever construct a StepCursor for which &#39;c outlives &#39;a,
+    // this means if ever a StepCursor&lt;&#39;c, &#39;a&gt; exists we are guaranteed that &#39;c
+    // outlives &#39;a.
+    </span>marker: PhantomData&lt;<span class="kw">fn</span>(Cursor&lt;<span class="lifetime">&#39;c</span>&gt;) -&gt; Cursor&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Target = Cursor&lt;<span class="lifetime">&#39;c</span>&gt;;
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.cursor
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; Copy <span class="kw">for </span>StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; {}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; Clone <span class="kw">for </span>StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="kw-2">*</span><span class="self">self
+    </span>}
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// Triggers an error at the current position of the parse stream.
+    ///
+    /// The `ParseStream::step` invocation will return this same error without
+    /// advancing the stream state.
+    </span><span class="kw">pub fn </span>error&lt;T: Display&gt;(<span class="self">self</span>, message: T) -&gt; Error {
+        error::new_at(<span class="self">self</span>.scope, <span class="self">self</span>.cursor, message)
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>advance_step_cursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt;(proof: StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt;, to: Cursor&lt;<span class="lifetime">&#39;c</span>&gt;) -&gt; Cursor&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="comment">// Refer to the comments within the StepCursor definition. We use the
+    // fact that a StepCursor&lt;&#39;c, &#39;a&gt; exists as proof that &#39;c outlives &#39;a.
+    // Cursor is covariant in its lifetime parameter so we can cast a
+    // Cursor&lt;&#39;c&gt; to one with the shorter lifetime Cursor&lt;&#39;a&gt;.
+    </span><span class="kw">let _ </span>= proof;
+    <span class="kw">unsafe </span>{ mem::transmute::&lt;Cursor&lt;<span class="lifetime">&#39;c</span>&gt;, Cursor&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(to) }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_parse_buffer(
+    scope: Span,
+    cursor: Cursor,
+    unexpected: Rc&lt;Cell&lt;Unexpected&gt;&gt;,
+) -&gt; ParseBuffer {
+    ParseBuffer {
+        scope,
+        <span class="comment">// See comment on `cell` in the struct definition.
+        </span>cell: Cell::new(<span class="kw">unsafe </span>{ mem::transmute::&lt;Cursor, Cursor&lt;<span class="lifetime">&#39;static</span>&gt;&gt;(cursor) }),
+        marker: PhantomData,
+        unexpected: Cell::new(<span class="prelude-val">Some</span>(unexpected)),
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Unexpected {
+    <span class="prelude-val">None</span>,
+    <span class="prelude-val">Some</span>(Span),
+    Chain(Rc&lt;Cell&lt;Unexpected&gt;&gt;),
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>Unexpected {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        Unexpected::None
+    }
+}
+
+<span class="kw">impl </span>Clone <span class="kw">for </span>Unexpected {
+    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span><span class="self">self </span>{
+            Unexpected::None =&gt; Unexpected::None,
+            Unexpected::Some(span) =&gt; Unexpected::Some(<span class="kw-2">*</span>span),
+            Unexpected::Chain(next) =&gt; Unexpected::Chain(next.clone()),
+        }
+    }
+}
+
+<span class="comment">// We call this on Cell&lt;Unexpected&gt; and Cell&lt;Option&lt;T&gt;&gt; where temporarily
+// swapping in a None is cheap.
+</span><span class="kw">fn </span>cell_clone&lt;T: Default + Clone&gt;(cell: <span class="kw-2">&amp;</span>Cell&lt;T&gt;) -&gt; T {
+    <span class="kw">let </span>prev = cell.take();
+    <span class="kw">let </span>ret = prev.clone();
+    cell.set(prev);
+    ret
+}
+
+<span class="kw">fn </span>inner_unexpected(buffer: <span class="kw-2">&amp;</span>ParseBuffer) -&gt; (Rc&lt;Cell&lt;Unexpected&gt;&gt;, <span class="prelude-ty">Option</span>&lt;Span&gt;) {
+    <span class="kw">let </span><span class="kw-2">mut </span>unexpected = get_unexpected(buffer);
+    <span class="kw">loop </span>{
+        <span class="kw">match </span>cell_clone(<span class="kw-2">&amp;</span>unexpected) {
+            Unexpected::None =&gt; <span class="kw">return </span>(unexpected, <span class="prelude-val">None</span>),
+            Unexpected::Some(span) =&gt; <span class="kw">return </span>(unexpected, <span class="prelude-val">Some</span>(span)),
+            Unexpected::Chain(next) =&gt; unexpected = next,
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_unexpected(buffer: <span class="kw-2">&amp;</span>ParseBuffer) -&gt; Rc&lt;Cell&lt;Unexpected&gt;&gt; {
+    cell_clone(<span class="kw-2">&amp;</span>buffer.unexpected).unwrap()
+}
+
+<span class="kw">fn </span>span_of_unexpected_ignoring_nones(<span class="kw-2">mut </span>cursor: Cursor) -&gt; <span class="prelude-ty">Option</span>&lt;Span&gt; {
+    <span class="kw">if </span>cursor.eof() {
+        <span class="kw">return </span><span class="prelude-val">None</span>;
+    }
+    <span class="kw">while let </span><span class="prelude-val">Some</span>((inner, _span, rest)) = cursor.group(Delimiter::None) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(unexpected) = span_of_unexpected_ignoring_nones(inner) {
+            <span class="kw">return </span><span class="prelude-val">Some</span>(unexpected);
+        }
+        cursor = rest;
+    }
+    <span class="kw">if </span>cursor.eof() {
+        <span class="prelude-val">None
+    </span>} <span class="kw">else </span>{
+        <span class="prelude-val">Some</span>(cursor.span())
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ParseBuffer&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// Parses a syntax tree node of type `T`, advancing the position of our
+    /// parse stream past it.
+    </span><span class="kw">pub fn </span>parse&lt;T: Parse&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt; {
+        T::parse(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Calls the given parser function to parse a syntax tree node of type `T`
+    /// from this stream.
+    ///
+    /// # Example
+    ///
+    /// The parser below invokes [`Attribute::parse_outer`] to parse a vector of
+    /// zero or more outer attributes.
+    ///
+    /// [`Attribute::parse_outer`]: crate::Attribute::parse_outer
+    ///
+    /// ```
+    /// use syn::{Attribute, Ident, Result, Token};
+    /// use syn::parse::{Parse, ParseStream};
+    ///
+    /// // Parses a unit struct with attributes.
+    /// //
+    /// //     #[path = &quot;s.tmpl&quot;]
+    /// //     struct S;
+    /// struct UnitStruct {
+    ///     attrs: Vec&lt;Attribute&gt;,
+    ///     struct_token: Token![struct],
+    ///     name: Ident,
+    ///     semi_token: Token![;],
+    /// }
+    ///
+    /// impl Parse for UnitStruct {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         Ok(UnitStruct {
+    ///             attrs: input.call(Attribute::parse_outer)?,
+    ///             struct_token: input.parse()?,
+    ///             name: input.parse()?,
+    ///             semi_token: input.parse()?,
+    ///         })
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>call&lt;T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, function: <span class="kw">fn</span>(ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt; {
+        function(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Looks at the next token in the parse stream to determine whether it
+    /// matches the requested type of token.
+    ///
+    /// Does not advance the position of the parse stream.
+    ///
+    /// # Syntax
+    ///
+    /// Note that this method does not use turbofish syntax. Pass the peek type
+    /// inside of parentheses.
+    ///
+    /// - `input.peek(Token![struct])`
+    /// - `input.peek(Token![==])`
+    /// - `input.peek(syn::Ident)`&amp;emsp;*(does not accept keywords)*
+    /// - `input.peek(syn::Ident::peek_any)`
+    /// - `input.peek(Lifetime)`
+    /// - `input.peek(token::Brace)`
+    ///
+    /// # Example
+    ///
+    /// In this example we finish parsing the list of supertraits when the next
+    /// token in the input is either `where` or an opening curly brace.
+    ///
+    /// ```
+    /// use syn::{braced, token, Generics, Ident, Result, Token, TypeParamBound};
+    /// use syn::parse::{Parse, ParseStream};
+    /// use syn::punctuated::Punctuated;
+    ///
+    /// // Parses a trait definition containing no associated items.
+    /// //
+    /// //     trait Marker&lt;&#39;de, T&gt;: A + B&lt;&#39;de&gt; where Box&lt;T&gt;: Clone {}
+    /// struct MarkerTrait {
+    ///     trait_token: Token![trait],
+    ///     ident: Ident,
+    ///     generics: Generics,
+    ///     colon_token: Option&lt;Token![:]&gt;,
+    ///     supertraits: Punctuated&lt;TypeParamBound, Token![+]&gt;,
+    ///     brace_token: token::Brace,
+    /// }
+    ///
+    /// impl Parse for MarkerTrait {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         let trait_token: Token![trait] = input.parse()?;
+    ///         let ident: Ident = input.parse()?;
+    ///         let mut generics: Generics = input.parse()?;
+    ///         let colon_token: Option&lt;Token![:]&gt; = input.parse()?;
+    ///
+    ///         let mut supertraits = Punctuated::new();
+    ///         if colon_token.is_some() {
+    ///             loop {
+    ///                 supertraits.push_value(input.parse()?);
+    ///                 if input.peek(Token![where]) || input.peek(token::Brace) {
+    ///                     break;
+    ///                 }
+    ///                 supertraits.push_punct(input.parse()?);
+    ///             }
+    ///         }
+    ///
+    ///         generics.where_clause = input.parse()?;
+    ///         let content;
+    ///         let empty_brace_token = braced!(content in input);
+    ///
+    ///         Ok(MarkerTrait {
+    ///             trait_token,
+    ///             ident,
+    ///             generics,
+    ///             colon_token,
+    ///             supertraits,
+    ///             brace_token: empty_brace_token,
+    ///         })
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>peek&lt;T: Peek&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, token: T) -&gt; bool {
+        <span class="kw">let _ </span>= token;
+        T::Token::peek(<span class="self">self</span>.cursor())
+    }
+
+    <span class="doccomment">/// Looks at the second-next token in the parse stream.
+    ///
+    /// This is commonly useful as a way to implement contextual keywords.
+    ///
+    /// # Example
+    ///
+    /// This example needs to use `peek2` because the symbol `union` is not a
+    /// keyword in Rust. We can&#39;t use just `peek` and decide to parse a union if
+    /// the very next token is `union`, because someone is free to write a `mod
+    /// union` and a macro invocation that looks like `union::some_macro! { ...
+    /// }`. In other words `union` is a contextual keyword.
+    ///
+    /// ```
+    /// use syn::{Ident, ItemUnion, Macro, Result, Token};
+    /// use syn::parse::{Parse, ParseStream};
+    ///
+    /// // Parses either a union or a macro invocation.
+    /// enum UnionOrMacro {
+    ///     // union MaybeUninit&lt;T&gt; { uninit: (), value: T }
+    ///     Union(ItemUnion),
+    ///     // lazy_static! { ... }
+    ///     Macro(Macro),
+    /// }
+    ///
+    /// impl Parse for UnionOrMacro {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         if input.peek(Token![union]) &amp;&amp; input.peek2(Ident) {
+    ///             input.parse().map(UnionOrMacro::Union)
+    ///         } else {
+    ///             input.parse().map(UnionOrMacro::Macro)
+    ///         }
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>peek2&lt;T: Peek&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, token: T) -&gt; bool {
+        <span class="kw">fn </span>peek2(buffer: <span class="kw-2">&amp;</span>ParseBuffer, peek: <span class="kw">fn</span>(Cursor) -&gt; bool) -&gt; bool {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(group) = buffer.cursor().group(Delimiter::None) {
+                <span class="kw">if </span>group.<span class="number">0</span>.skip().map_or(<span class="bool-val">false</span>, peek) {
+                    <span class="kw">return </span><span class="bool-val">true</span>;
+                }
+            }
+            buffer.cursor().skip().map_or(<span class="bool-val">false</span>, peek)
+        }
+
+        <span class="kw">let _ </span>= token;
+        peek2(<span class="self">self</span>, T::Token::peek)
+    }
+
+    <span class="doccomment">/// Looks at the third-next token in the parse stream.
+    </span><span class="kw">pub fn </span>peek3&lt;T: Peek&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, token: T) -&gt; bool {
+        <span class="kw">fn </span>peek3(buffer: <span class="kw-2">&amp;</span>ParseBuffer, peek: <span class="kw">fn</span>(Cursor) -&gt; bool) -&gt; bool {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(group) = buffer.cursor().group(Delimiter::None) {
+                <span class="kw">if </span>group.<span class="number">0</span>.skip().and_then(Cursor::skip).map_or(<span class="bool-val">false</span>, peek) {
+                    <span class="kw">return </span><span class="bool-val">true</span>;
+                }
+            }
+            buffer
+                .cursor()
+                .skip()
+                .and_then(Cursor::skip)
+                .map_or(<span class="bool-val">false</span>, peek)
+        }
+
+        <span class="kw">let _ </span>= token;
+        peek3(<span class="self">self</span>, T::Token::peek)
+    }
+
+    <span class="doccomment">/// Parses zero or more occurrences of `T` separated by punctuation of type
+    /// `P`, with optional trailing punctuation.
+    ///
+    /// Parsing continues until the end of this parse stream. The entire content
+    /// of this parse stream must consist of `T` and `P`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use quote::quote;
+    /// #
+    /// use syn::{parenthesized, token, Ident, Result, Token, Type};
+    /// use syn::parse::{Parse, ParseStream};
+    /// use syn::punctuated::Punctuated;
+    ///
+    /// // Parse a simplified tuple struct syntax like:
+    /// //
+    /// //     struct S(A, B);
+    /// struct TupleStruct {
+    ///     struct_token: Token![struct],
+    ///     ident: Ident,
+    ///     paren_token: token::Paren,
+    ///     fields: Punctuated&lt;Type, Token![,]&gt;,
+    ///     semi_token: Token![;],
+    /// }
+    ///
+    /// impl Parse for TupleStruct {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         let content;
+    ///         Ok(TupleStruct {
+    ///             struct_token: input.parse()?,
+    ///             ident: input.parse()?,
+    ///             paren_token: parenthesized!(content in input),
+    ///             fields: content.parse_terminated(Type::parse, Token![,])?,
+    ///             semi_token: input.parse()?,
+    ///         })
+    ///     }
+    /// }
+    /// #
+    /// # let input = quote! {
+    /// #     struct S(A, B);
+    /// # };
+    /// # syn::parse2::&lt;TupleStruct&gt;(input).unwrap();
+    /// ```
+    ///
+    /// # See also
+    ///
+    /// If your separator is anything more complicated than an invocation of the
+    /// `Token!` macro, this method won&#39;t be applicable and you can instead
+    /// directly use `Punctuated`&#39;s parser functions: [`parse_terminated`],
+    /// [`parse_separated_nonempty`] etc.
+    ///
+    /// [`parse_terminated`]: Punctuated::parse_terminated
+    /// [`parse_separated_nonempty`]: Punctuated::parse_separated_nonempty
+    ///
+    /// ```
+    /// use syn::{custom_keyword, Expr, Result, Token};
+    /// use syn::parse::{Parse, ParseStream};
+    /// use syn::punctuated::Punctuated;
+    ///
+    /// mod kw {
+    ///     syn::custom_keyword!(fin);
+    /// }
+    ///
+    /// struct Fin(kw::fin, Token![;]);
+    ///
+    /// impl Parse for Fin {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         Ok(Self(input.parse()?, input.parse()?))
+    ///     }
+    /// }
+    ///
+    /// struct Thing {
+    ///     steps: Punctuated&lt;Expr, Fin&gt;,
+    /// }
+    ///
+    /// impl Parse for Thing {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    /// # if true {
+    ///         Ok(Thing {
+    ///             steps: Punctuated::parse_terminated(input)?,
+    ///         })
+    /// # } else {
+    ///         // or equivalently, this means the same thing:
+    /// #       Ok(Thing {
+    ///             steps: input.call(Punctuated::parse_terminated)?,
+    /// #       })
+    /// # }
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>parse_terminated&lt;T, P&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        parser: <span class="kw">fn</span>(ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt;,
+        separator: P,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Punctuated&lt;T, P::Token&gt;&gt;
+    <span class="kw">where
+        </span>P: Peek,
+        P::Token: Parse,
+    {
+        <span class="kw">let _ </span>= separator;
+        Punctuated::parse_terminated_with(<span class="self">self</span>, parser)
+    }
+
+    <span class="doccomment">/// Returns whether there are tokens remaining in this stream.
+    ///
+    /// This method returns true at the end of the content of a set of
+    /// delimiters, as well as at the very end of the complete macro input.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use syn::{braced, token, Ident, Item, Result, Token};
+    /// use syn::parse::{Parse, ParseStream};
+    ///
+    /// // Parses a Rust `mod m { ... }` containing zero or more items.
+    /// struct Mod {
+    ///     mod_token: Token![mod],
+    ///     name: Ident,
+    ///     brace_token: token::Brace,
+    ///     items: Vec&lt;Item&gt;,
+    /// }
+    ///
+    /// impl Parse for Mod {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         let content;
+    ///         Ok(Mod {
+    ///             mod_token: input.parse()?,
+    ///             name: input.parse()?,
+    ///             brace_token: braced!(content in input),
+    ///             items: {
+    ///                 let mut items = Vec::new();
+    ///                 while !content.is_empty() {
+    ///                     items.push(content.parse()?);
+    ///                 }
+    ///                 items
+    ///             },
+    ///         })
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.cursor().eof()
+    }
+
+    <span class="doccomment">/// Constructs a helper for peeking at the next token in this stream and
+    /// building an error message if it is not one of a set of expected tokens.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use syn::{ConstParam, Ident, Lifetime, LifetimeParam, Result, Token, TypeParam};
+    /// use syn::parse::{Parse, ParseStream};
+    ///
+    /// // A generic parameter, a single one of the comma-separated elements inside
+    /// // angle brackets in:
+    /// //
+    /// //     fn f&lt;T: Clone, &#39;a, &#39;b: &#39;a, const N: usize&gt;() { ... }
+    /// //
+    /// // On invalid input, lookahead gives us a reasonable error message.
+    /// //
+    /// //     error: expected one of: identifier, lifetime, `const`
+    /// //       |
+    /// //     5 |     fn f&lt;!Sized&gt;() {}
+    /// //       |          ^
+    /// enum GenericParam {
+    ///     Type(TypeParam),
+    ///     Lifetime(LifetimeParam),
+    ///     Const(ConstParam),
+    /// }
+    ///
+    /// impl Parse for GenericParam {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         let lookahead = input.lookahead1();
+    ///         if lookahead.peek(Ident) {
+    ///             input.parse().map(GenericParam::Type)
+    ///         } else if lookahead.peek(Lifetime) {
+    ///             input.parse().map(GenericParam::Lifetime)
+    ///         } else if lookahead.peek(Token![const]) {
+    ///             input.parse().map(GenericParam::Const)
+    ///         } else {
+    ///             Err(lookahead.error())
+    ///         }
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>lookahead1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Lookahead1&lt;<span class="lifetime">&#39;a</span>&gt; {
+        lookahead::new(<span class="self">self</span>.scope, <span class="self">self</span>.cursor())
+    }
+
+    <span class="doccomment">/// Forks a parse stream so that parsing tokens out of either the original
+    /// or the fork does not advance the position of the other.
+    ///
+    /// # Performance
+    ///
+    /// Forking a parse stream is a cheap fixed amount of work and does not
+    /// involve copying token buffers. Where you might hit performance problems
+    /// is if your macro ends up parsing a large amount of content more than
+    /// once.
+    ///
+    /// ```
+    /// # use syn::{Expr, Result};
+    /// # use syn::parse::ParseStream;
+    /// #
+    /// # fn bad(input: ParseStream) -&gt; Result&lt;Expr&gt; {
+    /// // Do not do this.
+    /// if input.fork().parse::&lt;Expr&gt;().is_ok() {
+    ///     return input.parse::&lt;Expr&gt;();
+    /// }
+    /// # unimplemented!()
+    /// # }
+    /// ```
+    ///
+    /// As a rule, avoid parsing an unbounded amount of tokens out of a forked
+    /// parse stream. Only use a fork when the amount of work performed against
+    /// the fork is small and bounded.
+    ///
+    /// When complex speculative parsing against the forked stream is
+    /// unavoidable, use [`parse::discouraged::Speculative`] to advance the
+    /// original stream once the fork&#39;s parse is determined to have been
+    /// successful.
+    ///
+    /// For a lower level way to perform speculative parsing at the token level,
+    /// consider using [`ParseStream::step`] instead.
+    ///
+    /// [`parse::discouraged::Speculative`]: discouraged::Speculative
+    /// [`ParseStream::step`]: ParseBuffer::step
+    ///
+    /// # Example
+    ///
+    /// The parse implementation shown here parses possibly restricted `pub`
+    /// visibilities.
+    ///
+    /// - `pub`
+    /// - `pub(crate)`
+    /// - `pub(self)`
+    /// - `pub(super)`
+    /// - `pub(in some::path)`
+    ///
+    /// To handle the case of visibilities inside of tuple structs, the parser
+    /// needs to distinguish parentheses that specify visibility restrictions
+    /// from parentheses that form part of a tuple type.
+    ///
+    /// ```
+    /// # struct A;
+    /// # struct B;
+    /// # struct C;
+    /// #
+    /// struct S(pub(crate) A, pub (B, C));
+    /// ```
+    ///
+    /// In this example input the first tuple struct element of `S` has
+    /// `pub(crate)` visibility while the second tuple struct element has `pub`
+    /// visibility; the parentheses around `(B, C)` are part of the type rather
+    /// than part of a visibility restriction.
+    ///
+    /// The parser uses a forked parse stream to check the first token inside of
+    /// parentheses after the `pub` keyword. This is a small bounded amount of
+    /// work performed against the forked parse stream.
+    ///
+    /// ```
+    /// use syn::{parenthesized, token, Ident, Path, Result, Token};
+    /// use syn::ext::IdentExt;
+    /// use syn::parse::{Parse, ParseStream};
+    ///
+    /// struct PubVisibility {
+    ///     pub_token: Token![pub],
+    ///     restricted: Option&lt;Restricted&gt;,
+    /// }
+    ///
+    /// struct Restricted {
+    ///     paren_token: token::Paren,
+    ///     in_token: Option&lt;Token![in]&gt;,
+    ///     path: Path,
+    /// }
+    ///
+    /// impl Parse for PubVisibility {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         let pub_token: Token![pub] = input.parse()?;
+    ///
+    ///         if input.peek(token::Paren) {
+    ///             let ahead = input.fork();
+    ///             let mut content;
+    ///             parenthesized!(content in ahead);
+    ///
+    ///             if content.peek(Token![crate])
+    ///                 || content.peek(Token![self])
+    ///                 || content.peek(Token![super])
+    ///             {
+    ///                 return Ok(PubVisibility {
+    ///                     pub_token,
+    ///                     restricted: Some(Restricted {
+    ///                         paren_token: parenthesized!(content in input),
+    ///                         in_token: None,
+    ///                         path: Path::from(content.call(Ident::parse_any)?),
+    ///                     }),
+    ///                 });
+    ///             } else if content.peek(Token![in]) {
+    ///                 return Ok(PubVisibility {
+    ///                     pub_token,
+    ///                     restricted: Some(Restricted {
+    ///                         paren_token: parenthesized!(content in input),
+    ///                         in_token: Some(content.parse()?),
+    ///                         path: content.call(Path::parse_mod_style)?,
+    ///                     }),
+    ///                 });
+    ///             }
+    ///         }
+    ///
+    ///         Ok(PubVisibility {
+    ///             pub_token,
+    ///             restricted: None,
+    ///         })
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>fork(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        ParseBuffer {
+            scope: <span class="self">self</span>.scope,
+            cell: <span class="self">self</span>.cell.clone(),
+            marker: PhantomData,
+            <span class="comment">// Not the parent&#39;s unexpected. Nothing cares whether the clone
+            // parses all the way unless we `advance_to`.
+            </span>unexpected: Cell::new(<span class="prelude-val">Some</span>(Rc::new(Cell::new(Unexpected::None)))),
+        }
+    }
+
+    <span class="doccomment">/// Triggers an error at the current position of the parse stream.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use syn::{Expr, Result, Token};
+    /// use syn::parse::{Parse, ParseStream};
+    ///
+    /// // Some kind of loop: `while` or `for` or `loop`.
+    /// struct Loop {
+    ///     expr: Expr,
+    /// }
+    ///
+    /// impl Parse for Loop {
+    ///     fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+    ///         if input.peek(Token![while])
+    ///             || input.peek(Token![for])
+    ///             || input.peek(Token![loop])
+    ///         {
+    ///             Ok(Loop {
+    ///                 expr: input.parse()?,
+    ///             })
+    ///         } else {
+    ///             Err(input.error(&quot;expected some kind of loop&quot;))
+    ///         }
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>error&lt;T: Display&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, message: T) -&gt; Error {
+        error::new_at(<span class="self">self</span>.scope, <span class="self">self</span>.cursor(), message)
+    }
+
+    <span class="doccomment">/// Speculatively parses tokens from this parse stream, advancing the
+    /// position of this stream only if parsing succeeds.
+    ///
+    /// This is a powerful low-level API used for defining the `Parse` impls of
+    /// the basic built-in token types. It is not something that will be used
+    /// widely outside of the Syn codebase.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use proc_macro2::TokenTree;
+    /// use syn::Result;
+    /// use syn::parse::ParseStream;
+    ///
+    /// // This function advances the stream past the next occurrence of `@`. If
+    /// // no `@` is present in the stream, the stream position is unchanged and
+    /// // an error is returned.
+    /// fn skip_past_next_at(input: ParseStream) -&gt; Result&lt;()&gt; {
+    ///     input.step(|cursor| {
+    ///         let mut rest = *cursor;
+    ///         while let Some((tt, next)) = rest.token_tree() {
+    ///             match &amp;tt {
+    ///                 TokenTree::Punct(punct) if punct.as_char() == &#39;@&#39; =&gt; {
+    ///                     return Ok(((), next));
+    ///                 }
+    ///                 _ =&gt; rest = next,
+    ///             }
+    ///         }
+    ///         Err(cursor.error(&quot;no `@` was found after this point&quot;))
+    ///     })
+    /// }
+    /// #
+    /// # fn remainder_after_skipping_past_next_at(
+    /// #     input: ParseStream,
+    /// # ) -&gt; Result&lt;proc_macro2::TokenStream&gt; {
+    /// #     skip_past_next_at(input)?;
+    /// #     input.parse()
+    /// # }
+    /// #
+    /// # use syn::parse::Parser;
+    /// # let remainder = remainder_after_skipping_past_next_at
+    /// #     .parse_str(&quot;a @ b c&quot;)
+    /// #     .unwrap();
+    /// # assert_eq!(remainder.to_string(), &quot;b c&quot;);
+    /// ```
+    </span><span class="kw">pub fn </span>step&lt;F, R&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, function: F) -&gt; <span class="prelude-ty">Result</span>&lt;R&gt;
+    <span class="kw">where
+        </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;c</span>&gt; FnOnce(StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(R, Cursor&lt;<span class="lifetime">&#39;c</span>&gt;)&gt;,
+    {
+        <span class="comment">// Since the user&#39;s function is required to work for any &#39;c, we know
+        // that the Cursor&lt;&#39;c&gt; they return is either derived from the input
+        // StepCursor&lt;&#39;c, &#39;a&gt; or from a Cursor&lt;&#39;static&gt;.
+        //
+        // It would not be legal to write this function without the invariant
+        // lifetime &#39;c in StepCursor&lt;&#39;c, &#39;a&gt;. If this function were written only
+        // in terms of &#39;a, the user could take our ParseBuffer&lt;&#39;a&gt;, upcast it to
+        // a ParseBuffer&lt;&#39;short&gt; which some shorter lifetime than &#39;a, invoke
+        // `step` on their ParseBuffer&lt;&#39;short&gt; with a closure that returns
+        // Cursor&lt;&#39;short&gt;, and we would wrongly write that Cursor&lt;&#39;short&gt; into
+        // the Cell intended to hold Cursor&lt;&#39;a&gt;.
+        //
+        // In some cases it may be necessary for R to contain a Cursor&lt;&#39;a&gt;.
+        // Within Syn we solve this using `advance_step_cursor` which uses the
+        // existence of a StepCursor&lt;&#39;c, &#39;a&gt; as proof that it is safe to cast
+        // from Cursor&lt;&#39;c&gt; to Cursor&lt;&#39;a&gt;. If needed outside of Syn, it would be
+        // safe to expose that API as a method on StepCursor.
+        </span><span class="kw">let </span>(node, rest) = function(StepCursor {
+            scope: <span class="self">self</span>.scope,
+            cursor: <span class="self">self</span>.cell.get(),
+            marker: PhantomData,
+        })<span class="question-mark">?</span>;
+        <span class="self">self</span>.cell.set(rest);
+        <span class="prelude-val">Ok</span>(node)
+    }
+
+    <span class="doccomment">/// Returns the `Span` of the next token in the parse stream, or
+    /// `Span::call_site()` if this parse stream has completely exhausted its
+    /// input `TokenStream`.
+    </span><span class="kw">pub fn </span>span(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Span {
+        <span class="kw">let </span>cursor = <span class="self">self</span>.cursor();
+        <span class="kw">if </span>cursor.eof() {
+            <span class="self">self</span>.scope
+        } <span class="kw">else </span>{
+            <span class="kw">crate</span>::buffer::open_span_of_group(cursor)
+        }
+    }
+
+    <span class="doccomment">/// Provides low-level access to the token representation underlying this
+    /// parse stream.
+    ///
+    /// Cursors are immutable so no operations you perform against the cursor
+    /// will affect the state of this parse stream.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use proc_macro2::TokenStream;
+    /// use syn::buffer::Cursor;
+    /// use syn::parse::{ParseStream, Result};
+    ///
+    /// // Run a parser that returns T, but get its output as TokenStream instead of T.
+    /// // This works without T needing to implement ToTokens.
+    /// fn recognize_token_stream&lt;T&gt;(
+    ///     recognizer: fn(ParseStream) -&gt; Result&lt;T&gt;,
+    /// ) -&gt; impl Fn(ParseStream) -&gt; Result&lt;TokenStream&gt; {
+    ///     move |input| {
+    ///         let begin = input.cursor();
+    ///         recognizer(input)?;
+    ///         let end = input.cursor();
+    ///         Ok(tokens_between(begin, end))
+    ///     }
+    /// }
+    ///
+    /// // Collect tokens between two cursors as a TokenStream.
+    /// fn tokens_between(begin: Cursor, end: Cursor) -&gt; TokenStream {
+    ///     assert!(begin &lt;= end);
+    ///
+    ///     let mut cursor = begin;
+    ///     let mut tokens = TokenStream::new();
+    ///     while cursor &lt; end {
+    ///         let (token, next) = cursor.token_tree().unwrap();
+    ///         tokens.extend(std::iter::once(token));
+    ///         cursor = next;
+    ///     }
+    ///     tokens
+    /// }
+    ///
+    /// fn main() {
+    ///     use quote::quote;
+    ///     use syn::parse::{Parse, Parser};
+    ///     use syn::Token;
+    ///
+    ///     // Parse syn::Type as a TokenStream, surrounded by angle brackets.
+    ///     fn example(input: ParseStream) -&gt; Result&lt;TokenStream&gt; {
+    ///         let _langle: Token![&lt;] = input.parse()?;
+    ///         let ty = recognize_token_stream(syn::Type::parse)(input)?;
+    ///         let _rangle: Token![&gt;] = input.parse()?;
+    ///         Ok(ty)
+    ///     }
+    ///
+    ///     let tokens = quote! { &lt;fn() -&gt; u8&gt; };
+    ///     println!(&quot;{}&quot;, example.parse2(tokens).unwrap());
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>cursor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cursor&lt;<span class="lifetime">&#39;a</span>&gt; {
+        <span class="self">self</span>.cell.get()
+    }
+
+    <span class="kw">fn </span>check_unexpected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">match </span>inner_unexpected(<span class="self">self</span>).<span class="number">1 </span>{
+            <span class="prelude-val">Some</span>(span) =&gt; <span class="prelude-val">Err</span>(Error::new(span, <span class="string">&quot;unexpected token&quot;</span>)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(()),
+        }
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl</span>&lt;T: Parse&gt; Parse <span class="kw">for </span>Box&lt;T&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        input.parse().map(Box::new)
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl</span>&lt;T: Parse + Token&gt; Parse <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">if </span>T::peek(input.cursor()) {
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(input.parse()<span class="question-mark">?</span>))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+        }
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl </span>Parse <span class="kw">for </span>TokenStream {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        input.step(|cursor| <span class="prelude-val">Ok</span>((cursor.token_stream(), Cursor::empty())))
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl </span>Parse <span class="kw">for </span>TokenTree {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        input.step(|cursor| <span class="kw">match </span>cursor.token_tree() {
+            <span class="prelude-val">Some</span>((tt, rest)) =&gt; <span class="prelude-val">Ok</span>((tt, rest)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(cursor.error(<span class="string">&quot;expected token tree&quot;</span>)),
+        })
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl </span>Parse <span class="kw">for </span>Group {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        input.step(|cursor| {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>((group, rest)) = cursor.any_group_token() {
+                <span class="kw">if </span>group.delimiter() != Delimiter::None {
+                    <span class="kw">return </span><span class="prelude-val">Ok</span>((group, rest));
+                }
+            }
+            <span class="prelude-val">Err</span>(cursor.error(<span class="string">&quot;expected group token&quot;</span>))
+        })
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl </span>Parse <span class="kw">for </span>Punct {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        input.step(|cursor| <span class="kw">match </span>cursor.punct() {
+            <span class="prelude-val">Some</span>((punct, rest)) =&gt; <span class="prelude-val">Ok</span>((punct, rest)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(cursor.error(<span class="string">&quot;expected punctuation token&quot;</span>)),
+        })
+    }
+}
+
+<span class="attribute">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
+</span><span class="kw">impl </span>Parse <span class="kw">for </span>Literal {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        input.step(|cursor| <span class="kw">match </span>cursor.literal() {
+            <span class="prelude-val">Some</span>((literal, rest)) =&gt; <span class="prelude-val">Ok</span>((literal, rest)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(cursor.error(<span class="string">&quot;expected literal token&quot;</span>)),
+        })
+    }
+}
+
+<span class="doccomment">/// Parser that can parse Rust tokens into a particular syntax tree node.
+///
+/// Refer to the [module documentation] for details about parsing in Syn.
+///
+/// [module documentation]: self
+</span><span class="kw">pub trait </span>Parser: Sized {
+    <span class="kw">type </span>Output;
+
+    <span class="doccomment">/// Parse a proc-macro2 token stream into the chosen syntax tree node.
+    ///
+    /// This function will check that the input is fully parsed. If there are
+    /// any unparsed tokens at the end of the stream, an error is returned.
+    </span><span class="kw">fn </span>parse2(<span class="self">self</span>, tokens: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Output&gt;;
+
+    <span class="doccomment">/// Parse tokens of source code into the chosen syntax tree node.
+    ///
+    /// This function will check that the input is fully parsed. If there are
+    /// any unparsed tokens at the end of the stream, an error is returned.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;proc-macro&quot;</span>)]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;proc-macro&quot;</span>)))]
+    </span><span class="kw">fn </span>parse(<span class="self">self</span>, tokens: proc_macro::TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Output&gt; {
+        <span class="self">self</span>.parse2(proc_macro2::TokenStream::from(tokens))
+    }
+
+    <span class="doccomment">/// Parse a string of Rust code into the chosen syntax tree node.
+    ///
+    /// This function will check that the input is fully parsed. If there are
+    /// any unparsed tokens at the end of the string, an error is returned.
+    ///
+    /// # Hygiene
+    ///
+    /// Every span in the resulting syntax tree will be set to resolve at the
+    /// macro call site.
+    </span><span class="kw">fn </span>parse_str(<span class="self">self</span>, s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Output&gt; {
+        <span class="self">self</span>.parse2(proc_macro2::TokenStream::from_str(s)<span class="question-mark">?</span>)
+    }
+
+    <span class="comment">// Not public API.
+    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>__parse_scoped(<span class="self">self</span>, scope: Span, tokens: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Output&gt; {
+        <span class="kw">let _ </span>= scope;
+        <span class="self">self</span>.parse2(tokens)
+    }
+}
+
+<span class="kw">fn </span>tokens_to_parse_buffer(tokens: <span class="kw-2">&amp;</span>TokenBuffer) -&gt; ParseBuffer {
+    <span class="kw">let </span>scope = Span::call_site();
+    <span class="kw">let </span>cursor = tokens.begin();
+    <span class="kw">let </span>unexpected = Rc::new(Cell::new(Unexpected::None));
+    new_parse_buffer(scope, cursor, unexpected)
+}
+
+<span class="kw">impl</span>&lt;F, T&gt; Parser <span class="kw">for </span>F
+<span class="kw">where
+    </span>F: FnOnce(ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt;,
+{
+    <span class="kw">type </span>Output = T;
+
+    <span class="kw">fn </span>parse2(<span class="self">self</span>, tokens: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt; {
+        <span class="kw">let </span>buf = TokenBuffer::new2(tokens);
+        <span class="kw">let </span>state = tokens_to_parse_buffer(<span class="kw-2">&amp;</span>buf);
+        <span class="kw">let </span>node = <span class="self">self</span>(<span class="kw-2">&amp;</span>state)<span class="question-mark">?</span>;
+        state.check_unexpected()<span class="question-mark">?</span>;
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(unexpected_span) = span_of_unexpected_ignoring_nones(state.cursor()) {
+            <span class="prelude-val">Err</span>(Error::new(unexpected_span, <span class="string">&quot;unexpected token&quot;</span>))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(node)
+        }
+    }
+
+    <span class="kw">fn </span>__parse_scoped(<span class="self">self</span>, scope: Span, tokens: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Output&gt; {
+        <span class="kw">let </span>buf = TokenBuffer::new2(tokens);
+        <span class="kw">let </span>cursor = buf.begin();
+        <span class="kw">let </span>unexpected = Rc::new(Cell::new(Unexpected::None));
+        <span class="kw">let </span>state = new_parse_buffer(scope, cursor, unexpected);
+        <span class="kw">let </span>node = <span class="self">self</span>(<span class="kw-2">&amp;</span>state)<span class="question-mark">?</span>;
+        state.check_unexpected()<span class="question-mark">?</span>;
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(unexpected_span) = span_of_unexpected_ignoring_nones(state.cursor()) {
+            <span class="prelude-val">Err</span>(Error::new(unexpected_span, <span class="string">&quot;unexpected token&quot;</span>))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(node)
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse_scoped&lt;F: Parser&gt;(f: F, scope: Span, tokens: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;F::Output&gt; {
+    f.__parse_scoped(scope, tokens)
+}
+
+<span class="doccomment">/// An empty syntax tree node that consumes no tokens when parsed.
+///
+/// This is useful for attribute macros that want to ensure they are not
+/// provided any attribute args.
+///
+/// ```
+/// # extern crate proc_macro;
+/// #
+/// use proc_macro::TokenStream;
+/// use syn::parse_macro_input;
+/// use syn::parse::Nothing;
+///
+/// # const IGNORE: &amp;str = stringify! {
+/// #[proc_macro_attribute]
+/// # };
+/// pub fn my_attr(args: TokenStream, input: TokenStream) -&gt; TokenStream {
+///     parse_macro_input!(args as Nothing);
+///
+///     /* ... */
+/// #   TokenStream::new()
+/// }
+/// ```
+///
+/// ```text
+/// error: unexpected token
+///  --&gt; src/main.rs:3:19
+///   |
+/// 3 | #[my_attr(asdf)]
+///   |           ^^^^
+/// ```
+</span><span class="kw">pub struct </span>Nothing;
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>Nothing {
+    <span class="kw">fn </span>parse(_input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(Nothing)
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)))]
+</span><span class="kw">impl </span>Debug <span class="kw">for </span>Nothing {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        f.write_str(<span class="string">&quot;Nothing&quot;</span>)
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)))]
+</span><span class="kw">impl </span>Eq <span class="kw">for </span>Nothing {}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)))]
+</span><span class="kw">impl </span>PartialEq <span class="kw">for </span>Nothing {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, _other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="bool-val">true
+    </span>}
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;extra-traits&quot;</span>)))]
+</span><span class="kw">impl </span>Hash <span class="kw">for </span>Nothing {
+    <span class="kw">fn </span>hash&lt;H: Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, _state: <span class="kw-2">&amp;mut </span>H) {}
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="syn" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

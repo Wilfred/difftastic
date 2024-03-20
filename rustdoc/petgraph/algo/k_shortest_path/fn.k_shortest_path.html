@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="[Generic] k’th shortest path algorithm."><meta name="keywords" content="rust, rustlang, rust-lang, k_shortest_path"><title>k_shortest_path in petgraph::algo::k_shortest_path - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../petgraph/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../petgraph/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In petgraph::algo::k_shortest_path</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../petgraph/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Function <a href="../../index.html">petgraph</a>::<wbr><a href="../index.html">algo</a>::<wbr><a href="index.html">k_shortest_path</a>::<wbr><a class="fn" href="#">k_shortest_path</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../../src/petgraph/algo/k_shortest_path.rs.html#73-115">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust fn"><code>pub fn k_shortest_path&lt;G, F, K&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;graph: G,<br>&nbsp;&nbsp;&nbsp;&nbsp;start: G::<a class="associatedtype" href="../../visit/trait.GraphBase.html#associatedtype.NodeId" title="type petgraph::visit::GraphBase::NodeId">NodeId</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;goal: <a class="enum" href="https://doc.rust-lang.org/1.65.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;G::<a class="associatedtype" href="../../visit/trait.GraphBase.html#associatedtype.NodeId" title="type petgraph::visit::GraphBase::NodeId">NodeId</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;k: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;edge_cost: F<br>) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/std/collections/hash/map/struct.HashMap.html" title="struct std::collections::hash::map::HashMap">HashMap</a>&lt;G::<a class="associatedtype" href="../../visit/trait.GraphBase.html#associatedtype.NodeId" title="type petgraph::visit::GraphBase::NodeId">NodeId</a>, K&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;G: <a class="trait" href="../../visit/trait.IntoEdges.html" title="trait petgraph::visit::IntoEdges">IntoEdges</a> + <a class="trait" href="../../visit/trait.Visitable.html" title="trait petgraph::visit::Visitable">Visitable</a> + <a class="trait" href="../../visit/trait.NodeCount.html" title="trait petgraph::visit::NodeCount">NodeCount</a> + <a class="trait" href="../../visit/trait.NodeIndexable.html" title="trait petgraph::visit::NodeIndexable">NodeIndexable</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;G::<a class="associatedtype" href="../../visit/trait.GraphBase.html#associatedtype.NodeId" title="type petgraph::visit::GraphBase::NodeId">NodeId</a>: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(G::<a class="associatedtype" href="../../visit/trait.IntoEdgeReferences.html#associatedtype.EdgeRef" title="type petgraph::visit::IntoEdgeReferences::EdgeRef">EdgeRef</a>) -&gt; K,<br>&nbsp;&nbsp;&nbsp;&nbsp;K: <a class="trait" href="../trait.Measure.html" title="trait petgraph::algo::Measure">Measure</a> + <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a>,</span></code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>[Generic] k’th shortest path algorithm.</p>
+<p>Compute the length of the k’th shortest path from <code>start</code> to every reachable
+node.</p>
+<p>The graph should be <code>Visitable</code> and implement <code>IntoEdges</code>. The function
+<code>edge_cost</code> should return the cost for a particular edge, which is used
+to compute path costs. Edge costs must be non-negative.</p>
+<p>If <code>goal</code> is not <code>None</code>, then the algorithm terminates once the <code>goal</code> node’s
+cost is calculated.</p>
+<p>Computes in *<em>O(k * (|E| + |V|<em>log(|V|)))</em></em> time (average).</p>
+<p>Returns a <code>HashMap</code> that maps <code>NodeId</code> to path cost.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>petgraph::Graph;
+<span class="kw">use </span>petgraph::algo::k_shortest_path;
+<span class="kw">use </span>petgraph::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>std::collections::HashMap;
+
+<span class="kw">let </span><span class="kw-2">mut </span>graph : Graph&lt;(),(),Directed&gt;= Graph::new();
+<span class="kw">let </span>a = graph.add_node(()); <span class="comment">// node with no weight
+</span><span class="kw">let </span>b = graph.add_node(());
+<span class="kw">let </span>c = graph.add_node(());
+<span class="kw">let </span>d = graph.add_node(());
+<span class="kw">let </span>e = graph.add_node(());
+<span class="kw">let </span>f = graph.add_node(());
+<span class="kw">let </span>g = graph.add_node(());
+<span class="kw">let </span>h = graph.add_node(());
+<span class="comment">// z will be in another connected component
+</span><span class="kw">let </span>z = graph.add_node(());
+
+graph.extend_with_edges(<span class="kw-2">&amp;</span>[
+    (a, b),
+    (b, c),
+    (c, d),
+    (d, a),
+    (e, f),
+    (b, e),
+    (f, g),
+    (g, h),
+    (h, e)
+]);
+<span class="comment">// a ----&gt; b ----&gt; e ----&gt; f
+// ^       |       ^       |
+// |       v       |       v
+// d &lt;---- c       h &lt;---- g
+
+</span><span class="kw">let </span>expected_res: HashMap&lt;NodeIndex, usize&gt; = [
+     (a, <span class="number">7</span>),
+     (b, <span class="number">4</span>),
+     (c, <span class="number">5</span>),
+     (d, <span class="number">6</span>),
+     (e, <span class="number">5</span>),
+     (f, <span class="number">6</span>),
+     (g, <span class="number">7</span>),
+     (h, <span class="number">8</span>)
+    ].iter().cloned().collect();
+<span class="kw">let </span>res = k_shortest_path(<span class="kw-2">&amp;</span>graph,b,<span class="prelude-val">None</span>,<span class="number">2</span>, |<span class="kw">_</span>| <span class="number">1</span>);
+<span class="macro">assert_eq!</span>(res, expected_res);
+<span class="comment">// z is not inside res because there is not path from b to z.</span></code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="petgraph" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

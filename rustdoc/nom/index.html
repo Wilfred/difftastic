@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="nom, eating data byte by byte"><meta name="keywords" content="rust, rustlang, rust-lang, nom"><title>nom - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../nom/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../nom/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate nom</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 7.1.1</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#types">Type Definitions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../nom/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">nom</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/nom/lib.rs.html#1-463">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="nom-eating-data-byte-by-byte"><a href="#nom-eating-data-byte-by-byte">nom, eating data byte by byte</a></h2>
+<p>nom is a parser combinator library with a focus on safe parsing,
+streaming patterns, and as much as possible zero copy.</p>
+<h3 id="example"><a href="#example">Example</a></h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  bytes::complete::{tag, take_while_m_n},
+  combinator::map_res,
+  sequence::tuple};
+
+<span class="attribute">#[derive(Debug,PartialEq)]
+</span><span class="kw">pub struct </span>Color {
+  <span class="kw">pub </span>red:     u8,
+  <span class="kw">pub </span>green:   u8,
+  <span class="kw">pub </span>blue:    u8,
+}
+
+<span class="kw">fn </span>from_hex(input: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u8, std::num::ParseIntError&gt; {
+  u8::from_str_radix(input, <span class="number">16</span>)
+}
+
+<span class="kw">fn </span>is_hex_digit(c: char) -&gt; bool {
+  c.is_digit(<span class="number">16</span>)
+}
+
+<span class="kw">fn </span>hex_primary(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, u8&gt; {
+  map_res(
+    take_while_m_n(<span class="number">2</span>, <span class="number">2</span>, is_hex_digit),
+    from_hex
+  )(input)
+}
+
+<span class="kw">fn </span>hex_color(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, Color&gt; {
+  <span class="kw">let </span>(input, <span class="kw">_</span>) = tag(<span class="string">&quot;#&quot;</span>)(input)<span class="question-mark">?</span>;
+  <span class="kw">let </span>(input, (red, green, blue)) = tuple((hex_primary, hex_primary, hex_primary))(input)<span class="question-mark">?</span>;
+
+  <span class="prelude-val">Ok</span>((input, Color { red, green, blue }))
+}
+
+<span class="kw">fn </span>main() {
+  <span class="macro">assert_eq!</span>(hex_color(<span class="string">&quot;#2F14DF&quot;</span>), <span class="prelude-val">Ok</span>((<span class="string">&quot;&quot;</span>, Color {
+    red: <span class="number">47</span>,
+    green: <span class="number">20</span>,
+    blue: <span class="number">223</span>,
+  })));
+}</code></pre></div>
+<p>The code is available on <a href="https://github.com/Geal/nom">Github</a></p>
+<p>There are a few <a href="https://github.com/Geal/nom/tree/main/doc">guides</a> with more details
+about <a href="https://github.com/Geal/nom/blob/main/doc/making_a_new_parser_from_scratch.md">how to write parsers</a>,
+or the <a href="https://github.com/Geal/nom/blob/main/doc/error_management.md">error management system</a>.
+You can also check out the [recipes] module that contains examples of common patterns.</p>
+<p><strong>Looking for a specific combinator? Read the
+<a href="https://github.com/Geal/nom/blob/main/doc/choosing_a_combinator.md">“choose a combinator” guide</a></strong></p>
+<p>If you are upgrading to nom 5.0, please read the
+<a href="https://github.com/Geal/nom/blob/main/doc/upgrading_to_nom_5.md">migration document</a>.</p>
+<h3 id="parser-combinators"><a href="#parser-combinators">Parser combinators</a></h3>
+<p>Parser combinators are an approach to parsers that is very different from
+software like <a href="https://en.wikipedia.org/wiki/Lex_(software)">lex</a> and
+<a href="https://en.wikipedia.org/wiki/Yacc">yacc</a>. Instead of writing the grammar
+in a separate syntax and generating the corresponding code, you use very small
+functions with very specific purposes, like “take 5 bytes”, or “recognize the
+word ‘HTTP’”, and assemble them in meaningful patterns like “recognize
+‘HTTP’, then a space, then a version”.
+The resulting code is small, and looks like the grammar you would have
+written with other parser approaches.</p>
+<p>This gives us a few advantages:</p>
+<ul>
+<li>The parsers are small and easy to write</li>
+<li>The parsers components are easy to reuse (if they’re general enough, please add them to nom!)</li>
+<li>The parsers components are easy to test separately (unit tests and property-based tests)</li>
+<li>The parser combination code looks close to the grammar you would have written</li>
+<li>You can build partial parsers, specific to the data you need at the moment, and ignore the rest</li>
+</ul>
+<p>Here is an example of one such parser, to recognize text between parentheses:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{
+  IResult,
+  sequence::delimited,
+  <span class="comment">// see the &quot;streaming/complete&quot; paragraph lower for an explanation of these submodules
+  </span>character::complete::char,
+  bytes::complete::is_not
+};
+
+<span class="kw">fn </span>parens(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  delimited(char(<span class="string">&#39;(&#39;</span>), is_not(<span class="string">&quot;)&quot;</span>), char(<span class="string">&#39;)&#39;</span>))(input)
+}</code></pre></div>
+<p>It defines a function named <code>parens</code> which will recognize a sequence of the
+character <code>(</code>, the longest byte array not containing <code>)</code>, then the character
+<code>)</code>, and will return the byte array in the middle.</p>
+<p>Here is another parser, written without using nom’s combinators this time:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{IResult, <span class="prelude-val">Err</span>, Needed};
+
+<span class="kw">fn </span>take4(i: <span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], <span class="kw-2">&amp;</span>[u8]&gt;{
+  <span class="kw">if </span>i.len() &lt; <span class="number">4 </span>{
+    <span class="prelude-val">Err</span>(Err::Incomplete(Needed::new(<span class="number">4</span>)))
+  } <span class="kw">else </span>{
+    <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span>i[<span class="number">4</span>..], <span class="kw-2">&amp;</span>i[<span class="number">0</span>..<span class="number">4</span>]))
+  }
+}</code></pre></div>
+<p>This function takes a byte array as input, and tries to consume 4 bytes.
+Writing all the parsers manually, like this, is dangerous, despite Rust’s
+safety features. There are still a lot of mistakes one can make. That’s why
+nom provides a list of functions to help in developing parsers.</p>
+<p>With functions, you would write it like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{IResult, bytes::streaming::take};
+<span class="kw">fn </span>take4(input: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  take(<span class="number">4u8</span>)(input)
+}</code></pre></div>
+<p>A parser in nom is a function which, for an input type <code>I</code>, an output type <code>O</code>
+and an optional error type <code>E</code>, will have the following signature:</p>
+
+<div class="example-wrap compile_fail"><div class='tooltip'>ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>parser(input: I) -&gt; IResult&lt;I, O, E&gt;;</code></pre></div>
+<p>Or like this, if you don’t want to specify a custom error type (it will be <code>(I, ErrorKind)</code> by default):</p>
+
+<div class="example-wrap compile_fail"><div class='tooltip'>ⓘ</div><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>parser(input: I) -&gt; IResult&lt;I, O&gt;;</code></pre></div>
+<p><code>IResult</code> is an alias for the <code>Result</code> type:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{Needed, error::Error};
+
+<span class="kw">type </span>IResult&lt;I, O, E = Error&lt;I&gt;&gt; = <span class="prelude-ty">Result</span>&lt;(I, O), <span class="prelude-val">Err</span>&lt;E&gt;&gt;;
+
+<span class="kw">enum </span><span class="prelude-val">Err</span>&lt;E&gt; {
+  Incomplete(Needed),
+  Error(E),
+  Failure(E),
+}</code></pre></div>
+<p>It can have the following values:</p>
+<ul>
+<li>A correct result <code>Ok((I,O))</code> with the first element being the remaining of the input (not parsed yet), and the second the output value;</li>
+<li>An error <code>Err(Err::Error(c))</code> with <code>c</code> an error that can be built from the input position and a parser specific error</li>
+<li>An error <code>Err(Err::Incomplete(Needed))</code> indicating that more input is necessary. <code>Needed</code> can indicate how much data is needed</li>
+<li>An error <code>Err(Err::Failure(c))</code>. It works like the <code>Error</code> case, except it indicates an unrecoverable error: We cannot backtrack and test another parser</li>
+</ul>
+<p>Please refer to the <a href="https://github.com/Geal/nom/blob/main/doc/choosing_a_combinator.md">“choose a combinator” guide</a> for an exhaustive list of parsers.
+See also the rest of the documentation <a href="https://github.com/Geal/nom/blob/main/doc">here</a>.</p>
+<h3 id="making-new-parsers-with-function-combinators"><a href="#making-new-parsers-with-function-combinators">Making new parsers with function combinators</a></h3>
+<p>nom is based on functions that generate parsers, with a signature like
+this: <code>(arguments) -&gt; impl Fn(Input) -&gt; IResult&lt;Input, Output, Error&gt;</code>.
+The arguments of a combinator can be direct values (like <code>take</code> which uses
+a number of bytes or character as argument) or even other parsers (like
+<code>delimited</code> which takes as argument 3 parsers, and returns the result of
+the second one if all are successful).</p>
+<p>Here are some examples:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::IResult;
+<span class="kw">use </span>nom::bytes::complete::{tag, take};
+<span class="kw">fn </span>abcd_parser(i: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  tag(<span class="string">&quot;abcd&quot;</span>)(i) <span class="comment">// will consume bytes if the input begins with &quot;abcd&quot;
+</span>}
+
+<span class="kw">fn </span>take_10(i: <span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], <span class="kw-2">&amp;</span>[u8]&gt; {
+  take(<span class="number">10u8</span>)(i) <span class="comment">// will consume and return 10 bytes of input
+</span>}</code></pre></div>
+<h3 id="combining-parsers"><a href="#combining-parsers">Combining parsers</a></h3>
+<p>There are higher level patterns, like the <strong><code>alt</code></strong> combinator, which
+provides a choice between multiple parsers. If one branch fails, it tries
+the next, and returns the result of the first parser that succeeds:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::IResult;
+<span class="kw">use </span>nom::branch::alt;
+<span class="kw">use </span>nom::bytes::complete::tag;
+
+<span class="kw">let </span><span class="kw-2">mut </span>alt_tags = alt((tag(<span class="string">&quot;abcd&quot;</span>), tag(<span class="string">&quot;efgh&quot;</span>)));
+
+<span class="macro">assert_eq!</span>(alt_tags(<span class="kw-2">&amp;</span><span class="string">b&quot;abcdxxx&quot;</span>[..]), <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;xxx&quot;</span>[..], <span class="kw-2">&amp;</span><span class="string">b&quot;abcd&quot;</span>[..])));
+<span class="macro">assert_eq!</span>(alt_tags(<span class="kw-2">&amp;</span><span class="string">b&quot;efghxxx&quot;</span>[..]), <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;xxx&quot;</span>[..], <span class="kw-2">&amp;</span><span class="string">b&quot;efgh&quot;</span>[..])));
+<span class="macro">assert_eq!</span>(alt_tags(<span class="kw-2">&amp;</span><span class="string">b&quot;ijklxxx&quot;</span>[..]), <span class="prelude-val">Err</span>(nom::Err::Error((<span class="kw-2">&amp;</span><span class="string">b&quot;ijklxxx&quot;</span>[..], nom::error::ErrorKind::Tag))));</code></pre></div>
+<p>The <strong><code>opt</code></strong> combinator makes a parser optional. If the child parser returns
+an error, <strong><code>opt</code></strong> will still succeed and return None:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{IResult, combinator::opt, bytes::complete::tag};
+<span class="kw">fn </span>abcd_opt(i: <span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;&gt; {
+  opt(tag(<span class="string">&quot;abcd&quot;</span>))(i)
+}
+
+<span class="macro">assert_eq!</span>(abcd_opt(<span class="kw-2">&amp;</span><span class="string">b&quot;abcdxxx&quot;</span>[..]), <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;xxx&quot;</span>[..], <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;abcd&quot;</span>[..]))));
+<span class="macro">assert_eq!</span>(abcd_opt(<span class="kw-2">&amp;</span><span class="string">b&quot;efghxxx&quot;</span>[..]), <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;efghxxx&quot;</span>[..], <span class="prelude-val">None</span>)));</code></pre></div>
+<p><strong><code>many0</code></strong> applies a parser 0 or more times, and returns a vector of the aggregated results:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{IResult, multi::many0, bytes::complete::tag};
+<span class="kw">use </span>std::str;
+
+<span class="kw">fn </span>multi(i: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, Vec&lt;<span class="kw-2">&amp;</span>str&gt;&gt; {
+  many0(tag(<span class="string">&quot;abcd&quot;</span>))(i)
+}
+
+<span class="kw">let </span>a = <span class="string">&quot;abcdef&quot;</span>;
+<span class="kw">let </span>b = <span class="string">&quot;abcdabcdef&quot;</span>;
+<span class="kw">let </span>c = <span class="string">&quot;azerty&quot;</span>;
+<span class="macro">assert_eq!</span>(multi(a), <span class="prelude-val">Ok</span>((<span class="string">&quot;ef&quot;</span>,     <span class="macro">vec!</span>[<span class="string">&quot;abcd&quot;</span>])));
+<span class="macro">assert_eq!</span>(multi(b), <span class="prelude-val">Ok</span>((<span class="string">&quot;ef&quot;</span>,     <span class="macro">vec!</span>[<span class="string">&quot;abcd&quot;</span>, <span class="string">&quot;abcd&quot;</span>])));
+<span class="macro">assert_eq!</span>(multi(c), <span class="prelude-val">Ok</span>((<span class="string">&quot;azerty&quot;</span>, Vec::new())));</code></pre></div>
+<p>Here are some basic combinators available:</p>
+<ul>
+<li><strong><code>opt</code></strong>: Will make the parser optional (if it returns the <code>O</code> type, the new parser returns <code>Option&lt;O&gt;</code>)</li>
+<li><strong><code>many0</code></strong>: Will apply the parser 0 or more times (if it returns the <code>O</code> type, the new parser returns <code>Vec&lt;O&gt;</code>)</li>
+<li><strong><code>many1</code></strong>: Will apply the parser 1 or more times</li>
+</ul>
+<p>There are more complex (and more useful) parsers like <code>tuple</code>, which is
+used to apply a series of parsers then assemble their results.</p>
+<p>Example with <code>tuple</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{error::ErrorKind, Needed,
+number::streaming::be_u16,
+bytes::streaming::{tag, take},
+sequence::tuple};
+
+<span class="kw">let </span><span class="kw-2">mut </span>tpl = tuple((be_u16, take(<span class="number">3u8</span>), tag(<span class="string">&quot;fg&quot;</span>)));
+
+<span class="macro">assert_eq!</span>(
+  tpl(<span class="kw-2">&amp;</span><span class="string">b&quot;abcdefgh&quot;</span>[..]),
+  <span class="prelude-val">Ok</span>((
+    <span class="kw-2">&amp;</span><span class="string">b&quot;h&quot;</span>[..],
+    (<span class="number">0x6162u16</span>, <span class="kw-2">&amp;</span><span class="string">b&quot;cde&quot;</span>[..], <span class="kw-2">&amp;</span><span class="string">b&quot;fg&quot;</span>[..])
+  ))
+);
+<span class="macro">assert_eq!</span>(tpl(<span class="kw-2">&amp;</span><span class="string">b&quot;abcde&quot;</span>[..]), <span class="prelude-val">Err</span>(nom::Err::Incomplete(Needed::new(<span class="number">2</span>))));
+<span class="kw">let </span>input = <span class="kw-2">&amp;</span><span class="string">b&quot;abcdejk&quot;</span>[..];
+<span class="macro">assert_eq!</span>(tpl(input), <span class="prelude-val">Err</span>(nom::Err::Error((<span class="kw-2">&amp;</span>input[<span class="number">5</span>..], ErrorKind::Tag))));</code></pre></div>
+<p>But you can also use a sequence of combinators written in imperative style,
+thanks to the <code>?</code> operator:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{IResult, bytes::complete::tag};
+
+<span class="attribute">#[derive(Debug, PartialEq)]
+</span><span class="kw">struct </span>A {
+  a: u8,
+  b: u8
+}
+
+<span class="kw">fn </span>ret_int1(i:<span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], u8&gt; { <span class="prelude-val">Ok</span>((i,<span class="number">1</span>)) }
+<span class="kw">fn </span>ret_int2(i:<span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], u8&gt; { <span class="prelude-val">Ok</span>((i,<span class="number">2</span>)) }
+
+<span class="kw">fn </span>f(i: <span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], A&gt; {
+  <span class="comment">// if successful, the parser returns `Ok((remaining_input, output_value))` that we can destructure
+  </span><span class="kw">let </span>(i, <span class="kw">_</span>) = tag(<span class="string">&quot;abcd&quot;</span>)(i)<span class="question-mark">?</span>;
+  <span class="kw">let </span>(i, a) = ret_int1(i)<span class="question-mark">?</span>;
+  <span class="kw">let </span>(i, <span class="kw">_</span>) = tag(<span class="string">&quot;efgh&quot;</span>)(i)<span class="question-mark">?</span>;
+  <span class="kw">let </span>(i, b) = ret_int2(i)<span class="question-mark">?</span>;
+
+  <span class="prelude-val">Ok</span>((i, A { a, b }))
+}
+
+<span class="kw">let </span>r = f(<span class="string">b&quot;abcdefghX&quot;</span>);
+<span class="macro">assert_eq!</span>(r, <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;X&quot;</span>[..], A{a: <span class="number">1</span>, b: <span class="number">2</span>})));</code></pre></div>
+<h3 id="streaming--complete"><a href="#streaming--complete">Streaming / Complete</a></h3>
+<p>Some of nom’s modules have <code>streaming</code> or <code>complete</code> submodules. They hold
+different variants of the same combinators.</p>
+<p>A streaming parser assumes that we might not have all of the input data.
+This can happen with some network protocol or large file parsers, where the
+input buffer can be full and need to be resized or refilled.</p>
+<p>A complete parser assumes that we already have all of the input data.
+This will be the common case with small files that can be read entirely to
+memory.</p>
+<p>Here is how it works in practice:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nom::{IResult, <span class="prelude-val">Err</span>, Needed, error::{Error, ErrorKind}, bytes, character};
+
+<span class="kw">fn </span>take_streaming(i: <span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], <span class="kw-2">&amp;</span>[u8]&gt; {
+  bytes::streaming::take(<span class="number">4u8</span>)(i)
+}
+
+<span class="kw">fn </span>take_complete(i: <span class="kw-2">&amp;</span>[u8]) -&gt; IResult&lt;<span class="kw-2">&amp;</span>[u8], <span class="kw-2">&amp;</span>[u8]&gt; {
+  bytes::complete::take(<span class="number">4u8</span>)(i)
+}
+
+<span class="comment">// both parsers will take 4 bytes as expected
+</span><span class="macro">assert_eq!</span>(take_streaming(<span class="kw-2">&amp;</span><span class="string">b&quot;abcde&quot;</span>[..]), <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;e&quot;</span>[..], <span class="kw-2">&amp;</span><span class="string">b&quot;abcd&quot;</span>[..])));
+<span class="macro">assert_eq!</span>(take_complete(<span class="kw-2">&amp;</span><span class="string">b&quot;abcde&quot;</span>[..]), <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="string">b&quot;e&quot;</span>[..], <span class="kw-2">&amp;</span><span class="string">b&quot;abcd&quot;</span>[..])));
+
+<span class="comment">// if the input is smaller than 4 bytes, the streaming parser
+// will return `Incomplete` to indicate that we need more data
+</span><span class="macro">assert_eq!</span>(take_streaming(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..]), <span class="prelude-val">Err</span>(Err::Incomplete(Needed::new(<span class="number">1</span>))));
+
+<span class="comment">// but the complete parser will return an error
+</span><span class="macro">assert_eq!</span>(take_complete(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..]), <span class="prelude-val">Err</span>(Err::Error(Error::new(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..], ErrorKind::Eof))));
+
+<span class="comment">// the alpha0 function recognizes 0 or more alphabetic characters
+</span><span class="kw">fn </span>alpha0_streaming(i: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  character::streaming::alpha0(i)
+}
+
+<span class="kw">fn </span>alpha0_complete(i: <span class="kw-2">&amp;</span>str) -&gt; IResult&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str&gt; {
+  character::complete::alpha0(i)
+}
+
+<span class="comment">// if there&#39;s a clear limit to the recognized characters, both parsers work the same way
+</span><span class="macro">assert_eq!</span>(alpha0_streaming(<span class="string">&quot;abcd;&quot;</span>), <span class="prelude-val">Ok</span>((<span class="string">&quot;;&quot;</span>, <span class="string">&quot;abcd&quot;</span>)));
+<span class="macro">assert_eq!</span>(alpha0_complete(<span class="string">&quot;abcd;&quot;</span>), <span class="prelude-val">Ok</span>((<span class="string">&quot;;&quot;</span>, <span class="string">&quot;abcd&quot;</span>)));
+
+<span class="comment">// but when there&#39;s no limit, the streaming version returns `Incomplete`, because it cannot
+// know if more input data should be recognized. The whole input could be &quot;abcd;&quot;, or
+// &quot;abcde;&quot;
+</span><span class="macro">assert_eq!</span>(alpha0_streaming(<span class="string">&quot;abcd&quot;</span>), <span class="prelude-val">Err</span>(Err::Incomplete(Needed::new(<span class="number">1</span>))));
+
+<span class="comment">// while the complete version knows that all of the data is there
+</span><span class="macro">assert_eq!</span>(alpha0_complete(<span class="string">&quot;abcd&quot;</span>), <span class="prelude-val">Ok</span>((<span class="string">&quot;&quot;</span>, <span class="string">&quot;abcd&quot;</span>)));</code></pre></div>
+<p><strong>Going further:</strong> Read the <a href="https://github.com/Geal/nom/tree/main/doc">guides</a>,
+check out the [recipes]!</p>
+</div></details><h2 id="reexports" class="small-section-header"><a href="#reexports">Re-exports</a></h2><div class="item-table"><div class="item-row"><div class="item-left import-item"><code>pub use self::<a class="mod" href="bits/index.html" title="mod nom::bits">bits</a>::*;</code></div></div></div><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="bits/index.html" title="nom::bits mod">bits</a></div><div class="item-right docblock-short">Bit level parsers</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="branch/index.html" title="nom::branch mod">branch</a></div><div class="item-right docblock-short">Choice combinators</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="bytes/index.html" title="nom::bytes mod">bytes</a></div><div class="item-right docblock-short">Parsers recognizing bytes streams</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="character/index.html" title="nom::character mod">character</a></div><div class="item-right docblock-short">Character specific parsers and combinators</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="combinator/index.html" title="nom::combinator mod">combinator</a></div><div class="item-right docblock-short">General purpose combinators</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="error/index.html" title="nom::error mod">error</a></div><div class="item-right docblock-short">Error management</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="lib/index.html" title="nom::lib mod">lib</a></div><div class="item-right docblock-short">Lib module to re-export everything needed from <code>std</code> or <code>core</code>/<code>alloc</code>. This is how <code>serde</code> does
+it, albeit there it is not public.</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="multi/index.html" title="nom::multi mod">multi</a></div><div class="item-right docblock-short">Combinators applying their child parser multiple times</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="number/index.html" title="nom::number mod">number</a></div><div class="item-right docblock-short">Parsers recognizing numbers</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="sequence/index.html" title="nom::sequence mod">sequence</a></div><div class="item-right docblock-short">Combinators applying parsers in sequence</div></div></div><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.error_node_position.html" title="nom::error_node_position macro">error_node_position</a></div><div class="item-right docblock-short">Creates a parse error from a <code>nom::ErrorKind</code>,
+the position in the input and the next error in
+the parsing tree</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.error_position.html" title="nom::error_position macro">error_position</a></div><div class="item-right docblock-short">Creates a parse error from a <code>nom::ErrorKind</code>
+and the position in the input</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.And.html" title="nom::And struct">And</a></div><div class="item-right docblock-short">Implementation of <code>Parser::and</code></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.AndThen.html" title="nom::AndThen struct">AndThen</a></div><div class="item-right docblock-short">Implementation of <code>Parser::and_then</code></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FlatMap.html" title="nom::FlatMap struct">FlatMap</a></div><div class="item-right docblock-short">Implementation of <code>Parser::flat_map</code></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Into.html" title="nom::Into struct">Into</a></div><div class="item-right docblock-short">Implementation of <code>Parser::into</code></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Map.html" title="nom::Map struct">Map</a></div><div class="item-right docblock-short">Implementation of <code>Parser::map</code></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Or.html" title="nom::Or struct">Or</a></div><div class="item-right docblock-short">Implementation of <code>Parser::or</code></div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.CompareResult.html" title="nom::CompareResult enum">CompareResult</a></div><div class="item-right docblock-short">Indicates whether a comparison was successful, an error, or
+if more data was needed</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Err.html" title="nom::Err enum">Err</a></div><div class="item-right docblock-short">The <code>Err</code> enum indicates the parser was not successful</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Needed.html" title="nom::Needed enum">Needed</a></div><div class="item-right docblock-short">Contains information on needed data if a parser returned <code>Incomplete</code></div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.AsBytes.html" title="nom::AsBytes trait">AsBytes</a></div><div class="item-right docblock-short">Helper trait for types that can be viewed as a byte slice</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.AsChar.html" title="nom::AsChar trait">AsChar</a></div><div class="item-right docblock-short">Transforms common types to a char for basic token parsing</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Compare.html" title="nom::Compare trait">Compare</a></div><div class="item-right docblock-short">Abstracts comparison operations</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ErrorConvert.html" title="nom::ErrorConvert trait">ErrorConvert</a></div><div class="item-right docblock-short">Equivalent From implementation to avoid orphan rules in bits parsers</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ExtendInto.html" title="nom::ExtendInto trait">ExtendInto</a></div><div class="item-right docblock-short">Abstracts something which can extend an <code>Extend</code>.
+Used to build modified input slices in <code>escaped_transform</code></div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.FindSubstring.html" title="nom::FindSubstring trait">FindSubstring</a></div><div class="item-right docblock-short">Look for a substring in self</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.FindToken.html" title="nom::FindToken trait">FindToken</a></div><div class="item-right docblock-short">Look for a token in self</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Finish.html" title="nom::Finish trait">Finish</a></div><div class="item-right docblock-short">Helper trait to convert a parser’s result to a more manageable type</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.HexDisplay.html" title="nom::HexDisplay trait">HexDisplay</a></div><div class="item-right docblock-short">Helper trait to show a byte slice as a hex dump</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.InputIter.html" title="nom::InputIter trait">InputIter</a></div><div class="item-right docblock-short">Abstracts common iteration operations on the input type</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.InputLength.html" title="nom::InputLength trait">InputLength</a></div><div class="item-right docblock-short">Abstract method to calculate the input length</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.InputTake.html" title="nom::InputTake trait">InputTake</a></div><div class="item-right docblock-short">Abstracts slicing operations</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.InputTakeAtPosition.html" title="nom::InputTakeAtPosition trait">InputTakeAtPosition</a></div><div class="item-right docblock-short">Methods to take as much input as possible until the provided function returns true for the current element.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Offset.html" title="nom::Offset trait">Offset</a></div><div class="item-right docblock-short">Useful functions to calculate the offset between slices and show a hexdump of a slice</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ParseTo.html" title="nom::ParseTo trait">ParseTo</a></div><div class="item-right docblock-short">Used to integrate <code>str</code>’s <code>parse()</code> method</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Parser.html" title="nom::Parser trait">Parser</a></div><div class="item-right docblock-short">All nom parsers implement this trait</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Slice.html" title="nom::Slice trait">Slice</a></div><div class="item-right docblock-short">Slicing operations using ranges.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.ToUsize.html" title="nom::ToUsize trait">ToUsize</a></div><div class="item-right docblock-short">Helper trait to convert numbers to usize.</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.UnspecializedInput.html" title="nom::UnspecializedInput trait">UnspecializedInput</a></div><div class="item-right docblock-short">Dummy trait used for default implementations (currently only used for <code>InputTakeAtPosition</code> and <code>Compare</code>).</div></div></div><h2 id="types" class="small-section-header"><a href="#types">Type Definitions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="type" href="type.IResult.html" title="nom::IResult type">IResult</a></div><div class="item-right docblock-short">Holds the result of parsing functions</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="nom" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/petgraph-0.6.1/src/algo/floyd_warshall.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>floyd_warshall.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../petgraph/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../petgraph/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../petgraph/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+</pre><pre class="rust"><code><span class="kw">use </span>std::collections::HashMap;
+
+<span class="kw">use </span>std::hash::Hash;
+
+<span class="kw">use </span><span class="kw">crate</span>::algo::{BoundedMeasure, NegativeCycle};
+<span class="kw">use </span><span class="kw">crate</span>::visit::{EdgeRef, IntoEdgeReferences, IntoNodeIdentifiers, NodeCompactIndexable};
+
+<span class="attribute">#[allow(clippy::type_complexity, clippy::needless_range_loop)]
+</span><span class="doccomment">/// \[Generic\] [Floyd–Warshall algorithm](https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm) is an algorithm for all pairs shortest path problem
+///
+/// Compute shortest paths in a weighted graph with positive or negative edge weights (but with no negative cycles)
+///
+/// # Arguments
+/// * `graph`: graph with no negative cycle
+/// * `edge_cost`: closure that returns cost of a particular edge
+///
+/// # Returns
+/// * `Ok`: (if graph contains no negative cycle) a hashmap containing all pairs shortest paths
+/// * `Err`: if graph contains negative cycle.
+///
+/// # Examples
+/// ```rust
+/// use petgraph::{prelude::*, Graph, Directed};
+/// use petgraph::algo::floyd_warshall;
+/// use std::collections::HashMap;
+///
+/// let mut graph: Graph&lt;(), (), Directed&gt; = Graph::new();
+/// let a = graph.add_node(());
+/// let b = graph.add_node(());
+/// let c = graph.add_node(());
+/// let d = graph.add_node(());
+///
+/// graph.extend_with_edges(&amp;[
+///    (a, b),
+///    (a, c),
+///    (a, d),
+///    (b, c),
+///    (b, d),
+///    (c, d)
+/// ]);
+///
+/// let weight_map: HashMap&lt;(NodeIndex, NodeIndex), i32&gt; = [
+///    ((a, a), 0), ((a, b), 1), ((a, c), 4), ((a, d), 10),
+///    ((b, b), 0), ((b, c), 2), ((b, d), 2),
+///    ((c, c), 0), ((c, d), 2)
+/// ].iter().cloned().collect();
+/// //     ----- b --------
+/// //    |      ^         | 2
+/// //    |    1 |    4    v
+/// //  2 |      a ------&gt; c
+/// //    |   10 |         | 2
+/// //    |      v         v
+/// //     ---&gt;  d &lt;-------
+///
+/// let inf = std::i32::MAX;
+/// let expected_res: HashMap&lt;(NodeIndex, NodeIndex), i32&gt; = [
+///    ((a, a), 0), ((a, b), 1), ((a, c), 3), ((a, d), 3),
+///    ((b, a), inf), ((b, b), 0), ((b, c), 2), ((b, d), 2),
+///    ((c, a), inf), ((c, b), inf), ((c, c), 0), ((c, d), 2),
+///    ((d, a), inf), ((d, b), inf), ((d, c), inf), ((d, d), 0),
+/// ].iter().cloned().collect();
+///
+///
+/// let res = floyd_warshall(&amp;graph, |edge| {
+///     if let Some(weight) = weight_map.get(&amp;(edge.source(), edge.target())) {
+///         *weight
+///     } else {
+///         inf
+///     }
+/// }).unwrap();
+///
+/// let nodes = [a, b, c, d];
+/// for node1 in &amp;nodes {
+///     for node2 in &amp;nodes {
+///         assert_eq!(res.get(&amp;(*node1, *node2)).unwrap(), expected_res.get(&amp;(*node1, *node2)).unwrap());
+///     }
+/// }
+/// ```
+</span><span class="kw">pub fn </span>floyd_warshall&lt;G, F, K&gt;(
+    graph: G,
+    <span class="kw-2">mut </span>edge_cost: F,
+) -&gt; <span class="prelude-ty">Result</span>&lt;HashMap&lt;(G::NodeId, G::NodeId), K&gt;, NegativeCycle&gt;
+<span class="kw">where
+    </span>G: NodeCompactIndexable + IntoEdgeReferences + IntoNodeIdentifiers,
+    G::NodeId: Eq + Hash,
+    F: FnMut(G::EdgeRef) -&gt; K,
+    K: BoundedMeasure + Copy,
+{
+    <span class="kw">let </span>num_of_nodes = graph.node_count();
+
+    <span class="comment">// |V|x|V| matrix
+    </span><span class="kw">let </span><span class="kw-2">mut </span>dist = <span class="macro">vec!</span>[<span class="macro">vec!</span>[K::max(); num_of_nodes]; num_of_nodes];
+
+    <span class="comment">// init distances of paths with no intermediate nodes
+    </span><span class="kw">for </span>edge <span class="kw">in </span>graph.edge_references() {
+        dist[graph.to_index(edge.source())][graph.to_index(edge.target())] = edge_cost(edge);
+    }
+
+    <span class="comment">// distance of each node to itself is 0(default value)
+    </span><span class="kw">for </span>node <span class="kw">in </span>graph.node_identifiers() {
+        dist[graph.to_index(node)][graph.to_index(node)] = K::default();
+    }
+
+    <span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..num_of_nodes {
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num_of_nodes {
+            <span class="kw">for </span>j <span class="kw">in </span><span class="number">0</span>..num_of_nodes {
+                <span class="kw">let </span>(result, overflow) = dist[i][k].overflowing_add(dist[k][j]);
+                <span class="kw">if </span>!overflow &amp;&amp; dist[i][j] &gt; result {
+                    dist[i][j] = result;
+                }
+            }
+        }
+    }
+
+    <span class="comment">// value less than 0(default value) indicates a negative cycle
+    </span><span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num_of_nodes {
+        <span class="kw">if </span>dist[i][i] &lt; K::default() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(NegativeCycle(()));
+        }
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>distance_map: HashMap&lt;(G::NodeId, G::NodeId), K&gt; =
+        HashMap::with_capacity(num_of_nodes * num_of_nodes);
+
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..num_of_nodes {
+        <span class="kw">for </span>j <span class="kw">in </span><span class="number">0</span>..num_of_nodes {
+            distance_map.insert((graph.from_index(i), graph.from_index(j)), dist[i][j]);
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(distance_map)
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="petgraph" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

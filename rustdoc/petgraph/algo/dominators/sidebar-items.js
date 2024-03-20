@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["simple_fast","This is an implementation of the engineered “Simple, Fast Dominance Algorithm” discovered by Cooper et al."]],"struct":[["DominatedByIter","Iterator for nodes dominated by a given node."],["Dominators","The dominance relation for some graph and root."],["DominatorsIter","Iterator for a node’s dominators."]]};

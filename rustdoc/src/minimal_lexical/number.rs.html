@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/minimal-lexical-0.2.1/src/number.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>number.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../minimal_lexical/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../minimal_lexical/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../minimal_lexical/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Representation of a float as the significant digits and exponent.
+//!
+//! This is adapted from [fast-float-rust](https://github.com/aldanor/fast-float-rust),
+//! a port of [fast_float](https://github.com/fastfloat/fast_float) to Rust.
+
+</span><span class="attribute">#![doc(hidden)]
+
+#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::fpu::set_precision;
+<span class="kw">use </span><span class="kw">crate</span>::num::Float;
+
+<span class="doccomment">/// Representation of a number as the significant digits and exponent.
+///
+/// This is only used if the exponent base and the significant digit
+/// radix are the same, since we need to be able to move powers in and
+/// out of the exponent.
+</span><span class="attribute">#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>Number {
+    <span class="doccomment">/// The exponent of the float, scaled to the mantissa.
+    </span><span class="kw">pub </span>exponent: i32,
+    <span class="doccomment">/// The significant digits of the float.
+    </span><span class="kw">pub </span>mantissa: u64,
+    <span class="doccomment">/// If the significant digits were truncated.
+    </span><span class="kw">pub </span>many_digits: bool,
+}
+
+<span class="kw">impl </span>Number {
+    <span class="doccomment">/// Detect if the float can be accurately reconstructed from native floats.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_fast_path&lt;F: Float&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        F::MIN_EXPONENT_FAST_PATH &lt;= <span class="self">self</span>.exponent
+            &amp;&amp; <span class="self">self</span>.exponent &lt;= F::MAX_EXPONENT_DISGUISED_FAST_PATH
+            &amp;&amp; <span class="self">self</span>.mantissa &lt;= F::MAX_MANTISSA_FAST_PATH
+            &amp;&amp; !<span class="self">self</span>.many_digits
+    }
+
+    <span class="doccomment">/// The fast path algorithmn using machine-sized integers and floats.
+    ///
+    /// This is extracted into a separate function so that it can be attempted before constructing
+    /// a Decimal. This only works if both the mantissa and the exponent
+    /// can be exactly represented as a machine float, since IEE-754 guarantees
+    /// no rounding will occur.
+    ///
+    /// There is an exception: disguised fast-path cases, where we can shift
+    /// powers-of-10 from the exponent to the significant digits.
+    </span><span class="kw">pub fn </span>try_fast_path&lt;F: Float&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;F&gt; {
+        <span class="comment">// The fast path crucially depends on arithmetic being rounded to the correct number of bits
+        // without any intermediate rounding. On x86 (without SSE or SSE2) this requires the precision
+        // of the x87 FPU stack to be changed so that it directly rounds to 64/32 bit.
+        // The `set_precision` function takes care of setting the precision on architectures which
+        // require setting it by changing the global state (like the control word of the x87 FPU).
+        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+        </span><span class="kw">let </span>_cw = set_precision::&lt;F&gt;();
+
+        <span class="kw">if </span><span class="self">self</span>.is_fast_path::&lt;F&gt;() {
+            <span class="kw">let </span>max_exponent = F::MAX_EXPONENT_FAST_PATH;
+            <span class="prelude-val">Some</span>(<span class="kw">if </span><span class="self">self</span>.exponent &lt;= max_exponent {
+                <span class="comment">// normal fast path
+                </span><span class="kw">let </span>value = F::from_u64(<span class="self">self</span>.mantissa);
+                <span class="kw">if </span><span class="self">self</span>.exponent &lt; <span class="number">0 </span>{
+                    <span class="comment">// SAFETY: safe, since the `exponent &lt;= max_exponent`.
+                    </span>value / <span class="kw">unsafe </span>{ F::pow_fast_path((-<span class="self">self</span>.exponent) <span class="kw">as _</span>) }
+                } <span class="kw">else </span>{
+                    <span class="comment">// SAFETY: safe, since the `exponent &lt;= max_exponent`.
+                    </span>value * <span class="kw">unsafe </span>{ F::pow_fast_path(<span class="self">self</span>.exponent <span class="kw">as _</span>) }
+                }
+            } <span class="kw">else </span>{
+                <span class="comment">// disguised fast path
+                </span><span class="kw">let </span>shift = <span class="self">self</span>.exponent - max_exponent;
+                <span class="comment">// SAFETY: safe, since `shift &lt;= (max_disguised - max_exponent)`.
+                </span><span class="kw">let </span>int_power = <span class="kw">unsafe </span>{ F::int_pow_fast_path(shift <span class="kw">as </span>usize, <span class="number">10</span>) };
+                <span class="kw">let </span>mantissa = <span class="self">self</span>.mantissa.checked_mul(int_power)<span class="question-mark">?</span>;
+                <span class="kw">if </span>mantissa &gt; F::MAX_MANTISSA_FAST_PATH {
+                    <span class="kw">return </span><span class="prelude-val">None</span>;
+                }
+                <span class="comment">// SAFETY: safe, since the `table.len() - 1 == max_exponent`.
+                </span>F::from_u64(mantissa) * <span class="kw">unsafe </span>{ F::pow_fast_path(max_exponent <span class="kw">as _</span>) }
+            })
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="minimal_lexical" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

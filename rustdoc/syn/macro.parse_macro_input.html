@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Parse the input TokenStream of a macro, triggering a compile error if the tokens fail to parse."><meta name="keywords" content="rust, rustlang, rust-lang, parse_macro_input"><title>parse_macro_input in syn - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../syn/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../syn/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In syn</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../syn/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Macro <a href="index.html">syn</a>::<wbr><a class="macro" href="#">parse_macro_input</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/syn/parse_macro_input.rs.html#108-128">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><div class="example-wrap"><pre class="rust macro"><code><span class="macro">macro_rules! </span>parse_macro_input {
+    (<span class="macro-nonterminal">$tokenstream</span>:ident <span class="kw">as </span><span class="macro-nonterminal">$ty</span>:ty) =&gt; { ... };
+    (<span class="macro-nonterminal">$tokenstream</span>:ident with <span class="macro-nonterminal">$parser</span>:path) =&gt; { ... };
+    (<span class="macro-nonterminal">$tokenstream</span>:ident) =&gt; { ... };
+}</code></pre></div>
+</div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Parse the input TokenStream of a macro, triggering a compile error if the
+tokens fail to parse.</p>
+<p>Refer to the <a href="parse/index.html"><code>parse</code> module</a> documentation for more details about parsing
+in Syn.</p>
+<br>
+<h2 id="intended-usage"><a href="#intended-usage">Intended usage</a></h2>
+<p>This macro must be called from a function that returns
+<code>proc_macro::TokenStream</code>. Usually this will be your proc macro entry point,
+the function that has the #[proc_macro] / #[proc_macro_derive] /
+#[proc_macro_attribute] attribute.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>proc_macro::TokenStream;
+<span class="kw">use </span>syn::{parse_macro_input, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>syn::parse::{Parse, ParseStream};
+
+<span class="kw">struct </span>MyMacroInput {
+    <span class="comment">/* ... */
+</span>}
+
+<span class="kw">impl </span>Parse <span class="kw">for </span>MyMacroInput {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="comment">/* ... */
+    </span>}
+}
+
+<span class="attribute">#[proc_macro]
+</span><span class="kw">pub fn </span>my_macro(tokens: TokenStream) -&gt; TokenStream {
+    <span class="kw">let </span>input = <span class="macro">parse_macro_input!</span>(tokens <span class="kw">as </span>MyMacroInput);
+
+    <span class="comment">/* ... */
+</span>}</code></pre></div>
+<br>
+<h2 id="usage-with-parser"><a href="#usage-with-parser">Usage with Parser</a></h2>
+<p>This macro can also be used with the <a href="parse/trait.Parser.html"><code>Parser</code> trait</a> for types that have
+multiple ways that they can be parsed.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">impl </span>MyMacroInput {
+    <span class="kw">fn </span>parse_alternate(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="comment">/* ... */
+    </span>}
+}
+
+<span class="attribute">#[proc_macro]
+</span><span class="kw">pub fn </span>my_macro(tokens: TokenStream) -&gt; TokenStream {
+    <span class="kw">let </span>input = <span class="macro">parse_macro_input!</span>(tokens with MyMacroInput::parse_alternate);
+
+    <span class="comment">/* ... */
+</span>}</code></pre></div>
+<br>
+<h2 id="expansion"><a href="#expansion">Expansion</a></h2>
+<p><code>parse_macro_input!($variable as $Type)</code> expands to something like:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">match </span>syn::parse::&lt;<span class="macro-nonterminal">$Type</span>&gt;(<span class="macro-nonterminal">$variable</span>) {
+    <span class="prelude-val">Ok</span>(syntax_tree) =&gt; syntax_tree,
+    <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span>proc_macro::TokenStream::from(err.to_compile_error()),
+}</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="syn" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

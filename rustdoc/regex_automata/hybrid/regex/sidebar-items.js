@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Builder","A builder for a regex based on a hybrid NFA/DFA."],["Cache","A cache represents a partially computed forward and reverse DFA."],["FindMatches","An iterator over all non-overlapping matches for an infallible search."],["Regex","A regular expression that uses hybrid NFA/DFAs (also called “lazy DFAs”) for searching."]]};

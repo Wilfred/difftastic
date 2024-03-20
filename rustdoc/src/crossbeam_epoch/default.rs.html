@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/crossbeam-epoch-0.9.8/src/default.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>default.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../crossbeam_epoch/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../crossbeam_epoch/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../crossbeam_epoch/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+</pre><pre class="rust"><code><span class="doccomment">//! The default garbage collector.
+//!
+//! For each thread, a participant is lazily initialized on its first use, when the current thread
+//! is registered in the default collector.  If initialized, the thread&#39;s participant will get
+//! destructed on thread exit, which in turn unregisters the thread.
+
+</span><span class="kw">use </span><span class="kw">crate</span>::collector::{Collector, LocalHandle};
+<span class="kw">use </span><span class="kw">crate</span>::guard::Guard;
+<span class="kw">use </span><span class="kw">crate</span>::primitive::{lazy_static, thread_local};
+
+<span class="macro">lazy_static! </span>{
+    <span class="doccomment">/// The global data for the default garbage collector.
+    </span><span class="kw">static </span><span class="kw-2">ref </span>COLLECTOR: Collector = Collector::new();
+}
+
+<span class="macro">thread_local! </span>{
+    <span class="doccomment">/// The per-thread participant for the default garbage collector.
+    </span><span class="kw">static </span>HANDLE: LocalHandle = COLLECTOR.register();
+}
+
+<span class="doccomment">/// Pins the current thread.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub fn </span>pin() -&gt; Guard {
+    with_handle(|handle| handle.pin())
+}
+
+<span class="doccomment">/// Returns `true` if the current thread is pinned.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub fn </span>is_pinned() -&gt; bool {
+    with_handle(|handle| handle.is_pinned())
+}
+
+<span class="doccomment">/// Returns the default global collector.
+</span><span class="kw">pub fn </span>default_collector() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Collector {
+    <span class="kw-2">&amp;</span>COLLECTOR
+}
+
+<span class="attribute">#[inline]
+</span><span class="kw">fn </span>with_handle&lt;F, R&gt;(<span class="kw-2">mut </span>f: F) -&gt; R
+<span class="kw">where
+    </span>F: FnMut(<span class="kw-2">&amp;</span>LocalHandle) -&gt; R,
+{
+    HANDLE
+        .try_with(|h| f(h))
+        .unwrap_or_else(|<span class="kw">_</span>| f(<span class="kw-2">&amp;</span>COLLECTOR.register()))
+}
+
+<span class="attribute">#[cfg(all(test, not(crossbeam_loom)))]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>crossbeam_utils::thread;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>pin_while_exiting() {
+        <span class="kw">struct </span>Foo;
+
+        <span class="kw">impl </span>Drop <span class="kw">for </span>Foo {
+            <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+                <span class="comment">// Pin after `HANDLE` has been dropped. This must not panic.
+                </span><span class="kw">super</span>::pin();
+            }
+        }
+
+        <span class="macro">thread_local! </span>{
+            <span class="kw">static </span>FOO: Foo = Foo;
+        }
+
+        thread::scope(|scope| {
+            scope.spawn(|<span class="kw">_</span>| {
+                <span class="comment">// Initialize `FOO` and then `HANDLE`.
+                </span>FOO.with(|<span class="kw">_</span>| ());
+                <span class="kw">super</span>::pin();
+                <span class="comment">// At thread exit, `HANDLE` gets dropped first and `FOO` second.
+            </span>});
+        })
+        .unwrap();
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="crossbeam_epoch" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

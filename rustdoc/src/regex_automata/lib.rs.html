@@ -1,0 +1,1298 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-automata-0.3.9/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../regex_automata/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+This crate exposes a variety of regex engines used by the `regex` crate.
+It provides a vast, sprawling and &quot;expert&quot; level API to each regex engine.
+The regex engines provided by this crate focus heavily on finite automata
+implementations and specifically guarantee worst case `O(m * n)` time
+complexity for all searches. (Where `m ~ len(regex)` and `n ~ len(haystack)`.)
+
+The primary goal of this crate is to serve as an implementation detail for the
+`regex` crate. A secondary goal is to make its internals available for use by
+others.
+
+# Table of contents
+
+* [Should I be using this crate?](#should-i-be-using-this-crate) gives some
+reasons for and against using this crate.
+* [Examples](#examples) provides a small selection of things you can do with
+this crate.
+* [Available regex engines](#available-regex-engines) provides a hyperlinked
+list of all regex engines in this crate.
+* [API themes](#api-themes) discusses common elements used throughout this
+crate.
+* [Crate features](#crate-features) documents the extensive list of Cargo
+features available.
+
+# Should I be using this crate?
+
+If you find yourself here because you just want to use regexes, then you should
+first check out whether the [`regex` crate](https://docs.rs/regex) meets
+your needs. It provides a streamlined and difficult-to-misuse API for regex
+searching.
+
+If you&#39;re here because there is something specific you want to do that can&#39;t
+be easily done with `regex` crate, then you are perhaps in the right place.
+It&#39;s most likely that the first stop you&#39;ll want to make is to explore the
+[`meta` regex APIs](meta). Namely, the `regex` crate is just a light wrapper
+over a [`meta::Regex`], so its API will probably be the easiest to transition
+to. In contrast to the `regex` crate, the `meta::Regex` API supports more
+search parameters and does multi-pattern searches. However, it isn&#39;t quite as
+ergonomic.
+
+Otherwise, the following is an inexhaustive list of reasons to use this crate:
+
+* You want to analyze or use a [Thompson `NFA`](nfa::thompson::NFA) directly.
+* You want more powerful multi-pattern search than what is provided by
+`RegexSet` in the `regex` crate. All regex engines in this crate support
+multi-pattern searches.
+* You want to use one of the `regex` crate&#39;s internal engines directly because
+of some interesting configuration that isn&#39;t possible via the `regex` crate.
+For example, a [lazy DFA&#39;s configuration](hybrid::dfa::Config) exposes a
+dizzying number of options for controlling its execution.
+* You want to use the lower level search APIs. For example, both the [lazy
+DFA](hybrid::dfa) and [fully compiled DFAs](dfa) support searching by exploring
+the automaton one state at a time. This might be useful, for example, for
+stream searches or searches of strings stored in non-contiguous in memory.
+* You want to build a fully compiled DFA and then [use zero-copy
+deserialization](dfa::dense::DFA::from_bytes) to load it into memory and use
+it for searching. This use case is supported in core-only no-std/no-alloc
+environments.
+* You want to run [anchored searches](Input::anchored) without using the `^`
+anchor in your regex pattern.
+* You need to work-around contention issues with
+sharing a regex across multiple threads. The
+[`meta::Regex::search_with`](meta::Regex::search_with) API permits bypassing
+any kind of synchronization at all by requiring the caller to provide the
+mutable scratch spaced needed during a search.
+* You want to build your own regex engine on top of the `regex` crate&#39;s
+infrastructure.
+
+# Examples
+
+This section tries to identify a few interesting things you can do with this
+crate and demonstrates them.
+
+### Multi-pattern searches with capture groups
+
+One of the more frustrating limitations of `RegexSet` in the `regex` crate
+(at the time of writing) is that it doesn&#39;t report match positions. With this
+crate, multi-pattern support was intentionally designed in from the beginning,
+which means it works in all regex engines and even for capture groups as well.
+
+This example shows how to search for matches of multiple regexes, where each
+regex uses the same capture group names to parse different key-value formats.
+
+```
+use regex_automata::{meta::Regex, PatternID};
+
+let re = Regex::new_many(&amp;[
+    r#&quot;(?m)^(?&lt;key&gt;[[:word:]]+)=(?&lt;val&gt;[[:word:]]+)$&quot;#,
+    r#&quot;(?m)^(?&lt;key&gt;[[:word:]]+)=&quot;(?&lt;val&gt;[^&quot;]+)&quot;$&quot;#,
+    r#&quot;(?m)^(?&lt;key&gt;[[:word:]]+)=&#39;(?&lt;val&gt;[^&#39;]+)&#39;$&quot;#,
+    r#&quot;(?m)^(?&lt;key&gt;[[:word:]]+):\s*(?&lt;val&gt;[[:word:]]+)$&quot;#,
+])?;
+let hay = r#&quot;
+best_album=&quot;Blow Your Face Out&quot;
+best_quote=&#39;&quot;then as it was, then again it will be&quot;&#39;
+best_year=1973
+best_simpsons_episode: HOMR
+&quot;#;
+let mut kvs = vec![];
+for caps in re.captures_iter(hay) {
+    // N.B. One could use capture indices &#39;1&#39; and &#39;2&#39; here
+    // as well. Capture indices are local to each pattern.
+    // (Just like names are.)
+    let key = &amp;hay[caps.get_group_by_name(&quot;key&quot;).unwrap()];
+    let val = &amp;hay[caps.get_group_by_name(&quot;val&quot;).unwrap()];
+    kvs.push((key, val));
+}
+assert_eq!(kvs, vec![
+    (&quot;best_album&quot;, &quot;Blow Your Face Out&quot;),
+    (&quot;best_quote&quot;, &quot;\&quot;then as it was, then again it will be\&quot;&quot;),
+    (&quot;best_year&quot;, &quot;1973&quot;),
+    (&quot;best_simpsons_episode&quot;, &quot;HOMR&quot;),
+]);
+
+# Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+```
+
+### Build a full DFA and walk it manually
+
+One of the regex engines in this crate is a fully compiled DFA. It takes worst
+case exponential time to build, but once built, it can be easily explored and
+used for searches. Here&#39;s a simple example that uses its lower level APIs to
+implement a simple anchored search by hand.
+
+```
+use regex_automata::{dfa::{Automaton, dense}, Input};
+
+let dfa = dense::DFA::new(r&quot;(?-u)\b[A-Z]\w+z\b&quot;)?;
+let haystack = &quot;Quartz&quot;;
+
+// The start state is determined by inspecting the position and the
+// initial bytes of the haystack.
+let mut state = dfa.start_state_forward(&amp;Input::new(haystack))?;
+// Walk all the bytes in the haystack.
+for &amp;b in haystack.as_bytes().iter() {
+    state = dfa.next_state(state, b);
+}
+// DFAs in this crate require an explicit
+// end-of-input transition if a search reaches
+// the end of a haystack.
+state = dfa.next_eoi_state(state);
+assert!(dfa.is_match_state(state));
+
+# Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+```
+
+Or do the same with a lazy DFA that avoids exponential worst case compile time,
+but requires mutable scratch space to lazily build the DFA during the search.
+
+```
+use regex_automata::{hybrid::dfa::DFA, Input};
+
+let dfa = DFA::new(r&quot;(?-u)\b[A-Z]\w+z\b&quot;)?;
+let mut cache = dfa.create_cache();
+let hay = &quot;Quartz&quot;;
+
+// The start state is determined by inspecting the position and the
+// initial bytes of the haystack.
+let mut state = dfa.start_state_forward(&amp;mut cache, &amp;Input::new(hay))?;
+// Walk all the bytes in the haystack.
+for &amp;b in hay.as_bytes().iter() {
+    state = dfa.next_state(&amp;mut cache, state, b)?;
+}
+// DFAs in this crate require an explicit
+// end-of-input transition if a search reaches
+// the end of a haystack.
+state = dfa.next_eoi_state(&amp;mut cache, state)?;
+assert!(state.is_match());
+
+# Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+```
+
+### Find all overlapping matches
+
+This example shows how to build a DFA and use it to find all possible matches,
+including overlapping matches. A similar example will work with a lazy DFA as
+well. This also works with multiple patterns and will report all matches at the
+same position where multiple patterns match.
+
+```
+use regex_automata::{
+    dfa::{dense, Automaton, OverlappingState},
+    Input, MatchKind,
+};
+
+let dfa = dense::DFA::builder()
+    .configure(dense::DFA::config().match_kind(MatchKind::All))
+    .build(r&quot;(?-u)\w{3,}&quot;)?;
+let input = Input::new(&quot;homer marge bart lisa maggie&quot;);
+let mut state = OverlappingState::start();
+
+let mut matches = vec![];
+while let Some(hm) = {
+    dfa.try_search_overlapping_fwd(&amp;input, &amp;mut state)?;
+    state.get_match()
+} {
+    matches.push(hm.offset());
+}
+assert_eq!(matches, vec![
+    3, 4, 5,        // hom, home, homer
+    9, 10, 11,      // mar, marg, marge
+    15, 16,         // bar, bart
+    20, 21,         // lis, lisa
+    25, 26, 27, 28, // mag, magg, maggi, maggie
+]);
+
+# Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+```
+
+# Available regex engines
+
+The following is a complete list of all regex engines provided by this crate,
+along with a very brief description of it and why you might want to use it.
+
+* [`dfa::regex::Regex`] is a regex engine that works on top of either
+[dense](dfa::dense) or [sparse](dfa::sparse) fully compiled DFAs. You might
+use a DFA if you need the fastest possible regex engine in this crate and can
+afford the exorbitant memory usage usually required by DFAs. Low level APIs on
+fully compiled DFAs are provided by the [`Automaton` trait](dfa::Automaton).
+Fully compiled dense DFAs can handle all regexes except for searching a regex
+with a Unicode word boundary on non-ASCII haystacks. A fully compiled DFA based
+regex can only report the start and end of each match.
+* [`hybrid::regex::Regex`] is a regex engine that works on top of a lazily
+built DFA. Its performance profile is very similar to that of fully compiled
+DFAs, but can be slower in some pathological cases. Fully compiled DFAs are
+also amenable to more optimizations, such as state acceleration, that aren&#39;t
+available in a lazy DFA. You might use this lazy DFA if you can&#39;t abide the
+worst case exponential compile time of a full DFA, but still want the DFA
+search performance in the vast majority of cases. A lazy DFA based regex can
+only report the start and end of each match.
+* [`dfa::onepass::DFA`] is a regex engine that is implemented as a DFA, but
+can report the matches of each capture group in addition to the start and end
+of each match. The catch is that it only works on a somewhat small subset of
+regexes known as &quot;one-pass.&quot; You&#39;ll want to use this for cases when you need
+capture group matches and the regex is one-pass since it is likely to be faster
+than any alternative. A one-pass DFA can handle all types of regexes, but does
+have some reasonable limits on the number of capture groups it can handle.
+* [`nfa::thompson::backtrack::BoundedBacktracker`] is a regex engine that uses
+backtracking, but keeps track of the work it has done to avoid catastrophic
+backtracking. Like the one-pass DFA, it provides the matches of each capture
+group. It retains the `O(m * n)` worst case time bound. This tends to be slower
+than the one-pass DFA regex engine, but faster than the PikeVM. It can handle
+all types of regexes, but usually only works well with small haystacks and
+small regexes due to the memory required to avoid redoing work.
+* [`nfa::thompson::pikevm::PikeVM`] is a regex engine that can handle all
+regexes, of all sizes and provides capture group matches. It tends to be a tool
+of last resort because it is also usually the slowest regex engine.
+* [`meta::Regex`] is the meta regex engine that combines *all* of the above
+engines into one. The reason for this is that each of the engines above have
+their own caveats such as, &quot;only handles a subset of regexes&quot; or &quot;is generally
+slow.&quot; The meta regex engine accounts for all of these caveats and composes
+the engines in a way that attempts to mitigate each engine&#39;s weaknesses while
+emphasizing its strengths. For example, it will attempt to run a lazy DFA even
+if it might fail. In which case, it will restart the search with a likely
+slower but more capable regex engine. The meta regex engine is what you should
+default to. Use one of the above engines directly only if you have a specific
+reason to.
+
+# API themes
+
+While each regex engine has its own APIs and configuration options, there are
+some general themes followed by all of them.
+
+### The `Input` abstraction
+
+Most search routines in this crate accept anything that implements
+`Into&lt;Input&gt;`. Both `&amp;str` and `&amp;[u8]` haystacks satisfy this constraint, which
+means that things like `engine.search(&quot;foo&quot;)` will work as you would expect.
+
+By virtue of accepting an `Into&lt;Input&gt;` though, callers can provide more than
+just a haystack. Indeed, the [`Input`] type has more details, but briefly,
+callers can use it to configure various aspects of the search:
+
+* The span of the haystack to search via [`Input::span`] or [`Input::range`],
+which might be a substring of the haystack.
+* Whether to run an anchored search or not via [`Input::anchored`]. This
+permits one to require matches to start at the same offset that the search
+started.
+* Whether to ask the regex engine to stop as soon as a match is seen via
+[`Input::earliest`]. This can be used to find the offset of a match as soon
+as it is known without waiting for the full leftmost-first match to be found.
+This can also be used to avoid the worst case `O(m * n^2)` time complexity
+of iteration.
+
+Some lower level search routines accept an `&amp;Input` for performance reasons.
+In which case, `&amp;Input::new(&quot;haystack&quot;)` can be used for a simple search.
+
+### Error reporting
+
+Most, but not all, regex engines in this crate can fail to execute a search.
+When a search fails, callers cannot determine whether or not a match exists.
+That is, the result is indeterminate.
+
+Search failure, in all cases in this crate, is represented by a [`MatchError`].
+Routines that can fail start with the `try_` prefix in their name. For example,
+[`hybrid::regex::Regex::try_search`] can fail for a number of reasons.
+Conversely, routines that either can&#39;t fail or can panic on failure lack the
+`try_` prefix. For example, [`hybrid::regex::Regex::find`] will panic in
+cases where [`hybrid::regex::Regex::try_search`] would return an error, and
+[`meta::Regex::find`] will never panic. Therefore, callers need to pay close
+attention to the panicking conditions in the documentation.
+
+In most cases, the reasons that a search fails are either predictable or
+configurable, albeit at some additional cost.
+
+An example of predictable failure is
+[`BoundedBacktracker::try_search`](nfa::thompson::backtrack::BoundedBacktracker::try_search).
+Namely, it fails whenever the multiplication of the haystack, the regex and some
+constant exceeds the
+[configured visited capacity](nfa::thompson::backtrack::Config::visited_capacity).
+Callers can predict the failure in terms of haystack length via the
+[`BoundedBacktracker::max_haystack_len`](nfa::thompson::backtrack::BoundedBacktracker::max_haystack_len)
+method. While this form of failure is technically avoidable by increasing the
+visited capacity, it isn&#39;t practical to do so for all inputs because the
+memory usage required for larger haystacks becomes impractically large. So in
+practice, if one is using the bounded backtracker, you really do have to deal
+with the failure.
+
+An example of configurable failure happens when one enables heuristic support
+for Unicode word boundaries in a DFA. Namely, since the DFAs in this crate
+(except for the one-pass DFA) do not support Unicode word boundaries on
+non-ASCII haystacks, building a DFA from an NFA that contains a Unicode word
+boundary will itself fail. However, one can configure DFAs to still be built in
+this case by
+[configuring heuristic support for Unicode word boundaries](hybrid::dfa::Config::unicode_word_boundary).
+If the NFA the DFA is built from contains a Unicode word boundary, then the
+DFA will still be built, but special transitions will be added to every state
+that cause the DFA to fail if any non-ASCII byte is seen. This failure happens
+at search time and it requires the caller to opt into this.
+
+There are other ways for regex engines to fail in this crate, but the above
+two should represent the general theme of failures one can find. Dealing
+with these failures is, in part, one the responsibilities of the [meta regex
+engine](meta). Notice, for example, that the meta regex engine exposes an API
+that never returns an error nor panics. It carefully manages all of the ways
+in which the regex engines can fail and either avoids the predictable ones
+entirely (e.g., the bounded backtracker) or reacts to configured failures by
+falling back to a different engine (e.g., the lazy DFA quitting because it saw
+a non-ASCII byte).
+
+### Configuration and Builders
+
+Most of the regex engines in this crate come with two types to facilitate
+building the regex engine: a `Config` and a `Builder`. A `Config` is usually
+specific to that particular regex engine, but other objects such as parsing and
+NFA compilation have `Config` types too. A `Builder` is the thing responsible
+for taking inputs (either pattern strings or already-parsed patterns or even
+NFAs directly) and turning them into an actual regex engine that can be used
+for searching.
+
+The main reason why building a regex engine is a bit complicated is because
+of the desire to permit composition with de-coupled components. For example,
+you might want to [manually construct a Thompson NFA](nfa::thompson::Builder)
+and then build a regex engine from it without ever using a regex parser
+at all. On the other hand, you might also want to build a regex engine directly
+from the concrete syntax. This demonstrates why regex engine construction is
+so flexible: it needs to support not just convenient construction, but also
+construction from parts built elsewhere.
+
+This is also in turn why there are many different `Config` structs in this
+crate. Let&#39;s look more closely at an example: [`hybrid::regex::Builder`]. It
+accepts three different `Config` types for configuring construction of a lazy
+DFA regex:
+
+* [`hybrid::regex::Builder::syntax`] accepts a
+[`util::syntax::Config`] for configuring the options found in the
+[`regex-syntax`](regex_syntax) crate. For example, whether to match
+case insensitively.
+* [`hybrid::regex::Builder::thompson`] accepts a [`nfa::thompson::Config`] for
+configuring construction of a [Thompson NFA](nfa::thompson::NFA). For example,
+whether to build an NFA that matches the reverse language described by the
+regex.
+* [`hybrid::regex::Builder::dfa`] accept a [`hybrid::dfa::Config`] for
+configuring construction of the pair of underlying lazy DFAs that make up the
+lazy DFA regex engine. For example, changing the capacity of the cache used to
+store the transition table.
+
+The lazy DFA regex engine uses all three of those configuration objects for
+methods like [`hybrid::regex::Builder::build`], which accepts a pattern
+string containing the concrete syntax of your regex. It uses the syntax
+configuration to parse it into an AST and translate it into an HIR. Then the
+NFA configuration when compiling the HIR into an NFA. And then finally the DFA
+configuration when lazily determinizing the NFA into a DFA.
+
+Notice though that the builder also has a
+[`hybrid::regex::Builder::build_from_dfas`] constructor. This permits callers
+to build the underlying pair of lazy DFAs themselves (one for the forward
+searching to find the end of a match and one for the reverse searching to find
+the start of a match), and then build the regex engine from them. The lazy
+DFAs, in turn, have their own builder that permits [construction directly from
+a Thompson NFA](hybrid::dfa::Builder::build_from_nfa). Continuing down the
+rabbit hole, a Thompson NFA has its own compiler that permits [construction
+directly from an HIR](nfa::thompson::Compiler::build_from_hir). The lazy DFA
+regex engine builder lets you follow this rabbit hole all the way down, but
+also provides convenience routines that do it for you when you don&#39;t need
+precise control over every component.
+
+The [meta regex engine](meta) is a good example of something that utilizes the
+full flexibility of these builders. It often needs not only precise control
+over each component, but also shares them across multiple regex engines.
+(Most sharing is done by internal reference accounting. For example, an
+[`NFA`](nfa::thompson::NFA) is reference counted internally which makes cloning
+cheap.)
+
+### Size limits
+
+Unlike the `regex` crate, the `regex-automata` crate specifically does not
+enable any size limits by default. That means users of this crate need to
+be quite careful when using untrusted patterns. Namely, because bounded
+repetitions can grow exponentially by stacking them, it is possible to build a
+very large internal regex object from just a small pattern string. For example,
+the NFA built from the pattern `a{10}{10}{10}{10}{10}{10}{10}` is over 240MB.
+
+There are multiple size limit options in this crate. If one or more size limits
+are relevant for the object you&#39;re building, they will be configurable via
+methods on a corresponding `Config` type.
+
+# Crate features
+
+This crate has a dizzying number of features. The main idea is to be able to
+control how much stuff you pull in for your specific use case, since the full
+crate is quite large and can dramatically increase compile times and binary
+size.
+
+The most barebones but useful configuration is to disable all default features
+and enable only `dfa-search`. This will bring in just the DFA deserialization
+and search routines without any dependency on `std` or `alloc`. This does
+require generating and serializing a DFA, and then storing it somewhere, but
+it permits regex searches in freestanding or embedded environments.
+
+Because there are so many features, they are split into a few groups.
+
+The default set of features is: `std`, `syntax`, `perf`, `unicode`, `meta`,
+`nfa`, `dfa` and `hybrid`. Basically, the default is to enable everything
+except for development related features like `logging`.
+
+### Ecosystem features
+
+* **std** - Enables use of the standard library. In terms of APIs, this usually
+just means that error types implement the `std::error::Error` trait. Otherwise,
+`std` sometimes enables the code to be faster, for example, using a `HashMap`
+instead of a `BTreeMap`. (The `std` feature matters more for dependencies like
+`aho-corasick` and `memchr`, where `std` is required to enable certain classes
+of SIMD optimizations.) Enabling `std` automatically enables `alloc`.
+* **alloc** - Enables use of the `alloc` library. This is required for most
+APIs in this crate. The main exception is deserializing and searching with
+fully compiled DFAs.
+* **logging** - Adds a dependency on the `log` crate and makes this crate emit
+log messages of varying degrees of utility. The log messages are especially
+useful in trying to understand what the meta regex engine is doing.
+
+### Performance features
+
+* **perf** - Enables all of the below features.
+* **perf-inline** - When enabled, `inline(always)` is used in (many) strategic
+locations to help performance at the expense of longer compile times and
+increased binary size.
+* **perf-literal** - Enables all literal related optimizations.
+    * **perf-literal-substring** - Enables all single substring literal
+    optimizations. This includes adding a dependency on the `memchr` crate.
+    * **perf-literal-multisubstring** - Enables all multiple substring literal
+    optimizations. This includes adding a dependency on the `aho-corasick`
+    crate.
+
+### Unicode features
+
+* **unicode** -
+  Enables all Unicode features. This feature is enabled by default, and will
+  always cover all Unicode features, even if more are added in the future.
+* **unicode-age** -
+  Provide the data for the
+  [Unicode `Age` property](https://www.unicode.org/reports/tr44/tr44-24.html#Character_Age).
+  This makes it possible to use classes like `\p{Age:6.0}` to refer to all
+  codepoints first introduced in Unicode 6.0
+* **unicode-bool** -
+  Provide the data for numerous Unicode boolean properties. The full list
+  is not included here, but contains properties like `Alphabetic`, `Emoji`,
+  `Lowercase`, `Math`, `Uppercase` and `White_Space`.
+* **unicode-case** -
+  Provide the data for case insensitive matching using
+  [Unicode&#39;s &quot;simple loose matches&quot; specification](https://www.unicode.org/reports/tr18/#Simple_Loose_Matches).
+* **unicode-gencat** -
+  Provide the data for
+  [Unicode general categories](https://www.unicode.org/reports/tr44/tr44-24.html#General_Category_Values).
+  This includes, but is not limited to, `Decimal_Number`, `Letter`,
+  `Math_Symbol`, `Number` and `Punctuation`.
+* **unicode-perl** -
+  Provide the data for supporting the Unicode-aware Perl character classes,
+  corresponding to `\w`, `\s` and `\d`. This is also necessary for using
+  Unicode-aware word boundary assertions. Note that if this feature is
+  disabled, the `\s` and `\d` character classes are still available if the
+  `unicode-bool` and `unicode-gencat` features are enabled, respectively.
+* **unicode-script** -
+  Provide the data for
+  [Unicode scripts and script extensions](https://www.unicode.org/reports/tr24/).
+  This includes, but is not limited to, `Arabic`, `Cyrillic`, `Hebrew`,
+  `Latin` and `Thai`.
+* **unicode-segment** -
+  Provide the data necessary to provide the properties used to implement the
+  [Unicode text segmentation algorithms](https://www.unicode.org/reports/tr29/).
+  This enables using classes like `\p{gcb=Extend}`, `\p{wb=Katakana}` and
+  `\p{sb=ATerm}`.
+* **unicode-word-boundary** -
+  Enables support for Unicode word boundaries, i.e., `\b`, in regexes. When
+  this and `unicode-perl` are enabled, then data tables from `regex-syntax` are
+  used to implement Unicode word boundaries. However, if `regex-syntax` isn&#39;t
+  enabled as a dependency then one can still enable this feature. It will
+  cause `regex-automata` to bundle its own data table that would otherwise be
+  redundant with `regex-syntax`&#39;s table.
+
+### Regex engine features
+
+* **syntax** - Enables a dependency on `regex-syntax`. This makes APIs
+for building regex engines from pattern strings available. Without the
+`regex-syntax` dependency, the only way to build a regex engine is generally
+to deserialize a previously built DFA or to hand assemble an NFA using its
+[builder API](nfa::thompson::Builder). Once you have an NFA, you can build any
+of the regex engines in this crate. The `syntax` feature also enables `alloc`.
+* **meta** - Enables the meta regex engine. This also enables the `syntax` and
+`nfa-pikevm` features, as both are the minimal requirements needed. The meta
+regex engine benefits from enabling any of the other regex engines and will
+use them automatically when appropriate.
+* **nfa** - Enables all NFA related features below.
+    * **nfa-thompson** - Enables the Thompson NFA APIs. This enables `alloc`.
+    * **nfa-pikevm** - Enables the PikeVM regex engine. This enables
+    `nfa-thompson`.
+    * **nfa-backtrack** - Enables the bounded backtracker regex engine. This
+    enables `nfa-thompson`.
+* **dfa** - Enables all DFA related features below.
+    * **dfa-build** - Enables APIs for determinizing DFAs from NFAs. This
+    enables `nfa-thompson` and `dfa-search`.
+    * **dfa-search** - Enables APIs for searching with DFAs.
+    * **dfa-onepass** - Enables the one-pass DFA API. This enables
+    `nfa-thompson`.
+* **hybrid** - Enables the hybrid NFA/DFA or &quot;lazy DFA&quot; regex engine. This
+enables `alloc` and `nfa-thompson`.
+
+*/
+
+</span><span class="comment">// We are no_std.
+</span><span class="attribute">#![no_std]
+</span><span class="comment">// All APIs need docs!
+</span><span class="attribute">#![deny(missing_docs)]
+</span><span class="comment">// Some intra-doc links are broken when certain features are disabled, so we
+// only bleat about it when most (all?) features are enabled. But when we do,
+// we block the build. Links need to work.
+</span><span class="attribute">#![cfg_attr(
+    all(
+        feature = <span class="string">&quot;std&quot;</span>,
+        feature = <span class="string">&quot;nfa&quot;</span>,
+        feature = <span class="string">&quot;dfa&quot;</span>,
+        feature = <span class="string">&quot;hybrid&quot;
+    </span>),
+    deny(rustdoc::broken_intra_doc_links)
+)]
+</span><span class="comment">// Broken rustdoc links are very easy to come by when you start disabling
+// features. Namely, features tend to change imports, and imports change what&#39;s
+// available to link to.
+//
+// Basically, we just don&#39;t support rustdoc for anything other than the maximal
+// feature configuration. Other configurations will work, they just won&#39;t be
+// perfect.
+//
+// So here, we specifically allow them so we don&#39;t even get warned about them.
+</span><span class="attribute">#![cfg_attr(
+    not(all(
+        feature = <span class="string">&quot;std&quot;</span>,
+        feature = <span class="string">&quot;nfa&quot;</span>,
+        feature = <span class="string">&quot;dfa&quot;</span>,
+        feature = <span class="string">&quot;hybrid&quot;
+    </span>)),
+    allow(rustdoc::broken_intra_doc_links)
+)]
+</span><span class="comment">// Kinda similar, but eliminating all of the dead code and unused import
+// warnings for every feature combo is a fool&#39;s errand. Instead, we just
+// suppress those, but still let them through in a common configuration when we
+// build most of everything.
+//
+// This does actually suggest that when features are disabled, we are actually
+// compiling more code than we need to be. And this is perhaps not so great
+// because disabling features is usually done in order to reduce compile times
+// by reducing the amount of code one compiles... However, usually, most of the
+// time this dead code is a relatively small amount from the &#39;util&#39; module.
+// But... I confess... There isn&#39;t a ton of visibility on this.
+//
+// I&#39;m happy to try to address this in a different way, but &quot;let&#39;s annotate
+// every function in &#39;util&#39; with some non-local combination of features&quot; just
+// cannot be the way forward.
+</span><span class="attribute">#![cfg_attr(
+    not(all(
+        feature = <span class="string">&quot;std&quot;</span>,
+        feature = <span class="string">&quot;nfa&quot;</span>,
+        feature = <span class="string">&quot;dfa&quot;</span>,
+        feature = <span class="string">&quot;hybrid&quot;</span>,
+        feature = <span class="string">&quot;perf-literal-substring&quot;</span>,
+        feature = <span class="string">&quot;perf-literal-multisubstring&quot;</span>,
+    )),
+    allow(dead_code, unused_imports, unused_variables)
+)]
+</span><span class="comment">// We generally want all types to impl Debug.
+</span><span class="attribute">#![warn(missing_debug_implementations)]
+</span><span class="comment">// No clue why this thing is still unstable because it&#39;s pretty amazing. This
+// adds Cargo feature annotations to items in the rustdoc output. Which is
+// sadly hugely beneficial for this crate due to the number of features.
+</span><span class="attribute">#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
+</span><span class="comment">// I have literally never tested this crate on 16-bit, so it is quite
+// suspicious to advertise support for it. But... the regex crate, at time
+// of writing, at least claims to support it by not doing any conditional
+// compilation based on the target pointer width. So I guess I remain
+// consistent with that here.
+//
+// If you are here because you&#39;re on a 16-bit system and you were somehow using
+// the regex crate previously, please file an issue. Please be prepared to
+// provide some kind of reproduction or carve out some path to getting 16-bit
+// working in CI. (Via qemu?)
+</span><span class="attribute">#[cfg(not(any(
+    target_pointer_width = <span class="string">&quot;16&quot;</span>,
+    target_pointer_width = <span class="string">&quot;32&quot;</span>,
+    target_pointer_width = <span class="string">&quot;64&quot;
+</span>)))]
+</span><span class="macro">compile_error!</span>(<span class="string">&quot;not supported on non-{16,32,64}, please file an issue&quot;</span>);
+
+<span class="attribute">#[cfg(any(test, feature = <span class="string">&quot;std&quot;</span>))]
+</span><span class="kw">extern crate </span>std;
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;alloc&quot;</span>)]
+</span><span class="kw">extern crate </span>alloc;
+
+<span class="attribute">#[cfg(doctest)]
+</span><span class="macro">doc_comment::doctest!</span>(<span class="string">&quot;../README.md&quot;</span>);
+
+<span class="attribute">#[doc(inline)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::util::primitives::PatternID;
+<span class="kw">pub use </span><span class="kw">crate</span>::util::search::<span class="kw-2">*</span>;
+
+<span class="attribute">#[macro_use]
+</span><span class="kw">mod </span>macros;
+
+<span class="attribute">#[cfg(any(feature = <span class="string">&quot;dfa-search&quot;</span>, feature = <span class="string">&quot;dfa-onepass&quot;</span>))]
+</span><span class="kw">pub mod </span>dfa;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;hybrid&quot;</span>)]
+</span><span class="kw">pub mod </span>hybrid;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;meta&quot;</span>)]
+</span><span class="kw">pub mod </span>meta;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;nfa-thompson&quot;</span>)]
+</span><span class="kw">pub mod </span>nfa;
+<span class="kw">pub mod </span>util;
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="regex_automata" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

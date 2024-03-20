@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="github crates-io docs-rs"><meta name="keywords" content="rust, rustlang, rust-lang, ryu"><title>ryu - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../ryu/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../ryu/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate ryu</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 1.0.15</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../ryu/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">ryu</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/ryu/lib.rs.html#1-123">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p><a href="https://github.com/dtolnay/ryu"><img src="https://img.shields.io/badge/github-8da0cb?style=for-the-badge&amp;labelColor=555555&amp;logo=github" alt="github" /></a> <a href="https://crates.io/crates/ryu"><img src="https://img.shields.io/badge/crates.io-fc8d62?style=for-the-badge&amp;labelColor=555555&amp;logo=rust" alt="crates-io" /></a> <a href="https://docs.rs/ryu"><img src="https://img.shields.io/badge/docs.rs-66c2a5?style=for-the-badge&amp;labelColor=555555&amp;logo=docs.rs" alt="docs-rs" /></a></p>
+<br>
+<p>Pure Rust implementation of Ryū, an algorithm to quickly convert floating
+point numbers to decimal strings.</p>
+<p>The PLDI’18 paper <a href="https://dl.acm.org/citation.cfm?id=3192369"><em>Ryū: fast float-to-string conversion</em></a> by Ulf
+Adams includes a complete correctness proof of the algorithm. The paper is
+available under the creative commons CC-BY-SA license.</p>
+<p>This Rust implementation is a line-by-line port of Ulf Adams’ implementation
+in C, <a href="https://github.com/ulfjack/ryu">https://github.com/ulfjack/ryu</a>.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = ryu::Buffer::new();
+    <span class="kw">let </span>printed = buffer.format(<span class="number">1.234</span>);
+    <span class="macro">assert_eq!</span>(printed, <span class="string">&quot;1.234&quot;</span>);
+}</code></pre></div>
+<h3 id="performance-lower-is-better"><a href="#performance-lower-is-better">Performance (lower is better)</a></h3>
+<p><img src="https://raw.githubusercontent.com/dtolnay/ryu/master/performance.png" alt="performance" /></p>
+<p>You can run upstream’s benchmarks with:</p>
+<div class="example-wrap"><pre class="language-console"><code>$ git clone https://github.com/ulfjack/ryu c-ryu
+$ cd c-ryu
+$ bazel run -c opt //ryu/benchmark</code></pre></div>
+<p>And the same benchmark against our implementation with:</p>
+<div class="example-wrap"><pre class="language-console"><code>$ git clone https://github.com/dtolnay/ryu rust-ryu
+$ cd rust-ryu
+$ cargo run --example upstream_benchmark --release</code></pre></div>
+<p>These benchmarks measure the average time to print a 32-bit float and average
+time to print a 64-bit float, where the inputs are distributed as uniform random
+bit patterns 32 and 64 bits wide.</p>
+<p>The upstream C code, the unsafe direct Rust port, and the safe pretty Rust API
+all perform the same, taking around 21 nanoseconds to format a 32-bit float and
+31 nanoseconds to format a 64-bit float.</p>
+<p>There is also a Rust-specific benchmark comparing this implementation to the
+standard library which you can run with:</p>
+<div class="example-wrap"><pre class="language-console"><code>$ cargo bench</code></pre></div>
+<p>The benchmark shows Ryū approximately 2-5x faster than the standard library
+across a range of f32 and f64 inputs. Measurements are in nanoseconds per
+iteration; smaller is better.</p>
+<h3 id="formatting"><a href="#formatting">Formatting</a></h3>
+<p>This library tends to produce more human-readable output than the standard
+library’s to_string, which never uses scientific notation. Here are two
+examples:</p>
+<ul>
+<li><em>ryu:</em> 1.23e40, <em>std:</em> 12300000000000000000000000000000000000000</li>
+<li><em>ryu:</em> 1.23e-40, <em>std:</em> 0.000000000000000000000000000000000000000123</li>
+</ul>
+<p>Both libraries print short decimals such as 0.0000123 without scientific
+notation.</p>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="raw/index.html" title="ryu::raw mod">raw</a></div><div class="item-right docblock-short">Unsafe functions that mirror the API of the C implementation of Ryū.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Buffer.html" title="ryu::Buffer struct">Buffer</a></div><div class="item-right docblock-short">Safe API for formatting floating point numbers to text.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Float.html" title="ryu::Float trait">Float</a></div><div class="item-right docblock-short">A floating point number, f32 or f64, that can be written into a
+<a href="struct.Buffer.html" title="Buffer"><code>ryu::Buffer</code></a>.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="ryu" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Finder","An architecture independent “packed pair” finder."],["Pair","A pair of byte offsets into a needle to use as a predicate."]],"trait":[["HeuristicFrequencyRank","This trait allows the user to customize the heuristic used to determine the relative frequency of a given byte in the dataset being searched."]]};

@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="An extension trait for `std::io::BufRead` which provides convenience APIs for dealing with byte strings."><meta name="keywords" content="rust, rustlang, rust-lang, BufReadExt"><title>BufReadExt in bstr::io - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../bstr/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../bstr/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">BufReadExt</a></h2><div class="sidebar-elems"><section><div class="block"><h3 class="sidebar-title"><a href="#provided-methods">Provided Methods</a></h3><ul><li><a href="#method.byte_lines">byte_lines</a></li><li><a href="#method.byte_records">byte_records</a></li><li><a href="#method.for_byte_line">for_byte_line</a></li><li><a href="#method.for_byte_line_with_terminator">for_byte_line_with_terminator</a></li><li><a href="#method.for_byte_record">for_byte_record</a></li><li><a href="#method.for_byte_record_with_terminator">for_byte_record_with_terminator</a></li></ul></div><div class="block"><h3 class="sidebar-title"><a href="#implementors">Implementors</a></h3></div></section><h2 class="location"><a href="index.html">In bstr::io</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../bstr/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Trait <a href="../index.html">bstr</a>::<wbr><a href="index.html">io</a>::<wbr><a class="trait" href="#">BufReadExt</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/bstr/io.rs.html#19-342">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust trait"><code>pub trait BufReadExt: <a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.BufRead.html" title="trait std::io::BufRead">BufRead</a> {
+    fn <a href="#method.byte_lines" class="fnname">byte_lines</a>(self) -&gt; <a class="struct" href="struct.ByteLines.html" title="struct bstr::io::ByteLines">ByteLines</a>&lt;Self&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="struct.ByteLines.html" title="struct bstr::io::ByteLines">ByteLines</a>&lt;B&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.BufRead.html" title="trait std::io::BufRead">BufRead</a>&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a> for <a class="struct" href="struct.ByteLines.html" title="struct bstr::io::ByteLines">ByteLines</a>&lt;B&gt;</span><span class="where fmt-newline">    type <a href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item" class="associatedtype">Item</a> = <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;&gt;;</span></code></span></span></span></span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.byte_records" class="fnname">byte_records</a>(self, terminator: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>) -&gt; <a class="struct" href="struct.ByteRecords.html" title="struct bstr::io::ByteRecords">ByteRecords</a>&lt;Self&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="struct.ByteRecords.html" title="struct bstr::io::ByteRecords">ByteRecords</a>&lt;B&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.BufRead.html" title="trait std::io::BufRead">BufRead</a>&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a> for <a class="struct" href="struct.ByteRecords.html" title="struct bstr::io::ByteRecords">ByteRecords</a>&lt;B&gt;</span><span class="where fmt-newline">    type <a href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item" class="associatedtype">Item</a> = <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;&gt;;</span></code></span></span></span></span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.for_byte_line" class="fnname">for_byte_line</a>&lt;F&gt;(&amp;mut self, for_each_line: F) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;</span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.for_byte_record" class="fnname">for_byte_record</a>&lt;F&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;terminator: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for_each_record: F<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;</span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.for_byte_line_with_terminator" class="fnname">for_byte_line_with_terminator</a>&lt;F&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for_each_line: F<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;</span>,
+    { ... }
+<span class="item-spacer"></span>    fn <a href="#method.for_byte_record_with_terminator" class="fnname">for_byte_record_with_terminator</a>&lt;F&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;terminator: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for_each_record: F<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;</span>,
+    { ... }
+}</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>An extension trait for
+<a href="https://doc.rust-lang.org/std/io/trait.BufRead.html"><code>std::io::BufRead</code></a>
+which provides convenience APIs for dealing with byte strings.</p>
+</div></details><h2 id="provided-methods" class="small-section-header">Provided Methods<a href="#provided-methods" class="anchor"></a></h2><div class="methods"><details class="rustdoc-toggle" open><summary><div id="method.byte_lines" class="method has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#53-58">source</a><h4 class="code-header">fn <a href="#method.byte_lines" class="fnname">byte_lines</a>(self) -&gt; <a class="struct" href="struct.ByteLines.html" title="struct bstr::io::ByteLines">ByteLines</a>&lt;Self&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="struct.ByteLines.html" title="struct bstr::io::ByteLines">ByteLines</a>&lt;B&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.BufRead.html" title="trait std::io::BufRead">BufRead</a>&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a> for <a class="struct" href="struct.ByteLines.html" title="struct bstr::io::ByteLines">ByteLines</a>&lt;B&gt;</span><span class="where fmt-newline">    type <a href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item" class="associatedtype">Item</a> = <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;&gt;;</span></code></span></span></span></span><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Returns an iterator over the lines of this reader, where each line
+is represented as a byte string.</p>
+<p>Each item yielded by this iterator is a <code>io::Result&lt;Vec&lt;u8&gt;&gt;</code>, where
+an error is yielded if there was a problem reading from the underlying
+reader.</p>
+<p>On success, the next line in the iterator is returned. The line does
+<em>not</em> contain a trailing <code>\n</code> or <code>\r\n</code>.</p>
+<h5 id="examples"><a href="#examples">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>bstr::io::BufReadExt;
+
+<span class="kw">let </span><span class="kw-2">mut </span>cursor = io::Cursor::new(<span class="string">b&quot;lorem\nipsum\r\ndolor&quot;</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>lines = <span class="macro">vec!</span>[];
+<span class="kw">for </span>result <span class="kw">in </span>cursor.byte_lines() {
+    <span class="kw">let </span>line = result<span class="question-mark">?</span>;
+    lines.push(line);
+}
+<span class="macro">assert_eq!</span>(lines.len(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(lines[<span class="number">0</span>], <span class="string">&quot;lorem&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(lines[<span class="number">1</span>], <span class="string">&quot;ipsum&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(lines[<span class="number">2</span>], <span class="string">&quot;dolor&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.byte_records" class="method has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#96-101">source</a><h4 class="code-header">fn <a href="#method.byte_records" class="fnname">byte_records</a>(self, terminator: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>) -&gt; <a class="struct" href="struct.ByteRecords.html" title="struct bstr::io::ByteRecords">ByteRecords</a>&lt;Self&gt;<span class="notable-traits"><span class="notable-traits-tooltip">ⓘ<span class="notable-traits-tooltiptext"><span class="docblock"><span class="notable">Notable traits for <a class="struct" href="struct.ByteRecords.html" title="struct bstr::io::ByteRecords">ByteRecords</a>&lt;B&gt;</span><code class="content"><span class="where fmt-newline">impl&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.BufRead.html" title="trait std::io::BufRead">BufRead</a>&gt; <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a> for <a class="struct" href="struct.ByteRecords.html" title="struct bstr::io::ByteRecords">ByteRecords</a>&lt;B&gt;</span><span class="where fmt-newline">    type <a href="https://doc.rust-lang.org/1.65.0/core/iter/traits/iterator/trait.Iterator.html#associatedtype.Item" class="associatedtype">Item</a> = <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>&gt;&gt;;</span></code></span></span></span></span><span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></div></summary><div class="docblock"><p>Returns an iterator over byte-terminated records of this reader, where
+each record is represented as a byte string.</p>
+<p>Each item yielded by this iterator is a <code>io::Result&lt;Vec&lt;u8&gt;&gt;</code>, where
+an error is yielded if there was a problem reading from the underlying
+reader.</p>
+<p>On success, the next record in the iterator is returned. The record
+does <em>not</em> contain its trailing terminator.</p>
+<p>Note that calling <code>byte_records(b'\n')</code> differs from <code>byte_lines()</code> in
+that it has no special handling for <code>\r</code>.</p>
+<h5 id="examples-1"><a href="#examples-1">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>bstr::io::BufReadExt;
+
+<span class="kw">let </span><span class="kw-2">mut </span>cursor = io::Cursor::new(<span class="string">b&quot;lorem\x00ipsum\x00dolor&quot;</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>records = <span class="macro">vec!</span>[];
+<span class="kw">for </span>result <span class="kw">in </span>cursor.byte_records(<span class="string">b&#39;\x00&#39;</span>) {
+    <span class="kw">let </span>record = result<span class="question-mark">?</span>;
+    records.push(record);
+}
+<span class="macro">assert_eq!</span>(records.len(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(records[<span class="number">0</span>], <span class="string">&quot;lorem&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(records[<span class="number">1</span>], <span class="string">&quot;ipsum&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(records[<span class="number">2</span>], <span class="string">&quot;dolor&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.for_byte_line" class="method has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#139-147">source</a><h4 class="code-header">fn <a href="#method.for_byte_line" class="fnname">for_byte_line</a>&lt;F&gt;(&amp;mut self, for_each_line: F) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;,</span></h4></div></summary><div class="docblock"><p>Executes the given closure on each line in the underlying reader.</p>
+<p>If the closure returns an error (or if the underlying reader returns an
+error), then iteration is stopped and the error is returned. If false
+is returned, then iteration is stopped and no error is returned.</p>
+<p>The closure given is called on exactly the same values as yielded by
+the <a href="trait.BufReadExt.html#method.byte_lines"><code>byte_lines</code></a>
+iterator. Namely, lines do <em>not</em> contain trailing <code>\n</code> or <code>\r\n</code> bytes.</p>
+<p>This routine is useful for iterating over lines as quickly as
+possible. Namely, a single allocation is reused for each line.</p>
+<h5 id="examples-2"><a href="#examples-2">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>bstr::io::BufReadExt;
+
+<span class="kw">let </span><span class="kw-2">mut </span>cursor = io::Cursor::new(<span class="string">b&quot;lorem\nipsum\r\ndolor&quot;</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>lines = <span class="macro">vec!</span>[];
+cursor.for_byte_line(|line| {
+    lines.push(line.to_vec());
+    <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
+})<span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(lines.len(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(lines[<span class="number">0</span>], <span class="string">&quot;lorem&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(lines[<span class="number">1</span>], <span class="string">&quot;ipsum&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(lines[<span class="number">2</span>], <span class="string">&quot;dolor&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.for_byte_record" class="method has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#186-198">source</a><h4 class="code-header">fn <a href="#method.for_byte_record" class="fnname">for_byte_record</a>&lt;F&gt;(&amp;mut self, terminator: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>, for_each_record: F) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;,</span></h4></div></summary><div class="docblock"><p>Executes the given closure on each byte-terminated record in the
+underlying reader.</p>
+<p>If the closure returns an error (or if the underlying reader returns an
+error), then iteration is stopped and the error is returned. If false
+is returned, then iteration is stopped and no error is returned.</p>
+<p>The closure given is called on exactly the same values as yielded by
+the <a href="trait.BufReadExt.html#method.byte_records"><code>byte_records</code></a>
+iterator. Namely, records do <em>not</em> contain a trailing terminator byte.</p>
+<p>This routine is useful for iterating over records as quickly as
+possible. Namely, a single allocation is reused for each record.</p>
+<h5 id="examples-3"><a href="#examples-3">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>bstr::io::BufReadExt;
+
+<span class="kw">let </span><span class="kw-2">mut </span>cursor = io::Cursor::new(<span class="string">b&quot;lorem\x00ipsum\x00dolor&quot;</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>records = <span class="macro">vec!</span>[];
+cursor.for_byte_record(<span class="string">b&#39;\x00&#39;</span>, |record| {
+    records.push(record.to_vec());
+    <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
+})<span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(records.len(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(records[<span class="number">0</span>], <span class="string">&quot;lorem&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(records[<span class="number">1</span>], <span class="string">&quot;ipsum&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(records[<span class="number">2</span>], <span class="string">&quot;dolor&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.for_byte_line_with_terminator" class="method has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#240-249">source</a><h4 class="code-header">fn <a href="#method.for_byte_line_with_terminator" class="fnname">for_byte_line_with_terminator</a>&lt;F&gt;(&amp;mut self, for_each_line: F) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;,</span></h4></div></summary><div class="docblock"><p>Executes the given closure on each line in the underlying reader.</p>
+<p>If the closure returns an error (or if the underlying reader returns an
+error), then iteration is stopped and the error is returned. If false
+is returned, then iteration is stopped and no error is returned.</p>
+<p>Unlike
+<a href="trait.BufReadExt.html#method.for_byte_line"><code>for_byte_line</code></a>,
+the lines given to the closure <em>do</em> include the line terminator, if one
+exists.</p>
+<p>This routine is useful for iterating over lines as quickly as
+possible. Namely, a single allocation is reused for each line.</p>
+<p>This is identical to <code>for_byte_record_with_terminator</code> with a
+terminator of <code>\n</code>.</p>
+<h5 id="examples-4"><a href="#examples-4">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>bstr::io::BufReadExt;
+
+<span class="kw">let </span><span class="kw-2">mut </span>cursor = io::Cursor::new(<span class="string">b&quot;lorem\nipsum\r\ndolor&quot;</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>lines = <span class="macro">vec!</span>[];
+cursor.for_byte_line_with_terminator(|line| {
+    lines.push(line.to_vec());
+    <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
+})<span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(lines.len(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(lines[<span class="number">0</span>], <span class="string">&quot;lorem\n&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(lines[<span class="number">1</span>], <span class="string">&quot;ipsum\r\n&quot;</span>.as_bytes());
+<span class="macro">assert_eq!</span>(lines[<span class="number">2</span>], <span class="string">&quot;dolor&quot;</span>.as_bytes());</code></pre></div>
+</div></details><details class="rustdoc-toggle" open><summary><div id="method.for_byte_record_with_terminator" class="method has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#289-341">source</a><h4 class="code-header">fn <a href="#method.for_byte_record_with_terminator" class="fnname">for_byte_record_with_terminator</a>&lt;F&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;terminator: <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;for_each_record: F<br>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.unit.html">()</a>&gt;<span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/1.65.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.65.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.bool.html">bool</a>&gt;,</span></h4></div></summary><div class="docblock"><p>Executes the given closure on each byte-terminated record in the
+underlying reader.</p>
+<p>If the closure returns an error (or if the underlying reader returns an
+error), then iteration is stopped and the error is returned. If false
+is returned, then iteration is stopped and no error is returned.</p>
+<p>Unlike
+<a href="trait.BufReadExt.html#method.for_byte_record"><code>for_byte_record</code></a>,
+the lines given to the closure <em>do</em> include the record terminator, if
+one exists.</p>
+<p>This routine is useful for iterating over records as quickly as
+possible. Namely, a single allocation is reused for each record.</p>
+<h5 id="examples-5"><a href="#examples-5">Examples</a></h5>
+<p>Basic usage:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>bstr::{io::BufReadExt, B};
+
+<span class="kw">let </span><span class="kw-2">mut </span>cursor = io::Cursor::new(<span class="string">b&quot;lorem\x00ipsum\x00dolor&quot;</span>);
+
+<span class="kw">let </span><span class="kw-2">mut </span>records = <span class="macro">vec!</span>[];
+cursor.for_byte_record_with_terminator(<span class="string">b&#39;\x00&#39;</span>, |record| {
+    records.push(record.to_vec());
+    <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
+})<span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(records.len(), <span class="number">3</span>);
+<span class="macro">assert_eq!</span>(records[<span class="number">0</span>], B(<span class="string">b&quot;lorem\x00&quot;</span>));
+<span class="macro">assert_eq!</span>(records[<span class="number">1</span>], B(<span class="string">&quot;ipsum\x00&quot;</span>));
+<span class="macro">assert_eq!</span>(records[<span class="number">2</span>], B(<span class="string">&quot;dolor&quot;</span>));</code></pre></div>
+</div></details></div><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor"></a></h2><div class="item-list" id="implementors-list"><section id="impl-BufReadExt-for-B" class="impl has-srclink"><a class="srclink rightside" href="../../src/bstr/io.rs.html#344">source</a><a href="#impl-BufReadExt-for-B" class="anchor"></a><h3 class="code-header in-band">impl&lt;B:&nbsp;<a class="trait" href="https://doc.rust-lang.org/1.65.0/std/io/trait.BufRead.html" title="trait std::io::BufRead">BufRead</a>&gt; <a class="trait" href="trait.BufReadExt.html" title="trait bstr::io::BufReadExt">BufReadExt</a> for B</h3></section></div><script src="../../implementors/bstr/io/trait.BufReadExt.js" async></script></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="bstr" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

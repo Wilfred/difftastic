@@ -1,0 +1,344 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libm-0.2.7/src/libm_helper.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>libm_helper.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libm/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+</pre><pre class="rust"><code><span class="kw">use </span>core::marker::PhantomData;
+
+<span class="kw">use crate</span>::<span class="kw-2">*</span>;
+
+<span class="doccomment">/// Generic helper for libm functions, abstracting over f32 and f64. &lt;br/&gt;
+/// # Type Parameter:
+/// - `T`: Either `f32` or `f64`
+///
+/// # Examples
+/// ```rust
+/// use libm::{self, Libm};
+///
+/// const PI_F32: f32 = 3.1415927410e+00;
+/// const PI_F64: f64 = 3.1415926535897931160e+00;
+///
+/// assert!(Libm::&lt;f32&gt;::cos(0.0f32) == libm::cosf(0.0));
+/// assert!(Libm::&lt;f32&gt;::sin(PI_F32) == libm::sinf(PI_F32));
+///
+/// assert!(Libm::&lt;f64&gt;::cos(0.0f64) == libm::cos(0.0));
+/// assert!(Libm::&lt;f64&gt;::sin(PI_F64) == libm::sin(PI_F64));
+/// ```
+</span><span class="kw">pub struct </span>Libm&lt;T&gt;(PhantomData&lt;T&gt;);
+
+<span class="macro">macro_rules! </span>libm_helper {
+    (<span class="macro-nonterminal">$t</span>:ident, funcs: <span class="macro-nonterminal">$funcs</span>:tt) =&gt; {
+        <span class="kw">impl </span>Libm&lt;<span class="macro-nonterminal">$t</span>&gt; {
+            <span class="attribute">#![allow(unused_parens)]
+
+            </span><span class="macro">libm_helper! </span>{ <span class="macro-nonterminal">$funcs </span>}
+        }
+    };
+
+    ({$(<span class="macro-nonterminal">$func</span>:tt);<span class="kw-2">*</span>}) =&gt; {
+        $(
+            <span class="macro">libm_helper! </span>{ <span class="macro-nonterminal">$func </span>}
+        )*
+    };
+
+    ((<span class="kw">fn </span><span class="macro-nonterminal">$func</span>:ident($(<span class="macro-nonterminal">$arg</span>:ident: <span class="macro-nonterminal">$arg_typ</span>:ty),<span class="kw-2">*</span>) -&gt; ($(<span class="macro-nonterminal">$ret_typ</span>:ty),<span class="kw-2">*</span>); =&gt; <span class="macro-nonterminal">$libm_fn</span>:ident)) =&gt; {
+        <span class="attribute">#[inline(always)]
+        </span><span class="kw">pub fn </span><span class="macro-nonterminal">$func</span>($(<span class="macro-nonterminal">$arg</span>: <span class="macro-nonterminal">$arg_typ</span>),<span class="kw-2">*</span>) -&gt; ($(<span class="macro-nonterminal">$ret_typ</span>),<span class="kw-2">*</span>) {
+            <span class="macro-nonterminal">$libm_fn</span>($(<span class="macro-nonterminal">$arg</span>),<span class="kw-2">*</span>)
+        }
+    };
+}
+
+<span class="macro">libm_helper! </span>{
+    f32,
+    funcs: {
+        (<span class="kw">fn </span>acos(x: f32) -&gt; (f32);                  =&gt; acosf);
+        (<span class="kw">fn </span>acosh(x: f32) -&gt; (f32);                 =&gt; acoshf);
+        (<span class="kw">fn </span>asin(x: f32) -&gt; (f32);                  =&gt; asinf);
+        (<span class="kw">fn </span>asinh(x: f32) -&gt; (f32);                 =&gt; asinhf);
+        (<span class="kw">fn </span>atan(x: f32) -&gt; (f32);                  =&gt; atanf);
+        (<span class="kw">fn </span>atan2(y: f32, x: f32) -&gt; (f32);         =&gt; atan2f);
+        (<span class="kw">fn </span>atanh(x: f32) -&gt; (f32);                 =&gt; atanhf);
+        (<span class="kw">fn </span>cbrt(x: f32) -&gt; (f32);                  =&gt; cbrtf);
+        (<span class="kw">fn </span>ceil(x: f32) -&gt; (f32);                  =&gt; ceilf);
+        (<span class="kw">fn </span>copysign(x: f32, y: f32) -&gt; (f32);      =&gt; copysignf);
+        (<span class="kw">fn </span>cos(x: f32) -&gt; (f32);                   =&gt; cosf);
+        (<span class="kw">fn </span>cosh(x: f32) -&gt; (f32);                  =&gt; coshf);
+        (<span class="kw">fn </span>erf(x: f32) -&gt; (f32);                   =&gt; erff);
+        (<span class="kw">fn </span>erfc(x: f32) -&gt; (f32);                  =&gt; erfcf);
+        (<span class="kw">fn </span>exp(x: f32) -&gt; (f32);                   =&gt; expf);
+        (<span class="kw">fn </span>exp2(x: f32) -&gt; (f32);                  =&gt; exp2f);
+        (<span class="kw">fn </span>exp10(x: f32) -&gt; (f32);                 =&gt; exp10f);
+        (<span class="kw">fn </span>expm1(x: f32) -&gt; (f32);                 =&gt; expm1f);
+        (<span class="kw">fn </span>fabs(x: f32) -&gt; (f32);                  =&gt; fabsf);
+        (<span class="kw">fn </span>fdim(x: f32, y: f32) -&gt; (f32);          =&gt; fdimf);
+        (<span class="kw">fn </span>floor(x: f32) -&gt; (f32);                 =&gt; floorf);
+        (<span class="kw">fn </span>fma(x: f32, y: f32, z: f32) -&gt; (f32);   =&gt; fmaf);
+        (<span class="kw">fn </span>fmax(x: f32, y: f32) -&gt; (f32);          =&gt; fmaxf);
+        (<span class="kw">fn </span>fmin(x: f32, y: f32) -&gt; (f32);          =&gt; fminf);
+        (<span class="kw">fn </span>fmod(x: f32, y: f32) -&gt; (f32);          =&gt; fmodf);
+        (<span class="kw">fn </span>frexp(x: f32) -&gt; (f32, i32);            =&gt; frexpf);
+        (<span class="kw">fn </span>hypot(x: f32, y: f32) -&gt; (f32);         =&gt; hypotf);
+        (<span class="kw">fn </span>ilogb(x: f32) -&gt; (i32);                 =&gt; ilogbf);
+        (<span class="kw">fn </span>j0(x: f32) -&gt; (f32);                    =&gt; j0f);
+        (<span class="kw">fn </span>j1(x: f32) -&gt; (f32);                    =&gt; j1f);
+        (<span class="kw">fn </span>jn(n: i32, x: f32) -&gt; (f32);            =&gt; jnf);
+        (<span class="kw">fn </span>ldexp(x: f32, n: i32) -&gt; (f32);         =&gt; ldexpf);
+        (<span class="kw">fn </span>lgamma_r(x: f32) -&gt; (f32, i32);         =&gt; lgammaf_r);
+        (<span class="kw">fn </span>lgamma(x: f32) -&gt; (f32);                =&gt; lgammaf);
+        (<span class="kw">fn </span>log(x: f32) -&gt; (f32);                   =&gt; logf);
+        (<span class="kw">fn </span>log1p(x: f32) -&gt; (f32);                 =&gt; log1pf);
+        (<span class="kw">fn </span>log2(x: f32) -&gt; (f32);                  =&gt; log2f);
+        (<span class="kw">fn </span>log10(x: f32) -&gt; (f32);                 =&gt; log10f);
+        (<span class="kw">fn </span>modf(x: f32) -&gt; (f32, f32);             =&gt; modff);
+        (<span class="kw">fn </span>nextafter(x: f32, y: f32) -&gt; (f32);     =&gt; nextafterf);
+        (<span class="kw">fn </span>pow(x: f32, y: f32) -&gt; (f32);           =&gt; powf);
+        (<span class="kw">fn </span>remainder(x: f32, y: f32) -&gt; (f32);     =&gt; remainderf);
+        (<span class="kw">fn </span>remquo(x: f32, y: f32) -&gt; (f32, i32);   =&gt; remquof);
+        (<span class="kw">fn </span>rint(x: f32) -&gt; (f32);                  =&gt; rintf);
+        (<span class="kw">fn </span>round(x: f32) -&gt; (f32);                 =&gt; roundf);
+        (<span class="kw">fn </span>scalbn(x: f32, n: i32) -&gt; (f32);        =&gt; scalbnf);
+        (<span class="kw">fn </span>sin(x: f32) -&gt; (f32);                   =&gt; sinf);
+        (<span class="kw">fn </span>sincos(x: f32) -&gt; (f32, f32);           =&gt; sincosf);
+        (<span class="kw">fn </span>sinh(x: f32) -&gt; (f32);                  =&gt; sinhf);
+        (<span class="kw">fn </span>sqrt(x: f32) -&gt; (f32);                  =&gt; sqrtf);
+        (<span class="kw">fn </span>tan(x: f32) -&gt; (f32);                   =&gt; tanf);
+        (<span class="kw">fn </span>tanh(x: f32) -&gt; (f32);                  =&gt; tanhf);
+        (<span class="kw">fn </span>tgamma(x: f32) -&gt; (f32);                =&gt; tgammaf);
+        (<span class="kw">fn </span>trunc(x: f32) -&gt; (f32);                 =&gt; truncf);
+        (<span class="kw">fn </span>y0(x: f32) -&gt; (f32);                    =&gt; y0f);
+        (<span class="kw">fn </span>y1(x: f32) -&gt; (f32);                    =&gt; y1f);
+        (<span class="kw">fn </span>yn(n: i32, x: f32) -&gt; (f32);            =&gt; ynf)
+    }
+}
+
+<span class="macro">libm_helper! </span>{
+    f64,
+    funcs: {
+        (<span class="kw">fn </span>acos(x: f64) -&gt; (f64);                  =&gt; acos);
+        (<span class="kw">fn </span>acosh(x: f64) -&gt; (f64);                 =&gt; acosh);
+        (<span class="kw">fn </span>asin(x: f64) -&gt; (f64);                  =&gt; asin);
+        (<span class="kw">fn </span>asinh(x: f64) -&gt; (f64);                 =&gt; asinh);
+        (<span class="kw">fn </span>atan(x: f64) -&gt; (f64);                  =&gt; atan);
+        (<span class="kw">fn </span>atan2(y: f64, x: f64) -&gt; (f64);         =&gt; atan2);
+        (<span class="kw">fn </span>atanh(x: f64) -&gt; (f64);                 =&gt; atanh);
+        (<span class="kw">fn </span>cbrt(x: f64) -&gt; (f64);                  =&gt; cbrt);
+        (<span class="kw">fn </span>ceil(x: f64) -&gt; (f64);                  =&gt; ceil);
+        (<span class="kw">fn </span>copysign(x: f64, y: f64) -&gt; (f64);      =&gt; copysign);
+        (<span class="kw">fn </span>cos(x: f64) -&gt; (f64);                   =&gt; cos);
+        (<span class="kw">fn </span>cosh(x: f64) -&gt; (f64);                  =&gt; cosh);
+        (<span class="kw">fn </span>erf(x: f64) -&gt; (f64);                   =&gt; erf);
+        (<span class="kw">fn </span>erfc(x: f64) -&gt; (f64);                  =&gt; erfc);
+        (<span class="kw">fn </span>exp(x: f64) -&gt; (f64);                   =&gt; exp);
+        (<span class="kw">fn </span>exp2(x: f64) -&gt; (f64);                  =&gt; exp2);
+        (<span class="kw">fn </span>exp10(x: f64) -&gt; (f64);                 =&gt; exp10);
+        (<span class="kw">fn </span>expm1(x: f64) -&gt; (f64);                 =&gt; expm1);
+        (<span class="kw">fn </span>fabs(x: f64) -&gt; (f64);                  =&gt; fabs);
+        (<span class="kw">fn </span>fdim(x: f64, y: f64) -&gt; (f64);          =&gt; fdim);
+        (<span class="kw">fn </span>floor(x: f64) -&gt; (f64);                 =&gt; floor);
+        (<span class="kw">fn </span>fma(x: f64, y: f64, z: f64) -&gt; (f64);   =&gt; fma);
+        (<span class="kw">fn </span>fmax(x: f64, y: f64) -&gt; (f64);          =&gt; fmax);
+        (<span class="kw">fn </span>fmin(x: f64, y: f64) -&gt; (f64);          =&gt; fmin);
+        (<span class="kw">fn </span>fmod(x: f64, y: f64) -&gt; (f64);          =&gt; fmod);
+        (<span class="kw">fn </span>frexp(x: f64) -&gt; (f64, i32);            =&gt; frexp);
+        (<span class="kw">fn </span>hypot(x: f64, y: f64) -&gt; (f64);         =&gt; hypot);
+        (<span class="kw">fn </span>ilogb(x: f64) -&gt; (i32);                 =&gt; ilogb);
+        (<span class="kw">fn </span>j0(x: f64) -&gt; (f64);                    =&gt; j0);
+        (<span class="kw">fn </span>j1(x: f64) -&gt; (f64);                    =&gt; j1);
+        (<span class="kw">fn </span>jn(n: i32, x: f64) -&gt; (f64);            =&gt; jn);
+        (<span class="kw">fn </span>ldexp(x: f64, n: i32) -&gt; (f64);         =&gt; ldexp);
+        (<span class="kw">fn </span>lgamma_r(x: f64) -&gt; (f64, i32);         =&gt; lgamma_r);
+        (<span class="kw">fn </span>lgamma(x: f64) -&gt; (f64);                =&gt; lgamma);
+        (<span class="kw">fn </span>log(x: f64) -&gt; (f64);                   =&gt; log);
+        (<span class="kw">fn </span>log1p(x: f64) -&gt; (f64);                 =&gt; log1p);
+        (<span class="kw">fn </span>log2(x: f64) -&gt; (f64);                  =&gt; log2);
+        (<span class="kw">fn </span>log10(x: f64) -&gt; (f64);                 =&gt; log10);
+        (<span class="kw">fn </span>modf(x: f64) -&gt; (f64, f64);             =&gt; modf);
+        (<span class="kw">fn </span>nextafter(x: f64, y: f64) -&gt; (f64);     =&gt; nextafter);
+        (<span class="kw">fn </span>pow(x: f64, y: f64) -&gt; (f64);           =&gt; pow);
+        (<span class="kw">fn </span>remainder(x: f64, y: f64) -&gt; (f64);     =&gt; remainder);
+        (<span class="kw">fn </span>remquo(x: f64, y: f64) -&gt; (f64, i32);   =&gt; remquo);
+        (<span class="kw">fn </span>rint(x: f64) -&gt; (f64);                  =&gt; rint);
+        (<span class="kw">fn </span>round(x: f64) -&gt; (f64);                 =&gt; round);
+        (<span class="kw">fn </span>scalbn(x: f64, n: i32) -&gt; (f64);        =&gt; scalbn);
+        (<span class="kw">fn </span>sin(x: f64) -&gt; (f64);                   =&gt; sin);
+        (<span class="kw">fn </span>sincos(x: f64) -&gt; (f64, f64);           =&gt; sincos);
+        (<span class="kw">fn </span>sinh(x: f64) -&gt; (f64);                  =&gt; sinh);
+        (<span class="kw">fn </span>sqrt(x: f64) -&gt; (f64);                  =&gt; sqrt);
+        (<span class="kw">fn </span>tan(x: f64) -&gt; (f64);                   =&gt; tan);
+        (<span class="kw">fn </span>tanh(x: f64) -&gt; (f64);                  =&gt; tanh);
+        (<span class="kw">fn </span>tgamma(x: f64) -&gt; (f64);                =&gt; tgamma);
+        (<span class="kw">fn </span>trunc(x: f64) -&gt; (f64);                 =&gt; trunc);
+        (<span class="kw">fn </span>y0(x: f64) -&gt; (f64);                    =&gt; y0);
+        (<span class="kw">fn </span>y1(x: f64) -&gt; (f64);                    =&gt; y1);
+        (<span class="kw">fn </span>yn(n: i32, x: f64) -&gt; (f64);            =&gt; yn)
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

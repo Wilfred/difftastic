@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Minimal, flexible command-line parser"><meta name="keywords" content="rust, rustlang, rust-lang, clap_lex"><title>clap_lex - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../clap_lex/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../clap_lex/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate clap_lex</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.2.4</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../clap_lex/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">clap_lex</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/clap_lex/lib.rs.html#1-484">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Minimal, flexible command-line parser</p>
+<p>As opposed to a declarative parser, this processes arguments as a stream of tokens.  As lexing
+a command-line is not context-free, we rely on the caller to decide how to interpret the
+arguments.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>Args {
+    paths: Vec&lt;PathBuf&gt;,
+    color: Color,
+    verbosity: usize,
+}
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">enum </span>Color {
+    Always,
+    Auto,
+    Never,
+}
+
+<span class="kw">impl </span>Color {
+    <span class="kw">fn </span>parse(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>clap_lex::RawOsStr&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BoxedError&gt; {
+        <span class="kw">let </span>s = s.map(|s| s.to_str().ok_or(s));
+        <span class="kw">match </span>s {
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="string">&quot;always&quot;</span>)) | <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="string">&quot;&quot;</span>)) | <span class="prelude-val">None </span>=&gt; {
+                <span class="prelude-val">Ok</span>(Color::Always)
+            }
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="string">&quot;auto&quot;</span>)) =&gt; {
+                <span class="prelude-val">Ok</span>(Color::Auto)
+            }
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="string">&quot;never&quot;</span>)) =&gt; {
+                <span class="prelude-val">Ok</span>(Color::Never)
+            }
+            <span class="prelude-val">Some</span>(invalid) =&gt; {
+                <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Invalid value for `--color`, {:?}&quot;</span>, invalid).into())
+            }
+        }
+    }
+}
+
+<span class="kw">fn </span>parse_args(
+    raw: <span class="kw">impl </span>IntoIterator&lt;Item=<span class="kw">impl </span>Into&lt;std::ffi::OsString&gt;&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;Args, BoxedError&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>args = Args {
+        paths: Vec::new(),
+        color: Color::Auto,
+        verbosity: <span class="number">0</span>,
+    };
+
+    <span class="kw">let </span>raw = clap_lex::RawArgs::new(raw);
+    <span class="kw">let </span><span class="kw-2">mut </span>cursor = raw.cursor();
+    raw.next(<span class="kw-2">&amp;mut </span>cursor);  <span class="comment">// Skip the bin
+    </span><span class="kw">while let </span><span class="prelude-val">Some</span>(arg) = raw.next(<span class="kw-2">&amp;mut </span>cursor) {
+        <span class="kw">if </span>arg.is_escape() {
+            args.paths.extend(raw.remaining(<span class="kw-2">&amp;mut </span>cursor).map(PathBuf::from));
+        } <span class="kw">else if </span>arg.is_stdio() {
+            args.paths.push(PathBuf::from(<span class="string">&quot;-&quot;</span>));
+        } <span class="kw">else if let </span><span class="prelude-val">Some</span>((long, value)) = arg.to_long() {
+            <span class="kw">match </span>long {
+                <span class="prelude-val">Ok</span>(<span class="string">&quot;verbose&quot;</span>) =&gt; {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(value) = value {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;`--verbose` does not take a value, got `{:?}`&quot;</span>, value).into());
+                    }
+                    args.verbosity += <span class="number">1</span>;
+                }
+                <span class="prelude-val">Ok</span>(<span class="string">&quot;color&quot;</span>) =&gt; {
+                    args.color = Color::parse(value)<span class="question-mark">?</span>;
+                }
+                <span class="kw">_ </span>=&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(
+                        <span class="macro">format!</span>(<span class="string">&quot;Unexpected flag: --{}&quot;</span>, arg.display()).into()
+                    );
+                }
+            }
+        } <span class="kw">else if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>shorts) = arg.to_short() {
+            <span class="kw">while let </span><span class="prelude-val">Some</span>(short) = shorts.next_flag() {
+                <span class="kw">match </span>short {
+                    <span class="prelude-val">Ok</span>(<span class="string">&#39;v&#39;</span>) =&gt; {
+                        args.verbosity += <span class="number">1</span>;
+                    }
+                    <span class="prelude-val">Ok</span>(<span class="string">&#39;c&#39;</span>) =&gt; {
+                        <span class="kw">let </span>value = shorts.next_value_os();
+                        args.color = Color::parse(value)<span class="question-mark">?</span>;
+                    }
+                    <span class="prelude-val">Ok</span>(c) =&gt; {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Unexpected flag: -{}&quot;</span>, c).into());
+                    }
+                    <span class="prelude-val">Err</span>(e) =&gt; {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Unexpected flag: -{}&quot;</span>, e.to_str_lossy()).into());
+                    }
+                }
+            }
+        } <span class="kw">else </span>{
+            args.paths.push(PathBuf::from(arg.to_value_os().to_os_str().into_owned()));
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(args)
+}
+
+<span class="kw">let </span>args = parse_args([<span class="string">&quot;bin&quot;</span>, <span class="string">&quot;--hello&quot;</span>, <span class="string">&quot;world&quot;</span>]);
+<span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, args);</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ArgCursor.html" title="clap_lex::ArgCursor struct">ArgCursor</a></div><div class="item-right docblock-short">Position within <a href="struct.RawArgs.html" title="RawArgs"><code>RawArgs</code></a></div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ParsedArg.html" title="clap_lex::ParsedArg struct">ParsedArg</a></div><div class="item-right docblock-short">Command-line Argument</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RawArgs.html" title="clap_lex::RawArgs struct">RawArgs</a></div><div class="item-right docblock-short">Command-line arguments</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RawOsStr.html" title="clap_lex::RawOsStr struct">RawOsStr</a></div><div class="item-right docblock-short">A container for the byte strings converted by <a href="../os_str_bytes/trait.OsStrBytes.html" title="OsStrBytes"><code>OsStrBytes</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.RawOsString.html" title="clap_lex::RawOsString struct">RawOsString</a></div><div class="item-right docblock-short">A container for the byte strings converted by <a href="../os_str_bytes/trait.OsStringBytes.html" title="OsStringBytes"><code>OsStringBytes</code></a>.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ShortFlags.html" title="clap_lex::ShortFlags struct">ShortFlags</a></div><div class="item-right docblock-short">Walk through short flags within a <a href="struct.ParsedArg.html" title="ParsedArg"><code>ParsedArg</code></a></div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.SeekFrom.html" title="clap_lex::SeekFrom enum">SeekFrom</a></div><div class="item-right docblock-short">Enumeration of possible methods to seek within an I/O object.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="clap_lex" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

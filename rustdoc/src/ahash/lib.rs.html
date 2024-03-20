@@ -1,0 +1,796 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/ahash-0.8.9/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../ahash/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../ahash/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../ahash/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+</pre><pre class="rust"><code><span class="doccomment">//! AHash is a high performance keyed hash function.
+//!
+//! It quickly provides a high quality hash where the result is not predictable without knowing the Key.
+//! AHash works with `HashMap` to hash keys, but without allowing for the possibility that an malicious user can
+//! induce a collision.
+//!
+//! # How aHash works
+//!
+//! When it is available aHash uses the hardware AES instructions to provide a keyed hash function.
+//! When it is not, aHash falls back on a slightly slower alternative algorithm.
+//!
+//! Because aHash does not have a fixed standard for its output, it is able to improve over time.
+//! But this also means that different computers or computers using different versions of ahash may observe different
+//! hash values for the same input.
+</span><span class="attribute">#![cfg_attr(
+    all(
+        feature = <span class="string">&quot;std&quot;</span>,
+        any(feature = <span class="string">&quot;compile-time-rng&quot;</span>, feature = <span class="string">&quot;runtime-rng&quot;</span>, feature = <span class="string">&quot;no-rng&quot;</span>)
+    ),
+    doc = <span class="string">r##&quot;
+# Basic Usage
+AHash provides an implementation of the [Hasher] trait.
+To construct a HashMap using aHash as its hasher do the following:
+```
+use ahash::{AHasher, RandomState};
+use std::collections::HashMap;
+
+let mut map: HashMap&lt;i32, i32, RandomState&gt; = HashMap::default();
+map.insert(12, 34);
+```
+
+### Randomness
+
+The above requires a source of randomness to generate keys for the hashmap. By default this obtained from the OS.
+It is also possible to have randomness supplied via the `compile-time-rng` flag, or manually.
+
+### If randomess is not available
+
+[AHasher::default()] can be used to hash using fixed keys. This works with
+[BuildHasherDefault](std::hash::BuildHasherDefault). For example:
+
+```
+use std::hash::BuildHasherDefault;
+use std::collections::HashMap;
+use ahash::AHasher;
+
+let mut m: HashMap&lt;_, _, BuildHasherDefault&lt;AHasher&gt;&gt; = HashMap::default();
+ # m.insert(12, 34);
+```
+It is also possible to instantiate [RandomState] directly:
+
+```
+use ahash::HashMap;
+use ahash::RandomState;
+
+let mut m = HashMap::with_hasher(RandomState::with_seed(42));
+ # m.insert(1, 2);
+```
+Or for uses besides a hashhmap:
+```
+use std::hash::BuildHasher;
+use ahash::RandomState;
+
+let hash_builder = RandomState::with_seed(42);
+let hash = hash_builder.hash_one(&quot;Some Data&quot;);
+```
+There are several constructors for [RandomState] with different ways to supply seeds.
+
+# Convenience wrappers
+
+For convenience, both new-type wrappers and type aliases are provided.
+
+The new type wrappers are called called `AHashMap` and `AHashSet`.
+```
+use ahash::AHashMap;
+
+let mut map: AHashMap&lt;i32, i32&gt; = AHashMap::new();
+map.insert(12, 34);
+```
+This avoids the need to type &quot;RandomState&quot;. (For convenience `From`, `Into`, and `Deref` are provided).
+
+# Aliases
+
+For even less typing and better interop with existing libraries (such as rayon) which require a `std::collection::HashMap` ,
+the type aliases [HashMap], [HashSet] are provided.
+
+```
+use ahash::{HashMap, HashMapExt};
+
+let mut map: HashMap&lt;i32, i32&gt; = HashMap::new();
+map.insert(12, 34);
+```
+Note the import of [HashMapExt]. This is needed for the constructor.
+
+&quot;##
+</span>)]
+#![deny(clippy::correctness, clippy::complexity, clippy::perf)]
+#![allow(clippy::pedantic, clippy::cast_lossless, clippy::unreadable_literal)]
+#![cfg_attr(all(not(test), not(feature = <span class="string">&quot;std&quot;</span>)), no_std)]
+#![cfg_attr(feature = <span class="string">&quot;specialize&quot;</span>, feature(min_specialization))]
+#![cfg_attr(feature = <span class="string">&quot;nightly-arm-aes&quot;</span>, feature(stdarch_arm_neon_intrinsics))]
+
+#[macro_use]
+</span><span class="kw">mod </span>convert;
+
+<span class="kw">mod </span>fallback_hash;
+
+<span class="macro">cfg_if::cfg_if! </span>{
+    <span class="kw">if </span><span class="attribute">#[cfg(any(
+            all(any(target_arch = <span class="string">&quot;x86&quot;</span>, target_arch = <span class="string">&quot;x86_64&quot;</span>), target_feature = <span class="string">&quot;aes&quot;</span>, not(miri)),
+            all(feature = <span class="string">&quot;nightly-arm-aes&quot;</span>, target_arch = <span class="string">&quot;aarch64&quot;</span>, target_feature = <span class="string">&quot;aes&quot;</span>, not(miri)),
+            all(feature = <span class="string">&quot;nightly-arm-aes&quot;</span>, target_arch = <span class="string">&quot;arm&quot;</span>, target_feature = <span class="string">&quot;aes&quot;</span>, not(miri)),
+        ))] </span>{
+        <span class="kw">mod </span>aes_hash;
+        <span class="kw">pub use </span><span class="kw">crate</span>::aes_hash::AHasher;
+    } <span class="kw">else </span>{
+        <span class="kw">pub use </span><span class="kw">crate</span>::fallback_hash::AHasher;
+    }
+}
+
+<span class="macro">cfg_if::cfg_if! </span>{
+    <span class="kw">if </span><span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)] </span>{
+        <span class="kw">mod </span>hash_map;
+        <span class="kw">mod </span>hash_set;
+
+        <span class="kw">pub use </span><span class="kw">crate</span>::hash_map::AHashMap;
+        <span class="kw">pub use </span><span class="kw">crate</span>::hash_set::AHashSet;
+
+        <span class="doccomment">/// [Hasher]: std::hash::Hasher
+        /// [HashMap]: std::collections::HashMap
+        /// Type alias for [HashMap]&lt;K, V, ahash::RandomState&gt;
+        </span><span class="kw">pub type </span>HashMap&lt;K, V&gt; = std::collections::HashMap&lt;K, V, <span class="kw">crate</span>::RandomState&gt;;
+
+        <span class="doccomment">/// Type alias for [HashSet]&lt;K, ahash::RandomState&gt;
+        </span><span class="kw">pub type </span>HashSet&lt;K&gt; = std::collections::HashSet&lt;K, <span class="kw">crate</span>::RandomState&gt;;
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>hash_quality_test;
+
+<span class="kw">mod </span>operations;
+<span class="kw">pub mod </span>random_state;
+<span class="kw">mod </span>specialize;
+
+<span class="kw">pub use </span><span class="kw">crate</span>::random_state::RandomState;
+
+<span class="kw">use </span>core::hash::BuildHasher;
+<span class="kw">use </span>core::hash::Hash;
+<span class="kw">use </span>core::hash::Hasher;
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="doccomment">/// A convenience trait that can be used together with the type aliases defined to
+/// get access to the `new()` and `with_capacity()` methods for the HashMap type alias.
+</span><span class="kw">pub trait </span>HashMapExt {
+    <span class="doccomment">/// Constructs a new HashMap
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Constructs a new HashMap with a given initial capacity
+    </span><span class="kw">fn </span>with_capacity(capacity: usize) -&gt; <span class="self">Self</span>;
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="doccomment">/// A convenience trait that can be used together with the type aliases defined to
+/// get access to the `new()` and `with_capacity()` methods for the HashSet type aliases.
+</span><span class="kw">pub trait </span>HashSetExt {
+    <span class="doccomment">/// Constructs a new HashSet
+    </span><span class="kw">fn </span>new() -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Constructs a new HashSet with a given initial capacity
+    </span><span class="kw">fn </span>with_capacity(capacity: usize) -&gt; <span class="self">Self</span>;
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="kw">impl</span>&lt;K, V, S&gt; HashMapExt <span class="kw">for </span>std::collections::HashMap&lt;K, V, S&gt;
+<span class="kw">where
+    </span>S: BuildHasher + Default,
+{
+    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        std::collections::HashMap::with_hasher(S::default())
+    }
+
+    <span class="kw">fn </span>with_capacity(capacity: usize) -&gt; <span class="self">Self </span>{
+        std::collections::HashMap::with_capacity_and_hasher(capacity, S::default())
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="kw">impl</span>&lt;K, S&gt; HashSetExt <span class="kw">for </span>std::collections::HashSet&lt;K, S&gt;
+<span class="kw">where
+    </span>S: BuildHasher + Default,
+{
+    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        std::collections::HashSet::with_hasher(S::default())
+    }
+
+    <span class="kw">fn </span>with_capacity(capacity: usize) -&gt; <span class="self">Self </span>{
+        std::collections::HashSet::with_capacity_and_hasher(capacity, S::default())
+    }
+}
+
+<span class="doccomment">/// Provides a default [Hasher] with fixed keys.
+/// This is typically used in conjunction with [BuildHasherDefault] to create
+/// [AHasher]s in order to hash the keys of the map.
+///
+/// Generally it is preferable to use [RandomState] instead, so that different
+/// hashmaps will have different keys. However if fixed keys are desirable this
+/// may be used instead.
+///
+/// # Example
+/// ```
+/// use std::hash::BuildHasherDefault;
+/// use ahash::{AHasher, RandomState};
+/// use std::collections::HashMap;
+///
+/// let mut map: HashMap&lt;i32, i32, BuildHasherDefault&lt;AHasher&gt;&gt; = HashMap::default();
+/// map.insert(12, 34);
+/// ```
+///
+/// [BuildHasherDefault]: std::hash::BuildHasherDefault
+/// [Hasher]: std::hash::Hasher
+/// [HashMap]: std::collections::HashMap
+</span><span class="kw">impl </span>Default <span class="kw">for </span>AHasher {
+    <span class="doccomment">/// Constructs a new [AHasher] with fixed keys.
+    /// If `std` is enabled these will be generated upon first invocation.
+    /// Otherwise if the `compile-time-rng`feature is enabled these will be generated at compile time.
+    /// If neither of these features are available, hardcoded constants will be used.
+    ///
+    /// Because the values are fixed, different hashers will all hash elements the same way.
+    /// This could make hash values predictable, if DOS attacks are a concern. If this behaviour is
+    /// not required, it may be preferable to use [RandomState] instead.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use ahash::AHasher;
+    /// use std::hash::Hasher;
+    ///
+    /// let mut hasher_1 = AHasher::default();
+    /// let mut hasher_2 = AHasher::default();
+    ///
+    /// hasher_1.write_u32(1234);
+    /// hasher_2.write_u32(1234);
+    ///
+    /// assert_eq!(hasher_1.finish(), hasher_2.finish());
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; AHasher {
+        RandomState::with_fixed_keys().build_hasher()
+    }
+}
+
+<span class="doccomment">/// Used for specialization. (Sealed)
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>BuildHasherExt: BuildHasher {
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>hash_as_u64&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64;
+
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>hash_as_fixed_length&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64;
+
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>hash_as_str&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64;
+}
+
+<span class="kw">impl</span>&lt;B: BuildHasher&gt; BuildHasherExt <span class="kw">for </span>B {
+    <span class="attribute">#[inline]
+    #[cfg(feature = <span class="string">&quot;specialize&quot;</span>)]
+    </span>default <span class="kw">fn </span>hash_as_u64&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
+        value.hash(<span class="kw-2">&amp;mut </span>hasher);
+        hasher.finish()
+    }
+    <span class="attribute">#[inline]
+    #[cfg(not(feature = <span class="string">&quot;specialize&quot;</span>))]
+    </span><span class="kw">fn </span>hash_as_u64&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
+        value.hash(<span class="kw-2">&amp;mut </span>hasher);
+        hasher.finish()
+    }
+    <span class="attribute">#[inline]
+    #[cfg(feature = <span class="string">&quot;specialize&quot;</span>)]
+    </span>default <span class="kw">fn </span>hash_as_fixed_length&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
+        value.hash(<span class="kw-2">&amp;mut </span>hasher);
+        hasher.finish()
+    }
+    <span class="attribute">#[inline]
+    #[cfg(not(feature = <span class="string">&quot;specialize&quot;</span>))]
+    </span><span class="kw">fn </span>hash_as_fixed_length&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
+        value.hash(<span class="kw-2">&amp;mut </span>hasher);
+        hasher.finish()
+    }
+    <span class="attribute">#[inline]
+    #[cfg(feature = <span class="string">&quot;specialize&quot;</span>)]
+    </span>default <span class="kw">fn </span>hash_as_str&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
+        value.hash(<span class="kw-2">&amp;mut </span>hasher);
+        hasher.finish()
+    }
+    <span class="attribute">#[inline]
+    #[cfg(not(feature = <span class="string">&quot;specialize&quot;</span>))]
+    </span><span class="kw">fn </span>hash_as_str&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
+        value.hash(<span class="kw-2">&amp;mut </span>hasher);
+        hasher.finish()
+    }
+}
+
+<span class="comment">// #[inline(never)]
+// #[doc(hidden)]
+// pub fn hash_test(input: &amp;[u8]) -&gt; u64 {
+//     let a = RandomState::with_seeds(11, 22, 33, 44);
+//     &lt;[u8]&gt;::get_hash(input, &amp;a)
+// }
+
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+#[cfg(test)]
+</span><span class="kw">mod </span>test {
+    <span class="kw">use </span><span class="kw">crate</span>::convert::Convert;
+    <span class="kw">use </span><span class="kw">crate</span>::specialize::CallHasher;
+    <span class="kw">use crate</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>std::collections::HashMap;
+    <span class="kw">use </span>std::hash::Hash;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_ahash_alias_map_construction() {
+        <span class="kw">let </span><span class="kw-2">mut </span>map = <span class="kw">super</span>::HashMap::with_capacity(<span class="number">1234</span>);
+        map.insert(<span class="number">1</span>, <span class="string">&quot;test&quot;</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_ahash_alias_set_construction() {
+        <span class="kw">let </span><span class="kw-2">mut </span>set = <span class="kw">super</span>::HashSet::with_capacity(<span class="number">1234</span>);
+        set.insert(<span class="number">1</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_default_builder() {
+        <span class="kw">use </span>core::hash::BuildHasherDefault;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;u32, u64, BuildHasherDefault&lt;AHasher&gt;&gt;::default();
+        map.insert(<span class="number">1</span>, <span class="number">3</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_builder() {
+        <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::&lt;u32, u64, RandomState&gt;::default();
+        map.insert(<span class="number">1</span>, <span class="number">3</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_conversion() {
+        <span class="kw">let </span>input: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;dddddddd&quot;</span>;
+        <span class="kw">let </span>bytes: u64 = <span class="macro">as_array!</span>(input, <span class="number">8</span>).convert();
+        <span class="macro">assert_eq!</span>(bytes, <span class="number">0x6464646464646464</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_non_zero() {
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher1 = AHasher::new_with_keys(<span class="number">0</span>, <span class="number">0</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher2 = AHasher::new_with_keys(<span class="number">0</span>, <span class="number">0</span>);
+        <span class="string">&quot;foo&quot;</span>.hash(<span class="kw-2">&amp;mut </span>hasher1);
+        <span class="string">&quot;bar&quot;</span>.hash(<span class="kw-2">&amp;mut </span>hasher2);
+        <span class="macro">assert_ne!</span>(hasher1.finish(), <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(hasher2.finish(), <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(hasher1.finish(), hasher2.finish());
+
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher1 = AHasher::new_with_keys(<span class="number">0</span>, <span class="number">0</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher2 = AHasher::new_with_keys(<span class="number">0</span>, <span class="number">0</span>);
+        <span class="number">3_u64</span>.hash(<span class="kw-2">&amp;mut </span>hasher1);
+        <span class="number">4_u64</span>.hash(<span class="kw-2">&amp;mut </span>hasher2);
+        <span class="macro">assert_ne!</span>(hasher1.finish(), <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(hasher2.finish(), <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(hasher1.finish(), hasher2.finish());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_non_zero_specialized() {
+        <span class="kw">let </span>hasher_build = RandomState::with_seeds(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+        <span class="kw">let </span>h1 = str::get_hash(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>hasher_build);
+        <span class="kw">let </span>h2 = str::get_hash(<span class="string">&quot;bar&quot;</span>, <span class="kw-2">&amp;</span>hasher_build);
+        <span class="macro">assert_ne!</span>(h1, <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(h2, <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(h1, h2);
+
+        <span class="kw">let </span>h1 = u64::get_hash(<span class="kw-2">&amp;</span><span class="number">3_u64</span>, <span class="kw-2">&amp;</span>hasher_build);
+        <span class="kw">let </span>h2 = u64::get_hash(<span class="kw-2">&amp;</span><span class="number">4_u64</span>, <span class="kw-2">&amp;</span>hasher_build);
+        <span class="macro">assert_ne!</span>(h1, <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(h2, <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(h1, h2);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_ahasher_construction() {
+        <span class="kw">let _ </span>= AHasher::new_with_keys(<span class="number">1234</span>, <span class="number">5678</span>);
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ahash" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

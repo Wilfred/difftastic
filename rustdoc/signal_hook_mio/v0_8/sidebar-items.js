@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Pending","The iterator of one batch of signals."],["SignalsInfo","A struct which mimics [`signal_hook::iterator::SignalsInfo`] but also allows usage together with MIO runtime."]],"type":[["Signals","A simplified signal iterator."]]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["LineNumber","A distinct number type for line numbers, to prevent confusion with other numerical data."],["LinePositions","A struct for efficiently converting absolute string positions to line-relative positions."],["SingleLineSpan","A range within a single line of a string."]]};

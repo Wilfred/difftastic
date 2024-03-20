@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["dfa","Types and routines specific to lazy DFAs."],["regex","A lazy DFA backed `Regex`."]],"struct":[["BuildError","An error that occurs when initial construction of a lazy DFA fails."],["CacheError","An error that occurs when cache usage has become inefficient."],["LazyStateID","A state identifier specifically tailored for lazy DFAs."]]};

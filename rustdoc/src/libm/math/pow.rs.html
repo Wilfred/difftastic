@@ -1,0 +1,1276 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libm-0.2.7/src/math/pow.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pow.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../libm/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+</pre><pre class="rust"><code><span class="comment">/* origin: FreeBSD /usr/src/lib/msun/src/e_pow.c */
+/*
+ * ====================================================
+ * Copyright (C) 2004 by Sun Microsystems, Inc. All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this
+ * software is freely granted, provided that this notice
+ * is preserved.
+ * ====================================================
+ */
+
+// pow(x,y) return x**y
+//
+//                    n
+// Method:  Let x =  2   * (1+f)
+//      1. Compute and return log2(x) in two pieces:
+//              log2(x) = w1 + w2,
+//         where w1 has 53-24 = 29 bit trailing zeros.
+//      2. Perform y*log2(x) = n+y&#39; by simulating muti-precision
+//         arithmetic, where |y&#39;|&lt;=0.5.
+//      3. Return x**y = 2**n*exp(y&#39;*log2)
+//
+// Special cases:
+//      1.  (anything) ** 0  is 1
+//      2.  1 ** (anything)  is 1
+//      3.  (anything except 1) ** NAN is NAN
+//      4.  NAN ** (anything except 0) is NAN
+//      5.  +-(|x| &gt; 1) **  +INF is +INF
+//      6.  +-(|x| &gt; 1) **  -INF is +0
+//      7.  +-(|x| &lt; 1) **  +INF is +0
+//      8.  +-(|x| &lt; 1) **  -INF is +INF
+//      9.  -1          ** +-INF is 1
+//      10. +0 ** (+anything except 0, NAN)               is +0
+//      11. -0 ** (+anything except 0, NAN, odd integer)  is +0
+//      12. +0 ** (-anything except 0, NAN)               is +INF, raise divbyzero
+//      13. -0 ** (-anything except 0, NAN, odd integer)  is +INF, raise divbyzero
+//      14. -0 ** (+odd integer) is -0
+//      15. -0 ** (-odd integer) is -INF, raise divbyzero
+//      16. +INF ** (+anything except 0,NAN) is +INF
+//      17. +INF ** (-anything except 0,NAN) is +0
+//      18. -INF ** (+odd integer) is -INF
+//      19. -INF ** (anything) = -0 ** (-anything), (anything except odd integer)
+//      20. (anything) ** 1 is (anything)
+//      21. (anything) ** -1 is 1/(anything)
+//      22. (-anything) ** (integer) is (-1)**(integer)*(+anything**integer)
+//      23. (-anything except 0 and inf) ** (non-integer) is NAN
+//
+// Accuracy:
+//      pow(x,y) returns x**y nearly rounded. In particular
+//                      pow(integer,integer)
+//      always returns the correct integer provided it is
+//      representable.
+//
+// Constants :
+// The hexadecimal values are the intended ones for the following
+// constants. The decimal values may be used, provided that the
+// compiler will convert from decimal to binary accurately enough
+// to produce the hexadecimal values shown.
+//
+</span><span class="kw">use super</span>::{fabs, get_high_word, scalbn, sqrt, with_set_high_word, with_set_low_word};
+
+<span class="kw">const </span>BP: [f64; <span class="number">2</span>] = [<span class="number">1.0</span>, <span class="number">1.5</span>];
+<span class="kw">const </span>DP_H: [f64; <span class="number">2</span>] = [<span class="number">0.0</span>, <span class="number">5.84962487220764160156e-01</span>]; <span class="comment">/* 0x3fe2b803_40000000 */
+</span><span class="kw">const </span>DP_L: [f64; <span class="number">2</span>] = [<span class="number">0.0</span>, <span class="number">1.35003920212974897128e-08</span>]; <span class="comment">/* 0x3E4CFDEB, 0x43CFD006 */
+</span><span class="kw">const </span>TWO53: f64 = <span class="number">9007199254740992.0</span>; <span class="comment">/* 0x43400000_00000000 */
+</span><span class="kw">const </span>HUGE: f64 = <span class="number">1.0e300</span>;
+<span class="kw">const </span>TINY: f64 = <span class="number">1.0e-300</span>;
+
+<span class="comment">// poly coefs for (3/2)*(log(x)-2s-2/3*s**3:
+</span><span class="kw">const </span>L1: f64 = <span class="number">5.99999999999994648725e-01</span>; <span class="comment">/* 0x3fe33333_33333303 */
+</span><span class="kw">const </span>L2: f64 = <span class="number">4.28571428578550184252e-01</span>; <span class="comment">/* 0x3fdb6db6_db6fabff */
+</span><span class="kw">const </span>L3: f64 = <span class="number">3.33333329818377432918e-01</span>; <span class="comment">/* 0x3fd55555_518f264d */
+</span><span class="kw">const </span>L4: f64 = <span class="number">2.72728123808534006489e-01</span>; <span class="comment">/* 0x3fd17460_a91d4101 */
+</span><span class="kw">const </span>L5: f64 = <span class="number">2.30660745775561754067e-01</span>; <span class="comment">/* 0x3fcd864a_93c9db65 */
+</span><span class="kw">const </span>L6: f64 = <span class="number">2.06975017800338417784e-01</span>; <span class="comment">/* 0x3fca7e28_4a454eef */
+</span><span class="kw">const </span>P1: f64 = <span class="number">1.66666666666666019037e-01</span>; <span class="comment">/* 0x3fc55555_5555553e */
+</span><span class="kw">const </span>P2: f64 = -<span class="number">2.77777777770155933842e-03</span>; <span class="comment">/* 0xbf66c16c_16bebd93 */
+</span><span class="kw">const </span>P3: f64 = <span class="number">6.61375632143793436117e-05</span>; <span class="comment">/* 0x3f11566a_af25de2c */
+</span><span class="kw">const </span>P4: f64 = -<span class="number">1.65339022054652515390e-06</span>; <span class="comment">/* 0xbebbbd41_c5d26bf1 */
+</span><span class="kw">const </span>P5: f64 = <span class="number">4.13813679705723846039e-08</span>; <span class="comment">/* 0x3e663769_72bea4d0 */
+</span><span class="kw">const </span>LG2: f64 = <span class="number">6.93147180559945286227e-01</span>; <span class="comment">/* 0x3fe62e42_fefa39ef */
+</span><span class="kw">const </span>LG2_H: f64 = <span class="number">6.93147182464599609375e-01</span>; <span class="comment">/* 0x3fe62e43_00000000 */
+</span><span class="kw">const </span>LG2_L: f64 = -<span class="number">1.90465429995776804525e-09</span>; <span class="comment">/* 0xbe205c61_0ca86c39 */
+</span><span class="kw">const </span>OVT: f64 = <span class="number">8.0085662595372944372e-017</span>; <span class="comment">/* -(1024-log2(ovfl+.5ulp)) */
+</span><span class="kw">const </span>CP: f64 = <span class="number">9.61796693925975554329e-01</span>; <span class="comment">/* 0x3feec709_dc3a03fd =2/(3ln2) */
+</span><span class="kw">const </span>CP_H: f64 = <span class="number">9.61796700954437255859e-01</span>; <span class="comment">/* 0x3feec709_e0000000 =(float)cp */
+</span><span class="kw">const </span>CP_L: f64 = -<span class="number">7.02846165095275826516e-09</span>; <span class="comment">/* 0xbe3e2fe0_145b01f5 =tail of cp_h*/
+</span><span class="kw">const </span>IVLN2: f64 = <span class="number">1.44269504088896338700e+00</span>; <span class="comment">/* 0x3ff71547_652b82fe =1/ln2 */
+</span><span class="kw">const </span>IVLN2_H: f64 = <span class="number">1.44269502162933349609e+00</span>; <span class="comment">/* 0x3ff71547_60000000 =24b 1/ln2*/
+</span><span class="kw">const </span>IVLN2_L: f64 = <span class="number">1.92596299112661746887e-08</span>; <span class="comment">/* 0x3e54ae0b_f85ddf44 =1/ln2 tail*/
+
+</span><span class="attribute">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub fn </span>pow(x: f64, y: f64) -&gt; f64 {
+    <span class="kw">let </span>t1: f64;
+    <span class="kw">let </span>t2: f64;
+
+    <span class="kw">let </span>(hx, lx): (i32, u32) = ((x.to_bits() &gt;&gt; <span class="number">32</span>) <span class="kw">as </span>i32, x.to_bits() <span class="kw">as </span>u32);
+    <span class="kw">let </span>(hy, ly): (i32, u32) = ((y.to_bits() &gt;&gt; <span class="number">32</span>) <span class="kw">as </span>i32, y.to_bits() <span class="kw">as </span>u32);
+
+    <span class="kw">let </span><span class="kw-2">mut </span>ix: i32 = (hx &amp; <span class="number">0x7fffffff</span>) <span class="kw">as </span>i32;
+    <span class="kw">let </span>iy: i32 = (hy &amp; <span class="number">0x7fffffff</span>) <span class="kw">as </span>i32;
+
+    <span class="comment">/* x**0 = 1, even if x is NaN */
+    </span><span class="kw">if </span>((iy <span class="kw">as </span>u32) | ly) == <span class="number">0 </span>{
+        <span class="kw">return </span><span class="number">1.0</span>;
+    }
+
+    <span class="comment">/* 1**y = 1, even if y is NaN */
+    </span><span class="kw">if </span>hx == <span class="number">0x3ff00000 </span>&amp;&amp; lx == <span class="number">0 </span>{
+        <span class="kw">return </span><span class="number">1.0</span>;
+    }
+
+    <span class="comment">/* NaN if either arg is NaN */
+    </span><span class="kw">if </span>ix &gt; <span class="number">0x7ff00000
+        </span>|| (ix == <span class="number">0x7ff00000 </span>&amp;&amp; lx != <span class="number">0</span>)
+        || iy &gt; <span class="number">0x7ff00000
+        </span>|| (iy == <span class="number">0x7ff00000 </span>&amp;&amp; ly != <span class="number">0</span>)
+    {
+        <span class="kw">return </span>x + y;
+    }
+
+    <span class="comment">/* determine if y is an odd int when x &lt; 0
+     * yisint = 0       ... y is not an integer
+     * yisint = 1       ... y is an odd int
+     * yisint = 2       ... y is an even int
+     */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>yisint: i32 = <span class="number">0</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>k: i32;
+    <span class="kw">let </span><span class="kw-2">mut </span>j: i32;
+    <span class="kw">if </span>hx &lt; <span class="number">0 </span>{
+        <span class="kw">if </span>iy &gt;= <span class="number">0x43400000 </span>{
+            yisint = <span class="number">2</span>; <span class="comment">/* even integer y */
+        </span>} <span class="kw">else if </span>iy &gt;= <span class="number">0x3ff00000 </span>{
+            k = (iy &gt;&gt; <span class="number">20</span>) - <span class="number">0x3ff</span>; <span class="comment">/* exponent */
+
+            </span><span class="kw">if </span>k &gt; <span class="number">20 </span>{
+                j = (ly &gt;&gt; (<span class="number">52 </span>- k)) <span class="kw">as </span>i32;
+
+                <span class="kw">if </span>(j &lt;&lt; (<span class="number">52 </span>- k)) == (ly <span class="kw">as </span>i32) {
+                    yisint = <span class="number">2 </span>- (j &amp; <span class="number">1</span>);
+                }
+            } <span class="kw">else if </span>ly == <span class="number">0 </span>{
+                j = iy &gt;&gt; (<span class="number">20 </span>- k);
+
+                <span class="kw">if </span>(j &lt;&lt; (<span class="number">20 </span>- k)) == iy {
+                    yisint = <span class="number">2 </span>- (j &amp; <span class="number">1</span>);
+                }
+            }
+        }
+    }
+
+    <span class="kw">if </span>ly == <span class="number">0 </span>{
+        <span class="comment">/* special value of y */
+        </span><span class="kw">if </span>iy == <span class="number">0x7ff00000 </span>{
+            <span class="comment">/* y is +-inf */
+
+            </span><span class="kw">return if </span>((ix - <span class="number">0x3ff00000</span>) | (lx <span class="kw">as </span>i32)) == <span class="number">0 </span>{
+                <span class="comment">/* (-1)**+-inf is 1 */
+                </span><span class="number">1.0
+            </span>} <span class="kw">else if </span>ix &gt;= <span class="number">0x3ff00000 </span>{
+                <span class="comment">/* (|x|&gt;1)**+-inf = inf,0 */
+                </span><span class="kw">if </span>hy &gt;= <span class="number">0 </span>{
+                    y
+                } <span class="kw">else </span>{
+                    <span class="number">0.0
+                </span>}
+            } <span class="kw">else </span>{
+                <span class="comment">/* (|x|&lt;1)**+-inf = 0,inf */
+                </span><span class="kw">if </span>hy &gt;= <span class="number">0 </span>{
+                    <span class="number">0.0
+                </span>} <span class="kw">else </span>{
+                    -y
+                }
+            };
+        }
+
+        <span class="kw">if </span>iy == <span class="number">0x3ff00000 </span>{
+            <span class="comment">/* y is +-1 */
+            </span><span class="kw">return if </span>hy &gt;= <span class="number">0 </span>{ x } <span class="kw">else </span>{ <span class="number">1.0 </span>/ x };
+        }
+
+        <span class="kw">if </span>hy == <span class="number">0x40000000 </span>{
+            <span class="comment">/* y is 2 */
+            </span><span class="kw">return </span>x * x;
+        }
+
+        <span class="kw">if </span>hy == <span class="number">0x3fe00000 </span>{
+            <span class="comment">/* y is 0.5 */
+            </span><span class="kw">if </span>hx &gt;= <span class="number">0 </span>{
+                <span class="comment">/* x &gt;= +0 */
+                </span><span class="kw">return </span>sqrt(x);
+            }
+        }
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>ax: f64 = fabs(x);
+    <span class="kw">if </span>lx == <span class="number">0 </span>{
+        <span class="comment">/* special value of x */
+        </span><span class="kw">if </span>ix == <span class="number">0x7ff00000 </span>|| ix == <span class="number">0 </span>|| ix == <span class="number">0x3ff00000 </span>{
+            <span class="comment">/* x is +-0,+-inf,+-1 */
+            </span><span class="kw">let </span><span class="kw-2">mut </span>z: f64 = ax;
+
+            <span class="kw">if </span>hy &lt; <span class="number">0 </span>{
+                <span class="comment">/* z = (1/|x|) */
+                </span>z = <span class="number">1.0 </span>/ z;
+            }
+
+            <span class="kw">if </span>hx &lt; <span class="number">0 </span>{
+                <span class="kw">if </span>((ix - <span class="number">0x3ff00000</span>) | yisint) == <span class="number">0 </span>{
+                    z = (z - z) / (z - z); <span class="comment">/* (-1)**non-int is NaN */
+                </span>} <span class="kw">else if </span>yisint == <span class="number">1 </span>{
+                    z = -z; <span class="comment">/* (x&lt;0)**odd = -(|x|**odd) */
+                </span>}
+            }
+
+            <span class="kw">return </span>z;
+        }
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>s: f64 = <span class="number">1.0</span>; <span class="comment">/* sign of result */
+    </span><span class="kw">if </span>hx &lt; <span class="number">0 </span>{
+        <span class="kw">if </span>yisint == <span class="number">0 </span>{
+            <span class="comment">/* (x&lt;0)**(non-int) is NaN */
+            </span><span class="kw">return </span>(x - x) / (x - x);
+        }
+
+        <span class="kw">if </span>yisint == <span class="number">1 </span>{
+            <span class="comment">/* (x&lt;0)**(odd int) */
+            </span>s = -<span class="number">1.0</span>;
+        }
+    }
+
+    <span class="comment">/* |y| is HUGE */
+    </span><span class="kw">if </span>iy &gt; <span class="number">0x41e00000 </span>{
+        <span class="comment">/* if |y| &gt; 2**31 */
+        </span><span class="kw">if </span>iy &gt; <span class="number">0x43f00000 </span>{
+            <span class="comment">/* if |y| &gt; 2**64, must o/uflow */
+            </span><span class="kw">if </span>ix &lt;= <span class="number">0x3fefffff </span>{
+                <span class="kw">return if </span>hy &lt; <span class="number">0 </span>{ HUGE * HUGE } <span class="kw">else </span>{ TINY * TINY };
+            }
+
+            <span class="kw">if </span>ix &gt;= <span class="number">0x3ff00000 </span>{
+                <span class="kw">return if </span>hy &gt; <span class="number">0 </span>{ HUGE * HUGE } <span class="kw">else </span>{ TINY * TINY };
+            }
+        }
+
+        <span class="comment">/* over/underflow if x is not close to one */
+        </span><span class="kw">if </span>ix &lt; <span class="number">0x3fefffff </span>{
+            <span class="kw">return if </span>hy &lt; <span class="number">0 </span>{
+                s * HUGE * HUGE
+            } <span class="kw">else </span>{
+                s * TINY * TINY
+            };
+        }
+        <span class="kw">if </span>ix &gt; <span class="number">0x3ff00000 </span>{
+            <span class="kw">return if </span>hy &gt; <span class="number">0 </span>{
+                s * HUGE * HUGE
+            } <span class="kw">else </span>{
+                s * TINY * TINY
+            };
+        }
+
+        <span class="comment">/* now |1-x| is TINY &lt;= 2**-20, suffice to compute
+        log(x) by x-x^2/2+x^3/3-x^4/4 */
+        </span><span class="kw">let </span>t: f64 = ax - <span class="number">1.0</span>; <span class="comment">/* t has 20 trailing zeros */
+        </span><span class="kw">let </span>w: f64 = (t * t) * (<span class="number">0.5 </span>- t * (<span class="number">0.3333333333333333333333 </span>- t * <span class="number">0.25</span>));
+        <span class="kw">let </span>u: f64 = IVLN2_H * t; <span class="comment">/* ivln2_h has 21 sig. bits */
+        </span><span class="kw">let </span>v: f64 = t * IVLN2_L - w * IVLN2;
+        t1 = with_set_low_word(u + v, <span class="number">0</span>);
+        t2 = v - (t1 - u);
+    } <span class="kw">else </span>{
+        <span class="comment">// double ss,s2,s_h,s_l,t_h,t_l;
+        </span><span class="kw">let </span><span class="kw-2">mut </span>n: i32 = <span class="number">0</span>;
+
+        <span class="kw">if </span>ix &lt; <span class="number">0x00100000 </span>{
+            <span class="comment">/* take care subnormal number */
+            </span>ax <span class="kw-2">*</span>= TWO53;
+            n -= <span class="number">53</span>;
+            ix = get_high_word(ax) <span class="kw">as </span>i32;
+        }
+
+        n += (ix &gt;&gt; <span class="number">20</span>) - <span class="number">0x3ff</span>;
+        j = ix &amp; <span class="number">0x000fffff</span>;
+
+        <span class="comment">/* determine interval */
+        </span><span class="kw">let </span>k: i32;
+        ix = j | <span class="number">0x3ff00000</span>; <span class="comment">/* normalize ix */
+        </span><span class="kw">if </span>j &lt;= <span class="number">0x3988E </span>{
+            <span class="comment">/* |x|&lt;sqrt(3/2) */
+            </span>k = <span class="number">0</span>;
+        } <span class="kw">else if </span>j &lt; <span class="number">0xBB67A </span>{
+            <span class="comment">/* |x|&lt;sqrt(3)   */
+            </span>k = <span class="number">1</span>;
+        } <span class="kw">else </span>{
+            k = <span class="number">0</span>;
+            n += <span class="number">1</span>;
+            ix -= <span class="number">0x00100000</span>;
+        }
+        ax = with_set_high_word(ax, ix <span class="kw">as </span>u32);
+
+        <span class="comment">/* compute ss = s_h+s_l = (x-1)/(x+1) or (x-1.5)/(x+1.5) */
+        </span><span class="kw">let </span>u: f64 = ax - <span class="macro">i!</span>(BP, k <span class="kw">as </span>usize); <span class="comment">/* bp[0]=1.0, bp[1]=1.5 */
+        </span><span class="kw">let </span>v: f64 = <span class="number">1.0 </span>/ (ax + <span class="macro">i!</span>(BP, k <span class="kw">as </span>usize));
+        <span class="kw">let </span>ss: f64 = u * v;
+        <span class="kw">let </span>s_h = with_set_low_word(ss, <span class="number">0</span>);
+
+        <span class="comment">/* t_h=ax+bp[k] High */
+        </span><span class="kw">let </span>t_h: f64 = with_set_high_word(
+            <span class="number">0.0</span>,
+            ((ix <span class="kw">as </span>u32 &gt;&gt; <span class="number">1</span>) | <span class="number">0x20000000</span>) + <span class="number">0x00080000 </span>+ ((k <span class="kw">as </span>u32) &lt;&lt; <span class="number">18</span>),
+        );
+        <span class="kw">let </span>t_l: f64 = ax - (t_h - <span class="macro">i!</span>(BP, k <span class="kw">as </span>usize));
+        <span class="kw">let </span>s_l: f64 = v * ((u - s_h * t_h) - s_h * t_l);
+
+        <span class="comment">/* compute log(ax) */
+        </span><span class="kw">let </span>s2: f64 = ss * ss;
+        <span class="kw">let </span><span class="kw-2">mut </span>r: f64 = s2 * s2 * (L1 + s2 * (L2 + s2 * (L3 + s2 * (L4 + s2 * (L5 + s2 * L6)))));
+        r += s_l * (s_h + ss);
+        <span class="kw">let </span>s2: f64 = s_h * s_h;
+        <span class="kw">let </span>t_h: f64 = with_set_low_word(<span class="number">3.0 </span>+ s2 + r, <span class="number">0</span>);
+        <span class="kw">let </span>t_l: f64 = r - ((t_h - <span class="number">3.0</span>) - s2);
+
+        <span class="comment">/* u+v = ss*(1+...) */
+        </span><span class="kw">let </span>u: f64 = s_h * t_h;
+        <span class="kw">let </span>v: f64 = s_l * t_h + t_l * ss;
+
+        <span class="comment">/* 2/(3log2)*(ss+...) */
+        </span><span class="kw">let </span>p_h: f64 = with_set_low_word(u + v, <span class="number">0</span>);
+        <span class="kw">let </span>p_l = v - (p_h - u);
+        <span class="kw">let </span>z_h: f64 = CP_H * p_h; <span class="comment">/* cp_h+cp_l = 2/(3*log2) */
+        </span><span class="kw">let </span>z_l: f64 = CP_L * p_h + p_l * CP + <span class="macro">i!</span>(DP_L, k <span class="kw">as </span>usize);
+
+        <span class="comment">/* log2(ax) = (ss+..)*2/(3*log2) = n + dp_h + z_h + z_l */
+        </span><span class="kw">let </span>t: f64 = n <span class="kw">as </span>f64;
+        t1 = with_set_low_word(((z_h + z_l) + <span class="macro">i!</span>(DP_H, k <span class="kw">as </span>usize)) + t, <span class="number">0</span>);
+        t2 = z_l - (((t1 - t) - <span class="macro">i!</span>(DP_H, k <span class="kw">as </span>usize)) - z_h);
+    }
+
+    <span class="comment">/* split up y into y1+y2 and compute (y1+y2)*(t1+t2) */
+    </span><span class="kw">let </span>y1: f64 = with_set_low_word(y, <span class="number">0</span>);
+    <span class="kw">let </span>p_l: f64 = (y - y1) * t1 + y * t2;
+    <span class="kw">let </span><span class="kw-2">mut </span>p_h: f64 = y1 * t1;
+    <span class="kw">let </span>z: f64 = p_l + p_h;
+    <span class="kw">let </span><span class="kw-2">mut </span>j: i32 = (z.to_bits() &gt;&gt; <span class="number">32</span>) <span class="kw">as </span>i32;
+    <span class="kw">let </span>i: i32 = z.to_bits() <span class="kw">as </span>i32;
+    <span class="comment">// let (j, i): (i32, i32) = ((z.to_bits() &gt;&gt; 32) as i32, z.to_bits() as i32);
+
+    </span><span class="kw">if </span>j &gt;= <span class="number">0x40900000 </span>{
+        <span class="comment">/* z &gt;= 1024 */
+        </span><span class="kw">if </span>(j - <span class="number">0x40900000</span>) | i != <span class="number">0 </span>{
+            <span class="comment">/* if z &gt; 1024 */
+            </span><span class="kw">return </span>s * HUGE * HUGE; <span class="comment">/* overflow */
+        </span>}
+
+        <span class="kw">if </span>p_l + OVT &gt; z - p_h {
+            <span class="kw">return </span>s * HUGE * HUGE; <span class="comment">/* overflow */
+        </span>}
+    } <span class="kw">else if </span>(j &amp; <span class="number">0x7fffffff</span>) &gt;= <span class="number">0x4090cc00 </span>{
+        <span class="comment">/* z &lt;= -1075 */
+        // FIXME: instead of abs(j) use unsigned j
+
+        </span><span class="kw">if </span>(((j <span class="kw">as </span>u32) - <span class="number">0xc090cc00</span>) | (i <span class="kw">as </span>u32)) != <span class="number">0 </span>{
+            <span class="comment">/* z &lt; -1075 */
+            </span><span class="kw">return </span>s * TINY * TINY; <span class="comment">/* underflow */
+        </span>}
+
+        <span class="kw">if </span>p_l &lt;= z - p_h {
+            <span class="kw">return </span>s * TINY * TINY; <span class="comment">/* underflow */
+        </span>}
+    }
+
+    <span class="comment">/* compute 2**(p_h+p_l) */
+    </span><span class="kw">let </span>i: i32 = j &amp; (<span class="number">0x7fffffff </span><span class="kw">as </span>i32);
+    k = (i &gt;&gt; <span class="number">20</span>) - <span class="number">0x3ff</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>n: i32 = <span class="number">0</span>;
+
+    <span class="kw">if </span>i &gt; <span class="number">0x3fe00000 </span>{
+        <span class="comment">/* if |z| &gt; 0.5, set n = [z+0.5] */
+        </span>n = j + (<span class="number">0x00100000 </span>&gt;&gt; (k + <span class="number">1</span>));
+        k = ((n &amp; <span class="number">0x7fffffff</span>) &gt;&gt; <span class="number">20</span>) - <span class="number">0x3ff</span>; <span class="comment">/* new k for n */
+        </span><span class="kw">let </span>t: f64 = with_set_high_word(<span class="number">0.0</span>, (n &amp; !(<span class="number">0x000fffff </span>&gt;&gt; k)) <span class="kw">as </span>u32);
+        n = ((n &amp; <span class="number">0x000fffff</span>) | <span class="number">0x00100000</span>) &gt;&gt; (<span class="number">20 </span>- k);
+        <span class="kw">if </span>j &lt; <span class="number">0 </span>{
+            n = -n;
+        }
+        p_h -= t;
+    }
+
+    <span class="kw">let </span>t: f64 = with_set_low_word(p_l + p_h, <span class="number">0</span>);
+    <span class="kw">let </span>u: f64 = t * LG2_H;
+    <span class="kw">let </span>v: f64 = (p_l - (t - p_h)) * LG2 + t * LG2_L;
+    <span class="kw">let </span><span class="kw-2">mut </span>z: f64 = u + v;
+    <span class="kw">let </span>w: f64 = v - (z - u);
+    <span class="kw">let </span>t: f64 = z * z;
+    <span class="kw">let </span>t1: f64 = z - t * (P1 + t * (P2 + t * (P3 + t * (P4 + t * P5))));
+    <span class="kw">let </span>r: f64 = (z * t1) / (t1 - <span class="number">2.0</span>) - (w + z * w);
+    z = <span class="number">1.0 </span>- (r - z);
+    j = get_high_word(z) <span class="kw">as </span>i32;
+    j += n &lt;&lt; <span class="number">20</span>;
+
+    <span class="kw">if </span>(j &gt;&gt; <span class="number">20</span>) &lt;= <span class="number">0 </span>{
+        <span class="comment">/* subnormal output */
+        </span>z = scalbn(z, n);
+    } <span class="kw">else </span>{
+        z = with_set_high_word(z, j <span class="kw">as </span>u32);
+    }
+
+    s * z
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">extern crate </span>core;
+
+    <span class="kw">use </span><span class="self">self</span>::core::f64::consts::{E, PI};
+    <span class="kw">use </span><span class="self">self</span>::core::f64::{EPSILON, INFINITY, MAX, MIN, MIN_POSITIVE, NAN, NEG_INFINITY};
+    <span class="kw">use </span><span class="kw">super</span>::pow;
+
+    <span class="kw">const </span>POS_ZERO: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[<span class="number">0.0</span>];
+    <span class="kw">const </span>NEG_ZERO: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[-<span class="number">0.0</span>];
+    <span class="kw">const </span>POS_ONE: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[<span class="number">1.0</span>];
+    <span class="kw">const </span>NEG_ONE: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[-<span class="number">1.0</span>];
+    <span class="kw">const </span>POS_FLOATS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[<span class="number">99.0 </span>/ <span class="number">70.0</span>, E, PI];
+    <span class="kw">const </span>NEG_FLOATS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[-<span class="number">99.0 </span>/ <span class="number">70.0</span>, -E, -PI];
+    <span class="kw">const </span>POS_SMALL_FLOATS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[(<span class="number">1.0 </span>/ <span class="number">2.0</span>), MIN_POSITIVE, EPSILON];
+    <span class="kw">const </span>NEG_SMALL_FLOATS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[-(<span class="number">1.0 </span>/ <span class="number">2.0</span>), -MIN_POSITIVE, -EPSILON];
+    <span class="kw">const </span>POS_EVENS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[<span class="number">2.0</span>, <span class="number">6.0</span>, <span class="number">8.0</span>, <span class="number">10.0</span>, <span class="number">22.0</span>, <span class="number">100.0</span>, MAX];
+    <span class="kw">const </span>NEG_EVENS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[MIN, -<span class="number">100.0</span>, -<span class="number">22.0</span>, -<span class="number">10.0</span>, -<span class="number">8.0</span>, -<span class="number">6.0</span>, -<span class="number">2.0</span>];
+    <span class="kw">const </span>POS_ODDS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[<span class="number">3.0</span>, <span class="number">7.0</span>];
+    <span class="kw">const </span>NEG_ODDS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[-<span class="number">7.0</span>, -<span class="number">3.0</span>];
+    <span class="kw">const </span>NANS: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[NAN];
+    <span class="kw">const </span>POS_INF: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[INFINITY];
+    <span class="kw">const </span>NEG_INF: <span class="kw-2">&amp;</span>[f64] = <span class="kw-2">&amp;</span>[NEG_INFINITY];
+
+    <span class="kw">const </span>ALL: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[f64]] = <span class="kw-2">&amp;</span>[
+        POS_ZERO,
+        NEG_ZERO,
+        NANS,
+        NEG_SMALL_FLOATS,
+        POS_SMALL_FLOATS,
+        NEG_FLOATS,
+        POS_FLOATS,
+        NEG_EVENS,
+        POS_EVENS,
+        NEG_ODDS,
+        POS_ODDS,
+        NEG_INF,
+        POS_INF,
+        NEG_ONE,
+        POS_ONE,
+    ];
+    <span class="kw">const </span>POS: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[f64]] = <span class="kw-2">&amp;</span>[POS_ZERO, POS_ODDS, POS_ONE, POS_FLOATS, POS_EVENS, POS_INF];
+    <span class="kw">const </span>NEG: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[f64]] = <span class="kw-2">&amp;</span>[NEG_ZERO, NEG_ODDS, NEG_ONE, NEG_FLOATS, NEG_EVENS, NEG_INF];
+
+    <span class="kw">fn </span>pow_test(base: f64, exponent: f64, expected: f64) {
+        <span class="kw">let </span>res = pow(base, exponent);
+        <span class="macro">assert!</span>(
+            <span class="kw">if </span>expected.is_nan() {
+                res.is_nan()
+            } <span class="kw">else </span>{
+                pow(base, exponent) == expected
+            },
+            <span class="string">&quot;{} ** {} was {} instead of {}&quot;</span>,
+            base,
+            exponent,
+            res,
+            expected
+        );
+    }
+
+    <span class="kw">fn </span>test_sets_as_base(sets: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[f64]], exponent: f64, expected: f64) {
+        sets.iter()
+            .for_each(|s| s.iter().for_each(|val| pow_test(<span class="kw-2">*</span>val, exponent, expected)));
+    }
+
+    <span class="kw">fn </span>test_sets_as_exponent(base: f64, sets: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[f64]], expected: f64) {
+        sets.iter()
+            .for_each(|s| s.iter().for_each(|val| pow_test(base, <span class="kw-2">*</span>val, expected)));
+    }
+
+    <span class="kw">fn </span>test_sets(sets: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[f64]], computed: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(f64) -&gt; f64, expected: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(f64) -&gt; f64) {
+        sets.iter().for_each(|s| {
+            s.iter().for_each(|val| {
+                <span class="kw">let </span>exp = expected(<span class="kw-2">*</span>val);
+                <span class="kw">let </span>res = computed(<span class="kw-2">*</span>val);
+
+                <span class="attribute">#[cfg(all(target_arch = <span class="string">&quot;x86&quot;</span>, not(target_feature = <span class="string">&quot;sse2&quot;</span>)))]
+                </span><span class="kw">let </span>exp = <span class="macro">force_eval!</span>(exp);
+                <span class="attribute">#[cfg(all(target_arch = <span class="string">&quot;x86&quot;</span>, not(target_feature = <span class="string">&quot;sse2&quot;</span>)))]
+                </span><span class="kw">let </span>res = <span class="macro">force_eval!</span>(res);
+                <span class="macro">assert!</span>(
+                    <span class="kw">if </span>exp.is_nan() {
+                        res.is_nan()
+                    } <span class="kw">else </span>{
+                        exp == res
+                    },
+                    <span class="string">&quot;test for {} was {} instead of {}&quot;</span>,
+                    val,
+                    res,
+                    exp
+                );
+            })
+        });
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>zero_as_exponent() {
+        test_sets_as_base(ALL, <span class="number">0.0</span>, <span class="number">1.0</span>);
+        test_sets_as_base(ALL, -<span class="number">0.0</span>, <span class="number">1.0</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>one_as_base() {
+        test_sets_as_exponent(<span class="number">1.0</span>, ALL, <span class="number">1.0</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>nan_inputs() {
+        <span class="comment">// NAN as the base:
+        // (NAN ^ anything *but 0* should be NAN)
+        </span>test_sets_as_exponent(NAN, <span class="kw-2">&amp;</span>ALL[<span class="number">2</span>..], NAN);
+
+        <span class="comment">// NAN as the exponent:
+        // (anything *but 1* ^ NAN should be NAN)
+        </span>test_sets_as_base(<span class="kw-2">&amp;</span>ALL[..(ALL.len() - <span class="number">2</span>)], NAN, NAN);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>infinity_as_base() {
+        <span class="comment">// Positive Infinity as the base:
+        // (+Infinity ^ positive anything but 0 and NAN should be +Infinity)
+        </span>test_sets_as_exponent(INFINITY, <span class="kw-2">&amp;</span>POS[<span class="number">1</span>..], INFINITY);
+
+        <span class="comment">// (+Infinity ^ negative anything except 0 and NAN should be 0.0)
+        </span>test_sets_as_exponent(INFINITY, <span class="kw-2">&amp;</span>NEG[<span class="number">1</span>..], <span class="number">0.0</span>);
+
+        <span class="comment">// Negative Infinity as the base:
+        // (-Infinity ^ positive odd ints should be -Infinity)
+        </span>test_sets_as_exponent(NEG_INFINITY, <span class="kw-2">&amp;</span>[POS_ODDS], NEG_INFINITY);
+
+        <span class="comment">// (-Infinity ^ anything but odd ints should be == -0 ^ (-anything))
+        // We can lump in pos/neg odd ints here because they don&#39;t seem to
+        // cause panics (div by zero) in release mode (I think).
+        </span>test_sets(ALL, <span class="kw-2">&amp;</span>|v: f64| pow(NEG_INFINITY, v), <span class="kw-2">&amp;</span>|v: f64| pow(-<span class="number">0.0</span>, -v));
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>infinity_as_exponent() {
+        <span class="comment">// Positive/Negative base greater than 1:
+        // (pos/neg &gt; 1 ^ Infinity should be Infinity - note this excludes NAN as the base)
+        </span>test_sets_as_base(<span class="kw-2">&amp;</span>ALL[<span class="number">5</span>..(ALL.len() - <span class="number">2</span>)], INFINITY, INFINITY);
+
+        <span class="comment">// (pos/neg &gt; 1 ^ -Infinity should be 0.0)
+        </span>test_sets_as_base(<span class="kw-2">&amp;</span>ALL[<span class="number">5</span>..ALL.len() - <span class="number">2</span>], NEG_INFINITY, <span class="number">0.0</span>);
+
+        <span class="comment">// Positive/Negative base less than 1:
+        </span><span class="kw">let </span>base_below_one = <span class="kw-2">&amp;</span>[POS_ZERO, NEG_ZERO, NEG_SMALL_FLOATS, POS_SMALL_FLOATS];
+
+        <span class="comment">// (pos/neg &lt; 1 ^ Infinity should be 0.0 - this also excludes NAN as the base)
+        </span>test_sets_as_base(base_below_one, INFINITY, <span class="number">0.0</span>);
+
+        <span class="comment">// (pos/neg &lt; 1 ^ -Infinity should be Infinity)
+        </span>test_sets_as_base(base_below_one, NEG_INFINITY, INFINITY);
+
+        <span class="comment">// Positive/Negative 1 as the base:
+        // (pos/neg 1 ^ Infinity should be 1)
+        </span>test_sets_as_base(<span class="kw-2">&amp;</span>[NEG_ONE, POS_ONE], INFINITY, <span class="number">1.0</span>);
+
+        <span class="comment">// (pos/neg 1 ^ -Infinity should be 1)
+        </span>test_sets_as_base(<span class="kw-2">&amp;</span>[NEG_ONE, POS_ONE], NEG_INFINITY, <span class="number">1.0</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>zero_as_base() {
+        <span class="comment">// Positive Zero as the base:
+        // (+0 ^ anything positive but 0 and NAN should be +0)
+        </span>test_sets_as_exponent(<span class="number">0.0</span>, <span class="kw-2">&amp;</span>POS[<span class="number">1</span>..], <span class="number">0.0</span>);
+
+        <span class="comment">// (+0 ^ anything negative but 0 and NAN should be Infinity)
+        // (this should panic because we&#39;re dividing by zero)
+        </span>test_sets_as_exponent(<span class="number">0.0</span>, <span class="kw-2">&amp;</span>NEG[<span class="number">1</span>..], INFINITY);
+
+        <span class="comment">// Negative Zero as the base:
+        // (-0 ^ anything positive but 0, NAN, and odd ints should be +0)
+        </span>test_sets_as_exponent(-<span class="number">0.0</span>, <span class="kw-2">&amp;</span>POS[<span class="number">3</span>..], <span class="number">0.0</span>);
+
+        <span class="comment">// (-0 ^ anything negative but 0, NAN, and odd ints should be Infinity)
+        // (should panic because of divide by zero)
+        </span>test_sets_as_exponent(-<span class="number">0.0</span>, <span class="kw-2">&amp;</span>NEG[<span class="number">3</span>..], INFINITY);
+
+        <span class="comment">// (-0 ^ positive odd ints should be -0)
+        </span>test_sets_as_exponent(-<span class="number">0.0</span>, <span class="kw-2">&amp;</span>[POS_ODDS], -<span class="number">0.0</span>);
+
+        <span class="comment">// (-0 ^ negative odd ints should be -Infinity)
+        // (should panic because of divide by zero)
+        </span>test_sets_as_exponent(-<span class="number">0.0</span>, <span class="kw-2">&amp;</span>[NEG_ODDS], NEG_INFINITY);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>special_cases() {
+        <span class="comment">// One as the exponent:
+        // (anything ^ 1 should be anything - i.e. the base)
+        </span>test_sets(ALL, <span class="kw-2">&amp;</span>|v: f64| pow(v, <span class="number">1.0</span>), <span class="kw-2">&amp;</span>|v: f64| v);
+
+        <span class="comment">// Negative One as the exponent:
+        // (anything ^ -1 should be 1/anything)
+        </span>test_sets(ALL, <span class="kw-2">&amp;</span>|v: f64| pow(v, -<span class="number">1.0</span>), <span class="kw-2">&amp;</span>|v: f64| <span class="number">1.0 </span>/ v);
+
+        <span class="comment">// Factoring -1 out:
+        // (negative anything ^ integer should be (-1 ^ integer) * (positive anything ^ integer))
+        </span>(<span class="kw-2">&amp;</span>[POS_ZERO, NEG_ZERO, POS_ONE, NEG_ONE, POS_EVENS, NEG_EVENS])
+            .iter()
+            .for_each(|int_set| {
+                int_set.iter().for_each(|int| {
+                    test_sets(ALL, <span class="kw-2">&amp;</span>|v: f64| pow(-v, <span class="kw-2">*</span>int), <span class="kw-2">&amp;</span>|v: f64| {
+                        pow(-<span class="number">1.0</span>, <span class="kw-2">*</span>int) * pow(v, <span class="kw-2">*</span>int)
+                    });
+                })
+            });
+
+        <span class="comment">// Negative base (imaginary results):
+        // (-anything except 0 and Infinity ^ non-integer should be NAN)
+        </span>(<span class="kw-2">&amp;</span>NEG[<span class="number">1</span>..(NEG.len() - <span class="number">1</span>)]).iter().for_each(|set| {
+            set.iter().for_each(|val| {
+                test_sets(<span class="kw-2">&amp;</span>ALL[<span class="number">3</span>..<span class="number">7</span>], <span class="kw-2">&amp;</span>|v: f64| pow(<span class="kw-2">*</span>val, v), <span class="kw-2">&amp;</span>|<span class="kw">_</span>| NAN);
+            })
+        });
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>normal_cases() {
+        <span class="macro">assert_eq!</span>(pow(<span class="number">2.0</span>, <span class="number">20.0</span>), (<span class="number">1 </span>&lt;&lt; <span class="number">20</span>) <span class="kw">as </span>f64);
+        <span class="macro">assert_eq!</span>(pow(-<span class="number">1.0</span>, <span class="number">9.0</span>), -<span class="number">1.0</span>);
+        <span class="macro">assert!</span>(pow(-<span class="number">1.0</span>, <span class="number">2.2</span>).is_nan());
+        <span class="macro">assert!</span>(pow(-<span class="number">1.0</span>, -<span class="number">1.14</span>).is_nan());
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="libm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

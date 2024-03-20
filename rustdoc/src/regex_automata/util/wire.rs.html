@@ -1,0 +1,1952 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-automata-0.3.9/src/util/wire.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>wire.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../regex_automata/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../regex_automata/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+Types and routines that support the wire format of finite automata.
+
+Currently, this module just exports a few error types and some small helpers
+for deserializing [dense DFAs](crate::dfa::dense::DFA) using correct alignment.
+*/
+
+</span><span class="comment">/*
+A collection of helper functions, types and traits for serializing automata.
+
+This crate defines its own bespoke serialization mechanism for some structures
+provided in the public API, namely, DFAs. A bespoke mechanism was developed
+primarily because structures like automata demand a specific binary format.
+Attempting to encode their rich structure in an existing serialization
+format is just not feasible. Moreover, the format for each structure is
+generally designed such that deserialization is cheap. More specifically, that
+deserialization can be done in constant time. (The idea being that you can
+embed it into your binary or mmap it, and then use it immediately.)
+
+In order to achieve this, the dense and sparse DFAs in this crate use an
+in-memory representation that very closely corresponds to its binary serialized
+form. This pervades and complicates everything, and in some cases, requires
+dealing with alignment and reasoning about safety.
+
+This technique does have major advantages. In particular, it permits doing
+the potentially costly work of compiling a finite state machine in an offline
+manner, and then loading it at runtime not only without having to re-compile
+the regex, but even without the code required to do the compilation. This, for
+example, permits one to use a pre-compiled DFA not only in environments without
+Rust&#39;s standard library, but also in environments without a heap.
+
+In the code below, whenever we insert some kind of padding, it&#39;s to enforce a
+4-byte alignment, unless otherwise noted. Namely, u32 is the only state ID type
+supported. (In a previous version of this library, DFAs were generic over the
+state ID representation.)
+
+Also, serialization generally requires the caller to specify endianness,
+where as deserialization always assumes native endianness (otherwise cheap
+deserialization would be impossible). This implies that serializing a structure
+generally requires serializing both its big-endian and little-endian variants,
+and then loading the correct one based on the target&#39;s endianness.
+*/
+
+</span><span class="kw">use </span>core::{
+    cmp,
+    convert::{TryFrom, TryInto},
+    mem::size_of,
+};
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;alloc&quot;</span>)]
+</span><span class="kw">use </span>alloc::{vec, vec::Vec};
+
+<span class="kw">use </span><span class="kw">crate</span>::util::{
+    int::Pointer,
+    primitives::{PatternID, PatternIDError, StateID, StateIDError},
+};
+
+<span class="doccomment">/// A hack to align a smaller type `B` with a bigger type `T`.
+///
+/// The usual use of this is with `B = [u8]` and `T = u32`. That is,
+/// it permits aligning a sequence of bytes on a 4-byte boundary. This
+/// is useful in contexts where one wants to embed a serialized [dense
+/// DFA](crate::dfa::dense::DFA) into a Rust a program while guaranteeing the
+/// alignment required for the DFA.
+///
+/// See [`dense::DFA::from_bytes`](crate::dfa::dense::DFA::from_bytes) for an
+/// example of how to use this type.
+</span><span class="attribute">#[repr(C)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>AlignAs&lt;B: <span class="question-mark">?</span>Sized, T&gt; {
+    <span class="doccomment">/// A zero-sized field indicating the alignment we want.
+    </span><span class="kw">pub </span>_align: [T; <span class="number">0</span>],
+    <span class="doccomment">/// A possibly non-sized field containing a sequence of bytes.
+    </span><span class="kw">pub </span>bytes: B,
+}
+
+<span class="doccomment">/// An error that occurs when serializing an object from this crate.
+///
+/// Serialization, as used in this crate, universally refers to the process
+/// of transforming a structure (like a DFA) into a custom binary format
+/// represented by `&amp;[u8]`. To this end, serialization is generally infallible.
+/// However, it can fail when caller provided buffer sizes are too small. When
+/// that occurs, a serialization error is reported.
+///
+/// A `SerializeError` provides no introspection capabilities. Its only
+/// supported operation is conversion to a human readable error message.
+///
+/// This error type implements the `std::error::Error` trait only when the
+/// `std` feature is enabled. Otherwise, this type is defined in all
+/// configurations.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>SerializeError {
+    <span class="doccomment">/// The name of the thing that a buffer is too small for.
+    ///
+    /// Currently, the only kind of serialization error is one that is
+    /// committed by a caller: providing a destination buffer that is too
+    /// small to fit the serialized object. This makes sense conceptually,
+    /// since every valid inhabitant of a type should be serializable.
+    ///
+    /// This is somewhat exposed in the public API of this crate. For example,
+    /// the `to_bytes_{big,little}_endian` APIs return a `Vec&lt;u8&gt;` and are
+    /// guaranteed to never panic or error. This is only possible because the
+    /// implementation guarantees that it will allocate a `Vec&lt;u8&gt;` that is
+    /// big enough.
+    ///
+    /// In summary, if a new serialization error kind needs to be added, then
+    /// it will need careful consideration.
+    </span>what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+}
+
+<span class="kw">impl </span>SerializeError {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>buffer_too_small(what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; SerializeError {
+        SerializeError { what }
+    }
+}
+
+<span class="kw">impl </span>core::fmt::Display <span class="kw">for </span>SerializeError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;destination buffer is too small to write {}&quot;</span>, <span class="self">self</span>.what)
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>SerializeError {}
+
+<span class="doccomment">/// An error that occurs when deserializing an object defined in this crate.
+///
+/// Serialization, as used in this crate, universally refers to the process
+/// of transforming a structure (like a DFA) into a custom binary format
+/// represented by `&amp;[u8]`. Deserialization, then, refers to the process of
+/// cheaply converting this binary format back to the object&#39;s in-memory
+/// representation as defined in this crate. To the extent possible,
+/// deserialization will report this error whenever this process fails.
+///
+/// A `DeserializeError` provides no introspection capabilities. Its only
+/// supported operation is conversion to a human readable error message.
+///
+/// This error type implements the `std::error::Error` trait only when the
+/// `std` feature is enabled. Otherwise, this type is defined in all
+/// configurations.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>DeserializeError(DeserializeErrorKind);
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">enum </span>DeserializeErrorKind {
+    Generic { msg: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+    BufferTooSmall { what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+    InvalidUsize { what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+    VersionMismatch { expected: u32, found: u32 },
+    EndianMismatch { expected: u32, found: u32 },
+    AlignmentMismatch { alignment: usize, address: usize },
+    LabelMismatch { expected: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+    ArithmeticOverflow { what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+    PatternID { err: PatternIDError, what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+    StateID { err: StateIDError, what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str },
+}
+
+<span class="kw">impl </span>DeserializeError {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>generic(msg: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::Generic { msg })
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>buffer_too_small(what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::BufferTooSmall { what })
+    }
+
+    <span class="kw">fn </span>invalid_usize(what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::InvalidUsize { what })
+    }
+
+    <span class="kw">fn </span>version_mismatch(expected: u32, found: u32) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::VersionMismatch {
+            expected,
+            found,
+        })
+    }
+
+    <span class="kw">fn </span>endian_mismatch(expected: u32, found: u32) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::EndianMismatch {
+            expected,
+            found,
+        })
+    }
+
+    <span class="kw">fn </span>alignment_mismatch(
+        alignment: usize,
+        address: usize,
+    ) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::AlignmentMismatch {
+            alignment,
+            address,
+        })
+    }
+
+    <span class="kw">fn </span>label_mismatch(expected: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::LabelMismatch { expected })
+    }
+
+    <span class="kw">fn </span>arithmetic_overflow(what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::ArithmeticOverflow { what })
+    }
+
+    <span class="kw">fn </span>pattern_id_error(
+        err: PatternIDError,
+        what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    ) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::PatternID { err, what })
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>state_id_error(
+        err: StateIDError,
+        what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    ) -&gt; DeserializeError {
+        DeserializeError(DeserializeErrorKind::StateID { err, what })
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>DeserializeError {}
+
+<span class="kw">impl </span>core::fmt::Display <span class="kw">for </span>DeserializeError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
+        <span class="kw">use </span><span class="self">self</span>::DeserializeErrorKind::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
+            Generic { msg } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, msg),
+            BufferTooSmall { what } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;buffer is too small to read {}&quot;</span>, what)
+            }
+            InvalidUsize { what } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;{} is too big to fit in a usize&quot;</span>, what)
+            }
+            VersionMismatch { expected, found } =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">&quot;unsupported version: \
+                 expected version {} but found version {}&quot;</span>,
+                expected, found,
+            ),
+            EndianMismatch { expected, found } =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">&quot;endianness mismatch: expected 0x{:X} but got 0x{:X}. \
+                 (Are you trying to load an object serialized with a \
+                 different endianness?)&quot;</span>,
+                expected, found,
+            ),
+            AlignmentMismatch { alignment, address } =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">&quot;alignment mismatch: slice starts at address \
+                 0x{:X}, which is not aligned to a {} byte boundary&quot;</span>,
+                address, alignment,
+            ),
+            LabelMismatch { expected } =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">&quot;label mismatch: start of serialized object should \
+                 contain a NUL terminated {:?} label, but a different \
+                 label was found&quot;</span>,
+                expected,
+            ),
+            ArithmeticOverflow { what } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;arithmetic overflow for {}&quot;</span>, what)
+            }
+            PatternID { <span class="kw-2">ref </span>err, what } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;failed to read pattern ID for {}: {}&quot;</span>, what, err)
+            }
+            StateID { <span class="kw-2">ref </span>err, what } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;failed to read state ID for {}: {}&quot;</span>, what, err)
+            }
+        }
+    }
+}
+
+<span class="doccomment">/// Safely converts a `&amp;[u32]` to `&amp;[StateID]` with zero cost.
+</span><span class="attribute">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>u32s_to_state_ids(slice: <span class="kw-2">&amp;</span>[u32]) -&gt; <span class="kw-2">&amp;</span>[StateID] {
+    <span class="comment">// SAFETY: This is safe because StateID is defined to have the same memory
+    // representation as a u32 (it is repr(transparent)). While not every u32
+    // is a &quot;valid&quot; StateID, callers are not permitted to rely on the validity
+    // of StateIDs for memory safety. It can only lead to logical errors. (This
+    // is why StateID::new_unchecked is safe.)
+    </span><span class="kw">unsafe </span>{
+        core::slice::from_raw_parts(
+            slice.as_ptr().cast::&lt;StateID&gt;(),
+            slice.len(),
+        )
+    }
+}
+
+<span class="doccomment">/// Safely converts a `&amp;mut [u32]` to `&amp;mut [StateID]` with zero cost.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>u32s_to_state_ids_mut(slice: <span class="kw-2">&amp;mut </span>[u32]) -&gt; <span class="kw-2">&amp;mut </span>[StateID] {
+    <span class="comment">// SAFETY: This is safe because StateID is defined to have the same memory
+    // representation as a u32 (it is repr(transparent)). While not every u32
+    // is a &quot;valid&quot; StateID, callers are not permitted to rely on the validity
+    // of StateIDs for memory safety. It can only lead to logical errors. (This
+    // is why StateID::new_unchecked is safe.)
+    </span><span class="kw">unsafe </span>{
+        core::slice::from_raw_parts_mut(
+            slice.as_mut_ptr().cast::&lt;StateID&gt;(),
+            slice.len(),
+        )
+    }
+}
+
+<span class="doccomment">/// Safely converts a `&amp;[u32]` to `&amp;[PatternID]` with zero cost.
+</span><span class="attribute">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>u32s_to_pattern_ids(slice: <span class="kw-2">&amp;</span>[u32]) -&gt; <span class="kw-2">&amp;</span>[PatternID] {
+    <span class="comment">// SAFETY: This is safe because PatternID is defined to have the same
+    // memory representation as a u32 (it is repr(transparent)). While not
+    // every u32 is a &quot;valid&quot; PatternID, callers are not permitted to rely
+    // on the validity of PatternIDs for memory safety. It can only lead to
+    // logical errors. (This is why PatternID::new_unchecked is safe.)
+    </span><span class="kw">unsafe </span>{
+        core::slice::from_raw_parts(
+            slice.as_ptr().cast::&lt;PatternID&gt;(),
+            slice.len(),
+        )
+    }
+}
+
+<span class="doccomment">/// Checks that the given slice has an alignment that matches `T`.
+///
+/// This is useful for checking that a slice has an appropriate alignment
+/// before casting it to a &amp;[T]. Note though that alignment is not itself
+/// sufficient to perform the cast for any `T`.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>check_alignment&lt;T&gt;(
+    slice: <span class="kw-2">&amp;</span>[u8],
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), DeserializeError&gt; {
+    <span class="kw">let </span>alignment = core::mem::align_of::&lt;T&gt;();
+    <span class="kw">let </span>address = slice.as_ptr().as_usize();
+    <span class="kw">if </span>address % alignment == <span class="number">0 </span>{
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+    }
+    <span class="prelude-val">Err</span>(DeserializeError::alignment_mismatch(alignment, address))
+}
+
+<span class="doccomment">/// Reads a possibly empty amount of padding, up to 7 bytes, from the beginning
+/// of the given slice. All padding bytes must be NUL bytes.
+///
+/// This is useful because it can be theoretically necessary to pad the
+/// beginning of a serialized object with NUL bytes to ensure that it starts
+/// at a correctly aligned address. These padding bytes should come immediately
+/// before the label.
+///
+/// This returns the number of bytes read from the given slice.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>skip_initial_padding(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; usize {
+    <span class="kw">let </span><span class="kw-2">mut </span>nread = <span class="number">0</span>;
+    <span class="kw">while </span>nread &lt; <span class="number">7 </span>&amp;&amp; nread &lt; slice.len() &amp;&amp; slice[nread] == <span class="number">0 </span>{
+        nread += <span class="number">1</span>;
+    }
+    nread
+}
+
+<span class="doccomment">/// Allocate a byte buffer of the given size, along with some initial padding
+/// such that `buf[padding..]` has the same alignment as `T`, where the
+/// alignment of `T` must be at most `8`. In particular, callers should treat
+/// the first N bytes (second return value) as padding bytes that must not be
+/// overwritten. In all cases, the following identity holds:
+///
+/// ```ignore
+/// let (buf, padding) = alloc_aligned_buffer::&lt;StateID&gt;(SIZE);
+/// assert_eq!(SIZE, buf[padding..].len());
+/// ```
+///
+/// In practice, padding is often zero.
+///
+/// The requirement for `8` as a maximum here is somewhat arbitrary. In
+/// practice, we never need anything bigger in this crate, and so this function
+/// does some sanity asserts under the assumption of a max alignment of `8`.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;alloc&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>alloc_aligned_buffer&lt;T&gt;(size: usize) -&gt; (Vec&lt;u8&gt;, usize) {
+    <span class="comment">// NOTE: This is a kludge because there&#39;s no easy way to allocate a Vec&lt;u8&gt;
+    // with an alignment guaranteed to be greater than 1. We could create a
+    // Vec&lt;u32&gt;, but this cannot be safely transmuted to a Vec&lt;u8&gt; without
+    // concern, since reallocing or dropping the Vec&lt;u8&gt; is UB (different
+    // alignment than the initial allocation). We could define a wrapper type
+    // to manage this for us, but it seems like more machinery than it&#39;s worth.
+    </span><span class="kw">let </span>buf = <span class="macro">vec!</span>[<span class="number">0</span>; size];
+    <span class="kw">let </span>align = core::mem::align_of::&lt;T&gt;();
+    <span class="kw">let </span>address = buf.as_ptr().as_usize();
+    <span class="kw">if </span>address % align == <span class="number">0 </span>{
+        <span class="kw">return </span>(buf, <span class="number">0</span>);
+    }
+    <span class="comment">// Let&#39;s try this again. We have to create a totally new alloc with
+    // the maximum amount of bytes we might need. We can&#39;t just extend our
+    // pre-existing &#39;buf&#39; because that might create a new alloc with a
+    // different alignment.
+    </span><span class="kw">let </span>extra = align - <span class="number">1</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[<span class="number">0</span>; size + extra];
+    <span class="kw">let </span>address = buf.as_ptr().as_usize();
+    <span class="comment">// The code below handles the case where &#39;address&#39; is aligned to T, so if
+    // we got lucky and &#39;address&#39; is now aligned to T (when it previously
+    // wasn&#39;t), then we&#39;re done.
+    </span><span class="kw">if </span>address % align == <span class="number">0 </span>{
+        buf.truncate(size);
+        <span class="kw">return </span>(buf, <span class="number">0</span>);
+    }
+    <span class="kw">let </span>padding = ((address &amp; !(align - <span class="number">1</span>)).checked_add(align).unwrap())
+        .checked_sub(address)
+        .unwrap();
+    <span class="macro">assert!</span>(padding &lt;= <span class="number">7</span>, <span class="string">&quot;padding of {} is bigger than 7&quot;</span>, padding);
+    <span class="macro">assert!</span>(
+        padding &lt;= extra,
+        <span class="string">&quot;padding of {} is bigger than extra {} bytes&quot;</span>,
+        padding,
+        extra
+    );
+    buf.truncate(size + padding);
+    <span class="macro">assert_eq!</span>(size + padding, buf.len());
+    <span class="macro">assert_eq!</span>(
+        <span class="number">0</span>,
+        buf[padding..].as_ptr().as_usize() % align,
+        <span class="string">&quot;expected end of initial padding to be aligned to {}&quot;</span>,
+        align,
+    );
+    (buf, padding)
+}
+
+<span class="doccomment">/// Reads a NUL terminated label starting at the beginning of the given slice.
+///
+/// If a NUL terminated label could not be found, then an error is returned.
+/// Similarly, if a label is found but doesn&#39;t match the expected label, then
+/// an error is returned.
+///
+/// Upon success, the total number of bytes read (including padding bytes) is
+/// returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_label(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    expected_label: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, DeserializeError&gt; {
+    <span class="comment">// Set an upper bound on how many bytes we scan for a NUL. Since no label
+    // in this crate is longer than 256 bytes, if we can&#39;t find one within that
+    // range, then we have corrupted data.
+    </span><span class="kw">let </span>first_nul =
+        slice[..cmp::min(slice.len(), <span class="number">256</span>)].iter().position(|<span class="kw-2">&amp;</span>b| b == <span class="number">0</span>);
+    <span class="kw">let </span>first_nul = <span class="kw">match </span>first_nul {
+        <span class="prelude-val">Some</span>(first_nul) =&gt; first_nul,
+        <span class="prelude-val">None </span>=&gt; {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::generic(
+                <span class="string">&quot;could not find NUL terminated label \
+                 at start of serialized object&quot;</span>,
+            ));
+        }
+    };
+    <span class="kw">let </span>len = first_nul + padding_len(first_nul);
+    <span class="kw">if </span>slice.len() &lt; len {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::generic(
+            <span class="string">&quot;could not find properly sized label at start of serialized object&quot;
+        </span>));
+    }
+    <span class="kw">if </span>expected_label.as_bytes() != <span class="kw-2">&amp;</span>slice[..first_nul] {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::label_mismatch(expected_label));
+    }
+    <span class="prelude-val">Ok</span>(len)
+}
+
+<span class="doccomment">/// Writes the given label to the buffer as a NUL terminated string. The label
+/// given must not contain NUL, otherwise this will panic. Similarly, the label
+/// must not be longer than 255 bytes, otherwise this will panic.
+///
+/// Additional NUL bytes are written as necessary to ensure that the number of
+/// bytes written is always a multiple of 4.
+///
+/// Upon success, the total number of bytes written (including padding) is
+/// returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_label(
+    label: <span class="kw-2">&amp;</span>str,
+    dst: <span class="kw-2">&amp;mut </span>[u8],
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, SerializeError&gt; {
+    <span class="kw">let </span>nwrite = write_label_len(label);
+    <span class="kw">if </span>dst.len() &lt; nwrite {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(SerializeError::buffer_too_small(<span class="string">&quot;label&quot;</span>));
+    }
+    dst[..label.len()].copy_from_slice(label.as_bytes());
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..(nwrite - label.len()) {
+        dst[label.len() + i] = <span class="number">0</span>;
+    }
+    <span class="macro">assert_eq!</span>(nwrite % <span class="number">4</span>, <span class="number">0</span>);
+    <span class="prelude-val">Ok</span>(nwrite)
+}
+
+<span class="doccomment">/// Returns the total number of bytes (including padding) that would be written
+/// for the given label. This panics if the given label contains a NUL byte or
+/// is longer than 255 bytes. (The size restriction exists so that searching
+/// for a label during deserialization can be done in small bounded space.)
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_label_len(label: <span class="kw-2">&amp;</span>str) -&gt; usize {
+    <span class="kw">if </span>label.len() &gt; <span class="number">255 </span>{
+        <span class="macro">panic!</span>(<span class="string">&quot;label must not be longer than 255 bytes&quot;</span>);
+    }
+    <span class="kw">if </span>label.as_bytes().iter().position(|<span class="kw-2">&amp;</span>b| b == <span class="number">0</span>).is_some() {
+        <span class="macro">panic!</span>(<span class="string">&quot;label must not contain NUL bytes&quot;</span>);
+    }
+    <span class="kw">let </span>label_len = label.len() + <span class="number">1</span>; <span class="comment">// +1 for the NUL terminator
+    </span>label_len + padding_len(label_len)
+}
+
+<span class="doccomment">/// Reads the endianness check from the beginning of the given slice and
+/// confirms that the endianness of the serialized object matches the expected
+/// endianness. If the slice is too small or if the endianness check fails,
+/// this returns an error.
+///
+/// Upon success, the total number of bytes read is returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_endianness_check(
+    slice: <span class="kw-2">&amp;</span>[u8],
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, DeserializeError&gt; {
+    <span class="kw">let </span>(n, nr) = try_read_u32(slice, <span class="string">&quot;endianness check&quot;</span>)<span class="question-mark">?</span>;
+    <span class="macro">assert_eq!</span>(nr, write_endianness_check_len());
+    <span class="kw">if </span>n != <span class="number">0xFEFF </span>{
+        <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::endian_mismatch(<span class="number">0xFEFF</span>, n));
+    }
+    <span class="prelude-val">Ok</span>(nr)
+}
+
+<span class="doccomment">/// Writes 0xFEFF as an integer using the given endianness.
+///
+/// This is useful for writing into the header of a serialized object. It can
+/// be read during deserialization as a sanity check to ensure the proper
+/// endianness is used.
+///
+/// Upon success, the total number of bytes written is returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_endianness_check&lt;E: Endian&gt;(
+    dst: <span class="kw-2">&amp;mut </span>[u8],
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, SerializeError&gt; {
+    <span class="kw">let </span>nwrite = write_endianness_check_len();
+    <span class="kw">if </span>dst.len() &lt; nwrite {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(SerializeError::buffer_too_small(<span class="string">&quot;endianness check&quot;</span>));
+    }
+    E::write_u32(<span class="number">0xFEFF</span>, dst);
+    <span class="prelude-val">Ok</span>(nwrite)
+}
+
+<span class="doccomment">/// Returns the number of bytes written by the endianness check.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_endianness_check_len() -&gt; usize {
+    size_of::&lt;u32&gt;()
+}
+
+<span class="doccomment">/// Reads a version number from the beginning of the given slice and confirms
+/// that is matches the expected version number given. If the slice is too
+/// small or if the version numbers aren&#39;t equivalent, this returns an error.
+///
+/// Upon success, the total number of bytes read is returned.
+///
+/// N.B. Currently, we require that the version number is exactly equivalent.
+/// In the future, if we bump the version number without a semver bump, then
+/// we&#39;ll need to relax this a bit and support older versions.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_version(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    expected_version: u32,
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, DeserializeError&gt; {
+    <span class="kw">let </span>(n, nr) = try_read_u32(slice, <span class="string">&quot;version&quot;</span>)<span class="question-mark">?</span>;
+    <span class="macro">assert_eq!</span>(nr, write_version_len());
+    <span class="kw">if </span>n != expected_version {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::version_mismatch(expected_version, n));
+    }
+    <span class="prelude-val">Ok</span>(nr)
+}
+
+<span class="doccomment">/// Writes the given version number to the beginning of the given slice.
+///
+/// This is useful for writing into the header of a serialized object. It can
+/// be read during deserialization as a sanity check to ensure that the library
+/// code supports the format of the serialized object.
+///
+/// Upon success, the total number of bytes written is returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_version&lt;E: Endian&gt;(
+    version: u32,
+    dst: <span class="kw-2">&amp;mut </span>[u8],
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, SerializeError&gt; {
+    <span class="kw">let </span>nwrite = write_version_len();
+    <span class="kw">if </span>dst.len() &lt; nwrite {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(SerializeError::buffer_too_small(<span class="string">&quot;version number&quot;</span>));
+    }
+    E::write_u32(version, dst);
+    <span class="prelude-val">Ok</span>(nwrite)
+}
+
+<span class="doccomment">/// Returns the number of bytes written by writing the version number.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_version_len() -&gt; usize {
+    size_of::&lt;u32&gt;()
+}
+
+<span class="doccomment">/// Reads a pattern ID from the given slice. If the slice has insufficient
+/// length, then this panics. If the deserialized integer exceeds the pattern
+/// ID limit for the current target, then this returns an error.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_pattern_id(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(PatternID, usize), DeserializeError&gt; {
+    <span class="kw">let </span>bytes: [u8; PatternID::SIZE] =
+        slice[..PatternID::SIZE].try_into().unwrap();
+    <span class="kw">let </span>pid = PatternID::from_ne_bytes(bytes)
+        .map_err(|err| DeserializeError::pattern_id_error(err, what))<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>((pid, PatternID::SIZE))
+}
+
+<span class="doccomment">/// Reads a pattern ID from the given slice. If the slice has insufficient
+/// length, then this panics. Otherwise, the deserialized integer is assumed
+/// to be a valid pattern ID.
+///
+/// This also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_pattern_id_unchecked(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; (PatternID, usize) {
+    <span class="kw">let </span>pid = PatternID::from_ne_bytes_unchecked(
+        slice[..PatternID::SIZE].try_into().unwrap(),
+    );
+    (pid, PatternID::SIZE)
+}
+
+<span class="doccomment">/// Write the given pattern ID to the beginning of the given slice of bytes
+/// using the specified endianness. The given slice must have length at least
+/// `PatternID::SIZE`, or else this panics. Upon success, the total number of
+/// bytes written is returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_pattern_id&lt;E: Endian&gt;(
+    pid: PatternID,
+    dst: <span class="kw-2">&amp;mut </span>[u8],
+) -&gt; usize {
+    E::write_u32(pid.as_u32(), dst);
+    PatternID::SIZE
+}
+
+<span class="doccomment">/// Attempts to read a state ID from the given slice. If the slice has an
+/// insufficient number of bytes or if the state ID exceeds the limit for
+/// the current target, then this returns an error.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_read_state_id(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(StateID, usize), DeserializeError&gt; {
+    <span class="kw">if </span>slice.len() &lt; StateID::SIZE {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::buffer_too_small(what));
+    }
+    read_state_id(slice, what)
+}
+
+<span class="doccomment">/// Reads a state ID from the given slice. If the slice has insufficient
+/// length, then this panics. If the deserialized integer exceeds the state ID
+/// limit for the current target, then this returns an error.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_state_id(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(StateID, usize), DeserializeError&gt; {
+    <span class="kw">let </span>bytes: [u8; StateID::SIZE] =
+        slice[..StateID::SIZE].try_into().unwrap();
+    <span class="kw">let </span>sid = StateID::from_ne_bytes(bytes)
+        .map_err(|err| DeserializeError::state_id_error(err, what))<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>((sid, StateID::SIZE))
+}
+
+<span class="doccomment">/// Reads a state ID from the given slice. If the slice has insufficient
+/// length, then this panics. Otherwise, the deserialized integer is assumed
+/// to be a valid state ID.
+///
+/// This also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_state_id_unchecked(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; (StateID, usize) {
+    <span class="kw">let </span>sid = StateID::from_ne_bytes_unchecked(
+        slice[..StateID::SIZE].try_into().unwrap(),
+    );
+    (sid, StateID::SIZE)
+}
+
+<span class="doccomment">/// Write the given state ID to the beginning of the given slice of bytes
+/// using the specified endianness. The given slice must have length at least
+/// `StateID::SIZE`, or else this panics. Upon success, the total number of
+/// bytes written is returned.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_state_id&lt;E: Endian&gt;(
+    sid: StateID,
+    dst: <span class="kw-2">&amp;mut </span>[u8],
+) -&gt; usize {
+    E::write_u32(sid.as_u32(), dst);
+    StateID::SIZE
+}
+
+<span class="doccomment">/// Try to read a u16 as a usize from the beginning of the given slice in
+/// native endian format. If the slice has fewer than 2 bytes or if the
+/// deserialized number cannot be represented by usize, then this returns an
+/// error. The error message will include the `what` description of what is
+/// being deserialized, for better error messages. `what` should be a noun in
+/// singular form.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_read_u16_as_usize(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(usize, usize), DeserializeError&gt; {
+    try_read_u16(slice, what).and_then(|(n, nr)| {
+        usize::try_from(n)
+            .map(|n| (n, nr))
+            .map_err(|<span class="kw">_</span>| DeserializeError::invalid_usize(what))
+    })
+}
+
+<span class="doccomment">/// Try to read a u32 as a usize from the beginning of the given slice in
+/// native endian format. If the slice has fewer than 4 bytes or if the
+/// deserialized number cannot be represented by usize, then this returns an
+/// error. The error message will include the `what` description of what is
+/// being deserialized, for better error messages. `what` should be a noun in
+/// singular form.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_read_u32_as_usize(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(usize, usize), DeserializeError&gt; {
+    try_read_u32(slice, what).and_then(|(n, nr)| {
+        usize::try_from(n)
+            .map(|n| (n, nr))
+            .map_err(|<span class="kw">_</span>| DeserializeError::invalid_usize(what))
+    })
+}
+
+<span class="doccomment">/// Try to read a u16 from the beginning of the given slice in native endian
+/// format. If the slice has fewer than 2 bytes, then this returns an error.
+/// The error message will include the `what` description of what is being
+/// deserialized, for better error messages. `what` should be a noun in
+/// singular form.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_read_u16(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(u16, usize), DeserializeError&gt; {
+    check_slice_len(slice, size_of::&lt;u16&gt;(), what)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>((read_u16(slice), size_of::&lt;u16&gt;()))
+}
+
+<span class="doccomment">/// Try to read a u32 from the beginning of the given slice in native endian
+/// format. If the slice has fewer than 4 bytes, then this returns an error.
+/// The error message will include the `what` description of what is being
+/// deserialized, for better error messages. `what` should be a noun in
+/// singular form.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_read_u32(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(u32, usize), DeserializeError&gt; {
+    check_slice_len(slice, size_of::&lt;u32&gt;(), what)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>((read_u32(slice), size_of::&lt;u32&gt;()))
+}
+
+<span class="doccomment">/// Try to read a u128 from the beginning of the given slice in native endian
+/// format. If the slice has fewer than 16 bytes, then this returns an error.
+/// The error message will include the `what` description of what is being
+/// deserialized, for better error messages. `what` should be a noun in
+/// singular form.
+///
+/// Upon success, this also returns the number of bytes read.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_read_u128(
+    slice: <span class="kw-2">&amp;</span>[u8],
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(u128, usize), DeserializeError&gt; {
+    check_slice_len(slice, size_of::&lt;u128&gt;(), what)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>((read_u128(slice), size_of::&lt;u128&gt;()))
+}
+
+<span class="doccomment">/// Read a u16 from the beginning of the given slice in native endian format.
+/// If the slice has fewer than 2 bytes, then this panics.
+///
+/// Marked as inline to speed up sparse searching which decodes integers from
+/// its automaton at search time.
+</span><span class="attribute">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_u16(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; u16 {
+    <span class="kw">let </span>bytes: [u8; <span class="number">2</span>] = slice[..size_of::&lt;u16&gt;()].try_into().unwrap();
+    u16::from_ne_bytes(bytes)
+}
+
+<span class="doccomment">/// Read a u32 from the beginning of the given slice in native endian format.
+/// If the slice has fewer than 4 bytes, then this panics.
+///
+/// Marked as inline to speed up sparse searching which decodes integers from
+/// its automaton at search time.
+</span><span class="attribute">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_u32(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; u32 {
+    <span class="kw">let </span>bytes: [u8; <span class="number">4</span>] = slice[..size_of::&lt;u32&gt;()].try_into().unwrap();
+    u32::from_ne_bytes(bytes)
+}
+
+<span class="doccomment">/// Read a u128 from the beginning of the given slice in native endian format.
+/// If the slice has fewer than 16 bytes, then this panics.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_u128(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; u128 {
+    <span class="kw">let </span>bytes: [u8; <span class="number">16</span>] = slice[..size_of::&lt;u128&gt;()].try_into().unwrap();
+    u128::from_ne_bytes(bytes)
+}
+
+<span class="doccomment">/// Checks that the given slice has some minimal length. If it&#39;s smaller than
+/// the bound given, then a &quot;buffer too small&quot; error is returned with `what`
+/// describing what the buffer represents.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>check_slice_len&lt;T&gt;(
+    slice: <span class="kw-2">&amp;</span>[T],
+    at_least_len: usize,
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), DeserializeError&gt; {
+    <span class="kw">if </span>slice.len() &lt; at_least_len {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(DeserializeError::buffer_too_small(what));
+    }
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Multiply the given numbers, and on overflow, return an error that includes
+/// &#39;what&#39; in the error message.
+///
+/// This is useful when doing arithmetic with untrusted data.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>mul(
+    a: usize,
+    b: usize,
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, DeserializeError&gt; {
+    <span class="kw">match </span>a.checked_mul(b) {
+        <span class="prelude-val">Some</span>(c) =&gt; <span class="prelude-val">Ok</span>(c),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(DeserializeError::arithmetic_overflow(what)),
+    }
+}
+
+<span class="doccomment">/// Add the given numbers, and on overflow, return an error that includes
+/// &#39;what&#39; in the error message.
+///
+/// This is useful when doing arithmetic with untrusted data.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add(
+    a: usize,
+    b: usize,
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, DeserializeError&gt; {
+    <span class="kw">match </span>a.checked_add(b) {
+        <span class="prelude-val">Some</span>(c) =&gt; <span class="prelude-val">Ok</span>(c),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(DeserializeError::arithmetic_overflow(what)),
+    }
+}
+
+<span class="doccomment">/// Shift `a` left by `b`, and on overflow, return an error that includes
+/// &#39;what&#39; in the error message.
+///
+/// This is useful when doing arithmetic with untrusted data.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>shl(
+    a: usize,
+    b: usize,
+    what: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize, DeserializeError&gt; {
+    <span class="kw">let </span>amount = u32::try_from(b)
+        .map_err(|<span class="kw">_</span>| DeserializeError::arithmetic_overflow(what))<span class="question-mark">?</span>;
+    <span class="kw">match </span>a.checked_shl(amount) {
+        <span class="prelude-val">Some</span>(c) =&gt; <span class="prelude-val">Ok</span>(c),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(DeserializeError::arithmetic_overflow(what)),
+    }
+}
+
+<span class="doccomment">/// Returns the number of additional bytes required to add to the given length
+/// in order to make the total length a multiple of 4. The return value is
+/// always less than 4.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>padding_len(non_padding_len: usize) -&gt; usize {
+    (<span class="number">4 </span>- (non_padding_len &amp; <span class="number">0b11</span>)) &amp; <span class="number">0b11
+</span>}
+
+<span class="doccomment">/// A simple trait for writing code generic over endianness.
+///
+/// This is similar to what byteorder provides, but we only need a very small
+/// subset.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>Endian {
+    <span class="doccomment">/// Writes a u16 to the given destination buffer in a particular
+    /// endianness. If the destination buffer has a length smaller than 2, then
+    /// this panics.
+    </span><span class="kw">fn </span>write_u16(n: u16, dst: <span class="kw-2">&amp;mut </span>[u8]);
+
+    <span class="doccomment">/// Writes a u32 to the given destination buffer in a particular
+    /// endianness. If the destination buffer has a length smaller than 4, then
+    /// this panics.
+    </span><span class="kw">fn </span>write_u32(n: u32, dst: <span class="kw-2">&amp;mut </span>[u8]);
+
+    <span class="doccomment">/// Writes a u64 to the given destination buffer in a particular
+    /// endianness. If the destination buffer has a length smaller than 8, then
+    /// this panics.
+    </span><span class="kw">fn </span>write_u64(n: u64, dst: <span class="kw-2">&amp;mut </span>[u8]);
+
+    <span class="doccomment">/// Writes a u128 to the given destination buffer in a particular
+    /// endianness. If the destination buffer has a length smaller than 16,
+    /// then this panics.
+    </span><span class="kw">fn </span>write_u128(n: u128, dst: <span class="kw-2">&amp;mut </span>[u8]);
+}
+
+<span class="doccomment">/// Little endian writing.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>LE {}
+<span class="doccomment">/// Big endian writing.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>BE {}
+
+<span class="attribute">#[cfg(target_endian = <span class="string">&quot;little&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>NE = LE;
+<span class="attribute">#[cfg(target_endian = <span class="string">&quot;big&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>NE = BE;
+
+<span class="kw">impl </span>Endian <span class="kw">for </span>LE {
+    <span class="kw">fn </span>write_u16(n: u16, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">2</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_le_bytes());
+    }
+
+    <span class="kw">fn </span>write_u32(n: u32, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">4</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_le_bytes());
+    }
+
+    <span class="kw">fn </span>write_u64(n: u64, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">8</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_le_bytes());
+    }
+
+    <span class="kw">fn </span>write_u128(n: u128, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">16</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_le_bytes());
+    }
+}
+
+<span class="kw">impl </span>Endian <span class="kw">for </span>BE {
+    <span class="kw">fn </span>write_u16(n: u16, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">2</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_be_bytes());
+    }
+
+    <span class="kw">fn </span>write_u32(n: u32, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">4</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_be_bytes());
+    }
+
+    <span class="kw">fn </span>write_u64(n: u64, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">8</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_be_bytes());
+    }
+
+    <span class="kw">fn </span>write_u128(n: u128, dst: <span class="kw-2">&amp;mut </span>[u8]) {
+        dst[..<span class="number">16</span>].copy_from_slice(<span class="kw-2">&amp;</span>n.to_be_bytes());
+    }
+}
+
+<span class="attribute">#[cfg(all(test, feature = <span class="string">&quot;alloc&quot;</span>))]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>labels() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+
+        <span class="kw">let </span>nwrite = write_label(<span class="string">&quot;fooba&quot;</span>, <span class="kw-2">&amp;mut </span>buf).unwrap();
+        <span class="macro">assert_eq!</span>(nwrite, <span class="number">8</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>buf[..nwrite], <span class="string">b&quot;fooba\x00\x00\x00&quot;</span>);
+
+        <span class="kw">let </span>nread = read_label(<span class="kw-2">&amp;</span>buf, <span class="string">&quot;fooba&quot;</span>).unwrap();
+        <span class="macro">assert_eq!</span>(nread, <span class="number">8</span>);
+    }
+
+    <span class="attribute">#[test]
+    #[should_panic]
+    </span><span class="kw">fn </span>bad_label_interior_nul() {
+        <span class="comment">// interior NULs are not allowed
+        </span>write_label(<span class="string">&quot;foo\x00bar&quot;</span>, <span class="kw-2">&amp;mut </span>[<span class="number">0</span>; <span class="number">1024</span>]).unwrap();
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>bad_label_almost_too_long() {
+        <span class="comment">// ok
+        </span>write_label(<span class="kw-2">&amp;</span><span class="string">&quot;z&quot;</span>.repeat(<span class="number">255</span>), <span class="kw-2">&amp;mut </span>[<span class="number">0</span>; <span class="number">1024</span>]).unwrap();
+    }
+
+    <span class="attribute">#[test]
+    #[should_panic]
+    </span><span class="kw">fn </span>bad_label_too_long() {
+        <span class="comment">// labels longer than 255 bytes are banned
+        </span>write_label(<span class="kw-2">&amp;</span><span class="string">&quot;z&quot;</span>.repeat(<span class="number">256</span>), <span class="kw-2">&amp;mut </span>[<span class="number">0</span>; <span class="number">1024</span>]).unwrap();
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>padding() {
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, padding_len(<span class="number">8</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">3</span>, padding_len(<span class="number">9</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">2</span>, padding_len(<span class="number">10</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">1</span>, padding_len(<span class="number">11</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, padding_len(<span class="number">12</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">3</span>, padding_len(<span class="number">13</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">2</span>, padding_len(<span class="number">14</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">1</span>, padding_len(<span class="number">15</span>));
+        <span class="macro">assert_eq!</span>(<span class="number">0</span>, padding_len(<span class="number">16</span>));
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="regex_automata" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

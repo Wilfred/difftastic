@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Lazy","A value which is initialized on the first access."],["OnceCell","A thread-safe cell which can be written to only once."]]};

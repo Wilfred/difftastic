@@ -1,0 +1,1488 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/mio-0.8.10/src/poll.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>poll.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../mio/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../mio/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../mio/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+</pre><pre class="rust"><code><span class="attribute">#[cfg(all(
+    unix,
+    not(mio_unsupported_force_poll_poll),
+    not(any(target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;vita&quot;</span>))
+))]
+</span><span class="kw">use </span>std::os::unix::io::{AsRawFd, RawFd};
+<span class="attribute">#[cfg(all(debug_assertions, not(target_os = <span class="string">&quot;wasi&quot;</span>)))]
+</span><span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
+<span class="attribute">#[cfg(all(debug_assertions, not(target_os = <span class="string">&quot;wasi&quot;</span>)))]
+</span><span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>std::time::Duration;
+<span class="kw">use </span>std::{fmt, io};
+
+<span class="kw">use crate</span>::{event, sys, Events, Interest, Token};
+
+<span class="doccomment">/// Polls for readiness events on all registered values.
+///
+/// `Poll` allows a program to monitor a large number of [`event::Source`]s,
+/// waiting until one or more become &quot;ready&quot; for some class of operations; e.g.
+/// reading and writing. An event source is considered ready if it is possible
+/// to immediately perform a corresponding operation; e.g. [`read`] or
+/// [`write`].
+///
+/// To use `Poll`, an `event::Source` must first be registered with the `Poll`
+/// instance using the [`register`] method on its associated `Register`,
+/// supplying readiness interest. The readiness interest tells `Poll` which
+/// specific operations on the handle to monitor for readiness. A `Token` is
+/// also passed to the [`register`] function. When `Poll` returns a readiness
+/// event, it will include this token.  This associates the event with the
+/// event source that generated the event.
+///
+/// [`event::Source`]: ./event/trait.Source.html
+/// [`read`]: ./net/struct.TcpStream.html#method.read
+/// [`write`]: ./net/struct.TcpStream.html#method.write
+/// [`register`]: struct.Registry.html#method.register
+///
+/// # Examples
+///
+/// A basic example -- establishing a `TcpStream` connection.
+///
+</span><span class="attribute">#[cfg_attr(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>), doc = <span class="string">&quot;```&quot;</span>)]
+#[cfg_attr(not(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>)), doc = <span class="string">&quot;```ignore&quot;</span>)]
+</span><span class="doccomment">/// # use std::error::Error;
+/// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+/// use mio::{Events, Poll, Interest, Token};
+/// use mio::net::TcpStream;
+///
+/// use std::net::{self, SocketAddr};
+///
+/// // Bind a server socket to connect to.
+/// let addr: SocketAddr = &quot;127.0.0.1:0&quot;.parse()?;
+/// let server = net::TcpListener::bind(addr)?;
+///
+/// // Construct a new `Poll` handle as well as the `Events` we&#39;ll store into
+/// let mut poll = Poll::new()?;
+/// let mut events = Events::with_capacity(1024);
+///
+/// // Connect the stream
+/// let mut stream = TcpStream::connect(server.local_addr()?)?;
+///
+/// // Register the stream with `Poll`
+/// poll.registry().register(&amp;mut stream, Token(0), Interest::READABLE | Interest::WRITABLE)?;
+///
+/// // Wait for the socket to become ready. This has to happens in a loop to
+/// // handle spurious wakeups.
+/// loop {
+///     poll.poll(&amp;mut events, None)?;
+///
+///     for event in &amp;events {
+///         if event.token() == Token(0) &amp;&amp; event.is_writable() {
+///             // The socket connected (probably, it could still be a spurious
+///             // wakeup)
+///             return Ok(());
+///         }
+///     }
+/// }
+/// # }
+/// ```
+///
+/// # Portability
+///
+/// Using `Poll` provides a portable interface across supported platforms as
+/// long as the caller takes the following into consideration:
+///
+/// ### Spurious events
+///
+/// [`Poll::poll`] may return readiness events even if the associated
+/// event source is not actually ready. Given the same code, this may
+/// happen more on some platforms than others. It is important to never assume
+/// that, just because a readiness event was received, that the associated
+/// operation will succeed as well.
+///
+/// If operation fails with [`WouldBlock`], then the caller should not treat
+/// this as an error, but instead should wait until another readiness event is
+/// received.
+///
+/// ### Draining readiness
+///
+/// Once a readiness event is received, the corresponding operation must be
+/// performed repeatedly until it returns [`WouldBlock`]. Unless this is done,
+/// there is no guarantee that another readiness event will be delivered, even
+/// if further data is received for the event source.
+///
+/// [`WouldBlock`]: std::io::ErrorKind::WouldBlock
+///
+/// ### Readiness operations
+///
+/// The only readiness operations that are guaranteed to be present on all
+/// supported platforms are [`readable`] and [`writable`]. All other readiness
+/// operations may have false negatives and as such should be considered
+/// **hints**. This means that if a socket is registered with [`readable`]
+/// interest and either an error or close is received, a readiness event will
+/// be generated for the socket, but it **may** only include `readable`
+/// readiness. Also note that, given the potential for spurious events,
+/// receiving a readiness event with `read_closed`, `write_closed`, or `error`
+/// doesn&#39;t actually mean that a `read` on the socket will return a result
+/// matching the readiness event.
+///
+/// In other words, portable programs that explicitly check for [`read_closed`],
+/// [`write_closed`], or [`error`] readiness should be doing so as an
+/// **optimization** and always be able to handle an error or close situation
+/// when performing the actual read operation.
+///
+/// [`readable`]: ./event/struct.Event.html#method.is_readable
+/// [`writable`]: ./event/struct.Event.html#method.is_writable
+/// [`error`]: ./event/struct.Event.html#method.is_error
+/// [`read_closed`]: ./event/struct.Event.html#method.is_read_closed
+/// [`write_closed`]: ./event/struct.Event.html#method.is_write_closed
+///
+/// ### Registering handles
+///
+/// Unless otherwise noted, it should be assumed that types implementing
+/// [`event::Source`] will never become ready unless they are registered with
+/// `Poll`.
+///
+/// For example:
+///
+</span><span class="attribute">#[cfg_attr(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>), doc = <span class="string">&quot;```&quot;</span>)]
+#[cfg_attr(not(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>)), doc = <span class="string">&quot;```ignore&quot;</span>)]
+</span><span class="doccomment">/// # use std::error::Error;
+/// # use std::net;
+/// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+/// use mio::{Poll, Interest, Token};
+/// use mio::net::TcpStream;
+/// use std::net::SocketAddr;
+/// use std::time::Duration;
+/// use std::thread;
+///
+/// let address: SocketAddr = &quot;127.0.0.1:0&quot;.parse()?;
+/// let listener = net::TcpListener::bind(address)?;
+/// let mut sock = TcpStream::connect(listener.local_addr()?)?;
+///
+/// thread::sleep(Duration::from_secs(1));
+///
+/// let poll = Poll::new()?;
+///
+/// // The connect is not guaranteed to have started until it is registered at
+/// // this point
+/// poll.registry().register(&amp;mut sock, Token(0), Interest::READABLE | Interest::WRITABLE)?;
+/// #     Ok(())
+/// # }
+/// ```
+///
+/// ### Dropping `Poll`
+///
+/// When the `Poll` instance is dropped it may cancel in-flight operations for
+/// the registered [event sources], meaning that no further events for them may
+/// be received. It also means operations on the registered event sources may no
+/// longer work. It is up to the user to keep the `Poll` instance alive while
+/// registered event sources are being used.
+///
+/// [event sources]: ./event/trait.Source.html
+///
+/// ### Accessing raw fd/socket/handle
+///
+/// Mio makes it possible for many types to be converted into a raw file
+/// descriptor (fd, Unix), socket (Windows) or handle (Windows). This makes it
+/// possible to support more operations on the type than Mio supports, for
+/// example it makes [mio-aio] possible. However accessing the raw fd is not
+/// without it&#39;s pitfalls.
+///
+/// Specifically performing I/O operations outside of Mio on these types (via
+/// the raw fd) has unspecified behaviour. It could cause no more events to be
+/// generated for the type even though it returned `WouldBlock` (in an operation
+/// directly accessing the fd). The behaviour is OS specific and Mio can only
+/// guarantee cross-platform behaviour if it can control the I/O.
+///
+/// [mio-aio]: https://github.com/asomers/mio-aio
+///
+/// *The following is **not** guaranteed, just a description of the current
+/// situation!* Mio is allowed to change the following without it being considered
+/// a breaking change, don&#39;t depend on this, it&#39;s just here to inform the user.
+/// Currently the kqueue and epoll implementation support direct I/O operations
+/// on the fd without Mio&#39;s knowledge. Windows however needs **all** I/O
+/// operations to go through Mio otherwise it is not able to update it&#39;s
+/// internal state properly and won&#39;t generate events.
+///
+/// ### Polling without registering event sources
+///
+///
+/// *The following is **not** guaranteed, just a description of the current
+/// situation!* Mio is allowed to change the following without it being
+/// considered a breaking change, don&#39;t depend on this, it&#39;s just here to inform
+/// the user. On platforms that use epoll, kqueue or IOCP (see implementation
+/// notes below) polling without previously registering [event sources] will
+/// result in sleeping forever, only a process signal will be able to wake up
+/// the thread.
+///
+/// On WASM/WASI this is different as it doesn&#39;t support process signals,
+/// furthermore the WASI specification doesn&#39;t specify a behaviour in this
+/// situation, thus it&#39;s up to the implementation what to do here. As an
+/// example, the wasmtime runtime will return `EINVAL` in this situation, but
+/// different runtimes may return different results. If you have further
+/// insights or thoughts about this situation (and/or how Mio should handle it)
+/// please add you comment to [pull request#1580].
+///
+/// [event sources]: crate::event::Source
+/// [pull request#1580]: https://github.com/tokio-rs/mio/pull/1580
+///
+/// # Implementation notes
+///
+/// `Poll` is backed by the selector provided by the operating system.
+///
+/// |      OS       |  Selector |
+/// |---------------|-----------|
+/// | Android       | [epoll]   |
+/// | DragonFly BSD | [kqueue]  |
+/// | FreeBSD       | [kqueue]  |
+/// | iOS           | [kqueue]  |
+/// | illumos       | [epoll]   |
+/// | Linux         | [epoll]   |
+/// | NetBSD        | [kqueue]  |
+/// | OpenBSD       | [kqueue]  |
+/// | Windows       | [IOCP]    |
+/// | macOS         | [kqueue]  |
+///
+/// On all supported platforms, socket operations are handled by using the
+/// system selector. Platform specific extensions (e.g. [`SourceFd`]) allow
+/// accessing other features provided by individual system selectors. For
+/// example, Linux&#39;s [`signalfd`] feature can be used by registering the FD with
+/// `Poll` via [`SourceFd`].
+///
+/// On all platforms except windows, a call to [`Poll::poll`] is mostly just a
+/// direct call to the system selector. However, [IOCP] uses a completion model
+/// instead of a readiness model. In this case, `Poll` must adapt the completion
+/// model Mio&#39;s API. While non-trivial, the bridge layer is still quite
+/// efficient. The most expensive part being calls to `read` and `write` require
+/// data to be copied into an intermediate buffer before it is passed to the
+/// kernel.
+///
+/// [epoll]: https://man7.org/linux/man-pages/man7/epoll.7.html
+/// [kqueue]: https://www.freebsd.org/cgi/man.cgi?query=kqueue&amp;sektion=2
+/// [IOCP]: https://docs.microsoft.com/en-us/windows/win32/fileio/i-o-completion-ports
+/// [`signalfd`]: https://man7.org/linux/man-pages/man2/signalfd.2.html
+/// [`SourceFd`]: unix/struct.SourceFd.html
+/// [`Poll::poll`]: struct.Poll.html#method.poll
+</span><span class="kw">pub struct </span>Poll {
+    registry: Registry,
+}
+
+<span class="doccomment">/// Registers I/O resources.
+</span><span class="kw">pub struct </span>Registry {
+    selector: sys::Selector,
+    <span class="doccomment">/// Whether this selector currently has an associated waker.
+    </span><span class="attribute">#[cfg(all(debug_assertions, not(target_os = <span class="string">&quot;wasi&quot;</span>)))]
+    </span>has_waker: Arc&lt;AtomicBool&gt;,
+}
+
+<span class="kw">impl </span>Poll {
+    <span class="macro">cfg_os_poll! </span>{
+        <span class="doccomment">/// Return a new `Poll` handle.
+        ///
+        /// This function will make a syscall to the operating system to create
+        /// the system selector. If this syscall fails, `Poll::new` will return
+        /// with the error.
+        ///
+        /// close-on-exec flag is set on the file descriptors used by the selector to prevent
+        /// leaking it to executed processes. However, on some systems such as
+        /// old Linux systems that don&#39;t support `epoll_create1` syscall it is done
+        /// non-atomically, so a separate thread executing in parallel to this
+        /// function may accidentally leak the file descriptor if it executes a
+        /// new process before this function returns.
+        ///
+        /// See [struct] level docs for more details.
+        ///
+        /// [struct]: struct.Poll.html
+        ///
+        /// # Examples
+        ///
+        /// ```
+        /// # use std::error::Error;
+        /// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+        /// use mio::{Poll, Events};
+        /// use std::time::Duration;
+        ///
+        /// let mut poll = match Poll::new() {
+        ///     Ok(poll) =&gt; poll,
+        ///     Err(e) =&gt; panic!(&quot;failed to create Poll instance; err={:?}&quot;, e),
+        /// };
+        ///
+        /// // Create a structure to receive polled events
+        /// let mut events = Events::with_capacity(1024);
+        ///
+        /// // Wait for events, but none will be received because no
+        /// // `event::Source`s have been registered with this `Poll` instance.
+        /// poll.poll(&amp;mut events, Some(Duration::from_millis(500)))?;
+        /// assert!(events.is_empty());
+        /// #     Ok(())
+        /// # }
+        /// ```
+        </span><span class="kw">pub fn </span>new() -&gt; io::Result&lt;Poll&gt; {
+            sys::Selector::new().map(|selector| Poll {
+                registry: Registry {
+                    selector,
+                    <span class="attribute">#[cfg(all(debug_assertions, not(target_os = <span class="string">&quot;wasi&quot;</span>)))]
+                    </span>has_waker: Arc::new(AtomicBool::new(<span class="bool-val">false</span>)),
+                },
+            })
+        }
+    }
+
+    <span class="doccomment">/// Create a separate `Registry` which can be used to register
+    /// `event::Source`s.
+    </span><span class="kw">pub fn </span>registry(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Registry {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.registry
+    }
+
+    <span class="doccomment">/// Wait for readiness events
+    ///
+    /// Blocks the current thread and waits for readiness events for any of the
+    /// [`event::Source`]s that have been registered with this `Poll` instance.
+    /// The function will block until either at least one readiness event has
+    /// been received or `timeout` has elapsed. A `timeout` of `None` means that
+    /// `poll` will block until a readiness event has been received.
+    ///
+    /// The supplied `events` will be cleared and newly received readiness events
+    /// will be pushed onto the end. At most `events.capacity()` events will be
+    /// returned. If there are further pending readiness events, they will be
+    /// returned on the next call to `poll`.
+    ///
+    /// A single call to `poll` may result in multiple readiness events being
+    /// returned for a single event source. For example, if a TCP socket becomes
+    /// both readable and writable, it may be possible for a single readiness
+    /// event to be returned with both [`readable`] and [`writable`] readiness
+    /// **OR** two separate events may be returned, one with [`readable`] set
+    /// and one with [`writable`] set.
+    ///
+    /// Note that the `timeout` will be rounded up to the system clock
+    /// granularity (usually 1ms), and kernel scheduling delays mean that
+    /// the blocking interval may be overrun by a small amount.
+    ///
+    /// See the [struct] level documentation for a higher level discussion of
+    /// polling.
+    ///
+    /// [`event::Source`]: ./event/trait.Source.html
+    /// [`readable`]: struct.Interest.html#associatedconstant.READABLE
+    /// [`writable`]: struct.Interest.html#associatedconstant.WRITABLE
+    /// [struct]: struct.Poll.html
+    /// [`iter`]: ./event/struct.Events.html#method.iter
+    ///
+    /// # Notes
+    ///
+    /// This returns any errors without attempting to retry, previous versions
+    /// of Mio would automatically retry the poll call if it was interrupted
+    /// (if `EINTR` was returned).
+    ///
+    /// Currently if the `timeout` elapses without any readiness events
+    /// triggering this will return `Ok(())`. However we&#39;re not guaranteeing
+    /// this behaviour as this depends on the OS.
+    ///
+    /// # Examples
+    ///
+    /// A basic example -- establishing a `TcpStream` connection.
+    ///
+    </span><span class="attribute">#[cfg_attr(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>), doc = <span class="string">&quot;```&quot;</span>)]
+    #[cfg_attr(not(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>)), doc = <span class="string">&quot;```ignore&quot;</span>)]
+    </span><span class="doccomment">/// # use std::error::Error;
+    /// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    /// use mio::{Events, Poll, Interest, Token};
+    /// use mio::net::TcpStream;
+    ///
+    /// use std::net::{TcpListener, SocketAddr};
+    /// use std::thread;
+    ///
+    /// // Bind a server socket to connect to.
+    /// let addr: SocketAddr = &quot;127.0.0.1:0&quot;.parse()?;
+    /// let server = TcpListener::bind(addr)?;
+    /// let addr = server.local_addr()?.clone();
+    ///
+    /// // Spawn a thread to accept the socket
+    /// thread::spawn(move || {
+    ///     let _ = server.accept();
+    /// });
+    ///
+    /// // Construct a new `Poll` handle as well as the `Events` we&#39;ll store into
+    /// let mut poll = Poll::new()?;
+    /// let mut events = Events::with_capacity(1024);
+    ///
+    /// // Connect the stream
+    /// let mut stream = TcpStream::connect(addr)?;
+    ///
+    /// // Register the stream with `Poll`
+    /// poll.registry().register(
+    ///     &amp;mut stream,
+    ///     Token(0),
+    ///     Interest::READABLE | Interest::WRITABLE)?;
+    ///
+    /// // Wait for the socket to become ready. This has to happens in a loop to
+    /// // handle spurious wakeups.
+    /// loop {
+    ///     poll.poll(&amp;mut events, None)?;
+    ///
+    ///     for event in &amp;events {
+    ///         if event.token() == Token(0) &amp;&amp; event.is_writable() {
+    ///             // The socket connected (probably, it could still be a spurious
+    ///             // wakeup)
+    ///             return Ok(());
+    ///         }
+    ///     }
+    /// }
+    /// # }
+    /// ```
+    ///
+    /// [struct]: #
+    </span><span class="kw">pub fn </span>poll(<span class="kw-2">&amp;mut </span><span class="self">self</span>, events: <span class="kw-2">&amp;mut </span>Events, timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;) -&gt; io::Result&lt;()&gt; {
+        <span class="self">self</span>.registry.selector.select(events.sys(), timeout)
+    }
+}
+
+<span class="attribute">#[cfg(all(
+    unix,
+    not(mio_unsupported_force_poll_poll),
+    not(any(target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;vita&quot;</span>))
+))]
+</span><span class="kw">impl </span>AsRawFd <span class="kw">for </span>Poll {
+    <span class="kw">fn </span>as_raw_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RawFd {
+        <span class="self">self</span>.registry.as_raw_fd()
+    }
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Poll {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        fmt.debug_struct(<span class="string">&quot;Poll&quot;</span>).finish()
+    }
+}
+
+<span class="kw">impl </span>Registry {
+    <span class="doccomment">/// Register an [`event::Source`] with the `Poll` instance.
+    ///
+    /// Once registered, the `Poll` instance will monitor the event source for
+    /// readiness state changes. When it notices a state change, it will return
+    /// a readiness event for the handle the next time [`poll`] is called.
+    ///
+    /// See [`Poll`] docs for a high level overview.
+    ///
+    /// # Arguments
+    ///
+    /// `source: &amp;mut S: event::Source`: This is the source of events that the
+    /// `Poll` instance should monitor for readiness state changes.
+    ///
+    /// `token: Token`: The caller picks a token to associate with the socket.
+    /// When [`poll`] returns an event for the handle, this token is included.
+    /// This allows the caller to map the event to its source. The token
+    /// associated with the `event::Source` can be changed at any time by
+    /// calling [`reregister`].
+    ///
+    /// See documentation on [`Token`] for an example showing how to pick
+    /// [`Token`] values.
+    ///
+    /// `interest: Interest`: Specifies which operations `Poll` should monitor
+    /// for readiness. `Poll` will only return readiness events for operations
+    /// specified by this argument.
+    ///
+    /// If a socket is registered with readable interest and the socket becomes
+    /// writable, no event will be returned from [`poll`].
+    ///
+    /// The readiness interest for an `event::Source` can be changed at any time
+    /// by calling [`reregister`].
+    ///
+    /// # Notes
+    ///
+    /// Callers must ensure that if a source being registered with a `Poll`
+    /// instance was previously registered with that `Poll` instance, then a
+    /// call to [`deregister`] has already occurred. Consecutive calls to
+    /// `register` is unspecified behavior.
+    ///
+    /// Unless otherwise specified, the caller should assume that once an event
+    /// source is registered with a `Poll` instance, it is bound to that `Poll`
+    /// instance for the lifetime of the event source. This remains true even
+    /// if the event source is deregistered from the poll instance using
+    /// [`deregister`].
+    ///
+    /// [`event::Source`]: ./event/trait.Source.html
+    /// [`poll`]: struct.Poll.html#method.poll
+    /// [`reregister`]: struct.Registry.html#method.reregister
+    /// [`deregister`]: struct.Registry.html#method.deregister
+    /// [`Token`]: struct.Token.html
+    ///
+    /// # Examples
+    ///
+    </span><span class="attribute">#[cfg_attr(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>), doc = <span class="string">&quot;```&quot;</span>)]
+    #[cfg_attr(not(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>)), doc = <span class="string">&quot;```ignore&quot;</span>)]
+    </span><span class="doccomment">/// # use std::error::Error;
+    /// # use std::net;
+    /// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    /// use mio::{Events, Poll, Interest, Token};
+    /// use mio::net::TcpStream;
+    /// use std::net::SocketAddr;
+    /// use std::time::{Duration, Instant};
+    ///
+    /// let mut poll = Poll::new()?;
+    ///
+    /// let address: SocketAddr = &quot;127.0.0.1:0&quot;.parse()?;
+    /// let listener = net::TcpListener::bind(address)?;
+    /// let mut socket = TcpStream::connect(listener.local_addr()?)?;
+    ///
+    /// // Register the socket with `poll`
+    /// poll.registry().register(
+    ///     &amp;mut socket,
+    ///     Token(0),
+    ///     Interest::READABLE | Interest::WRITABLE)?;
+    ///
+    /// let mut events = Events::with_capacity(1024);
+    /// let start = Instant::now();
+    /// let timeout = Duration::from_millis(500);
+    ///
+    /// loop {
+    ///     let elapsed = start.elapsed();
+    ///
+    ///     if elapsed &gt;= timeout {
+    ///         // Connection timed out
+    ///         return Ok(());
+    ///     }
+    ///
+    ///     let remaining = timeout - elapsed;
+    ///     poll.poll(&amp;mut events, Some(remaining))?;
+    ///
+    ///     for event in &amp;events {
+    ///         if event.token() == Token(0) {
+    ///             // Something (probably) happened on the socket.
+    ///             return Ok(());
+    ///         }
+    ///     }
+    /// }
+    /// # }
+    /// ```
+    </span><span class="kw">pub fn </span>register&lt;S&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, source: <span class="kw-2">&amp;mut </span>S, token: Token, interests: Interest) -&gt; io::Result&lt;()&gt;
+    <span class="kw">where
+        </span>S: event::Source + <span class="question-mark">?</span>Sized,
+    {
+        <span class="macro">trace!</span>(
+            <span class="string">&quot;registering event source with poller: token={:?}, interests={:?}&quot;</span>,
+            token,
+            interests
+        );
+        source.register(<span class="self">self</span>, token, interests)
+    }
+
+    <span class="doccomment">/// Re-register an [`event::Source`] with the `Poll` instance.
+    ///
+    /// Re-registering an event source allows changing the details of the
+    /// registration. Specifically, it allows updating the associated `token`
+    /// and `interests` specified in previous `register` and `reregister` calls.
+    ///
+    /// The `reregister` arguments fully override the previous values. In other
+    /// words, if a socket is registered with [`readable`] interest and the call
+    /// to `reregister` specifies [`writable`], then read interest is no longer
+    /// requested for the handle.
+    ///
+    /// The event source must have previously been registered with this instance
+    /// of `Poll`, otherwise the behavior is unspecified.
+    ///
+    /// See the [`register`] documentation for details about the function
+    /// arguments and see the [`struct`] docs for a high level overview of
+    /// polling.
+    ///
+    /// # Examples
+    ///
+    </span><span class="attribute">#[cfg_attr(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>), doc = <span class="string">&quot;```&quot;</span>)]
+    #[cfg_attr(not(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>)), doc = <span class="string">&quot;```ignore&quot;</span>)]
+    </span><span class="doccomment">/// # use std::error::Error;
+    /// # use std::net;
+    /// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    /// use mio::{Poll, Interest, Token};
+    /// use mio::net::TcpStream;
+    /// use std::net::SocketAddr;
+    ///
+    /// let poll = Poll::new()?;
+    ///
+    /// let address: SocketAddr = &quot;127.0.0.1:0&quot;.parse()?;
+    /// let listener = net::TcpListener::bind(address)?;
+    /// let mut socket = TcpStream::connect(listener.local_addr()?)?;
+    ///
+    /// // Register the socket with `poll`, requesting readable
+    /// poll.registry().register(
+    ///     &amp;mut socket,
+    ///     Token(0),
+    ///     Interest::READABLE)?;
+    ///
+    /// // Reregister the socket specifying write interest instead. Even though
+    /// // the token is the same it must be specified.
+    /// poll.registry().reregister(
+    ///     &amp;mut socket,
+    ///     Token(0),
+    ///     Interest::WRITABLE)?;
+    /// #     Ok(())
+    /// # }
+    /// ```
+    ///
+    /// [`event::Source`]: ./event/trait.Source.html
+    /// [`struct`]: struct.Poll.html
+    /// [`register`]: struct.Registry.html#method.register
+    /// [`readable`]: ./event/struct.Event.html#is_readable
+    /// [`writable`]: ./event/struct.Event.html#is_writable
+    </span><span class="kw">pub fn </span>reregister&lt;S&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, source: <span class="kw-2">&amp;mut </span>S, token: Token, interests: Interest) -&gt; io::Result&lt;()&gt;
+    <span class="kw">where
+        </span>S: event::Source + <span class="question-mark">?</span>Sized,
+    {
+        <span class="macro">trace!</span>(
+            <span class="string">&quot;reregistering event source with poller: token={:?}, interests={:?}&quot;</span>,
+            token,
+            interests
+        );
+        source.reregister(<span class="self">self</span>, token, interests)
+    }
+
+    <span class="doccomment">/// Deregister an [`event::Source`] with the `Poll` instance.
+    ///
+    /// When an event source is deregistered, the `Poll` instance will no longer
+    /// monitor it for readiness state changes. Deregistering clears up any
+    /// internal resources needed to track the handle.  After an explicit call
+    /// to this method completes, it is guaranteed that the token previously
+    /// registered to this handle will not be returned by a future poll, so long
+    /// as a happens-before relationship is established between this call and
+    /// the poll.
+    ///
+    /// The event source must have previously been registered with this instance
+    /// of `Poll`, otherwise the behavior is unspecified.
+    ///
+    /// A handle can be passed back to `register` after it has been
+    /// deregistered; however, it must be passed back to the **same** `Poll`
+    /// instance, otherwise the behavior is unspecified.
+    ///
+    /// # Examples
+    ///
+    </span><span class="attribute">#[cfg_attr(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>), doc = <span class="string">&quot;```&quot;</span>)]
+    #[cfg_attr(not(all(feature = <span class="string">&quot;os-poll&quot;</span>, feature = <span class="string">&quot;net&quot;</span>)), doc = <span class="string">&quot;```ignore&quot;</span>)]
+    </span><span class="doccomment">/// # use std::error::Error;
+    /// # use std::net;
+    /// # fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    /// use mio::{Events, Poll, Interest, Token};
+    /// use mio::net::TcpStream;
+    /// use std::net::SocketAddr;
+    /// use std::time::Duration;
+    ///
+    /// let mut poll = Poll::new()?;
+    ///
+    /// let address: SocketAddr = &quot;127.0.0.1:0&quot;.parse()?;
+    /// let listener = net::TcpListener::bind(address)?;
+    /// let mut socket = TcpStream::connect(listener.local_addr()?)?;
+    ///
+    /// // Register the socket with `poll`
+    /// poll.registry().register(
+    ///     &amp;mut socket,
+    ///     Token(0),
+    ///     Interest::READABLE)?;
+    ///
+    /// poll.registry().deregister(&amp;mut socket)?;
+    ///
+    /// let mut events = Events::with_capacity(1024);
+    ///
+    /// // Set a timeout because this poll should never receive any events.
+    /// poll.poll(&amp;mut events, Some(Duration::from_secs(1)))?;
+    /// assert!(events.is_empty());
+    /// #     Ok(())
+    /// # }
+    /// ```
+    </span><span class="kw">pub fn </span>deregister&lt;S&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, source: <span class="kw-2">&amp;mut </span>S) -&gt; io::Result&lt;()&gt;
+    <span class="kw">where
+        </span>S: event::Source + <span class="question-mark">?</span>Sized,
+    {
+        <span class="macro">trace!</span>(<span class="string">&quot;deregistering event source from poller&quot;</span>);
+        source.deregister(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Creates a new independently owned `Registry`.
+    ///
+    /// Event sources registered with this `Registry` will be registered with
+    /// the original `Registry` and `Poll` instance.
+    </span><span class="kw">pub fn </span>try_clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Registry&gt; {
+        <span class="self">self</span>.selector.try_clone().map(|selector| Registry {
+            selector,
+            <span class="attribute">#[cfg(all(debug_assertions, not(target_os = <span class="string">&quot;wasi&quot;</span>)))]
+            </span>has_waker: Arc::clone(<span class="kw-2">&amp;</span><span class="self">self</span>.has_waker),
+        })
+    }
+
+    <span class="doccomment">/// Internal check to ensure only a single `Waker` is active per [`Poll`]
+    /// instance.
+    </span><span class="attribute">#[cfg(all(debug_assertions, not(target_os = <span class="string">&quot;wasi&quot;</span>)))]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>register_waker(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="macro">assert!</span>(
+            !<span class="self">self</span>.has_waker.swap(<span class="bool-val">true</span>, Ordering::AcqRel),
+            <span class="string">&quot;Only a single `Waker` can be active per `Poll` instance&quot;
+        </span>);
+    }
+
+    <span class="doccomment">/// Get access to the `sys::Selector`.
+    </span><span class="attribute">#[cfg(any(not(target_os = <span class="string">&quot;wasi&quot;</span>), feature = <span class="string">&quot;net&quot;</span>))]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>selector(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>sys::Selector {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.selector
+    }
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Registry {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        fmt.debug_struct(<span class="string">&quot;Registry&quot;</span>).finish()
+    }
+}
+
+<span class="attribute">#[cfg(all(
+    unix,
+    not(mio_unsupported_force_poll_poll),
+    not(any(target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;vita&quot;</span>))
+))]
+</span><span class="kw">impl </span>AsRawFd <span class="kw">for </span>Registry {
+    <span class="kw">fn </span>as_raw_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RawFd {
+        <span class="self">self</span>.selector.as_raw_fd()
+    }
+}
+
+<span class="macro">cfg_os_poll! </span>{
+    <span class="attribute">#[cfg(all(
+        unix,
+        not(mio_unsupported_force_poll_poll),
+        not(any(target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;vita&quot;</span>)),
+    ))]
+    #[test]
+    </span><span class="kw">pub fn </span>as_raw_fd() {
+        <span class="kw">let </span>poll = Poll::new().unwrap();
+        <span class="macro">assert!</span>(poll.as_raw_fd() &gt; <span class="number">0</span>);
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="mio" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

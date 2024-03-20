@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A module to apply attributes and colors on your text."><meta name="keywords" content="rust, rustlang, rust-lang, style"><title>crossterm::style - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Module style</a></h2><div class="sidebar-elems"><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../crossterm/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Module <a href="../index.html">crossterm</a>::<wbr><a class="mod" href="#">style</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/crossterm/style.rs.html#1-510">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A module to apply attributes and colors on your text.</p>
+<h2 id="style"><a href="#style">Style</a></h2>
+<p>The <code>style</code> module provides a functionality to apply attributes and colors on your text.</p>
+<p>This documentation does not contain a lot of examples. The reason is that it’s fairly
+obvious how to use this crate. Although, we do provide
+<a href="https://github.com/crossterm-rs/crossterm/tree/master/examples">examples</a> repository
+to demonstrate the capabilities.</p>
+<h3 id="platform-specific-notes"><a href="#platform-specific-notes">Platform-specific Notes</a></h3>
+<p>Not all features are supported on all terminals/platforms. You should always consult
+platform-specific notes of the following types:</p>
+<ul>
+<li><a href="enum.Color.html#platform-specific-notes">Color</a></li>
+<li><a href="enum.Attribute.html#platform-specific-notes">Attribute</a></li>
+</ul>
+<h3 id="examples"><a href="#examples">Examples</a></h3>
+<p>A few examples of how to use the style module.</p>
+<h4 id="colors"><a href="#colors">Colors</a></h4>
+<p>How to change the terminal text color.</p>
+<p>Command API:</p>
+<p>Using the Command API to color text.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
+<span class="kw">use </span>crossterm::execute;
+<span class="kw">use </span>crossterm::style::{Print, SetForegroundColor, SetBackgroundColor, ResetColor, Color, Attribute};
+
+<span class="kw">fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="macro">execute!</span>(
+        io::stdout(),
+        <span class="comment">// Blue foreground
+        </span>SetForegroundColor(Color::Blue),
+        <span class="comment">// Red background
+        </span>SetBackgroundColor(Color::Red),
+        <span class="comment">// Print text
+        </span>Print(<span class="string">&quot;Blue text on Red.&quot;</span>.to_string()),
+        <span class="comment">// Reset to default colors
+        </span>ResetColor
+    )
+}</code></pre></div>
+<p>Functions:</p>
+<p>Using functions from <a href="trait.Stylize.html"><code>Stylize</code></a> on a <code>String</code> or <code>&amp;'static str</code> to color
+it.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crossterm::style::Stylize;
+
+<span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Red foreground color &amp; blue background.&quot;</span>.red().on_blue());</code></pre></div>
+<h4 id="attributes"><a href="#attributes">Attributes</a></h4>
+<p>How to apply terminal attributes to text.</p>
+<p>Command API:</p>
+<p>Using the Command API to set attributes.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
+
+<span class="kw">use </span>crossterm::execute;
+<span class="kw">use </span>crossterm::style::{Attribute, Print, SetAttribute};
+
+<span class="kw">fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="macro">execute!</span>(
+        io::stdout(),
+        <span class="comment">// Set to bold
+        </span>SetAttribute(Attribute::Bold),
+        Print(<span class="string">&quot;Bold text here.&quot;</span>.to_string()),
+        <span class="comment">// Reset all attributes
+        </span>SetAttribute(Attribute::Reset)
+    )
+}</code></pre></div>
+<p>Functions:</p>
+<p>Using <a href="trait.Stylize.html"><code>Stylize</code></a> functions on a <code>String</code> or <code>&amp;'static str</code> to set
+attributes to it.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crossterm::style::Stylize;
+
+<span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Bold&quot;</span>.bold());
+<span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Underlined&quot;</span>.underlined());
+<span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Negative&quot;</span>.negative());</code></pre></div>
+<p>Displayable:</p>
+<p><a href="enum.Attribute.html"><code>Attribute</code></a> implements <a href="https://doc.rust-lang.org/beta/std/fmt/trait.Display.html">Display</a> and therefore it can be formatted like:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crossterm::style::Attribute;
+
+<span class="macro">println!</span>(
+    <span class="string">&quot;{} Underlined {} No Underline&quot;</span>,
+    Attribute::Underlined,
+    Attribute::NoUnderline
+);</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Attributes.html" title="crossterm::style::Attributes struct">Attributes</a></div><div class="item-right docblock-short">a bitset for all possible attributes</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Colors.html" title="crossterm::style::Colors struct">Colors</a></div><div class="item-right docblock-short">Represents, optionally, a foreground and/or a background color.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ContentStyle.html" title="crossterm::style::ContentStyle struct">ContentStyle</a></div><div class="item-right docblock-short">The style that can be put on content.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Print.html" title="crossterm::style::Print struct">Print</a></div><div class="item-right docblock-short">A command that prints the given displayable type.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.PrintStyledContent.html" title="crossterm::style::PrintStyledContent struct">PrintStyledContent</a></div><div class="item-right docblock-short">A command that prints styled content.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.ResetColor.html" title="crossterm::style::ResetColor struct">ResetColor</a></div><div class="item-right docblock-short">A command that resets the colors back to default.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetAttribute.html" title="crossterm::style::SetAttribute struct">SetAttribute</a></div><div class="item-right docblock-short">A command that sets an attribute.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetAttributes.html" title="crossterm::style::SetAttributes struct">SetAttributes</a></div><div class="item-right docblock-short">A command that sets several attributes.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetBackgroundColor.html" title="crossterm::style::SetBackgroundColor struct">SetBackgroundColor</a></div><div class="item-right docblock-short">A command that sets the the background color.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetColors.html" title="crossterm::style::SetColors struct">SetColors</a></div><div class="item-right docblock-short">A command that optionally sets the foreground and/or background color.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetForegroundColor.html" title="crossterm::style::SetForegroundColor struct">SetForegroundColor</a></div><div class="item-right docblock-short">A command that sets the the foreground color.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetStyle.html" title="crossterm::style::SetStyle struct">SetStyle</a></div><div class="item-right docblock-short">A command that sets a style (colors and attributes).</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SetUnderlineColor.html" title="crossterm::style::SetUnderlineColor struct">SetUnderlineColor</a></div><div class="item-right docblock-short">A command that sets the the underline color.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.StyledContent.html" title="crossterm::style::StyledContent struct">StyledContent</a></div><div class="item-right docblock-short">The style with the content to be styled.</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Attribute.html" title="crossterm::style::Attribute enum">Attribute</a></div><div class="item-right docblock-short">Represents an attribute.</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Color.html" title="crossterm::style::Color enum">Color</a></div><div class="item-right docblock-short">Represents a color.</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Colored.html" title="crossterm::style::Colored enum">Colored</a></div><div class="item-right docblock-short">Represents a foreground or background color.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Stylize.html" title="crossterm::style::Stylize trait">Stylize</a></div><div class="item-right docblock-short">Provides a set of methods to set attributes and colors.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.available_color_count.html" title="crossterm::style::available_color_count fn">available_color_count</a></div><div class="item-right docblock-short">Returns available color count.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.force_color_output.html" title="crossterm::style::force_color_output fn">force_color_output</a></div><div class="item-right docblock-short">Forces colored output on or off globally, overriding NO_COLOR.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.style.html" title="crossterm::style::style fn">style</a></div><div class="item-right docblock-short">Creates a <code>StyledContent</code>.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="crossterm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

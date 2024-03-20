@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/heck-0.4.1/src/train.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>train.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../heck/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../heck/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../heck/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+</pre><pre class="rust"><code><span class="kw">use </span>std::fmt;
+
+<span class="kw">use crate</span>::{capitalize, transform};
+
+<span class="doccomment">/// This trait defines a train case conversion.
+///
+/// In Train-Case, word boundaries are indicated by hyphens and words start
+/// with Capital Letters.
+///
+/// ## Example:
+///
+/// ```rust
+/// use heck::ToTrainCase;
+///
+/// let sentence = &quot;We are going to inherit the earth.&quot;;
+/// assert_eq!(sentence.to_train_case(), &quot;We-Are-Going-To-Inherit-The-Earth&quot;);
+/// ```
+</span><span class="kw">pub trait </span>ToTrainCase: ToOwned {
+    <span class="doccomment">/// Convert this type to Train-Case.
+    </span><span class="kw">fn </span>to_train_case(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned;
+}
+
+<span class="kw">impl </span>ToTrainCase <span class="kw">for </span>str {
+    <span class="kw">fn </span>to_train_case(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned {
+        AsTrainCase(<span class="self">self</span>).to_string()
+    }
+}
+
+<span class="doccomment">/// This wrapper performs a train case conversion in [`fmt::Display`].
+///
+/// ## Example:
+///
+/// ```
+/// use heck::AsTrainCase;
+///
+/// let sentence = &quot;We are going to inherit the earth.&quot;;
+/// assert_eq!(format!(&quot;{}&quot;, AsTrainCase(sentence)), &quot;We-Are-Going-To-Inherit-The-Earth&quot;);
+/// ```
+</span><span class="kw">pub struct </span>AsTrainCase&lt;T: AsRef&lt;str&gt;&gt;(<span class="kw">pub </span>T);
+
+<span class="kw">impl</span>&lt;T: AsRef&lt;str&gt;&gt; fmt::Display <span class="kw">for </span>AsTrainCase&lt;T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        transform(<span class="self">self</span>.<span class="number">0</span>.as_ref(), capitalize, |f| <span class="macro">write!</span>(f, <span class="string">&quot;-&quot;</span>), f)
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span><span class="kw">super</span>::ToTrainCase;
+
+    <span class="macro">macro_rules! </span>t {
+        (<span class="macro-nonterminal">$t</span>:ident : <span class="macro-nonterminal">$s1</span>:expr =&gt; <span class="macro-nonterminal">$s2</span>:expr) =&gt; {
+            <span class="attribute">#[test]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$t</span>() {
+                <span class="macro">assert_eq!</span>(<span class="macro-nonterminal">$s1</span>.to_train_case(), <span class="macro-nonterminal">$s2</span>)
+            }
+        };
+    }
+
+    <span class="macro">t!</span>(test1: <span class="string">&quot;CamelCase&quot; </span>=&gt; <span class="string">&quot;Camel-Case&quot;</span>);
+    <span class="macro">t!</span>(test2: <span class="string">&quot;This is Human case.&quot; </span>=&gt; <span class="string">&quot;This-Is-Human-Case&quot;</span>);
+    <span class="macro">t!</span>(test3: <span class="string">&quot;MixedUP CamelCase, with some Spaces&quot; </span>=&gt; <span class="string">&quot;Mixed-Up-Camel-Case-With-Some-Spaces&quot;</span>);
+    <span class="macro">t!</span>(test4: <span class="string">&quot;mixed_up_ snake_case with some _spaces&quot; </span>=&gt; <span class="string">&quot;Mixed-Up-Snake-Case-With-Some-Spaces&quot;</span>);
+    <span class="macro">t!</span>(test5: <span class="string">&quot;kebab-case&quot; </span>=&gt; <span class="string">&quot;Kebab-Case&quot;</span>);
+    <span class="macro">t!</span>(test6: <span class="string">&quot;SHOUTY_SNAKE_CASE&quot; </span>=&gt; <span class="string">&quot;Shouty-Snake-Case&quot;</span>);
+    <span class="macro">t!</span>(test7: <span class="string">&quot;snake_case&quot; </span>=&gt; <span class="string">&quot;Snake-Case&quot;</span>);
+    <span class="macro">t!</span>(test8: <span class="string">&quot;this-contains_ ALLKinds OfWord_Boundaries&quot; </span>=&gt; <span class="string">&quot;This-Contains-All-Kinds-Of-Word-Boundaries&quot;</span>);
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;unicode&quot;</span>)]
+    </span><span class="macro">t!</span>(test9: <span class="string">&quot;XΣXΣ baﬄe&quot; </span>=&gt; <span class="string">&quot;Xσxς-Baﬄe&quot;</span>);
+    <span class="macro">t!</span>(test10: <span class="string">&quot;XMLHttpRequest&quot; </span>=&gt; <span class="string">&quot;Xml-Http-Request&quot;</span>);
+    <span class="macro">t!</span>(test11: <span class="string">&quot;FIELD_NAME11&quot; </span>=&gt; <span class="string">&quot;Field-Name11&quot;</span>);
+    <span class="macro">t!</span>(test12: <span class="string">&quot;99BOTTLES&quot; </span>=&gt; <span class="string">&quot;99bottles&quot;</span>);
+    <span class="macro">t!</span>(test13: <span class="string">&quot;FieldNamE11&quot; </span>=&gt; <span class="string">&quot;Field-Nam-E11&quot;</span>);
+    <span class="macro">t!</span>(test14: <span class="string">&quot;abc123def456&quot; </span>=&gt; <span class="string">&quot;Abc123def456&quot;</span>);
+    <span class="macro">t!</span>(test16: <span class="string">&quot;abc123DEF456&quot; </span>=&gt; <span class="string">&quot;Abc123-Def456&quot;</span>);
+    <span class="macro">t!</span>(test17: <span class="string">&quot;abc123Def456&quot; </span>=&gt; <span class="string">&quot;Abc123-Def456&quot;</span>);
+    <span class="macro">t!</span>(test18: <span class="string">&quot;abc123DEf456&quot; </span>=&gt; <span class="string">&quot;Abc123-D-Ef456&quot;</span>);
+    <span class="macro">t!</span>(test19: <span class="string">&quot;ABC123def456&quot; </span>=&gt; <span class="string">&quot;Abc123def456&quot;</span>);
+    <span class="macro">t!</span>(test20: <span class="string">&quot;ABC123DEF456&quot; </span>=&gt; <span class="string">&quot;Abc123def456&quot;</span>);
+    <span class="macro">t!</span>(test21: <span class="string">&quot;ABC123Def456&quot; </span>=&gt; <span class="string">&quot;Abc123-Def456&quot;</span>);
+    <span class="macro">t!</span>(test22: <span class="string">&quot;ABC123DEf456&quot; </span>=&gt; <span class="string">&quot;Abc123d-Ef456&quot;</span>);
+    <span class="macro">t!</span>(test23: <span class="string">&quot;ABC123dEEf456FOO&quot; </span>=&gt; <span class="string">&quot;Abc123d-E-Ef456-Foo&quot;</span>);
+    <span class="macro">t!</span>(test24: <span class="string">&quot;abcDEF&quot; </span>=&gt; <span class="string">&quot;Abc-Def&quot;</span>);
+    <span class="macro">t!</span>(test25: <span class="string">&quot;ABcDE&quot; </span>=&gt; <span class="string">&quot;A-Bc-De&quot;</span>);
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="heck" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

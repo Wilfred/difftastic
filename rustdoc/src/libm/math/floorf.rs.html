@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libm-0.2.7/src/math/floorf.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>floorf.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../libm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../libm/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+</pre><pre class="rust"><code><span class="kw">use </span>core::f32;
+
+<span class="doccomment">/// Floor (f32)
+///
+/// Finds the nearest integer less than or equal to `x`.
+</span><span class="attribute">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub fn </span>floorf(x: f32) -&gt; f32 {
+    <span class="comment">// On wasm32 we know that LLVM&#39;s intrinsic will compile to an optimized
+    // `f32.floor` native instruction, so we can leverage this for both code size
+    // and speed.
+    </span><span class="macro">llvm_intrinsically_optimized! </span>{
+        <span class="attribute">#[cfg(target_arch = <span class="string">&quot;wasm32&quot;</span>)] </span>{
+            <span class="kw">return unsafe </span>{ ::core::intrinsics::floorf32(x) }
+        }
+    }
+    <span class="kw">let </span><span class="kw-2">mut </span>ui = x.to_bits();
+    <span class="kw">let </span>e = (((ui &gt;&gt; <span class="number">23</span>) <span class="kw">as </span>i32) &amp; <span class="number">0xff</span>) - <span class="number">0x7f</span>;
+
+    <span class="kw">if </span>e &gt;= <span class="number">23 </span>{
+        <span class="kw">return </span>x;
+    }
+    <span class="kw">if </span>e &gt;= <span class="number">0 </span>{
+        <span class="kw">let </span>m: u32 = <span class="number">0x007fffff </span>&gt;&gt; e;
+        <span class="kw">if </span>(ui &amp; m) == <span class="number">0 </span>{
+            <span class="kw">return </span>x;
+        }
+        <span class="macro">force_eval!</span>(x + f32::from_bits(<span class="number">0x7b800000</span>));
+        <span class="kw">if </span>ui &gt;&gt; <span class="number">31 </span>!= <span class="number">0 </span>{
+            ui += m;
+        }
+        ui &amp;= !m;
+    } <span class="kw">else </span>{
+        <span class="macro">force_eval!</span>(x + f32::from_bits(<span class="number">0x7b800000</span>));
+        <span class="kw">if </span>ui &gt;&gt; <span class="number">31 </span>== <span class="number">0 </span>{
+            ui = <span class="number">0</span>;
+        } <span class="kw">else if </span>ui &lt;&lt; <span class="number">1 </span>!= <span class="number">0 </span>{
+            <span class="kw">return </span>-<span class="number">1.0</span>;
+        }
+    }
+    f32::from_bits(ui)
+}
+
+<span class="comment">// PowerPC tests are failing on LLVM 13: https://github.com/rust-lang/rust/issues/88520
+</span><span class="attribute">#[cfg(not(target_arch = <span class="string">&quot;powerpc64&quot;</span>))]
+#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>core::f32::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>sanity_check() {
+        <span class="macro">assert_eq!</span>(floorf(<span class="number">0.5</span>), <span class="number">0.0</span>);
+        <span class="macro">assert_eq!</span>(floorf(<span class="number">1.1</span>), <span class="number">1.0</span>);
+        <span class="macro">assert_eq!</span>(floorf(<span class="number">2.9</span>), <span class="number">2.0</span>);
+    }
+
+    <span class="doccomment">/// The spec: https://en.cppreference.com/w/cpp/numeric/math/floor
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>spec_tests() {
+        <span class="comment">// Not Asserted: that the current rounding mode has no effect.
+        </span><span class="macro">assert!</span>(floorf(NAN).is_nan());
+        <span class="kw">for </span>f <span class="kw">in </span>[<span class="number">0.0</span>, -<span class="number">0.0</span>, INFINITY, NEG_INFINITY].iter().copied() {
+            <span class="macro">assert_eq!</span>(floorf(f), f);
+        }
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="libm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

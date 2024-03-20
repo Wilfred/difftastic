@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Wrap abstract fragments into lines with a first-fit algorithm."><meta name="keywords" content="rust, rustlang, rust-lang, wrap_first_fit"><title>wrap_first_fit in textwrap::wrap_algorithms - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../textwrap/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../textwrap/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In textwrap::wrap_algorithms</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../textwrap/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Function <a href="../index.html">textwrap</a>::<wbr><a href="index.html">wrap_algorithms</a>::<wbr><a class="fn" href="#">wrap_first_fit</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/textwrap/wrap_algorithms.rs.html#347-371">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust fn"><code>pub fn wrap_first_fit&lt;'a, T:&nbsp;<a class="trait" href="../core/trait.Fragment.html" title="trait textwrap::core::Fragment">Fragment</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;fragments: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.slice.html">[T]</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;line_widths: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.f64.html">f64</a>]<br>) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.65.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'a <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.slice.html">[T]</a>&gt;</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Wrap abstract fragments into lines with a first-fit algorithm.</p>
+<p>The <code>line_widths</code> slice gives the target line width for each line
+(the last slice element is repeated as necessary). This can be
+used to implement hanging indentation.</p>
+<p>The fragments must already have been split into the desired
+widths, this function will not (and cannot) attempt to split them
+further when arranging them into lines.</p>
+<h2 id="first-fit-algorithm"><a href="#first-fit-algorithm">First-Fit Algorithm</a></h2>
+<p>This implements a simple “greedy” algorithm: accumulate fragments
+one by one and when a fragment no longer fits, start a new line.
+There is no look-ahead, we simply take first fit of the fragments
+we find.</p>
+<p>While fast and predictable, this algorithm can produce poor line
+breaks when a long fragment is moved to a new line, leaving behind
+a large gap:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>textwrap::core::Word;
+<span class="kw">use </span>textwrap::wrap_algorithms::wrap_first_fit;
+<span class="kw">use </span>textwrap::WordSeparator;
+
+<span class="comment">// Helper to convert wrapped lines to a Vec&lt;String&gt;.
+</span><span class="kw">fn </span>lines_to_strings(lines: Vec&lt;<span class="kw-2">&amp;</span>[Word&lt;<span class="lifetime">&#39;_</span>&gt;]&gt;) -&gt; Vec&lt;String&gt; {
+    lines.iter().map(|line| {
+        line.iter().map(|word| <span class="kw-2">&amp;**</span>word).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;().join(<span class="string">&quot; &quot;</span>)
+    }).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+}
+
+<span class="kw">let </span>text = <span class="string">&quot;These few words will unfortunately not wrap nicely.&quot;</span>;
+<span class="kw">let </span>words = WordSeparator::AsciiSpace.find_words(text).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+<span class="macro">assert_eq!</span>(lines_to_strings(wrap_first_fit(<span class="kw-2">&amp;</span>words, <span class="kw-2">&amp;</span>[<span class="number">15.0</span>])),
+           <span class="macro">vec!</span>[<span class="string">&quot;These few words&quot;</span>,
+                <span class="string">&quot;will&quot;</span>,  <span class="comment">// &lt;-- short line
+                </span><span class="string">&quot;unfortunately&quot;</span>,
+                <span class="string">&quot;not wrap&quot;</span>,
+                <span class="string">&quot;nicely.&quot;</span>]);
+
+<span class="comment">// We can avoid the short line if we look ahead:
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;smawk&quot;</span>)]
+</span><span class="kw">use </span>textwrap::wrap_algorithms::{wrap_optimal_fit, Penalties};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;smawk&quot;</span>)]
+</span><span class="macro">assert_eq!</span>(lines_to_strings(wrap_optimal_fit(<span class="kw-2">&amp;</span>words, <span class="kw-2">&amp;</span>[<span class="number">15.0</span>], <span class="kw-2">&amp;</span>Penalties::new()).unwrap()),
+           <span class="macro">vec!</span>[<span class="string">&quot;These few&quot;</span>,
+                <span class="string">&quot;words will&quot;</span>,
+                <span class="string">&quot;unfortunately&quot;</span>,
+                <span class="string">&quot;not wrap&quot;</span>,
+                <span class="string">&quot;nicely.&quot;</span>]);</code></pre></div>
+<p>The [<code>wrap_optimal_fit()</code>] function was used above to get better
+line breaks. It uses an advanced algorithm which tries to avoid
+short lines. This function is about 4 times faster than
+[<code>wrap_optimal_fit()</code>].</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<p>Imagine you’re building a house site and you have a number of
+tasks you need to execute. Things like pour foundation, complete
+framing, install plumbing, electric cabling, install insulation.</p>
+<p>The construction workers can only work during daytime, so they
+need to pack up everything at night. Because they need to secure
+their tools and move machines back to the garage, this process
+takes much more time than the time it would take them to simply
+switch to another task.</p>
+<p>You would like to make a list of tasks to execute every day based
+on your estimates. You can model this with a program like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>textwrap::core::{Fragment, Word};
+<span class="kw">use </span>textwrap::wrap_algorithms::wrap_first_fit;
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>Task&lt;<span class="lifetime">&#39;a</span>&gt; {
+    name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+    hours: f64,   <span class="comment">// Time needed to complete task.
+    </span>sweep: f64,   <span class="comment">// Time needed for a quick sweep after task during the day.
+    </span>cleanup: f64, <span class="comment">// Time needed for full cleanup if day ends with this task.
+</span>}
+
+<span class="kw">impl </span>Fragment <span class="kw">for </span>Task&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="kw">fn </span>width(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 { <span class="self">self</span>.hours }
+    <span class="kw">fn </span>whitespace_width(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 { <span class="self">self</span>.sweep }
+    <span class="kw">fn </span>penalty_width(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 { <span class="self">self</span>.cleanup }
+}
+
+<span class="comment">// The morning tasks
+</span><span class="kw">let </span>tasks = <span class="macro">vec!</span>[
+    Task { name: <span class="string">&quot;Foundation&quot;</span>,  hours: <span class="number">4.0</span>, sweep: <span class="number">2.0</span>, cleanup: <span class="number">3.0 </span>},
+    Task { name: <span class="string">&quot;Framing&quot;</span>,     hours: <span class="number">3.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Plumbing&quot;</span>,    hours: <span class="number">2.0</span>, sweep: <span class="number">2.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Electrical&quot;</span>,  hours: <span class="number">2.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Insulation&quot;</span>,  hours: <span class="number">2.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Drywall&quot;</span>,     hours: <span class="number">3.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Floors&quot;</span>,      hours: <span class="number">3.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Countertops&quot;</span>, hours: <span class="number">1.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+    Task { name: <span class="string">&quot;Bathrooms&quot;</span>,   hours: <span class="number">2.0</span>, sweep: <span class="number">1.0</span>, cleanup: <span class="number">2.0 </span>},
+];
+
+<span class="comment">// Fill tasks into days, taking `day_length` into account. The
+// output shows the hours worked per day along with the names of
+// the tasks for that day.
+</span><span class="kw">fn </span>assign_days&lt;<span class="lifetime">&#39;a</span>&gt;(tasks: <span class="kw-2">&amp;</span>[Task&lt;<span class="lifetime">&#39;a</span>&gt;], day_length: f64) -&gt; Vec&lt;(f64, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;)&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>days = Vec::new();
+    <span class="comment">// Assign tasks to days. The assignment is a vector of slices,
+    // with a slice per day.
+    </span><span class="kw">let </span>assigned_days: Vec&lt;<span class="kw-2">&amp;</span>[Task&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; = wrap_first_fit(<span class="kw-2">&amp;</span>tasks, <span class="kw-2">&amp;</span>[day_length]);
+    <span class="kw">for </span>day <span class="kw">in </span>assigned_days.iter() {
+        <span class="kw">let </span>last = day.last().unwrap();
+        <span class="kw">let </span>work_hours: f64 = day.iter().map(|t| t.hours + t.sweep).sum();
+        <span class="kw">let </span>names = day.iter().map(|t| t.name).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        days.push((work_hours - last.sweep + last.cleanup, names));
+    }
+    days
+}
+
+<span class="comment">// With a single crew working 8 hours a day:
+</span><span class="macro">assert_eq!</span>(
+    assign_days(<span class="kw-2">&amp;</span>tasks, <span class="number">8.0</span>),
+    [
+        (<span class="number">7.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Foundation&quot;</span>]),
+        (<span class="number">8.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Framing&quot;</span>, <span class="string">&quot;Plumbing&quot;</span>]),
+        (<span class="number">7.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Electrical&quot;</span>, <span class="string">&quot;Insulation&quot;</span>]),
+        (<span class="number">5.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Drywall&quot;</span>]),
+        (<span class="number">7.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Floors&quot;</span>, <span class="string">&quot;Countertops&quot;</span>]),
+        (<span class="number">4.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Bathrooms&quot;</span>]),
+    ]
+);
+
+<span class="comment">// With two crews working in shifts, 16 hours a day:
+</span><span class="macro">assert_eq!</span>(
+    assign_days(<span class="kw-2">&amp;</span>tasks, <span class="number">16.0</span>),
+    [
+        (<span class="number">14.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Foundation&quot;</span>, <span class="string">&quot;Framing&quot;</span>, <span class="string">&quot;Plumbing&quot;</span>]),
+        (<span class="number">15.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Electrical&quot;</span>, <span class="string">&quot;Insulation&quot;</span>, <span class="string">&quot;Drywall&quot;</span>, <span class="string">&quot;Floors&quot;</span>]),
+        (<span class="number">6.0</span>, <span class="macro">vec!</span>[<span class="string">&quot;Countertops&quot;</span>, <span class="string">&quot;Bathrooms&quot;</span>]),
+    ]
+);</code></pre></div>
+<p>Apologies to anyone who actually knows how to build a house and
+knows how long each step takes :-)</p>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="textwrap" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>
