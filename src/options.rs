@@ -733,6 +733,14 @@ pub(crate) fn parse_args() -> Mode {
     let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
     info!("CLI arguments: {:?}", args);
 
+    // Print git environment variables so we can see the additional
+    // variable set when git invokes us.
+    for (env_var, value) in env::vars() {
+        if env_var.starts_with("GIT_") {
+            trace!("{}: {}", env_var, value);
+        }
+    }
+
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &args
         [..]
