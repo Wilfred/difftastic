@@ -3,21 +3,42 @@
   "version": "0.3.8",
   "description": "d grammar for tree-sitter",
   "main": "bindings/node",
+  "types": "bindings/node",
   "keywords": [
     "parsing",
     "incremental"
   ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "dependencies": {
-    "nan": "^2.12.1"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "prettier": "^2.3.2",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.20.8",
+    "prebuildify": "^6.0.0"
   },
   "scripts": {
     "test": "tree-sitter test",
     "format": "prettier --trailing-comma es5 --write grammar.js",
-    "format-check": "prettier --trailing-comma es5 --check grammar.js"
+    "format-check": "prettier --trailing-comma es5 --check grammar.js",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "tree-sitter": [
     {
