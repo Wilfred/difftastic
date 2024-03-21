@@ -24,7 +24,7 @@ If you're a Nix user, you can install
 with `nix-env`.
 
 ```
-$ nix-env --install ripgrep
+$ nix-env --install difftastic
 ```
 
 If you're a Fedora user, you can install [difftastic](https://packages.fedoraproject.org/pkgs/rust-difftastic/difftastic/) with `dnf`.
