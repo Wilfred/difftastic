@@ -33,6 +33,13 @@ If you're a Fedora user, you can install [difftastic](https://packages.fedorapro
 $ sudo dnf install difftastic
 ```
 
+If you're a FreeBSD user, you can install
+[difftastic](https://www.freshports.org/textproc/difftastic/)
+with `pkg`.
+```
+$ sudo pkg install difftastic
+```
+
 ## Full Package Listing
 
 The following table includes a list of all the platforms that provide
