@@ -3493,6 +3493,22 @@
         },
         {
           "type": "FIELD",
+          "name": "options",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "brack_group"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
           "name": "authors",
           "content": {
             "type": "SYMBOL",

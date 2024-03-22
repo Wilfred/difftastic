@@ -457,6 +457,16 @@
             "named": false
           }
         ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
       }
     }
   },
