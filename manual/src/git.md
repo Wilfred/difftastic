@@ -71,7 +71,7 @@ equivalent to the one-off commands shown above.
 ```ini
 # `git dlog` to show `git log -p` with difftastic.
 [alias]
-        dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
+        dlog = "!f() { : git log ; GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 ```
 
 ## Difftastic By Default
