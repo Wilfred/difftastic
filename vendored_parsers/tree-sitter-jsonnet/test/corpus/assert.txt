@@ -1,0 +1,36 @@
+===
+Assert at root
+===
+
+assert true : 'message';
+{}
+
+---
+
+(document
+  (assert
+    (true)
+    (string
+      (string_start)
+      (string_content)
+      (string_end)))
+  (object))
+===
+Assert in object
+===
+
+{
+  assert true : 'message'
+}
+
+---
+
+(document
+  (object
+    (member
+      (assert
+        (true)
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))
