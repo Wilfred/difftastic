@@ -14,8 +14,10 @@ sudo apt install cargo
 
 ## Clone the repository
 
+In some directory of your choice:
+
 ```
-cd directory_of_you_choice && git clone git@github.com:Wilfred/difftastic.git
+git clone git@github.com:Wilfred/difftastic.git
 ```
 
 ## Compile and install
@@ -24,7 +26,7 @@ cd directory_of_you_choice && git clone git@github.com:Wilfred/difftastic.git
 cd difftastic && cargo install --path .
 ```
 
-## Update PATH
+## Update PATH (Linux)
 
 If you installed cargo with the default settings:
 
