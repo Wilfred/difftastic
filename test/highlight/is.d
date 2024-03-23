@@ -17,3 +17,9 @@ bool h(char *y) { return 'x' in y; }
 //                           ^ operator
 //                              ^ variable
 
+bool i(char *y) { return 'x' !in y; }
+// <- type
+//                        ^ number
+//                            ^ operator
+//                               ^ variable
+
