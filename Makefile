@@ -1,4 +1,4 @@
-VERSION := 0.0.1
+VERSION := $(shell cat VERSION)
 
 LANGUAGE_NAME := tree-sitter-d
 
@@ -107,4 +107,14 @@ clean:
 test:
 	$(TS) test
 
-.PHONY: all install uninstall clean test
+version: pyproject_version cargo_version
+
+pyproject_version:
+	sed -e 's|^version = ".*"|version = "$(VERSION)"|' < pyproject.toml > pyproject.toml.new
+	mv pyproject.toml.new pyproject.toml
+
+cargo_version:
+	sed -e 's|^version = ".*"|version = "$(VERSION)"|' < Cargo.toml > Cargo.toml.new
+	mv Cargo.toml.new Cargo.toml
+
+.PHONY: all install uninstall clean test version pyproject_version cargo_version
