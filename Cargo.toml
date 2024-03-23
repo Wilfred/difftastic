@@ -7,27 +7,29 @@ license = "MIT"
 version = "0.57.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
-categories = ["development-tools", "command-line-utilities", "parser-implementations"]
+categories = [
+  "development-tools",
+  "command-line-utilities",
+  "parser-implementations",
+]
 edition = "2021"
 # Goal: support at least 12 months of Rust versions, and also the Rust
 # version on Debian stable (see https://tracker.debian.org/pkg/rustc,
 # currently 1.63).
 #
-# Unfortunately tree-sitter 0.20.10 has an MSRV[1] of 1.65, and it has
-# a bugfix[2] we want.
-#
-# 1: https://github.com/tree-sitter/tree-sitter/issues/2669
-# 2: https://github.com/Wilfred/difftastic/issues/570
-rust-version = "1.65.0"
+# However clap 3 depends on atty which is unmaintained and has
+# an ongoing rustsec advisory (see https://rustsec.org/advisories/RUSTSEC-2021-0145.html)
+# so we need to upgrade to clap 4 which has an msrv of 1.67.1
+rust-version = "1.67.1"
 include = [
-        "/build.rs",
-        "/src/",
-        "/vendored_parsers/highlights/*.scm",
-        "/vendored_parsers/*-src/**/*.c",
-        "/vendored_parsers/*-src/**/*.h",
-        "/vendored_parsers/*-src/**/*.cc",
-        "/LICENSE",
-        "/README.md",
+  "/build.rs",
+  "/src/",
+  "/vendored_parsers/highlights/*.scm",
+  "/vendored_parsers/*-src/**/*.c",
+  "/vendored_parsers/*-src/**/*.h",
+  "/vendored_parsers/*-src/**/*.cc",
+  "/LICENSE",
+  "/README.md",
 ]
 
 [package.metadata.binstall]
@@ -40,7 +42,8 @@ pkg-fmt = "zip"
 # regex 1.10 requires rust 1.65.
 regex = ">= 1.9, < 1.10"
 
-clap = { version = "3.2.25", features = ["cargo", "env", "wrap_help"] }
+# clap 4.2.2 requires rust 1.74.1
+clap = { version = "=4.2.1", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
 rustc-hash = "1.1.0"

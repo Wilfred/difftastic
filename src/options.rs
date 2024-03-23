@@ -2,12 +2,12 @@
 
 use std::{
     env,
-    ffi::OsStr,
+    ffi::{OsStr, OsString},
     fmt::Display,
     path::{Path, PathBuf},
 };
 
-use clap::{crate_authors, crate_description, Arg, Command};
+use clap::{crate_authors, crate_description, value_parser, Arg, ArgAction, Command};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
 use itertools::Itertools;
@@ -89,7 +89,7 @@ impl Default for DiffOptions {
     }
 }
 
-fn app() -> clap::Command<'static> {
+fn app() -> clap::Command {
     Command::new("Difftastic")
         .override_usage(USAGE)
         .version(VERSION.as_str())
@@ -114,7 +114,6 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("dump-syntax")
                 .long("dump-syntax")
-                .takes_value(true)
                 .value_name("PATH")
                 .long_help(
                     "Parse a single file with tree-sitter and display the difftastic syntax tree.",
@@ -123,7 +122,6 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("dump-ts")
                 .long("dump-ts")
-                .takes_value(true)
                 .value_name("PATH")
                 .long_help(
                     "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
@@ -132,38 +130,35 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("context")
                 .long("context")
-                .takes_value(true)
                 .value_name("LINES")
                 .long_help("The number of contextual lines to show around changed lines.")
                 .default_value("3")
                 .env("DFT_CONTEXT")
-                .validator(|s| s.parse::<u32>())
+                .value_parser(|s:&str| s.parse::<u32>())
                 .required(false),
         )
         .arg(
             Arg::new("width")
                 .long("width")
-                .takes_value(true)
                 .value_name("COLUMNS")
                 .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
                 .env("DFT_WIDTH")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(|s:&str| s.parse::<usize>())
                 .required(false),
         )
         .arg(
             Arg::new("tab-width")
                 .long("tab-width")
-                .takes_value(true)
                 .value_name("NUM_SPACES")
                 .long_help("Treat a tab as this many spaces.")
                 .env("DFT_TAB_WIDTH")
                 .default_value(formatcp!("{}", DEFAULT_TAB_WIDTH))
-                .validator(|s| s.parse::<usize>())
+                .value_parser(|s:&str| s.parse::<usize>())
                 .required(false),
         )
         .arg(
             Arg::new("display").long("display")
-                .possible_values(["side-by-side", "side-by-side-show-both", "inline", "json"])
+                .value_parser(["side-by-side", "side-by-side-show-both", "inline", "json"])
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .env("DFT_DISPLAY")
@@ -179,7 +174,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
         )
         .arg(
             Arg::new("color").long("color")
-                .possible_values(["always", "auto", "never"])
+                .value_parser(["always", "auto", "never"])
                 .default_value("auto")
                 .env("DFT_COLOR")
                 .value_name("WHEN")
@@ -189,7 +184,7 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("background").long("background")
                 .value_name("BACKGROUND")
                 .env("DFT_BACKGROUND")
-                .possible_values(["dark", "light"])
+                .value_parser(["dark", "light"])
                 .default_value("dark")
                 .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
         )
@@ -197,37 +192,43 @@ json: Output the results as a machine-readable JSON array with an element per fi
             Arg::new("syntax-highlight").long("syntax-highlight")
                 .value_name("on/off")
                 .env("DFT_SYNTAX_HIGHLIGHT")
-                .possible_values(["on", "off"])
+                .value_parser(["on", "off"])
                 .default_value("on")
                 .help("Enable or disable syntax highlighting.")
         )
         .arg(
             Arg::new("exit-code").long("exit-code")
                 .env("DFT_EXIT_CODE")
+                .action(ArgAction::SetTrue)
                 .help("Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.")
         )
         .arg(
             Arg::new("strip-cr").long("strip-cr")
                 .env("DFT_STRIP_CR")
+                .action(ArgAction::SetTrue)
                 .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
                 .env("DFT_CHECK_ONLY")
+                .action(ArgAction::SetTrue)
                 .help("Report whether there are any changes, but don't calculate them. Much faster.")
         )
         .arg(
             Arg::new("ignore-comments").long("ignore-comments")
                 .env("DFT_IGNORE_COMMENTS")
+                .action(ArgAction::SetTrue)
                 .help("Don't consider comments when diffing.")
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
                 .env("DFT_SKIP_UNCHANGED")
+                .action(ArgAction::SetTrue)
                 .help("Don't display anything if a file is unchanged.")
         )
         .arg(
             Arg::new("missing-as-empty").long("missing-as-empty")
+                .action(ArgAction::SetTrue)
                 .help("Treat paths that don't exist as equivalent to an empty file. Only applies when diffing files, not directories.")
         )
         .arg(
@@ -251,52 +252,51 @@ $ export DFT_OVERRIDE_2='*.js:javascript jsx'
 
 When multiple overrides are specified, the first matching override wins."))
                 .env("DFT_OVERRIDE")
-                .multiple_occurrences(true)
+                .action(ArgAction::Append)
         )
         .arg(
             Arg::new("list-languages").long("list-languages")
+                .action(ArgAction::SetTrue)
                 .help("Print the all the languages supported by difftastic, along with their extensions.")
         )
         .arg(
             Arg::new("byte-limit").long("byte-limit")
-                .takes_value(true)
                 .value_name("LIMIT")
                 .help("Use a text diff if either input file exceeds this size.")
                 .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(|s:&str| s.parse::<usize>())
                 .required(false),
         )
         .arg(
             Arg::new("graph-limit").long("graph-limit")
-                .takes_value(true)
                 .value_name("LIMIT")
                 .help("Use a text diff if the structural graph exceed this number of nodes in memory.")
                 .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
                 .env("DFT_GRAPH_LIMIT")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(|s:&str| s.parse::<usize>())
                 .required(false),
         )
         .arg(
             Arg::new("parse-error-limit").long("parse-error-limit")
-                .takes_value(true)
                 .value_name("LIMIT")
                 .help("Use a text diff if the number of parse errors exceeds this value.")
                 .default_value(formatcp!("{}", DEFAULT_PARSE_ERROR_LIMIT))
                 .env("DFT_PARSE_ERROR_LIMIT")
-                .validator(|s| s.parse::<usize>())
+                .value_parser(|s:&str| s.parse::<usize>())
                 .required(false),
         )
         .arg(
             Arg::new("paths")
                 .value_name("PATHS")
-                .multiple_values(true)
+                .action(ArgAction::Append)
                 .hide(true)
-                .allow_invalid_utf8(true),
+                .value_parser(value_parser!(OsString)),
         )
         .arg(
             Arg::new("sort-paths").long("sort-paths")
                 .env("DFT_SORT_PATHS")
+                .action(ArgAction::SetTrue)
                 .help("When diffing a directory, output the results sorted by path. This is slower.")
         )
         .arg_required_else_help(true)
@@ -599,7 +599,11 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
 pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
 
-    let color_output = match matches.value_of("color").expect("color has a default") {
+    let color_output = match matches
+        .get_one::<String>("color")
+        .expect("color has a default")
+        .as_str()
+    {
         "always" => ColorOutput::Always,
         "never" => ColorOutput::Never,
         "auto" => ColorOutput::Auto,
@@ -609,10 +613,10 @@ pub(crate) fn parse_args() -> Mode {
     };
     let use_color = should_use_color(color_output);
 
-    let ignore_comments = matches.is_present("ignore-comments");
+    let ignore_comments = matches.get_flag("ignore-comments");
 
     let mut raw_overrides: Vec<String> = vec![];
-    if let Some(overrides) = matches.values_of("override") {
+    if let Some(overrides) = matches.get_many::<String>("override") {
         raw_overrides = overrides.map(|s| s.into()).collect();
     }
     for i in 1..=9 {
@@ -623,14 +627,14 @@ pub(crate) fn parse_args() -> Mode {
 
     let language_overrides = parse_overrides_or_die(&raw_overrides);
 
-    if matches.is_present("list-languages") {
+    if matches.get_flag("list-languages") {
         return Mode::ListLanguages {
             use_color,
             language_overrides,
         };
     }
 
-    if let Some(path) = matches.value_of("dump-syntax") {
+    if let Some(path) = matches.get_one::<String>("dump-syntax") {
         return Mode::DumpSyntax {
             path: path.to_string(),
             ignore_comments,
@@ -638,22 +642,24 @@ pub(crate) fn parse_args() -> Mode {
         };
     }
 
-    if let Some(path) = matches.value_of("dump-ts") {
+    if let Some(path) = matches.get_one::<String>("dump-ts") {
         return Mode::DumpTreeSitter {
             path: path.to_string(),
             language_overrides,
         };
     }
 
-    let display_width = if let Some(arg_width) = matches.value_of("width") {
+    let display_width = if let Some(arg_width) = matches.get_one::<usize>("width").map(|u| *u) {
         arg_width
-            .parse::<usize>()
-            .expect("Already validated by clap")
     } else {
         detect_display_width()
     };
 
-    let display_mode = match matches.value_of("display").expect("display has a default") {
+    let display_mode = match matches
+        .get_one::<String>("display")
+        .expect("display has a default")
+        .as_str()
+    {
         "side-by-side" => DisplayMode::SideBySide,
         "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
         "inline" => DisplayMode::Inline,
@@ -671,55 +677,49 @@ pub(crate) fn parse_args() -> Mode {
     };
 
     let background_color = match matches
-        .value_of("background")
+        .get_one::<String>("background")
         .expect("Always present as we've given clap a default")
+        .as_str()
     {
         "dark" => BackgroundColor::Dark,
         "light" => BackgroundColor::Light,
         _ => unreachable!("clap has already validated the values"),
     };
 
-    let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
+    let syntax_highlight = matches
+        .get_one::<String>("syntax-highlight")
+        .map(|s| s.as_str())
+        == Some("on");
 
-    let sort_paths = matches.is_present("sort-paths");
+    let sort_paths = matches.get_flag("sort-paths");
 
-    let graph_limit = matches
-        .value_of("graph-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let graph_limit = *matches
+        .get_one::<usize>("graph-limit")
+        .expect("Always present as we've given clap a default");
 
-    let byte_limit = matches
-        .value_of("byte-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let byte_limit = *matches
+        .get_one::<usize>("byte-limit")
+        .expect("Always present as we've given clap a default");
 
-    let parse_error_limit = matches
-        .value_of("parse-error-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let parse_error_limit = *matches
+        .get_one::<usize>("parse-error-limit")
+        .expect("Always present as we've given clap a default");
 
-    let tab_width = matches
-        .value_of("tab-width")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    let tab_width = *matches
+        .get_one::<usize>("tab-width")
+        .expect("Always present as we've given clap a default");
 
-    let num_context_lines = matches
-        .value_of("context")
-        .expect("Always present as we've given clap a default")
-        .parse::<u32>()
-        .expect("Value already validated by clap");
+    let num_context_lines = *matches
+        .get_one::<u32>("context")
+        .expect("Always present as we've given clap a default");
 
-    let print_unchanged = !matches.is_present("skip-unchanged");
+    let print_unchanged = !matches.get_flag("skip-unchanged");
 
-    let set_exit_code = matches.is_present("exit-code");
+    let set_exit_code = matches.get_flag("exit-code");
 
-    let strip_cr = matches.is_present("strip-cr");
+    let strip_cr = matches.get_flag("strip-cr");
 
-    let check_only = matches.is_present("check-only");
+    let check_only = matches.get_flag("check-only");
 
     let diff_options = DiffOptions {
         graph_limit,
@@ -730,7 +730,11 @@ pub(crate) fn parse_args() -> Mode {
         strip_cr,
     };
 
-    let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
+    let args: Vec<_> = matches
+        .get_many::<OsString>("paths")
+        .unwrap_or_default()
+        .map(|s| s.as_os_str())
+        .collect();
     info!("CLI arguments: {:?}", args);
 
     // Print git environment variables so we can see the additional

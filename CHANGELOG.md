@@ -19,6 +19,10 @@ when diffing brand new files.
 Fixed an issue when reporting changes in binary files, where trailing
 whitespace was inconsistent with other changes shown.
 
+### Build
+
+difftastic now requires Rust 1.67.1 to build.
+
 ## 0.56.1 (released 5th March 2024)
 
 ### Build
