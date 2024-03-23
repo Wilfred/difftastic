@@ -15,10 +15,6 @@
 (identifier) @variable
 (at_attribute) @property
 
-; these are listed first, because they override keyword queries
-(identity_expression (in) @operator)
-(identity_expression (is) @operator)
-
 [
 	(lazy)
 	(align)
@@ -244,6 +240,10 @@
 ; this covers built-in types, also other cases where the identifier can only
 ; be a type (such as in an is-expression on a constraint)
 (type (identifier) @type)
+
+; these are listed last, because they override keyword queries
+(identity_expression (in) @operator)
+(identity_expression (is) @operator)
 
 ; everything after __EOF_ is plain text
 (end_file) @text
