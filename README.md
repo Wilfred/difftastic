@@ -11,11 +11,11 @@ D Grammar for Tree Sitter
 
 This is a [D](https://dlang.org/) grammar for [Tree Sitter](https://tree-sitter.github.io/tree-sitter/).
 
-As of this writing, I believe it fully supports D 2.101.
+As of this writing, I believe it fully supports D 2.105.
 
 I believe this is the most accurate and complete machine readable grammar for D,
 as of this writing. In fact it might be the only one that can claim full, or
-nearly full, conformance to D 2.101.
+nearly full, conformance to D 2.105.
 
 We have a large body of code at Weka, and that corpus was used to test and verify
 this parser. As of this writing, it passes cleanly, and I am not aware of any
@@ -47,13 +47,22 @@ A few failures in that case come in a couple of forms:
 - A pathological case with `#line` directives with a multi-line comment
   on in the middle of the directive. Nothing real emits such a busted syntax,
   and fixing it would require significant changes to the lexer, for absolutely
-  zero real world benefit. (If you do this in one of your source files, you
-  absolutely deserve the resulting behavior regardless of what that behavior
-  might be.)
+  zero real world benefit.  (This was fixed in newer versions of D.)
 
 - Inline assembler is essentially treated as a token stream with no
   real validation. As this is compiler and CPU specific, it doesn't make
-  a lot of sense to try to add that here.
+  a lot of sense to try to add that here.  (Use of DMD's inline assembler
+  is not widely used, even within the D community, as it's limited to x86.)
+
+- Use of `enum` as return type is now removed, following D 2.105.
+  Please use `auto` if that creates an error in old code.  (Not actually
+  a deviation, for users of newer editions of D.)
+
+It is anticipated that future changes will add more constructs that older versions
+of D cannot understand.  D 2.108 in particular is expected to bring several new
+language changes, such as named parameters, interpolated strings, and hex strings.
+Unfortunately there is no good way in Tree-sitter grammars to have "versions" of
+the grammar, so we will instead strive to support the latest released grammar.
 
 In some areas this grammar is stricter than what is formally specified on
 the D website. It has some rules that make the grammar reject constructs that
@@ -106,16 +115,13 @@ improve this.
   communities. That would likely facilitate serendipitous discovery by the folks most
   likely to benefit from it.
 
-- Additional bindings (Swift?). Some tree-sitter projects have additional bindings
-  in their generated output. I don't know how to generate all of those.
-
 - Additional queries. Local queries, etc. Again, contributions are welcome!
 
 - Improvements to the indentation or highlighting queries.
 
 - DDOC support. Arguably DDOC is a language unto itself.
 
-- Extended test coverage. A lot of test cases are here, but we could reallyu do
+- Extended test coverage. A lot of test cases are here, but we could really do
   with a much richer corpus. This is fairly tedious, but using the `-u` flag
   with `tree-sitter test` can be useful.
 

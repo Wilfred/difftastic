@@ -1806,14 +1806,14 @@ module.exports = grammar({
             $.function_body
           ),
           seq(
-            repeat1(choice($.storage_class, $.enum)),
+            repeat1($.storage_class),
             $.identifier,
             $.parameters,
             repeat($.member_function_attribute),
             $.function_body
           ),
           seq(
-            repeat1(choice($.storage_class, $.enum)),
+            repeat1($.storage_class),
             $.identifier,
             $.template_parameters,
             $.parameters,
@@ -2286,14 +2286,6 @@ module.exports = grammar({
     [$._declaration_or_statement, $.conditional_declaration],
     [$.storage_class, $.type],
     [$.type_ctor, $.constructor, $.destructor],
-    [$.manifest_constant, $.enum_declaration, $.function_declaration],
-    [$.manifest_constant, $.function_declaration],
-    [
-      $.manifest_constant,
-      $.auto_declaration,
-      $.function_declaration,
-      $.variable_declaration,
-    ],
     [$.label, $.member_initializer],
     [$.block_statement, $.conditional_declaration],
     [$.block_statement, $.static_foreach_declaration],

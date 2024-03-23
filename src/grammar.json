@@ -9117,17 +9117,8 @@
               {
                 "type": "REPEAT1",
                 "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "storage_class"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "enum"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "storage_class"
                 }
               },
               {
@@ -9157,17 +9148,8 @@
               {
                 "type": "REPEAT1",
                 "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "storage_class"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "enum"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "storage_class"
                 }
               },
               {
@@ -11750,21 +11732,6 @@
       "type_ctor",
       "constructor",
       "destructor"
-    ],
-    [
-      "manifest_constant",
-      "enum_declaration",
-      "function_declaration"
-    ],
-    [
-      "manifest_constant",
-      "function_declaration"
-    ],
-    [
-      "manifest_constant",
-      "auto_declaration",
-      "function_declaration",
-      "variable_declaration"
     ],
     [
       "label",

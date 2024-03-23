@@ -5400,10 +5400,6 @@
           "named": true
         },
         {
-          "type": "enum",
-          "named": true
-        },
-        {
           "type": "function_body",
           "named": true
         },
