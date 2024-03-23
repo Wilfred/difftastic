@@ -5,7 +5,7 @@ version = "0.3.8"
 keywords = ["incremental", "parsing", "d"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/gdamore/tree-sitter-d"
-edition = "2018"
+edition = "2024"
 license = "MIT"
 
 build = "bindings/rust/build.rs"
