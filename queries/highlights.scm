@@ -8,6 +8,13 @@
 ; (See accompanying file LICENSE.txt or https://opensource.org/licenses/MIT)
 ; SPDX-License-Identifier: MIT
 
+(string_literal) @string
+(int_literal) @number
+(float_literal) @number
+(char_literal) @number
+(identifier) @variable
+(at_attribute) @property
+
 ; these are listed first, because they override keyword queries
 (identity_expression (in) @operator)
 (identity_expression (is) @operator)
@@ -231,14 +238,12 @@
 ] @type.deprecated
 
 (label (identifier) @label)
-(goto_statement (goto) @keyword (identifier) @label)
+(goto_statement (goto) @keyword.control (identifier) @label)
 
-(string_literal) @string
-(int_literal) @number
-(float_literal) @number
-(char_literal) @number
-(identifier) @variable
-(at_attribute) @property
+; builtin types and type aliases
+; this covers built-in types, also other cases where the identifier can only
+; be a type (such as in an is-expression on a constraint)
+(type (identifier) @type)
 
 ; everything after __EOF_ is plain text
 (end_file) @text
