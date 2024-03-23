@@ -10,6 +10,7 @@
 #include "tree_sitter/parser.h"
 #include <assert.h>
 #include <ctype.h>
+#include <wctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,7 +69,7 @@ match_escape(TSLexer *lexer)
 		for (int i = 0; i < 2; i++) { // expect two hex digits
 			lexer->advance(lexer, false);
 			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !isxdigit(lexer->lookahead)) {
+			    !iswxdigit(lexer->lookahead)) {
 				return (false);
 			}
 		}
@@ -79,7 +80,7 @@ match_escape(TSLexer *lexer)
 		for (int i = 0; i < 4; i++) {
 			lexer->advance(lexer, false);
 			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !isxdigit(lexer->lookahead)) {
+			    !iswxdigit(lexer->lookahead)) {
 				return (false);
 			}
 		}
@@ -90,7 +91,7 @@ match_escape(TSLexer *lexer)
 		for (int i = 0; i < 8; i++) {
 			lexer->advance(lexer, false);
 			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !isxdigit(lexer->lookahead)) {
+			    !iswxdigit(lexer->lookahead)) {
 				return (false);
 			}
 		}
@@ -124,7 +125,7 @@ match_escape(TSLexer *lexer)
 				break;
 			}
 			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !isalnum(lexer->lookahead)) {
+			    !iswalnum(lexer->lookahead)) {
 				return (false);
 			}
 		}
@@ -283,7 +284,7 @@ match_heredoc_string(TSLexer *lexer)
 	while (i < (sizeof(identifier) - 2)) {
 		c = lexer->lookahead;
 		// technically should not start with a digit, but we allow
-		if (is_eol(c) || ((!isalnum(c)) && (c != '_'))) {
+		if (is_eol(c) || ((!iswalnum(c)) && (c != '_'))) {
 			break;
 		}
 		identifier[i++] = c;
@@ -342,7 +343,7 @@ match_eof(TSLexer *lexer)
 			lexer->advance(lexer, false);
 			c = lexer->lookahead;
 		}
-		if (isalnum(c) || (c == '_') || (c > 0x7f && !is_eol(c))) {
+		if (iswalnum(c) || (c == '_') || (c > 0x7f && !is_eol(c))) {
 			return (false);
 		}
 	}
@@ -542,7 +543,7 @@ match_number_suffix(TSLexer *lexer, const bool *valid, bool is_float)
 	}
 
 	// what follows the suffix must *NOT* be digit or a number.
-	if (isalnum(c) || (c > 0x7f && !is_eol(c))) {
+	if (iswalnum(c) || (c > 0x7f && !is_eol(c))) {
 		return (false);
 	}
 	if (is_float) {
@@ -590,7 +591,7 @@ match_number(TSLexer *lexer, const bool *valid)
 		// something that is not a valid number (and thus the sole dot
 		// might apply from above).  Note that underscores are *not*
 		// permitted as the first character after the decimal point.
-		if (!isdigit(c)) {
+		if (!iswdigit(c)) {
 			return (false);
 		}
 		has_dot = true;
@@ -627,7 +628,7 @@ match_number(TSLexer *lexer, const bool *valid)
 	while (((next = lexer->lookahead) != 0) && (!done)) {
 		prev = c;
 		c    = next;
-		if ((c > 0x7f) || isspace(c) || (c == ';')) {
+		if ((c > 0x7f) || iswspace(c) || (c == ';')) {
 			// optimization: not a valid number, that ends the
 			// sequence
 			break;
@@ -637,8 +638,8 @@ match_number(TSLexer *lexer, const bool *valid)
 			lexer->mark_end(lexer);
 			has_digit = true;
 			continue;
-		} else if (isdigit(c) ||
-		    (is_hex && (!in_exp) && (isxdigit(c)))) {
+		} else if (iswdigit(c) ||
+		    (is_hex && (!in_exp) && (iswxdigit(c)))) {
 			lexer->advance(lexer, false);
 			lexer->mark_end(lexer);
 			has_digit = true;
@@ -662,7 +663,7 @@ match_number(TSLexer *lexer, const bool *valid)
 			c = lexer->lookahead;
 			// if the next character is a valid digit (note that
 			// binary doesn't support this, then we're good
-			if (isdigit(c) || (is_hex && isxdigit(c))) {
+			if (iswdigit(c) || (is_hex && iswxdigit(c))) {
 				has_dot = true;
 				continue;
 			}
@@ -672,7 +673,7 @@ match_number(TSLexer *lexer, const bool *valid)
 			// make it a floating point number. Note that lone
 			// trailing periods like 1. are nuts, but this is what
 			// DMD does.
-			if (isalnum(c) || c == '_' || c == '.' ||
+			if (iswalnum(c) || c == '_' || c == '.' ||
 			    (c > 0x7f && !is_eol(c))) {
 				// its something like ._property or somesuch
 				// in that case we just want the original int,
@@ -722,7 +723,7 @@ match_number(TSLexer *lexer, const bool *valid)
 	return (match_number_suffix(lexer, valid, has_dot || in_exp));
 }
 
-bool
+static bool
 match_not_in_is(TSLexer *lexer, const bool *valid)
 {
 	int c;
@@ -734,7 +735,7 @@ match_not_in_is(TSLexer *lexer, const bool *valid)
 	lexer->advance(lexer, false);
 	// eat intervening whitespace... usually there isn't any
 	while ((c = lexer->lookahead) != 0) {
-		if (!isspace(c) && !is_eol(c)) {
+		if (!iswspace(c) && !is_eol(c)) {
 			break;
 		}
 		lexer->advance(lexer, false);
@@ -759,7 +760,7 @@ match_not_in_is(TSLexer *lexer, const bool *valid)
 	}
 	lexer->advance(lexer, false);
 	c = lexer->lookahead;
-	if (isalnum(c) || ((c > 0x7F) && (!is_eol(c)))) {
+	if (iswalnum(c) || ((c > 0x7F) && (!is_eol(c)))) {
 		return (false);
 	}
 	lexer->result_symbol = token;
@@ -796,7 +797,7 @@ tree_sitter_d_external_scanner_scan(
 {
 	int c = lexer->lookahead;
 	// consume whitespace -- we also skip newlines here
-	while ((isspace(c) || is_eol(c)) && (c)) {
+	while ((iswspace(c) || is_eol(c)) && (c)) {
 		lexer->advance(lexer, true);
 		c = lexer->lookahead;
 	}
@@ -851,7 +852,7 @@ tree_sitter_d_external_scanner_scan(
 		case '<':
 			return (match_delimited_string(lexer, '<', '>'));
 		default:;
-			if (isalnum(c) || c == '_') {
+			if (iswalnum(c) || c == '_') {
 				return (match_heredoc_string(lexer));
 			}
 			// non-nesting deliimted string
