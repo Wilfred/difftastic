@@ -11,6 +11,13 @@ bool g(char *x) { return x is null; }
 //                         ^ operator
 //                            ^ constant.language
 
+bool G(char *x) { return x !is null; }
+// <- type
+//                ^ keyword.control
+//                       ^ variable
+//                          ^ operator
+//                             ^ constant.language
+
 bool h(char *y) { return 'x' in y; }
 // <- type
 //                        ^ number
