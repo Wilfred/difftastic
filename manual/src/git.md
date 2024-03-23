@@ -81,7 +81,7 @@ following to your `~/.gitconfig`.
 
 ```ini
 [diff]
-	external = difft
+        external = difft
 ```
 
 This only applies to `git diff`. For other git commands, you still
@@ -92,4 +92,3 @@ $ git diff
 $ git show HEAD --ext-diff
 $ git log -p --ext-diff
 ```
-
