@@ -452,6 +452,10 @@
           "named": true
         },
         {
+          "type": "this",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         }

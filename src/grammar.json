@@ -2311,6 +2311,31 @@
               "name": "alias"
             },
             {
+              "type": "SYMBOL",
+              "name": "this"
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "alias"
+            },
+            {
               "type": "SEQ",
               "members": [
                 {

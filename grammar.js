@@ -564,6 +564,7 @@ module.exports = grammar({
     //
     alias_declaration: ($) =>
       choice(
+        seq($.alias, $.this, "=", $.identifier, ";"),
         seq($.alias, commaSep1($.alias_initializer), ";"),
         seq(
           $.alias,
