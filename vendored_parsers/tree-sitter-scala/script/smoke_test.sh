@@ -3,9 +3,9 @@
 # This is an integration test to generally check the quality of parsing.
 
 SCALA_SCALA_LIBRARY_EXPECTED=100
-SCALA_SCALA_COMPILER_EXPECTED=95
-DOTTY_COMPILER_EXPECTED=83
-SYNTAX_COMPLEXITY_CEILING=1300
+SCALA_SCALA_COMPILER_EXPECTED=96
+DOTTY_COMPILER_EXPECTED=85
+SYNTAX_COMPLEXITY_CEILING=1400
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then
   echo "\$SCALA_SCALA_DIR must be set"
@@ -35,7 +35,7 @@ run_tree_sitter () {
     echo "Report written to $report_file"
   fi
 
-  actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f1 | rev | sed 's/%//g' )
+  actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f5 | rev | sed 's/;//g' | sed 's/%//g' )
   echo "$actual"
   if (( $(echo "$actual >= $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
