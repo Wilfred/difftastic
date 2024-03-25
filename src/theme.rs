@@ -13,6 +13,9 @@ pub(crate) struct Theme {
     pub(crate) base_style: Style,
     pub(crate) novel_style_left: Style,
     pub(crate) novel_style_right: Style,
+    pub(crate) lineno_style_base: Style,
+    pub(crate) lineno_style_left: Style,
+    pub(crate) lineno_style_right: Style,
     pub(crate) styles: StyleMap,
 }
 
@@ -24,6 +27,16 @@ impl Theme {
                 Side::Right => &self.novel_style_right,
             },
             false => &self.base_style,
+        }
+    }
+
+    pub(crate) fn lineno_style(&self, novel: bool, side: Side) -> &Style {
+        match novel {
+            true => match side {
+                Side::Left => &self.lineno_style_left,
+                Side::Right => &self.lineno_style_right,
+            },
+            false => &self.lineno_style_base,
         }
     }
 
@@ -98,6 +111,14 @@ impl Default for Theme {
             base_style: Style::new(),
             novel_style_left,
             novel_style_right,
+            // For unchanged lines, dim the line numbers so it's
+            // clearly separate from the content.
+            lineno_style_base: Style::new().dimmed(),
+            // For changed lines, show the line number as red/green
+            // and bold. This works well for syntactic diffs, where
+            // most content is not bold.
+            lineno_style_left: Style::new().red().bold(),
+            lineno_style_right: Style::new().green().bold(),
             styles,
         }
     }

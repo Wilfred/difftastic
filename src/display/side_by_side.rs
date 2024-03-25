@@ -14,8 +14,7 @@ use crate::{
     display::context::all_matched_lines_filled,
     display::hunks::{matched_lines_indexes_for_hunk, Hunk},
     display::style::{
-        self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
-        split_and_apply,
+        self, apply_colors, apply_line_number_color, color_positions, replace_tabs, split_and_apply,
     },
     hash::DftHashMap,
     lines::format_line_num,
@@ -92,7 +91,7 @@ fn display_single_column(
 
     let mut style = Style::new();
     if display_options.use_color {
-        style = novel_style(Style::new(), side, display_options.background_color);
+        style = *display_options.theme.lineno_style(false, side);
     }
 
     for (i, line) in src_lines.iter().enumerate() {

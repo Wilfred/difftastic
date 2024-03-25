@@ -297,21 +297,6 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
     styled_lines
 }
 
-// TODO: replace with line_no style from theme
-pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Style {
-    if background.is_dark() {
-        match side {
-            Side::Left => style.bright_red(),
-            Side::Right => style.bright_green(),
-        }
-    } else {
-        match side {
-            Side::Left => style.red(),
-            Side::Right => style.green(),
-        }
-    }
-}
-
 pub(crate) fn color_positions(
     side: Side,
     display_options: &DisplayOptions,
@@ -484,22 +469,10 @@ pub(crate) fn apply_line_number_color(
     display_options: &DisplayOptions,
 ) -> String {
     if display_options.use_color {
-        let mut style = Style::new();
-
         // The goal here is to choose a style for line numbers that is
         // visually distinct from content.
-        if is_novel {
-            // For changed lines, show the line number as red/green
-            // and bold. This works well for syntactic diffs, where
-            // most content is not bold.
-            style = novel_style(style, side, display_options.background_color).bold();
-        } else {
-            // For unchanged lines, dim the line numbers so it's
-            // clearly separate from the content.
-            style = style.dimmed()
-        }
-
-        s.style(style).to_string()
+        s.style(*display_options.theme.lineno_style(is_novel, side))
+            .to_string()
     } else {
         s.to_string()
     }
