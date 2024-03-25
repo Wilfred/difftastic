@@ -27,17 +27,15 @@ pub(crate) fn print(
             apply_colors(
                 lhs_src,
                 Side::Left,
-                display_options.syntax_highlight,
+                display_options,
                 file_format,
-                display_options.background_color,
                 lhs_positions,
             ),
             apply_colors(
                 rhs_src,
                 Side::Right,
-                display_options.syntax_highlight,
+                display_options,
                 file_format,
-                display_options.background_color,
                 rhs_positions,
             ),
         )

@@ -35,6 +35,7 @@ mod lines;
 mod options;
 mod parse;
 mod summary;
+mod theme;
 mod version;
 mod words;
 

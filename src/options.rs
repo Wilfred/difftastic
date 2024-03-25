@@ -16,6 +16,7 @@ use crate::{
     display::style::BackgroundColor,
     exit_codes::EXIT_BAD_ARGUMENTS,
     parse::guess_language::{language_override_from_name, LanguageOverride},
+    theme::Theme,
     version::VERSION,
 };
 
@@ -39,6 +40,7 @@ pub(crate) enum ColorOutput {
 
 #[derive(Debug, Clone)]
 pub(crate) struct DisplayOptions {
+    pub(crate) theme: Theme,
     pub(crate) background_color: BackgroundColor,
     pub(crate) use_color: bool,
     pub(crate) display_mode: DisplayMode,
@@ -53,6 +55,7 @@ pub(crate) struct DisplayOptions {
 impl Default for DisplayOptions {
     fn default() -> Self {
         Self {
+            theme: Theme::default(),
             background_color: BackgroundColor::Dark,
             use_color: false,
             display_mode: DisplayMode::SideBySide,
@@ -741,6 +744,8 @@ pub(crate) fn parse_args() -> Mode {
         }
     }
 
+    // create theme styles
+
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &args
         [..]
@@ -793,6 +798,7 @@ pub(crate) fn parse_args() -> Mode {
         }
         [path] => {
             let display_options = DisplayOptions {
+                theme: Theme::default(),
                 background_color,
                 use_color,
                 print_unchanged,
@@ -830,6 +836,7 @@ pub(crate) fn parse_args() -> Mode {
     };
 
     let display_options = DisplayOptions {
+        theme: Theme::default(),
         background_color,
         use_color,
         print_unchanged,

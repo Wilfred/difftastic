@@ -297,6 +297,7 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
     styled_lines
 }
 
+// TODO: replace with line_no style from theme
 pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Style {
     if background.is_dark() {
         match side {
@@ -313,8 +314,7 @@ pub(crate) fn novel_style(style: Style, side: Side, background: BackgroundColor)
 
 pub(crate) fn color_positions(
     side: Side,
-    background: BackgroundColor,
-    syntax_highlight: bool,
+    display_options: &DisplayOptions,
     file_format: &FileFormat,
     positions: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
@@ -323,52 +323,80 @@ pub(crate) fn color_positions(
         let mut style = Style::new();
         match pos.kind {
             MatchKind::UnchangedToken { highlight, .. } | MatchKind::Ignored { highlight } => {
-                if syntax_highlight {
-                    if let TokenKind::Atom(atom_kind) = highlight {
-                        match atom_kind {
-                            AtomKind::String(StringKind::StringLiteral) => {
-                                style = if background.is_dark() {
-                                    style.bright_magenta()
-                                } else {
-                                    style.magenta()
-                                };
-                            }
-                            AtomKind::String(StringKind::Text) => {}
-                            AtomKind::Comment => {
-                                style = style.italic();
-                                style = if background.is_dark() {
-                                    style.bright_blue()
-                                } else {
-                                    style.blue()
-                                };
-                            }
-                            AtomKind::Keyword | AtomKind::Type => {
-                                style = style.bold();
-                            }
-                            AtomKind::TreeSitterError => style = style.purple(),
-                            AtomKind::Normal => {}
+                if display_options.syntax_highlight {
+                    match highlight {
+                        TokenKind::Delimiter => {
+                            style = *display_options.theme.style("delimiter", false, side)
                         }
+                        TokenKind::Atom(atom_kind) => match atom_kind {
+                            AtomKind::Normal => {
+                                style = *display_options.theme.style("normal", false, side);
+                            }
+                            AtomKind::String(StringKind::StringLiteral) => {
+                                style = *display_options.theme.style("string_literal", false, side);
+                            }
+                            AtomKind::String(StringKind::Text) => {
+                                style = *display_options.theme.style("text", false, side);
+                            }
+                            AtomKind::Type => {
+                                style = *display_options.theme.style("type", false, side);
+                            }
+                            AtomKind::Comment => {
+                                style = *display_options.theme.style("comment", false, side);
+                            }
+                            AtomKind::Keyword => {
+                                style = *display_options.theme.style("keyword", false, side);
+                            }
+                            AtomKind::TreeSitterError => {
+                                style =
+                                    *display_options
+                                        .theme
+                                        .style("tree_sitter_error", false, side);
+                            }
+                        },
                     }
                 }
             }
             MatchKind::Novel { highlight, .. } => {
-                style = novel_style(style, side, background);
-                if syntax_highlight
-                    && matches!(
-                        highlight,
-                        TokenKind::Delimiter
-                            | TokenKind::Atom(AtomKind::Keyword)
-                            | TokenKind::Atom(AtomKind::Type)
-                    )
-                {
-                    style = style.bold();
+                style = *display_options.theme.default_style(true, side);
+
+                // TODO: determine if we want to only show these when syntax highlighting is on
+                if display_options.syntax_highlight {
+                    match highlight {
+                        TokenKind::Delimiter => {
+                            style = *display_options.theme.style("delimiter", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::Normal) => {
+                            style = *display_options.theme.style("normal", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::String(StringKind::StringLiteral)) => {
+                            style = *display_options.theme.style("string_literal", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::String(StringKind::Text)) => {
+                            style = *display_options.theme.style("text", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::Type) => {
+                            style = *display_options.theme.style("type", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::Comment) => {
+                            style = *display_options.theme.style("comment", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::Keyword) => {
+                            style = *display_options.theme.style("keyword", true, side)
+                        }
+                        TokenKind::Atom(AtomKind::TreeSitterError) => {
+                            style = *display_options.theme.style("tree_sitter_error", true, side)
+                        }
+                    }
                 }
-                if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
-                    style = style.italic();
-                }
+
+                // if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                //     style = *display_options.theme.style("comment", true, side);
+                // }
             }
             MatchKind::NovelWord { highlight } => {
-                style = novel_style(style, side, background).bold();
+                // style = novel_style(style, side, display_options.background_color).bold();
+                style = *display_options.theme.default_style(true, side);
 
                 // Underline novel words inside comments in code, but
                 // don't apply it to every single line in plaintext.
@@ -376,13 +404,19 @@ pub(crate) fn color_positions(
                     style = style.underline();
                 }
 
-                if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                if display_options.syntax_highlight
+                    && matches!(highlight, TokenKind::Atom(AtomKind::Comment))
+                {
                     style = style.italic();
                 }
             }
             MatchKind::NovelLinePart { highlight, .. } => {
-                style = novel_style(style, side, background);
-                if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                // style = novel_style_bg(style, side, display_options.background_color);
+                style = *display_options.theme.default_style(true, side);
+
+                if display_options.syntax_highlight
+                    && matches!(highlight, TokenKind::Atom(AtomKind::Comment))
+                {
                     style = style.italic();
                 }
             }
@@ -395,12 +429,11 @@ pub(crate) fn color_positions(
 pub(crate) fn apply_colors(
     s: &str,
     side: Side,
-    syntax_highlight: bool,
+    display_options: &DisplayOptions,
     file_format: &FileFormat,
-    background: BackgroundColor,
     positions: &[MatchedPos],
 ) -> Vec<String> {
-    let styles = color_positions(side, background, syntax_highlight, file_format, positions);
+    let styles = color_positions(side, display_options, file_format, positions);
     let lines = s.lines().collect::<Vec<_>>();
     style_lines(&lines, &styles)
 }

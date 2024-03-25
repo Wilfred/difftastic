@@ -15,7 +15,7 @@ use crate::{
     display::hunks::{matched_lines_indexes_for_hunk, Hunk},
     display::style::{
         self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
-        split_and_apply, BackgroundColor,
+        split_and_apply,
     },
     hash::DftHashMap,
     lines::format_line_num,
@@ -237,8 +237,7 @@ pub(crate) fn lines_with_novel(
 /// Calculate positions of highlights on both sides. This includes
 /// both syntax highlighting and added/removed content highlighting.
 fn highlight_positions(
-    background: BackgroundColor,
-    syntax_highlight: bool,
+    display_options: &DisplayOptions,
     file_format: &FileFormat,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
@@ -246,13 +245,7 @@ fn highlight_positions(
     DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let lhs_positions = color_positions(
-        Side::Left,
-        background,
-        syntax_highlight,
-        file_format,
-        lhs_mps,
-    );
+    let lhs_positions = color_positions(Side::Left, display_options, file_format, lhs_mps);
     // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         DftHashMap::default();
@@ -261,13 +254,7 @@ fn highlight_positions(
         styles.push((span, style));
     }
 
-    let rhs_positions = color_positions(
-        Side::Right,
-        background,
-        syntax_highlight,
-        file_format,
-        rhs_mps,
-    );
+    let rhs_positions = color_positions(Side::Right, display_options, file_format, rhs_mps);
     let mut rhs_styles: DftHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         DftHashMap::default();
     for (span, style) in rhs_positions {
@@ -315,22 +302,8 @@ pub(crate) fn print(
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
-            apply_colors(
-                lhs_src,
-                Side::Left,
-                display_options.syntax_highlight,
-                file_format,
-                display_options.background_color,
-                lhs_mps,
-            ),
-            apply_colors(
-                rhs_src,
-                Side::Right,
-                display_options.syntax_highlight,
-                file_format,
-                display_options.background_color,
-                rhs_mps,
-            ),
+            apply_colors(lhs_src, Side::Left, display_options, file_format, lhs_mps),
+            apply_colors(rhs_src, Side::Right, display_options, file_format, rhs_mps),
         )
     } else {
         (
@@ -381,13 +354,7 @@ pub(crate) fn print(
 
     // TODO: this is largely duplicating the `apply_colors` logic.
     let (lhs_highlights, rhs_highlights) = if display_options.use_color {
-        highlight_positions(
-            display_options.background_color,
-            display_options.syntax_highlight,
-            file_format,
-            lhs_mps,
-            rhs_mps,
-        )
+        highlight_positions(display_options, file_format, lhs_mps, rhs_mps)
     } else {
         (DftHashMap::default(), DftHashMap::default())
     };
