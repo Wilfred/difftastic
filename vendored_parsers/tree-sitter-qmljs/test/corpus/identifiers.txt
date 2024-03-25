@@ -3,14 +3,6 @@ Reserved words as identifiers
 ================================================================================
 
 MyItem {
-    NumberAnimation {
-        required property
-    }
-
-    NumberAnimation {
-        property: "foo"
-    }
-
     Component {
         id: component
     }
@@ -40,6 +32,60 @@ MyItem {
         property var type
         property var unknown
         property var yield
+    }
+
+    QtObject {
+        required any
+        required async
+        required component
+        required declare
+        required from
+        required get
+        required module
+        required namespace
+        required never
+        required number
+        required object
+        required of
+        required on
+        required override
+        required property
+        required readonly
+        required required
+        required set
+        required signal
+        required string
+        required symbol
+        required type
+        required unknown
+        required yield
+    }
+
+    QtObject {
+        any: "foo"
+        async: "foo"
+        component: "foo"
+        declare: "foo"
+        from: "foo"
+        get: "foo"
+        module: "foo"
+        namespace: "foo"
+        never: "foo"
+        number: "foo"
+        object: "foo"
+        of: "foo"
+        on: "foo"
+        override: "foo"
+        property: "foo"
+        readonly: "foo"
+        required: "foo"
+        set: "foo"
+        signal: "foo"
+        string: "foo"
+        symbol: "foo"
+        type: "foo"
+        unknown: "foo"
+        yield: "foo"
     }
 
     QtObject {
@@ -94,19 +140,6 @@ MyItem {
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer
-      (ui_object_definition
-        type_name: (identifier)
-        initializer: (ui_object_initializer
-          (ui_required
-            name: (identifier))))
-      (ui_object_definition
-        type_name: (identifier)
-        initializer: (ui_object_initializer
-          (ui_binding
-            name: (identifier)
-            value: (expression_statement
-              (string
-                (string_fragment))))))
       (ui_object_definition
         type_name: (identifier)
         initializer: (ui_object_initializer
@@ -189,6 +222,180 @@ MyItem {
           (ui_property
             type: (type_identifier)
             name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))
+          (ui_required
+            name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))))
       (ui_object_definition
         type_name: (identifier)
         initializer: (ui_object_initializer

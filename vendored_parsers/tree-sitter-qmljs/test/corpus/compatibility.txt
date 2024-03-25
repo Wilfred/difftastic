@@ -28,8 +28,7 @@ QtObject {
             (statement_block
               (empty_statement))
             (parenthesized_expression
-              (false))
-            (MISSING ";"))
+              (false)))
           (expression_statement
             (true)))))))
 
@@ -119,6 +118,50 @@ QtObject {
             (identifier)
             (ui_object_initializer))))
       (ERROR))))
+
+================================================================================
+Multi-line string literal
+================================================================================
+
+// qtdeclarative/tests/auto/qml/qmllint/data/multilineString.qml
+// qtdeclarative/tests/auto/qml/qqmlecmascript/data/rewriteMultiLineStrings.qml
+QtObject {
+    property string multipart: "Hello
+world"
+
+    Component.onCompleted: {
+        multipart = 'Hello
+world' + '!';
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_property
+        (type_identifier)
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (nested_identifier
+          (identifier)
+          (identifier))
+        (statement_block
+          (expression_statement
+            (assignment_expression
+              (identifier)
+              (binary_expression
+                (string
+                  (string_fragment))
+                (string
+                  (string_fragment))))))))))
 
 ================================================================================
 Weird object pattern

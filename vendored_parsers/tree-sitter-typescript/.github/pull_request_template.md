@@ -1,6 +1,5 @@
+# Checklist
 
-
-Checklist:
 - [ ] All tests pass in CI.
 - [ ] There are sufficient tests for the new fix/feature.
 - [ ] Grammar rules have not been renamed unless absolutely necessary.

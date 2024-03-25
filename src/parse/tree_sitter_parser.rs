@@ -107,6 +107,8 @@ extern "C" {
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
+    fn tree_sitter_scheme() -> ts::Language;
+    fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
     fn tree_sitter_solidity() -> ts::Language;
     fn tree_sitter_sql() -> ts::Language;
@@ -962,6 +964,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Scheme => {
+            let language = unsafe { tree_sitter_scheme() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["block_comment", "comment", "string"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/scheme.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Scss => {
             let language = unsafe { tree_sitter_scss() };
             TreeSitterConfig {
@@ -976,6 +994,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+            }
+        }
+        Smali => {
+            let language = unsafe { tree_sitter_smali() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: HashSet::from(["string"]),
+                delimiter_tokens: Vec::new(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/smali.scm"),
+                )
+                .unwrap(),
+                sub_languages: Vec::new(),
             }
         }
         Solidity => {
@@ -1803,6 +1835,8 @@ fn atom_from_cursor<'a>(
 
 #[cfg(test)]
 mod tests {
+    use strum::IntoEnumIterator as _;
+
     use super::*;
 
     /// Simple smoke test for tree-sitter parsing. Having a test also
@@ -1837,19 +1871,23 @@ mod tests {
             Syntax::List { children, .. } => {
                 // <style>, content, </style>.
                 assert_eq!(children.len(), 3);
-                match children[1] {
-                    Syntax::Atom { .. } => {
-                        panic!("Style contents is parsed as a single atom");
-                    }
-                    _ => {
-                        // A list is what we want; it shows that the CSS was parsed
-                        // into multiple tokens, so we do not check it further.
-                    }
-                }
+
+                // A list is what we want; it shows that the CSS was parsed
+                // into multiple tokens, so we do not check it further.
+                assert!(matches!(children[1], Syntax::List { .. }));
             }
             _ => {
                 panic!("Top level isn't a list");
             }
         };
+    }
+
+    /// Ensure that we don't crash when loading any of the
+    /// configs. This can happen on bad highlighting/foo.scm files.
+    #[test]
+    fn test_configs_valid() {
+        for language in guess::Language::iter() {
+            from_language(language);
+        }
     }
 }

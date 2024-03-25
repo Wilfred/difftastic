@@ -2,7 +2,7 @@
 // https://code.qt.io/cgit/qt/qtdeclarative.git/tree/src/qml/
 //   compiler/qqmlirbuilder.cpp
 //   parser/{qqmljs.g,qqmljsast_p.h,qqmljslexer.cpp}
-// 6ac764a4d9e3bd723e955e8e9d5efd8ef6900214
+// 49ec094b7fb1eb6675fdc1db8348409cd3ff8184
 
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
@@ -21,6 +21,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_identifier,
+    $._ui_simple_qualified_id,
+    $._ui_reserved_identifier,
   ]),
 
   conflicts: ($, original) => original.concat([
@@ -45,7 +47,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       field('name', $.identifier),  // PragmaId
       optional(seq(
         ':',
-        field('value', $.identifier),
+        // TODO: or insert 'values': (ui_pragma_value_list ..)?
+        sep1(field('value', choice($.identifier, $.string)), ','),
       )),
       $._semicolon,
     ),
@@ -54,9 +57,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'import',
       field('source', choice(
         $.string,
-        $.identifier,
-        $.nested_identifier,
-      )),  // ImportId
+        $._ui_qualified_id,
+      )),  // ImportId: MemberExpression
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
@@ -94,10 +96,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_annotation: $ => seq(
       '@',
-      field('type_name', choice(
-        $.identifier,
-        $.nested_identifier,
-      )),  // UiSimpleQualifiedId
+      field('type_name', $._ui_simple_qualified_id),
       field('initializer', $.ui_object_initializer),
     ),
 
@@ -286,11 +285,22 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_identifier: $ => choice(
       $.identifier,
-      alias($._reserved_identifier, $.identifier),
+      alias($._ui_reserved_identifier, $.identifier),
     ),
 
     ui_nested_identifier: $ => seq(
       $._ui_qualified_id,
+      '.',
+      $.identifier,
+    ),
+
+    _ui_simple_qualified_id: $ => choice(
+      $.identifier,
+      alias($.ui_simple_nested_identifier, $.nested_identifier),
+    ),
+
+    ui_simple_nested_identifier: $ => seq(
+      $._ui_simple_qualified_id,
       '.',
       $.identifier,
     ),
@@ -308,6 +318,51 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'from',
       'of',
     ),
+
+    _ui_reserved_identifier: $ => choice(
+      // JavaScript:
+      'get',
+      'set',
+      'async',
+      'static',
+      'export',
+      'let',
+
+      // TypeScript:
+      'declare',
+      'namespace',
+      'type',
+      'public',
+      'private',
+      'protected',
+      'override',
+      'readonly',
+      'module',
+      'any',
+      'number',
+      'boolean',
+      'string',
+      'symbol',
+      'export',
+      'object',
+      // 'new', ('new {}' would conflict at property value position)
+      'readonly',
+
+      // QML (see QmlIdentifier):
+      'property',
+      'signal',
+      'readonly',
+      'on',
+      'from',
+      'of',
+      'required',
+      'component',
+    ),
+
+    // Patch up JavaScript string rules to support multi-line string literal.
+    // (See also the change b16c69a70be9 in tree-sitter-javascript.)
+    unescaped_double_string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
+    unescaped_single_string_fragment: _ => token.immediate(prec(1, /[^'\\]+/)),
   },
 });
 

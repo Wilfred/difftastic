@@ -4,7 +4,7 @@ description = "A structural diff that understands syntax."
 repository = "https://github.com/wilfred/difftastic"
 homepage = "http://difftastic.wilfred.me.uk/"
 license = "MIT"
-version = "0.56.0"
+version = "0.57.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
@@ -38,11 +38,9 @@ pkg-fmt = "zip"
 
 [dependencies]
 # regex 1.10 requires rust 1.65.
-# regex 1.9.5 depends on memchr 2.6, which requires rust 1.61.
-regex = ">= 1.9, < 1.9.5"
-memchr = ">= 2, < 2.6"
+regex = ">= 1.9, < 1.10"
 
-clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
+clap = { version = "3.2.25", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
 rustc-hash = "1.1.0"
@@ -62,26 +60,22 @@ libmimalloc-sys = "=0.1.24"
 radix-heap = "0.4.2"
 # ignore 0.4.19 requires scoped_threads, which was added in rust 1.63.
 ignore = ">= 0.4, < 0.4.19"
-# aho-corasick is a dependency of regex and ignore. In 1.1.0 it added
-# usage of the target feature 'neon' on aarch64, which is unstable on
-# rust 1.60.
-# 
-# https://github.com/BurntSushi/aho-corasick/commit/0be6fe43822aeb193d8894fd1400c8b843320ef0
-# https://github.com/rust-lang/rust/pull/90621#issuecomment-1068998914
-aho-corasick = ">= 1.0, < 1.1.0"
 const_format = "0.2.22"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
-tree_magic_mini = "3.0.2"
-# bumpalo 3.12 requires rust 1.60
-bumpalo = "3.11.1"
+
+tree_magic_mini = "3.1.4"
+# home (used by tree_magic_mini) 0.5.9 has an MSRV of 1.70.
+home = ">= 0.5, < 0.5.9"
+
+# bumpalo 3.15 requires rust 1.65
+bumpalo = ">= 3.11, < 3.15"
 unicode-width = "0.1.9"
-crossterm = { version = "0.27.0", features = [] }
+crossterm = { version = "0.27.0", features = ["windows"] }
 glob = "0.3.1"
 strum = { version = "0.25", features = ["derive"] }
-# hashbrown 0.13 requires rust 1.61
-hashbrown = "0.12.3"
+hashbrown = "0.14.0"
 humansize = "2.1.3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
@@ -110,7 +104,3 @@ name = "difft"
 path = "src/main.rs"
 
 [features]
-
-[patch.crates-io]
-# https://github.com/mbrubeck/tree_magic/pull/13 hasn't been merged yet.
-tree_magic_mini = { git = 'https://github.com/Wilfred/tree_magic', branch = 'fix-panic-for-empty-strings' }

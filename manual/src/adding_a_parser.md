@@ -138,3 +138,11 @@ Run the regression test script and update the `.expected` file.
 $ ./sample_files/compare_all.sh
 $ cp sample_files/compare.result sample_files/compare.expected
 ```
+
+## Maintenance
+
+To update a parser that is already imported, use `git subtree pull`.
+
+```
+$ git subtree pull --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+```

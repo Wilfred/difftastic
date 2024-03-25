@@ -8,13 +8,24 @@ const c = 0;
 let d = 0;
 
 ---
+
 (program
   (expression_statement
-    (assignment_expression (identifier) (number)))
-  (variable_declaration (variable_declarator (identifier) (number)))
+    (assignment_expression
+      (identifier)
+      (number)))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
   (lexical_declaration
-    (variable_declarator (identifier) (number)))
-  (lexical_declaration (variable_declarator (identifier) (number))))
+    (variable_declarator
+      (identifier)
+      (number)))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number))))
 
 ============================================
 'undefined' is a variable
@@ -26,11 +37,24 @@ const undefined = 42;
 let undefined = 42;
 
 ---
+
 (program
-  (expression_statement (assignment_expression (undefined) (number)))
-  (variable_declaration (variable_declarator (identifier) (number)))
-  (lexical_declaration (variable_declarator (identifier) (number)))
-  (lexical_declaration (variable_declarator (identifier) (number))))
+  (expression_statement
+    (assignment_expression
+      (undefined)
+      (number)))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number))))
 
 ============================================
 Imports
@@ -46,51 +70,146 @@ import defaultMember, { member1, member2 as alias2 } from "module-name";
 import defaultMember, * as name from "module-name";
 import "module-name";
 import { member1 , member2 as alias2, } from "module-name";
+import pkg from "./package.json" with { type: "json" };
 import("a");
 import("a").then((m) => {});
 import.meta.url;
+import { b } from
+'b'; /* comment */ import
+ { a } from 'a';
 
 ----
 
 (program
   (import_statement
-    (import_clause (identifier)) (string (string_fragment)))
+    (import_clause
+      (identifier))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (namespace_import (identifier))) (string (string_fragment)))
+    (import_clause
+      (namespace_import
+        (identifier)))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)))) (string (string_fragment)))
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier)
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (string (string_fragment)) (identifier)))) (string (string_fragment)))
+    (import_clause
+      (named_imports
+        (import_specifier
+          (string
+            (string_fragment))
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (identifier) (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+    (import_clause
+      (identifier)
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier)
+          (identifier))))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (identifier) (namespace_import (identifier))) (string (string_fragment)))
+    (import_clause
+      (identifier)
+      (namespace_import
+        (identifier)))
+    (string
+      (string_fragment)))
   (import_statement
-    (string (string_fragment)))
+    (string
+      (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))
+        (import_specifier
+          (identifier)
+          (identifier))))
+    (string
+      (string_fragment)))
+  (import_statement
+    (import_clause
+      (identifier))
+    (string
+      (string_fragment))
+    (import_attribute
+      (object
+        (pair
+          (property_identifier)
+          (string
+            (string_fragment))))))
   (expression_statement
     (call_expression
       (import)
-      (arguments (string (string_fragment)))))
+      (arguments
+        (string
+          (string_fragment)))))
   (expression_statement
     (call_expression
       (member_expression
         (call_expression
           (import)
-          (arguments (string (string_fragment))))
+          (arguments
+            (string
+              (string_fragment))))
         (property_identifier))
-      (arguments (arrow_function (formal_parameters (identifier)) (statement_block)))))
+      (arguments
+        (arrow_function
+          (formal_parameters
+            (identifier))
+          (statement_block)))))
   (expression_statement
     (member_expression
       (member_expression
         (import)
         (property_identifier))
-      (property_identifier))))
+      (property_identifier)))
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment)))
+  (comment)
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string
+      (string_fragment))))
 
 ============================================
 Exports
@@ -121,69 +240,127 @@ export { "string import" as "string export" } from 'foo';
 (program
   (export_statement
     (export_clause
-      (export_specifier name: (identifier))
-      (export_specifier name: (identifier))
-      (export_specifier name: (identifier))
-      (export_specifier name: (identifier))))
+      (export_specifier
+        name: (identifier))
+      (export_specifier
+        name: (identifier))
+      (export_specifier
+        name: (identifier))
+      (export_specifier
+        name: (identifier))))
   (export_statement
     (export_clause
-      (export_specifier name: (identifier) alias: (identifier))
-      (export_specifier name: (identifier) alias: (identifier))
-      (export_specifier name: (identifier))))
+      (export_specifier
+        name: (identifier)
+        alias: (identifier))
+      (export_specifier
+        name: (identifier)
+        alias: (identifier))
+      (export_specifier
+        name: (identifier))))
   (export_statement
     (export_clause
-      (export_specifier name: (identifier) alias: (string (string_fragment)))))
+      (export_specifier
+        name: (identifier)
+        alias: (string
+          (string_fragment)))))
   (export_statement
     declaration: (lexical_declaration
-      (variable_declarator name: (identifier))
-      (variable_declarator name: (identifier))
-      (variable_declarator name: (identifier))))
+      (variable_declarator
+        name: (identifier))
+      (variable_declarator
+        name: (identifier))
+      (variable_declarator
+        name: (identifier))))
   (export_statement
     declaration: (lexical_declaration
-      (variable_declarator name: (identifier) value: (identifier))
-      (variable_declarator name: (identifier) value: (identifier))
-      (variable_declarator name: (identifier))
-      (variable_declarator name: (identifier))))
+      (variable_declarator
+        name: (identifier)
+        value: (identifier))
+      (variable_declarator
+        name: (identifier)
+        value: (identifier))
+      (variable_declarator
+        name: (identifier))
+      (variable_declarator
+        name: (identifier))))
   (export_statement
     value: (identifier))
   (export_statement
     value: (object
-      (pair key: (property_identifier) value: (number))
-      (pair key: (property_identifier) value: (array))))
+      (pair
+        key: (property_identifier)
+        value: (number))
+      (pair
+        key: (property_identifier)
+        value: (array))))
   (export_statement
-    value: (function parameters: (formal_parameters) body: (statement_block)))
+    value: (function_expression
+      parameters: (formal_parameters)
+      body: (statement_block)))
   (export_statement
-    declaration: (function_declaration name: (identifier) parameters: (formal_parameters) body: (statement_block)))
-  (export_statement
-    (export_clause (export_specifier name: (identifier) alias: (identifier))))
-  (export_statement
-    source: (string (string_fragment)))
-  (export_statement
-    (namespace_export (identifier))
-    source: (string (string_fragment)))
-  (export_statement
-    (namespace_export (string (string_fragment)))
-    source: (string (string_fragment)))
-  (export_statement
-    (export_clause
-      (export_specifier name: (identifier))
-      (export_specifier name: (identifier))
-      (export_specifier name: (identifier)))
-    source: (string (string_fragment)))
+    declaration: (function_declaration
+      name: (identifier)
+      parameters: (formal_parameters)
+      body: (statement_block)))
   (export_statement
     (export_clause
-      (export_specifier name: (identifier) alias: (identifier))
-      (export_specifier name: (identifier) alias: (identifier))
-      (export_specifier name: (identifier)))
-    source: (string (string_fragment)))
+      (export_specifier
+        name: (identifier)
+        alias: (identifier))))
+  (export_statement
+    source: (string
+      (string_fragment)))
+  (export_statement
+    (namespace_export
+      (identifier))
+    source: (string
+      (string_fragment)))
+  (export_statement
+    (namespace_export
+      (string
+        (string_fragment)))
+    source: (string
+      (string_fragment)))
   (export_statement
     (export_clause
-      (export_specifier name: (identifier) alias: (string (string_fragment))))
-    source: (string (string_fragment)))
+      (export_specifier
+        name: (identifier))
+      (export_specifier
+        name: (identifier))
+      (export_specifier
+        name: (identifier)))
+    source: (string
+      (string_fragment)))
   (export_statement
     (export_clause
-      (export_specifier name: (string (string_fragment)) alias: (string (string_fragment))))
-    source: (string (string_fragment))))
+      (export_specifier
+        name: (identifier)
+        alias: (identifier))
+      (export_specifier
+        name: (identifier)
+        alias: (identifier))
+      (export_specifier
+        name: (identifier)))
+    source: (string
+      (string_fragment)))
+  (export_statement
+    (export_clause
+      (export_specifier
+        name: (identifier)
+        alias: (string
+          (string_fragment))))
+    source: (string
+      (string_fragment)))
+  (export_statement
+    (export_clause
+      (export_specifier
+        name: (string
+          (string_fragment))
+        alias: (string
+          (string_fragment))))
+    source: (string
+      (string_fragment))))
 
 ============================================
 Decorators before exports
@@ -217,26 +394,39 @@ if (a.b) {
   d;
 }
 
+if (n-->0){}
+
 ----
 
 (program
   (if_statement
-    condition: (parenthesized_expression (identifier))
+    condition: (parenthesized_expression
+      (identifier))
     consequence: (expression_statement
       (call_expression
         function: (identifier)
-        arguments: (arguments (identifier)))))
+        arguments: (arguments
+          (identifier)))))
   (if_statement
-    condition: (parenthesized_expression (member_expression
-      object: (identifier)
-      property: (property_identifier)))
+    condition: (parenthesized_expression
+      (member_expression
+        object: (identifier)
+        property: (property_identifier)))
     consequence: (statement_block
       (expression_statement
         (call_expression
           function: (identifier)
-          arguments: (arguments (identifier))))
+          arguments: (arguments
+            (identifier))))
       (expression_statement
-        (identifier)))))
+        (identifier))))
+  (if_statement
+    condition: (parenthesized_expression
+      (binary_expression
+        left: (update_expression
+          argument: (identifier))
+        right: (number)))
+    consequence: (statement_block)))
 
 ============================================
 If-else statements
@@ -258,20 +448,28 @@ if (a) {
 
 (program
   (if_statement
-    condition: (parenthesized_expression (identifier))
-    consequence: (expression_statement (identifier))
+    condition: (parenthesized_expression
+      (identifier))
+    consequence: (expression_statement
+      (identifier))
     alternative: (else_clause
       (if_statement
-        condition: (parenthesized_expression (identifier))
-        consequence: (expression_statement (identifier)))))
+        condition: (parenthesized_expression
+          (identifier))
+        consequence: (expression_statement
+          (identifier)))))
   (if_statement
-    condition: (parenthesized_expression (identifier))
+    condition: (parenthesized_expression
+      (identifier))
     consequence: (statement_block
-      (expression_statement (identifier))
-      (expression_statement (identifier)))
+      (expression_statement
+        (identifier))
+      (expression_statement
+        (identifier)))
     alternative: (else_clause
       (statement_block
-        (expression_statement (identifier))))))
+        (expression_statement
+          (identifier))))))
 
 ============================================
 For statements
@@ -293,50 +491,65 @@ for (var i = 0
   ; i++) {
 }
 
+for (let in {});
+
 ---
 
 (program
   (for_statement
     initializer: (variable_declaration
-      (variable_declarator name: (identifier))
-      (variable_declarator name: (identifier)))
-    condition: (expression_statement (identifier))
+      (variable_declarator
+        name: (identifier))
+      (variable_declarator
+        name: (identifier)))
+    condition: (expression_statement
+      (identifier))
     increment: (identifier)
-    body: (expression_statement (identifier)))
-
+    body: (expression_statement
+      (identifier)))
   (for_statement
-    initializer: (expression_statement (sequence_expression
-      left: (assignment_expression
+    initializer: (expression_statement
+      (sequence_expression
+        (assignment_expression
+          left: (identifier)
+          right: (number))
+        (call_expression
+          function: (identifier)
+          arguments: (arguments))))
+    condition: (expression_statement
+      (binary_expression
         left: (identifier)
-        right: (number))
-      right: (call_expression
+        right: (number)))
+    increment: (update_expression
+      argument: (identifier))
+    body: (expression_statement
+      (call_expression
         function: (identifier)
-        arguments: (arguments))))
-    condition: (expression_statement (binary_expression
-      left: (identifier)
-      right: (number)))
-    increment: (update_expression argument: (identifier))
-    body: (expression_statement (call_expression
-      function: (identifier)
-      arguments: (arguments (identifier)))))
-
+        arguments: (arguments
+          (identifier)))))
   (for_statement
     initializer: (empty_statement)
     condition: (empty_statement)
     body: (statement_block
-      (expression_statement (identifier))
+      (expression_statement
+        (identifier))
       (continue_statement)))
-
   (for_statement
-    initializer: (variable_declaration (variable_declarator
-      name: (identifier)
-      value: (number)))
-    condition: (expression_statement (binary_expression
-      left: (identifier)
-      right: (identifier)))
+    initializer: (variable_declaration
+      (variable_declarator
+        name: (identifier)
+        value: (number)))
+    condition: (expression_statement
+      (binary_expression
+        left: (identifier)
+        right: (identifier)))
     increment: (update_expression
       argument: (identifier))
-    body: (statement_block)))
+    body: (statement_block))
+  (for_in_statement
+    left: (identifier)
+    right: (object)
+    body: (empty_statement)))
 
 ============================================
 For-in statements
@@ -367,32 +580,61 @@ for (var foo = bar in baz) {}
 ---
 
 (program
-  (for_in_statement (identifier) (identifier)
-    (expression_statement (call_expression (identifier) (arguments))))
-  (for_in_statement (identifier) (binary_expression (identifier) (object))
-    (expression_statement (call_expression (identifier) (arguments))))
-  (for_in_statement
-    (object_pattern (shorthand_property_identifier_pattern))
-    (identifier)
-    (expression_statement (call_expression (identifier) (arguments))))
   (for_in_statement
     (identifier)
-    (sequence_expression (identifier) (sequence_expression (identifier) (identifier)))
-    (expression_statement (call_expression (identifier) (arguments))))
+    (identifier)
+    (expression_statement
+      (call_expression
+        (identifier)
+        (arguments))))
   (for_in_statement
-    (subscript_expression (identifier) (identifier))
+    (identifier)
+    (binary_expression
+      (identifier)
+      (object))
+    (expression_statement
+      (call_expression
+        (identifier)
+        (arguments))))
+  (for_in_statement
+    (object_pattern
+      (shorthand_property_identifier_pattern))
+    (identifier)
+    (expression_statement
+      (call_expression
+        (identifier)
+        (arguments))))
+  (for_in_statement
+    (identifier)
+    (sequence_expression
+      (identifier)
+      (identifier)
+      (identifier))
+    (expression_statement
+      (call_expression
+        (identifier)
+        (arguments))))
+  (for_in_statement
+    (subscript_expression
+      (identifier)
+      (identifier))
     (identifier)
     (statement_block))
   (for_in_statement
-    (member_expression (identifier) (property_identifier))
+    (member_expression
+      (identifier)
+      (property_identifier))
     (identifier)
     (statement_block))
   (for_in_statement
-    (array_pattern (identifier) (identifier))
+    (array_pattern
+      (identifier)
+      (identifier))
     (identifier)
     (statement_block))
   (for_in_statement
-    (parenthesized_expression (identifier))
+    (parenthesized_expression
+      (identifier))
     (identifier)
     (statement_block))
   (for_in_statement
@@ -411,15 +653,27 @@ for (key in something && i = 0; i < n; i++) {
 
 ---
 
-(program (for_statement
-  (expression_statement
-    (binary_expression
-      (binary_expression (identifier) (identifier))
-      (assignment_expression (identifier) (number))))
-  (expression_statement (binary_expression (identifier) (identifier)))
-  (update_expression (identifier))
-  (statement_block
-    (expression_statement (call_expression (identifier) (arguments))))))
+(program
+  (for_statement
+    (expression_statement
+      (binary_expression
+        (binary_expression
+          (identifier)
+          (identifier))
+        (assignment_expression
+          (identifier)
+          (number))))
+    (expression_statement
+      (binary_expression
+        (identifier)
+        (identifier)))
+    (update_expression
+      (identifier))
+    (statement_block
+      (expression_statement
+        (call_expression
+          (identifier)
+          (arguments))))))
 
 ============================================
 For-of statements
@@ -437,11 +691,24 @@ for (let {a, b} of items || [])
   (for_in_statement
     (identifier)
     (identifier)
-    (expression_statement (call_expression (identifier) (arguments (identifier)))))
+    (expression_statement
+      (call_expression
+        (identifier)
+        (arguments
+          (identifier)))))
   (for_in_statement
-    (object_pattern (shorthand_property_identifier_pattern) (shorthand_property_identifier_pattern))
-    (binary_expression (identifier) (array))
-    (expression_statement (call_expression (identifier) (arguments (identifier) (identifier))))))
+    (object_pattern
+      (shorthand_property_identifier_pattern)
+      (shorthand_property_identifier_pattern))
+    (binary_expression
+      (identifier)
+      (array))
+    (expression_statement
+      (call_expression
+        (identifier)
+        (arguments
+          (identifier)
+          (identifier))))))
 
 ============================================
 For-await-of statements
@@ -458,7 +725,10 @@ for await (const chunk of stream) {
     (identifier)
     (identifier)
     (statement_block
-      (expression_statement (augmented_assignment_expression (identifier) (identifier))))))
+      (expression_statement
+        (augmented_assignment_expression
+          (identifier)
+          (identifier))))))
 
 ============================================
 While statements
@@ -475,12 +745,15 @@ while (a) {
 
 (program
   (while_statement
-    condition: (parenthesized_expression (identifier))
-    body: (expression_statement (call_expression
-      function: (identifier)
-      arguments: (arguments))))
+    condition: (parenthesized_expression
+      (identifier))
+    body: (expression_statement
+      (call_expression
+        function: (identifier)
+        arguments: (arguments))))
   (while_statement
-    condition: (parenthesized_expression (identifier))
+    condition: (parenthesized_expression
+      (identifier))
     body: (statement_block)))
 
 ============================================
@@ -495,18 +768,60 @@ do a; while (b)
 
 do {} while (b)
 
+do do; while (a) while (a)
+
+for (a in b) { do ; while (a) break; }
+
+do
+  if (true)
+    do {
+    } while (false);
+while (0);
+
 ---
 
 (program
   (do_statement
-    body: (statement_block (expression_statement (identifier)))
-    condition: (parenthesized_expression (identifier)))
+    body: (statement_block
+      (expression_statement
+        (identifier)))
+    condition: (parenthesized_expression
+      (identifier)))
   (do_statement
-    body: (expression_statement (identifier))
-    condition: (parenthesized_expression (identifier)))
+    body: (expression_statement
+      (identifier))
+    condition: (parenthesized_expression
+      (identifier)))
   (do_statement
     body: (statement_block)
-    condition: (parenthesized_expression (identifier))))
+    condition: (parenthesized_expression
+      (identifier)))
+  (do_statement
+    body: (do_statement
+      body: (empty_statement)
+      condition: (parenthesized_expression
+        (identifier)))
+    condition: (parenthesized_expression
+      (identifier)))
+  (for_in_statement
+    left: (identifier)
+    right: (identifier)
+    body: (statement_block
+      (do_statement
+        body: (empty_statement)
+        condition: (parenthesized_expression
+          (identifier)))
+      (break_statement)))
+  (do_statement
+    body: (if_statement
+      condition: (parenthesized_expression
+        (true))
+      consequence: (do_statement
+        body: (statement_block)
+        condition: (parenthesized_expression
+          (false))))
+    condition: (parenthesized_expression
+      (number))))
 
 ============================================
 Return statements
@@ -522,10 +837,16 @@ return a;
 
 (program
   (return_statement)
-  (return_statement (number))
-  (return_statement (sequence_expression (number) (number)))
-  (return_statement (identifier))
-  (return_statement (identifier)))
+  (return_statement
+    (number))
+  (return_statement
+    (sequence_expression
+      (number)
+      (number)))
+  (return_statement
+    (identifier))
+  (return_statement
+    (identifier)))
 
 ============================================
 Variable declarations
@@ -538,11 +859,17 @@ var x, y = {}, z;
 
 (program
   (variable_declaration
-    (variable_declarator (identifier) (number)))
+    (variable_declarator
+      (identifier)
+      (number)))
   (variable_declaration
-    (variable_declarator (identifier))
-    (variable_declarator (identifier) (object))
-    (variable_declarator (identifier))))
+    (variable_declarator
+      (identifier))
+    (variable_declarator
+      (identifier)
+      (object))
+    (variable_declarator
+      (identifier))))
 
 ============================================
 Comments
@@ -562,11 +889,18 @@ Comments
 ---
 
 (program
-  (expression_statement (object
-    (comment)
-    (pair (property_identifier) (number))
-    (comment)
-    (pair (property_identifier) (function (formal_parameters) (statement_block))))))
+  (expression_statement
+    (object
+      (comment)
+      (pair
+        (property_identifier)
+        (number))
+      (comment)
+      (pair
+        (property_identifier)
+        (function_expression
+          (formal_parameters)
+          (statement_block))))))
 
 ==========================================
 Comments between statements
@@ -586,25 +920,55 @@ var thing = {
   }
 };
 
+let foo = bar
+  // this is a comment
+  ? 'baz' : 'thud';
+
+let a /* >_< */ = 1
+
 ---
 
 (program
   (comment)
   (comment)
-  (variable_declaration (variable_declarator
-    (identifier)
-    (object
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (object
+        (comment)
+        (comment)
+        (pair
+          (property_identifier)
+          (function_expression
+            (formal_parameters
+              (identifier)
+              (comment))
+            (statement_block
+              (comment)
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (arguments)))
+              (comment)
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (arguments)))))))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (ternary_expression
+        (identifier)
+        (comment)
+        (string
+          (string_fragment))
+        (string
+          (string_fragment)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
       (comment)
-      (comment)
-      (pair (property_identifier) (function
-        (formal_parameters (identifier) (comment))
-        (statement_block
-          (comment)
-          (expression_statement
-            (call_expression (identifier) (arguments)))
-          (comment)
-          (expression_statement
-            (call_expression (identifier) (arguments))))))))))
+      (number))))
 
 ============================================
 Comments with asterisks
@@ -624,17 +988,49 @@ const c = 1;
 ***/
 const d = 1;
 
+class E {
+    f() {
+    } /*** com
+    ment ***/
+    g() {
+    }
+}
+
 ---
 
 (program
   (comment)
-  (lexical_declaration (variable_declarator (identifier) (number)))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
   (comment)
-  (lexical_declaration (variable_declarator (identifier) (number)))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
   (comment)
-  (lexical_declaration (variable_declarator (identifier) (number)))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
   (comment)
-  (lexical_declaration (variable_declarator (identifier) (number))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (number)))
+  (class_declaration
+    (identifier)
+    (class_body
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block))
+      (comment)
+      (method_definition
+        (property_identifier)
+        (formal_parameters)
+        (statement_block)))))
 
 ==========================================
 Comments within expressions
@@ -645,8 +1041,12 @@ y // comment
 
 ---
 
-(program (expression_statement
-  (binary_expression (identifier) (comment) (identifier))))
+(program
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (comment)
+      (identifier))))
 
 ==========================================
 HTML Comments
@@ -666,21 +1066,21 @@ x + 1; --> for some reason you can put text after a close comment.
 ---
 
 (program
-  (comment)
+  (html_comment)
   (expression_statement
     (binary_expression
       (identifier)
       (identifier)))
-  (comment)
+  (html_comment)
   (expression_statement
     (binary_expression
       (identifier)
       (number)))
-  (comment)
-  (comment)
-  (comment)
-  (comment)
-  (comment))
+  (html_comment)
+  (html_comment)
+  (html_comment)
+  (html_comment)
+  (html_comment))
 
 ============================================
 Switch statements
@@ -701,16 +1101,30 @@ switch (x) {
 ---
 
 (program
-  (switch_statement (parenthesized_expression (identifier)) (switch_body
-    (switch_case (number))
-    (switch_case (number)
-      (expression_statement (call_expression (identifier) (arguments)))
-      (break_statement))
-    (switch_case (string (string_fragment))
-      (expression_statement (call_expression (identifier) (arguments)))
-      (break_statement))
-    (switch_default
-      (return_statement (number))))))
+  (switch_statement
+    (parenthesized_expression
+      (identifier))
+    (switch_body
+      (switch_case
+        (number))
+      (switch_case
+        (number)
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments)))
+        (break_statement))
+      (switch_case
+        (string
+          (string_fragment))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments)))
+        (break_statement))
+      (switch_default
+        (return_statement
+          (number))))))
 
 ============================================
 Throw statements
@@ -722,7 +1136,11 @@ throw new Error("uh oh");
 
 (program
   (throw_statement
-    (new_expression (identifier) (arguments (string (string_fragment))))))
+    (new_expression
+      (identifier)
+      (arguments
+        (string
+          (string_fragment))))))
 
 ============================================
 Throw statements with sequence expressions
@@ -734,9 +1152,17 @@ throw g = 2, g
 
 (program
   (throw_statement
-    (sequence_expression (assignment_expression (identifier) (number)) (identifier)))
+    (sequence_expression
+      (assignment_expression
+        (identifier)
+        (number))
+      (identifier)))
   (throw_statement
-    (sequence_expression (assignment_expression (identifier) (number)) (identifier))))
+    (sequence_expression
+      (assignment_expression
+        (identifier)
+        (number))
+      (identifier))))
 
 ============================================
 Try catch finally statements
@@ -751,23 +1177,44 @@ try { throw [a, b] } catch ([c, d]) { }
 
 (program
   (try_statement
-    (statement_block (expression_statement (identifier)))
-    (catch_clause (identifier)
-      (statement_block (expression_statement (identifier)))))
-  (try_statement
-    (statement_block (expression_statement (identifier)))
-    (finally_clause
-      (statement_block (expression_statement (identifier)))))
-  (try_statement
-    (statement_block (expression_statement (identifier)))
+    (statement_block
+      (expression_statement
+        (identifier)))
     (catch_clause
-      (statement_block (expression_statement (identifier))))
-    (finally_clause
-      (statement_block (expression_statement (identifier)))))
+      (identifier)
+      (statement_block
+        (expression_statement
+          (identifier)))))
   (try_statement
-    (statement_block (throw_statement (array (identifier) (identifier))))
+    (statement_block
+      (expression_statement
+        (identifier)))
+    (finally_clause
+      (statement_block
+        (expression_statement
+          (identifier)))))
+  (try_statement
+    (statement_block
+      (expression_statement
+        (identifier)))
     (catch_clause
-      (array_pattern (identifier) (identifier))
+      (statement_block
+        (expression_statement
+          (identifier))))
+    (finally_clause
+      (statement_block
+        (expression_statement
+          (identifier)))))
+  (try_statement
+    (statement_block
+      (throw_statement
+        (array
+          (identifier)
+          (identifier))))
+    (catch_clause
+      (array_pattern
+        (identifier)
+        (identifier))
       (statement_block))))
 
 ============================================
@@ -781,13 +1228,16 @@ if (true) {} else {}
 
 (program
   (if_statement
-    (parenthesized_expression (true))
-    (statement_block (empty_statement)))
+    (parenthesized_expression
+      (true))
+    (statement_block
+      (empty_statement)))
   (empty_statement)
   (empty_statement)
   (empty_statement)
   (if_statement
-    (parenthesized_expression (true))
+    (parenthesized_expression
+      (true))
     (statement_block)
     (else_clause
       (statement_block))))
@@ -825,22 +1275,28 @@ while (true) {
       condition: (empty_statement)
       body: (statement_block
         (if_statement
-          condition: (parenthesized_expression (identifier))
+          condition: (parenthesized_expression
+            (identifier))
           consequence: (statement_block
-            (break_statement label: (statement_identifier)))
+            (break_statement
+              label: (statement_identifier)))
           alternative: (else_clause
             (statement_block
-              (continue_statement label: (statement_identifier))))))))
+              (continue_statement
+                label: (statement_identifier))))))))
   (labeled_statement
     label: (statement_identifier)
     body: (statement_block
-      (break_statement label: (statement_identifier))))
+      (break_statement
+        label: (statement_identifier))))
   (labeled_statement
     label: (statement_identifier)
     body: (while_statement
-      condition: (parenthesized_expression (true))
+      condition: (parenthesized_expression
+        (true))
       body: (statement_block
-        (continue_statement label: (statement_identifier))))))
+        (continue_statement
+          label: (statement_identifier))))))
 
 ============================================
 Debugger statements
@@ -851,7 +1307,9 @@ debugger
 
 ---
 
-(program (debugger_statement) (debugger_statement))
+(program
+  (debugger_statement)
+  (debugger_statement))
 
 ============================================
 With statements
@@ -865,10 +1323,14 @@ with (x) { }
 
 (program
   (with_statement
-    object: (parenthesized_expression (identifier))
-    body: (statement_block (expression_statement (identifier))))
+    object: (parenthesized_expression
+      (identifier))
+    body: (statement_block
+      (expression_statement
+        (identifier))))
   (with_statement
-    object: (parenthesized_expression (identifier))
+    object: (parenthesized_expression
+      (identifier))
     body: (statement_block)))
 
 ==========================================
@@ -889,4 +1351,5 @@ console.log("HI")
         (identifier)
         (property_identifier))
       (arguments
-        (string (string_fragment))))))
+        (string
+          (string_fragment))))))

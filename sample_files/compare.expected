@@ -76,6 +76,9 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
 52e271ea8ffbe500d6bc3c47d35df13a  -
 
+sample_files/hello_world_before.smali sample_files/hello_world_after.smali
+c2a686a9d70b8e54d49ef7fdf2f87fb7  -
+
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 f85460a4e60d77b4cae1a987a5af4c49  -
 
@@ -116,7 +119,7 @@ sample_files/json_before.json sample_files/json_after.json
 79d34d1bbb670bb702f6ea75ff759fa5  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
-8ebcd2854793c73ddc1ce30f03257bdf  -
+908a1637b237cd7763948b7abeb95325  -
 
 sample_files/julia_before.jl sample_files/julia_after.jl
 0abbd2d5e040928f55fec2508f3001bd  -
@@ -124,11 +127,17 @@ sample_files/julia_before.jl sample_files/julia_after.jl
 sample_files/load_before.js sample_files/load_after.js
 7ead0c677e1ccc5639ea2a8199a8175e  -
 
+sample_files/long_line_before.txt sample_files/long_line_after.txt
+850e2efa67152b79d5b5099f202d61bb  -
+
 sample_files/lua_before.lua sample_files/lua_after.lua
 9f5c85cd6806c724c84afa805da76bb7  -
 
 sample_files/makefile_before.mk sample_files/makefile_after.mk
 7eea0d919b71161c72a4ef496fff749d  -
+
+sample_files/many_newlines_before.txt sample_files/many_newlines_after.txt
+afc8628f89076423d1453d8e3c84ac92  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
 4ac68277cb69d0648961b891e02d2a7b  -
@@ -202,6 +211,9 @@ e690af6874c954b271ef7ea8eb1d8af1  -
 sample_files/scala_before.scala sample_files/scala_after.scala
 8b2d6102b120d4a0de790c33409eedc3  -
 
+sample_files/scheme_before.scm sample_files/scheme_after.scm
+d00fcfe46aca3e2877bda566f1a3908b  -
+
 sample_files/simple_before.js sample_files/simple_after.js
 c9c5d1c61b7e8a953a361343bcd13c95  -
 
@@ -238,6 +250,9 @@ sample_files/syntax_error_before.js sample_files/syntax_error_after.js
 sample_files/tab_before.c sample_files/tab_after.c
 7e4345e584d440a136f90becb0ef45bc  -
 
+sample_files/tab_before.txt sample_files/tab_after.txt
+c7fcee21dd5ebd251e2cf4cd7d4446d2  -
+
 sample_files/tailwind_before.css sample_files/tailwind_after.css
 db01dde1e8455a144e5bf0511273f674  -
 
@@ -266,7 +281,7 @@ sample_files/vhdl_before.vhd sample_files/vhdl_after.vhd
 eb987aa621cfa733bb4fcd52b255fbbf  -
 
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
-53017b74523e203817d64189142b26ed  -
+5b989281ee27b63d6fb26474e3d49f25  -
 
 sample_files/xml_before.xml sample_files/xml_after.xml
 56cae800a4fb612ac5c1e0b5cb9c43b8  -

@@ -3,7 +3,7 @@ authors = ["Wilfred Hughes"]
 language = "en"
 src = "src"
 title = "Difftastic Manual"
-description = "The official manual for difftastic, the syntactic differ"
+description = "The manual for difftastic, the structural dif tool"
 
 [output.html]
 git-repository-url = "https://github.com/wilfred/difftastic"

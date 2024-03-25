@@ -9,7 +9,10 @@ T as {} & { [t: T]: T } & { [g: G]: G }
 ---
 
 (program
-  (expression_statement (as_expression (identifier) (template_literal_type)))
+  (expression_statement
+    (as_expression
+      (identifier)
+      (template_literal_type)))
   (expression_statement
     (as_expression
       (identifier)
@@ -19,7 +22,8 @@ T as {} & { [t: T]: T } & { [g: G]: G }
           (index_signature
             (identifier)
             (type_identifier)
-            (type_annotation (type_identifier)))))))
+            (type_annotation
+              (type_identifier)))))))
   (expression_statement
     (as_expression
       (identifier)
@@ -30,12 +34,14 @@ T as {} & { [t: T]: T } & { [g: G]: G }
             (index_signature
               (identifier)
               (type_identifier)
-              (type_annotation (type_identifier)))))
+              (type_annotation
+                (type_identifier)))))
         (object_type
           (index_signature
             (identifier)
             (type_identifier)
-            (type_annotation (type_identifier))))))))
+            (type_annotation
+              (type_identifier))))))))
 
 ==================================
 Satisfies expressions
@@ -48,7 +54,10 @@ T satisfies {} & { [t: T]: T } & { [g: G]: G }
 ---
 
 (program
-  (expression_statement (satisfies_expression (identifier) (template_literal_type)))
+  (expression_statement
+    (satisfies_expression
+      (identifier)
+      (template_literal_type)))
   (expression_statement
     (satisfies_expression
       (identifier)
@@ -58,7 +67,8 @@ T satisfies {} & { [t: T]: T } & { [g: G]: G }
           (index_signature
             (identifier)
             (type_identifier)
-            (type_annotation (type_identifier)))))))
+            (type_annotation
+              (type_identifier)))))))
   (expression_statement
     (satisfies_expression
       (identifier)
@@ -69,12 +79,14 @@ T satisfies {} & { [t: T]: T } & { [g: G]: G }
             (index_signature
               (identifier)
               (type_identifier)
-              (type_annotation (type_identifier)))))
+              (type_annotation
+                (type_identifier)))))
         (object_type
           (index_signature
             (identifier)
             (type_identifier)
-            (type_annotation (type_identifier))))))))
+            (type_annotation
+              (type_identifier))))))))
 
 ==================================
 Typeof expressions
@@ -89,12 +101,25 @@ typeof module === "object" && typeof module.exports === "object"
 (program
   (expression_statement
     (binary_expression
-      (unary_expression (class (class_body)))
-      (string (string_fragment))))
+      (unary_expression
+        (class
+          (class_body)))
+      (string
+        (string_fragment))))
   (expression_statement
     (binary_expression
-      (binary_expression (unary_expression (identifier)) (string (string_fragment)))
-      (binary_expression (unary_expression (member_expression (identifier) (property_identifier))) (string (string_fragment))))))
+      (binary_expression
+        (unary_expression
+          (identifier))
+        (string
+          (string_fragment)))
+      (binary_expression
+        (unary_expression
+          (member_expression
+            (identifier)
+            (property_identifier)))
+        (string
+          (string_fragment))))))
 
 ==================================
 Array with empty elements
@@ -106,7 +131,10 @@ Array with empty elements
 
 (program
   (expression_statement
-    (array (identifier) (identifier) (identifier))))
+    (array
+      (identifier)
+      (identifier)
+      (identifier))))
 
 ==================================
 Variable named 'module'
@@ -118,8 +146,11 @@ module;
 ---
 
 (program
-  (variable_declaration (variable_declarator (identifier)))
-  (expression_statement (identifier)))
+  (variable_declaration
+    (variable_declarator
+      (identifier)))
+  (expression_statement
+    (identifier)))
 
 ==================================
 Multi-line variable declarations
@@ -131,8 +162,17 @@ var a = b
 
 ---
 
-(program (variable_declaration (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier)) (variable_declarator (identifier) (identifier))))
-
+(program
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (identifier))
+    (variable_declarator
+      (identifier)
+      (identifier))
+    (variable_declarator
+      (identifier)
+      (identifier))))
 
 =====================================
 The 'less than' operator
@@ -145,9 +185,24 @@ i < string.length;
 ---
 
 (program
-  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
-  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier))))
-  (expression_statement (binary_expression (identifier) (member_expression (identifier) (property_identifier)))))
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (member_expression
+        (identifier)
+        (property_identifier))))
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (member_expression
+        (identifier)
+        (property_identifier))))
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (member_expression
+        (identifier)
+        (property_identifier)))))
 
 =====================================
 Subscript expressions in if statements
@@ -161,12 +216,16 @@ if ( foo ) {
 
 (program
   (if_statement
-    (parenthesized_expression (identifier))
+    (parenthesized_expression
+      (identifier))
     (statement_block
       (expression_statement
         (call_expression
           (member_expression
-            (subscript_expression (identifier) (number)) (property_identifier))
+            (subscript_expression
+              (identifier)
+              (number))
+            (property_identifier))
           (arguments))))))
 
 ====================================
@@ -177,14 +236,39 @@ Objects with reserved words as keys
   public: true,
   private: true,
   readonly: true
-}
+};
+
+{
+  readonly: 1,
+  abstract: 1,
+  static: 1
+};
 
 ---
 
-(program (expression_statement (object
-  (pair key: (property_identifier) value: (true))
-  (pair key: (property_identifier) value: (true))
-  (pair key: (property_identifier) value: (true)))))
+(program
+  (expression_statement
+    (object
+      (pair
+        key: (property_identifier)
+        value: (true))
+      (pair
+        key: (property_identifier)
+        value: (true))
+      (pair
+        key: (property_identifier)
+        value: (true))))
+  (expression_statement
+    (object
+      (pair
+        key: (property_identifier)
+        value: (number))
+      (pair
+        key: (property_identifier)
+        value: (number))
+      (pair
+        key: (property_identifier)
+        value: (number)))))
 
 ====================================
 Assignment to non-null LHS
@@ -196,21 +280,78 @@ foo! += bar;
 (foo)! += bar;
 
 ---
+
 (program
   (expression_statement
     (assignment_expression
-      (non_null_expression (identifier))
-      (identifier)))
-  (expression_statement
-    (augmented_assignment_expression
-      (non_null_expression (identifier))
-      (identifier)))
-  (expression_statement
-    (assignment_expression
-      (non_null_expression (parenthesized_expression (identifier)))
+      (non_null_expression
+        (identifier))
       (identifier)))
   (expression_statement
     (augmented_assignment_expression
       (non_null_expression
-        (parenthesized_expression (identifier)))
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (assignment_expression
+      (non_null_expression
+        (parenthesized_expression
+          (identifier)))
+      (identifier)))
+  (expression_statement
+    (augmented_assignment_expression
+      (non_null_expression
+        (parenthesized_expression
+          (identifier)))
       (identifier))))
+
+==================================
+Generic calls
+==================================
+
+f<T>(x)
+
+---
+
+(program
+  (expression_statement
+    (call_expression
+      (identifier)
+      (type_arguments
+        (type_identifier))
+      (arguments
+        (identifier)))))
+
+==================================
+Instantiation expressions
+==================================
+
+const makeHammerBox = makeBox<Hammer>;
+const makeStringBox = makeBox<string>;
+const ErrorMap = Map<string, Error>;
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (type_identifier)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (predefined_type)))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (instantiation_expression
+        (identifier)
+        (type_arguments
+          (predefined_type)
+          (type_identifier))))))

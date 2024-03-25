@@ -1,0 +1,47 @@
+{
+  "name": "tree-sitter-smali",
+  "version": "1.0.0",
+  "description": "Smali grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer",
+    "smali"
+  ],
+  "author": "Yotam Nachum <me@yotam.net>",
+  "contributors": [
+    "Amaan Qureshi <amaanq12@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amaanq/tree-sitter-smali/issues"
+  },
+  "homepage": "https://git.sr.ht/~yotam/tree-sitter-smali#readme",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "repository": "https://git.sr.ht/~yotam/tree-sitter-smali",
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.smali",
+      "injection-regex": "smali",
+      "file-types": [
+        "smali"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ]
+    }
+  ]
+}

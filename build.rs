@@ -47,9 +47,6 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-parentheses")
                 // Ignore warning from tree-sitter-ruby.
                 .flag_if_supported("-Wno-unused-but-set-variable")
-                // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
-                // should be removed after fixed.
-                .flag_if_supported("-Wno-return-type")
                 .link_lib_modifier("+whole-archive");
 
             for file in cpp_files {
@@ -264,7 +261,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-perl",
             src_dir: "vendored_parsers/tree-sitter-perl-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-php",
@@ -307,8 +304,18 @@ fn main() {
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
+            name: "tree-sitter-scheme",
+            src_dir: "vendored_parsers/tree-sitter-scheme-src",
+            extra_files: vec![],
+        },
+        TreeSitterParser {
             name: "tree-sitter-scss",
             src_dir: "vendored_parsers/tree-sitter-scss-src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-smali",
+            src_dir: "vendored_parsers/tree-sitter-smali-src",
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {

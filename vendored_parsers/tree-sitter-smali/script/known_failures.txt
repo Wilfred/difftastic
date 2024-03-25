@@ -1,0 +1,15 @@
+examples/smali/smali/src/test/resources/LexerTest/ByteLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/CharLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/CommentTest.smali
+examples/smali/smali/src/test/resources/LexerTest/DirectiveTest.smali
+examples/smali/smali/src/test/resources/LexerTest/FloatLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/InstructionTest.smali
+examples/smali/smali/src/test/resources/LexerTest/IntegerLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/LongLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/MiscTest.smali
+examples/smali/smali/src/test/resources/LexerTest/ShortLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/StringLiteralTest.smali
+examples/smali/smali/src/test/resources/LexerTest/SymbolTest.smali
+examples/smali/smali/src/test/resources/LexerTest/TypeAndIdentifierTest.smali
+examples/smali/smali/src/test/resources/LexerTest/TypeAndIdentifierTest_api29.smali
+examples/smali2java/test_data/fc.smali

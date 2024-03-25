@@ -1,7 +1,6 @@
-test
-build
-script
-examples
-*.log
-test.js
-target
+/test
+/examples
+/build
+/script
+/target
+bindings/rust

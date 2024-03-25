@@ -32,3 +32,7 @@ my @chars = map chr, qw(1 2 3);
 print "chars..." . Dumper \@chars;
 
 map chr, qw(1 2 30);
+
+
+my @meow = (2,3,2,45,43543,342,76);
+my @array = grep 76 => @meow;

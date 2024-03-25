@@ -54,10 +54,6 @@
         "named": true
       },
       {
-        "type": "jsx_fragment",
-        "named": true
-      },
-      {
         "type": "jsx_self_closing_element",
         "named": true
       },
@@ -146,7 +142,7 @@
         "named": true
       },
       {
-        "type": "function",
+        "type": "function_expression",
         "named": true
       },
       {
@@ -155,10 +151,6 @@
       },
       {
         "type": "identifier",
-        "named": true
-      },
-      {
-        "type": "import",
         "named": true
       },
       {
@@ -608,6 +600,10 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "private_property_identifier",
+            "named": true
           }
         ]
       },
@@ -769,6 +765,10 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "import",
             "named": true
           }
         ]
@@ -975,6 +975,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "computed_property_name",
@@ -1469,7 +1474,7 @@
     }
   },
   {
-    "type": "function",
+    "type": "function_declaration",
     "named": true,
     "fields": {
       "body": {
@@ -1484,7 +1489,7 @@
       },
       "name": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "identifier",
@@ -1505,7 +1510,7 @@
     }
   },
   {
-    "type": "function_declaration",
+    "type": "function_expression",
     "named": true,
     "fields": {
       "body": {
@@ -1520,7 +1525,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -1690,6 +1695,21 @@
     "fields": {}
   },
   {
+    "type": "import_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "object",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "import_clause",
     "named": true,
     "fields": {},
@@ -1758,9 +1778,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "import_attribute",
+          "named": true
+        },
         {
           "type": "import_clause",
           "named": true
@@ -1782,10 +1806,6 @@
         },
         {
           "type": "jsx_expression",
-          "named": true
-        },
-        {
-          "type": "jsx_fragment",
           "named": true
         },
         {
@@ -1813,7 +1833,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -1824,7 +1844,7 @@
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -1861,15 +1881,15 @@
       "required": false,
       "types": [
         {
+          "type": "html_character_reference",
+          "named": true
+        },
+        {
           "type": "jsx_element",
           "named": true
         },
         {
           "type": "jsx_expression",
-          "named": true
-        },
-        {
-          "type": "jsx_fragment",
           "named": true
         },
         {
@@ -1901,37 +1921,6 @@
         },
         {
           "type": "spread_element",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "jsx_fragment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "jsx_element",
-          "named": true
-        },
-        {
-          "type": "jsx_expression",
-          "named": true
-        },
-        {
-          "type": "jsx_fragment",
-          "named": true
-        },
-        {
-          "type": "jsx_self_closing_element",
-          "named": true
-        },
-        {
-          "type": "jsx_text",
           "named": true
         }
       ]
@@ -1972,7 +1961,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -1983,7 +1972,7 @@
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -2021,12 +2010,17 @@
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "member_expression",
             "named": true
           }
         ]
       }
     }
+  },
+  {
+    "type": "jsx_text",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "labeled_statement",
@@ -2094,6 +2088,10 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "import",
             "named": true
           }
         ]
@@ -2235,25 +2233,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "nested_identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "nested_identifier",
           "named": true
         }
       ]
@@ -2586,31 +2565,16 @@
   {
     "type": "sequence_expression",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          },
-          {
-            "type": "sequence_expression",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2653,6 +2617,10 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "html_character_reference",
           "named": true
         },
         {
@@ -2803,6 +2771,10 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_fragment",
           "named": true
         },
         {
@@ -3235,6 +3207,10 @@
     "named": false
   },
   {
+    "type": "/>",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -3244,6 +3220,10 @@
   },
   {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "</",
     "named": false
   },
   {
@@ -3371,10 +3351,6 @@
     "named": false
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
     "type": "const",
     "named": false
   },
@@ -3443,6 +3419,14 @@
     "named": true
   },
   {
+    "type": "html_character_reference",
+    "named": true
+  },
+  {
+    "type": "html_comment",
+    "named": true
+  },
+  {
     "type": "identifier",
     "named": true
   },
@@ -3461,10 +3445,6 @@
   {
     "type": "instanceof",
     "named": false
-  },
-  {
-    "type": "jsx_text",
-    "named": true
   },
   {
     "type": "let",
@@ -3528,6 +3508,10 @@
   },
   {
     "type": "static",
+    "named": false
+  },
+  {
+    "type": "static get",
     "named": false
   },
   {

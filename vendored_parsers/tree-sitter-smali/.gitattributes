@@ -1,0 +1,7 @@
+/src/parser.c linguist-vendored
+/src/*.json linguist-vendored
+/examples/* linguist-vendored
+
+src/grammar.json -diff
+src/node-types.json -diff
+src/parser.c -diff

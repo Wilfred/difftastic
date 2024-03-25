@@ -203,6 +203,21 @@ fn git_style_arguments_rename() {
 }
 
 #[test]
+fn git_style_arguments_new_file() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("simple.txt")
+        .arg("/dev/null")
+        .arg(".")
+        .arg(".")
+        .arg("sample_files/simple_before.txt")
+        .arg("abcdef1234")
+        .arg("100644");
+    let predicate_fn = predicate::str::contains("File permissions changed").not();
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
 fn drop_different_path_starts() {
     let mut cmd = get_base_command();
 

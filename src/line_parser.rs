@@ -10,6 +10,8 @@ use crate::{
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
+const MAX_WORDS_IN_LINE: usize = 1000;
+
 fn split_lines_keep_newline(s: &str) -> Vec<&str> {
     lazy_static! {
         static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
@@ -142,14 +144,34 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 let lhs_part = lhs_lines.join("");
                 let rhs_part = rhs_lines.join("");
 
-                for diff_res in myers_diff::slice_unique_by_hash(
-                    &split_words(&lhs_part),
-                    &split_words(&rhs_part),
-                ) {
+                let lhs_words = split_words(&lhs_part);
+                let rhs_words = split_words(&rhs_part);
+
+                // Myers Diff scales badly on large inputs, and
+                // word-level diffing is merely nice to have. If we
+                // have a very large number of words, don't diff
+                // individual words.
+                if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
+                    for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
+                        mps.push(MatchedPos {
+                            kind: MatchKind::NovelWord {
+                                highlight: TokenKind::Atom(AtomKind::Normal),
+                            },
+                            pos: lhs_pos,
+                        });
+                    }
+
+                    lhs_offset += lhs_part.len();
+                    rhs_offset += rhs_part.len();
+                    continue;
+                }
+
+                for diff_res in myers_diff::slice_unique_by_hash(&lhs_words, &rhs_words) {
                     match diff_res {
                         myers_diff::DiffResult::Left(lhs_word) => {
                             let lhs_pos =
                                 lhs_lp.from_region(lhs_offset, lhs_offset + lhs_word.len());
+
                             mps.push(MatchedPos {
                                 kind: MatchKind::NovelWord {
                                     highlight: TokenKind::Atom(AtomKind::Normal),
