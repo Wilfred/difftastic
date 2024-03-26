@@ -5,6 +5,8 @@
 Text file detection is now stricter, considering null bytes as a hint
 that files are binaries.
 
+Added support for Devicetree files.
+
 ### Diffing
 
 Scheme now uses the same slider heuristics as other lisps, preferring
