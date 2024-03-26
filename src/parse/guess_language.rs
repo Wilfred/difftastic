@@ -330,7 +330,9 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         OCamlInterface => &["*.mli"],
         Pascal => &["*.pas", "*.dfm", "*.dpr", "*.lpr", "*.pascal"],
         Perl => &["*.pm", "*.pl"],
-        Php => &["*.php"],
+        Php => &[
+            "*.php", "*.phtml", "*.php3", "*.php4", "*.php5", "*.php7", "*.phps",
+        ],
         Python => &["*.py", "*.py3", "*.pyi", "*.bzl", "TARGETS", "BUCK", "DEPS"],
         Qml => &["*.qml"],
         R => &["*.R", "*.r", "*.rd", "*.rsx", ".Rprofile", "expr-dist"],
