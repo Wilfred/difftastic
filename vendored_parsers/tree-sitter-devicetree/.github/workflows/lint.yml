@@ -1,0 +1,24 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{vars.NODE_VERSION}}
+      - name: Install modules
+        run: npm install
+      - name: Run Prettier
+        run: npm run prettier:check
+      - name: Run ESLint
+        run: npm run lint

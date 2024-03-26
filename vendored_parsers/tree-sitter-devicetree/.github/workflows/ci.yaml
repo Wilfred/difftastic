@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test parser
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    steps:
+      - name: Set up the repo
+        uses: tree-sitter/parser-setup-action@v1.1
+        with:
+          node-version: ${{vars.NODE_VERSION}}
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v1.2
+        with:
+          lint: ${{runner.os == 'Linux'}}
+          test-library: ${{runner.os == 'Linux'}}
+          corpus-files: examples/*.c

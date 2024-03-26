@@ -1,0 +1,65 @@
+========================================================================
+Top-level nodes
+========================================================================
+
+/ {};
+
+&foo {};
+
+---
+
+(document
+    (node name: (identifier))
+    (node name: (reference label: (identifier)))
+)
+
+========================================================================
+Child nodes
+========================================================================
+
+/ {
+    foo {
+        bar {};
+    };
+    baz {};
+};
+
+---
+
+(document
+    (node name: (identifier)
+        (node name: (identifier)
+            (node name: (identifier))
+        )
+        (node name: (identifier))
+    )
+)
+
+========================================================================
+Node addresses
+========================================================================
+
+/ {
+    foo@12345678 {};
+    bar@deadbeef,abcd1234 {};
+    baz@xyz-abc_123+456.789 {};
+};
+
+---
+
+(document
+    (node name: (identifier)
+        (node
+            name: (identifier)
+            address: (unit_address)
+        )
+        (node
+            name: (identifier)
+            address: (unit_address)
+        )
+        (node
+            name: (identifier)
+            address: (unit_address)
+        )
+    )
+)
