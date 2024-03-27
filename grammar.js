@@ -306,9 +306,9 @@ module.exports = grammar({
             /[^ux]/,
             // Hex byte
             /x[0-9a-fA-F]{1,2}/,
-            /x{[0-9a-fA-F]+}/,
+            /x\{[0-9a-fA-F]+\}/,
             // Unicode code point
-            /u{[0-9a-fA-F]+}/,
+            /u\{[0-9a-fA-F]+\}/,
             /u[0-9a-fA-F]{4}/
           )
         )
