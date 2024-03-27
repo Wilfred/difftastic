@@ -1,0 +1,27 @@
+{
+  "name": "tree-sitter-fsharp",
+  "version": "1.0.0",
+  "description": "",
+  "repository": "https://github.com/tree-sitter/tree-sitter-fsharp",
+  "main": "bindings/node",
+  "scripts": {
+    "build": "tree-sitter generate",
+    "test": "tree-sitter generate && tree-sitter test",
+    "parse": "tree-sitter generate && tree-sitter parse",
+    "debug": "tree-sitter generate && tree-sitter parse -d"
+  },
+  "author": "Nikolaj Sidorenco",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.16.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.fsharp",
+      "file-types": [ "fs", "fsx"]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+================================================================================
+basic module with indent
+================================================================================
+
+module test =
+ let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+basic module with large indent
+================================================================================
+
+module test =
+                      let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+basic module with multiple elements
+================================================================================
+
+module test =
+ let x = 4
+ let y = 5
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+top-level module with multiple elements
+================================================================================
+
+module Test
+
+let x = 4
+let y = 5
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    name: (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        body: (const
+          (int))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        body: (const
+          (int))))))
+
+================================================================================
+namespace open
+================================================================================
+
+namespace Test.A
+
+open B
+open X.Y
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier)
+      (identifier))
+    (import_decl
+      (long_identifier (identifier)))
+    (import_decl
+      (long_identifier
+        (identifier)
+        (identifier)))))

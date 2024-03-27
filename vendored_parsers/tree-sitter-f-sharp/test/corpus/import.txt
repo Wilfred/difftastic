@@ -1,0 +1,23 @@
+===
+basic import
+===
+
+open test
+
+---
+
+(file
+  (import_decl
+    (long_identifier (identifier))))
+
+===
+basic import long identifier
+===
+
+open Mod.Test
+
+---
+
+(file
+  (import_decl
+    (long_identifier (identifier) (identifier))))

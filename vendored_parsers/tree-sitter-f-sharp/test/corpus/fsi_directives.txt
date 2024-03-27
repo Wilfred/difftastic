@@ -1,0 +1,37 @@
+===
+refer dll 
+===
+
+#r "path/to/MyAssembly.dll"
+
+---
+
+(file
+  (fsi_directive_decl
+    (string)))
+
+===
+refer nuget package 
+===
+
+#r "path/to/MyAssembly.dll"
+
+---
+
+(file
+  (fsi_directive_decl
+    (string)))
+
+===
+load script 
+===
+
+#load "Script1.fsx"
+
+---
+
+(file
+  (fsi_directive_decl
+    (string)))
+
+
