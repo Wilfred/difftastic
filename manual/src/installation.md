@@ -40,6 +40,13 @@ with `pkg`.
 $ sudo pkg install difftastic
 ```
 
+If you're a Windows user, you can install
+[difftastic](https://community.chocolatey.org/packages/difftastic)
+with `choco`.
+```
+$ choco install difftastic
+```
+
 ## Full Package Listing
 
 The following table includes a list of all the platforms that provide
