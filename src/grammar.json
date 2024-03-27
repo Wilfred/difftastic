@@ -2535,11 +2535,11 @@
               },
               {
                 "type": "PATTERN",
-                "value": "x{[0-9a-fA-F]+}"
+                "value": "x\\{[0-9a-fA-F]+\\}"
               },
               {
                 "type": "PATTERN",
-                "value": "u{[0-9a-fA-F]+}"
+                "value": "u\\{[0-9a-fA-F]+\\}"
               },
               {
                 "type": "PATTERN",
