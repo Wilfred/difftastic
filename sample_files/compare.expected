@@ -49,6 +49,9 @@ sample_files/css_before.css sample_files/css_after.css
 sample_files/dart_before.dart sample_files/dart_after.dart
 73dd776f2587bbaf2d29fbe20dd8de40  -
 
+sample_files/devicetree_before.dtsi sample_files/devicetree_after.dtsi
+08ce276dd4e4360678555076e9e7cbfd  -
+
 sample_files/elisp_before.el sample_files/elisp_after.el
 4342ed34fe5304644afe5b224f0fd83b  -
 

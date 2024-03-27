@@ -1,0 +1,340 @@
+========================================================================
+Preprocessor include
+========================================================================
+
+#include "foo.h"
+#include <bar.h>
+ #	include "baz.dtsi"
+ #	include	<baz.dtsi>
+
+---
+
+(document
+    (preproc_include path: (string_literal))
+    (preproc_include path: (system_lib_string))
+    (preproc_include path: (string_literal))
+    (preproc_include path: (system_lib_string))
+)
+
+========================================================================
+Preprocessor define
+========================================================================
+
+#define FOO 0
+#define BAR(x) (x & 0x01)
+#undef FOO
+
+---
+
+(document
+    (preproc_def
+        name: (identifier)
+        value: (preproc_arg)
+    )
+    (preproc_function_def
+        name: (identifier)
+        parameters: (preproc_params
+            (identifier)
+        )
+        value: (preproc_arg)
+    )
+    (preproc_undef
+        name: (identifier)
+    )
+)
+
+================================================================================
+Ifdefs
+================================================================================
+
+#ifndef DEFINE1
+/ {};
+#endif
+
+#ifdef DEFINE2
+/ {};
+#define c 32
+#elif defined DEFINE3
+#else
+/ {};
+#define c 16
+#endif
+
+#ifdef DEFINE2
+#else
+#  ifdef DEFINE3
+#  else
+#  endif
+#endif
+
+---
+
+(document
+    (preproc_ifdef
+        name: (identifier)
+        (node
+            name: (identifier)
+        )
+    )
+    (preproc_ifdef
+        name: (identifier)
+        (node
+            name: (identifier)
+        )
+        (preproc_def
+            name: (identifier)
+            value: (preproc_arg)
+        )
+        alternative: (preproc_elif
+            condition: (preproc_defined
+                (identifier)
+            )
+            alternative: (preproc_else
+                (node
+                    name: (identifier)
+                )
+                (preproc_def
+                    name: (identifier)
+                    value: (preproc_arg)
+                )
+            )
+        )
+    )
+    (preproc_ifdef
+        name: (identifier)
+        alternative: (preproc_else
+            (preproc_ifdef
+                name: (identifier)
+                alternative: (preproc_else)
+            )
+        )
+    )
+)
+
+================================================================================
+Elifdefs
+================================================================================
+
+#ifndef DEFINE1
+/ {};
+#elifndef DEFINE2
+/ {};
+#endif
+
+#ifdef DEFINE2
+/ {};
+#elifdef DEFINE3
+/ {};
+#else
+/ {};
+#endif
+
+---
+
+(document
+    (preproc_ifdef
+        (identifier)
+        (node (identifier))
+        (preproc_elifdef
+            (identifier)
+            (node (identifier))
+        )
+    )
+    (preproc_ifdef
+        (identifier)
+        (node (identifier))
+        (preproc_elifdef
+            (identifier)
+            (node (identifier))
+            (preproc_else
+                (node (identifier))
+            )
+        )
+    )
+)
+
+========================================================================
+Macro expressions
+========================================================================
+
+/ {
+    value = <FOO FUNC(FOO, BAR) LS(LC(A))>;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (identifier)
+                (call_expression
+                    function: (identifier)
+                    arguments: (argument_list
+                        (identifier)
+                        (identifier)
+                    )
+                )
+                (call_expression
+                    function: (identifier)
+                    arguments: (argument_list (call_expression
+                        function: (identifier)
+                        arguments: (argument_list (identifier))
+                    ))
+                )
+            )
+        )
+    )
+)
+
+========================================================================
+Preprocessor directives in node
+========================================================================
+
+/ {
+    #include "macros.dtsi"
+    #define FOO 0
+    #ifdef FOO
+        value = <FOO>;
+    #endif
+    #ifndef BAR
+        value = <BAR>;
+    #endif
+    #undef FOO
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (preproc_include path: (string_literal))
+        (preproc_def
+            name: (identifier)
+            value: (preproc_arg))
+        (preproc_ifdef
+            name: (identifier)
+            (property
+                name: (identifier)
+                value: (integer_cells
+                    (identifier)
+                )
+            )
+        )
+        (preproc_ifdef
+            name: (identifier)
+            (property
+                name: (identifier)
+                value: (integer_cells
+                    (identifier)
+                )
+            )
+        )
+        (preproc_undef
+            name: (identifier)
+        )
+    )
+)
+
+================================================================================
+Preprocessor conditionals in functions
+================================================================================
+
+/ {
+  #if d
+    foo = "foo";
+  #else
+    bar = "bar";
+  #endif
+
+  #if a
+    baz = "baz";
+  #elif b
+    spam = "spam";
+  #else
+    eggs = "eggs";
+  #endif
+};
+
+---
+
+(document
+    (node
+        (identifier)
+        (preproc_if
+            (identifier)
+            (property
+                (identifier)
+                (string_literal)
+            )
+            (preproc_else
+                (property
+                    (identifier)
+                    (string_literal)
+                )
+            )
+        )
+        (preproc_if
+            (identifier)
+            (property
+                (identifier)
+                (string_literal)
+            )
+            (preproc_elif
+                (identifier)
+                (property
+                    (identifier)
+                    (string_literal)
+                )
+                (preproc_else
+                    (property
+                        (identifier)
+                        (string_literal)
+                    )
+                )
+            )
+        )
+    )
+)
+
+================================================================================
+Preprocessor expressions
+================================================================================
+
+#if A(B || C) && \
+    !D(F)
+
+/ {};
+
+#endif
+
+---
+
+(document
+    (preproc_if
+        (binary_expression
+            (call_expression
+                (identifier)
+                (argument_list
+                    (binary_expression
+                        (identifier)
+                        (identifier)
+                    )
+                )
+            )
+            (unary_expression
+                (call_expression
+                    (identifier)
+                    (argument_list
+                        (identifier)
+                    )
+                )
+            )
+        )
+        (node
+            (identifier)
+        )
+    )
+)

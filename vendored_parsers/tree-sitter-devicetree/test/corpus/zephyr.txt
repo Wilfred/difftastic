@@ -1,0 +1,91 @@
+========================================================================
+Zephyr armv6-m.dtsi
+========================================================================
+/* https://github.com/zephyrproject-rtos/zephyr/blob/master/dts/arm/armv6-m.dtsi */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+#include "skeleton.dtsi"
+
+/ {
+	soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "simple-bus";
+		interrupt-parent = <&nvic>;
+		ranges;
+
+		nvic: interrupt-controller@e000e100  {
+			compatible = "arm,v6m-nvic";
+			reg = <0xe000e100 0xc00>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+		};
+
+		systick: timer@e000e010 {
+			compatible = "arm,armv6m-systick";
+			reg = <0xe000e010 0x10>;
+		};
+	};
+};
+
+---
+
+(document
+	(comment)
+	(comment)
+	(preproc_include path: (string_literal))
+	(node
+		name: (identifier)
+		(node
+			name: (identifier)
+			(property
+				name: (identifier)
+				value: (integer_cells (integer_literal))
+			)
+			(property
+				name: (identifier)
+				value: (integer_cells (integer_literal))
+			)
+			(property
+				name: (identifier)
+				value: (string_literal)
+			)
+			(property
+				name: (identifier)
+				value: (integer_cells (reference label: (identifier)))
+			)
+			(property name: (identifier))
+			(node
+				label: (identifier)
+				name: (identifier)
+				address: (unit_address)
+				(property
+					name: (identifier)
+					value: (string_literal)
+				)
+				(property
+					name: (identifier)
+					value: (integer_cells (integer_literal) (integer_literal))
+				)
+				(property name: (identifier))
+				(property
+					name: (identifier)
+					value: (integer_cells (integer_literal))
+				)
+			)
+			(node
+				label: (identifier)
+				name: (identifier)
+				address: (unit_address)
+				(property
+					name: (identifier)
+					value: (string_literal)
+				)
+				(property
+					name: (identifier)
+					value: (integer_cells (integer_literal) (integer_literal))
+				)
+			)
+		)
+	)
+)

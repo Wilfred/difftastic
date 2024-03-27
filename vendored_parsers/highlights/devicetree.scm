@@ -1,0 +1,1 @@
+../tree-sitter-devicetree/queries/highlights.scm

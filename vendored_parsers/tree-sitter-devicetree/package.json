@@ -1,0 +1,57 @@
+{
+  "name": "tree-sitter-devicetree",
+  "version": "0.10.1",
+  "description": "Tree-sitter parser for Devicetree files, with support for Zephyr's superset of Devicetree syntax.",
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test",
+    "lint": "eslint grammar.js",
+    "build:wasm": "tree-sitter build-wasm",
+    "prettier:check": "prettier --check .",
+    "prettier:format": "prettier --write .",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
+  },
+  "author": "Joel Spadin",
+  "license": "MIT",
+  "dependencies": {
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prebuildify": "^6.0.0",
+    "prettier": "^3.2.5",
+    "tree-sitter-cli": "^0.22.1"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.devicetree",
+      "file-types": [
+        "dts",
+        "dtsi",
+        "overlay"
+      ],
+      "injection-regex": "^(dts|devicetree)$"
+    }
+  ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ]
+}

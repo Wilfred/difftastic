@@ -1,0 +1,41 @@
+========================================================================
+Node addresses
+========================================================================
+
+/ {
+    foo@0123456789 {};
+    bar@abcdef {};
+    baz@ABCDEF {};
+    fred@1,0 {};
+
+    prop = <&{/bar@abcdef}>;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (node
+            name: (identifier)
+            address: (unit_address))
+        (node
+            name: (identifier)
+            address: (unit_address))
+        (node
+            name: (identifier)
+            address: (unit_address))
+        (node
+            name: (identifier)
+            address: (unit_address))
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (reference
+                    path: (identifier)
+                    address: (unit_address)
+                )
+            )
+        )
+    )
+)

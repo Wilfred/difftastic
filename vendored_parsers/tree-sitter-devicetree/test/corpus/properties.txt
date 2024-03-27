@@ -1,0 +1,293 @@
+========================================================================
+Name with hyphen
+========================================================================
+
+/ {
+    hyphenated-name = "";
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property name: (identifier) value: (string_literal))
+    )
+)
+
+========================================================================
+Name with hash
+========================================================================
+
+/ {
+    #startswithhash = "";
+    hash#inmiddle = "";
+    endswithhash# = "";
+    #multiple#hashes# = "";
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property name: (identifier) value: (string_literal))
+        (property name: (identifier) value: (string_literal))
+        (property name: (identifier) value: (string_literal))
+        (property name: (identifier) value: (string_literal))
+    )
+)
+
+========================================================================
+Name with comma
+========================================================================
+
+/ {
+    comma,separated = "";
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property name: (identifier) value: (string_literal))
+    )
+)
+
+========================================================================
+Name with number
+========================================================================
+
+/ {
+    0startswithnumber = "";
+    number0inmiddle = "";
+    endswithnumber0 ="";
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property name: (identifier) value: (string_literal))
+        (property name: (identifier) value: (string_literal))
+        (property name: (identifier) value: (string_literal))
+    )
+)
+
+========================================================================
+Empty
+========================================================================
+
+/ {
+    empty;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property name: (identifier))
+    )
+)
+
+========================================================================
+Integers
+========================================================================
+
+/ {
+    int = <0>;
+    list = <0 1 2>;
+    list_bits = /bits/ 8 <0x12 0x34>;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (integer_cells (integer_literal))
+        )
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (integer_literal) (integer_literal) (integer_literal)
+            )
+        )
+        (property
+            name: (identifier)
+            bits: (integer_literal)
+            value: (integer_cells
+                (integer_literal) (integer_literal)
+            )
+        )
+    )
+)
+
+========================================================================
+Strings
+========================================================================
+
+/ {
+    string = "foo";
+    strings = "foo", "bar";
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property name: (identifier) value: (string_literal))
+        (property
+            name: (identifier)
+            value: (string_literal)
+            value: (string_literal)
+        )
+    )
+)
+
+========================================================================
+Byte strings
+========================================================================
+
+/ {
+    bytes = [00 12 34];
+    bytes2 = [001234];
+    empty = [];
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (byte_string_literal)
+        )
+        (property
+            name: (identifier)
+            value: (byte_string_literal)
+        )
+        (property
+            name: (identifier)
+            value: (byte_string_literal)
+        )
+    )
+)
+
+========================================================================
+References
+========================================================================
+
+/ {
+    ref = &foo;
+    phandle = <&foo>;
+    node = <&{/foo/bar/baz@40000}>;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (reference label: (identifier))
+        )
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (reference label: (identifier))
+            )
+        )
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (reference
+                    path: (identifier)
+                    address: (unit_address)
+                )
+            )
+        )
+    )
+)
+
+========================================================================
+Mixed values
+========================================================================
+
+/ {
+    mixed = <0 &foo>, [12 34], "baz";
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (integer_cells (integer_literal) (reference label: (identifier)))
+            value: (byte_string_literal)
+            value: (string_literal)
+        )
+    )
+)
+
+========================================================================
+Incbin
+========================================================================
+
+/ {
+    data = /incbin/ ("file.bin");
+    data2 = /incbin/ ("file.bin", 0x10, 64);
+    data3 = /incbin/ ("file.bin", (1 + 2), MACRO(1, 2 + 3));
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (incbin
+                filename: (string_literal)
+            )
+        )
+        (property
+            name: (identifier)
+            value: (incbin
+                filename: (string_literal)
+                offset: (integer_literal)
+                size: (integer_literal)
+            )
+        )
+        (property
+            name: (identifier)
+            value: (incbin
+                filename: (string_literal)
+                offset: (binary_expression
+                    left: (integer_literal)
+                    right: (integer_literal)
+                )
+                size: (call_expression
+                    function: (identifier)
+                    arguments: (argument_list
+                        (integer_literal)
+                        (binary_expression
+                            left: (integer_literal)
+                            right: (integer_literal)
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
