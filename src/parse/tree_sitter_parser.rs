@@ -87,6 +87,7 @@ extern "C" {
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
+    fn tree_sitter_jsonnet() -> ts::Language;
     fn tree_sitter_julia() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_latex() -> ts::Language;
@@ -617,6 +618,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/json.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Jsonnet => {
+            let language = unsafe { tree_sitter_jsonnet() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/jsonnet.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

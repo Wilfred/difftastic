@@ -1,0 +1,137 @@
+===============================
+Resolve expr in fieldname key 1
+===============================
+
+local a = 'a';
+{ [a]: 'a' }
+
+---
+
+(document
+  (local_bind
+    (local)
+    (bind
+      (id)
+      (string
+        (string_start)
+        (string_content)
+        (string_end)))
+    (object
+      (member
+        (field
+          (fieldname (id))
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
+
+===============================
+Resolve expr in fieldname key 2
+===============================
+
+local prefix = 'Happy Hour ';
+{
+  [prefix + 'Mimosa']: 'Champagne',
+}
+
+---
+
+(document
+  (local_bind
+    (local)
+    (bind
+      (id)
+        (string
+          (string_start)
+          (string_content)
+          (string_end)))
+    (object
+      (member
+        (field
+          (fieldname
+            (binary
+              (id)
+              (additive)
+              (string
+                (string_start)
+                (string_content)
+                (string_end))))
+          (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
+
+===============================
+Resolve expr in fieldname key 3
+===============================
+
+local Margarita(salted) = {
+  [if salted then 'garnish']: 'Salt',
+  ingredients: [
+    { kind: 'Tequila Blanco', qty: 2 },
+  ],
+};
+{
+  Margarita: Margarita(true),
+  'Margarita Unsalted': Margarita(false),
+}
+
+---
+
+(document
+  (local_bind
+   (local)
+   (bind
+    function: (id)
+    params:
+    (params
+     (param
+      identifier: (id)))
+    body: (object
+    (member
+      (field
+       (fieldname
+        (conditional
+         condition: (id)
+         consequence:
+          (string
+           (string_start)
+           (string_content)
+           (string_end))))
+        (string
+         (string_start)
+         (string_content)
+         (string_end))))
+     (member
+      (field
+       (fieldname (id))
+       (array
+         (object
+           (member
+            (field
+             (fieldname (id))
+             (string
+               (string_start)
+               (string_content)
+               (string_end))))
+           (member
+            (field
+             (fieldname (id))
+             (number)))))))))
+   (object
+    (member
+     (field
+      (fieldname (id))
+      (functioncall
+       (id)
+       (args (true)))))
+    (member
+     (field
+      (fieldname
+       (string
+        (string_start)
+        (string_content)
+        (string_end)))
+      (functioncall
+       (id)
+       (args (false))))))))

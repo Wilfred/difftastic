@@ -1,0 +1,55 @@
+======================
+Parses example 1
+======================
+
+
+local Mojito(virgin=false, large=false) = {
+  // A local next to fields ends with ','.
+  local factor = if large then 2 else 1,
+  // The ingredients are split into 3 arrays,
+  // the middle one is either length 1 or 0.
+  ingredients: [],
+};
+
+{
+  Mojito: Mojito(),
+}
+
+---
+
+
+(document
+  (local_bind
+    (local)
+    (bind
+      function: (id)
+      params: (params
+        (param
+          identifier: (id)
+          value: (false))
+        (param
+          identifier: (id)
+          value: (false)))
+      body: (object
+        (comment)
+        (member
+          (objlocal
+            (local)
+            (bind
+              (id)
+              (conditional
+                condition: (id)
+                consequence: (number)
+                alternative: (number)))))
+        (comment)
+        (comment)
+        (member
+          (field
+            (fieldname (id))
+            (array)))))
+    (object
+      (member
+        (field
+          (fieldname (id))
+          (functioncall
+            (id)))))))

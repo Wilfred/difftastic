@@ -1,0 +1,86 @@
+======================
+For loop in array
+======================
+
+[
+  i
+  for i in std.range(0,10)
+]
+
+---
+
+(document
+  (forloop
+    (id)
+    (forspec
+      (id)
+      (functioncall
+        (fieldaccess (id) last: (id))
+        (args (number) (number))))))
+
+======================
+For loop in object
+======================
+
+{
+  ['item' + i]: i
+  for i in std.range(0,10)
+}
+
+---
+
+(document
+  (object
+    (objforloop
+      (field
+        (fieldname
+          (binary
+             left:
+               (string
+                 (string_start)
+                 (string_content)
+                 (string_end))
+             operator: (additive)
+             right: (id)))
+        (id))
+      (forspec
+        (id)
+        (functioncall
+          (fieldaccess (id) last: (id))
+          (args (number) (number)))))))
+
+================================
+For loop in object with function
+================================
+
+{
+  ['item' + i](v): i + v
+  for i in std.range(0,10)
+}
+
+---
+
+(document
+  (object
+    (objforloop
+      (field
+        function: (fieldname
+          (binary
+            left: (string
+                    (string_start)
+                    (string_content)
+                    (string_end))
+            operator: (additive)
+            right: (id)))
+          (params
+            (param 
+              identifier: (id)))
+          (binary
+            left: (id)
+            operator: (additive)
+            right: (id)))
+      (forspec
+        (id)
+        (functioncall
+          (fieldaccess (id) last: (id))
+          (args (number) (number)))))))

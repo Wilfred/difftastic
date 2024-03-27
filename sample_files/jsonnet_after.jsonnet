@@ -1,0 +1,6 @@
+{
+  local func(arg) = arg,
+  foo: [2, 3, 4, 5],
+  zab: 'testing',
+  woo: ['foobar'],
+}

@@ -118,6 +118,9 @@ b9f8e04d42f4c88b3514d31743e17297  -
 sample_files/json_before.json sample_files/json_after.json
 79d34d1bbb670bb702f6ea75ff759fa5  -
 
+sample_files/jsonnet_before.jsonnet sample_files/jsonnet_after.jsonnet
+ac7d694beebb1de40bf3c4455c15d894  -
+
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
 908a1637b237cd7763948b7abeb95325  -
 

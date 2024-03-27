@@ -204,6 +204,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-jsonnet",
+            src_dir: "vendored_parsers/tree-sitter-jsonnet-src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-julia",
             src_dir: "vendored_parsers/tree-sitter-julia-src",
             extra_files: vec!["scanner.c"],

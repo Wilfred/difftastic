@@ -1,0 +1,59 @@
+======================
+In operator on object
+======================
+
+local obj = { a: null };
+'a' in obj
+
+---
+
+(document
+    (local_bind
+      (local)
+      (bind
+        (id)
+        (object
+          (member
+            (field
+              (fieldname (id))
+              (null)))))
+    (binary
+      (string
+        (string_start)
+        (string_content)
+        (string_end))
+      (comparison)
+      (id))))
+
+======================
+In operator on super
+======================
+
+local obj = { a: null };
+obj + { b: 'a' in super }
+
+---
+
+(document
+  (local_bind
+    (local)
+    (bind
+      (id)
+      (object
+        (member
+          (field
+            (fieldname (id))
+            (null)))))
+    (binary
+      (id)
+      (additive)
+      (object
+        (member
+          (field
+            (fieldname (id))
+              (in_super
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))
+                (super))))))))
