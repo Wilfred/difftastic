@@ -1,0 +1,122 @@
+========================================================================
+Top-level label
+========================================================================
+
+label: node {};
+
+---
+
+(document
+    (node
+        label: (identifier)
+        name: (identifier)
+    )
+)
+
+========================================================================
+Multiple labels
+========================================================================
+
+foo: bar: baz: qux: node {};
+
+---
+
+(document
+    (node
+        label: (identifier)
+        label: (identifier)
+        label: (identifier)
+        label: (identifier)
+        name: (identifier)
+    )
+)
+
+========================================================================
+Labeled child node
+========================================================================
+
+/ {
+    label: node-name@deadbeef {};
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (node
+            label: (identifier)
+            name: (identifier)
+            address: (unit_address)
+        )
+    )
+)
+
+========================================================================
+Labeled node reference
+========================================================================
+
+foo: &bar {};
+
+foo: &{/bar@deadbeef} {};
+
+---
+
+(document
+    (node
+        label: (identifier)
+        name: (reference
+            label: (identifier)
+        )
+    )
+    (node
+        label: (identifier)
+        name: (reference
+            path: (identifier)
+            address: (unit_address)
+        )
+    )
+)
+
+========================================================================
+Labeled property
+========================================================================
+
+/ {
+    foo: foo = <1>;
+    bar: bar;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            label: (identifier)
+            name: (identifier)
+            value: (integer_cells (integer_literal))
+        )
+        (property
+            label: (identifier)
+            name: (identifier)
+        )
+    )
+)
+
+========================================================================
+Labeled memreserve
+========================================================================
+
+mem1: mem2: /memreserve/ 0x0000 0x1000;
+
+---
+
+(document
+    (memory_reservation
+        label: (identifier)
+        label: (identifier)
+        address: (integer_literal)
+        length: (integer_literal)
+    )
+)
