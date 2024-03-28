@@ -57,14 +57,12 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.long_identifier, $._identifier_or_op],
-    [$.type_argument, $.static_type_argument],
-    [$.symbolic_op, $.infix_op],
-    [$.union_type_case, $.long_identifier],
+    [$.type_argument, $.static_type_argument]
   ],
 
   words: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expressions, $._expression_or_range, $._infix_expression_inner, $._seq_expressions, $._seq_inline],
+  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._expression_or_range, $._seq_expressions],
 
   supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._type_defn_body ],
 

@@ -7392,14 +7392,6 @@
     [
       "type_argument",
       "static_type_argument"
-    ],
-    [
-      "symbolic_op",
-      "infix_op"
-    ],
-    [
-      "union_type_case",
-      "long_identifier"
     ]
   ],
   "precedences": [],
@@ -7428,11 +7420,8 @@
     "access_modifier",
     "_quote_op_left",
     "_quote_op_right",
-    "ReferenceError",
     "_expression_or_range",
-    "ReferenceError",
-    "_seq_expressions",
-    "ReferenceError"
+    "_seq_expressions"
   ],
   "supertypes": [
     "_module_elem",
@@ -7441,4 +7430,3 @@
     "_type_defn_body"
   ]
 }
-

@@ -4,19 +4,35 @@
   "description": "",
   "repository": "https://github.com/tree-sitter/tree-sitter-fsharp",
   "main": "bindings/node",
-  "scripts": {
-    "build": "tree-sitter generate",
-    "test": "tree-sitter generate && tree-sitter test",
-    "parse": "tree-sitter generate && tree-sitter parse",
-    "debug": "tree-sitter generate && tree-sitter parse -d"
-  },
-  "author": "Nikolaj Sidorenco",
-  "license": "MIT",
-  "dependencies": {
-    "nan": "^2.18.0"
-  },
+  "types": "bindings/node",
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.8"
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0",
+    "prebuildify": "^6.0.0",
+    "tree-sitter-cli": "^0.22.2"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tree-sitter generate --no-bindings",
+    "lint": "eslint grammar.js",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "tree-sitter": [
     {
@@ -24,7 +40,14 @@
       "file-types": [
         "fs",
         "fsx"
-      ]
+      ],
+      "injection-regex": "fs",
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm"
     }
-  ]
+  ],
+  "dependencies": {
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  }
 }
