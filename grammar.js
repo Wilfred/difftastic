@@ -46,7 +46,8 @@ module.exports = grammar({
     $._virtual_open_section, // Signal the external scanner that a new indentation scope should be opened. Add the indetation size to the stack.
     $._virtual_end_section, // end an indentation scope, popping the indentation off the stack.
     $._virtual_end_decl, // end an indentation scope with equal alignment, popping the indentation off the stack.
-    $.block_comment_content
+    $.block_comment_content,
+    $._error_sentinel // unused token to detect parser errors in external parser.
   ],
 
   extras: $ => [

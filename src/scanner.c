@@ -1,3 +1,4 @@
+#include "tree_sitter/alloc.h"
 #include "tree_sitter/array.h"
 #include "tree_sitter/parser.h"
 
@@ -6,7 +7,7 @@ enum TokenType {
   VIRTUAL_END_SECTION,
   VIRTUAL_END_ALIGNED,
   BLOCK_COMMENT_CONTENT,
-  ERROR_RECOVERY
+  ERROR_SENTINEL
 };
 
 typedef struct {
@@ -16,7 +17,7 @@ typedef struct {
 } Scanner;
 
 static inline bool in_error_recovery(const bool *valid_symbols) {
-  return valid_symbols[ERROR_RECOVERY];
+  return valid_symbols[ERROR_SENTINEL];
 }
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -76,16 +77,14 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer,
   if (in_error_recovery(valid_symbols))
     return false;
 
-  bool runback_nonempty = scanner->runback.size > 0;
-
   // First handle eventual runback tokens, we saved on a previous scan op
-  if (runback_nonempty && *array_back(&scanner->runback) == 0 &&
+  if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 0 &&
       valid_symbols[VIRTUAL_END_ALIGNED]) {
     array_pop(&scanner->runback);
     lexer->result_symbol = VIRTUAL_END_ALIGNED;
     return true;
   }
-  if (runback_nonempty && *array_back(&scanner->runback) == 1 &&
+  if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 1 &&
       valid_symbols[VIRTUAL_END_SECTION]) {
     array_pop(&scanner->runback);
     lexer->result_symbol = VIRTUAL_END_SECTION;
@@ -244,13 +243,13 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer,
 
     // Handle the first runback token if we have them, if there are more they
     // will be handled on the next scan operation
-    if (runback_nonempty && *array_back(&scanner->runback) == 0 &&
+    if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 0 &&
         valid_symbols[VIRTUAL_END_ALIGNED]) {
       array_pop(&scanner->runback);
       lexer->result_symbol = VIRTUAL_END_ALIGNED;
       return true;
     }
-    if (runback_nonempty && *array_back(&scanner->runback) == 0 &&
+    if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 0 &&
         valid_symbols[VIRTUAL_END_SECTION]) {
       array_pop(&scanner->runback);
       lexer->result_symbol = VIRTUAL_END_SECTION;
@@ -329,7 +328,7 @@ void tree_sitter_fsharp_external_scanner_deserialize(void *payload,
 }
 
 void *tree_sitter_fsharp_external_scanner_create() {
-  Scanner *scanner = calloc(1, sizeof(Scanner));
+  Scanner *scanner = ts_calloc(1, sizeof(Scanner));
   array_init(&scanner->indent_length_stack);
   array_init(&scanner->runback);
   tree_sitter_fsharp_external_scanner_deserialize(scanner, NULL, 0);
@@ -340,5 +339,5 @@ void tree_sitter_fsharp_external_scanner_destroy(void *payload) {
   Scanner *scanner = (Scanner *)payload;
   array_delete(&scanner->runback);
   array_delete(&scanner->indent_length_stack);
-  free(scanner);
+  ts_free(scanner);
 }

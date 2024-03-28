@@ -7411,6 +7411,10 @@
     {
       "type": "SYMBOL",
       "name": "block_comment_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_error_sentinel"
     }
   ],
   "inline": [
