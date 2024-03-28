@@ -1,0 +1,9 @@
+{
+  "lspconfig": {
+    "tsserver": {
+      "typescript.format.enable": false,
+      "diagnostics.ignoredCodes": [80001],
+      "completions.completeFunctionCalls": true
+    }
+  }
+}

@@ -1,0 +1,110 @@
+================================================================================
+Empty file
+================================================================================
+
+--------------------------------------------------------------------------------
+
+(source_file)
+
+================================================================================
+Single-line comments
+================================================================================
+
+     # mis-aligned comments does not affect indentation
+
+let
+  x: int = 10 # doesn't
+    # matter
+
+ # at all
+
+  y = 10f
+
+echo x,
+  # some comment
+  y
+
+## let
+##  this
+##   that
+
+# #[]# should not induce a block comment
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment
+    (comment_content))
+  (let_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
+      (type_expression
+        (identifier))
+      (integer_literal))
+    (comment
+      (comment_content))
+    (comment
+      (comment_content))
+    (comment
+      (comment_content))
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
+      (float_literal)))
+  (call
+    (identifier)
+    (argument_list
+      (identifier)
+      (comment
+        (comment_content))
+      (identifier)))
+  (documentation_comment
+    (comment_content))
+  (documentation_comment
+    (comment_content))
+  (documentation_comment
+    (comment_content))
+  (comment
+    (comment_content)))
+
+================================================================================
+Block comments
+================================================================================
+
+#[
+  something
+]#
+
+echo x, #[comment]# y
+
+#[multi-line
+comments can be #[nested
+#[multiple times]#]#]#
+
+#[random inner comments# stuff#]#
+
+##[Block doc can be #[nested]# too
+Block doc is not ##[self-nesting]#, though
+]##
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (block_comment
+    (comment_content))
+  (call
+    (identifier)
+    (argument_list
+      (identifier)
+      (block_comment
+        (comment_content))
+      (identifier)))
+  (block_comment
+    (comment_content))
+  (block_comment
+    (comment_content))
+  (block_documentation_comment
+    (comment_content)))

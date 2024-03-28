@@ -166,6 +166,9 @@ a1d520d7a425c9eed529b8b108eaee3e  -
 sample_files/newick_before.nwk sample_files/newick_after.nwk
 0f7bdff87a79f997b850e67d38a1c910  -
 
+sample_files/nim_before.nim sample_files/nim_after.nim
+785647f7b0f04721cc87ded35a1088f9  -
+
 sample_files/nix_before.nix sample_files/nix_after.nix
 e00b95a4cf3fa3edf994155d8656063f  -
 

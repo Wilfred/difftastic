@@ -1,0 +1,274 @@
+================================================================================
+Integer literals
+================================================================================
+
+1234
+1234u
+-1234U
+1234'i32
+1234u16
+
+12_345_67
+12_345_67I32
+-12_345_67'I8
+
+-0xABCDEF
+0xABCDEFi16
+
+-0xab_cd_ef
+0xab_cd_efu32
+
+-0o7050
+0o7050'u16
+
+-0o70_50
+0o70_50'u8
+
+-0b11011
+0b11011U8
+
+0b1_10_11
+-0b11_011U16
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal))
+
+================================================================================
+Float literals
+================================================================================
+
+12.32
+-12_34.567_89
+
+12_34e10
+-12_34e+123_340
+12_34e-1_120
+
+-1234.5678e10
+12_34.56_78e-10
+
+12.34F
+-12.34d
+12.34f32
+12.34f64
+
+1234f
+-1234d
+1234'F32
+1234'F64
+
+-12_34.567_89'D
+
+-12_34.567_89e+123'D
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal))
+
+================================================================================
+String literals
+================================================================================
+
+""
+r""
+
+"regular"
+
+"string"
+
+"string\n\n\r"
+
+"a 'long\'\" string \x00 \uBEEF \u{DEADBEEF}"
+
+r"raw string"
+
+r"C:\Windows\System32"
+
+r"C:\""Windows""\System32"
+
+r"a""b"
+r"a"""
+
+""""""
+
+"""""""
+
+"""
+Mutiline long string \escapes\are \not\interpreted
+"strings within even"
+""""""
+
+r""""string inside long string""""
+
+block:
+  """
+Can start at lower indentation
+"""
+
+"# not a comment"
+
+"""# not a comment"""
+
+r"C:\"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interpreted_string_literal)
+  (raw_string_literal)
+  (interpreted_string_literal
+    (string_content))
+  (interpreted_string_literal
+    (string_content))
+  (interpreted_string_literal
+    (string_content
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)))
+  (interpreted_string_literal
+    (string_content
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)))
+  (raw_string_literal
+    (string_content))
+  (raw_string_literal
+    (string_content))
+  (raw_string_literal
+    (string_content
+      (escape_sequence)
+      (escape_sequence)))
+  (raw_string_literal
+    (string_content
+      (escape_sequence)))
+  (raw_string_literal
+    (string_content
+      (escape_sequence)))
+  (long_string_literal)
+  (long_string_literal
+    (string_content))
+  (long_string_literal
+    (string_content))
+  (long_string_literal
+    (string_content))
+  (block
+    body: (statement_list
+      (long_string_literal
+        (string_content))))
+  (interpreted_string_literal
+    (string_content))
+  (long_string_literal
+    (string_content))
+  (raw_string_literal
+    (string_content)))
+
+================================================================================
+Character literals
+================================================================================
+
+'0'
+'a'
+' '
+'$'
+
+'\\'
+'\''
+'\"'
+
+'\x00'
+'\32'
+
+'\A'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence)))
+
+================================================================================
+Nil literal
+================================================================================
+
+nil
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (nil_literal))
+
+================================================================================
+Custom numeric literals
+================================================================================
+
+-12_345_67'I4
+0xABCDEF'u12
+0xab_cd_ef'bignum
+
+-12_34.567_89'bigf
+12_34e10'fcool
+-1234.5678e10'awesome
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal))

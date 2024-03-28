@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: None
+#
+# SPDX-License-Identifier: CC0-1.0
+
+src/parser.c -diff linguist-generated=true
+Cargo.lock linguist-generated=true
+package-lock.json linguist-generated=true

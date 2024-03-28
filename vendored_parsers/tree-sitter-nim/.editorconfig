@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: None
+#
+# SPDX-License-Identifier: CC0-1.0
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[src/scanner.cc]
+# So that MSVC knows it's UTF-8
+charset = utf-8-bom

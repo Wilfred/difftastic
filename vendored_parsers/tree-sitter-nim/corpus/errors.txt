@@ -1,0 +1,171 @@
+================================================================================
+Error within variant object declaration
+================================================================================
+
+type
+  E = object
+    case foo
+    of bar
+
+--------------------------------------------------------------------------------
+
+(ERROR
+  (type_declaration
+    (type_symbol_declaration
+      (identifier))
+    (object_declaration
+      (field_declaration_list
+        (ERROR
+          (variant_discriminator_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                (identifier))))
+          (identifier))))))
+
+================================================================================
+Error incomplete field within object variant
+================================================================================
+
+type
+  A = object
+
+  B = object
+    case x: int
+    of y:
+      k:
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        (identifier))
+      (object_declaration))
+    (type_declaration
+      (type_symbol_declaration
+        (identifier))
+      (object_declaration
+        (field_declaration_list
+          (variant_declaration
+            (variant_discriminator_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  (identifier)))
+              (type_expression
+                (identifier)))
+            (of_branch
+              (expression_list
+                (identifier))
+              (field_declaration_list
+                (ERROR
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      (identifier))))))))))))
+
+================================================================================
+Error within statements with body
+================================================================================
+
+if true:
+  while
+
+if true:
+  while true:
+    try: x
+    except:
+      let
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (if
+    (identifier)
+    (statement_list
+      (ERROR)))
+  (if
+    (identifier)
+    (statement_list
+      (while
+        (identifier)
+        (statement_list
+          (try
+            (statement_list
+              (identifier))
+            (except_branch
+              (statement_list
+                (ERROR)))))))))
+
+================================================================================
+Hanging dot error
+================================================================================
+
+func main() =
+  f.
+
+a
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (func_declaration
+    (identifier)
+    (parameter_declaration_list)
+    (statement_list
+      (ERROR
+        (identifier))))
+  (identifier))
+
+================================================================================
+Continuing keyword at wrong places
+================================================================================
+
+let a = 5
+finally
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
+      (integer_literal)))
+  (identifier))
+
+================================================================================
+Incomplete try statements
+================================================================================
+
+if x:
+  try:
+    discard
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (if
+    (identifier)
+    (statement_list
+      (try
+        (statement_list
+          (discard_statement))))))
+
+================================================================================
+Incomplete let statement with unclosed parenthesis
+================================================================================
+
+let
+  x: int = (
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_section
+    (ERROR
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
+      (type_expression
+        (identifier)))))
