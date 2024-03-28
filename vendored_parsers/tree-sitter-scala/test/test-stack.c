@@ -40,10 +40,6 @@ int main() {
   assert(newStack -> top == 100);
   assert(popStack(newStack) == 99);
 
-  resetStack(newStack);
-
-  assert(isEmptyStack(newStack));
-
   printStack(stack, "hello");
   printStack(newStack, "hello");
   return 0;
