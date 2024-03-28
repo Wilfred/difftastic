@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Compute the display width of `text` while skipping over ANSI escape sequences."><meta name="keywords" content="rust, rustlang, rust-lang, display_width"><title>display_width in textwrap::core - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../textwrap/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../textwrap/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In textwrap::core</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../textwrap/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Function <a href="../index.html">textwrap</a>::<wbr><a href="index.html">core</a>::<wbr><a class="fn" href="#">display_width</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/textwrap/core.rs.html#199-209">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust fn"><code>pub fn display_width(text: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.str.html">str</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.65.0/std/primitive.usize.html">usize</a></code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Compute the display width of <code>text</code> while skipping over ANSI
+escape sequences.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>textwrap::core::display_width;
+
+<span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;Café Plain&quot;</span>), <span class="number">10</span>);
+<span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;\u{1b}[31mCafé Rouge\u{1b}[0m&quot;</span>), <span class="number">10</span>);
+<span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;\x1b]8;;http://example.com\x1b\\This is a link\x1b]8;;\x1b\\&quot;</span>), <span class="number">14</span>);</code></pre></div>
+<p><strong>Note:</strong> When the <code>unicode-width</code> Cargo feature is disabled, the
+width of a <code>char</code> is determined by a crude approximation which
+simply counts chars below U+1100 as 1 column wide, and all other
+characters as 2 columns wide. With the feature enabled, function
+will correctly deal with <a href="https://en.wikipedia.org/wiki/Combining_character">combining characters</a> in their
+decomposed form (see <a href="https://en.wikipedia.org/wiki/Unicode_equivalence">Unicode equivalence</a>).</p>
+<p>An example of a decomposed character is “é”, which can be
+decomposed into: “e” followed by a combining acute accent: “◌́”.
+Without the <code>unicode-width</code> Cargo feature, every <code>char</code> below
+U+1100 has a width of 1. This includes the combining accent:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>textwrap::core::display_width;
+
+<span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;Cafe Plain&quot;</span>), <span class="number">10</span>);
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unicode-width&quot;</span>)]
+</span><span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;Cafe\u{301} Plain&quot;</span>), <span class="number">10</span>);
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;unicode-width&quot;</span>))]
+</span><span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;Cafe\u{301} Plain&quot;</span>), <span class="number">11</span>);</code></pre></div>
+<h3 id="emojis-and-cjk-characters"><a href="#emojis-and-cjk-characters">Emojis and CJK Characters</a></h3>
+<p>Characters such as emojis and <a href="https://en.wikipedia.org/wiki/CJK_characters">CJK characters</a> used in the
+Chinese, Japanese, and Korean languages are seen as double-width,
+even if the <code>unicode-width</code> feature is disabled:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>textwrap::core::display_width;
+
+<span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;😂😭🥺🤣✨😍🙏🥰😊🔥&quot;</span>), <span class="number">20</span>);
+<span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;你好&quot;</span>), <span class="number">4</span>);  <span class="comment">// “Nǐ hǎo” or “Hello” in Chinese</span></code></pre></div>
+<h2 id="limitations"><a href="#limitations">Limitations</a></h2>
+<p>The displayed width of a string cannot always be computed from the
+string alone. This is because the width depends on the rendering
+engine used. This is particularly visible with <a href="https://unicode.org/emoji/charts/full-emoji-modifiers.html">emoji modifier
+sequences</a> where a base emoji is modified with, e.g., skin tone or
+hair color modifiers. It is up to the rendering engine to detect
+this and to produce a suitable emoji.</p>
+<p>A simple example is “❤️”, which consists of “❤” (U+2764: Black
+Heart Symbol) followed by U+FE0F (Variation Selector-16). By
+itself, “❤” is a black heart, but if you follow it with the
+variant selector, you may get a wider red heart.</p>
+<p>A more complex example would be “👨‍🦰” which should depict a man
+with red hair. Here the computed width is too large — and the
+width differs depending on the use of the <code>unicode-width</code> feature:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>textwrap::core::display_width;
+
+<span class="macro">assert_eq!</span>(<span class="string">&quot;👨‍🦰&quot;</span>.chars().collect::&lt;Vec&lt;char&gt;&gt;(), [<span class="string">&#39;\u{1f468}&#39;</span>, <span class="string">&#39;\u{200d}&#39;</span>, <span class="string">&#39;\u{1f9b0}&#39;</span>]);
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unicode-width&quot;</span>)]
+</span><span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;👨‍🦰&quot;</span>), <span class="number">4</span>);
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;unicode-width&quot;</span>))]
+</span><span class="macro">assert_eq!</span>(display_width(<span class="string">&quot;👨‍🦰&quot;</span>), <span class="number">6</span>);</code></pre></div>
+<p>This happens because the grapheme consists of three code points:
+“👨” (U+1F468: Man), Zero Width Joiner (U+200D), and “🦰”
+(U+1F9B0: Red Hair). You can see them above in the test. With
+<code>unicode-width</code> enabled, the ZWJ is correctly seen as having zero
+width, without it is counted as a double-width character.</p>
+<h3 id="terminal-support"><a href="#terminal-support">Terminal Support</a></h3>
+<p>Modern browsers typically do a great job at combining characters
+as shown above, but terminals often struggle more. As an example,
+Gnome Terminal version 3.38.1, shows “❤️” as a big red heart, but
+shows “👨‍🦰” as “👨🦰”.</p>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="textwrap" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

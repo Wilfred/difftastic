@@ -1,0 +1,541 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Tricky Cases - Difftastic Manual</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="The manual for difftastic, the structural dif tool">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="from_source.html"><strong aria-hidden="true">2.1.</strong> From Source</a></li></ol></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li><li class="chapter-item expanded "><a href="fossil.html"><strong aria-hidden="true">3.3.</strong> Fossil</a></li></ol></li><li class="chapter-item expanded "><a href="languages_supported.html"><strong aria-hidden="true">4.</strong> Languages Supported</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">5.</strong> Internals: Parsing</a></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">6.</strong> Internals: Diffing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html" class="active"><strong aria-hidden="true">6.1.</strong> Tricky Cases</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">7.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">7.1.</strong> Parser Vendoring</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">7.2.</strong> Adding A Parser</a></li><li class="chapter-item expanded "><a href="profiling.html"><strong aria-hidden="true">7.3.</strong> Profiling</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">8.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">9.</strong> Alternative Projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">9.1.</strong> Tree Diffing</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/wilfred/difftastic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="tricky-cases"><a class="header" href="#tricky-cases">Tricky Cases</a></h1>
+<p>Tree diffing is challenging in some situations. This page discusses
+difficult cases, and how difftastic handles them.</p>
+<p>Not all of these cases work well in difftastic yet.</p>
+<h2 id="adding-delimiters"><a class="header" href="#adding-delimiters">Adding Delimiters</a></h2>
+<pre><code>;; Before
+x
+
+;; After
+(x)
+</code></pre>
+<p>Possible result: <code><span style="background-color: PaleGreen; color: #000">(x)</span></code></p>
+<p>Desired result: <code><span style="background-color: PaleGreen; color: #000">(</span>x<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>This is tricky because <code>x</code> has changed its depth in the tree, but <code>x</code>
+itself is unchanged.</p>
+<p>Not all tree diff algorithms handle this case. It is also challenging
+to display this case clearly: we want to highlight the changed
+delimiters, but not their content. This is challenging in larger
+expressions.</p>
+<p><strong>Difftastic</strong>: Difftastic considers nodes to be equal even at
+different depths, achieving the desired result in this case.</p>
+<h2 id="changing-delimiters"><a class="header" href="#changing-delimiters">Changing Delimiters</a></h2>
+<pre><code>;; Before
+(x)
+
+;; After
+[x]
+</code></pre>
+<p>Desired result: <code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span></code>, <code><span style="background-color: PaleGreen; color: #000">[</span>x<span style="background-color: PaleGreen; color: #000">]</span></code></p>
+<p>As with the wrapping case, we want to highlight the delimiters rather
+than the <code>x</code>.</p>
+<p><strong>Difftastic</strong>: Difftastic handles this correctly through its tree diffing.</p>
+<h2 id="expanding-delimiters"><a class="header" href="#expanding-delimiters">Expanding Delimiters</a></h2>
+<pre><code>;; Before
+(x) y
+
+;; After
+(x y)
+</code></pre>
+<p>Possible result 1: <code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span> y</code>, <code><span style="background-color: PaleGreen; color: #000">(</span>x y<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>Possible result 2: <code>(x) <span style="background-color: #fbbd98; color: #000">y</span></code>, <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code></p>
+<p>It's not clear which is better in this case.</p>
+<p><strong>Difftastic</strong>: Difftastic currently shows result 2, but this case is
+sensitive to the cost model. Some previous versions of difftastic have
+shown result 1.</p>
+<h2 id="contracting-delimiters"><a class="header" href="#contracting-delimiters">Contracting Delimiters</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(x) y
+</code></pre>
+<p>This case is similar to the expanding delimiter case.</p>
+<h2 id="disconnected-delimiters"><a class="header" href="#disconnected-delimiters">Disconnected Delimiters</a></h2>
+<pre><code>;; Before
+(foo (bar))
+
+;; After
+(foo (novel) (bar))
+</code></pre>
+<p>Desired result: <code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar))</code></p>
+<p>It is easy to end up with
+<code>(foo (<span style="background-color:PaleGreen; color: #000">novel</span>) <span style="background-color:PaleGreen; color: #000">(</span>bar<span style="background-color:PaleGreen; color: #000">)</span>)</code>,
+where a later pair of delimiters are chosen.</p>
+<h2 id="rewrapping-large-nodes"><a class="header" href="#rewrapping-large-nodes">Rewrapping Large Nodes</a></h2>
+<pre><code>;; Before
+[[foo]]
+(x y)
+
+;; After
+([[foo]] x y)
+</code></pre>
+<p>We want to highlight <code>[[foo]]</code> being moved inside the
+parentheses. However, a naive syntax differ prefers to consider a removal
+of <code>()</code> in the before and an addition of <code>()</code> in the after to be more
+minimal diff.</p>
+<p>(Reported as <a href="https://github.com/Wilfred/difftastic/issues/44">issue 44</a>.)</p>
+<h2 id="reordering-within-a-list"><a class="header" href="#reordering-within-a-list">Reordering Within A List</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(y x)
+</code></pre>
+<p>Desired result: <code>(<span style="background-color: PaleGreen; color: #000">y</span> <span style="background-color: PaleGreen; color: #000">x</span>)</code></p>
+<p>We want to highlight the list contents and not the delimiters.</p>
+<h2 id="middle-insertions"><a class="header" href="#middle-insertions">Middle Insertions</a></h2>
+<pre><code>// Before
+foo(bar(123))
+
+// After
+foo(extra(bar(123)))
+</code></pre>
+<p>Desired result: <code>foo(<span style="background-color: PaleGreen; color: #000">extra(</span>bar(123)<span style="background-color: PaleGreen; color: #000">)</span>)</code></p>
+<p>We want to consider both <code>foo</code> and <code>bar</code> to be unchanged. This case is
+challenging for diffing algorithms that do a bottom-up then top-down
+matching of trees.</p>
+<h2 id="punctuation-atoms"><a class="header" href="#punctuation-atoms">Punctuation Atoms</a></h2>
+<pre><code>// Before
+foo(1, bar)
+
+// After
+foo(bar, 2)
+</code></pre>
+<p>Possible result: <code>foo(<span style="background-color: PaleGreen; color: #000">bar</span>, <span style="background-color: PaleGreen; color: #000">2</span>)</code></p>
+<p>Desired result: <code>foo(bar<span style="background-color: PaleGreen; color: #000">,</span> <span style="background-color: PaleGreen; color: #000">2</span>)</code></p>
+<p>There are two atoms inside the <code>()</code> that we could consider as
+unchanged, either the <code>bar</code> or the <code>,</code>. (We can't consider both to be
+unchanged as they're reordered.)</p>
+<p>We want to consider <code>bar</code> to be unchanged, as it's a more important
+atom than the <code>,</code> punctuation atom. Doing this is in a
+language-agnostic way is difficult, so difftastic has a small list of
+punctuation characters that always get lower priority than other
+atoms.</p>
+<h2 id="sliders-flat"><a class="header" href="#sliders-flat">Sliders (Flat)</a></h2>
+<p>Sliders are a common problem in text based diffs, where lines are
+matched in a confusing way.</p>
+<p>They typically look like this. The diff has to arbitrarily choose a
+line containing delimiter, and it chooses the wrong one.</p>
+<pre><code>+ }
++
++ function foo () {
+  }
+</code></pre>
+<p>git-diff has some heuristics to reduce the risk of this (e.g. the
+&quot;patience diff&quot;), but it can still occur.</p>
+<p>There's a similar problem in tree diffs.</p>
+<pre><code>;; Before
+A B
+C D
+
+;; After
+A B
+A B
+C D
+</code></pre>
+<p>Possible result:</p>
+<pre><code>A <span style="background-color: PaleGreen; color: #000">B</span>
+<span style="background-color: PaleGreen; color: #000">A</span> B
+C D
+</code></pre>
+<p>Preferred result:</p>
+<pre><code>A B
+<span style="background-color: PaleGreen; color: #000">A</span> <span style="background-color: PaleGreen; color: #000">B</span>
+C D
+</code></pre>
+<p>Ideally we'd prefer marking contiguous nodes as novel. From the
+perspective of a longest-common-subsequence algorithm, these two
+choices are equivalent.</p>
+<h2 id="sliders-nested"><a class="header" href="#sliders-nested">Sliders (Nested)</a></h2>
+<pre><code>// Before
+old1(old2)
+
+// After
+old1(new1(old2))
+</code></pre>
+<p>Possible result: <code>old1<span style="background-color: PaleGreen; color: #000">(new1</span>(old2)<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>Desired result: <code>old1(<span style="background-color: PaleGreen; color: #000">new1(</span>old2<span style="background-color: PaleGreen; color: #000">)</span>)</code></p>
+<p>The correct answer depends on the language. Most languages want to
+prefer the inner delimiter, whereas Lisps and JSON prefer the outer
+delimiter.</p>
+<h2 id="minimising-depth-changes"><a class="header" href="#minimising-depth-changes">Minimising Depth Changes</a></h2>
+<pre><code>// Before
+if true {
+  foo(123);
+}
+foo(456);
+
+// After
+foo(789);
+</code></pre>
+<p>Do we consider <code>foo(123)</code> or <code>foo(456)</code> to match with <code>foo(789)</code>?
+Difftastic prefers <code>foo(456)</code> by preferring nodes at the same nesting depth.</p>
+<h2 id="replacements-with-minor-similarities"><a class="header" href="#replacements-with-minor-similarities">Replacements With Minor Similarities</a></h2>
+<pre><code>// Before
+function foo(x) { return x + 1; }
+
+// After
+function bar(y) { baz(y); }
+</code></pre>
+<p>Possible result: <code>function <span style="background-color: PaleGreen; color: #000">bar</span>(<span style="background-color: PaleGreen; color: #000">y</span>) { <span style="background-color: PaleGreen; color: #000">baz(y)</span>; }</code></p>
+<p>In this example, we've deleted a function and written a completely
+different one. A tree-based diff could match up the <code>function</code> and the
+outer delimiters, resulting in a confusing display showing lots of
+small changes.</p>
+<p>As with sliders, the replacement problem can also occur in textual
+line-based diffs. Line-diffs struggle if there are a small number of
+common lines. The more precise, granular behaviour of tree diffs makes
+this problem much more common though.</p>
+<h2 id="matching-substrings-in-comments"><a class="header" href="#matching-substrings-in-comments">Matching Substrings In Comments</a></h2>
+<pre><code>// Before
+/* The quick brown fox. */
+foobar();
+
+// After
+/* The slow brown fox. */
+foobaz();
+</code></pre>
+<p><code>foobar</code> and <code>foobaz</code> are completely different, and their common
+prefix <code>fooba</code> should not be matched up. However, matching common
+prefixes or suffixes for comments is desirable.</p>
+<h2 id="multiline-comments"><a class="header" href="#multiline-comments">Multiline Comments</a></h2>
+<pre><code>// Before
+/* Hello
+ * World. */
+
+// After
+if (x) {
+  /* Hello
+   * World. */
+}
+</code></pre>
+<p>The inner content of these two comments is technically different. We
+want to treat them as identical however.</p>
+<h2 id="reflowing-doc-comments"><a class="header" href="#reflowing-doc-comments">Reflowing Doc Comments</a></h2>
+<p>Block comments have prefixes that aren't meaningful.</p>
+<pre><code>// Before
+/* The quick brown fox jumps 
+ * over the lazy dog. */
+
+// After
+/* The quick brown fox immediately
+ * jumps over the lazy dog. */
+</code></pre>
+<p>The inner content has changed from <code>jumps * over</code> to <code>immediately * jumps over</code>. However, the <code>*</code> is decorative and we don't care that
+it's moved.</p>
+<h2 id="small-changes-to-large-strings"><a class="header" href="#small-changes-to-large-strings">Small Changes To Large Strings</a></h2>
+<pre><code>// Before
+&quot;&quot;&quot;A very long string
+with lots of words about
+lots of stuff.&quot;&quot;&quot;
+
+// After
+&quot;&quot;&quot;A very long string
+with lots of NOVEL words about
+lots of stuff.&quot;&quot;&quot;
+</code></pre>
+<p>It would be correct to highlight the entire string literal as being
+removed and replaced with a new string literal. However, this makes it
+hard to see what's actually changed.</p>
+<p>It's clear that variable names should be treated atomically, and
+comments are safe to show subword changes. It's not clear how to
+handle a small change in a 20 line string literal.</p>
+<p>It's tempting to split strings on spaces and diff that, but users
+still want to know when whitespace changes inside strings. <code>&quot; &quot;</code> and
+<code>&quot;  &quot;</code> are not the same.</p>
+<h2 id="autoformatter-punctuation"><a class="header" href="#autoformatter-punctuation">Autoformatter Punctuation</a></h2>
+<pre><code>// Before
+foo(&quot;looooong&quot;, &quot;also looooong&quot;);
+
+// Before
+foo(
+  &quot;looooong&quot;,
+  &quot;novel&quot;,
+  &quot;also looooong&quot;,
+);
+</code></pre>
+<p>Autoformatters (e.g. <a href="https://prettier.io/">prettier</a>) will sometimes
+add or remove punctuation when formatting. Commas and parentheses are
+the most common.</p>
+<p>Syntactic diffing can ignore whitespace changes, but it has to assume
+punctuation is meaningful. This can lead to punctuation changes being
+highlighted, which may be quite far from the relevant content change.</p>
+<h2 id="novel-blank-lines"><a class="header" href="#novel-blank-lines">Novel Blank Lines</a></h2>
+<p>Blank lines are challenging for syntactic diffs. We are comparing
+syntactic tokens, so we don't see blank lines.</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+
+B
+</code></pre>
+<p>Generally we want syntactic diffing to ignore blank lines. In this
+first example, this should show no changes.</p>
+<p>This is occasionally problematic, as it can hide accidental code
+reformatting.</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+X
+
+Y
+B
+</code></pre>
+<p>In this second example, we've inserted X and Y and a blank line. We
+want to highlight the blank line as an addition.</p>
+<pre><code>// Before
+A
+
+
+B
+
+// After
+A
+X
+B
+</code></pre>
+<p>In this third example, the syntactic diffing only sees an
+addition. From the user's perspective, there has also been a removal
+of two blank lines.</p>
+<h2 id="invalid-syntax"><a class="header" href="#invalid-syntax">Invalid Syntax</a></h2>
+<p>There's no guarantee that the input we're given is valid syntax. Even
+if the code is valid, it might use syntax that isn't supported by the
+parser.</p>
+<p><strong>Difftastic</strong>: Difftastic will fall back to a text-based diff if any
+parse errors occur, to avoid diffing incomplete syntax trees. When
+this occurs, the file header reports the error count.</p>
+<pre><code>$ difft sample_files/syntax_error_before.js sample_files/syntax_error_after.js
+sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+...
+</code></pre>
+<p>Users may opt-in to syntactic diffing by setting
+<code>DFT_PARSE_ERROR_LIMIT</code> to a larger value. In this mode, difftastic
+treats tree-sitter error nodes as atoms and performs a tree diff as
+normal.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="diffing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="contributing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="diffing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="contributing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

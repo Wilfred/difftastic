@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>添加解析器 - Difftastic Manual</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="The manual for difftastic, the structural dif tool">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> 安装</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> 使用</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li><li class="chapter-item expanded "><a href="fossil.html"><strong aria-hidden="true">3.3.</strong> Fossil</a></li></ol></li><li class="chapter-item expanded "><a href="languages_supported.html"><strong aria-hidden="true">4.</strong> 支持的语言</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">5.</strong> 解析</a></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">6.</strong> 差异分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">6.1.</strong> 棘手的例子</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">7.</strong> 贡献</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">7.1.</strong> 解析器依赖库</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html" class="active"><strong aria-hidden="true">7.2.</strong> 添加解析器</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">8.</strong> 词典</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">9.</strong> 其它项目</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">9.1.</strong> 树状差异分析</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/wilfred/difftastic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="添加解析器"><a class="header" href="#添加解析器">添加解析器</a></h1>
+<h2 id="寻找解析器"><a class="header" href="#寻找解析器">寻找解析器</a></h2>
+<p>Difftastic的新解析器必须完整且合理地维护。</p>
+<p>有许多解析器可用，网站包括<a href="https://tree-sitter.github.io/tree-sitter/#available-parsers">一些著名的解析器列表</a>。</p>
+<h2 id="添加源码"><a class="header" href="#添加源码">添加源码</a></h2>
+<p>一旦你找到一个解析器，需要将其作为git的subtree添加到<code>vendored_parsers/</code>中。我们会使用<a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a>作为例子。</p>
+<pre><code>$ git subtree add --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+</code></pre>
+<h2 id="配置编译过程"><a class="header" href="#配置编译过程">配置编译过程</a></h2>
+<p>Cargo不允许软件包包含<code>Cargo.toml</code>。需要在<code>src/</code>解析器子目录中添加一个符号链接。</p>
+<pre><code>$ cd vendor
+$ ln -s tree-sitter-json/src tree-sitter-json-src
+</code></pre>
+<p>现在你可以通过在<code>build.rs</code>中加入目录，并将解析器添加到构建中。</p>
+<pre><code>TreeSitterParser {
+    name: &quot;tree-sitter-json&quot;,
+    src_dir: &quot;vendored_parsers/tree-sitter-json-src&quot;,
+    extra_files: vec![],
+},
+</code></pre>
+<p>如果你的解析器包括用于语法的自定义C或C++文件（例如，一个<code>scanner.cc</code>），请将它添加到<code>extra_files</code>中。</p>
+<h2 id="配置解析器"><a class="header" href="#配置解析器">配置解析器</a></h2>
+<p>为你的语言在<code>tree_sitter_parser.rs</code>中增加一个条目。</p>
+<pre><code>Json =&gt; {
+    let language = unsafe { tree_sitter_json() };
+    TreeSitterConfig {
+        name: &quot;JSON&quot;,
+        language,
+        atom_nodes: vec![&quot;string&quot;].into_iter().collect(),
+        delimiter_tokens: vec![(&quot;{&quot;, &quot;}&quot;), (&quot;[&quot;, &quot;]&quot;)],
+        highlight_query: ts::Query::new(
+            language,
+            include_str!(&quot;../vendored_parsers/highlights/json.scm&quot;),
+        )
+        .unwrap(),
+    }
+}
+</code></pre>
+<p><code>name</code>是用户节目中显示的可读名称。</p>
+<p><code>atom_nodes</code>是一个树形节点名称的列表，这些节点应被视为原子。即使这些节点有子节点，也应被视为原子。这对于字符串表面之或插值字符串非常常见的，因为在这种情况下，节点可能有用来表示开头和结尾的引用号。</p>
+<p>如果你没有设置<code>atom_nodes</code>，你可能会主要添加/删除的内容显示为白色。这通常表面了子节点的父节点应该被当作原子。</p>
+<p><code>delimiter_tokens</code>是Difftastic存储在闭包节点上的定界符。这使得Difftastic能够区分划线符号和语言中的其它标点符号。</p>
+<p>如果你不设置<code>delimiter_tokens</code>，Difftastic会单独考虑这些标记，并会认为是添加了<code>(</code>，但是<code>)</code>没有发生变化。</p>
+<p>你可以使用<code>difft --dump-ts foo.json</code>来查看树状解析器的结果，并使用<code>difft --dump-syntax foo.json</code>来确认你已经正确设置了原子和定界符。</p>
+<h2 id="配置滑块"><a class="header" href="#配置滑块">配置滑块</a></h2>
+<p>请为你的语言在<code>sliders.rs</code>中添加入口。</p>
+<h2 id="配置语言检测"><a class="header" href="#配置语言检测">配置语言检测</a></h2>
+<p>更新<code>guess_language.rs</code>中的<code>from_extension</code>以检测新的语言。</p>
+<pre><code>&quot;json&quot; =&gt; Some(Json),
+</code></pre>
+<p>也可能有与你的语言相关的文件名或shebangs。<a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml">GitHub的语言定义</a>是针对常见文件扩展名的一个有用来源。</p>
+<h2 id="语法高亮可选"><a class="header" href="#语法高亮可选">语法高亮（可选）</a></h2>
+<p>要为你的语言添加语法高亮，如果有的话，你还需要在<code>queries/highlights.scm</code>文件一个符号链接。</p>
+<pre><code>$ cd vendored_parsers/highlights
+$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
+</code></pre>
+<h2 id="添加一个回归测试"><a class="header" href="#添加一个回归测试">添加一个回归测试</a></h2>
+<p>最后，为你的语言添加一个回归测试，这样可以确保你的测试文件的输出不会意外改变。</p>
+<p>回归测试文件存在于<code>sample_files/</code>中，其形式为
+<code>foo_before.abc</code>和<code>foo_after.abc</code>。</p>
+<pre><code>$ nano simple_before.json
+$ nano simple_after.json
+</code></pre>
+<p>运行回归测试脚本并更新<code>.expect</code>文件。</p>
+<pre><code>$ ./sample_files/compare_all.sh
+$ cp sample_files/compare.result sample_files/compare.expected
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="parser_vendoring.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="parser_vendoring.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

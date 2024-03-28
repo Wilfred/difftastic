@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Config","The configuration used to determine a DFA’s start state for a search."]]};

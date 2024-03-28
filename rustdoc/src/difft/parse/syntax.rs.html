@@ -1,0 +1,2532 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/parse/syntax.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>syntax.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../difft/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../difft/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../difft/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Syntax tree definitions with change metadata.
+
+</span><span class="attribute">#![allow(clippy::mutable_key_type)] </span><span class="comment">// Hash for Syntax doesn&#39;t use mutable fields.
+
+</span><span class="kw">use </span>std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
+
+<span class="kw">use </span>line_numbers::LinePositions;
+<span class="kw">use </span>line_numbers::SingleLineSpan;
+<span class="kw">use </span>typed_arena::Arena;
+
+<span class="kw">use </span><span class="self">self</span>::Syntax::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::words::split_words_and_numbers;
+<span class="kw">use crate</span>::{
+    diff::changes::ChangeKind,
+    diff::changes::{ChangeKind::<span class="kw-2">*</span>, ChangeMap},
+    diff::myers_diff,
+    hash::DftHashMap,
+    lines::is_all_whitespace,
+};
+
+<span class="doccomment">/// A Debug implementation that does not recurse into the
+/// corresponding node mentioned for Unchanged. Otherwise we will
+/// infinitely loop on unchanged nodes, which both point to the other.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; fmt::Debug <span class="kw">for </span>ChangeKind&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">let </span>desc = <span class="kw">match </span><span class="self">self </span>{
+            Unchanged(node) =&gt; <span class="macro">format!</span>(<span class="string">&quot;Unchanged(ID: {})&quot;</span>, node.id()),
+            ReplacedComment(lhs_node, rhs_node) | ReplacedString(lhs_node, rhs_node) =&gt; {
+                <span class="kw">let </span>change_kind = <span class="kw">if let </span>ReplacedComment(<span class="kw">_</span>, <span class="kw">_</span>) = <span class="self">self </span>{
+                    <span class="string">&quot;ReplacedComment&quot;
+                </span>} <span class="kw">else </span>{
+                    <span class="string">&quot;ReplacedString&quot;
+                </span>};
+
+                <span class="macro">format!</span>(
+                    <span class="string">&quot;{}(lhs ID: {}, rhs ID: {})&quot;</span>,
+                    change_kind,
+                    lhs_node.id(),
+                    rhs_node.id()
+                )
+            }
+            Novel =&gt; <span class="string">&quot;Novel&quot;</span>.to_owned(),
+        };
+        f.write_str(<span class="kw-2">&amp;</span>desc)
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>SyntaxId = NonZeroU32;
+
+<span class="doccomment">/// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SyntaxInfo&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// The previous node with the same parent as this one.
+    </span>previous_sibling: Cell&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;,
+    <span class="doccomment">/// The next node with the same parent as this one.
+    </span>next_sibling: Cell&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;,
+    <span class="doccomment">/// The syntax node that occurs before this one, in a depth-first
+    /// tree traversal.
+    </span>prev: Cell&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;,
+    <span class="doccomment">/// The parent syntax node, if present.
+    </span>parent: Cell&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;,
+    <span class="doccomment">/// The number of nodes that are ancestors of this one.
+    </span>num_ancestors: Cell&lt;u32&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) num_after: Cell&lt;usize&gt;,
+    <span class="doccomment">/// A number that uniquely identifies this syntax node.
+    </span>unique_id: Cell&lt;SyntaxId&gt;,
+    <span class="doccomment">/// A number that uniquely identifies the content of this syntax
+    /// node. This may be the same as nodes on the other side of the
+    /// diff, or nodes at different positions.
+    ///
+    /// Values are sequential, not hashes. Collisions never occur.
+    </span>content_id: Cell&lt;u32&gt;,
+    <span class="doccomment">/// Is this the only node with this content? Ignores nodes on the
+    /// other side.
+    </span>content_is_unique: Cell&lt;bool&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; SyntaxInfo&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            previous_sibling: Cell::new(<span class="prelude-val">None</span>),
+            next_sibling: Cell::new(<span class="prelude-val">None</span>),
+            prev: Cell::new(<span class="prelude-val">None</span>),
+            parent: Cell::new(<span class="prelude-val">None</span>),
+            num_ancestors: Cell::new(<span class="number">0</span>),
+            num_after: Cell::new(<span class="number">0</span>),
+            unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
+            content_id: Cell::new(<span class="number">0</span>),
+            content_is_unique: Cell::new(<span class="bool-val">false</span>),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Default <span class="kw">for </span>SyntaxInfo&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new()
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {
+    List {
+        info: SyntaxInfo&lt;<span class="lifetime">&#39;a</span>&gt;,
+        open_position: Vec&lt;SingleLineSpan&gt;,
+        open_content: String,
+        children: Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+        close_position: Vec&lt;SingleLineSpan&gt;,
+        close_content: String,
+        num_descendants: u32,
+    },
+    Atom {
+        info: SyntaxInfo&lt;<span class="lifetime">&#39;a</span>&gt;,
+        position: Vec&lt;SingleLineSpan&gt;,
+        content: String,
+        kind: AtomKind,
+    },
+}
+
+<span class="kw">fn </span>dbg_pos(pos: <span class="kw-2">&amp;</span>[SingleLineSpan]) -&gt; String {
+    <span class="kw">match </span>pos {
+        [] =&gt; <span class="string">&quot;-&quot;</span>.into(),
+        [pos] =&gt; <span class="macro">format!</span>(<span class="string">&quot;{}:{}-{}&quot;</span>, pos.line.<span class="number">0</span>, pos.start_col, pos.end_col),
+        [start, .., end] =&gt; <span class="macro">format!</span>(
+            <span class="string">&quot;{}:{}-{}:{}&quot;</span>,
+            start.line.<span class="number">0</span>, start.start_col, end.line.<span class="number">0</span>, end.end_col
+        ),
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; fmt::Debug <span class="kw">for </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            List {
+                open_content,
+                open_position,
+                children,
+                close_content,
+                close_position,
+                info,
+                ..
+            } =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>ds = f.debug_struct(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+                    <span class="string">&quot;List id:{} content:{}&quot;</span>,
+                    <span class="self">self</span>.id(),
+                    <span class="self">self</span>.content_id()
+                ));
+
+                ds.field(<span class="string">&quot;open_content&quot;</span>, <span class="kw-2">&amp;</span>open_content)
+                    .field(<span class="string">&quot;open_position&quot;</span>, <span class="kw-2">&amp;</span>dbg_pos(open_position))
+                    .field(<span class="string">&quot;children&quot;</span>, <span class="kw-2">&amp;</span>children)
+                    .field(<span class="string">&quot;close_content&quot;</span>, <span class="kw-2">&amp;</span>close_content)
+                    .field(<span class="string">&quot;close_position&quot;</span>, <span class="kw-2">&amp;</span>dbg_pos(close_position));
+
+                <span class="kw">if </span>env::var(<span class="string">&quot;DFT_VERBOSE&quot;</span>).is_ok() {
+                    <span class="kw">let </span>next_sibling_s = <span class="kw">match </span>info.next_sibling.get() {
+                        <span class="prelude-val">Some</span>(List { .. }) =&gt; <span class="string">&quot;Some(List)&quot;</span>,
+                        <span class="prelude-val">Some</span>(Atom { .. }) =&gt; <span class="string">&quot;Some(Atom)&quot;</span>,
+                        <span class="prelude-val">None </span>=&gt; <span class="string">&quot;None&quot;</span>,
+                    };
+                    ds.field(<span class="string">&quot;next_sibling&quot;</span>, <span class="kw-2">&amp;</span>next_sibling_s);
+                }
+
+                ds.finish()
+            }
+            Atom {
+                content,
+                position,
+                info,
+                kind: highlight,
+                ..
+            } =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>ds = f.debug_struct(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+                    <span class="string">&quot;Atom id:{} content:{}&quot;</span>,
+                    <span class="self">self</span>.id(),
+                    <span class="self">self</span>.content_id()
+                ));
+                ds.field(<span class="string">&quot;content&quot;</span>, <span class="kw-2">&amp;</span>content);
+                ds.field(<span class="string">&quot;position&quot;</span>, <span class="kw-2">&amp;</span>dbg_pos(position));
+
+                <span class="kw">if </span>env::var(<span class="string">&quot;DFT_VERBOSE&quot;</span>).is_ok() {
+                    ds.field(<span class="string">&quot;highlight&quot;</span>, highlight);
+                    <span class="kw">let </span>next_sibling_s = <span class="kw">match </span>info.next_sibling.get() {
+                        <span class="prelude-val">Some</span>(List { .. }) =&gt; <span class="string">&quot;Some(List)&quot;</span>,
+                        <span class="prelude-val">Some</span>(Atom { .. }) =&gt; <span class="string">&quot;Some(Atom)&quot;</span>,
+                        <span class="prelude-val">None </span>=&gt; <span class="string">&quot;None&quot;</span>,
+                    };
+                    ds.field(<span class="string">&quot;next_sibling&quot;</span>, <span class="kw-2">&amp;</span>next_sibling_s);
+                }
+
+                ds.finish()
+            }
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_list(
+        arena: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Arena&lt;Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+        open_content: <span class="kw-2">&amp;</span>str,
+        open_position: Vec&lt;SingleLineSpan&gt;,
+        children: Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+        close_content: <span class="kw-2">&amp;</span>str,
+        close_position: Vec&lt;SingleLineSpan&gt;,
+    ) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {
+        <span class="comment">// Skip empty atoms: they aren&#39;t displayed, so there&#39;s no
+        // point making our syntax tree bigger. These occur when we&#39;re
+        // parsing incomplete or malformed programs.
+        </span><span class="kw">let </span>children = children
+            .into_iter()
+            .filter(|n| <span class="kw">match </span>n {
+                List { .. } =&gt; <span class="bool-val">true</span>,
+                Atom { content, .. } =&gt; !content.is_empty(),
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="comment">// Don&#39;t bother creating a list if we have no open/close and
+        // there&#39;s only one child. This occurs in small files with
+        // thorough tree-sitter parsers: you get parse trees like:
+        //
+        // (compilation-unit (top-level-def (function ...)))
+        //
+        // This is a small performance win as it makes the difftastic
+        // syntax tree smaller. It also really helps when looking at
+        // debug output for small inputs.
+        </span><span class="kw">if </span>children.len() == <span class="number">1 </span>&amp;&amp; open_content.is_empty() &amp;&amp; close_content.is_empty() {
+            <span class="kw">return </span>children[<span class="number">0</span>];
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>num_descendants = <span class="number">0</span>;
+        <span class="kw">for </span>child <span class="kw">in </span><span class="kw-2">&amp;</span>children {
+            num_descendants += <span class="kw">match </span>child {
+                List {
+                    num_descendants, ..
+                } =&gt; <span class="kw-2">*</span>num_descendants + <span class="number">1</span>,
+                Atom { .. } =&gt; <span class="number">1</span>,
+            };
+        }
+
+        arena.alloc(List {
+            info: SyntaxInfo::default(),
+            open_position,
+            open_content: open_content.into(),
+            close_content: close_content.into(),
+            close_position,
+            children,
+            num_descendants,
+        })
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_atom(
+        arena: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Arena&lt;Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+        <span class="kw-2">mut </span>position: Vec&lt;SingleLineSpan&gt;,
+        <span class="kw-2">mut </span>content: <span class="kw-2">&amp;</span>str,
+        kind: AtomKind,
+    ) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {
+        <span class="comment">// If a parser hasn&#39;t cleaned up \r on CRLF files with
+        // comments, discard it.
+        </span><span class="kw">if </span>content.ends_with(<span class="string">&#39;\r&#39;</span>) {
+            content = <span class="kw-2">&amp;</span>content[..content.len() - <span class="number">1</span>];
+        }
+
+        <span class="kw">if </span>kind == AtomKind::Comment &amp;&amp; content.ends_with(<span class="string">&#39;\n&#39;</span>) {
+            position.pop();
+            content = <span class="kw-2">&amp;</span>content[..content.len() - <span class="number">1</span>];
+        }
+
+        arena.alloc(Atom {
+            info: SyntaxInfo::default(),
+            position,
+            content: content.into(),
+            kind,
+        })
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>SyntaxInfo&lt;<span class="lifetime">&#39;a</span>&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            List { info, .. } | Atom { info, .. } =&gt; info,
+        }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parent(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+        <span class="self">self</span>.info().parent.get()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>next_sibling(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+        <span class="self">self</span>.info().next_sibling.get()
+    }
+
+    <span class="doccomment">/// A unique ID of this syntax node. Every node is guaranteed to
+    /// have a different value.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SyntaxId {
+        <span class="self">self</span>.info().unique_id.get()
+    }
+
+    <span class="doccomment">/// A content ID of this syntax node. Two nodes have the same
+    /// content ID if they have the same content, regardless of
+    /// position.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>content_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.info().content_id.get()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>content_is_unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.info().content_is_unique.get()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>num_ancestors(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.info().num_ancestors.get()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>dbg_content(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+        <span class="kw">match </span><span class="self">self </span>{
+            List {
+                open_content,
+                open_position,
+                close_content,
+                ..
+            } =&gt; {
+                <span class="kw">let </span>line = open_position
+                    .first()
+                    .map(|p| p.line.display())
+                    .unwrap_or_else(|| <span class="string">&quot;?&quot;</span>.to_owned());
+
+                <span class="macro">format!</span>(<span class="string">&quot;line:{} {} ... {}&quot;</span>, line, open_content, close_content)
+            }
+            Atom {
+                content, position, ..
+            } =&gt; {
+                <span class="kw">let </span>line = position
+                    .first()
+                    .map_or_else(|| <span class="string">&quot;?&quot;</span>.to_owned(), |p| p.line.display());
+
+                <span class="macro">format!</span>(<span class="string">&quot;line:{} {}&quot;</span>, line, content)
+            }
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>comment_positions&lt;<span class="lifetime">&#39;a</span>&gt;(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;]) -&gt; Vec&lt;SingleLineSpan&gt; {
+    <span class="kw">fn </span>walk_comment_positions(node: <span class="kw-2">&amp;</span>Syntax&lt;<span class="lifetime">&#39;_</span>&gt;, positions: <span class="kw-2">&amp;mut </span>Vec&lt;SingleLineSpan&gt;) {
+        <span class="kw">match </span>node {
+            List { children, .. } =&gt; {
+                <span class="kw">for </span>child <span class="kw">in </span>children {
+                    walk_comment_positions(child, positions);
+                }
+            }
+            Atom { position, kind, .. } =&gt; {
+                <span class="kw">if </span><span class="macro">matches!</span>(kind, AtomKind::Comment) {
+                    positions.extend(position);
+                }
+            }
+        }
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>positions = <span class="macro">vec!</span>[];
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        walk_comment_positions(node, <span class="kw-2">&amp;mut </span>positions);
+    }
+
+    positions
+}
+
+<span class="doccomment">/// Initialise all the fields in `SyntaxInfo`.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>init_all_info&lt;<span class="lifetime">&#39;a</span>&gt;(lhs_roots: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;], rhs_roots: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;]) {
+    init_info(lhs_roots, rhs_roots);
+    init_next_prev(lhs_roots);
+    init_next_prev(rhs_roots);
+}
+
+<span class="kw">fn </span>init_info&lt;<span class="lifetime">&#39;a</span>&gt;(lhs_roots: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;], rhs_roots: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;]) {
+    <span class="kw">let </span><span class="kw-2">mut </span>id = NonZeroU32::new(<span class="number">1</span>).unwrap();
+    init_info_on_side(lhs_roots, <span class="kw-2">&amp;mut </span>id);
+    init_info_on_side(rhs_roots, <span class="kw-2">&amp;mut </span>id);
+
+    <span class="kw">let </span><span class="kw-2">mut </span>existing = DftHashMap::default();
+    set_content_id(lhs_roots, <span class="kw-2">&amp;mut </span>existing);
+    set_content_id(rhs_roots, <span class="kw-2">&amp;mut </span>existing);
+
+    set_content_is_unique(lhs_roots);
+    set_content_is_unique(rhs_roots);
+}
+
+<span class="kw">type </span>ContentKey = (<span class="prelude-ty">Option</span>&lt;String&gt;, <span class="prelude-ty">Option</span>&lt;String&gt;, Vec&lt;u32&gt;, bool, bool);
+
+<span class="kw">fn </span>set_content_id(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax], existing: <span class="kw-2">&amp;mut </span>DftHashMap&lt;ContentKey, u32&gt;) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        <span class="kw">let </span>key: ContentKey = <span class="kw">match </span>node {
+            List {
+                open_content,
+                close_content,
+                children,
+                ..
+            } =&gt; {
+                <span class="comment">// Recurse first, so children all have their content_id set.
+                </span>set_content_id(children, existing);
+
+                <span class="kw">let </span>children_content_ids: Vec&lt;<span class="kw">_</span>&gt; =
+                    children.iter().map(|c| c.info().content_id.get()).collect();
+
+                (
+                    <span class="prelude-val">Some</span>(open_content.clone()),
+                    <span class="prelude-val">Some</span>(close_content.clone()),
+                    children_content_ids,
+                    <span class="bool-val">true</span>,
+                    <span class="bool-val">true</span>,
+                )
+            }
+            Atom {
+                content,
+                kind: highlight,
+                ..
+            } =&gt; {
+                <span class="kw">let </span>is_comment = <span class="kw-2">*</span>highlight == AtomKind::Comment;
+                <span class="kw">let </span>clean_content = <span class="kw">if </span>is_comment &amp;&amp; content.lines().count() &gt; <span class="number">1 </span>{
+                    content
+                        .lines()
+                        .map(|l| l.trim_start())
+                        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+                        .join(<span class="string">&quot;\n&quot;</span>)
+                        .to_string()
+                } <span class="kw">else </span>{
+                    content.clone()
+                };
+                (<span class="prelude-val">Some</span>(clean_content), <span class="prelude-val">None</span>, <span class="macro">vec!</span>[], <span class="bool-val">false</span>, is_comment)
+            }
+        };
+
+        <span class="comment">// Ensure the ID is always greater than zero, so we can
+        // distinguish an uninitialised SyntaxInfo value.
+        </span><span class="kw">let </span>next_id = existing.len() <span class="kw">as </span>u32 + <span class="number">1</span>;
+        <span class="kw">let </span>content_id = existing.entry(key).or_insert(next_id);
+        node.info().content_id.set(<span class="kw-2">*</span>content_id);
+    }
+}
+
+<span class="kw">fn </span>set_num_after(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax], parent_num_after: usize) {
+    <span class="kw">for </span>(i, node) <span class="kw">in </span>nodes.iter().enumerate() {
+        <span class="kw">let </span>num_after = parent_num_after + nodes.len() - <span class="number">1 </span>- i;
+        node.info().num_after.set(num_after);
+
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_num_after(children, num_after);
+        }
+    }
+}
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>init_next_prev&lt;<span class="lifetime">&#39;a</span>&gt;(roots: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;]) {
+    set_prev_sibling(roots);
+    set_next_sibling(roots);
+    set_prev(roots, <span class="prelude-val">None</span>);
+}
+
+<span class="doccomment">/// Set all the `SyntaxInfo` values for all the `roots` on a single
+/// side (LHS or RHS).
+</span><span class="kw">fn </span>init_info_on_side&lt;<span class="lifetime">&#39;a</span>&gt;(roots: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;], next_id: <span class="kw-2">&amp;mut </span>SyntaxId) {
+    set_parent(roots, <span class="prelude-val">None</span>);
+    set_num_ancestors(roots, <span class="number">0</span>);
+    set_num_after(roots, <span class="number">0</span>);
+    set_unique_id(roots, next_id);
+}
+
+<span class="kw">fn </span>set_unique_id(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax], next_id: <span class="kw-2">&amp;mut </span>SyntaxId) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        node.info().unique_id.set(<span class="kw-2">*</span>next_id);
+        <span class="kw-2">*</span>next_id = NonZeroU32::new(u32::from(<span class="kw-2">*</span>next_id) + <span class="number">1</span>)
+            .expect(<span class="string">&quot;Should not have more than u32::MAX nodes&quot;</span>);
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_unique_id(children, next_id);
+        }
+    }
+}
+
+<span class="doccomment">/// Assumes that `set_content_id` has already run.
+</span><span class="kw">fn </span>find_nodes_with_unique_content(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax], counts: <span class="kw-2">&amp;mut </span>DftHashMap&lt;u32, usize&gt;) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        <span class="kw-2">*</span>counts.entry(node.content_id()).or_insert(<span class="number">0</span>) += <span class="number">1</span>;
+        <span class="kw">if let </span>List { children, .. } = node {
+            find_nodes_with_unique_content(children, counts);
+        }
+    }
+}
+
+<span class="kw">fn </span>set_content_is_unique_from_counts(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax], counts: <span class="kw-2">&amp;</span>DftHashMap&lt;u32, usize&gt;) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        <span class="kw">let </span>count = counts
+            .get(<span class="kw-2">&amp;</span>node.content_id())
+            .expect(<span class="string">&quot;Count should be present&quot;</span>);
+        node.info().content_is_unique.set(<span class="kw-2">*</span>count == <span class="number">1</span>);
+
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_content_is_unique_from_counts(children, counts);
+        }
+    }
+}
+
+<span class="kw">fn </span>set_content_is_unique(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax]) {
+    <span class="kw">let </span><span class="kw-2">mut </span>counts = DftHashMap::default();
+    find_nodes_with_unique_content(nodes, <span class="kw-2">&amp;mut </span>counts);
+    set_content_is_unique_from_counts(nodes, <span class="kw-2">&amp;</span>counts);
+}
+
+<span class="kw">fn </span>set_prev_sibling&lt;<span class="lifetime">&#39;a</span>&gt;(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;]) {
+    <span class="kw">let </span><span class="kw-2">mut </span>prev = <span class="prelude-val">None</span>;
+
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        node.info().previous_sibling.set(prev);
+        prev = <span class="prelude-val">Some</span>(node);
+
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_prev_sibling(children);
+        }
+    }
+}
+
+<span class="kw">fn </span>set_next_sibling&lt;<span class="lifetime">&#39;a</span>&gt;(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;]) {
+    <span class="kw">for </span>(i, node) <span class="kw">in </span>nodes.iter().enumerate() {
+        <span class="kw">let </span>sibling = nodes.get(i + <span class="number">1</span>).copied();
+        node.info().next_sibling.set(sibling);
+
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_next_sibling(children);
+        }
+    }
+}
+
+<span class="doccomment">/// For every syntax node in the tree, mark the previous node
+/// according to a preorder traversal.
+</span><span class="kw">fn </span>set_prev&lt;<span class="lifetime">&#39;a</span>&gt;(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;], parent: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;) {
+    <span class="kw">for </span>(i, node) <span class="kw">in </span>nodes.iter().enumerate() {
+        <span class="kw">let </span>node_prev = <span class="kw">if </span>i == <span class="number">0 </span>{ parent } <span class="kw">else </span>{ <span class="prelude-val">Some</span>(nodes[i - <span class="number">1</span>]) };
+
+        node.info().prev.set(node_prev);
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_prev(children, <span class="prelude-val">Some</span>(node));
+        }
+    }
+}
+
+<span class="kw">fn </span>set_parent&lt;<span class="lifetime">&#39;a</span>&gt;(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;], parent: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;&gt;) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        node.info().parent.set(parent);
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_parent(children, <span class="prelude-val">Some</span>(node));
+        }
+    }
+}
+
+<span class="kw">fn </span>set_num_ancestors(nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Syntax], num_ancestors: u32) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        node.info().num_ancestors.set(num_ancestors);
+
+        <span class="kw">if let </span>List { children, .. } = node {
+            set_num_ancestors(children, num_ancestors + <span class="number">1</span>);
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PartialEq <span class="kw">for </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.content_id() &gt; <span class="number">0</span>);
+        <span class="macro">debug_assert!</span>(other.content_id() &gt; <span class="number">0</span>);
+        <span class="self">self</span>.content_id() == other.content_id()
+    }
+}
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Eq <span class="kw">for </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt; {}
+
+<span class="doccomment">/// Different types of strings. We want to diff these the same way,
+/// but highlight them differently.
+</span><span class="attribute">#[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>StringKind {
+    <span class="doccomment">/// A string literal, such as `&quot;foo&quot;`.
+    </span>StringLiteral,
+    <span class="doccomment">/// Plain text, such as the content of `&lt;p&gt;foo&lt;/p&gt;`.
+    </span>Text,
+}
+
+<span class="attribute">#[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>AtomKind {
+    Normal,
+    <span class="comment">// TODO: We should either have a AtomWithWords(HighlightKind) or a
+    // separate String, Text and Comment kind.
+    </span>String(StringKind),
+    Type,
+    Comment,
+    Keyword,
+    TreeSitterError,
+}
+
+<span class="doccomment">/// Unlike atoms, tokens can be delimiters like `{`.
+</span><span class="attribute">#[derive(PartialEq, Eq, Debug, Clone, Copy)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>TokenKind {
+    Delimiter,
+    Atom(AtomKind),
+}
+
+<span class="doccomment">/// A matched token (an atom, a delimiter, or a comment word).
+</span><span class="attribute">#[derive(PartialEq, Eq, Debug, Clone)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>MatchKind {
+    UnchangedToken {
+        highlight: TokenKind,
+        self_pos: Vec&lt;SingleLineSpan&gt;,
+        opposite_pos: Vec&lt;SingleLineSpan&gt;,
+    },
+    <span class="doccomment">/// A novel token in an AST diff.
+    </span>Novel { highlight: TokenKind },
+    <span class="doccomment">/// When doing a textual line-based diff, the part of a novel line
+    /// that exists on both sides.
+    </span>NovelLinePart {
+        highlight: TokenKind,
+        self_pos: SingleLineSpan,
+        opposite_pos: Vec&lt;SingleLineSpan&gt;,
+    },
+    <span class="doccomment">/// When doing a textual line-based diff, the part of a novel line
+    /// that is actually novel. E.g. the newly added word on a line.
+    </span>NovelWord { highlight: TokenKind },
+    <span class="doccomment">/// A syntactic token that was ignored by the AST diff (e.g. when
+    /// ignoring comments for diffing).
+    </span>Ignored { highlight: TokenKind },
+}
+
+<span class="kw">impl </span>MatchKind {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_novel(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="macro">matches!</span>(
+            <span class="self">self</span>,
+            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }
+        )
+    }
+}
+
+<span class="attribute">#[derive(Debug, Clone, PartialEq, Eq)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>MatchedPos {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) kind: MatchKind,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) pos: SingleLineSpan,
+}
+
+<span class="doccomment">/// Given the text `content` from a comment or strings, split it into
+/// MatchedPos values for the novel and unchanged words.
+///
+/// If there is negligible text in common with `opposite_content`,
+/// treat the whole `content` as a single novel region.
+</span><span class="kw">fn </span>split_atom_words(
+    content: <span class="kw-2">&amp;</span>str,
+    pos: <span class="kw-2">&amp;</span>[SingleLineSpan],
+    opposite_content: <span class="kw-2">&amp;</span>str,
+    opposite_pos: <span class="kw-2">&amp;</span>[SingleLineSpan],
+    kind: AtomKind,
+) -&gt; Vec&lt;MatchedPos&gt; {
+    <span class="macro">debug_assert!</span>(kind == AtomKind::Comment || <span class="macro">matches!</span>(kind, AtomKind::String(<span class="kw">_</span>)));
+
+    <span class="comment">// TODO: merge adjacent single-line comments unless there are
+    // blank lines between them.
+    </span><span class="kw">let </span>content_parts = split_words_and_numbers(content);
+    <span class="kw">let </span>other_parts = split_words_and_numbers(opposite_content);
+
+    <span class="kw">let </span>word_diffs = myers_diff::slice_by_hash(<span class="kw-2">&amp;</span>content_parts, <span class="kw-2">&amp;</span>other_parts);
+
+    <span class="kw">if </span>!has_common_words(<span class="kw-2">&amp;</span>word_diffs) {
+        <span class="kw">return </span>pos
+            .iter()
+            .map(|line| MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Atom(kind),
+                },
+                pos: <span class="kw-2">*</span>line,
+            })
+            .collect();
+    }
+
+    <span class="kw">let </span>content_newlines = LinePositions::from(content);
+    <span class="kw">let </span>opposite_content_newlines = LinePositions::from(opposite_content);
+
+    <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>opposite_offset = <span class="number">0</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>mps = <span class="macro">vec!</span>[];
+    <span class="kw">for </span>diff_res <span class="kw">in </span>word_diffs {
+        <span class="kw">match </span>diff_res {
+            myers_diff::DiffResult::Left(word) =&gt; {
+                <span class="comment">// This word is novel to this side.
+                </span><span class="kw">if </span>!is_all_whitespace(word) {
+                    mps.push(MatchedPos {
+                        kind: MatchKind::NovelWord {
+                            highlight: TokenKind::Atom(kind),
+                        },
+                        pos: content_newlines.from_region_relative_to(
+                            <span class="comment">// TODO: don&#39;t assume a single line atom.
+                            </span>pos[<span class="number">0</span>],
+                            offset,
+                            offset + word.len(),
+                        )[<span class="number">0</span>],
+                    });
+                }
+                offset += word.len();
+            }
+            myers_diff::DiffResult::Both(word, opposite_word) =&gt; {
+                <span class="comment">// This word is present on both sides.
+                // TODO: don&#39;t assume this atom is on a single line.
+                </span><span class="kw">let </span>word_pos =
+                    content_newlines.from_region_relative_to(pos[<span class="number">0</span>], offset, offset + word.len())
+                        [<span class="number">0</span>];
+                <span class="kw">let </span>opposite_word_pos = opposite_content_newlines.from_region_relative_to(
+                    opposite_pos[<span class="number">0</span>],
+                    opposite_offset,
+                    opposite_offset + opposite_word.len(),
+                );
+
+                mps.push(MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(kind),
+                        self_pos: word_pos,
+                        opposite_pos: opposite_word_pos,
+                    },
+                    pos: word_pos,
+                });
+                offset += word.len();
+                opposite_offset += opposite_word.len();
+            }
+            myers_diff::DiffResult::Right(opposite_word) =&gt; {
+                <span class="comment">// Only exists on other side, nothing to do on this side.
+                </span>opposite_offset += opposite_word.len();
+            }
+        }
+    }
+
+    mps
+}
+
+<span class="doccomment">/// Are there sufficient common words that we should only highlight
+/// individual changed words?
+</span><span class="kw">fn </span>has_common_words(word_diffs: <span class="kw-2">&amp;</span>Vec&lt;myers_diff::DiffResult&lt;&amp;&amp;str&gt;&gt;) -&gt; bool {
+    <span class="kw">let </span><span class="kw-2">mut </span>novel_count = <span class="number">0</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>unchanged_count = <span class="number">0</span>;
+
+    <span class="kw">for </span>word_diff <span class="kw">in </span>word_diffs {
+        <span class="kw">match </span>word_diff {
+            myers_diff::DiffResult::Both(word, <span class="kw">_</span>) =&gt; {
+                <span class="kw">if </span><span class="kw-2">**</span>word != <span class="string">&quot; &quot; </span>{
+                    unchanged_count += <span class="number">1</span>;
+                }
+            }
+            <span class="kw">_ </span>=&gt; {
+                novel_count += <span class="number">1</span>;
+            }
+        }
+    }
+
+    <span class="comment">// We want more than two unchanged words, because the text content
+    // includes the comment or string delimiters.
+    //
+    // A sufficiently similar set of words is when more than 50% of
+    // the words are common between the two sides. We multiply by two
+    // because non-matching words gives us two novel words, whereas
+    // matched words only gives us one unchanged word.
+    </span>unchanged_count &gt; <span class="number">2 </span>&amp;&amp; unchanged_count * <span class="number">2 </span>&gt;= novel_count
+}
+
+<span class="doccomment">/// Skip line spans at the beginning or end that have zero width.
+</span><span class="kw">fn </span>filter_empty_ends(line_spans: <span class="kw-2">&amp;</span>[SingleLineSpan]) -&gt; Vec&lt;SingleLineSpan&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>spans: Vec&lt;SingleLineSpan&gt; = <span class="macro">vec!</span>[];
+
+    <span class="kw">for </span>(i, span) <span class="kw">in </span>line_spans.iter().enumerate() {
+        <span class="kw">if </span>(i == <span class="number">0 </span>|| i == line_spans.len() - <span class="number">1</span>) &amp;&amp; span.start_col == span.end_col {
+            <span class="kw">continue</span>;
+        }
+
+        spans.push(<span class="kw-2">*</span>span);
+    }
+
+    spans
+}
+
+<span class="kw">impl </span>MatchedPos {
+    <span class="kw">fn </span>new(
+        ck: ChangeKind,
+        highlight: TokenKind,
+        pos: <span class="kw-2">&amp;</span>[SingleLineSpan],
+        is_close_delim: bool,
+    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
+        <span class="comment">// Don&#39;t create a MatchedPos for empty positions at the start
+        // or end. We still want empty positions in the middle of
+        // multiline atoms, as a multiline string literal may include
+        // empty lines.
+        </span><span class="kw">let </span>pos = filter_empty_ends(pos);
+
+        <span class="kw">match </span>ck {
+            ReplacedComment(this, opposite) | ReplacedString(this, opposite) =&gt; {
+                <span class="kw">let </span>this_content = <span class="kw">match </span>this {
+                    List { .. } =&gt; <span class="macro">unreachable!</span>(),
+                    Atom { content, .. } =&gt; content,
+                };
+                <span class="kw">let </span>(opposite_content, opposite_pos) = <span class="kw">match </span>opposite {
+                    List { .. } =&gt; <span class="macro">unreachable!</span>(),
+                    Atom {
+                        content, position, ..
+                    } =&gt; (content, position),
+                };
+
+                <span class="kw">let </span>kind = <span class="kw">if let </span>ReplacedString(this, <span class="kw">_</span>) = ck {
+                    <span class="kw">match </span>this {
+                        Atom {
+                            kind: AtomKind::String(StringKind::Text),
+                            ..
+                        } =&gt; AtomKind::String(StringKind::Text),
+                        <span class="kw">_ </span>=&gt; AtomKind::String(StringKind::StringLiteral),
+                    }
+                } <span class="kw">else </span>{
+                    AtomKind::Comment
+                };
+
+                split_atom_words(this_content, <span class="kw-2">&amp;</span>pos, opposite_content, opposite_pos, kind)
+            }
+            Unchanged(opposite) =&gt; {
+                <span class="kw">let </span>opposite_pos = <span class="kw">match </span>opposite {
+                    List {
+                        open_position,
+                        close_position,
+                        ..
+                    } =&gt; {
+                        <span class="kw">if </span>is_close_delim {
+                            close_position.clone()
+                        } <span class="kw">else </span>{
+                            open_position.clone()
+                        }
+                    }
+                    Atom { position, .. } =&gt; position.clone(),
+                };
+
+                <span class="kw">let </span>opposite_pos_len = opposite_pos.len();
+                <span class="kw">let </span>kind = MatchKind::UnchangedToken {
+                    highlight,
+                    self_pos: pos.to_vec(),
+                    opposite_pos,
+                };
+
+                <span class="comment">// Create a MatchedPos for every line that `pos` covers.
+                </span><span class="kw">let </span><span class="kw-2">mut </span>mps = <span class="macro">vec!</span>[];
+                <span class="kw">for </span>line_pos <span class="kw">in </span><span class="kw-2">&amp;</span>pos {
+                    mps.push(<span class="self">Self </span>{
+                        kind: kind.clone(),
+                        pos: <span class="kw-2">*</span>line_pos,
+                    });
+
+                    <span class="comment">// Ensure we have the same number of unchanged
+                    // MatchedPos on the LHS and RHS. This allows us
+                    // to consider unchanged MatchedPos values
+                    // pairwise.
+                    </span><span class="kw">if </span>mps.len() == opposite_pos_len {
+                        <span class="kw">break</span>;
+                    }
+                }
+                mps
+            }
+            Novel =&gt; {
+                <span class="kw">let </span>kind = MatchKind::Novel { highlight };
+                <span class="comment">// Create a MatchedPos for every line that `pos` covers.
+                </span><span class="kw">let </span><span class="kw-2">mut </span>mps = <span class="macro">vec!</span>[];
+                <span class="kw">for </span>line_pos <span class="kw">in </span><span class="kw-2">&amp;</span>pos {
+                    <span class="comment">// Don&#39;t create a MatchedPos for entirely empty positions. This
+                    // occurs when we have lists with empty open/close
+                    // delimiter positions, such as the top-level list of syntax items.
+                    </span><span class="kw">if </span>pos.len() == <span class="number">1 </span>&amp;&amp; line_pos.start_col == line_pos.end_col {
+                        <span class="kw">continue</span>;
+                    }
+
+                    mps.push(<span class="self">Self </span>{
+                        kind: kind.clone(),
+                        pos: <span class="kw-2">*</span>line_pos,
+                    });
+                }
+
+                mps
+            }
+        }
+    }
+}
+
+<span class="doccomment">/// Walk `nodes` and return a vec of all the changed positions.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>change_positions&lt;<span class="lifetime">&#39;a</span>&gt;(
+    nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;],
+    change_map: <span class="kw-2">&amp;</span>ChangeMap&lt;<span class="lifetime">&#39;a</span>&gt;,
+) -&gt; Vec&lt;MatchedPos&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>positions = Vec::new();
+    change_positions_(nodes, change_map, <span class="kw-2">&amp;mut </span>positions);
+    positions
+}
+
+<span class="kw">fn </span>change_positions_&lt;<span class="lifetime">&#39;a</span>&gt;(
+    nodes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Syntax&lt;<span class="lifetime">&#39;a</span>&gt;],
+    change_map: <span class="kw-2">&amp;</span>ChangeMap&lt;<span class="lifetime">&#39;a</span>&gt;,
+    positions: <span class="kw-2">&amp;mut </span>Vec&lt;MatchedPos&gt;,
+) {
+    <span class="kw">for </span>node <span class="kw">in </span>nodes {
+        <span class="kw">let </span>change = change_map
+            .get(node)
+            .unwrap_or_else(|| <span class="macro">panic!</span>(<span class="string">&quot;Should have changes set in all nodes: {:#?}&quot;</span>, node));
+
+        <span class="kw">match </span>node {
+            List {
+                open_position,
+                children,
+                close_position,
+                ..
+            } =&gt; {
+                positions.extend(MatchedPos::new(
+                    change,
+                    TokenKind::Delimiter,
+                    open_position,
+                    <span class="bool-val">false</span>,
+                ));
+
+                change_positions_(children, change_map, positions);
+
+                positions.extend(MatchedPos::new(
+                    change,
+                    TokenKind::Delimiter,
+                    close_position,
+                    <span class="bool-val">true</span>,
+                ));
+            }
+            Atom { position, kind, .. } =&gt; {
+                positions.extend(MatchedPos::new(
+                    change,
+                    TokenKind::Atom(<span class="kw-2">*</span>kind),
+                    position,
+                    <span class="bool-val">false</span>,
+                ));
+            }
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>zip_pad_shorter&lt;Tx: Clone, Ty: Clone&gt;(
+    lhs: <span class="kw-2">&amp;</span>[Tx],
+    rhs: <span class="kw-2">&amp;</span>[Ty],
+) -&gt; Vec&lt;(<span class="prelude-ty">Option</span>&lt;Tx&gt;, <span class="prelude-ty">Option</span>&lt;Ty&gt;)&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>res = <span class="macro">vec!</span>[];
+
+    <span class="kw">let </span><span class="kw-2">mut </span>lhs_iter = lhs.iter();
+    <span class="kw">let </span><span class="kw-2">mut </span>rhs_iter = rhs.iter();
+    <span class="kw">loop </span>{
+        <span class="kw">match </span>(lhs_iter.next(), rhs_iter.next()) {
+            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="kw">break</span>,
+            (x, y) =&gt; res.push((x.cloned(), y.cloned())),
+        }
+    }
+
+    res
+}
+
+<span class="doccomment">/// Zip `lhs` with `rhs`, but repeat the last item from the shorter
+/// slice.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>zip_repeat_shorter&lt;Tx: Clone, Ty: Clone&gt;(lhs: <span class="kw-2">&amp;</span>[Tx], rhs: <span class="kw-2">&amp;</span>[Ty]) -&gt; Vec&lt;(Tx, Ty)&gt; {
+    <span class="kw">let </span>lhs_last: Tx = <span class="kw">match </span>lhs.last() {
+        <span class="prelude-val">Some</span>(last) =&gt; last.clone(),
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="macro">vec!</span>[],
+    };
+    <span class="kw">let </span>rhs_last: Ty = <span class="kw">match </span>rhs.last() {
+        <span class="prelude-val">Some</span>(last) =&gt; last.clone(),
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="macro">vec!</span>[],
+    };
+
+    <span class="kw">let </span><span class="kw-2">mut </span>res = <span class="macro">vec!</span>[];
+    <span class="kw">let </span><span class="kw-2">mut </span>lhs_iter = lhs.iter();
+    <span class="kw">let </span><span class="kw-2">mut </span>rhs_iter = rhs.iter();
+    <span class="kw">loop </span>{
+        <span class="kw">match </span>(lhs_iter.next(), rhs_iter.next()) {
+            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="kw">break</span>,
+            (x, y) =&gt; res.push((
+                x.cloned().unwrap_or_else(|| lhs_last.clone()),
+                y.cloned().unwrap_or_else(|| rhs_last.clone()),
+            )),
+        }
+    }
+
+    res
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>pretty_assertions::assert_eq;
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="doccomment">/// Consider comment atoms as distinct to other atoms even if the
+    /// content matches otherwise.
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_comment_and_atom_differ() {
+        <span class="kw">let </span>pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">2</span>,
+            end_col: <span class="number">3</span>,
+        }];
+
+        <span class="kw">let </span>arena = Arena::new();
+
+        <span class="kw">let </span>comment = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos.clone(), <span class="string">&quot;foo&quot;</span>, AtomKind::Comment);
+        <span class="kw">let </span>atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos, <span class="string">&quot;foo&quot;</span>, AtomKind::Normal);
+        init_all_info(<span class="kw-2">&amp;</span>[comment], <span class="kw-2">&amp;</span>[atom]);
+
+        <span class="macro">assert_ne!</span>(comment, atom);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_new_atom_truncates_carriage_return() {
+        <span class="kw">let </span>arena = Arena::new();
+        <span class="kw">let </span>position = <span class="macro">vec!</span>[];
+        <span class="kw">let </span>content = <span class="string">&quot;foo\r&quot;</span>;
+
+        <span class="kw">let </span>atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, position, content, AtomKind::Comment);
+
+        <span class="kw">match </span>atom {
+            List { .. } =&gt; <span class="macro">unreachable!</span>(),
+            Atom { content, .. } =&gt; {
+                <span class="macro">assert_eq!</span>(content, <span class="string">&quot;foo&quot;</span>);
+            }
+        }
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_new_atom_truncates_trailing_newline() {
+        <span class="kw">let </span>arena = Arena::new();
+        <span class="kw">let </span>position = <span class="macro">vec!</span>[
+            SingleLineSpan {
+                line: <span class="number">0</span>.into(),
+                start_col: <span class="number">0</span>,
+                end_col: <span class="number">8</span>,
+            },
+            SingleLineSpan {
+                line: <span class="number">1</span>.into(),
+                start_col: <span class="number">0</span>,
+                end_col: <span class="number">1</span>,
+            },
+        ];
+        <span class="kw">let </span>content = <span class="string">&quot;;; hello\n&quot;</span>;
+
+        <span class="kw">let </span>atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, position, content, AtomKind::Comment);
+
+        <span class="kw">match </span>atom {
+            List { .. } =&gt; <span class="macro">unreachable!</span>(),
+            Atom {
+                position, content, ..
+            } =&gt; {
+                <span class="macro">assert_eq!</span>(content, <span class="string">&quot;;; hello&quot;</span>);
+                <span class="macro">assert_eq!</span>(
+                    <span class="kw-2">*</span>position,
+                    <span class="macro">vec!</span>[SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">0</span>,
+                        end_col: <span class="number">8</span>,
+                    }]
+                );
+            }
+        }
+    }
+
+    <span class="doccomment">/// Ignore the syntax highighting kind when comparing
+    /// atoms. Sometimes changing delimiter wrapping can change
+    /// whether a parser thinks that a node is e.g. a type.
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_atom_equality_ignores_highlighting() {
+        <span class="kw">let </span>pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">2</span>,
+            end_col: <span class="number">3</span>,
+        }];
+
+        <span class="kw">let </span>arena = Arena::new();
+
+        <span class="kw">let </span>type_atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos.clone(), <span class="string">&quot;foo&quot;</span>, AtomKind::Type);
+        <span class="kw">let </span>atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos, <span class="string">&quot;foo&quot;</span>, AtomKind::Normal);
+        init_all_info(<span class="kw-2">&amp;</span>[type_atom], <span class="kw-2">&amp;</span>[atom]);
+
+        <span class="macro">assert_eq!</span>(type_atom, atom);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_flatten_trivial_list() {
+        <span class="kw">let </span>pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">2</span>,
+            end_col: <span class="number">3</span>,
+        }];
+
+        <span class="kw">let </span>arena = Arena::new();
+        <span class="kw">let </span>atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos, <span class="string">&quot;foo&quot;</span>, AtomKind::Normal);
+
+        <span class="kw">let </span>trivial_list = Syntax::new_list(<span class="kw-2">&amp;</span>arena, <span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[], <span class="macro">vec!</span>[atom], <span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[]);
+
+        <span class="macro">assert!</span>(<span class="macro">matches!</span>(trivial_list, Atom { .. }));
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_ignore_empty_atoms() {
+        <span class="kw">let </span>pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">2</span>,
+            end_col: <span class="number">2</span>,
+        }];
+
+        <span class="kw">let </span>arena = Arena::new();
+        <span class="kw">let </span>atom = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos, <span class="string">&quot;&quot;</span>, AtomKind::Normal);
+
+        <span class="kw">let </span>trivial_list = Syntax::new_list(<span class="kw-2">&amp;</span>arena, <span class="string">&quot;(&quot;</span>, <span class="macro">vec!</span>[], <span class="macro">vec!</span>[atom], <span class="string">&quot;)&quot;</span>, <span class="macro">vec!</span>[]);
+
+        <span class="kw">match </span>trivial_list {
+            List { children, .. } =&gt; {
+                <span class="macro">assert_eq!</span>(children.len(), <span class="number">0</span>);
+            }
+            Atom { .. } =&gt; <span class="macro">unreachable!</span>(),
+        }
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_multiline_comment_ignores_leading_whitespace() {
+        <span class="kw">let </span>pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">2</span>,
+            end_col: <span class="number">3</span>,
+        }];
+
+        <span class="kw">let </span>arena = Arena::new();
+
+        <span class="kw">let </span>x = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos.clone(), <span class="string">&quot;foo\nbar&quot;</span>, AtomKind::Comment);
+        <span class="kw">let </span>y = Syntax::new_atom(<span class="kw-2">&amp;</span>arena, pos, <span class="string">&quot;foo\n    bar&quot;</span>, AtomKind::Comment);
+        init_all_info(<span class="kw-2">&amp;</span>[x], <span class="kw-2">&amp;</span>[y]);
+
+        <span class="macro">assert_eq!</span>(x, y);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_split_atom_words() {
+        <span class="kw">let </span>content = <span class="string">&quot;abc def ghi novel&quot;</span>;
+        <span class="kw">let </span>pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">0</span>,
+            end_col: <span class="number">17</span>,
+        }];
+
+        <span class="kw">let </span>opposite_content = <span class="string">&quot;abc def ghi&quot;</span>;
+        <span class="kw">let </span>opposite_pos = <span class="macro">vec!</span>[SingleLineSpan {
+            line: <span class="number">0</span>.into(),
+            start_col: <span class="number">0</span>,
+            end_col: <span class="number">11</span>,
+        }];
+
+        <span class="kw">let </span>res = split_atom_words(
+            content,
+            <span class="kw-2">&amp;</span>pos,
+            opposite_content,
+            <span class="kw-2">&amp;</span>opposite_pos,
+            AtomKind::Comment,
+        );
+        <span class="macro">assert_eq!</span>(
+            res,
+            <span class="macro">vec!</span>[
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">0</span>,
+                            end_col: <span class="number">3
+                        </span>},
+                        opposite_pos: <span class="macro">vec!</span>[SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">0</span>,
+                            end_col: <span class="number">3
+                        </span>}]
+                    },
+                    pos: SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">0</span>,
+                        end_col: <span class="number">3
+                    </span>}
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">3</span>,
+                            end_col: <span class="number">4
+                        </span>},
+                        opposite_pos: <span class="macro">vec!</span>[SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">3</span>,
+                            end_col: <span class="number">4
+                        </span>}]
+                    },
+                    pos: SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">3</span>,
+                        end_col: <span class="number">4
+                    </span>}
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">4</span>,
+                            end_col: <span class="number">7
+                        </span>},
+                        opposite_pos: <span class="macro">vec!</span>[SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">4</span>,
+                            end_col: <span class="number">7
+                        </span>}]
+                    },
+                    pos: SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">4</span>,
+                        end_col: <span class="number">7
+                    </span>}
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">7</span>,
+                            end_col: <span class="number">8
+                        </span>},
+                        opposite_pos: <span class="macro">vec!</span>[SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">7</span>,
+                            end_col: <span class="number">8
+                        </span>}]
+                    },
+                    pos: SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">7</span>,
+                        end_col: <span class="number">8
+                    </span>}
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelLinePart {
+                        highlight: TokenKind::Atom(AtomKind::Comment),
+                        self_pos: SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">8</span>,
+                            end_col: <span class="number">11
+                        </span>},
+                        opposite_pos: <span class="macro">vec!</span>[SingleLineSpan {
+                            line: <span class="number">0</span>.into(),
+                            start_col: <span class="number">8</span>,
+                            end_col: <span class="number">11
+                        </span>}]
+                    },
+                    pos: SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">8</span>,
+                        end_col: <span class="number">11
+                    </span>}
+                },
+                MatchedPos {
+                    kind: MatchKind::NovelWord {
+                        highlight: TokenKind::Atom(AtomKind::Comment)
+                    },
+                    pos: SingleLineSpan {
+                        line: <span class="number">0</span>.into(),
+                        start_col: <span class="number">12</span>,
+                        end_col: <span class="number">17
+                    </span>}
+                }
+            ],
+        );
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="difft" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

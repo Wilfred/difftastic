@@ -1,0 +1,2674 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-1.9.6/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../regex/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../regex/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
+<span id="1267">1267</span>
+<span id="1268">1268</span>
+<span id="1269">1269</span>
+<span id="1270">1270</span>
+<span id="1271">1271</span>
+<span id="1272">1272</span>
+<span id="1273">1273</span>
+<span id="1274">1274</span>
+<span id="1275">1275</span>
+<span id="1276">1276</span>
+<span id="1277">1277</span>
+<span id="1278">1278</span>
+<span id="1279">1279</span>
+<span id="1280">1280</span>
+<span id="1281">1281</span>
+<span id="1282">1282</span>
+<span id="1283">1283</span>
+<span id="1284">1284</span>
+<span id="1285">1285</span>
+<span id="1286">1286</span>
+<span id="1287">1287</span>
+<span id="1288">1288</span>
+<span id="1289">1289</span>
+<span id="1290">1290</span>
+<span id="1291">1291</span>
+<span id="1292">1292</span>
+<span id="1293">1293</span>
+<span id="1294">1294</span>
+<span id="1295">1295</span>
+<span id="1296">1296</span>
+<span id="1297">1297</span>
+<span id="1298">1298</span>
+<span id="1299">1299</span>
+<span id="1300">1300</span>
+<span id="1301">1301</span>
+<span id="1302">1302</span>
+<span id="1303">1303</span>
+<span id="1304">1304</span>
+<span id="1305">1305</span>
+<span id="1306">1306</span>
+<span id="1307">1307</span>
+<span id="1308">1308</span>
+<span id="1309">1309</span>
+<span id="1310">1310</span>
+<span id="1311">1311</span>
+<span id="1312">1312</span>
+<span id="1313">1313</span>
+<span id="1314">1314</span>
+<span id="1315">1315</span>
+<span id="1316">1316</span>
+<span id="1317">1317</span>
+<span id="1318">1318</span>
+<span id="1319">1319</span>
+<span id="1320">1320</span>
+<span id="1321">1321</span>
+<span id="1322">1322</span>
+<span id="1323">1323</span>
+<span id="1324">1324</span>
+<span id="1325">1325</span>
+<span id="1326">1326</span>
+<span id="1327">1327</span>
+<span id="1328">1328</span>
+<span id="1329">1329</span>
+<span id="1330">1330</span>
+<span id="1331">1331</span>
+<span id="1332">1332</span>
+<span id="1333">1333</span>
+<span id="1334">1334</span>
+<span id="1335">1335</span>
+<span id="1336">1336</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+This crate provides routines for searching strings for matches of a [regular
+expression] (aka &quot;regex&quot;). The regex syntax supported by this crate is similar
+to other regex engines, but it lacks several features that are not known how to
+implement efficiently. This includes, but is not limited to, look-around and
+backreferences. In exchange, all regex searches in this crate have worst case
+`O(m * n)` time complexity, where `m` is proportional to the size of the regex
+and `n` is proportional to the size of the string being searched.
+
+[regular expression]: https://en.wikipedia.org/wiki/Regular_expression
+
+If you just want API documentation, then skip to the [`Regex`] type. Otherwise,
+here&#39;s a quick example showing one way of parsing the output of a grep-like
+program:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?m)^([^:]+):([0-9]+):(.+)$&quot;).unwrap();
+let hay = &quot;\
+path/to/foo:54:Blue Harvest
+path/to/bar:90:Something, Something, Something, Dark Side
+path/to/baz:3:It&#39;s a Trap!
+&quot;;
+
+let mut results = vec![];
+for (_, [path, lineno, line]) in re.captures_iter(hay).map(|c| c.extract()) {
+    results.push((path, lineno.parse::&lt;u64&gt;()?, line));
+}
+assert_eq!(results, vec![
+    (&quot;path/to/foo&quot;, 54, &quot;Blue Harvest&quot;),
+    (&quot;path/to/bar&quot;, 90, &quot;Something, Something, Something, Dark Side&quot;),
+    (&quot;path/to/baz&quot;, 3, &quot;It&#39;s a Trap!&quot;),
+]);
+# Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
+```
+
+# Overview
+
+The primary type in this crate is a [`Regex`]. Its most important methods are
+as follows:
+
+* [`Regex::new`] compiles a regex using the default configuration. A
+[`RegexBuilder`] permits setting a non-default configuration. (For example,
+case insensitive matching, verbose mode and others.)
+* [`Regex::is_match`] reports whether a match exists in a particular haystack.
+* [`Regex::find`] reports the byte offsets of a match in a haystack, if one
+exists. [`Regex::find_iter`] returns an iterator over all such matches.
+* [`Regex::captures`] returns a [`Captures`], which reports both the byte
+offsets of a match in a haystack and the byte offsets of each matching capture
+group from the regex in the haystack.
+[`Regex::captures_iter`] returns an iterator over all such matches.
+
+There is also a [`RegexSet`], which permits searching for multiple regex
+patterns simultaneously in a single search. However, it currently only reports
+which patterns match and *not* the byte offsets of a match.
+
+Otherwise, this top-level crate documentation is organized as follows:
+
+* [Usage](#usage) shows how to add the `regex` crate to your Rust project.
+* [Examples](#examples) provides a limited selection of regex search examples.
+* [Performance](#performance) provides a brief summary of how to optimize regex
+searching speed.
+* [Unicode](#unicode) discusses support for non-ASCII patterns.
+* [Syntax](#syntax) enumerates the specific regex syntax supported by this
+crate.
+* [Untrusted input](#untrusted-input) discusses how this crate deals with regex
+patterns or haystacks that are untrusted.
+* [Crate features](#crate-features) documents the Cargo features that can be
+enabled or disabled for this crate.
+* [Other crates](#other-crates) links to other crates in the `regex` family.
+
+# Usage
+
+The `regex` crate is [on crates.io](https://crates.io/crates/regex) and can be
+used by adding `regex` to your dependencies in your project&#39;s `Cargo.toml`.
+Or more simply, just run `cargo add regex`.
+
+Here is a complete example that creates a new Rust project, adds a dependency
+on `regex`, creates the source code for a regex search and then runs the
+program.
+
+First, create the project in a new directory:
+
+```text
+$ mkdir regex-example
+$ cd regex-example
+$ cargo init
+```
+
+Second, add a dependency on `regex`:
+
+```text
+$ cargo add regex
+```
+
+Third, edit `src/main.rs`. Delete what&#39;s there and replace it with this:
+
+```
+use regex::Regex;
+
+fn main() {
+    let re = Regex::new(r&quot;Hello (?&lt;name&gt;\w+)!&quot;).unwrap();
+    let Some(caps) = re.captures(&quot;Hello Murphy!&quot;) else {
+        println!(&quot;no match!&quot;);
+        return;
+    };
+    println!(&quot;The name is: {}&quot;, &amp;caps[&quot;name&quot;]);
+}
+```
+
+Fourth, run it with `cargo run`:
+
+```text
+$ cargo run
+   Compiling memchr v2.5.0
+   Compiling regex-syntax v0.7.1
+   Compiling aho-corasick v1.0.1
+   Compiling regex v1.8.1
+   Compiling regex-example v0.1.0 (/tmp/regex-example)
+    Finished dev [unoptimized + debuginfo] target(s) in 4.22s
+     Running `target/debug/regex-example`
+The name is: Murphy
+```
+
+The first time you run the program will show more output like above. But
+subsequent runs shouldn&#39;t have to re-compile the dependencies.
+
+# Examples
+
+This section provides a few examples, in tutorial style, showing how to
+search a haystack with a regex. There are more examples throughout the API
+documentation.
+
+Before starting though, it&#39;s worth defining a few terms:
+
+* A **regex** is a Rust value whose type is `Regex`. We use `re` as a
+variable name for a regex.
+* A **pattern** is the string that is used to build a regex. We use `pat` as
+a variable name for a pattern.
+* A **haystack** is the string that is searched by a regex. We use `hay` as a
+variable name for a haystack.
+
+Sometimes the words &quot;regex&quot; and &quot;pattern&quot; are used interchangeably.
+
+General use of regular expressions in this crate proceeds by compiling a
+**pattern** into a **regex**, and then using that regex to search, split or
+replace parts of a **haystack**.
+
+### Example: find a middle initial
+
+We&#39;ll start off with a very simple example: a regex that looks for a specific
+name but uses a wildcard to match a middle initial. Our pattern serves as
+something like a template that will match a particular name with *any* middle
+initial.
+
+```rust
+use regex::Regex;
+
+// We use &#39;unwrap()&#39; here because it would be a bug in our program if the
+// pattern failed to compile to a regex. Panicking in the presence of a bug
+// is okay.
+let re = Regex::new(r&quot;Homer (.)\. Simpson&quot;).unwrap();
+let hay = &quot;Homer J. Simpson&quot;;
+let Some(caps) = re.captures(hay) else { return };
+assert_eq!(&quot;J&quot;, &amp;caps[1]);
+```
+
+There are a few things worth noticing here in our first example:
+
+* The `.` is a special pattern meta character that means &quot;match any single
+character except for new lines.&quot; (More precisely, in this crate, it means
+&quot;match any UTF-8 encoding of any Unicode scalar value other than `\n`.&quot;)
+* We can match an actual `.` literally by escaping it, i.e., `\.`.
+* We use Rust&#39;s [raw strings] to avoid needing to deal with escape sequences in
+both the regex pattern syntax and in Rust&#39;s string literal syntax. If we didn&#39;t
+use raw strings here, we would have had to use `\\.` to match a literal `.`
+character. That is, `r&quot;\.&quot;` and `&quot;\\.&quot;` are equivalent patterns.
+* We put our wildcard `.` instruction in parentheses. These parentheses have a
+special meaning that says, &quot;make whatever part of the haystack matches within
+these parentheses available as a capturing group.&quot; After finding a match, we
+access this capture group with `&amp;caps[1]`.
+
+[raw strings]: https://doc.rust-lang.org/stable/reference/tokens.html#raw-string-literals
+
+Otherwise, we execute a search using `re.captures(hay)` and return from our
+function if no match occurred. We then reference the middle initial by asking
+for the part of the haystack that matched the capture group indexed at `1`.
+(The capture group at index 0 is implicit and always corresponds to the entire
+match. In this case, that&#39;s `Homer J. Simpson`.)
+
+### Example: named capture groups
+
+Continuing from our middle initial example above, we can tweak the pattern
+slightly to give a name to the group that matches the middle initial:
+
+```rust
+use regex::Regex;
+
+// Note that (?P&lt;middle&gt;.) is a different way to spell the same thing.
+let re = Regex::new(r&quot;Homer (?&lt;middle&gt;.)\. Simpson&quot;).unwrap();
+let hay = &quot;Homer J. Simpson&quot;;
+let Some(caps) = re.captures(hay) else { return };
+assert_eq!(&quot;J&quot;, &amp;caps[&quot;middle&quot;]);
+```
+
+Giving a name to a group can be useful when there are multiple groups in
+a pattern. It makes the code referring to those groups a bit easier to
+understand.
+
+### Example: validating a particular date format
+
+This examples shows how to confirm whether a haystack, in its entirety, matches
+a particular date format:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;^\d{4}-\d{2}-\d{2}$&quot;).unwrap();
+assert!(re.is_match(&quot;2010-03-14&quot;));
+```
+
+Notice the use of the `^` and `$` anchors. In this crate, every regex search is
+run with an implicit `(?s:.)*?` at the beginning of its pattern, which allows
+the regex to match anywhere in a haystack. Anchors, as above, can be used to
+ensure that the full haystack matches a pattern.
+
+This crate is also Unicode aware by default, which means that `\d` might match
+more than you might expect it to. For example:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;^\d{4}-\d{2}-\d{2}$&quot;).unwrap();
+assert!(re.is_match(&quot;𝟚𝟘𝟙𝟘-𝟘𝟛-𝟙𝟜&quot;));
+```
+
+To only match an ASCII decimal digit, all of the following are equivalent:
+
+* `[0-9]`
+* `(?-u:\d)`
+* `[[:digit:]]`
+* `[\d&amp;&amp;\p{ascii}]`
+
+### Example: finding dates in a haystack
+
+In the previous example, we showed how one might validate that a haystack,
+in its entirety, corresponded to a particular date format. But what if we wanted
+to extract all things that look like dates in a specific format from a haystack?
+To do this, we can use an iterator API to find all matches (notice that we&#39;ve
+removed the anchors and switched to looking for ASCII-only digits):
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;[0-9]{4}-[0-9]{2}-[0-9]{2}&quot;).unwrap();
+let hay = &quot;What do 1865-04-14, 1881-07-02, 1901-09-06 and 1963-11-22 have in common?&quot;;
+// &#39;m&#39; is a &#39;Match&#39;, and &#39;as_str()&#39; returns the matching part of the haystack.
+let dates: Vec&lt;&amp;str&gt; = re.find_iter(hay).map(|m| m.as_str()).collect();
+assert_eq!(dates, vec![
+    &quot;1865-04-14&quot;,
+    &quot;1881-07-02&quot;,
+    &quot;1901-09-06&quot;,
+    &quot;1963-11-22&quot;,
+]);
+```
+
+We can also iterate over [`Captures`] values instead of [`Match`] values, and
+that in turn permits accessing each component of the date via capturing groups:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?&lt;y&gt;[0-9]{4})-(?&lt;m&gt;[0-9]{2})-(?&lt;d&gt;[0-9]{2})&quot;).unwrap();
+let hay = &quot;What do 1865-04-14, 1881-07-02, 1901-09-06 and 1963-11-22 have in common?&quot;;
+// &#39;m&#39; is a &#39;Match&#39;, and &#39;as_str()&#39; returns the matching part of the haystack.
+let dates: Vec&lt;(&amp;str, &amp;str, &amp;str)&gt; = re.captures_iter(hay).map(|caps| {
+    // The unwraps are okay because every capture group must match if the whole
+    // regex matches, and in this context, we know we have a match.
+    //
+    // Note that we use `caps.name(&quot;y&quot;).unwrap().as_str()` instead of
+    // `&amp;caps[&quot;y&quot;]` because the lifetime of the former is the same as the
+    // lifetime of `hay` above, but the lifetime of the latter is tied to the
+    // lifetime of `caps` due to how the `Index` trait is defined.
+    let year = caps.name(&quot;y&quot;).unwrap().as_str();
+    let month = caps.name(&quot;m&quot;).unwrap().as_str();
+    let day = caps.name(&quot;d&quot;).unwrap().as_str();
+    (year, month, day)
+}).collect();
+assert_eq!(dates, vec![
+    (&quot;1865&quot;, &quot;04&quot;, &quot;14&quot;),
+    (&quot;1881&quot;, &quot;07&quot;, &quot;02&quot;),
+    (&quot;1901&quot;, &quot;09&quot;, &quot;06&quot;),
+    (&quot;1963&quot;, &quot;11&quot;, &quot;22&quot;),
+]);
+```
+
+### Example: simpler capture group extraction
+
+One can use [`Captures::extract`] to make the code from the previous example a
+bit simpler in this case:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;([0-9]{4})-([0-9]{2})-([0-9]{2})&quot;).unwrap();
+let hay = &quot;What do 1865-04-14, 1881-07-02, 1901-09-06 and 1963-11-22 have in common?&quot;;
+let dates: Vec&lt;(&amp;str, &amp;str, &amp;str)&gt; = re.captures_iter(hay).map(|caps| {
+    let (_, [year, month, day]) = caps.extract();
+    (year, month, day)
+}).collect();
+assert_eq!(dates, vec![
+    (&quot;1865&quot;, &quot;04&quot;, &quot;14&quot;),
+    (&quot;1881&quot;, &quot;07&quot;, &quot;02&quot;),
+    (&quot;1901&quot;, &quot;09&quot;, &quot;06&quot;),
+    (&quot;1963&quot;, &quot;11&quot;, &quot;22&quot;),
+]);
+```
+
+`Captures::extract` works by ensuring that the number of matching groups match
+the number of groups requested via the `[year, month, day]` syntax. If they do,
+then the substrings for each corresponding capture group are automatically
+returned in an appropriately sized array. Rust&#39;s syntax for pattern matching
+arrays does the rest.
+
+### Example: replacement with named capture groups
+
+Building on the previous example, perhaps we&#39;d like to rearrange the date
+formats. This can be done by finding each match and replacing it with
+something different. The [`Regex::replace_all`] routine provides a convenient
+way to do this, including by supporting references to named groups in the
+replacement string:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?&lt;y&gt;\d{4})-(?&lt;m&gt;\d{2})-(?&lt;d&gt;\d{2})&quot;).unwrap();
+let before = &quot;1973-01-05, 1975-08-25 and 1980-10-18&quot;;
+let after = re.replace_all(before, &quot;$m/$d/$y&quot;);
+assert_eq!(after, &quot;01/05/1973, 08/25/1975 and 10/18/1980&quot;);
+```
+
+The replace methods are actually polymorphic in the replacement, which
+provides more flexibility than is seen here. (See the documentation for
+[`Regex::replace`] for more details.)
+
+### Example: verbose mode
+
+When your regex gets complicated, you might consider using something other
+than regex. But if you stick with regex, you can use the `x` flag to enable
+insignificant whitespace mode or &quot;verbose mode.&quot; In this mode, whitespace
+is treated as insignificant and one may write comments. This may make your
+patterns easier to comprehend.
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?x)
+  (?P&lt;y&gt;\d{4}) # the year, including all Unicode digits
+  -
+  (?P&lt;m&gt;\d{2}) # the month, including all Unicode digits
+  -
+  (?P&lt;d&gt;\d{2}) # the day, including all Unicode digits
+&quot;).unwrap();
+
+let before = &quot;1973-01-05, 1975-08-25 and 1980-10-18&quot;;
+let after = re.replace_all(before, &quot;$m/$d/$y&quot;);
+assert_eq!(after, &quot;01/05/1973, 08/25/1975 and 10/18/1980&quot;);
+```
+
+If you wish to match against whitespace in this mode, you can still use `\s`,
+`\n`, `\t`, etc. For escaping a single space character, you can escape it
+directly with `\ `, use its hex character code `\x20` or temporarily disable
+the `x` flag, e.g., `(?-x: )`.
+
+### Example: match multiple regular expressions simultaneously
+
+This demonstrates how to use a [`RegexSet`] to match multiple (possibly
+overlapping) regexes in a single scan of a haystack:
+
+```rust
+use regex::RegexSet;
+
+let set = RegexSet::new(&amp;[
+    r&quot;\w+&quot;,
+    r&quot;\d+&quot;,
+    r&quot;\pL+&quot;,
+    r&quot;foo&quot;,
+    r&quot;bar&quot;,
+    r&quot;barfoo&quot;,
+    r&quot;foobar&quot;,
+]).unwrap();
+
+// Iterate over and collect all of the matches. Each match corresponds to the
+// ID of the matching pattern.
+let matches: Vec&lt;_&gt; = set.matches(&quot;foobar&quot;).into_iter().collect();
+assert_eq!(matches, vec![0, 2, 3, 4, 6]);
+
+// You can also test whether a particular regex matched:
+let matches = set.matches(&quot;foobar&quot;);
+assert!(!matches.matched(5));
+assert!(matches.matched(6));
+```
+
+# Performance
+
+This section briefly discusses a few concerns regarding the speed and resource
+usage of regexes.
+
+### Only ask for what you need
+
+When running a search with a regex, there are generally three different types
+of information one can ask for:
+
+1. Does a regex match in a haystack?
+2. Where does a regex match in a haystack?
+3. Where do each of the capturing groups match in a haystack?
+
+Generally speaking, this crate could provide a function to answer only #3,
+which would subsume #1 and #2 automatically. However, it can be significantly
+more expensive to compute the location of capturing group matches, so it&#39;s best
+not to do it if you don&#39;t need to.
+
+Therefore, only ask for what you need. For example, don&#39;t use [`Regex::find`]
+if you only need to test if a regex matches a haystack. Use [`Regex::is_match`]
+instead.
+
+### Unicode can impact memory usage and search speed
+
+This crate has first class support for Unicode and it is **enabled by default**.
+In many cases, the extra memory required to support it will be negligible and
+it typically won&#39;t impact search speed. But it can in some cases.
+
+With respect to memory usage, the impact of Unicode principally manifests
+through the use of Unicode character classes. Unicode character classes
+tend to be quite large. For example, `\w` by default matches around 140,000
+distinct codepoints. This requires additional memory, and tends to slow down
+regex compilation. While a `\w` here and there is unlikely to be noticed,
+writing `\w{100}` will for example result in quite a large regex by default.
+Indeed, `\w` is considerably larger than its ASCII-only version, so if your
+requirements are satisfied by ASCII, it&#39;s probably a good idea to stick to
+ASCII classes. The ASCII-only version of `\w` can be spelled in a number of
+ways. All of the following are equivalent:
+
+* `[0-9A-Za-z_]`
+* `(?-u:\w)`
+* `[[:word:]]`
+* `[\w&amp;&amp;\p{ascii}]`
+
+With respect to search speed, Unicode tends to be handled pretty well, even when
+using large Unicode character classes. However, some of the faster internal
+regex engines cannot handle a Unicode aware word boundary assertion. So if you
+don&#39;t need Unicode-aware word boundary assertions, you might consider using
+`(?-u:\b)` instead of `\b`, where the former uses an ASCII-only definition of
+a word character.
+
+### Literals might accelerate searches
+
+This crate tends to be quite good at recognizing literals in a regex pattern
+and using them to accelerate a search. If it is at all possible to include
+some kind of literal in your pattern, then it might make search substantially
+faster. For example, in the regex `\w+@\w+`, the engine will look for
+occurrences of `@` and then try a reverse match for `\w+` to find the start
+position.
+
+### Avoid re-compiling regexes, especially in a loop
+
+It is an anti-pattern to compile the same pattern in a loop since regex
+compilation is typically expensive. (It takes anywhere from a few microseconds
+to a few **milliseconds** depending on the size of the pattern.) Not only is
+compilation itself expensive, but this also prevents optimizations that reuse
+allocations internally to the regex engine.
+
+In Rust, it can sometimes be a pain to pass regexes around if they&#39;re used from
+inside a helper function. Instead, we recommend using crates like [`once_cell`]
+and [`lazy_static`] to ensure that patterns are compiled exactly once.
+
+[`once_cell`]: https://crates.io/crates/once_cell
+[`lazy_static`]: https://crates.io/crates/lazy_static
+
+This example shows how to use `once_cell`:
+
+```rust
+use {
+    once_cell::sync::Lazy,
+    regex::Regex,
+};
+
+fn some_helper_function(haystack: &amp;str) -&gt; bool {
+    static RE: Lazy&lt;Regex&gt; = Lazy::new(|| Regex::new(r&quot;...&quot;).unwrap());
+    RE.is_match(haystack)
+}
+
+fn main() {
+    assert!(some_helper_function(&quot;abc&quot;));
+    assert!(!some_helper_function(&quot;ac&quot;));
+}
+```
+
+Specifically, in this example, the regex will be compiled when it is used for
+the first time. On subsequent uses, it will reuse the previously built `Regex`.
+Notice how one can define the `Regex` locally to a specific function.
+
+### Sharing a regex across threads can result in contention
+
+While a single `Regex` can be freely used from multiple threads simultaneously,
+there is a small synchronization cost that must be paid. Generally speaking,
+one shouldn&#39;t expect to observe this unless the principal task in each thread
+is searching with the regex *and* most searches are on short haystacks. In this
+case, internal contention on shared resources can spike and increase latency,
+which in turn may slow down each individual search.
+
+One can work around this by cloning each `Regex` before sending it to another
+thread. The cloned regexes will still share the same internal read-only portion
+of its compiled state (it&#39;s reference counted), but each thread will get
+optimized access to the mutable space that is used to run a search. In general,
+there is no additional cost in memory to doing this. The only cost is the added
+code complexity required to explicitly clone the regex. (If you share the same
+`Regex` across multiple threads, each thread still gets its own mutable space,
+but accessing that space is slower.)
+
+# Unicode
+
+This section discusses what kind of Unicode support this regex library has.
+Before showing some examples, we&#39;ll summarize the relevant points:
+
+* This crate almost fully implements &quot;Basic Unicode Support&quot; (Level 1) as
+specified by the [Unicode Technical Standard #18][UTS18]. The full details
+of what is supported are documented in [UNICODE.md] in the root of the regex
+crate repository. There is virtually no support for &quot;Extended Unicode Support&quot;
+(Level 2) from UTS#18.
+* The top-level [`Regex`] runs searches *as if* iterating over each of the
+codepoints in the haystack. That is, the fundamental atom of matching is a
+single codepoint.
+* [`bytes::Regex`], in contrast, permits disabling Unicode mode for part of all
+of your pattern in all cases. When Unicode mode is disabled, then a search is
+run *as if* iterating over each byte in the haystack. That is, the fundamental
+atom of matching is a single byte. (A top-level `Regex` also permits disabling
+Unicode and thus matching *as if* it were one byte at a time, but only when
+doing so wouldn&#39;t permit matching invalid UTF-8.)
+* When Unicode mode is enabled (the default), `.` will match an entire Unicode
+scalar value, even when it is encoded using multiple bytes. When Unicode mode
+is disabled (e.g., `(?-u:.)`), then `.` will match a single byte in all cases.
+* The character classes `\w`, `\d` and `\s` are all Unicode-aware by default.
+Use `(?-u:\w)`, `(?-u:\d)` and `(?-u:\s)` to get their ASCII-only definitions.
+* Similarly, `\b` and `\B` use a Unicode definition of a &quot;word&quot; character. To
+get ASCII-only word boundaries, use `(?-u:\b)` and `(?-u:\B)`.
+* `^` and `$` are **not** Unicode-aware in multi-line mode. Namely, they only
+recognize `\n` (assuming CRLF mode is not enabled) and not any of the other
+forms of line terminators defined by Unicode.
+* Case insensitive searching is Unicode-aware and uses simple case folding.
+* Unicode general categories, scripts and many boolean properties are available
+by default via the `\p{property name}` syntax.
+* In all cases, matches are reported using byte offsets. Or more precisely,
+UTF-8 code unit offsets. This permits constant time indexing and slicing of the
+haystack.
+
+[UTS18]: https://unicode.org/reports/tr18/
+[UNICODE.md]: https://github.com/rust-lang/regex/blob/master/UNICODE.md
+
+Patterns themselves are **only** interpreted as a sequence of Unicode scalar
+values. This means you can use Unicode characters directly in your pattern:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?i)Δ+&quot;).unwrap();
+let m = re.find(&quot;ΔδΔ&quot;).unwrap();
+assert_eq!((0, 6), (m.start(), m.end()));
+// alternatively:
+assert_eq!(0..6, m.range());
+```
+
+As noted above, Unicode general categories, scripts, script extensions, ages
+and a smattering of boolean properties are available as character classes. For
+example, you can match a sequence of numerals, Greek or Cherokee letters:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;[\pN\p{Greek}\p{Cherokee}]+&quot;).unwrap();
+let m = re.find(&quot;abcΔᎠβⅠᏴγδⅡxyz&quot;).unwrap();
+assert_eq!(3..23, m.range());
+```
+
+While not specific to Unicode, this library also supports character class set
+operations. Namely, one can nest character classes arbitrarily and perform set
+operations on them. Those set operations are union (the default), intersection,
+difference and symmetric difference. These set operations tend to be most
+useful with Unicode character classes. For example, to match any codepoint
+that is both in the `Greek` script and in the `Letter` general category:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;[\p{Greek}&amp;&amp;\pL]+&quot;).unwrap();
+let subs: Vec&lt;&amp;str&gt; = re.find_iter(&quot;ΔδΔ𐅌ΔδΔ&quot;).map(|m| m.as_str()).collect();
+assert_eq!(subs, vec![&quot;ΔδΔ&quot;, &quot;ΔδΔ&quot;]);
+
+// If we just matches on Greek, then all codepoints would match!
+let re = Regex::new(r&quot;\p{Greek}+&quot;).unwrap();
+let subs: Vec&lt;&amp;str&gt; = re.find_iter(&quot;ΔδΔ𐅌ΔδΔ&quot;).map(|m| m.as_str()).collect();
+assert_eq!(subs, vec![&quot;ΔδΔ𐅌ΔδΔ&quot;]);
+```
+
+### Opt out of Unicode support
+
+The [`bytes::Regex`] type that can be used to search `&amp;[u8]` haystacks. By
+default, haystacks are conventionally treated as UTF-8 just like it is with the
+main `Regex` type. However, this behavior can be disabled by turning off the
+`u` flag, even if doing so could result in matching invalid UTF-8. For example,
+when the `u` flag is disabled, `.` will match any byte instead of any Unicode
+scalar value.
+
+Disabling the `u` flag is also possible with the standard `&amp;str`-based `Regex`
+type, but it is only allowed where the UTF-8 invariant is maintained. For
+example, `(?-u:\w)` is an ASCII-only `\w` character class and is legal in an
+`&amp;str`-based `Regex`, but `(?-u:\W)` will attempt to match *any byte* that
+isn&#39;t in `(?-u:\w)`, which in turn includes bytes that are invalid UTF-8.
+Similarly, `(?-u:\xFF)` will attempt to match the raw byte `\xFF` (instead of
+`U+00FF`), which is invalid UTF-8 and therefore is illegal in `&amp;str`-based
+regexes.
+
+Finally, since Unicode support requires bundling large Unicode data
+tables, this crate exposes knobs to disable the compilation of those
+data tables, which can be useful for shrinking binary size and reducing
+compilation times. For details on how to do that, see the section on [crate
+features](#crate-features).
+
+# Syntax
+
+The syntax supported in this crate is documented below.
+
+Note that the regular expression parser and abstract syntax are exposed in
+a separate crate, [`regex-syntax`](https://docs.rs/regex-syntax).
+
+### Matching one character
+
+&lt;pre class=&quot;rust&quot;&gt;
+.             any character except new line (includes new line with s flag)
+[0-9]         any ASCII digit
+\d            digit (\p{Nd})
+\D            not digit
+\pX           Unicode character class identified by a one-letter name
+\p{Greek}     Unicode character class (general category or script)
+\PX           Negated Unicode character class identified by a one-letter name
+\P{Greek}     negated Unicode character class (general category or script)
+&lt;/pre&gt;
+
+### Character classes
+
+&lt;pre class=&quot;rust&quot;&gt;
+[xyz]         A character class matching either x, y or z (union).
+[^xyz]        A character class matching any character except x, y and z.
+[a-z]         A character class matching any character in range a-z.
+[[:alpha:]]   ASCII character class ([A-Za-z])
+[[:^alpha:]]  Negated ASCII character class ([^A-Za-z])
+[x[^xyz]]     Nested/grouping character class (matching any character except y and z)
+[a-y&amp;&amp;xyz]    Intersection (matching x or y)
+[0-9&amp;&amp;[^4]]   Subtraction using intersection and negation (matching 0-9 except 4)
+[0-9--4]      Direct subtraction (matching 0-9 except 4)
+[a-g~~b-h]    Symmetric difference (matching `a` and `h` only)
+[\[\]]        Escaping in character classes (matching [ or ])
+[a&amp;&amp;b]        An empty character class matching nothing
+&lt;/pre&gt;
+
+Any named character class may appear inside a bracketed `[...]` character
+class. For example, `[\p{Greek}[:digit:]]` matches any ASCII digit or any
+codepoint in the `Greek` script. `[\p{Greek}&amp;&amp;\pL]` matches Greek letters.
+
+Precedence in character classes, from most binding to least:
+
+1. Ranges: `[a-cd]` == `[[a-c]d]`
+2. Union: `[ab&amp;&amp;bc]` == `[[ab]&amp;&amp;[bc]]`
+3. Intersection, difference, symmetric difference. All three have equivalent
+precedence, and are evaluated in left-to-right order. For example,
+`[\pL--\p{Greek}&amp;&amp;\p{Uppercase}]` == `[[\pL--\p{Greek}]&amp;&amp;\p{Uppercase}]`.
+4. Negation: `[^a-z&amp;&amp;b]` == `[^[a-z&amp;&amp;b]]`.
+
+### Composites
+
+&lt;pre class=&quot;rust&quot;&gt;
+xy    concatenation (x followed by y)
+x|y   alternation (x or y, prefer x)
+&lt;/pre&gt;
+
+This example shows how an alternation works, and what it means to prefer a
+branch in the alternation over subsequent branches.
+
+```
+use regex::Regex;
+
+let haystack = &quot;samwise&quot;;
+// If &#39;samwise&#39; comes first in our alternation, then it is
+// preferred as a match, even if the regex engine could
+// technically detect that &#39;sam&#39; led to a match earlier.
+let re = Regex::new(r&quot;samwise|sam&quot;).unwrap();
+assert_eq!(&quot;samwise&quot;, re.find(haystack).unwrap().as_str());
+// But if &#39;sam&#39; comes first, then it will match instead.
+// In this case, it is impossible for &#39;samwise&#39; to match
+// because &#39;sam&#39; is a prefix of it.
+let re = Regex::new(r&quot;sam|samwise&quot;).unwrap();
+assert_eq!(&quot;sam&quot;, re.find(haystack).unwrap().as_str());
+```
+
+### Repetitions
+
+&lt;pre class=&quot;rust&quot;&gt;
+x*        zero or more of x (greedy)
+x+        one or more of x (greedy)
+x?        zero or one of x (greedy)
+x*?       zero or more of x (ungreedy/lazy)
+x+?       one or more of x (ungreedy/lazy)
+x??       zero or one of x (ungreedy/lazy)
+x{n,m}    at least n x and at most m x (greedy)
+x{n,}     at least n x (greedy)
+x{n}      exactly n x
+x{n,m}?   at least n x and at most m x (ungreedy/lazy)
+x{n,}?    at least n x (ungreedy/lazy)
+x{n}?     exactly n x
+&lt;/pre&gt;
+
+### Empty matches
+
+&lt;pre class=&quot;rust&quot;&gt;
+^     the beginning of a haystack (or start-of-line with multi-line mode)
+$     the end of a haystack (or end-of-line with multi-line mode)
+\A    only the beginning of a haystack (even with multi-line mode enabled)
+\z    only the end of a haystack (even with multi-line mode enabled)
+\b    a Unicode word boundary (\w on one side and \W, \A, or \z on other)
+\B    not a Unicode word boundary
+&lt;/pre&gt;
+
+The empty regex is valid and matches the empty string. For example, the
+empty regex matches `abc` at positions `0`, `1`, `2` and `3`. When using the
+top-level [`Regex`] on `&amp;str` haystacks, an empty match that splits a codepoint
+is guaranteed to never be returned. However, such matches are permitted when
+using a [`bytes::Regex`]. For example:
+
+```rust
+let re = regex::Regex::new(r&quot;&quot;).unwrap();
+let ranges: Vec&lt;_&gt; = re.find_iter(&quot;💩&quot;).map(|m| m.range()).collect();
+assert_eq!(ranges, vec![0..0, 4..4]);
+
+let re = regex::bytes::Regex::new(r&quot;&quot;).unwrap();
+let ranges: Vec&lt;_&gt; = re.find_iter(&quot;💩&quot;.as_bytes()).map(|m| m.range()).collect();
+assert_eq!(ranges, vec![0..0, 1..1, 2..2, 3..3, 4..4]);
+```
+
+Note that an empty regex is distinct from a regex that can never match.
+For example, the regex `[a&amp;&amp;b]` is a character class that represents the
+intersection of `a` and `b`. That intersection is empty, which means the
+character class is empty. Since nothing is in the empty set, `[a&amp;&amp;b]` matches
+nothing, not even the empty string.
+
+### Grouping and flags
+
+&lt;pre class=&quot;rust&quot;&gt;
+(exp)          numbered capture group (indexed by opening parenthesis)
+(?P&amp;lt;name&amp;gt;exp)  named (also numbered) capture group (names must be alpha-numeric)
+(?&amp;lt;name&amp;gt;exp)   named (also numbered) capture group (names must be alpha-numeric)
+(?:exp)        non-capturing group
+(?flags)       set flags within current group
+(?flags:exp)   set flags for exp (non-capturing)
+&lt;/pre&gt;
+
+Capture group names must be any sequence of alpha-numeric Unicode codepoints,
+in addition to `.`, `_`, `[` and `]`. Names must start with either an `_` or
+an alphabetic codepoint. Alphabetic codepoints correspond to the `Alphabetic`
+Unicode property, while numeric codepoints correspond to the union of the
+`Decimal_Number`, `Letter_Number` and `Other_Number` general categories.
+
+Flags are each a single character. For example, `(?x)` sets the flag `x`
+and `(?-x)` clears the flag `x`. Multiple flags can be set or cleared at
+the same time: `(?xy)` sets both the `x` and `y` flags and `(?x-y)` sets
+the `x` flag and clears the `y` flag.
+
+All flags are by default disabled unless stated otherwise. They are:
+
+&lt;pre class=&quot;rust&quot;&gt;
+i     case-insensitive: letters match both upper and lower case
+m     multi-line mode: ^ and $ match begin/end of line
+s     allow . to match \n
+R     enables CRLF mode: when multi-line mode is enabled, \r\n is used
+U     swap the meaning of x* and x*?
+u     Unicode support (enabled by default)
+x     verbose mode, ignores whitespace and allow line comments (starting with `#`)
+&lt;/pre&gt;
+
+Note that in verbose mode, whitespace is ignored everywhere, including within
+character classes. To insert whitespace, use its escaped form or a hex literal.
+For example, `\ ` or `\x20` for an ASCII space.
+
+Flags can be toggled within a pattern. Here&#39;s an example that matches
+case-insensitively for the first part but case-sensitively for the second part:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?i)a+(?-i)b+&quot;).unwrap();
+let m = re.find(&quot;AaAaAbbBBBb&quot;).unwrap();
+assert_eq!(m.as_str(), &quot;AaAaAbb&quot;);
+```
+
+Notice that the `a+` matches either `a` or `A`, but the `b+` only matches
+`b`.
+
+Multi-line mode means `^` and `$` no longer match just at the beginning/end of
+the input, but also at the beginning/end of lines:
+
+```
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?m)^line \d+&quot;).unwrap();
+let m = re.find(&quot;line one\nline 2\n&quot;).unwrap();
+assert_eq!(m.as_str(), &quot;line 2&quot;);
+```
+
+Note that `^` matches after new lines, even at the end of input:
+
+```
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?m)^&quot;).unwrap();
+let m = re.find_iter(&quot;test\n&quot;).last().unwrap();
+assert_eq!((m.start(), m.end()), (5, 5));
+```
+
+When both CRLF mode and multi-line mode are enabled, then `^` and `$` will
+match either `\r` and `\n`, but never in the middle of a `\r\n`:
+
+```
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?mR)^foo$&quot;).unwrap();
+let m = re.find(&quot;\r\nfoo\r\n&quot;).unwrap();
+assert_eq!(m.as_str(), &quot;foo&quot;);
+```
+
+Unicode mode can also be selectively disabled, although only when the result
+*would not* match invalid UTF-8. One good example of this is using an ASCII
+word boundary instead of a Unicode word boundary, which might make some regex
+searches run faster:
+
+```rust
+use regex::Regex;
+
+let re = Regex::new(r&quot;(?-u:\b).+(?-u:\b)&quot;).unwrap();
+let m = re.find(&quot;$$abc$$&quot;).unwrap();
+assert_eq!(m.as_str(), &quot;abc&quot;);
+```
+
+### Escape sequences
+
+Note that this includes all possible escape sequences, even ones that are
+documented elsewhere.
+
+&lt;pre class=&quot;rust&quot;&gt;
+\*          literal *, applies to all ASCII except [0-9A-Za-z&lt;&gt;]
+\a          bell (\x07)
+\f          form feed (\x0C)
+\t          horizontal tab
+\n          new line
+\r          carriage return
+\v          vertical tab (\x0B)
+\A          matches at the beginning of a haystack
+\z          matches at the end of a haystack
+\b          word boundary assertion
+\B          negated word boundary assertion
+\123        octal character code, up to three digits (when enabled)
+\x7F        hex character code (exactly two digits)
+\x{10FFFF}  any hex character code corresponding to a Unicode code point
+\u007F      hex character code (exactly four digits)
+\u{7F}      any hex character code corresponding to a Unicode code point
+\U0000007F  hex character code (exactly eight digits)
+\U{7F}      any hex character code corresponding to a Unicode code point
+\p{Letter}  Unicode character class
+\P{Letter}  negated Unicode character class
+\d, \s, \w  Perl character class
+\D, \S, \W  negated Perl character class
+&lt;/pre&gt;
+
+### Perl character classes (Unicode friendly)
+
+These classes are based on the definitions provided in
+[UTS#18](https://www.unicode.org/reports/tr18/#Compatibility_Properties):
+
+&lt;pre class=&quot;rust&quot;&gt;
+\d     digit (\p{Nd})
+\D     not digit
+\s     whitespace (\p{White_Space})
+\S     not whitespace
+\w     word character (\p{Alphabetic} + \p{M} + \d + \p{Pc} + \p{Join_Control})
+\W     not word character
+&lt;/pre&gt;
+
+### ASCII character classes
+
+These classes are based on the definitions provided in
+[UTS#18](https://www.unicode.org/reports/tr18/#Compatibility_Properties):
+
+&lt;pre class=&quot;rust&quot;&gt;
+[[:alnum:]]    alphanumeric ([0-9A-Za-z])
+[[:alpha:]]    alphabetic ([A-Za-z])
+[[:ascii:]]    ASCII ([\x00-\x7F])
+[[:blank:]]    blank ([\t ])
+[[:cntrl:]]    control ([\x00-\x1F\x7F])
+[[:digit:]]    digits ([0-9])
+[[:graph:]]    graphical ([!-~])
+[[:lower:]]    lower case ([a-z])
+[[:print:]]    printable ([ -~])
+[[:punct:]]    punctuation ([!-/:-@\[-`{-~])
+[[:space:]]    whitespace ([\t\n\v\f\r ])
+[[:upper:]]    upper case ([A-Z])
+[[:word:]]     word characters ([0-9A-Za-z_])
+[[:xdigit:]]   hex digit ([0-9A-Fa-f])
+&lt;/pre&gt;
+
+# Untrusted input
+
+This crate is meant to be able to run regex searches on untrusted haystacks
+without fear of [ReDoS]. This crate also, to a certain extent, supports
+untrusted patterns.
+
+[ReDoS]: https://en.wikipedia.org/wiki/ReDoS
+
+This crate differs from most (but not all) other regex engines in that it
+doesn&#39;t use unbounded backtracking to run a regex search. In those cases,
+one generally cannot use untrusted patterns *or* untrusted haystacks because
+it can be very difficult to know whether a particular pattern will result in
+catastrophic backtracking or not.
+
+We&#39;ll first discuss how this crate deals with untrusted inputs and then wrap
+it up with a realistic discussion about what practice really looks like.
+
+### Panics
+
+Outside of clearly documented cases, most APIs in this crate are intended to
+never panic regardless of the inputs given to them. For example, `Regex::new`,
+`Regex::is_match`, `Regex::find` and `Regex::captures` should never panic. That
+is, it is an API promise that those APIs will never panic no matter what inputs
+are given to them. With that said, regex engines are complicated beasts, and
+providing a rock solid guarantee that these APIs literally never panic is
+essentially equivalent to saying, &quot;there are no bugs in this library.&quot; That is
+a bold claim, and not really one that can be feasibly made with a straight
+face.
+
+Don&#39;t get the wrong impression here. This crate is extensively tested, not just
+with unit and integration tests, but also via fuzz testing. For example, this
+crate is part of the [OSS-fuzz project]. Panics should be incredibly rare, but
+it is possible for bugs to exist, and thus possible for a panic to occur. If
+you need a rock solid guarantee against panics, then you should wrap calls into
+this library with [`std::panic::catch_unwind`].
+
+It&#39;s also worth pointing out that this library will *generally* panic when
+other regex engines would commit undefined behavior. When undefined behavior
+occurs, your program might continue as if nothing bad has happened, but it also
+might mean your program is open to the worst kinds of exploits. In contrast,
+the worst thing a panic can do is a denial of service.
+
+[OSS-fuzz project]: https://android.googlesource.com/platform/external/oss-fuzz/+/refs/tags/android-t-preview-1/projects/rust-regex/
+[`std::panic::catch_unwind`]: https://doc.rust-lang.org/std/panic/fn.catch_unwind.html
+
+### Untrusted patterns
+
+The principal way this crate deals with them is by limiting their size by
+default. The size limit can be configured via [`RegexBuilder::size_limit`]. The
+idea of a size limit is that compiling a pattern into a `Regex` will fail if it
+becomes &quot;too big.&quot; Namely, while *most* resources consumed by compiling a regex
+are approximately proportional (albeit with some high constant factors in some
+cases, such as with Unicode character classes) to the length of the pattern
+itself, there is one particular exception to this: counted repetitions. Namely,
+this pattern:
+
+```text
+a{5}{5}{5}{5}{5}{5}
+```
+
+Is equivalent to this pattern:
+
+```text
+a{15625}
+```
+
+In both of these cases, the actual pattern string is quite small, but the
+resulting `Regex` value is quite large. Indeed, as the first pattern shows,
+it isn&#39;t enough to locally limit the size of each repetition because they can
+be stacked in a way that results in exponential growth.
+
+To provide a bit more context, a simplified view of regex compilation looks
+like this:
+
+* The pattern string is parsed into a structured representation called an AST.
+Counted repetitions are not expanded and Unicode character classes are not
+looked up in this stage. That is, the size of the AST is proportional to the
+size of the pattern with &quot;reasonable&quot; constant factors. In other words, one
+can reasonably limit the memory used by an AST by limiting the length of the
+pattern string.
+* The AST is translated into an HIR. Counted repetitions are still *not*
+expanded at this stage, but Unicode character classes are embedded into the
+HIR. The memory usage of a HIR is still proportional to the length of the
+original pattern string, but the constant factors---mostly as a result of
+Unicode character classes---can be quite high. Still though, the memory used by
+an HIR can be reasonably limited by limiting the length of the pattern string.
+* The HIR is compiled into a [Thompson NFA]. This is the stage at which
+something like `\w{5}` is rewritten to `\w\w\w\w\w`. Thus, this is the stage
+at which [`RegexBuilder::size_limit`] is enforced. If the NFA exceeds the
+configured size, then this stage will fail.
+
+[Thompson NFA]: https://en.wikipedia.org/wiki/Thompson%27s_construction
+
+The size limit helps avoid two different kinds of exorbitant resource usage:
+
+* It avoids permitting exponential memory usage based on the size of the
+pattern string.
+* It avoids long search times. This will be discussed in more detail in the
+next section, but worst case search time *is* dependent on the size of the
+regex. So keeping regexes limited to a reasonable size is also a way of keeping
+search times reasonable.
+
+Finally, it&#39;s worth pointing out that regex compilation is guaranteed to take
+worst case `O(m)` time, where `m` is proportional to the size of regex. The
+size of the regex here is *after* the counted repetitions have been expanded.
+
+**Advice for those using untrusted regexes**: limit the pattern length to
+something small and expand it as needed. Configure [`RegexBuilder::size_limit`]
+to something small and then expand it as needed.
+
+### Untrusted haystacks
+
+The main way this crate guards against searches from taking a long time is by
+using algorithms that guarantee a `O(m * n)` worst case time and space bound.
+Namely:
+
+* `m` is proportional to the size of the regex, where the size of the regex
+includes the expansion of all counted repetitions. (See the previous section on
+untrusted patterns.)
+* `n` is proportional to the length, in bytes, of the haystack.
+
+In other words, if you consider `m` to be a constant (for example, the regex
+pattern is a literal in the source code), then the search can be said to run
+in &quot;linear time.&quot; Or equivalently, &quot;linear time with respect to the size of the
+haystack.&quot;
+
+But the `m` factor here is important not to ignore. If a regex is
+particularly big, the search times can get quite slow. This is why, in part,
+[`RegexBuilder::size_limit`] exists.
+
+**Advice for those searching untrusted haystacks**: As long as your regexes
+are not enormous, you should expect to be able to search untrusted haystacks
+without fear. If you aren&#39;t sure, you should benchmark it. Unlike backtracking
+engines, if your regex is so big that it&#39;s likely to result in slow searches,
+this is probably something you&#39;ll be able to observe regardless of what the
+haystack is made up of.
+
+### Iterating over matches
+
+One thing that is perhaps easy to miss is that the worst case time
+complexity bound of `O(m * n)` applies to methods like [`Regex::is_match`],
+[`Regex::find`] and [`Regex::captures`]. It does **not** apply to
+[`Regex::find_iter`] or [`Regex::captures_iter`]. Namely, since iterating over
+all matches can execute many searches, and each search can scan the entire
+haystack, the worst case time complexity for iterators is `O(m * n^2)`.
+
+One example of where this occurs is when a pattern consists of an alternation,
+where an earlier branch of the alternation requires scanning the entire
+haystack only to discover that there is no match. It also requires a later
+branch of the alternation to have matched at the beginning of the search. For
+example, consider the pattern `.*[^A-Z]|[A-Z]` and the haystack `AAAAA`. The
+first search will scan to the end looking for matches of `.*[^A-Z]` even though
+a finite automata engine (as in this crate) knows that `[A-Z]` has already
+matched the first character of the haystack. This is due to the greedy nature
+of regex searching. That first search will report a match at the first `A` only
+after scanning to the end to discover that no other match exists. The next
+search then begins at the second `A` and the behavior repeats.
+
+There is no way to avoid this. This means that if both patterns and haystacks
+are untrusted and you&#39;re iterating over all matches, you&#39;re susceptible to
+worst case quadratic time complexity. One possible way to mitigate this
+is to drop down to the lower level `regex-automata` crate and use its
+`meta::Regex` iterator APIs. There, you can configure the search to operate
+in &quot;earliest&quot; mode by passing a `Input::new(haystack).earliest(true)` to
+`meta::Regex::find_iter` (for example). By enabling this mode, you give up
+the normal greedy match semantics of regex searches and instead ask the regex
+engine to immediately stop as soon as a match has been found. Enabling this
+mode will thus restore the worst case `O(m * n)` time complexity bound, but at
+the cost of different semantics.
+
+### Untrusted inputs in practice
+
+While providing a `O(m * n)` worst case time bound on all searches goes a long
+way toward preventing [ReDoS], that doesn&#39;t mean every search you can possibly
+run will complete without burning CPU time. In general, there are a few ways
+for the `m * n` time bound to still bite you:
+
+* You are searching an exceptionally long haystack. No matter how you slice
+it, a longer haystack will take more time to search. This crate may often make
+very quick work of even long haystacks because of its literal optimizations,
+but those aren&#39;t available for all regexes.
+* Unicode character classes can cause searches to be quite slow in some cases.
+This is especially true when they are combined with counted repetitions. While
+the regex size limit above will protect you from the most egregious cases,
+the default size limit still permits pretty big regexes that can execute more
+slowly than one might expect.
+* While routines like [`Regex::find`] and [`Regex::captures`] guarantee
+worst case `O(m * n)` search time, routines like [`Regex::find_iter`] and
+[`Regex::captures_iter`] actually have worst case `O(m * n^2)` search time.
+This is because `find_iter` runs many searches, and each search takes worst
+case `O(m * n)` time. Thus, iteration of all matches in a haystack has
+worst case `O(m * n^2)`. A good example of a pattern that exhibits this is
+`(?:A+){1000}|` or even `.*[^A-Z]|[A-Z]`.
+
+In general, unstrusted haystacks are easier to stomach than untrusted patterns.
+Untrusted patterns give a lot more control to the caller to impact the
+performance of a search. In many cases, a regex search will actually execute in
+average case `O(n)` time (i.e., not dependent on the size of the regex), but
+this can&#39;t be guaranteed in general. Therefore, permitting untrusted patterns
+means that your only line of defense is to put a limit on how big `m` (and
+perhaps also `n`) can be in `O(m * n)`. `n` is limited by simply inspecting
+the length of the haystack while `m` is limited by *both* applying a limit to
+the length of the pattern *and* a limit on the compiled size of the regex via
+[`RegexBuilder::size_limit`].
+
+It bears repeating: if you&#39;re accepting untrusted patterns, it would be a good
+idea to start with conservative limits on `m` and `n`, and then carefully
+increase them as needed.
+
+# Crate features
+
+By default, this crate tries pretty hard to make regex matching both as fast
+as possible and as correct as it can be. This means that there is a lot of
+code dedicated to performance, the handling of Unicode data and the Unicode
+data itself. Overall, this leads to more dependencies, larger binaries and
+longer compile times. This trade off may not be appropriate in all cases, and
+indeed, even when all Unicode and performance features are disabled, one is
+still left with a perfectly serviceable regex engine that will work well in
+many cases. (Note that code is not arbitrarily reducible, and for this reason,
+the [`regex-lite`](https://docs.rs/regex-lite) crate exists to provide an even
+more minimal experience by cutting out Unicode and performance, but still
+maintaining the linear search time bound.)
+
+This crate exposes a number of features for controlling that trade off. Some
+of these features are strictly performance oriented, such that disabling them
+won&#39;t result in a loss of functionality, but may result in worse performance.
+Other features, such as the ones controlling the presence or absence of Unicode
+data, can result in a loss of functionality. For example, if one disables the
+`unicode-case` feature (described below), then compiling the regex `(?i)a`
+will fail since Unicode case insensitivity is enabled by default. Instead,
+callers must use `(?i-u)a` to disable Unicode case folding. Stated differently,
+enabling or disabling any of the features below can only add or subtract from
+the total set of valid regular expressions. Enabling or disabling a feature
+will never modify the match semantics of a regular expression.
+
+Most features below are enabled by default. Features that aren&#39;t enabled by
+default are noted.
+
+### Ecosystem features
+
+* **std** -
+  When enabled, this will cause `regex` to use the standard library. In terms
+  of APIs, `std` causes error types to implement the `std::error::Error`
+  trait. Enabling `std` will also result in performance optimizations,
+  including SIMD and faster synchronization primitives. Notably, **disabling
+  the `std` feature will result in the use of spin locks**. To use a regex
+  engine without `std` and without spin locks, you&#39;ll need to drop down to
+  the [`regex-automata`](https://docs.rs/regex-automata) crate.
+* **logging** -
+  When enabled, the `log` crate is used to emit messages about regex
+  compilation and search strategies. This is **disabled by default**. This is
+  typically only useful to someone working on this crate&#39;s internals, but might
+  be useful if you&#39;re doing some rabbit hole performance hacking. Or if you&#39;re
+  just interested in the kinds of decisions being made by the regex engine.
+
+### Performance features
+
+* **perf** -
+  Enables all performance related features except for `perf-dfa-full`. This
+  feature is enabled by default is intended to cover all reasonable features
+  that improve performance, even if more are added in the future.
+* **perf-dfa** -
+  Enables the use of a lazy DFA for matching. The lazy DFA is used to compile
+  portions of a regex to a very fast DFA on an as-needed basis. This can
+  result in substantial speedups, usually by an order of magnitude on large
+  haystacks. The lazy DFA does not bring in any new dependencies, but it can
+  make compile times longer.
+* **perf-dfa-full** -
+  Enables the use of a full DFA for matching. Full DFAs are problematic because
+  they have worst case `O(2^n)` construction time. For this reason, when this
+  feature is enabled, full DFAs are only used for very small regexes and a
+  very small space bound is used during determinization to avoid the DFA
+  from blowing up. This feature is not enabled by default, even as part of
+  `perf`, because it results in fairly sizeable increases in binary size and
+  compilation time. It can result in faster search times, but they tend to be
+  more modest and limited to non-Unicode regexes.
+* **perf-onepass** -
+  Enables the use of a one-pass DFA for extracting the positions of capture
+  groups. This optimization applies to a subset of certain types of NFAs and
+  represents the fastest engine in this crate for dealing with capture groups.
+* **perf-backtrack** -
+  Enables the use of a bounded backtracking algorithm for extracting the
+  positions of capture groups. This usually sits between the slowest engine
+  (the PikeVM) and the fastest engine (one-pass DFA) for extracting capture
+  groups. It&#39;s used whenever the regex is not one-pass and is small enough.
+* **perf-inline** -
+  Enables the use of aggressive inlining inside match routines. This reduces
+  the overhead of each match. The aggressive inlining, however, increases
+  compile times and binary size.
+* **perf-literal** -
+  Enables the use of literal optimizations for speeding up matches. In some
+  cases, literal optimizations can result in speedups of _several_ orders of
+  magnitude. Disabling this drops the `aho-corasick` and `memchr` dependencies.
+* **perf-cache** -
+  This feature used to enable a faster internal cache at the cost of using
+  additional dependencies, but this is no longer an option. A fast internal
+  cache is now used unconditionally with no additional dependencies. This may
+  change in the future.
+
+### Unicode features
+
+* **unicode** -
+  Enables all Unicode features. This feature is enabled by default, and will
+  always cover all Unicode features, even if more are added in the future.
+* **unicode-age** -
+  Provide the data for the
+  [Unicode `Age` property](https://www.unicode.org/reports/tr44/tr44-24.html#Character_Age).
+  This makes it possible to use classes like `\p{Age:6.0}` to refer to all
+  codepoints first introduced in Unicode 6.0
+* **unicode-bool** -
+  Provide the data for numerous Unicode boolean properties. The full list
+  is not included here, but contains properties like `Alphabetic`, `Emoji`,
+  `Lowercase`, `Math`, `Uppercase` and `White_Space`.
+* **unicode-case** -
+  Provide the data for case insensitive matching using
+  [Unicode&#39;s &quot;simple loose matches&quot; specification](https://www.unicode.org/reports/tr18/#Simple_Loose_Matches).
+* **unicode-gencat** -
+  Provide the data for
+  [Unicode general categories](https://www.unicode.org/reports/tr44/tr44-24.html#General_Category_Values).
+  This includes, but is not limited to, `Decimal_Number`, `Letter`,
+  `Math_Symbol`, `Number` and `Punctuation`.
+* **unicode-perl** -
+  Provide the data for supporting the Unicode-aware Perl character classes,
+  corresponding to `\w`, `\s` and `\d`. This is also necessary for using
+  Unicode-aware word boundary assertions. Note that if this feature is
+  disabled, the `\s` and `\d` character classes are still available if the
+  `unicode-bool` and `unicode-gencat` features are enabled, respectively.
+* **unicode-script** -
+  Provide the data for
+  [Unicode scripts and script extensions](https://www.unicode.org/reports/tr24/).
+  This includes, but is not limited to, `Arabic`, `Cyrillic`, `Hebrew`,
+  `Latin` and `Thai`.
+* **unicode-segment** -
+  Provide the data necessary to provide the properties used to implement the
+  [Unicode text segmentation algorithms](https://www.unicode.org/reports/tr29/).
+  This enables using classes like `\p{gcb=Extend}`, `\p{wb=Katakana}` and
+  `\p{sb=ATerm}`.
+
+# Other crates
+
+This crate has two required dependencies and several optional dependencies.
+This section briefly describes them with the goal of raising awareness of how
+different components of this crate may be used independently.
+
+It is somewhat unusual for a regex engine to have dependencies, as most regex
+libraries are self contained units with no dependencies other than a particular
+environment&#39;s standard library. Indeed, for other similarly optimized regex
+engines, most or all of the code in the dependencies of this crate would
+normally just be unseparable or coupled parts of the crate itself. But since
+Rust and its tooling ecosystem make the use of dependencies so easy, it made
+sense to spend some effort de-coupling parts of this crate and making them
+independently useful.
+
+We only briefly describe each crate here.
+
+* [`regex-lite`](https://docs.rs/regex-lite) is not a dependency of `regex`,
+but rather, a standalone zero-dependency simpler version of `regex` that
+prioritizes compile times and binary size. In exchange, it eschews Unicode
+support and performance. Its match semantics are as identical as possible to
+the `regex` crate, and for the things it supports, its APIs are identical to
+the APIs in this crate. In other words, for a lot of use cases, it is a drop-in
+replacement.
+* [`regex-syntax`](https://docs.rs/regex-syntax) provides a regular expression
+parser via `Ast` and `Hir` types. It also provides routines for extracting
+literals from a pattern. Folks can use this crate to do analysis, or even to
+build their own regex engine without having to worry about writing a parser.
+* [`regex-automata`](https://docs.rs/regex-automata) provides the regex engines
+themselves. One of the downsides of finite automata based regex engines is that
+they often need multiple internal engines in order to have similar or better
+performance than an unbounded backtracking engine in practice. `regex-automata`
+in particular provides public APIs for a PikeVM, a bounded backtracker, a
+one-pass DFA, a lazy DFA, a fully compiled DFA and a meta regex engine that
+combines all them together. It also has native multi-pattern support and
+provides a way to compile and serialize full DFAs such that they can be loaded
+and searched in a no-std no-alloc environment. `regex-automata` itself doesn&#39;t
+even have a required dependency on `regex-syntax`!
+* [`memchr`](https://docs.rs/memchr) provides low level SIMD vectorized
+routines for quickly finding the location of single bytes or even substrings
+in a haystack. In other words, it provides fast `memchr` and `memmem` routines.
+These are used by this crate in literal optimizations.
+* [`aho-corasick`](https://docs.rs/aho-corasick) provides multi-substring
+search. It also provides SIMD vectorized routines in the case where the number
+of substrings to search for is relatively small. The `regex` crate also uses
+this for literal optimizations.
+*/
+
+</span><span class="attribute">#![no_std]
+#![deny(missing_docs)]
+#![cfg_attr(feature = <span class="string">&quot;pattern&quot;</span>, feature(pattern))]
+#![warn(missing_debug_implementations)]
+
+#[cfg(doctest)]
+</span><span class="macro">doc_comment::doctest!</span>(<span class="string">&quot;../README.md&quot;</span>);
+
+<span class="kw">extern crate </span>alloc;
+<span class="attribute">#[cfg(any(test, feature = <span class="string">&quot;std&quot;</span>))]
+</span><span class="kw">extern crate </span>std;
+
+<span class="kw">pub use </span><span class="kw">crate</span>::error::Error;
+
+<span class="kw">pub use crate</span>::{builders::string::<span class="kw-2">*</span>, regex::string::<span class="kw-2">*</span>, regexset::string::<span class="kw-2">*</span>};
+
+<span class="kw">mod </span>builders;
+<span class="kw">pub mod </span>bytes;
+<span class="kw">mod </span>error;
+<span class="kw">mod </span>find_byte;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;pattern&quot;</span>)]
+</span><span class="kw">mod </span>pattern;
+<span class="kw">mod </span>regex;
+<span class="kw">mod </span>regexset;
+
+<span class="doccomment">/// Escapes all regular expression meta characters in `pattern`.
+///
+/// The string returned may be safely used as a literal in a regular
+/// expression.
+</span><span class="kw">pub fn </span>escape(pattern: <span class="kw-2">&amp;</span>str) -&gt; alloc::string::String {
+    regex_syntax::escape(pattern)
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="regex" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

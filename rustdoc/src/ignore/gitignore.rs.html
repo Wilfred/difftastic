@@ -1,0 +1,1574 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/ignore-0.4.18/src/gitignore.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>gitignore.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../ignore/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../ignore/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../ignore/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+</pre><pre class="rust"><code><span class="doccomment">/*!
+The gitignore module provides a way to match globs from a gitignore file
+against file paths.
+
+Note that this module implements the specification as described in the
+`gitignore` man page from scratch. That is, this module does *not* shell out to
+the `git` command line tool.
+*/
+
+</span><span class="kw">use </span>std::cell::RefCell;
+<span class="kw">use </span>std::env;
+<span class="kw">use </span>std::fs::File;
+<span class="kw">use </span>std::io::{<span class="self">self</span>, BufRead, Read};
+<span class="kw">use </span>std::path::{Path, PathBuf};
+<span class="kw">use </span>std::str;
+<span class="kw">use </span>std::sync::Arc;
+
+<span class="kw">use </span>globset::{Candidate, GlobBuilder, GlobSet, GlobSetBuilder};
+<span class="kw">use </span>regex::bytes::Regex;
+<span class="kw">use </span>thread_local::ThreadLocal;
+
+<span class="kw">use </span><span class="kw">crate</span>::pathutil::{is_file_name, strip_prefix};
+<span class="kw">use crate</span>::{Error, Match, PartialErrorBuilder};
+
+<span class="doccomment">/// Glob represents a single glob in a gitignore file.
+///
+/// This is used to report information about the highest precedent glob that
+/// matched in one or more gitignore files.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Glob {
+    <span class="doccomment">/// The file path that this glob was extracted from.
+    </span>from: <span class="prelude-ty">Option</span>&lt;PathBuf&gt;,
+    <span class="doccomment">/// The original glob string.
+    </span>original: String,
+    <span class="doccomment">/// The actual glob string used to convert to a regex.
+    </span>actual: String,
+    <span class="doccomment">/// Whether this is a whitelisted glob or not.
+    </span>is_whitelist: bool,
+    <span class="doccomment">/// Whether this glob should only match directories or not.
+    </span>is_only_dir: bool,
+}
+
+<span class="kw">impl </span>Glob {
+    <span class="doccomment">/// Returns the file path that defined this glob.
+    </span><span class="kw">pub fn </span>from(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Path&gt; {
+        <span class="self">self</span>.from.as_ref().map(|p| <span class="kw-2">&amp;**</span>p)
+    }
+
+    <span class="doccomment">/// The original glob as it was defined in a gitignore file.
+    </span><span class="kw">pub fn </span>original(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.original
+    }
+
+    <span class="doccomment">/// The actual glob that was compiled to respect gitignore
+    /// semantics.
+    </span><span class="kw">pub fn </span>actual(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.actual
+    }
+
+    <span class="doccomment">/// Whether this was a whitelisted glob or not.
+    </span><span class="kw">pub fn </span>is_whitelist(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.is_whitelist
+    }
+
+    <span class="doccomment">/// Whether this glob must match a directory or not.
+    </span><span class="kw">pub fn </span>is_only_dir(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.is_only_dir
+    }
+
+    <span class="doccomment">/// Returns true if and only if this glob has a `**/` prefix.
+    </span><span class="kw">fn </span>has_doublestar_prefix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.actual.starts_with(<span class="string">&quot;**/&quot;</span>) || <span class="self">self</span>.actual == <span class="string">&quot;**&quot;
+    </span>}
+}
+
+<span class="doccomment">/// Gitignore is a matcher for the globs in one or more gitignore files
+/// in the same directory.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Gitignore {
+    set: GlobSet,
+    root: PathBuf,
+    globs: Vec&lt;Glob&gt;,
+    num_ignores: u64,
+    num_whitelists: u64,
+    matches: <span class="prelude-ty">Option</span>&lt;Arc&lt;ThreadLocal&lt;RefCell&lt;Vec&lt;usize&gt;&gt;&gt;&gt;&gt;,
+}
+
+<span class="kw">impl </span>Gitignore {
+    <span class="doccomment">/// Creates a new gitignore matcher from the gitignore file path given.
+    ///
+    /// If it&#39;s desirable to include multiple gitignore files in a single
+    /// matcher, or read gitignore globs from a different source, then
+    /// use `GitignoreBuilder`.
+    ///
+    /// This always returns a valid matcher, even if it&#39;s empty. In particular,
+    /// a Gitignore file can be partially valid, e.g., when one glob is invalid
+    /// but the rest aren&#39;t.
+    ///
+    /// Note that I/O errors are ignored. For more granular control over
+    /// errors, use `GitignoreBuilder`.
+    </span><span class="kw">pub fn </span>new&lt;P: AsRef&lt;Path&gt;&gt;(
+        gitignore_path: P,
+    ) -&gt; (Gitignore, <span class="prelude-ty">Option</span>&lt;Error&gt;) {
+        <span class="kw">let </span>path = gitignore_path.as_ref();
+        <span class="kw">let </span>parent = path.parent().unwrap_or(Path::new(<span class="string">&quot;/&quot;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = GitignoreBuilder::new(parent);
+        <span class="kw">let </span><span class="kw-2">mut </span>errs = PartialErrorBuilder::default();
+        errs.maybe_push_ignore_io(builder.add(path));
+        <span class="kw">match </span>builder.build() {
+            <span class="prelude-val">Ok</span>(gi) =&gt; (gi, errs.into_error_option()),
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                errs.push(err);
+                (Gitignore::empty(), errs.into_error_option())
+            }
+        }
+    }
+
+    <span class="doccomment">/// Creates a new gitignore matcher from the global ignore file, if one
+    /// exists.
+    ///
+    /// The global config file path is specified by git&#39;s `core.excludesFile`
+    /// config option.
+    ///
+    /// Git&#39;s config file location is `$HOME/.gitconfig`. If `$HOME/.gitconfig`
+    /// does not exist or does not specify `core.excludesFile`, then
+    /// `$XDG_CONFIG_HOME/git/ignore` is read. If `$XDG_CONFIG_HOME` is not
+    /// set or is empty, then `$HOME/.config/git/ignore` is used instead.
+    </span><span class="kw">pub fn </span>global() -&gt; (Gitignore, <span class="prelude-ty">Option</span>&lt;Error&gt;) {
+        GitignoreBuilder::new(<span class="string">&quot;&quot;</span>).build_global()
+    }
+
+    <span class="doccomment">/// Creates a new empty gitignore matcher that never matches anything.
+    ///
+    /// Its path is empty.
+    </span><span class="kw">pub fn </span>empty() -&gt; Gitignore {
+        Gitignore {
+            set: GlobSet::empty(),
+            root: PathBuf::from(<span class="string">&quot;&quot;</span>),
+            globs: <span class="macro">vec!</span>[],
+            num_ignores: <span class="number">0</span>,
+            num_whitelists: <span class="number">0</span>,
+            matches: <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Returns the directory containing this gitignore matcher.
+    ///
+    /// All matches are done relative to this path.
+    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Path {
+        <span class="kw-2">&amp;*</span><span class="self">self</span>.root
+    }
+
+    <span class="doccomment">/// Returns true if and only if this gitignore has zero globs, and
+    /// therefore never matches any file path.
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.set.is_empty()
+    }
+
+    <span class="doccomment">/// Returns the total number of globs, which should be equivalent to
+    /// `num_ignores + num_whitelists`.
+    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.set.len()
+    }
+
+    <span class="doccomment">/// Returns the total number of ignore globs.
+    </span><span class="kw">pub fn </span>num_ignores(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
+        <span class="self">self</span>.num_ignores
+    }
+
+    <span class="doccomment">/// Returns the total number of whitelisted globs.
+    </span><span class="kw">pub fn </span>num_whitelists(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
+        <span class="self">self</span>.num_whitelists
+    }
+
+    <span class="doccomment">/// Returns whether the given path (file or directory) matched a pattern in
+    /// this gitignore matcher.
+    ///
+    /// `is_dir` should be true if the path refers to a directory and false
+    /// otherwise.
+    ///
+    /// The given path is matched relative to the path given when building
+    /// the matcher. Specifically, before matching `path`, its prefix (as
+    /// determined by a common suffix of the directory containing this
+    /// gitignore) is stripped. If there is no common suffix/prefix overlap,
+    /// then `path` is assumed to be relative to this matcher.
+    </span><span class="kw">pub fn </span>matched&lt;P: AsRef&lt;Path&gt;&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        path: P,
+        is_dir: bool,
+    ) -&gt; Match&lt;<span class="kw-2">&amp;</span>Glob&gt; {
+        <span class="kw">if </span><span class="self">self</span>.is_empty() {
+            <span class="kw">return </span>Match::None;
+        }
+        <span class="self">self</span>.matched_stripped(<span class="self">self</span>.strip(path.as_ref()), is_dir)
+    }
+
+    <span class="doccomment">/// Returns whether the given path (file or directory, and expected to be
+    /// under the root) or any of its parent directories (up to the root)
+    /// matched a pattern in this gitignore matcher.
+    ///
+    /// NOTE: This method is more expensive than walking the directory hierarchy
+    /// top-to-bottom and matching the entries. But, is easier to use in cases
+    /// when a list of paths are available without a hierarchy.
+    ///
+    /// `is_dir` should be true if the path refers to a directory and false
+    /// otherwise.
+    ///
+    /// The given path is matched relative to the path given when building
+    /// the matcher. Specifically, before matching `path`, its prefix (as
+    /// determined by a common suffix of the directory containing this
+    /// gitignore) is stripped. If there is no common suffix/prefix overlap,
+    /// then `path` is assumed to be relative to this matcher.
+    ///
+    /// # Panics
+    ///
+    /// This method panics if the given file path is not under the root path
+    /// of this matcher.
+    </span><span class="kw">pub fn </span>matched_path_or_any_parents&lt;P: AsRef&lt;Path&gt;&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        path: P,
+        is_dir: bool,
+    ) -&gt; Match&lt;<span class="kw-2">&amp;</span>Glob&gt; {
+        <span class="kw">if </span><span class="self">self</span>.is_empty() {
+            <span class="kw">return </span>Match::None;
+        }
+        <span class="kw">let </span><span class="kw-2">mut </span>path = <span class="self">self</span>.strip(path.as_ref());
+        <span class="macro">assert!</span>(!path.has_root(), <span class="string">&quot;path is expected to be under the root&quot;</span>);
+
+        <span class="kw">match </span><span class="self">self</span>.matched_stripped(path, is_dir) {
+            Match::None =&gt; (), <span class="comment">// walk up
+            </span>a_match =&gt; <span class="kw">return </span>a_match,
+        }
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(parent) = path.parent() {
+            <span class="kw">match </span><span class="self">self</span>.matched_stripped(parent, <span class="comment">/* is_dir */ </span><span class="bool-val">true</span>) {
+                Match::None =&gt; path = parent, <span class="comment">// walk up
+                </span>a_match =&gt; <span class="kw">return </span>a_match,
+            }
+        }
+        Match::None
+    }
+
+    <span class="doccomment">/// Like matched, but takes a path that has already been stripped.
+    </span><span class="kw">fn </span>matched_stripped&lt;P: AsRef&lt;Path&gt;&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        path: P,
+        is_dir: bool,
+    ) -&gt; Match&lt;<span class="kw-2">&amp;</span>Glob&gt; {
+        <span class="kw">if </span><span class="self">self</span>.is_empty() {
+            <span class="kw">return </span>Match::None;
+        }
+        <span class="kw">let </span>path = path.as_ref();
+        <span class="kw">let </span>_matches = <span class="self">self</span>.matches.as_ref().unwrap().get_or_default();
+        <span class="kw">let </span><span class="kw-2">mut </span>matches = _matches.borrow_mut();
+        <span class="kw">let </span>candidate = Candidate::new(path);
+        <span class="self">self</span>.set.matches_candidate_into(<span class="kw-2">&amp;</span>candidate, <span class="kw-2">&amp;mut *</span>matches);
+        <span class="kw">for </span><span class="kw-2">&amp;</span>i <span class="kw">in </span>matches.iter().rev() {
+            <span class="kw">let </span>glob = <span class="kw-2">&amp;</span><span class="self">self</span>.globs[i];
+            <span class="kw">if </span>!glob.is_only_dir() || is_dir {
+                <span class="kw">return if </span>glob.is_whitelist() {
+                    Match::Whitelist(glob)
+                } <span class="kw">else </span>{
+                    Match::Ignore(glob)
+                };
+            }
+        }
+        Match::None
+    }
+
+    <span class="doccomment">/// Strips the given path such that it&#39;s suitable for matching with this
+    /// gitignore matcher.
+    </span><span class="kw">fn </span>strip&lt;<span class="lifetime">&#39;a</span>, P: <span class="lifetime">&#39;a </span>+ AsRef&lt;Path&gt; + <span class="question-mark">?</span>Sized&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+        path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>P,
+    ) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path {
+        <span class="kw">let </span><span class="kw-2">mut </span>path = path.as_ref();
+        <span class="comment">// A leading ./ is completely superfluous. We also strip it from
+        // our gitignore root path, so we need to strip it from our candidate
+        // path too.
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(p) = strip_prefix(<span class="string">&quot;./&quot;</span>, path) {
+            path = p;
+        }
+        <span class="comment">// Strip any common prefix between the candidate path and the root
+        // of the gitignore, to make sure we get relative matching right.
+        // BUT, a file name might not have any directory components to it,
+        // in which case, we don&#39;t want to accidentally strip any part of the
+        // file name.
+        //
+        // As an additional special case, if the root is just `.`, then we
+        // shouldn&#39;t try to strip anything, e.g., when path begins with a `.`.
+        </span><span class="kw">if </span><span class="self">self</span>.root != Path::new(<span class="string">&quot;.&quot;</span>) &amp;&amp; !is_file_name(path) {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(p) = strip_prefix(<span class="kw-2">&amp;</span><span class="self">self</span>.root, path) {
+                path = p;
+                <span class="comment">// If we&#39;re left with a leading slash, get rid of it.
+                </span><span class="kw">if let </span><span class="prelude-val">Some</span>(p) = strip_prefix(<span class="string">&quot;/&quot;</span>, path) {
+                    path = p;
+                }
+            }
+        }
+        path
+    }
+}
+
+<span class="doccomment">/// Builds a matcher for a single set of globs from a .gitignore file.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>GitignoreBuilder {
+    builder: GlobSetBuilder,
+    root: PathBuf,
+    globs: Vec&lt;Glob&gt;,
+    case_insensitive: bool,
+}
+
+<span class="kw">impl </span>GitignoreBuilder {
+    <span class="doccomment">/// Create a new builder for a gitignore file.
+    ///
+    /// The path given should be the path at which the globs for this gitignore
+    /// file should be matched. Note that paths are always matched relative
+    /// to the root path given here. Generally, the root path should correspond
+    /// to the *directory* containing a `.gitignore` file.
+    </span><span class="kw">pub fn </span>new&lt;P: AsRef&lt;Path&gt;&gt;(root: P) -&gt; GitignoreBuilder {
+        <span class="kw">let </span>root = root.as_ref();
+        GitignoreBuilder {
+            builder: GlobSetBuilder::new(),
+            root: strip_prefix(<span class="string">&quot;./&quot;</span>, root).unwrap_or(root).to_path_buf(),
+            globs: <span class="macro">vec!</span>[],
+            case_insensitive: <span class="bool-val">false</span>,
+        }
+    }
+
+    <span class="doccomment">/// Builds a new matcher from the globs added so far.
+    ///
+    /// Once a matcher is built, no new globs can be added to it.
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Gitignore, Error&gt; {
+        <span class="kw">let </span>nignore = <span class="self">self</span>.globs.iter().filter(|g| !g.is_whitelist()).count();
+        <span class="kw">let </span>nwhite = <span class="self">self</span>.globs.iter().filter(|g| g.is_whitelist()).count();
+        <span class="kw">let </span>set = <span class="self">self
+            </span>.builder
+            .build()
+            .map_err(|err| Error::Glob { glob: <span class="prelude-val">None</span>, err: err.to_string() })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(Gitignore {
+            set: set,
+            root: <span class="self">self</span>.root.clone(),
+            globs: <span class="self">self</span>.globs.clone(),
+            num_ignores: nignore <span class="kw">as </span>u64,
+            num_whitelists: nwhite <span class="kw">as </span>u64,
+            matches: <span class="prelude-val">Some</span>(Arc::new(ThreadLocal::default())),
+        })
+    }
+
+    <span class="doccomment">/// Build a global gitignore matcher using the configuration in this
+    /// builder.
+    ///
+    /// This consumes ownership of the builder unlike `build` because it
+    /// must mutate the builder to add the global gitignore globs.
+    ///
+    /// Note that this ignores the path given to this builder&#39;s constructor
+    /// and instead derives the path automatically from git&#39;s global
+    /// configuration.
+    </span><span class="kw">pub fn </span>build_global(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; (Gitignore, <span class="prelude-ty">Option</span>&lt;Error&gt;) {
+        <span class="kw">match </span>gitconfig_excludes_path() {
+            <span class="prelude-val">None </span>=&gt; (Gitignore::empty(), <span class="prelude-val">None</span>),
+            <span class="prelude-val">Some</span>(path) =&gt; {
+                <span class="kw">if </span>!path.is_file() {
+                    (Gitignore::empty(), <span class="prelude-val">None</span>)
+                } <span class="kw">else </span>{
+                    <span class="kw">let </span><span class="kw-2">mut </span>errs = PartialErrorBuilder::default();
+                    errs.maybe_push_ignore_io(<span class="self">self</span>.add(path));
+                    <span class="kw">match </span><span class="self">self</span>.build() {
+                        <span class="prelude-val">Ok</span>(gi) =&gt; (gi, errs.into_error_option()),
+                        <span class="prelude-val">Err</span>(err) =&gt; {
+                            errs.push(err);
+                            (Gitignore::empty(), errs.into_error_option())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    <span class="doccomment">/// Add each glob from the file path given.
+    ///
+    /// The file given should be formatted as a `gitignore` file.
+    ///
+    /// Note that partial errors can be returned. For example, if there was
+    /// a problem adding one glob, an error for that will be returned, but
+    /// all other valid globs will still be added.
+    </span><span class="kw">pub fn </span>add&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Option</span>&lt;Error&gt; {
+        <span class="kw">let </span>path = path.as_ref();
+        <span class="kw">let </span>file = <span class="kw">match </span>File::open(path) {
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(Error::Io(err).with_path(path)),
+            <span class="prelude-val">Ok</span>(file) =&gt; file,
+        };
+        <span class="kw">let </span>rdr = io::BufReader::new(file);
+        <span class="kw">let </span><span class="kw-2">mut </span>errs = PartialErrorBuilder::default();
+        <span class="kw">for </span>(i, line) <span class="kw">in </span>rdr.lines().enumerate() {
+            <span class="kw">let </span>lineno = (i + <span class="number">1</span>) <span class="kw">as </span>u64;
+            <span class="kw">let </span>line = <span class="kw">match </span>line {
+                <span class="prelude-val">Ok</span>(line) =&gt; line,
+                <span class="prelude-val">Err</span>(err) =&gt; {
+                    errs.push(Error::Io(err).tagged(path, lineno));
+                    <span class="kw">break</span>;
+                }
+            };
+            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.add_line(<span class="prelude-val">Some</span>(path.to_path_buf()), <span class="kw-2">&amp;</span>line) {
+                errs.push(err.tagged(path, lineno));
+            }
+        }
+        errs.into_error_option()
+    }
+
+    <span class="doccomment">/// Add each glob line from the string given.
+    ///
+    /// If this string came from a particular `gitignore` file, then its path
+    /// should be provided here.
+    ///
+    /// The string given should be formatted as a `gitignore` file.
+    </span><span class="attribute">#[cfg(test)]
+    </span><span class="kw">fn </span>add_str(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        from: <span class="prelude-ty">Option</span>&lt;PathBuf&gt;,
+        gitignore: <span class="kw-2">&amp;</span>str,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>GitignoreBuilder, Error&gt; {
+        <span class="kw">for </span>line <span class="kw">in </span>gitignore.lines() {
+            <span class="self">self</span>.add_line(from.clone(), line)<span class="question-mark">?</span>;
+        }
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Add a line from a gitignore file to this builder.
+    ///
+    /// If this line came from a particular `gitignore` file, then its path
+    /// should be provided here.
+    ///
+    /// If the line could not be parsed as a glob, then an error is returned.
+    </span><span class="kw">pub fn </span>add_line(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        from: <span class="prelude-ty">Option</span>&lt;PathBuf&gt;,
+        <span class="kw-2">mut </span>line: <span class="kw-2">&amp;</span>str,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>GitignoreBuilder, Error&gt; {
+        <span class="attribute">#![allow(deprecated)]
+
+        </span><span class="kw">if </span>line.starts_with(<span class="string">&quot;#&quot;</span>) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>);
+        }
+        <span class="kw">if </span>!line.ends_with(<span class="string">&quot;\\ &quot;</span>) {
+            line = line.trim_right();
+        }
+        <span class="kw">if </span>line.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>);
+        }
+        <span class="kw">let </span><span class="kw-2">mut </span>glob = Glob {
+            from: from,
+            original: line.to_string(),
+            actual: String::new(),
+            is_whitelist: <span class="bool-val">false</span>,
+            is_only_dir: <span class="bool-val">false</span>,
+        };
+        <span class="kw">let </span><span class="kw-2">mut </span>is_absolute = <span class="bool-val">false</span>;
+        <span class="kw">if </span>line.starts_with(<span class="string">&quot;\\!&quot;</span>) || line.starts_with(<span class="string">&quot;\\#&quot;</span>) {
+            line = <span class="kw-2">&amp;</span>line[<span class="number">1</span>..];
+            is_absolute = line.chars().nth(<span class="number">0</span>) == <span class="prelude-val">Some</span>(<span class="string">&#39;/&#39;</span>);
+        } <span class="kw">else </span>{
+            <span class="kw">if </span>line.starts_with(<span class="string">&quot;!&quot;</span>) {
+                glob.is_whitelist = <span class="bool-val">true</span>;
+                line = <span class="kw-2">&amp;</span>line[<span class="number">1</span>..];
+            }
+            <span class="kw">if </span>line.starts_with(<span class="string">&quot;/&quot;</span>) {
+                <span class="comment">// `man gitignore` says that if a glob starts with a slash,
+                // then the glob can only match the beginning of a path
+                // (relative to the location of gitignore). We achieve this by
+                // simply banning wildcards from matching /.
+                </span>line = <span class="kw-2">&amp;</span>line[<span class="number">1</span>..];
+                is_absolute = <span class="bool-val">true</span>;
+            }
+        }
+        <span class="comment">// If it ends with a slash, then this should only match directories,
+        // but the slash should otherwise not be used while globbing.
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>((i, c)) = line.char_indices().rev().nth(<span class="number">0</span>) {
+            <span class="kw">if </span>c == <span class="string">&#39;/&#39; </span>{
+                glob.is_only_dir = <span class="bool-val">true</span>;
+                line = <span class="kw-2">&amp;</span>line[..i];
+            }
+        }
+        glob.actual = line.to_string();
+        <span class="comment">// If there is a literal slash, then this is a glob that must match the
+        // entire path name. Otherwise, we should let it match anywhere, so use
+        // a **/ prefix.
+        </span><span class="kw">if </span>!is_absolute &amp;&amp; !line.chars().any(|c| c == <span class="string">&#39;/&#39;</span>) {
+            <span class="comment">// ... but only if we don&#39;t already have a **/ prefix.
+            </span><span class="kw">if </span>!glob.has_doublestar_prefix() {
+                glob.actual = <span class="macro">format!</span>(<span class="string">&quot;**/{}&quot;</span>, glob.actual);
+            }
+        }
+        <span class="comment">// If the glob ends with `/**`, then we should only match everything
+        // inside a directory, but not the directory itself. Standard globs
+        // will match the directory. So we add `/*` to force the issue.
+        </span><span class="kw">if </span>glob.actual.ends_with(<span class="string">&quot;/**&quot;</span>) {
+            glob.actual = <span class="macro">format!</span>(<span class="string">&quot;{}/*&quot;</span>, glob.actual);
+        }
+        <span class="kw">let </span>parsed = GlobBuilder::new(<span class="kw-2">&amp;</span>glob.actual)
+            .literal_separator(<span class="bool-val">true</span>)
+            .case_insensitive(<span class="self">self</span>.case_insensitive)
+            .backslash_escape(<span class="bool-val">true</span>)
+            .build()
+            .map_err(|err| Error::Glob {
+                glob: <span class="prelude-val">Some</span>(glob.original.clone()),
+                err: err.kind().to_string(),
+            })<span class="question-mark">?</span>;
+        <span class="self">self</span>.builder.add(parsed);
+        <span class="self">self</span>.globs.push(glob);
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Toggle whether the globs should be matched case insensitively or not.
+    ///
+    /// When this option is changed, only globs added after the change will be
+    /// affected.
+    ///
+    /// This is disabled by default.
+    </span><span class="kw">pub fn </span>case_insensitive(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        yes: bool,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>GitignoreBuilder, Error&gt; {
+        <span class="comment">// TODO: This should not return a `Result`. Fix this in the next semver
+        // release.
+        </span><span class="self">self</span>.case_insensitive = yes;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+}
+
+<span class="doccomment">/// Return the file path of the current environment&#39;s global gitignore file.
+///
+/// Note that the file path returned may not exist.
+</span><span class="kw">fn </span>gitconfig_excludes_path() -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
+    <span class="comment">// git supports $HOME/.gitconfig and $XDG_CONFIG_HOME/git/config. Notably,
+    // both can be active at the same time, where $HOME/.gitconfig takes
+    // precedent. So if $HOME/.gitconfig defines a `core.excludesFile`, then
+    // we&#39;re done.
+    </span><span class="kw">match </span>gitconfig_home_contents().and_then(|x| parse_excludes_file(<span class="kw-2">&amp;</span>x)) {
+        <span class="prelude-val">Some</span>(path) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(path),
+        <span class="prelude-val">None </span>=&gt; {}
+    }
+    <span class="kw">match </span>gitconfig_xdg_contents().and_then(|x| parse_excludes_file(<span class="kw-2">&amp;</span>x)) {
+        <span class="prelude-val">Some</span>(path) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(path),
+        <span class="prelude-val">None </span>=&gt; {}
+    }
+    excludes_file_default()
+}
+
+<span class="doccomment">/// Returns the file contents of git&#39;s global config file, if one exists, in
+/// the user&#39;s home directory.
+</span><span class="kw">fn </span>gitconfig_home_contents() -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; {
+    <span class="kw">let </span>home = <span class="kw">match </span>home_dir() {
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        <span class="prelude-val">Some</span>(home) =&gt; home,
+    };
+    <span class="kw">let </span><span class="kw-2">mut </span>file = <span class="kw">match </span>File::open(home.join(<span class="string">&quot;.gitconfig&quot;</span>)) {
+        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        <span class="prelude-val">Ok</span>(file) =&gt; io::BufReader::new(file),
+    };
+    <span class="kw">let </span><span class="kw-2">mut </span>contents = <span class="macro">vec!</span>[];
+    file.read_to_end(<span class="kw-2">&amp;mut </span>contents).ok().map(|<span class="kw">_</span>| contents)
+}
+
+<span class="doccomment">/// Returns the file contents of git&#39;s global config file, if one exists, in
+/// the user&#39;s XDG_CONFIG_HOME directory.
+</span><span class="kw">fn </span>gitconfig_xdg_contents() -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; {
+    <span class="kw">let </span>path = env::var_os(<span class="string">&quot;XDG_CONFIG_HOME&quot;</span>)
+        .and_then(|x| <span class="kw">if </span>x.is_empty() { <span class="prelude-val">None </span>} <span class="kw">else </span>{ <span class="prelude-val">Some</span>(PathBuf::from(x)) })
+        .or_else(|| home_dir().map(|p| p.join(<span class="string">&quot;.config&quot;</span>)))
+        .map(|x| x.join(<span class="string">&quot;git/config&quot;</span>));
+    <span class="kw">let </span><span class="kw-2">mut </span>file = <span class="kw">match </span>path.and_then(|p| File::open(p).ok()) {
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        <span class="prelude-val">Some</span>(file) =&gt; io::BufReader::new(file),
+    };
+    <span class="kw">let </span><span class="kw-2">mut </span>contents = <span class="macro">vec!</span>[];
+    file.read_to_end(<span class="kw-2">&amp;mut </span>contents).ok().map(|<span class="kw">_</span>| contents)
+}
+
+<span class="doccomment">/// Returns the default file path for a global .gitignore file.
+///
+/// Specifically, this respects XDG_CONFIG_HOME.
+</span><span class="kw">fn </span>excludes_file_default() -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
+    env::var_os(<span class="string">&quot;XDG_CONFIG_HOME&quot;</span>)
+        .and_then(|x| <span class="kw">if </span>x.is_empty() { <span class="prelude-val">None </span>} <span class="kw">else </span>{ <span class="prelude-val">Some</span>(PathBuf::from(x)) })
+        .or_else(|| home_dir().map(|p| p.join(<span class="string">&quot;.config&quot;</span>)))
+        .map(|x| x.join(<span class="string">&quot;git/ignore&quot;</span>))
+}
+
+<span class="doccomment">/// Extract git&#39;s `core.excludesfile` config setting from the raw file contents
+/// given.
+</span><span class="kw">fn </span>parse_excludes_file(data: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
+    <span class="comment">// N.B. This is the lazy approach, and isn&#39;t technically correct, but
+    // probably works in more circumstances. I guess we would ideally have
+    // a full INI parser. Yuck.
+    </span><span class="macro">lazy_static::lazy_static! </span>{
+        <span class="kw">static </span><span class="kw-2">ref </span>RE: Regex =
+            Regex::new(<span class="string">r&quot;(?im)^\s*excludesfile\s*=\s*(.+)\s*$&quot;</span>).unwrap();
+    };
+    <span class="kw">let </span>caps = <span class="kw">match </span>RE.captures(data) {
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        <span class="prelude-val">Some</span>(caps) =&gt; caps,
+    };
+    str::from_utf8(<span class="kw-2">&amp;</span>caps[<span class="number">1</span>]).ok().map(|s| PathBuf::from(expand_tilde(s)))
+}
+
+<span class="doccomment">/// Expands ~ in file paths to the value of $HOME.
+</span><span class="kw">fn </span>expand_tilde(path: <span class="kw-2">&amp;</span>str) -&gt; String {
+    <span class="kw">let </span>home = <span class="kw">match </span>home_dir() {
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>path.to_string(),
+        <span class="prelude-val">Some</span>(home) =&gt; home.to_string_lossy().into_owned(),
+    };
+    path.replace(<span class="string">&quot;~&quot;</span>, <span class="kw-2">&amp;</span>home)
+}
+
+<span class="doccomment">/// Returns the location of the user&#39;s home directory.
+</span><span class="kw">fn </span>home_dir() -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt; {
+    <span class="comment">// We&#39;re fine with using env::home_dir for now. Its bugs are, IMO, pretty
+    // minor corner cases. We should still probably eventually migrate to
+    // the `dirs` crate to get a proper implementation.
+    </span><span class="attribute">#![allow(deprecated)]
+    </span>env::home_dir()
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::{Gitignore, GitignoreBuilder};
+    <span class="kw">use </span>std::path::Path;
+
+    <span class="kw">fn </span>gi_from_str&lt;P: AsRef&lt;Path&gt;&gt;(root: P, s: <span class="kw-2">&amp;</span>str) -&gt; Gitignore {
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = GitignoreBuilder::new(root);
+        builder.add_str(<span class="prelude-val">None</span>, s).unwrap();
+        builder.build().unwrap()
+    }
+
+    <span class="macro">macro_rules! </span>ignored {
+        (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$root</span>:expr, <span class="macro-nonterminal">$gi</span>:expr, <span class="macro-nonterminal">$path</span>:expr) =&gt; {
+            <span class="macro">ignored!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$root</span>, <span class="macro-nonterminal">$gi</span>, <span class="macro-nonterminal">$path</span>, <span class="bool-val">false</span>);
+        };
+        (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$root</span>:expr, <span class="macro-nonterminal">$gi</span>:expr, <span class="macro-nonterminal">$path</span>:expr, <span class="macro-nonterminal">$is_dir</span>:expr) =&gt; {
+            <span class="attribute">#[test]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>() {
+                <span class="kw">let </span>gi = gi_from_str(<span class="macro-nonterminal">$root</span>, <span class="macro-nonterminal">$gi</span>);
+                <span class="macro">assert!</span>(gi.matched(<span class="macro-nonterminal">$path</span>, <span class="macro-nonterminal">$is_dir</span>).is_ignore());
+            }
+        };
+    }
+
+    <span class="macro">macro_rules! </span>not_ignored {
+        (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$root</span>:expr, <span class="macro-nonterminal">$gi</span>:expr, <span class="macro-nonterminal">$path</span>:expr) =&gt; {
+            <span class="macro">not_ignored!</span>(<span class="macro-nonterminal">$name</span>, <span class="macro-nonterminal">$root</span>, <span class="macro-nonterminal">$gi</span>, <span class="macro-nonterminal">$path</span>, <span class="bool-val">false</span>);
+        };
+        (<span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$root</span>:expr, <span class="macro-nonterminal">$gi</span>:expr, <span class="macro-nonterminal">$path</span>:expr, <span class="macro-nonterminal">$is_dir</span>:expr) =&gt; {
+            <span class="attribute">#[test]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$name</span>() {
+                <span class="kw">let </span>gi = gi_from_str(<span class="macro-nonterminal">$root</span>, <span class="macro-nonterminal">$gi</span>);
+                <span class="macro">assert!</span>(!gi.matched(<span class="macro-nonterminal">$path</span>, <span class="macro-nonterminal">$is_dir</span>).is_ignore());
+            }
+        };
+    }
+
+    <span class="kw">const </span>ROOT: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;/home/foobar/rust/rg&quot;</span>;
+
+    <span class="macro">ignored!</span>(ig1, ROOT, <span class="string">&quot;months&quot;</span>, <span class="string">&quot;months&quot;</span>);
+    <span class="macro">ignored!</span>(ig2, ROOT, <span class="string">&quot;*.lock&quot;</span>, <span class="string">&quot;Cargo.lock&quot;</span>);
+    <span class="macro">ignored!</span>(ig3, ROOT, <span class="string">&quot;*.rs&quot;</span>, <span class="string">&quot;src/main.rs&quot;</span>);
+    <span class="macro">ignored!</span>(ig4, ROOT, <span class="string">&quot;src/*.rs&quot;</span>, <span class="string">&quot;src/main.rs&quot;</span>);
+    <span class="macro">ignored!</span>(ig5, ROOT, <span class="string">&quot;/*.c&quot;</span>, <span class="string">&quot;cat-file.c&quot;</span>);
+    <span class="macro">ignored!</span>(ig6, ROOT, <span class="string">&quot;/src/*.rs&quot;</span>, <span class="string">&quot;src/main.rs&quot;</span>);
+    <span class="macro">ignored!</span>(ig7, ROOT, <span class="string">&quot;!src/main.rs\n*.rs&quot;</span>, <span class="string">&quot;src/main.rs&quot;</span>);
+    <span class="macro">ignored!</span>(ig8, ROOT, <span class="string">&quot;foo/&quot;</span>, <span class="string">&quot;foo&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">ignored!</span>(ig9, ROOT, <span class="string">&quot;**/foo&quot;</span>, <span class="string">&quot;foo&quot;</span>);
+    <span class="macro">ignored!</span>(ig10, ROOT, <span class="string">&quot;**/foo&quot;</span>, <span class="string">&quot;src/foo&quot;</span>);
+    <span class="macro">ignored!</span>(ig11, ROOT, <span class="string">&quot;**/foo/**&quot;</span>, <span class="string">&quot;src/foo/bar&quot;</span>);
+    <span class="macro">ignored!</span>(ig12, ROOT, <span class="string">&quot;**/foo/**&quot;</span>, <span class="string">&quot;wat/src/foo/bar/baz&quot;</span>);
+    <span class="macro">ignored!</span>(ig13, ROOT, <span class="string">&quot;**/foo/bar&quot;</span>, <span class="string">&quot;foo/bar&quot;</span>);
+    <span class="macro">ignored!</span>(ig14, ROOT, <span class="string">&quot;**/foo/bar&quot;</span>, <span class="string">&quot;src/foo/bar&quot;</span>);
+    <span class="macro">ignored!</span>(ig15, ROOT, <span class="string">&quot;abc/**&quot;</span>, <span class="string">&quot;abc/x&quot;</span>);
+    <span class="macro">ignored!</span>(ig16, ROOT, <span class="string">&quot;abc/**&quot;</span>, <span class="string">&quot;abc/x/y&quot;</span>);
+    <span class="macro">ignored!</span>(ig17, ROOT, <span class="string">&quot;abc/**&quot;</span>, <span class="string">&quot;abc/x/y/z&quot;</span>);
+    <span class="macro">ignored!</span>(ig18, ROOT, <span class="string">&quot;a/**/b&quot;</span>, <span class="string">&quot;a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig19, ROOT, <span class="string">&quot;a/**/b&quot;</span>, <span class="string">&quot;a/x/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig20, ROOT, <span class="string">&quot;a/**/b&quot;</span>, <span class="string">&quot;a/x/y/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig21, ROOT, <span class="string">r&quot;\!xy&quot;</span>, <span class="string">&quot;!xy&quot;</span>);
+    <span class="macro">ignored!</span>(ig22, ROOT, <span class="string">r&quot;\#foo&quot;</span>, <span class="string">&quot;#foo&quot;</span>);
+    <span class="macro">ignored!</span>(ig23, ROOT, <span class="string">&quot;foo&quot;</span>, <span class="string">&quot;./foo&quot;</span>);
+    <span class="macro">ignored!</span>(ig24, ROOT, <span class="string">&quot;target&quot;</span>, <span class="string">&quot;grep/target&quot;</span>);
+    <span class="macro">ignored!</span>(ig25, ROOT, <span class="string">&quot;Cargo.lock&quot;</span>, <span class="string">&quot;./tabwriter-bin/Cargo.lock&quot;</span>);
+    <span class="macro">ignored!</span>(ig26, ROOT, <span class="string">&quot;/foo/bar/baz&quot;</span>, <span class="string">&quot;./foo/bar/baz&quot;</span>);
+    <span class="macro">ignored!</span>(ig27, ROOT, <span class="string">&quot;foo/&quot;</span>, <span class="string">&quot;xyz/foo&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">ignored!</span>(ig28, <span class="string">&quot;./src&quot;</span>, <span class="string">&quot;/llvm/&quot;</span>, <span class="string">&quot;./src/llvm&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">ignored!</span>(ig29, ROOT, <span class="string">&quot;node_modules/ &quot;</span>, <span class="string">&quot;node_modules&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">ignored!</span>(ig30, ROOT, <span class="string">&quot;**/&quot;</span>, <span class="string">&quot;foo/bar&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">ignored!</span>(ig31, ROOT, <span class="string">&quot;path1/*&quot;</span>, <span class="string">&quot;path1/foo&quot;</span>);
+    <span class="macro">ignored!</span>(ig32, ROOT, <span class="string">&quot;.a/b&quot;</span>, <span class="string">&quot;.a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig33, <span class="string">&quot;./&quot;</span>, <span class="string">&quot;.a/b&quot;</span>, <span class="string">&quot;.a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig34, <span class="string">&quot;.&quot;</span>, <span class="string">&quot;.a/b&quot;</span>, <span class="string">&quot;.a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig35, <span class="string">&quot;./.&quot;</span>, <span class="string">&quot;.a/b&quot;</span>, <span class="string">&quot;.a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig36, <span class="string">&quot;././&quot;</span>, <span class="string">&quot;.a/b&quot;</span>, <span class="string">&quot;.a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig37, <span class="string">&quot;././.&quot;</span>, <span class="string">&quot;.a/b&quot;</span>, <span class="string">&quot;.a/b&quot;</span>);
+    <span class="macro">ignored!</span>(ig38, ROOT, <span class="string">&quot;\\[&quot;</span>, <span class="string">&quot;[&quot;</span>);
+    <span class="macro">ignored!</span>(ig39, ROOT, <span class="string">&quot;\\?&quot;</span>, <span class="string">&quot;?&quot;</span>);
+    <span class="macro">ignored!</span>(ig40, ROOT, <span class="string">&quot;\\*&quot;</span>, <span class="string">&quot;*&quot;</span>);
+    <span class="macro">ignored!</span>(ig41, ROOT, <span class="string">&quot;\\a&quot;</span>, <span class="string">&quot;a&quot;</span>);
+    <span class="macro">ignored!</span>(ig42, ROOT, <span class="string">&quot;s*.rs&quot;</span>, <span class="string">&quot;sfoo.rs&quot;</span>);
+    <span class="macro">ignored!</span>(ig43, ROOT, <span class="string">&quot;**&quot;</span>, <span class="string">&quot;foo.rs&quot;</span>);
+    <span class="macro">ignored!</span>(ig44, ROOT, <span class="string">&quot;**/**/*&quot;</span>, <span class="string">&quot;a/foo.rs&quot;</span>);
+
+    <span class="macro">not_ignored!</span>(ignot1, ROOT, <span class="string">&quot;amonths&quot;</span>, <span class="string">&quot;months&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot2, ROOT, <span class="string">&quot;monthsa&quot;</span>, <span class="string">&quot;months&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot3, ROOT, <span class="string">&quot;/src/*.rs&quot;</span>, <span class="string">&quot;src/grep/src/main.rs&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot4, ROOT, <span class="string">&quot;/*.c&quot;</span>, <span class="string">&quot;mozilla-sha1/sha1.c&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot5, ROOT, <span class="string">&quot;/src/*.rs&quot;</span>, <span class="string">&quot;src/grep/src/main.rs&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot6, ROOT, <span class="string">&quot;*.rs\n!src/main.rs&quot;</span>, <span class="string">&quot;src/main.rs&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot7, ROOT, <span class="string">&quot;foo/&quot;</span>, <span class="string">&quot;foo&quot;</span>, <span class="bool-val">false</span>);
+    <span class="macro">not_ignored!</span>(ignot8, ROOT, <span class="string">&quot;**/foo/**&quot;</span>, <span class="string">&quot;wat/src/afoo/bar/baz&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot9, ROOT, <span class="string">&quot;**/foo/**&quot;</span>, <span class="string">&quot;wat/src/fooa/bar/baz&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot10, ROOT, <span class="string">&quot;**/foo/bar&quot;</span>, <span class="string">&quot;foo/src/bar&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot11, ROOT, <span class="string">&quot;#foo&quot;</span>, <span class="string">&quot;#foo&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot12, ROOT, <span class="string">&quot;\n\n\n&quot;</span>, <span class="string">&quot;foo&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot13, ROOT, <span class="string">&quot;foo/**&quot;</span>, <span class="string">&quot;foo&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">not_ignored!</span>(
+        ignot14,
+        <span class="string">&quot;./third_party/protobuf&quot;</span>,
+        <span class="string">&quot;m4/ltoptions.m4&quot;</span>,
+        <span class="string">&quot;./third_party/protobuf/csharp/src/packages/repositories.config&quot;
+    </span>);
+    <span class="macro">not_ignored!</span>(ignot15, ROOT, <span class="string">&quot;!/bar&quot;</span>, <span class="string">&quot;foo/bar&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot16, ROOT, <span class="string">&quot;*\n!**/&quot;</span>, <span class="string">&quot;foo&quot;</span>, <span class="bool-val">true</span>);
+    <span class="macro">not_ignored!</span>(ignot17, ROOT, <span class="string">&quot;src/*.rs&quot;</span>, <span class="string">&quot;src/grep/src/main.rs&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot18, ROOT, <span class="string">&quot;path1/*&quot;</span>, <span class="string">&quot;path2/path1/foo&quot;</span>);
+    <span class="macro">not_ignored!</span>(ignot19, ROOT, <span class="string">&quot;s*.rs&quot;</span>, <span class="string">&quot;src/foo.rs&quot;</span>);
+
+    <span class="kw">fn </span>bytes(s: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;u8&gt; {
+        s.to_string().into_bytes()
+    }
+
+    <span class="kw">fn </span>path_string&lt;P: AsRef&lt;Path&gt;&gt;(path: P) -&gt; String {
+        path.as_ref().to_str().unwrap().to_string()
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>parse_excludes_file1() {
+        <span class="kw">let </span>data = bytes(<span class="string">&quot;[core]\nexcludesFile = /foo/bar&quot;</span>);
+        <span class="kw">let </span>got = <span class="kw">super</span>::parse_excludes_file(<span class="kw-2">&amp;</span>data).unwrap();
+        <span class="macro">assert_eq!</span>(path_string(got), <span class="string">&quot;/foo/bar&quot;</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>parse_excludes_file2() {
+        <span class="kw">let </span>data = bytes(<span class="string">&quot;[core]\nexcludesFile = ~/foo/bar&quot;</span>);
+        <span class="kw">let </span>got = <span class="kw">super</span>::parse_excludes_file(<span class="kw-2">&amp;</span>data).unwrap();
+        <span class="macro">assert_eq!</span>(path_string(got), <span class="kw">super</span>::expand_tilde(<span class="string">&quot;~/foo/bar&quot;</span>));
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>parse_excludes_file3() {
+        <span class="kw">let </span>data = bytes(<span class="string">&quot;[core]\nexcludeFile = /foo/bar&quot;</span>);
+        <span class="macro">assert!</span>(<span class="kw">super</span>::parse_excludes_file(<span class="kw-2">&amp;</span>data).is_none());
+    }
+
+    <span class="comment">// See: https://github.com/BurntSushi/ripgrep/issues/106
+    </span><span class="attribute">#[test]
+    </span><span class="kw">fn </span>regression_106() {
+        gi_from_str(<span class="string">&quot;/&quot;</span>, <span class="string">&quot; &quot;</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>case_insensitive() {
+        <span class="kw">let </span>gi = GitignoreBuilder::new(ROOT)
+            .case_insensitive(<span class="bool-val">true</span>)
+            .unwrap()
+            .add_str(<span class="prelude-val">None</span>, <span class="string">&quot;*.html&quot;</span>)
+            .unwrap()
+            .build()
+            .unwrap();
+        <span class="macro">assert!</span>(gi.matched(<span class="string">&quot;foo.html&quot;</span>, <span class="bool-val">false</span>).is_ignore());
+        <span class="macro">assert!</span>(gi.matched(<span class="string">&quot;foo.HTML&quot;</span>, <span class="bool-val">false</span>).is_ignore());
+        <span class="macro">assert!</span>(!gi.matched(<span class="string">&quot;foo.htm&quot;</span>, <span class="bool-val">false</span>).is_ignore());
+        <span class="macro">assert!</span>(!gi.matched(<span class="string">&quot;foo.HTM&quot;</span>, <span class="bool-val">false</span>).is_ignore());
+    }
+
+    <span class="macro">ignored!</span>(cs1, ROOT, <span class="string">&quot;*.html&quot;</span>, <span class="string">&quot;foo.html&quot;</span>);
+    <span class="macro">not_ignored!</span>(cs2, ROOT, <span class="string">&quot;*.html&quot;</span>, <span class="string">&quot;foo.HTML&quot;</span>);
+    <span class="macro">not_ignored!</span>(cs3, ROOT, <span class="string">&quot;*.html&quot;</span>, <span class="string">&quot;foo.htm&quot;</span>);
+    <span class="macro">not_ignored!</span>(cs4, ROOT, <span class="string">&quot;*.html&quot;</span>, <span class="string">&quot;foo.HTM&quot;</span>);
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ignore" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

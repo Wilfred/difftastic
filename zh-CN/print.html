@@ -1,0 +1,1014 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Difftastic Manual</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="The manual for difftastic, the structural dif tool">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">2.</strong> 安装</a></li><li class="chapter-item expanded "><a href="usage.html"><strong aria-hidden="true">3.</strong> 使用</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="git.html"><strong aria-hidden="true">3.1.</strong> Git</a></li><li class="chapter-item expanded "><a href="mercurial.html"><strong aria-hidden="true">3.2.</strong> Mercurial</a></li><li class="chapter-item expanded "><a href="fossil.html"><strong aria-hidden="true">3.3.</strong> Fossil</a></li></ol></li><li class="chapter-item expanded "><a href="languages_supported.html"><strong aria-hidden="true">4.</strong> 支持的语言</a></li><li class="chapter-item expanded "><a href="parsing.html"><strong aria-hidden="true">5.</strong> 解析</a></li><li class="chapter-item expanded "><a href="diffing.html"><strong aria-hidden="true">6.</strong> 差异分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tricky_cases.html"><strong aria-hidden="true">6.1.</strong> 棘手的例子</a></li></ol></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">7.</strong> 贡献</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="parser_vendoring.html"><strong aria-hidden="true">7.1.</strong> 解析器依赖库</a></li><li class="chapter-item expanded "><a href="adding_a_parser.html"><strong aria-hidden="true">7.2.</strong> 添加解析器</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">8.</strong> 词典</a></li><li class="chapter-item expanded "><a href="alternative_projects.html"><strong aria-hidden="true">9.</strong> 其它项目</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tree_diffing.html"><strong aria-hidden="true">9.1.</strong> 树状差异分析</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Difftastic Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/wilfred/difftastic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="简介"><a class="header" href="#简介">简介</a></h1>
+<p>Difftastic 是一个根据文件语法进行比较的结构化比较工具。它 <a href="./languages_supported.html">支持超过 30 种编程语言</a>。当你使用时，便会知道它有多么 <em>棒</em>。</p>
+<p>Difftastic 是一款开源软件（使用 MIT 许可证），你可以 <a href="https://github.com/wilfred/difftastic">在 GitHub 上查看其源代码</a>。</p>
+<p>本说明书描述当前版本 0.57.0。<a href="https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md">更新日志</a> 会记录每个版本的新特性与 bug 的修复。</p>
+<p><em>如果你正寻找其他语言的说明书，我们同样提供了 <a href="https://difftastic.wilfred.me.uk/">英文版</a>。</em></p>
+<h2 id="语法差异分析"><a class="header" href="#语法差异分析">语法差异分析</a></h2>
+<p>Difftastic <a href="./usage.html#language-detection">检测编程语言</a>、解析代码，并比较语法树。以下是例子。</p>
+<pre><code>// old.rs
+let ts_lang = guess(path, guess_src).map(tsp::from_language);
+</code></pre>
+<pre><code>// new.rs
+let ts_lang = language_override
+    .or_else(|| guess(path, guess_src))
+    .map(tsp::from_language);
+</code></pre>
+<pre><code style="display:block">$ difft old.rs new.rs
+
+1 <span style="background-color: PaleGreen; color: #000">1</span> let ts_lang = <span style="background-color: PaleGreen; color: #000">language_override</span>
+. <span style="background-color: PaleGreen; color: #000">2</span>     <span style="background-color: PaleGreen; color: #000">.or_else(||</span> guess(path, guess_src)<span style="background-color: PaleGreen; color: #000">)</span>
+. 3     .map(tsp::from_language);
+</code>
+</pre>
+<p>注意 Difftastic 是如何识别 <code>.map</code> 没有变化的，尽管它在带有空格的新行上。</p>
+<p>面对行的差异分析表现则会很不理想。</p>
+<pre><code style="display:block">$ diff -u old.rs new.rs
+
+@@ -1 +1,3 @@
+<span style="background-color: #fbbd98; color: #000">-let ts_lang = guess(path, guess_src).map(tsp::from_language);</span>
+<span style="background-color: PaleGreen; color: #000">+let ts_lang = language_override
++    .or_else(|| guess(path, guess_src))
++    .map(tsp::from_language);</span>
+</code>
+</pre>
+<p>一些文本差异分析工具也会突出单词的变化（如 GitHub 或 git 的 <code>--word-diff</code>），但它们仍无法理解代码本身。Difftastic 永远会找到匹配的定界符：你可以看到 <code>or_else</code> 结尾处的 <code>)</code> 已被突出显示。</p>
+<h2 id="备用的文本差异分析"><a class="header" href="#备用的文本差异分析">备用的文本差异分析</a></h2>
+<p>如果 Difftastic 不能理解输入文件，它将用常规的面向行的文本差异分析与单词高亮显示。</p>
+<p>同时，当输入的文件较大时，Difftastic 也会使用面向行的文本差异分析。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="安装"><a class="header" href="#安装">安装</a></h1>
+<h2 id="从二进制安装"><a class="header" href="#从二进制安装">从二进制安装</a></h2>
+<p>Difftastic 将预先编译好的二进制文件 <a href="https://github.com/Wilfred/difftastic/releases">提供到 GitHub realeases</a> 。<a href="https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md">更新日志</a> 描述了每个发行版的变更。</p>
+<p>在以下平台上也可以使用软件包。</p>
+<p><a href="https://repology.org/project/difftastic/versions"><img src="https://repology.org/badge/vertical-allrepos/difftastic.svg" alt="安装包状态" /></a></p>
+<h2 id="通过-homebrew-安装macos-或-linux"><a class="header" href="#通过-homebrew-安装macos-或-linux">通过 homebrew 安装（macOS 或 Linux）</a></h2>
+<p>Difftastic 可以使用 <a href="https://formulae.brew.sh/formula/difftastic">Homebrew</a> 安装在 macOS 或 Linux 上。</p>
+<pre><code>$ brew install difftastic
+</code></pre>
+<h2 id="从源码构建"><a class="header" href="#从源码构建">从源码构建</a></h2>
+<h3 id="要求"><a class="header" href="#要求">要求</a></h3>
+<p>Difftastic 使用 Rust 编写，所以你需安装 Rust。我推荐使用 <a href="https://rustup.rs/">rustup</a> 安装 Rust。Difftastic 要求 Rust 版本不低于 1.65。</p>
+<p>你也需要一个支持 C++14 的 C++ 编译器。如果你正在使用 GCC，则 GCC 版本至少为 8。</p>
+<h3 id="构建"><a class="header" href="#构建">构建</a></h3>
+<p>你可以下载并使用 Cargo（Rust 的一部分）构建 <a href="https://crates.io/crates/difftastic">Difftastic on
+crates.io</a>。</p>
+<pre><code>$ cargo install --locked difftastic
+</code></pre>
+<p>Difftastic 使用 <code>cc</code> 程序箱来构建 C/C++ 的依赖关系，这使你能通过环境变量 <code>CC</code> 与 <code>CXX</code> 来控制使用的编译器（参照 <a href="https://github.com/alexcrichton/cc-rs#external-configuration-via-environment-variables">cc
+文档</a>）。</p>
+<p>参考 <a href="./contributing.html">贡献</a> 来查看有关构建的说明。</p>
+<h2 id="可选安装-mime-数据库"><a class="header" href="#可选安装-mime-数据库">（可选）安装 MIME 数据库</a></h2>
+<p>如果有一个 MIME 数据库，Difftastic 将使用它来更准确地检测二进制文件。MIME 数据库在使用 <code>file</code> 命令时也需要被调用，因此你可能已经安装了它。</p>
+<p>MIME 数据库的路径 <a href="https://specifications.freedesktop.org/shared-mime-info-spec/0.11/ar01s03.html">在 XDG 的规范下</a>：</p>
+<ul>
+<li><code>/usr/share/mime/magic</code></li>
+<li><code>/usr/local/share/mime/magic</code></li>
+<li><code>$HOME/.local/share/mime/magic</code></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用方法"><a class="header" href="#使用方法">使用方法</a></h1>
+<h2 id="文件参数"><a class="header" href="#文件参数">文件参数</a></h2>
+<h3 id="比较文件"><a class="header" href="#比较文件">比较文件</a></h3>
+<pre><code>$ difft sample_files/before.js sample_files/after.js
+</code></pre>
+<h3 id="比较文件夹"><a class="header" href="#比较文件夹">比较文件夹</a></h3>
+<pre><code>$ difft sample_files/dir_before/ sample_files/dir_after/
+</code></pre>
+<p>Difftastic 会递归地浏览这两个文件夹，对同名的文件进行差异分析。</p>
+<p>对比的文件夹间有许多未改变的文件时，<code>--skip-unchanged</code> 选项会十分有用。</p>
+<h3 id="从-stdin-读取"><a class="header" href="#从-stdin-读取">从 stdin 读取</a></h3>
+<p>您可以通过指定 <code>-</code> 作为文件路径从标准输入（stdin）读取文件。</p>
+<pre><code>$ cat sample_files/before.js | difft - sample_files/after.js
+</code></pre>
+<h3 id="带冲突标记的文件"><a class="header" href="#带冲突标记的文件">带冲突标记的文件</a></h3>
+<p><em>（在 0.50 版本新增）</em></p>
+<p>如果你有一个带 <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> 冲突标记的文件，可以将它作为一个参数传入 Difftastic。Difftastic 会构建和比较文件的两个状态。</p>
+<pre><code>$ difft sample_files/conflicts.el
+</code></pre>
+<h2 id="语言检测"><a class="header" href="#语言检测">语言检测</a></h2>
+<p>Difftastic 根据文件的扩展名、文件名和第一行的内容猜测文件所用的语言。</p>
+<p>你可以通过 <code>--language</code> 选项覆盖语言检测。如果输入的文件有所设定的后缀， Difftastic 将会处理它们，并且忽略其他语言。</p>
+<pre><code>$ difft --language cpp before.c after.c
+</code></pre>
+<h2 id="选项"><a class="header" href="#选项">选项</a></h2>
+<p>Difftastic 包括一系列命令行选项，你可以使用 <code>difft --help</code> 获得完整列表。</p>
+<p>Difftastic 也可以用环境变量进行配置，这同样可以在 <code>--help</code> 中看到。</p>
+<p>例如，<code>DFT_BACKGROUND=light</code> 相当于 <code>--background=light</code>。这在使用 VCS 工具（例如 Git）时会很有用，因为此时不能直接调用 <code>difft</code> 二进制文件。</p>
+<h2 id="退出状态码"><a class="header" href="#退出状态码">退出状态码</a></h2>
+<p>2：Difftastic 收到了无效参数。这包括用法无效（如参数数量不对）、无法读取路径（如路径不存在或权限不足）。</p>
+<p>1：使用 <code>--exit-code</code> 选项时，Difftastic 在发现任何语法变化（文本文件）或字节变化（二进制文件）。</p>
+<p>0：所有其他情况。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
+<p>Git <a href="https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal">支持使用外部差异分析工具</a>。你可以使用 <code>GIT_EXTERNAL_DIFF</code> 命令暂时地设置 diff 工具。</p>
+<pre><code>$ GIT_EXTERNAL_DIFF=difft git diff
+$ GIT_EXTERNAL_DIFF=difft git log -p --ext-diff
+$ GIT_EXTERNAL_DIFF=difft git show e96a7241760319 --ext-diff
+</code></pre>
+<p>如果你想默认使用 Difftastic，可以使用 <code>git config</code>。</p>
+<pre><code># 仅为当前存储库设置
+$ git config diff.external difft
+
+# 为全局设置
+$ git config --global diff.external difft
+</code></pre>
+<p>在运行 <code>git config</code> 后，<code>git diff</code> 命令将会自动使用 <code>difft</code>。其他情况则需要使用 <code>--ext-diff</code> 来使用 <code>diff.external</code>。</p>
+<pre><code>$ git diff
+$ git log -p --ext-diff
+$ git show e96a7241760319 --ext-diff
+</code></pre>
+<h2 id="git-difftool"><a class="header" href="#git-difftool">git-difftool</a></h2>
+<p><a href="https://git-scm.com/docs/git-difftool">git difftool</a> 是一个 Git 命令，用于使用不同差异分析工具来查看当前修改。如果你想要偶尔使用 Difftastic，这会非常有用。</p>
+<p>添加下列内容到你的 <code>.gitconfig</code> 文件中，Difftastic 就会作为你的 diff 工具。</p>
+<pre><code class="language-ini">[diff]
+        tool = difftastic
+
+[difftool]
+        prompt = false
+
+[difftool &quot;difftastic&quot;]
+        cmd = difft &quot;$LOCAL&quot; &quot;$REMOTE&quot;
+</code></pre>
+<p>然后，你可以使用 <code>git difftool</code> 来用 Difftastic 查看当前修改。</p>
+<pre><code>$ git difftool
+</code></pre>
+<p>我们还推荐使用下列设置来获得最好的差异分析工具体验。</p>
+<pre><code class="language-ini"># 对于较大的输出，和其它 Git 命令一样，使用分页器
+[pager]
+        difftool = true
+
+# `git dft` 比 `git difftool` 更加短小
+[alias]
+        dft = difftool
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mercurial"><a class="header" href="#mercurial">Mercurial</a></h1>
+<p>Mercurial 在使用 Extdiff 拓展时，<a href="https://www.mercurial-scm.org/wiki/ExtdiffExtension">支持使用外部差异分析工具</a>。你可以在 <code>.hgrc</code> 文件中添加 <code>extensions</code> 条目来启用它。</p>
+<pre><code>[extensions]
+extdiff =
+</code></pre>
+<p>接下来，你可以运行 <code>hg extdiff -p difft</code> 命令，但不是 <code>hg diff</code> 命令（假定 <code>difft</code> 二进制文件已经存放在 <code>$PATH</code> 中）。</p>
+<p>您还可以定义一个别名，用 hg 运行 Difftastic。将以下内容添加到您的 <code>.hgrc</code> 中，以使用 <code>hg dft</code> 命令运行 Difftastic。</p>
+<pre><code>[extdiff]
+cmd.dft = difft
+# 你可以添加更多选项，它们将被传递至命令行，例如：
+# opts.dft = --background light
+</code></pre>
+<p><code>hg dft</code> 也支持 <code>hg diff</code> 的所有选项。例如，<code>hg dft --stat</code> 会显示更改行的统计信息，<code>hg dft -r 42 -r 45</code> 会显示两个修订版之间的差异。</p>
+<h2 id="hg-log--p"><a class="header" href="#hg-log--p">hg log -p</a></h2>
+<p>Mercurial 不能改变默认的差异工具，至少就作者所知。</p>
+<p>如果你想查看最近一次提交的差异，可以使用下面的命令。</p>
+<pre><code>hg dft -r .^ -r .
+</code></pre>
+<p>这就等同于<code>hg log -l 1 -p</code>，尽管它不显示提交信息。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fossil"><a class="header" href="#fossil">Fossil</a></h1>
+<p><a href="https://fossil-scm.org/">Fossil</a> 通过为当前存储库 <a href="https://fossil-scm.org/home/help?cmd=diff-command">设置<code>diff-command</code></a> 来支持外部 <code>diff</code> 命令：</p>
+<pre><code>fossil settings diff-command difft
+</code></pre>
+<p>如果你想对所有存储库使用 Difftastic，可以使用 <code>--global</code>：</p>
+<pre><code>fossil settings diff-command --global difft
+</code></pre>
+<h2 id="在-fossil-上跳过-difftastic"><a class="header" href="#在-fossil-上跳过-difftastic">在 Fossil 上跳过 Difftastic</a></h2>
+<p>如果你已经将 Difftastic 设置为 Fossil 的 <code>diff</code> 命令，但想使用一次 Fossil 的内置差异分析工具，可以使用 <code>-i</code> 暂时跳过一次 Difftastic：</p>
+<pre><code>fossil diff -i
+</code></pre>
+<p>如果你想从某个存储库（或全局）移除 Difftastic，请使用 <code>unset</code> 命令：</p>
+<pre><code>fossil unset diff-command
+</code></pre>
+<p><code>unset</code> 命令支持 <code>--global</code> 选项。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="支持的语言"><a class="header" href="#支持的语言">支持的语言</a></h1>
+<p>本页列出了 Difftastic 支持的所有语言。你也可以用 <code>difft --list-languages</code> 查看你当前安装的版本所支持的语言。</p>
+<h2 id="编程语言"><a class="header" href="#编程语言">编程语言</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>语言</th><th>使用的解析器</th></tr></thead><tbody>
+<tr><td>Bash</td><td><a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter/tree-sitter-bash</a></td></tr>
+<tr><td>Apex</td><td><a href="https://github.com/aheber/tree-sitter-sfapex">aheber/tree-sitter-sfapex</a></td></tr>
+<tr><td>C</td><td><a href="https://github.com/tree-sitter/tree-sitter-c">tree-sitter/tree-sitter-c</a></td></tr>
+<tr><td>C++</td><td><a href="https://github.com/tree-sitter/tree-sitter-cpp">tree-sitter/tree-sitter-cpp</a></td></tr>
+<tr><td>C#</td><td><a href="https://github.com/tree-sitter/tree-sitter-c-sharp">tree-sitter/tree-sitter-c-sharp</a></td></tr>
+<tr><td>Clojure</td><td><a href="https://github.com/sogaiu/tree-sitter-clojure">sogaiu/tree-sitter-clojure</a> (<a href="https://github.com/sogaiu/tree-sitter-clojure/tree/issue-21">branched</a>)</td></tr>
+<tr><td>CMake</td><td><a href="https://github.com/uyha/tree-sitter-cmake">uyha/tree-sitter-cmake</a></td></tr>
+<tr><td>Common Lisp</td><td><a href="https://github.com/theHamsta/tree-sitter-commonlisp">theHamsta/tree-sitter-commonlisp</a></td></tr>
+<tr><td>Dart</td><td><a href="https://github.com/UserNobody14/tree-sitter-dart">UserNobody14/tree-sitter-dart</a></td></tr>
+<tr><td>Elixir</td><td><a href="https://github.com/elixir-lang/tree-sitter-elixir">elixir-lang/tree-sitter-elixir</a></td></tr>
+<tr><td>Elm</td><td><a href="https://github.com/elm-tooling/tree-sitter-elm">elm-tooling/tree-sitter-elm</a></td></tr>
+<tr><td>Elvish</td><td><a href="https://github.com/ckafi/tree-sitter-elvish">ckafi/tree-sitter-elvish</a></td></tr>
+<tr><td>Erlang</td><td><a href="https://github.com/WhatsApp/tree-sitter-erlang">WhatsApp/tree-sitter-erlang</a></td></tr>
+<tr><td>Emacs Lisp</td><td><a href="https://github.com/Wilfred/tree-sitter-elisp">wilfred/tree-sitter-elisp</a></td></tr>
+<tr><td>Gleam</td><td><a href="https://github.com/gleam-lang/tree-sitter-gleam">gleam-lang/tree-sitter-gleam</a></td></tr>
+<tr><td>Go</td><td><a href="https://github.com/tree-sitter/tree-sitter-go">tree-sitter/tree-sitter-go</a></td></tr>
+<tr><td>Hack</td><td><a href="https://github.com/slackhq/tree-sitter-hack">slackhq/tree-sitter-hack</a></td></tr>
+<tr><td>Hare</td><td><a href="https://git.sr.ht/~ecmma/tree-sitter-hare">ecmma/tree-sitter-hare</a></td></tr>
+<tr><td>Haskell</td><td><a href="https://github.com/tree-sitter/tree-sitter-haskell">tree-sitter/tree-sitter-haskell</a></td></tr>
+<tr><td>Janet</td><td><a href="https://github.com/sogaiu/tree-sitter-janet-simple">sogaiu/tree-sitter-janet-simple</a></td></tr>
+<tr><td>Java</td><td><a href="https://github.com/tree-sitter/tree-sitter-java">tree-sitter/tree-sitter-java</a></td></tr>
+<tr><td>JavaScript, JSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-javascript">tree-sitter/tree-sitter-javascript</a></td></tr>
+<tr><td>Julia</td><td><a href="https://github.com/tree-sitter/tree-sitter-julia">tree-sitter/tree-sitter-julia</a></td></tr>
+<tr><td>Kotlin</td><td><a href="https://github.com/fwcd/tree-sitter-kotlin">fwcd/tree-sitter-kotlin</a></td></tr>
+<tr><td>Lua</td><td><a href="https://github.com/nvim-treesitter/tree-sitter-lua">nvim-treesitter/tree-sitter-lua</a></td></tr>
+<tr><td>Make</td><td><a href="https://github.com/alemuller/tree-sitter-make">alemuller/tree-sitter-make</a></td></tr>
+<tr><td>Nix</td><td><a href="https://github.com/cstrahan/tree-sitter-nix">cstrahan/tree-sitter-nix</a></td></tr>
+<tr><td>OCaml</td><td><a href="https://github.com/tree-sitter/tree-sitter-ocaml">tree-sitter/tree-sitter-ocaml</a></td></tr>
+<tr><td>Perl</td><td><a href="https://github.com/ganezdragon/tree-sitter-perl">ganezdragon/tree-sitter-perl</a></td></tr>
+<tr><td>PHP</td><td><a href="https://github.com/tree-sitter/tree-sitter-php">tree-sitter/tree-sitter-php</a></td></tr>
+<tr><td>Python</td><td><a href="https://github.com/tree-sitter/tree-sitter-python">tree-sitter/tree-sitter-python</a></td></tr>
+<tr><td>QML</td><td><a href="https://github.com/yuja/tree-sitter-qmljs">tree-sitter/tree-sitter-qmljs</a></td></tr>
+<tr><td>R</td><td><a href="https://github.com/r-lib/tree-sitter-r">r-lib/tree-sitter-r</a></td></tr>
+<tr><td>Racket</td><td><a href="https://github.com/6cdh/tree-sitter-racket">6cdh/tree-sitter-racket</a></td></tr>
+<tr><td>Ruby</td><td><a href="https://github.com/tree-sitter/tree-sitter-ruby">tree-sitter/tree-sitter-ruby</a></td></tr>
+<tr><td>Rust</td><td><a href="https://github.com/tree-sitter/tree-sitter-rust">tree-sitter/tree-sitter-rust</a> (<a href="https://github.com/Wilfred/tree-sitter-rust/tree/non_special_token">forked</a>)</td></tr>
+<tr><td>Scala</td><td><a href="https://github.com/tree-sitter/tree-sitter-scala">tree-sitter/tree-sitter-scala</a></td></tr>
+<tr><td>SQL</td><td><a href="https://github.com/m-novikov/tree-sitter-sql">m-novikov/tree-sitter-sql</a></td></tr>
+<tr><td>Swift</td><td><a href="https://github.com/alex-pinkus/tree-sitter-swift">alex-pinkus/tree-sitter-swift</a></td></tr>
+<tr><td>TypeScript, TSX</td><td><a href="https://github.com/tree-sitter/tree-sitter-typescript">tree-sitter/tree-sitter-typescript</a></td></tr>
+<tr><td>Zig</td><td><a href="https://github.com/maxxnino/tree-sitter-zig">maxxnino/tree-sitter-zig</a></td></tr>
+</tbody></table>
+</div>
+<h2 id="结构化文本格式"><a class="header" href="#结构化文本格式">结构化文本格式</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>语言</th><th>使用的解析器</th></tr></thead><tbody>
+<tr><td>CSS</td><td><a href="https://github.com/tree-sitter/tree-sitter-css">tree-sitter/tree-sitter-css</a></td></tr>
+<tr><td>HCL</td><td><a href="https://github.com/MichaHoffmann/tree-sitter-hcl">MichaHoffmann/tree-sitter-hcl</a></td></tr>
+<tr><td>HTML</td><td><a href="https://github.com/tree-sitter/tree-sitter-html">tree-sitter/tree-sitter-html</a></td></tr>
+<tr><td>JSON</td><td><a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter/tree-sitter-json</a></td></tr>
+<tr><td>Newick</td><td><a href="https://github.com/delehef/tree-sitter-newick">delehef/tree-sitter-newick</a></td></tr>
+<tr><td>TOML</td><td><a href="https://github.com/ikatyang/tree-sitter-toml">ikatyang/tree-sitter-toml</a></td></tr>
+<tr><td>YAML</td><td><a href="https://github.com/ikatyang/tree-sitter-yaml">ikatyang/tree-sitter-yaml</a></td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="解析代码"><a class="header" href="#解析代码">解析代码</a></h1>
+<p>Difftastic会使用<a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a> 来建立一个语法树。然后，该语法树被转换为一个可以用来对比差异的简化版语法树。</p>
+<h2 id="使用tree-sitter解析代码"><a class="header" href="#使用tree-sitter解析代码">使用Tree-sitter解析代码</a></h2>
+<p>Difftastic依靠tree-sitter来理解语法。你可以使用<code>--dump-ts</code>来查看tree-sitter的语法树。</p>
+<pre><code>$ difft --dump-ts sample_files/javascript_simple_before.js | head
+program (0, 0) - (7, 0)
+  comment (0, 0) - (0, 8) &quot;// hello&quot;
+  expression_statement (1, 0) - (1, 6)
+    call_expression (1, 0) - (1, 5)
+      identifier (1, 0) - (1, 3) &quot;foo&quot;
+      arguments (1, 3) - (1, 5)
+        ( (1, 3) - (1, 4) &quot;(&quot;
+        ) (1, 4) - (1, 5) &quot;)&quot;
+    ; (1, 5) - (1, 6) &quot;;&quot;
+  expression_statement (2, 0) - (2, 6)
+</code></pre>
+<h2 id="简化的语法"><a class="header" href="#简化的语法">简化的语法</a></h2>
+<p>Difftastic将tree-sitter语法树转换为简化版的语法树。语法树是一种统一的表示方式，其中所有东西都是原子（例如，整数、注释、变量名）或者是一个列表（由开放分界符、子句和关闭分界符组成）以及分隔符。</p>
+<p><code>--dump-syntax</code>将显示出当前文件所对应的语法树。</p>
+<pre><code>$ difft --dump-syntax sample_files/before.js
+[
+    Atom id:1 {
+        content: &quot;// hello&quot;,
+        position: &quot;0:0-8&quot;,
+    },
+    List id:2 {
+        open_content: &quot;&quot;,
+        open_position: &quot;1:0-0&quot;,
+        children: [
+          ...
+</code></pre>
+<h3 id="转换过程"><a class="header" href="#转换过程">转换过程</a></h3>
+<p>Difftastic语法树的简单表达方式使得差异分析变得更加容易。Difftastic是通过一种递归树的行走方式来将tree-sitter树进行简化，将tree-sitter的节点视作原子来处理。但有两个例外。</p>
+<p>(1) Tree-sitter语法树有时会包括不需要的一些结构，有些语法会认为字符串是一种单一的字符，而有些则会将字符串视作为复杂的结构，此时的分隔符就会将字符串分割开。</p>
+<p><code>tree-sitter_parser.rs</code>使用<code>atom_nodes</code>来标记特定的tree-sitter节点为平原子，即使该节点存在子节点。</p>
+<p>(2) Tree-sitter分析树包括开放和关闭定界符作为其代码。列表<code>[1]</code>将有一个包括<code>[</code>和<code>]</code>的节点的语法树。</p>
+<pre><code>$ echo '[1]' &gt; example.js
+$ difft --dump-ts example.js
+program (0, 0) - (1, 0)
+  expression_statement (0, 0) - (0, 3)
+    array (0, 0) - (0, 3)
+      [ (0, 0) - (0, 1) &quot;[&quot;
+      number (0, 1) - (0, 2) &quot;1&quot;
+      ] (0, 2) - (0, 3) &quot;]&quot;
+</code></pre>
+<p><code>tree_sitter_parser.rs</code>使用<code>open_delimiter_tokens</code>来确保<code>[</code>和<code>]</code>被用作包围列表内容的分隔符，而不会将其转换为原子。</p>
+<p>Difftastic可以将出现简化语法树中不同部分的原子进行匹配。例如，如果一个<code>[</code>被当作一个原子，Difftastic可能会在其他地方将其与另一个<code>]</code>进行匹配。如果开放和关闭分界符的数量不同，最终的差异分析结果将会是不平衡的。</p>
+<h3 id="lossy-syntax-trees简化的语法树"><a class="header" href="#lossy-syntax-trees简化的语法树">Lossy Syntax Trees简化的语法树</a></h3>
+<p>简化的语法树只存储节点内容与节点的位置，不会存储节点之间的空白，而且在差异分析的过程中，空格将会被忽略。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="差异分析"><a class="header" href="#差异分析">差异分析</a></h1>
+<p>Difftastic将diff计算视作为有向无环图上的寻路问题。</p>
+<h2 id="图表示"><a class="header" href="#图表示">图表示</a></h2>
+<p>图中的一个顶点代表两个语法树中的一个位置。</p>
+<p>开始顶点的两个位置都指向两个树的第一个语法节点。结束顶点的两个位置都正好在两棵语法树的最后一个节点之后。</p>
+<p>以<code>A</code>和<code>X A</code>比较为例：</p>
+<pre><code>START
++---------------------+
+| Left: A  Right: X A |
+|       ^         ^   |
++---------------------+
+
+END
++---------------------+
+| Left: A  Right: X A |
+|        ^           ^|
++---------------------+
+</code></pre>
+<p>从起始顶点开始，我们有两个选择：</p>
+<ul>
+<li>我们可以将左边的第一个语法节点标记为注意项，并推进到左边的下一个语法节点（即上面的顶点1）。</li>
+<li>我们可以将右边的第一个语法节点标记为注意项，并推进到右边的下一个语法节点上（即上面的顶点2）。</li>
+</ul>
+<pre><code>            START
+            +---------------------+
+            | Left: A  Right: X A |
+            |       ^         ^   |
+            +---------------------+
+                   /       \
+     Novel atom L /         \ Novel atom R
+1                v       2   v
++---------------------+  +---------------------+
+| Left: A  Right: X A |  | Left: A  Right: X A |
+|        ^        ^   |  |       ^           ^ |
++---------------------+  +---------------------+
+</code></pre>
+<p>选择&quot;新原子R&quot;到顶点2将是最佳选择。从顶点2，我们可以看到有三条路线通往终点。</p>
+<pre><code>            2
+            +---------------------+
+            | Left: A  Right: X A |
+            |       ^           ^ |
+            +---------------------+
+                   /    |   \
+     Novel atom L /     |    \ Novel atom R
+                 v      |     v
++---------------------+ | +---------------------+
+| Left: A  Right: X A | | | Left: A  Right: X A |
+|        ^          ^ | | |       ^            ^|
++---------------------+ | +---------------------+
+  |                     |                    |
+  | Novel atom R        | Nodes match        | Novel atom L
+  |                     |                    |
+  |         END         v                    |
+  |         +---------------------+          |
+  +--------&gt;| Left: A  Right: X A |&lt;---------+
+            |        ^           ^|
+            +---------------------+
+</code></pre>
+<h2 id="比较路线"><a class="header" href="#比较路线">比较路线</a></h2>
+<p>我们给每条边分配一个成本。将一个语法节点标记为新奇，比找到一个匹配的语法节点更糟糕，因此&quot;新奇原子&quot;边的成本比&quot;语法节点匹配&quot;边更高。</p>
+<p>最佳路线是指从起始顶点到终端顶点成本最低的路线。</p>
+<h2 id="寻找最佳路线"><a class="header" href="#寻找最佳路线">寻找最佳路线</a></h2>
+<p>Difftastic使用Dijkstra算法来寻找最佳（或称最低成本）的路线。</p>
+<p>这种算法的一大优势是，我们不需要事先构建图。相对于语法节点的数量，构建整个图需要指数级的内存。相反顶点的邻居是在探索图的过程中构建的。</p>
+<p>网上有很多解释Dijkstra的算法，但我特别推荐<a href="https://www.redblobgames.com/pathfinding/a-star/introduction.html#dijkstra">Red
+Blod Games的图搜索部分</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="棘手的例子"><a class="header" href="#棘手的例子">棘手的例子</a></h1>
+<p>树状差异分析有时具有挑战性。本页展示了开发过程中观察到的困难情况和处理结果。</p>
+<p>并非所有这些情况在 Difftastic 中都能很好地工作。</p>
+<h2 id="添加定界符"><a class="header" href="#添加定界符">添加定界符</a></h2>
+<pre><code>;; Before
+x
+
+;; After
+(x)
+</code></pre>
+<p>可能输出：<code><span style="background-color: PaleGreen; color: #000">(x)</span></code></p>
+<p>理想输出：<code><span style="background-color: PaleGreen; color: #000">(</span>x<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>这十分棘手，因为 <code>x</code> 改变了在树中的深度，但其本身却未发生改变。</p>
+<p>并不是所有的树状差异分析算法可以处理这个例子。同时仔细地展示出范例是具有挑战性的：我们希望高亮已改变的定界符，而非他们的内容。这同样在更大的表达式中具有挑战性。</p>
+<p><strong>Difftastic</strong>：Difftastic 即使认为节点在不同深度，在这种情况下也能实现预期结果。</p>
+<h2 id="改变定界符"><a class="header" href="#改变定界符">改变定界符</a></h2>
+<pre><code>;; Before
+(x)
+
+;; After
+[x]
+</code></pre>
+<p>理想输出：<code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span></code>, <code><span style="background-color: PaleGreen; color: #000">[</span>x<span style="background-color: PaleGreen; color: #000">]</span></code></p>
+<p>正如这个例子，我们想要高亮定界符而非 <code>x</code> 这个内容。</p>
+<p><strong>Difftastic</strong>：通过树状差异分析，Difftastic 正确处理这个问题。</p>
+<h2 id="扩展定界符"><a class="header" href="#扩展定界符">扩展定界符</a></h2>
+<pre><code>;; Before
+(x) y
+
+;; After
+(x y)
+</code></pre>
+<p>可能输出 1：<code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span> y</code>, <code><span style="background-color: PaleGreen; color: #000">(</span>x y<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>可能输出 2：<code>(x) <span style="background-color: #fbbd98; color: #000">y</span></code>, <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code></p>
+<p>目前还不清楚在这种情况下，哪个结果更好。</p>
+<p><strong>Difftastic</strong>：Difftastic 目前显示结果 2，但这种情况下对成本模型很敏感。一些以前版本的 Difftastic 显示结果 1。</p>
+<h2 id="缩小定界符"><a class="header" href="#缩小定界符">缩小定界符</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(x) y
+</code></pre>
+<p>这与扩展定界符的情况类似。</p>
+<h2 id="使定界符不连贯"><a class="header" href="#使定界符不连贯">使定界符不连贯</a></h2>
+<pre><code>;; Before
+(foo (bar))
+
+;; After
+(foo (novel) (bar))
+</code></pre>
+<p>理想输出：<code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar)</code></p>
+<p>很容易会变成 <code>(foo (<span style="background-color:PaleGreen; color: #000">novel</span>) <span style="background-color:PaleGreen; color: #000">(</span>bar<span style="background-color:PaleGreen; color: #000">)</span>)</code>，
+其中后一组的定界符会被选中。</p>
+<h2 id="重新组织大节点"><a class="header" href="#重新组织大节点">重新组织大节点</a></h2>
+<pre><code>;; Before
+[[foo]]
+(x y)
+
+;; After
+([[foo]] x y)
+</code></pre>
+<p>我们想高亮 <code>[[foo]]</code> 被移到了括号内。然而，一个简单的语法差异者更倾向于认为在前面删除 <code>()</code> 并在后面增加 <code>()</code>，因为这是最小的差异表现（见<a href="https://github.com/Wilfred/difftastic/issues/44">议题 #44</a>）。</p>
+<h2 id="在列表内重新排列"><a class="header" href="#在列表内重新排列">在列表内重新排列</a></h2>
+<pre><code>;; Before
+(x y)
+
+;; After
+(y x)
+</code></pre>
+<p>理想输出：<code>(<span style="background-color: PaleGreen; color: #000">y</span> <span style="background-color: PaleGreen; color: #000">x</span>)</code></p>
+<p>我们想高亮列表内容，而非定界符。</p>
+<h2 id="中间插入"><a class="header" href="#中间插入">中间插入</a></h2>
+<pre><code>// Before
+foo(bar(123))
+
+// After
+foo(extra(bar(123)))
+</code></pre>
+<p>理想输出：<code>foo(<span style="background-color: PaleGreen; color: #000">extra(</span>bar(123)<span style="background-color: PaleGreen; color: #000">)</span>)</code></p>
+<p>我们想把 <code>foo</code> 和 <code>bar</code> 看作是未改变的。这种情况对树进行自下而上然后自上而下匹配的衍合算法具有挑战性。</p>
+<h2 id="标点符号元素"><a class="header" href="#标点符号元素">标点符号元素</a></h2>
+<pre><code>// Before
+foo(1, bar)
+
+// After
+foo(bar, 2)
+</code></pre>
+<p>可能输出：<code>foo(<span style="background-color: PaleGreen; color: #000">bar</span>, <span style="background-color: PaleGreen; color: #000">2</span>)</code></p>
+<p>理想输出：<code>foo(bar<span style="background-color: PaleGreen; color: #000">,</span> <span style="background-color: PaleGreen; color: #000">2</span>)</code></p>
+<p><code>()</code> 内有两个元素，我们可以认为 <code>bar</code> 和 <code>,</code> 中有一个未改变（但不能认为两者都不改变，因为它们已经重新排序）。</p>
+<p>我们想把 <code>bar</code> 看作是未改变的，因为它相比于 <code>,</code> 元素更加重要。在语言不可知的方式下完成这一点存在困难，所以 Difftastic 有一个小的低优先级标点符号元素列表。</p>
+<h2 id="滑块平移"><a class="header" href="#滑块平移">滑块（平移）</a></h2>
+<p>在基于文本的差异分析中，滑块是一个常见的问题，即行与行之间以混乱的方式进行匹配。</p>
+<p>它们通常看起来像这样。差异分析必须任意选择一个包含分隔符的行，但它选择了错误的行。</p>
+<pre><code>+ }
++
++ function foo () {
+  }
+</code></pre>
+<p>git-diff 有一些启发式方法（比如 Patience Diff）降低这种风险，但这个问题仍可能发生。</p>
+<p>在树状差异分析时也有类似的问题。</p>
+<pre><code>;; Before
+A B
+C D
+
+;; After
+A B
+A B
+C D
+</code></pre>
+<p>可能输出：</p>
+<pre><code>A <span style="background-color: PaleGreen; color: #000">B</span>
+<span style="background-color: PaleGreen; color: #000">A</span> B
+C D
+</code></pre>
+<p>理想输出：</p>
+<pre><code>A B
+<span style="background-color: PaleGreen; color: #000">A</span> <span style="background-color: PaleGreen; color: #000">B</span>
+C D
+</code></pre>
+<p>理想情况下，我们更期望将连续节点标记为新的。从最长共子序列算法（LCS）看，这两个选择等价。</p>
+<h2 id="滑块嵌套"><a class="header" href="#滑块嵌套">滑块（嵌套）</a></h2>
+<pre><code>// Before
+old1(old2)
+
+// After
+old1(new1(old2))
+</code></pre>
+<p>可能输出：<code>old1<span style="background-color: PaleGreen; color: #000">(new1</span>(old2)<span style="background-color: PaleGreen; color: #000">)</span></code></p>
+<p>理想输出：<code>old1(<span style="background-color: PaleGreen; color: #000">new1(</span>old2<span style="background-color: PaleGreen; color: #000">)</span>)</code></p>
+<p>正确的答案是取决于语言。大多数语言希望优先使用内部定界符，而 Lisps 与 JSON 则期望使用外部定界符。</p>
+<h2 id="最小化深度改变"><a class="header" href="#最小化深度改变">最小化深度改变</a></h2>
+<pre><code>// Before
+if true {
+  foo(123);
+}
+foo(456);
+
+// After
+foo(789);
+</code></pre>
+<p>我们认为 <code>foo(123)</code> 与 <code>foo(456)</code> 中，哪个与 <code>foo(789)</code> 匹配？Difftastic 优先考虑 <code>foo(456)</code>，因为其优先考虑相同嵌套深度的节点。</p>
+<h2 id="有少量相似处的替代做法"><a class="header" href="#有少量相似处的替代做法">有少量相似处的替代做法</a></h2>
+<pre><code>// Before
+function foo(x) { return x + 1; }
+
+// After
+function bar(y) { baz(y); }
+</code></pre>
+<p>可能结果：<code>function <span style="background-color: PaleGreen; color: #000">bar</span>(<span style="background-color: PaleGreen; color: #000">y</span>) { <span style="background-color: PaleGreen; color: #000">baz(y)</span>; }</code></p>
+<p>在这个例子中，我们删除了一个函数并写了一个完全不同的函数。树状结构差异分析可能会匹配 <code>function</code> 和外部定界符，从而导致高亮许多令人困惑的小变化。</p>
+<p>与滑块一样，替代问题也可能发生在基于文本的行差中。如果有少量的共同行，行差就会陷入困境。但树状结构差异分析的精确、细化行为会使这个问题更加普遍。</p>
+<h2 id="匹配注释中的子字符串"><a class="header" href="#匹配注释中的子字符串">匹配注释中的子字符串</a></h2>
+<pre><code>// Before
+/* The quick brown fox. */
+foobar();
+
+// After
+/* The slow brown fox. */
+foobaz();
+</code></pre>
+<p><code>foobar</code> 和 <code>foobaz</code> 完全不同，它们的共同前缀 <code>fooba</code> 不应该被匹配。然而，为注释匹配共同的前缀或后缀是可取的。</p>
+<h2 id="多行注释"><a class="header" href="#多行注释">多行注释</a></h2>
+<pre><code>// Before
+/* Hello
+ * World. */
+
+// After
+if (x) {
+  /* Hello
+   * World. */
+}
+</code></pre>
+<p>这两个注释的内部内容在技术上是不同的。然而，我们期望把它们当作是相同的。</p>
+<h2 id="文档注释的换行"><a class="header" href="#文档注释的换行">文档注释的换行</a></h2>
+<p>块状评论的前缀并没有什么意义。</p>
+<pre><code>// Before
+/* The quick brown fox jumps 
+ * over the lazy dog. */
+
+// After
+/* The quick brown fox immediately
+ * jumps over the lazy dog. */
+</code></pre>
+<p>里面的内容已经从 <code>jumps * over</code> 变成了 <code>immediately * jumps over</code>。然而，<code>*</code> 是装饰性的，我们并不关心它的移动。</p>
+<h2 id="长字符串的小变化"><a class="header" href="#长字符串的小变化">长字符串的小变化</a></h2>
+<pre><code>// Before
+&quot;&quot;&quot;A very long string
+with lots of words about
+lots of stuff.&quot;&quot;&quot;
+
+// After
+&quot;&quot;&quot;A very long string
+with lots of NOVEL words about
+lots of stuff.&quot;&quot;&quot;
+</code></pre>
+<p>将整个字符串字头高亮为被删除并被一个新的字符串字头取代是正确的。然而，这让人很难看出实际改变了什么。</p>
+<p>很明显，变量名应该被元素化处理，并且注释是安全的，可以显示子字符串的变化。但不清楚如何处理一个 20 行字符串字面值的小变化。</p>
+<p>在空格上分割字符串并加以区别很具有挑战性，但用户仍期望知道字符串内部的空白何时改变。<code>&quot; &quot;</code> 与 <code>&quot;  &quot;</code> 是不同的。</p>
+<h2 id="自动格式化工具的拼写"><a class="header" href="#自动格式化工具的拼写">自动格式化工具的拼写</a></h2>
+<pre><code>// Before
+foo(&quot;looooong&quot;, &quot;also looooong&quot;);
+
+// Before
+foo(
+  &quot;looooong&quot;,
+  &quot;novel&quot;,
+  &quot;also looooong&quot;,
+);
+</code></pre>
+<p>自动格式化（例如 <a href="https://prettier.io/">Prettier</a>）有时会在格式化时添加或删除标点符号，其中逗号和括号最常见。</p>
+<p>语法差异可以忽略空白处的变化，但它必须假定标点符号有意义。这可能导致标点符号的变化被突出显示，而这可能与相关的内容变化相差甚远。</p>
+<h2 id="新空行"><a class="header" href="#新空行">新空行</a></h2>
+<p>空行对于语法差异分析来说是一种挑战。我们要比较的是语法标记，所以我们不会看到空行。</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+
+B
+</code></pre>
+<p>一般来说，我们期望语法差异能够忽略空行。在第一个例子中，这应该不会显示任何变化。</p>
+<p>这有时是有问题的，因为它可以会意外地隐藏被重新格式化的代码。</p>
+<pre><code>// Before
+A
+B
+
+// After
+A
+X
+
+Y
+B
+</code></pre>
+<p>在第二个例子中，我们插入了 X 和 Y 以及一个空行。我们想把空行作为一个补充来高亮。</p>
+<pre><code>// Before
+A
+
+
+B
+
+// After
+A
+X
+B
+</code></pre>
+<p>在第三个例子中，语法差异分析只看到了一个增加。从用户角度来看，也有两个空行被删除。</p>
+<h2 id="无效语法"><a class="header" href="#无效语法">无效语法</a></h2>
+<p>我们不能保证我们得到的输入是有效的语法。即使代码是有效的，它也可能使用解析器不支持的语法。</p>
+<p><strong>Difftastic</strong>：如果发生任何解析错误，Difftastic 将退回到基于文本的差异，以避免差异不完整的语法树。发生这种情况时，文件头会报告错误计数。</p>
+<pre><code>$ difft sample_files/syntax_error_before.js sample_files/syntax_error_after.js
+sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
+...
+</code></pre>
+<p>用户可以选择通过将 <code>DFT_PARSE_ERROR_LIMIT</code> 设置为一个更大的值，加入语法差异分析。在这种模式下，Difftastic 会将树状差异分析的错误节点看作元素，并像通常一样进行树状差异分析。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="贡献"><a class="header" href="#贡献">贡献</a></h1>
+<h2 id="构建-1"><a class="header" href="#构建-1">构建</a></h2>
+<p>用<a href="https://rustup.rs/">rustup</a>安装Rust，然后克隆代码。</p>
+<pre><code>$ git clone git@github.com:Wilfred/difftastic.git
+$ cd difftastic
+</code></pre>
+<p>Difftastic使用<a href="https://doc.rust-lang.org/cargo/">Cargo</a>进行构建。</p>
+<pre><code>$ cargo build
+</code></pre>
+<p>调试构建的速度明显比发布构建的速度慢。对于超过50行的文件，通常建议使用一个优化的构建。</p>
+<pre><code>$ cargo build --release
+</code></pre>
+<h2 id="manual说明书"><a class="header" href="#manual说明书">Manual说明书</a></h2>
+<p>这个网站是用<a href="https://github.com/rust-lang/mdBook/">mdbook</a>。mdbook可以用Cargo安装。</p>
+<pre><code>$ cargo install mdbook
+</code></pre>
+<p>然后你可以使用<code>mdbook</code>二进制文件来建立和在本地运行网站。</p>
+<pre><code>$ cd manual
+$ mdbook serve
+</code></pre>
+<h2 id="api文档"><a class="header" href="#api文档">API文档</a></h2>
+<p>你可以浏览由rustdoc生成的内部API文档<a href="https://difftastic.wilfred.me.uk/rustdoc/difft/">在这里</a>。</p>
+<p>Difftastic的内部文档在docs.rs上没有提供，因为它<a href="https://difftastic.wilfred.me.uk/rustdoc/difft/">不支持二进制工具箱</a>。</p>
+<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
+<pre><code>$ cargo test
+</code></pre>
+<p>在<code>sample_files/</code>中也有几个文件你可以使用。</p>
+<p>测试difftastic的最好方法是在真实项目查看历史。设置<code>GIT_EXTERNAL_DIFF</code>指向你当前的构建。</p>
+<p>例如，你可以在自己的源代码上运行Difftastic。</p>
+<pre><code>$ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
+</code></pre>
+<h2 id="记录"><a class="header" href="#记录">记录</a></h2>
+<p>Difftastic使用<code>pretty_env_logger</code>库来记录一些额外的调试信息。</p>
+<pre><code>$ DFT_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+</code></pre>
+<p>请参阅<a href="https://docs.rs/env_logger/0.9.0/env_logger/"><code>env_logger</code></a>以获得完整的细节。</p>
+<h2 id="调试"><a class="header" href="#调试">调试</a></h2>
+<p>如果你有一个特别慢的文件，你可以使用 <a href="https://github.com/flamegraph-rs/flamegraph">cargo-flamegraph</a> 来查看是哪些函数慢的。</p>
+<pre><code>$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>内存的使用情况也是值得关注，因为图的遍历错误会导致巨大的内存消耗。</p>
+<pre><code>$ /usr/bin/time -v ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+</code></pre>
+<p>如果定时测量有噪音，Linux的<code>perf</code>工具将报告 执行的指令，这也是更加稳定的。</p>
+<pre><code>$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+$ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
+</code></pre>
+<p>还有很多剖析技术在<a href="https://nnethercote.github.io/perf-book/">The Rust性能手册</a>中讨论了。</p>
+<h2 id="发布"><a class="header" href="#发布">发布</a></h2>
+<p>使用Cargo创建一个新的版本，并在git中标记它。Difftastic有一个帮助脚本：</p>
+<pre><code>$ ./scripts/release.sh
+</code></pre>
+<p>现在你可以增加Cargo.toml中的版本，并在
+CHANGELOG.md加一个新的条目。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="包管理"><a class="header" href="#包管理">包管理</a></h1>
+<h2 id="git-subtrees"><a class="header" href="#git-subtrees">Git Subtrees</a></h2>
+<p>Tree-sitter有时被打包在npm上，有时被打包在crates.io上，并且它们的发布频率不一样。Difftastic使用git subtrees（而不是git submodules）来追踪解析器。</p>
+<h2 id="升级解析器"><a class="header" href="#升级解析器">升级解析器</a></h2>
+<p>如果要更新解析器，可以从上游的git仓库拉取提交。例如，下面的命令将更新Java解析器：</p>
+<pre><code>$ git subtree pull --prefix=vendored_parsers/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
+</code></pre>
+<p>如果要查看每个解析器最后一次更新的时间，请使用以下的Shell命令：</p>
+<pre><code>$ for d in $(git log | grep git-subtree-dir | tr -d ' ' | cut -d &quot;:&quot; -f2 | sort); do echo &quot;$d&quot;; git log --pretty=&quot;  %cs&quot; -n 1 $d; done
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="添加解析器"><a class="header" href="#添加解析器">添加解析器</a></h1>
+<h2 id="寻找解析器"><a class="header" href="#寻找解析器">寻找解析器</a></h2>
+<p>Difftastic的新解析器必须完整且合理地维护。</p>
+<p>有许多解析器可用，网站包括<a href="https://tree-sitter.github.io/tree-sitter/#available-parsers">一些著名的解析器列表</a>。</p>
+<h2 id="添加源码"><a class="header" href="#添加源码">添加源码</a></h2>
+<p>一旦你找到一个解析器，需要将其作为git的subtree添加到<code>vendored_parsers/</code>中。我们会使用<a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a>作为例子。</p>
+<pre><code>$ git subtree add --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+</code></pre>
+<h2 id="配置编译过程"><a class="header" href="#配置编译过程">配置编译过程</a></h2>
+<p>Cargo不允许软件包包含<code>Cargo.toml</code>。需要在<code>src/</code>解析器子目录中添加一个符号链接。</p>
+<pre><code>$ cd vendor
+$ ln -s tree-sitter-json/src tree-sitter-json-src
+</code></pre>
+<p>现在你可以通过在<code>build.rs</code>中加入目录，并将解析器添加到构建中。</p>
+<pre><code>TreeSitterParser {
+    name: &quot;tree-sitter-json&quot;,
+    src_dir: &quot;vendored_parsers/tree-sitter-json-src&quot;,
+    extra_files: vec![],
+},
+</code></pre>
+<p>如果你的解析器包括用于语法的自定义C或C++文件（例如，一个<code>scanner.cc</code>），请将它添加到<code>extra_files</code>中。</p>
+<h2 id="配置解析器"><a class="header" href="#配置解析器">配置解析器</a></h2>
+<p>为你的语言在<code>tree_sitter_parser.rs</code>中增加一个条目。</p>
+<pre><code>Json =&gt; {
+    let language = unsafe { tree_sitter_json() };
+    TreeSitterConfig {
+        name: &quot;JSON&quot;,
+        language,
+        atom_nodes: vec![&quot;string&quot;].into_iter().collect(),
+        delimiter_tokens: vec![(&quot;{&quot;, &quot;}&quot;), (&quot;[&quot;, &quot;]&quot;)],
+        highlight_query: ts::Query::new(
+            language,
+            include_str!(&quot;../vendored_parsers/highlights/json.scm&quot;),
+        )
+        .unwrap(),
+    }
+}
+</code></pre>
+<p><code>name</code>是用户节目中显示的可读名称。</p>
+<p><code>atom_nodes</code>是一个树形节点名称的列表，这些节点应被视为原子。即使这些节点有子节点，也应被视为原子。这对于字符串表面之或插值字符串非常常见的，因为在这种情况下，节点可能有用来表示开头和结尾的引用号。</p>
+<p>如果你没有设置<code>atom_nodes</code>，你可能会主要添加/删除的内容显示为白色。这通常表面了子节点的父节点应该被当作原子。</p>
+<p><code>delimiter_tokens</code>是Difftastic存储在闭包节点上的定界符。这使得Difftastic能够区分划线符号和语言中的其它标点符号。</p>
+<p>如果你不设置<code>delimiter_tokens</code>，Difftastic会单独考虑这些标记，并会认为是添加了<code>(</code>，但是<code>)</code>没有发生变化。</p>
+<p>你可以使用<code>difft --dump-ts foo.json</code>来查看树状解析器的结果，并使用<code>difft --dump-syntax foo.json</code>来确认你已经正确设置了原子和定界符。</p>
+<h2 id="配置滑块"><a class="header" href="#配置滑块">配置滑块</a></h2>
+<p>请为你的语言在<code>sliders.rs</code>中添加入口。</p>
+<h2 id="配置语言检测"><a class="header" href="#配置语言检测">配置语言检测</a></h2>
+<p>更新<code>guess_language.rs</code>中的<code>from_extension</code>以检测新的语言。</p>
+<pre><code>&quot;json&quot; =&gt; Some(Json),
+</code></pre>
+<p>也可能有与你的语言相关的文件名或shebangs。<a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml">GitHub的语言定义</a>是针对常见文件扩展名的一个有用来源。</p>
+<h2 id="语法高亮可选"><a class="header" href="#语法高亮可选">语法高亮（可选）</a></h2>
+<p>要为你的语言添加语法高亮，如果有的话，你还需要在<code>queries/highlights.scm</code>文件一个符号链接。</p>
+<pre><code>$ cd vendored_parsers/highlights
+$ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
+</code></pre>
+<h2 id="添加一个回归测试"><a class="header" href="#添加一个回归测试">添加一个回归测试</a></h2>
+<p>最后，为你的语言添加一个回归测试，这样可以确保你的测试文件的输出不会意外改变。</p>
+<p>回归测试文件存在于<code>sample_files/</code>中，其形式为
+<code>foo_before.abc</code>和<code>foo_after.abc</code>。</p>
+<pre><code>$ nano simple_before.json
+$ nano simple_after.json
+</code></pre>
+<p>运行回归测试脚本并更新<code>.expect</code>文件。</p>
+<pre><code>$ ./sample_files/compare_all.sh
+$ cp sample_files/compare.result sample_files/compare.expected
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="词典"><a class="header" href="#词典">词典</a></h1>
+<p><strong>原子</strong>: 原子是Difftastic语法树结构中的一个项目，没有子项。它代表着字面量、变量名以及注释。 另见'list'。</p>
+<p><strong>分隔符</strong>: 即一个成对的语法。一个列表有一个开放定界符和一个封闭定界符，例如<code>[</code>和<code>]</code>。分隔符不可以是标点符号（例如，<code>begin</code>和<code>end</code>）以及空字符串（例如：infix语法转换为Difftastic的语法树）。</p>
+<p><strong>LHS</strong>: 即Left-hand side。Difftastic会对比两个文件，而LHS是指第一个文件。另见'RHS'。</p>
+<p><strong>列表</strong>: 列表是Difftastic语法树结构中的一个项目，它有一个开放定界符、子项和一个封闭定界符。它代表表达式和函数定义等东西。另见'atom'。</p>
+<p><strong>注意项</strong>: 一个增加或一个减少。如果语法只出现在被比较的两个项目中的一个，那么它就是一个注意项。</p>
+<p><strong>RHS</strong>: 即Right-hand side。Difftastic会对比两个文件，而RHS是指第一个文件。另见'LHS'。</p>
+<p><strong>根</strong>: 一个没有父节点的语法树。根代表被差异的文件中的顶级定义。</p>
+<p><strong>语法节点</strong>: Difftastic的语法树结构中的一个项目。可以是一个原子或一个列表。</p>
+<p><strong>字符</strong>: 一小段由Difftastic跟踪的语法（例如<code>$x</code>,
+<code>function</code> 或 <code>]</code>），用于高亮显示和对齐显示。它是原子或者是一个非空的分隔符。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="其它项目"><a class="header" href="#其它项目">其它项目</a></h1>
+<p>有许多不同的工具可以比较文件。本说明书的这一个部分讨论了其他影响到Difftastic的工具。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="树状差异分析"><a class="header" href="#树状差异分析">树状差异分析</a></h1>
+<p>本页总结了一些其他可用的树形差异分析工具。</p>
+<p>如果你很着急，可以先看看Autochrome。它的能力很强，并且对设计有着很好的描述。</p>
+<p>如果你对学术文献的摘要感兴趣，<a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">这个帖子</a>（和它<a href="http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html">附带的论文</a>--在CC BY-NC的许可下可以被复制）将是一个很好的资源。</p>
+<h2 id="json-diff-2012"><a class="header" href="#json-diff-2012">json-diff (2012)</a></h2>
+<p>语言：JSON
+算法：Pairwise comparison<br />
+输出：CLI colours</p>
+<p><a href="https://github.com/andreyvit/json-diff">json-diff</a>展示了JSON文件的结构层面的差异分析。如果两者是不完全匹配的，那么它们的子树将是完全不同。例如，<code>&quot;foo&quot;</code>和<code>[&quot;foo&quot;]</code>是完全不同的。</p>
+<p>可以注意的是，json-diff的结果显示十分方便查看。</p>
+<h2 id="gumtree-2014"><a class="header" href="#gumtree-2014">GumTree (2014)</a></h2>
+<p>语言：<a href="https://github.com/GumTreeDiff/gumtree/wiki/Languages">约有10种编程语言</a>
+分析器：多种，包括 <a href="https://www.srcml.org/">srcML</a><br />
+算法：Top-down，随后bottom-up
+输出：HTML，Swing GUI或者text</p>
+<p><a href="https://github.com/GumTreeDiff/gumtree">GumTree</a>可以分析多种编程语言，并且进行基于树结构的差异分析，输出一个HTML的结果界面。</p>
+<p>GumTree算法在Falleri等人的相关论文《细粒度源码差异分析》中有所描述（<a href="http://doi.acm.org/10.1145/2642937.2642982">DOI</a>,
+<a href="https://hal.archives-ouvertes.fr/hal-01054552/document">PDF</a>）。它对相同的子树进行贪婪的自下而上的搜索，随后进行自下而上的搜索来匹配其余的子树。</p>
+<h2 id="tree-diff-2017"><a class="header" href="#tree-diff-2017">Tree Diff (2017)</a></h2>
+<p>语言：S-表达式数据格式
+算法：A*搜索
+输出：合并后的S-表达式文件</p>
+<p>Tristan Hume在他2017年实习期间和在Jane Street期间写了一个树状差分算法。源代码是不可以用的，但是<a href="https://thume.ca/2017/06/17/tree-diffing/">他写了一篇博客</a>来对该设计进行了深入讨论。</p>
+<p>该项目找到了Jane Street用作配置文件的s-表达式文件之间的最小差异。它使用了A*搜索来找到他们之间最小的差异，兵建立一个具有<code>:date-switch</code>进行标记差异的新的s-表达式文件。</p>
+<p>（Jane Street一样有patdiff，但那似乎是一个面向行的差异分析，并不带着一些空格及整数差异显示。这个工具它并不理解在<code>&quot;foo &quot;</code>中的空格是具有意义的。）</p>
+<h2 id="autochrome-2017"><a class="header" href="#autochrome-2017">Autochrome (2017)</a></h2>
+<p>语言：Clojure
+分析器：Custom，并保留注释<br />
+算法：Dijkstra算法（A*搜索的先前版本）<br />
+输出：HTML</p>
+<p><a href="https://fazzone.github.io/autochrome.html">Autochrome</a>使用了一个定制的、保留注释的解析器来分析Clojure。Autochrome使用Dijkstra算法来比较语法树之间的差异。</p>
+<p>Auto chrome的网页包括该算法的工作实例以及对该设计权衡的讨论。这是一个用来了解树形差异分析的重要资源。</p>
+<h2 id="graphtage-2020"><a class="header" href="#graphtage-2020">graphtage (2020)</a></h2>
+<p>语言：JSON, XML, HTML, YAML, plist, and CSS<br />
+解析器：json5, pyYAML, ignores comments<br />
+算法：Levenshtein距离
+输出：CLI colours</p>
+<p><a href="https://blog.trailofbits.com/2020/08/28/graphtage/">graphtage</a>通过将结构化数据解析为通用文件格式，随后进行差异分析。它甚至允许比较JSON文件和YAML文件之间的区别。</p>
+<p>与json-diff一样，它不认为 <code>[&quot;foo&quot;]</code>和<code>&quot;foo&quot;</code>之间有任何相似之处。</p>
+<h2 id="diffsitter-2020"><a class="header" href="#diffsitter-2020">Diffsitter (2020)</a></h2>
+<p>解析器：<a href="https://tree-sitter.github.io/tree-sitter/">Tree-sitter</a>
+算法：LCS（Longest-common-subsequence）<br />
+输出：CLI colours</p>
+<p><a href="https://github.com/afnanenayet/diffsitter">Diffsitter</a>是另一个使用了tree-sitter解析器的差异分析工具。它使用了<a href="https://github.com/afnanenayet/diffsitter/blob/b0fd72612c6fcfdb8c061d3afa3bea2b0b754f33/src/ast.rs#L310-L313">LCS分析语法树中的子树</a>。</p>
+<h2 id="sdiff-2021"><a class="header" href="#sdiff-2021">sdiff (2021)</a></h2>
+<p>语言：Scheme
+解析器：Scheme内置的<code>read</code>，并忽略注释<br />
+算法：Chawathe论文中的MH-Diff<br />
+输出：CLI colours</p>
+<p><a href="https://archive.fosdem.org/2021/schedule/event/sexpressiondiff/">Semantically meaningful S-expression diff: Tree-diff for lisp source
+code</a>
+在FOSDEM 2021中被发表。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

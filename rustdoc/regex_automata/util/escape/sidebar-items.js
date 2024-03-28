@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["DebugByte","Provides a convenient `Debug` implementation for a `u8`."],["DebugHaystack","Provides a convenient `Debug` implementation for `&[u8]`."]]};
