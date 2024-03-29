@@ -20,7 +20,7 @@ indent_size = 4
 
 [*.{c,cc,h}]
 indent_style = space
-indent_size = 4
+indent_size = 2
 
 [*.{py,pyi}]
 indent_style = space
