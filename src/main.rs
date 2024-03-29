@@ -47,6 +47,7 @@ use log::info;
 use mimalloc::MiMalloc;
 use options::FilePermissions;
 use options::USAGE;
+use yansi::Paint;
 
 use crate::conflicts::apply_conflict_markers;
 use crate::conflicts::START_LHS_MARKER;
@@ -76,7 +77,6 @@ use std::path::Path;
 use std::{env, thread};
 
 use humansize::{format_size, BINARY};
-use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use strum::IntoEnumIterator;
 use typed_arena::Arena;

@@ -7,8 +7,7 @@ use std::{
 
 use line_numbers::LineNumber;
 use line_numbers::SingleLineSpan;
-use owo_colors::{OwoColorize, Style};
-use yansi::Paint;
+use yansi::{Paint, Style};
 
 use crate::{
     constants::Side,
@@ -52,7 +51,7 @@ fn format_missing_line_num(
 
     let mut style = Style::new();
     if use_color {
-        style = style.dimmed();
+        style = style.dim();
     }
 
     let num_digits = prev_num.display().len();
@@ -61,7 +60,7 @@ fn format_missing_line_num(
         (if after_end { " " } else { "." }).repeat(num_digits),
         width = column_width - 1
     )
-    .style(style)
+    .paint(style)
     .to_string()
 }
 
@@ -99,7 +98,7 @@ fn display_single_column(
         let mut formatted_line = String::with_capacity(line.len());
         formatted_line.push_str(
             &format_line_num_padded((i as u32).into(), column_width)
-                .style(style)
+                .paint(style)
                 .to_string(),
         );
         formatted_line.push_str(line);
@@ -618,7 +617,7 @@ mod tests {
 
         assert_eq!(
             format_missing_line_num(0.into(), &source_dims, Side::Left, true),
-            ". ".dimmed().to_string()
+            ". ".dim().to_string()
         );
         assert_eq!(
             format_missing_line_num(0.into(), &source_dims, Side::Left, false),
@@ -638,7 +637,7 @@ mod tests {
 
         assert_eq!(
             format_missing_line_num(1.into(), &source_dims, Side::Left, true),
-            "  ".dimmed().to_string()
+            "  ".dim().to_string()
         );
         assert_eq!(
             format_missing_line_num(1.into(), &source_dims, Side::Left, false),

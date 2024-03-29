@@ -195,6 +195,8 @@ impl Default for Theme {
         // let novel_style_left = Style::new().on_color(XtermColors::from(224));
         // let novel_style_right = Style::new().on_color(XtermColors::from(194));
         let mut styles = HashMap::new();
+
+        // insert standard stiles
         insert_style_combos(
             &mut styles,
             "normal",
@@ -245,6 +247,7 @@ impl Default for Theme {
             rhs_novel_color,
         );
 
+        // insert custom styles
         styles.insert("tree_sitter_error".to_string(), Style::new().magenta());
 
         Theme {

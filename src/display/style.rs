@@ -4,17 +4,13 @@ use std::cmp::{max, min};
 
 use line_numbers::LineNumber;
 use line_numbers::SingleLineSpan;
-use owo_colors::{OwoColorize, Style};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
+use yansi::Paint;
+use yansi::Style;
 
-use crate::parse::syntax::StringKind;
 use crate::{
-    constants::Side,
-    hash::DftHashMap,
-    lines::byte_len,
-    options::DisplayOptions,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-    summary::FileFormat,
+    constants::Side, hash::DftHashMap, lines::byte_len, options::DisplayOptions,
+    parse::syntax::MatchedPos, summary::FileFormat,
 };
 
 #[derive(Clone, Copy, Debug)]
@@ -193,7 +189,7 @@ pub(crate) fn split_and_apply(
                     min(byte_len(line_part), end_col - part_start),
                     tab_width,
                 );
-                res.push_str(&span_s.style(*style).to_string());
+                res.push_str(&span_s.paint(*style).to_string());
             }
             prev_style_end = end_col;
         }
@@ -248,12 +244,12 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)], default_style: &St
         if i < start_col {
             let span_s = substring_by_byte(line, i, start_col);
             // styled_line.push_str(span_s);
-            styled_line.push_str(&span_s.style(*default_style).to_string());
+            styled_line.push_str(&span_s.paint(*default_style).to_string());
         }
 
         // Apply style to the substring in this span.
         let span_s = substring_by_byte(line, start_col, min(line_bytes, end_col));
-        styled_line.push_str(&span_s.style(*style).to_string());
+        styled_line.push_str(&span_s.paint(*style).to_string());
         i = end_col;
     }
 
@@ -261,7 +257,7 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)], default_style: &St
     if i < line_bytes {
         let span_s = substring_by_byte(line, i, line_bytes);
         // styled_line.push_str(span_s);
-        styled_line.push_str(&span_s.style(*default_style).to_string());
+        styled_line.push_str(&span_s.paint(*default_style).to_string());
     }
     styled_line
 }
@@ -385,7 +381,7 @@ pub(crate) fn apply_line_number_color(
     if display_options.use_color {
         // The goal here is to choose a style for line numbers that is
         // visually distinct from content.
-        s.style(*display_options.theme.lineno_style(is_novel, side))
+        s.paint(*display_options.theme.lineno_style(is_novel, side))
             .to_string()
     } else {
         s.to_string()
@@ -415,14 +411,14 @@ pub(crate) fn header(
 
     let mut trailer = format!(" --- {}{}", divider, file_format);
     if display_options.use_color {
-        trailer = trailer.dimmed().to_string();
+        trailer = trailer.dim().to_string();
     }
 
     match extra_info {
         Some(extra_info) if hunk_num == 1 => {
             let mut extra_info = extra_info.clone();
             if display_options.use_color {
-                extra_info = extra_info.dimmed().to_string();
+                extra_info = extra_info.dim().to_string();
             }
 
             format!("{}{}\n{}", display_path_pretty, trailer, extra_info)
