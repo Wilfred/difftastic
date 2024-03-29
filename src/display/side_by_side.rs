@@ -506,7 +506,8 @@ pub(crate) fn print(
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
                     ),
-                    None => vec![" ".repeat(source_dims.content_width)],
+                    // NOTE: do not pad the below string, it will cause excess blank lines
+                    None => vec!["".into()],
                 };
 
                 for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
