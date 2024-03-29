@@ -150,9 +150,9 @@ pub(crate) fn split_and_apply(
                 let mut parts = String::with_capacity(part.len() + pad);
                 parts.push_str(&part);
 
-                if matches!(side, Side::Left) {
-                    parts.push_str(&" ".repeat(pad));
-                }
+                // if matches!(side, Side::Left) {
+                parts.push_str(&" ".repeat(pad));
+                // }
                 parts
             })
             .collect();
@@ -215,8 +215,10 @@ pub(crate) fn split_and_apply(
             res.push_str(span_s);
         }
 
-        if matches!(side, Side::Left) {
-            res.push_str(&" ".repeat(pad));
+        match side {
+            Side::Left => res.push_str(&" ".repeat(pad)),
+            // TODO: replace the magic number 8 with the actual value, probably lineno length plus a gutter
+            Side::Right => res.push_str(&" ".repeat(pad - 8)),
         }
 
         styled_parts.push(res);
@@ -228,7 +230,7 @@ pub(crate) fn split_and_apply(
 
 /// Return a copy of `line` with styles applied to all the spans
 /// specified.
-fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
+fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)], default_style: &Style) -> String {
     let line_bytes = byte_len(line);
     let mut styled_line = String::with_capacity(line.len());
     let mut i = 0;
@@ -244,7 +246,9 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
         // Unstyled text before the next span.
         if i < start_col {
-            styled_line.push_str(substring_by_byte(line, i, start_col));
+            let span_s = substring_by_byte(line, i, start_col);
+            // styled_line.push_str(span_s);
+            styled_line.push_str(&span_s.style(*default_style).to_string());
         }
 
         // Apply style to the substring in this span.
@@ -256,7 +260,8 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     // Unstyled text after the last span.
     if i < line_bytes {
         let span_s = substring_by_byte(line, i, line_bytes);
-        styled_line.push_str(span_s);
+        // styled_line.push_str(span_s);
+        styled_line.push_str(&span_s.style(*default_style).to_string());
     }
     styled_line
 }
@@ -280,7 +285,11 @@ fn group_by_line(
 /// styled strings, including trailing newlines.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
-fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String> {
+fn style_lines(
+    lines: &[&str],
+    styles: &[(SingleLineSpan, Style)],
+    default_style: &Style,
+) -> Vec<String> {
     let mut ranges_by_line = group_by_line(styles);
 
     let mut styled_lines = Vec::with_capacity(lines.len());
@@ -290,7 +299,8 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
             .remove::<LineNumber>(&(i as u32).into())
             .unwrap_or_default();
 
-        styled_line.push_str(&apply_line(line, &ranges));
+        styled_line.push_str(&apply_line(line, &ranges, default_style));
+        // TODO: apply background color to line here or in the apply_line function
         styled_line.push('\n');
         styled_lines.push(styled_line);
     }
@@ -305,107 +315,7 @@ pub(crate) fn color_positions(
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
     for pos in positions {
-        let mut style = Style::new();
-        match pos.kind {
-            MatchKind::UnchangedToken { highlight, .. } | MatchKind::Ignored { highlight } => {
-                if display_options.syntax_highlight {
-                    match highlight {
-                        TokenKind::Delimiter => {
-                            style = *display_options.theme.style("delimiter", false, side)
-                        }
-                        TokenKind::Atom(atom_kind) => match atom_kind {
-                            AtomKind::Normal => {
-                                style = *display_options.theme.style("normal", false, side);
-                            }
-                            AtomKind::String(StringKind::StringLiteral) => {
-                                style = *display_options.theme.style("string_literal", false, side);
-                            }
-                            AtomKind::String(StringKind::Text) => {
-                                style = *display_options.theme.style("text", false, side);
-                            }
-                            AtomKind::Type => {
-                                style = *display_options.theme.style("type", false, side);
-                            }
-                            AtomKind::Comment => {
-                                style = *display_options.theme.style("comment", false, side);
-                            }
-                            AtomKind::Keyword => {
-                                style = *display_options.theme.style("keyword", false, side);
-                            }
-                            AtomKind::TreeSitterError => {
-                                style =
-                                    *display_options
-                                        .theme
-                                        .style("tree_sitter_error", false, side);
-                            }
-                        },
-                    }
-                }
-            }
-            MatchKind::Novel { highlight, .. } => {
-                style = *display_options.theme.default_style(true, side);
-
-                // TODO: determine if we want to only show these when syntax highlighting is on
-                if display_options.syntax_highlight {
-                    match highlight {
-                        TokenKind::Delimiter => {
-                            style = *display_options.theme.style("delimiter", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::Normal) => {
-                            style = *display_options.theme.style("normal", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::String(StringKind::StringLiteral)) => {
-                            style = *display_options.theme.style("string_literal", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::String(StringKind::Text)) => {
-                            style = *display_options.theme.style("text", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::Type) => {
-                            style = *display_options.theme.style("type", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::Comment) => {
-                            style = *display_options.theme.style("comment", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::Keyword) => {
-                            style = *display_options.theme.style("keyword", true, side)
-                        }
-                        TokenKind::Atom(AtomKind::TreeSitterError) => {
-                            style = *display_options.theme.style("tree_sitter_error", true, side)
-                        }
-                    }
-                }
-
-                // if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
-                //     style = *display_options.theme.style("comment", true, side);
-                // }
-            }
-            MatchKind::NovelWord { highlight } => {
-                // style = novel_style(style, side, display_options.background_color).bold();
-                style = *display_options.theme.default_style(true, side);
-
-                // Underline novel words inside comments in code, but
-                // don't apply it to every single line in plaintext.
-                if matches!(file_format, FileFormat::SupportedLanguage(_)) {
-                    style = style.underline();
-                }
-
-                if display_options.syntax_highlight
-                    && matches!(highlight, TokenKind::Atom(AtomKind::Comment))
-                {
-                    style = style.italic();
-                }
-            }
-            MatchKind::NovelLinePart { highlight, .. } => {
-                // style = novel_style_bg(style, side, display_options.background_color);
-                style = *display_options.theme.default_style(true, side);
-
-                if display_options.syntax_highlight
-                    && matches!(highlight, TokenKind::Atom(AtomKind::Comment))
-                {
-                    style = style.italic();
-                }
-            }
-        };
+        let style = *display_options.theme.style_by_type(&pos.kind, side);
         styles.push((pos.pos, style));
     }
     styles
@@ -420,7 +330,11 @@ pub(crate) fn apply_colors(
 ) -> Vec<String> {
     let styles = color_positions(side, display_options, file_format, positions);
     let lines = s.lines().collect::<Vec<_>>();
-    style_lines(&lines, &styles)
+    style_lines(
+        &lines,
+        &styles,
+        display_options.theme.default_style(true, side),
+    )
 }
 
 fn apply_header_color(

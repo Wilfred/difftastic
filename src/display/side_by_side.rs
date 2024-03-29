@@ -8,6 +8,7 @@ use std::{
 use line_numbers::LineNumber;
 use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
+use yansi::Paint;
 
 use crate::{
     constants::Side,
@@ -432,6 +433,15 @@ pub(crate) fn print(
                 match rhs_line_num {
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
+
+                        let rhs_line = if rhs_lines_with_novel.contains(rhs_line_num) {
+                            // TODO: replace the argument to on_fixed with the color from the theme
+                            Paint::on_fixed(&rhs_line, 194).wrap().to_string()
+                        } else {
+                            rhs_line.to_string()
+                        };
+
+                        // TODO: add line bg color here
                         if same_lines {
                             print!("{}{}", display_rhs_line_num, rhs_line);
                         } else {
@@ -452,6 +462,15 @@ pub(crate) fn print(
                 match lhs_line_num {
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
+
+                        let lhs_line = if lhs_lines_with_novel.contains(lhs_line_num) {
+                            // TODO: replace the argument to on_fixed with the color from the theme
+                            Paint::on_fixed(&lhs_line, 224).wrap().to_string()
+                        } else {
+                            lhs_line.to_string()
+                        };
+
+                        // TODO: add line bg color here
                         if same_lines {
                             print!("{}{}", display_lhs_line_num, lhs_line);
                         } else {
@@ -484,7 +503,7 @@ pub(crate) fn print(
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
                     ),
-                    None => vec!["".into()],
+                    None => vec![" ".repeat(source_dims.content_width)],
                 };
 
                 for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
@@ -493,7 +512,8 @@ pub(crate) fn print(
                 {
                     let lhs_line =
                         lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width));
-                    let rhs_line = rhs_line.unwrap_or_else(|| "".into());
+                    let rhs_line =
+                        rhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width));
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
                     } else {
@@ -535,7 +555,24 @@ pub(crate) fn print(
                         s
                     };
 
-                    println!("{}{}{}{}{}", lhs_num, lhs_line, SPACER, rhs_num, rhs_line);
+                    println!(
+                        "{}{}{}{}{}",
+                        lhs_num,
+                        match lhs_line_num {
+                            Some(line_num) if lhs_lines_with_novel.contains(line_num) =>
+                            // TODO: replace the argument to on_fixed with the color from the theme
+                                Paint::on_fixed(&lhs_line, 224).wrap().to_string(),
+                            _ => lhs_line,
+                        },
+                        SPACER,
+                        rhs_num,
+                        match rhs_line_num {
+                            Some(line_num) if rhs_lines_with_novel.contains(line_num) =>
+                            // TODO: replace the argument to on_fixed with the color from the theme
+                                Paint::on_fixed(&rhs_line, 194).wrap().to_string(),
+                            _ => rhs_line,
+                        }
+                    );
                 }
             }
 
