@@ -1,4 +1,4 @@
-use yansi::{Color, Style};
+use yansi::{Color, Paint, Style};
 
 use crate::{
     constants::Side,
@@ -14,6 +14,10 @@ type StyleMap = HashMap<String, Style>;
 /// use light or dark at theme load time.
 #[derive(Debug, Clone)]
 pub(crate) struct Theme {
+    /// the default background color for deleted lines
+    pub(crate) novel_bg_left: Color,
+    /// the default background color for added lines
+    pub(crate) novel_bg_right: Color,
     pub(crate) base_style: Style,
     pub(crate) novel_style_left: Style,
     pub(crate) novel_style_right: Style,
@@ -44,46 +48,15 @@ impl Theme {
         }
     }
 
+    /// This returns a style from the defined theme for a given kind, novelty, and side.
+    ///
+    /// Alternately, it attempts to fallback to an appropriate color so users can sparsely
+    /// define themes.
+    ///
     /// try to match <name>_<novel>_<side>
     /// try to match <name>_<novel>
     /// try to match <name>
     /// if none of these match, fallback to defaults
-    pub(crate) fn style(&self, name: &str, novel: bool, side: Side) -> &Style {
-        if let Some(full_style) = self.styles.get(&format!(
-            "{}{}_{}",
-            name,
-            match novel {
-                true => "_novel",
-                false => "",
-            },
-            match side {
-                Side::Left => "left",
-                Side::Right => "right",
-            }
-        )) {
-            return full_style;
-        }
-
-        // if let Some(side_less_style) = self.styles.get(&format!(
-        //     "{}{}",
-        //     name,
-        //     match novel {
-        //         true => "_novel",
-        //         false => "",
-        //     },
-        // )) {
-        //     return side_less_style;
-        // }
-
-        if let Some(bare_style) = self.styles.get(name) {
-            return bare_style;
-        } else {
-            &self.base_style
-        }
-
-        // self.default_style(novel, side)
-    }
-
     pub(crate) fn style_by_type(&self, kind: &MatchKind, side: Side) -> &Style {
         // TODO: take syntax coloring preference into account as well as file type
         //  // Underline novel words inside comments in code, but
@@ -190,13 +163,16 @@ impl Default for Theme {
     ///
     /// We'll allow setting up user provided, custom color themes later.
     fn default() -> Self {
-        let lhs_novel_color = Color::BrightRed;
-        let rhs_novel_color = Color::BrightGreen;
-        // let novel_style_left = Style::new().on_color(XtermColors::from(224));
-        // let novel_style_right = Style::new().on_color(XtermColors::from(194));
+        // default background colors
+        let novel_bg_left = Color::Fixed(224);
+        let novel_bg_right = Color::Fixed(194);
+        // default background highlight for sub-line differences
+        let lhs_novel_color = Color::Fixed(217);
+        let rhs_novel_color = Color::Fixed(157);
+
         let mut styles = HashMap::new();
 
-        // insert standard stiles
+        // insert standard styles
         insert_style_combos(
             &mut styles,
             "normal",
@@ -221,14 +197,14 @@ impl Default for Theme {
         insert_style_combos(
             &mut styles,
             "comment",
-            Style::new().italic(),
+            Style::new().fixed(248).italic(),
             lhs_novel_color,
             rhs_novel_color,
         );
         insert_style_combos(
             &mut styles,
             "keyword",
-            Style::new().magenta(),
+            Style::new().bright_blue(),
             lhs_novel_color,
             rhs_novel_color,
         );
@@ -242,15 +218,20 @@ impl Default for Theme {
         insert_style_combos(
             &mut styles,
             "delimiter",
-            Style::new().magenta(),
+            Style::new().yellow(),
             lhs_novel_color,
             rhs_novel_color,
         );
 
         // insert custom styles
         styles.insert("tree_sitter_error".to_string(), Style::new().magenta());
+        styles
+            .insert("comment".to_string(), Style::new().fixed(248))
+            .italic();
 
         Theme {
+            novel_bg_left,
+            novel_bg_right,
             base_style: yansi::Style::default(),
             novel_style_left: Style::new().bg(lhs_novel_color),
             novel_style_right: Style::new().bg(rhs_novel_color),

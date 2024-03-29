@@ -435,7 +435,9 @@ pub(crate) fn print(
 
                         let rhs_line = if rhs_lines_with_novel.contains(rhs_line_num) {
                             // TODO: replace the argument to on_fixed with the color from the theme
-                            Paint::on_fixed(&rhs_line, 194).wrap().to_string()
+                            Paint::bg(&rhs_line, display_options.theme.novel_bg_right)
+                                .wrap()
+                                .to_string()
                         } else {
                             rhs_line.to_string()
                         };
@@ -464,7 +466,9 @@ pub(crate) fn print(
 
                         let lhs_line = if lhs_lines_with_novel.contains(lhs_line_num) {
                             // TODO: replace the argument to on_fixed with the color from the theme
-                            Paint::on_fixed(&lhs_line, 224).wrap().to_string()
+                            Paint::bg(&lhs_line, display_options.theme.novel_bg_left)
+                                .wrap()
+                                .to_string()
                         } else {
                             lhs_line.to_string()
                         };
@@ -512,7 +516,7 @@ pub(crate) fn print(
                     let lhs_line =
                         lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width));
                     let rhs_line =
-                        rhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width));
+                        rhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width - 8));
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
                     } else {
@@ -560,7 +564,9 @@ pub(crate) fn print(
                         match lhs_line_num {
                             Some(line_num) if lhs_lines_with_novel.contains(line_num) =>
                             // TODO: replace the argument to on_fixed with the color from the theme
-                                Paint::on_fixed(&lhs_line, 224).wrap().to_string(),
+                                Paint::bg(&lhs_line, display_options.theme.novel_bg_left)
+                                    .wrap()
+                                    .to_string(),
                             _ => lhs_line,
                         },
                         SPACER,
@@ -568,7 +574,9 @@ pub(crate) fn print(
                         match rhs_line_num {
                             Some(line_num) if rhs_lines_with_novel.contains(line_num) =>
                             // TODO: replace the argument to on_fixed with the color from the theme
-                                Paint::on_fixed(&rhs_line, 194).wrap().to_string(),
+                                Paint::bg(&rhs_line, display_options.theme.novel_bg_right)
+                                    .wrap()
+                                    .to_string(),
                             _ => rhs_line,
                         }
                     );

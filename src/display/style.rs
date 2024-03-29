@@ -146,9 +146,9 @@ pub(crate) fn split_and_apply(
                 let mut parts = String::with_capacity(part.len() + pad);
                 parts.push_str(&part);
 
-                // if matches!(side, Side::Left) {
-                parts.push_str(&" ".repeat(pad));
-                // }
+                if matches!(side, Side::Left) {
+                    parts.push_str(&" ".repeat(pad));
+                }
                 parts
             })
             .collect();
