@@ -1,5 +1,7 @@
 //! Inline, or "unified" diff display.
 
+use yansi::Paint;
+
 use crate::{
     constants::Side,
     display::context::{calculate_after_context, calculate_before_context, opposite_positions},
@@ -110,7 +112,14 @@ pub(crate) fn print(
                         Side::Left,
                         display_options,
                     ),
-                    lhs_colored_lines[lhs_line.as_usize()]
+                    // wrap bg color here
+                    // TODO: might need to extend lines so background color shows up on right side
+                    Paint::bg(
+                        &lhs_colored_lines[lhs_line.as_usize()],
+                        display_options.theme.novel_bg_left
+                    )
+                    .wrap()
+                    .to_string()
                 );
             }
         }
@@ -124,7 +133,14 @@ pub(crate) fn print(
                         Side::Right,
                         display_options,
                     ),
-                    rhs_colored_lines[rhs_line.as_usize()]
+                    // wrap bg color here
+                    // TODO: might need to extend lines so background color shows up on right side
+                    Paint::bg(
+                        &rhs_colored_lines[rhs_line.as_usize()],
+                        display_options.theme.novel_bg_right
+                    )
+                    .wrap()
+                    .to_string()
                 );
             }
         }

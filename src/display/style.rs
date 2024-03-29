@@ -226,7 +226,7 @@ pub(crate) fn split_and_apply(
 
 /// Return a copy of `line` with styles applied to all the spans
 /// specified.
-fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)], default_style: &Style) -> String {
+fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     let line_bytes = byte_len(line);
     let mut styled_line = String::with_capacity(line.len());
     let mut i = 0;
@@ -243,8 +243,7 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)], default_style: &St
         // Unstyled text before the next span.
         if i < start_col {
             let span_s = substring_by_byte(line, i, start_col);
-            // styled_line.push_str(span_s);
-            styled_line.push_str(&span_s.paint(*default_style).to_string());
+            styled_line.push_str(span_s);
         }
 
         // Apply style to the substring in this span.
@@ -256,8 +255,7 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)], default_style: &St
     // Unstyled text after the last span.
     if i < line_bytes {
         let span_s = substring_by_byte(line, i, line_bytes);
-        // styled_line.push_str(span_s);
-        styled_line.push_str(&span_s.paint(*default_style).to_string());
+        styled_line.push_str(span_s);
     }
     styled_line
 }
@@ -281,11 +279,7 @@ fn group_by_line(
 /// styled strings, including trailing newlines.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
-fn style_lines(
-    lines: &[&str],
-    styles: &[(SingleLineSpan, Style)],
-    default_style: &Style,
-) -> Vec<String> {
+fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String> {
     let mut ranges_by_line = group_by_line(styles);
 
     let mut styled_lines = Vec::with_capacity(lines.len());
@@ -295,7 +289,7 @@ fn style_lines(
             .remove::<LineNumber>(&(i as u32).into())
             .unwrap_or_default();
 
-        styled_line.push_str(&apply_line(line, &ranges, default_style));
+        styled_line.push_str(&apply_line(line, &ranges));
         // TODO: apply background color to line here or in the apply_line function
         styled_line.push('\n');
         styled_lines.push(styled_line);
@@ -326,11 +320,7 @@ pub(crate) fn apply_colors(
 ) -> Vec<String> {
     let styles = color_positions(side, display_options, file_format, positions);
     let lines = s.lines().collect::<Vec<_>>();
-    style_lines(
-        &lines,
-        &styles,
-        display_options.theme.default_style(true, side),
-    )
+    style_lines(&lines, &styles)
 }
 
 fn apply_header_color(
