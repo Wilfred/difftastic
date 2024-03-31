@@ -1,3 +1,3 @@
-let x =
-  let y = 5
-  y + 1
+do
+   (let x = 1
+    x)

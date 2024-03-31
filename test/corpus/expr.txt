@@ -662,24 +662,31 @@ do
 (file
   (value_declaration
     (do
-      (infix_expression
+      (application_expression
+        (infix_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (infix_op
+            (symbolic_op))
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))
         (dot_expression
           (long_identifier_or_op
-            (long_identifier (identifier)))
+            (long_identifier
+              (identifier)))
           (long_identifier_or_op
-            (long_identifier (identifier))))
-        (infix_op (symbolic_op))
-        (application_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier (identifier)))
-            (long_identifier_or_op
-              (long_identifier (identifier))))
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier (identifier)))
-            (long_identifier_or_op
-              (long_identifier (identifier)))))))))
+            (long_identifier
+              (identifier))))))))
 
 ================================================================================
 ce expression 1
@@ -782,6 +789,40 @@ let x =
   ]
 
 --------------------------------------------------------------------------------
+
+(file
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (index_expression
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier
+                    (identifier))))
+              (list_expression
+                (const
+                  (int))
+                (const
+                  (int))))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier
+                    (identifier))))
+              (const
+                (int)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))))))
 
 ================================================================================
 apply value declaration to function
@@ -916,6 +957,52 @@ let exampleNamespace =
     (fun (n,v) -> if n = "namespace" then Some (v :?> string) else None )
 
 --------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (paren_expression
+        (fun_expression
+          (argument_patterns
+            (repeat_pattern
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))))
+          (application_expression
+            (application_expression
+              (application_expression
+                (if_expression
+                  (infix_expression
+                    (long_identifier_or_op
+                      (long_identifier
+                        (identifier)))
+                    (infix_op)
+                    (const
+                      (string)))
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier))))
+                (paren_expression
+                  (typecast_expression
+                    (long_identifier_or_op
+                      (long_identifier
+                        (identifier)))
+                    (type
+                      (long_identifier
+                        (identifier))))))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))
 
 ================================================================================
 record update expression

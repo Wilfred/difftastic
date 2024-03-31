@@ -520,9 +520,7 @@ module.exports = grammar({
         seq(
           $._expression,
           $.infix_op,
-          $._indent,
           $._expression,
-          $._dedent
         )),
 
     literal_expression: $ =>
@@ -578,9 +576,7 @@ module.exports = grammar({
       prec(PREC.ELSE_EXPR,
         seq(
           "else",
-          $._indent,
           field("else_branch", $._expression),
-          $._dedent
         )),
 
     elif_expression: $ =>
@@ -589,9 +585,7 @@ module.exports = grammar({
           "elif",
           field("guard", $._expression),
           "then",
-          $._indent,
           field("then", $._expression),
-          $._dedent
         )),
 
     if_expression: $ =>
@@ -704,10 +698,14 @@ module.exports = grammar({
             seq(choice("use", "use!"), $.identifier, "=", $._indent, $._expression, $._dedent),
             $.function_or_value_defn,
           ),
-          repeat1(
+          field("in",
             seq(
-              choice(";", $._newline),
-              $._expression
+              repeat1(
+                seq(
+                  choice(";", $._newline),
+                  $._expression
+                )
+              )
             )
           )
         )),
