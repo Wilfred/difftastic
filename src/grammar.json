@@ -6093,6 +6093,13 @@
         }
       ]
     },
+    "_triple_quoted_end": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "\"\"\""
+      }
+    },
     "triple_quoted_string": {
       "type": "SEQ",
       "members": [
@@ -6108,11 +6115,8 @@
           }
         },
         {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "\"\"\""
-          }
+          "type": "SYMBOL",
+          "name": "_triple_quoted_end"
         }
       ]
     },
@@ -7123,8 +7127,11 @@
           "name": "block_comment_content"
         },
         {
-          "type": "STRING",
-          "value": "*)"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "*)"
+          }
         }
       ]
     },
@@ -7186,6 +7193,10 @@
     {
       "type": "SYMBOL",
       "name": "_dedent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_triple_quoted_end"
     },
     {
       "type": "SYMBOL",

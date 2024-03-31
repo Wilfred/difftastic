@@ -58,6 +58,7 @@ module.exports = grammar({
     $._newline, // we distinguish new scoped based on newlines.
     $._indent, // starts a new indentation-based scope.
     $._dedent, // signals that the current indentation scope has ended.
+    $._triple_quoted_end,
     $.block_comment_content,
     $.line_comment,
 
@@ -1583,7 +1584,10 @@ module.exports = grammar({
     bytechar: $ => seq("'", $._char_char, imm("'B")),
     bytearray: $ => seq('"', repeat($._string_char), imm('"B')),
     verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
-    triple_quoted_string: $ => seq('"""', repeat($._string_char), imm('"""')),
+
+    _triple_quoted_end: _ => imm('"""'),
+
+    triple_quoted_string: $ => seq('"""', repeat($._string_char), $._triple_quoted_end),
 
     unit: _ => "()",
 
@@ -1708,7 +1712,7 @@ module.exports = grammar({
     // Constants (END)
     //
 
-    block_comment: $ => seq("(*", $.block_comment_content, "*)"),
+    block_comment: $ => seq("(*", $.block_comment_content, imm("*)")),
     line_comment: _ => token(seq('//', /[^\n\r]*/)),
 
     identifier: _ => /[_\p{XID_Start}][_'\p{XID_Continue}]*/,

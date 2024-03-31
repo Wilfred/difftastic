@@ -6,6 +6,7 @@ enum TokenType {
   NEWLINE,
   INDENT,
   DEDENT,
+  TRIPLE_QUOTE_END,
   BLOCK_COMMENT_CONTENT,
   LINE_COMMENT,
   ERROR_SENTINEL
@@ -61,7 +62,6 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   case ':':
   case '$':
   case '?':
-  case '@':
   case '.':
   case '!':
   case '/':
@@ -73,6 +73,9 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   case 'o':
     skip(lexer);
     return lexer->lookahead == 'r';
+  case '@':
+    skip(lexer);
+    return lexer->lookahead != '"';
   default:
     return false;
   }
@@ -104,6 +107,10 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
   Scanner *scanner = (Scanner *)payload;
 
   bool error_recovery_mode = valid_symbols[ERROR_SENTINEL];
+
+  if (valid_symbols[TRIPLE_QUOTE_END] && !error_recovery_mode) {
+    return false;
+  }
 
   lexer->mark_end(lexer);
 
@@ -166,6 +173,32 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
         return true;
       }
     }
+  }
+
+  if (valid_symbols[BLOCK_COMMENT_CONTENT] && !error_recovery_mode) {
+    lexer->mark_end(lexer);
+    while (true) {
+      if (lexer->lookahead == '\0') {
+        break;
+      }
+      if (lexer->lookahead != '(' && lexer->lookahead != '*') {
+        advance(lexer);
+      } else if (lexer->lookahead == '*') {
+        lexer->mark_end(lexer);
+        advance(lexer);
+        if (lexer->lookahead == ')') {
+          break;
+        }
+      } else if (scan_block_comment(lexer)) {
+        lexer->mark_end(lexer);
+        advance(lexer);
+        if (lexer->lookahead == '*') {
+          break;
+        }
+      }
+    }
+    lexer->result_symbol = BLOCK_COMMENT_CONTENT;
+    return true;
   }
 
   return false;

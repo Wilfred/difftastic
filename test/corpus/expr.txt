@@ -41,10 +41,10 @@ do 4 3 3
   (value_declaration
     (do
       (application_expression
-        (const (int))
         (application_expression
           (const (int))
-          (const (int)))))))
+          (const (int)))
+        (const (int))))))
 
 ================================================================================
 const identifier expression
@@ -554,8 +554,9 @@ do
             (argument_patterns
               (long_identifier
                 (identifier))))
-          (const (int))
-          (const (int)))
+          (sequential_expression
+            (const (int))
+            (const (int))))
         (const (int))))))
 
 ================================================================================
@@ -1172,14 +1173,15 @@ let test =
         (identifier_pattern
           (long_identifier
             (identifier))))
-      (application_expression
-        (long_identifier_or_op
-          (long_identifier
-            (identifier)))
+      (sequential_expression
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (const
+            (int)))
         (const
-          (int)))
-      (const
-        (unit)))))
+          (unit))))))
 
 ================================================================================
 application-expression followed by dot-expression

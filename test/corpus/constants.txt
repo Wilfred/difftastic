@@ -255,12 +255,13 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (nativeint
-          (int)))
-      (const
-        (nativeint
-          (xint))))))
+      (sequential_expression
+        (const
+          (nativeint
+            (int)))
+        (const
+          (nativeint
+            (xint)))))))
 
 ================================================================================
 unativeint
@@ -275,12 +276,13 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (unativeint
-          (int)))
-      (const
-        (unativeint
-          (xint))))))
+      (sequential_expression
+        (const
+          (unativeint
+            (int)))
+        (const
+          (unativeint
+            (xint)))))))
 
 ================================================================================
 ieee32
@@ -356,24 +358,29 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int))))))
+      (sequential_expression
+        (const
+          (bignum
+            (int)))
+        (sequential_expression
+          (const
+            (bignum
+              (int)))
+          (sequential_expression
+            (const
+              (bignum
+                (int)))
+            (sequential_expression
+              (const
+                (bignum
+                  (int)))
+              (sequential_expression
+                (const
+                  (bignum
+                    (int)))
+                (const
+                  (bignum
+                    (int)))))))))))
 
 ================================================================================
 decimal
@@ -392,21 +399,26 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (decimal
-          (float)))
-      (const
-        (decimal
-          (float)))
-      (const
-        (decimal
-          (int)))
-      (const
-        (decimal
-          (float)))
-      (const
-        (decimal
-          (float)))
-      (const
-        (decimal
-          (int))))))
+      (sequential_expression
+        (const
+          (decimal
+            (float)))
+        (sequential_expression
+          (const
+            (decimal
+              (float)))
+          (sequential_expression
+            (const
+              (decimal
+                (int)))
+            (sequential_expression
+              (const
+                (decimal
+                  (float)))
+              (sequential_expression
+                (const
+                  (decimal
+                    (float)))
+                (const
+                  (decimal
+                    (int)))))))))))
