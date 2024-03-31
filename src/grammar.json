@@ -95,14 +95,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "block_comment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "line_comment"
-        },
-        {
-          "type": "SYMBOL",
           "name": "value_declaration"
         },
         {
@@ -1370,14 +1362,6 @@
     "_expression_inner": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "line_comment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block_comment"
-        },
         {
           "type": "SYMBOL",
           "name": "const"
@@ -6077,8 +6061,15 @@
       ]
     },
     "_simple_string_char": {
-      "type": "PATTERN",
-      "value": "[^\\t\\r\\u0008\\a\\f\\v\\\\\"]"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\\t\\r\\u0008\\a\\f\\v\\\\\"]"
+        }
+      }
     },
     "_string_char": {
       "type": "CHOICE",
@@ -6280,22 +6271,6 @@
         }
       ]
     },
-    "_simple_or_escape_char": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_escape_char"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^'\\\\]"
-          }
-        }
-      ]
-    },
     "triple_quoted_string": {
       "type": "SEQ",
       "members": [
@@ -6307,7 +6282,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_simple_or_escape_char"
+            "name": "_string_char"
           }
         },
         {
@@ -7375,11 +7350,8 @@
             "value": "//"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^\\n\\r]"
-            }
+            "type": "PATTERN",
+            "value": "[^\\n\\r]*"
           }
         ]
       }
@@ -7400,6 +7372,14 @@
   },
   "extras": [
     {
+      "type": "SYMBOL",
+      "name": "block_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "line_comment"
+    },
+    {
       "type": "PATTERN",
       "value": "[ \\s\\f\\uFEFF\\u2060\\u200B]|\\\\\\r?n"
     }
@@ -7412,14 +7392,6 @@
     [
       "type_argument",
       "static_type_argument"
-    ],
-    [
-      "symbolic_op",
-      "infix_op"
-    ],
-    [
-      "union_type_case",
-      "long_identifier"
     ]
   ],
   "precedences": [],
@@ -7439,6 +7411,10 @@
     {
       "type": "SYMBOL",
       "name": "block_comment_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_error_sentinel"
     }
   ],
   "inline": [
@@ -7448,11 +7424,8 @@
     "access_modifier",
     "_quote_op_left",
     "_quote_op_right",
-    "ReferenceError",
     "_expression_or_range",
-    "ReferenceError",
-    "_seq_expressions",
-    "ReferenceError"
+    "_seq_expressions"
   ],
   "supertypes": [
     "_module_elem",
@@ -7461,4 +7434,3 @@
     "_type_defn_body"
   ]
 }
-

@@ -1,0 +1,6 @@
+
+module A =
+  ()
+
+module B =
+  ()

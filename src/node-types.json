@@ -16,10 +16,6 @@
         "named": true
       },
       {
-        "type": "block_comment",
-        "named": true
-      },
-      {
         "type": "brace_expression",
         "named": true
       },
@@ -69,10 +65,6 @@
       },
       {
         "type": "infix_expression",
-        "named": true
-      },
-      {
-        "type": "line_comment",
         "named": true
       },
       {
@@ -146,10 +138,6 @@
     "named": true,
     "subtypes": [
       {
-        "type": "block_comment",
-        "named": true
-      },
-      {
         "type": "compiler_directive_decl",
         "named": true
       },
@@ -159,10 +147,6 @@
       },
       {
         "type": "import_decl",
-        "named": true
-      },
-      {
-        "type": "line_comment",
         "named": true
       },
       {
