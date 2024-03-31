@@ -1457,7 +1457,7 @@
       }
     },
     "call_expression": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 121,
       "content": {
         "type": "SEQ",
@@ -1469,8 +1469,12 @@
           {
             "type": "IMMEDIATE_TOKEN",
             "content": {
-              "type": "STRING",
-              "value": "("
+              "type": "PREC",
+              "value": 10000,
+              "content": {
+                "type": "STRING",
+                "value": "("
+              }
             }
           },
           {
@@ -4406,12 +4410,24 @@
             "value": "="
           },
           {
+            "type": "SYMBOL",
+            "name": "_indent"
+          },
+          {
             "type": "STRING",
             "value": "{"
           },
           {
             "type": "SYMBOL",
+            "name": "_indent"
+          },
+          {
+            "type": "SYMBOL",
             "name": "record_fields"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_dedent"
           },
           {
             "type": "STRING",
@@ -4428,6 +4444,10 @@
                 "type": "BLANK"
               }
             ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_dedent"
           }
         ]
       }
@@ -4442,21 +4462,27 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "record_field"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ";"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_newline"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "record_field"
+              }
+            ]
           }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ";"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },

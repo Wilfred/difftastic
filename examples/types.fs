@@ -1,1 +1,3 @@
-type Test = Red = 1
+type T =
+    { A: int
+      B: int }

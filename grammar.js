@@ -432,10 +432,10 @@ module.exports = grammar({
       ),
 
     call_expression: $ =>
-      prec.right(PREC.PAREN_APP + 100,
+      prec.left(PREC.PAREN_APP + 100,
         seq(
           $._expression,
-          imm("("),
+          imm(prec(10000, "(")),
           optional($._expression),
           ")",
         )
@@ -1253,17 +1253,24 @@ module.exports = grammar({
         seq(
           $.type_name,
           "=",
+          $._indent,
           "{",
+          $._indent,
           $.record_fields,
+          $._dedent,
           "}",
           optional($.type_extension_elements),
+          $._dedent
         )),
 
     record_fields: $ =>
       seq(
         $.record_field,
-        repeat($.record_field),
-        optional(";"),
+        repeat(
+          seq(
+            choice(";", $._newline),
+            $.record_field)
+        )
       ),
 
     record_field: $ =>
