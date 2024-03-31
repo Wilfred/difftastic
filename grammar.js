@@ -72,7 +72,7 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  inline: $ => [$._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._expression_or_range],
+  inline: $ => [$._module_elem, $._infix_or_prefix_op, $._base_call, $._expression_or_range],
 
   supertypes: $ => [$._module_elem, $._pattern, $._expression, $._type_defn_body],
 
@@ -89,11 +89,9 @@ module.exports = grammar({
 
     namespace: $ =>
       seq(
-        "namespace",
-        choice(
-          "global",
-          field("name", $.long_identifier),
-        ),
+        imm("namespace"),
+        optional($.access_modifier),
+        field("name", $.long_identifier),
         repeat($._module_elem),
       ),
 
@@ -190,9 +188,7 @@ module.exports = grammar({
       prec.left(PREC.SEQ_EXPR + 1,
         seq(
           $.type,
-          $._indent,
           optional($._expression),
-          $._dedent
         )),
 
     //
@@ -257,7 +253,7 @@ module.exports = grammar({
         optional(seq(":", $.type))
       )),
 
-    access_modifier: _ => choice("private", "internal", "public"),
+    access_modifier: _ => prec(100, token(prec(1000, choice("private", "internal", "public")))),
     //
     // Top-level rules (END)
     //
@@ -520,7 +516,7 @@ module.exports = grammar({
         )),
 
     infix_expression: $ =>
-      prec.right(PREC.SPECIAL_INFIX,
+      prec.left(PREC.SPECIAL_INFIX,
         seq(
           $._expression,
           $.infix_op,
@@ -708,8 +704,12 @@ module.exports = grammar({
             seq(choice("use", "use!"), $.identifier, "=", $._indent, $._expression, $._dedent),
             $.function_or_value_defn,
           ),
-          optional($._newline),
-          field("in", $._expression),
+          repeat1(
+            seq(
+              choice(";", $._newline),
+              $._expression
+            )
+          )
         )),
 
     do_expression: $ =>

@@ -272,6 +272,11 @@
     ]
   },
   {
+    "type": "access_modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "active_pattern_op_name",
     "named": true,
     "fields": {},
@@ -296,6 +301,10 @@
       "types": [
         {
           "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "access_modifier",
           "named": true
         },
         {
@@ -1089,18 +1098,7 @@
   {
     "type": "declaration_expression",
     "named": true,
-    "fields": {
-      "in": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -1464,6 +1462,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
         {
           "type": "argument_patterns",
           "named": true
@@ -1906,6 +1908,10 @@
       "required": true,
       "types": [
         {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
           "type": "additional_constr_defn",
           "named": true
         },
@@ -2029,6 +2035,10 @@
           "named": true
         },
         {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
           "type": "attributes",
           "named": true
         },
@@ -2087,6 +2097,10 @@
         {
           "type": "_module_elem",
           "named": true
+        },
+        {
+          "type": "access_modifier",
+          "named": true
         }
       ]
     }
@@ -2097,7 +2111,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "long_identifier",
@@ -2112,6 +2126,10 @@
       "types": [
         {
           "type": "_module_elem",
+          "named": true
+        },
+        {
+          "type": "access_modifier",
           "named": true
         }
       ]
@@ -2297,6 +2315,10 @@
       "required": false,
       "types": [
         {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
           "type": "attributes",
           "named": true
         },
@@ -2361,6 +2383,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
         {
           "type": "attributes",
           "named": true
@@ -2910,6 +2936,10 @@
       "required": true,
       "types": [
         {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
           "type": "attributes",
           "named": true
         },
@@ -3204,6 +3234,10 @@
       "types": [
         {
           "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "access_modifier",
           "named": true
         },
         {
@@ -3646,10 +3680,6 @@
     "named": false
   },
   {
-    "type": "global",
-    "named": false
-  },
-  {
     "type": "id",
     "named": false
   },
@@ -3675,10 +3705,6 @@
   },
   {
     "type": "interface",
-    "named": false
-  },
-  {
-    "type": "internal",
     "named": false
   },
   {
@@ -3774,15 +3800,7 @@
     "named": false
   },
   {
-    "type": "private",
-    "named": false
-  },
-  {
     "type": "property",
-    "named": false
-  },
-  {
-    "type": "public",
     "named": false
   },
   {
@@ -3843,11 +3861,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",
