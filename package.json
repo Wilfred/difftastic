@@ -1,33 +1,57 @@
 {
   "name": "tree-sitter-cpp",
-  "version": "0.20.5",
+  "version": "0.21.0",
   "description": "C++ grammar for tree-sitter",
+  "repository": "github:tree-sitter/tree-sitter-cpp",
+  "license": "MIT",
+  "author": "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+  "contributors": [
+    "Amaan Qureshi <amaanq12@gmail.com>"
+  ],
   "main": "bindings/node",
+  "types": "bindings/node",
   "keywords": [
-    "parser",
+    "incremental",
+    "parsing",
+    "tree-sitter",
     "c++"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tree-sitter/tree-sitter-cpp.git"
-  },
-  "author": "Max Brunsfeld",
-  "license": "MIT",
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "dependencies": {
-    "nan": "^2.18.0"
+    "node-addon-api": "^8.0.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.1"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-c": "^0.20.8",
-    "tree-sitter-cli": "^0.20.8",
-    "node-gyp": "^10.0.1"
+    "node-gyp": "^10.0.1",
+    "tree-sitter-c": "^0.21.0",
+    "tree-sitter-cli": "^0.22.2",
+    "prebuildify": "^6.0.0"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip",
+    "build": "tree-sitter generate --no-bindings",
+    "build-wasm": "tree-sitter build-wasm",
     "lint": "eslint grammar.js",
-    "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
-    "test-windows": "tree-sitter test"
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test"
   },
   "tree-sitter": [
     {
@@ -41,8 +65,8 @@
         "h"
       ],
       "highlights": [
-        "queries/highlights.scm",
-        "node_modules/tree-sitter-c/queries/highlights.scm"
+        "node_modules/tree-sitter-c/queries/highlights.scm",
+        "queries/highlights.scm"
       ],
       "injections": "queries/injections.scm",
       "injection-regex": "^(cc|cpp)$"

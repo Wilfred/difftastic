@@ -1,6 +1,8 @@
 /**
  * @file C++ grammar for tree-sitter
- * @author Max Brunsfeld
+ * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
+ * @author Amaan Qureshi <amaanq12@gmail.com>
+ * @author John Drouhard <john@drouhard.dev>
  * @license MIT
  */
 
