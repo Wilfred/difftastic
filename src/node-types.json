@@ -2214,11 +2214,11 @@
           "named": true
         },
         {
-          "type": "range_op_name",
+          "type": "op_char",
           "named": true
         },
         {
-          "type": "symbolic_op",
+          "type": "range_op_name",
           "named": true
         }
       ]
@@ -2635,11 +2635,6 @@
   },
   {
     "type": "string",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "symbolic_op",
     "named": true,
     "fields": {}
   },
@@ -3471,10 +3466,6 @@
     "named": false
   },
   {
-    "type": "?<-",
-    "named": false
-  },
-  {
     "type": "@\"",
     "named": false
   },
@@ -3763,6 +3754,10 @@
     "named": false
   },
   {
+    "type": "op_char",
+    "named": true
+  },
+  {
     "type": "open",
     "named": false
   },
@@ -3817,6 +3812,10 @@
   {
     "type": "struct",
     "named": false
+  },
+  {
+    "type": "symbolic_op",
+    "named": true
   },
   {
     "type": "then",

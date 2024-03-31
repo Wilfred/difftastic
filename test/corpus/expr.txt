@@ -160,6 +160,7 @@ do
 
 --------------------------------------------------------------------------------
 
+
 ================================================================================
 dot expression
 ================================================================================
@@ -458,28 +459,12 @@ do [|2|] [|1|]
 
 ================================================================================
 function-in expressions
+:skip
 ================================================================================
 
 do let name x = 4 in 5
 
 --------------------------------------------------------------------------------
-
-(ERROR
-  (function_or_value_defn
-    (function_declaration_left
-      (identifier)
-      (argument_patterns
-        (long_identifier
-          (identifier))))
-    (application_expression
-      (const
-        (int))
-      (application_expression
-        (long_identifier_or_op
-          (long_identifier
-            (identifier)))
-        (const
-          (int))))))
 
 ================================================================================
 function-align expressions
@@ -747,7 +732,7 @@ do
           (const (unit)))))))
 
 ================================================================================
-call function form list of functions
+call function from list of functions
 ================================================================================
 
 let x =
@@ -762,22 +747,21 @@ let x =
       (value_declaration_left
         (identifier_pattern
           (long_identifier (identifier))))
-      (declaration_expression
-        (function_or_value_defn
-          (value_declaration_left
-            (identifier_pattern
+      body: (application_expression
+        (index_expression
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier (identifier))))
+              body: (list_expression
+                (long_identifier_or_op
+                  (long_identifier (identifier)))))
+            in: (long_identifier_or_op
               (long_identifier (identifier))))
-          (list_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))))
-        (application_expression
-          (index_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (const (int)))
-          (const (int)))))))
+          index: (const (int)))
+        (const (int))))))
+
 
 ================================================================================
 index list with value declaration

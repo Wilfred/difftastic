@@ -1,2 +1,3 @@
-(* comment *)
-let x = 1
+do
+  (+) 1
+      2

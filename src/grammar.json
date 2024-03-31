@@ -1653,7 +1653,7 @@
     },
     "prefixed_expression": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 15,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2589,6 +2589,18 @@
               {
                 "type": "SYMBOL",
                 "name": "function_or_value_defn"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_newline"
+              },
+              {
+                "type": "BLANK"
               }
             ]
           },
@@ -6231,7 +6243,7 @@
     },
     "long_identifier_or_op": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1000,
       "content": {
         "type": "ALIAS",
         "content": {
@@ -6332,7 +6344,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "symbolic_op"
+          "name": "op_char"
         },
         {
           "type": "SYMBOL",
@@ -6542,56 +6554,57 @@
         ]
       }
     },
-    "_quote_op_left": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<@"
-        },
-        {
-          "type": "STRING",
-          "value": "<@@"
-        }
-      ]
-    },
-    "_quote_op_right": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@>"
-        },
-        {
-          "type": "STRING",
-          "value": "@@>"
-        }
-      ]
+    "op_char": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
+          }
+        ]
+      }
     },
     "symbolic_op": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "?"
-        },
-        {
-          "type": "STRING",
-          "value": "?<-"
-        },
-        {
-          "type": "PATTERN",
-          "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_quote_op_left"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_quote_op_right"
-        }
-      ]
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "STRING",
+            "value": "?<-"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
+          },
+          {
+            "type": "STRING",
+            "value": "<@"
+          },
+          {
+            "type": "STRING",
+            "value": "<@@"
+          },
+          {
+            "type": "STRING",
+            "value": "@>"
+          },
+          {
+            "type": "STRING",
+            "value": "@@>"
+          }
+        ]
+      }
     },
     "_octaldigit_imm": {
       "type": "IMMEDIATE_TOKEN",
@@ -7152,8 +7165,20 @@
       }
     },
     "identifier": {
-      "type": "PATTERN",
-      "value": "[_\\p{XID_Start}][_'\\p{XID_Continue}]*"
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[_\\p{XID_Start}][_'\\p{XID_Continue}]*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "``([^`\\n\\r\\t])+``"
+          }
+        ]
+      }
     }
   },
   "extras": [
@@ -7216,8 +7241,6 @@
     "_infix_or_prefix_op",
     "_base_call",
     "access_modifier",
-    "_quote_op_left",
-    "_quote_op_right",
     "_expression_or_range"
   ],
   "supertypes": [

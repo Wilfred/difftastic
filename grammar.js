@@ -26,7 +26,7 @@ const PREC = {
   INTERFACE: 12,
   COMMA: 13,
   DOTDOT: 14,
-  PREFIX_EXPR: 0,
+  PREFIX_EXPR: 15,
   SPECIAL_INFIX: 16,
   LARROW: 16,
   TUPLE_EXPR: 16,
@@ -72,7 +72,7 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  inline: $ => [$._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._expression_or_range],
+  inline: $ => [$._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._expression_or_range],
 
   supertypes: $ => [$._module_elem, $._pattern, $._expression, $._type_defn_body],
 
@@ -708,6 +708,7 @@ module.exports = grammar({
             seq(choice("use", "use!"), $.identifier, "=", $._indent, $._expression, $._dedent),
             $.function_or_value_defn,
           ),
+          optional($._newline),
           field("in", $._expression),
         )),
 
@@ -1619,7 +1620,7 @@ module.exports = grammar({
     ),
 
     op_name: $ => choice(
-      $.symbolic_op,
+      $.op_char,
       $.range_op_name,
       $.active_pattern_op_name
     ),
@@ -1669,14 +1670,25 @@ module.exports = grammar({
         )),
 
     // Symbolic Operators
-    _quote_op_left: _ => choice("<@", "<@@"),
-    _quote_op_right: _ => choice("@>", "@@>"),
-    symbolic_op: $ => choice(
-      "?",
-      "?<-",
-      /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
-      $._quote_op_left,
-      $._quote_op_right),
+    op_char: _ => token(
+      choice(
+        "?",
+        /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/
+      )
+    ),
+
+    symbolic_op: _ =>
+      token(
+        choice(
+          "?",
+          "?<-",
+          /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
+          "<@",
+          "<@@",
+          "@>",
+          "@@>"
+        ),
+      ),
 
     // Numbers
     _octaldigit_imm: _ => imm(/[0-7]/),
@@ -1715,7 +1727,13 @@ module.exports = grammar({
     block_comment: $ => seq("(*", $.block_comment_content, imm("*)")),
     line_comment: _ => token(seq('//', /[^\n\r]*/)),
 
-    identifier: _ => /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
+    identifier: _ =>
+      token(
+        choice(
+          /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
+          /``([^`\n\r\t])+``/
+        )
+      )
   }
 
 })
