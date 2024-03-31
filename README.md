@@ -33,11 +33,11 @@ git log --oneline --no-merges modules/gdscript
   1. See above for running tests.
   1. `npm run format`
   1. Commit changes.
-    - If commit is an issue fix, prefix message with `fix(#<issue-number>):`
-    - List the rules changed in commit message.
-    - Note what rules need to be updated in [nvim-treesitter][] queries.
+     - If commit is an issue fix, prefix message with `fix(#<issue-number>):`
+     - List the rules changed in commit message.
+     - Note what rules need to be updated in [nvim-treesitter][] queries.
   1. Commit generated files separately.
-    - With commit message: "tree-sitter generate"
+     - With commit message: "tree-sitter generate"
   1. Push
 - Release
   1. `npm version <major, minor, patch> -m "<> version bump"`
