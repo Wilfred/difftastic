@@ -408,12 +408,10 @@ module.exports = grammar({
       ),
 
     application_expression: $ =>
-      prec.right(PREC.APP_EXPR,
+      prec.left(PREC.APP_EXPR,
         seq(
           $._expression,
-          $._indent,
-          repeat1($._expression),
-          $._dedent
+          $._expression
         )
       ),
 
@@ -423,9 +421,9 @@ module.exports = grammar({
           $._expression,
           repeat1(
             prec.right(PREC.SEQ_EXPR,
-              choice(
-                seq($._newline, $._expression),
-                seq(';', $._expression),
+              seq(
+                choice($._newline, ';'),
+                $._expression
               )
             )
           )
@@ -525,7 +523,9 @@ module.exports = grammar({
         seq(
           $._expression,
           $.infix_op,
+          $._indent,
           $._expression,
+          $._dedent
         )),
 
     literal_expression: $ =>
@@ -553,31 +553,29 @@ module.exports = grammar({
     paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._expression, ")")),
 
     for_expression: $ =>
-      prec.left(
-        seq(
-          "for",
-          choice(
-            seq($._pattern, "in", $._expression_or_range),
-            seq($.identifier, "=", $._expression, choice("to", "downto"), $._expression),
-          ),
-          "do",
-          $._indent,
-          $._expression,
-          $._dedent,
-          optional("done"),
-        )),
+      seq(
+        "for",
+        choice(
+          seq($._pattern, "in", $._expression_or_range),
+          seq($.identifier, "=", $._expression, choice("to", "downto"), $._expression),
+        ),
+        "do",
+        $._indent,
+        $._expression,
+        $._dedent,
+        optional("done"),
+      ),
 
     while_expression: $ =>
-      prec.left(
-        seq(
-          "while",
-          $._expression,
-          "do",
-          $._indent,
-          $._expression,
-          $._dedent,
-          optional("done"),
-        )),
+      seq(
+        "while",
+        $._expression,
+        "do",
+        $._indent,
+        $._expression,
+        $._dedent,
+        optional("done"),
+      ),
 
     _else_expression: $ =>
       prec(PREC.ELSE_EXPR,
@@ -724,7 +722,13 @@ module.exports = grammar({
     _list_elements: $ =>
       prec.right(PREC.COMMA + 100,
         seq(
-          repeat1(prec.right(PREC.COMMA + 100, $._expression)),
+          $._expression,
+          repeat(prec.right(PREC.COMMA + 100,
+            seq(
+              choice($._newline, ';'),
+              $._expression
+            )
+          )),
         ),
       ),
 
@@ -1581,7 +1585,7 @@ module.exports = grammar({
     verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
     triple_quoted_string: $ => seq('"""', repeat($._string_char), imm('"""')),
 
-    unit: _ => imm("()"),
+    unit: _ => "()",
 
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,

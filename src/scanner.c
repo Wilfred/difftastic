@@ -78,6 +78,27 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   }
 }
 
+static inline bool is_bracket_end(TSLexer *lexer) {
+  switch (lexer->lookahead) {
+  case ')':
+  case ']':
+  case '}':
+    return true;
+  case '|':
+    skip(lexer);
+    switch (lexer->lookahead) {
+    case ')':
+    case ']':
+    case '}':
+      return true;
+    default:
+      return false;
+    }
+  default:
+    return false;
+  }
+}
+
 bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
                                               const bool *valid_symbols) {
   Scanner *scanner = (Scanner *)payload;
@@ -88,6 +109,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
 
   bool found_end_of_line = false;
   bool found_start_of_infix_op = false;
+  bool found_bracket_end = false;
   uint32_t indent_length = lexer->get_column(lexer);
 
   for (;;) {
@@ -111,6 +133,9 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     } else if (is_infix_op_start(lexer)) {
       found_start_of_infix_op = true;
       break;
+    } else if (is_bracket_end(lexer)) {
+      found_bracket_end = true;
+      break;
     } else {
       break;
     }
@@ -120,7 +145,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     uint16_t current_indent_length = *array_back(&scanner->indents);
 
     if (valid_symbols[INDENT] && indent_length > current_indent_length &&
-        !found_start_of_infix_op) {
+        !found_start_of_infix_op && !error_recovery_mode) {
       array_push(&scanner->indents, indent_length);
       lexer->result_symbol = INDENT;
       return true;
@@ -134,12 +159,12 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
         return true;
       }
     }
-  }
-
-  if (found_end_of_line) {
-    if (valid_symbols[NEWLINE] && !error_recovery_mode) {
-      lexer->result_symbol = NEWLINE;
-      return true;
+    if (found_end_of_line && indent_length == current_indent_length &&
+        !found_start_of_infix_op && !found_bracket_end) {
+      if (valid_symbols[NEWLINE] && !error_recovery_mode) {
+        lexer->result_symbol = NEWLINE;
+        return true;
+      }
     }
   }
 

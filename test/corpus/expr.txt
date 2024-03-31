@@ -1231,9 +1231,10 @@ let test =
         (identifier_pattern
           (long_identifier
             (identifier))))
-      (if_expression
-        (const)
+      (sequential_expression
+        (if_expression
+          (const)
+          (const
+            (int)))
         (const
-          (int)))
-      (const
-        (int)))))
+          (int))))))
