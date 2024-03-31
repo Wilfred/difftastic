@@ -57,7 +57,6 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   case '-':
   case '%':
   case '&':
-  case '|':
   case '=':
   case ':':
   case '$':
@@ -76,6 +75,9 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   case '@':
     skip(lexer);
     return lexer->lookahead != '"';
+  case '|':
+    skip(lexer);
+    return lexer->lookahead != ' ';
   default:
     return false;
   }

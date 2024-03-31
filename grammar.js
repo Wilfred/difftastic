@@ -1286,7 +1286,13 @@ module.exports = grammar({
       ),
 
     enum_type_cases: $ =>
-      repeat1(seq("|", $.enum_type_case)),
+      choice(
+        seq(optional("|"), $.enum_type_case),
+        seq(
+          seq("|", $.enum_type_case),
+          repeat1(seq("|", $.enum_type_case))
+        )
+      ),
 
     enum_type_case: $ =>
       seq(
