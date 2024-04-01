@@ -27,7 +27,7 @@
     "nan": "^2.16.0"
   },
   "devDependencies": {
-    "prettier": "^2.6.2",
+    "prettier": "^3.0.3",
     "tree-sitter-cli": "^0.20.8"
   },
   "tree-sitter": [
