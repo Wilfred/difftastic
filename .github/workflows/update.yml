@@ -1,0 +1,26 @@
+name: Update dependencies
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # every week
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+      - name: Update dependencies
+        uses: tree-sitter/parser-update-action@v1.1
+        with:
+          parent-name: c
+          language-name: cpp

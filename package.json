@@ -3,10 +3,13 @@
   "version": "0.3.0",
   "description": "LaTeX grammar for the tree-sitter parsing library",
   "main": "bindings/node",
+  "types": "bindings/node",
   "scripts": {
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
-    "test:update": "tree-sitter test --update"
+    "test:update": "tree-sitter test --update",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,14 @@
     "latex",
     "parser"
   ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "author": "Patrick Förster <patrick.foerster@outlook.de>",
   "license": "MIT",
   "bugs": {
@@ -24,11 +35,21 @@
   },
   "homepage": "https://github.com/latex-lsp/tree-sitter-latex#readme",
   "dependencies": {
-    "nan": "^2.16.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "prettier": "^3.0.3",
-    "tree-sitter-cli": "^0.22.2"
+    "tree-sitter-cli": "^0.22.2",
+    "prebuildify": "^6.0.0"
   },
   "tree-sitter": [
     {

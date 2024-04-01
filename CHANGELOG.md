@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for definition commands found in `xparse` package ([#82](https://github.com/latex-lsp/tree-sitter-latex/issues/82))
 - Add rules for parsing subscript and superscript expressions ([#63](https://github.com/latex-lsp/tree-sitter-latex/pull/63))
 - Add Swift package description ([#76](https://github.com/latex-lsp/tree-sitter-latex/pull/76))
+- Add Go package description
+
+### Changed
+
+- _BREAKING_: Don't check parser.c into git repository anymore
 
 ### Fixed
 
