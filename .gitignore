@@ -21,10 +21,6 @@
 # C artifacts
 *.a
 *.so
-<<<<<<< HEAD
-||||||| fa69ca8
-src/parser.c
-=======
 *.so.*
 *.dylib
 *.dll
@@ -38,4 +34,3 @@ dsl.d.ts
 *.wasm
 *.obj
 *.o
->>>>>>> bump_tree-sitter
