@@ -1,4 +1,5 @@
 do
   if b = b then
     1
-  else 2
+  else
+    2
