@@ -1,6 +1,6 @@
 {
   "name": "@pfoerster/tree-sitter-latex",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "LaTeX grammar for the tree-sitter parsing library",
   "main": "bindings/node",
   "types": "bindings/node",
