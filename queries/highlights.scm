@@ -25,12 +25,12 @@
 ] @punctuation.bracket
 
 [
-  "," 
+  ","
   ";"
 ] @punctuation.delimiter
 
 [
-  "|" 
+  "|"
   "="
   ">"
   "<"
@@ -82,12 +82,10 @@
   "delegate"
   "static"
   "inline"
-  "internal"
   "mutable"
   "override"
-  "private"
-  "public"
   "rec"
+  (access_modifier)
 ] @keyword.storage.modifier
 
 [
@@ -117,7 +115,7 @@
   "fun"
   "function"
   "get"
-  "global"
+  ; "global"
   "inherit"
   "interface"
   "lazy"
@@ -159,11 +157,11 @@
 
 [
   (import_decl (long_identifier))
-  (named_module (long_identifier))  
-  (namespace (long_identifier))  
-  (named_module 
+  (named_module (long_identifier))
+  (namespace (long_identifier))
+  (named_module
     name: (long_identifier) )
-  (namespace 
+  (namespace
     name: (long_identifier) )
 ] @namespace
 
@@ -173,8 +171,8 @@
   field: (long_identifier_or_op) @function)
 
 [
- ;;(value_declaration_left (identifier_pattern) ) 
- (function_declaration_left (identifier) ) 
+ ;;(value_declaration_left (identifier_pattern) )
+ (function_declaration_left (identifier) )
  (call_expression (long_identifier_or_op (long_identifier)))
  ;;(application_expression (long_identifier_or_op (long_identifier)))
 ] @function
