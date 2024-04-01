@@ -1187,16 +1187,6 @@
           }
         ]
       },
-      "tlb": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "tlb_serialization",
-            "named": true
-          }
-        ]
-      },
       "type": {
         "multiple": true,
         "required": true,

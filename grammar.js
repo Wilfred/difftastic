@@ -333,7 +333,6 @@ module.exports = grammar({
         field("name", $.identifier),
         ":",
         field("type", $._type),
-        field("tlb", optional($.tlb_serialization)),
         "=",
         field("value", $._expression),
         ";",

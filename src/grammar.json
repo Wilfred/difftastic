@@ -1233,22 +1233,6 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "tlb",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "tlb_serialization"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        },
-        {
           "type": "STRING",
           "value": "="
         },
