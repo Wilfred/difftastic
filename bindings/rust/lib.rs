@@ -1,4 +1,4 @@
-//! This crate provides jinja2 language support for the [tree-sitter][] parsing library.
+//! This crate provides commonlisp language support for the [tree-sitter][] parsing library.
 //!
 //! Typically, you will use the [language][language func] function to add this language to a
 //! tree-sitter [Parser][], and then use the parser to parse some code:
@@ -6,7 +6,7 @@
 //! ```
 //! let code = "";
 //! let mut parser = tree_sitter::Parser::new();
-//! parser.set_language(tree_sitter_commonlisp::language()).expect("Error loading jinja2 grammar");
+//! parser.set_language(tree_sitter_commonlisp::language()).expect("Error loading commonlisp grammar");
 //! let tree = parser.parse(code, None).unwrap();
 //! ```
 //!
