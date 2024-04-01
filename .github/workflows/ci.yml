@@ -18,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
@@ -34,7 +34,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - name: Cache Dependencies
         uses: Swatinem/rust-cache@v2
@@ -50,6 +50,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: make
       - run: sudo make install
