@@ -30,6 +30,7 @@
     "build": "tree-sitter generate --no-bindings",
     "lint": "eslint grammar.js",
     "parse": "tree-sitter parse",
+    "debug": "tree-sitter parse -d",
     "test": "tree-sitter test",
     "install": "node-gyp-build",
     "prebuildify": "prebuildify --napi --strip"

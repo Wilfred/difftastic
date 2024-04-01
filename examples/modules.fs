@@ -1,6 +1,3 @@
-
-module A =
-  ()
-
-module B =
-  ()
+[<A>]
+module test =
+ let x = 4

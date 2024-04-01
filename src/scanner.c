@@ -3,31 +3,22 @@
 #include "tree_sitter/parser.h"
 
 enum TokenType {
-  VIRTUAL_OPEN_SECTION,
-  VIRTUAL_END_SECTION,
-  VIRTUAL_END_ALIGNED,
+  NEWLINE,
+  INDENT,
+  DEDENT,
+  TRIPLE_QUOTE_END,
   BLOCK_COMMENT_CONTENT,
+  LINE_COMMENT,
   ERROR_SENTINEL
 };
 
 typedef struct {
-  uint16_t indent_length;
-  Array(uint16_t) indent_length_stack;
-  Array(uint8_t) runback;
+  Array(uint16_t) indents;
 } Scanner;
-
-static inline bool in_error_recovery(const bool *valid_symbols) {
-  return valid_symbols[ERROR_SENTINEL];
-}
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
-
-static inline bool isWS(TSLexer *lexer) {
-  return lexer->lookahead == ' ' || lexer->lookahead == '\r' ||
-         lexer->lookahead == '\n';
-}
 
 static inline bool scan_block_comment(TSLexer *lexer) {
   lexer->mark_end(lexer);
@@ -60,120 +51,139 @@ static inline bool scan_block_comment(TSLexer *lexer) {
   }
 }
 
-static inline void advance_to_line_end(TSLexer *lexer) {
-  while (true) {
-    if (lexer->lookahead == '\n') {
-      break;
-    } else if (lexer->eof(lexer)) {
-      break;
-    } else {
-      advance(lexer);
-    }
+static inline bool is_infix_op_start(TSLexer *lexer) {
+  switch (lexer->lookahead) {
+  case '+':
+  case '-':
+  case '%':
+  case '&':
+  case '=':
+  case ':':
+  case '$':
+  case '?':
+  case '.':
+  case '!':
+  case '/':
+  case '<':
+  case '>':
+  case '^':
+  case '~':
+    return true;
+  case 'o':
+    skip(lexer);
+    return lexer->lookahead == 'r';
+  case '@':
+    skip(lexer);
+    return lexer->lookahead != '"';
+  case '|':
+    skip(lexer);
+    return lexer->lookahead != ' ';
+  default:
+    return false;
   }
 }
 
-static inline bool scan(Scanner *scanner, TSLexer *lexer,
-                        const bool *valid_symbols) {
-  if (in_error_recovery(valid_symbols))
+static inline bool is_bracket_end(TSLexer *lexer) {
+  switch (lexer->lookahead) {
+  case ')':
+  case ']':
+  case '}':
+    return true;
+  case '|':
+    skip(lexer);
+    switch (lexer->lookahead) {
+    case ')':
+    case ']':
+    case '}':
+      return true;
+    default:
+      return false;
+    }
+  default:
     return false;
-
-  // First handle eventual runback tokens, we saved on a previous scan op
-  if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 0 &&
-      valid_symbols[VIRTUAL_END_ALIGNED]) {
-    array_pop(&scanner->runback);
-    lexer->result_symbol = VIRTUAL_END_ALIGNED;
-    return true;
   }
-  if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 1 &&
-      valid_symbols[VIRTUAL_END_SECTION]) {
-    array_pop(&scanner->runback);
-    lexer->result_symbol = VIRTUAL_END_SECTION;
-    return true;
+}
+
+bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
+                                              const bool *valid_symbols) {
+  Scanner *scanner = (Scanner *)payload;
+
+  bool error_recovery_mode = valid_symbols[ERROR_SENTINEL];
+
+  if (valid_symbols[TRIPLE_QUOTE_END] && !error_recovery_mode) {
+    return false;
   }
 
-  array_clear(&scanner->runback);
-
-  // Check if we have newlines and how much indentation
-  bool has_newline = false;
-  bool can_call_mark_end = true;
   lexer->mark_end(lexer);
-  while (true) {
-    if (lexer->lookahead == ' ') {
+
+  bool found_end_of_line = false;
+  bool found_start_of_infix_op = false;
+  bool found_bracket_end = false;
+  uint32_t indent_length = lexer->get_column(lexer);
+
+  for (;;) {
+    if (lexer->lookahead == '\n') {
+      found_end_of_line = true;
+      indent_length = 0;
       skip(lexer);
-    } else if (lexer->lookahead == '\n') {
+    } else if (lexer->lookahead == ' ') {
+      indent_length++;
       skip(lexer);
-      has_newline = true;
-      while (true) {
-        if (lexer->lookahead == ' ') {
-          skip(lexer);
-        } else {
-          scanner->indent_length = lexer->get_column(lexer);
-          break;
-        }
-      }
-    } else if (lexer->lookahead == '\r') {
+    } else if (lexer->lookahead == '\r' || lexer->lookahead == '\f') {
+      indent_length = 0;
       skip(lexer);
-    } else if (valid_symbols[VIRTUAL_END_ALIGNED] && lexer->lookahead == ';') {
-      advance(lexer);
-      lexer->mark_end(lexer);
-      lexer->result_symbol = VIRTUAL_END_ALIGNED;
-      return true;
-    } else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ')') {
-      lexer->result_symbol = VIRTUAL_END_SECTION;
-      array_pop(&scanner->indent_length_stack);
-      return true;
-    } else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ']') {
-      lexer->result_symbol = VIRTUAL_END_SECTION;
-      array_pop(&scanner->indent_length_stack);
-      return true;
-    } else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == '}') {
-      lexer->result_symbol = VIRTUAL_END_SECTION;
-      array_pop(&scanner->indent_length_stack);
-      return true;
-    } else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == '|') {
+    } else if (lexer->lookahead == '\t') {
+      indent_length += 8;
       skip(lexer);
-      if (lexer->lookahead == '}' || lexer->lookahead == ']') {
-        lexer->result_symbol = VIRTUAL_END_SECTION;
-        array_pop(&scanner->indent_length_stack);
-        return true;
-      }
     } else if (lexer->eof(lexer)) {
-      if (valid_symbols[VIRTUAL_END_SECTION]) {
-        lexer->result_symbol = VIRTUAL_END_SECTION;
-        return true;
-      }
-      if (valid_symbols[VIRTUAL_END_ALIGNED]) {
-        lexer->result_symbol = VIRTUAL_END_ALIGNED;
-        return true;
-      }
+      indent_length = 0;
+      found_end_of_line = true;
+      break;
+    } else if (is_infix_op_start(lexer)) {
+      found_start_of_infix_op = true;
+      break;
+    } else if (is_bracket_end(lexer)) {
+      found_bracket_end = true;
       break;
     } else {
       break;
     }
   }
 
-  bool closing = lexer->lookahead == ']' || lexer->lookahead == ')' ||
-                 lexer->lookahead == '}';
+  if (scanner->indents.size > 0) {
+    uint16_t current_indent_length = *array_back(&scanner->indents);
 
-  // Open section if the grammar lets us but only push to indent stack if we go
-  // further down in the stack
-  if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
-    array_push(&scanner->indent_length_stack, lexer->get_column(lexer));
-    if (closing) {
-      return false;
+    if (valid_symbols[INDENT] && indent_length > current_indent_length &&
+        !found_start_of_infix_op && !error_recovery_mode) {
+      array_push(&scanner->indents, indent_length);
+      lexer->result_symbol = INDENT;
+      return true;
     }
-    if (lexer->lookahead == '|') {
-      skip(lexer);
-      if (lexer->lookahead == '}' || lexer->lookahead == ']') {
-        return false;
+
+    if (found_bracket_end && valid_symbols[DEDENT]) {
+      array_pop(&scanner->indents);
+      lexer->result_symbol = DEDENT;
+      return true;
+    }
+
+    if (found_end_of_line) {
+      if ((valid_symbols[DEDENT] || (!valid_symbols[NEWLINE])) &&
+          indent_length < current_indent_length) {
+        array_pop(&scanner->indents);
+        lexer->result_symbol = DEDENT;
+        return true;
       }
     }
-    lexer->result_symbol = VIRTUAL_OPEN_SECTION;
-    return true;
-  } else if (valid_symbols[BLOCK_COMMENT_CONTENT]) {
-    if (!can_call_mark_end) {
-      return false;
+    if (found_end_of_line && indent_length == current_indent_length &&
+        !found_start_of_infix_op && !found_bracket_end) {
+      if (valid_symbols[NEWLINE] && !error_recovery_mode) {
+        lexer->result_symbol = NEWLINE;
+        return true;
+      }
     }
+  }
+
+  if (valid_symbols[BLOCK_COMMENT_CONTENT] && !error_recovery_mode) {
     lexer->mark_end(lexer);
     while (true) {
       if (lexer->lookahead == '\0') {
@@ -197,76 +207,9 @@ static inline bool scan(Scanner *scanner, TSLexer *lexer,
     }
     lexer->result_symbol = BLOCK_COMMENT_CONTENT;
     return true;
-  } else if (has_newline) {
-    // We had a newline now it's time to check if we need to add multiple tokens
-    // to get back up to the right level
-    array_clear(&scanner->runback);
-
-    while (scanner->indent_length <=
-           *array_back(&scanner->indent_length_stack)) {
-      if (scanner->indent_length ==
-          *array_back(&scanner->indent_length_stack)) {
-        // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
-        if (lexer->lookahead == '/') {
-          skip(lexer);
-          if (lexer->lookahead == '/') {
-            break;
-          }
-        }
-        // Don't insert VIRTUAL_END_DECL when there is a block comment incoming
-        if (lexer->lookahead == '(') {
-          skip(lexer);
-          if (lexer->lookahead == '*') {
-            break;
-          }
-        }
-        array_push(&scanner->runback, 0);
-        break;
-      } else if (scanner->indent_length <
-                 *array_back(&scanner->indent_length_stack)) {
-        array_pop(&scanner->indent_length_stack);
-        array_push(&scanner->runback, 1);
-      }
-    }
-
-    // Our list is the wrong way around, reverse it
-
-    // std::reverse(runback.begin(), runback.end());
-    uint32_t size = scanner->runback.size;
-
-    for (int i = 0; i < size / 2; i++) {
-      uint8_t temp = *array_get(&scanner->runback, i);
-      array_insert(&scanner->runback, i,
-                   *array_get(&scanner->runback, size - 1 - i));
-      array_insert(&scanner->runback, size - 1 - i, temp);
-    }
-
-    // Handle the first runback token if we have them, if there are more they
-    // will be handled on the next scan operation
-    if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 0 &&
-        valid_symbols[VIRTUAL_END_ALIGNED]) {
-      array_pop(&scanner->runback);
-      lexer->result_symbol = VIRTUAL_END_ALIGNED;
-      return true;
-    }
-    if (scanner->runback.size > 0 && *array_back(&scanner->runback) == 0 &&
-        valid_symbols[VIRTUAL_END_SECTION]) {
-      array_pop(&scanner->runback);
-      lexer->result_symbol = VIRTUAL_END_SECTION;
-      return true;
-    } else if (lexer->eof(lexer) && valid_symbols[VIRTUAL_END_SECTION]) {
-      lexer->result_symbol = VIRTUAL_END_SECTION;
-      return true;
-    }
   }
 
   return false;
-}
-
-bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
-                                              const bool *valid_symbols) {
-  Scanner *scanner = (Scanner *)payload;
-  return scan(scanner, lexer, valid_symbols);
 }
 
 unsigned tree_sitter_fsharp_external_scanner_serialize(void *payload,
@@ -274,24 +217,11 @@ unsigned tree_sitter_fsharp_external_scanner_serialize(void *payload,
   Scanner *scanner = (Scanner *)payload;
   size_t size = 0;
 
-  buffer[size++] = (uint8_t)scanner->indent_length;
-
-  size_t runback_count = scanner->runback.size;
-  if (runback_count > UINT8_MAX) {
-    runback_count = UINT8_MAX;
-  }
-  buffer[size++] = (char)runback_count;
-
-  if (runback_count > 0) {
-    memcpy(&buffer[size], scanner->runback.contents, runback_count);
-  }
-  size += runback_count;
-
   uint32_t iter = 1;
-  for (; iter < scanner->indent_length_stack.size &&
+  for (; iter < scanner->indents.size &&
          size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
        ++iter) {
-    buffer[size++] = (char)*array_get(&scanner->indent_length_stack, iter);
+    buffer[size++] = (char)*array_get(&scanner->indents, iter);
   }
 
   return size;
@@ -302,42 +232,27 @@ void tree_sitter_fsharp_external_scanner_deserialize(void *payload,
                                                      unsigned length) {
   Scanner *scanner = (Scanner *)payload;
 
-  array_delete(&scanner->runback);
-  array_delete(&scanner->indent_length_stack);
-  array_push(&scanner->indent_length_stack, 0);
+  array_delete(&scanner->indents);
+  array_push(&scanner->indents, 0);
 
   if (length > 0) {
     size_t size = 0;
 
-    scanner->indent_length = (uint16_t)buffer[size++];
-
-    size_t runback_count = (uint8_t)buffer[size++];
-    if (runback_count > 0) {
-      array_reserve(&scanner->runback, runback_count);
-      scanner->runback.size = runback_count;
-      memcpy(scanner->runback.contents, &buffer[size], runback_count);
-      size += runback_count;
-    }
-
-    size += runback_count;
-
     for (; size < length; size++) {
-      array_push(&scanner->runback, (unsigned char)buffer[size]);
+      array_push(&scanner->indents, (unsigned char)buffer[size]);
     }
   }
 }
 
 void *tree_sitter_fsharp_external_scanner_create() {
   Scanner *scanner = ts_calloc(1, sizeof(Scanner));
-  array_init(&scanner->indent_length_stack);
-  array_init(&scanner->runback);
+  array_init(&scanner->indents);
   tree_sitter_fsharp_external_scanner_deserialize(scanner, NULL, 0);
   return scanner;
 }
 
 void tree_sitter_fsharp_external_scanner_destroy(void *payload) {
   Scanner *scanner = (Scanner *)payload;
-  array_delete(&scanner->runback);
-  array_delete(&scanner->indent_length_stack);
+  array_delete(&scanner->indents);
   ts_free(scanner);
 }

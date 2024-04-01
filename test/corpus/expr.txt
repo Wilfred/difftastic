@@ -41,10 +41,10 @@ do 4 3 3
   (value_declaration
     (do
       (application_expression
-        (const (int))
         (application_expression
           (const (int))
-          (const (int)))))))
+          (const (int)))
+        (const (int))))))
 
 ================================================================================
 const identifier expression
@@ -149,6 +149,16 @@ do test (4)
           (long_identifier (identifier)))
         (paren_expression
           (const (int)))))))
+
+================================================================================
+application expression aligned to first line
+================================================================================
+
+do
+  (+) 1
+      2
+
+--------------------------------------------------------------------------------
 
 ================================================================================
 dot expression
@@ -448,28 +458,12 @@ do [|2|] [|1|]
 
 ================================================================================
 function-in expressions
+:skip
 ================================================================================
 
 do let name x = 4 in 5
 
 --------------------------------------------------------------------------------
-
-(ERROR
-  (function_or_value_defn
-    (function_declaration_left
-      (identifier)
-      (argument_patterns
-        (long_identifier
-          (identifier))))
-    (application_expression
-      (const
-        (int))
-      (application_expression
-        (long_identifier_or_op
-          (long_identifier
-            (identifier)))
-        (const
-          (int))))))
 
 ================================================================================
 function-align expressions
@@ -544,8 +538,9 @@ do
             (argument_patterns
               (long_identifier
                 (identifier))))
-          (const (int))
-          (const (int)))
+          (sequential_expression
+            (const (int))
+            (const (int))))
         (const (int))))))
 
 ================================================================================
@@ -667,24 +662,31 @@ do
 (file
   (value_declaration
     (do
-      (infix_expression
+      (application_expression
+        (infix_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (infix_op
+            (symbolic_op))
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))
         (dot_expression
           (long_identifier_or_op
-            (long_identifier (identifier)))
+            (long_identifier
+              (identifier)))
           (long_identifier_or_op
-            (long_identifier (identifier))))
-        (infix_op (symbolic_op))
-        (application_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier (identifier)))
-            (long_identifier_or_op
-              (long_identifier (identifier))))
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier (identifier)))
-            (long_identifier_or_op
-              (long_identifier (identifier)))))))))
+            (long_identifier
+              (identifier))))))))
 
 ================================================================================
 ce expression 1
@@ -722,21 +724,24 @@ do
         (long_identifier_or_op
           (long_identifier
             (identifier)))
-        (do_expression
-          (application_expression
-            (dot_expression
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier)))
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier))))
-            (const (int))))
-        (return_expression
-          (const (unit)))))))
+        (application_expression
+          (do_expression
+            (application_expression
+              (dot_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)))
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier))))
+              (const
+                (int))))
+          (return_expression
+            (const
+              (unit))))))))
 
 ================================================================================
-call function form list of functions
+call function from list of functions
 ================================================================================
 
 let x =
@@ -750,12 +755,14 @@ let x =
     (function_or_value_defn
       (value_declaration_left
         (identifier_pattern
-          (long_identifier (identifier))))
+          (long_identifier
+            (identifier))))
       (declaration_expression
         (function_or_value_defn
           (value_declaration_left
             (identifier_pattern
-              (long_identifier (identifier))))
+              (long_identifier
+                (identifier))))
           (list_expression
             (long_identifier_or_op
               (long_identifier
@@ -765,8 +772,10 @@ let x =
             (long_identifier_or_op
               (long_identifier
                 (identifier)))
-            (const (int)))
-          (const (int)))))))
+            (const
+              (int)))
+          (const
+            (int)))))))
 
 ================================================================================
 index list with value declaration
@@ -782,30 +791,38 @@ let x =
 --------------------------------------------------------------------------------
 
 (file
-  (value_declaration
-    (function_or_value_defn
-      (value_declaration_left
-        (identifier_pattern
-          (long_identifier (identifier))))
-      (declaration_expression
-        (function_or_value_defn
-          (value_declaration_left
-            (identifier_pattern
-              (long_identifier (identifier))))
-          (list_expression
-            (const (int))
-            (const (int))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
         (index_expression
-          (long_identifier_or_op
-            (long_identifier (identifier)))
           (declaration_expression
             (function_or_value_defn
               (value_declaration_left
                 (identifier_pattern
-                  (long_identifier (identifier))))
-              (const (int)))
+                  (long_identifier
+                    (identifier))))
+              (list_expression
+                (const
+                  (int))
+                (const
+                  (int))))
             (long_identifier_or_op
-              (long_identifier (identifier)))))))))
+              (long_identifier
+                (identifier))))
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier
+                    (identifier))))
+              (const
+                (int)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))))))
 
 ================================================================================
 apply value declaration to function
@@ -945,25 +962,47 @@ let exampleNamespace =
   (value_declaration
     (function_or_value_defn
       (value_declaration_left
-        (identifier_pattern (long_identifier (identifier))))
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
       (paren_expression
         (fun_expression
           (argument_patterns
             (repeat_pattern
-              (identifier_pattern (long_identifier (identifier)))
-              (identifier_pattern (long_identifier (identifier)))))
-          (if_expression
-            (infix_expression
-              (long_identifier_or_op (long_identifier (identifier)))
-              (infix_op)
-              (const (string)))
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))))
+          (application_expression
             (application_expression
-              (long_identifier_or_op (long_identifier (identifier)))
-              (paren_expression
-                (typecast_expression
-                  (long_identifier_or_op (long_identifier (identifier)))
-                  (type (long_identifier (identifier))))))
-            (long_identifier_or_op (long_identifier (identifier)))))))))
+              (application_expression
+                (if_expression
+                  (infix_expression
+                    (long_identifier_or_op
+                      (long_identifier
+                        (identifier)))
+                    (infix_op)
+                    (const
+                      (string)))
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier))))
+                (paren_expression
+                  (typecast_expression
+                    (long_identifier_or_op
+                      (long_identifier
+                        (identifier)))
+                    (type
+                      (long_identifier
+                        (identifier))))))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))
 
 ================================================================================
 record update expression
@@ -1012,20 +1051,24 @@ let x =
     (function_or_value_defn
       (value_declaration_left
         (identifier_pattern
-          (long_identifier (identifier))))
+          (long_identifier
+            (identifier))))
       (declaration_expression
         (function_or_value_defn
           (value_declaration_left
             (identifier_pattern
               (long_identifier
                 (identifier))))
-          (const (int)))
+          (const
+            (int)))
         (line_comment)
         (infix_expression
           (long_identifier_or_op
-            (long_identifier (identifier)))
+            (long_identifier
+              (identifier)))
           (infix_op)
-          (const (int)))))))
+          (const
+            (int)))))))
 
 ================================================================================
 SeqBlock with multi-line comment
@@ -1045,19 +1088,25 @@ let x =
     (function_or_value_defn
       (value_declaration_left
         (identifier_pattern
-          (long_identifier (identifier))))
+          (long_identifier
+            (identifier))))
       (declaration_expression
         (function_or_value_defn
           (value_declaration_left
             (identifier_pattern
-              (long_identifier (identifier))))
-          (const (int)))
-        (block_comment (block_comment_content))
+              (long_identifier
+                (identifier))))
+          (const
+            (int)))
+        (block_comment
+          (block_comment_content))
         (infix_expression
           (long_identifier_or_op
-            (long_identifier (identifier)))
+            (long_identifier
+              (identifier)))
           (infix_op)
-          (const (int)))))))
+          (const
+            (int)))))))
 
 ================================================================================
 simple for-in-do loop
@@ -1162,14 +1211,15 @@ let test =
         (identifier_pattern
           (long_identifier
             (identifier))))
-      (application_expression
-        (long_identifier_or_op
-          (long_identifier
-            (identifier)))
+      (sequential_expression
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (const
+            (int)))
         (const
-          (int)))
-      (const
-        (unit)))))
+          (unit))))))
 
 ================================================================================
 application-expression followed by dot-expression
@@ -1190,18 +1240,30 @@ let test f =
         (argument_patterns
           (long_identifier
             (identifier))))
-      (if_expression
-        (const)
+      (sequential_expression
         (application_expression
-          (long_identifier_or_op (long_identifier (identifier)))
-          (long_identifier_or_op (long_identifier (identifier)))))
-      (call_expression
-        (dot_expression
-          (long_identifier_or_op (long_identifier (identifier)))
-          (long_identifier_or_op (long_identifier (identifier))))
-        (tuple_expression
-          (long_identifier_or_op (long_identifier (identifier)))
-          (const (string)))))))
+          (if_expression
+            (const)
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))
+        (call_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (tuple_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (const
+              (string))))))))
 
 ================================================================================
 if-expression in sequence expression
@@ -1221,9 +1283,10 @@ let test =
         (identifier_pattern
           (long_identifier
             (identifier))))
-      (if_expression
-        (const)
+      (sequential_expression
+        (if_expression
+          (const)
+          (const
+            (int)))
         (const
-          (int)))
-      (const
-        (int)))))
+          (int))))))

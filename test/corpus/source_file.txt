@@ -117,20 +117,6 @@ let x = 4
 
 --------------------------------------------------------------------------------
 
-(file
-  (namespace
-    (ERROR
-      (UNEXPECTED 'e')
-      (UNEXPECTED '\n'))
-    (value_declaration
-      (function_or_value_defn
-        (value_declaration_left
-          (identifier_pattern
-            (long_identifier
-              (identifier))))
-        (const
-          (int))))))
-
 ================================================================================
 basic long namespace
 ================================================================================

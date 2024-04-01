@@ -48,6 +48,7 @@ let private functionName x = 4
   (value_declaration
     (function_or_value_defn
       (function_declaration_left
+        (access_modifier)
         (identifier)
         (argument_patterns
           (long_identifier
@@ -67,6 +68,7 @@ let inline private functionName x = 4
   (value_declaration
     (function_or_value_defn
       (function_declaration_left
+        (access_modifier)
         (identifier)
         (argument_patterns
           (long_identifier
