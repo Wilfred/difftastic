@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-commonlisp"
 description = "Common Lisp grammar for the tree-sitter parsing library"
-version = "0.3.1"
+version = "0.3.2"
 keywords = ["incremental", "parsing", "lisp"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/theHamsta/tree-sitter-commonlisp"
