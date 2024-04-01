@@ -1,3 +1,7 @@
-[<A>]
-module test =
- let x = 4
+namespace test
+
+module A =
+ let x = ()
+
+module B =
+ let y = ()

@@ -1,3 +1,4 @@
 do
-   (let x = 1
-    x)
+  if b = b then
+    1
+  else 2

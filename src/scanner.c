@@ -99,6 +99,30 @@ static inline bool is_bracket_end(TSLexer *lexer) {
     default:
       return false;
     }
+  case 'e':
+    skip(lexer);
+    if (lexer->lookahead == 'l') {
+      skip(lexer);
+      if (lexer->lookahead == 's') {
+        skip(lexer);
+        return lexer->lookahead == 'e';
+      }
+      if (lexer->lookahead == 'i') {
+        skip(lexer);
+        return lexer->lookahead == 'f';
+      }
+      return false;
+    }
+  case 't':
+    skip(lexer);
+    if (lexer->lookahead == 'h') {
+      skip(lexer);
+      if (lexer->lookahead == 'e') {
+        skip(lexer);
+        return lexer->lookahead == 'n';
+      }
+      return false;
+    }
   default:
     return false;
   }
@@ -175,7 +199,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
       }
     }
     if (found_end_of_line && indent_length == current_indent_length &&
-        !found_start_of_infix_op && !found_bracket_end) {
+        indent_length > 0 && !found_start_of_infix_op && !found_bracket_end) {
       if (valid_symbols[NEWLINE] && !error_recovery_mode) {
         lexer->result_symbol = NEWLINE;
         return true;

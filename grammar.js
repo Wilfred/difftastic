@@ -576,7 +576,9 @@ module.exports = grammar({
       prec(PREC.ELSE_EXPR,
         seq(
           "else",
+          $._indent,
           field("else_branch", $._expression),
+          $._dedent
         )),
 
     elif_expression: $ =>

@@ -2076,12 +2076,20 @@
             "value": "else"
           },
           {
+            "type": "SYMBOL",
+            "name": "_indent"
+          },
+          {
             "type": "FIELD",
             "name": "else_branch",
             "content": {
               "type": "SYMBOL",
               "name": "_expression"
             }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_dedent"
           }
         ]
       }

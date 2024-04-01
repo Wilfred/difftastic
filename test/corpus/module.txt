@@ -124,3 +124,115 @@ open X.Y
       (long_identifier
         (identifier)
         (identifier)))))
+
+================================================================================
+multiple modules in namespace
+================================================================================
+
+namespace Test
+
+module A =
+  let x = ()
+
+module B =
+  let x = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (unit)))))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (unit)))))))
+
+================================================================================
+multiple modules in top-level module
+================================================================================
+
+module Test
+
+module A =
+  let x = ()
+
+module B =
+  let x = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (unit)))))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (unit)))))))
+
+================================================================================
+multiple modules in anonymous module
+================================================================================
+
+module A =
+  let x = ()
+
+module B =
+  let x = ()
+
+--------------------------------------------------------------------------------
+
+(file
+   (module_defn
+     (identifier)
+     (value_declaration
+       (function_or_value_defn
+         (value_declaration_left
+           (identifier_pattern
+             (long_identifier
+               (identifier))))
+         (const
+           (unit)))))
+   (module_defn
+     (identifier)
+     (value_declaration
+       (function_or_value_defn
+         (value_declaration_left
+           (identifier_pattern
+             (long_identifier
+               (identifier))))
+         (const
+           (unit))))))
