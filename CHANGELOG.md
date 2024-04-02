@@ -7,6 +7,9 @@ that files are binaries.
 
 ### Diffing
 
+Fixed an issue where hidden files (filename starting with `.`) were
+ignored when diffing directories.
+
 Scheme now uses the same slider heuristics as other lisps, preferring
 the outer delimiter.
 
