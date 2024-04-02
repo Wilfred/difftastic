@@ -107,7 +107,12 @@ module.exports = grammar({
     arguments: ($) =>
       seq("(", optional(commaSep1(choice($._value, $.pair))), ")"),
 
-    constructor: ($) => seq($.identifier, $.arguments),
+    // Generic type arguments are parsed as additional identifiers in the
+    // constructor node.
+    // This is a temporary fix.
+    _typeArgs: ($) => seq("[", commaSep1($.identifier), "]"),
+    constructor: ($) =>
+      prec.right(1, seq($.identifier, optional($._typeArgs), $.arguments)),
   }, // end rules
 });
 

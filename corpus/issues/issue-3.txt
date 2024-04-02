@@ -1,0 +1,21 @@
+=====================================
+Constructors accept type arguments #3
+=====================================
+
+[resource]
+test_array = Array[int]([42, 76])
+
+---
+
+(resource
+  (section
+    (identifier)
+    (property
+      (path)
+      (constructor
+        (identifier)
+        (identifier)
+        (arguments
+          (array
+            (integer)
+            (integer)))))))
