@@ -1375,22 +1375,12 @@ function preprocIf(suffix, content, precedence = 0) {
     * @return {ChoiceRule}
     *
     */
-  function elseBlock($) {
+  function alternativeBlock($) {
     return choice(
       suffix ? alias($['preproc_else' + suffix], $.preproc_else) : $.preproc_else,
       suffix ? alias($['preproc_elif' + suffix], $.preproc_elif) : $.preproc_elif,
+      suffix ? alias($['preproc_elifdef' + suffix], $.preproc_elifdef) : $.preproc_elifdef,
     );
-  }
-
-  /**
-    *
-    * @param {GrammarSymbols<string>} $
-    *
-    * @return {AliasRule | SymbolRule<string>}
-    *
-    */
-  function elifBlock($) {
-    return suffix ? alias($['preproc_elifdef' + suffix], $.preproc_elifdef) : $.preproc_elifdef;
   }
 
   return {
@@ -1399,7 +1389,7 @@ function preprocIf(suffix, content, precedence = 0) {
       field('condition', $._preproc_expression),
       '\n',
       repeat(content($)),
-      field('alternative', optional(elseBlock($))),
+      field('alternative', optional(alternativeBlock($))),
       preprocessor('endif'),
     )),
 
@@ -1407,7 +1397,7 @@ function preprocIf(suffix, content, precedence = 0) {
       choice(preprocessor('ifdef'), preprocessor('ifndef')),
       field('name', $.identifier),
       repeat(content($)),
-      field('alternative', optional(choice(elseBlock($), elifBlock($)))),
+      field('alternative', optional(alternativeBlock($))),
       preprocessor('endif'),
     )),
 
@@ -1421,14 +1411,14 @@ function preprocIf(suffix, content, precedence = 0) {
       field('condition', $._preproc_expression),
       '\n',
       repeat(content($)),
-      field('alternative', optional(elseBlock($))),
+      field('alternative', optional(alternativeBlock($))),
     )),
 
     ['preproc_elifdef' + suffix]: $ => prec(precedence, seq(
       choice(preprocessor('elifdef'), preprocessor('elifndef')),
       field('name', $.identifier),
       repeat(content($)),
-      field('alternative', optional(elseBlock($))),
+      field('alternative', optional(alternativeBlock($))),
     )),
   };
 }

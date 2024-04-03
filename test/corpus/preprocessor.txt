@@ -226,6 +226,54 @@ int b;
           (identifier))))))
 
 ================================================================================
+Mixing #elif and #elifdef
+================================================================================
+
+#ifndef DEFINE1
+int i;
+#elif  defined(DEFINE2)
+int j;
+#endif
+
+#if defined DEFINE3
+int a;
+#elifdef DEFINE4
+int b;
+#else
+int c;
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_ifdef
+    name: (identifier)
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    alternative: (preproc_elif
+      condition: (preproc_defined
+        (identifier))
+      (declaration
+        type: (primitive_type)
+        declarator: (identifier))))
+  (preproc_if
+    condition: (preproc_defined
+      (identifier))
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    alternative: (preproc_elifdef
+      name: (identifier)
+      (declaration
+        type: (primitive_type)
+        declarator: (identifier))
+      alternative: (preproc_else
+        (declaration
+          type: (primitive_type)
+          declarator: (identifier))))))
+
+================================================================================
 General if blocks
 ================================================================================
 
