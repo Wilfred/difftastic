@@ -1,4 +1,11 @@
-* text=auto
+* text=auto eol=lf
+
+test/** linguist-documentation
 
 src/** linguist-generated
-test/** linguist-documentation
+bindings/** linguist-generated
+
+binding.gyp linguist-generated
+setup.py linguist-generated
+Makefile linguist-generated
+Package.swift linguist-generated

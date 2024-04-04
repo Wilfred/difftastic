@@ -102,8 +102,19 @@ Queries bundled (see `editor_queries/neovim`):
 
 ### Helix
 
-Parser and queries are bundled with Helix starting with any version past 23.10.\
-For versions prior or equal to 23.10 or to always have the latest queries available, do the following:
+<!--
+  TODO: update and simplify instructions — there should be a straightforward
+  way to install parser and relevant queries (git clone on tag?)
+
+  Also specify that 24.03 comes with support for Tact 1.2.0, while one may need
+  support for 1.3.0 or other versions of Tact (git clone on tag?)
+
+  Provide version matrixes? No, just specify what version of Tact latest release supports.
+ -->
+
+:rocket: Helix version 24.03 comes bundled with tree-sitter-tact for Tact 1.2.0.
+
+If you want to always have the latest parser and queries available (which target branches `master` of Helix and `main` of Tact), do the following:
 
 <details>
 <summary>Instructions</summary>
@@ -118,9 +129,7 @@ For versions prior or equal to 23.10 or to always have the latest queries availa
   * Windows: `mklink /D ~\AppData\Roaming\helix\runtime\queries\tact ~\.local\git\tree-sitter-tact\editor_queries\helix`
   * Linux, macOS, *NIX: `ln -s ~/.local/git/tree-sitter-tact/editor_queries/helix ~/.config/helix/runtime/queries/tact`
 
-4. Inside the `~/.local/git/tree-sitter-tact/editor_queries/helix` run `mv highlights-before-version-24.scm highlights.scm` to use compatible queries (only for versions prior or equal to 23.10).
-
-5. Add the following to your `~/.config/helix/languages.toml` (Or `~\AppData\Roaming\helix\languages.toml` on Windows):
+4. Add the following to your `~/.config/helix/languages.toml` (Or `~\AppData\Roaming\helix\languages.toml` on Windows):
 
 ```toml
 [[language]]
@@ -129,8 +138,8 @@ scope = "source.tact"
 injection-regex = "tact"
 file-types = ["tact"]
 comment-token = "//"
+block-comment-tokens = [{ start = "/*", end = "*/"}]
 indent = { tab-width = 4, unit = "    " }
-roots = []
 
 [language.auto-pairs]
 '"' = '"'
@@ -164,7 +173,7 @@ Tree-sitter grammars have limited utility on its own and are best used as parser
 
 For a quick demo of tree-sitter-cli usage:
 1. Clone this repo.
-2. Install Node.js dependencies (by `npm i`, `pnpm i` or `yarn`).
+2. Install Node.js dependencies (by `npm ci` (preferred, to re-use `package-lock.json`), `pnpm i`, `bun i` or `yarn`).
 3. Execute relevant commands from the `scripts` tag in `package.json`.
 
 For a more streamlined experience, you may:
@@ -190,7 +199,7 @@ queries/
 `-- tags.scm -- tagging queries for code navigation systems (as used on GitHub)
 ```
 
-To find highlighting and other queries for specific editors, look in the `editor_queries/` directory.
+To find highlighting and other queries for specific editors, look in the `editor_queries/` directory. There, all the queries target development upstream branches of the relevant editors, unless the directory has a suffix `-release/`, in such case the queries provided there are targeting the latest releases.
 
 ## ⚙ References
 

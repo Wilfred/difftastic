@@ -24,8 +24,18 @@
 ; ----------------
 
 ((identifier) @function.builtin
-  (#match? @function.builtin
-     "^(send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
+  (#any-of? @function.builtin
+    "send" "sender" "require" "now"
+    "myBalance" "myAddress" "newAddress"
+    "contractAddress" "contractAddressExt"
+    "emit" "cell" "ton"
+    "beginString" "beginComment" "beginTailString" "beginStringFromBuilder" "beginCell" "emptyCell"
+    "randomInt" "random"
+    "checkSignature" "checkDataSignature" "sha256"
+    "min" "max" "abs" "pow"
+    "throw" "dump" "getConfigParam"
+    "nativeThrowWhen" "nativeThrowUnless" "nativeReserve"
+    "nativeRandomize" "nativeRandomizeLt" "nativePrepareRandom" "nativeRandom" "nativeRandomInterval")
   (#is-not? local))
 
 ; function.method
@@ -138,8 +148,12 @@
 ; ----------------
 
 ((identifier) @constant.builtin
-  (#match? @constant.builtin
-    "^(SendBounceIfActionFail|SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance)$")
+  (#any-of? @constant.builtin
+    "SendPayGasSeparately"
+    "SendIgnoreErrors"
+    "SendDestroyIfZero"
+    "SendRemainingValue"
+    "SendRemainingBalance")
   (#is-not? local))
 
 (null) @constant.builtin
@@ -155,6 +169,12 @@
 (constant
   name: (identifier) @constant)
 
+; string.special.path
+; -------------------
+
+(import_statement
+  library: (string) @string.special.path)
+
 ; string
 ; ------
 
@@ -166,11 +186,14 @@
 (tlb_serialization
   "as" @keyword
   type: (identifier) @type.builtin
-  (#match? @type.builtin
-    "^(int8|int16|int32|int64|int128|int256|int257|uint8|uint16|uint32|uint64|uint128|uint256|coins|remaining|bytes32|bytes64)$"))
+  (#any-of? @type.builtin
+    "int8" "int16" "int32" "int64" "int128" "int256" "int257"
+    "uint8" "uint16" "uint32" "uint64" "uint128" "uint256"
+    "coins" "remaining" "bytes32" "bytes64"))
 
 ((type_identifier) @type.builtin
-  (#match? @type.builtin "^(Address|Bool|Builder|Cell|Int|Slice|String|StringBuilder)$"))
+  (#any-of? @type.builtin
+    "Address" "Bool" "Builder" "Cell" "Int" "Slice" "String" "StringBuilder"))
 
 (map_type
   "map" @type.builtin

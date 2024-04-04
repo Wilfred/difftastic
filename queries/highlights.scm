@@ -1,133 +1,72 @@
-; NOTE: Order of highlight queries matters, as Tree-sitter uses the first it finds.
-; NOTE: Therefore, narrow highlight queries should be placed before broad captures.
-; ---------------------------------------------------------------------------------
+; NOTE: Order of highlight queries matters, as Tree-sitter uses last-wins strategy
+; NOTE: Therefore, narrow highlight queries should be placed after broad captures.
+; --------------------------------------------------------------------------------
 
-; attribute
-; ---------
+; variable
+; --------
 
-[
-  "@name"
-  "@interface"
-] @attribute
+(identifier) @variable
 
-; comment
-; -------
-
-(comment) @comment
-
-; function.builtin
+; variable.builtin
 ; ----------------
 
-((identifier) @function.builtin
-  (#match? @function.builtin
-     "^(send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
-  (#is-not? local))
+(self) @variable.builtin
 
-; function.method
-; ---------------
+; variable.parameter
+; ------------------
 
-(method_call_expression
-  name: (identifier) @function.method)
+(parameter
+  name: (identifier) @variable.parameter)
 
-; function
-; --------
-
-(func_identifier) @function
-
-(native_function
-  name: (identifier) @function)
-
-(static_function
-  name: (identifier) @function)
-
-(static_call_expression
-  name: (identifier) @function)
-
-(init_function
-  "init" @function.method)
-
-(receive_function
-  "receive" @function.method)
-
-(bounced_function
-  "bounced" @function.method)
-
-(external_function
-  "external" @function.method)
-
-(function
-  name: (identifier) @function.method)
-
-; keyword
-; -------
+; punctuation.delimiter
+; ---------------------
 
 [
-  "get" "mutates" "extends" "virtual" "override" "inline" "abstract"
-  "contract" "trait" "struct" "message" "with"
-  "const" "let" "fun" "native"
-  "primitive" "import"
-  "if" "else" "while" "repeat" "do" "until"
-  "return" "initOf"
-  ; "public" ; -- not used, but declared in grammar.ohm
-  ; "extend" ; -- not used, but declared in grammar.ohm
-] @keyword
+  ";"
+  ","
+  "."
+  ":"
+  "?"
+] @punctuation.delimiter
 
-; number
-; ------
-
-(integer) @number
-
-; property
-; --------
-
-(field
-  name: (identifier) @property)
-
-(contract_body
-  (constant
-    name: (identifier) @property))
-
-(trait_body
-  (constant
-    name: (identifier) @property))
-
-(field_access_expression
-  name: (identifier) @property)
-
-(lvalue (_) (_) @property)
-
-(instance_argument
-  name: (identifier) @property)
-
-; constant.builtin
-; ----------------
-
-((identifier) @constant.builtin
-  (#match? @constant.builtin
-    "^(SendBounceIfActionFail|SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance)$")
-  (#is-not? local))
-
-[
-  (boolean)
-  (null)
-] @constant.builtin
-
-; constant
-; --------
-
-(constant
-  name: (identifier) @constant)
-
-; string.special.path
+; punctuation.bracket
 ; -------------------
 
-(import_statement
-  library: (string) @string.special.path)
+[
+  "(" ")"
+  "{" "}"
+] @punctuation.bracket
 
-; string
-; ------
+; operator
+; --------
 
-(string) @string
+[
+  "-" "-="
+  "+" "+="
+  "*" "*="
+  "/" "/="
+  "%" "%="
+  "=" "=="
+  "!" "!=" "!!"
+  "<" "<=" "<<"
+  ">" ">=" ">>"
+  "&" "|"
+  "&&" "||"
+] @operator
+
+; constructor
+; -----------
+
+(instance_expression
+  name: (identifier) @constructor)
+
+(initOf
+  name: (identifier) @constructor)
+
+; type
+; ----
+
+(type_identifier) @type
 
 ; type.builtin
 ; ------------
@@ -155,68 +94,129 @@
   (#eq? @type.builtin "SendParameters")
   (#is-not? local))
 
-; type
-; ----
+; string
+; ------
 
-(type_identifier) @type
+(string) @string
 
-; constructor
-; -----------
-
-(instance_expression
-  name: (identifier) @constructor)
-
-(initOf
-  name: (identifier) @constructor)
-
-; operator
-; --------
-
-[
-  "-" "-="
-  "+" "+="
-  "*" "*="
-  "/" "/="
-  "%" "%="
-  "=" "=="
-  "!" "!=" "!!"
-  "<" "<=" "<<"
-  ">" ">=" ">>"
-  "&" "|"
-  "&&" "||"
-] @operator
-
-; punctuation.bracket
+; string.special.path
 ; -------------------
 
-[
-  "(" ")"
-  "{" "}"
-] @punctuation.bracket
+(import_statement
+  library: (string) @string.special.path)
 
-; punctuation.delimiter
-; ---------------------
-
-[
-  ";"
-  ","
-  "."
-  ":"
-  "?"
-] @punctuation.delimiter
-
-; variable.parameter
-; ------------------
-
-(parameter
-  name: (identifier) @variable.parameter)
-
-; variable.builtin
-; ----------------
-
-(self) @variable.builtin
-
-; variable
+; constant
 ; --------
 
-(identifier) @variable
+(constant
+  name: (identifier) @constant)
+
+; constant.builtin
+; ----------------
+
+[
+  (boolean)
+  (null)
+] @constant.builtin
+
+((identifier) @constant.builtin
+  (#match? @constant.builtin
+    "^(SendBounceIfActionFail|SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance)$")
+  (#is-not? local))
+
+; property
+; --------
+
+(instance_argument
+  name: (identifier) @property)
+
+(lvalue (_) (_) @property)
+
+(field_access_expression
+  name: (identifier) @property)
+
+(trait_body
+  (constant
+    name: (identifier) @property))
+
+(contract_body
+  (constant
+    name: (identifier) @property))
+
+(field
+  name: (identifier) @property)
+
+; number
+; ------
+
+(integer) @number
+
+; keyword
+; -------
+
+[
+  "get" "mutates" "extends" "virtual" "override" "inline" "abstract"
+  "contract" "trait" "struct" "message" "with"
+  "const" "let" "fun" "native"
+  "primitive" "import"
+  "if" "else" "while" "repeat" "do" "until"
+  "return" "initOf"
+  ; "public" ; -- not used, but declared in grammar.ohm
+  ; "extend" ; -- not used, but declared in grammar.ohm
+] @keyword
+
+; function
+; --------
+
+(function
+  name: (identifier) @function.method)
+
+(native_function
+  name: (identifier) @function)
+
+(static_function
+  name: (identifier) @function)
+
+(static_call_expression
+  name: (identifier) @function)
+
+(init_function
+  "init" @function.method)
+
+(receive_function
+  "receive" @function.method)
+
+(bounced_function
+  "bounced" @function.method)
+
+(external_function
+  "external" @function.method)
+
+(func_identifier) @function
+
+; function.method
+; ---------------
+
+(method_call_expression
+  name: (identifier) @function.method)
+
+; function.builtin
+; ----------------
+
+((identifier) @function.builtin
+  (#match? @function.builtin
+     "^(send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
+  (#is-not? local))
+
+; comment
+; -------
+
+(comment) @comment
+
+; attribute
+; ---------
+
+[
+  "@name"
+  "@interface"
+] @attribute

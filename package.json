@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-tact",
-  "version": "1.1.5",
+  "version": "1.3.0",
   "description": "A tree-sitter grammar for the Tact programming language",
   "author": "Novus Nota (https://github.com/novusnota)",
   "license": "MIT",
@@ -22,6 +22,15 @@
     "the-open-network"
   ],
   "main": "bindings/node",
+  "types": "bindings/node",
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "scripts": {
     "gen": "tree-sitter generate",
     "test": "tree-sitter test",
@@ -31,17 +40,28 @@
     "tags": "tree-sitter tags",
     "format": "prettier --write grammar.js",
     "check-formatted": "prettier --check grammar.js",
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate --no-bindings",
     "build-wasm": "tree-sitter build-wasm",
-    "play": "tree-sitter build-wasm && tree-sitter playground"
+    "play": "tree-sitter build-wasm && tree-sitter playground",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "dependencies": {
-    "nan": "^2.18.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "node-gyp": "^10.0.1",
     "prettier": "^3.2.5",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.22.2",
+    "prebuildify": "^6.0.0"
   },
   "tree-sitter": [
     {
@@ -50,15 +70,9 @@
       "file-types": [
         "tact"
       ],
-      "highlights": [
-        "queries/highlights.scm"
-      ],
-      "locals": [
-        "queries/locals.scm"
-      ],
-      "tags": [
-        "queries/tags.scm"
-      ]
+      "highlights": "queries/highlights.scm",
+      "locals": "queries/locals.scm",
+      "tags": "queries/tags.scm"
     }
   ],
   "prettier": {
