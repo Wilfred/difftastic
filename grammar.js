@@ -579,6 +579,7 @@ module.exports = grammar({
         seq(
           'if',
           field('guard', $._expression),
+          optional($._newline),
           'then',
           field('then', $._expression),
           repeat($.elif_expression),
@@ -590,6 +591,7 @@ module.exports = grammar({
         seq(
           'if',
           field('guard', $._expression),
+          optional($._newline),
           'then',
           field('then', $._expression),
         )),
