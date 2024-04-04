@@ -536,6 +536,7 @@ module.exports = grammar({
     ...specialEnvironment({
       rule: 'math_environment',
       name: choice(
+        'math',
         'displaymath',
         'displaymath*',
         'equation',
