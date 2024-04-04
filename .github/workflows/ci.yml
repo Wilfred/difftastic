@@ -30,15 +30,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-14]
     steps:
-      - name: Set up the repo
-        uses: tree-sitter/parser-setup-action@v1.1
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/parser-test-action@v2
         with:
-          node-version: 20
-      - name: Run tests
-        uses: tree-sitter/parser-test-action@v1.2
-        with:
-          lint: ${{runner.os == 'Linux'}}
-          test-library: ${{runner.os == 'Linux'}}
+          generate: ${{runner.os == 'Linux'}}
   fuzz:
     name: Fuzz parser
     runs-on: ubuntu-latest
