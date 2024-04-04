@@ -11,13 +11,6 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-/**
- * shorthand for token.immediate
- */
-function imm(x) {
-  return token.immediate(x);
-}
-
 const PREC = {
   SEQ_EXPR: 1,
   APP_EXPR: 16,
@@ -100,7 +93,7 @@ module.exports = grammar({
 
     namespace: $ =>
       seq(
-        imm('namespace'),
+        token.immediate('namespace'),
         optional($.access_modifier),
         field('name', $.long_identifier),
         repeat($._module_elem),
@@ -419,7 +412,7 @@ module.exports = grammar({
       prec.left(PREC.PAREN_APP + 100,
         seq(
           $._expression,
-          imm(prec(10000, '(')),
+          token.immediate(prec(10000, '(')),
           optional($._expression),
           ')',
         ),
@@ -652,7 +645,7 @@ module.exports = grammar({
         seq(
           'new',
           $.type,
-          imm('('),
+          token.immediate('('),
           $._expression,
           ')',
         )),
@@ -669,8 +662,8 @@ module.exports = grammar({
       prec(PREC.INDEX_EXPR,
         seq(
           $._expression,
-          optional(imm('.')),
-          imm('['),
+          optional(token.immediate('.')),
+          token.immediate('['),
           choice(
             field('index', $._expression),
             $.slice_ranges,
@@ -682,7 +675,7 @@ module.exports = grammar({
       prec.right(PREC.DOT,
         seq(
           field('base', $._expression),
-          imm('.'),
+          token.immediate('.'),
           field('field', $.long_identifier_or_op),
         )),
 
@@ -690,7 +683,7 @@ module.exports = grammar({
       prec(PREC.PAREN_EXPR,
         seq(
           $._expression,
-          imm('<'),
+          token.immediate('<'),
           optional($.types),
           '>',
         )),
@@ -1031,7 +1024,7 @@ module.exports = grammar({
         seq($.type, $.type_argument_defn),
         $.type_argument,
         prec.right(seq($.type_argument, ':>', $.type)),
-        prec.right(seq(imm('#'), $.type)),
+        prec.right(seq(token.immediate('#'), $.type)),
       )),
 
     types: $ =>
@@ -1565,21 +1558,21 @@ module.exports = grammar({
     //
     // Constants (BEGIN)
     //
-    _escape_char: _ => imm(/\\["\'ntbrafv]/),
-    _non_escape_char: _ => imm(/\\[^"\'ntbrafv]/),
+    _escape_char: _ => token.immediate(/\\["\'ntbrafv]/),
+    _non_escape_char: _ => token.immediate(/\\[^"\'ntbrafv]/),
     // using \u0008 to model \b
-    _simple_char_char: _ => imm(/[^\n\t\r\u0008\a\f\v'\\]/),
-    _hex_digit_imm: _ => imm(/[0-9a-fA-F]/),
-    _digit_char_imm: _ => imm(/[0-9]/),
+    _simple_char_char: _ => token.immediate(/[^\n\t\r\u0008\a\f\v'\\]/),
+    _hex_digit_imm: _ => token.immediate(/[0-9a-fA-F]/),
+    _digit_char_imm: _ => token.immediate(/[0-9]/),
     _unicodegraph_short: $ => seq(
-      imm('\\u'),
+      token.immediate('\\u'),
       $._hex_digit_imm,
       $._hex_digit_imm,
       $._hex_digit_imm,
       $._hex_digit_imm,
     ),
     _unicodegraph_long: $ => seq(
-      imm('\\U'),
+      token.immediate('\\U'),
       $._hex_digit_imm,
       $._hex_digit_imm,
       $._hex_digit_imm,
@@ -1589,7 +1582,7 @@ module.exports = grammar({
       $._hex_digit_imm,
       $._hex_digit_imm,
     ),
-    _trigraph: $ => seq(imm('\\'), $._digit_char_imm, $._digit_char_imm, $._digit_char_imm),
+    _trigraph: $ => seq(token.immediate('\\'), $._digit_char_imm, $._digit_char_imm, $._digit_char_imm),
 
     _char_char: $ => choice(
       $._simple_char_char,
@@ -1599,7 +1592,7 @@ module.exports = grammar({
     ),
 
     // note: \n is allowed in strings
-    _simple_string_char: _ => imm(prec(1, /[^\t\r\u0008\a\f\v\\"]/)),
+    _simple_string_char: _ => token.immediate(prec(1, /[^\t\r\u0008\a\f\v\\"]/)),
     _string_char: $ => choice(
       $._simple_string_char,
       $._escape_char,
@@ -1613,19 +1606,19 @@ module.exports = grammar({
       $._string_char,
       seq('\\', $._string_elem),
     ),
-    char: $ => seq('\'', $._char_char, imm('\'')),
-    string: $ => seq('"', repeat($._string_char), imm('"')),
+    char: $ => seq('\'', $._char_char, token.immediate('\'')),
+    string: $ => seq('"', repeat($._string_char), token.immediate('"')),
     _verbatim_string_char: $ => choice(
       $._simple_string_char,
       $._non_escape_char,
       '\\',
     ),
-    verbatim_string: $ => seq('@"', repeat($._verbatim_string_char), imm('"')),
-    bytechar: $ => seq('\'', $._char_char, imm('\'B')),
-    bytearray: $ => seq('"', repeat($._string_char), imm('"B')),
-    verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
+    verbatim_string: $ => seq('@"', repeat($._verbatim_string_char), token.immediate('"')),
+    bytechar: $ => seq('\'', $._char_char, token.immediate('\'B')),
+    bytearray: $ => seq('"', repeat($._string_char), token.immediate('"B')),
+    verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), token.immediate('"B')),
 
-    _triple_quoted_end: _ => imm('"""'),
+    _triple_quoted_end: _ => token.immediate('"""'),
 
     triple_quoted_string: $ => seq('"""', repeat($._string_char), $._triple_quoted_end),
 
@@ -1730,8 +1723,8 @@ module.exports = grammar({
       ),
 
     // Numbers
-    _octaldigit_imm: _ => imm(/[0-7]/),
-    _bitdigit_imm: _ => imm(/[0-1]/),
+    _octaldigit_imm: _ => token.immediate(/[0-7]/),
+    _bitdigit_imm: _ => token.immediate(/[0-1]/),
     int: $ => seq(/[0-9]/, repeat($._digit_char_imm)),
     xint: $ => choice(
       seq(/0[xX]/, repeat1($._hex_digit_imm)),
@@ -1739,31 +1732,36 @@ module.exports = grammar({
       seq(/0[bB]/, repeat1($._bitdigit_imm)),
     ),
 
-    sbyte: $ => seq(choice($.int, $.xint), imm('y')),
-    byte: $ => seq(choice($.int, $.xint), imm('uy')),
-    int16: $ => seq(choice($.int, $.xint), imm('s')),
-    uint16: $ => seq(choice($.int, $.xint), imm('us')),
-    int32: $ => seq(choice($.int, $.xint), imm('l')),
-    uint32: $ => seq(choice($.int, $.xint), imm(choice('ul', 'u'))),
-    nativeint: $ => seq(choice($.int, $.xint), imm('n')),
-    unativeint: $ => seq(choice($.int, $.xint), imm('un')),
-    int64: $ => seq(choice($.int, $.xint), imm('L')),
-    uint64: $ => seq(choice($.int, $.xint), imm(choice('UL', 'uL'))),
+    sbyte: $ => seq(choice($.int, $.xint), token.immediate('y')),
+    byte: $ => seq(choice($.int, $.xint), token.immediate('uy')),
+    int16: $ => seq(choice($.int, $.xint), token.immediate('s')),
+    uint16: $ => seq(choice($.int, $.xint), token.immediate('us')),
+    int32: $ => seq(choice($.int, $.xint), token.immediate('l')),
+    uint32: $ => seq(choice($.int, $.xint), token.immediate(choice('ul', 'u'))),
+    nativeint: $ => seq(choice($.int, $.xint), token.immediate('n')),
+    unativeint: $ => seq(choice($.int, $.xint), token.immediate('un')),
+    int64: $ => seq(choice($.int, $.xint), token.immediate('L')),
+    uint64: $ => seq(choice($.int, $.xint), token.immediate(choice('UL', 'uL'))),
 
-    ieee32: $ => choice(seq($.float, imm('f')), seq($.xint, imm('lf'))),
-    ieee64: $ => seq($.xint, imm('LF')),
+    ieee32: $ => choice(seq($.float, token.immediate('f')), seq($.xint, token.immediate('lf'))),
+    ieee64: $ => seq($.xint, token.immediate('LF')),
 
-    bignum: $ => seq($.int, imm(/[QRZING]/)),
-    decimal: $ => seq(choice($.float, $.int), imm(/[Mm]/)),
+    bignum: $ => seq($.int, token.immediate(/[QRZING]/)),
+    decimal: $ => seq(choice($.float, $.int), token.immediate(/[Mm]/)),
 
     float: _ => token(choice(
-      seq(/[0-9]+/, imm(/\.[0-9]*/)),
-      seq(/[0-9]+/, optional(imm(/\.[0-9]*/)), imm(/[eE]/), optional(imm(/[+-]/)), imm(/[0-9]+/)))),
+      seq(/[0-9]+/, token.immediate(/\.[0-9]*/)),
+      seq(
+        /[0-9]+/,
+        optional(token.immediate(/\.[0-9]*/)),
+        token.immediate(/[eE]/),
+        optional(token.immediate(/[+-]/)),
+        token.immediate(/[0-9]+/)))),
     //
     // Constants (END)
     //
 
-    block_comment: $ => seq('(*', $.block_comment_content, imm('*)')),
+    block_comment: $ => seq('(*', $.block_comment_content, token.immediate('*)')),
     line_comment: _ => token(seq('//', /[^\n\r]*/)),
 
     identifier: _ =>
