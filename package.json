@@ -1,8 +1,10 @@
 {
   "name": "tree-sitter-fsharp",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "repository": "https://github.com/tree-sitter/tree-sitter-fsharp",
+  "license": "MIT",
+  "author": "Nikolaj Sidorenco",
   "main": "bindings/node",
   "types": "bindings/node",
   "files": [
