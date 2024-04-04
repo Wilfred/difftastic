@@ -67,7 +67,8 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.long_identifier, $._identifier_or_op],
-    [$.type_argument, $.static_type_argument]
+    [$.type_argument, $.static_type_argument],
+    [$.sequential_expression, $._if_then_expression, $._if_then_else_expression]
   ],
 
   word: $ => $.identifier,
@@ -404,29 +405,6 @@ module.exports = grammar({
         // (static-typars : (member-sig) expr)
       ),
 
-    application_expression: $ =>
-      prec.left(PREC.APP_EXPR,
-        seq(
-          $._expression,
-          $._expression
-        )
-      ),
-
-    sequential_expression: $ =>
-      prec.right(PREC.SEQ_EXPR,
-        seq(
-          $._expression,
-          repeat1(
-            prec.right(PREC.SEQ_EXPR,
-              seq(
-                choice($._newline, ';'),
-                $._expression
-              )
-            )
-          )
-        )
-      ),
-
     call_expression: $ =>
       prec.left(PREC.PAREN_APP + 100,
         seq(
@@ -575,6 +553,7 @@ module.exports = grammar({
     _else_expression: $ =>
       prec(PREC.ELSE_EXPR,
         seq(
+          optional($._newline),
           "else",
           $._indent,
           field("else_branch", $._expression),
@@ -584,22 +563,35 @@ module.exports = grammar({
     elif_expression: $ =>
       prec(PREC.ELSE_EXPR,
         seq(
+          optional($._newline),
           "elif",
           field("guard", $._expression),
+          optional($._newline),
           "then",
           field("then", $._expression),
         )),
 
-    if_expression: $ =>
-      prec.left(PREC.IF_EXPR,
+    _if_then_else_expression: $ =>
+      prec.right(PREC.IF_EXPR + 1,
         seq(
           "if",
           field("guard", $._expression),
           "then",
           field("then", $._expression),
           repeat($.elif_expression),
-          optional($._else_expression),
+          $._else_expression,
         )),
+
+    _if_then_expression: $ =>
+      prec.right(PREC.IF_EXPR,
+        seq(
+          "if",
+          field("guard", $._expression),
+          "then",
+          field("then", $._expression),
+        )),
+
+    if_expression: $ => choice($._if_then_expression, $._if_then_else_expression),
 
     fun_expression: $ =>
       prec.right(PREC.FUN_EXPR,
@@ -788,6 +780,30 @@ module.exports = grammar({
           $.rule,
           repeat(seq("|", $.rule)),
         )),
+
+    application_expression: $ =>
+      prec.left(PREC.APP_EXPR,
+        seq(
+          $._expression,
+          $._expression
+        )
+      ),
+
+    sequential_expression: $ =>
+      prec(PREC.SEQ_EXPR,
+        seq(
+          $._expression,
+          repeat1(
+            prec.right(PREC.SEQ_EXPR,
+              seq(
+                choice($._newline, ';'),
+                $._expression
+              )
+            )
+          )
+        )
+      ),
+
 
     //
     // Expressions (END)
