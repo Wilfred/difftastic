@@ -11,6 +11,9 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+/**
+ * shorthand for token.immediate
+ */
 function imm(x) {
   return token.immediate(x);
 }
