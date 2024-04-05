@@ -209,7 +209,7 @@ sample_files/ruby_before.rb sample_files/ruby_after.rb
 e690af6874c954b271ef7ea8eb1d8af1  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
-8b2d6102b120d4a0de790c33409eedc3  -
+109e42d6f9d06e05e47dc182c5edf3c1  -
 
 sample_files/scheme_before.scm sample_files/scheme_after.scm
 d00fcfe46aca3e2877bda566f1a3908b  -
@@ -291,4 +291,3 @@ sample_files/yaml_before.yaml sample_files/yaml_after.yaml
 
 sample_files/zig_before.zig sample_files/zig_after.zig
 4753ca757c03b1296976ff71e220c62b  -
-
