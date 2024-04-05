@@ -120,6 +120,52 @@ do ()
     (do (const (unit)))))
 
 ================================================================================
+empty typed expression
+================================================================================
+
+do
+  Array.empty<>
+
+--------------------------------------------------------------------------------
+
+(file
+    (value_declaration
+      (do
+        (typed_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))))))
+
+================================================================================
+typed expression
+================================================================================
+
+do
+  Array.empty<int>
+
+--------------------------------------------------------------------------------
+
+(file
+    (value_declaration
+      (do
+        (typed_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (types
+            (type
+              (long_identifier
+                (identifier))))))))
+
+================================================================================
 paren expression
 ================================================================================
 

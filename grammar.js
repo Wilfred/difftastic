@@ -692,9 +692,9 @@ module.exports = grammar({
       prec(PREC.PAREN_EXPR,
         seq(
           $._expression,
-          token.immediate('<'),
+          token.immediate(prec(PREC.PAREN_EXPR, '<')),
           optional($.types),
-          '>',
+          prec(PREC.PAREN_EXPR, '>'),
         )),
 
     declaration_expression: $ =>
@@ -1039,7 +1039,7 @@ module.exports = grammar({
     types: $ =>
       seq(
         $.type,
-        repeat1(prec.left(PREC.COMMA, seq(',', $.type))),
+        repeat(prec.left(PREC.COMMA, seq(',', $.type))),
       ),
 
     type_attribute: $ =>

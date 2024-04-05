@@ -2596,8 +2596,12 @@
           {
             "type": "IMMEDIATE_TOKEN",
             "content": {
-              "type": "STRING",
-              "value": "<"
+              "type": "PREC",
+              "value": 21,
+              "content": {
+                "type": "STRING",
+                "value": "<"
+              }
             }
           },
           {
@@ -2613,8 +2617,12 @@
             ]
           },
           {
-            "type": "STRING",
-            "value": ">"
+            "type": "PREC",
+            "value": 21,
+            "content": {
+              "type": "STRING",
+              "value": ">"
+            }
           }
         ]
       }
@@ -3425,7 +3433,7 @@
           "name": "type"
         },
         {
-          "type": "REPEAT1",
+          "type": "REPEAT",
           "content": {
             "type": "PREC_LEFT",
             "value": 13,
