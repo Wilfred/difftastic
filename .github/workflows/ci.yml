@@ -30,13 +30,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-14]
     steps:
-      - name: Set up the repo
-        uses: tree-sitter/parser-setup-action@v1.1
-        with:
-          node-version: ${{vars.NODE_VERSION}}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v1
       - name: Run tests
-        uses: tree-sitter/parser-test-action@v1.2
+        uses: tree-sitter/parser-test-action@v2
         with:
-          lint: ${{runner.os == 'Linux'}}
-          test-library: ${{runner.os == 'Linux'}}
-          corpus-files: examples/*.c
+          test-rust: ${{runner.os == 'Linux'}}
+      - name: Parse examples
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: examples/*
