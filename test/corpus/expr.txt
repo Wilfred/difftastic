@@ -198,7 +198,6 @@ do test (4)
 
 ================================================================================
 application expression aligned to first line
-:skip
 ================================================================================
 
 do
@@ -206,6 +205,16 @@ do
       2
 
 --------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier))
+          (const (int)))
+        (const (int))))))
 
 ================================================================================
 dot expression

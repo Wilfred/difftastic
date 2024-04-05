@@ -534,10 +534,6 @@ module.exports = grammar({
           $.type,
         )),
 
-    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq('begin', $._expression, 'end')),
-
-    paren_expression: $ => prec(PREC.PAREN_EXPR, seq('(', $._expression, ')')),
-
     for_expression: $ =>
       seq(
         'for',
@@ -792,6 +788,10 @@ module.exports = grammar({
           optional('|'), $.rule,
           repeat(seq(optional($._newline), '|', $.rule)),
         )),
+
+    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq('begin', $._expression, 'end')),
+
+    paren_expression: $ => seq('(', $._expression, ')'),
 
     application_expression: $ =>
       prec.left(PREC.APP_EXPR,
@@ -1657,19 +1657,20 @@ module.exports = grammar({
 
     _identifier_or_op: $ => choice(
       $.identifier,
-      seq('(', $.op_name, ')'),
-      '(*)',
+      token(prec(1000,
+        seq(
+          '(',
+          choice(
+            '?',
+            /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
+            '..',
+            '.. ..',
+          ),
+          ')'))),
+      seq('(', $.active_pattern_op_name, ')'),
+      token(prec(1000, '(*)')),
     ),
 
-    op_name: $ => choice(
-      $.op_char,
-      $.range_op_name,
-      $.active_pattern_op_name,
-    ),
-    range_op_name: _ => choice(
-      '..',
-      '.. ..',
-    ),
     active_pattern_op_name: $ => choice(
       // full pattern
       seq('|', $.identifier, repeat1(seq('|', $.identifier)), '|'),

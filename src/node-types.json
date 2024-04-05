@@ -1513,15 +1513,15 @@
           "named": true
         },
         {
+          "type": "active_pattern_op_name",
+          "named": true
+        },
+        {
           "type": "argument_patterns",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "op_name",
           "named": true
         },
         {
@@ -1901,11 +1901,11 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "active_pattern_op_name",
           "named": true
         },
         {
-          "type": "op_name",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -2266,29 +2266,6 @@
     }
   },
   {
-    "type": "op_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "active_pattern_op_name",
-          "named": true
-        },
-        {
-          "type": "op_char",
-          "named": true
-        },
-        {
-          "type": "range_op_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "paren_expression",
     "named": true,
     "fields": {},
@@ -2415,11 +2392,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "range_op_name",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "record_field",
@@ -3501,10 +3473,6 @@
     "named": false
   },
   {
-    "type": ".. ..",
-    "named": false
-  },
-  {
     "type": ":",
     "named": false
   },
@@ -3849,10 +3817,6 @@
     "named": false
   },
   {
-    "type": "op_char",
-    "named": true
-  },
-  {
     "type": "open",
     "named": false
   },
@@ -3930,11 +3894,11 @@
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unmanaged",

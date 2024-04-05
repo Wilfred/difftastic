@@ -1886,48 +1886,6 @@
         ]
       }
     },
-    "begin_end_expression": {
-      "type": "PREC",
-      "value": 21,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "begin"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": "end"
-          }
-        ]
-      }
-    },
-    "paren_expression": {
-      "type": "PREC",
-      "value": 21,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          }
-        ]
-      }
-    },
     "for_expression": {
       "type": "SEQ",
       "members": [
@@ -3013,6 +2971,44 @@
           }
         ]
       }
+    },
+    "begin_end_expression": {
+      "type": "PREC",
+      "value": 21,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "begin"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "end"
+          }
+        ]
+      }
+    },
+    "paren_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "application_expression": {
       "type": "PREC_LEFT",
@@ -6581,6 +6577,47 @@
           "name": "identifier"
         },
         {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1000,
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "?"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ".."
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ".. .."
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            }
+          }
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -6589,7 +6626,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "op_name"
+              "name": "active_pattern_op_name"
             },
             {
               "type": "STRING",
@@ -6598,38 +6635,15 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "(*)"
-        }
-      ]
-    },
-    "op_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "op_char"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "range_op_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "active_pattern_op_name"
-        }
-      ]
-    },
-    "range_op_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ".."
-        },
-        {
-          "type": "STRING",
-          "value": ".. .."
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1000,
+            "content": {
+              "type": "STRING",
+              "value": "(*)"
+            }
+          }
         }
       ]
     },

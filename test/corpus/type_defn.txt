@@ -428,13 +428,45 @@ and B = C
 
 ================================================================================
 Recursive type definition
-:skip
 ================================================================================
 
-type Maybe<'T> = | Just B<'T> | Nothing
+type Maybe<'T> = | Just of 'T | Nothing
 and 'T maybe = Maybe<'T>
 
 --------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (union_type_defn
+      (type_name
+        (identifier)
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))))
+      (union_type_cases
+        (union_type_case
+          (identifier)
+          (union_type_fields
+            (union_type_field
+              (type
+                (type_argument
+                  (identifier))))))
+        (union_type_case
+          (identifier))))
+    (type_abbrev_defn
+      (type_name
+        (type_argument
+          (identifier))
+        (identifier))
+      (type
+        (long_identifier
+          (identifier))
+        (type_attributes
+          (type_attribute
+            (type
+              (type_argument
+                (identifier)))))))))
 
 ================================================================================
 record definition

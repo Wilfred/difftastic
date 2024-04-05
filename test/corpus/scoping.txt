@@ -1,15 +1,28 @@
 ================================================================================
 function definition on same line should end scope
-:skip
 ================================================================================
 
 let f x = x + 1
 
 --------------------------------------------------------------------------------
 
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (infix_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (infix_op)
+        (const (int))))))
+
 ================================================================================
 function definition on new line should open scope
-:skip
 ================================================================================
 
 let f x =
@@ -18,12 +31,45 @@ let f x =
 
 --------------------------------------------------------------------------------
 
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (infix_op)
+          (const (int)))
+        (const (int))))))
+
 ================================================================================
 function definition aligned to first line should scope correctly
-:skip
 ================================================================================
 
 let f x = x + 1
           1
 
 --------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (infix_op)
+          (const (int)))
+        (const (int))))))
