@@ -20,10 +20,10 @@ The documentation of this implementation is available in [DOC](DOC.md). Because 
 
 ## TODO
 
-- [ ] Update 0.11
+- [X] Update 0.11
   - [X] Hangul script doesn't form words
-  - [ ] Context operator
-  - [ ] No line comment inside block comment
+  - [X] Context operator
+  - [X] No line comment inside block comment
 - [ ] More tests, objectif 1000, current 419
 - [X] Installation
   - [X] Helix
