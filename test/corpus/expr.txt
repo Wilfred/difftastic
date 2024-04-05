@@ -1337,3 +1337,128 @@ let test =
             (int)))
         (const
           (int))))))
+
+================================================================================
+try-with expression 1
+================================================================================
+
+let test =
+  try
+    ()
+  with e -> ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (try_expression
+        (const
+          (unit))
+        (rules
+          (rule
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (const
+              (unit))))))))
+
+================================================================================
+try-with expression 2
+================================================================================
+
+let test =
+  try
+    ()
+  with e ->
+    ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (try_expression
+        (const
+          (unit))
+        (rules
+          (rule
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (const
+              (unit))))))))
+
+================================================================================
+try-with expression with multiple clauses
+================================================================================
+
+let test =
+  try
+    ()
+  with
+  | :? System.IO.Exception -> ()
+  | :? Exception -> ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (try_expression
+        (const
+          (unit))
+        (rules
+          (rule
+            (type_check_pattern
+              (atomic_type
+                (long_identifier
+                  (identifier)
+                  (identifier)
+                  (identifier))))
+            (const
+              (unit)))
+          (rule
+            (type_check_pattern
+              (atomic_type
+                (long_identifier
+                  (identifier))))
+            (const
+              (unit))))))))
+
+================================================================================
+try-finally expression
+================================================================================
+
+let test =
+  try
+    ()
+  finally
+    ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (try_expression
+        (const
+          (unit))
+        (const
+          (unit))))))

@@ -228,6 +228,10 @@
         "named": true
       },
       {
+        "type": "type_check_pattern",
+        "named": true
+      },
+      {
         "type": "typed_pattern",
         "named": true
       },
@@ -565,6 +569,33 @@
         },
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "atomic_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "long_identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_argument",
+          "named": true
+        },
+        {
+          "type": "type_attributes",
           "named": true
         }
       ]
@@ -2880,6 +2911,25 @@
       "types": [
         {
           "type": "type_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_check_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "atomic_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]

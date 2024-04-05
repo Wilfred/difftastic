@@ -281,8 +281,16 @@ module.exports = grammar({
         $.record_pattern,
         $.typed_pattern,
         $.attribute_pattern,
-        // :? atomic-type
-        // :? atomic-type as ident
+        $.type_check_pattern,
+      ),
+
+    type_check_pattern: $ =>
+      prec.right(
+        seq(
+          ":?",
+          $.atomic_type,
+          optional(seq("as", $.identifier))
+        )
       ),
 
     attribute_pattern: $ => prec.left(seq($.attributes, $._pattern)),
@@ -616,8 +624,9 @@ module.exports = grammar({
           $._indent,
           $._expression,
           $._dedent,
+          optional($._newline),
           choice(
-            seq('with', $._indent, $.rules, $._dedent),
+            seq('with', $.rules),
             seq('finally', $._indent, $._expression, $._dedent),
           ),
         )),
@@ -628,18 +637,14 @@ module.exports = grammar({
           choice('match', 'match!'),
           $._expression,
           'with',
-          $._indent,
           $.rules,
-          $._dedent,
         )),
 
     function_expression: $ =>
       prec(PREC.MATCH_EXPR,
         seq(
           'function',
-          $._indent,
           $.rules,
-          $._dedent,
         )),
 
     object_instantiation_expression: $ =>
@@ -772,6 +777,7 @@ module.exports = grammar({
       prec.right(
         seq(
           $._pattern,
+          optional(seq("when", $._expression)),
           '->',
           $._indent,
           $._expression,
@@ -781,9 +787,8 @@ module.exports = grammar({
     rules: $ =>
       prec.right(PREC.MATCH_EXPR,
         seq(
-          optional('|'),
-          $.rule,
-          repeat(seq('|', $.rule)),
+          optional('|'), $.rule,
+          repeat(seq(optional($._newline), '|', $.rule)),
         )),
 
     application_expression: $ =>
@@ -1044,13 +1049,14 @@ module.exports = grammar({
     type_attributes: $ => seq($.type_attribute, repeat(prec.left(PREC.COMMA, seq(',', $.type_attribute)))),
 
     atomic_type: $ =>
-      choice(
-        seq('#', $.type),
-        $.type_argument,
-        seq('(', $.type, ')'),
-        $.long_identifier,
-        seq($.long_identifier, '<', $.type_attributes, '>'),
-      ),
+      prec.right(
+        choice(
+          seq('#', $.type),
+          $.type_argument,
+          seq('(', $.type, ')'),
+          $.long_identifier,
+          seq($.long_identifier, '<', $.type_attributes, '>'),
+        )),
 
     constraint: $ =>
       choice(
