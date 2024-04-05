@@ -149,6 +149,10 @@
 ] @constant
 
 [
+ (type_name)
+] @type.definition
+
+[
  (union_type_case)
  (rules (rule (identifier_pattern)))
 ] @type.enum
