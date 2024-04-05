@@ -19,8 +19,6 @@ enum token_type {
 	TOKEN_DEDENT,
 	TOKEN_REDENT,
 
-	// TOKEN_LINE_START_TRUE,
-	// TOKEN_LINE_START_FALSE,
 	TOKEN_LINE_START_CHECK,
 
 	TOKEN_CONTENT,
@@ -392,17 +390,27 @@ bool parse_comment(struct scanner* self, TSLexer* lexer) {
 	}
 	if (lex_next == '*') {
 		lex_advance();
-		bool star = false;
+
+		unsigned int level = 0;
 		while (!lexer->eof(lexer)) {
-			if (star && lex_next == '/') {
+			if (lex_next == '*') {
 				lex_advance();
-				break;
+				if (lex_next == '/') {
+					lex_advance();
+					if (level == 0) break;
+					level -= 1;
+				}
 			}
-			if (parse_comment(self, lexer)) {
-				continue;
+			else if (lex_next == '/') {
+				lex_advance();
+				if (lex_next == '*') {
+					lex_advance();
+					level += 1;
+				}
 			}
-			star = lex_next == '*';
-			lex_advance();
+			else {
+				lex_advance();
+			}
 		}
 		self->immediate = false;
 		lex_accept(TOKEN_COMMENT);

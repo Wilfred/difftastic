@@ -4698,11 +4698,12 @@ positive/315
 =====================
 positive/316
 =====================
-/* // */\
+/* // *//*
 */
 ---------------------
 
 (source_file
+	(comment)
 	(comment))
 
 
@@ -6241,3 +6242,14 @@ positive/419
 (source_file
 	(context
 		(ident)))
+
+
+=====================
+positive/420
+=====================
+/* // */ Hello
+--------------------
+
+(source_file
+	(comment)
+	(text))
