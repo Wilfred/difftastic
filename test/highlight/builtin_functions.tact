@@ -31,6 +31,10 @@ fun fun() {
     // <- function.builtin
     getConfigParam();
     // <- function.builtin
+    log();
+    // <- function.builtin
+    log2();
+    // <- function.builtin
     max();
     // <- function.builtin
     min();

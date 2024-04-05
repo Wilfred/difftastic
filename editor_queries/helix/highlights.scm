@@ -150,7 +150,13 @@
     "SendIgnoreErrors"
     "SendDestroyIfZero"
     "SendRemainingValue"
-    "SendRemainingBalance")
+    "SendRemainingBalance"
+    "ReserveExact"
+    "ReserveAllExcept"
+    "ReserveAtMost"
+    "ReserveAddOriginalBalance"
+    "ReserveInvertSign"
+    "ReserveBounceIfActionFail")
   (#is-not? local))
 
 (null) @constant.builtin
@@ -273,7 +279,7 @@
     "beginString" "beginComment" "beginTailString" "beginStringFromBuilder" "beginCell" "emptyCell"
     "randomInt" "random"
     "checkSignature" "checkDataSignature" "sha256"
-    "min" "max" "abs" "pow"
+    "min" "max" "abs" "pow" "log" "log2"
     "throw" "dump" "getConfigParam"
     "nativeThrowWhen" "nativeThrowUnless" "nativeReserve"
     "nativeRandomize" "nativeRandomizeLt" "nativePrepareRandom" "nativeRandom" "nativeRandomInterval")

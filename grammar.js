@@ -635,7 +635,26 @@ module.exports = grammar({
 
     /* Literals */
 
-    string: (_) => seq('"', /[^"\\]*/, '"'),
+    string: ($) => seq(
+      '"',
+      repeat(choice(
+        $._non_quote_or_backslash_char,
+        $.escape_sequence,
+      )),
+      token.immediate('"'),
+    ),
+
+    _non_quote_or_backslash_char: () => token.immediate(prec(1, /[^"\n\\]+/)),
+
+    escape_sequence: () => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu]/,                 // anything, except for [xu], which are:
+        /x[0-9a-fA-F]{2}/,       // \x00 through \xFF
+        /u[0-9a-fA-F]{4}/,       // \u0000 through \uFFFF
+        /u\{[0-9a-fA-F]{1,6}\}/, // \u{0} through \u{FFFFFF}
+      ),
+    )),
 
     boolean: (_) => choice("true", "false"),
 

@@ -14,6 +14,24 @@ fun v() {
     SendRemainingBalance;
     // <- constant.builtin
 
+    ReserveExact;
+    // <- constant.builtin
+
+    ReserveAllExcept;
+    // <- constant.builtin
+
+    ReserveAtMost;
+    // <- constant.builtin
+
+    ReserveAddOriginalBalance;
+    // <- constant.builtin
+
+    ReserveInvertSign;
+    // <- constant.builtin
+
+    ReserveBounceIfActionFail;
+    // <- constant.builtin
+
     SendParameters{};
     // <- type.builtin
 }

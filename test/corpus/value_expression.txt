@@ -44,7 +44,7 @@ extends fun c(self: Int) {
   initOf Contract(123, 123);
 
   // string
-  "Tact is awesome!";
+  "// \\ \" \n\r \t\v \b\f \u{0} \u{FFFFFF} \u0000 \xFF";
 
   // self
   self.toString();
@@ -140,7 +140,20 @@ extends fun c(self: Int) {
               value: (integer)))))
       (comment)
       (expression_statement
-        (string))
+        (string
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+        ))
       (comment)
       (expression_statement
         (method_call_expression
