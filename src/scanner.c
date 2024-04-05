@@ -3,7 +3,16 @@
 #include <string.h>
 #include "unicode.h"
 
-// #define DEBUG
+// #define unreachable() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
+// #define assert(a, ...) \
+// 	if (!(a)) {\
+// 		fprintf(stderr, __VA_ARGS__);\
+// 		exit(EXIT_FAILURE);\
+// 	}
+
+#define unreachable() while (false);
+#define assert(a, ...) while (false);
+
 
 enum token_type {
 	TOKEN_INDENT,
@@ -85,18 +94,6 @@ enum termination {
 	TERMINATION_EXCLUSIVE,
 };
 
-#ifdef DEBUG
-	#define unreachable() fprintf(stderr, "unreachable src/scanner.c:%d\n", __LINE__)
-	#define assert(a, ...) \
-		if (!(a)) {\
-			fprintf(stderr, __VA_ARGS__);\
-			exit(EXIT_FAILURE);\
-		}
-#else
-	#define unreachable() while (false);
-	#define assert(a, ...) while (false);
-#endif
-
 #define lex_accept(a) \
 	lexer->result_symbol = a;\
 	lexer->mark_end(lexer);\
@@ -170,19 +167,13 @@ static void vec_u32_push(struct vec_u32* self, uint32_t value) {
 	if (self->len + 1 > self->cap) {
 		self->cap = self->len + 8;
 		self->vec = realloc(self->vec, sizeof(uint32_t) * self->cap);
-		if (self->vec == NULL) {
-			fprintf(stderr, "vec_u32_push: malloc failed\n");
-			exit(EXIT_FAILURE);
-		}
+		assert(self->vec != NULL, "vec_u32_push: malloc failed");
 	}
 	self->vec[self->len++] = value;
 }
 static uint32_t vec_u32_pop(struct vec_u32* self) {
 	assert(self != NULL, "vec_u32_pop");
-	if (self->len < 1) {
-			fprintf(stderr, "vec_u32_pop: empty vec\n");
-			exit(EXIT_FAILURE);
-	}
+	assert(self->len > 0, "vec_u32_pop: empty vec");
 	return self->vec[self->len--];
 }
 static size_t vec_u32_serialize(struct vec_u32* self, char* buffer) {
@@ -204,10 +195,7 @@ static size_t vec_u32_deserialize(struct vec_u32* self, const char* buffer) {
 	if (self->len > self->cap) {
 		self->cap = self->len;
 		self->vec = realloc(self->vec, sizeof(uint32_t) * self->cap);
-		if (self->vec == NULL) {
-			fprintf(stderr, "vec_u32_deserialize: malloc failed\n");
-			exit(EXIT_FAILURE);
-		}
+		assert(self->vec != NULL, "vec_u32_deserialize: malloc failed")
 	}
 	if (self->len > 0) {
 		memcpy(self->vec, buffer + read, self->len * sizeof *self->vec);
@@ -334,10 +322,7 @@ static void scanner_container_pop(struct scanner* self) {
 
 void * tree_sitter_typst_external_scanner_create() {
 	struct scanner* self = malloc(sizeof(struct scanner));
-	if (self == NULL) {
-		fprintf(stderr, "malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
+	assert(self != NULL, "malloc failed");
 	self->indentation = vec_u32_new();
 	self->containers = vec_u32_new();
 	self->worker = vec_u32_new();
