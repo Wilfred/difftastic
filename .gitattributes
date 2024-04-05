@@ -4,8 +4,8 @@ src/*.json linguist-generated
 src/parser.c linguist-generated
 src/tree_sitter/* linguist-generated
 
-bindings/** linguist-generated
-binding.gyp linguist-generated
-setup.py linguist-generated
-Makefile linguist-generated
-Package.swift linguist-generated
+bindings/** linguist-vendored
+binding.gyp linguist-vendored
+setup.py linguist-vendored
+Makefile linguist-vendored
+Package.swift linguist-vendored

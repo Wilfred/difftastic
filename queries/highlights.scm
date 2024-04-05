@@ -68,7 +68,7 @@
 [
   "for"
   "while"
-] @keyword.control.return
+] @keyword.control.repeat
 
 
 [
@@ -115,7 +115,7 @@
   "fun"
   "function"
   "get"
-  ; "global"
+  "global"
   "inherit"
   "interface"
   "lazy"
@@ -140,12 +140,13 @@
 [
  "true"
  "false"
- "unit"
- ] @constant.builtin
+ ] @boolean
+
 
 [
  (type)
  (const)
+ "unit"
 ] @constant
 
 [
@@ -194,5 +195,3 @@
   (float)
   (decimal)
 ] @constant.numeric
-
-
