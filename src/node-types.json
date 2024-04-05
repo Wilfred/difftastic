@@ -2156,12 +2156,16 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "long_identifier",
             "named": true
+          },
+          {
+            "type": "rec",
+            "named": false
           }
         ]
       }
@@ -2172,10 +2176,6 @@
       "types": [
         {
           "type": "_module_elem",
-          "named": true
-        },
-        {
-          "type": "access_modifier",
           "named": true
         }
       ]
@@ -3742,6 +3742,10 @@
   },
   {
     "type": "get",
+    "named": false
+  },
+  {
+    "type": "global",
     "named": false
   },
   {

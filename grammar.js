@@ -94,8 +94,10 @@ module.exports = grammar({
     namespace: $ =>
       seq(
         token.immediate('namespace'),
-        optional($.access_modifier),
-        field('name', $.long_identifier),
+        choice(
+          "global",
+          field('name', seq(optional("rec"), $.long_identifier)),
+        ),
         repeat($._module_elem),
       ),
 
