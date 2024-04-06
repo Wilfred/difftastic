@@ -32,6 +32,7 @@
     "src/**"
   ],
   "scripts": {
+    "ts": "tree-sitter",
     "gen": "tree-sitter generate",
     "test": "tree-sitter test",
     "gentest": "tree-sitter generate && tree-sitter test",

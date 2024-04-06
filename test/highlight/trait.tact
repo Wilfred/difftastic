@@ -33,7 +33,7 @@ trait Filled with Deployable, Ownable {
   get fun c(arg1: String): Int {
   // <- keyword
   //  ^ keyword
-  //      ^ function.method
+  //      ^ function
   //       ^ punctuation.bracket
   //        ^ variable.parameter
   //            ^ punctuation.delimiter
@@ -64,7 +64,7 @@ trait Filled with Deployable, Ownable {
   //       ^ keyword
   //              ^ keyword
   //                       ^ keyword
-  //                           ^ function.method
+  //                           ^ function
   //                            ^ punctuation.bracket
   //                             ^ punctuation.bracket
   //                               ^ punctuation.bracket

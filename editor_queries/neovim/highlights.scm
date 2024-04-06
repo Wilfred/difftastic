@@ -99,6 +99,11 @@
 
 (string) @string
 
+; string.escape
+; -------------
+
+(escape_sequence) @string.escape
+
 ; string.special.path
 ; -------------------
 

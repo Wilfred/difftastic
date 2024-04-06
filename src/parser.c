@@ -2099,7 +2099,13 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 22:
       if (lookahead == 'u') ADVANCE(23);
       if (lookahead == 'x') ADVANCE(37);
-      if (lookahead != 0) ADVANCE(96);
+      if (lookahead == '"' ||
+          lookahead == '\\' ||
+          lookahead == 'b' ||
+          lookahead == 'f' ||
+          lookahead == 'n' ||
+          lookahead == 'r' ||
+          ('t' <= lookahead && lookahead <= 'v')) ADVANCE(96);
       END_STATE();
     case 23:
       if (lookahead == '{') ADVANCE(35);

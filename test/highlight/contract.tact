@@ -6,20 +6,20 @@ contract Empty {}
 
 contract Filled {
  init() {}
- // <- function.method
+ // <- function
  //  ^ punctuation.bracket
  //   ^ punctuation.bracket
  //     ^ punctuation.bracket
  //      ^ punctuation.bracket
 
  receive() {}
- // <- function.method
+ // <- function
 
  external() {}
- // <- function.method
+ // <- function
 
  bounced(msg: Slice) {}
- // <- function.method
+ // <- function
  //      ^ variable.parameter
  //         ^ punctuation.delimiter
  //           ^ type.builtin

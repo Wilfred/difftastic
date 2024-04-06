@@ -99,11 +99,13 @@
 
 (string) @string
 
-; string.special.path
-; -------------------
+; string.special
+; --------------
 
 (import_statement
-  library: (string) @string.special.path)
+  library: (string) @string.special)
+
+(escape_sequence) @string.special
 
 ; constant
 ; --------
@@ -169,7 +171,7 @@
 ; --------
 
 (function
-  name: (identifier) @function.method)
+  name: (identifier) @function)
 
 (native_function
   name: (identifier) @function)
@@ -181,24 +183,21 @@
   name: (identifier) @function)
 
 (init_function
-  "init" @function.method)
+  "init" @function)
 
 (receive_function
-  "receive" @function.method)
+  "receive" @function)
 
 (bounced_function
-  "bounced" @function.method)
+  "bounced" @function)
 
 (external_function
-  "external" @function.method)
+  "external" @function)
 
 (func_identifier) @function
 
-; function.method
-; ---------------
-
 (method_call_expression
-  name: (identifier) @function.method)
+  name: (identifier) @function)
 
 ; function.builtin
 ; ----------------

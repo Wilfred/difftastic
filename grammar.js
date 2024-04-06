@@ -649,10 +649,10 @@ module.exports = grammar({
     escape_sequence: () => token.immediate(seq(
       '\\',
       choice(
-        /[^xu]/,                 // anything, except for [xu], which are:
-        /x[0-9a-fA-F]{2}/,       // \x00 through \xFF
-        /u[0-9a-fA-F]{4}/,       // \u0000 through \uFFFF
-        /u\{[0-9a-fA-F]{1,6}\}/, // \u{0} through \u{FFFFFF}
+        /[\\"nrtvbf]/,           // \\ \" \n \r \t \v \b \f
+        /x[0-9a-fA-F]{2}/,       // hexEscape, \x00 through \xFF
+        /u[0-9a-fA-F]{4}/,       // unicodeEscape, \u0000 through \uFFFF
+        /u\{[0-9a-fA-F]{1,6}\}/, // unicodeCodePoint, \u{0} through \u{FFFFFF}
       ),
     )),
 

@@ -135,6 +135,11 @@
 (constant
   name: (identifier) @constant)
 
+; constant.character.escape
+; -------------------------
+
+(escape_sequence) @constant.character.escape
+
 ; constant.numeric.integer
 ; ------------------------
 

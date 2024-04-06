@@ -7,7 +7,7 @@ extends fun c(self: Int) {
 
     /* call_expression */
     95.toString();
-    // ^ function.method
+    // ^ function
 
     /* field_expression */
     context().sender;
@@ -71,11 +71,12 @@ extends fun c(self: Int) {
     //     ^ constructor
 
     /* string */
-    "Tact is awesome!";
+    "// \\ \" \n\r \t\v \b\f \u{0} \u{FFFFFF} \u0000 \xFF";
     // <- string
+    //  ^ string.special
 
     /* self, not as a builtin, but as a parameter */
     self.toString();
     // <- variable.parameter
-    //   ^ function.method
+    //   ^ function
 }

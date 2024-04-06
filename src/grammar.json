@@ -2962,7 +2962,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[^xu]"
+                "value": "[\\\\\"nrtvbf]"
               },
               {
                 "type": "PATTERN",
