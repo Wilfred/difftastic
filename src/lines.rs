@@ -1,7 +1,6 @@
 //! Manipulate lines of text and groups of lines.
 
-use std::iter;
-use std::iter::{Chain, Once};
+use std::iter::{self, Chain, Once};
 use std::ops::Sub;
 use std::str::Lines;
 

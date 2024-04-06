@@ -9,7 +9,6 @@ use line_numbers::LineNumber;
 use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 
-use crate::lines::lines_raw;
 use crate::{
     constants::Side,
     display::context::all_matched_lines_filled,
@@ -19,7 +18,7 @@ use crate::{
         split_and_apply, BackgroundColor,
     },
     hash::DftHashMap,
-    lines::format_line_num,
+    lines::{format_line_num, lines_raw},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
     summary::FileFormat,

@@ -7,12 +7,11 @@ use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
-use crate::lines::lines_raw;
 use crate::parse::syntax::StringKind;
 use crate::{
     constants::Side,
     hash::DftHashMap,
-    lines::byte_len,
+    lines::{byte_len, lines_raw},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     summary::FileFormat,
