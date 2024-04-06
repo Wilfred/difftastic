@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-commonlisp",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Tree-sitter grammar for Common Lisp",
   "tree-sitter": [
     {
