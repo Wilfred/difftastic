@@ -1,5 +1,6 @@
 //! Inline, or "unified" diff display.
 
+use crate::lines::lines_raw;
 use crate::{
     constants::Side,
     display::context::{calculate_after_context, calculate_before_context, opposite_positions},
@@ -43,8 +44,8 @@ pub(crate) fn print(
         )
     } else {
         (
-            lhs_src.lines().map(|s| format!("{}\n", s)).collect(),
-            rhs_src.lines().map(|s| format!("{}\n", s)).collect(),
+            lines_raw(lhs_src).map(|s| format!("{}\n", s)).collect(),
+            lines_raw(rhs_src).map(|s| format!("{}\n", s)).collect(),
         )
     };
 

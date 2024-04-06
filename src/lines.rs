@@ -1,6 +1,9 @@
 //! Manipulate lines of text and groups of lines.
 
+use std::iter;
+use std::iter::{Chain, Once};
 use std::ops::Sub;
+use std::str::Lines;
 
 use line_numbers::LineNumber;
 
@@ -44,6 +47,30 @@ pub(crate) fn is_all_whitespace(s: &str) -> bool {
     s.chars().all(|c| c.is_whitespace())
 }
 
+pub(crate) fn lines_raw(s: &str) -> impl Iterator<Item = &str> {
+    if s.ends_with('\n') {
+        LinesIter::Chained(s.lines().chain(iter::once("")))
+    } else {
+        LinesIter::Lines(s.lines())
+    }
+}
+
+enum LinesIter<'a> {
+    Chained(Chain<Lines<'a>, Once<&'a str>>),
+    Lines(Lines<'a>),
+}
+
+impl<'a> Iterator for LinesIter<'a> {
+    type Item = &'a str;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self {
+            Self::Chained(iter) => iter.next(),
+            Self::Lines(iter) => iter.next(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use pretty_assertions::assert_eq;
@@ -75,7 +102,16 @@ mod tests {
     }
 
     #[test]
-    fn test_is_all_whiteapce() {
+    fn test_is_all_whitespace() {
         assert!(is_all_whitespace(" \n\t"));
+    }
+
+    #[test]
+    fn test_last_new_line_preserved() {
+        assert_eq!(lines_raw("").count(), 0);
+        assert_eq!(lines_raw("a").count(), 1);
+        assert_eq!(lines_raw("\n").count(), 2);
+        assert_eq!(lines_raw("a\n").count(), 2);
+        assert_eq!(lines_raw("a\n\n").count(), 3);
     }
 }

@@ -9,6 +9,7 @@ use line_numbers::LineNumber;
 use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 
+use crate::lines::lines_raw;
 use crate::{
     constants::Side,
     display::context::all_matched_lines_filled,
@@ -334,8 +335,8 @@ pub(crate) fn print(
         )
     } else {
         (
-            lhs_src.lines().map(|s| format!("{}\n", s)).collect(),
-            rhs_src.lines().map(|s| format!("{}\n", s)).collect(),
+            lines_raw(&lhs_src).map(|s| format!("{}\n", s)).collect(),
+            lines_raw(&rhs_src).map(|s| format!("{}\n", s)).collect(),
         )
     };
 
@@ -397,8 +398,8 @@ pub(crate) fn print(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
-    let lhs_lines = lhs_src.lines().collect::<Vec<_>>();
-    let rhs_lines = rhs_src.lines().collect::<Vec<_>>();
+    let lhs_lines = lines_raw(lhs_src).collect::<Vec<_>>();
+    let rhs_lines = lines_raw(rhs_src).collect::<Vec<_>>();
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
 
