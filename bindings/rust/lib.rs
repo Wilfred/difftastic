@@ -1,6 +1,6 @@
-//! This crate provides a C grammar for the [tree-sitter][] parsing library.
+//! This crate provides C language support for the [tree-sitter][] parsing library.
 //!
-//! Typically, you will use the [language][language func] function to add this grammar to a
+//! Typically, you will use the [language][language func] function to add this language to a
 //! tree-sitter [Parser][], and then use the parser to parse some code:
 //!
 //! ```
@@ -13,10 +13,8 @@
 //! "#;
 //! let mut parser = Parser::new();
 //! parser.set_language(&tree_sitter_c::language()).expect("Error loading C grammar");
-//! let parsed = parser.parse(code, None);
-//! # let parsed = parsed.unwrap();
-//! # let root = parsed.root_node();
-//! # assert!(!root.has_error());
+//! let tree = parser.parse(code, None).unwrap();
+//! assert!(!tree.root_node().has_error());
 //! ```
 //!
 //! [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
@@ -30,7 +28,7 @@ extern "C" {
     fn tree_sitter_c() -> Language;
 }
 
-/// Returns the tree-sitter [Language][] for this grammar.
+/// Get the tree-sitter [Language][] for this grammar.
 ///
 /// [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
 pub fn language() -> Language {
@@ -51,7 +49,7 @@ pub const TAGS_QUERY: &str = include_str!("../../queries/tags.scm");
 #[cfg(test)]
 mod tests {
     #[test]
-    fn can_load_grammar() {
+    fn test_can_load_grammar() {
         let mut parser = tree_sitter::Parser::new();
         parser
             .set_language(&super::language())

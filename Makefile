@@ -1,4 +1,4 @@
-VERSION := 0.0.1
+VERSION := 0.21.1
 
 LANGUAGE_NAME := tree-sitter-c
 
@@ -106,5 +106,6 @@ clean:
 
 test:
 	$(TS) test
+	$(TS) parse examples/* --quiet --time
 
 .PHONY: all install uninstall clean test

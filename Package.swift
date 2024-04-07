@@ -3,7 +3,6 @@ import PackageDescription
 
 let package = Package(
     name: "TreeSitterC",
-    platforms: [.macOS(.v10_13), .iOS(.v11)],
     products: [
         .library(name: "TreeSitterC", targets: ["TreeSitterC"]),
     ],
@@ -27,12 +26,12 @@ let package = Package(
                     "pyproject.toml",
                     "setup.py",
                     "test",
-                    "types",
                     "examples",
                     ".editorconfig",
                     ".github",
                     ".gitignore",
                     ".gitattributes",
+                    ".gitmodules",
                 ],
                 sources: [
                     "src/parser.c",
