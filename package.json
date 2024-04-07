@@ -10,6 +10,12 @@
   ],
   "main": "bindings/node",
   "types": "bindings/node",
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "c"
+  ],
   "files": [
     "grammar.js",
     "binding.gyp",
@@ -17,12 +23,6 @@
     "bindings/node/*",
     "queries/*",
     "src/**"
-  ],
-  "keywords": [
-    "incremental",
-    "parsing",
-    "tree-sitter",
-    "c"
   ],
   "dependencies": {
     "node-addon-api": "^7.1.0",
