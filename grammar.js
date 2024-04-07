@@ -1,71 +1,68 @@
 /**
  * @file Go grammar for tree-sitter
- * @author Max Brunsfeld
+ * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
+ * @author Amaan Qureshi <amaanq12@gmail.com>
  * @license MIT
  */
 
-/* eslint-disable arrow-parens */
-/* eslint-disable camelcase */
-/* eslint-disable-next-line spaced-comment */
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const
-  PREC = {
-    primary: 7,
-    unary: 6,
-    multiplicative: 5,
-    additive: 4,
-    comparative: 3,
-    and: 2,
-    or: 1,
-    composite_literal: -1,
-  },
+const PREC = {
+  primary: 7,
+  unary: 6,
+  multiplicative: 5,
+  additive: 4,
+  comparative: 3,
+  and: 2,
+  or: 1,
+  composite_literal: -1,
+};
 
-  multiplicative_operators = ['*', '/', '%', '<<', '>>', '&', '&^'],
-  additive_operators = ['+', '-', '|', '^'],
-  comparative_operators = ['==', '!=', '<', '<=', '>', '>='],
-  assignment_operators = multiplicative_operators.concat(additive_operators).map(operator => operator + '=').concat('='),
+const multiplicativeOperators = ['*', '/', '%', '<<', '>>', '&', '&^'];
+const additiveOperators = ['+', '-', '|', '^'];
+const comparativeOperators = ['==', '!=', '<', '<=', '>', '>='];
+const assignmentOperators = multiplicativeOperators.concat(additiveOperators).map(operator => operator + '=').concat('=');
 
 
-  newline = '\n',
-  terminator = choice(newline, ';', '\0'),
+const newline = '\n';
+const terminator = choice(newline, ';', '\0');
 
-  hexDigit = /[0-9a-fA-F]/,
-  octalDigit = /[0-7]/,
-  decimalDigit = /[0-9]/,
-  binaryDigit = /[01]/,
+const hexDigit = /[0-9a-fA-F]/;
+const octalDigit = /[0-7]/;
+const decimalDigit = /[0-9]/;
+const binaryDigit = /[01]/;
 
-  hexDigits = seq(hexDigit, repeat(seq(optional('_'), hexDigit))),
-  octalDigits = seq(octalDigit, repeat(seq(optional('_'), octalDigit))),
-  decimalDigits = seq(decimalDigit, repeat(seq(optional('_'), decimalDigit))),
-  binaryDigits = seq(binaryDigit, repeat(seq(optional('_'), binaryDigit))),
+const hexDigits = seq(hexDigit, repeat(seq(optional('_'), hexDigit)));
+const octalDigits = seq(octalDigit, repeat(seq(optional('_'), octalDigit)));
+const decimalDigits = seq(decimalDigit, repeat(seq(optional('_'), decimalDigit)));
+const binaryDigits = seq(binaryDigit, repeat(seq(optional('_'), binaryDigit)));
 
-  hexLiteral = seq('0', choice('x', 'X'), optional('_'), hexDigits),
-  octalLiteral = seq('0', optional(choice('o', 'O')), optional('_'), octalDigits),
-  decimalLiteral = choice('0', seq(/[1-9]/, optional(seq(optional('_'), decimalDigits)))),
-  binaryLiteral = seq('0', choice('b', 'B'), optional('_'), binaryDigits),
+const hexLiteral = seq('0', choice('x', 'X'), optional('_'), hexDigits);
+const octalLiteral = seq('0', optional(choice('o', 'O')), optional('_'), octalDigits);
+const decimalLiteral = choice('0', seq(/[1-9]/, optional(seq(optional('_'), decimalDigits))));
+const binaryLiteral = seq('0', choice('b', 'B'), optional('_'), binaryDigits);
 
-  intLiteral = choice(binaryLiteral, decimalLiteral, octalLiteral, hexLiteral),
+const intLiteral = choice(binaryLiteral, decimalLiteral, octalLiteral, hexLiteral);
 
-  decimalExponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimalDigits),
-  decimalFloatLiteral = choice(
-    seq(decimalDigits, '.', optional(decimalDigits), optional(decimalExponent)),
-    seq(decimalDigits, decimalExponent),
-    seq('.', decimalDigits, optional(decimalExponent)),
-  ),
+const decimalExponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimalDigits);
+const decimalFloatLiteral = choice(
+  seq(decimalDigits, '.', optional(decimalDigits), optional(decimalExponent)),
+  seq(decimalDigits, decimalExponent),
+  seq('.', decimalDigits, optional(decimalExponent)),
+);
 
-  hexExponent = seq(choice('p', 'P'), optional(choice('+', '-')), decimalDigits),
-  hexMantissa = choice(
-    seq(optional('_'), hexDigits, '.', optional(hexDigits)),
-    seq(optional('_'), hexDigits),
-    seq('.', hexDigits),
-  ),
-  hexFloatLiteral = seq('0', choice('x', 'X'), hexMantissa, hexExponent),
+const hexExponent = seq(choice('p', 'P'), optional(choice('+', '-')), decimalDigits);
+const hexMantissa = choice(
+  seq(optional('_'), hexDigits, '.', optional(hexDigits)),
+  seq(optional('_'), hexDigits),
+  seq('.', hexDigits),
+);
+const hexFloatLiteral = seq('0', choice('x', 'X'), hexMantissa, hexExponent);
 
-  floatLiteral = choice(decimalFloatLiteral, hexFloatLiteral),
+const floatLiteral = choice(decimalFloatLiteral, hexFloatLiteral);
 
-  imaginaryLiteral = seq(choice(decimalDigits, intLiteral, floatLiteral), 'i');
+const imaginaryLiteral = seq(choice(decimalDigits, intLiteral, floatLiteral), 'i');
 
 module.exports = grammar({
   name: 'go',
@@ -502,7 +499,7 @@ module.exports = grammar({
 
     assignment_statement: $ => seq(
       field('left', $.expression_list),
-      field('operator', choice(...assignment_operators)),
+      field('operator', choice(...assignmentOperators)),
       field('right', $.expression_list),
     ),
 
@@ -816,9 +813,9 @@ module.exports = grammar({
 
     binary_expression: $ => {
       const table = [
-        [PREC.multiplicative, choice(...multiplicative_operators)],
-        [PREC.additive, choice(...additive_operators)],
-        [PREC.comparative, choice(...comparative_operators)],
+        [PREC.multiplicative, choice(...multiplicativeOperators)],
+        [PREC.additive, choice(...additiveOperators)],
+        [PREC.comparative, choice(...comparativeOperators)],
         [PREC.and, '&&'],
         [PREC.or, '||'],
       ];
