@@ -49,8 +49,7 @@ $ choco install difftastic
 
 ## Full Package Listing
 
-The following table includes a list of all the platforms that provide
-difftastic packages.
+This table lists all the platforms that have packaged difftastic.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/difftastic.svg)](https://repology.org/project/difftastic/versions)
 
