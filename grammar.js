@@ -82,6 +82,7 @@ module.exports = grammar({
     $._package_identifier,
     $._top_level_declaration,
     $._string_literal,
+    $._interface_elem,
   ],
 
   word: $ => $.identifier,
@@ -91,10 +92,10 @@ module.exports = grammar({
     [$._simple_type, $.generic_type, $._expression],
     [$.qualified_type, $._expression],
     [$.generic_type, $._simple_type],
-    [$.parameter_declaration, $._simple_type, $.generic_type, $._expression],
-    [$.parameter_declaration, $._simple_type, $._expression],
-    [$.parameter_declaration, $._expression],
     [$.parameter_declaration, $._simple_type],
+    [$.type_parameter_declaration, $._simple_type, $._expression],
+    [$.type_parameter_declaration, $._expression],
+    [$.type_parameter_declaration, $._simple_type, $.generic_type, $._expression],
   ],
 
   supertypes: $ => [
@@ -227,9 +228,14 @@ module.exports = grammar({
 
     type_parameter_list: $ => seq(
       '[',
-      commaSep1($.parameter_declaration),
+      commaSep1($.type_parameter_declaration),
       optional(','),
       ']',
+    ),
+
+    type_parameter_declaration: $ => seq(
+      commaSep1(field('name', $.identifier)),
+      field('type', alias($.type_elem, $.type_constraint)),
     ),
 
     parameter_list: $ => seq(
@@ -300,18 +306,17 @@ module.exports = grammar({
       $.map_type,
       $.channel_type,
       $.function_type,
-      $.union_type,
       $.negated_type,
     ),
 
     generic_type: $ => prec.dynamic(1, seq(
-      field('type', choice($._type_identifier, $.qualified_type, $.union_type, $.negated_type)),
+      field('type', choice($._type_identifier, $.qualified_type, $.negated_type)),
       field('type_arguments', $.type_arguments),
     )),
 
     type_arguments: $ => prec.dynamic(2, seq(
       '[',
-      commaSep1($._type),
+      commaSep1($.type_elem),
       optional(','),
       ']',
     )),
@@ -342,12 +347,6 @@ module.exports = grammar({
       'struct',
       $.field_declaration_list,
     ),
-
-    union_type: $ => prec.left(seq(
-      $._type,
-      '|',
-      $._type,
-    )),
 
     negated_type: $ => prec.left(seq(
       '~',
@@ -386,34 +385,25 @@ module.exports = grammar({
       'interface',
       '{',
       optional(seq(
-        $._interface_body,
-        repeat(seq(terminator, $._interface_body)),
+        $._interface_elem,
+        repeat(seq(terminator, $._interface_elem)),
         optional(terminator),
       )),
       '}',
     ),
 
-    _interface_body: $ => choice(
-      $.method_spec,
-      $.struct_elem,
-      alias($._simple_type, $.constraint_elem),
+    _interface_elem: $ => choice(
+      $.method_elem,
+      $.type_elem,
     ),
 
-    struct_elem: $ => seq(
-      $.struct_term,
-      repeat(seq('|', $.struct_term)),
-    ),
-
-    struct_term: $ => prec(1, seq(
-      optional(choice('~', '*')),
-      $.struct_type,
-    )),
-
-    method_spec: $ => seq(
+    method_elem: $ => seq(
       field('name', $._field_identifier),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
     ),
+
+    type_elem: $ => sep1($._type, '|'),
 
     map_type: $ => prec.right(seq(
       'map',
@@ -928,6 +918,20 @@ module.exports = grammar({
     )),
   },
 });
+
+/**
+ * Creates a rule to match one or more occurrences of `rule` separated by `sep`
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @param {RuleOrLiteral} separator
+ *
+ * @return {SeqRule}
+ *
+ */
+function sep1(rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
+}
 
 /**
  * Creates a rule to match one or more of the rules separated by a comma

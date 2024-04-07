@@ -304,56 +304,68 @@ func f2(a File, b, c, d Thing) int {}
   (function_declaration
     (identifier)
     (type_parameter_list
-      (parameter_declaration
+      (type_parameter_declaration
         (identifier)
         (identifier)
-        (type_identifier))
-      (parameter_declaration
+        (type_constraint
+          (type_identifier)))
+      (type_parameter_declaration
         (identifier)
-        (interface_type))
-      (parameter_declaration
+        (type_constraint
+          (interface_type)))
+      (type_parameter_declaration
         (identifier)
-        (generic_type
-          (type_identifier)
-          (type_arguments
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (type_identifier)))))))
+        (type_constraint
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_elem
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_elem
+                      (type_identifier))))))))))
     (parameter_list
       (parameter_declaration
         (identifier)
         (generic_type
           (type_identifier)
           (type_arguments
-            (type_identifier)))))
+            (type_elem
+              (type_identifier))))))
     (block))
   (function_declaration
     (identifier)
     (type_parameter_list
-      (parameter_declaration
+      (type_parameter_declaration
         (identifier)
         (identifier)
-        (type_identifier))
-      (parameter_declaration
+        (type_constraint
+          (type_identifier)))
+      (type_parameter_declaration
         (identifier)
-        (interface_type))
-      (parameter_declaration
+        (type_constraint
+          (interface_type)))
+      (type_parameter_declaration
         (identifier)
-        (generic_type
-          (type_identifier)
-          (type_arguments
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (type_identifier)))))))
+        (type_constraint
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_elem
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_elem
+                      (type_identifier))))))))))
     (parameter_list
       (parameter_declaration
         (identifier)
         (generic_type
           (type_identifier)
           (type_arguments
-            (type_identifier)))))
+            (type_elem
+              (type_identifier))))))
     (block))
   (function_declaration
     (identifier)
@@ -365,23 +377,25 @@ func f2(a File, b, c, d Thing) int {}
             (package_identifier)
             (type_identifier))
           (type_arguments
-            (type_identifier)))))
+            (type_elem
+              (type_identifier))))))
     (block))
   (function_declaration
     (identifier)
     (type_parameter_list
-      (parameter_declaration
+      (type_parameter_declaration
         (identifier)
-        (union_type
+        (type_constraint
           (type_identifier)
           (type_identifier)))
-      (parameter_declaration
+      (type_parameter_declaration
         (identifier)
-        (negated_type
-          (type_identifier)))
-      (parameter_declaration
+        (type_constraint
+          (negated_type
+            (type_identifier))))
+      (type_parameter_declaration
         (identifier)
-        (union_type
+        (type_constraint
           (negated_type
             (type_identifier))
           (negated_type
