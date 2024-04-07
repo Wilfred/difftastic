@@ -1,4 +1,4 @@
-# Parsing
+# Internals: Parsing
 
 Difftastic uses
 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) to build a
