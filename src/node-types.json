@@ -880,10 +880,14 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "bignum",
+          "named": true
+        },
+        {
+          "type": "bool",
           "named": true
         },
         {
@@ -983,10 +987,14 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "bignum",
+          "named": true
+        },
+        {
+          "type": "bool",
           "named": true
         },
         {
@@ -3617,6 +3625,10 @@
     "named": true
   },
   {
+    "type": "bool",
+    "named": true
+  },
+  {
     "type": "comparison",
     "named": false
   },
@@ -3678,10 +3690,6 @@
   },
   {
     "type": "f",
-    "named": false
-  },
-  {
-    "type": "false",
     "named": false
   },
   {
@@ -3877,10 +3885,6 @@
     "named": false
   },
   {
-    "type": "true",
-    "named": false
-  },
-  {
     "type": "try",
     "named": false
   },
@@ -3894,11 +3898,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",

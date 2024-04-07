@@ -4,9 +4,10 @@
 [
   (line_comment)
   (block_comment)
-  (block_comment_content)
-] @comment
+] @comment @spell
 
+
+(identifier) @variable (#set! "priority" 90)
 
 ;; ----------------------------------------------------------------------------
 ;; Punctuation
@@ -20,6 +21,8 @@
   "]"
   "[|"
   "|]"
+  ; "{|"
+  ; "|}"
   "[<"
   ">]"
 ] @punctuation.bracket
@@ -39,9 +42,8 @@
   (infix_op)
   (prefix_op)
   (symbolic_op)
+  ; TODO: split _indent_or_op
 ] @operator
-
-
 
 (attribute) @attribute
 
@@ -58,24 +60,24 @@
   "&&"
   "||"
   "then"
-] @keyword.control.conditional
+] @keyword.conditional
 
 [
   "return"
   "return!"
-] @keyword.control.return
+] @keyword.return
 
 [
   "for"
   "while"
-] @keyword.control.repeat
+] @keyword.repeat
 
 
 [
   "open"
   "#r"
   "#load"
-] @keyword.control.import
+] @keyword.import
 
 [
   "abstract"
@@ -86,17 +88,18 @@
   "override"
   "rec"
   (access_modifier)
-] @keyword.storage.modifier
+] @keyword.modifier
 
 [
-  "enum"
   "let"
   "let!"
   "member"
-  "module"
-  "namespace"
+] @keyword.function
+
+[
+  "enum"
   "type"
-] @keyword.storage
+] @keyword.type
 
 [
   "as"
@@ -135,30 +138,26 @@
   "with"
   "yield"
   "yield!"
+  "module"
+  "namespace"
 ] @keyword
 
-[
- "true"
- "false"
- ] @boolean
+(bool) @boolean
 
+(type) @variable
 
-[
- (type)
- (const)
- "unit"
-] @constant
+(const) @constant
 
-[
- (type_name)
-] @type.definition
+(wildcard_pattern) @variable.parameter.builtin
+
+(type_definition (_ (type_name (identifier) @type.definition))) @type
 
 [
  (union_type_case)
  (rules (rule (identifier_pattern)))
-] @type.enum
+] @type
 
-(fsi_directive_decl (string) @namespace)
+(fsi_directive_decl (string) @module)
 
 [
   (import_decl (long_identifier))
@@ -168,19 +167,21 @@
     name: (long_identifier) )
   (namespace
     name: (long_identifier) )
-] @namespace
+] @module
 
 
 (dot_expression
-  base: (long_identifier_or_op) @variable.other.member
-  field: (long_identifier_or_op) @function)
+  base: (long_identifier_or_op) @variable.member
+  field: (long_identifier_or_op) @property)
 
-[
- ;;(value_declaration_left (identifier_pattern) )
- (function_declaration_left (identifier) )
- (call_expression (long_identifier_or_op (long_identifier)))
- ;;(application_expression (long_identifier_or_op (long_identifier)))
-] @function
+(value_declaration_left (identifier_pattern) @variable)
+
+(function_declaration_left
+  (identifier)* @function
+  (argument_patterns (long_identifier (identifier) @variable.parameter)))
+
+(call_expression (long_identifier_or_op (long_identifier))) @function.method.call
+(application_expression (long_identifier_or_op (long_identifier))) @function.call
 
 [
   (string)
@@ -192,6 +193,9 @@
   (int16)
   (int32)
   (int64)
+] @number
+
+[
   (float)
   (decimal)
-] @constant.numeric
+] @number.float

@@ -954,9 +954,12 @@ do
   (value_declaration
     (do
       (if_expression
-        (const)
-        (const (int))
-        (const (int))))))
+        (const
+          (bool))
+        (const
+          (int))
+        (const
+          (int))))))
 
 ================================================================================
 if-then-else expression 2
@@ -971,9 +974,12 @@ do
   (value_declaration
     (do
       (if_expression
-        (const)
-        (const (int))
-        (const (int))))))
+        (const
+          (bool))
+        (const
+          (int))
+        (const
+          (int))))))
 
 ================================================================================
 if-then-else expression
@@ -991,9 +997,12 @@ do
   (value_declaration
     (do
       (if_expression
-        (const)
-        (const (int))
-        (const (int))))))
+        (const
+          (bool))
+        (const
+          (int))
+        (const
+          (int))))))
 
 ================================================================================
 if-then expression 1
@@ -1009,8 +1018,10 @@ do
   (value_declaration
     (do
       (if_expression
-        (const)
-        (const (int))))))
+        (const
+          (bool))
+        (const
+          (int))))))
 
 ================================================================================
 if-then expression 2
@@ -1025,8 +1036,10 @@ do
   (value_declaration
     (do
       (if_expression
-        (const)
-        (const (int))))))
+        (const
+          (bool))
+        (const
+          (int))))))
 
 ================================================================================
 if-then-else expression 3
@@ -1042,14 +1055,15 @@ do
 --------------------------------------------------------------------------------
 
 (file
-  (value_declaration
-    (do
-      (if_expression
-        (const)
-        (const
-          (int))
-        (const
-          (int))))))
+    (value_declaration
+      (do
+        (if_expression
+          (const
+            (bool))
+          (const
+            (int))
+          (const
+            (int))))))
 
 ================================================================================
 anonymous function expression
@@ -1335,37 +1349,38 @@ let test f =
 --------------------------------------------------------------------------------
 
 (file
-  (value_declaration
-    (function_or_value_defn
-      (function_declaration_left
-        (identifier)
-        (argument_patterns
-          (long_identifier
-            (identifier))))
-      (sequential_expression
-        (application_expression
-          (if_expression
-            (const)
-            (long_identifier_or_op
-              (long_identifier
-                (identifier))))
-          (long_identifier_or_op
+    (value_declaration
+      (function_or_value_defn
+        (function_declaration_left
+          (identifier)
+          (argument_patterns
             (long_identifier
               (identifier))))
-        (call_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
+        (sequential_expression
+          (application_expression
+            (if_expression
+              (const
+                (bool))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
             (long_identifier_or_op
               (long_identifier
                 (identifier))))
-          (tuple_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (const
-              (string))))))))
+          (call_expression
+            (dot_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
+            (tuple_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (const
+                (string))))))))
 
 ================================================================================
 if-expression in sequence expression
@@ -1387,7 +1402,8 @@ let test =
             (identifier))))
       (sequential_expression
         (if_expression
-          (const)
+          (const
+            (bool))
           (const
             (int)))
         (const

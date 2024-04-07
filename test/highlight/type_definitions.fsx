@@ -1,4 +1,4 @@
 type A = int
-//<- keyword.storage
+//<- keyword.type
 //   ^ type.definition
 

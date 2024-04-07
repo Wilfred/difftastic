@@ -6392,6 +6392,22 @@
         }
       ]
     },
+    "bool": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "true"
+          },
+          {
+            "type": "STRING",
+            "value": "false"
+          }
+        ]
+      }
+    },
     "unit": {
       "type": "STRING",
       "value": "()"
@@ -6488,12 +6504,8 @@
           "name": "bytechar"
         },
         {
-          "type": "STRING",
-          "value": "false"
-        },
-        {
-          "type": "STRING",
-          "value": "true"
+          "type": "SYMBOL",
+          "name": "bool"
         },
         {
           "type": "SYMBOL",

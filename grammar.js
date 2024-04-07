@@ -1632,6 +1632,8 @@ module.exports = grammar({
 
     triple_quoted_string: $ => seq('"""', repeat($._string_char), $._triple_quoted_end),
 
+    bool: _ => token(choice('true', 'false')),
+
     unit: _ => '()',
 
     const: $ => choice(
@@ -1639,7 +1641,7 @@ module.exports = grammar({
       $.nativeint, $.unativeint, $.decimal,
       $.uint64, $.ieee32, $.ieee64, $.bignum, $.char, $.string,
       $.verbatim_string, $.triple_quoted_string, $.bytearray,
-      $.verbatim_bytearray, $.bytechar, 'false', 'true', $.unit),
+      $.verbatim_bytearray, $.bytechar, $.bool, $.unit),
 
     // Identifiers:
     long_identifier_or_op: $ => prec.right(
