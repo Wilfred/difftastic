@@ -88,11 +88,11 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._simple_type, $._expression],
+    [$._simple_type, $.generic_type, $._expression],
     [$.qualified_type, $._expression],
-    [$.generic_type, $._expression],
     [$.generic_type, $._simple_type],
+    [$.parameter_declaration, $._simple_type, $.generic_type, $._expression],
     [$.parameter_declaration, $._simple_type, $._expression],
-    [$.parameter_declaration, $.generic_type, $._expression],
     [$.parameter_declaration, $._expression],
     [$.parameter_declaration, $._simple_type],
   ],
@@ -304,10 +304,10 @@ module.exports = grammar({
       $.negated_type,
     ),
 
-    generic_type: $ => seq(
+    generic_type: $ => prec.dynamic(1, seq(
       field('type', choice($._type_identifier, $.qualified_type, $.union_type, $.negated_type)),
       field('type_arguments', $.type_arguments),
-    ),
+    )),
 
     type_arguments: $ => prec.dynamic(2, seq(
       '[',
@@ -665,6 +665,7 @@ module.exports = grammar({
       $.call_expression,
       $.type_assertion_expression,
       $.type_conversion_expression,
+      $.type_instantiation_expression,
       $.identifier,
       alias(choice('new', 'make'), $.identifier),
       $.composite_literal,
@@ -769,6 +770,14 @@ module.exports = grammar({
       field('operand', $._expression),
       optional(','),
       ')',
+    )),
+
+    type_instantiation_expression: $ => prec.dynamic(-1, seq(
+      field('type', $._type),
+      '[',
+      commaSep1($._type),
+      optional(','),
+      ']',
     )),
 
     composite_literal: $ => prec(PREC.composite_literal, seq(
