@@ -12,7 +12,11 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Topic :: Software Development :: Compilers",
   "Topic :: Text Processing :: Linguistic",
-  "Typing :: Typed"
+  "Typing :: Typed",
+]
+authors = [
+  { name = "Max Brunsfeld", email = "maxbrunsfeld@gmail.com" },
+  { name = "Amaan Qureshi", email = "amaanq12@gmail.com" },
 ]
 requires-python = ">=3.8"
 license.text = "MIT"

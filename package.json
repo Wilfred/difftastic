@@ -2,7 +2,7 @@
   "name": "tree-sitter-c",
   "version": "0.21.0",
   "description": "C grammar for tree-sitter",
-  "repository": "github:tree-sitter/tree-sitter-bash",
+  "repository": "github:tree-sitter/tree-sitter-c",
   "license": "MIT",
   "author": "Max Brunsfeld <maxbrunsfeld@gmail.com>",
   "contributors": [
