@@ -51,7 +51,7 @@ use crate::{
 /// ```
 #[derive(Debug, Clone)]
 pub(crate) struct Vertex<'s, 'b> {
-    pub(crate) neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
+    pub(crate) neighbours: RefCell<Option<&'b [(Edge, &'b Vertex<'s, 'b>)]>>,
     pub(crate) predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
@@ -773,7 +773,8 @@ pub(crate) fn set_neighbours<'s, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(neighbours));
+    v.neighbours
+        .replace(Some(alloc.alloc_slice_copy(neighbours.as_slice())));
 }
 
 pub(crate) fn populate_change_map<'s, 'b>(
