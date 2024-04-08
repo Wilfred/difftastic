@@ -42,7 +42,7 @@ fn shortest_vertex_path<'s, 'b>(
                 }
 
                 set_neighbours(current, vertex_arena, &mut seen);
-                for neighbour in current.neighbours.borrow().as_ref().unwrap() {
+                for neighbour in *current.neighbours.borrow().as_ref().unwrap() {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
 
@@ -128,7 +128,7 @@ fn edge_between<'s, 'b>(before: &Vertex<'s, 'b>, after: &Vertex<'s, 'b>) -> Edge
 
     let mut shortest_edge: Option<Edge> = None;
     if let Some(neighbours) = &*before.neighbours.borrow() {
-        for neighbour in neighbours {
+        for neighbour in *neighbours {
             let (edge, next) = *neighbour;
             // If there are multiple edges that can take us to `next`,
             // prefer the shortest.
