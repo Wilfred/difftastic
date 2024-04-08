@@ -3,11 +3,15 @@
   "version": "0.1.1",
   "description": "Elixir grammar for the tree-sitter parsing library",
   "main": "bindings/node",
-  "keywords": [
-    "parser",
-    "lexer",
-    "elixir",
-    "tree-sitter"
+  "types": "bindings/node",
+  "keywords": ["parser", "lexer", "elixir", "tree-sitter"],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
   ],
   "license": "Apache-2.0",
   "repository": {
@@ -17,23 +21,29 @@
   "scripts": {
     "test": "tree-sitter test",
     "format": "prettier --trailing-comma es5 --write grammar.js && clang-format -i src/scanner.c",
-    "format-check": "prettier --trailing-comma es5 --check grammar.js && cat src/scanner.c | clang-format src/scanner.c | diff src/scanner.c -"
+    "format-check": "prettier --trailing-comma es5 --check grammar.js && cat src/scanner.c | clang-format src/scanner.c | diff src/scanner.c -",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "dependencies": {
-    "nan": "^2.15.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
     "clang-format": "^1.8.0",
     "prettier": "^2.3.2",
-    "tree-sitter-cli": "^0.20.7"
+    "tree-sitter-cli": "^0.22.2",
+    "prebuildify": "^6.0.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
   },
   "tree-sitter": [
     {
       "scope": "source.elixir",
-      "file-types": [
-        "ex",
-        "exs"
-      ],
+      "file-types": ["ex", "exs"],
+      "highlights": ["queries/highlights.scm"],
+      "tags": ["queries/tags.scm"],
       "injection-regex": "^(ex|elixir)$"
     }
   ]

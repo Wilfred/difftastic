@@ -327,7 +327,8 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[_\\p{Ll}\\p{Lm}\\p{Lo}\\p{Nl}\\u1885\\u1886\\u2118\\u212E\\u309B\\u309C][\\p{ID_Continue}]*[?!]?"
+          "value": "[_\\p{Ll}\\p{Lm}\\p{Lo}\\p{Nl}\\u1885\\u1886\\u2118\\u212E\\u309B\\u309C][\\p{ID_Continue}]*[?!]?",
+          "flags": "u"
         },
         {
           "type": "STRING",
@@ -778,7 +779,8 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[\\p{ID_Start}_][\\p{ID_Continue}@]*[?!]?"
+                "value": "[\\p{ID_Start}_][\\p{ID_Continue}@]*[?!]?",
+                "flags": "u"
               },
               {
                 "type": "STRING",
@@ -2823,7 +2825,8 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[\\p{ID_Start}_][\\p{ID_Continue}@]*[?!]?"
+                "value": "[\\p{ID_Start}_][\\p{ID_Continue}@]*[?!]?",
+                "flags": "u"
               },
               {
                 "type": "STRING",
@@ -6746,4 +6749,3 @@
   "inline": [],
   "supertypes": []
 }
-
