@@ -1,4 +1,4 @@
-VERSION := 0.19.1
+VERSION := 0.2.0
 
 # Repository
 SRC_DIR := src
@@ -29,7 +29,7 @@ PCLIBDIR ?= $(LIBDIR)/pkgconfig
 CPPSRC := $(wildcard $(SRC_DIR)/*.cc)
 
 ifeq (, $(CPPSRC))
-	ADDITIONALLIBS := 
+	ADDITIONALLIBS :=
 else
 	ADDITIONALLIBS := -lc++
 endif
