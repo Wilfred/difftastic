@@ -24,7 +24,7 @@ jobs:
       - name: Generate parser
         run: |
           npx tree-sitter generate
-          npx tree-sitter build-wasm
+          npx tree-sitter build --wasm -o tree-sitter-elixir.wasm
       - name: Update parser files
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
