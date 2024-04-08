@@ -264,13 +264,14 @@ do test[test]
 (file
   (value_declaration
     (do
-      (index_expression
+      (application_expression
         (long_identifier_or_op
           (long_identifier
             (identifier)))
-        (long_identifier_or_op
-          (long_identifier
-            (identifier)))))))
+        (list_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))
 
 ================================================================================
 mutate expression
@@ -391,7 +392,7 @@ do [2; 3; 4][1]
 (file
   (value_declaration
     (do
-      (index_expression
+      (application_expression
         (list_expression
           (const
             (int))
@@ -399,8 +400,9 @@ do [2; 3; 4][1]
             (int))
           (const
             (int)))
-        (const
-          (int))))))
+        (list_expression
+          (const
+            (int)))))))
 
 ================================================================================
 index single list expressions
@@ -413,12 +415,13 @@ do [2][1]
 (file
   (value_declaration
     (do
-      (index_expression
+      (application_expression
         (list_expression
           (const
             (int)))
-        (const
-          (int))))))
+        (list_expression
+          (const
+            (int)))))))
 
 ================================================================================
 two single list expressions
@@ -464,7 +467,7 @@ do [|2; 3; 4|][1]
 (file
   (value_declaration
     (do
-      (index_expression
+      (application_expression
         (array_expression
           (const
             (int))
@@ -472,8 +475,9 @@ do [|2; 3; 4|][1]
             (int))
           (const
             (int)))
-        (const
-          (int))))))
+        (list_expression
+          (const
+            (int)))))))
 
 ================================================================================
 array single list expressions
@@ -486,12 +490,13 @@ do [|2|][1]
 (file
   (value_declaration
     (do
-      (index_expression
+      (application_expression
         (array_expression
           (const
             (int)))
-        (const
-          (int))))))
+        (list_expression
+          (const
+            (int)))))))
 
 ================================================================================
 two single array expressions
@@ -810,28 +815,17 @@ let x =
   (value_declaration
     (function_or_value_defn
       (value_declaration_left
-        (identifier_pattern
-          (long_identifier
-            (identifier))))
+        (identifier_pattern (long_identifier (identifier))))
       (declaration_expression
         (function_or_value_defn
           (value_declaration_left
-            (identifier_pattern
-              (long_identifier
-                (identifier))))
-          (list_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))))
+            (identifier_pattern (long_identifier (identifier))))
+          (list_expression (long_identifier_or_op (long_identifier (identifier)))))
         (application_expression
-          (index_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (const
-              (int)))
-          (const
-            (int)))))))
+          (application_expression
+            (long_identifier_or_op (long_identifier (identifier)))
+            (list_expression (const (int))))
+          (const (int)))))))
 
 ================================================================================
 index list with value declaration

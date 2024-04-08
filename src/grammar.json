@@ -2464,26 +2464,8 @@
             "name": "_expression"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "STRING",
-                  "value": "."
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "STRING",
-              "value": "["
-            }
+            "type": "STRING",
+            "value": ".["
           },
           {
             "type": "CHOICE",

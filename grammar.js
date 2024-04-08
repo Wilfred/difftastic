@@ -667,8 +667,7 @@ module.exports = grammar({
       prec(PREC.INDEX_EXPR,
         seq(
           $._expression,
-          optional(token.immediate('.')),
-          token.immediate('['),
+          '.[',
           choice(
             field('index', $._expression),
             $.slice_ranges,
