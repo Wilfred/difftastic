@@ -15,7 +15,7 @@
     "src/**"
   ],
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "eslint-config-google": "^0.14.0",
     "prebuildify": "^6.0.0",
     "tree-sitter-cli": "^0.22.2"
