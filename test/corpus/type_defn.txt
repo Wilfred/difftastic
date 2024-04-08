@@ -351,13 +351,10 @@ type A() =
                 (long_identifier
                   (identifier)))
               (call_expression
-                (dot_expression
-                  (long_identifier_or_op
-                    (long_identifier
-                      (identifier)))
-                  (long_identifier_or_op
-                    (long_identifier
-                      (identifier))))))
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)
+                    (identifier)))))
             (infix_op)
             (const
               (unit))))))))

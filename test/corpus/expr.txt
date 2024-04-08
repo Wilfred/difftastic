@@ -129,16 +129,13 @@ do
 --------------------------------------------------------------------------------
 
 (file
-    (value_declaration
-      (do
-        (typed_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (long_identifier_or_op
-              (long_identifier
-                (identifier))))))))
+  (value_declaration
+    (do
+      (typed_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 typed expression
@@ -150,20 +147,17 @@ do
 --------------------------------------------------------------------------------
 
 (file
-    (value_declaration
-      (do
-        (typed_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (long_identifier_or_op
-              (long_identifier
-                (identifier))))
-          (types
-            (type
-              (long_identifier
-                (identifier))))))))
+  (value_declaration
+    (do
+      (typed_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)
+            (identifier)))
+        (types
+          (type
+            (long_identifier
+              (identifier))))))))
 
 ================================================================================
 paren expression
@@ -220,19 +214,25 @@ do
 dot expression
 ================================================================================
 
-do (test.test)
+do (A[1]).B
 
 --------------------------------------------------------------------------------
 
 (file
   (value_declaration
     (do
-      (paren_expression
-        (dot_expression
-          (long_identifier_or_op
-            (long_identifier (identifier)))
-          (long_identifier_or_op
-            (long_identifier (identifier))))))))
+      (dot_expression
+        (paren_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (list_expression
+              (const
+                (int)))))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
 
 ================================================================================
 index dot expression
@@ -725,22 +725,16 @@ do
     (do
       (application_expression
         (infix_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (long_identifier_or_op
-              (long_identifier
-                (identifier))))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)
+              (identifier)))
           (infix_op
             (symbolic_op))
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)
+              (identifier))))
         (dot_expression
           (long_identifier_or_op
             (long_identifier
@@ -788,13 +782,10 @@ do
         (application_expression
           (do_expression
             (application_expression
-              (dot_expression
-                (long_identifier_or_op
-                  (long_identifier
-                    (identifier)))
-                (long_identifier_or_op
-                  (long_identifier
-                    (identifier))))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)
+                  (identifier)))
               (const
                 (int))))
           (return_expression
@@ -1343,38 +1334,35 @@ let test f =
 --------------------------------------------------------------------------------
 
 (file
-    (value_declaration
-      (function_or_value_defn
-        (function_declaration_left
-          (identifier)
-          (argument_patterns
-            (long_identifier
-              (identifier))))
-        (sequential_expression
-          (application_expression
-            (if_expression
-              (const
-                (bool))
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier))))
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (application_expression
+          (if_expression
+            (const
+              (bool))
             (long_identifier_or_op
               (long_identifier
                 (identifier))))
-          (call_expression
-            (dot_expression
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier)))
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier))))
-            (tuple_expression
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier)))
-              (const
-                (string))))))))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))
+        (call_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)
+              (identifier)))
+          (tuple_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (const
+              (string))))))))
 
 ================================================================================
 if-expression in sequence expression

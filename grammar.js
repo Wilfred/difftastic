@@ -679,7 +679,7 @@ module.exports = grammar({
       prec.right(PREC.DOT,
         seq(
           field('base', $._expression),
-          token.immediate('.'),
+          '.',
           field('field', $.long_identifier_or_op),
         )),
 
