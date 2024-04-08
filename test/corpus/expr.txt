@@ -1410,6 +1410,42 @@ let test =
           (int))))))
 
 ================================================================================
+nested if-expressions with sequential_expression in body
+:skip
+================================================================================
+
+do
+  if true then
+    if true then
+      1
+      2
+    else
+      1
+      2
+  else
+    1
+    2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const (bool))
+        (if_expression
+          (const (bool))
+          (sequential_expression
+            (const (int))
+            (const (int)))
+          (sequential_expression
+            (const (int))
+            (const (int))))
+        (sequential_expression
+          (const (int))
+          (const (int)))))))
+
+================================================================================
 try-with expression 1
 ================================================================================
 

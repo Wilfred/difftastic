@@ -178,7 +178,10 @@
 
 (function_declaration_left
   (identifier)* @function
-  (argument_patterns (long_identifier (identifier) @variable.parameter)))
+  [
+    (argument_patterns)
+    (argument_patterns (long_identifier (identifier)))
+  ] @variable.parameter)
 
 (call_expression (long_identifier_or_op (long_identifier))) @function.method.call
 (application_expression (long_identifier_or_op (long_identifier))) @function.call
