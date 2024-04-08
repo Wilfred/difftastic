@@ -1,2 +1,3 @@
-type Maybe<'T> = | Just of 'T | Nothing
-and 'T maybe = Maybe<'T>
+
+type A() =
+  member _.A(?x:int) = ()

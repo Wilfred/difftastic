@@ -666,3 +666,35 @@ type T =
                         (infix_op)
                         (const
                           (int))))))))))))))
+
+================================================================================
+method with optional typed argument
+================================================================================
+
+type T() =
+  member _.A(?x: int) = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier))
+      (primary_constr_args)
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (paren_pattern
+            (optional_pattern
+              (typed_pattern
+                (identifier_pattern
+                  (long_identifier
+                    (identifier)))
+                (type
+                  (long_identifier
+                    (identifier))))))
+          (const
+            (unit)))))))

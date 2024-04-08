@@ -284,7 +284,15 @@ module.exports = grammar({
         $.typed_pattern,
         $.attribute_pattern,
         $.type_check_pattern,
+        $.optional_pattern,
       ),
+
+    optional_pattern: $ => prec.right(
+      seq(
+        '?',
+        $._pattern
+      )
+    ),
 
     type_check_pattern: $ =>
       prec.right(
@@ -1472,13 +1480,13 @@ module.exports = grammar({
 
     property_or_ident: $ =>
       choice(
-        seq(field('instance', $.identifier), '.', $.identifier),
+        seq(field('instance', $.identifier), '.', field('method', $.identifier)),
         $.identifier,
       ),
 
     _method_defn: $ =>
       choice(
-        seq($.property_or_ident, $._pattern, '=', $._indent, $._expression, $._dedent),
+        seq($.property_or_ident, field('args', $._pattern), '=', $._indent, $._expression, $._dedent),
       ),
 
     _property_defn: $ =>

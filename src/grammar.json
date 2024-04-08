@@ -841,8 +841,29 @@
         {
           "type": "SYMBOL",
           "name": "type_check_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "optional_pattern"
         }
       ]
+    },
+    "optional_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_pattern"
+          }
+        ]
+      }
     },
     "type_check_pattern": {
       "type": "PREC_RIGHT",
@@ -5550,8 +5571,12 @@
               "value": "."
             },
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "FIELD",
+              "name": "method",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
             }
           ]
         },
@@ -5572,8 +5597,12 @@
               "name": "property_or_ident"
             },
             {
-              "type": "SYMBOL",
-              "name": "_pattern"
+              "type": "FIELD",
+              "name": "args",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_pattern"
+              }
             },
             {
               "type": "STRING",
