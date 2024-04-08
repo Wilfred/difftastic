@@ -10,7 +10,7 @@ Next, the grammar can be build using `npm run build`, or used to parse a file wi
 
 ### Project structure
 The parser consists of two parts:
-- `src/scanner.cc` is responsible for parsing newlines and comments and keeps track of indentation to open and close scopes.
+- `src/scanner.c` is responsible for parsing newlines and comments and keeps track of indentation to open and close scopes.
 - `grammar.js` the main tree-sitter grammar. The indent tokens from the external scanner is access though the `$.virtual_open_section` and `virtual_end_section` tokens.
 
 The grammar starts with the `file` node at the begging of the rules.
@@ -22,7 +22,7 @@ local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.fsharp = {
   install_info = {
     url = "path/to/tree-sitter-fsharp",
-    files = {"src/scanner.cc", "src/parser.c" }
+    files = {"src/scanner.c", "src/parser.c" }
   },
   filetype = "fsharp",
 }
@@ -34,7 +34,7 @@ parser_config.fsharp = {
   install_info = {
     url = "https://github.com/Nsidorenco/tree-sitter-fsharp",
     branch = "develop",
-    files = {"src/scanner.cc", "src/parser.c" },
+    files = {"src/scanner.c", "src/parser.c" },
     generate_requires_npm = true,
     requires_generate_from_grammar = true
   },
