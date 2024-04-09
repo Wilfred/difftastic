@@ -400,9 +400,9 @@ module.exports = grammar({
       optional(seq($.unit, $._immediate))
     )),
     string: $ => seq('"', repeat(choice($._token_string_blob, $.escape)), '"', $._immediate),
-    context:$ => prec.left(  0, seq("context", $._expr)),
     tagged: $ => prec.left(  1, seq(field('field', $._expr), ':', $._expr)),
-    elude:  $ => prec.left(  2, seq('..', optional($._expr))),
+    context:$ => prec.left(  2, seq("context", $._expr)),
+    elude:  $ => prec.left(  3, seq('..', optional($._expr))),
     assign: $ => prec.right( 4, seq(field('pattern', $._expr), alias(token(choice('=', '+=', '-=', '*=', '/=')), "assign"), field('value', $._expr))),
     lambda: $ => prec.right( 5, seq(field('pattern', $._expr), '=>', field('value', $._expr))),
     or:     $ => prec.left(  6, seq($._expr, 'or', $._expr)),

@@ -2184,23 +2184,6 @@
         }
       ]
     },
-    "context": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "context"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expr"
-          }
-        ]
-      }
-    },
     "tagged": {
       "type": "PREC_LEFT",
       "value": 1,
@@ -2226,9 +2209,26 @@
         ]
       }
     },
-    "elude": {
+    "context": {
       "type": "PREC_LEFT",
       "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "context"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expr"
+          }
+        ]
+      }
+    },
+    "elude": {
+      "type": "PREC_LEFT",
+      "value": 3,
       "content": {
         "type": "SEQ",
         "members": [
