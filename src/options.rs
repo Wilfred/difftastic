@@ -208,8 +208,11 @@ json: Output the results as a machine-readable JSON array with an element per fi
         )
         .arg(
             Arg::new("strip-cr").long("strip-cr")
+                .value_name("on/off")
                 .env("DFT_STRIP_CR")
-                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.")
+                .possible_values(["on", "off"])
+                .default_value("on")
+                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or mutiline text (e.g. in HTML) to differ if the two input files have different line endings.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
@@ -717,7 +720,7 @@ pub(crate) fn parse_args() -> Mode {
 
     let set_exit_code = matches.is_present("exit-code");
 
-    let strip_cr = matches.is_present("strip-cr");
+    let strip_cr = matches.value_of("strip-cr") == Some("on");
 
     let check_only = matches.is_present("check-only");
 

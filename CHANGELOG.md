@@ -1,5 +1,11 @@
 ## 0.58 (unreleased)
 
+### Diffing
+
+`--strip-cr` now defaults to `on`, so comparing a file with CRLF
+endings with a file with unix line endings will not show spurious
+changes.
+
 ## 0.57 (released 1st April 2024)
 
 ### Parsing
