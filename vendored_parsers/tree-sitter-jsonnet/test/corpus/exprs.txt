@@ -1,0 +1,270 @@
+======================
+Indexing priority
+======================
+
+"Hello" + xxx.name
+
+---
+
+(document
+  (binary
+    left: (string (string_start) (string_content) (string_end))
+    operator: (additive)
+    right: (fieldaccess (id) last: (id))
+  ))
+
+======================
+Indexing priority 2
+======================
+
+"Hello" + xxx[name]
+
+---
+
+(document
+  (binary
+    left: (string (string_start) (string_content) (string_end))
+    operator: (additive)
+    right: (indexing (id) (id))
+  ))
+
+======================
+Indexing priority 3
+======================
+
+"Hello" + super.name
+
+---
+
+(document
+  (binary
+    left: (string (string_start) (string_content) (string_end))
+    operator: (additive)
+    right: (fieldaccess_super (super) (id))
+  ))
+
+======================
+Indexing priority 4
+======================
+
+"Hello" + super['name']
+
+---
+
+(document
+  (binary
+    left: (string (string_start) (string_content) (string_end))
+    operator: (additive)
+    right: (indexing_super
+                (super)
+                (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))
+  ))
+
+======================
+Parses example 2
+======================
+
+{
+  person1: {
+    name: "Alice",
+    welcome: "Hello " + self.name + "!",
+  },
+  person2: self.person1 { name: "Bob" },
+}
+
+---
+(document
+  (object
+    (member
+      (field (fieldname (id))
+        (object
+          (member
+            (field (fieldname (id))
+              (string (string_start) (string_content) (string_end))
+            ))
+          (member
+            (field (fieldname (id))
+               (binary
+                 left:
+                   (binary
+                      left: (string (string_start) (string_content) (string_end))
+                      operator: (additive)
+                      right: (fieldaccess (self) last: (id)))
+                  operator: (additive)
+                  right: (string (string_start) (string_content) (string_end))
+                 )))
+            )))
+      (member
+        (field (fieldname (id))
+          (implicit_plus
+             (fieldaccess (self) last: (id))
+             (object
+                 (member
+                   (field (fieldname (id))
+                        (string (string_start) (string_content) (string_end))
+       ))))))))
+
+=================================
+should parse basic call foo(1,2)
+=================================
+
+{
+  x1: foo(1,2)
+}
+
+---
+
+(document
+  (object
+     (member (field (fieldname (id))
+               (functioncall
+                   (id)
+                   (args (number)
+                         (number)))
+))))
+
+=================================
+should parse basic call foo(1,2,3)
+=================================
+
+{
+  x1: foo(1,2,3)
+}
+
+---
+
+(document
+  (object
+     (member (field (fieldname (id))
+               (functioncall
+                   (id)
+                   (args (number)
+                         (number)
+                         (number)))
+))))
+
+=================================
+should parse tailstrict
+=================================
+
+{
+  x1: foo(1,2,3) tailstrict
+}
+
+---
+
+(document
+  (object
+     (member (field (fieldname (id))
+               (functioncall
+                   (id)
+                   (args (number)
+                         (number)
+                         (number))
+               (tailstrict))
+))))
+
+=================================
+should parse if-then-else
+=================================
+
+if x > 0 then x + 2 else x - 2
+
+---
+(document
+  (conditional
+    condition:
+      (binary
+          left: (id)
+          operator: (comparison)
+          right: (number))
+    consequence:
+      (binary
+          left: (id)
+          operator: (additive)
+          right: (number))
+    alternative:
+      (binary
+          left: (id)
+          operator: (additive)
+          right: (number))))
+
+=================================
+if-then-else vs local priority
+=================================
+
+local a = if x > 0 then x + 2 else x - 2; a + 2
+
+---
+(document
+    (local_bind
+      (local)
+      (bind (id)
+        (conditional
+          condition:
+            (binary
+                left: (id)
+                operator: (comparison)
+                right: (number))
+          consequence:
+            (binary
+                left: (id)
+                operator: (additive)
+                right: (number))
+          alternative:
+            (binary
+                left: (id)
+                operator: (additive)
+                right: (number))
+         ))
+      (binary
+          left: (id)
+          operator: (additive)
+          right: (number))))
+
+=================================
+operator precedence
+=================================
+3 + 4 * true
+
+---
+
+(document
+  (binary
+     left: (number)
+     operator: (additive)
+     right:
+        (binary
+           left: (number)
+           operator: (multiplicative)
+           right: (true))))
+
+======================
+Application priority
+======================
+
+!foo(2, 3)
+
+---
+(document
+  (unary
+      operator: (unaryop)
+      argument: (functioncall
+                    (id)
+                    (args (number) (number)))))
+
+======================
+Implicit plus with empty object
+======================
+
+({}) { }
+
+---
+
+(document
+  (implicit_plus
+    (parenthesis (object))
+    (object)))
