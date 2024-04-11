@@ -275,8 +275,8 @@ module.exports = grammar(C, {
         repeat($.attribute_declaration),
         optional(choice(
           $.access_specifier,
-          seq($.access_specifier, $.virtual),
-          seq($.virtual, $.access_specifier),
+          seq($.access_specifier, optional($.virtual)),
+          seq($.virtual, optional($.access_specifier)),
         )),
         $._class_name,
         optional('...'),

@@ -563,6 +563,8 @@ class C : C::D, public E {};
 class F : [[deprecated]] public G {};
 class H : public virtual I {};
 class J : virtual protected I {};
+class K : virtual I {};
+class L : protected I {};
 
 --------------------------------------------------------------------------------
 
@@ -602,6 +604,18 @@ class J : virtual protected I {};
     (type_identifier)
     (base_class_clause
       (virtual)
+      (access_specifier)
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
+      (virtual)
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
       (access_specifier)
       (type_identifier))
     (field_declaration_list)))
