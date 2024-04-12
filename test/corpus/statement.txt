@@ -2,35 +2,35 @@
 statement
 ============================================
 
-extends fun c(self: SomeMessage): Int {
-  let a: Int = 0;
-  let b: Int = 10;
+extends fun c(self: SomeMessage, ): Int {
+    let a: Int = 0;
+    let b: Int = 10;
 
-  {}
-  {
-    let c: Int = 20;
-  }
+    {}
+    {
+        let c: Int = 20;
+    }
 
-  self.description = "Tact is awesome!";
-  a = 15;
-  b += 32;
+    self.description = "Tact is awesome!";
+    a = 15;
+    b += 32;
 
-  if (true) {}
-  if (false) {}
-  else {}
+    if (true) {}
+    if (false) {}
+    else {}
 
-  if (false) {}
-  else if (true) {}
+    if (false) {}
+    else if (true) {}
 
-  while (false) {}
+    while (false) {}
 
-  repeat (5) {}
+    repeat (5) {}
 
-  do {}
-  until (false);
+    do {}
+    until (false);
 
-  0;
-  return 0;
+    0;
+    return 0;
 }
 
 ---

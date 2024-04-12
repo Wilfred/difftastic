@@ -5,10 +5,10 @@ contract
 contract Empty {}
 
 contract Filled {
- init() {}
- receive() {}
- external() {}
- bounced(msg: Slice) {}
+    init() {}
+    receive() {}
+    external() {}
+    bounced(msg: Slice) {}
 }
 
 ---

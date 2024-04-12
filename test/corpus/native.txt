@@ -3,7 +3,7 @@ native function
 ============================================
 
 @name(load_int)
-extends mutates native loadInt(self: Slice, l: Int): Int;
+extends mutates native loadInt(self: Slice, l: Int, ): Int;
 
 ---
 

@@ -9,6 +9,18 @@
  */
 
 /**
+ * Creates a rule to match one or more of the rules separated by a comma with an optional trailing comma
+ *
+ * @param {Rule} rule
+ *
+ * @return {ChoiceRule}
+ *
+ */
+function commaSepWithTrailing(rule) {
+  return optional(seq(rule, repeat(seq(",", rule)), optional(",")));
+}
+
+/**
  * Creates a rule to match one or more of the rules separated by a comma
  *
  * @param {Rule} rule
@@ -182,7 +194,7 @@ module.exports = grammar({
         ),
       ),
 
-    parameter_list: ($) => seq("(", commaSep($.parameter), ")"),
+    parameter_list: ($) => seq("(", commaSepWithTrailing($.parameter), ")"),
 
     parameter: ($) =>
       seq(field("name", $.identifier), ":", field("type", $._type)),
@@ -560,7 +572,7 @@ module.exports = grammar({
         seq(field("name", $.identifier), field("arguments", $.argument_list)),
       ),
 
-    argument_list: ($) => seq("(", commaSep($.argument), ")"),
+    argument_list: ($) => seq("(", commaSepWithTrailing($.argument), ")"),
 
     argument: ($) => field("value", $._expression),
 
@@ -576,7 +588,7 @@ module.exports = grammar({
         ),
       ),
 
-    instance_argument_list: ($) => seq("{", commaSep($.instance_argument), "}"),
+    instance_argument_list: ($) => seq("{", commaSepWithTrailing($.instance_argument), "}"),
 
     instance_argument: ($) =>
       seq(field("name", $.identifier), ":", field("value", $._expression)),

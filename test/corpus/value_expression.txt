@@ -2,52 +2,52 @@
 value_expression
 ============================================
 
-extends fun c(self: Int) {
-  // call_expression
-  95.toString();
+extends fun c(self: Int, ) {
+    // call_expression
+    95.toString();
 
-  // field_expression
-  context().sender;
+    // field_expression
+    context().sender;
 
-  // static_call_expression
-  now();
-  now ();
+    // static_call_expression
+    now();
+    now ();
 
-  // parenthesized_expression
-  ( 10 );
+    // parenthesized_expression
+    ( 10 );
 
-  // instance_expression
-  SendParameters{value: ton("1")};
+    // instance_expression
+    SendParameters{value: ton("1"), };
 
-  // integer
-  0b101;
-  0b1_1;
-  0xf0f;
-  0xf_f;
-  0o707;
-  0o7_7;
-  042;
-  909;
-  9_9;
+    // integer
+    0b101;
+    0b1_1;
+    0xf0f;
+    0xf_f;
+    0o707;
+    0o7_7;
+    042;
+    909;
+    9_9;
 
-  // boolean
-  true;
-  false;
+    // boolean
+    true;
+    false;
 
-  // identifier
-  name;
+    // identifier
+    name;
 
-  // null
-  null;
+    // null
+    null;
 
-  // initOf
-  initOf Contract(123, 123);
+    // initOf
+    initOf Contract(123, 123, );
 
-  // string
-  "// \\ \" \n\r \t\v \b\f \u{0} \u{FFFFFF} \u0000 \xFF";
+    // string
+    "// \\ \" \n\r \t\v \b\f \u{0} \u{FFFFFF} \u0000 \xFF";
 
-  // self
-  self.toString();
+    // self
+    self.toString();
 }
 
 ---

@@ -5,12 +5,12 @@ trait
 @interface("filled")
 @interface("non-filled")
 trait Filled with Deployable, Ownable {
-  const a: Int;
-  b: Int;
-  get fun c(arg1: String): Int {
-    return 0;
-  }
-  override inline abstract fun d() {}
+    const a: Int;
+    b: Int;
+    get fun c(arg1: String): Int {
+        return 0;
+    }
+    override inline abstract fun d() {}
 }
 
 ---

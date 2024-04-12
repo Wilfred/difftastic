@@ -3,10 +3,10 @@ struct
 ============================================
 
 struct Whatever {
-  a: Int;
-  b: String = "hello!";
-  c: Int as int32;
-  d: Int as int256 = 10;
+    a: Int;
+    b: String = "hello!";
+    c: Int as int32;
+    d: Int as int256 = 10;
 }
 
 ---
