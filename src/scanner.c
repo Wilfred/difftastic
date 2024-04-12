@@ -137,7 +137,9 @@ void tree_sitter_cpp_external_scanner_deserialize(void *payload, const char *buf
 
     Scanner *scanner = (Scanner *)payload;
     scanner->delimiter_length = length / sizeof(wchar_t);
-    memcpy(&scanner->delimiter[0], buffer, length);
+    if (length > 0) {
+        memcpy(&scanner->delimiter[0], buffer, length);
+    }
 }
 
 void tree_sitter_cpp_external_scanner_destroy(void *payload) {
