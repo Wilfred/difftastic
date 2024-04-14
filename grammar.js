@@ -76,7 +76,7 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  inline: $ => [$._module_elem, $._infix_or_prefix_op, $._base_call, $._expression_or_range],
+  inline: $ => [$._module_elem, $._infix_or_prefix_op, $._base_call, $._expression_or_range, $._object_expression_inner, $._record_type_defn_inner, $._union_type_defn_inner],
 
   supertypes: $ => [$._module_elem, $._pattern, $._expression, $._type_defn_body],
 
@@ -126,9 +126,7 @@ module.exports = grammar({
         'module',
         $.identifier,
         '=',
-        $._indent,
-        $.long_identifier,
-        $._dedent,
+        scoped($.long_identifier, $._indent, $._dedent),
       ),
 
     module_defn: $ =>
@@ -139,9 +137,7 @@ module.exports = grammar({
           optional($.access_modifier),
           $.identifier,
           '=',
-          $._indent,
-          repeat1($._module_elem),
-          $._dedent,
+          scoped(repeat1($._module_elem), $._indent, $._dedent),
         )),
 
     compiler_directive_decl: $ =>
@@ -211,9 +207,7 @@ module.exports = grammar({
     do: $ => prec(PREC.DO_EXPR,
       seq(
         'do',
-        $._indent,
-        $._expression,
-        $._dedent,
+        scoped($._expression, $._indent, $._dedent),
       )),
 
     _function_or_value_defns: $ =>
@@ -235,9 +229,7 @@ module.exports = grammar({
           $.value_declaration_left,
         ),
         '=',
-        $._indent,
-        field('body', $._expression),
-        $._dedent,
+        scoped(field('body', $._expression), $._indent, $._dedent),
       ),
 
     function_declaration_left: $ =>
@@ -460,22 +452,23 @@ module.exports = grammar({
       seq(
         $._expression,
         'with',
-        $._indent,
-        $.field_initializers,
-        $._dedent,
+        scoped($.field_initializers, $._indent, $._dedent),
       ),
 
     field_expression: $ => $.field_initializers,
+
+    _object_expression_inner: $ =>
+      seq(
+        $._object_members,
+        $._interface_implementations,
+      ),
 
     object_expression: $ =>
       prec(PREC.NEW_EXPR,
         seq(
           'new',
           $._base_call,
-          $._indent,
-          $._object_members,
-          $._interface_implementations,
-          $._dedent,
+          scoped($._object_expression_inner, $._indent, $._dedent),
         )),
 
     _base_call: $ =>
@@ -550,9 +543,7 @@ module.exports = grammar({
           seq($.identifier, '=', $._expression, choice('to', 'downto'), $._expression),
         ),
         'do',
-        $._indent,
-        $._expression,
-        $._dedent,
+        scoped($._expression, $._indent, $._dedent),
         optional('done'),
       ),
 
@@ -561,9 +552,7 @@ module.exports = grammar({
         'while',
         $._expression,
         'do',
-        $._indent,
-        $._expression,
-        $._dedent,
+        scoped($._expression, $._indent, $._dedent),
         optional('done'),
       ),
 
@@ -572,9 +561,7 @@ module.exports = grammar({
         seq(
           optional($._newline),
           'else',
-          $._indent,
-          field('else_branch', $._expression),
-          $._dedent,
+          scoped(field('else_branch', $._expression), $._indent, $._dedent),
         )),
 
     elif_expression: $ =>
@@ -618,22 +605,18 @@ module.exports = grammar({
           'fun',
           $.argument_patterns,
           '->',
-          $._indent,
-          $._expression,
-          $._dedent,
+          scoped($._expression, $._indent, $._dedent),
         )),
 
     try_expression: $ =>
       prec(PREC.MATCH_EXPR,
         seq(
           'try',
-          $._indent,
-          $._expression,
-          $._dedent,
+          scoped($._expression, $._indent, $._dedent),
           optional($._newline),
           choice(
             seq('with', $.rules),
-            seq('finally', $._indent, $._expression, $._dedent),
+            seq('finally', scoped($._expression, $._indent, $._dedent)),
           ),
         )),
 
@@ -704,7 +687,7 @@ module.exports = grammar({
       prec.right(PREC.LET_EXPR,
         seq(
           choice(
-            seq(choice('use', 'use!'), $.identifier, '=', $._indent, $._expression, $._dedent),
+            seq(choice('use', 'use!'), $.identifier, '=', scoped($._expression, $._indent, $._dedent)),
             $.function_or_value_defn,
           ),
           field('in',
@@ -723,9 +706,7 @@ module.exports = grammar({
       prec(PREC.DO_EXPR,
         seq(
           choice('do', 'do!'),
-          $._indent,
-          $._expression,
-          $._dedent,
+          scoped($._expression, $._indent, $._dedent),
         )),
 
     _list_elements: $ =>
@@ -784,9 +765,7 @@ module.exports = grammar({
           $._pattern,
           optional(seq("when", $._expression)),
           '->',
-          $._indent,
-          $._expression,
-          $._dedent,
+          scoped($._expression, $._indent, $._dedent),
         )),
 
     rules: $ =>
@@ -1224,9 +1203,7 @@ module.exports = grammar({
       seq(
         $.type_name,
         '=',
-        $._indent,
-        $.delegate_signature,
-        $._dedent,
+        scoped($.delegate_signature, $._indent, $._dedent),
       ),
 
     delegate_signature: $ =>
@@ -1240,9 +1217,7 @@ module.exports = grammar({
       seq(
         $.type_name,
         '=',
-        $._indent,
-        $.type,
-        $._dedent,
+        scoped($.type, $._indent, $._dedent),
       ),
 
     // class_type_defn: $ =>
@@ -1284,19 +1259,20 @@ module.exports = grammar({
 
     _class_type_body: $ => repeat1($._class_type_body_inner),
 
+    _record_type_defn_inner: $ =>
+      seq(
+        '{',
+        scoped($.record_fields, $._indent, $._dedent),
+        '}',
+        optional($.type_extension_elements),
+      ),
+
     record_type_defn: $ =>
       prec.left(
         seq(
           $.type_name,
           '=',
-          $._indent,
-          '{',
-          $._indent,
-          $.record_fields,
-          $._dedent,
-          '}',
-          optional($.type_extension_elements),
-          $._dedent,
+          scoped($._record_type_defn_inner, $._indent, $._dedent),
         )),
 
     record_fields: $ =>
@@ -1323,9 +1299,7 @@ module.exports = grammar({
       seq(
         $.type_name,
         '=',
-        $._indent,
-        $.enum_type_cases,
-        $._dedent,
+        scoped($.enum_type_cases, $._indent, $._dedent),
       ),
 
     enum_type_cases: $ =>
@@ -1344,15 +1318,18 @@ module.exports = grammar({
         $.const,
       ),
 
+    _union_type_defn_inner: $ =>
+      seq(
+        $.union_type_cases,
+        optional($.type_extension_elements),
+      ),
+
     union_type_defn: $ =>
       prec.left(
         seq(
           $.type_name,
           '=',
-          $._indent,
-          $.union_type_cases,
-          optional($.type_extension_elements),
-          $._dedent,
+          scoped($._union_type_defn_inner, $._indent, $._dedent),
         )),
 
     union_type_cases: $ =>
@@ -1389,9 +1366,7 @@ module.exports = grammar({
         $.type_name,
         $.primary_constr_args,
         '=',
-        $._indent,
-        $._class_type_body,
-        $._dedent,
+        scoped($._class_type_body, $._indent, $._dedent),
       ),
 
     primary_constr_args: $ =>
@@ -1417,7 +1392,7 @@ module.exports = grammar({
         optional('static'),
         choice(
           $.function_or_value_defn,
-          seq('do', $._indent, $._expression, $._dedent),
+          seq('do', scoped($._expression, $._indent, $._dedent)),
         ),
       ),
 
@@ -1426,9 +1401,7 @@ module.exports = grammar({
         choice(
           seq(
             'with',
-            $._indent,
-            $._type_defn_elements,
-            $._dedent,
+            scoped($._type_defn_elements, $._indent, $._dedent),
           ),
           $._type_defn_elements,
         ),
@@ -1460,9 +1433,7 @@ module.exports = grammar({
     _object_members: $ =>
       seq(
         'with',
-        $._indent,
-        $._member_defns,
-        $._dedent,
+        scoped($._member_defns, $._indent, $._dedent),
       ),
 
     member_defn: $ =>
@@ -1486,16 +1457,14 @@ module.exports = grammar({
 
     _method_defn: $ =>
       choice(
-        seq($.property_or_ident, field('args', $._pattern), '=', $._indent, $._expression, $._dedent),
+        seq($.property_or_ident, field('args', $._pattern), '=', scoped($._expression, $._indent, $._dedent)),
       ),
 
     _property_defn: $ =>
       seq(
         $.property_or_ident,
         '=',
-        $._indent,
-        $._expression,
-        $._dedent,
+        scoped($._expression, $._indent, $._dedent),
         optional(
           seq(
             'with',
@@ -1512,7 +1481,7 @@ module.exports = grammar({
     method_or_prop_defn: $ =>
       prec(3,
         choice(
-          seq($.property_or_ident, 'with', $._indent, $._function_or_value_defns, $._dedent),
+          seq($.property_or_ident, 'with', scoped($._function_or_value_defns, $._indent, $._dedent)),
           $._method_defn,
           $._property_defn,
         ),
@@ -1559,9 +1528,7 @@ module.exports = grammar({
       prec.right(
         seq($.long_identifier,
           '=',
-          $._indent,
-          $._expression,
-          $._dedent),
+          scoped($._expression, $._indent, $._dedent)),
       ),
 
     field_initializers: $ =>
@@ -1794,3 +1761,7 @@ module.exports = grammar({
   },
 
 });
+
+function scoped(rule, indent, dedent) {
+  return seq(indent, rule, dedent);
+}
