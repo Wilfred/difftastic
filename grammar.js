@@ -69,7 +69,6 @@ module.exports = grammar(C, {
     [$.template_function, $.template_type],
     [$.template_function, $.template_type, $._expression_not_binary],
     [$.template_function, $.template_type, $.qualified_identifier],
-    [$.template_method, $.field_expression],
     [$.template_type, $.qualified_type_identifier],
     [$.qualified_type_identifier, $.qualified_identifier],
     [$.comma_expression, $.initializer_list],
@@ -709,6 +708,7 @@ module.exports = grammar(C, {
     namespace_definition: $ => seq(
       optional('inline'),
       'namespace',
+      optional($.attribute_declaration),
       field('name', optional(
         choice(
           $._namespace_identifier,
