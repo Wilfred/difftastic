@@ -1,9 +1,3 @@
-// -*- coding: utf-8 -*-
-// ------------------------------------------------------------------------------------------------
-// Copyright © 2021, tree-sitter-cpp authors.
-// See the LICENSE file in this repo for license details.
-// ------------------------------------------------------------------------------------------------
-
 //! This crate provides a C++ grammar for the [tree-sitter][] parsing library.
 //!
 //! Typically, you will use the [language][language func] function to add this grammar to a

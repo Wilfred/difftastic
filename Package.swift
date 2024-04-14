@@ -26,12 +26,12 @@ let package = Package(
                     "pyproject.toml",
                     "setup.py",
                     "test",
-                    "types",
                     "examples",
                     ".editorconfig",
                     ".github",
                     ".gitignore",
                     ".gitattributes",
+                    ".gitmodules",
                 ],
                 sources: [
                     "src/parser.c",
