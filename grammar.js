@@ -497,6 +497,7 @@ module.exports = grammar(C, {
         field('body', choice($.compound_statement, $.try_statement)),
         $.default_method_clause,
         $.delete_method_clause,
+        $.pure_virtual_clause,
       ),
     ),
 
@@ -542,6 +543,7 @@ module.exports = grammar(C, {
         alias($.constructor_try_statement, $.try_statement),
         $.default_method_clause,
         $.delete_method_clause,
+        $.pure_virtual_clause,
       ),
     ),
 
@@ -553,6 +555,7 @@ module.exports = grammar(C, {
 
     default_method_clause: _ => seq('=', 'default', ';'),
     delete_method_clause: _ => seq('=', 'delete', ';'),
+    pure_virtual_clause: _ => seq('=', '0', ';'),
 
     friend_declaration: $ => seq(
       'friend',
@@ -1170,7 +1173,7 @@ module.exports = grammar(C, {
       ];
 
       return choice(
-        ...original.members,
+        original,
         ...table.map(([operator, precedence]) => {
           return prec.left(precedence, seq(
             field('left', $._expression),

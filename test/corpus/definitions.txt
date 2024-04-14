@@ -179,7 +179,7 @@ class C {
               (identifier))))))))
 
 ================================================================================
-Default and deleted methods
+Default, delete, and pure virtual methods
 ================================================================================
 
 class A : public B {
@@ -188,6 +188,7 @@ class A : public B {
   void f() = delete;
   A& operator=(const A&) = default;
   A& operator=(A&&) = delete;
+  ~A() = 0;
 };
 
 --------------------------------------------------------------------------------
@@ -238,7 +239,13 @@ class A : public B {
               (parameter_declaration
                 (type_identifier)
                 (abstract_reference_declarator)))))
-        (delete_method_clause)))))
+        (delete_method_clause))
+      (function_definition
+        (function_declarator
+          (destructor_name
+            (identifier))
+          (parameter_list))
+        (pure_virtual_clause)))))
 
 ================================================================================
 Destructor definitions
