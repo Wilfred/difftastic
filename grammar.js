@@ -595,6 +595,11 @@ module.exports = grammar(C, {
       $.operator_name,
     ),
 
+    _type_declarator: ($, original) => choice(
+      original,
+      alias($.reference_type_declarator, $.reference_declarator),
+    ),
+
     _abstract_declarator: ($, original) => choice(
       original,
       $.abstract_reference_declarator,
@@ -602,6 +607,7 @@ module.exports = grammar(C, {
 
     reference_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._declarator))),
     reference_field_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._field_declarator))),
+    reference_type_declarator: $ => prec.dynamic(1, prec.right(seq(choice('&', '&&'), $._type_declarator))),
     abstract_reference_declarator: $ => prec.right(seq(choice('&', '&&'), optional($._abstract_declarator))),
 
     structured_binding_declarator: $ => prec.dynamic(PREC.STRUCTURED_BINDING, seq(
