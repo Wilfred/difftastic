@@ -6,6 +6,7 @@ enum TokenType {
   NEWLINE,
   INDENT,
   DEDENT,
+  SPECIAL_DEDENT,
   TRIPLE_QUOTE_END,
   BLOCK_COMMENT_CONTENT,
   LINE_COMMENT,
@@ -99,30 +100,37 @@ static inline bool is_bracket_end(TSLexer *lexer) {
     default:
       return false;
     }
-  // case 'e':
-  //   skip(lexer);
-  //   if (lexer->lookahead == 'l') {
-  //     skip(lexer);
-  //     if (lexer->lookahead == 's') {
-  //       skip(lexer);
-  //       return lexer->lookahead == 'e';
-  //     }
-  //     if (lexer->lookahead == 'i') {
-  //       skip(lexer);
-  //       return lexer->lookahead == 'f';
-  //     }
-  //     return false;
-  //   }
-  // case 't':
-  //   skip(lexer);
-  //   if (lexer->lookahead == 'h') {
-  //     skip(lexer);
-  //     if (lexer->lookahead == 'e') {
-  //       skip(lexer);
-  //       return lexer->lookahead == 'n';
-  //     }
-  //     return false;
-  //   }
+  default:
+    return false;
+  }
+}
+
+static inline bool is_special_scope_end(TSLexer *lexer) {
+  switch (lexer->lookahead) {
+  case 'e':
+    skip(lexer);
+    if (lexer->lookahead == 'l') {
+      skip(lexer);
+      if (lexer->lookahead == 's') {
+        skip(lexer);
+        return lexer->lookahead == 'e';
+      }
+      if (lexer->lookahead == 'i') {
+        skip(lexer);
+        return lexer->lookahead == 'f';
+      }
+      return false;
+    }
+  case 't':
+    skip(lexer);
+    if (lexer->lookahead == 'h') {
+      skip(lexer);
+      if (lexer->lookahead == 'e') {
+        skip(lexer);
+        return lexer->lookahead == 'n';
+      }
+      return false;
+    }
   default:
     return false;
   }
@@ -143,6 +151,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
   bool found_end_of_line = false;
   bool found_start_of_infix_op = false;
   bool found_bracket_end = false;
+  bool found_special_scope_end = false;
   uint32_t indent_length = lexer->get_column(lexer);
 
   for (;;) {
@@ -163,19 +172,29 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
       indent_length = 0;
       found_end_of_line = true;
       break;
-    } else if (is_infix_op_start(lexer)) {
-      found_start_of_infix_op = true;
-      break;
-    } else if (is_bracket_end(lexer)) {
-      found_bracket_end = true;
-      break;
     } else {
       break;
     }
   }
 
+  if (valid_symbols[SPECIAL_DEDENT] && !found_end_of_line &&
+      is_special_scope_end(lexer)) {
+    found_special_scope_end = true;
+  } else if (is_infix_op_start(lexer)) {
+    found_start_of_infix_op = true;
+  } else if (is_bracket_end(lexer)) {
+    found_bracket_end = true;
+  }
+
   if (scanner->indents.size > 0) {
     uint16_t current_indent_length = *array_back(&scanner->indents);
+
+    if (valid_symbols[SPECIAL_DEDENT] && found_special_scope_end &&
+        !error_recovery_mode) {
+      array_pop(&scanner->indents);
+      lexer->result_symbol = SPECIAL_DEDENT;
+      return true;
+    }
 
     if (valid_symbols[INDENT] && indent_length > current_indent_length &&
         !found_start_of_infix_op && !error_recovery_mode) {
@@ -191,18 +210,28 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     }
 
     if (found_end_of_line) {
+      if (valid_symbols[SPECIAL_DEDENT] &&
+          indent_length < current_indent_length) {
+        array_pop(&scanner->indents);
+        lexer->result_symbol = SPECIAL_DEDENT;
+        return true;
+      }
+
       if ((valid_symbols[DEDENT] || (!valid_symbols[NEWLINE])) &&
           indent_length < current_indent_length) {
         array_pop(&scanner->indents);
         lexer->result_symbol = DEDENT;
         return true;
       }
-    }
-    if (found_end_of_line && indent_length == current_indent_length &&
-        indent_length > 0 && !found_start_of_infix_op && !found_bracket_end) {
-      if (valid_symbols[NEWLINE] && !error_recovery_mode) {
-        lexer->result_symbol = NEWLINE;
-        return true;
+
+      if (indent_length == current_indent_length && indent_length > 0 &&
+          !found_start_of_infix_op && !found_bracket_end) {
+        if (valid_symbols[NEWLINE] && !error_recovery_mode) {
+          if (!is_special_scope_end(lexer)) {
+            lexer->result_symbol = NEWLINE;
+            return true;
+          }
+        }
       }
     }
   }

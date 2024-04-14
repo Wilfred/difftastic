@@ -1434,7 +1434,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_module_elem",
@@ -1653,7 +1653,7 @@
     "type": "if_expression",
     "named": true,
     "fields": {
-      "else_branch": {
+      "else": {
         "multiple": false,
         "required": false,
         "types": [
@@ -3937,11 +3937,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",

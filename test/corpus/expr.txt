@@ -1027,6 +1027,51 @@ do
           (int))))))
 
 ================================================================================
+nested if-then expression 1
+================================================================================
+
+do
+  if true then
+    if true then
+      1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const
+          (bool))
+        (if_expression
+          (const
+            (bool))
+          (const
+            (int)))))))
+
+================================================================================
+nested if-then expression 2
+================================================================================
+
+do
+  if true then
+    if true then 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const
+          (bool))
+        (if_expression
+          (const
+            (bool))
+          (const
+            (int)))))))
+
+================================================================================
 if-then-else expression 3
 ================================================================================
 
@@ -1049,6 +1094,44 @@ do
             (int))
           (const
             (int))))))
+
+================================================================================
+nested if-then-elif-else expression 1
+================================================================================
+
+do
+  if true then
+    if true then
+      1
+    elif true then
+      2
+    else
+      3
+  else
+    4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const
+          (bool))
+        (if_expression
+          (const
+            (bool))
+          (const
+            (int))
+          (elif_expression
+            (const
+              (bool))
+            (const
+              (int)))
+          (const
+            (int)))
+        (const
+          (int))))))
 
 ================================================================================
 anonymous function expression
@@ -1076,31 +1159,26 @@ let exampleNamespace =
               (identifier_pattern
                 (long_identifier
                   (identifier)))))
-          (application_expression
-            (application_expression
-              (application_expression
-                (if_expression
-                  (infix_expression
-                    (long_identifier_or_op
-                      (long_identifier
-                        (identifier)))
-                    (infix_op)
-                    (const
-                      (string)))
-                  (long_identifier_or_op
-                    (long_identifier
-                      (identifier))))
-                (paren_expression
-                  (typecast_expression
-                    (long_identifier_or_op
-                      (long_identifier
-                        (identifier)))
-                    (type
-                      (long_identifier
-                        (identifier))))))
+          (if_expression
+            (infix_expression
               (long_identifier_or_op
                 (long_identifier
-                  (identifier))))
+                  (identifier)))
+              (infix_op)
+              (const
+                (string)))
+            (application_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (paren_expression
+                (typecast_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (type
+                    (long_identifier
+                      (identifier))))))
             (long_identifier_or_op
               (long_identifier
                 (identifier)))))))))
@@ -1342,16 +1420,16 @@ let test f =
           (long_identifier
             (identifier))))
       (sequential_expression
-        (application_expression
-          (if_expression
-            (const
-              (bool))
+        (if_expression
+          (const
+            (bool))
+          (application_expression
             (long_identifier_or_op
               (long_identifier
-                (identifier))))
-          (long_identifier_or_op
-            (long_identifier
-              (identifier))))
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))
         (call_expression
           (long_identifier_or_op
             (long_identifier
