@@ -176,7 +176,7 @@ fun c() {
           right: (unary_expression
             argument: (integer))))
       (expression_statement
-        (unary_suffix_expression
+        (non_null_assert_expression
           argument: (null)))
       (expression_statement
         (parenthesized_expression

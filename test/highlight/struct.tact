@@ -37,7 +37,7 @@ struct Whatever {
 // <- punctuation.bracket
 
 fun TestStruct() {
-  Whatever{a: 10, b: "hello!", c: 10, d: 10};
+  Whatever{a: 10, b: "hello!", c: 10, d: 10, };
   // <- constructor
   //      ^ punctuation.bracket
   //       ^ property
@@ -55,6 +55,7 @@ fun TestStruct() {
   //                                  ^ property
   //                                   ^ punctuation.delimiter
   //                                     ^ number
-  //                                       ^ punctuation.bracket
-  //                                        ^ punctuation.delimiter
+  //                                       ^ punctuation.delimiter
+  //                                         ^ punctuation.bracket
+  //                                          ^ punctuation.delimiter
 }

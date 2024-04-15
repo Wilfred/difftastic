@@ -275,7 +275,8 @@
 ; function.builtin
 ; ----------------
 
-((identifier) @function.builtin
+(static_call_expression
+  name: (identifier) @function.builtin
   (#any-of? @function.builtin
     "send" "sender" "require" "now"
     "myBalance" "myAddress" "newAddress"

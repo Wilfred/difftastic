@@ -32,6 +32,10 @@
         "named": true
       },
       {
+        "type": "non_null_assert_expression",
+        "named": true
+      },
+      {
         "type": "null",
         "named": true
       },
@@ -71,10 +75,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -128,10 +128,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -199,10 +195,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -228,10 +220,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -328,10 +316,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -503,10 +487,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -650,10 +630,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -698,10 +674,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_suffix_expression",
           "named": true
         },
         {
@@ -801,10 +773,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -1001,10 +969,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -1121,10 +1085,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -1223,10 +1183,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -1473,6 +1429,44 @@
     }
   },
   {
+    "type": "non_null_assert_expression",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "value_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!!",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {
@@ -1543,10 +1537,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_suffix_expression",
           "named": true
         },
         {
@@ -1645,10 +1635,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -1674,10 +1660,6 @@
         },
         {
           "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "unary_suffix_expression",
           "named": true
         },
         {
@@ -1905,10 +1887,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -1931,10 +1909,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -1954,10 +1928,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {
@@ -2086,7 +2056,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "identifier",
@@ -2116,10 +2086,6 @@
             "named": true
           },
           {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
             "type": "value_expression",
             "named": true
           }
@@ -2139,48 +2105,6 @@
           },
           {
             "type": "-",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "unary_suffix_expression",
-    "named": true,
-    "fields": {
-      "argument": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "ternary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
-            "named": true
-          },
-          {
-            "type": "value_expression",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "!!",
             "named": false
           }
         ]
@@ -2215,10 +2139,6 @@
           },
           {
             "type": "unary_expression",
-            "named": true
-          },
-          {
-            "type": "unary_suffix_expression",
             "named": true
           },
           {

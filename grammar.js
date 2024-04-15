@@ -65,13 +65,14 @@ module.exports = grammar({
   /* Each inner array represents a descending ordering of precedence */
   precedences: (_) => [
     [
+      "non_null_assert_expr",
       "method_call_expr",
       "field_access_expr",
       "static_call_expr",
       "parenthesized_expr",
       "instance_expr",
 
-      "unary_suffix_expr",
+      // "unary_suffix_expr",
       "unary_expr",
 
       "binary_multiplication",
@@ -262,7 +263,7 @@ module.exports = grammar({
 
     contract_attributes: ($) => repeat1(seq("@interface", "(", $.string, ")")),
 
-    trait_list: ($) => seq("with", commaSep1($.identifier)),
+    trait_list: ($) => seq("with", commaSepWithTrailing($.identifier)),
 
     contract_body: ($) =>
       seq(
@@ -436,7 +437,7 @@ module.exports = grammar({
         $.ternary_expression, // ExpressionConditional
         $.binary_expression, // ExpressionBinary
         $.unary_expression, // ExpressionUnary
-        $.unary_suffix_expression, // ExpressionUnarySuffix
+        // $.unary_suffix_expression, // ExpressionUnarySuffix
         $.value_expression, // ExpressionValue
       ),
 
@@ -523,14 +524,15 @@ module.exports = grammar({
         ),
       ),
 
-    unary_suffix_expression: ($) =>
-      prec.left(
-        "unary_suffix_expr",
-        seq(field("argument", $._expression), field("operator", choice("!!"))),
-      ),
+    // unary_suffix_expression: ($) =>
+    //   prec.left(
+    //     "unary_suffix_expr",
+    //     seq(field("argument", $._expression), field("operator", choice("!!"))),
+    //   ),
 
     value_expression: ($) =>
       choice(
+        $.non_null_assert_expression, // ExpressionUnboxNonNull
         $.method_call_expression, // ExpressionCall
         $.field_access_expression, // ExpressionField
         $.static_call_expression, // ExpressionStaticCall
@@ -543,6 +545,12 @@ module.exports = grammar({
         $.initOf, // ExpressionInitOf
         $.string, // ExpressionString
         $.self, // self
+      ),
+
+    non_null_assert_expression: ($) =>
+      prec.left(
+        "non_null_assert_expr",
+        seq(field("argument", $._expression), field("operator", choice("!!"))),
       ),
 
     method_call_expression: ($) =>

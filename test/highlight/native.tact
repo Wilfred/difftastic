@@ -3,7 +3,7 @@
 //   ^ punctuation.bracket
 //    ^ function
 //            ^ punctuation.bracket
-extends mutates native loadInt(self: Slice, l: Int): Int;
+extends mutates native loadInt(self: Slice, l: Int, ): Int;
 // <- keyword
 //      ^ keyword
 //              ^ keyword
@@ -15,7 +15,8 @@ extends mutates native loadInt(self: Slice, l: Int): Int;
 //                                          ^ variable.parameter
 //                                           ^ punctuation.delimiter
 //                                             ^ type.builtin
-//                                                ^ punctuation.bracket
-//                                                 ^ punctuation.delimiter
-//                                                   ^ type.builtin
-//                                                      ^ punctuation.delimiter
+//                                                ^ punctuation.delimiter
+//                                                  ^ punctuation.bracket
+//                                                   ^ punctuation.delimiter
+//                                                     ^ type.builtin
+//                                                        ^ punctuation.delimiter

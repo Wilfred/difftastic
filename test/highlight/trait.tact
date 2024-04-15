@@ -8,14 +8,15 @@
 //        ^ punctuation.bracket
 //         ^ string
 //                     ^ punctuation.bracket
-trait Filled with Deployable, Ownable {
+trait Filled with Deployable, Ownable, {
 // <- keyword
 //    ^ variable
 //           ^ keyword
 //                ^ variable
 //                          ^ punctuation.delimiter
 //                            ^ variable
-//                                    ^ punctuation.bracket
+//                                   ^ punctuation.delimiter
+//                                     ^ punctuation.bracket
 
   const a: Int;
   // <- keyword

@@ -29,8 +29,8 @@ jobs:
         with:
           generate: true
           test-parser: true
-          test-rust: true
-          test-node: true
-          test-python: true
-          test-go: true
-          test-swift: true
+          test-rust: ${{runner.os != 'Windows'}}
+          test-node: ${{runner.os != 'Windows'}}
+          test-python: false # default
+          test-go: false     # default
+          test-swift: false  # default

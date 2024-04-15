@@ -10,14 +10,19 @@ extends fun c(self: SomeMessage): Int {
 //                              ^ punctuation.delimiter
 //                                ^ type.builtin
 //                                    ^ punctuation.bracket
-    let a: Int = 0;
+    let a: map<Int, Int> = null;
     // <- keyword
     //  ^ variable
     //   ^ punctuation.delimiter
     //     ^ type.builtin
-    //         ^ operator
-    //           ^ number
+    //        ^ punctuation.bracket
+    //         ^ type.builtin
     //            ^ punctuation.delimiter
+    //              ^ type.builtin
+    //                 ^ punctuation.bracket
+    //                   ^ operator
+    //                     ^ constant.builtin
+    //                         ^ punctuation.delimiter
 
     {  }
     // <- punctuation.bracket
@@ -32,6 +37,17 @@ extends fun c(self: SomeMessage): Int {
         //         ^ operator
         //           ^ number
         //             ^ punctuation.delimiter
+
+        b  = 15;
+        // <- variable
+        // ^ operator
+        //   ^ number
+        //     ^ punctuation.delimiter
+
+        b += 32;
+        // <- variable
+        // ^ operator
+
     }
 
     self.description = "Tact is awesome!";
@@ -47,16 +63,6 @@ extends fun c(self: SomeMessage): Int {
     // <- variable.parameter
     //   ^ property
     //               ^ property
-
-    a  = 15;
-    // <- variable
-    // ^ operator
-    //   ^ number
-    //     ^ punctuation.delimiter
-
-    a += 32;
-    // <- variable
-    // ^ operator
 
     if (true) {}
     // <- keyword

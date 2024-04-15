@@ -873,27 +873,47 @@
           "value": "with"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                ]
-              }
+              "type": "BLANK"
             }
           ]
         }
@@ -1671,10 +1691,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "unary_suffix_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "value_expression"
         }
       ]
@@ -2324,39 +2340,13 @@
         ]
       }
     },
-    "unary_suffix_expression": {
-      "type": "PREC_LEFT",
-      "value": "unary_suffix_expr",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "argument",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "!!"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
     "value_expression": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "non_null_assert_expression"
+        },
         {
           "type": "SYMBOL",
           "name": "method_call_expression"
@@ -2406,6 +2396,36 @@
           "name": "self"
         }
       ]
+    },
+    "non_null_assert_expression": {
+      "type": "PREC_LEFT",
+      "value": "non_null_assert_expr",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "argument",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "!!"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "method_call_expression": {
       "type": "PREC_RIGHT",
@@ -3213,6 +3233,10 @@
     [
       {
         "type": "STRING",
+        "value": "non_null_assert_expr"
+      },
+      {
+        "type": "STRING",
         "value": "method_call_expr"
       },
       {
@@ -3230,10 +3254,6 @@
       {
         "type": "STRING",
         "value": "instance_expr"
-      },
-      {
-        "type": "STRING",
-        "value": "unary_suffix_expr"
       },
       {
         "type": "STRING",

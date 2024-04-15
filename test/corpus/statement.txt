@@ -3,16 +3,17 @@ statement
 ============================================
 
 extends fun c(self: SomeMessage, ): Int {
-    let a: Int = 0;
+    let a: map<Int, Int> = null;
     let b: Int = 10;
 
     {}
     {
         let c: Int = 20;
+        c = 15;
     }
 
     self.description = "Tact is awesome!";
-    a = 15;
+    a.asCell()!!.toString();
     b += 32;
 
     if (true) {}
@@ -47,8 +48,10 @@ extends fun c(self: SomeMessage, ): Int {
     body: (function_body
       (let_statement
         name: (identifier)
-        type: (type_identifier)
-        value: (integer))
+        type: (map_type
+          key: (type_identifier)
+          value: (type_identifier))
+        value: (null))
       (let_statement
         name: (identifier)
         type: (type_identifier)
@@ -58,16 +61,25 @@ extends fun c(self: SomeMessage, ): Int {
         (let_statement
           name: (identifier)
           type: (type_identifier)
-          value: (integer)))
+          value: (integer))
+        (assignment_statement
+            left: (lvalue
+              (identifier))
+            right: (integer)))
       (assignment_statement
         left: (lvalue
           (self)
           (identifier))
         right: (string))
-      (assignment_statement
-        left: (lvalue
-          (identifier))
-        right: (integer))
+      (expression_statement
+        (method_call_expression
+          object: (non_null_assert_expression
+            argument: (method_call_expression
+              object: (identifier)
+              name: (identifier)
+              arguments: (argument_list)))
+          name: (identifier)
+          arguments: (argument_list)))
       (augmented_assignment_statement
         left: (lvalue
           (identifier))
