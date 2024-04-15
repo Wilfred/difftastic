@@ -1484,8 +1484,11 @@ module.exports = grammar({
     operator_identifier: $ =>
       token(
         choice(
-          // single opchar
-          /[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+          // opchar minus colon, equal, at
+          // Technically speaking, Sm (Math symbols https://www.compart.com/en/unicode/category/Sm)
+          // should be allowed as a single-characeter opchar, however, it includes `=`,
+          // so we should to avoid that to prevent bad parsing of `=` as infix term or type.
+          /[\-!#%&*+\/\\<>?\u005e\u007c~\u00ac\u00b1\u00d7\u00f7\u2190-\u2194\p{So}]/,
           seq(
             // opchar minus slash
             /[\-!#%&*+\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
