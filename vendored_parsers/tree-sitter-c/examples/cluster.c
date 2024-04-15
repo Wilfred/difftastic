@@ -2289,7 +2289,7 @@ void clusterSetGossipEntry(clusterMsg *hdr, int i, clusterNode *n) {
 }
 
 /* Send a PING or PONG packet to the specified node, making sure to add enough
- * gossip informations. */
+ * gossip information. */
 void clusterSendPing(clusterLink *link, int type) {
     unsigned char *buf;
     clusterMsg *hdr;
