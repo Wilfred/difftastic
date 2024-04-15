@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-cpp"
 description = "C++ grammar for tree-sitter"
-version = "0.21.0"
+version = "0.22.0"
 keywords = ["incremental", "parsing", "tree-sitter", "cpp"]
 classifiers = [
   "Intended Audience :: Developers",
