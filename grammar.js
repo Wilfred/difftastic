@@ -407,8 +407,6 @@ module.exports = grammar({
         $.ce_expression,
         $.prefixed_expression,
         $.brace_expression,
-        // [ comp_or_range_expr ]
-        // [| comp_or_range_expr |]
         $.typecast_expression,
         $.declaration_expression,
         $.do_expression,
@@ -451,11 +449,14 @@ module.exports = grammar({
       prec(PREC.PAREN_EXPR,
         seq(
           '{',
-          choice(
-            $.with_field_expression,
-            $.field_expression,
-            $.object_expression,
-          ),
+          scoped(
+            choice(
+              $.with_field_expression,
+              $.field_expression,
+              $.object_expression,
+            ),
+            $._indent,
+            $._dedent),
           '}',
         )),
 
@@ -514,7 +515,7 @@ module.exports = grammar({
         seq(
           $._expression,
           '{',
-          $._comp_or_range_expression,
+          scoped($._comp_or_range_expression, $._indent, $._dedent),
           '}',
         )),
 
@@ -720,6 +721,7 @@ module.exports = grammar({
     _list_elements: $ =>
       prec.right(PREC.COMMA + 100,
         seq(
+          optional($._newline),
           $._expression,
           repeat(prec.right(PREC.COMMA + 100,
             seq(
@@ -739,14 +741,14 @@ module.exports = grammar({
     list_expression: $ =>
       seq(
         '[',
-        optional($._list_element),
+        optional(scoped($._list_element, $._indent, $._dedent)),
         ']',
       ),
 
     array_expression: $ =>
       seq(
         '[|',
-        optional($._list_element),
+        optional(scoped($._list_element, $._indent, $._dedent)),
         '|]',
       ),
 
@@ -785,7 +787,12 @@ module.exports = grammar({
 
     begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq('begin', $._expression, 'end')),
 
-    paren_expression: $ => seq('(', $._expression, ')'),
+    paren_expression: $ => prec(PREC.PAREN_EXPR,
+      seq(
+        '(',
+        scoped($._expression, $._indent, $._dedent),
+        ')',
+      )),
 
     application_expression: $ =>
       prec.left(PREC.APP_EXPR,
@@ -1651,7 +1658,7 @@ module.exports = grammar({
           ),
           ')'))),
       seq('(', $.active_pattern_op_name, ')'),
-      token(prec(1000, '(*)')),
+      token.immediate('(*)'),
     ),
 
     active_pattern_op_name: $ => choice(
@@ -1708,7 +1715,7 @@ module.exports = grammar({
         choice(
           '?',
           '?<-',
-          /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
+          /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]+/,
           '<@',
           '<@@',
           '@>',

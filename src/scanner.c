@@ -76,9 +76,6 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   case '@':
     skip(lexer);
     return lexer->lookahead != '"';
-  case '|':
-    skip(lexer);
-    return lexer->lookahead != ' ';
   default:
     return false;
   }
@@ -177,11 +174,27 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     }
   }
 
+  // printf("lexer->lookahead = %c\n", lexer->lookahead);
+  // printf("valid_symbols[DEDENT] = %d\n", valid_symbols[DEDENT]);
+
   if (valid_symbols[SPECIAL_DEDENT] && !found_end_of_line &&
       is_special_scope_end(lexer)) {
     found_special_scope_end = true;
   } else if (is_infix_op_start(lexer)) {
     found_start_of_infix_op = true;
+  } else if (lexer->lookahead == '|') {
+    skip(lexer);
+    switch (lexer->lookahead) {
+    case ']':
+    case '}':
+      found_bracket_end = true;
+      break;
+    case ' ':
+      break;
+    default:
+      found_start_of_infix_op = true;
+      break;
+    }
   } else if (is_bracket_end(lexer)) {
     found_bracket_end = true;
   }
@@ -197,7 +210,8 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     }
 
     if (valid_symbols[INDENT] && indent_length > current_indent_length &&
-        !found_start_of_infix_op && !error_recovery_mode) {
+        !found_start_of_infix_op && !found_bracket_end &&
+        !error_recovery_mode) {
       array_push(&scanner->indents, indent_length);
       lexer->result_symbol = INDENT;
       return true;
@@ -211,7 +225,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
 
     if (found_end_of_line) {
       if (valid_symbols[SPECIAL_DEDENT] &&
-          indent_length < current_indent_length) {
+          indent_length < current_indent_length && !error_recovery_mode) {
         array_pop(&scanner->indents);
         lexer->result_symbol = SPECIAL_DEDENT;
         return true;
