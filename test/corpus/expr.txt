@@ -1239,6 +1239,42 @@ do
                   (identifier))))))))))
 
 ================================================================================
+nested record expression
+================================================================================
+
+do
+  { A = { B = 0
+          C = 1 }
+    D = 2 }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (brace_expression
+        (field_expression
+          (field_initializers
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (brace_expression
+                (field_expression
+                  (field_initializers
+                    (field_initializer
+                      (long_identifier
+                        (identifier))
+                      (const (int)))
+                    (field_initializer
+                      (long_identifier
+                        (identifier))
+                      (const (int)))))))
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const (int)))))))))
+
+================================================================================
 SeqBlock with line comment
 ================================================================================
 
