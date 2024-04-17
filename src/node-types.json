@@ -394,7 +394,18 @@
   {
     "type": "anon_type_defn",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "primary_constr_args",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -421,10 +432,6 @@
         },
         {
           "type": "member_defn",
-          "named": true
-        },
-        {
-          "type": "primary_constr_args",
           "named": true
         },
         {

@@ -1378,7 +1378,7 @@ module.exports = grammar({
     anon_type_defn: $ =>
       seq(
         $.type_name,
-        $.primary_constr_args,
+        field('constructor', optional($.primary_constr_args)),
         '=',
         scoped($._class_type_body, $._indent, $._dedent),
       ),
@@ -1425,7 +1425,7 @@ module.exports = grammar({
       choice(
         $._member_defns,
         $._interface_implementations,
-        // $.interface_signature
+        // $._interface_signature
       ),
 
     _interface_implementations: $ => prec.right(repeat1($.interface_implementation)),
@@ -1454,8 +1454,8 @@ module.exports = grammar({
       seq(
         optional($.attributes),
         choice(
-          seq(optional('static'), 'member', optional($.access_modifier), $.method_or_prop_defn),
-          seq('abstract', optional('member'), optional($.access_modifier), $.member_signature),
+          seq(optional('static'), optional($.access_modifier), 'member', $.method_or_prop_defn),
+          seq('abstract', optional($.access_modifier), 'member', $.member_signature),
           seq('override', optional($.access_modifier), $.method_or_prop_defn),
           seq('default', optional($.access_modifier), $.method_or_prop_defn),
           seq(optional('static'), 'val', optional('mutable'), optional($.access_modifier), $.identifier, ':', $.type),

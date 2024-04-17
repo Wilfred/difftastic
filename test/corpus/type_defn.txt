@@ -81,6 +81,48 @@ type Test =
           (identifier))))))
 
 ================================================================================
+basic interface definition
+================================================================================
+
+type A =
+  abstract member F : unit -> unit
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn (type_name (identifier))
+      (member_defn
+        (member_signature
+          (identifier)
+          (type
+            (type (long_identifier (identifier)))
+            (type (long_identifier (identifier)))))))))
+
+================================================================================
+generic interface definition
+================================================================================
+
+type A<'B> =
+  abstract member F<'A> : 'A -> 'B'
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier)
+        (type_arguments (type_argument_defn (type_argument (identifier)))))
+      (member_defn
+        (member_signature
+          (identifier)
+          (type_arguments (type_argument_defn (type_argument (identifier))))
+          (type
+            (type (type_argument (identifier)))
+            (type (type_argument (identifier)))))))))
+
+================================================================================
 basic class definition
 ================================================================================
 

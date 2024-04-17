@@ -1,3 +1,3 @@
 
-type A() =
-  member _.A(?x:int) = ()
+type A<'T> =
+  abstract member F : 'T -> unit
