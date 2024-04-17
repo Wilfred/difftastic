@@ -72,6 +72,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.long_identifier, $._identifier_or_op],
     [$.type_argument, $.static_type_argument],
+    [$.file],
   ],
 
   word: $ => $.identifier,
@@ -84,7 +85,7 @@ module.exports = grammar({
     $._object_expression_inner,
     $._record_type_defn_inner,
     $._union_type_defn_inner,
-    $._then_expression
+    $._then_expression,
   ],
 
   supertypes: $ => [$._module_elem, $._pattern, $._expression, $._type_defn_body],
@@ -95,11 +96,14 @@ module.exports = grammar({
     //
     file: $ =>
       optional(
-        choice(
-          $.named_module,
-          $.namespace,
-          repeat1($._module_elem),
-        )
+        seq(
+          repeat($.compiler_directive_decl),
+          choice(
+            $.named_module,
+            repeat1($.namespace),
+            repeat1($._module_elem),
+          ),
+        ),
       ),
 
     namespace: $ =>

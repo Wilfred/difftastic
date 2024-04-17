@@ -6,22 +6,37 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "named_module"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "namespace"
-            },
-            {
-              "type": "REPEAT1",
+              "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "_module_elem"
+                "name": "compiler_directive_decl"
               }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "named_module"
+                },
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "namespace"
+                  }
+                },
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_module_elem"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -7721,6 +7736,9 @@
     [
       "type_argument",
       "static_type_argument"
+    ],
+    [
+      "file"
     ]
   ],
   "precedences": [],

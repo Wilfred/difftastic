@@ -1688,3 +1688,52 @@ let test =
           (unit))
         (const
           (unit))))))
+
+================================================================================
+match expression one-line
+:skip
+================================================================================
+
+let test =
+  match x with | Some x -> x | None -> 1
+
+--------------------------------------------------------------------------------
+
+================================================================================
+match expression multi-line
+================================================================================
+
+let test =
+  match x with
+  | Some x -> x
+  | None -> 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (match_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (rules
+          (rule
+            (identifier_pattern
+              (long_identifier
+                (identifier))
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (rule
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (const
+              (int))))))))
