@@ -1737,3 +1737,46 @@ let test =
                 (identifier)))
             (const
               (int))))))))
+
+================================================================================
+object interface expression
+================================================================================
+
+let x =
+  { new IBase with
+      member _.A() = ()
+      member _.B() = () }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (brace_expression
+        (object_expression
+          (object_construction
+            (type
+              (long_identifier
+                (identifier))))
+          (member_defn
+            (method_or_prop_defn
+              (property_or_ident
+                (identifier)
+                (identifier))
+              (const_pattern
+                (unit))
+              (const
+                (unit))))
+          (member_defn
+            (method_or_prop_defn
+              (property_or_ident
+                (identifier)
+                (identifier))
+              (const_pattern
+                (unit))
+              (const
+                (unit)))))))))

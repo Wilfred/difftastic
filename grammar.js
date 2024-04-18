@@ -477,7 +477,7 @@ module.exports = grammar({
     _object_expression_inner: $ =>
       seq(
         $._object_members,
-        $._interface_implementations,
+        repeat($.interface_implementation),
       ),
 
     object_expression: $ =>
@@ -485,7 +485,7 @@ module.exports = grammar({
         seq(
           'new',
           $._base_call,
-          scoped($._object_expression_inner, $._indent, $._dedent),
+          $._object_expression_inner,
         )),
 
     _base_call: $ =>
@@ -1429,11 +1429,10 @@ module.exports = grammar({
     _type_defn_elements: $ =>
       choice(
         $._member_defns,
-        $._interface_implementations,
+        prec.left(repeat1($.interface_implementation)),
         // $._interface_signature
       ),
 
-    _interface_implementations: $ => prec.right(repeat1($.interface_implementation)),
     interface_implementation: $ =>
       prec.left(
         seq(

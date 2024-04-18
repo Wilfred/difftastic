@@ -1697,8 +1697,11 @@
           "name": "_object_members"
         },
         {
-          "type": "SYMBOL",
-          "name": "_interface_implementations"
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "interface_implementation"
+          }
         }
       ]
     },
@@ -1717,21 +1720,8 @@
             "name": "_base_call"
           },
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_indent"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_object_expression_inner"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_dedent"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_object_expression_inner"
           }
         ]
       }
@@ -5490,21 +5480,17 @@
           "name": "_member_defns"
         },
         {
-          "type": "SYMBOL",
-          "name": "_interface_implementations"
+          "type": "PREC_LEFT",
+          "value": 0,
+          "content": {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "interface_implementation"
+            }
+          }
         }
       ]
-    },
-    "_interface_implementations": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "SYMBOL",
-          "name": "interface_implementation"
-        }
-      }
     },
     "interface_implementation": {
       "type": "PREC_LEFT",
