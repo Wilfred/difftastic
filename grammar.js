@@ -217,7 +217,7 @@ module.exports = grammar({
         choice(
           prec(PREC.LET_DECL, $.function_or_value_defn),
           prec(PREC.DO_DECL, $.do),
-        )
+        ),
       ),
 
     do: $ => prec(PREC.DO_EXPR,
@@ -1561,8 +1561,8 @@ module.exports = grammar({
     //
     // Constants (BEGIN)
     //
-    _escape_char: _ => token.immediate(/\\["\'ntbrafv]/),
-    _non_escape_char: _ => token.immediate(/\\[^"\'ntbrafv]/),
+    _escape_char: _ => token.immediate(prec(100, /\\["\'ntbrafv]/)),
+    _non_escape_char: _ => token.immediate(prec(100, /\\[^"\'ntbrafv]/)),
     // using \u0008 to model \b
     _simple_char_char: _ => token.immediate(/[^\n\t\r\u0008\a\f\v'\\]/),
     _hex_digit_imm: _ => token.immediate(/[0-9a-fA-F]/),
@@ -1610,7 +1610,7 @@ module.exports = grammar({
       seq('\\', $._string_elem),
     ),
     char: $ => seq('\'', $._char_char, token.immediate('\'')),
-    string: $ => seq('"', repeat($._string_char), token.immediate('"')),
+    string: $ => seq('"', repeat($._string_char), '"'),
     _verbatim_string_char: $ => choice(
       $._simple_string_char,
       $._non_escape_char,

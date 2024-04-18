@@ -6261,15 +6261,23 @@
     "_escape_char": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "\\\\[\"\\'ntbrafv]"
+        "type": "PREC",
+        "value": 100,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\\\[\"\\'ntbrafv]"
+        }
       }
     },
     "_non_escape_char": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "\\\\[^\"\\'ntbrafv]"
+        "type": "PREC",
+        "value": 100,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\\\[^\"\\'ntbrafv]"
+        }
       }
     },
     "_simple_char_char": {
@@ -6507,11 +6515,8 @@
           }
         },
         {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "\""
-          }
+          "type": "STRING",
+          "value": "\""
         }
       ]
     },

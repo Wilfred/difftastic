@@ -422,3 +422,21 @@ do
                 (const
                   (decimal
                     (int)))))))))))
+
+================================================================================
+string with escaped quote
+================================================================================
+
+let str = "name: \"name\""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (string)))))
