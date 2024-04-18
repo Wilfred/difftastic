@@ -95,14 +95,12 @@ module.exports = grammar({
     // Top-level rules (BEGIN)
     //
     file: $ =>
-      optional(
-        seq(
-          repeat($.compiler_directive_decl),
-          choice(
-            $.named_module,
-            repeat1($.namespace),
-            repeat1($._module_elem),
-          ),
+      seq(
+        repeat($.compiler_directive_decl),
+        choice(
+          $.named_module,
+          repeat1($.namespace),
+          repeat($._module_elem),
         ),
       ),
 
@@ -214,9 +212,12 @@ module.exports = grammar({
 
 
     value_declaration: $ =>
-      choice(
-        prec(PREC.LET_DECL, $.function_or_value_defn),
-        prec(PREC.DO_DECL, $.do),
+      seq(
+        optional($.attributes),
+        choice(
+          prec(PREC.LET_DECL, $.function_or_value_defn),
+          prec(PREC.DO_DECL, $.do),
+        )
       ),
 
     do: $ => prec(PREC.DO_EXPR,

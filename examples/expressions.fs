@@ -1,2 +1,10 @@
-let x =
-  match x with | Some x -> | None -> 1
+[<AutoOpen>]
+module Constants =
+  [<Literal>]
+  let A = "A"
+
+  [<Literal>]
+  let B = "B"
+
+module Mod =
+  let x = A + B

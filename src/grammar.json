@@ -3,45 +3,37 @@
   "word": "identifier",
   "rules": {
     "file": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "compiler_directive_decl"
+          }
+        },
+        {
+          "type": "CHOICE",
           "members": [
+            {
+              "type": "SYMBOL",
+              "name": "named_module"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "namespace"
+              }
+            },
             {
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "compiler_directive_decl"
+                "name": "_module_elem"
               }
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "named_module"
-                },
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "namespace"
-                  }
-                },
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_module_elem"
-                  }
-                }
-              ]
             }
           ]
-        },
-        {
-          "type": "BLANK"
         }
       ]
     },
@@ -473,23 +465,40 @@
       }
     },
     "value_declaration": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "PREC",
-          "value": 7,
-          "content": {
-            "type": "SYMBOL",
-            "name": "function_or_value_defn"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
-          "type": "PREC",
-          "value": 10,
-          "content": {
-            "type": "SYMBOL",
-            "name": "do"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PREC",
+              "value": 7,
+              "content": {
+                "type": "SYMBOL",
+                "name": "function_or_value_defn"
+              }
+            },
+            {
+              "type": "PREC",
+              "value": 10,
+              "content": {
+                "type": "SYMBOL",
+                "name": "do"
+              }
+            }
+          ]
         }
       ]
     },

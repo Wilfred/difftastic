@@ -135,3 +135,158 @@ type A() =
       (primary_constr_args)
       (const
         (unit)))))
+
+================================================================================
+attribute on let binding
+================================================================================
+
+[<AutoOpen>]
+module Constants =
+  [<Literal>]
+  let A = "A"
+
+  [<Literal>]
+  let B = "B"
+
+module Impl =
+  let v = A + B
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (attributes
+      (attribute_set
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))))
+    (identifier)
+    (value_declaration
+      (attributes
+        (attribute_set
+          (attribute
+            (object_construction
+              (type
+                (long_identifier
+                  (identifier)))))))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (string))))
+    (value_declaration
+      (attributes
+        (attribute_set
+          (attribute
+            (object_construction
+              (type
+                (long_identifier
+                  (identifier)))))))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (string)))))
+  (module_defn
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (infix_op)
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))
+
+
+================================================================================
+attribute on let binding in namespace
+================================================================================
+namespace Com.Test
+
+[<AutoOpen>]
+module Constants =
+  [<Literal>]
+  let A = "A"
+
+  [<Literal>]
+  let B = "B"
+
+module Impl =
+  let x = A + B
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier)
+      (identifier))
+    (module_defn
+      (attributes
+        (attribute_set
+          (attribute
+            (object_construction
+              (type
+                (long_identifier
+                  (identifier)))))))
+      (identifier)
+      (value_declaration
+        (attributes
+          (attribute_set
+            (attribute
+              (object_construction
+                (type
+                  (long_identifier
+                    (identifier)))))))
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (string))))
+      (value_declaration
+        (attributes
+          (attribute_set
+            (attribute
+              (object_construction
+                (type
+                  (long_identifier
+                    (identifier)))))))
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (string)))))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (infix_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (infix_op)
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))
+
