@@ -787,7 +787,7 @@ module.exports = grammar({
       prec.right(PREC.MATCH_EXPR,
         seq(
           optional('|'), $.rule,
-          repeat(seq(optional($._newline), '|', $.rule)),
+          prec.right(repeat(prec.right(seq(optional($._newline), '|', $.rule)))),
         )),
 
     begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq('begin', $._expression, 'end')),
@@ -1459,7 +1459,7 @@ module.exports = grammar({
         optional($.attributes),
         choice(
           seq(optional('static'), optional($.access_modifier), 'member', $.method_or_prop_defn),
-          seq('abstract', optional($.access_modifier), 'member', $.member_signature),
+          seq('abstract', optional($.access_modifier), optional('member'), $.member_signature),
           seq('override', optional($.access_modifier), $.method_or_prop_defn),
           seq('default', optional($.access_modifier), $.method_or_prop_defn),
           seq(optional('static'), 'val', optional('mutable'), optional($.access_modifier), $.identifier, ':', $.type),

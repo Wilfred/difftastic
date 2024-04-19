@@ -1739,6 +1739,103 @@ let test =
               (int))))))))
 
 ================================================================================
+match expression 3 rules
+================================================================================
+
+let a b =
+    match a, b with
+    | true, true -> sb.Append(basePath[1]) |> ignore
+    | false, false -> sb.Append('/').Append(basePath) |> ignore
+    | _ -> sb.Append(basePath) |> ignore
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (match_expression
+        (tuple_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))
+        (rules
+          (rule
+            (repeat_pattern
+              (const_pattern
+                (bool))
+              (const_pattern
+                (bool)))
+            (infix_expression
+              (call_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)
+                    (identifier)))
+                (application_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (list_expression
+                    (const
+                      (int)))))
+              (infix_op
+                (symbolic_op))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))))
+          (rule
+            (repeat_pattern
+              (const_pattern
+                (bool))
+              (const_pattern
+                (bool)))
+            (infix_expression
+              (call_expression
+                (dot_expression
+                  (call_expression
+                    (long_identifier_or_op
+                      (long_identifier
+                        (identifier)
+                        (identifier)))
+                    (const
+                      (char)))
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier))))
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier))))
+              (infix_op
+                (symbolic_op))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))))
+          (rule
+            (wildcard_pattern)
+            (infix_expression
+              (call_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)
+                    (identifier)))
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier))))
+              (infix_op
+                (symbolic_op))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))))))))
+
+================================================================================
 object interface expression
 ================================================================================
 
