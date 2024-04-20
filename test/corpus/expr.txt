@@ -174,6 +174,24 @@ do (4)
         (const (int))))))
 
 ================================================================================
+sequential expression in paren expression
+================================================================================
+
+do
+  (4
+   3)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (paren_expression
+        (sequential_expression
+          (const (int))
+          (const (int)))))))
+
+================================================================================
 let decl in paren expression
 ================================================================================
 
@@ -1912,3 +1930,57 @@ do
             (unit))
           (const
             (unit)))))))
+
+================================================================================
+multi-line Array.map
+================================================================================
+
+let f xs =
+    xs
+    |> Array.map (fun x ->
+        let y = x + 1
+        x)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (application_expression
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (infix_op
+            (symbolic_op))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)
+              (identifier))))
+        (paren_expression
+          (fun_expression
+            (argument_patterns
+              (long_identifier
+                (identifier)))
+            (declaration_expression
+              (function_or_value_defn
+                (value_declaration_left
+                  (identifier_pattern
+                    (long_identifier
+                      (identifier))))
+                (infix_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (infix_op)
+                  (const
+                    (int))))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))))))))
+

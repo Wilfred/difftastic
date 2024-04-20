@@ -1,5 +1,5 @@
-do
-  match x with
-  | x -> ()
-  | _ -> ()
-  if x then () else ()
+let x =
+  (
+    1
+    2
+  )
