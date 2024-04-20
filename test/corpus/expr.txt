@@ -1877,3 +1877,38 @@ let x =
                 (unit))
               (const
                 (unit)))))))))
+
+================================================================================
+match expression followed by if expression
+================================================================================
+
+do
+  match x with
+  | x -> ()
+  if x then () else ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (sequential_expression
+        (match_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (rules
+            (rule
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))
+              (const
+                (unit)))))
+        (if_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (const
+            (unit))
+          (const
+            (unit)))))))

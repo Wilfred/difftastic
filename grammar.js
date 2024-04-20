@@ -73,6 +73,7 @@ module.exports = grammar({
     [$.long_identifier, $._identifier_or_op],
     [$.type_argument, $.static_type_argument],
     [$.file],
+    [$.rules],
   ],
 
   word: $ => $.identifier,
@@ -612,7 +613,6 @@ module.exports = grammar({
 
     if_expression: $ => choice($._if_then_expression, $._if_then_else_expression),
 
-
     fun_expression: $ =>
       prec.right(PREC.FUN_EXPR,
         seq(
@@ -705,14 +705,7 @@ module.exports = grammar({
             $.function_or_value_defn,
           ),
           field('in',
-            seq(
-              repeat1(
-                seq(
-                  choice(';', $._newline),
-                  $._expression,
-                ),
-              ),
-            ),
+            prec.right(PREC.SEQ_EXPR + 1, $._expression)
           ),
         )),
 
@@ -784,11 +777,10 @@ module.exports = grammar({
         )),
 
     rules: $ =>
-      prec.right(PREC.MATCH_EXPR,
-        seq(
-          optional('|'), $.rule,
-          prec.right(repeat(prec.right(seq(optional($._newline), '|', $.rule)))),
-        )),
+      seq(
+        optional('|'), $.rule,
+        repeat(seq(optional($._newline), '|', $.rule)),
+      ),
 
     begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq('begin', $._expression, 'end')),
 

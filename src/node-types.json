@@ -1150,13 +1150,9 @@
     "named": true,
     "fields": {
       "in": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "_expression",
             "named": true
