@@ -250,7 +250,7 @@ module.exports = grammar({
       ),
 
     function_declaration_left: $ =>
-      prec.left(2, seq(
+      prec.left(3, seq(
         optional('inline'),
         optional($.access_modifier),
         $._identifier_or_op,
@@ -334,7 +334,11 @@ module.exports = grammar({
     conjunct_pattern: $ => prec.left(0, seq($._pattern, '&', $._pattern)),
     typed_pattern: $ => prec.left(3, seq($._pattern, ':', $.type)),
 
-    argument_patterns: $ => repeat1($._atomic_pattern),
+    argument_patterns: $ =>
+      // argument patterns are generally no different from normal patterns.
+      // however, any time an argument pattern is a valid node, (i.e. inside a beginning fun decl)
+      // it is always the correct node to construct.
+      prec(1000, repeat1($._atomic_pattern)),
 
     field_pattern: $ => prec(1, seq($.long_identifier, '=', $._pattern)),
 
@@ -635,13 +639,12 @@ module.exports = grammar({
         )),
 
     match_expression: $ =>
-      prec(PREC.MATCH_EXPR,
-        seq(
-          choice('match', 'match!'),
-          $._expression,
-          'with',
-          $.rules,
-        )),
+      seq(
+        choice('match', 'match!'),
+        $._expression,
+        'with',
+        $.rules,
+      ),
 
     function_expression: $ =>
       prec(PREC.MATCH_EXPR,

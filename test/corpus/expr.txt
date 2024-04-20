@@ -1932,6 +1932,31 @@ do
             (unit)))))))
 
 ================================================================================
+simple function declaration
+================================================================================
+
+let f x =
+  x + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (infix_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (infix_op)
+        (const
+          (int))))))
+
+================================================================================
 multi-line Array.map
 ================================================================================
 

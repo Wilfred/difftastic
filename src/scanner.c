@@ -87,16 +87,6 @@ static inline bool is_bracket_end(TSLexer *lexer) {
   case ']':
   case '}':
     return true;
-  case '|':
-    skip(lexer);
-    switch (lexer->lookahead) {
-    case ')':
-    case ']':
-    case '}':
-      return true;
-    default:
-      return false;
-    }
   default:
     return false;
   }

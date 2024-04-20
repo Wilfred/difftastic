@@ -642,7 +642,7 @@
     },
     "function_declaration_left": {
       "type": "PREC_LEFT",
-      "value": 2,
+      "value": 3,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1165,10 +1165,14 @@
       }
     },
     "argument_patterns": {
-      "type": "REPEAT1",
+      "type": "PREC",
+      "value": 1000,
       "content": {
-        "type": "SYMBOL",
-        "name": "_atomic_pattern"
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_atomic_pattern"
+        }
       }
     },
     "field_pattern": {
@@ -2439,38 +2443,34 @@
       }
     },
     "match_expression": {
-      "type": "PREC",
-      "value": 8,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "match"
-              },
-              {
-                "type": "STRING",
-                "value": "match!"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": "with"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "rules"
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "match"
+            },
+            {
+              "type": "STRING",
+              "value": "match!"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "with"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "rules"
+        }
+      ]
     },
     "function_expression": {
       "type": "PREC",
