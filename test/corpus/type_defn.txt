@@ -740,3 +740,66 @@ type T() =
                     (identifier))))))
           (const
             (unit)))))))
+
+================================================================================
+class with additional constructor
+================================================================================
+
+type A(x:int, y:int) =
+  new(x:int) = A(x, x)
+  member _.P = x + y
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier))
+      (primary_constr_args
+        (simple_pattern
+          (simple_pattern
+            (identifier))
+          (type
+            (long_identifier
+              (identifier))))
+        (simple_pattern
+          (simple_pattern
+            (identifier))
+          (type
+            (long_identifier
+              (identifier)))))
+      (member_defn
+        (additional_constr_defn
+          (paren_pattern
+            (typed_pattern
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))
+              (type
+                (long_identifier
+                  (identifier)))))
+          (call_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (tuple_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))))))
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (infix_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (infix_op)
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))

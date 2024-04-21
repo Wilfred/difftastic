@@ -6031,146 +6031,23 @@
           "name": "_pattern"
         },
         {
-          "type": "SYMBOL",
-          "name": "as_defn"
-        },
-        {
           "type": "STRING",
           "value": "="
-        }
-      ]
-    },
-    "additional_constr_expr": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "additional_constr_expr"
-            },
-            {
-              "type": "STRING",
-              "value": ";"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "additional_constr_expr"
-            }
-          ]
         },
         {
           "type": "SEQ",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "additional_constr_expr"
-            },
-            {
-              "type": "STRING",
-              "value": "then"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "if"
+              "name": "_indent"
             },
             {
               "type": "SYMBOL",
               "name": "_expression"
             },
             {
-              "type": "STRING",
-              "value": "then"
-            },
-            {
               "type": "SYMBOL",
-              "name": "additional_constr_expr"
-            },
-            {
-              "type": "STRING",
-              "value": "else"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "additional_constr_expr"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "let"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_function_or_value_defn_body"
-            },
-            {
-              "type": "STRING",
-              "value": "in"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "additional_constr_expr"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "additional_constr_init_expr"
-        }
-      ]
-    },
-    "additional_constr_init_expr": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "{"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "class_inherits_decl"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "field_initializers"
-            },
-            {
-              "type": "STRING",
-              "value": "}"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "new"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_dedent"
             }
           ]
         }
@@ -6204,19 +6081,6 @@
           }
         ]
       }
-    },
-    "as_defn": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "as"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        }
-      ]
     },
     "field_initializer": {
       "type": "PREC_RIGHT",

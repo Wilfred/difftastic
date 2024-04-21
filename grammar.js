@@ -1503,29 +1503,28 @@ module.exports = grammar({
 
     additional_constr_defn: $ =>
       seq(
-        // optional($.attributes),
         optional($.access_modifier),
         'new',
         $._pattern,
-        $.as_defn,
         '=',
-        // $.additional_constr_expr
+        scoped($._expression, $._indent, $._dedent),
       ),
 
-    additional_constr_expr: $ =>
-      choice(
-        seq($.additional_constr_expr, ';', $.additional_constr_expr),
-        seq($.additional_constr_expr, 'then', $._expression),
-        seq('if', $._expression, 'then', $.additional_constr_expr, 'else', $.additional_constr_expr),
-        seq('let', $._function_or_value_defn_body, 'in', $.additional_constr_expr), // TODO: "in" is optional?
-        $.additional_constr_init_expr,
-      ),
-
-    additional_constr_init_expr: $ =>
-      choice(
-        seq('{', $.class_inherits_decl, $.field_initializers, '}'),
-        seq('new', $.type, $._expression),
-      ),
+    // additional_constr_expr: $ =>
+    //   prec.left(
+    //     choice(
+    //       // seq($.additional_constr_expr, ';', $.additional_constr_expr),
+    //       // seq($.additional_constr_expr, 'then', $._expression),
+    //       // seq('if', $._expression, 'then', $.additional_constr_expr, 'else', $.additional_constr_expr),
+    //       // seq('let', $._function_or_value_defn_body, 'in', $.additional_constr_expr), // TODO: "in" is optional?
+    //       $.additional_constr_init_expr,
+    //     )),
+    //
+    // additional_constr_init_expr: $ =>
+    //   choice(
+    //     // seq('{', $.class_inherits_decl, $.field_initializers, '}'),
+    //     $._expression,
+    //   ),
 
     class_inherits_decl: $ =>
       prec.left(
@@ -1535,8 +1534,6 @@ module.exports = grammar({
           optional($._expression),
         ),
       ),
-
-    as_defn: $ => seq('as', $.identifier),
 
     field_initializer: $ =>
       prec.right(

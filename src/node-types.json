@@ -308,84 +308,15 @@
       "required": true,
       "types": [
         {
+          "type": "_expression",
+          "named": true
+        },
+        {
           "type": "_pattern",
           "named": true
         },
         {
           "type": "access_modifier",
-          "named": true
-        },
-        {
-          "type": "as_defn",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "additional_constr_expr",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_expression",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "additional_constr_expr",
-          "named": true
-        },
-        {
-          "type": "additional_constr_init_expr",
-          "named": true
-        },
-        {
-          "type": "function_declaration_left",
-          "named": true
-        },
-        {
-          "type": "value_declaration_left",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "additional_constr_init_expr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "class_inherits_decl",
-          "named": true
-        },
-        {
-          "type": "field_initializers",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         }
       ]
@@ -550,21 +481,6 @@
       "types": [
         {
           "type": "_pattern",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "as_defn",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
           "named": true
         }
       ]
@@ -3978,11 +3894,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",
