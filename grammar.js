@@ -1471,7 +1471,7 @@ module.exports = grammar({
 
     _method_defn: $ =>
       choice(
-        seq($.property_or_ident, field('args', $._pattern), '=', scoped($._expression, $._indent, $._dedent)),
+        seq($.property_or_ident, optional($.type_arguments), field('args', $._pattern), '=', scoped($._expression, $._indent, $._dedent)),
       ),
 
     _property_defn: $ =>

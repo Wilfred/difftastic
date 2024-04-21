@@ -1993,6 +1993,10 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "value_declaration_left",
           "named": true
         }

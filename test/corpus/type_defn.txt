@@ -803,3 +803,115 @@ type A(x:int, y:int) =
             (long_identifier_or_op
               (long_identifier
                 (identifier)))))))))
+
+================================================================================
+class method with generic type parameter
+================================================================================
+
+type A(x:int, y:int) =
+  member _.F<'Res>(x: 'Res) : 'Res = x
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier))
+      (primary_constr_args
+        (simple_pattern
+          (simple_pattern
+            (identifier))
+          (type
+            (long_identifier
+              (identifier))))
+        (simple_pattern
+          (simple_pattern
+            (identifier))
+          (type
+            (long_identifier
+              (identifier)))))
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (type_arguments
+            (type_argument_defn
+              (type_argument
+                (identifier))))
+          (typed_pattern
+            (paren_pattern
+              (typed_pattern
+                (identifier_pattern
+                  (long_identifier
+                    (identifier)))
+                (type
+                  (type_argument
+                    (identifier)))))
+            (type
+              (type_argument
+                (identifier))))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))
+
+
+================================================================================
+interface implementation with generic type parameter
+================================================================================
+
+type A(x: int, y:int) =
+  interface IFun<'T> with
+    member _.Invoke(x: unit -> 'T) = x()
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier))
+      (primary_constr_args
+        (simple_pattern
+          (simple_pattern
+            (identifier))
+          (type
+            (long_identifier
+              (identifier))))
+        (simple_pattern
+          (simple_pattern
+            (identifier))
+          (type
+            (long_identifier
+              (identifier)))))
+      (interface_implementation
+        (type
+          (long_identifier
+            (identifier))
+          (type_attributes
+            (type_attribute
+              (type
+                (type_argument
+                  (identifier))))))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (paren_pattern
+              (typed_pattern
+                (identifier_pattern
+                  (long_identifier
+                    (identifier)))
+                (type
+                  (type
+                    (long_identifier
+                      (identifier)))
+                  (type
+                    (type_argument
+                      (identifier))))))
+            (call_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))))))))
