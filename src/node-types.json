@@ -532,6 +532,10 @@
         {
           "type": "short_comp_expression",
           "named": true
+        },
+        {
+          "type": "slice_ranges",
+          "named": true
         }
       ]
     }
@@ -1455,6 +1459,11 @@
     }
   },
   {
+    "type": "float",
+    "named": false,
+    "fields": {}
+  },
+  {
     "type": "for_expression",
     "named": true,
     "fields": {},
@@ -1872,6 +1881,10 @@
         },
         {
           "type": "short_comp_expression",
+          "named": true
+        },
+        {
+          "type": "slice_ranges",
           "named": true
         }
       ]
@@ -2666,9 +2679,30 @@
   {
     "type": "slice_range",
     "named": true,
-    "fields": {},
+    "fields": {
+      "from": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "to": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -3748,7 +3782,7 @@
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "for",
@@ -3944,11 +3978,11 @@
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unmanaged",

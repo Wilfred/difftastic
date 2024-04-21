@@ -2009,3 +2009,174 @@ let f xs =
                 (long_identifier
                   (identifier))))))))))
 
+================================================================================
+list index with slice ranges
+================================================================================
+
+let f xs =
+  xs[..1]
+  xs[0..]
+  xs[0..1]
+  xs[.. 1]
+  xs[0 ..]
+  xs[0 .. 1]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (list_expression
+            (slice_ranges
+              (slice_range
+                (const
+                  (int))))))
+        (sequential_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (list_expression
+              (slice_ranges
+                (slice_range
+                  (const
+                    (int))))))
+          (sequential_expression
+            (application_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (list_expression
+                (slice_ranges
+                  (slice_range
+                    (const
+                      (int))
+                    (const
+                      (int))))))
+            (sequential_expression
+              (application_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)))
+                (list_expression
+                  (slice_ranges
+                    (slice_range
+                      (const
+                        (int))))))
+              (sequential_expression
+                (application_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (list_expression
+                    (slice_ranges
+                      (slice_range
+                        (const
+                          (int))))))
+                (application_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (list_expression
+                    (slice_ranges
+                      (slice_range
+                        (const
+                          (int))
+                        (const
+                          (int))))))))))))))
+
+================================================================================
+array index with slice ranges
+================================================================================
+
+let f xs =
+  xs[|..1|]
+  xs[|0..|]
+  xs[|0..1|]
+  xs[|.. 1|]
+  xs[|0 ..|]
+  xs[|0 .. 1|]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (array_expression
+            (slice_ranges
+              (slice_range
+                (const
+                  (int))))))
+        (sequential_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (array_expression
+              (slice_ranges
+                (slice_range
+                  (const
+                    (int))))))
+          (sequential_expression
+            (application_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (array_expression
+                (slice_ranges
+                  (slice_range
+                    (const
+                      (int))
+                    (const
+                      (int))))))
+            (sequential_expression
+              (application_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)))
+                (array_expression
+                  (slice_ranges
+                    (slice_range
+                      (const
+                        (int))))))
+              (sequential_expression
+                (application_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (array_expression
+                    (slice_ranges
+                      (slice_range
+                        (const
+                          (int))))))
+                (application_expression
+                  (long_identifier_or_op
+                    (long_identifier
+                      (identifier)))
+                  (array_expression
+                    (slice_ranges
+                      (slice_range
+                        (const
+                          (int))
+                        (const
+                          (int))))))))))))))

@@ -737,6 +737,7 @@ module.exports = grammar({
       choice(
         $._list_elements,
         $._comp_or_range_expression,
+        $.slice_ranges,
       ),
 
     list_expression: $ =>
@@ -1001,9 +1002,9 @@ module.exports = grammar({
     _slice_range_special: $ =>
       prec.left(PREC.DOTDOT_SLICE,
         choice(
-          seq($._expression, '..'),
-          seq('..', $._expression),
-          seq($._expression, '..', $._expression),
+          seq(field('from', $._expression), token(prec(PREC.DOTDOT, '..'))),
+          seq(token(prec(PREC.DOTDOT + 100000, '..')), field('to', $._expression)),
+          seq(field('from', $._expression), token(prec(PREC.DOTDOT, '..')), field('to', $._expression)),
         ),
       ),
 
@@ -1749,14 +1750,22 @@ module.exports = grammar({
     bignum: $ => seq($.int, token.immediate(/[QRZING]/)),
     decimal: $ => seq(choice($.float, $.int), token.immediate(/[Mm]/)),
 
-    float: _ => token(choice(
-      seq(/[0-9]+/, token.immediate(/\.[0-9]*/)),
-      seq(
-        /[0-9]+/,
-        optional(token.immediate(/\.[0-9]*/)),
-        token.immediate(/[eE]/),
-        optional(token.immediate(/[+-]/)),
-        token.immediate(/[0-9]+/)))),
+    float: $ =>
+      alias(
+        choice(
+          seq(
+            $.int,
+            token.immediate('.'),
+            optional($.int)
+          ),
+          seq(
+            $.int,
+            optional(seq(token.immediate('.'), $.int)),
+            token.immediate(/[eE][+-]?/),
+            $.int
+          ),
+        ), 'float'),
+
     //
     // Constants (END)
     //
