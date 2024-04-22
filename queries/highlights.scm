@@ -50,7 +50,7 @@
   "!" "!=" "!!"
   "<" "<=" "<<"
   ">" ">=" ">>"
-  "&" "|"
+  "&" "|" "^"
   "&&" "||"
 ] @operator
 
@@ -162,6 +162,7 @@
   "const" "let" "fun" "native"
   "primitive" "import"
   "if" "else" "while" "repeat" "do" "until"
+  "try" "catch"
   "return" "initOf"
   ; "public" ; -- not used, but declared in grammar.ohm
   ; "extend" ; -- not used, but declared in grammar.ohm
@@ -205,7 +206,7 @@
 (static_call_expression
   name: (identifier) @function.builtin
   (#match? @function.builtin
-     "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
+     "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|dumpStack|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|pow2|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
   (#is-not? local))
 
 ; comment

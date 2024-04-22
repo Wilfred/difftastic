@@ -79,10 +79,15 @@ module.exports = grammar({
 
       "binary_addition",
 
-      "bitwise_expression",
+      "bitwise_shift",
 
       "binary_relation",
-      "binary_comparison",
+
+      "binary_equality",
+
+      "bitwise_and",
+      "bitwise_xor",
+      "bitwise_or",
 
       "logical_and",
       "logical_or",
@@ -338,6 +343,7 @@ module.exports = grammar({
         $.while_statement, // StatementWhile
         $.repeat_statement, // StatementRepeat
         $.do_until_statement, // StatementUntil
+        $.try_statement, // StatementTry
       ),
 
     let_statement: ($) =>
@@ -420,6 +426,22 @@ module.exports = grammar({
         ";",
       ),
 
+    try_statement: ($) =>
+      seq(
+        "try",
+        field("body", $.block_statement),
+        field("handler", optional($.catch_clause)),
+      ),
+
+    catch_clause: ($) =>
+      seq(
+        "catch",
+        "(",
+        field("name", $.identifier),
+        ")",
+        field("body", $.block_statement),
+      ),
+
     _lvalue: ($) =>
       prec.right(
         choice(
@@ -441,13 +463,17 @@ module.exports = grammar({
         $.value_expression, // ExpressionValue
       ),
 
-    ternary_expression: ($) => prec.right("ternary_expr", seq(
-      field('condition', $._expression),
-      '?',
-      field('consequence', $._expression),
-      ':',
-      field('alternative', $._expression),
-    )),
+    ternary_expression: ($) =>
+      prec.right(
+        "ternary_expr",
+        seq(
+          field("condition", $._expression),
+          "?",
+          field("consequence", $._expression),
+          ":",
+          field("alternative", $._expression),
+        ),
+      ),
 
     binary_expression: ($) =>
       choice(
@@ -455,17 +481,20 @@ module.exports = grammar({
           ["||", "logical_or"], // ExpressionOr
           ["&&", "logical_and"], // ExpressionAnd
 
-          ["!=", "binary_comparison"], // ExpressionCompare
-          ["==", "binary_comparison"], // ExpressionCompare
+          ["|", "bitwise_or"], // ExpressionBinaryOr
+          ["^", "bitwise_xor"], // ExpressionBinaryXor
+          ["&", "bitwise_and"], // ExpressionBinaryAnd
+
+          ["!=", "binary_equality"], // ExpressionEquality
+          ["==", "binary_equality"], // ExpressionEquality
+
           [">", "binary_relation"], // ExpressionCompare
           [">=", "binary_relation"], // ExpressionCompare
           ["<", "binary_relation"], // ExpressionCompare
           ["<=", "binary_relation"], // ExpressionCompare
 
-          [">>", "bitwise_expression"], // ExpressionBinary
-          ["<<", "bitwise_expression"], // ExpressionBinary
-          ["&", "bitwise_expression"], // ExpressionBinary
-          ["|", "bitwise_expression"], // ExpressionBinary
+          [">>", "bitwise_shift"], // ExpressionBinaryShift
+          ["<<", "bitwise_shift"], // ExpressionBinaryShift
 
           ["+", "binary_addition"], // ExpressionAdd
           ["-", "binary_addition"], // ExpressionAdd
@@ -596,7 +625,8 @@ module.exports = grammar({
         ),
       ),
 
-    instance_argument_list: ($) => seq("{", commaSepWithTrailing($.instance_argument), "}"),
+    instance_argument_list: ($) =>
+      seq("{", commaSepWithTrailing($.instance_argument), "}"),
 
     instance_argument: ($) =>
       seq(field("name", $.identifier), ":", field("value", $._expression)),
@@ -655,33 +685,37 @@ module.exports = grammar({
 
     /* Literals */
 
-    string: ($) => seq(
-      '"',
-      repeat(choice(
-        $._non_quote_or_backslash_char,
-        $.escape_sequence,
-      )),
-      token.immediate('"'),
-    ),
+    string: ($) =>
+      seq(
+        '"',
+        repeat(choice($._non_quote_or_backslash_char, $.escape_sequence)),
+        token.immediate('"'),
+      ),
 
     _non_quote_or_backslash_char: () => token.immediate(prec(1, /[^"\n\\]+/)),
 
-    escape_sequence: () => token.immediate(seq(
-      '\\',
-      choice(
-        /[\\"nrtvbf]/,           // \\ \" \n \r \t \v \b \f
-        /x[0-9a-fA-F]{2}/,       // hexEscape, \x00 through \xFF
-        /u[0-9a-fA-F]{4}/,       // unicodeEscape, \u0000 through \uFFFF
-        /u\{[0-9a-fA-F]{1,6}\}/, // unicodeCodePoint, \u{0} through \u{FFFFFF}
+    escape_sequence: () =>
+      token.immediate(
+        seq(
+          "\\",
+          choice(
+            /[\\"nrtvbf]/, // \\ \" \n \r \t \v \b \f
+            /x[0-9a-fA-F]{2}/, // hexEscape, \x00 through \xFF
+            /u[0-9a-fA-F]{4}/, // unicodeEscape, \u0000 through \uFFFF
+            /u\{[0-9a-fA-F]{1,6}\}/, // unicodeCodePoint, \u{0} through \u{FFFFFF}
+          ),
+        ),
       ),
-    )),
 
     boolean: (_) => choice("true", "false"),
 
     null: (_) => "null",
 
     integer: (_) => {
-      const hex_literal = seq(choice("0x", "0X"), /[\da-fA-F](?:_?[\da-fA-F])*/);
+      const hex_literal = seq(
+        choice("0x", "0X"),
+        /[\da-fA-F](?:_?[\da-fA-F])*/,
+      );
       // TODO: try ?:
 
       const oct_literal = seq(choice("0o", "0O"), /[0-7](_?[0-7])*/);

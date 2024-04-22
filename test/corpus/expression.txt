@@ -20,6 +20,7 @@ fun c() {
 
     5 >> 1;
     1 << 5;
+    0 ^ 1;
     0 & 1;
     0 | 1;
     1 << 4 | 1;
@@ -91,6 +92,10 @@ fun c() {
         (binary_expression
           left: (boolean)
           right: (boolean)))
+      (expression_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
       (expression_statement
         (binary_expression
           left: (integer)

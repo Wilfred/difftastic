@@ -25,6 +25,8 @@ fun fun() {
     // <- function.builtin
     dump();
     // <- function.builtin
+    dumpStack();
+    // <- function.builtin
     emit();
     // <- function.builtin
     emptyCell();
@@ -64,6 +66,8 @@ fun fun() {
     now();
     // <- function.builtin
     pow();
+    // <- function.builtin
+    pow2();
     // <- function.builtin
     random();
     // <- function.builtin

@@ -115,6 +115,22 @@ extends fun c(self: SomeMessage): Int {
     //          ^ punctuation.bracket
     //           ^ punctuation.delimiter
 
+    try {}
+    // <- keyword
+    //  ^ punctuation.bracket
+    //   ^ punctuation.bracket
+
+    try {} catch (e) {}
+    // <- keyword
+    //  ^ punctuation.bracket
+    //   ^ punctuation.bracket
+    //     ^ keyword
+    //           ^ punctuation.bracket
+    //            ^ variable
+    //             ^ punctuation.bracket
+    //               ^ punctuation.bracket
+    //                ^ punctuation.bracket
+
     0  ;
     // <- number
     // ^ punctuation.delimiter

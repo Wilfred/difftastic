@@ -30,6 +30,9 @@ extends fun c(self: SomeMessage, ): Int {
     do {}
     until (false);
 
+    try {}
+    try {} catch (e) {}
+
     0;
     return 0;
 }
@@ -108,6 +111,13 @@ extends fun c(self: SomeMessage, ): Int {
       (do_until_statement
         body: (block_statement)
         condition: (boolean))
+      (try_statement
+        body: (block_statement))
+      (try_statement
+        body: (block_statement)
+        handler: (catch_clause
+          name: (identifier)
+          body: (block_statement)))        
       (expression_statement
         (integer))
       (return_statement

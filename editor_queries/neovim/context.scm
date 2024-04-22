@@ -45,6 +45,12 @@
 (else_clause
   (_ (_) @context.end)) @context
 
+(try_statement
+  body: (_ (_) @context.end)) @context
+
+(catch_clause
+  body: (_ (_) @context.end)) @context
+
 (while_statement
   body: (_ (_) @context.end)) @context
 

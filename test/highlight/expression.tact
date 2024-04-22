@@ -32,6 +32,9 @@ fun c() {
   1  << 5;
   // ^ operator
 
+  0  ^ 1;
+  // ^ operator
+
   0  & 1;
   // ^ operator
 

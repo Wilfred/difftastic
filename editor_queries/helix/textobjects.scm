@@ -41,13 +41,13 @@
 ; -------------------------
 
 (parameter_list
-  ((_) @parameter.inside . ","? @parameter.around) @parameter.around)
+  ((_) @parameter.inside @parameter.movement . ","? @parameter.around) @parameter.around)
 
 (argument_list
-  ((_) @parameter.inside . ","? @parameter.around) @parameter.around)
+  ((_) @parameter.inside @parameter.movement . ","? @parameter.around) @parameter.around)
 
 (instance_argument_list
-  ((_) @parameter.inside . ","? @parameter.around) @parameter.around)
+  ((_) @parameter.inside @parameter.movement . ","? @parameter.around) @parameter.around)
 
 ; comment.inside
 ; --------------
