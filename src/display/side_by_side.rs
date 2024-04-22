@@ -290,7 +290,7 @@ fn highlight_as_novel(
             return true;
         }
 
-        let line_content = lines.get(line_num.as_usize()).map(|s| str::trim(s));
+        let line_content = lines.get(line_num.as_usize() - 1).map(|s| str::trim(s));
         // If this is a blank line without a corresponding line on the
         // other side, highlight it too. This helps highlight novel
         // blank lines.
@@ -465,7 +465,7 @@ pub(crate) fn print(
             if no_lhs_changes && !show_both {
                 match rhs_line_num {
                     Some(rhs_line_num) => {
-                        let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
+                        let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize() - 1];
                         if same_lines {
                             print!("{}{}", display_rhs_line_num, rhs_line);
                         } else {
@@ -485,7 +485,7 @@ pub(crate) fn print(
             } else if no_rhs_changes && !show_both {
                 match lhs_line_num {
                     Some(lhs_line_num) => {
-                        let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
+                        let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize() - 1];
                         if same_lines {
                             print!("{}{}", display_lhs_line_num, lhs_line);
                         } else {
@@ -502,7 +502,7 @@ pub(crate) fn print(
             } else {
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
-                        lhs_lines[lhs_line_num.as_usize()],
+                        lhs_lines[lhs_line_num.as_usize() - 1],
                         source_dims.content_width,
                         display_options.tab_width,
                         lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
@@ -512,7 +512,7 @@ pub(crate) fn print(
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
-                        rhs_lines[rhs_line_num.as_usize()],
+                        rhs_lines[rhs_line_num.as_usize() - 1],
                         source_dims.content_width,
                         display_options.tab_width,
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
