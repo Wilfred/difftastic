@@ -4247,7 +4247,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type"
+          "name": "curried_spec"
         },
         {
           "type": "CHOICE",
@@ -4332,38 +4332,75 @@
         }
       ]
     },
-    "argument_spec": {
+    "curried_spec": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "attributes"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "arguments_spec"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "argument_name_spec"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "->"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "arguments_spec"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "->"
         },
         {
           "type": "SYMBOL",
           "name": "type"
         }
       ]
+    },
+    "argument_spec": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attributes"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "argument_name_spec"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        ]
+      }
     },
     "arguments_spec": {
       "type": "SEQ",

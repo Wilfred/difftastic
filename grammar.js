@@ -1125,7 +1125,7 @@ module.exports = grammar({
         $.identifier,
         optional($.type_arguments),
         ':',
-        $.type,
+        $.curried_spec,
         optional(
           choice(
             seq('with', 'get'),
@@ -1136,12 +1136,22 @@ module.exports = grammar({
         ),
       ),
 
-    argument_spec: $ =>
+    curried_spec: $ =>
       seq(
-        optional($.attributes),
-        optional($.argument_name_spec),
-        $.type,
+        $.arguments_spec,
+        repeat(seq('->', $.arguments_spec)),
+        '->',
+        $.type
       ),
+
+    argument_spec: $ =>
+      prec.left(
+        seq(
+          optional($.attributes),
+          optional($.argument_name_spec),
+          $.type,
+        )),
+
     arguments_spec: $ =>
       seq(
         $.argument_spec,

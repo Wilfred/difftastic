@@ -91,13 +91,21 @@ type A =
 
 (file
   (type_definition
-    (anon_type_defn (type_name (identifier))
+    (anon_type_defn
+      (type_name
+        (identifier))
       (member_defn
         (member_signature
           (identifier)
-          (type
-            (type (long_identifier (identifier)))
-            (type (long_identifier (identifier)))))))))
+          (curried_spec
+            (arguments_spec
+              (argument_spec
+                (type
+                  (long_identifier
+                    (identifier)))))
+            (type
+              (long_identifier
+                (identifier)))))))))
 
 ================================================================================
 generic interface definition
@@ -113,14 +121,26 @@ type A<'B> =
     (anon_type_defn
       (type_name
         (identifier)
-        (type_arguments (type_argument_defn (type_argument (identifier)))))
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))))
       (member_defn
         (member_signature
           (identifier)
-          (type_arguments (type_argument_defn (type_argument (identifier))))
-          (type
-            (type (type_argument (identifier)))
-            (type (type_argument (identifier)))))))))
+          (type_arguments
+            (type_argument_defn
+              (type_argument
+                (identifier))))
+          (curried_spec
+            (arguments_spec
+              (argument_spec
+                (type
+                  (type_argument
+                    (identifier)))))
+            (type
+              (type_argument
+                (identifier)))))))))
 
 ================================================================================
 basic class definition
