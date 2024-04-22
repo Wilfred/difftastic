@@ -6352,3 +6352,15 @@ positive/426
 					field: (ident))
 				(number)))
 		(comment)))
+
+
+=====================
+positive/427
+=====================
+$==>$
+---------------------
+
+(source_file
+	(math
+		(formula
+			(shorthand))))

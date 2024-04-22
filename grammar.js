@@ -283,7 +283,7 @@ module.exports = grammar({
     )),
     _math_shorthand: $ => seq(token(prec(1, choice(
       // arrow right
-      '=>', '->', '|->', '->>', '-->', '~>', '~~>',
+      '==>', '=>', '->', '|->', '->>', '-->', '~>', '~~>',
       // arrow left
       '<==', '<-', '<<-', '<--',
       // arrow both
