@@ -1161,7 +1161,7 @@ module.exports = grammar({
     argument_name_spec: $ =>
       seq(
         optional('?'),
-        $.identifier,
+        field('name', $.identifier),
         ':',
       ),
 

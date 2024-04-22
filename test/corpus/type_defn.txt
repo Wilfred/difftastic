@@ -108,6 +108,41 @@ type A =
                 (identifier)))))))))
 
 ================================================================================
+basic interface definition with optional parameters
+================================================================================
+
+type A =
+  abstract member F: x:int * ?y:int -> int
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier))
+      (member_defn
+        (member_signature
+          (identifier)
+          (curried_spec
+            (arguments_spec
+              (argument_spec
+                (argument_name_spec
+                  (identifier))
+                (type
+                  (long_identifier
+                    (identifier))))
+              (argument_spec
+                (argument_name_spec
+                  (identifier))
+                (type
+                  (long_identifier
+                    (identifier)))))
+            (type
+              (long_identifier
+                (identifier)))))))))
+
+================================================================================
 generic interface definition
 ================================================================================
 
