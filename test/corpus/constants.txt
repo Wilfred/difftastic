@@ -440,3 +440,57 @@ let str = "name: \"name\""
             (identifier))))
       (const
         (string)))))
+
+================================================================================
+format string
+================================================================================
+
+let x =
+  $"int: {2 + 2}"
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (string
+          (format_string
+            (format_string_eval
+              (infix_expression
+                (const
+                  (int))
+                (infix_op)
+                (const
+                  (int))))))))))
+
+================================================================================
+triple quoted format string
+================================================================================
+
+let x =
+  $"""int: {2 + 2}"""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const
+        (triple_quoted_string
+          (format_triple_quoted_string
+            (format_string_eval
+              (infix_expression
+                (const
+                  (int))
+                (infix_op)
+                (const
+                  (int))))))))))

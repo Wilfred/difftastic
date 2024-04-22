@@ -1442,6 +1442,51 @@
     }
   },
   {
+    "type": "format_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "format_string_eval",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "format_string_eval",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "format_triple_quoted_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "format_string_eval",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "fsi_directive_decl",
     "named": true,
     "fields": {},
@@ -2715,7 +2760,17 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "format_string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "trait_member_constraint",
@@ -2739,7 +2794,17 @@
   {
     "type": "triple_quoted_string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "format_triple_quoted_string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "try_expression",
@@ -3428,6 +3493,14 @@
     "named": false
   },
   {
+    "type": "$\"",
+    "named": false
+  },
+  {
+    "type": "$\"\"\"",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -3933,11 +4006,11 @@
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unmanaged",

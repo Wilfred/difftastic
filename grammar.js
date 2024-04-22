@@ -1612,7 +1612,22 @@ module.exports = grammar({
       seq('\\', $._string_elem),
     ),
     char: $ => seq('\'', $._char_char, token.immediate('\'')),
-    string: $ => seq('"', repeat($._string_char), '"'),
+
+    format_string_eval: $ =>
+      seq(token.immediate(prec(1000, '{')), $._expression, '}'),
+
+    format_string: $ =>
+      seq(
+        token(prec(100, '$"')),
+        repeat(choice($.format_string_eval, $._string_char)),
+        '"',
+      ),
+
+    string: $ =>
+      choice(
+        seq('"', repeat($._string_char), '"'),
+        $.format_string,
+      ),
     _verbatim_string_char: $ => choice(
       $._simple_string_char,
       $._non_escape_char,
@@ -1625,7 +1640,18 @@ module.exports = grammar({
 
     _triple_quoted_end: _ => token.immediate('"""'),
 
-    triple_quoted_string: $ => seq('"""', repeat($._string_char), $._triple_quoted_end),
+    format_triple_quoted_string: $ =>
+      seq(
+        token(prec(100, '$"""')),
+        repeat(choice($.format_string_eval, $._string_char)),
+        '"""',
+      ),
+
+    triple_quoted_string: $ =>
+      choice(
+        seq('"""', repeat($._string_char), $._triple_quoted_end),
+        $.format_triple_quoted_string,
+      ),
 
     bool: _ => token(choice('true', 'false')),
 

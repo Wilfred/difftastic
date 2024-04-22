@@ -1,4 +1,3 @@
 
-let f = A {
-    x
-  }
+let str =
+  $"int: {x + 1}"
