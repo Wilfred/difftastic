@@ -837,6 +837,76 @@ do
               (unit))))))))
 
 ================================================================================
+ce expression 3
+================================================================================
+
+let f = async {
+    do! Async.sleep 5
+    return ()
+  }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (sequential_expression
+          (do_expression
+            (application_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)
+                  (identifier)))
+              (const
+                (int))))
+          (return_expression
+            (const
+              (unit))))))))
+
+================================================================================
+ce expression 4
+================================================================================
+
+let f = async {
+          do! Async.sleep 5
+          return ()
+        }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (sequential_expression
+          (do_expression
+            (application_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)
+                  (identifier)))
+              (const
+                (int))))
+          (return_expression
+            (const
+              (unit))))))))
+
+================================================================================
 call function from list of functions
 ================================================================================
 

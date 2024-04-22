@@ -191,6 +191,13 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     found_bracket_end = true;
   }
 
+  if (valid_symbols[INDENT] && !found_start_of_infix_op && !found_bracket_end &&
+      !error_recovery_mode) {
+    array_push(&scanner->indents, indent_length);
+    lexer->result_symbol = INDENT;
+    return true;
+  }
+
   if (scanner->indents.size > 0) {
     uint16_t current_indent_length = *array_back(&scanner->indents);
 
@@ -198,13 +205,6 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
         !error_recovery_mode) {
       array_pop(&scanner->indents);
       lexer->result_symbol = SPECIAL_DEDENT;
-      return true;
-    }
-
-    if (valid_symbols[INDENT] && !found_start_of_infix_op &&
-        !found_bracket_end && !error_recovery_mode) {
-      array_push(&scanner->indents, indent_length);
-      lexer->result_symbol = INDENT;
       return true;
     }
 
@@ -223,7 +223,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
       }
 
       if ((valid_symbols[DEDENT] || (!valid_symbols[NEWLINE])) &&
-          indent_length < current_indent_length) {
+          indent_length < current_indent_length && !found_bracket_end) {
         array_pop(&scanner->indents);
         lexer->result_symbol = DEDENT;
         return true;
