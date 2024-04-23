@@ -228,7 +228,7 @@ module.exports = grammar({
       )),
 
     _function_or_value_defns: $ =>
-      seq($._function_or_value_defn_body, repeat1(seq('and', $._function_or_value_defn_body))),
+      seq($._function_or_value_defn_body, repeat(seq('and', $._function_or_value_defn_body))),
 
     function_or_value_defn: $ =>
       seq(

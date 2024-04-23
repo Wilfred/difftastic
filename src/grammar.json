@@ -540,7 +540,7 @@
           "name": "_function_or_value_defn_body"
         },
         {
-          "type": "REPEAT1",
+          "type": "REPEAT",
           "content": {
             "type": "SEQ",
             "members": [
