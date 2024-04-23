@@ -167,17 +167,25 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_attribute_arguments"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "arguments",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_attribute_arguments"
+                },
+                "named": true,
+                "value": "arguments"
+              }
             },
-            "named": true,
-            "value": "arguments"
-          }
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
