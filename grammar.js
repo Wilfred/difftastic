@@ -62,7 +62,7 @@ module.exports = grammar({
       seq(
         "@",
         field("name", $.identifier),
-        field("arguments", alias($._attribute_arguments, $.arguments))
+        optional(field("arguments", alias($._attribute_arguments, $.arguments)))
       ),
 
     _attribute_arguments: ($) =>

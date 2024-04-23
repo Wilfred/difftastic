@@ -46,3 +46,22 @@ pub fn wibble() { todo }
     parameters: (function_parameters)
     body: (function_body
       (todo))))
+
+================================================================================
+Attribute without arguments
+================================================================================
+
+@internal
+pub fn wibble() { todo }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute
+    name: (identifier))
+  (function
+    (visibility_modifier)
+    name: (identifier)
+    parameters: (function_parameters)
+    body: (function_body
+      (todo))))
