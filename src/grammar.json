@@ -7141,22 +7141,6 @@
         ]
       }
     },
-    "op_char": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "?"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
-          }
-        ]
-      }
-    },
     "symbolic_op": {
       "type": "TOKEN",
       "content": {
@@ -7172,7 +7156,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]+"
+            "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
           },
           {
             "type": "STRING",

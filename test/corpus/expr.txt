@@ -2250,3 +2250,26 @@ let f xs =
                           (int))
                         (const
                           (int))))))))))))))
+
+================================================================================
+pipe expression into infix op
+================================================================================
+
+do
+  [] |> List.length > 0
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (infix_expression
+          (list_expression)
+          (infix_op (symbolic_op))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)
+              (identifier))))
+        (infix_op (symbolic_op))
+        (const (int))))))
