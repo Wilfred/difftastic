@@ -4336,28 +4336,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "arguments_spec"
-        },
-        {
           "type": "REPEAT",
           "content": {
             "type": "SEQ",
             "members": [
               {
-                "type": "STRING",
-                "value": "->"
-              },
-              {
                 "type": "SYMBOL",
                 "name": "arguments_spec"
+              },
+              {
+                "type": "STRING",
+                "value": "->"
               }
             ]
           }
-        },
-        {
-          "type": "STRING",
-          "value": "->"
         },
         {
           "type": "SYMBOL",

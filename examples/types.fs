@@ -1,5 +1,9 @@
+namespace Test
 
-type IFun =
-  abstract member MyFun: x:int * y:int -> int
+type IProp1 =
+    abstract member Prop1: string
+    abstract member Prop2: Array<int>
 
-  member _.F(?x:int) = x
+type IProp2 =
+    abstract member Prop1: string
+    abstract member Prop2: Array<int>

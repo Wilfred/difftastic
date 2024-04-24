@@ -970,3 +970,70 @@ type A(x: int, y:int) =
               (long_identifier_or_op
                 (long_identifier
                   (identifier))))))))))
+
+================================================================================
+multiple interfaces with property members
+================================================================================
+
+namespace Test
+
+type IProp1 =
+    abstract member Prop1: string
+    abstract member Prop2: Array<int>
+
+type IProp2 =
+    abstract member Prop1: string
+    abstract member Prop2: Array<int>
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (type_definition
+      (anon_type_defn
+        (type_name
+          (identifier))
+        (member_defn
+          (member_signature
+            (identifier)
+            (curried_spec
+              (type
+                (long_identifier
+                  (identifier))))))
+        (member_defn
+          (member_signature
+            (identifier)
+            (curried_spec
+              (type
+                (long_identifier
+                  (identifier))
+                (type_attributes
+                  (type_attribute
+                    (type
+                      (long_identifier
+                        (identifier)))))))))))
+    (type_definition
+      (anon_type_defn
+        (type_name
+          (identifier))
+        (member_defn
+          (member_signature
+            (identifier)
+            (curried_spec
+              (type
+                (long_identifier
+                  (identifier))))))
+        (member_defn
+          (member_signature
+            (identifier)
+            (curried_spec
+              (type
+                (long_identifier
+                  (identifier))
+                (type_attributes
+                  (type_attribute
+                    (type
+                      (long_identifier
+                        (identifier)))))))))))))

@@ -1138,9 +1138,7 @@ module.exports = grammar({
 
     curried_spec: $ =>
       seq(
-        $.arguments_spec,
-        repeat(seq('->', $.arguments_spec)),
-        '->',
+        repeat(seq($.arguments_spec, '->')),
         $.type
       ),
 
