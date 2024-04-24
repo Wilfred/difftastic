@@ -442,7 +442,7 @@ module.exports = grammar({
         seq(
           $._expression,
           token.immediate(prec(10000, '(')),
-          optional($._expression),
+          optional(scoped($._expression, $._indent, $._dedent)),
           ')',
         ),
       ),
@@ -451,7 +451,8 @@ module.exports = grammar({
       prec.left(PREC.TUPLE_EXPR,
         seq(
           $._expression,
-          repeat1(prec.left(PREC.TUPLE_EXPR, seq(',', $._expression))),
+          ',',
+          $._expression,
         ),
       ),
 

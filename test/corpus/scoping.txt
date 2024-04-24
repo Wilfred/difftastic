@@ -73,3 +73,29 @@ let f x = x + 1
           (infix_op)
           (const (int)))
         (const (int))))))
+
+================================================================================
+call expression with underindentation
+================================================================================
+
+do
+   Serializer(
+  1,
+  2,
+  3
+)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (call_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (tuple_expression
+          (tuple_expression
+            (const (int))
+            (const (int)))
+          (const (int)))))))

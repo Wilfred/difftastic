@@ -1,1 +1,6 @@
-do [] > 0
+do
+   Serializer(
+  1,
+  2,
+  3
+)

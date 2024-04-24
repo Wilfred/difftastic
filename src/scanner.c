@@ -167,6 +167,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   // printf("lexer->lookahead = %c\n", lexer->lookahead);
+  // printf("valid_symbols[INDENT] = %d\n", valid_symbols[INDENT]);
   // printf("valid_symbols[DEDENT] = %d\n", valid_symbols[DEDENT]);
 
   if (valid_symbols[SPECIAL_DEDENT] && !found_end_of_line &&
