@@ -5860,8 +5860,11 @@
               "type": "FIELD",
               "name": "args",
               "content": {
-                "type": "SYMBOL",
-                "name": "_pattern"
+                "type": "REPEAT1",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_pattern"
+                }
               }
             },
             {

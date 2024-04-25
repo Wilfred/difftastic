@@ -2026,7 +2026,7 @@
     "named": true,
     "fields": {
       "args": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {

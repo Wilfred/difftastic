@@ -1037,3 +1037,48 @@ type IProp2 =
                     (type
                       (long_identifier
                         (identifier)))))))))))))
+
+================================================================================
+member with curried arguments
+================================================================================
+
+type A() =
+    member this.Curried (x: int) (y: int) = x + y
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name
+        (identifier))
+      (primary_constr_args)
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (paren_pattern
+            (typed_pattern
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))
+              (type
+                (long_identifier
+                  (identifier)))))
+          (paren_pattern
+            (typed_pattern
+              (identifier_pattern
+                (long_identifier
+                  (identifier)))
+              (type
+                (long_identifier
+                  (identifier)))))
+          (infix_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (infix_op)
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))
