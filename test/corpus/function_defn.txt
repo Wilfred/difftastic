@@ -221,3 +221,39 @@ let inline double<'a when 'a:(member Double: unit -> 'a)> (x: 'a) = x.Double()
           (long_identifier
             (identifier)
             (identifier)))))))
+
+================================================================================
+function decl should be preferred over value decl
+================================================================================
+
+namespace Test
+
+module Program =
+  [<EntryPoint>]
+  let main args =
+    ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (attributes
+          (attribute_set
+            (attribute
+              (object_construction
+                (type
+                  (long_identifier
+                    (identifier)))))))
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (unit)))))))

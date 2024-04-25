@@ -671,8 +671,12 @@
             ]
           },
           {
-            "type": "SYMBOL",
-            "name": "_identifier_or_op"
+            "type": "PREC",
+            "value": 100,
+            "content": {
+              "type": "SYMBOL",
+              "name": "_identifier_or_op"
+            }
           },
           {
             "type": "CHOICE",

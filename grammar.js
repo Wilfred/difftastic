@@ -253,7 +253,7 @@ module.exports = grammar({
       prec.left(3, seq(
         optional('inline'),
         optional($.access_modifier),
-        $._identifier_or_op,
+        prec(100, $._identifier_or_op),
         optional($.type_arguments),
         $.argument_patterns,
         optional(seq(':', $.type)),
