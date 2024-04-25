@@ -1,6 +1,7 @@
-do
-   Serializer(
-  1,
-  2,
-  3
-)
+
+let f x =
+  let y = x + 1
+  printfn y
+  printfn y
+  printfn y
+  printfn y

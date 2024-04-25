@@ -702,16 +702,13 @@ module.exports = grammar({
         )),
 
     declaration_expression: $ =>
-      prec.right(PREC.LET_EXPR,
-        seq(
-          choice(
-            seq(choice('use', 'use!'), $.identifier, '=', scoped($._expression, $._indent, $._dedent)),
-            $.function_or_value_defn,
-          ),
-          field('in',
-            prec.right(PREC.SEQ_EXPR + 1, $._expression)
-          ),
-        )),
+      seq(
+        choice(
+          seq(choice('use', 'use!'), $.identifier, '=', scoped($._expression, $._indent, $._dedent)),
+          $.function_or_value_defn,
+        ),
+        field('in', $._expression)
+      ),
 
     do_expression: $ =>
       prec(PREC.DO_EXPR,
