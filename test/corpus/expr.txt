@@ -703,7 +703,7 @@ do
     (do
       (infix_expression
         (const (int))
-        (infix_op (symbolic_op))
+        (infix_op)
         (long_identifier_or_op
           (long_identifier (identifier)))))))
 
@@ -722,7 +722,7 @@ do
     (do
       (infix_expression
         (const (int))
-        (infix_op (symbolic_op))
+        (infix_op)
         (long_identifier_or_op
           (long_identifier (identifier)))))))
 
@@ -748,8 +748,7 @@ do
           (long_identifier_or_op
             (long_identifier
               (identifier))))
-        (infix_op
-          (symbolic_op))
+        (infix_op)
         (long_identifier_or_op
           (long_identifier
             (identifier)))))))
@@ -773,8 +772,7 @@ do
             (long_identifier
               (identifier)
               (identifier)))
-          (infix_op
-            (symbolic_op))
+          (infix_op)
           (long_identifier_or_op
             (long_identifier
               (identifier)
@@ -1874,8 +1872,7 @@ let a b =
                   (list_expression
                     (const
                       (int)))))
-              (infix_op
-                (symbolic_op))
+              (infix_op)
               (long_identifier_or_op
                 (long_identifier
                   (identifier)))))
@@ -1901,8 +1898,7 @@ let a b =
                 (long_identifier_or_op
                   (long_identifier
                     (identifier))))
-              (infix_op
-                (symbolic_op))
+              (infix_op)
               (long_identifier_or_op
                 (long_identifier
                   (identifier)))))
@@ -1917,8 +1913,7 @@ let a b =
                 (long_identifier_or_op
                   (long_identifier
                     (identifier))))
-              (infix_op
-                (symbolic_op))
+              (infix_op)
               (long_identifier_or_op
                 (long_identifier
                   (identifier))))))))))
@@ -2051,8 +2046,7 @@ let f xs =
           (long_identifier_or_op
             (long_identifier
               (identifier)))
-          (infix_op
-            (symbolic_op))
+          (infix_op)
           (long_identifier_or_op
             (long_identifier
               (identifier)
@@ -2266,10 +2260,10 @@ do
       (infix_expression
         (infix_expression
           (list_expression)
-          (infix_op (symbolic_op))
+          (infix_op)
           (long_identifier_or_op
             (long_identifier
               (identifier)
               (identifier))))
-        (infix_op (symbolic_op))
+        (infix_op)
         (const (int))))))

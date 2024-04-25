@@ -503,7 +503,7 @@ module.exports = grammar({
     prefixed_expression: $ =>
       prec.left(PREC.PREFIX_EXPR,
         seq(
-          choice('lazy', 'assert', 'upcast', 'downcast', '%', '%%', $.prefix_op),
+          choice('lazy', 'assert', 'upcast', 'downcast', $.prefix_op),
           $._expression,
         )),
 
@@ -1713,14 +1713,14 @@ module.exports = grammar({
         choice(
           $._infix_or_prefix_op,
           repeat1('~'),
-          $.symbolic_op,
+          /[!][!%&*+-./<>@^|~?]+[!%&*+-./<=>@^|~?]*/,
         )),
 
     infix_op: $ =>
       prec(PREC.INFIX_OP,
         choice(
           $._infix_or_prefix_op,
-          $.symbolic_op,
+          /[-+<>|&^*/%][!%&*+-./<=>@^|~?]*/,
           '||',
           '=',
           '!=',
@@ -1729,21 +1729,13 @@ module.exports = grammar({
           '$',
           'or',
           '?',
-        )),
-
-    // Symbolic Operators
-    symbolic_op: _ =>
-      token(
-        choice(
-          '?',
-          '?<-',
-          /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
           '<@',
           '<@@',
           '@>',
           '@@>',
-        ),
-      ),
+          '?',
+          '?<-',
+        )),
 
     // Numbers
     _octaldigit_imm: _ => token.immediate(/[0-7]/),

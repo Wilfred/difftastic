@@ -1770,17 +1770,7 @@
   {
     "type": "infix_op",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "symbolic_op",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "int",
@@ -2347,17 +2337,7 @@
   {
     "type": "prefix_op",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "symbolic_op",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "prefixed_expression",
@@ -3505,10 +3485,6 @@
     "named": false
   },
   {
-    "type": "%%",
-    "named": false
-  },
-  {
     "type": "&",
     "named": false
   },
@@ -3646,6 +3622,10 @@
   },
   {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": "?<-",
     "named": false
   },
   {
@@ -3981,10 +3961,6 @@
     "named": false
   },
   {
-    "type": "symbolic_op",
-    "named": true
-  },
-  {
     "type": "then",
     "named": false
   },
@@ -4006,11 +3982,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",

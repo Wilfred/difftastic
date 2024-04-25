@@ -41,7 +41,6 @@
   "~"
   (infix_op)
   (prefix_op)
-  (symbolic_op)
   ; TODO: split _indent_or_op
 ] @operator
 

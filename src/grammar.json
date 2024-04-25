@@ -1787,14 +1787,6 @@
                 "value": "downcast"
               },
               {
-                "type": "STRING",
-                "value": "%"
-              },
-              {
-                "type": "STRING",
-                "value": "%%"
-              },
-              {
                 "type": "SYMBOL",
                 "name": "prefix_op"
               }
@@ -7071,8 +7063,8 @@
             }
           },
           {
-            "type": "SYMBOL",
-            "name": "symbolic_op"
+            "type": "PATTERN",
+            "value": "[!][!%&*+-./<>@^|~?]+[!%&*+-./<=>@^|~?]*"
           }
         ]
       }
@@ -7088,8 +7080,8 @@
             "name": "_infix_or_prefix_op"
           },
           {
-            "type": "SYMBOL",
-            "name": "symbolic_op"
+            "type": "PATTERN",
+            "value": "[-+<>|&^*/%][!%&*+-./<=>@^|~?]*"
           },
           {
             "type": "STRING",
@@ -7122,26 +7114,6 @@
           {
             "type": "STRING",
             "value": "?"
-          }
-        ]
-      }
-    },
-    "symbolic_op": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "?"
-          },
-          {
-            "type": "STRING",
-            "value": "?<-"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*"
           },
           {
             "type": "STRING",
@@ -7158,6 +7130,14 @@
           {
             "type": "STRING",
             "value": "@@>"
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          },
+          {
+            "type": "STRING",
+            "value": "?<-"
           }
         ]
       }
