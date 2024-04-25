@@ -2497,19 +2497,8 @@
             "name": "type"
           },
           {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "STRING",
-              "value": "("
-            }
-          },
-          {
             "type": "SYMBOL",
             "name": "_expression"
-          },
-          {
-            "type": "STRING",
-            "value": ")"
           }
         ]
       }

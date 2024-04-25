@@ -1,4 +1,1 @@
-do
-  !!"str"
-  ~"str"
-  ~~"str"
+let disposables = new Disposables.CompositeDisposable()

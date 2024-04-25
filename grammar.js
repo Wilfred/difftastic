@@ -659,9 +659,7 @@ module.exports = grammar({
         seq(
           'new',
           $.type,
-          token.immediate('('),
           $._expression,
-          ')',
         )),
 
     mutate_expression: $ =>
