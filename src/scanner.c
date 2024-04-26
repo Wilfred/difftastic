@@ -123,6 +123,16 @@ static inline bool is_special_scope_end(TSLexer *lexer) {
       }
       return false;
     }
+  case 'w':
+    skip(lexer);
+    if (lexer->lookahead == 'i') {
+      skip(lexer);
+      if (lexer->lookahead == 't') {
+        skip(lexer);
+        return lexer->lookahead == 'h';
+      }
+      return false;
+    }
   default:
     return false;
   }

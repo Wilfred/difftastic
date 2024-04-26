@@ -642,7 +642,8 @@ module.exports = grammar({
     match_expression: $ =>
       seq(
         choice('match', 'match!'),
-        $._expression,
+        scoped($._expression, $._indent, $._special_dedent),
+        optional($._newline),
         'with',
         $.rules,
       ),
