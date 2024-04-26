@@ -6,6 +6,7 @@
   (block_comment)
 ] @comment @spell
 
+(xml_doc) @comment.doc @spell
 
 (identifier) @variable (#set! "priority" 90)
 

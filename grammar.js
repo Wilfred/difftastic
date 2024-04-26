@@ -52,6 +52,7 @@ module.exports = grammar({
   extras: $ => [
     $.block_comment,
     $.line_comment,
+    $.xml_doc,
     /[ \s\f\uFEFF\u2060\u200B]|\\\r?n/,
   ],
 
@@ -1782,7 +1783,8 @@ module.exports = grammar({
     //
     // Constants (END)
     //
-
+    //
+    xml_doc: _ => token(/\/\/\/[^\/][^\n\r]*/),
     block_comment: $ => seq('(*', $.block_comment_content, token.immediate('*)')),
     line_comment: _ => token(seq('//', /[^\n\r]*/)),
 

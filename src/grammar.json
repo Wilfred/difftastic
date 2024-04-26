@@ -7690,6 +7690,13 @@
       "named": false,
       "value": "float"
     },
+    "xml_doc": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\/\\/\\/[^\\/][^\\n\\r]*"
+      }
+    },
     "block_comment": {
       "type": "SEQ",
       "members": [
@@ -7751,6 +7758,10 @@
     {
       "type": "SYMBOL",
       "name": "line_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "xml_doc"
     },
     {
       "type": "PATTERN",

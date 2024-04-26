@@ -69,7 +69,7 @@ let x = 1
 --------------------------------------------------------------------------------
 
 (file
-  (line_comment)
+  (xml_doc)
   (value_declaration
     (function_or_value_defn
       (value_declaration_left
@@ -133,3 +133,33 @@ let x = @"//comment in string"
             (identifier))))
       (const
         (verbatim_string)))))
+
+================================================================================
+xml docstring
+================================================================================
+
+/// <summary>
+/// super important function
+/// </summary>
+let f x = x + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (xml_doc)
+  (xml_doc)
+  (xml_doc)
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (infix_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (infix_op)
+        (const
+          (int))))))

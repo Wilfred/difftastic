@@ -3982,11 +3982,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",
@@ -4031,6 +4031,10 @@
   {
     "type": "with",
     "named": false
+  },
+  {
+    "type": "xml_doc",
+    "named": true
   },
   {
     "type": "y",
