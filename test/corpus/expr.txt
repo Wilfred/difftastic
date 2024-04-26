@@ -2306,3 +2306,30 @@ let disposables = new Disposables.CompositeDisposable()
             (identifier)))
         (const
           (unit))))))
+
+================================================================================
+if expression inside array
+================================================================================
+
+let f =
+    [| "string"
+       if true then
+           "stuff" |]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (array_expression
+        (const
+          (string))
+        (if_expression
+          (const
+            (bool))
+          (const
+            (string)))))))

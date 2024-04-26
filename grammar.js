@@ -62,7 +62,9 @@ module.exports = grammar({
     $._newline, // we distinguish new scoped based on newlines.
     $._indent, // starts a new indentation-based scope.
     $._dedent, // signals that the current indentation scope has ended.
-    $._special_dedent, // signals that the current indentation scope has ended.
+    $._then,
+    $._else,
+    $._elif,
     $._triple_quoted_end,
     $.block_comment_content,
     $.line_comment,
@@ -582,19 +584,20 @@ module.exports = grammar({
 
     _else_expression: $ =>
       seq(
-        token(prec(100, 'else')),
+        alias($._else, 'else'),
         scoped(field('else', $._expression), $._indent, $._dedent),
       ),
 
     _then_expression: $ =>
       seq(
-        token(prec(100, 'then')),
-        scoped(field('then', $._expression), $._indent, $._special_dedent),
+        alias($._then, 'then'),
+        $._indent,
+        field('then', $._expression),
       ),
 
     elif_expression: $ =>
       seq(
-        token(prec(100, 'elif')),
+        alias($._elif, 'elif'),
         field('guard', $._expression),
         $._then_expression,
       ),
@@ -615,6 +618,7 @@ module.exports = grammar({
           'if',
           field('guard', $._expression),
           $._then_expression,
+          $._dedent
         )),
 
     if_expression: $ => choice($._if_then_expression, $._if_then_else_expression),
@@ -643,7 +647,7 @@ module.exports = grammar({
     match_expression: $ =>
       seq(
         choice('match', 'match!'),
-        scoped($._expression, $._indent, $._special_dedent),
+        $._expression,
         optional($._newline),
         'with',
         $.rules,
