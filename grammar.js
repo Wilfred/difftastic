@@ -256,19 +256,19 @@ module.exports = grammar({
       prec.left(3, seq(
         optional('inline'),
         optional($.access_modifier),
-        prec(100, $._identifier_or_op),
+        field('fun', prec(100, $._identifier_or_op)),
         optional($.type_arguments),
-        $.argument_patterns,
-        optional(seq(':', $.type)),
+        field('args', $.argument_patterns),
+        field('return_type', optional(seq(':', $.type))),
       )),
 
     value_declaration_left: $ =>
       prec.left(2, seq(
         optional('mutable'),
         optional($.access_modifier),
-        $._pattern,
+        field('var', $._pattern),
         optional($.type_arguments),
-        optional(seq(':', $.type)),
+        field('var-type', optional(seq(':', $.type))),
       )),
 
     access_modifier: _ => prec(100, token(prec(1000, choice('private', 'internal', 'public')))),
@@ -335,7 +335,7 @@ module.exports = grammar({
     cons_pattern: $ => prec.left(0, seq($._pattern, '::', $._pattern)),
     disjunct_pattern: $ => prec.left(0, seq($._pattern, '|', $._pattern)),
     conjunct_pattern: $ => prec.left(0, seq($._pattern, '&', $._pattern)),
-    typed_pattern: $ => prec.left(3, seq($._pattern, ':', $.type)),
+    typed_pattern: $ => prec.left(3, seq(field('ident', $._pattern), ':', field('type', $.type))),
 
     argument_patterns: $ =>
       // argument patterns are generally no different from normal patterns.
