@@ -1,0 +1,109 @@
+# Copyright 2022 Leorize <leorize+oss@disroot.org>
+#
+# SPDX-License-Identifier: MPL-2.0
+
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  generate:
+    name: Generate parser
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          node-version: "16"
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Upload built parser to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: parser
+          path: src/parser.c
+
+  compare-parser:
+    needs: [generate]
+    name: Check if generated parser is the same as the PR's
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download generated parser
+        uses: actions/download-artifact@v4
+        with:
+          name: parser
+          path: src/
+      - name: Check for differences with git
+        run: |
+          if ! git diff --exit-code src/parser.c; then
+            echo "::warning file=grammar.js,line=1,title=The generated parser is different from the commit's::Currently this is just a reminder for the repo owner to double check the PR"
+          fi
+
+  tests:
+    needs: [generate]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    name: Run test suite on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+          cache: "npm"
+      - name: Download generated parser
+        uses: actions/download-artifact@v4
+        with:
+          name: parser
+          path: src/
+      - run: npm ci
+      - name: Run test suite
+        run: npm test
+        shell: bash
+      - name: Test parsing sample Nim files
+        run: npm exec -- tree-sitter parse -s -t -q 'samples/**/*.nim'
+        shell: bash
+
+  rust:
+    needs: [generate]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    name: Run rust test build on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download generated parser
+        uses: actions/download-artifact@v4
+        with:
+          name: parser
+          path: src/
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Run test build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+  success:
+    needs:
+      - compare-parser
+      - generate
+      - tests
+      - rust
+    if: always()
+    runs-on: ubuntu-latest
+    name: "All checks passed"
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        name: "Previous jobs failed"
+        run: |
+          echo "::error::One of the previous jobs failed"
+          exit 1

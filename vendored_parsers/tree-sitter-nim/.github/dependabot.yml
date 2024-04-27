@@ -1,0 +1,11 @@
+# Copyright 2022 leorize <leorize+oss@disroot.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"

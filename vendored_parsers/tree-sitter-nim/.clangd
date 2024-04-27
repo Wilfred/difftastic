@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: None
+#
+# SPDX-License-Identifier: CC0-1.0
+
+---
+CompileFlags:
+  Add:
+    - -Wall
+    - -Wextra
+    - -Wpedantic
+    - -Wimplicit-fallthrough
+    - -Wwrite-strings
+    - -Wshadow
+    - -Wundef
+    - -Wformat=2
+    - -Wnull-dereference
+    - -Wno-gnu-zero-variadic-macro-arguments
+    - -fno-exceptions
+    - -xc
+    - -DTREE_SITTER_INTERNAL_BUILD
+
+Diagnostics:
+  ClangTidy:
+    Add:
+    - android-cloexec-*
+    - bugprone-*
+    - cert-*
+    - cppcoreguidelines-*
+    - fuchsia-trailing-return
+    - google-global-names-in-headers
+    - hicpp-*
+    - misc-*
+    - modernize-*
+    - performance-*
+    - readability-*
+    Remove: modernize-use-trailing-return-type
+    CheckOptions:
+      cppcoreguidelines-avoid-do-while.IgnoreMacros: true
+      readability-function-cognitive-complexity.IgnoreMacros: true
+      readability-implicit-bool-conversion.AllowPointerConditions: true
+      readability-identifier-naming.ConstantCase: UPPER_CASE
+      readability-identifier-naming.LocalConstantCase: lower_case
+      readability-identifier-naming.EnumConstantCase: UPPER_CASE
+      readability-identifier-naming.FunctionCase: lower_case
+      readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+      readability-identifier-naming.VariableCase: lower_case
+  UnusedIncludes: Strict
+
+# vim: set ft=yaml et:
