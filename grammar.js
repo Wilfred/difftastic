@@ -133,8 +133,7 @@ module.exports = grammar(clojure, {
         [$.with_clause, $.package_lit],
         [$.with_clause],
         [$.for_clause],
-        [$.accumulation_clause],
-        [$.loop_macro, $.defun_keyword, $.package_lit]],
+        [$.accumulation_clause]],
 
 
     rules: {

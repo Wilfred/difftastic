@@ -4461,11 +4461,6 @@
     ],
     [
       "accumulation_clause"
-    ],
-    [
-      "loop_macro",
-      "defun_keyword",
-      "package_lit"
     ]
   ],
   "precedences": [],
