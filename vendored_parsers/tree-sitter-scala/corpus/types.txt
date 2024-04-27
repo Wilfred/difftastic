@@ -585,3 +585,42 @@ type A = B[({ type f[x] = M[S, x] })#f]
                     (type_identifier)
                     (type_identifier))))))
           (type_identifier))))))
+
+================================================================================
+Type Lambdas (Scala 3)
+================================================================================
+
+type A = [B <: C] =>> D
+type Z = [X, Y] =>> Map[Y, X]
+class A[
+  [B <: C] =>> D
+]
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (type_lambda
+      (identifier)
+      (upper_bound
+        (type_identifier))
+      (type_identifier)))
+  (type_definition
+    (type_identifier)
+    (type_lambda
+      (identifier)
+      (identifier)
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier)
+          (type_identifier)))))
+  (class_definition
+    (identifier)
+    (type_parameters
+      (type_lambda
+        (identifier)
+        (upper_bound
+          (type_identifier))
+        (type_identifier)))))

@@ -418,6 +418,12 @@ object O4 extends {
   val a: A = b
 }
 
+object O5 {
+  ;;
+  ;
+  ;
+}
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -440,7 +446,10 @@ object O4 extends {
         (val_definition
           (identifier)
           (type_identifier)
-          (identifier))))))
+          (identifier)))))
+  (object_definition
+    (identifier)
+    (template_body)))
 
 ================================================================================
 Object definitions
@@ -502,7 +511,9 @@ class A
 ================================================================================
 Class definitions (Scala 3)
 ================================================================================
-final case class C() extends A derives B, C
+final case class C() 
+  extends A 
+  derives B, C.D
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -514,7 +525,9 @@ final case class C() extends A derives B, C
       (type_identifier))
     (derives_clause
       (type_identifier)
-      (type_identifier))))
+      (stable_type_identifier
+        (identifier)
+        (type_identifier)))))
 
 ================================================================================
 Subclass definitions
@@ -784,7 +797,7 @@ Trait definitions
 
 trait A extends B
 
-trait A extends B with C
+trait A extends B with C derives D
 
 trait T[U] {
 }
@@ -803,6 +816,8 @@ trait T[U] extends V.W[U] {
     (identifier)
     (extends_clause
       (type_identifier)
+      (type_identifier))
+    (derives_clause
       (type_identifier)))
   (trait_definition
     (identifier)
@@ -1076,6 +1091,9 @@ class A {
 
   def n(using a: A)
     (using B <:< B, C =:= C) = ()
+
+  def o()
+    : Int = 42
 }
 
 --------------------------------------------------------------------------------
@@ -1117,7 +1135,12 @@ class A {
             (type_identifier)
             (operator_identifier)
             (type_identifier)))
-        (unit)))))
+        (unit))
+      (function_definition
+        (identifier)
+        (parameters)
+        (type_identifier)
+        (integer_literal)))))
 
 ================================================================================
 Function definitions (Scala 3 syntax)
@@ -1164,6 +1187,9 @@ object A:
   
   extension [A1](d: D) def foo = "foo"
 
+trait B:
+  extension (x: Int) def bar: String
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -1188,7 +1214,18 @@ object A:
             (type_identifier)))
         (function_definition
           (identifier)
-          (string))))))
+          (string)))))
+  (trait_definition
+    (identifier)
+    (template_body
+      (extension_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (function_declaration
+          (identifier)
+          (type_identifier))))))
 
 ================================================================================
 Given instance definitions (Scala 3 syntax)
@@ -1206,13 +1243,26 @@ object A:
   private given listFoo[A1](using ev: CanFoo[A1]): CanFoo[List[A1]] with
     def foo(xs: List[A1]): Int = 0
 
-  given [T: Ordering]: Ordering[List[T]] with
-    def x = ()
+  given foo(using ev: Foo)
+    : Foo = ev
 
   given Context = ctx
 
   given Context[T] = ctx
 
+  given Foo[Int] =
+    case n => "123"
+
+  given (using a: Int): Int = a
+
+  given [A: Foo]: Foo[List[A]] with
+    def x = ()
+
+  given [A](using Foo[A]): Foo[List[A]] with
+    def x = ()
+
+  trait B:
+    given c: Context[T]
 
 --------------------------------------------------------------------------------
 
@@ -1286,8 +1336,39 @@ object A:
             (type_identifier)
             (integer_literal))))
       (given_definition
-        (identifier
-          (MISSING _alpha_identifier))
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (identifier))
+      (given_definition
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (indented_cases
+          (case_clause
+            (identifier)
+            (string))))
+      (given_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (identifier))
+      (given_definition
         (type_parameters
           (identifier)
           (context_bound
@@ -1304,14 +1385,33 @@ object A:
             (identifier)
             (unit))))
       (given_definition
-        (type_identifier)
-        (identifier))
-      (given_definition
+        (type_parameters
+          (identifier))
+        (parameters
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier))))
         (generic_type
           (type_identifier)
           (type_arguments
-            (type_identifier)))
-        (identifier)))))
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (unit))))
+      (trait_definition
+        (identifier)
+        (template_body
+          (given_definition
+            (identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))))))
 
 ================================================================================
 Top-level Definitions (Scala 3 syntax)
@@ -1578,16 +1678,16 @@ inline given Test =
     (modifiers
       (inline_modifier))
     (type_identifier)
-    (instance_expression
-      (type_identifier))))
+    (indented_block
+      (instance_expression
+        (type_identifier)))))
 
 ================================================================================
 Infix methods (Scala 3)
 ================================================================================
 
 object Test:
-  infix private def hello = 25
-
+  inline infix private def hello = 25
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -1596,6 +1696,7 @@ object Test:
     (template_body
       (function_definition
         (modifiers
+          (inline_modifier)
           (infix_modifier)
           (access_modifier))
         (identifier)
