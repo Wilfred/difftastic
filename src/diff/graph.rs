@@ -404,8 +404,7 @@ fn allocate_if_new<'s, 'b>(
             //
             // We still use a vec to enable experiments with the value
             // of how many possible parenthesis nestings to explore.
-            let mut existing: SmallVec<[&'b Vertex<'s, 'b>; 2]> = smallvec![&*allocated];
-            existing.push(allocated);
+            let existing: SmallVec<[&'b Vertex<'s, 'b>; 2]> = smallvec![&*allocated];
 
             vacant.insert(allocated, existing);
             allocated
