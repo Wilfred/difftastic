@@ -7,9 +7,9 @@ use std::{
     hash::{Hash, Hasher},
 };
 
-use smallvec::{SmallVec, smallvec};
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
+use smallvec::{smallvec, SmallVec};
 use strsim::normalized_levenshtein;
 
 use self::Edge::*;
