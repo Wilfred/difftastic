@@ -19,10 +19,144 @@
 difftastic (difft) is a CLI diff tool that compares files based on their
 syntax, not line\-by\-line.
 Difftastic produces accurate diffs that are easier for humans to read.
+.SS OPTIONS
+.TP
+\f[B]\-\-background\f[R] \f[I]BACKGROUND\f[R]
+Set the background brightness.
+Difftastic will prefer brighter colours on dark backgrounds.
+.TP
+\f[B]\-\-byte\-limit\f[R] \f[I]LIMIT\f[R]
+Use a text diff if either input file exceeds this size.
+.TP
+\f[B]\-\-check\-only\f[R]
+Report whether there are any changes, but don\[cq]t calculate them.
+Much faster.
+.TP
+\f[B]\-\-color\f[R] \f[I]WHEN\f[R]
+When to use color output.
+.TP
+\f[B]\-\-context\f[R] \f[I]LINES\f[R]
+The number of contextual lines to show around changed lines.
+.TP
+\f[B]\-\-display\f[R] \f[I]MODE\f[R]
+Display mode for showing results.
+.RS
+.PP
+\f[I]side\-by\-side\f[R]: Display the before file and the after file in
+two separate columns, with line numbers aligned according to unchanged
+content.
+If a change is exclusively additions or exclusively removals, use a
+single column.
+.PP
+\f[I]side\-by\-side\-show\-both\f[R]: The same as
+\f[I]side\-by\-side\f[R], but always uses two columns.
+.PP
+\f[I]inline\f[R]: A single column display, closer to traditional diff
+display.
+.PP
+\f[I]json\f[R]: Output the results as a machine\-readable JSON array
+with an element per file.
+.RE
+.TP
+\f[B]\-\-exit\-code\f[R]
+Set the exit code to 1 if there are syntactic changes in any files.
+For files where there is no detected language (e.g.\ unsupported
+language or binary files), sets the exit code if there are any byte
+changes.
+.TP
+\f[B]\-\-graph\-limit\f[R] \f[I]LIMIT\f[R]
+Use a text diff if the structural graph exceed this number of nodes in
+memory.
+.TP
+\f[B]\-h, \-\-help\f[R]
+Print help information.
+.TP
+\f[B]\-\-ignore\-comments\f[R]
+Don\[cq]t consider comments when diffing.
+.TP
+\f[B]\-\-list\-languages\f[R]
+Print the all the languages supported by difftastic, along with their
+extensions.
+.TP
+\f[B]\-\-missing\-as\-empty\f[R]
+Treat paths that don\[cq]t exist as equivalent to an empty file.
+Only applies when diffing files, not directories.
+.TP
+\f[B]\-\-override\f[R] \f[I]GLOB:NAME\f[R]
+Associate this glob pattern with this language, overriding normal
+language detection.
+For example:
+.RS
+.PP
+$ difft \-\-override=\[cq]*.c:C++\[cq] old.c new.c
+.PP
+See \f[B]\-\-list\-languages\f[R] for the list of language names.
+Language names are matched case insensitively.
+Overrides may also specify the language \f[I]\[lq]text\[rq]\f[R] to
+treat a file as plain text.
+.PP
+This argument may be given more than once.
+For example:
+.PP
+$ difft \-\-override=`CustomFile:json' \-\-override=\[cq]*.c:text\[cq]
+old.c new.c
+.PP
+To configure multiple overrides using environment variables, difftastic
+also accepts \f[B]DFT_OVERRIDE_1\f[R] up to \f[B]DFT_OVERRIDE_9\f[R].
+.PP
+$ export DFT_OVERRIDE=`CustomFile:json' $ export
+DFT_OVERRIDE_1=`\f[I].c:text\[cq] $ export
+DFT_OVERRIDE_2=\[cq]\f[R].js:javascript jsx'
+.PP
+When multiple overrides are specified, the first matching override wins.
+.RE
+.TP
+\f[B]\-\-parse\-error\-limit\f[R] \f[I]LIMIT\f[R]
+Use a text diff if the number of parse errors exceeds this value.
+.TP
+\f[B]\-\-skip\-unchanged\f[R]
+Don\[cq]t display anything if a file is unchanged.
+.TP
+\f[B]\-\-sort\-paths\f[R]
+When diffing a directory, output the results sorted by path.
+This is slower.
+.TP
+\f[B]\-\-strip\-cr\f[R]
+Remove any carriage return characters before diffing.
+This can be helpful when dealing with files on Windows that contain
+CRLF, i.e.\ ***.
+.TP
+\f[B]\-\-syntax\-highlight\f[R] \f[I]on/off\f[R]
+Enable or disable syntax highlighting.
+.TP
+\f[B]\-\-tab\-width\f[R] \f[I]NUMSPACES\f[R]
+Treat a tab as this many spaces.
+.TP
+\f[B]\-V, \-\-version\f[R]
+Print version information.
+.TP
+\f[B]\-\-width\f[R] \f[I]COLUMNS\f[R]
+Use this many columns when calculating line wrapping.
+If not specified, difftastic will detect the terminal width.
+.SS DEBUG OPTIONS
+.TP
+\f[B]\-\-dump\-syntax\f[R] \f[I]PATH\f[R]
+Parse a single file with tree\-sitter and display the difftastic syntax
+tree.
+.TP
+\f[B]\-\-dump\-ts\f[R] \f[I]PATH\f[R]
+Parse a single file with tree\-sitter and display the tree\-sitter parse
+tree.
+.SH MANUAL
+A full HTML manual is available at \c
+.UR https://difftastic.wilfred.me.uk/introduction
+.UE \c
+\&.
 .SH BUGS
-See GitHub Issues: \c
+See GitHub issues at \c
 .UR https://github.com/Wilfred/difftastic/issues
 .UE \c
+\&.
 .SH AUTHOR
 Wilfred Hughes \c
 .MT me@wilfred.me.uk

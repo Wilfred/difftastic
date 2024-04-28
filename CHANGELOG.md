@@ -6,6 +6,10 @@
 endings with a file with unix line endings will not show spurious
 changes.
 
+### Documentation
+
+Difftastic now has a man page, see the `difft.1` file.
+
 ## 0.57 (released 1st April 2024)
 
 ### Parsing
