@@ -21,20 +21,18 @@ impl<'b, T> Stack<'b, T> {
     }
 
     pub(crate) fn peek(&self) -> Option<&T> {
-        self.head.as_deref().map(|n| &n.val)
+        self.head.map(|n| &n.val)
     }
 
     pub(crate) fn pop(&self) -> Option<Stack<'b, T>> {
-        self.head.as_deref().map(|n| Self {
-            head: n.next.clone(),
-        })
+        self.head.map(|n| Self { head: n.next })
     }
 
     pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Stack<'b, T> {
         Self {
             head: Some(alloc.alloc(Node {
                 val: v,
-                next: self.head.clone(),
+                next: self.head,
             })),
         }
     }
