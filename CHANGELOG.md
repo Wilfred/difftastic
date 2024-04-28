@@ -10,6 +10,11 @@ changes.
 
 Difftastic now has a man page, see the `difft.1` file.
 
+### Performance
+
+Fixed a memory leak and substantially improved performance in some
+cases (up to 2x in testing).
+
 ## 0.57 (released 1st April 2024)
 
 ### Parsing

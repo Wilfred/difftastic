@@ -251,6 +251,7 @@ dependencies = [
  "rustc-hash",
  "serde",
  "serde_json",
+ "smallvec",
  "strsim",
  "strum",
  "tree-sitter",

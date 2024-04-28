@@ -7,6 +7,7 @@ use std::{
     hash::{Hash, Hasher},
 };
 
+use smallvec::{SmallVec, smallvec};
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
 use strsim::normalized_levenshtein;
@@ -365,7 +366,7 @@ impl Edge {
 fn allocate_if_new<'s, 'b>(
     v: Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+    seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
 ) -> &'b Vertex<'s, 'b> {
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
@@ -399,11 +400,11 @@ fn allocate_if_new<'s, 'b>(
             let allocated = alloc.alloc(v);
 
             // We know that this vec will never have more than 2
-            // nodes, and this code is very hot, so reserve.
+            // nodes, and this code is very hot, so use a smallvec.
             //
             // We still use a vec to enable experiments with the value
             // of how many possible parenthesis nestings to explore.
-            let mut existing: Vec<&'b Vertex<'s, 'b>> = Vec::with_capacity(2);
+            let mut existing: SmallVec<[&'b Vertex<'s, 'b>; 2]> = smallvec![&*allocated];
             existing.push(allocated);
 
             vacant.insert(allocated, existing);
@@ -496,7 +497,7 @@ fn pop_all_parents<'s, 'b>(
 pub(crate) fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+    seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
 ) {
     if v.neighbours.borrow().is_some() {
         return;
