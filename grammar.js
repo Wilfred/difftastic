@@ -1057,7 +1057,7 @@ module.exports = grammar({
             ),
           ),
           optional(field('options', $.brack_group_key_value)),
-          field('name', $.curly_group_text),
+          field('name', $.curly_group_text_list),
           optional(
             choice(
               seq(

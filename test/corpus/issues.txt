@@ -318,7 +318,7 @@ tree-sitter-latex (Issue #24)
 
 (source_file
   (theorem_definition
-    (curly_group_text
+    (curly_group_text_list
       (text
         (word)))
     (curly_group
