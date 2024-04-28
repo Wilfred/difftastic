@@ -10,8 +10,11 @@ jobs:
       fail-fast: false
       matrix:
         job:
+          # Operating systems available: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
           - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
-          - { target: x86_64-apple-darwin, os: macos-latest }
+          # mac-latest is an ARM device, so use macos-12 to get Intel.
+          # Update annoucement: https://github.blog/changelog/2024-04-01-macos-14-sonoma-is-generally-available-and-the-latest-macos-runner-image/
+          - { target: x86_64-apple-darwin, os: macos-12 }
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
 
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
