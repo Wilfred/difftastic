@@ -1341,7 +1341,7 @@
     "type": "field_initializer",
     "named": true,
     "fields": {
-      "property": {
+      "field": {
         "multiple": false,
         "required": true,
         "types": [

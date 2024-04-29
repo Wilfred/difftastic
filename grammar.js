@@ -584,13 +584,14 @@ module.exports = grammar({
       ),
 
     while_expression: $ =>
-      seq(
-        'while',
-        $._expression,
-        'do',
-        scoped($._expression, $._indent, $._dedent),
-        optional('done'),
-      ),
+      prec(PREC.DO_EXPR + 1,
+        seq(
+          'while',
+          $._expression,
+          'do',
+          scoped($._expression, $._indent, $._dedent),
+          optional('done'),
+        )),
 
     _else_expression: $ =>
       seq(
@@ -1558,7 +1559,7 @@ module.exports = grammar({
     field_initializer: $ =>
       prec.left(PREC.COMMA + 100,
         seq(
-          field('property', $.long_identifier),
+          field('field', $.long_identifier),
           '=',
           field('value', $._expression)),
       ),

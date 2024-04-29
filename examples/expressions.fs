@@ -1,4 +1,6 @@
-namespace Test
+do
+    while true do
+        true
 
-module A =
-  ()
+    match x with
+    | true -> 1

@@ -2451,3 +2451,36 @@ let x =
                 (identifier))
               (const
                 (string))))))))
+
+================================================================================
+while expression in sequential expression
+================================================================================
+
+do
+    while true do
+        true
+
+    match x with
+    | true -> 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (sequential_expression
+        (while_expression
+          (const
+            (bool))
+          (const
+            (bool)))
+        (match_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (rules
+            (rule
+              (const_pattern
+                (bool))
+              (const
+                (int)))))))))
