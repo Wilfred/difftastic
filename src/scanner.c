@@ -145,6 +145,13 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
   // printf("valid_symbols[INDENT] = %d\n", valid_symbols[INDENT]);
   // printf("valid_symbols[DEDENT] = %d\n", valid_symbols[DEDENT]);
 
+  if (valid_symbols[NEWLINE] && lexer->lookahead == ';') {
+    advance(lexer);
+    lexer->mark_end(lexer);
+    lexer->result_symbol = NEWLINE;
+    return true;
+  }
+
   if (valid_symbols[THEN] && lexer->lookahead == 't') {
     advance(lexer);
     if (lexer->lookahead == 'h') {

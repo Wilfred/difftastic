@@ -738,7 +738,7 @@ module.exports = grammar({
           $._expression,
           repeat(prec.right(PREC.COMMA + 100,
             seq(
-              choice($._newline, ';'),
+              $._newline,
               $._expression,
             ),
           )),
@@ -822,7 +822,7 @@ module.exports = grammar({
           repeat1(
             prec.right(PREC.SEQ_EXPR,
               seq(
-                choice($._newline, ';'),
+                $._newline,
                 $._expression,
               ),
             ),
@@ -1315,7 +1315,7 @@ module.exports = grammar({
         $.record_field,
         repeat(
           seq(
-            choice(';', $._newline),
+            $._newline,
             $.record_field),
         ),
       ),
@@ -1566,7 +1566,7 @@ module.exports = grammar({
     field_initializers: $ => prec.right(PREC.COMMA + 100,
       seq(
         $.field_initializer,
-        repeat(prec.right(PREC.COMMA + 100, seq(choice($._newline, ';'), $.field_initializer)))
+        repeat(prec.right(PREC.COMMA + 100, seq($._newline, $.field_initializer)))
       )),
 
     //
