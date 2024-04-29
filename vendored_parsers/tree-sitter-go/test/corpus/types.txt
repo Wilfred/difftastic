@@ -138,36 +138,44 @@ type g2[T, U any, V interface{}, W Foo[Bar[T]]] struct {}
             (generic_type
               (type_identifier)
               (type_arguments
-                (type_identifier))))
+                (type_elem
+                  (type_identifier)))))
           (field_declaration
             (field_identifier)
             (generic_type
               (type_identifier)
               (type_arguments
-                (generic_type
-                  (type_identifier)
-                  (type_arguments
-                    (type_identifier))))))))))
+                (type_elem
+                  (generic_type
+                    (type_identifier)
+                    (type_arguments
+                      (type_elem
+                        (type_identifier))))))))))))
   (type_declaration
     (type_spec
       (type_identifier)
       (type_parameter_list
-        (parameter_declaration
+        (type_parameter_declaration
           (identifier)
           (identifier)
-          (type_identifier))
-        (parameter_declaration
+          (type_constraint
+            (type_identifier)))
+        (type_parameter_declaration
           (identifier)
-          (interface_type))
-        (parameter_declaration
+          (type_constraint
+            (interface_type)))
+        (type_parameter_declaration
           (identifier)
-          (generic_type
-            (type_identifier)
-            (type_arguments
-              (generic_type
-                (type_identifier)
-                (type_arguments
-                  (type_identifier)))))))
+          (type_constraint
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_elem
+                  (generic_type
+                    (type_identifier)
+                    (type_arguments
+                      (type_elem
+                        (type_identifier))))))))))
       (struct_type
         (field_declaration_list)))))
 
@@ -205,7 +213,7 @@ type SignedInteger interface {
     (type_spec
       (type_identifier)
       (interface_type
-        (constraint_elem
+        (type_elem
           (qualified_type
             (package_identifier)
             (type_identifier))))))
@@ -213,20 +221,20 @@ type SignedInteger interface {
     (type_spec
       (type_identifier)
       (interface_type
-        (constraint_elem
+        (type_elem
           (type_identifier))
-        (constraint_elem
+        (type_elem
           (qualified_type
             (package_identifier)
             (type_identifier)))
-        (method_spec
+        (method_elem
           (field_identifier)
           (parameter_list
             (parameter_declaration
               (identifier)
               (type_identifier)))
           (type_identifier))
-        (method_spec
+        (method_elem
           (field_identifier)
           (parameter_list
             (parameter_declaration
@@ -238,16 +246,13 @@ type SignedInteger interface {
     (type_spec
       (type_identifier)
       (interface_type
-        (constraint_elem
-          (union_type
-            (union_type
-              (union_type
-                (type_identifier)
-                (type_identifier))
-              (negated_type
-                (type_identifier)))
-            (negated_type
-              (type_identifier))))))))
+        (type_elem
+          (type_identifier)
+          (type_identifier)
+          (negated_type
+            (type_identifier))
+          (negated_type
+            (type_identifier)))))))
 
 ================================================================================
 Interface embedded struct types
@@ -260,6 +265,7 @@ type NewEmbeddings interface {
         ~struct{ f int }
         *struct{ f int }
         struct{ f int } | ~struct{ f int }
+        struct{ f int } | string
 }
 
 --------------------------------------------------------------------------------
@@ -271,40 +277,45 @@ type NewEmbeddings interface {
     (type_spec
       (type_identifier)
       (interface_type
-        (struct_elem
-          (struct_term
+        (type_elem
+          (struct_type
+            (field_declaration_list
+              (field_declaration
+                (field_identifier)
+                (type_identifier)))))
+        (type_elem
+          (negated_type
             (struct_type
               (field_declaration_list
                 (field_declaration
                   (field_identifier)
                   (type_identifier))))))
-        (struct_elem
-          (struct_term
+        (type_elem
+          (pointer_type
             (struct_type
               (field_declaration_list
                 (field_declaration
                   (field_identifier)
                   (type_identifier))))))
-        (struct_elem
-          (struct_term
+        (type_elem
+          (struct_type
+            (field_declaration_list
+              (field_declaration
+                (field_identifier)
+                (type_identifier))))
+          (negated_type
             (struct_type
               (field_declaration_list
                 (field_declaration
                   (field_identifier)
                   (type_identifier))))))
-        (struct_elem
-          (struct_term
-            (struct_type
-              (field_declaration_list
-                (field_declaration
-                  (field_identifier)
-                  (type_identifier)))))
-          (struct_term
-            (struct_type
-              (field_declaration_list
-                (field_declaration
-                  (field_identifier)
-                  (type_identifier))))))))))
+        (type_elem
+          (struct_type
+            (field_declaration_list
+              (field_declaration
+                (field_identifier)
+                (type_identifier))))
+          (type_identifier))))))
 
 ================================================================================
 Map types

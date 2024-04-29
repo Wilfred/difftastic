@@ -101,33 +101,39 @@ func main() {
     (parameter_list)
     (block
       (expression_statement
-        (call_expression
-          (identifier)
-          (type_arguments
-            (type_identifier))
-          (argument_list
-            (identifier))))
-      (expression_statement
-        (call_expression
-          (identifier)
-          (type_arguments
+        (type_conversion_expression
+          (generic_type
             (type_identifier)
-            (type_identifier))
-          (argument_list
-            (identifier))))
+            (type_arguments
+              (type_elem
+                (type_identifier))))
+          (identifier)))
       (expression_statement
-        (call_expression
-          (identifier)
-          (type_arguments
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (type_identifier)))
-            (type_identifier))
-          (argument_list
-            (index_expression
-              (identifier)
-              (identifier))))))))
+        (type_conversion_expression
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_elem
+                (type_identifier))
+              (type_elem
+                (type_identifier))))
+          (identifier)))
+      (expression_statement
+        (type_conversion_expression
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_elem
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_elem
+                      (type_identifier)))))
+              (type_elem
+                (type_identifier))))
+          (index_expression
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 Calls to 'make' and 'new'

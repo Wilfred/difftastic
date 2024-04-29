@@ -1,71 +1,68 @@
 /**
  * @file Go grammar for tree-sitter
- * @author Max Brunsfeld
+ * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
+ * @author Amaan Qureshi <amaanq12@gmail.com>
  * @license MIT
  */
 
-/* eslint-disable arrow-parens */
-/* eslint-disable camelcase */
-/* eslint-disable-next-line spaced-comment */
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const
-  PREC = {
-    primary: 7,
-    unary: 6,
-    multiplicative: 5,
-    additive: 4,
-    comparative: 3,
-    and: 2,
-    or: 1,
-    composite_literal: -1,
-  },
+const PREC = {
+  primary: 7,
+  unary: 6,
+  multiplicative: 5,
+  additive: 4,
+  comparative: 3,
+  and: 2,
+  or: 1,
+  composite_literal: -1,
+};
 
-  multiplicative_operators = ['*', '/', '%', '<<', '>>', '&', '&^'],
-  additive_operators = ['+', '-', '|', '^'],
-  comparative_operators = ['==', '!=', '<', '<=', '>', '>='],
-  assignment_operators = multiplicative_operators.concat(additive_operators).map(operator => operator + '=').concat('='),
+const multiplicativeOperators = ['*', '/', '%', '<<', '>>', '&', '&^'];
+const additiveOperators = ['+', '-', '|', '^'];
+const comparativeOperators = ['==', '!=', '<', '<=', '>', '>='];
+const assignmentOperators = multiplicativeOperators.concat(additiveOperators).map(operator => operator + '=').concat('=');
 
 
-  newline = '\n',
-  terminator = choice(newline, ';', '\0'),
+const newline = '\n';
+const terminator = choice(newline, ';', '\0');
 
-  hexDigit = /[0-9a-fA-F]/,
-  octalDigit = /[0-7]/,
-  decimalDigit = /[0-9]/,
-  binaryDigit = /[01]/,
+const hexDigit = /[0-9a-fA-F]/;
+const octalDigit = /[0-7]/;
+const decimalDigit = /[0-9]/;
+const binaryDigit = /[01]/;
 
-  hexDigits = seq(hexDigit, repeat(seq(optional('_'), hexDigit))),
-  octalDigits = seq(octalDigit, repeat(seq(optional('_'), octalDigit))),
-  decimalDigits = seq(decimalDigit, repeat(seq(optional('_'), decimalDigit))),
-  binaryDigits = seq(binaryDigit, repeat(seq(optional('_'), binaryDigit))),
+const hexDigits = seq(hexDigit, repeat(seq(optional('_'), hexDigit)));
+const octalDigits = seq(octalDigit, repeat(seq(optional('_'), octalDigit)));
+const decimalDigits = seq(decimalDigit, repeat(seq(optional('_'), decimalDigit)));
+const binaryDigits = seq(binaryDigit, repeat(seq(optional('_'), binaryDigit)));
 
-  hexLiteral = seq('0', choice('x', 'X'), optional('_'), hexDigits),
-  octalLiteral = seq('0', optional(choice('o', 'O')), optional('_'), octalDigits),
-  decimalLiteral = choice('0', seq(/[1-9]/, optional(seq(optional('_'), decimalDigits)))),
-  binaryLiteral = seq('0', choice('b', 'B'), optional('_'), binaryDigits),
+const hexLiteral = seq('0', choice('x', 'X'), optional('_'), hexDigits);
+const octalLiteral = seq('0', optional(choice('o', 'O')), optional('_'), octalDigits);
+const decimalLiteral = choice('0', seq(/[1-9]/, optional(seq(optional('_'), decimalDigits))));
+const binaryLiteral = seq('0', choice('b', 'B'), optional('_'), binaryDigits);
 
-  intLiteral = choice(binaryLiteral, decimalLiteral, octalLiteral, hexLiteral),
+const intLiteral = choice(binaryLiteral, decimalLiteral, octalLiteral, hexLiteral);
 
-  decimalExponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimalDigits),
-  decimalFloatLiteral = choice(
-    seq(decimalDigits, '.', optional(decimalDigits), optional(decimalExponent)),
-    seq(decimalDigits, decimalExponent),
-    seq('.', decimalDigits, optional(decimalExponent)),
-  ),
+const decimalExponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimalDigits);
+const decimalFloatLiteral = choice(
+  seq(decimalDigits, '.', optional(decimalDigits), optional(decimalExponent)),
+  seq(decimalDigits, decimalExponent),
+  seq('.', decimalDigits, optional(decimalExponent)),
+);
 
-  hexExponent = seq(choice('p', 'P'), optional(choice('+', '-')), decimalDigits),
-  hexMantissa = choice(
-    seq(optional('_'), hexDigits, '.', optional(hexDigits)),
-    seq(optional('_'), hexDigits),
-    seq('.', hexDigits),
-  ),
-  hexFloatLiteral = seq('0', choice('x', 'X'), hexMantissa, hexExponent),
+const hexExponent = seq(choice('p', 'P'), optional(choice('+', '-')), decimalDigits);
+const hexMantissa = choice(
+  seq(optional('_'), hexDigits, '.', optional(hexDigits)),
+  seq(optional('_'), hexDigits),
+  seq('.', hexDigits),
+);
+const hexFloatLiteral = seq('0', choice('x', 'X'), hexMantissa, hexExponent);
 
-  floatLiteral = choice(decimalFloatLiteral, hexFloatLiteral),
+const floatLiteral = choice(decimalFloatLiteral, hexFloatLiteral);
 
-  imaginaryLiteral = seq(choice(decimalDigits, intLiteral, floatLiteral), 'i');
+const imaginaryLiteral = seq(choice(decimalDigits, intLiteral, floatLiteral), 'i');
 
 module.exports = grammar({
   name: 'go',
@@ -82,19 +79,20 @@ module.exports = grammar({
     $._package_identifier,
     $._top_level_declaration,
     $._string_literal,
+    $._interface_elem,
   ],
 
   word: $ => $.identifier,
 
   conflicts: $ => [
     [$._simple_type, $._expression],
+    [$._simple_type, $.generic_type, $._expression],
     [$.qualified_type, $._expression],
-    [$.generic_type, $._expression],
     [$.generic_type, $._simple_type],
-    [$.parameter_declaration, $._simple_type, $._expression],
-    [$.parameter_declaration, $.generic_type, $._expression],
-    [$.parameter_declaration, $._expression],
     [$.parameter_declaration, $._simple_type],
+    [$.type_parameter_declaration, $._simple_type, $._expression],
+    [$.type_parameter_declaration, $._expression],
+    [$.type_parameter_declaration, $._simple_type, $.generic_type, $._expression],
   ],
 
   supertypes: $ => [
@@ -227,9 +225,14 @@ module.exports = grammar({
 
     type_parameter_list: $ => seq(
       '[',
-      commaSep1($.parameter_declaration),
+      commaSep1($.type_parameter_declaration),
       optional(','),
       ']',
+    ),
+
+    type_parameter_declaration: $ => seq(
+      commaSep1(field('name', $.identifier)),
+      field('type', alias($.type_elem, $.type_constraint)),
     ),
 
     parameter_list: $ => seq(
@@ -300,18 +303,17 @@ module.exports = grammar({
       $.map_type,
       $.channel_type,
       $.function_type,
-      $.union_type,
       $.negated_type,
     ),
 
-    generic_type: $ => seq(
-      field('type', choice($._type_identifier, $.qualified_type, $.union_type, $.negated_type)),
+    generic_type: $ => prec.dynamic(1, seq(
+      field('type', choice($._type_identifier, $.qualified_type, $.negated_type)),
       field('type_arguments', $.type_arguments),
-    ),
+    )),
 
     type_arguments: $ => prec.dynamic(2, seq(
       '[',
-      commaSep1($._type),
+      commaSep1($.type_elem),
       optional(','),
       ']',
     )),
@@ -342,12 +344,6 @@ module.exports = grammar({
       'struct',
       $.field_declaration_list,
     ),
-
-    union_type: $ => prec.left(seq(
-      $._type,
-      '|',
-      $._type,
-    )),
 
     negated_type: $ => prec.left(seq(
       '~',
@@ -386,34 +382,25 @@ module.exports = grammar({
       'interface',
       '{',
       optional(seq(
-        $._interface_body,
-        repeat(seq(terminator, $._interface_body)),
+        $._interface_elem,
+        repeat(seq(terminator, $._interface_elem)),
         optional(terminator),
       )),
       '}',
     ),
 
-    _interface_body: $ => choice(
-      $.method_spec,
-      $.struct_elem,
-      alias($._simple_type, $.constraint_elem),
+    _interface_elem: $ => choice(
+      $.method_elem,
+      $.type_elem,
     ),
 
-    struct_elem: $ => seq(
-      $.struct_term,
-      repeat(seq('|', $.struct_term)),
-    ),
-
-    struct_term: $ => prec(1, seq(
-      optional(choice('~', '*')),
-      $.struct_type,
-    )),
-
-    method_spec: $ => seq(
+    method_elem: $ => seq(
       field('name', $._field_identifier),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
     ),
+
+    type_elem: $ => sep1($._type, '|'),
 
     map_type: $ => prec.right(seq(
       'map',
@@ -512,7 +499,7 @@ module.exports = grammar({
 
     assignment_statement: $ => seq(
       field('left', $.expression_list),
-      field('operator', choice(...assignment_operators)),
+      field('operator', choice(...assignmentOperators)),
       field('right', $.expression_list),
     ),
 
@@ -665,6 +652,7 @@ module.exports = grammar({
       $.call_expression,
       $.type_assertion_expression,
       $.type_conversion_expression,
+      $.type_instantiation_expression,
       $.identifier,
       alias(choice('new', 'make'), $.identifier),
       $.composite_literal,
@@ -771,6 +759,14 @@ module.exports = grammar({
       ')',
     )),
 
+    type_instantiation_expression: $ => prec.dynamic(-1, seq(
+      field('type', $._type),
+      '[',
+      commaSep1($._type),
+      optional(','),
+      ']',
+    )),
+
     composite_literal: $ => prec(PREC.composite_literal, seq(
       field('type', choice(
         $.map_type,
@@ -817,9 +813,9 @@ module.exports = grammar({
 
     binary_expression: $ => {
       const table = [
-        [PREC.multiplicative, choice(...multiplicative_operators)],
-        [PREC.additive, choice(...additive_operators)],
-        [PREC.comparative, choice(...comparative_operators)],
+        [PREC.multiplicative, choice(...multiplicativeOperators)],
+        [PREC.additive, choice(...additiveOperators)],
+        [PREC.comparative, choice(...comparativeOperators)],
         [PREC.and, '&&'],
         [PREC.or, '||'],
       ];
@@ -919,6 +915,20 @@ module.exports = grammar({
     )),
   },
 });
+
+/**
+ * Creates a rule to match one or more occurrences of `rule` separated by `sep`
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @param {RuleOrLiteral} separator
+ *
+ * @return {SeqRule}
+ *
+ */
+function sep1(rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
+}
 
 /**
  * Creates a rule to match one or more of the rules separated by a comma
