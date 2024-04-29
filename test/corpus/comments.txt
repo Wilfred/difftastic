@@ -69,7 +69,8 @@ let x = 1
 --------------------------------------------------------------------------------
 
 (file
-  (xml_doc)
+  (xml_doc
+    (xml_doc_content))
   (value_declaration
     (function_or_value_defn
       (value_declaration_left
@@ -146,9 +147,12 @@ let f x = x + 1
 --------------------------------------------------------------------------------
 
 (file
-  (xml_doc)
-  (xml_doc)
-  (xml_doc)
+  (xml_doc
+    (xml_doc_content))
+  (xml_doc
+    (xml_doc_content))
+  (xml_doc
+    (xml_doc_content))
   (value_declaration
     (function_or_value_defn
       (function_declaration_left
