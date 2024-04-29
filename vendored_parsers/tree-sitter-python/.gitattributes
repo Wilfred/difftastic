@@ -1,7 +1,15 @@
-/src/parser.c linguist-vendored
-/src/*.json linguist-vendored
-/examples/* linguist-vendored
+* text=auto eol=lf
 
-src/grammar.json -diff
-src/node-types.json -diff
-src/parser.c -diff
+examples/crlf-line-endings.py eol=crlf
+examples/python2-grammar-crlf.py eol=crlf
+examples/python3-grammar-crlf.py eol=crlf
+
+src/*.json linguist-generated
+src/parser.c linguist-generated
+src/tree_sitter/* linguist-generated
+
+bindings/** linguist-generated
+binding.gyp linguist-generated
+setup.py linguist-generated
+Makefile linguist-generated
+Package.swift linguist-generated
