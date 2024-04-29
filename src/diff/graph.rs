@@ -342,7 +342,7 @@ impl Edge {
                 // Replacement edges have a cost between 500 and 600,
                 // so they can be up to 100 less than two novel nodes.
                 // If we have replacements either side of a node
-                // (e.g. see comma_and_comment_before.js), then that's
+                // (e.g. see comma_and_comment_1.js), then that's
                 // potentially a cost difference of 200.
                 base + if probably_punctuation { 200 } else { 0 }
             }

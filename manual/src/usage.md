@@ -11,7 +11,7 @@ $ difft sample_files/before.js sample_files/after.js
 ### Diffing Directories
 
 ```
-$ difft sample_files/dir_before/ sample_files/dir_after/
+$ difft sample_files/dir_1/ sample_files/dir_2/
 ```
 
 Difftastic will recursively walk the two directories, diffing files

@@ -24,8 +24,8 @@ LC_ALL=C
 LC_COLLATE=C
 
 echo "==> Check outputs"
-for before_f in sample_files/*before.*; do
-    after_f=${before_f/before/after}
+for before_f in sample_files/*_1.*; do
+    after_f=${before_f/_1/_2}
     echo "$before_f $after_f"
 
     difft_out=$(DFT_WIDTH=180 ./target/release/difft --color=always "$before_f" "$after_f" | md5sum)

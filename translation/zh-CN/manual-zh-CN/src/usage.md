@@ -11,7 +11,7 @@ $ difft sample_files/before.js sample_files/after.js
 ### 比较文件夹
 
 ```
-$ difft sample_files/dir_before/ sample_files/dir_after/
+$ difft sample_files/dir_1/ sample_files/dir_2/
 ```
 
 Difftastic 会递归地浏览这两个文件夹，对同名的文件进行差异分析。

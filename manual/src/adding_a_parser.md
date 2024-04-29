@@ -125,11 +125,11 @@ Finally, add a regression test for your language. This ensures that
 the output for your test file doesn't change unexpectedly.
 
 Regression test files live in `sample_files/` and have the form
-`foo_before.abc` and `foo_after.abc`.
+`foo_1.abc` and `foo_2.abc`.
 
 ```
-$ nano simple_before.json
-$ nano simple_after.json
+$ nano simple_1.json
+$ nano simple_2.json
 ```
 
 Run the regression test script and update the `.expected` file.

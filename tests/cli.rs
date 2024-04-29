@@ -44,8 +44,8 @@ fn inline() {
     let mut cmd = get_base_command();
 
     cmd.arg("--display=inline")
-        .arg("sample_files/simple_before.js")
-        .arg("sample_files/simple_after.js");
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
     cmd.assert().success();
 }
 
@@ -65,8 +65,8 @@ fn binary_changed() {
 fn has_changes_default_exit_code() {
     let mut cmd = get_base_command();
 
-    cmd.arg("sample_files/simple_before.js")
-        .arg("sample_files/simple_after.js");
+    cmd.arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
     cmd.assert().success();
 }
 
@@ -75,8 +75,8 @@ fn has_changes_requested_exit_code() {
     let mut cmd = get_base_command();
 
     cmd.arg("--exit-code")
-        .arg("sample_files/simple_before.js")
-        .arg("sample_files/simple_after.js");
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
     cmd.assert().failure().code(1);
 }
 
@@ -85,8 +85,8 @@ fn ignore_comments() {
     let mut cmd = get_base_command();
 
     cmd.arg("--ignore-comments")
-        .arg("sample_files/comma_and_comment_before.js")
-        .arg("sample_files/comma_and_comment_after.js");
+        .arg("sample_files/comma_and_comment_1.js")
+        .arg("sample_files/comma_and_comment_2.js");
 
     let predicate_fn = predicate::str::contains("No syntactic changes");
     cmd.assert().stdout(predicate_fn);
@@ -97,8 +97,8 @@ fn check_only() {
     let mut cmd = get_base_command();
 
     cmd.arg("--check-only")
-        .arg("sample_files/simple_before.js")
-        .arg("sample_files/simple_after.js");
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
 
     let predicate_fn = predicate::str::contains("Has syntactic changes");
     cmd.assert().stdout(predicate_fn);
@@ -109,8 +109,8 @@ fn check_only_text_file() {
     let mut cmd = get_base_command();
 
     cmd.arg("--check-only")
-        .arg("sample_files/text_before.txt")
-        .arg("sample_files/text_after.txt");
+        .arg("sample_files/text_1.txt")
+        .arg("sample_files/text_2.txt");
 
     let predicate_fn = predicate::str::contains("Has changes");
     cmd.assert().stdout(predicate_fn);
@@ -120,8 +120,8 @@ fn check_only_text_file() {
 fn makefile_text_as_atom() {
     let mut cmd = get_base_command();
 
-    cmd.arg("sample_files/cli_tests/makefile_before.mk")
-        .arg("sample_files/cli_tests/makefile_after.mk");
+    cmd.arg("sample_files/cli_tests/makefile_1.mk")
+        .arg("sample_files/cli_tests/makefile_2.mk");
 
     let predicate_fn = predicate::str::contains("CCFLAGS");
     cmd.assert().stdout(predicate_fn);
@@ -131,8 +131,8 @@ fn makefile_text_as_atom() {
 fn yaml_parse_errors() {
     let mut cmd = get_base_command();
 
-    cmd.arg("sample_files/cli_tests/bad_yaml_before.yml")
-        .arg("sample_files/cli_tests/bad_yaml_after.yml");
+    cmd.arg("sample_files/cli_tests/bad_yaml_1.yml")
+        .arg("sample_files/cli_tests/bad_yaml_2.yml");
 
     let predicate_fn = predicate::str::contains("exceeded DFT_PARSE_ERROR_LIMIT");
     cmd.assert().stdout(predicate_fn);
@@ -177,11 +177,10 @@ fn slightly_invalid_utf8() {
 fn directory_arguments() {
     let mut cmd = get_base_command();
 
-    cmd.arg("sample_files/dir_before")
-        .arg("sample_files/dir_after");
+    cmd.arg("sample_files/dir_1").arg("sample_files/dir_2");
 
-    let predicate_fn = predicate::str::contains("only_in_before.c")
-        .and(predicate::str::contains("only_in_after_dir.rs"));
+    let predicate_fn =
+        predicate::str::contains("only_in_1.c").and(predicate::str::contains("only_in_2.rs"));
     cmd.assert().stdout(predicate_fn);
 }
 
@@ -190,10 +189,10 @@ fn git_style_arguments_rename() {
     let mut cmd = get_base_command();
 
     cmd.arg("elisp_oldname.el")
-        .arg("sample_files/elisp_before.el")
+        .arg("sample_files/elisp_1.el")
         .arg("lhs_hash_placeholder")
         .arg("lhs_mode_placeholder")
-        .arg("sample_files/elisp_after.el")
+        .arg("sample_files/elisp_2.el")
         .arg("rhs_hash_placeholder")
         .arg("rhs_mode_placeholder")
         .arg("elisp_newname.el")
@@ -210,7 +209,7 @@ fn git_style_arguments_new_file() {
         .arg("/dev/null")
         .arg(".")
         .arg(".")
-        .arg("sample_files/simple_before.txt")
+        .arg("sample_files/simple_1.txt")
         .arg("abcdef1234")
         .arg("100644");
     let predicate_fn = predicate::str::contains("File permissions changed").not();
@@ -221,9 +220,9 @@ fn git_style_arguments_new_file() {
 fn drop_different_path_starts() {
     let mut cmd = get_base_command();
 
-    cmd.arg("sample_files/dir_before/clojure.clj")
-        .arg("sample_files/dir_after/clojure.clj");
-    let predicate_fn = predicate::str::contains("dir_after/clojure.clj").not();
+    cmd.arg("sample_files/dir_1/clojure.clj")
+        .arg("sample_files/dir_2/clojure.clj");
+    let predicate_fn = predicate::str::contains("dir_2/clojure.clj").not();
     cmd.assert().stdout(predicate_fn);
 }
 
@@ -232,8 +231,8 @@ fn dump_tree_sitter() {
     let mut cmd = get_base_command();
 
     cmd.arg("--dump-ts")
-        .arg("sample_files/simple_before.js")
-        .arg("sample_files/simple_after.js");
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
     cmd.assert().success();
 }
 
@@ -242,8 +241,8 @@ fn dump_syntax() {
     let mut cmd = get_base_command();
 
     cmd.arg("--dump-syntax")
-        .arg("sample_files/simple_before.js")
-        .arg("sample_files/simple_after.js");
+        .arg("sample_files/simple_1.js")
+        .arg("sample_files/simple_2.js");
     cmd.assert().success();
 }
 
@@ -251,7 +250,7 @@ fn dump_syntax() {
 fn walk_hidden_items() {
     let mut cmd = get_base_command();
 
-    cmd.args(["sample_files/hidden-before", "sample_files/hidden-after"]);
+    cmd.args(["sample_files/hidden_1", "sample_files/hidden_2"]);
 
     let predicate_fn =
         predicate::str::contains(format!(".hidden{}doc.txt", std::path::MAIN_SEPARATOR))

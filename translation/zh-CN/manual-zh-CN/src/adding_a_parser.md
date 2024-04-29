@@ -96,11 +96,11 @@ $ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
 最后，为你的语言添加一个回归测试，这样可以确保你的测试文件的输出不会意外改变。
 
 回归测试文件存在于`sample_files/`中，其形式为
-`foo_before.abc`和`foo_after.abc`。
+`foo_1.abc`和`foo_2.abc`。
 
 ```
-$ nano simple_before.json
-$ nano simple_after.json
+$ nano simple_1.json
+$ nano simple_2.json
 ```
 
 运行回归测试脚本并更新`.expect`文件。
