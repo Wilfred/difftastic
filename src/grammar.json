@@ -1475,6 +1475,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "anon_record_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "typecast_expression"
         },
         {
@@ -1643,7 +1647,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "field_expression"
+                    "name": "field_initializers"
                   },
                   {
                     "type": "SYMBOL",
@@ -1660,6 +1664,40 @@
           {
             "type": "STRING",
             "value": "}"
+          }
+        ]
+      }
+    },
+    "anon_record_expression": {
+      "type": "PREC",
+      "value": 21,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{|"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_indent"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "field_initializers"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_dedent"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "|}"
           }
         ]
       }
@@ -1693,10 +1731,6 @@
           ]
         }
       ]
-    },
-    "field_expression": {
-      "type": "SYMBOL",
-      "name": "field_initializers"
     },
     "_object_expression_inner": {
       "type": "SEQ",
@@ -6110,8 +6144,8 @@
       }
     },
     "field_initializer": {
-      "type": "PREC_RIGHT",
-      "value": 0,
+      "type": "PREC_LEFT",
+      "value": 113,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6124,38 +6158,52 @@
             "value": "="
           },
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_indent"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_dedent"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_expression"
           }
         ]
       }
     },
     "field_initializers": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 113,
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "PREC_LEFT",
-          "value": 113,
-          "content": {
+        "type": "SEQ",
+        "members": [
+          {
             "type": "SYMBOL",
             "name": "field_initializer"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PREC_RIGHT",
+              "value": 113,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_newline"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ";"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "field_initializer"
+                  }
+                ]
+              }
+            }
           }
-        }
+        ]
       }
     },
     "_escape_char": {

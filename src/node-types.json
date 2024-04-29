@@ -4,6 +4,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "anon_record_expression",
+        "named": true
+      },
+      {
         "type": "application_expression",
         "named": true
       },
@@ -317,6 +321,21 @@
         },
         {
           "type": "access_modifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "anon_record_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "field_initializers",
           "named": true
         }
       ]
@@ -675,7 +694,7 @@
       "required": true,
       "types": [
         {
-          "type": "field_expression",
+          "type": "field_initializers",
           "named": true
         },
         {
@@ -1313,21 +1332,6 @@
         },
         {
           "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "field_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "field_initializers",
           "named": true
         }
       ]
@@ -4072,6 +4076,10 @@
     "named": false
   },
   {
+    "type": "{|",
+    "named": false
+  },
+  {
     "type": "|",
     "named": false
   },
@@ -4081,6 +4089,10 @@
   },
   {
     "type": "||",
+    "named": false
+  },
+  {
+    "type": "|}",
     "named": false
   },
   {

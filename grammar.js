@@ -420,6 +420,7 @@ module.exports = grammar({
         $.ce_expression,
         $.prefixed_expression,
         $.brace_expression,
+        $.anon_record_expression,
         $.typecast_expression,
         $.declaration_expression,
         $.do_expression,
@@ -466,12 +467,23 @@ module.exports = grammar({
           scoped(
             choice(
               $.with_field_expression,
-              $.field_expression,
+              $.field_initializers,
               $.object_expression,
             ),
             $._indent,
             $._dedent),
           '}',
+        )),
+
+    anon_record_expression: $ =>
+      prec(PREC.PAREN_EXPR,
+        seq(
+          '{|',
+          scoped(
+            $.field_initializers,
+            $._indent,
+            $._dedent),
+          '|}',
         )),
 
     with_field_expression: $ =>
@@ -480,8 +492,6 @@ module.exports = grammar({
         'with',
         scoped($.field_initializers, $._indent, $._dedent),
       ),
-
-    field_expression: $ => $.field_initializers,
 
     _object_expression_inner: $ =>
       seq(
@@ -1546,15 +1556,18 @@ module.exports = grammar({
       ),
 
     field_initializer: $ =>
-      prec.right(
-        seq($.long_identifier,
+      prec.left(PREC.COMMA + 100,
+        seq(
+          $.long_identifier,
           '=',
-          scoped($._expression, $._indent, $._dedent)),
+          $._expression),
       ),
 
-    field_initializers: $ =>
-      prec.left(PREC.COMMA + 100,
-        repeat1(prec.left(PREC.COMMA + 100, $.field_initializer))),
+    field_initializers: $ => prec.right(PREC.COMMA + 100,
+      seq(
+        $.field_initializer,
+        repeat(prec.right(PREC.COMMA + 100, seq(choice($._newline, ';'), $.field_initializer)))
+      )),
 
     //
     // Type rules (END)

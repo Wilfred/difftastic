@@ -623,21 +623,17 @@ type T =
             (property_or_ident
               (identifier))
             (brace_expression
-              (field_expression
-                (field_initializers
-                  (field_initializer
-                    (long_identifier
-                      (identifier))
-                    (sequential_expression
-                      (const
-                        (int))
-                      (infix_expression
-                        (long_identifier_or_op
-                          (long_identifier
-                            (identifier)))
-                        (infix_op)
-                        (const
-                          (int))))))))))))))
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))))))))))
 
 ================================================================================
 Type extension. "with" keyword
@@ -673,21 +669,17 @@ type T =
             (property_or_ident
               (identifier))
             (brace_expression
-              (field_expression
-                (field_initializers
-                  (field_initializer
-                    (long_identifier
-                      (identifier))
-                    (sequential_expression
-                      (const
-                        (int))
-                      (infix_expression
-                        (long_identifier_or_op
-                          (long_identifier
-                            (identifier)))
-                        (infix_op)
-                        (const
-                          (int))))))))))))))
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))))))))))
 
 ================================================================================
 Type extension. "with" keyword newline
@@ -725,21 +717,17 @@ type T =
             (property_or_ident
               (identifier))
             (brace_expression
-              (field_expression
-                (field_initializers
-                  (field_initializer
-                    (long_identifier
-                      (identifier))
-                    (sequential_expression
-                      (const
-                        (int))
-                      (infix_expression
-                        (long_identifier_or_op
-                          (long_identifier
-                            (identifier)))
-                        (infix_op)
-                        (const
-                          (int))))))))))
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))))))
         (member_defn
           (method_or_prop_defn
             (property_or_ident
@@ -748,21 +736,17 @@ type T =
             (const_pattern
               (unit))
             (brace_expression
-              (field_expression
-                (field_initializers
-                  (field_initializer
-                    (long_identifier
-                      (identifier))
-                    (sequential_expression
-                      (const
-                        (int))
-                      (infix_expression
-                        (long_identifier_or_op
-                          (long_identifier
-                            (identifier)))
-                        (infix_op)
-                        (const
-                          (int))))))))))))))
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))))))))))
 
 ================================================================================
 method with optional typed argument

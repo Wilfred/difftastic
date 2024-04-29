@@ -1339,26 +1339,27 @@ do
   (value_declaration
     (do
       (brace_expression
-        (field_expression
-          (field_initializers
-            (field_initializer
-              (long_identifier
-                (identifier))
-              (brace_expression
-                (field_expression
-                  (field_initializers
-                    (field_initializer
-                      (long_identifier
-                        (identifier))
-                      (const (int)))
-                    (field_initializer
-                      (long_identifier
-                        (identifier))
-                      (const (int)))))))
-            (field_initializer
-              (long_identifier
-                (identifier))
-              (const (int)))))))))
+        (field_initializers
+          (field_initializer
+            (long_identifier
+              (identifier))
+            (brace_expression
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int))))))
+          (field_initializer
+            (long_identifier
+              (identifier))
+            (const
+              (int))))))))
 
 ================================================================================
 SeqBlock with line comment
@@ -2333,3 +2334,120 @@ let f =
             (bool))
           (const
             (string)))))))
+
+================================================================================
+record expression 1
+================================================================================
+
+let x = { A = 12; B = "string" }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (brace_expression
+        (field_initializers
+          (field_initializer
+            (long_identifier
+              (identifier))
+            (const
+              (int)))
+          (field_initializer
+            (long_identifier
+              (identifier))
+            (const
+              (string))))))))
+
+================================================================================
+anon record expression 1
+================================================================================
+
+let x = {| A = 12; B = "string"|}
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (anon_record_expression
+          (field_initializers
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const
+                (int)))
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const
+                (string))))))))
+
+================================================================================
+anon record expression 2
+================================================================================
+
+let x = {|
+  A = 12
+  B = "string"
+|}
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (anon_record_expression
+          (field_initializers
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const
+                (int)))
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const
+                (string))))))))
+
+================================================================================
+anon record expression 3
+================================================================================
+
+let x =
+  {| A = 12
+     B = "string" |}
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (anon_record_expression
+          (field_initializers
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const
+                (int)))
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (const
+                (string))))))))

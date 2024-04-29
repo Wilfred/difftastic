@@ -67,12 +67,6 @@
   "downcast"
 ] @keyword.operator
 
-((identifier) @keyword.debug
- (#any-of? @keyword.debug
-    "print"
-    "printf"
-    "printfn"))
-
 [
   "return"
   "return!"
