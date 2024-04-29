@@ -136,7 +136,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-elm",
             src_dir: "vendored_parsers/tree-sitter-elm-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-elvish",
