@@ -106,7 +106,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-cmake",
             src_dir: "vendored_parsers/tree-sitter-cmake-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-commonlisp",

@@ -12,7 +12,7 @@ Since difftastic is now conservative with parse errors
 (DFT_PARSE_ERROR_LIMIT is 0 by default), this seems like a better
 tradeoff.
 
-Updated C, C++, CSS, Elm, Go, Lua and Python parsers.
+Updated C, C++, CMake, CSS, Elm, Go, Lua and Python parsers.
 
 ### Diffing
 
