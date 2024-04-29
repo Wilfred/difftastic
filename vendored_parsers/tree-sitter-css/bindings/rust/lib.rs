@@ -6,7 +6,7 @@
 //! ```
 //! let code = "";
 //! let mut parser = tree_sitter::Parser::new();
-//! parser.set_language(tree_sitter_css::language()).expect("Error loading css grammar");
+//! parser.set_language(tree_sitter_css::language()).expect("Error loading CSS grammar");
 //! let tree = parser.parse(code, None).unwrap();
 //! ```
 //!
@@ -31,9 +31,9 @@ pub fn language() -> Language {
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
-pub const NODE_TYPES: &'static str = include_str!("../../src/node-types.json");
+pub const NODE_TYPES: &str = include_str!("../../src/node-types.json");
 
-pub const HIGHLIGHTS_QUERY: &'static str = include_str!("../../queries/highlights.scm");
+pub const HIGHLIGHTS_QUERY: &str = include_str!("../../queries/highlights.scm");
 
 #[cfg(test)]
 mod tests {
@@ -42,6 +42,6 @@ mod tests {
         let mut parser = tree_sitter::Parser::new();
         parser
             .set_language(super::language())
-            .expect("Error loading css language");
+            .expect("Error loading CSS grammar");
     }
 }
