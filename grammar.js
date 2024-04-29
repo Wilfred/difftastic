@@ -1558,9 +1558,9 @@ module.exports = grammar({
     field_initializer: $ =>
       prec.left(PREC.COMMA + 100,
         seq(
-          $.long_identifier,
+          field('property', $.long_identifier),
           '=',
-          $._expression),
+          field('value', $._expression)),
       ),
 
     field_initializers: $ => prec.right(PREC.COMMA + 100,
