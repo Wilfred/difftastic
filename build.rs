@@ -221,7 +221,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-lua",
             src_dir: "vendored_parsers/tree-sitter-lua-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-make",
