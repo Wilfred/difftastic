@@ -62,11 +62,13 @@ static inline bool is_infix_op_start(TSLexer *lexer) {
   case '&':
   case '=':
   case '?':
-  case '/':
   case '<':
   case '>':
   case '^':
     return true;
+  case '/':
+    skip(lexer);
+    return lexer->lookahead != '/';
   case '.':
     skip(lexer);
     return lexer->lookahead != '.';

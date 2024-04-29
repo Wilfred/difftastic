@@ -1082,3 +1082,37 @@ type A() =
             (long_identifier_or_op
               (long_identifier
                 (identifier)))))))))
+
+================================================================================
+record with xml docs on fields
+================================================================================
+
+/// A is used for...
+type A = {
+  /// B is used for...
+  B: int
+  /// C is used for...
+  C: int
+}
+
+--------------------------------------------------------------------------------
+
+(file
+  (xml_doc)
+  (type_definition
+    (record_type_defn
+      (type_name
+        (identifier))
+      (xml_doc)
+      (record_fields
+        (record_field
+          (identifier)
+          (type
+            (long_identifier
+              (identifier))))
+        (xml_doc)
+        (record_field
+          (identifier)
+          (type
+            (long_identifier
+              (identifier))))))))

@@ -31,10 +31,10 @@
 [
   ","
   ";"
+  "|"
 ] @punctuation.delimiter
 
 [
-  "|"
   "="
   ">"
   "<"
@@ -42,7 +42,6 @@
   "~"
   (infix_op)
   (prefix_op)
-  ; TODO: split _indent_or_op
 ] @operator
 
 (attribute) @attribute
@@ -55,21 +54,37 @@
   "when"
   "match"
   "match!"
-  "and"
-  "or"
+  "then"
   "&&"
   "||"
-  "then"
 ] @keyword.conditional
+
+[
+  "and"
+  "or"
+  "not"
+  "upcast"
+  "downcast"
+] @keyword.operator
+
+((identifier) @keyword.debug
+ (#any-of? @keyword.debug
+    "print"
+    "printf"
+    "printfn"))
 
 [
   "return"
   "return!"
+  "yield"
+  "yield!"
 ] @keyword.return
 
 [
   "for"
   "while"
+  "downto"
+  "to"
 ] @keyword.repeat
 
 
@@ -87,57 +102,54 @@
   "mutable"
   "override"
   "rec"
+  "global"
   (access_modifier)
 ] @keyword.modifier
 
 [
   "let"
   "let!"
+  "use"
+  "use!"
   "member"
 ] @keyword.function
 
 [
   "enum"
   "type"
+  "inherit"
+  "interface"
 ] @keyword.type
+
+[
+  "try"
+  "with"
+  "finally"
+] @keyword.exception
 
 [
   "as"
   "assert"
   "begin"
+  "end"
+  "done"
   "default"
   "do"
   "do!"
-  "done"
-  "downcast"
-  "downto"
-  "end"
   "event"
   "field"
-  "finally"
   "fun"
   "function"
   "get"
-  "global"
-  "inherit"
-  "interface"
+  "set"
   "lazy"
   "new"
-  "not"
   "null"
   "of"
   "param"
   "property"
-  "set"
   "struct"
-  "try"
-  "upcast"
-  "use"
-  "use!"
   "val"
-  "with"
-  "yield"
-  "yield!"
   "module"
   "namespace"
 ] @keyword
@@ -171,7 +183,7 @@
 
 
 (dot_expression
-  base: (long_identifier_or_op) @variable.member
+  base: (_) @variable.member
   field: (long_identifier_or_op) @property)
 
 (value_declaration_left (identifier_pattern) @variable)
