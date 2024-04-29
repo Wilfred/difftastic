@@ -289,9 +289,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_css() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["integer_value", "float_value", "color_value"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec![
+                    "integer_value",
+                    "float_value",
+                    "color_value",
+                    "string_value",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,

@@ -12,6 +12,8 @@ Since difftastic is now conservative with parse errors
 (DFT_PARSE_ERROR_LIMIT is 0 by default), this seems like a better
 tradeoff.
 
+Updated CSS parser.
+
 ### Diffing
 
 `--strip-cr` now defaults to `on`, so comparing a file with CRLF
