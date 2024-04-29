@@ -1,0 +1,17 @@
+name: Publish package
+
+on:
+  push:
+    tags: ["*"]
+
+jobs:
+  npm:
+    uses: tree-sitter/workflows/.github/workflows/package-npm.yml@main
+    with:
+      package-name: "@tree-sitter-grammars/tree-sitter-lua"
+    secrets:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+  crates:
+    uses: tree-sitter/workflows/.github/workflows/package-crates.yml@main
+    secrets:
+      CARGO_REGISTRY_TOKEN: ${{secrets.CARGO_TOKEN}}

@@ -1,0 +1,61 @@
+{
+  "name": "@tree-sitter-grammars/tree-sitter-lua",
+  "version": "0.1.0",
+  "description": "Lua grammar for tree-sitter",
+  "repository": "tree-sitter-grammars/tree-sitter-lua",
+  "author": "Munif Tanjim (https://muniftanjim.dev)",
+  "license": "MIT",
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "lua"
+  ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/**",
+    "src/**"
+  ],
+  "dependencies": {
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.21.0",
+    "prebuildify": "^6.0.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tree-sitter generate --no-bindings",
+    "test": "tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.lua",
+      "injection-regex": "^lua$",
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "tags": "queries/tags.scm",
+      "file-types": [
+        "lua"
+      ]
+    }
+  ]
+}
