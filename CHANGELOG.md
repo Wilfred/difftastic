@@ -1,5 +1,17 @@
 ## 0.58 (unreleased)
 
+### Parsing
+
+Difftastic now preserves tree-sitter parse tree structure on parse
+error nodes. This reverts the flattening behaviour introduced in
+0.38. Preserving structure tends to produce better diffs, although it
+increases the risk that difftastic will show fewer changes in the
+presence of parse errors.
+
+Since difftastic is now conservative with parse errors
+(DFT_PARSE_ERROR_LIMIT is 0 by default), this seems like a better
+tradeoff.
+
 ### Diffing
 
 `--strip-cr` now defaults to `on`, so comparing a file with CRLF

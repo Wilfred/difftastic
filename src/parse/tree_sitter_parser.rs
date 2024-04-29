@@ -1608,10 +1608,9 @@ fn syntax_from_cursor<'a>(
 
     if node.is_error() {
         *error_count += 1;
+    }
 
-        // Treat error nodes as atoms, even if they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
-    } else if config.atom_nodes.contains(node.kind()) {
+    if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)

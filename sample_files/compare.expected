@@ -134,7 +134,7 @@ sample_files/lua_before.lua sample_files/lua_after.lua
 9f5c85cd6806c724c84afa805da76bb7  -
 
 sample_files/makefile_before.mk sample_files/makefile_after.mk
-7eea0d919b71161c72a4ef496fff749d  -
+20cf6b508d1707e41e5450572ee51838  -
 
 sample_files/many_newlines_before.txt sample_files/many_newlines_after.txt
 afc8628f89076423d1453d8e3c84ac92  -
@@ -254,7 +254,7 @@ sample_files/tab_before.txt sample_files/tab_after.txt
 c7fcee21dd5ebd251e2cf4cd7d4446d2  -
 
 sample_files/tailwind_before.css sample_files/tailwind_after.css
-db01dde1e8455a144e5bf0511273f674  -
+be0cba204957b62a30e99fd03f945de5  -
 
 sample_files/text_before.txt sample_files/text_after.txt
 5fa6a472ccdeda0142eda3edcaeaa189  -
