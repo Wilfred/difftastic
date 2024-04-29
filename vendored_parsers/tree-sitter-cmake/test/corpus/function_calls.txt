@@ -7,12 +7,14 @@ add_custom_target(OUTPUT somefile)
 ---
 
 (source_file
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
-  (argument (unquoted_argument))
- )
- )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+  )
+)
 
 ================================================
 add_custom_target with new line [function_calls]
@@ -24,9 +26,11 @@ add_custom_target(
 ---
 
 (source_file
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
-  (argument (unquoted_argument))
- )
- )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+  )
+)

@@ -1,0 +1,136 @@
+==================================
+Empty foreach loop [foreach]
+==================================
+
+foreach(var)
+endforeach()
+
+---
+
+(source_file
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
+  )
+)
+
+===============================================================
+Empty foreach loop with one argument endforeach [foreach]
+===============================================================
+
+foreach(var)
+endforeach(var)
+
+---
+
+(source_file
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command
+      (endforeach)
+      (argument (unquoted_argument))
+    )
+  )
+)
+
+=================================
+Uppercase foreach [foreach]
+=================================
+
+FOREACH(var)
+ENDFOREACH()
+
+---
+
+(source_file
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
+  )
+)
+
+==================================
+Mixed case foreach [foreach]
+==================================
+
+forEach(var)
+endForEach()
+
+---
+
+(source_file
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
+  )
+)
+
+==================================
+Empty IN [foreach]
+==================================
+
+foreach(var IN)
+endforeach()
+
+---
+
+(source_file
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
+  )
+)
+
+==================================
+Empty RANGE [foreach]
+==================================
+
+foreach(var RANGE)
+endforeach()
+
+---
+
+(source_file
+  (foreach_loop
+    (foreach_command
+      (foreach)
+      (argument_list
+        (argument (unquoted_argument))
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endforeach_command (endforeach))
+  )
+)

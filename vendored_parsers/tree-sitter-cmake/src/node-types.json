@@ -23,19 +23,15 @@
     }
   },
   {
-    "type": "block_command",
+    "type": "argument_list",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "argument",
-          "named": true
-        },
-        {
-          "type": "block",
           "named": true
         },
         {
@@ -44,6 +40,25 @@
         },
         {
           "type": "line_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "block",
           "named": true
         }
       ]
@@ -62,15 +77,30 @@
           "named": true
         },
         {
+          "type": "body",
+          "named": true
+        },
+        {
+          "type": "endblock_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
           "type": "block_def",
           "named": true
         },
         {
           "type": "bracket_comment",
-          "named": true
-        },
-        {
-          "type": "endblock_command",
           "named": true
         },
         {
@@ -128,19 +158,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "else",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -155,19 +177,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "elseif",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -182,19 +196,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endblock",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -228,19 +234,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endfunction",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -255,19 +253,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endif",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -282,19 +272,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "endmacro",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -348,19 +330,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -375,11 +349,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_def",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "body",
           "named": true
         },
         {
@@ -388,34 +358,6 @@
         },
         {
           "type": "foreach_command",
-          "named": true
-        },
-        {
-          "type": "foreach_loop",
-          "named": true
-        },
-        {
-          "type": "function_def",
-          "named": true
-        },
-        {
-          "type": "if_condition",
-          "named": true
-        },
-        {
-          "type": "line_comment",
-          "named": true
-        },
-        {
-          "type": "macro_def",
-          "named": true
-        },
-        {
-          "type": "normal_command",
-          "named": true
-        },
-        {
-          "type": "while_loop",
           "named": true
         }
       ]
@@ -430,19 +372,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "function",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -457,11 +391,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_def",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "body",
           "named": true
         },
         {
@@ -469,35 +399,7 @@
           "named": true
         },
         {
-          "type": "foreach_loop",
-          "named": true
-        },
-        {
           "type": "function_command",
-          "named": true
-        },
-        {
-          "type": "function_def",
-          "named": true
-        },
-        {
-          "type": "if_condition",
-          "named": true
-        },
-        {
-          "type": "line_comment",
-          "named": true
-        },
-        {
-          "type": "macro_def",
-          "named": true
-        },
-        {
-          "type": "normal_command",
-          "named": true
-        },
-        {
-          "type": "while_loop",
           "named": true
         }
       ]
@@ -527,19 +429,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "if",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -554,11 +448,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_def",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "body",
           "named": true
         },
         {
@@ -574,35 +464,7 @@
           "named": true
         },
         {
-          "type": "foreach_loop",
-          "named": true
-        },
-        {
-          "type": "function_def",
-          "named": true
-        },
-        {
           "type": "if_command",
-          "named": true
-        },
-        {
-          "type": "if_condition",
-          "named": true
-        },
-        {
-          "type": "line_comment",
-          "named": true
-        },
-        {
-          "type": "macro_def",
-          "named": true
-        },
-        {
-          "type": "normal_command",
-          "named": true
-        },
-        {
-          "type": "while_loop",
           "named": true
         }
       ]
@@ -617,15 +479,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
-          "named": true
-        },
-        {
-          "type": "line_comment",
+          "type": "argument_list",
           "named": true
         },
         {
@@ -644,11 +498,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_def",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "body",
           "named": true
         },
         {
@@ -656,35 +506,7 @@
           "named": true
         },
         {
-          "type": "foreach_loop",
-          "named": true
-        },
-        {
-          "type": "function_def",
-          "named": true
-        },
-        {
-          "type": "if_condition",
-          "named": true
-        },
-        {
-          "type": "line_comment",
-          "named": true
-        },
-        {
           "type": "macro_command",
-          "named": true
-        },
-        {
-          "type": "macro_def",
-          "named": true
-        },
-        {
-          "type": "normal_command",
-          "named": true
-        },
-        {
-          "type": "while_loop",
           "named": true
         }
       ]
@@ -699,19 +521,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "argument_list",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "line_comment",
           "named": true
         }
       ]
@@ -891,15 +705,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
-          "named": true
-        },
-        {
-          "type": "line_comment",
+          "type": "argument_list",
           "named": true
         },
         {
@@ -918,11 +724,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_def",
-          "named": true
-        },
-        {
-          "type": "bracket_comment",
+          "type": "body",
           "named": true
         },
         {
@@ -930,35 +732,7 @@
           "named": true
         },
         {
-          "type": "foreach_loop",
-          "named": true
-        },
-        {
-          "type": "function_def",
-          "named": true
-        },
-        {
-          "type": "if_condition",
-          "named": true
-        },
-        {
-          "type": "line_comment",
-          "named": true
-        },
-        {
-          "type": "macro_def",
-          "named": true
-        },
-        {
-          "type": "normal_command",
-          "named": true
-        },
-        {
           "type": "while_command",
-          "named": true
-        },
-        {
-          "type": "while_loop",
           "named": true
         }
       ]

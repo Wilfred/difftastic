@@ -1,0 +1,25 @@
+========================================
+Escape sequence of "\;" [escape_sequence]
+=========================================
+
+set(var "It is \; and \"")
+
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (unquoted_argument))
+      (argument
+        (quoted_argument
+          (quoted_element
+            (escape_sequence)
+            (escape_sequence)
+          )
+        )
+      )
+    )
+  )
+)

@@ -11,8 +11,11 @@ endwhile()
   (while_loop
     (while_command
       (while)
-      (argument (unquoted_argument))
+      (argument_list
+        (argument (unquoted_argument))
+      )
     )
+    (body)
     (endwhile_command (endwhile))
   )
 )
@@ -30,8 +33,11 @@ endwhile(cond)
   (while_loop
     (while_command
       (while)
-      (argument (unquoted_argument))
+      (argument_list
+        (argument (unquoted_argument))
+      )
     )
+    (body)
     (endwhile_command 
       (endwhile)
       (argument (unquoted_argument))

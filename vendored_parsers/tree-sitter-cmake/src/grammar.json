@@ -427,10 +427,28 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^()#\"\\\\']"
+              "value": "[^()#\"\\\\]"
             }
           ]
         }
+      }
+    },
+    "body": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_untrimmed_command_invocation"
+        }
+      }
+    },
+    "argument_list": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_untrimmed_argument"
       }
     },
     "if_command": {
@@ -452,11 +470,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -483,11 +498,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -514,11 +526,16 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -545,11 +562,16 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -571,7 +593,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_untrimmed_command_invocation"
+                "name": "body"
               },
               {
                 "type": "SYMBOL",
@@ -609,11 +631,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -665,11 +684,8 @@
           "name": "foreach_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -696,11 +712,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -765,11 +778,8 @@
           "name": "while_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -796,11 +806,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -827,11 +834,16 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -847,11 +859,8 @@
           "name": "function_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -878,11 +887,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -909,11 +915,16 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -929,11 +940,8 @@
           "name": "macro_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -960,11 +968,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "SYMBOL",
+          "name": "argument_list"
         },
         {
           "type": "STRING",
@@ -991,11 +996,16 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -1011,11 +1021,8 @@
           "name": "block_command"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_command_invocation"
-          }
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "SYMBOL",
@@ -1042,11 +1049,16 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_untrimmed_argument"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -1193,4 +1205,3 @@
   "inline": [],
   "supertypes": []
 }
-
