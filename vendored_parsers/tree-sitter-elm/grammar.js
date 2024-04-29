@@ -241,7 +241,7 @@ module.exports = grammar({
       prec.left(
         seq(
           field("name", $.upper_case_identifier),
-          repeat($._single_type_expression)
+          repeat(choice($.line_comment, $._single_type_expression))
         )
       ),
 
