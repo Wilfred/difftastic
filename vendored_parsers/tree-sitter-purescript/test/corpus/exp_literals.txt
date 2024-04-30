@@ -1,0 +1,328 @@
+================================================================================
+Int
+================================================================================
+
+f = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (integer))))
+
+================================================================================
+Int, base 16
+================================================================================
+
+f = 0x1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (integer))))
+
+================================================================================
+Int, negative
+================================================================================
+
+f = -1
+g = -0x1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_negation
+      (exp_literal
+        (integer))))
+  (function
+    name: (variable)
+    rhs: (exp_negation
+      (exp_literal
+        (integer)))))
+
+================================================================================
+Int, underscore delimiters
+================================================================================
+
+f = 1_000_000
+g = 0x1_F_1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (integer)))
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (integer))))
+
+================================================================================
+Numbers, underscore delimiter
+================================================================================
+
+f = 1.0_0
+f = -1.1_1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (number)))
+  (function
+    name: (variable)
+    rhs: (exp_negation
+      (exp_literal
+        (number)))))
+
+================================================================================
+Numbers, exponent
+================================================================================
+
+f = 1_000e-1_9_9
+f = 1_000e+1_9_9
+f = 1_000e199
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (number)))
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (number)))
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (number))))
+
+================================================================================
+Char
+================================================================================
+
+f = 'C'
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (char))))
+
+================================================================================
+String
+================================================================================
+
+a = "b c d e"
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (string))))
+
+================================================================================
+Multi-line string
+================================================================================
+
+a =
+  """
+- b
+- c
+- d
+- e
+"""
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (triple_quote_string))))
+
+================================================================================
+Multi-line string on a single line (doesn't conflict with simple string)
+================================================================================
+
+a = """b c d e"""
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (triple_quote_string))))
+
+================================================================================
+Two multi-line strings (don't conflict with each other)
+================================================================================
+
+a = f """b c d e""" """b c d e"""
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_apply
+      (exp_name
+        (variable))
+      (exp_literal
+        (triple_quote_string))
+      (exp_literal
+        (triple_quote_string)))))
+
+================================================================================
+Multi-line string with " inside of it
+================================================================================
+
+a = """ "" """
+b = """"""""
+c = """ """
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_literal
+      (triple_quote_string)))
+  (function
+    (variable)
+    (exp_literal
+      (triple_quote_string)))
+  (function
+    (variable)
+    (exp_literal
+      (triple_quote_string))))
+
+================================================================================
+Arrays
+================================================================================
+
+a = []
+b = [ 1, 2, 3, 4 ]
+c = [ f a, g b, c { d }, \e -> h ]
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_array))
+  (function
+    name: (variable)
+    rhs: (exp_array
+      (exp_literal
+        (integer))
+      (comma)
+      (exp_literal
+        (integer))
+      (comma)
+      (exp_literal
+        (integer))
+      (comma)
+      (exp_literal
+        (integer))))
+  (function
+    name: (variable)
+    rhs: (exp_array
+      (exp_apply
+        (exp_name
+          (variable))
+        (exp_name
+          (variable)))
+      (comma)
+      (exp_apply
+        (exp_name
+          (variable))
+        (exp_name
+          (variable)))
+      (comma)
+      (exp_apply
+        (exp_name
+          (variable))
+        (record_literal
+          (record_field
+            (field_pun))))
+      (comma)
+      (exp_lambda
+        (pat_name
+          (variable))
+        (exp_name
+          (variable))))))
+
+================================================================================
+Records
+================================================================================
+
+a = {}
+b = { b: c, d: e }
+c = { d, e }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (record_literal))
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable))))
+      (comma)
+      (record_field
+        (field_name)
+        (field_value
+          (exp_name
+            (variable))))))
+  (function
+    name: (variable)
+    rhs: (record_literal
+      (record_field
+        (field_pun))
+      (comma)
+      (record_field
+        (field_pun)))))
+
+================================================================================
+Booleans
+================================================================================
+
+a = true
+b = false
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_name
+      (variable)))
+  (function
+    name: (variable)
+    rhs: (exp_name
+      (variable))))

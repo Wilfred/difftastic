@@ -1,0 +1,133 @@
+================================================================================
+Simple one-argument lambda
+================================================================================
+
+f = \a -> a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_name
+        (variable))
+      (exp_name
+        (variable)))))
+
+================================================================================
+Multi-argument lambda
+================================================================================
+
+f = \a b c -> a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_name
+        (variable))
+      (pat_name
+        (variable))
+      (pat_name
+        (variable))
+      (exp_name
+        (variable)))))
+
+================================================================================
+Explicit currying (consecutive lambdas)
+================================================================================
+
+f = \a -> \b -> \c -> a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_name
+        (variable))
+      (exp_lambda
+        (pat_name
+          (variable))
+        (exp_lambda
+          (pat_name
+            (variable))
+          (exp_name
+            (variable)))))))
+
+================================================================================
+Lambdas with patterns
+================================================================================
+
+f = \_ -> a
+g = \(A a) -> a
+h = \{ a: a } -> a
+i = \{ a } -> a
+j = \(A b c) (D e f) -> a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_wildcard
+        (pat_wildcard))
+      (exp_name
+        (variable))))
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_parens
+        (pat_apply
+          (pat_name
+            (constructor))
+          (pat_name
+            (variable))))
+      (exp_name
+        (variable))))
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_record
+        fields: (pat_fields
+          (pat_field
+            (field_name)
+            (pat_name
+              (variable)))))
+      (exp_name
+        (variable))))
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_record
+        fields: (pat_fields
+          (pat_field
+            (field_name))))
+      (exp_name
+        (variable))))
+  (function
+    name: (variable)
+    rhs: (exp_lambda
+      (pat_parens
+        (pat_apply
+          (pat_name
+            (constructor))
+          (pat_name
+            (variable))
+          (pat_name
+            (variable))))
+      (pat_parens
+        (pat_apply
+          (pat_name
+            (constructor))
+          (pat_name
+            (variable))
+          (pat_name
+            (variable))))
+      (exp_name
+        (variable)))))

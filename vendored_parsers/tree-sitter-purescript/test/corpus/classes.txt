@@ -1,0 +1,241 @@
+================================================================================
+Simple class
+================================================================================
+
+class A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_declaration
+    (class_head
+      (class_name
+        (type)))))
+
+================================================================================
+Simple class instance
+================================================================================
+
+instance A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_instance
+    (instance_head
+      (class_name
+        (type)))))
+
+================================================================================
+Simple class with a member
+================================================================================
+
+class A where
+  a :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_declaration
+    (class_head
+      (class_name
+        (type)))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        (type_name
+          (type))))))
+
+================================================================================
+Simple class instance with a member
+================================================================================
+
+instance A where
+  a = top
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_instance
+    (instance_head
+      (class_name
+        (type)))
+    (where)
+    (function
+      name: (variable)
+      rhs: (exp_name
+        (variable)))))
+
+================================================================================
+Simple class with two members
+================================================================================
+
+class B a where
+  a :: a -> Int
+  b :: b -> Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_declaration
+    (class_head
+      (class_name
+        (type))
+      (type_variable))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        (type_infix
+          (type_name
+            (type_variable))
+          (type_operator)
+          (type_name
+            (type))))
+      (signature
+        name: (variable)
+        (type_infix
+          (type_name
+            (type_variable))
+          (type_operator)
+          (type_name
+            (type)))))))
+
+================================================================================
+Class with a superclass
+================================================================================
+
+class (A a) <= B a where
+  a :: Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_declaration
+    (class_head
+      (constraints
+        (constraint
+          (class_name
+            (type))
+          (type_name
+            (type_variable))))
+      (class_name
+        (type))
+      (type_variable))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        (type_name
+          (type))))))
+
+================================================================================
+Instance with a superclass
+================================================================================
+
+instance (A a) => B a where
+  a = top
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_instance
+    (instance_head
+      (constraints
+        (constraint
+          (class_name
+            (type))
+          (type_name
+            (type_variable))))
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))
+    (where)
+    (function
+      name: (variable)
+      rhs: (exp_name
+        (variable)))))
+
+================================================================================
+Class with fundeps
+================================================================================
+
+class A b c d | b c -> d, c d -> b, b d -> c where
+  a :: b -> Tuple c d
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_declaration
+    (class_head
+      (class_name
+        (type))
+      (type_variable)
+      (type_variable)
+      (type_variable)
+      (fundeps
+        (fundep
+          (type_variable)
+          (type_variable)
+          (type_variable))
+        (comma)
+        (fundep
+          (type_variable)
+          (type_variable)
+          (type_variable))
+        (comma)
+        (fundep
+          (type_variable)
+          (type_variable)
+          (type_variable))))
+    (class_body
+      (where)
+      (signature
+        name: (variable)
+        (type_infix
+          (type_name
+            (type_variable))
+          (type_operator)
+          (type_apply
+            (type_name
+              (type))
+            (type_name
+              (type_variable))
+            (type_name
+              (type_variable))))))))
+
+================================================================================
+Class and instance - no parens in superclass
+================================================================================
+
+class A a <= B a
+instance A a => B a
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (class_declaration
+    (class_head
+      (constraints
+        (constraint
+          (class_name
+            (type))
+          (type_name
+            (type_variable))))
+      (class_name
+        (type))
+      (type_variable)))
+  (class_instance
+    (instance_head
+      (constraints
+        (constraint
+          (class_name
+            (type))
+          (type_name
+            (type_variable))))
+      (class_name
+        (type))
+      (type_name
+        (type_variable)))))

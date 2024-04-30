@@ -1,0 +1,11 @@
+src/grammar.json
+src/node-types.json
+src/parser.c
+src/tree_sitter/
+src/unicode.h
+
+LICENSE
+
+package.json
+
+binding.gyp

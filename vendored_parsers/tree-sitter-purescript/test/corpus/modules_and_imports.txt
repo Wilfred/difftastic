@@ -1,0 +1,234 @@
+================================================================================
+Module
+================================================================================
+
+module A where
+
+--------------------------------------------------------------------------------
+
+(purescript
+  name: (qualified_module
+    (module))
+  (where))
+
+================================================================================
+Module name with dots
+================================================================================
+
+module A.B.C.D where
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (qualified_module
+    (module)
+    (module)
+    (module)
+    (module))
+  (where))
+
+================================================================================
+Module with explicit exports
+================================================================================
+
+module A (fun1, fun2, Ctor(..), (+)) where
+
+--------------------------------------------------------------------------------
+
+(purescript
+  name: (qualified_module
+    (module))
+  exports: (exports
+    (export
+      (variable))
+    (comma)
+    (export
+      (variable))
+    (comma)
+    (export
+      (type)
+      (export_names
+        (all_names)))
+    (comma)
+    (export
+      (type_operator)))
+  (where))
+
+================================================================================
+Module with open, closed, qualified and unqualified imports
+================================================================================
+
+module A where
+
+import Prelude
+
+import B (fun1)
+import C (fun2, Ctor(..), (+))
+import D as D
+import F (fun3) as F
+
+--------------------------------------------------------------------------------
+
+(purescript
+  name: (qualified_module
+    (module))
+  (where)
+  (import
+    module: (qualified_module
+      (module)))
+  (import
+    module: (qualified_module
+      (module))
+    imports: (import_list
+      (import_item
+        (var_import
+          (variable)))))
+  (import
+    module: (qualified_module
+      (module))
+    imports: (import_list
+      (import_item
+        (var_import
+          (variable)))
+      (comma)
+      (import_item
+        (type_import
+          (type)
+          (import_con_names
+            (all_names))))
+      (comma)
+      (import_item
+        (type_import
+          (type_operator)))))
+  (import
+    module: (qualified_module
+      (module))
+    import_rename: (module))
+  (import
+    module: (qualified_module
+      (module))
+    imports: (import_list
+      (import_item
+        (var_import
+          (variable))))
+    import_rename: (module)))
+
+================================================================================
+Module with keyword-prefixed imports
+================================================================================
+
+module A where
+
+import B (type (+), class C)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  name: (qualified_module
+    (module))
+  (where)
+  (import
+    module: (qualified_module
+      (module))
+    imports: (import_list
+      (import_item
+        (type_operator_import
+          (operator)))
+      (comma)
+      (import_item
+        (class_import
+          (type_name
+            (type)))))))
+
+================================================================================
+Module with hidden imports
+================================================================================
+
+module A where
+
+import B hiding (b, c, d, E, F(..), class G, (×), type (×))
+import B hiding ()
+
+--------------------------------------------------------------------------------
+
+(purescript
+  name: (qualified_module
+    (module))
+  (where)
+  (import
+    module: (qualified_module
+      (module))
+    imports: (import_list
+      (import_item
+        (var_import
+          (variable)))
+      (comma)
+      (import_item
+        (var_import
+          (variable)))
+      (comma)
+      (import_item
+        (var_import
+          (variable)))
+      (comma)
+      (import_item
+        (type_import
+          (type)))
+      (comma)
+      (import_item
+        (type_import
+          (type)
+          (import_con_names
+            (all_names))))
+      (comma)
+      (import_item
+        (class_import
+          (type_name
+            (type))))
+      (comma)
+      (import_item
+        (type_import
+          (type_operator)))
+      (comma)
+      (import_item
+        (type_operator_import
+          (operator)))))
+  (import
+    module: (qualified_module
+      (module))
+    imports: (import_list)))
+
+================================================================================
+Module importing modules with dots in names
+================================================================================
+
+module A where
+
+import B.C.D as B.C.D
+import D.E.F.G (h)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  name: (qualified_module
+    (module))
+  (where)
+  (import
+    module: (qualified_module
+      (module)
+      (module)
+      (module))
+    import_rename: (module)
+    import_rename: (module)
+    import_rename: (module))
+  (import
+    module: (qualified_module
+      (module)
+      (module)
+      (module)
+      (module))
+    imports: (import_list
+      (import_item
+        (var_import
+          (variable))))))
+
