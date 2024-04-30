@@ -1,3 +1,3 @@
 do
-  while true do
-    while true do
+  while b do
+    while b do
