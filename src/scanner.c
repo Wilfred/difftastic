@@ -213,7 +213,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   if (valid_symbols[INDENT] && !found_start_of_infix_op && !found_bracket_end &&
-      !error_recovery_mode) {
+      !error_recovery_mode && !lexer->eof(lexer)) {
     array_push(&scanner->indents, indent_length);
     lexer->result_symbol = INDENT;
     return true;

@@ -1821,5 +1821,5 @@ module.exports = grammar({
 });
 
 function scoped(rule, indent, dedent) {
-  return seq(indent, rule, dedent);
+  return field('block', seq(indent, rule, dedent));
 }
