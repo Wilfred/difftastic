@@ -133,7 +133,6 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
       indent_length += 8;
       skip(lexer);
     } else if (lexer->eof(lexer)) {
-      indent_length = 0;
       found_end_of_line = true;
       break;
     } else {
@@ -212,8 +211,14 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     found_bracket_end = true;
   }
 
+  if (error_recovery_mode) {
+    array_pop(&scanner->indents);
+    lexer->result_symbol = DEDENT;
+    return true;
+  }
+
   if (valid_symbols[INDENT] && !found_start_of_infix_op && !found_bracket_end &&
-      !error_recovery_mode && !lexer->eof(lexer)) {
+      !error_recovery_mode) {
     array_push(&scanner->indents, indent_length);
     lexer->result_symbol = INDENT;
     return true;
