@@ -745,7 +745,7 @@ module.exports = grammar({
           $._expression,
           repeat(prec.right(PREC.COMMA + 100,
             seq(
-              $._newline,
+              alias($._newline, ';'),
               $._expression,
             ),
           )),
@@ -833,7 +833,7 @@ module.exports = grammar({
           repeat1(
             prec.right(PREC.SEQ_EXPR,
               seq(
-                $._newline,
+                alias($._newline, ';'),
                 $._expression,
               ),
             ),
@@ -1234,8 +1234,8 @@ module.exports = grammar({
         optional($.attributes),
         optional($.access_modifier),
         choice(
-          seq($.identifier, optional($.type_arguments)),
-          seq(optional($.type_argument), $.identifier), // Covers `type 'a option = Option<'a>`
+          seq(field('type_name', $.identifier), optional($.type_arguments)),
+          seq(optional($.type_argument), field('type_name', $.identifier)), // Covers `type 'a option = Option<'a>`
         ),
       ),
 
@@ -1410,21 +1410,22 @@ module.exports = grammar({
     anon_type_defn: $ =>
       seq(
         $.type_name,
-        field('constructor', optional($.primary_constr_args)),
+        optional($.primary_constr_args),
         '=',
         scoped($._class_type_body, $._indent, $._dedent),
       ),
 
     primary_constr_args: $ =>
-      seq(
-        optional($.attributes),
-        optional($.access_modifier),
-        '(',
-        optional(seq(
-          $.simple_pattern,
-          repeat(prec.left(PREC.COMMA, seq(',', $.simple_pattern))))),
-        ')',
-      ),
+      field('constructor',
+        seq(
+          optional($.attributes),
+          optional($.access_modifier),
+          '(',
+          optional(seq(
+            $.simple_pattern,
+            repeat(prec.left(PREC.COMMA, seq(',', $.simple_pattern))))),
+          ')',
+        )),
 
     simple_pattern: $ =>
       choice(

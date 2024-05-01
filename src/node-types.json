@@ -383,22 +383,16 @@
             "named": false
           }
         ]
-      },
-      "constructor": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "primary_constr_args",
-            "named": true
-          }
-        ]
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "primary_constr_args",
+          "named": true
+        },
         {
           "type": "type_name",
           "named": true
@@ -2459,24 +2453,37 @@
   {
     "type": "primary_constr_args",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "access_modifier",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "simple_pattern",
-          "named": true
-        }
-      ]
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "access_modifier",
+            "named": true
+          },
+          {
+            "type": "attributes",
+            "named": true
+          },
+          {
+            "type": "simple_pattern",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3182,10 +3189,21 @@
   {
     "type": "type_name",
     "named": true,
-    "fields": {},
+    "fields": {
+      "type_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "access_modifier",
@@ -3193,10 +3211,6 @@
         },
         {
           "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -4150,11 +4164,11 @@
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unmanaged",

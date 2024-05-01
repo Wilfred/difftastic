@@ -6,12 +6,114 @@
   (block_comment)
 ] @comment @spell
 
-(xml_doc) @comment.doc @spell
+(xml_doc) @comment.documentation @spell
 
-(identifier) @variable (#set! "priority" 90)
+((identifier) @variable
+ (#set! "priority" 90))
+
+((identifier_pattern (long_identifier (identifier) @character.special))
+ (#match? @character.special "^\_.*")
+ (#set! "priority" 90))
+
+(const) @constant
 
 ;; ----------------------------------------------------------------------------
 ;; Punctuation
+
+(wildcard_pattern) @character.special
+
+(type_definition (_ (type_name (identifier) @type.definition)))
+
+(type) @type
+
+(member_signature
+  .
+  (identifier) @function.member
+  (curried_spec
+    (arguments_spec
+      "*"* @operator
+      (argument_spec
+        (argument_name_spec
+          "?"* @character.special
+          name: (_) @variable.parameter)
+        (_) @type))))
+
+[
+  (union_type_case)
+  (rules
+    (rule
+      (identifier_pattern
+        (long_identifier)
+        .
+        (long_identifier) @variable)))
+] @type
+
+(fsi_directive_decl . (string) @module)
+
+(import_decl . (_) @module)
+(named_module
+  name: (_) @module)
+(namespace
+  name: (_) @module)
+(module_defn
+  .
+  (_) @module)
+
+(field_initializer
+  field: (_) @property)
+
+(record_fields
+  (record_field
+    .
+    (identifier) @property))
+
+(dot_expression
+  base: (_) @variable
+  field: (_) @variable.member)
+
+(value_declaration_left . (_) @variable)
+
+(function_declaration_left
+  . (_) @function
+  [
+    (argument_patterns)
+    (argument_patterns (long_identifier (identifier)))
+  ] @variable.parameter)
+
+(member_defn
+  (method_or_prop_defn
+    (property_or_ident
+      instance: (identifier) @variable.parameter.builtin
+      method: (identifier) @variable.member)
+    args: _ @variable.parameter))
+
+(call_expression) @function.method.call
+(application_expression) @function.call
+
+(compiler_directive_decl
+  .
+  (_) @keyword.directive.define) @keyword.directive
+
+[
+  (string)
+  (triple_quoted_string)
+] @string
+
+[
+  (int)
+  (int16)
+  (int32)
+  (int64)
+] @number
+
+[
+  (float)
+  (decimal)
+] @number.float
+
+(bool) @boolean
+
+(attribute) @attribute
 
 [
   "("
@@ -22,29 +124,34 @@
   "]"
   "[|"
   "|]"
-  ; "{|"
-  ; "|}"
+  "{|"
+  "|}"
   "[<"
   ">]"
 ] @punctuation.bracket
 
+(format_string_eval
+  [
+    "{"
+    "}"
+  ] @punctuation.special)
+
 [
   ","
   ";"
-  "|"
 ] @punctuation.delimiter
 
 [
+  "|"
   "="
   ">"
   "<"
   "-"
   "~"
+  "->"
   (infix_op)
   (prefix_op)
 ] @operator
-
-(attribute) @attribute
 
 [
   "if"
@@ -54,9 +161,11 @@
   "when"
   "match"
   "match!"
-  "then"
+  "and"
+  "or"
   "&&"
   "||"
+  "then"
 ] @keyword.conditional
 
 [
@@ -128,6 +237,7 @@
   "end"
   "done"
   "default"
+  "in"
   "do"
   "do!"
   "event"
@@ -148,70 +258,7 @@
   "namespace"
 ] @keyword
 
-(bool) @boolean
-
-(type) @variable
-
-(const) @constant
-
-(wildcard_pattern) @variable.parameter.builtin
-
-(type_definition (_ (type_name (identifier) @type.definition))) @type
-
-[
- (union_type_case)
- (rules (rule (identifier_pattern)))
-] @type
-
-(fsi_directive_decl (string) @module)
-
-[
-  (import_decl (long_identifier))
-  (named_module (long_identifier))
-  (namespace (long_identifier))
-  (named_module
-    name: (long_identifier) )
-  (namespace
-    name: (long_identifier) )
-] @module
-
-
-(dot_expression
-  base: (_) @variable.member
-  field: (long_identifier_or_op) @property)
-
-(value_declaration_left (identifier_pattern) @variable)
-
-(function_declaration_left
-  (identifier)* @function
-  [
-    (argument_patterns)
-    (argument_patterns (long_identifier (identifier)))
-  ] @variable.parameter)
-
-(member_defn
-  (method_or_prop_defn
-    (property_or_ident
-      instance: (identifier) @variable.parameter.builtin
-      method: (identifier) @variable.member)
-    args: _ @variable.parameter))
-
-(call_expression (long_identifier_or_op (long_identifier))) @function.method.call
-(application_expression (long_identifier_or_op (long_identifier))) @function.call
-
-[
-  (string)
-  (triple_quoted_string)
-] @string
-
-[
-  (int)
-  (int16)
-  (int32)
-  (int64)
-] @number
-
-[
-  (float)
-  (decimal)
-] @number.float
+(long_identifier
+  (identifier)* @module
+  .
+  (identifier))
