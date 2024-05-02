@@ -156,12 +156,17 @@
 ; keyword
 ; -------
 
+(foreach_statement
+  . (_)
+  . (_)
+  . "in" @keyword)
+
 [
   "get" "mutates" "extends" "virtual" "override" "inline" "abstract"
   "contract" "trait" "struct" "message" "with"
   "const" "let" "fun" "native"
   "primitive" "import"
-  "if" "else" "while" "repeat" "do" "until"
+  "if" "else" "while" "repeat" "do" "until" "foreach"
   "try" "catch"
   "return" "initOf"
   ; "public" ; -- not used, but declared in grammar.ohm

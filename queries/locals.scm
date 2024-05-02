@@ -25,6 +25,10 @@
 (constant
   name: (identifier) @local.definition)
 
+(foreach_statement
+  key: (identifier) @local.definition
+  value: (identifier) @local.definition)
+
 ; References   @local.reference
 ; -----------------------------
 

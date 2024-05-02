@@ -344,6 +344,7 @@ module.exports = grammar({
         $.repeat_statement, // StatementRepeat
         $.do_until_statement, // StatementUntil
         $.try_statement, // StatementTry
+        $.foreach_statement, // StatementForEach
       ),
 
     let_statement: ($) =>
@@ -437,6 +438,19 @@ module.exports = grammar({
       seq(
         "catch",
         "(",
+        field("name", $.identifier),
+        ")",
+        field("body", $.block_statement),
+      ),
+
+    foreach_statement: ($) =>
+      seq(
+        "foreach",
+        "(",
+        field("key", $.identifier),
+        ",",
+        field("value", $.identifier),
+        "in",
         field("name", $.identifier),
         ")",
         field("body", $.block_statement),

@@ -60,6 +60,9 @@
 (do_until_statement
   body: (_ (_) @context.end)) @context
 
+(foreach_statement
+  body: (_ (_) @context.end)) @context
+
 [
   (return_statement)
   (expression_statement)

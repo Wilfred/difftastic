@@ -359,6 +359,10 @@
           "named": true
         },
         {
+          "type": "foreach_statement",
+          "named": true
+        },
+        {
           "type": "if_statement",
           "named": true
         },
@@ -844,6 +848,52 @@
     }
   },
   {
+    "type": "foreach_statement",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block_statement",
+            "named": true
+          }
+        ]
+      },
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "func_identifier",
     "named": true,
     "fields": {}
@@ -947,6 +997,10 @@
         },
         {
           "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "foreach_statement",
           "named": true
         },
         {
@@ -2402,6 +2456,10 @@
     "named": false
   },
   {
+    "type": "foreach",
+    "named": false
+  },
+  {
     "type": "fun",
     "named": false
   },
@@ -2419,6 +2477,10 @@
   },
   {
     "type": "import",
+    "named": false
+  },
+  {
+    "type": "in",
     "named": false
   },
   {

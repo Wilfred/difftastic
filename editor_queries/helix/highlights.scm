@@ -233,8 +233,14 @@
 ; keyword.control.repeat
 ; ----------------------
 
+
+(foreach_statement
+  . (_)
+  . (_)
+  . "in" @keyword.control.repeat)
+
 [
-  "while" "repeat" "do" "until"
+  "while" "repeat" "do" "until" "foreach"
 ] @keyword.control.repeat
 
 ; keyword.control.conditional

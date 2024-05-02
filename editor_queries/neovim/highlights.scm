@@ -194,8 +194,13 @@
 ; keyword.repeat
 ; --------------
 
+(foreach_statement
+  . (_)
+  . (_)
+  . "in" @keyword.repeat)
+
 [
-  "while" "repeat" "do" "until"
+  "while" "repeat" "do" "until" "foreach"
 ] @keyword.repeat
 
 ; keyword.return

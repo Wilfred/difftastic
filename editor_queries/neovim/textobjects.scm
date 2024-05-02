@@ -117,6 +117,10 @@
   body: (block_statement "{" (_) @_start @_end (_)? @_end "}")
   (#make-range! "loop.inner" @_start @_end)) @loop.outer
 
+(foreach_statement
+  body: (block_statement "{" (_) @_start @_end (_)? @_end "}")
+  (#make-range! "loop.inner" @_start @_end)) @loop.outer
+
 ; conditional.inner & outer
 ; -------------------------
 

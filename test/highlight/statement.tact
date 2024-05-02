@@ -131,6 +131,18 @@ extends fun c(self: SomeMessage): Int {
     //               ^ punctuation.bracket
     //                ^ punctuation.bracket
 
+    foreach (k, v in a) {}
+    // <- keyword
+    //      ^ punctuation.bracket
+    //       ^ variable
+    //        ^ punctuation.delimiter
+    //          ^ variable
+    //            ^ keyword
+    //               ^ variable
+    //                ^ punctuation.bracket
+    //                  ^ punctuation.bracket
+    //                   ^ punctuation.bracket
+
     0  ;
     // <- number
     // ^ punctuation.delimiter

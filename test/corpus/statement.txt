@@ -33,6 +33,8 @@ extends fun c(self: SomeMessage, ): Int {
     try {}
     try {} catch (e) {}
 
+    foreach (k, v in a) {}
+
     0;
     return 0;
 }
@@ -117,7 +119,12 @@ extends fun c(self: SomeMessage, ): Int {
         body: (block_statement)
         handler: (catch_clause
           name: (identifier)
-          body: (block_statement)))        
+          body: (block_statement)))
+      (foreach_statement
+        key: (identifier)
+        value: (identifier)
+        name: (identifier)
+        body: (block_statement))
       (expression_statement
         (integer))
       (return_statement
