@@ -1,16 +1,12 @@
 ; See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#indents
-
 ; indent.begin       ; indent children when matching this node
 ; ------------
-
 [
   ; (..., ...)
   (parameter_list)
   (argument_list)
-
   ; {..., ...}
   (instance_argument_list)
-
   ; {...; ...}
   (message_body)
   (struct_body)
@@ -18,7 +14,6 @@
   (trait_body)
   (function_body)
   (block_statement)
-
   ; misc.
   (binary_expression)
   (ternary_expression)
@@ -29,7 +24,6 @@
 
 ; indent.branch      ; dedent itself when matching this node
 ; -------------
-
 [
   "}"
   ")"
@@ -38,7 +32,6 @@
 
 ; indent.end         ; marks the end of indented block
 ; ----------
-
 [
   "}"
   ")"
@@ -47,7 +40,6 @@
 
 ; indent.auto        ; behaves like 'autoindent' buffer option
 ; -----------
-
 [
   (comment)
   (ERROR)

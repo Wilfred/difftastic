@@ -51,6 +51,9 @@ log.html
 !/test/highlight/*.tact
 !/test/tags/*.tact
 
+# for formatting queries for Neovim
+/nvim-treesitter
+
 # Editors
 .vscode/
 .idea/

@@ -2,26 +2,21 @@
 ; NOTE: as broad captures should be placed first, narrow queries - second.
 ; See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights
 ; ----------------------------------------------------------------------------------------------
-
 ; variable
 ; --------
-
 (identifier) @variable
 
 ; variable.builtin
 ; ----------------
-
 (self) @variable.builtin
 
 ; variable.parameter
 ; ------------------
-
 (parameter
   name: (identifier) @variable.parameter)
 
 ; punctuation.delimiter
 ; ---------------------
-
 [
   ";"
   ","
@@ -32,32 +27,46 @@
 
 ; punctuation.bracket
 ; -------------------
-
 [
-  "(" ")"
-  "{" "}"
+  "("
+  ")"
+  "{"
+  "}"
 ] @punctuation.bracket
 
 ; operator
 ; --------
-
 [
-  "-" "-="
-  "+" "+="
-  "*" "*="
-  "/" "/="
-  "%" "%="
-  "=" "=="
-  "!" "!=" "!!"
-  "<" "<=" "<<"
-  ">" ">=" ">>"
-  "&" "|" "^"
-  "&&" "||"
+  "-"
+  "-="
+  "+"
+  "+="
+  "*"
+  "*="
+  "/"
+  "/="
+  "%"
+  "%="
+  "="
+  "=="
+  "!"
+  "!="
+  "!!"
+  "<"
+  "<="
+  "<<"
+  ">"
+  ">="
+  ">>"
+  "&"
+  "|"
+  "^"
+  "&&"
+  "||"
 ] @operator
 
 ; constructor
 ; -----------
-
 (instance_expression
   name: (identifier) @constructor)
 
@@ -66,12 +75,10 @@
 
 ; type
 ; ----
-
 (type_identifier) @type
 
 ; type.builtin
 ; ------------
-
 ((identifier) @type.builtin
   (#eq? @type.builtin "SendParameters"))
 
@@ -96,34 +103,28 @@
 
 ; string
 ; ------
-
 (string) @string
 
 ; string.escape
 ; -------------
-
 (escape_sequence) @string.escape
 
 ; string.special.path
 ; -------------------
-
 (import_statement
   library: (string) @string.special.path)
 
 ; boolean
 ; -------
-
 (boolean) @boolean
 
 ; constant
 ; --------
-
 (constant
   name: (identifier) @constant)
 
 ; constant.builtin
 ; ----------------
-
 (null) @constant.builtin
 
 ((identifier) @constant.builtin
@@ -132,11 +133,12 @@
 
 ; property
 ; --------
-
 (instance_argument
   name: (identifier) @property)
 
-(lvalue (_) (_) @property)
+(lvalue
+  (_)
+  (_) @property)
 
 (field_access_expression
   name: (identifier) @property)
@@ -154,82 +156,91 @@
 
 ; number
 ; ------
-
 (integer) @number
 
 ; keyword
 ; -------
-
 [
-  "contract" "trait" "struct" "message" "with"
-  "const" "let"
+  "contract"
+  "trait"
+  "struct"
+  "message"
+  "with"
+  "const"
+  "let"
   ; "public" ; -- not used, but declared in grammar.ohm
   ; "extend" ; -- not used, but declared in grammar.ohm
 ] @keyword
 
 ; keyword.function
 ; ----------------
-
 [
-  "fun" "native"
+  "fun"
+  "native"
 ] @keyword.function
 
 ; keyword.operator
 ; ----------------
-
 "initOf" @keyword.operator
 
 ; keyword.import
 ; --------------
-
 "import" @keyword.import
 
 ; keyword.storage
 ; ---------------
-
 [
-  "get" "mutates" "extends" "virtual" "override" "inline" "abstract"
+  "get"
+  "mutates"
+  "extends"
+  "virtual"
+  "override"
+  "inline"
+  "abstract"
 ] @keyword.storage
 
 ; keyword.repeat
 ; --------------
-
 (foreach_statement
-  . (_)
-  . (_)
-  . "in" @keyword.repeat)
+  .
+  (_)
+  .
+  (_)
+  .
+  "in" @keyword.repeat)
 
 [
-  "while" "repeat" "do" "until" "foreach"
+  "while"
+  "repeat"
+  "do"
+  "until"
+  "foreach"
 ] @keyword.repeat
 
 ; keyword.return
 ; --------------
-
 "return" @keyword.return
 
 ; keyword.exception
 ; -----------------
-
 [
-  "try" "catch"
+  "try"
+  "catch"
 ] @keyword.exception
 
 ; keyword.conditional
 ; -------------------
-
 [
-  "if" "else"
+  "if"
+  "else"
 ] @keyword.conditional
 
 ; keyword.directive.define
 ; ------------------------
-
 "primitive" @keyword.directive.define
 
 ; function
 ; --------
-
 (native_function
   name: (identifier) @function)
 
@@ -240,7 +251,6 @@
 
 ; function.method
 ; ---------------
-
 (init_function
   "init" @function.method)
 
@@ -258,27 +268,23 @@
 
 ; function.call
 ; -------------
-
 (static_call_expression
   name: (identifier) @function.call)
 
 ; function.method.call
 ; ---------------
-
 (method_call_expression
   name: (identifier) @function.method.call)
 
 ; function.builtin
 ; ----------------
-
 (static_call_expression
   name: (identifier) @function.builtin
   (#match? @function.builtin
-     "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|dumpStack|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|pow2|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$"))
+    "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|dumpStack|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|pow2|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$"))
 
 ; comment
 ; -------
-
 (comment) @comment @spell
 
 ((comment) @comment.documentation
@@ -286,7 +292,6 @@
 
 ; attribute
 ; ---------
-
 [
   "@name"
   "@interface"

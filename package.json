@@ -41,6 +41,8 @@
     "tags": "tree-sitter tags",
     "fmt": "prettier --write grammar.js",
     "check-fmt": "prettier --check grammar.js",
+    "nvim-clone": "git clone git@github.com:nvim-treesitter/nvim-treesitter",
+    "nvim-fmt": "nvim -l nvim-treesitter/scripts/format-queries.lua editor_queries/neovim",
     "build": "tree-sitter generate --no-bindings",
     "build-wasm": "tree-sitter build-wasm",
     "play": "tree-sitter build-wasm && tree-sitter playground",
