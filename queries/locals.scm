@@ -19,11 +19,10 @@
 
 (function_declaration_left
   .
-  ((identifier) @local.definition.function
+  ((_) @local.definition.function
    (#set! "definition.function.scope" "parent"))
-  ((argument_patterns)
+  ((argument_patterns
     [
-     (identifier) @local.definition.parameter
      (_ (identifier) @local.definition.parameter)
      (_ (_ (identifier) @local.definition.parameter))
      (_ (_ (_ (identifier) @local.definition.parameter)))
@@ -31,4 +30,4 @@
      (_ (_ (_ (_ (_ (identifier) @local.definition.parameter)))))
      (_ (_ (_ (_ (_ (_ (identifier) @local.definition.parameter))))))
     ])
-  )
+  ))

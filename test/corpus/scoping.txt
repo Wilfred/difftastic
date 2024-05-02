@@ -165,3 +165,39 @@ let f x =
                 (long_identifier_or_op
                   (long_identifier
                     (identifier)))))))))))
+
+================================================================================
+for-loop in else branch
+================================================================================
+
+do
+  if b then
+    ()
+  else
+    for x in xs do
+      ()
+    ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (unit))
+        (sequential_expression
+          (for_expression
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (const
+              (unit)))
+          (const
+            (unit)))))))

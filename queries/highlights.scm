@@ -97,7 +97,7 @@
 [
   (string)
   (triple_quoted_string)
-] @string
+] @spell @string
 
 [
   (int)

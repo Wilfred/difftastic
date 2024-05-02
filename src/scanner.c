@@ -211,7 +211,7 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
     found_bracket_end = true;
   }
 
-  if (error_recovery_mode) {
+  if (error_recovery_mode && scanner->indents.size > 0) {
     array_pop(&scanner->indents);
     lexer->result_symbol = DEDENT;
     return true;

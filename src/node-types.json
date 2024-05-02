@@ -1591,10 +1591,6 @@
           "named": true
         },
         {
-          "type": "type",
-          "named": true
-        },
-        {
           "type": "type_arguments",
           "named": true
         }
@@ -1637,6 +1633,10 @@
       "types": [
         {
           "type": "function_declaration_left",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         },
         {
@@ -2093,6 +2093,10 @@
         "required": false,
         "types": [
           {
+            "type": ":",
+            "named": false
+          },
+          {
             "type": "=",
             "named": false
           },
@@ -2106,6 +2110,10 @@
           },
           {
             "type": "function_declaration_left",
+            "named": true
+          },
+          {
+            "type": "type",
             "named": true
           },
           {
@@ -3515,10 +3523,6 @@
         },
         {
           "type": "access_modifier",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         },
         {

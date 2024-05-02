@@ -34,6 +34,13 @@
 (array_expression
   "|]" @indent.branch)
 
+(ERROR
+  .
+  [
+   "module"
+   "do"
+  ]) @indent.begin
+
 [
  (string)
  (line_comment)

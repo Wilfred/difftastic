@@ -1,7 +1,7 @@
 do
-  if true then
-    1
-  elif true then
-    2
+  if b then
+    ()
   else
-    2
+    for x in xs do
+      ()
+    ()

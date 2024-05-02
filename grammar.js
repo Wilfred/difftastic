@@ -248,6 +248,7 @@ module.exports = grammar({
           $.function_declaration_left,
           $.value_declaration_left,
         ),
+        optional(seq(':', $.type)),
         '=',
         field('body', $._expression_block),
       ),
@@ -259,7 +260,6 @@ module.exports = grammar({
         prec(100, $._identifier_or_op),
         optional($.type_arguments),
         $.argument_patterns,
-        optional(seq(':', $.type)),
       )),
 
     value_declaration_left: $ =>
@@ -268,7 +268,6 @@ module.exports = grammar({
         optional($.access_modifier),
         $._pattern,
         optional($.type_arguments),
-        optional(seq(':', $.type)),
       )),
 
     access_modifier: _ => prec(100, token(prec(1000, choice('private', 'internal', 'public')))),
@@ -283,7 +282,6 @@ module.exports = grammar({
         alias('null', $.null_pattern),
         alias('_', $.wildcard_pattern),
         alias($.const, $.const_pattern),
-        $.identifier_pattern,
         $.as_pattern,
         $.disjunct_pattern,
         $.conjunct_pattern,
@@ -297,6 +295,7 @@ module.exports = grammar({
         $.attribute_pattern,
         $.type_check_pattern,
         $.optional_pattern,
+        $.identifier_pattern,
       ),
 
     optional_pattern: $ => prec.right(
@@ -326,11 +325,6 @@ module.exports = grammar({
           repeat1(prec.right(seq(',', $._pattern))),
         )),
 
-    identifier_pattern: $ =>
-      prec.left(
-        seq($.long_identifier, optional($._pattern_param), optional($._pattern)),
-      ),
-
     as_pattern: $ => prec.left(0, seq($._pattern, 'as', $.identifier)),
     cons_pattern: $ => prec.left(0, seq($._pattern, '::', $._pattern)),
     disjunct_pattern: $ => prec.left(0, seq($._pattern, '|', $._pattern)),
@@ -341,22 +335,23 @@ module.exports = grammar({
       // argument patterns are generally no different from normal patterns.
       // however, any time an argument pattern is a valid node, (i.e. inside a beginning fun decl)
       // it is always the correct node to construct.
-      prec(1000, repeat1($._atomic_pattern)),
+      prec.left(1000, repeat1($._atomic_pattern)),
 
     field_pattern: $ => prec(1, seq($.long_identifier, '=', $._pattern)),
 
     _atomic_pattern: $ =>
-      choice(
-        'null',
-        '_',
-        $.const,
-        $.long_identifier,
-        $.list_pattern,
-        $.record_pattern,
-        $.array_pattern,
-        seq('(', $._pattern, ')'),
-        // :? atomic_type
-      ),
+      prec(1000,
+        choice(
+          'null',
+          '_',
+          $.const,
+          $.long_identifier,
+          $.list_pattern,
+          $.record_pattern,
+          $.array_pattern,
+          seq('(', $._pattern, ')'),
+          // :? atomic_type
+        )),
 
     list_pattern: $ => choice(
       seq('[', ']'),
@@ -368,6 +363,11 @@ module.exports = grammar({
       prec.left(
         seq(
           '{', $.field_pattern, repeat(seq(';', $.field_pattern)))),
+
+    identifier_pattern: $ =>
+      prec.left(-1,
+        seq($.long_identifier, optional($._pattern_param), optional($._pattern)),
+      ),
 
     _pattern_param: $ =>
       prec(2,
@@ -578,16 +578,17 @@ module.exports = grammar({
         )),
 
     for_expression: $ =>
-      seq(
-        'for',
-        choice(
-          seq($._pattern, 'in', $._expression_or_range),
-          seq($.identifier, '=', $._expression, choice('to', 'downto'), $._expression),
-        ),
-        'do',
-        $._expression_block,
-        optional('done'),
-      ),
+      prec(PREC.DO_EXPR + 1,
+        seq(
+          'for',
+          choice(
+            seq($._pattern, 'in', $._expression_or_range),
+            seq($.identifier, '=', $._expression, choice('to', 'downto'), $._expression),
+          ),
+          'do',
+          $._expression_block,
+          optional('done'),
+        )),
 
     while_expression: $ =>
       prec(PREC.DO_EXPR + 1,
