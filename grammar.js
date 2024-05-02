@@ -442,8 +442,6 @@ module.exports = grammar({
         $.call_expression,
         $.tuple_expression,
         $.application_expression,
-        $.return_expression,
-        $.yield_expression,
         // (static-typars : (member-sig) expr)
       ),
 
@@ -520,25 +518,10 @@ module.exports = grammar({
       ),
 
     prefixed_expression: $ =>
-      prec.left(PREC.PREFIX_EXPR,
-        seq(
-          choice('lazy', 'assert', 'upcast', 'downcast', $.prefix_op),
-          $._expression,
-        )),
-
-    return_expression: $ =>
-      prec.left(PREC.SPECIAL_PREFIX,
-        seq(
-          choice('return', 'return!'),
-          $._expression,
-        )),
-
-    yield_expression: $ =>
-      prec.left(PREC.SPECIAL_PREFIX,
-        seq(
-          choice('yield', 'yield!'),
-          $._expression,
-        )),
+      seq(
+        choice('return', 'return!', 'yield', 'yield!', 'lazy', 'assert', 'upcast', 'downcast', $.prefix_op),
+        prec.right(PREC.PREFIX_EXPR, $._expression),
+      ),
 
     ce_expression: $ =>
       prec(PREC.CE_EXPR,

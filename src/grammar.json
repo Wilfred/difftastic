@@ -1518,14 +1518,6 @@
         {
           "type": "SYMBOL",
           "name": "application_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "yield_expression"
         }
       ]
     },
@@ -1781,94 +1773,58 @@
       ]
     },
     "prefixed_expression": {
-      "type": "PREC_LEFT",
-      "value": 15,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "lazy"
-              },
-              {
-                "type": "STRING",
-                "value": "assert"
-              },
-              {
-                "type": "STRING",
-                "value": "upcast"
-              },
-              {
-                "type": "STRING",
-                "value": "downcast"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "prefix_op"
-              }
-            ]
-          },
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "return"
+            },
+            {
+              "type": "STRING",
+              "value": "return!"
+            },
+            {
+              "type": "STRING",
+              "value": "yield"
+            },
+            {
+              "type": "STRING",
+              "value": "yield!"
+            },
+            {
+              "type": "STRING",
+              "value": "lazy"
+            },
+            {
+              "type": "STRING",
+              "value": "assert"
+            },
+            {
+              "type": "STRING",
+              "value": "upcast"
+            },
+            {
+              "type": "STRING",
+              "value": "downcast"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "prefix_op"
+            }
+          ]
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 15,
+          "content": {
             "type": "SYMBOL",
             "name": "_expression"
           }
-        ]
-      }
-    },
-    "return_expression": {
-      "type": "PREC_LEFT",
-      "value": 17,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "return"
-              },
-              {
-                "type": "STRING",
-                "value": "return!"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
-        ]
-      }
-    },
-    "yield_expression": {
-      "type": "PREC_LEFT",
-      "value": 17,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "yield"
-              },
-              {
-                "type": "STRING",
-                "value": "yield!"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
-        ]
-      }
+        }
+      ]
     },
     "ce_expression": {
       "type": "PREC",

@@ -108,10 +108,6 @@
         "named": true
       },
       {
-        "type": "return_expression",
-        "named": true
-      },
-      {
         "type": "sequential_expression",
         "named": true
       },
@@ -133,10 +129,6 @@
       },
       {
         "type": "while_expression",
-        "named": true
-      },
-      {
-        "type": "yield_expression",
         "named": true
       }
     ]
@@ -2656,21 +2648,6 @@
     }
   },
   {
-    "type": "return_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "rule",
     "named": true,
     "fields": {},
@@ -3604,21 +3581,6 @@
     }
   },
   {
-    "type": "yield_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "!=",
     "named": false
   },
@@ -4168,11 +4130,11 @@
   },
   {
     "type": "unit",
-    "named": true
+    "named": false
   },
   {
     "type": "unit",
-    "named": false
+    "named": true
   },
   {
     "type": "unmanaged",

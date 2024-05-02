@@ -830,7 +830,7 @@ do
                   (identifier)))
               (const
                 (int))))
-          (return_expression
+          (prefixed_expression
             (const
               (unit))))))))
 
@@ -865,7 +865,7 @@ let f = async {
                   (identifier)))
               (const
                 (int))))
-          (return_expression
+          (prefixed_expression
             (const
               (unit))))))))
 
@@ -900,7 +900,7 @@ let f = async {
                   (identifier)))
               (const
                 (int))))
-          (return_expression
+          (prefixed_expression
             (const
               (unit))))))))
 

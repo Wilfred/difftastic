@@ -201,3 +201,29 @@ do
               (unit)))
           (const
             (unit)))))))
+
+================================================================================
+prefix associativity
+================================================================================
+
+do
+  return ctx.Ok message :> IAction
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (prefixed_expression
+        (typecast_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (type
+            (long_identifier
+              (identifier))))))))

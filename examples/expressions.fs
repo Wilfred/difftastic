@@ -1,7 +1,1 @@
-do
-  if b then
-    ()
-  else
-    for x in xs do
-      ()
-    ()
+do return ctx.Ok x :> int
