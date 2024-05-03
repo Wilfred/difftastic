@@ -1,5 +1,3 @@
-; NOTE: Neovim's highlight order differs from Tree-sitter's and Helix's,
-; NOTE: as broad captures should be placed first, narrow queries - second.
 ; See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights
 ; ----------------------------------------------------------------------------------------------
 ; variable
@@ -93,13 +91,14 @@
   ">" @punctuation.bracket)
 
 ((type_identifier) @type.builtin
-  (#match? @type.builtin "^(Address|Bool|Builder|Cell|Int|Slice|String|StringBuilder)$"))
+  (#any-of? @type.builtin "Address" "Bool" "Builder" "Cell" "Int" "Slice" "String" "StringBuilder"))
 
 (tlb_serialization
-  "as" @keyword.storage
+  "as" @keyword
   type: (identifier) @type.builtin
-  (#match? @type.builtin
-    "^(int8|int16|int32|int64|int128|int256|int257|uint8|uint16|uint32|uint64|uint128|uint256|coins|remaining|bytes32|bytes64)$"))
+  (#any-of? @type.builtin
+    "int8" "int16" "int32" "int64" "int128" "int256" "int257" "uint8" "uint16" "uint32" "uint64"
+    "uint128" "uint256" "coins" "remaining" "bytes32" "bytes64"))
 
 ; string
 ; ------
@@ -128,31 +127,33 @@
 (null) @constant.builtin
 
 ((identifier) @constant.builtin
-  (#match? @constant.builtin
-    "^(SendBounceIfActionFail|SendPayGasSeparately|SendIgnoreErrors|SendDestroyIfZero|SendRemainingValue|SendRemainingBalance|ReserveExact|ReserveAllExcept|ReserveAtMost|ReserveAddOriginalBalance|ReserveInvertSign|ReserveBounceIfActionFail)$"))
+  (#any-of? @constant.builtin
+    "SendBounceIfActionFail" "SendPayGasSeparately" "SendIgnoreErrors" "SendDestroyIfZero"
+    "SendRemainingValue" "SendRemainingBalance" "ReserveExact" "ReserveAllExcept" "ReserveAtMost"
+    "ReserveAddOriginalBalance" "ReserveInvertSign" "ReserveBounceIfActionFail"))
 
 ; property
 ; --------
 (instance_argument
-  name: (identifier) @property)
+  name: (identifier) @variable.member)
 
 (lvalue
   (_)
-  (_) @property)
+  (_) @variable.member)
 
 (field_access_expression
-  name: (identifier) @property)
+  name: (identifier) @variable.member)
 
 (trait_body
   (constant
-    name: (identifier) @property))
+    name: (identifier) @variable.member))
 
 (contract_body
   (constant
-    name: (identifier) @property))
+    name: (identifier) @variable.member))
 
 (field
-  name: (identifier) @property)
+  name: (identifier) @variable.member)
 
 ; number
 ; ------
@@ -161,16 +162,21 @@
 ; keyword
 ; -------
 [
-  "contract"
-  "trait"
-  "struct"
-  "message"
   "with"
   "const"
   "let"
   ; "public" ; -- not used, but declared in grammar.ohm
   ; "extend" ; -- not used, but declared in grammar.ohm
 ] @keyword
+
+; keyword.type
+; ------------
+[
+  "contract"
+  "trait"
+  "struct"
+  "message"
+] @keyword.type
 
 ; keyword.function
 ; ----------------
@@ -187,7 +193,7 @@
 ; --------------
 "import" @keyword.import
 
-; keyword.storage
+; keyword.modifier
 ; ---------------
 [
   "get"
@@ -197,7 +203,7 @@
   "override"
   "inline"
   "abstract"
-] @keyword.storage
+] @keyword.modifier
 
 ; keyword.repeat
 ; --------------
@@ -280,8 +286,13 @@
 ; ----------------
 (static_call_expression
   name: (identifier) @function.builtin
-  (#match? @function.builtin
-    "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|dumpStack|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|pow2|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$"))
+  (#any-of? @function.builtin
+    "log" "log2" "send" "sender" "require" "now" "myBalance" "myAddress" "newAddress"
+    "contractAddress" "contractAddressExt" "emit" "cell" "ton" "dump" "dumpStack" "beginString"
+    "beginComment" "beginTailString" "beginStringFromBuilder" "beginCell" "emptyCell" "randomInt"
+    "random" "checkSignature" "checkDataSignature" "sha256" "min" "max" "abs" "pow" "pow2" "throw"
+    "nativeThrowWhen" "nativeThrowUnless" "getConfigParam" "nativeRandomize" "nativeRandomizeLt"
+    "nativePrepareRandom" "nativeRandom" "nativeRandomInterval" "nativeReserve"))
 
 ; comment
 ; -------

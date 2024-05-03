@@ -1,5 +1,7 @@
 ; See: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#folds
 [
+  ; import …
+  (import_statement)+
   ; (…, …)
   (parameter_list)
   (argument_list)

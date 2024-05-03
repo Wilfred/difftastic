@@ -30,19 +30,19 @@
 
 ; methods (functions off of contracts and traits)
 (init_function
-  name: (identifier) @local.definition.method
+  "init" @local.definition.method
   (#set! definition.var.scope parent))
 
 (bounced_function
-  name: (identifier) @local.definition.method
+  "bounced" @local.definition.method
   (#set! definition.var.scope parent))
 
 (receive_function
-  name: (identifier) @local.definition.method
+  "receive" @local.definition.method
   (#set! definition.var.scope parent))
 
 (external_function
-  name: (identifier) @local.definition.method
+  "external" @local.definition.method
   (#set! definition.var.scope parent))
 
 (function
