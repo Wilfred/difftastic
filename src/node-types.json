@@ -138,6 +138,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "_expression",
+        "named": true
+      },
+      {
         "type": "compiler_directive_decl",
         "named": true
       },
@@ -813,8 +817,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "string",
@@ -1529,8 +1533,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "string",

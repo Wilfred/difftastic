@@ -156,6 +156,10 @@
         {
           "type": "SYMBOL",
           "name": "type_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
@@ -274,11 +278,8 @@
           "value": "#nowarn"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "string"
-          }
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },
@@ -293,11 +294,8 @@
               "value": "#r"
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "string"
-              }
+              "type": "SYMBOL",
+              "name": "string"
             }
           ]
         },
@@ -309,11 +307,8 @@
               "value": "#load"
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "string"
-              }
+              "type": "SYMBOL",
+              "name": "string"
             }
           ]
         }
@@ -512,7 +507,7 @@
     },
     "do": {
       "type": "PREC",
-      "value": 8,
+      "value": 9,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1584,7 +1579,7 @@
     },
     "brace_expression": {
       "type": "PREC",
-      "value": 21,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1606,12 +1601,16 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "with_field_expression"
+                      "type": "PREC",
+                      "value": 100,
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "field_initializers"
+                      }
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "field_initializers"
+                      "name": "with_field_expression"
                     },
                     {
                       "type": "SYMBOL",
@@ -1851,8 +1850,12 @@
                   "name": "_indent"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_comp_or_range_expression"
+                  "type": "PREC",
+                  "value": 0,
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_comp_or_range_expression"
+                  }
                 },
                 {
                   "type": "SYMBOL",

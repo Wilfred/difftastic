@@ -1,1 +1,5 @@
-namespace global
+module A
+
+module B =
+  ()
+

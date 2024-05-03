@@ -135,6 +135,7 @@ module.exports = grammar({
         $.compiler_directive_decl,
         $.fsi_directive_decl,
         $.type_definition,
+        $._expression,
         // $.exception_defn
       ),
 
@@ -157,24 +158,15 @@ module.exports = grammar({
           scoped(repeat1($._module_elem), $._indent, $._dedent),
         )),
 
-    compiler_directive_decl: $ =>
-      seq(
-        '#nowarn',
-        repeat($.string),
-      ),
-
+    compiler_directive_decl: $ => seq('#nowarn', $.string),
 
     fsi_directive_decl: $ =>
       choice(
-        seq('#r', repeat($.string)),
-        seq('#load', repeat($.string)),
+        seq('#r', $.string),
+        seq('#load', $.string),
       ),
 
-    import_decl: $ =>
-      seq(
-        'open',
-        $.long_identifier,
-      ),
+    import_decl: $ => seq('open', $.long_identifier),
 
     //
     // Attributes (BEGIN)
@@ -224,7 +216,7 @@ module.exports = grammar({
         ),
       ),
 
-    do: $ => prec(PREC.DO_EXPR,
+    do: $ => prec(PREC.DO_EXPR + 1,
       seq(
         'do',
         $._expression_block,
@@ -465,13 +457,13 @@ module.exports = grammar({
       ),
 
     brace_expression: $ =>
-      prec(PREC.PAREN_EXPR,
+      prec(PREC.CE_EXPR + 1,
         seq(
           '{',
           scoped(
             choice(
+              prec(100, $.field_initializers),
               $.with_field_expression,
-              $.field_initializers,
               $.object_expression,
             ),
             $._indent,
@@ -528,7 +520,7 @@ module.exports = grammar({
         seq(
           $._expression,
           '{',
-          scoped($._comp_or_range_expression, $._indent, $._dedent),
+          scoped(prec(0, $._comp_or_range_expression), $._indent, $._dedent),
           '}',
         )),
 
