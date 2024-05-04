@@ -40,17 +40,27 @@ extends fun c(self: Int, ) {
     // ^ number
 
     /* instance_expression */
-    Basic{value: ton("1")};
+    Basic{prop: ton("1"), };
     // <- constructor
     //   ^ punctuation.bracket
     //    ^ property
-    //         ^ punctuation.delimiter
-    //           ^ function.builtin
-    //              ^ punctuation.bracket
-    //               ^ string
-    //                  ^ punctuation.bracket
-    //                   ^ punctuation.bracket
-    //                    ^ punctuation.delimiter
+    //        ^ punctuation.delimiter
+    //          ^ function.builtin
+    //             ^ punctuation.bracket
+    //              ^ string
+    //                 ^ punctuation.bracket
+    //                  ^ punctuation.delimiter
+    //                    ^ punctuation.bracket
+    //                     ^ punctuation.delimiter
+
+    /* punned instance_expression */
+    Basic{prop, };
+    // <- constructor
+    //   ^ punctuation.bracket
+    //    ^ property
+    //        ^ punctuation.delimiter
+    //          ^ punctuation.bracket
+    //           ^ punctuation.delimiter
 
     /* integer */
     0b101;

@@ -19,6 +19,9 @@ extends fun c(self: Int, ) {
     // instance_expression
     SendParameters{value: ton("1"), };
 
+    // punned instance_expression
+    SendParameters{value, };
+
     // integer
     0b101;
     0b1_1;
@@ -98,7 +101,17 @@ extends fun c(self: Int, ) {
                 name: (identifier)
                 arguments: (argument_list
                   (argument
-                    value: (string))))))))
+                    value: (string))
+                )))
+          )))
+      (comment)
+      (expression_statement
+        (instance_expression
+          name: (identifier)
+          arguments: (instance_argument_list
+            (instance_argument
+              name: (identifier))
+          )))
       (comment)
       (expression_statement
         (integer))

@@ -643,7 +643,10 @@ module.exports = grammar({
       seq("{", commaSepWithTrailing($.instance_argument), "}"),
 
     instance_argument: ($) =>
-      seq(field("name", $.identifier), ":", field("value", $._expression)),
+      seq(
+        field("name", $.identifier),
+        optional(seq(":", field("value", $._expression))),
+      ),
 
     initOf: ($) =>
       seq(
