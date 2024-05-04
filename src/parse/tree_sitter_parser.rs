@@ -866,7 +866,9 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                     "qualified_operator",
                     "qualified_variable",
                     "qualified_type",
-                ].into_iter().collect(),
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
