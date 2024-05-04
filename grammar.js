@@ -1023,18 +1023,29 @@ module.exports = grammar({
     //
     type: $ =>
       prec(4, choice(
-        $.long_identifier,
-        prec.right(seq($.long_identifier, '<', optional($.type_attributes), '>')),
-        seq('(', $.type, ')'),
-        prec.right(seq($.type, '->', $.type)),
-        prec.right(seq($.type, repeat1(prec.right(seq('*', $.type))))),
-        prec.left(4, seq($.type, $.long_identifier)),
-        seq($.type, '[', repeat(','), ']'), // TODO: FIXME
-        seq($.type, $.type_argument_defn),
+        $._simple_type,
+        $._generic_type,
+        $._paren_type,
+        $._function_type,
+        $._compound_type,
+        $._postfix_type,
+        // $._list_type,
+        $._static_type,
         $.type_argument,
-        prec.right(seq($.type_argument, ':>', $.type)),
-        prec.right(seq(token.immediate('#'), $.type)),
+        $._constrained_type,
+        $._flexible_type,
       )),
+
+    _simple_type: $ => $.long_identifier,
+    _generic_type: $ => prec.right(5, seq($.long_identifier, '<', optional($.type_attributes), '>')),
+    _paren_type: $ => seq('(', $.type, ')'),
+    _function_type: $ => prec.right(seq($.type, '->', $.type)),
+    _compound_type: $ => prec.right(seq($.type, repeat1(prec.right(seq('*', $.type))))),
+    _postfix_type: $ => prec.left(4, seq($.type, $.long_identifier)),
+    // _list_type: $ => seq($.type, '[', repeat(','), ']'), // TODO: FIXME
+    _static_type: $ => prec(10, seq($.type, $.type_argument_defn)),
+    _constrained_type: $ => prec.right(seq($.type_argument, ':>', $.type)),
+    _flexible_type: $ => prec.right(seq(token.immediate('#'), $.type)),
 
     types: $ =>
       seq(
