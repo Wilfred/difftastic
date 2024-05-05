@@ -15,7 +15,7 @@
 ((rules) @indent.begin
  (#set! indent.start_at_same_line))
 
-((call_expression) @indent.align
+((application_expression) @indent.align
   (#set! indent.open_delimiter "(")
   (#set! indent.close_delimiter ")"))
 

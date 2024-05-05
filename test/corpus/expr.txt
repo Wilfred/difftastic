@@ -1577,7 +1577,7 @@ let test f =
             (long_identifier_or_op
               (long_identifier
                 (identifier)))))
-        (call_expression
+        (application_expression
           (long_identifier_or_op
             (long_identifier
               (identifier)
@@ -1877,7 +1877,7 @@ let a b =
               (const_pattern
                 (bool)))
             (infix_expression
-              (call_expression
+              (application_expression
                 (long_identifier_or_op
                   (long_identifier
                     (identifier)
@@ -1900,9 +1900,9 @@ let a b =
               (const_pattern
                 (bool)))
             (infix_expression
-              (call_expression
+              (application_expression
                 (dot_expression
-                  (call_expression
+                  (application_expression
                     (long_identifier_or_op
                       (long_identifier
                         (identifier)
@@ -1922,7 +1922,7 @@ let a b =
           (rule
             (wildcard_pattern)
             (infix_expression
-              (call_expression
+              (application_expression
                 (long_identifier_or_op
                   (long_identifier
                     (identifier)
@@ -2484,3 +2484,15 @@ do
                 (bool))
               (const
                 (int)))))))))
+
+================================================================================
+prefer application expression + record over CE expression
+================================================================================
+
+let f x =
+  let b = 1
+  return Some { A = 1
+                B = 2 }
+
+--------------------------------------------------------------------------------
+

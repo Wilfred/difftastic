@@ -412,12 +412,9 @@ type A() =
         (type
           (long_identifier
             (identifier)))
-        (sequential_expression
-          (const
-            (unit))
-          (do_expression
-            (const
-              (unit))))))))
+        (const (unit)))
+      (const (unit)))))
+
 
 ================================================================================
 class inherit and member method definition
@@ -439,22 +436,17 @@ type A() =
         (type
           (long_identifier
             (identifier)))
-        (sequential_expression
-          (const
+        (const
+          (unit)))
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (const_pattern
             (unit))
-          (infix_expression
-            (application_expression
-              (long_identifier_or_op
-                (long_identifier
-                  (identifier)))
-              (call_expression
-                (long_identifier_or_op
-                  (long_identifier
-                    (identifier)
-                    (identifier)))))
-            (infix_op)
-            (const
-              (unit))))))))
+          (const
+            (unit)))))))
 
 ================================================================================
 class member then interface impl. test
@@ -818,7 +810,7 @@ type A(x:int, y:int) =
               (type
                 (long_identifier
                   (identifier)))))
-          (call_expression
+          (application_expression
             (long_identifier_or_op
               (long_identifier
                 (identifier)))
@@ -950,7 +942,7 @@ type A(x: int, y:int) =
                   (type
                     (type_argument
                       (identifier))))))
-            (call_expression
+            (application_expression
               (long_identifier_or_op
                 (long_identifier
                   (identifier))))))))))

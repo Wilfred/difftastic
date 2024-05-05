@@ -1,1 +1,3 @@
-do return ctx.Ok x :> int
+let x =
+  for i in ids do
+    ignore i

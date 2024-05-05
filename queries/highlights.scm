@@ -87,7 +87,6 @@
       method: (identifier) @variable.member)
     args: _ @variable.parameter))
 
-(call_expression) @function.method.call
 (application_expression) @function.call
 
 (compiler_directive_decl

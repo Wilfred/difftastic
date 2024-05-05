@@ -24,10 +24,6 @@
         "named": true
       },
       {
-        "type": "call_expression",
-        "named": true
-      },
-      {
         "type": "ce_expression",
         "named": true
       },
@@ -742,21 +738,6 @@
     "type": "bytechar",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "call_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "ce_expression",

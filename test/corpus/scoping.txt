@@ -90,7 +90,7 @@ do
 (file
   (value_declaration
     (do
-      (call_expression
+      (application_expression
         (long_identifier_or_op
           (long_identifier
             (identifier)))

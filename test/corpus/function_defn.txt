@@ -172,7 +172,7 @@ let inline double<^a when ^a:(member Double: unit -> ^a)> (x: ^a) = x.Double()
             (type
               (type_argument
                 (identifier))))))
-      (call_expression
+      (application_expression
         (long_identifier_or_op
           (long_identifier
             (identifier)
@@ -216,7 +216,7 @@ let inline double<'a when 'a:(member Double: unit -> 'a)> (x: 'a) = x.Double()
             (type
               (type_argument
                 (identifier))))))
-      (call_expression
+      (application_expression
         (long_identifier_or_op
           (long_identifier
             (identifier)

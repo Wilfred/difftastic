@@ -223,7 +223,9 @@ module.exports = grammar({
       )),
 
     _function_or_value_defns: $ =>
-      seq($._function_or_value_defn_body, repeat(seq('and', $._function_or_value_defn_body))),
+      prec.right(
+        seq($._function_or_value_defn_body, repeat(seq('and', $._function_or_value_defn_body))),
+      ),
 
     function_or_value_defn: $ =>
       seq(
@@ -431,20 +433,10 @@ module.exports = grammar({
         $.match_expression,
         $.try_expression,
         $.literal_expression,
-        $.call_expression,
+        // $.call_expression,
         $.tuple_expression,
         $.application_expression,
         // (static-typars : (member-sig) expr)
-      ),
-
-    call_expression: $ =>
-      prec.left(PREC.PAREN_APP + 100,
-        seq(
-          $._expression,
-          token.immediate(prec(10000, '(')),
-          optional($._expression_block),
-          ')',
-        ),
       ),
 
     tuple_expression: $ =>
@@ -798,9 +790,12 @@ module.exports = grammar({
       prec.left(PREC.APP_EXPR,
         seq(
           $._expression,
-          $._expression,
-        ),
-      ),
+          choice(
+            prec(PREC.APP_EXPR, $._expression),
+            prec(PREC.PAREN_APP + 100, seq(token.immediate(prec(10000, '(')), optional($._expression_block), ')'),
+            )
+          )
+        )),
 
     sequential_expression: $ =>
       prec.right(PREC.SEQ_EXPR,
@@ -1290,7 +1285,11 @@ module.exports = grammar({
         $._type_defn_elements,
       ),
 
-    _class_type_body: $ => repeat1($._class_type_body_inner),
+    _class_type_body: $ =>
+      seq(
+        $._class_type_body_inner,
+        repeat(seq($._newline, $._class_type_body_inner)),
+      ),
 
     _record_type_defn_inner: $ =>
       seq(
@@ -1395,12 +1394,13 @@ module.exports = grammar({
       )),
 
     anon_type_defn: $ =>
-      seq(
-        $.type_name,
-        optional($.primary_constr_args),
-        '=',
-        scoped($._class_type_body, $._indent, $._dedent),
-      ),
+      prec.left(
+        seq(
+          $.type_name,
+          optional($.primary_constr_args),
+          '=',
+          scoped($._class_type_body, $._indent, $._dedent),
+        )),
 
     primary_constr_args: $ =>
       field('constructor',
@@ -1470,17 +1470,18 @@ module.exports = grammar({
       ),
 
     member_defn: $ =>
-      seq(
-        optional($.attributes),
-        choice(
-          seq(optional('static'), optional($.access_modifier), 'member', $.method_or_prop_defn),
-          seq('abstract', optional($.access_modifier), optional('member'), $.member_signature),
-          seq('override', optional($.access_modifier), $.method_or_prop_defn),
-          seq('default', optional($.access_modifier), $.method_or_prop_defn),
-          seq(optional('static'), 'val', optional('mutable'), optional($.access_modifier), $.identifier, ':', $.type),
-          $.additional_constr_defn,
-        ),
-      ),
+      prec(PREC.APP_EXPR + 100000,
+        seq(
+          optional($.attributes),
+          choice(
+            seq(optional('static'), optional($.access_modifier), 'member', $.method_or_prop_defn),
+            seq('abstract', optional($.access_modifier), optional('member'), $.member_signature),
+            seq('override', optional($.access_modifier), $.method_or_prop_defn),
+            seq('default', optional($.access_modifier), $.method_or_prop_defn),
+            seq(optional('static'), 'val', optional('mutable'), optional($.access_modifier), $.identifier, ':', $.type),
+            $.additional_constr_defn,
+          ),
+        )),
 
     property_or_ident: $ =>
       choice(
@@ -1550,7 +1551,7 @@ module.exports = grammar({
         seq(
           'inherit',
           $.type,
-          optional($._expression),
+          optional($._expression_block),
         ),
       ),
 
