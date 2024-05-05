@@ -1,3 +1,5 @@
-let x =
-  for i in ids do
-    ignore i
+let f x =
+  return async {
+    let! x = 4
+    return x
+  }

@@ -2496,3 +2496,73 @@ let f x =
 
 --------------------------------------------------------------------------------
 
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (int)))
+        (prefixed_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (brace_expression
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))))))))))
+
+================================================================================
+ce expression inside prefixed expression
+================================================================================
+
+let f x =
+  return async {
+    let! x = 4
+    return 4
+  }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (prefixed_expression
+        (ce_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier
+                    (identifier))))
+              (const
+                (int)))
+            (prefixed_expression
+              (const
+                (int)))))))))

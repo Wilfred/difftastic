@@ -507,15 +507,6 @@ module.exports = grammar({
         prec.right(PREC.PREFIX_EXPR, $._expression),
       ),
 
-    ce_expression: $ =>
-      prec(PREC.CE_EXPR,
-        seq(
-          $._expression,
-          '{',
-          scoped(prec(0, $._comp_or_range_expression), $._indent, $._dedent),
-          '}',
-        )),
-
     infix_expression: $ =>
       prec.left(PREC.SPECIAL_INFIX,
         seq(
@@ -795,6 +786,15 @@ module.exports = grammar({
             prec(PREC.PAREN_APP + 100, seq(token.immediate(prec(10000, '(')), optional($._expression_block), ')'),
             )
           )
+        )),
+
+    ce_expression: $ =>
+      prec(PREC.CE_EXPR,
+        seq(
+          $._expression,
+          '{',
+          scoped(prec(0, $._comp_or_range_expression), $._indent, $._dedent),
+          '}',
         )),
 
     sequential_expression: $ =>
