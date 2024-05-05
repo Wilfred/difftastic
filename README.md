@@ -24,7 +24,7 @@ The documentation of this implementation is available in [DOC](DOC.md). Because 
   - [X] Hangul script doesn't form words
   - [X] Context operator
   - [X] No line comment inside block comment
-- [ ] More tests, objectif 1000, current 419
+- [ ] More tests, objectif 1000, current 430
 - [X] Installation
   - [X] Helix
   - [X] Emacs

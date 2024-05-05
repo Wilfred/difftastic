@@ -49,6 +49,8 @@ enum token_type {
 	TOKEN_HEAD_P,
 	TOKEN_STRING_BLOB,
 	TOKEN_RAW_SPAN_BLOB,
+  TOKEN_RAW_BLCK_LDLM,
+  TOKEN_RAW_BLCK_RDLM,
 	TOKEN_RAW_BLCK_BLOB,
 	TOKEN_RAW_LANG,
 	TOKEN_IDENTIFIER,
@@ -214,6 +216,7 @@ struct scanner {
 	bool immediate;
 	uint8_t heading_level;
 	bool line_start;
+	uint8_t raw_level;
 };
 
 static void scanner_redent(struct scanner* self, uint32_t col) {
@@ -327,6 +330,7 @@ void * tree_sitter_typst_external_scanner_create() {
 	self->immediate = false;
 	self->heading_level = 0;
 	self->line_start = false;
+	self->raw_level = 0;
 	return self;
 }
 
@@ -349,6 +353,7 @@ unsigned tree_sitter_typst_external_scanner_serialize(
 	buffer[written++] = self->immediate;
 	buffer[written++] = self->heading_level;
 	buffer[written++] = self->line_start;
+	buffer[written++] = self->raw_level;
 	return written;
 }
 
@@ -364,6 +369,7 @@ void tree_sitter_typst_external_scanner_deserialize(
 	self->immediate = false;
 	self->heading_level = 0;
 	self->line_start = false;
+	self->raw_level = 0;
 	if (length != 0) {
 		size_t read = 0;
 		read += vec_u32_deserialize(&self->indentation, buffer + read);
@@ -371,6 +377,7 @@ void tree_sitter_typst_external_scanner_deserialize(
 		self->immediate = buffer[read++];
 		self->heading_level = buffer[read++];
 		self->line_start = buffer[read++];
+		self->raw_level = buffer[read++];
 	}
 	else {
 		vec_u32_push(&self->indentation, 0);
@@ -493,23 +500,45 @@ bool tree_sitter_typst_external_scanner_scan(
 		lex_accept(TOKEN_RAW_LANG);
 	}
 
+	if (valid_symbols[TOKEN_RAW_BLCK_LDLM] && lex_next == '`') {
+		lex_advance();
+		lex_advance_if(lex_next == '`');
+		lex_advance_if(lex_next == '`');
+		uint8_t level = 3;
+		while (lex_next == '`') {
+			lex_advance();
+			level += 1;
+		}
+		self->raw_level = level;
+		assert(self->raw_level >= 3, "invalid raw level value %d", self->raw_level);
+		lex_accept(TOKEN_RAW_BLCK_LDLM);
+	}
+
 	if (valid_symbols[TOKEN_RAW_BLCK_BLOB]) {
+		assert(self->raw_level >= 3, "invalid raw level value %d", self->raw_level);
 		while (!lexer->eof(lexer)) {
-			if (lex_next == '`') {
+			uint8_t level = 0;
+			while (lex_next == '`') {
 				lex_advance();
-				if (lex_next == '`') {
-					lex_advance();
-					if (lex_next == '`') {
-						lex_advance();
-						lexer->result_symbol = TOKEN_RAW_BLCK_BLOB;
-						return true;
-					}
+				level += 1;
+				if (level == self->raw_level) {
+					lexer->result_symbol = TOKEN_RAW_BLCK_BLOB;
+					return true;
 				}
 			}
 			lex_advance();
 			lexer->mark_end(lexer);
 		}
 		return false;
+	}
+
+	if (valid_symbols[TOKEN_RAW_BLCK_RDLM]) {
+		assert(self->raw_level >= 3, "invalid raw level value %d", self->raw_level);
+		for (uint8_t level = 0; level < self->raw_level; level += 1) {
+			lex_advance_if(lex_next == '`');
+		}
+		self->raw_level = 0;
+		lex_accept(TOKEN_RAW_BLCK_RDLM);
 	}
 
 	if (valid_symbols[TOKEN_URL]) {

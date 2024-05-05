@@ -11,6 +11,7 @@ List of tests exposing particular behaviors from Typst
 ## FIXME
 
 - [ ] Test `fixme/011`: Embedded code causes a segfault
+  - With new version of Tree Sitter or Helix, this bug seems to be fixed
 - [X] ~Test `fixme/014`: Right square bracket exits from all containers~
 - [X] ~Test `fixme/012`: Matching square brackets in text are paired~
 - [X] ~Test `fixme/013`: Point ending a ref is not part of the ref~

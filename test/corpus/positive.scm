@@ -6364,3 +6364,48 @@ $==>$
 	(math
 		(formula
 			(shorthand))))
+
+
+=====================
+positive/428
+=====================
+````rust fn main() {}````
+---------------------
+
+(source_file
+	(raw_blck
+		lang: (ident)
+		(blob)))
+
+
+=====================
+positive/429
+=====================
+`````typ
+````md
+```c
+void f() {}
+```
+````
+`````
+---------------------
+
+(source_file
+	(raw_blck
+		lang: (ident)
+		(blob)))
+
+
+=====================
+positive/430
+=====================
+````typ
+```
+```
+````
+---------------------
+
+(source_file
+	(raw_blck
+		lang: (ident)
+		(blob)))

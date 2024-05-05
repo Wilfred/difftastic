@@ -672,7 +672,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_token_raw_blck_ldlm"
+          },
+          "named": false,
           "value": "```"
         },
         {
@@ -706,7 +711,12 @@
           "value": "blob"
         },
         {
-          "type": "STRING",
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_token_raw_blck_rdlm"
+          },
+          "named": false,
           "value": "```"
         },
         {
@@ -3523,6 +3533,14 @@
     {
       "type": "SYMBOL",
       "name": "_token_raw_span_blob"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_raw_blck_ldlm"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_token_raw_blck_rdlm"
     },
     {
       "type": "SYMBOL",
