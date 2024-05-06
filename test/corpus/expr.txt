@@ -2566,3 +2566,40 @@ let f x =
             (prefixed_expression
               (const
                 (int)))))))))
+
+================================================================================
+prefer application expression + record over CE expression 2
+================================================================================
+
+let f = task { return Some { A = 4; B = 5 } }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (prefixed_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (brace_expression
+              (field_initializers
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))
+                (field_initializer
+                  (long_identifier
+                    (identifier))
+                  (const
+                    (int)))))))))))

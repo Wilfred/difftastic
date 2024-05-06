@@ -33,7 +33,7 @@ const PREC = {
   SPECIAL_INFIX: 16,
   LARROW: 16,
   TUPLE_EXPR: 16,
-  CE_EXPR: 17,
+  CE_EXPR: 15,
   SPECIAL_PREFIX: 17,
   // DO_EXPR: 17,
   IF_EXPR: 18,
@@ -454,7 +454,7 @@ module.exports = grammar({
           '{',
           scoped(
             choice(
-              prec(100, $.field_initializers),
+              $.field_initializers,
               $.with_field_expression,
               $.object_expression,
             ),
@@ -506,14 +506,6 @@ module.exports = grammar({
         choice('return', 'return!', 'yield', 'yield!', 'lazy', 'assert', 'upcast', 'downcast', $.prefix_op),
         prec.right(PREC.PREFIX_EXPR, $._expression),
       ),
-
-    infix_expression: $ =>
-      prec.left(PREC.SPECIAL_INFIX,
-        seq(
-          $._expression,
-          $.infix_op,
-          $._expression,
-        )),
 
     literal_expression: $ =>
       prec(PREC.PAREN_EXPR,
@@ -788,12 +780,21 @@ module.exports = grammar({
           )
         )),
 
-    ce_expression: $ =>
-      prec(PREC.CE_EXPR,
+    infix_expression: $ =>
+      prec.left(PREC.SPECIAL_INFIX,
         seq(
           $._expression,
+          $.infix_op,
+          $._expression,
+        )),
+
+
+    ce_expression: $ =>
+      prec.left(PREC.CE_EXPR,
+        seq(
+          prec(-1, $._expression),
           '{',
-          scoped(prec(0, $._comp_or_range_expression), $._indent, $._dedent),
+          scoped($._comp_or_range_expression, $._indent, $._dedent),
           '}',
         )),
 
@@ -1556,18 +1557,19 @@ module.exports = grammar({
       ),
 
     field_initializer: $ =>
-      prec.left(PREC.COMMA + 100,
+      prec(PREC.SPECIAL_INFIX + 1,
         seq(
           field('field', $.long_identifier),
-          '=',
+          token(prec(10000000, '=')),
           field('value', $._expression)),
       ),
 
-    field_initializers: $ => prec.right(PREC.COMMA + 100,
-      seq(
-        $.field_initializer,
-        repeat(prec.right(PREC.COMMA + 100, seq($._newline, $.field_initializer)))
-      )),
+    field_initializers: $ =>
+      prec(10000000,
+        seq(
+          $.field_initializer,
+          repeat(seq($._newline, $.field_initializer))
+        )),
 
     //
     // Type rules (END)

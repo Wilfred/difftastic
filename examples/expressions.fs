@@ -1,5 +1,1 @@
-let f x =
-  return async {
-    let! x = 4
-    return x
-  }
+let f = (Some { A = 4; B = 5 })
