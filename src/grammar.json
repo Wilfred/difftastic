@@ -350,19 +350,23 @@
           "name": "attribute"
         },
         {
-          "type": "REPEAT",
+          "type": "PREC",
+          "value": 2,
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ";"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute"
-              }
-            ]
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_newline"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "attribute"
+                }
+              ]
+            }
           }
         },
         {

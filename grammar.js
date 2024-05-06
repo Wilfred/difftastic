@@ -176,7 +176,7 @@ module.exports = grammar({
       seq(
         '[<',
         $.attribute,
-        repeat(seq(';', $.attribute)),
+        prec(PREC.SEQ_EXPR + 1, repeat(seq($._newline, $.attribute))),
         '>]',
       ),
     attribute: $ => seq(

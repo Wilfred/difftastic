@@ -1,1 +1,6 @@
-let f = (Some { A = 4; B = 5 })
+namespace test
+
+type A = {
+  [<IfFalse; CoolProperty(A = 1, Enabled = false); IsTrue>]
+  A : int
+}

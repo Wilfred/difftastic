@@ -1095,3 +1095,64 @@ type A = {
           (type
             (long_identifier
               (identifier))))))))
+
+================================================================================
+record attributed scoping
+================================================================================
+
+namespace test
+
+type A = {
+  [<IfFalse; CoolProperty(A = 1, Enabled = false); IsTrue>]
+  A : int
+}
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (type_definition
+      (record_type_defn
+        (type_name
+          (identifier))
+        (record_fields
+          (record_field
+            (attributes
+              (attribute_set
+                (attribute
+                  (object_construction
+                    (type
+                      (long_identifier
+                        (identifier)))))
+                (attribute
+                  (object_construction
+                    (type
+                      (long_identifier
+                        (identifier)))
+                    (paren_expression
+                      (infix_expression
+                        (tuple_expression
+                          (infix_expression
+                            (long_identifier_or_op
+                              (long_identifier
+                                (identifier)))
+                            (infix_op)
+                            (const
+                              (int)))
+                          (long_identifier_or_op
+                            (long_identifier
+                              (identifier))))
+                        (infix_op)
+                        (const
+                          (bool))))))
+                (attribute
+                  (object_construction
+                    (type
+                      (long_identifier
+                        (identifier)))))))
+            (identifier)
+            (type
+              (long_identifier
+                (identifier)))))))))
