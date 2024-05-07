@@ -61,11 +61,15 @@ a {
   max-width: 100%;
 }
 
-object {
+.card-body object {
   background-color: #f8f8f2;
   border-radius: 25% 25%;
   padding: 5px;
   box-shadow: 5px 5px #a09fa2;
+}
+
+.github-logo {
+  padding-right: 5px;
 }
 
 .card-set .card {

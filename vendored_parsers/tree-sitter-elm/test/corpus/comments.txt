@@ -245,3 +245,95 @@ match input =
     (value_expr
       (upper_case_qid
         (upper_case_identifier)))))
+
+================================================================================
+Type declaration with single variant with line comment
+================================================================================
+
+type Foo
+    = Bar -- This is a Bar
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (line_comment)))
+)
+
+================================================================================
+Type declaration with line comment per union variant
+================================================================================
+
+type Foo
+    = Bar -- This is a Bar
+    | Biz -- This is a Biz
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (line_comment))
+    (union_variant
+      (upper_case_identifier)
+      (line_comment)))
+)
+
+================================================================================
+Type declaration with union variant and associated data and line comment on new line
+================================================================================
+
+type Foo
+    = Bar
+        -- First associated data
+        Int
+
+--------------------------------------------------------------------------------
+
+(file
+      (type_declaration
+        (type)
+        (upper_case_identifier)
+        (eq)
+        (union_variant
+          (upper_case_identifier)
+          (line_comment)
+          (type_ref
+            (upper_case_qid
+              (upper_case_identifier))))))
+
+================================================================================
+Type declaration with union variant and associated data with line comment on same line
+================================================================================
+
+type Foo
+    = Bar
+        Int -- First associated data
+        Float -- Second associated data
+
+--------------------------------------------------------------------------------
+
+(file
+      (type_declaration
+        (type)
+        (upper_case_identifier)
+        (eq)
+        (union_variant
+          (upper_case_identifier)
+          (type_ref
+            (upper_case_qid
+              (upper_case_identifier)))
+          (line_comment)
+          (type_ref
+            (upper_case_qid
+              (upper_case_identifier)))
+          (line_comment))))

@@ -60,8 +60,6 @@ Floats
 1_1.
 1e+3_4j
 .3e1_4
-1_0.l
-.1l
 
 --------------------------------------------------------------------------------
 
@@ -72,10 +70,6 @@ Floats
   (expression_statement
     (unary_operator
       (float)))
-  (expression_statement
-    (float))
-  (expression_statement
-    (float))
   (expression_statement
     (float))
   (expression_statement

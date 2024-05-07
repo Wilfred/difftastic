@@ -1,0 +1,47 @@
+===================
+Empty while [while]
+===================
+
+while(cond)
+endwhile()
+
+---
+
+(source_file
+  (while_loop
+    (while_command
+      (while)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endwhile_command (endwhile))
+  )
+)
+
+============================================
+Empty while with argument in endwhile[while]
+============================================
+
+while(cond)
+endwhile(cond)
+
+---
+
+(source_file
+  (while_loop
+    (while_command
+      (while)
+      (argument_list
+        (argument (unquoted_argument))
+      )
+    )
+    (body)
+    (endwhile_command 
+      (endwhile)
+      (argument (unquoted_argument))
+    )
+  )
+)
+

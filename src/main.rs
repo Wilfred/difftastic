@@ -19,6 +19,10 @@
 // implementation does not consider the mutable fields, so it is still
 // correct.
 #![allow(clippy::mutable_key_type)]
+// .to_owned() is more explicit on string references.
+#![warn(clippy::str_to_string)]
+// .to_string() on a String is clearer as .clone().
+#![warn(clippy::string_to_string)]
 // Debugging features shouldn't be in checked-in code.
 #![warn(clippy::todo)]
 #![warn(clippy::dbg_macro)]
@@ -107,7 +111,7 @@ fn reset_sigpipe() {
 /// The entrypoint.
 fn main() {
     pretty_env_logger::try_init_timed_custom_env("DFT_LOG")
-        .expect("The logger has not been previously initalized");
+        .expect("The logger has not been previously initialized");
     reset_sigpipe();
 
     match options::parse_args() {
@@ -163,7 +167,7 @@ fn main() {
                     LanguageOverride::Language(lang) => language_name(lang),
                     LanguageOverride::PlainText => "Text",
                 }
-                .to_string();
+                .to_owned();
                 if use_color {
                     name = name.bold().to_string();
                 }
@@ -175,7 +179,7 @@ fn main() {
             }
 
             for language in Language::iter() {
-                let mut name = language_name(language).to_string();
+                let mut name = language_name(language).to_owned();
                 if use_color {
                     name = name.bold().to_string();
                 }
@@ -475,7 +479,7 @@ fn check_only_text(
     let has_changes = lhs_src != rhs_src;
 
     DiffResult {
-        display_path: display_path.to_string(),
+        display_path: display_path.to_owned(),
         extra_info,
         file_format: file_format.clone(),
         lhs_src: FileContent::Text(lhs_src.into()),
@@ -518,7 +522,7 @@ fn diff_file_content(
         // rather than doing any more work.
         return DiffResult {
             extra_info,
-            display_path: display_path.to_string(),
+            display_path: display_path.to_owned(),
             file_format,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
@@ -559,7 +563,7 @@ fn diff_file_content(
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
                                     extra_info,
-                                    display_path: display_path.to_string(),
+                                    display_path: display_path.to_owned(),
                                     file_format: FileFormat::SupportedLanguage(language),
                                     lhs_src: FileContent::Text(lhs_src.to_owned()),
                                     rhs_src: FileContent::Text(rhs_src.to_owned()),
@@ -585,8 +589,8 @@ fn diff_file_content(
                                 init_next_prev(&rhs_section_nodes);
 
                                 match mark_syntax(
-                                    lhs_section_nodes.get(0).copied(),
-                                    rhs_section_nodes.get(0).copied(),
+                                    lhs_section_nodes.first().copied(),
+                                    rhs_section_nodes.first().copied(),
                                     &mut change_map,
                                     diff_options.graph_limit,
                                 ) {
@@ -700,7 +704,7 @@ fn diff_file_content(
 
     DiffResult {
         extra_info,
-        display_path: display_path.to_string(),
+        display_path: display_path.to_owned(),
         file_format,
         lhs_src: FileContent::Text(lhs_src.to_owned()),
         rhs_src: FileContent::Text(rhs_src.to_owned()),
@@ -856,9 +860,9 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     )
                 );
                 if summary.has_byte_changes {
-                    println!("Binary contents changed.");
+                    println!("Binary contents changed.\n");
                 } else {
-                    println!("No changes.");
+                    println!("No changes.\n");
                 }
             }
         }
@@ -876,7 +880,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     display_options
                 )
             );
-            println!("Binary contents changed.");
+            println!("Binary contents changed.\n");
         }
     }
 }

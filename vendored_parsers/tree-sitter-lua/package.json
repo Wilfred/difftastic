@@ -1,37 +1,61 @@
 {
-  "name": "tree-sitter-lua",
-  "version": "1.6.1",
-  "description": "Lua grammar for tree-sitter.",
+  "name": "@tree-sitter-grammars/tree-sitter-lua",
+  "version": "0.1.0",
+  "description": "Lua grammar for tree-sitter",
+  "repository": "tree-sitter-grammars/tree-sitter-lua",
+  "author": "Munif Tanjim (https://muniftanjim.dev)",
+  "license": "MIT",
   "main": "bindings/node",
+  "types": "bindings/node",
   "keywords": [
+    "incremental",
+    "parsing",
     "tree-sitter",
-    "parser",
     "lua"
   ],
-  "repository": "https://github.com/Azganoth/tree-sitter-lua",
-  "author": "Ademir J. Ferreira Junior <ademirj.ferreirajunior@gmail.com> (https://github.com/Azganoth)",
-  "license": "MIT",
-  "scripts": {
-    "build": "tree-sitter generate && node-gyp build --debug",
-    "install": "prebuild-install || node-gyp rebuild",
-    "dist": "prebuild -r electron -t 3.0.0 -t 4.0.0 -t 4.0.4 -t 5.0.0 --strip && prebuild -t 8.16.0 -t 10.16.1 --strip",
-    "dist:upload": "prebuild --upload-all",
-    "test": "tree-sitter test"
-  },
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/**",
+    "src/**"
+  ],
   "dependencies": {
-    "nan": "^2.14.2",
-    "prebuild-install": "^6.0.1"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
-    "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.19.1"
+    "tree-sitter-cli": "^0.21.0",
+    "prebuildify": "^6.0.0"
   },
-  "files": [
-    "src",
-    "binding.gyp",
-    "grammar.js",
-    "index.js",
-    "package.json",
-    "package-lock.json"
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tree-sitter generate --no-bindings",
+    "test": "tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.lua",
+      "injection-regex": "^lua$",
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "tags": "queries/tags.scm",
+      "file-types": [
+        "lua"
+      ]
+    }
   ]
 }

@@ -1,0 +1,62 @@
+===================================================
+Parentheses inside command invocation [parentheses]
+===================================================
+message(STATUS (TEST))
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+  )
+)
+
+===========================================================
+Missing parentheses inside command invocation [parentheses]
+===========================================================
+message(STATUS (TEST)
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+    (MISSING ")")
+  )
+)
+
+==================================================================
+Nested missing parentheses inside command invocation [parentheses]
+==================================================================
+message(STATUS ((TEST))
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+    (MISSING ")")
+  )
+)
+
+===============================================
+Many arguments inside parentheses [parentheses]
+===============================================
+message(STATUS (TEST SECOND_TEST))
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+  )
+)

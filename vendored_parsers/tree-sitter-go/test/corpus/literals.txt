@@ -511,11 +511,14 @@ const g1 = Foo[float64, Bar[int]] { }
           (generic_type
             (type_identifier)
             (type_arguments
-              (type_identifier)
-              (generic_type
-                (type_identifier)
-                (type_arguments
-                  (type_identifier)))))
+              (type_elem
+                (type_identifier))
+              (type_elem
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_elem
+                      (type_identifier)))))))
           (literal_value))))))
 
 ================================================================================

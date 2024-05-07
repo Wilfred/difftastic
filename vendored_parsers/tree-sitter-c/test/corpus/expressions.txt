@@ -16,6 +16,8 @@ double a = {
   123.456e-67,
   .1E4f,
   0x10.1p0,
+  0X1, 0B1,
+  2.0dd, 5wb,
 };
 
 --------------------------------------------------------------------------------
@@ -38,6 +40,10 @@ double a = {
         (number_literal)
         (number_literal)
         (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
         (number_literal)))))
 
 ================================================================================
@@ -47,6 +53,7 @@ Identifiers
 int main() {
   _abc;
   d_EG123;
+  $f;
 }
 
 --------------------------------------------------------------------------------
@@ -58,6 +65,8 @@ int main() {
       (identifier)
       (parameter_list))
     (compound_statement
+      (expression_statement
+        (identifier))
       (expression_statement
         (identifier))
       (expression_statement
@@ -130,6 +139,7 @@ Function calls
 
 int main() {
   printf("hi! %d\n", x);
+  __assert_fail("some_error_message", 115, __extension__ __func__);
 }
 
 --------------------------------------------------------------------------------
@@ -148,6 +158,14 @@ int main() {
             (string_literal
               (string_content)
               (escape_sequence))
+            (identifier))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content))
+            (number_literal)
             (identifier)))))))
 
 ================================================================================
@@ -258,6 +276,7 @@ String literals
 int main() {
   "a";
   "b" "c" "d";
+  e "f" g;
   "\"hi\"";
   L"bonjour";
   u"guten morgen";
@@ -285,6 +304,12 @@ int main() {
             (string_content))
           (string_literal
             (string_content))))
+      (expression_statement
+        (concatenated_string
+          (identifier)
+          (string_literal
+            (string_content))
+          (identifier)))
       (expression_statement
         (string_literal
           (escape_sequence)
@@ -649,6 +674,10 @@ int main() {
   sizeof(x.a);
   sizeof(const char **);
   sizeof(char * ());
+  sizeof(1) + 1;
+  sizeof((1) + 1);
+  sizeof(int) + 1;
+  sizeof(struct foo) + sizeof(struct bar) + 1;
 }
 
 --------------------------------------------------------------------------------
@@ -684,7 +713,81 @@ int main() {
             (primitive_type)
             (abstract_pointer_declarator
               (abstract_function_declarator
-                (parameter_list)))))))))
+                (parameter_list))))))
+      (expression_statement
+        (binary_expression
+          (sizeof_expression
+            (parenthesized_expression
+              (number_literal)))
+          (number_literal)))
+      (expression_statement
+        (sizeof_expression
+          (parenthesized_expression
+            (binary_expression
+              (parenthesized_expression
+                (number_literal))
+              (number_literal)))))
+      (expression_statement
+        (binary_expression
+          (sizeof_expression
+            (type_descriptor
+              (primitive_type)))
+          (number_literal)))
+      (expression_statement
+        (binary_expression
+          (binary_expression
+            (sizeof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier))))
+            (sizeof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier)))))
+          (number_literal))))))
+
+================================================================================
+Alignof expressions
+================================================================================
+
+typedef struct {
+    long long __clang_max_align_nonce1
+        __attribute__((__aligned__(__alignof__(long long))));
+    long double __clang_max_align_nonce2
+        __attribute__((__aligned__(__alignof__(long double))));
+} max_align_t;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (type_definition
+    (struct_specifier
+      (field_declaration_list
+        (field_declaration
+          (sized_type_specifier)
+          (field_identifier)
+          (attribute_specifier
+            (argument_list
+              (call_expression
+                (identifier)
+                (argument_list
+                  (alignof_expression
+                    (type_descriptor
+                      (sized_type_specifier))))))))
+        (field_declaration
+          (sized_type_specifier
+            (primitive_type))
+          (field_identifier)
+          (attribute_specifier
+            (argument_list
+              (call_expression
+                (identifier)
+                (argument_list
+                  (alignof_expression
+                    (type_descriptor
+                      (sized_type_specifier
+                        (primitive_type)))))))))))
+    (primitive_type)))
 
 ================================================================================
 Offsetof expressions
@@ -693,6 +796,7 @@ Offsetof expressions
 int main() {
   offsetof( struct x, a );
   offsetof( x, a );
+  offsetof( x, a ) + 1;
 }
 
 --------------------------------------------------------------------------------
@@ -714,7 +818,14 @@ int main() {
         (offsetof_expression
           (type_descriptor
             (type_identifier))
-          (field_identifier))))))
+          (field_identifier)))
+      (expression_statement
+        (binary_expression
+          (offsetof_expression
+            (type_descriptor
+              (type_identifier))
+            (field_identifier))
+          (number_literal))))))
 
 ================================================================================
 Compound literals
@@ -723,7 +834,9 @@ Compound literals
 int main() {
   x = (SomeType) {
     .f1.f2[f3] = 5,
-    .f4 = {}
+    .f4 = {},
+    .f5[1 ... 10] = -1,
+    f6: 6,
   };
   y = (struct SomeStruct) {
     7,
@@ -759,7 +872,17 @@ int main() {
               (initializer_pair
                 (field_designator
                   (field_identifier))
-                (initializer_list))))))
+                (initializer_list))
+              (initializer_pair
+                (field_designator
+                  (field_identifier))
+                (subscript_range_designator
+                  (number_literal)
+                  (number_literal))
+                (number_literal))
+              (initializer_pair
+                (field_identifier)
+                (number_literal))))))
       (expression_statement
         (assignment_expression
           (identifier)
@@ -1191,3 +1314,115 @@ void fn (int *__restrict__ rptr) {
           (pointer_expression
             (identifier))
           (number_literal))))))
+
+================================================================================
+Ternary
+================================================================================
+
+void f() {
+  0 ? 1 : 2;
+  a = 0 ? 1 : 2;
+  a = val ? b = 3, 1 : 0;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (conditional_expression
+          (number_literal)
+          (number_literal)
+          (number_literal)))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (conditional_expression
+            (number_literal)
+            (number_literal)
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (conditional_expression
+            (identifier)
+            (comma_expression
+              (assignment_expression
+                (identifier)
+                (number_literal))
+              (number_literal))
+            (number_literal)))))))
+
+================================================================================
+Concatenated strings
+================================================================================
+
+foo("hello" PRI " world");
+foo("hello" PRI);
+foo("hello" " world");
+foo("hello" " world " PRI);
+foo(PRI "hello" PRI);
+foo(PRI "hello");
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (identifier)
+          (string_literal
+            (string_content))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (identifier)
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (identifier)
+          (string_literal
+            (string_content)))))))

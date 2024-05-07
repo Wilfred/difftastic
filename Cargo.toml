@@ -4,7 +4,7 @@ description = "A structural diff that understands syntax."
 repository = "https://github.com/wilfred/difftastic"
 homepage = "http://difftastic.wilfred.me.uk/"
 license = "MIT"
-version = "0.56.0"
+version = "0.58.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
@@ -64,7 +64,11 @@ const_format = "0.2.22"
 owo-colors = "3.5.0"
 wu-diff = "0.1.2"
 rayon = "1.7.0"
-tree_magic_mini = "3.0.2"
+
+tree_magic_mini = "3.1.4"
+# home (used by tree_magic_mini) 0.5.9 has an MSRV of 1.70.
+home = ">= 0.5, < 0.5.9"
+
 # bumpalo 3.15 requires rust 1.65
 bumpalo = ">= 3.11, < 3.15"
 unicode-width = "0.1.9"
@@ -76,6 +80,7 @@ humansize = "2.1.3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 line-numbers = "0.3.0"
+smallvec = "1.13.2"
 
 [dev-dependencies]
 # assert_cmd 2.0.6 requires rust 1.60
@@ -100,7 +105,3 @@ name = "difft"
 path = "src/main.rs"
 
 [features]
-
-[patch.crates-io]
-# https://github.com/mbrubeck/tree_magic/pull/13 hasn't been merged yet.
-tree_magic_mini = { git = 'https://github.com/Wilfred/tree_magic', branch = 'fix-panic-for-empty-strings' }

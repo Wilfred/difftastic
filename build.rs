@@ -47,9 +47,6 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-parentheses")
                 // Ignore warning from tree-sitter-ruby.
                 .flag_if_supported("-Wno-unused-but-set-variable")
-                // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
-                // should be removed after fixed.
-                .flag_if_supported("-Wno-return-type")
                 .link_lib_modifier("+whole-archive");
 
             for file in cpp_files {
@@ -109,7 +106,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-cmake",
             src_dir: "vendored_parsers/tree-sitter-cmake-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-commonlisp",
@@ -139,7 +136,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-elm",
             src_dir: "vendored_parsers/tree-sitter-elm-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-elvish",
@@ -224,7 +221,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-lua",
             src_dir: "vendored_parsers/tree-sitter-lua-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-make",
@@ -264,7 +261,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-perl",
             src_dir: "vendored_parsers/tree-sitter-perl-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-php",
@@ -305,6 +302,11 @@ fn main() {
             name: "tree-sitter-scala",
             src_dir: "vendored_parsers/tree-sitter-scala-src",
             extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-scheme",
+            src_dir: "vendored_parsers/tree-sitter-scheme-src",
+            extra_files: vec![],
         },
         TreeSitterParser {
             name: "tree-sitter-scss",

@@ -44,6 +44,8 @@ T main() {
   for (using elem_t = T::value_type; elem_t i : v) {
     cout << --n + i << ' ';
   }
+
+  for (int x; int v : {1}) {}
 }
 
 --------------------------------------------------------------------------------
@@ -140,7 +142,17 @@ T main() {
                     argument: (identifier))
                   right: (identifier)))
               right: (char_literal
-                (character)))))))))
+                (character))))))
+      (for_range_loop
+        initializer: (init_statement
+          (declaration
+            type: (primitive_type)
+            declarator: (identifier)))
+        type: (primitive_type)
+        declarator: (identifier)
+        right: (initializer_list
+          (number_literal))
+        body: (compound_statement)))))
 
 ================================================================================
 Constexpr if statements

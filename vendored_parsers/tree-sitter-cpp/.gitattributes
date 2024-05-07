@@ -1,2 +1,14 @@
-/src/** linguist-vendored
-/examples/* linguist-vendored
+* text eol=lf
+test/corpus/c/crlf.txt text eol=crlf
+
+examples/* linguist-vendored
+
+src/*.json linguist-generated
+src/parser.c linguist-generated
+src/tree_sitter/* linguist-generated
+
+bindings/** linguist-generated
+binding.gyp linguist-generated
+setup.py linguist-generated
+Makefile linguist-generated
+Package.swift linguist-generated

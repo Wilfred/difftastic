@@ -1,31 +1,55 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.20.4",
-  "description": "C grammar for node-tree-sitter",
-  "main": "bindings/node",
-  "keywords": [
-    "parser",
-    "lexer"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tree-sitter/tree-sitter-c.git"
-  },
-  "author": "Max Brunsfeld",
+  "version": "0.21.1",
+  "description": "C grammar for tree-sitter",
+  "repository": "github:tree-sitter/tree-sitter-c",
   "license": "MIT",
+  "author": "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+  "contributors": [
+    "Amaan Qureshi <amaanq12@gmail.com>"
+  ],
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "c"
+  ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "dependencies": {
-    "nan": "^2.14.0"
+    "node-addon-api": "^8.0.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "eslint": "^8.41.0",
+    "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.0"
+    "tree-sitter-cli": "^0.22.2",
+    "prebuildify": "^6.0.0"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip",
+    "build": "tree-sitter generate --no-bindings",
+    "build-wasm": "tree-sitter build --wasm",
     "lint": "eslint grammar.js",
-    "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
-    "test-windows": "tree-sitter test"
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test"
   },
   "tree-sitter": [
     {
@@ -35,9 +59,50 @@
         "h"
       ],
       "injection-regex": "^(c|h)$",
-      "highlights": [
-        "queries/highlights.scm"
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm"
+    }
+  ],
+  "eslintConfig": {
+    "env": {
+      "commonjs": true,
+      "es2021": true
+    },
+    "extends": "google",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {
+      "arrow-parens": "off",
+      "camel-case": "off",
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "max-len": [
+        "error",
+        {
+          "code": 160,
+          "ignoreComments": true,
+          "ignoreUrls": true,
+          "ignoreStrings": true
+        }
+      ],
+      "spaced-comment": [
+        "warn",
+        "always",
+        {
+          "line": {
+            "markers": [
+              "/"
+            ]
+          }
+        }
       ]
     }
-  ]
+  }
 }

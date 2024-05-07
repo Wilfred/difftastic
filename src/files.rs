@@ -7,7 +7,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use ignore::Walk;
+use ignore::WalkBuilder;
 use rustc_hash::FxHashSet;
 
 use crate::exit_codes::EXIT_BAD_ARGUMENTS;
@@ -141,7 +141,7 @@ pub(crate) enum ProbableFileKind {
 pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // If the bytes are entirely valid UTF-8, treat them as a string.
     if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
-        return ProbableFileKind::Text(valid_utf8_string.to_string());
+        return ProbableFileKind::Text(valid_utf8_string.to_owned());
     }
 
     // Only consider the first 1,000 bytes, as tree_magic_mini
@@ -197,7 +197,7 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     let num_utf8_invalid = utf8_string
         .chars()
         .take(5000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
+        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
     if num_utf8_invalid <= 10 {
         info!(
@@ -213,7 +213,7 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     let num_utf16_invalid = utf16_string
         .chars()
         .take(5000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
+        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
     if num_utf16_invalid <= 5 {
         info!(
@@ -228,8 +228,9 @@ pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
 
 /// All the files in `dir`, including subdirectories.
 fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
-    Walk::new(dir)
-        .into_iter()
+    WalkBuilder::new(dir)
+        .hidden(false)
+        .build()
         .filter_map(Result::ok)
         .map(|entry| Path::new(entry.path()).to_owned())
         .filter(|path| !path.is_dir())
@@ -322,6 +323,18 @@ mod tests {
         let bytes = vec![
             0x1f, 0x8b, 0x08, 0x00, 0x3a, 0xb0, 0x91, 0x63, 0x00, 0x03, 0x8b, 0x8e, 0xe5, 0x02,
             0x00, 0x44, 0xd2, 0x68, 0x70, 0x03, 0x00, 0x00, 0x00,
+        ];
+
+        assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);
+    }
+
+    #[test]
+    fn test_dex_is_binary() {
+        let bytes = vec![
+            0x34, 0x8a, 0x4b, 0x8f, 0x77, 0xa4, 0x4e, 0xb1, 0x31, 0x2d, 0x5f, 0xfb, 0x10, 0x08,
+            0xa8, 0x6b, 0x58, 0x06, 0x00, 0x00, 0x70, 0x00, 0x00, 0x00, 0x78, 0x56, 0x34, 0x12,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xac, 0x05, 0x00, 0x00, 0x23, 0x00,
+            0x00, 0x00, 0x70, 0x00, 0x00, 0x00,
         ];
 
         assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);

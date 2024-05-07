@@ -2,6 +2,7 @@
 
 - [Introduction](./introduction.md)
 - [Installation](./installation.md)
+  - [From Source](./from_source.md)
 - [Usage](./usage.md)
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)

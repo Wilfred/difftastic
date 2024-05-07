@@ -1,0 +1,105 @@
+=========================================
+Empty bracket argument [bracket_argument]
+=========================================
+
+message([[]])
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+   (argument (bracket_argument))
+  )
+ )
+ )
+
+=======================================
+One bracket argument [bracket_argument]
+=======================================
+
+message([[an argument]])
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (bracket_argument))
+  )
+ )
+ )
+
+========================================
+Two bracket arguments [bracket_argument]
+========================================
+
+message([[first argument]] [[second argument]])
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (bracket_argument))
+    (argument (bracket_argument))
+  )
+ )
+ )
+
+========================================================
+Two bracket with two equals arguments [bracket_argument]
+========================================================
+
+message(
+  [====[first argument]====]
+  [====[second argument]====]
+)
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (bracket_argument))
+    (argument (bracket_argument))
+  )
+ )
+ )
+
+===================================================
+Bracket argument with line break [bracket_argument]
+===================================================
+
+message([[an argument
+with line break
+]])
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (bracket_argument))
+  )
+ )
+ )
+
+=====================================================================================
+Bracket argument with embedded brackets and equal signs line break [bracket_argument]
+=====================================================================================
+
+message([===[an argument
+with line break ]==]
+]===])
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (bracket_argument))
+  )
+ )
+ )
+

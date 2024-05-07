@@ -1,0 +1,156 @@
+========================================================
+Command invocation with one argument [unquoted_argument]
+========================================================
+
+message(STATUS)
+
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+    )
+  )
+)
+
+=========================================================
+Command invocation with two arguments [unquoted_argument]
+=========================================================
+
+message(STATUS Hello)
+
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+      (argument (unquoted_argument))
+    )
+  )
+)
+
+===============================================================
+Command invocations with leading seperation [unquoted_argument]
+===============================================================
+
+message( STATUS)
+message(
+STATUS)
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+    )
+  )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+    )
+  )
+)
+
+============================================================
+Command invocations with escape sequence [unquoted_argument]
+============================================================
+
+  message( STATUS)
+message(
+STATUS)
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+    )
+  )
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument (unquoted_argument))
+    )
+  )
+)
+
+========================================
+Variable referencing [unquoted_argument]
+========================================
+message(${var_ref})
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (unquoted_argument
+          (variable_ref (normal_var (variable)))
+        )
+      )
+    )
+  )
+)
+
+====================================================================
+Variable referencing inside variable referencing [unquoted_argument]
+====================================================================
+message(${var_${var_ref}})
+---
+
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (unquoted_argument
+          (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+        )
+      )
+    )
+  )
+)
+
+===============================================================
+Lookalike variable inside unquoted argument [unquoted_argument]
+===============================================================
+
+message($var)
+
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (unquoted_argument)
+      )
+    )
+  )
+)
+
+=====================================================
+Single quote in unquoted_argument [unquoted_argument]
+=====================================================
+
+message(hello'world)
+
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument_list
+      (argument
+        (unquoted_argument)
+      )
+    )
+  )
+)

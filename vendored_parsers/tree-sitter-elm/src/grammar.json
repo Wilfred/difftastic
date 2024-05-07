@@ -744,8 +744,17 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "SYMBOL",
-              "name": "_single_type_expression"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "line_comment"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_single_type_expression"
+                }
+              ]
             }
           }
         ]

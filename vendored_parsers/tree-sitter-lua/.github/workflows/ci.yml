@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test parser
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    steps:
+      - name: Set up repository
+        uses: tree-sitter/parser-setup-action@v1.1
+        with:
+          node-version: ${{vars.NODE_VERSION}}
+      - name: Clone apisix corpus
+        uses: actions/checkout@v4
+        with:
+          path: examples/apisix
+          repository: apache/apisix
+          sparse-checkout: apisix/
+      - name: Clone kong corpus
+        uses: actions/checkout@v4
+        with:
+          path: examples/kong
+          repository: Kong/kong
+          sparse-checkout: kong/
+      - name: Clone lua corpus
+        uses: actions/checkout@v4
+        with:
+          path: examples/lua
+          repository: lua/lua
+          sparse-checkout: testes/
+      - name: Clone luvit corpus
+        uses: actions/checkout@v4
+        with:
+          path: examples/luvit
+          repository: luvit/luvit
+      - name: Clone neovim corpus
+        uses: actions/checkout@v4
+        with:
+          path: examples/neovim
+          repository: neovim/neovim
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |-
+            /test/**/*.lua
+            /scripts/**/*.lua
+            /runtime/**/*.lua
+      - name: Clone xmake corpus
+        uses: actions/checkout@v4
+        if: runner.os != 'Windows'
+        with:
+          path: examples/xmake
+          repository: xmake-io/xmake
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v1.2
+        with:
+          test-library: ${{runner.os == 'Linux'}}
+          corpus-files: |-
+            examples/apisix/**/*.lua
+            examples/kong/**/*.lua
+            examples/lua/**/*.lua
+            examples/luvit/**/*.lua
+            examples/neovim/**/*.lua
+            examples/xmake/**/*.lua
+          invalid-files: |-
+            examples/neovim/test/functional/fixtures/lua/syntax_error.lua
+
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Check for scanner changes
+        id: scanner-changes
+        run: |-
+          if git diff --quiet HEAD^ -- src/scanner.c; then
+            printf 'changed=false\n' >> "$GITHUB_OUTPUT"
+          else
+            printf 'changed=true\n' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Fuzz parser
+        uses: tree-sitter/fuzz-action@v4
+        if: steps.scanner-changes.outputs.changed == 'true'

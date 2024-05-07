@@ -1,10 +1,82 @@
-## 0.56 (unreleased)
+## 0.58 (unreleased)
 
 ### Parsing
 
-Updated JavaScript, TypeScript and QML parsers.
+Difftastic now preserves tree-sitter parse tree structure on parse
+error nodes. This reverts the flattening behaviour introduced in
+0.38. Preserving structure tends to produce better diffs, although it
+increases the risk that difftastic will show fewer changes in the
+presence of parse errors.
 
-Added support for Smali.
+Since difftastic is now conservative with parse errors
+(DFT_PARSE_ERROR_LIMIT is 0 by default), this seems like a better
+tradeoff.
+
+Updated C, C++, CMake, CSS, Elm, Go, Lua and Python parsers.
+
+### Diffing
+
+`--strip-cr` now defaults to `on`, so comparing a file with CRLF
+endings with a file with unix line endings will not show spurious
+changes.
+
+### Documentation
+
+Difftastic now has a man page, see the `difft.1` file.
+
+### Performance
+
+Fixed a memory leak and substantially improved performance in some
+cases (up to 2x in testing).
+
+## 0.57 (released 1st April 2024)
+
+### Parsing
+
+Text file detection is now stricter, considering null bytes as a hint
+that files are binaries.
+
+### Diffing
+
+Fixed an issue where hidden files (filename starting with `.`) were
+ignored when diffing directories.
+
+Scheme now uses the same slider heuristics as other lisps, preferring
+the outer delimiter.
+
+Fixed an issue with line-based diffing where only the first line in a
+large changed region was highlighted. This was particularly noticeable
+when diffing brand new files.
+
+### Display
+
+Fixed an issue when reporting changes in binary files, where trailing
+whitespace was inconsistent with other changes shown.
+
+## 0.56.1 (released 5th March 2024)
+
+### Build
+
+Fixed an issue with building difftastic on aarch64 with rust 1.71 or
+earlier.
+
+## 0.56 (released 5th March 2024)
+
+### Parsing
+
+Updated JavaScript, TypeScript, QML and Perl parsers.
+
+`Makefile*.in` is now detected as Makefile syntax.
+
+Improved shebang parsing with whitespace, e.g. `#! /bin/bash` is now
+detected as a shell script.
+
+Added support for Scheme and Smali.
+
+### Diffing
+
+Fixed an issue with runaway memory usage on text files with very long
+lines.
 
 ### Display
 
@@ -19,6 +91,8 @@ from `git diff`.
 
 Fixed an issue with the experimental JSON display mode where it
 ignored `--skip-unchanged`.
+
+Fixed an issue with tabs not being replaced in single-column display.
 
 ## 0.55 (released 1st February 2024)
 

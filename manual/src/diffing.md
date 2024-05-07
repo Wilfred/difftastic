@@ -1,4 +1,4 @@
-# Diffing
+# Internals: Diffing
 
 Difftastic treats diff calculations as a route finding problem on a
 directed acyclic graph.

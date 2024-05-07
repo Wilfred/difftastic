@@ -102,7 +102,7 @@ fn display_single_column(
                 .style(style)
                 .to_string(),
         );
-        formatted_line.push_str(&replace_tabs(line, display_options.tab_width));
+        formatted_line.push_str(line);
         formatted_lines.push(formatted_line);
     }
 
@@ -338,6 +338,17 @@ pub(crate) fn print(
             rhs_src.lines().map(|s| format!("{}\n", s)).collect(),
         )
     };
+
+    // Style positions are relative to the source code offsets. Now
+    // that we've applied styling, we can replace tabs.
+    let lhs_colored_lines: Vec<_> = lhs_colored_lines
+        .iter()
+        .map(|l| replace_tabs(l, display_options.tab_width))
+        .collect();
+    let rhs_colored_lines: Vec<_> = rhs_colored_lines
+        .iter()
+        .map(|l| replace_tabs(l, display_options.tab_width))
+        .collect();
 
     if lhs_src.is_empty() {
         for line in display_single_column(
@@ -608,7 +619,7 @@ mod tests {
         );
         assert_eq!(
             format_missing_line_num(0.into(), &source_dims, Side::Left, false),
-            ". ".to_string()
+            ". ".to_owned()
         );
     }
 
@@ -628,7 +639,7 @@ mod tests {
         );
         assert_eq!(
             format_missing_line_num(1.into(), &source_dims, Side::Left, false),
-            "  ".to_string()
+            "  ".to_owned()
         );
     }
 
@@ -639,7 +650,7 @@ mod tests {
             "foo.py",
             None,
             &FileFormat::SupportedLanguage(Language::Python),
-            &["print(123)\n".to_string()],
+            &["print(123)\n".to_owned()],
             Side::Right,
             &DisplayOptions::default(),
         );

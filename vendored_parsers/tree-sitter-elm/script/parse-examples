@@ -44,10 +44,10 @@ if [[ $SKIP_DOWNLOAD != 'true' ]]; then
   checkout_at "examples/elm-svg" "elm/svg" "08bd432990862bab5b840654dd437fbb2e6176e7"
   checkout_at "examples/elm-time" "elm/time" "dc3b75b7366e59b99962706f7bf064d3634a4bba"
   checkout_at "examples/elm-url" "elm/url" "4e5ee032515581bf01428d54ee636dd601f4bc90"
-  checkout_at "examples/elm-virtual-dom" "elm/virtual-dom" "5a5bcf48720bc7d53461b3cd42a9f19f119c5503"
+  checkout_at "examples/elm-virtual-dom" "elm/virtual-dom" "44cbe2bf3d598cab569045cefcc10de31907598d"
   checkout_at "examples/elm-ui" "mdgriffith/elm-ui" "acae8857a02e600cc4b4737ca2f70607228b4489"
   checkout_at "examples/elm-markup" "mdgriffith/elm-markup" "b073d85490f71c6491648bcd0b11bf9aca6e53a5"
-  checkout_at "examples/elm-visualization" "gampleman/elm-visualization" "edbf5e268ecc1572402c7747ae26abb2f92192ec"
+  checkout_at "examples/elm-visualization" "gampleman/elm-visualization" "6b9c7476507cedbbd8fc841fdecb59f4af2c3f96"
 fi
 
 skipped_files=()

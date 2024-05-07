@@ -107,6 +107,7 @@ extern "C" {
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
+    fn tree_sitter_scheme() -> ts::Language;
     fn tree_sitter_smali() -> ts::Language;
     fn tree_sitter_scss() -> ts::Language;
     fn tree_sitter_solidity() -> ts::Language;
@@ -288,9 +289,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_css() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["integer_value", "float_value", "color_value"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec![
+                    "integer_value",
+                    "float_value",
+                    "color_value",
+                    "string_value",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
@@ -963,6 +969,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
+        Scheme => {
+            let language = unsafe { tree_sitter_scheme() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["block_comment", "comment", "string"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/scheme.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Scss => {
             let language = unsafe { tree_sitter_scss() };
             TreeSitterConfig {
@@ -1591,10 +1613,9 @@ fn syntax_from_cursor<'a>(
 
     if node.is_error() {
         *error_count += 1;
+    }
 
-        // Treat error nodes as atoms, even if they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
-    } else if config.atom_nodes.contains(node.kind()) {
+    if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)

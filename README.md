@@ -41,7 +41,7 @@ standalone files and git.
 ## Languages
 
 Difftastic supports over 30 programming languages, see [the
-manual](https://difftastic.wilfred.me.uk/) for the full list.
+manual](https://difftastic.wilfred.me.uk/languages_supported.html) for the full list.
 
 If a file has an unrecognised extension, difftastic uses a
 textual diff with word highlighting.
@@ -131,6 +131,16 @@ $ difft --check-only --exit-code before.js after.js
 
 This will set the exit code to 0 if there are no syntactic changes, or
 1 if there are changes found.
+
+### How does it work?
+
+Difftastic treats structural diffing as a graph problem, and uses
+Dijkstra's algorithm.
+
+My [blog
+post](https://www.wilfred.me.uk/blog/2022/09/06/difftastic-the-fantastic-diff/)
+describes the design, and there is also an [internals section in the
+manual](https://difftastic.wilfred.me.uk/diffing.html).
 
 ## Translation
 

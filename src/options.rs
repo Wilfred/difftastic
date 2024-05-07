@@ -21,7 +21,7 @@ use crate::{
 
 pub(crate) const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
-// files (the highest is slow_before/after.rs at 1.3M nodes), but
+// files (the highest is slow_1.rs/slow_2.rs at 1.3M nodes), but
 // small enough to terminate in ~5 seconds like the test file in #306.
 pub(crate) const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
 pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
@@ -208,8 +208,11 @@ json: Output the results as a machine-readable JSON array with an element per fi
         )
         .arg(
             Arg::new("strip-cr").long("strip-cr")
+                .value_name("on/off")
                 .env("DFT_STRIP_CR")
-                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.")
+                .possible_values(["on", "off"])
+                .default_value("on")
+                .help("Remove any carriage return characters before diffing. This can be helpful when dealing with files on Windows that contain CRLF, i.e. `\\r\\n`.\n\nWhen disabled, difftastic will consider multiline string literals (in code) or mutiline text (e.g. in HTML) to differ if the two input files have different line endings.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
@@ -352,15 +355,15 @@ impl Display for FilePermissions {
     }
 }
 
-impl From<String> for FilePermissions {
-    fn from(s: String) -> Self {
-        Self(s)
-    }
-}
+impl TryFrom<&OsStr> for FilePermissions {
+    type Error = ();
 
-impl From<&OsStr> for FilePermissions {
-    fn from(s: &OsStr) -> Self {
-        Self(s.to_string_lossy().into_owned())
+    fn try_from(s: &OsStr) -> Result<Self, Self::Error> {
+        if s == "." {
+            Err(())
+        } else {
+            Ok(Self(s.to_string_lossy().into_owned()))
+        }
     }
 }
 
@@ -632,7 +635,7 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {
-            path: path.to_string(),
+            path: path.to_owned(),
             ignore_comments,
             language_overrides,
         };
@@ -640,7 +643,7 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-ts") {
         return Mode::DumpTreeSitter {
-            path: path.to_string(),
+            path: path.to_owned(),
             language_overrides,
         };
     }
@@ -717,7 +720,7 @@ pub(crate) fn parse_args() -> Mode {
 
     let set_exit_code = matches.is_present("exit-code");
 
-    let strip_cr = matches.is_present("strip-cr");
+    let strip_cr = matches.value_of("strip-cr") == Some("on");
 
     let check_only = matches.is_present("check-only");
 
@@ -732,6 +735,14 @@ pub(crate) fn parse_args() -> Mode {
 
     let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
     info!("CLI arguments: {:?}", args);
+
+    // Print git environment variables so we can see the additional
+    // variable set when git invokes us.
+    for (env_var, value) in env::vars() {
+        if env_var.starts_with("GIT_") {
+            trace!("{}: {}", env_var, value);
+        }
+    }
 
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path, lhs_permissions, rhs_permissions, renamed) = match &args
@@ -760,8 +771,8 @@ pub(crate) fn parse_args() -> Mode {
                 display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((*lhs_mode).into()),
-                Some((*rhs_mode).into()),
+                FilePermissions::try_from(*lhs_mode).ok(),
+                FilePermissions::try_from(*rhs_mode).ok(),
                 None,
             )
         }
@@ -778,8 +789,8 @@ pub(crate) fn parse_args() -> Mode {
                 new_name,
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((*lhs_mode).into()),
-                Some((*rhs_mode).into()),
+                FilePermissions::try_from(*lhs_mode).ok(),
+                FilePermissions::try_from(*rhs_mode).ok(),
                 Some(renamed),
             )
         }

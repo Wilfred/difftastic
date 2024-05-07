@@ -18,7 +18,7 @@ Variations, Myers
 ```
 # Modern diff supports colour, but see also
 # https://www.colordiff.org/
-$ diff --color=always -u sample_files/css_before.css sample_files/css_after.css
+$ diff --color=always -u sample_files/css_1.css sample_files/css_2.css
 ```
 
 Note that GNU diff [originally used the Hunt-McIlroy
@@ -64,11 +64,11 @@ work](https://stackoverflow.com/questions/40133534/is-gits-implementation-of-the
 
 ```
 # Original behaviour
-$ git diff --no-indent-heuristic --no-index sample_files/css_before.css sample_files/css_after.css
+$ git diff --no-indent-heuristic --no-index sample_files/css_1.css sample_files/css_2.css
 # As of git 2.11, this heuristic is enabled by default.
-$ git diff --indent-heuristic --no-index sample_files/css_before.css sample_files/css_after.css
+$ git diff --indent-heuristic --no-index sample_files/css_1.css sample_files/css_2.css
 # Patience algorithm does a better a job in this example.
-$ git diff --patience --no-index sample_files/css_before.css sample_files/css_after.css
+$ git diff --patience --no-index sample_files/css_1.css sample_files/css_2.css
 ```
 
 [Diff Match Patch](https://github.com/google/diff-match-patch) also
@@ -84,7 +84,7 @@ of the patience algorithm](https://github.com/git/git/commit/85551232b56e763ecfc
 
 ```
 # Inferior to patience on this example file.
-$ git diff --histogram --no-index sample_files/css_before.css sample_files/css_after.css
+$ git diff --histogram --no-index sample_files/css_1.css sample_files/css_2.css
 ```
 
 ### prettydiff

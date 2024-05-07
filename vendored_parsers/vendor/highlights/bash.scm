@@ -1,1 +1,0 @@
-../tree-sitter-bash/queries/highlights.scm

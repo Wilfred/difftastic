@@ -1,0 +1,62 @@
+=========================
+Bracket comment [comment]
+=========================
+#[[Some comment]]
+
+---
+
+(source_file
+  (bracket_comment)
+)
+
+==========================================================
+Command invocation with embedded bracket comment [comment]
+==========================================================
+message(STATUS #[[Some comment]] "comment is next" #[[Some comment]])
+
+---
+
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (unquoted_argument))
+    (bracket_comment)
+    (argument (quoted_argument (quoted_element)))
+    (bracket_comment)
+  )
+ )
+)
+
+======================
+Line comment [comment]
+======================
+# [[Some comment]] "comment is next" #[[Some comment]]
+
+---
+
+(source_file
+  (line_comment)
+)
+
+===================================
+Message with Line comment [comment]
+===================================
+message(STATUS #Some line comment
+
+Second #Some other line comment
+)
+
+---
+
+(source_file
+ (normal_command
+  (identifier)
+  (argument_list
+    (argument (unquoted_argument))
+    (line_comment)
+    (argument (unquoted_argument))
+    (line_comment)
+  )
+ )
+)

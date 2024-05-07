@@ -1,14 +1,14 @@
 [package]
 name = "tree-sitter-python"
 description = "Python grammar for tree-sitter"
-version = "0.20.4"
+version = "0.21.0"
 authors = [
-	"Max Brunsfeld <maxbrunsfeld@gmail.com>",
-	"Douglas Creager <dcreager@dcreager.net>",
+  "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+  "Amaan Qureshi <amaanq12@gmail.com>",
 ]
 license = "MIT"
-readme = "bindings/rust/README.md"
-keywords = ["incremental", "parsing", "python"]
+readme = "README.md"
+keywords = ["incremental", "parsing", "tree-sitter", "python"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-python"
 edition = "2021"
@@ -21,7 +21,7 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.10"
+tree-sitter = ">=0.21.0"
 
 [build-dependencies]
-cc = "~1.0"
+cc = "1.0.89"
