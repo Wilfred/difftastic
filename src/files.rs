@@ -141,7 +141,7 @@ pub(crate) enum ProbableFileKind {
 pub(crate) fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // If the bytes are entirely valid UTF-8, treat them as a string.
     if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
-        return ProbableFileKind::Text(valid_utf8_string.to_string());
+        return ProbableFileKind::Text(valid_utf8_string.to_owned());
     }
 
     // Only consider the first 1,000 bytes, as tree_magic_mini

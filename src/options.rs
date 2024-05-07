@@ -635,7 +635,7 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {
-            path: path.to_string(),
+            path: path.to_owned(),
             ignore_comments,
             language_overrides,
         };
@@ -643,7 +643,7 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-ts") {
         return Mode::DumpTreeSitter {
-            path: path.to_string(),
+            path: path.to_owned(),
             language_overrides,
         };
     }
