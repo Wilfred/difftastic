@@ -414,7 +414,6 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
                         .map(|l| l.trim_start())
                         .collect::<Vec<_>>()
                         .join("\n")
-                        .to_string()
                 } else {
                     content.clone()
                 };

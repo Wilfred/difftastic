@@ -21,6 +21,8 @@
 #![allow(clippy::mutable_key_type)]
 // .to_owned() is more explicit on string references.
 #![warn(clippy::str_to_string)]
+// .to_string() on a String is clearer as .clone().
+#![warn(clippy::string_to_string)]
 // Debugging features shouldn't be in checked-in code.
 #![warn(clippy::todo)]
 #![warn(clippy::dbg_macro)]
