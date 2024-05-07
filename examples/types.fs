@@ -1,3 +1,4 @@
-type A() =
-  inherit ControllerBase()
-  member ctx.Index() = ()
+
+type A = {
+    B: int[]
+  }

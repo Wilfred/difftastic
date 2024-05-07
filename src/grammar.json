@@ -3217,6 +3217,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "_list_type"
+          },
+          {
+            "type": "SYMBOL",
             "name": "_static_type"
           },
           {
@@ -3358,6 +3362,19 @@
           }
         ]
       }
+    },
+    "_list_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "[]"
+        }
+      ]
     },
     "_static_type": {
       "type": "PREC",

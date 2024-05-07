@@ -1156,3 +1156,26 @@ type A = {
             (type
               (long_identifier
                 (identifier)))))))))
+
+================================================================================
+type with shorthand array postfix
+================================================================================
+
+type A = {
+  A : int[]
+}
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (record_type_defn
+      (type_name
+        (identifier))
+      (record_fields
+        (record_field
+          (identifier)
+          (type
+            (type
+              (long_identifier
+                (identifier)))))))))

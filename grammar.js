@@ -1025,7 +1025,7 @@ module.exports = grammar({
         $._function_type,
         $._compound_type,
         $._postfix_type,
-        // $._list_type,
+        $._list_type,
         $._static_type,
         $.type_argument,
         $._constrained_type,
@@ -1038,7 +1038,7 @@ module.exports = grammar({
     _function_type: $ => prec.right(seq($.type, '->', $.type)),
     _compound_type: $ => prec.right(seq($.type, repeat1(prec.right(seq('*', $.type))))),
     _postfix_type: $ => prec.left(4, seq($.type, $.long_identifier)),
-    // _list_type: $ => seq($.type, '[', repeat(','), ']'), // TODO: FIXME
+    _list_type: $ => seq($.type, '[]'),
     _static_type: $ => prec(10, seq($.type, $.type_argument_defn)),
     _constrained_type: $ => prec.right(seq($.type_argument, ':>', $.type)),
     _flexible_type: $ => prec.right(seq(token.immediate('#'), $.type)),
