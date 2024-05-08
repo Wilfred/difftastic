@@ -619,7 +619,7 @@ mod tests {
         );
         assert_eq!(
             format_missing_line_num(0.into(), &source_dims, Side::Left, false),
-            ". ".to_string()
+            ". ".to_owned()
         );
     }
 
@@ -639,7 +639,7 @@ mod tests {
         );
         assert_eq!(
             format_missing_line_num(1.into(), &source_dims, Side::Left, false),
-            "  ".to_string()
+            "  ".to_owned()
         );
     }
 
@@ -650,7 +650,7 @@ mod tests {
             "foo.py",
             None,
             &FileFormat::SupportedLanguage(Language::Python),
-            &["print(123)\n".to_string()],
+            &["print(123)\n".to_owned()],
             Side::Right,
             &DisplayOptions::default(),
         );

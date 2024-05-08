@@ -92,3 +92,6 @@ $ git diff
 $ git show HEAD --ext-diff
 $ git log -p --ext-diff
 ```
+
+Conversely, if you need to copy/paste a diff in the standard diff format, you
+can use `git diff --no-ext-diff`.

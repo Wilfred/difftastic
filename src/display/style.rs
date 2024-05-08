@@ -413,7 +413,7 @@ fn apply_header_color(
 ) -> String {
     if use_color {
         if hunk_num != 1 {
-            s.to_string()
+            s.to_owned()
         } else if background.is_dark() {
             s.bright_yellow().to_string()
         } else {
@@ -422,7 +422,7 @@ fn apply_header_color(
         .bold()
         .to_string()
     } else {
-        s.to_string()
+        s.to_owned()
     }
 }
 
@@ -437,7 +437,7 @@ pub(crate) fn print_warning(s: &str, display_options: &DisplayOptions) {
         .bold()
         .to_string()
     } else {
-        "warning: ".to_string()
+        "warning: ".to_owned()
     };
 
     eprint!("{}", prefix);
@@ -468,7 +468,7 @@ pub(crate) fn apply_line_number_color(
 
         s.style(style).to_string()
     } else {
-        s.to_string()
+        s.to_owned()
     }
 }
 

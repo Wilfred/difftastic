@@ -142,7 +142,7 @@ impl<'s, 'b> fmt::Debug for EnteredDelimiter<'s, 'b> {
                     rhs_delims.size()
                 )
             }
-            EnteredDelimiter::PopBoth(_) => "PopBoth".to_string(),
+            EnteredDelimiter::PopBoth(_) => "PopBoth".to_owned(),
         };
         f.write_str(&desc)
     }
