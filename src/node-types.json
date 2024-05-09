@@ -745,13 +745,9 @@
     "named": true,
     "fields": {
       "sub": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "#",
-            "named": false
-          },
           {
             "type": "align",
             "named": true
@@ -765,36 +761,12 @@
             "named": true
           },
           {
-            "type": "auto",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "bool",
-            "named": true
-          },
-          {
-            "type": "branch",
-            "named": true
-          },
-          {
             "type": "call",
             "named": true
           },
           {
-            "type": "content",
+            "type": "code",
             "named": true
-          },
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "end",
-            "named": false
           },
           {
             "type": "escape",
@@ -806,14 +778,6 @@
           },
           {
             "type": "field",
-            "named": true
-          },
-          {
-            "type": "flow",
-            "named": true
-          },
-          {
-            "type": "for",
             "named": true
           },
           {
@@ -829,35 +793,11 @@
             "named": true
           },
           {
-            "type": "import",
-            "named": true
-          },
-          {
-            "type": "include",
-            "named": true
-          },
-          {
-            "type": "label",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "letter",
             "named": true
           },
           {
             "type": "linebreak",
-            "named": true
-          },
-          {
-            "type": "math",
-            "named": true
-          },
-          {
-            "type": "none",
             "named": true
           },
           {
@@ -869,31 +809,11 @@
             "named": true
           },
           {
-            "type": "raw_blck",
-            "named": true
-          },
-          {
-            "type": "raw_span",
-            "named": true
-          },
-          {
-            "type": "return",
-            "named": true
-          },
-          {
             "type": "root",
             "named": true
           },
           {
-            "type": "set",
-            "named": true
-          },
-          {
             "type": "shorthand",
-            "named": true
-          },
-          {
-            "type": "show",
             "named": true
           },
           {
@@ -902,22 +822,14 @@
           },
           {
             "type": "symbol",
-            "named": true
-          },
-          {
-            "type": "while",
             "named": true
           }
         ]
       },
       "sup": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "#",
-            "named": false
-          },
           {
             "type": "align",
             "named": true
@@ -931,36 +843,12 @@
             "named": true
           },
           {
-            "type": "auto",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "bool",
-            "named": true
-          },
-          {
-            "type": "branch",
-            "named": true
-          },
-          {
             "type": "call",
             "named": true
           },
           {
-            "type": "content",
+            "type": "code",
             "named": true
-          },
-          {
-            "type": "context",
-            "named": true
-          },
-          {
-            "type": "end",
-            "named": false
           },
           {
             "type": "escape",
@@ -972,14 +860,6 @@
           },
           {
             "type": "field",
-            "named": true
-          },
-          {
-            "type": "flow",
-            "named": true
-          },
-          {
-            "type": "for",
             "named": true
           },
           {
@@ -995,35 +875,11 @@
             "named": true
           },
           {
-            "type": "import",
-            "named": true
-          },
-          {
-            "type": "include",
-            "named": true
-          },
-          {
-            "type": "label",
-            "named": true
-          },
-          {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "letter",
             "named": true
           },
           {
             "type": "linebreak",
-            "named": true
-          },
-          {
-            "type": "math",
-            "named": true
-          },
-          {
-            "type": "none",
             "named": true
           },
           {
@@ -1035,31 +891,11 @@
             "named": true
           },
           {
-            "type": "raw_blck",
-            "named": true
-          },
-          {
-            "type": "raw_span",
-            "named": true
-          },
-          {
-            "type": "return",
-            "named": true
-          },
-          {
             "type": "root",
             "named": true
           },
           {
-            "type": "set",
-            "named": true
-          },
-          {
             "type": "shorthand",
-            "named": true
-          },
-          {
-            "type": "show",
             "named": true
           },
           {
@@ -1068,10 +904,6 @@
           },
           {
             "type": "symbol",
-            "named": true
-          },
-          {
-            "type": "while",
             "named": true
           }
         ]
@@ -1079,7 +911,7 @@
     },
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "align",
@@ -1094,31 +926,11 @@
           "named": true
         },
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
         {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
@@ -1134,14 +946,6 @@
           "named": true
         },
         {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
           "type": "fraction",
           "named": true
         },
@@ -1154,35 +958,11 @@
           "named": true
         },
         {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "letter",
           "named": true
         },
         {
           "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
           "named": true
         },
         {
@@ -1194,31 +974,11 @@
           "named": true
         },
         {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "root",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
           "named": true
         },
         {
@@ -1227,10 +987,6 @@
         },
         {
           "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -1972,12 +1728,12 @@
     }
   },
   {
-    "type": "content",
+    "type": "code",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "auto",
@@ -2005,10 +1761,6 @@
         },
         {
           "type": "context",
-          "named": true
-        },
-        {
-          "type": "emph",
           "named": true
         },
         {
@@ -2040,19 +1792,11 @@
           "named": true
         },
         {
-          "type": "item",
-          "named": true
-        },
-        {
           "type": "label",
           "named": true
         },
         {
           "type": "let",
-          "named": true
-        },
-        {
-          "type": "linebreak",
           "named": true
         },
         {
@@ -2065,6 +1809,69 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "raw_blck",
+          "named": true
+        },
+        {
+          "type": "raw_span",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "set",
+          "named": true
+        },
+        {
+          "type": "show",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "code",
+          "named": true
+        },
+        {
+          "type": "emph",
+          "named": true
+        },
+        {
+          "type": "item",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "linebreak",
+          "named": true
+        },
+        {
+          "type": "math",
           "named": true
         },
         {
@@ -2088,27 +1895,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -2125,10 +1916,6 @@
         },
         {
           "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -2656,63 +2443,11 @@
       "required": false,
       "types": [
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
           "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
           "named": true
         },
         {
@@ -2724,23 +2459,11 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "linebreak",
           "named": true
         },
         {
           "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -2764,27 +2487,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -2802,10 +2509,6 @@
         {
           "type": "url",
           "named": true
-        },
-        {
-          "type": "while",
-          "named": true
         }
       ]
     }
@@ -2821,7 +2524,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "align",
@@ -2836,31 +2539,11 @@
           "named": true
         },
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
         {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
@@ -2876,14 +2559,6 @@
           "named": true
         },
         {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
           "type": "fraction",
           "named": true
         },
@@ -2896,35 +2571,11 @@
           "named": true
         },
         {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "letter",
           "named": true
         },
         {
           "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
           "named": true
         },
         {
@@ -2936,31 +2587,11 @@
           "named": true
         },
         {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "root",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
           "named": true
         },
         {
@@ -2969,10 +2600,6 @@
         },
         {
           "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -3371,7 +2998,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "align",
@@ -3386,31 +3013,11 @@
           "named": true
         },
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
         {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
@@ -3426,14 +3033,6 @@
           "named": true
         },
         {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
           "type": "fraction",
           "named": true
         },
@@ -3446,35 +3045,11 @@
           "named": true
         },
         {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "letter",
           "named": true
         },
         {
           "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
           "named": true
         },
         {
@@ -3486,31 +3061,11 @@
           "named": true
         },
         {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "root",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
           "named": true
         },
         {
@@ -3519,10 +3074,6 @@
         },
         {
           "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -3534,7 +3085,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "align",
@@ -3549,31 +3100,11 @@
           "named": true
         },
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
         {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
@@ -3589,14 +3120,6 @@
           "named": true
         },
         {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
           "type": "fraction",
           "named": true
         },
@@ -3609,35 +3132,11 @@
           "named": true
         },
         {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "letter",
           "named": true
         },
         {
           "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
           "named": true
         },
         {
@@ -3649,31 +3148,11 @@
           "named": true
         },
         {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "root",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
           "named": true
         },
         {
@@ -3682,10 +3161,6 @@
         },
         {
           "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -3875,63 +3350,11 @@
       "required": false,
       "types": [
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
           "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
           "named": true
         },
         {
@@ -3943,23 +3366,11 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "linebreak",
           "named": true
         },
         {
           "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -3983,27 +3394,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -4020,10 +3415,6 @@
         },
         {
           "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -4575,63 +3966,11 @@
       "required": false,
       "types": [
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
           "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
           "named": true
         },
         {
@@ -4643,23 +3982,11 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "linebreak",
           "named": true
         },
         {
           "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -4683,27 +4010,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -4720,10 +4031,6 @@
         },
         {
           "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -5959,7 +5266,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "align",
@@ -5974,31 +5281,11 @@
           "named": true
         },
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
         {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
@@ -6014,14 +5301,6 @@
           "named": true
         },
         {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
           "type": "fraction",
           "named": true
         },
@@ -6034,35 +5313,11 @@
           "named": true
         },
         {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "letter",
           "named": true
         },
         {
           "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
           "named": true
         },
         {
@@ -6074,31 +5329,11 @@
           "named": true
         },
         {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "root",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
           "named": true
         },
         {
@@ -6107,10 +5342,6 @@
         },
         {
           "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -6349,7 +5580,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "align",
@@ -6364,31 +5595,11 @@
           "named": true
         },
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
           "type": "call",
           "named": true
         },
         {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
@@ -6404,14 +5615,6 @@
           "named": true
         },
         {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
           "type": "fraction",
           "named": true
         },
@@ -6424,35 +5627,11 @@
           "named": true
         },
         {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "letter",
           "named": true
         },
         {
           "type": "linebreak",
-          "named": true
-        },
-        {
-          "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
           "named": true
         },
         {
@@ -6464,31 +5643,11 @@
           "named": true
         },
         {
-          "type": "raw_blck",
-          "named": true
-        },
-        {
-          "type": "raw_span",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "root",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
           "named": true
         },
         {
@@ -6497,10 +5656,6 @@
         },
         {
           "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -7230,63 +6385,11 @@
       "required": false,
       "types": [
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
           "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
           "named": true
         },
         {
@@ -7298,23 +6401,11 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "linebreak",
           "named": true
         },
         {
           "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -7338,27 +6429,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -7375,10 +6450,6 @@
         },
         {
           "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -7408,63 +6479,11 @@
       "required": false,
       "types": [
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
           "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
           "named": true
         },
         {
@@ -7476,23 +6495,11 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "linebreak",
           "named": true
         },
         {
           "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -7516,27 +6523,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -7553,10 +6544,6 @@
         },
         {
           "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -8089,71 +7076,11 @@
         "required": false,
         "types": [
           {
-            "type": "#",
-            "named": false
-          },
-          {
-            "type": "auto",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "bool",
-            "named": true
-          },
-          {
-            "type": "branch",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "content",
-            "named": true
-          },
-          {
-            "type": "context",
+            "type": "code",
             "named": true
           },
           {
             "type": "emph",
-            "named": true
-          },
-          {
-            "type": "end",
-            "named": false
-          },
-          {
-            "type": "field",
-            "named": true
-          },
-          {
-            "type": "flow",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "group",
-            "named": true
-          },
-          {
-            "type": "ident",
-            "named": true
-          },
-          {
-            "type": "import",
-            "named": true
-          },
-          {
-            "type": "include",
             "named": true
           },
           {
@@ -8165,23 +7092,11 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "linebreak",
             "named": true
           },
           {
             "type": "math",
-            "named": true
-          },
-          {
-            "type": "none",
-            "named": true
-          },
-          {
-            "type": "number",
             "named": true
           },
           {
@@ -8205,27 +7120,11 @@
             "named": true
           },
           {
-            "type": "return",
-            "named": true
-          },
-          {
             "type": "section",
             "named": true
           },
           {
-            "type": "set",
-            "named": true
-          },
-          {
             "type": "shorthand",
-            "named": true
-          },
-          {
-            "type": "show",
-            "named": true
-          },
-          {
-            "type": "string",
             "named": true
           },
           {
@@ -8243,10 +7142,6 @@
           {
             "type": "url",
             "named": true
-          },
-          {
-            "type": "while",
-            "named": true
           }
         ]
       }
@@ -8256,63 +7151,11 @@
       "required": false,
       "types": [
         {
-          "type": "auto",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "branch",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "content",
-          "named": true
-        },
-        {
-          "type": "context",
+          "type": "code",
           "named": true
         },
         {
           "type": "emph",
-          "named": true
-        },
-        {
-          "type": "field",
-          "named": true
-        },
-        {
-          "type": "flow",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "group",
-          "named": true
-        },
-        {
-          "type": "ident",
-          "named": true
-        },
-        {
-          "type": "import",
-          "named": true
-        },
-        {
-          "type": "include",
           "named": true
         },
         {
@@ -8324,23 +7167,11 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "linebreak",
           "named": true
         },
         {
           "type": "math",
-          "named": true
-        },
-        {
-          "type": "none",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -8364,27 +7195,11 @@
           "named": true
         },
         {
-          "type": "return",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
         {
-          "type": "set",
-          "named": true
-        },
-        {
           "type": "shorthand",
-          "named": true
-        },
-        {
-          "type": "show",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         },
         {
@@ -8401,10 +7216,6 @@
         },
         {
           "type": "url",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]

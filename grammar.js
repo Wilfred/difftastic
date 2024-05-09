@@ -114,7 +114,7 @@ module.exports = grammar({
     _brackets: $ => seq(alias($._token_bracket, $.text), content($), alias($._termination, $.text)),
 
     _markup: $ => choice(
-      $._code,
+      $.code,
       $.text,
       $._brackets,
       $.strong,
@@ -192,7 +192,7 @@ module.exports = grammar({
 
     formula: $ => repeat1($._math_expr),
     _math_expr: $ => choice(
-      $._code,
+      $.code,
       alias($._math_group, $.group),
       alias($._token_math_letter, $.letter),
       alias($._math_number, $.number),
@@ -305,7 +305,7 @@ module.exports = grammar({
       token(prec(-1, /./)),
     ),
 
-    _code: $ => seq('#', choice(
+    code: $ => seq('#', choice(
       seq($._item, alias($._token_inlined_item_end, 'end')),
       seq($._stmt, alias($._token_inlined_stmt_end, 'end')),
     )),

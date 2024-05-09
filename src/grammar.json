@@ -258,7 +258,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_code"
+          "name": "code"
         },
         {
           "type": "SYMBOL",
@@ -824,7 +824,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_code"
+          "name": "code"
         },
         {
           "type": "ALIAS",
@@ -1723,7 +1723,7 @@
         }
       ]
     },
-    "_code": {
+    "code": {
       "type": "SEQ",
       "members": [
         {

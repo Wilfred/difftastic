@@ -16,7 +16,8 @@ a b#a b
 
 (source_file
 	(text)
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -27,10 +28,11 @@ positive/002
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block)
-		(block)))
+	(code
+		(branch
+			condition: (ident)
+			(block)
+			(block))))
 
 
 =====================
@@ -40,9 +42,10 @@ positive/003
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(text))
 
 
@@ -54,10 +57,11 @@ Hello #(a + b) World!
 
 (source_file
 	(text)
-	(group
-		(add
-			(ident)
-			(ident)))
+	(code
+		(group
+			(add
+				(ident)
+				(ident))))
 	(text))
 
 
@@ -68,12 +72,13 @@ positive/005
 ---------------------
 
 (source_file
-	(group
-		(add
+	(code
+		(group
 			(add
-				(ident)
-				(ident))
-			(ident))))
+				(add
+					(ident)
+					(ident))
+				(ident)))))
 
 
 =====================
@@ -83,12 +88,13 @@ positive/006
 ---------------------
 
 (source_file
-	(group
-		(add
-			(ident)
-			(mul
+	(code
+		(group
+			(add
 				(ident)
-				(ident)))))
+				(mul
+					(ident)
+					(ident))))))
 
 
 =====================
@@ -99,7 +105,8 @@ Hello #a + b World!
 
 (source_file
 	(text)
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -110,12 +117,13 @@ positive/008
 ---------------------
 
 (source_file
-	(group
-		(add
-			(mul
-				(ident)
-				(ident))
-			(ident))))
+	(code
+		(group
+			(add
+				(mul
+					(ident)
+					(ident))
+				(ident)))))
 
 
 =====================
@@ -125,12 +133,13 @@ positive/009
 ---------------------
 
 (source_file
-	(group
-		(add
-			(call
-				item: (ident)
-				(group))
-			(ident))))
+	(code
+		(group
+			(add
+				(call
+					item: (ident)
+					(group))
+				(ident)))))
 
 
 =====================
@@ -140,9 +149,10 @@ positive/010
 ---------------------
 
 (source_file
-	(call
-		item: (ident)
-		(group))
+	(code
+		(call
+			item: (ident)
+			(group)))
 	(text))
 
 
@@ -153,9 +163,10 @@ positive/011
 ---------------------
 
 (source_file
-	(call
-		item: (ident)
-		(group))
+	(code
+		(call
+			item: (ident)
+			(group)))
 	(text))
 
 
@@ -166,7 +177,8 @@ positive/012
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -177,11 +189,12 @@ positive/013
 ---------------------
 
 (source_file
-	(call
-		item: (call
-			item: (ident)
-			(group))
-		(group))
+	(code
+		(call
+			item: (call
+				item: (ident)
+				(group))
+			(group)))
 	(text))
 
 
@@ -192,8 +205,9 @@ positive/014
 ---------------------
 
 (source_file
-	(content
-		(text)))
+	(code
+		(content
+			(text))))
 
 
 =====================
@@ -203,8 +217,9 @@ positive/015
 ---------------------
 
 (source_file
-	(block
-		(ident)))
+	(code
+		(block
+			(ident))))
 
 
 =====================
@@ -214,9 +229,10 @@ positive/016
 ---------------------
 
 (source_file
-	(group
-		(ident)
-		(ident)))
+	(code
+		(group
+			(ident)
+			(ident))))
 
 
 =====================
@@ -226,11 +242,12 @@ positive/017
 ---------------------
 
 (source_file
-	(group
-		(ident)
-		(tagged
-			field: (ident)
-			(ident))))
+	(code
+		(group
+			(ident)
+			(tagged
+				field: (ident)
+				(ident)))))
 
 
 =====================
@@ -240,13 +257,14 @@ positive/018
 ---------------------
 
 (source_file
-	(call
-		item: (ident)
-		(group
-			(ident)
-			(tagged
-				field: (ident)
-				(ident)))))
+	(code
+		(call
+			item: (ident)
+			(group
+				(ident)
+				(tagged
+					field: (ident)
+					(ident))))))
 
 
 =====================
@@ -256,13 +274,14 @@ positive/019
 ---------------------
 
 (source_file
-	(call
-		item: (ident)
-		(group
-			(ident)
-			(tagged
-				field: (ident)
-				(ident))))
+	(code
+		(call
+			item: (ident)
+			(group
+				(ident)
+				(tagged
+					field: (ident)
+					(ident)))))
 	(text))
 
 
@@ -273,13 +292,14 @@ positive/020
 ---------------------
 
 (source_file
-	(call
-		item:
+	(code
 		(call
-			item: (ident)
-			(group))	
-		(content
-			(text))))
+			item:
+			(call
+				item: (ident)
+				(group))	
+			(content
+				(text)))))
 
 
 =====================
@@ -291,9 +311,10 @@ else {}
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(parbreak)
 	(text))
 
@@ -306,9 +327,10 @@ elsa {}
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(text))
 
 
@@ -319,9 +341,10 @@ positive/023
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(text))
 
 
@@ -351,9 +374,10 @@ else[]
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(parbreak)
 	(text)
 	(text)
@@ -367,11 +391,12 @@ positive/026
 ---------------------
 
 (source_file
-	(branch
-		condition: (call
-			item: (ident)
-			(content))
-		(block)))
+	(code
+		(branch
+			condition: (call
+				item: (ident)
+				(content))
+			(block))))
 
 
 =====================
@@ -381,9 +406,10 @@ positive/027
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(content))
+	(code
+		(branch
+			condition: (ident)
+			(content)))
 	(text))
 
 
@@ -394,12 +420,13 @@ positive/028
 ---------------------
 
 (source_file
-	(branch
-		condition: (call
-			item: (group
-				(ident))
-			(content))
-		(block)))
+	(code
+		(branch
+			condition: (call
+				item: (group
+					(ident))
+				(content))
+			(block))))
 
 
 =====================
@@ -409,14 +436,15 @@ positive/029
 ---------------------
 
 (source_file
-	(branch
-		condition: (add
-			(group
-				(ident))
-			(call
-				item: (ident)
-				(content)))
-		(block)))
+	(code
+		(branch
+			condition: (add
+				(group
+					(ident))
+				(call
+					item: (ident)
+					(content)))
+			(block))))
 
 
 =====================
@@ -463,7 +491,8 @@ positive/033
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -474,12 +503,13 @@ positive/034
 ---------------------
 
 (source_file
-	(call
-		item: (branch
-			condition: (ident)
-			(block)
-			(block))
-		(group)))
+	(code
+		(call
+			item: (branch
+				condition: (ident)
+				(block)
+				(block))
+			(group))))
 
 
 =====================
@@ -489,9 +519,10 @@ positive/035
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		value: (ident)))
+	(code
+		(let
+			pattern: (ident)
+			value: (ident))))
 
 
 =====================
@@ -501,9 +532,10 @@ positive/036
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		value: (ident))
+	(code
+		(let
+			pattern: (ident)
+			value: (ident)))
 	(text))
 
 
@@ -514,7 +546,8 @@ positive/037
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -528,13 +561,14 @@ positive/038
 ---------------------
 
 (source_file
-	(block
-		(let
-			pattern: (ident)
-			value: (ident))
-	(add
-		(ident)
-		(ident))))
+	(code
+		(block
+			(let
+				pattern: (ident)
+				value: (ident))
+		(add
+			(ident)
+			(ident)))))
 
 
 =====================
@@ -544,8 +578,9 @@ positive/039
 ---------------------
 
 (source_file
-	(group
-		(number)))
+	(code
+		(group
+			(number))))
 
 
 =====================
@@ -555,9 +590,10 @@ positive/040
 ---------------------
 
 (source_file
-	(group
-		(number
-			(unit))))
+	(code
+		(group
+			(number
+				(unit)))))
 
 
 =====================
@@ -567,7 +603,8 @@ positive/041
 ---------------------
 
 (source_file
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -577,7 +614,8 @@ positive/042
 ---------------------
 
 (source_file
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -587,9 +625,10 @@ positive/043
 ---------------------
 
 (source_file
-	(field
-		(ident)
-		field: (ident)))
+	(code
+		(field
+			(ident)
+			field: (ident))))
 
 
 =====================
@@ -602,7 +641,8 @@ W
 
 (source_file
 	(text)
-	(ident)
+	(code
+		(ident))
 	(parbreak)
 	(text))
 
@@ -616,7 +656,8 @@ World
 
 (source_file
 	(text)
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -633,7 +674,8 @@ World
 
 (source_file
 	(text)
-	(ident)
+	(code
+		(ident))
 	(parbreak)
 	(text))
 
@@ -696,8 +738,9 @@ positive/051
 ---------------------
 
 (source_file
-	(content
-		(text)))
+	(code
+		(content
+			(text))))
 
 
 =====================
@@ -728,10 +771,11 @@ b
 
 (source_file
 	(text)
-	(content
-		(parbreak)
-		(text)
-		(parbreak))
+	(code
+		(content
+			(parbreak)
+			(text)
+			(parbreak)))
 	(text))
 
 
@@ -746,9 +790,10 @@ b
 
 (source_file
 	(text)
-	(content
-		(text)
-		(parbreak))
+	(code
+		(content
+			(text)
+			(parbreak)))
 	(text))
 
 
@@ -762,8 +807,9 @@ b
 
 (source_file
 	(text)
-	(content
-		(text))
+	(code
+		(content
+			(text)))
 	(text))
 
 
@@ -808,10 +854,11 @@ positive/059
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		(comment)
-		value: (number)))
+	(code
+		(let
+			pattern: (ident)
+			(comment)
+			value: (number))))
 
 
 =====================
@@ -821,10 +868,11 @@ positive/060
 ---------------------
 
 (source_file
-	(let
-		(comment)
-		pattern: (ident)
-		value: (number)))
+	(code
+		(let
+			(comment)
+			pattern: (ident)
+			value: (number))))
 
 
 =====================
@@ -834,13 +882,14 @@ positive/061
 ---------------------
 
 (source_file
-	(set
-		(call
-			item: (ident)
-			(group
-				(tagged
-					field: (ident)
-					(number))))))
+	(code
+		(set
+			(call
+				item: (ident)
+				(group
+					(tagged
+						field: (ident)
+						(number)))))))
 
 
 =====================
@@ -852,11 +901,12 @@ positive/062
 ---------------------
 
 (source_file
-	(block
-		(set
-			(call
-				item: (ident)
-				(group)))))
+	(code
+		(block
+			(set
+				(call
+					item: (ident)
+					(group))))))
 
 
 =====================
@@ -871,13 +921,14 @@ positive/063
 ---------------------
 
 (source_file
-	(block
-		(set
-			(call
-				item: (ident)
-				(group)))
-		(content
-			(text))))
+	(code
+		(block
+			(set
+				(call
+					item: (ident)
+					(group)))
+			(content
+				(text)))))
 
 
 =====================
@@ -887,7 +938,8 @@ positive/064
 ---------------------
 
 (source_file
-	(string)
+	(code
+		(string))
 	(text))
 
 
@@ -898,8 +950,9 @@ positive/065
 ---------------------
 
 (source_file
-	(string
-		(escape))
+	(code
+		(string
+			(escape)))
 	(text))
 
 
@@ -910,8 +963,9 @@ positive/066
 ---------------------
 
 (source_file
-	(import
-		(string)))
+	(code
+		(import
+			(string))))
 
 
 =====================
@@ -921,10 +975,11 @@ positive/067
 ---------------------
 
 (source_file
-	(import
-		(string)
-		(ident)
-		(ident)))
+	(code
+		(import
+			(string)
+			(ident)
+			(ident))))
 
 
 =====================
@@ -936,8 +991,9 @@ positive/068
 ---------------------
 
 (source_file
-	(group
-		(ident)))
+	(code
+		(group
+			(ident))))
 
 
 =====================
@@ -949,8 +1005,9 @@ positive/069
 ---------------------
 
 (source_file
-	(group
-		(ident)))
+	(code
+		(group
+			(ident))))
 
 
 =====================
@@ -965,9 +1022,10 @@ positive/070
 ---------------------
 
 (source_file
-	(group
-		(ident)
-		(ident)))
+	(code
+		(group
+			(ident)
+			(ident))))
 
 
 =====================
@@ -980,11 +1038,12 @@ positive/071
 ---------------------
 
 (source_file
-	(group
-		(ident)
-		(tagged
-			field: (ident)
-			(ident))))
+	(code
+		(group
+			(ident)
+			(tagged
+				field: (ident)
+				(ident)))))
 
 
 =====================
@@ -994,8 +1053,9 @@ positive/072
 ---------------------
 
 (source_file
-	(include
-		(string)))
+	(code
+		(include
+			(string))))
 
 
 =====================
@@ -1005,9 +1065,10 @@ positive/073
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		value: (number)))
+	(code
+		(let
+			pattern: (ident)
+			value: (number))))
 
 
 =====================
@@ -1017,8 +1078,9 @@ positive/074
 ---------------------
 
 (source_file
-	(import
-		(string))
+	(code
+		(import
+			(string)))
 	(text))
 
 
@@ -1029,8 +1091,9 @@ positive/075
 ---------------------
 
 (source_file
-	(import
-		(string))
+	(code
+		(import
+			(string)))
 	(text))
 
 
@@ -1041,12 +1104,13 @@ positive/076
 ---------------------
 
 (source_file
-	(group
-		(mul
-			(div
-				(number)
-				(number))
-			(number))))
+	(code
+		(group
+			(mul
+				(div
+					(number)
+					(number))
+				(number)))))
 
 
 =====================
@@ -1056,12 +1120,13 @@ positive/077
 ---------------------
 
 (source_file
-	(group
-		(sub
-			(number)
-			(mul
+	(code
+		(group
+			(sub
 				(number)
-				(number)))))
+				(mul
+					(number)
+					(number))))))
 
 
 =====================
@@ -1071,11 +1136,12 @@ positive/078
 ---------------------
 
 (source_file
-	(group
-		(add
-			(number)
-			(sign
-				(number)))))
+	(code
+		(group
+			(add
+				(number)
+				(sign
+					(number))))))
 
 
 
@@ -1086,11 +1152,12 @@ positive/079
 ---------------------
 
 (source_file
-	(group
-		(sub
-			(number)
-			(sign
-				(number)))))
+	(code
+		(group
+			(sub
+				(number)
+				(sign
+					(number))))))
 
 
 =====================
@@ -1100,12 +1167,13 @@ positive/080
 ---------------------
 
 (source_file
-	(group
-		(in
+	(code
+		(group
 			(in
-				(number)
-				(string))
-			(ident))))
+				(in
+					(number)
+					(string))
+				(ident)))))
 
 
 =====================
@@ -1115,11 +1183,12 @@ positive/081
 ---------------------
 
 (source_file
-	(branch
-		condition: (cmp
-			(number)
-			(number))
-		(content)))
+	(code
+		(branch
+			condition: (cmp
+				(number)
+				(number))
+			(content))))
 
 
 =====================
@@ -1135,10 +1204,11 @@ positive/082
 ---------------------
 
 (source_file
-	(group
-		(add
-			(number)
-			(number))))
+	(code
+		(group
+			(add
+				(number)
+				(number)))))
 
 
 =====================
@@ -1157,12 +1227,13 @@ a
 ---------------------
 
 (source_file
-	(group
-		(let
-			pattern: (ident)
-			value: (add
-				(number)
-				(number)))))
+	(code
+		(group
+			(let
+				pattern: (ident)
+				value: (add
+					(number)
+					(number))))))
 
 
 =====================
@@ -1172,10 +1243,11 @@ positive/084
 ---------------------
 
 (source_file
-	(group
-		(lambda
-			pattern: (ident)
-			value: (ident))))
+	(code
+		(group
+			(lambda
+				pattern: (ident)
+				value: (ident)))))
 
 
 =====================
@@ -1185,11 +1257,12 @@ positive/085
 ---------------------
 
 (source_file
-	(field
-		(call
-			item: (ident)
-			(group))
-		field: (ident)))
+	(code
+		(field
+			(call
+				item: (ident)
+				(group))
+			field: (ident))))
 
 
 =====================
@@ -1200,9 +1273,10 @@ positive/086
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block)))
+	(code
+		(branch
+			condition: (ident)
+			(block))))
 
 
 =====================
@@ -1213,7 +1287,8 @@ positive/087
 ---------------------
 
 (source_file
-	(block))
+	(code
+		(block)))
 
 
 =====================
@@ -1223,7 +1298,8 @@ positive/088
 ---------------------
 
 (source_file
-	(string))
+	(code
+		(string)))
 
 
 =====================
@@ -1233,7 +1309,8 @@ positive/089
 ---------------------
 
 (source_file
-	(string))
+	(code
+		(string)))
 
 
 =====================
@@ -1243,7 +1320,8 @@ positive/090
 ---------------------
 
 (source_file
-	(ident))
+	(code
+		(ident)))
 
 
 =====================
@@ -1253,10 +1331,11 @@ positive/091
 ---------------------
 
 (source_file
-	(for
-		pattern: (ident)
-		value: (ident)
-		(block)))
+	(code
+		(for
+			pattern: (ident)
+			value: (ident)
+			(block))))
 
 
 =====================
@@ -1266,13 +1345,14 @@ positive/092
 ---------------------
 
 (source_file
-	(block
-		(let
-			pattern: (ident)
-			value: (number))
-		(add
-			(ident)
-			(number))))
+	(code
+		(block
+			(let
+				pattern: (ident)
+				value: (number))
+			(add
+				(ident)
+				(number)))))
 
 
 =====================
@@ -1282,10 +1362,11 @@ positive/093
 ---------------------
 
 (source_file
-	(content
-		(strong
-			(text))
-		(text)))
+	(code
+		(content
+			(strong
+				(text))
+			(text))))
 
 
 =====================
@@ -1296,21 +1377,23 @@ Sum is #add(2, 3).
 ---------------------
 
 (source_file
-	(let
-		pattern: (call
+	(code
+		(let
+			pattern: (call
+				item: (ident)
+				(group
+					(ident)
+					(ident)))
+			value: (add
+				(ident)
+				(ident))))
+	(text)
+	(code
+		(call
 			item: (ident)
 			(group
-				(ident)
-				(ident)))
-		value: (add
-			(ident)
-			(ident)))
-	(text)
-	(call
-		item: (ident)
-		(group
-			(number)
-			(number)))
+				(number)
+				(number))))
 	(text))
 
 
@@ -1321,7 +1404,8 @@ positive/095
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -1332,9 +1416,10 @@ positive/096
 ---------------------
 
 (source_file
-	(field
-		(ident)
-		field: (ident)))
+	(code
+		(field
+			(ident)
+			field: (ident))))
 
 
 =====================
@@ -1344,7 +1429,8 @@ positive/097
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text)
 	(emph
 		(text)))
@@ -1357,13 +1443,14 @@ positive/098
 ---------------------
 
 (source_file
-	(let
-		pattern: (group
-			(ident)
-			(ident))
-		value: (group
-			(number)
-			(number))))
+	(code
+		(let
+			pattern: (group
+				(ident)
+				(ident))
+			value: (group
+				(number)
+				(number)))))
 
 
 =====================
@@ -1373,16 +1460,17 @@ positive/099
 ---------------------
 
 (source_file
-	(let
-		pattern: (group
-			(ident)
-			(elude)
-			(ident))
-		value: (group
-			(number)
-			(number)
-			(number)
-			(number))))
+	(code
+		(let
+			pattern: (group
+				(ident)
+				(elude)
+				(ident))
+			value: (group
+				(number)
+				(number)
+				(number)
+				(number)))))
 
 
 =====================
@@ -1392,12 +1480,13 @@ positive/100
 ---------------------
 
 (source_file
-	(let
-		pattern: (group
-			(ident)
-			(elude
-				(ident)))
-		value: (ident)))
+	(code
+		(let
+			pattern: (group
+				(ident)
+				(elude
+					(ident)))
+			value: (ident))))
 
 
 =====================
@@ -1409,24 +1498,25 @@ positive/101
 ---------------------
 
 (source_file
-	(call
-		item: (field
-			(call
-				item: (field
-					(ident)
-					field: (ident))
-				(group
-					(ident)))
-			field: (ident))
-		(group
-			(lambda
-				pattern: (group
-					(group
+	(code
+		(call
+			item: (field
+				(call
+					item: (field
 						(ident)
+						field: (ident))
+					(group
 						(ident)))
-				value: (add
-					(ident)
-					(ident))))))
+				field: (ident))
+			(group
+				(lambda
+					pattern: (group
+						(group
+							(ident)
+							(ident)))
+					value: (add
+						(ident)
+						(ident)))))))
 
 
 =====================
@@ -1436,11 +1526,12 @@ positive/102
 ---------------------
 
 (source_file
-	(group
-		(ident)
-		(lambda
-			pattern: (ident)
-			value: (ident))))
+	(code
+		(group
+			(ident)
+			(lambda
+				pattern: (ident)
+				value: (ident)))))
 
 
 =====================
@@ -1452,9 +1543,10 @@ else {}
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(text)
 	(text))
 
@@ -1468,13 +1560,14 @@ positive/104
 ---------------------
 
 (source_file
-	(while
-		condition: (cmp
-			(ident)
-			(number))
-		(block
-			(group
-				(ident)))))
+	(code
+		(while
+			condition: (cmp
+				(ident)
+				(number))
+			(block
+				(group
+					(ident))))))
 
 
 =====================
@@ -1487,8 +1580,8 @@ fn main() {}
 
 (source_file
 	(raw_blck
-		lang: (ident)
-		(blob)))
+			lang: (ident)
+			(blob)))
 
 
 =====================
@@ -1555,7 +1648,8 @@ positive/111
 ---------------------
 
 (source_file
-	(bool))
+	(code
+		(bool)))
 
 
 =====================
@@ -1566,10 +1660,11 @@ positive/112
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (ident)
-			(string))))
+	(code
+		(group
+			(tagged
+				field: (ident)
+				(string)))))
 
 
 =====================
@@ -1645,13 +1740,14 @@ positive/117
 ---------------------
 
 (source_file
-	(let
-		pattern: (call
-			item: (ident)
-			(group))
-		value: (block
-			(return
-				(number)))))
+	(code
+		(let
+			pattern: (call
+				item: (ident)
+				(group))
+			value: (block
+				(return
+					(number))))))
 
 
 =====================
@@ -1661,16 +1757,17 @@ positive/118
 ---------------------
 
 (source_file
-	(show
-		pattern: (ident)
-		value: (set
-			(call
-				item: (ident)
-				(group
-					(tagged
-						field: (ident)
-						(number
-							(unit))))))))
+	(code
+		(show
+			pattern: (ident)
+			value: (set
+				(call
+					item: (ident)
+					(group
+						(tagged
+							field: (ident)
+							(number
+								(unit)))))))))
 
 
 =====================
@@ -1712,13 +1809,14 @@ positive/122
 ---------------------
 
 (source_file
-	(show
-		value: (call
-			item: (field
-				(ident)
-				field: (ident))
-			(group
-				(number)))))
+	(code
+		(show
+			value: (call
+				item: (field
+					(ident)
+					field: (ident))
+				(group
+					(number))))))
 
 
 =====================
@@ -1728,13 +1826,14 @@ positive/123
 ---------------------
 
 (source_file
-	(group
-		(or
-			(and
-				(ident)
-				(ident))
-			(not
-				(ident)))))
+	(code
+		(group
+			(or
+				(and
+					(ident)
+					(ident))
+				(not
+					(ident))))))
 
 
 =====================
@@ -1744,7 +1843,8 @@ positive/124
 ---------------------
 
 (source_file
-	(label))
+	(code
+		(label)))
 
 
 =====================
@@ -1754,7 +1854,8 @@ positive/125
 ---------------------
 
 (source_file
-	(label))
+	(code
+		(label)))
 
 
 =====================
@@ -1764,9 +1865,10 @@ positive/126
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		value: (number)))
+	(code
+		(let
+			pattern: (ident)
+			value: (number))))
 
 
 =====================
@@ -1776,8 +1878,9 @@ positive/127
 ---------------------
 
 (source_file
-	(string
-		(escape)))
+	(code
+		(string
+			(escape))))
 
 
 =====================
@@ -1788,7 +1891,8 @@ positive/128
 
 (source_file
 	(strong
-		(ident)))
+		(code
+			(ident))))
 
 
 =====================
@@ -1853,9 +1957,10 @@ c, d
 ---------------------
 
 (source_file
-	(import
-		(string)
-		(ident))
+	(code
+		(import
+			(string)
+			(ident)))
 	(text))
 
 
@@ -1867,8 +1972,9 @@ positive/134
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident))
+	(code
+		(let
+			pattern: (ident)))
 	(section
 		(heading
 			(text))
@@ -1883,10 +1989,11 @@ positive/135
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (ident)
-			(ident))))
+	(code
+		(group
+			(tagged
+				field: (ident)
+				(ident)))))
 
 
 =====================
@@ -1897,9 +2004,10 @@ else if b {}
 ---------------------
 
 (source_file
-	(branch
-		condition: (ident)
-		(block))
+	(code
+		(branch
+			condition: (ident)
+			(block)))
 	(text))
 
 
@@ -1910,11 +2018,12 @@ positive/137
 ---------------------
 
 (source_file
-	(group
-		(add
-			(number)
-			(comment)
-			(number))))
+	(code
+		(group
+			(add
+				(number)
+				(comment)
+				(number)))))
 
 
 =====================
@@ -1927,10 +2036,11 @@ positive/138
 ---------------------
 
 (source_file
-	(block
-		(number)
-		(sign
-			(number))))
+	(code
+		(block
+			(number)
+			(sign
+				(number)))))
 
 
 =====================
@@ -1941,10 +2051,11 @@ positive/139
 ---------------------
 
 (source_file
-	(group
-		(lambda
-			pattern: (ident)
-			value: (ident))))
+	(code
+		(group
+			(lambda
+				pattern: (ident)
+				value: (ident)))))
 
 
 =====================
@@ -1955,9 +2066,10 @@ positive/140
 ---------------------
 
 (source_file
-	(group
-		(elude
-			(ident))))
+	(code
+		(group
+			(elude
+				(ident)))))
 
 
 =====================
@@ -1968,9 +2080,10 @@ positive/141
 ---------------------
 
 (source_file
-	(group
-		(not
-			(ident))))
+	(code
+		(group
+			(not
+				(ident)))))
 
 
 =====================
@@ -1980,10 +2093,11 @@ positive/142
 ---------------------
 
 (source_file
-	(group
-		(assign
-			pattern: (ident)
-			value: (ident))))
+	(code
+		(group
+			(assign
+				pattern: (ident)
+				value: (ident)))))
 
 
 =====================
@@ -1994,10 +2108,11 @@ positive/143
 ---------------------
 
 (source_file
-	(group
-		(assign
-			pattern: (ident)
-			value: (ident))))
+	(code
+		(group
+			(assign
+				pattern: (ident)
+				value: (ident)))))
 
 
 =====================
@@ -2009,12 +2124,13 @@ positive/144
 ---------------------
 
 (source_file
-	(group
-		(let
-			pattern: (ident)
-			value: (assign
+	(code
+		(group
+			(let
 				pattern: (ident)
-				value: (ident)))))
+				value: (assign
+					pattern: (ident)
+					value: (ident))))))
 
 
 =====================
@@ -2058,11 +2174,12 @@ positive/148
 ---------------------
 
 (source_file
-	(content
-		(section
-			(heading
-				(text))
-			(content))))
+	(code
+		(content
+			(section
+				(heading
+					(text))
+				(content)))))
 
 
 =====================
@@ -2073,9 +2190,10 @@ positive/149
 ---------------------
 
 (source_file
-	(branch
-		condition: (bool)
-		(block))
+	(code
+		(branch
+			condition: (bool)
+			(block)))
 	(comment)
 	(text))
 
@@ -2087,12 +2205,13 @@ positive/150
 ---------------------
 
 (source_file
-	(group
-		(call
-			item: (field
-				(ident)
-				field: (ident))
-			(group))))
+	(code
+		(group
+			(call
+				item: (field
+					(ident)
+					field: (ident))
+				(group)))))
 
 
 =====================
@@ -2102,7 +2221,8 @@ positive/151
 ---------------------
 
 (source_file
-	(return)
+	(code
+		(return))
 	(text))
 
 
@@ -2241,9 +2361,10 @@ positive/160
 ---------------------
 
 (source_file
-	(content
-		(item
-			(item))))
+	(code
+		(content
+			(item
+				(item)))))
 
 
 =====================
@@ -2255,9 +2376,10 @@ positive/161
 ---------------------
 
 (source_file
-	(content
-		(item
-			(item))))
+	(code
+		(content
+			(item
+				(item)))))
 
 
 =====================
@@ -2268,11 +2390,12 @@ positive/162
 ---------------------
 
 (source_file
-	(content
-		(item
-			(text))
-		(item
-			(text))))
+	(code
+		(content
+			(item
+				(text))
+			(item
+				(text)))))
 
 
 =====================
@@ -2286,11 +2409,12 @@ Hello
 
 (source_file
 	(text)
-	(content
-		(item
-			(text))
-		(item
-			(text))))
+	(code
+		(content
+			(item
+				(text))
+			(item
+				(text)))))
 
 
 =====================
@@ -2302,9 +2426,10 @@ Hello
 
 (source_file
 	(text)
-	(content
-		(item
-			(text))))
+	(code
+		(content
+			(item
+				(text)))))
 
 
 =====================
@@ -2315,7 +2440,8 @@ positive/165
 ---------------------
 
 (source_file
-	(content)
+	(code
+		(content))
 	(text))
 
 
@@ -2340,9 +2466,10 @@ positive/167
 ---------------------
 
 (source_file
-	(content
-		(item
-			(text))))
+	(code
+		(content
+			(item
+				(text)))))
 
 
 =====================
@@ -2734,10 +2861,12 @@ $
 (source_file
 	(math
 		(formula
-			(let
-				pattern: (ident)
-				value: (number))
-			(ident))))
+			(code
+				(let
+					pattern: (ident)
+					value: (number)))
+			(code
+				(ident)))))
 
 
 =====================
@@ -2785,7 +2914,8 @@ positive/199
 ---------------------
 
 (source_file
-	(group))
+	(code
+		(group)))
 
 
 =====================
@@ -2795,10 +2925,11 @@ positive/200
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (string)
-			(group))))
+	(code
+		(group
+			(tagged
+				field: (string)
+				(group)))))
 
 
 =====================
@@ -2879,12 +3010,13 @@ positive/206
 ---------------------
 
 (source_file
-	(import
-		(add
-			(string)
-			(string))
-		(ident)
-		(ident)))
+	(code
+		(import
+			(add
+				(string)
+				(string))
+			(ident)
+			(ident))))
 
 
 =====================
@@ -2894,11 +3026,12 @@ positive/207
 ---------------------
 
 (source_file
-	(group
-		(in
-			(ident)
-			(comment)
-			(ident))))
+	(code
+		(group
+			(in
+				(ident)
+				(comment)
+				(ident)))))
 
 
 =====================
@@ -2941,10 +3074,11 @@ b)
 ---------------------
 
 (source_file
-	(group
-		(import
-			(string)
-			(ident))))
+	(code
+		(group
+			(import
+				(string)
+				(ident)))))
 
 
 =====================
@@ -3040,7 +3174,8 @@ positive/218
 
 (source_file
 	(strong
-		(ident)
+		(code
+			(ident))
 		(section
 			(heading
 				(text))
@@ -3082,7 +3217,8 @@ _ #e + Hello _
 
 (source_file
 	(emph
-		(ident)
+		(code
+			(ident))
 		(text)))
 
 
@@ -3179,7 +3315,8 @@ World
 (source_file
 	(item
 		(text)
-		(ident))
+		(code
+			(ident)))
 	(text))
 
 
@@ -3190,7 +3327,8 @@ positive/229
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(comment)
 	(text))
 
@@ -3205,7 +3343,8 @@ World
 
 (source_file
 	(text)
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -3594,9 +3733,10 @@ $#let a = 0;$
 (source_file
 	(math
 		(formula
-			(let
-				pattern: (ident)
-				value: (number)))))
+			(code
+				(let
+					pattern: (ident)
+					value: (number))))))
 
 
 =====================
@@ -3613,7 +3753,8 @@ $2^(#ab')$
 				sup: (group
 					(formula
 						(prime
-							(ident))))))))
+							(code
+								(ident)))))))))
 
 
 =====================
@@ -3628,18 +3769,19 @@ positive/257
 (source_file
 	(comment)
 	(comment)
-	(call
-		item: (call
+	(code
+		(call
 			item: (call
-				item: (ident)
-				(group
-					(tagged
-						field: (ident)
-						(number))))
+				item: (call
+					item: (ident)
+					(group
+						(tagged
+							field: (ident)
+							(number))))
+				(content
+					(text)))
 			(content
-				(text)))
-		(content
-			(text))))
+				(text)))))
 
 
 =====================
@@ -3654,25 +3796,27 @@ positive/258
 ---------------------
 
 (source_file
-	(call
-		item: (ident)
-		(group
-			(tagged
-				field: (ident)
-				(ident))
-			(tagged
-				field: (ident)
-				(number
-					(unit)))
-			(tagged
-				field: (ident)
-				(number
-					(unit)))
-			(content
-				(strong
-					(text)
-					(linebreak)
-					(ident))))))
+	(code
+		(call
+			item: (ident)
+			(group
+				(tagged
+					field: (ident)
+					(ident))
+				(tagged
+					field: (ident)
+					(number
+						(unit)))
+				(tagged
+					field: (ident)
+					(number
+						(unit)))
+				(content
+					(strong
+						(text)
+						(linebreak)
+						(code
+							(ident))))))))
 
 
 =====================
@@ -3731,10 +3875,12 @@ $
 (source_file
 	(math
 		(formula
-			(let
-				pattern: (ident)
-				value: (number))
-			(ident))))
+			(code
+				(let
+					pattern: (ident)
+					value: (number)))
+			(code
+				(ident)))))
 
 
 =====================
@@ -3748,9 +3894,10 @@ $
 (source_file
 	(math
 		(formula
-			(let
-				pattern: (ident)
-				value: (number))
+			(code
+				(let
+					pattern: (ident)
+					value: (number)))
 			(letter)
 			(ident))))
 
@@ -3763,19 +3910,21 @@ positive/264
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		value: (group
-			(number)
-			(number)
-			(number)))
-	(call
-		item: (field
-			(ident)
-			field: (ident))
-		(group
-			(elude
-				(ident)))))
+	(code
+		(let
+			pattern: (ident)
+			value: (group
+				(number)
+				(number)
+				(number))))
+	(code
+		(call
+			item: (field
+				(ident)
+				field: (ident))
+			(group
+				(elude
+					(ident))))))
 
 
 =====================
@@ -3789,11 +3938,12 @@ positive/265
 ---------------------
 
 (source_file
-	(group
-		(field
-			(ident)
-			(comment)
-			field: (ident))))
+	(code
+		(group
+			(field
+				(ident)
+				(comment)
+				field: (ident)))))
 
 
 =====================
@@ -3804,9 +3954,11 @@ positive/266
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text)
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -3824,12 +3976,13 @@ positive/267
 ---------------------
 
 (source_file
-	(group
-		(field
-			(ident)
-			(comment)
-			(comment)
-			field: (ident))))
+	(code
+		(group
+			(field
+				(ident)
+				(comment)
+				(comment)
+				field: (ident)))))
 
 
 =====================
@@ -3840,8 +3993,9 @@ positive/268
 
 (source_file
 	(text)
-	(let
-		pattern: (ident))
+	(code
+		(let
+			pattern: (ident)))
 	(text))
 
 
@@ -3853,10 +4007,11 @@ positive/269
 ---------------------
 
 (source_file
-	(block
-		(field
-			(ident)
-			field: (ident))))
+	(code
+		(block
+			(field
+				(ident)
+				field: (ident)))))
 
 
 =====================
@@ -3867,9 +4022,10 @@ positive/270
 ---------------------
 
 (source_file
-	(block
-		(ident)
-		(ident)))
+	(code
+		(block
+			(ident)
+			(ident))))
 
 
 =====================
@@ -3885,36 +4041,39 @@ positive/271
 ---------------------
 
 (source_file
-	(let
-		pattern: (call
-			item: (ident)
-			(group
-				(ident)
-				(elude
-					(ident))))
-		value: (block
-			(let
-				pattern: (ident)
-				value: (call
-					item: (field
-						(call
-							item: (field
-								(ident)
-								field: (ident))
-							(group))
-						field: (ident))
-					(group
-						(string)
-						(tagged
-							field: (ident)
-							(string)))))
-			(content
-				(strong
-					(ident))
-				(linebreak)
-				(emph
-					(text)
-					(ident))))))
+	(code
+		(let
+			pattern: (call
+				item: (ident)
+				(group
+					(ident)
+					(elude
+						(ident))))
+			value: (block
+				(let
+					pattern: (ident)
+					value: (call
+						item: (field
+							(call
+								item: (field
+									(ident)
+									field: (ident))
+								(group))
+							field: (ident))
+						(group
+							(string)
+							(tagged
+								field: (ident)
+								(string)))))
+				(content
+					(strong
+						(code
+							(ident)))
+					(linebreak)
+					(emph
+						(text)
+						(code
+							(ident))))))))
 
 
 =====================
@@ -3924,10 +4083,11 @@ positive/272
 ---------------------
 
 (source_file
-	(group
-		(branch
-			condition: (bool)
-			(content))))
+	(code
+		(group
+			(branch
+				condition: (bool)
+				(content)))))
 
 
 =====================
@@ -3937,9 +4097,10 @@ positive/273
 ---------------------
 
 (source_file
-	(group
-		(raw_span
-			(blob))))
+	(code
+		(group
+			(raw_span
+				(blob)))))
 
 
 =====================
@@ -3949,10 +4110,11 @@ positive/274
 ---------------------
 
 (source_file
-	(group
-		(raw_blck
-			lang: (ident)
-			(blob))))
+	(code
+		(group
+			(raw_blck
+				lang: (ident)
+				(blob)))))
 
 
 =====================
@@ -3962,12 +4124,13 @@ positive/275
 ---------------------
 
 (source_file
-	(call
-		item: (field
-			(raw_span
-				(blob))
-			field: (ident))
-		(group)))
+	(code
+		(call
+			item: (field
+				(raw_span
+					(blob))
+				field: (ident))
+			(group))))
 
 
 =====================
@@ -3977,7 +4140,8 @@ positive/276
 ---------------------
 
 (source_file
-	(ident))
+	(code
+		(ident)))
 
 
 =====================
@@ -3988,11 +4152,12 @@ positive/277
 ---------------------
 
 (source_file
-	(let
-		pattern: (ident)
-		value: (lambda
+	(code
+		(let
 			pattern: (ident)
-			value: (ident)))
+			value: (lambda
+				pattern: (ident)
+				value: (ident))))
 	(text))
 
 
@@ -4007,12 +4172,13 @@ positive/278
 ---------------------
 
 (source_file
-	(block
-		(branch
-			condition: (bool)
-			(content)
-			(comment)
-			(content))))
+	(code
+		(block
+			(branch
+				condition: (bool)
+				(content)
+				(comment)
+				(content)))))
 
 
 =====================
@@ -4024,10 +4190,11 @@ else {}
 ---------------------
 
 (source_file
-	(branch
-		condition: (bool)
-		(content)
-		(comment))
+	(code
+		(branch
+			condition: (bool)
+			(content)
+			(comment)))
 	(parbreak)
 	(text))
 
@@ -4039,12 +4206,13 @@ positive/280
 ---------------------
 
 (source_file
-	(set
-		(call
-			item: (ident)
-			(group
-				(ident)))
-		condition: (ident)))
+	(code
+		(set
+			(call
+				item: (ident)
+				(group
+					(ident)))
+			condition: (ident))))
 
 
 =====================
@@ -4055,11 +4223,12 @@ if critical
 ---------------------
 
 (source_file
-	(set
-		(call
-			item: (ident)
-			(group
-				(ident))))
+	(code
+		(set
+			(call
+				item: (ident)
+				(group
+					(ident)))))
 	(text))
 
 
@@ -4073,11 +4242,12 @@ b, c)
 ---------------------
 
 (source_file
-	(group
-		(import
-			(string)
-			(ident)
-			(ident))))
+	(code
+		(group
+			(import
+				(string)
+				(ident)
+				(ident)))))
 
 
 =====================
@@ -4091,17 +4261,19 @@ This list is affected: #[
 
 (source_file
 	(text)
-	(content
-		(set
-			(call
-				item: (ident)
-				(group
-					(tagged
-						field: (ident)
-						(content
-							(shorthand))))))
-		(item
-			(text))))
+	(code
+		(content
+			(code
+				(set
+					(call
+						item: (ident)
+						(group
+							(tagged
+								field: (ident)
+								(content
+									(shorthand)))))))
+			(item
+				(text)))))
 
 
 =====================
@@ -4116,43 +4288,48 @@ positive/284
 ---------------------
 
 (source_file
-	(show
-		pattern: (ident)
-		value: (lambda
+	(code
+		(show
 			pattern: (ident)
-			value: (call
-				item: (ident)
-				(content
-					(set
-						(call
-							item: (ident)
-							(group
-								(ident))))
-					(set
-						(call
-							item: (ident)
-							(group
-								(tagged
-									field: (ident)
-									(string)))))
-					(text
-						(escape))
-					(call
-						item: (ident)
-						(group
-							(field
-								(ident)
-								field: (ident))))
-					(call
-						item: (field
+			value: (lambda
+				pattern: (ident)
+				value: (call
+					item: (ident)
+					(content
+						(code
+							(set
+								(call
+									item: (ident)
+									(group
+										(ident)))))
+						(code
+							(set
+								(call
+									item: (ident)
+									(group
+										(tagged
+											field: (ident)
+											(string))))))
+						(text
+							(escape))
+						(code
 							(call
 								item: (ident)
 								(group
-									(ident)))
-							field: (ident))
-						(group))
-					(text
-						(escape)))))))
+									(field
+										(ident)
+										field: (ident)))))
+						(code
+							(call
+								item: (field
+									(call
+										item: (ident)
+										(group
+											(ident)))
+									field: (ident))
+								(group)))
+						(text
+							(escape))))))))
 
 
 =====================
@@ -4168,13 +4345,14 @@ else []
 ---------------------
 
 (source_file
-	(group
-		(branch
-			condition: (bool)
-			(content)
-			(comment)
-			(comment)
-			(content))))
+	(code
+		(group
+			(branch
+				condition: (bool)
+				(content)
+				(comment)
+				(comment)
+				(content)))))
 
 
 =====================
@@ -4186,11 +4364,14 @@ positive/286
 ---------------------
 
 (source_file
-	(number)
+	(code
+		(number))
 	(linebreak)
-	(number)
+	(code
+		(number))
 	(linebreak)
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -4200,8 +4381,9 @@ positive/287
 ---------------------
 
 (source_file
-	(number
-		(unit)))
+	(code
+		(number
+			(unit))))
 
 
 =====================
@@ -4213,12 +4395,13 @@ $#if true [] /* Hello */ else /* World */ []$
 (source_file
 	(math
 		(formula
-			(branch
-				condition: (bool)
-				(content)
-				(comment)
-				(comment)
-				(content)))))
+			(code
+				(branch
+					condition: (bool)
+					(content)
+					(comment)
+					(comment)
+					(content))))))
 
 
 =====================
@@ -4233,10 +4416,11 @@ else /* World */ []$
 (source_file
 	(math
 		(formula
-			(branch
-				condition: (bool)
-				(content)
-				(comment))
+			(code
+				(branch
+					condition: (bool)
+					(content)
+					(comment)))
 			(ident)
 			(comment)
 			(group))))
@@ -4249,8 +4433,9 @@ positive/290
 ---------------------
 
 (source_file
-	(number
-		(unit)))
+	(code
+		(number
+			(unit))))
 
 
 =====================
@@ -4260,8 +4445,9 @@ positive/291
 ---------------------
 
 (source_file
-	(number
-		(unit)))
+	(code
+		(number
+			(unit))))
 
 
 =====================
@@ -4309,7 +4495,8 @@ $ lim_x =
 					(tagged
 						field: (ident)
 						(formula
-							(bool))))
+							(code
+								(bool)))))
 				sub: (letter)))))
 
 
@@ -4331,7 +4518,8 @@ $ op("custom",
 					(tagged
 						field: (ident)
 						(formula
-							(bool))))
+							(code
+								(bool)))))
 				sub: (group
 					(formula
 						(letter)
@@ -4624,7 +4812,8 @@ positive/311
 	(text)
 	(math
 		(formula
-			(ident))))
+			(code
+				(ident)))))
 
 
 =====================
@@ -4652,9 +4841,10 @@ else /*Hello*/ if true [] /* World */ Hello
 ---------------------
 
 (source_file
-	(branch
-		condition: (bool)
-		(content))
+	(code
+		(branch
+			condition: (bool)
+			(content)))
 	(parbreak)
 	(text
 		(comment))
@@ -4686,13 +4876,14 @@ positive/315
 ---------------------
 
 (source_file
-	(group
-		(ident)
-		(ident)
-		(import
-			(string)
+	(code
+		(group
 			(ident)
-			(ident))))
+			(ident)
+			(import
+				(string)
+				(ident)
+				(ident)))))
 
 
 =====================
@@ -4757,8 +4948,9 @@ positive/319
 (source_file
 	(item
 		(text)
-		(let
-			pattern: (ident))
+		(code
+			(let
+				pattern: (ident)))
 		(comment)
 		(item
 			(text)
@@ -4804,10 +4996,11 @@ positive/322
 ---------------------
 
 (source_file
-	(return
-		(add
-			(number)
-			(ident))))
+	(code
+		(return
+			(add
+				(number)
+				(ident)))))
 
 
 =====================
@@ -4830,10 +5023,11 @@ else/* World */ {}
 ---------------------
 
 (source_file
-	(branch
-		condition: (bool)
-		(block)
-		(comment))
+	(code
+		(branch
+			condition: (bool)
+			(block)
+			(comment)))
 	(parbreak)
 	(text
 		(comment)))
@@ -4971,7 +5165,8 @@ positive/333
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -5031,9 +5226,12 @@ positive/338
 ---------------------
 
 (source_file
-	(ident)
-	(ident)
-	(ident))
+	(code
+		(ident))
+	(code
+		(ident))
+	(code
+		(ident)))
 
 
 =====================
@@ -5043,9 +5241,12 @@ positive/339
 ---------------------
 
 (source_file
-	(ident)
-	(ident)
-	(ident))
+	(code
+		(ident))
+	(code
+		(ident))
+	(code
+		(ident)))
 
 
 =====================
@@ -5078,10 +5279,11 @@ positive/342
 ---------------------
 
 (source_file
-	(import
-		import: (string)
-		(as
-			(ident))))
+	(code
+		(import
+			import: (string)
+			(as
+				(ident)))))
 
 
 =====================
@@ -5091,18 +5293,19 @@ positive/343
 ---------------------
 
 (source_file
-	(import
-		import: (add
-			(string)
-			(string))
-		(as
-			(ident))
-		(ident)
-		(as
-			(ident))
-		(ident)
-		(as
-			(ident))))
+	(code
+		(import
+			import: (add
+				(string)
+				(string))
+			(as
+				(ident))
+			(ident)
+			(as
+				(ident))
+			(ident)
+			(as
+				(ident)))))
 
 
 =====================
@@ -5142,7 +5345,8 @@ positive/346
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -5181,7 +5385,8 @@ positive/348
 ---------------------
 
 (source_file
-	(set
+	(code
+		(set
 		(call
 			item: (ident)
 			(group
@@ -5245,7 +5450,7 @@ positive/348
 												(call
 													item: (ident)
 													(group
-														(ident)))))))))))))))
+														(ident))))))))))))))))
 
 
 =====================
@@ -5331,11 +5536,12 @@ positive/351
 ---------------------
 
 (source_file
-	(block
-		(branch
-			condition: (bool)
-			(block))
-		(ident)))
+	(code
+		(block
+			(branch
+				condition: (bool)
+				(block))
+			(ident))))
 
 
 =====================
@@ -5345,9 +5551,10 @@ positive/352
 ---------------------
 
 (source_file
-	(import
-		import: (string)
-		(wildcard)))
+	(code
+		(import
+			import: (string)
+			(wildcard))))
 
 
 =====================
@@ -5441,10 +5648,11 @@ positive/356
 ---------------------
 
 (source_file
-	(group
-		(math
-			(formula
-				(letter)))))
+	(code
+		(group
+			(math
+				(formula
+					(letter))))))
 
 
 =====================
@@ -5454,15 +5662,16 @@ positive/357
 ---------------------
 
 (source_file
-	(call
-		item: (field
-			(math
-				(formula
-					(attach
-						(letter)
-						sup: (letter))))
-			field: (ident))
-		(group)))
+	(code
+		(call
+			item: (field
+				(math
+					(formula
+						(attach
+							(letter)
+							sup: (letter))))
+				field: (ident))
+			(group))))
 
 
 =====================
@@ -5472,9 +5681,10 @@ positive/358
 ---------------------
 
 (source_file
-	(call
-		item: (math)
-		(group)))
+	(code
+		(call
+			item: (math)
+			(group))))
 
 
 =====================
@@ -5505,9 +5715,10 @@ positive/361
 ---------------------
 
 (source_file
-	(field
-		(ident)
-		field: (ident)))
+	(code
+		(field
+			(ident)
+			field: (ident))))
 
 
 =====================
@@ -5517,9 +5728,10 @@ positive/362
 ---------------------
 
 (source_file
-	(field
-		(ident)
-		field: (ident)))
+	(code
+		(field
+			(ident)
+			field: (ident))))
 
 
 =====================
@@ -5529,7 +5741,8 @@ positive/363
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -5540,7 +5753,8 @@ positive/364
 ---------------------
 
 (source_file
-	(ident)
+	(code
+		(ident))
 	(text))
 
 
@@ -5551,7 +5765,8 @@ positive/365
 ---------------------
 
 (source_file
-	(group))
+	(code
+		(group)))
 
 
 =====================
@@ -5561,10 +5776,11 @@ positive/366
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (ident)
-			(number))))
+	(code
+		(group
+			(tagged
+				field: (ident)
+				(number)))))
 
 
 =====================
@@ -5574,8 +5790,9 @@ positive/367
 ---------------------
 
 (source_file
-	(group
-		(elude)))
+	(code
+		(group
+			(elude))))
 
 
 =====================
@@ -5585,7 +5802,8 @@ positive/368
 ---------------------
 
 (source_file
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -5595,7 +5813,8 @@ positive/369
 ---------------------
 
 (source_file
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -5605,7 +5824,8 @@ positive/370
 ---------------------
 
 (source_file
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -5615,7 +5835,8 @@ positive/371
 ---------------------
 
 (source_file
-	(number))
+	(code
+		(number)))
 
 
 =====================
@@ -5746,7 +5967,8 @@ positive/382
 	(item
 		(text
 			(escape))
-		(ident)
+		(code
+			(ident))
 		(linebreak)))
 
 
@@ -5760,9 +5982,10 @@ positive/383
 
 (source_file
 	(strong
-		(call
-			item: (ident)
-			(group))
+		(code
+			(call
+				item: (ident)
+				(group)))
 		(item
 			(text))))
 
@@ -5860,8 +6083,9 @@ positive/391
 ---------------------
 
 (source_file
-	(content
-		(text)))
+	(code
+		(content
+			(text))))
 
 
 =====================
@@ -5933,9 +6157,10 @@ positive/397
 ---------------------
 
 (source_file
-	(content
-		(text)
-		(text)))
+	(code
+		(content
+			(text)
+			(text))))
 
 
 =====================
@@ -6127,9 +6352,10 @@ positive/411
 ---------------------
 
 (source_file
-  (branch
-    (bool)
-    (content)))
+  (code
+  	(branch
+	    (bool)
+	    (content))))
 
 
 =====================
@@ -6139,9 +6365,10 @@ positive/412
 ---------------------
 
 (source_file
-  (branch
-		condition: (ident)
-		(content))
+  (code
+  	(branch
+			condition: (ident)
+			(content)))
 	(text))
 
 
@@ -6152,10 +6379,11 @@ positive/413
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (ident)
-			(string))))
+	(code
+		(group
+			(tagged
+				field: (ident)
+				(string)))))
 
 
 =====================
@@ -6165,9 +6393,10 @@ positive/414
 ---------------------
 
 (source_file
-	(field
-		(ident)
-		field: (ident)))
+	(code
+		(field
+			(ident)
+			field: (ident))))
 
 
 =====================
@@ -6177,12 +6406,13 @@ positive/415
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (add
-				(string)
-				(string))
-			(number))))
+	(code
+		(group
+			(tagged
+				field: (add
+					(string)
+					(string))
+				(number)))))
 
 
 =====================
@@ -6192,12 +6422,13 @@ positive/416
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (add
-				(ident)
-				(ident))
-			(number))))
+	(code
+		(group
+			(tagged
+				field: (add
+					(ident)
+					(ident))
+				(number)))))
 
 
 =====================
@@ -6207,12 +6438,13 @@ positive/417
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (add
-				(ident)
-				(ident))
-			(number))))
+	(code
+		(group
+			(tagged
+				field: (add
+					(ident)
+					(ident))
+				(number)))))
 
 
 =====================
@@ -6240,8 +6472,9 @@ positive/419
 ---------------------
 
 (source_file
-	(context
-		(ident)))
+	(code
+		(context
+			(ident))))
 
 
 =====================
@@ -6262,11 +6495,12 @@ positive/421
 ---------------------
 
 (source_file
-	(group
-		(tagged
-			field: (context
-				(ident))
-			(number))))
+	(code
+		(group
+			(tagged
+				field: (context
+					(ident))
+				(number)))))
 
 
 =====================
@@ -6319,15 +6553,16 @@ positive/425
 ---------------------
 
 (source_file
-	(block
-		(context
-			(add
-				(field
-					(ident)
-					field: (ident))
-				(number)))
-		(show
-			value: (ident))))
+	(code
+		(block
+			(context
+				(add
+					(field
+						(ident)
+						field: (ident))
+					(number)))
+			(show
+				value: (ident)))))
 
 
 =====================
@@ -6343,15 +6578,16 @@ positive/426
 ---------------------
 
 (source_file
-	(block
-		(comment)
-		(context
-			(add
-				(field
-					(ident)
-					field: (ident))
-				(number)))
-		(comment)))
+	(code
+		(block
+			(comment)
+			(context
+				(add
+					(field
+						(ident)
+						field: (ident))
+					(number)))
+			(comment))))
 
 
 =====================
