@@ -49,6 +49,17 @@
 (instance_argument_list
   ((_) @parameter.inside @parameter.movement . ","? @parameter.around) @parameter.around)
 
+; single parameter
+
+(receive_function
+  parameter: (_) @parameter.inside @parameter.around)
+
+(bounced_function
+  parameter: (_) @parameter.inside @parameter.around)
+
+(external_function
+  parameter: (_) @parameter.inside @parameter.around)
+
 ; comment.inside
 ; --------------
 
