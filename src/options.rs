@@ -864,7 +864,22 @@ pub(crate) fn parse_args() -> Mode {
 /// to a sensible default value.
 fn detect_terminal_width() -> usize {
     if let Ok((columns, _rows)) = crossterm::terminal::size() {
-        return columns.into();
+        if columns > 0 {
+            return columns.into();
+        }
+    }
+
+    // If crossterm couldn't detect the terminal width, use the
+    // shell variable COLUMNS if it's set. This helps with terminals like eshell.
+    //
+    // https://github.com/Wilfred/difftastic/issues/707
+    // https://stackoverflow.com/a/48016366
+    if let Ok(columns_env_val) = std::env::var("COLUMNS") {
+        if let Ok(columns) = columns_env_val.parse::<usize>() {
+            if columns > 0 {
+                return columns;
+            }
+        }
     }
 
     DEFAULT_TERMINAL_WIDTH
