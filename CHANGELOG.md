@@ -26,8 +26,7 @@ Difftastic now has a man page, see the `difft.1` file.
 
 ### Performance
 
-Fixed a memory leak and substantially improved performance in some
-cases (up to 2x in testing).
+Fixed a memory leak and improved performance in some cases.
 
 ### Command Line Interface
 
