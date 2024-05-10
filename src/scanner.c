@@ -1,8 +1,16 @@
-#include "stack.h"
+#include "tree_sitter/alloc.h"
+#include "tree_sitter/array.h"
 #include "tree_sitter/parser.h"
-#include <stdio.h>
-#include <string.h>
+
 #include <wctype.h>
+
+// #define DEBUG
+
+#ifdef DEBUG
+#define LOG(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define LOG(...)
+#endif
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
@@ -22,26 +30,82 @@ enum TokenType {
   WITH,
 };
 
+typedef struct {
+  Array(int16_t) indents;
+  int16_t last_indentation_size;
+  int16_t last_newline_count;
+  int16_t last_column;
+} Scanner;
+
 void *tree_sitter_scala_external_scanner_create() {
-  return createStack();
+  Scanner *scanner = ts_calloc(1, sizeof(Scanner));
+  array_init(&scanner->indents);
+  scanner->last_indentation_size = -1;
+  scanner->last_column = -1;
+  return scanner;
 }
 
 void tree_sitter_scala_external_scanner_destroy(void *payload) {
-  free(payload);
+  Scanner *scanner = payload;
+  array_delete(&scanner->indents);
+  ts_free(scanner);
 }
 
 unsigned tree_sitter_scala_external_scanner_serialize(void *payload, char *buffer) {
-  return serialiseStack(payload, buffer);
+  Scanner *scanner = (Scanner*)payload;
+
+  if ((scanner->indents.size + 3) * sizeof(int16_t) > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+    return 0;
+  }
+
+  size_t size = 0;
+  *(int16_t *)&buffer[size] = scanner->last_indentation_size;
+  size += sizeof(int16_t);
+  *(int16_t *)&buffer[size] = scanner->last_newline_count;
+  size += sizeof(int16_t);
+  *(int16_t *)&buffer[size] = scanner->last_column;
+  size += sizeof(int16_t);
+
+  for (unsigned i = 0; i < scanner->indents.size; i++) {
+    *(int16_t *)&buffer[size] = scanner->indents.contents[i];
+    size += sizeof(int16_t);
+  }
+
+  return size;
 }
 
 void tree_sitter_scala_external_scanner_deserialize(void *payload, const char *buffer,
                                                     unsigned length) {
-  deserialiseStack(payload, buffer, length);
+  Scanner *scanner = (Scanner*)payload;
+  array_clear(&scanner->indents);
+  scanner->last_indentation_size = -1;
+  scanner->last_column = -1;
+  scanner->last_newline_count = 0;
+
+  if (length == 0) {
+    return;
+  }
+
+  size_t size = 0;
+
+  scanner->last_indentation_size = *(int16_t *)&buffer[size];
+  size += sizeof(int16_t);
+  scanner->last_newline_count = *(int16_t *)&buffer[size];
+  size += sizeof(int16_t);
+  scanner->last_column = *(int16_t *)&buffer[size];
+  size += sizeof(int16_t);
+
+  while (size < length) {
+    array_push(&scanner->indents, *(int16_t *)&buffer[size]);
+    size += sizeof(int16_t);
+  }
+
+  assert(size == length);
 }
 
-static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_interpolation) {
   unsigned closing_quote_count = 0;
@@ -102,7 +166,7 @@ static bool detect_comment_start(TSLexer *lexer) {
 }
 
 static bool scan_word(TSLexer *lexer, const char* const word) {
-  for (int i = 0; word[i] != '\0'; i++) {
+  for (uint8_t i = 0; word[i] != '\0'; i++) {
     if (lexer->lookahead != word[i]) {
       return false;
     }
@@ -111,12 +175,20 @@ static bool scan_word(TSLexer *lexer, const char* const word) {
   return !iswalnum(lexer->lookahead);
 }
 
+static inline void debug_indents(Scanner *scanner) {
+  LOG("    indents(%d): ", scanner->indents.size);
+  for (unsigned i = 0; i < scanner->indents.size; i++) {
+    LOG("%d ", scanner->indents.contents[i]);
+  }
+  LOG("\n");
+}
+
 bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
-  ScannerStack *stack = (ScannerStack *)payload;
-  int prev = peekStack(stack);
-  int newline_count = 0;
-  int indentation_size = 0;
+  Scanner *scanner = (Scanner *)payload;
+  int16_t prev = scanner->indents.size > 0 ? *array_back(&scanner->indents) : -1;
+  int16_t newline_count = 0;
+  int16_t indentation_size = 0;
 
   while (iswspace(lexer->lookahead)) {
     if (lexer->lookahead == '\n') {
@@ -130,35 +202,47 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   // Before advancing the lexer, check if we can double outdent
-  if (valid_symbols[OUTDENT] &&
-      (lexer->lookahead == 0 ||
+  if (
+      valid_symbols[OUTDENT] &&
       (
-        (prev != -1) &&
-        lexer->lookahead == ')' ||
-        lexer->lookahead == ']' ||
-        lexer->lookahead == '}' 
-      ) || (
-        stack->last_indentation_size != -1 &&
-        prev != -1 &&
-        stack->last_indentation_size < prev))) {
-    popStack(stack);
+        lexer->lookahead == 0 ||
+        (
+          prev != -1 &&
+          (
+            lexer->lookahead == ')' ||
+            lexer->lookahead == ']' ||
+            lexer->lookahead == '}'
+          )
+        ) ||
+        (
+          scanner->last_indentation_size != -1 &&
+          prev != -1 &&
+          scanner->last_indentation_size < prev
+        )
+      )
+  ) {
+    if (scanner->indents.size > 0) {
+        array_pop(&scanner->indents);
+    }
     LOG("    pop\n");
     LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
     return true;
   }
-  stack->last_indentation_size = -1;
+  scanner->last_indentation_size = -1;
 
-  printStack(stack, "    before");
-
-  if (valid_symbols[INDENT] &&
+  if (
+      valid_symbols[INDENT] &&
       newline_count > 0 &&
-      (isEmptyStack(stack) ||
-        indentation_size > peekStack(stack))) {
+      (
+        scanner->indents.size == 0 ||
+        indentation_size > *array_back(&scanner->indents)
+      )
+  ) {
     if (detect_comment_start(lexer)) {
       return false;
     }
-    pushStack(stack, indentation_size);
+    array_push(&scanner->indents, indentation_size);
     lexer->result_symbol = INDENT;
     LOG("    INDENT\n");
     return true;
@@ -167,11 +251,17 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   // This saves the indentation_size and newline_count so it can be used
   // in subsequent calls for multiple outdent or autosemicolon.
   if (valid_symbols[OUTDENT] &&
-      (lexer->lookahead == 0 || (
+      (lexer->lookahead == 0 ||
+      (
         newline_count > 0 &&
         prev != -1 &&
-        indentation_size < prev))) {
-    popStack(stack);
+        indentation_size < prev
+      )
+      )
+  ) {
+    if (scanner->indents.size > 0) {
+      array_pop(&scanner->indents);
+    }
     LOG("    pop\n");
     LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
@@ -179,26 +269,26 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     if (detect_comment_start(lexer)) {
       return false;
     }
-    stack->last_indentation_size = indentation_size;
-    stack->last_newline_count = newline_count;
+    scanner->last_indentation_size = indentation_size;
+    scanner->last_newline_count = newline_count;
     if (lexer->eof(lexer)) {
-      stack->last_column = -1;
+      scanner->last_column = -1;
     } else {
-      stack->last_column = (int)lexer->get_column(lexer);
+      scanner->last_column = (int16_t)lexer->get_column(lexer);
     }
     return true;
   }
 
   // Recover newline_count from the outdent reset
   bool is_eof = lexer->eof(lexer);
-  if (stack->last_newline_count > 0 &&
-    ((is_eof && stack->last_column == -1) || 
-      (!is_eof && lexer->get_column(lexer) == stack->last_column))) {
-    newline_count += stack->last_newline_count;
+  if (
+      scanner->last_newline_count > 0 &&
+      (is_eof && scanner->last_column == -1) ||
+      (!is_eof && lexer->get_column(lexer) == (uint32_t)scanner->last_column)
+  ) {
+    newline_count += scanner->last_newline_count;
   }
-  stack->last_newline_count = 0;
-
-  printStack(stack, "    after");
+  scanner->last_newline_count = 0;
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
     // AUTOMATIC_SEMICOLON should not be issued in the middle of expressions
@@ -240,7 +330,7 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
           }
           skip(lexer);
         }
-        // If some code is present at the same line after comment end, 
+        // If some code is present at the same line after comment end,
         // we should still produce AUTOMATIC_SEMICOLON, e.g. in
         // val a = 1
         // /* comment */ val b = 2
