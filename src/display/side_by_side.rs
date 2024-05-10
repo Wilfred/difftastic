@@ -436,7 +436,7 @@ pub(crate) fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let source_dims = SourceDimensions::new(display_options.display_width, aligned_lines);
+        let source_dims = SourceDimensions::new(display_options.terminal_width, aligned_lines);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 *lhs_line_num,
@@ -594,7 +594,7 @@ mod tests {
 
     use super::*;
     use crate::{
-        options::DEFAULT_DISPLAY_WIDTH,
+        options::DEFAULT_TERMINAL_WIDTH,
         parse::guess_language::Language,
         syntax::{AtomKind, MatchKind, TokenKind},
     };
@@ -602,7 +602,7 @@ mod tests {
     #[test]
     fn test_width_calculations() {
         let line_nums = [(Some(1.into()), Some(10.into()))];
-        let source_dims = SourceDimensions::new(DEFAULT_DISPLAY_WIDTH, &line_nums);
+        let source_dims = SourceDimensions::new(DEFAULT_TERMINAL_WIDTH, &line_nums);
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -611,7 +611,7 @@ mod tests {
     #[test]
     fn test_format_missing_line_num() {
         let source_dims = SourceDimensions::new(
-            DEFAULT_DISPLAY_WIDTH,
+            DEFAULT_TERMINAL_WIDTH,
             &[
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
