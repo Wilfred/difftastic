@@ -182,6 +182,10 @@ impl SourceDimensions {
         let lhs_line_nums_width = format_line_num(lhs_max_line).len();
         let rhs_line_nums_width = format_line_num(rhs_max_line).len();
 
+        assert!(
+            terminal_width > SPACER.len(),
+            "Terminal total width should not overflow"
+        );
         let lhs_total_width = (terminal_width - SPACER.len()) / 2;
 
         let lhs_content_width = if lhs_line_nums_width < lhs_total_width {
@@ -590,6 +594,7 @@ mod tests {
 
     use super::*;
     use crate::{
+        options::DEFAULT_DISPLAY_WIDTH,
         parse::guess_language::Language,
         syntax::{AtomKind, MatchKind, TokenKind},
     };
@@ -597,7 +602,7 @@ mod tests {
     #[test]
     fn test_width_calculations() {
         let line_nums = [(Some(1.into()), Some(10.into()))];
-        let source_dims = SourceDimensions::new(80, &line_nums);
+        let source_dims = SourceDimensions::new(DEFAULT_DISPLAY_WIDTH, &line_nums);
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
@@ -606,7 +611,7 @@ mod tests {
     #[test]
     fn test_format_missing_line_num() {
         let source_dims = SourceDimensions::new(
-            80,
+            DEFAULT_DISPLAY_WIDTH,
             &[
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),

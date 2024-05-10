@@ -50,6 +50,8 @@ pub(crate) struct DisplayOptions {
     pub(crate) sort_paths: bool,
 }
 
+pub(crate) const DEFAULT_DISPLAY_WIDTH: usize = 80;
+
 impl Default for DisplayOptions {
     fn default() -> Self {
         Self {
@@ -58,7 +60,7 @@ impl Default for DisplayOptions {
             display_mode: DisplayMode::SideBySide,
             print_unchanged: true,
             tab_width: 8,
-            display_width: 80,
+            display_width: DEFAULT_DISPLAY_WIDTH,
             num_context_lines: 3,
             syntax_highlight: true,
             sort_paths: false,
@@ -865,7 +867,7 @@ fn detect_display_width() -> usize {
         return columns.into();
     }
 
-    80
+    DEFAULT_DISPLAY_WIDTH
 }
 
 pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
