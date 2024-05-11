@@ -1302,7 +1302,7 @@ fn tree_highlights(
             type_capture_ids.push(idx as u32);
         }
 
-        if name == "comment" {
+        if name == "comment" || name.starts_with("comment.") {
             comment_capture_ids.push(idx as u32);
         }
     }
