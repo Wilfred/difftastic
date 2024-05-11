@@ -1,6 +1,8 @@
 module Main exposing (blue, green, list, x, y, z)
 
 
+{- bar
+ -}
 list : List Int
 list =
     [ 1, 2, 3 ]

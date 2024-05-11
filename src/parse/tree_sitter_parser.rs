@@ -507,7 +507,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: vec![
                     "doctype",
                     "quoted_attribute_value",
-                    "comment",
                     "raw_text",
                     "tag_name",
                     "text",
@@ -956,10 +955,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_scala() };
             TreeSitterConfig {
                 language,
-                // TODO: probably all comments should be treated as atoms
-                atom_nodes: vec!["string", "template_string", "comment", "block_comment"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
@@ -973,9 +969,8 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_scheme() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["block_comment", "comment", "string"]
-                    .into_iter()
-                    .collect(),
+                //
+                atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
@@ -1615,9 +1610,12 @@ fn syntax_from_cursor<'a>(
         *error_count += 1;
     }
 
-    if config.atom_nodes.contains(node.kind()) {
+    if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
+        //
+        // Also, if this node is highlighted as a comment, treat it as
+        // an atom unconditionally.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
     } else if node.child_count() > 0 {
         Some(list_from_cursor(

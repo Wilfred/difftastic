@@ -6,6 +6,8 @@ module Main exposing
     )
 
 
+{- foo
+ -}
 list : List Int
 list =
     [ 1

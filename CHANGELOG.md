@@ -1,5 +1,12 @@
 ## 0.59 (unreleased)
 
+### Parsing
+
+Difftastic now uses tree-sitter comment highlighing as a hint that
+nodes should be treated as atoms. This ensures comments are treated
+more consistently across languages. This fixes cases in Elm where
+comment differences were ignored, and may improve other languages too.
+
 ## 0.58 (released 11th May 2024)
 
 ### Parsing
