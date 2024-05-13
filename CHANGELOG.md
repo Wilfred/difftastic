@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added support for devicetree.
+
 Difftastic now uses tree-sitter comment highlighing as a hint that
 nodes should be treated as atoms. This ensures comments are treated
 more consistently across languages. This fixes cases in Elm where
