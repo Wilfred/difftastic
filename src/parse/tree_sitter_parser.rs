@@ -71,6 +71,7 @@ extern "C" {
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_css() -> ts::Language;
     fn tree_sitter_dart() -> ts::Language;
+    fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_elm() -> ts::Language;
@@ -315,6 +316,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/dart.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Devicetree => {
+            let language = unsafe { tree_sitter_devicetree() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["byte_string_literal", "string_literal"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("<", ">"), ("{", "}"), ("(", ")")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/devicetree.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

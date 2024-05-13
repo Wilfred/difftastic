@@ -1,0 +1,56 @@
+========================================================================
+Omit Node
+========================================================================
+
+/ {
+    /omit-if-no-ref/ child {};
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (omit_if_no_ref
+            (node name: (identifier))
+        )
+    )
+)
+
+========================================================================
+Omit Labeled Node
+========================================================================
+
+/ {
+    /omit-if-no-ref/ label: child {};
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (omit_if_no_ref
+            (node
+                label: (identifier)
+                name: (identifier)
+            )
+        )
+    )
+)
+
+========================================================================
+Omit Reference
+========================================================================
+
+/omit-if-no-ref/ &node;
+
+---
+
+(document
+    (omit_if_no_ref
+        (reference
+            label: (identifier)
+        )
+    )
+)

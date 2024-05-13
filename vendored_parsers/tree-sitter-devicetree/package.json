@@ -1,0 +1,36 @@
+{
+  "name": "tree-sitter-devicetree",
+  "version": "0.9.0",
+  "description": "Tree-sitter parser for Devicetree files, with support for Zephyr's superset of Devicetree syntax.",
+  "main": "bindings/node",
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test",
+    "lint": "eslint grammar.js",
+    "build:wasm": "tree-sitter build-wasm",
+    "prettier:check": "prettier --check .",
+    "prettier:format": "prettier --write ."
+  },
+  "author": "Joel Spadin",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.1.0",
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.devicetree",
+      "file-types": [
+        "dts",
+        "dtsi",
+        "overlay"
+      ],
+      "injection-regex": "^(dts|devicetree)$"
+    }
+  ]
+}

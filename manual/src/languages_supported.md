@@ -18,6 +18,7 @@ with `difft --list-languages`.
 | CMake           | [uyha/tree-sitter-cmake](https://github.com/uyha/tree-sitter-cmake)                             |
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)         |
 | Dart            | [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)               |
+| Devicetree      | [joelspadin/tree-sitter-devicetree](https://github.com/joelspadin/tree-sitter-devicetree)       |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)             |
 | Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                   |
 | Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                         |

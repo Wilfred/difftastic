@@ -1,0 +1,11 @@
+build
+node_modules
+target
+
+Cargo.lock
+parser.exp
+parser.lib
+parser.obj
+*.log
+*.html
+*.wasm

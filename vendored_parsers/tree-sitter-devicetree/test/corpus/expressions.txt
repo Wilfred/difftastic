@@ -1,0 +1,67 @@
+========================================================================
+Property value expressions
+========================================================================
+
+/ {
+    a = <17 0xc>;
+    b = <(1 + 2) (3 - 4 * 5) (6 / 7 % 8)>;
+    c = <((4 ^ ~5) << 5)>;
+    f = <(8 ? 9 : 10)>;
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (integer_cells (integer_literal) (integer_literal))
+        )
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (binary_expression
+                    left: (integer_literal)
+                    right: (integer_literal)
+                )
+                (binary_expression
+                    left: (integer_literal)
+                    right: (binary_expression
+                        left: (integer_literal)
+                        right: (integer_literal)
+                    )
+                )
+                (binary_expression
+                    left: (binary_expression
+                        left: (integer_literal)
+                        right: (integer_literal)
+                    )
+                    right: (integer_literal)
+                )
+            )
+        )
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (binary_expression
+                    left: (binary_expression
+                        left: (integer_literal)
+                        right: (unary_expression argument: (integer_literal))
+                    )
+                    right: (integer_literal)
+                )
+            )
+        )
+        (property
+            name: (identifier)
+            value: (integer_cells
+                (conditional_expression
+                    condition: (integer_literal)
+                    consequence: (integer_literal)
+                    alternative: (integer_literal)
+                )
+            )
+        )
+    )
+)
