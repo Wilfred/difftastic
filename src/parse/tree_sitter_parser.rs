@@ -321,7 +321,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        Devicetree => {
+        DeviceTree => {
             let language = unsafe { tree_sitter_devicetree() };
             TreeSitterConfig {
                 language,

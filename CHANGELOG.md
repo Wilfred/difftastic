@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for devicetree.
+Added support for device tree.
 
 Difftastic now uses tree-sitter comment highlighing as a hint that
 nodes should be treated as atoms. This ensures comments are treated
