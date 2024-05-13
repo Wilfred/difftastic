@@ -486,11 +486,4 @@ let x =
             (identifier))))
       (const
         (triple_quoted_string
-          (format_triple_quoted_string
-            (format_string_eval
-              (infix_expression
-                (const
-                  (int))
-                (infix_op)
-                (const
-                  (int))))))))))
+          (format_triple_quoted_string))))))

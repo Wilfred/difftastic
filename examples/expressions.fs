@@ -1,6 +1,14 @@
 namespace test
 
-type A = {
-  [<IfFalse; CoolProperty(A = 1, Enabled = false); IsTrue>]
-  A : int
-}
+module Json =
+  [<Literal>]
+  let MyPayload =
+    """
+    {
+      "prop1": []
+      "prop2": {
+        "prop3": true,
+        "prop4": 1,
+      },
+    }
+    """

@@ -9,7 +9,7 @@ enum TokenType {
   THEN,
   ELSE,
   ELIF,
-  TRIPLE_QUOTE_END,
+  TRIPLE_QUOTE_CONTENT,
   BLOCK_COMMENT_CONTENT,
   LINE_COMMENT,
   ERROR_SENTINEL
@@ -107,8 +107,29 @@ bool tree_sitter_fsharp_external_scanner_scan(void *payload, TSLexer *lexer,
 
   bool error_recovery_mode = valid_symbols[ERROR_SENTINEL];
 
-  if (valid_symbols[TRIPLE_QUOTE_END] && !error_recovery_mode) {
-    return false;
+  if (valid_symbols[TRIPLE_QUOTE_CONTENT] && !error_recovery_mode) {
+    lexer->mark_end(lexer);
+    while (true) {
+      if (lexer->lookahead == '\0') {
+        break;
+      }
+      if (lexer->lookahead != '"') {
+        advance(lexer);
+      } else {
+        lexer->mark_end(lexer);
+        skip(lexer);
+        if (lexer->lookahead == '"') {
+          skip(lexer);
+          if (lexer->lookahead == '"') {
+            skip(lexer);
+            break;
+          }
+        }
+        lexer->mark_end(lexer);
+      }
+    }
+    lexer->result_symbol = TRIPLE_QUOTE_CONTENT;
+    return true;
   }
 
   lexer->mark_end(lexer);

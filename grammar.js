@@ -65,7 +65,7 @@ module.exports = grammar({
     $._then,
     $._else,
     $._elif,
-    $._triple_quoted_end,
+    $._triple_quoted_content,
     $.block_comment_content,
     $.line_comment,
 
@@ -1039,7 +1039,7 @@ module.exports = grammar({
     _compound_type: $ => prec.right(seq($.type, repeat1(prec.right(seq('*', $.type))))),
     _postfix_type: $ => prec.left(4, seq($.type, $.long_identifier)),
     _list_type: $ => seq($.type, '[]'),
-    _static_type: $ => prec(10, seq($.type, $.type_argument_defn)),
+    _static_type: $ => prec(10, seq($.type, $.type_arguments)),
     _constrained_type: $ => prec.right(seq($.type_argument, ':>', $.type)),
     _flexible_type: $ => prec.right(seq(token.immediate('#'), $.type)),
 
@@ -1055,6 +1055,7 @@ module.exports = grammar({
         // measure
         // static-parameter
       ),
+
     type_attributes: $ => seq($.type_attribute, repeat(prec.left(PREC.COMMA, seq(',', $.type_attribute)))),
 
     atomic_type: $ =>
@@ -1653,18 +1654,20 @@ module.exports = grammar({
     bytearray: $ => seq('"', repeat($._string_char), token.immediate('"B')),
     verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), token.immediate('"B')),
 
-    _triple_quoted_end: _ => token.immediate('"""'),
-
     format_triple_quoted_string: $ =>
       seq(
         token(prec(100, '$"""')),
-        repeat(choice($.format_string_eval, $._string_char)),
+        // repeat(choice($.format_string_eval, $._string_char)),
+        $._triple_quoted_content,
         '"""',
       ),
 
     triple_quoted_string: $ =>
       choice(
-        seq('"""', repeat($._string_char), $._triple_quoted_end),
+        seq(
+          '"""',
+          $._triple_quoted_content,
+          '"""'),
         $.format_triple_quoted_string,
       ),
 

@@ -1497,17 +1497,7 @@
   {
     "type": "format_triple_quoted_string",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "format_string_eval",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "fsi_directive_decl",
@@ -2931,7 +2921,7 @@
           "named": true
         },
         {
-          "type": "type_argument_defn",
+          "type": "type_arguments",
           "named": true
         },
         {

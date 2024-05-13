@@ -167,3 +167,83 @@ let f x = x + 1
         (infix_op)
         (const
           (int))))))
+
+================================================================================
+json payload in multi-line string
+================================================================================
+
+namespace test
+
+module Json =
+  [<Literal>]
+  let MyPayload =
+    """
+    {
+      "prop1": []
+      "prop2": {
+        "prop3": true,
+        "prop4": 1,
+      },
+    }
+    """
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (attributes
+          (attribute_set
+            (attribute
+              (object_construction
+                (type
+                  (long_identifier
+                    (identifier)))))))
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (triple_quoted_string)))))))
+
+================================================================================
+json payload in multi-line format string
+================================================================================
+
+namespace test
+
+module Json =
+  let myPayloadBuilder x =
+    $"""
+    {
+      "prop1": []
+      "prop2": {
+        "prop3": {x},
+        "prop4": 1,
+      },
+    }
+    """
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (triple_quoted_string
+              (format_triple_quoted_string))))))))
