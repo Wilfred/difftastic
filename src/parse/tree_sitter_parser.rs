@@ -100,6 +100,7 @@ extern "C" {
     fn tree_sitter_pascal() -> ts::Language;
     fn tree_sitter_php() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
+    fn tree_sitter_purescript() -> ts::Language;
     fn tree_sitter_python() -> ts::Language;
     fn tree_sitter_qmljs() -> ts::Language;
     fn tree_sitter_r() -> ts::Language;
@@ -844,6 +845,33 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/php.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        PureScript => {
+            let language = unsafe { tree_sitter_purescript() };
+            TreeSitterConfig {
+                language,
+                // The "qualified_" nodes seem to have the same problem
+                // as e.g. qualified_module in the TreeSitterConfig for
+                // haskell, namely that the periods between the
+                // identifiers do not show up in the AST, so we use the
+                // same workaround here and mark them as atom_nodes.
+                atom_nodes: vec![
+                    "qualified_constructor",
+                    "qualified_module",
+                    "qualified_operator",
+                    "qualified_variable",
+                    "qualified_type",
+                ]
+                .into_iter()
+                .collect(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/purescript.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

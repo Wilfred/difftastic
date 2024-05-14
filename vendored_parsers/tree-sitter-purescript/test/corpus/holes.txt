@@ -1,0 +1,66 @@
+================================================================================
+value-level holes
+================================================================================
+
+f = 1 + ?x
+g = case ?x, ?x of _ -> true
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    (variable)
+    (exp_infix
+      (exp_literal
+        (integer))
+      (operator)
+      (hole)))
+  (function
+    (variable)
+    (exp_case
+      (hole)
+      (comma)
+      (hole)
+      (alts
+        (alt
+          (pat_wildcard
+            (pat_wildcard))
+          (exp_name
+            (variable)))))))
+
+================================================================================
+type-level holes
+================================================================================
+
+f :: Array ?x
+f = []
+
+g :: Int -> ?x
+g _ = "hole"
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (signature
+    (variable)
+    (type_apply
+      (type_name
+        (type))
+      (hole)))
+  (function
+    (variable)
+    (exp_array))
+  (signature
+    (variable)
+    (type_infix
+      (type_name
+        (type))
+      (type_operator)
+      (hole)))
+  (function
+    (variable)
+    (patterns
+      (pat_wildcard
+        (pat_wildcard)))
+    (exp_literal
+      (string))))

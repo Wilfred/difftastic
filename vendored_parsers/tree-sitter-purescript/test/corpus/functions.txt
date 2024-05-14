@@ -1,0 +1,285 @@
+================================================================================
+Value
+================================================================================
+
+f = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_literal
+      (integer))))
+
+================================================================================
+Simple function
+================================================================================
+
+f a = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_literal
+      (integer))))
+
+================================================================================
+Simple function with a signature
+================================================================================
+
+f :: forall a. a -> Int
+f a = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (signature
+    name: (variable)
+    (type_infix
+      (forall
+        (type_variable))
+      (type_name
+        (type_variable))
+      (type_operator)
+      (type_name
+        (type))))
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_literal
+      (integer))))
+
+================================================================================
+Function with where-block binders
+================================================================================
+
+f a = 1
+  where
+    b = 1
+    c = 1
+    d = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_literal
+      (integer))
+    (where)
+    (declarations
+      (function
+        name: (variable)
+        rhs: (exp_literal
+          (integer)))
+      (function
+        name: (variable)
+        rhs: (exp_literal
+          (integer)))
+      (function
+        name: (variable)
+        rhs: (exp_literal
+          (integer))))))
+
+================================================================================
+Function as a let-in binder
+================================================================================
+
+f a = let g b = 1 in g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_let_in
+      (declarations
+        (function
+          name: (variable)
+          patterns: (patterns
+            (pat_name
+              (variable)))
+          rhs: (exp_literal
+            (integer))))
+      (exp_name
+        (variable)))))
+
+================================================================================
+Function as a let binder
+================================================================================
+
+f a = do
+  let g b = 1
+  g
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    rhs: (exp_do
+      (statement
+        (let
+          (declarations
+            (function
+              name: (variable)
+              patterns: (patterns
+                (pat_name
+                  (variable)))
+              rhs: (exp_literal
+                (integer))))))
+      (statement
+        (exp_name
+          (variable))))))
+
+================================================================================
+Function with boolean guards
+================================================================================
+
+f a
+  | a == unit
+  , false
+  , true = 1
+
+  | unit == a
+  , true
+  , false = 1
+
+  | otherwise = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    (guard_equation
+      (guards
+        (guard
+          (exp_infix
+            (exp_name
+              (variable))
+            (operator)
+            (exp_name
+              (variable))))
+        (comma)
+        (guard
+          (exp_name
+            (variable)))
+        (comma)
+        (guard
+          (exp_name
+            (variable))))
+      (exp_literal
+        (integer)))
+    (guard_equation
+      (guards
+        (guard
+          (exp_infix
+            (exp_name
+              (variable))
+            (operator)
+            (exp_name
+              (variable))))
+        (comma)
+        (guard
+          (exp_name
+            (variable)))
+        (comma)
+        (guard
+          (exp_name
+            (variable))))
+      (exp_literal
+        (integer)))
+    (guard_equation
+      (guards
+        (guard
+          (exp_name
+            (variable))))
+      (exp_literal
+        (integer)))))
+
+================================================================================
+Function with pattern guards
+================================================================================
+
+f a
+  | ok <- a
+  , ok1 <- ok = 1
+
+  | B c <- d a
+  , E f <- g h = 1
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    patterns: (patterns
+      (pat_name
+        (variable)))
+    (guard_equation
+      (guards
+        (guard
+          (pattern_guard
+            (pat_name
+              (variable))
+            (exp_name
+              (variable))))
+        (comma)
+        (guard
+          (pattern_guard
+            (pat_name
+              (variable))
+            (exp_name
+              (variable)))))
+      (exp_literal
+        (integer)))
+    (guard_equation
+      (guards
+        (guard
+          (pattern_guard
+            (pat_apply
+              (pat_name
+                (constructor))
+              (pat_name
+                (variable)))
+            (exp_apply
+              (exp_name
+                (variable))
+              (exp_name
+                (variable)))))
+        (comma)
+        (guard
+          (pattern_guard
+            (pat_apply
+              (pat_name
+                (constructor))
+              (pat_name
+                (variable)))
+            (exp_apply
+              (exp_name
+                (variable))
+              (exp_name
+                (variable))))))
+      (exp_literal
+        (integer)))))

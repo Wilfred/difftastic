@@ -1,0 +1,1 @@
+../tree-sitter-purescript/queries/highlights.scm

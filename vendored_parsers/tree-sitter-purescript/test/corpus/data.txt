@@ -1,0 +1,72 @@
+================================================================================
+Data definition
+================================================================================
+
+data A = A | B | C
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (data
+    name: (type)
+    (constructor)
+    (constructor)
+    (constructor)))
+
+================================================================================
+Data definition with parameters
+================================================================================
+
+data A a
+  = A a a
+  | B a
+  | C a a
+  | D
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (data
+    name: (type)
+    (type_variable)
+    (constructor)
+    (type_apply
+      (type_name
+        (type_variable))
+      (type_name
+        (type_variable)))
+    (constructor)
+    (type_name
+      (type_variable))
+    (constructor)
+    (type_apply
+      (type_name
+        (type_variable))
+      (type_name
+        (type_variable)))
+    (constructor)))
+
+================================================================================
+Data definition with signature
+================================================================================
+
+data A :: forall k. k -> Type
+data A a = A
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (data
+    (type_signature
+      (type)
+      (type_infix
+        (forall
+          (type_variable))
+        (type_name
+          (type_variable))
+        (type_operator)
+        (type_name
+          (type))))
+    name: (type)
+    (type_variable)
+    (constructor)))

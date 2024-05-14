@@ -1,0 +1,134 @@
+================================================================================
+Simple newtype
+================================================================================
+
+newtype A = A Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    name: (type)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+================================================================================
+Parameterized newtype
+================================================================================
+
+newtype A b = A (Array b)
+newtype B a = B { a :: a }
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_parens
+        (type_apply
+          (type_name
+            (type))
+          (type_name
+            (type_variable))))))
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (record_type_literal
+        (row_field
+          (field_name)
+          (type_name
+            (type_variable)))))))
+
+================================================================================
+Phantom type newtype
+================================================================================
+
+newtype A b = A Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+================================================================================
+Newtype with explicit kind signature
+================================================================================
+
+newtype A :: forall k. k -> Type
+newtype A b = A Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    (type_signature
+      (type)
+      (type_infix
+        (forall
+          (type_variable))
+        (type_name
+          (type_variable))
+        (type_operator)
+        (type_name
+          (type))))
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+================================================================================
+Newtype with parameterized type with type annotation
+================================================================================
+
+newtype A (b :: Int) = A Int
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    name: (type)
+    (annotated_type_variable
+      (type_variable)
+      (type_name
+        (type)))
+    (newtype_constructor
+      (constructor)
+      (type_name
+        (type)))))
+
+================================================================================
+Newtype over an infix type constructor
+================================================================================
+
+newtype A b = A (b ~ Int)
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (newtype
+    name: (type)
+    (type_variable)
+    (newtype_constructor
+      (constructor)
+      (type_parens
+        (type_infix
+          (type_name
+            (type_variable))
+          (type_operator)
+          (type_name
+            (type)))))))

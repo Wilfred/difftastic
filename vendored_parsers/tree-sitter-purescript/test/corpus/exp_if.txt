@@ -1,0 +1,88 @@
+================================================================================
+if-then-else expression
+================================================================================
+
+f = if a then b else c
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_if
+      if: (exp_name
+        (variable))
+      then: (exp_name
+        (variable))
+      else: (exp_name
+        (variable)))))
+
+================================================================================
+if-then-else lambda expression, first slot
+================================================================================
+
+f = if _ then b else c
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_if
+      if: (wildcard)
+      then: (exp_name
+        (variable))
+      else: (exp_name
+        (variable)))))
+
+================================================================================
+if-then-else lambda expression, second slot
+================================================================================
+
+f = if a then _ else c
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_if
+      if: (exp_name
+        (variable))
+      then: (wildcard)
+      else: (exp_name
+        (variable)))))
+
+================================================================================
+if-then-else lambda expression, third slot
+================================================================================
+
+f = if a then b else _
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_if
+      if: (exp_name
+        (variable))
+      then: (exp_name
+        (variable))
+      else: (wildcard))))
+
+================================================================================
+if-then-else lambda expression, all slots
+================================================================================
+
+f = if _ then _ else _
+
+--------------------------------------------------------------------------------
+
+(purescript
+  (function
+    name: (variable)
+    rhs: (exp_if
+      if: (wildcard)
+      then: (wildcard)
+      else: (wildcard))))
