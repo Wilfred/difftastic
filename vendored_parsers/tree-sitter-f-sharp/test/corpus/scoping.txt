@@ -1,0 +1,229 @@
+================================================================================
+function definition on same line should end scope
+================================================================================
+
+let f x = x + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (infix_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (infix_op)
+        (const (int))))))
+
+================================================================================
+function definition on new line should open scope
+================================================================================
+
+let f x =
+  x + 1
+  1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (infix_op)
+          (const (int)))
+        (const (int))))))
+
+================================================================================
+function definition aligned to first line should scope correctly
+================================================================================
+
+let f x = x + 1
+          1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (sequential_expression
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (infix_op)
+          (const (int)))
+        (const (int))))))
+
+================================================================================
+call expression with underindentation
+================================================================================
+
+do
+   Serializer(
+  1,
+  2,
+  3
+)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (tuple_expression
+          (tuple_expression
+            (const (int))
+            (const (int)))
+          (const (int)))))))
+
+================================================================================
+declaration expression should contain all sequential expressions
+================================================================================
+
+let f x =
+  let y = x + 1
+  printfn y
+  printfn y
+  printfn y
+  printfn y
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (infix_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (infix_op)
+            (const
+              (int))))
+        (sequential_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (sequential_expression
+            (application_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
+            (sequential_expression
+              (application_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)))
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier))))
+              (application_expression
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)))
+                (long_identifier_or_op
+                  (long_identifier
+                    (identifier)))))))))))
+
+================================================================================
+for-loop in else branch
+================================================================================
+
+do
+  if b then
+    ()
+  else
+    for x in xs do
+      ()
+    ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (unit))
+        (sequential_expression
+          (for_expression
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (const
+              (unit)))
+          (const
+            (unit)))))))
+
+================================================================================
+prefix associativity
+================================================================================
+
+do
+  return ctx.Ok message :> IAction
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (prefixed_expression
+        (typecast_expression
+          (application_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (type
+            (long_identifier
+              (identifier))))))))

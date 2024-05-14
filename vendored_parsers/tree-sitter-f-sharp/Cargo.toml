@@ -5,7 +5,7 @@ version = "0.0.1"
 keywords = ["incremental", "parsing", "fsharp"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/nsidorenco/tree-sitter-fsharp"
-edition = "2018"
+edition = "2021"
 license = "MIT"
 
 build = "bindings/rust/build.rs"
@@ -20,7 +20,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20"
+tree-sitter = ">=0.21.0"
 
 [build-dependencies]
-cc = "1.0"
+cc = "1.0.89"

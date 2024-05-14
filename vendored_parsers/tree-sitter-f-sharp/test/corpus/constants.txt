@@ -255,12 +255,13 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (nativeint
-          (int)))
-      (const
-        (nativeint
-          (xint))))))
+      (sequential_expression
+        (const
+          (nativeint
+            (int)))
+        (const
+          (nativeint
+            (xint)))))))
 
 ================================================================================
 unativeint
@@ -275,12 +276,13 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (unativeint
-          (int)))
-      (const
-        (unativeint
-          (xint))))))
+      (sequential_expression
+        (const
+          (unativeint
+            (int)))
+        (const
+          (unativeint
+            (xint)))))))
 
 ================================================================================
 ieee32
@@ -356,24 +358,29 @@ do
 (file
   (value_declaration
     (do
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int)))
-      (const
-        (bignum
-          (int))))))
+      (sequential_expression
+        (const
+          (bignum
+            (int)))
+        (sequential_expression
+          (const
+            (bignum
+              (int)))
+          (sequential_expression
+            (const
+              (bignum
+                (int)))
+            (sequential_expression
+              (const
+                (bignum
+                  (int)))
+              (sequential_expression
+                (const
+                  (bignum
+                    (int)))
+                (const
+                  (bignum
+                    (int)))))))))))
 
 ================================================================================
 decimal
@@ -392,21 +399,91 @@ do
 (file
   (value_declaration
     (do
+      (sequential_expression
+        (const
+          (decimal
+            (float)))
+        (sequential_expression
+          (const
+            (decimal
+              (float)))
+          (sequential_expression
+            (const
+              (decimal
+                (int)))
+            (sequential_expression
+              (const
+                (decimal
+                  (float)))
+              (sequential_expression
+                (const
+                  (decimal
+                    (float)))
+                (const
+                  (decimal
+                    (int)))))))))))
+
+================================================================================
+string with escaped quote
+================================================================================
+
+let str = "name: \"name\""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
       (const
-        (decimal
-          (float)))
+        (string)))))
+
+================================================================================
+format string
+================================================================================
+
+let x =
+  $"int: {2 + 2}"
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
       (const
-        (decimal
-          (float)))
+        (string
+          (format_string
+            (format_string_eval
+              (infix_expression
+                (const
+                  (int))
+                (infix_op)
+                (const
+                  (int))))))))))
+
+================================================================================
+triple quoted format string
+================================================================================
+
+let x =
+  $"""int: {2 + 2}"""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
       (const
-        (decimal
-          (int)))
-      (const
-        (decimal
-          (float)))
-      (const
-        (decimal
-          (float)))
-      (const
-        (decimal
-          (int))))))
+        (triple_quoted_string
+          (format_triple_quoted_string))))))

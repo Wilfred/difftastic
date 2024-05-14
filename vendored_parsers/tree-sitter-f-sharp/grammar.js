@@ -1,6 +1,15 @@
-function imm(x) {
-  return token.immediate(x);
-}
+/**
+ * @file FSharp grammar for tree-sitter
+ * @author Nikolaj Sidorenco
+ * @license MIT
+ * @see {@link https://fsharp.org/specs/language-spec/4.1/FSharpSpec-4.1-latest.pdf f# grammar}
+ */
+
+/* eslint-disable arrow-parens */
+/* eslint-disable camelcase */
+/* eslint-disable-next-line spaced-comment */
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
 
 const PREC = {
   SEQ_EXPR: 1,
@@ -9,7 +18,7 @@ const PREC = {
   RARROW: 3,
   INFIX_OP: 4,
   NEW_EXPR: 5,
-  LET_EXPR: 6,
+  LET_EXPR: 60,
   LET_DECL: 7,
   DO_EXPR: 8,
   FUN_EXPR: 8,
@@ -20,13 +29,13 @@ const PREC = {
   INTERFACE: 12,
   COMMA: 13,
   DOTDOT: 14,
-  PREFIX_EXPR: 0,
+  PREFIX_EXPR: 15,
   SPECIAL_INFIX: 16,
   LARROW: 16,
   TUPLE_EXPR: 16,
-  CE_EXPR: 17,
+  CE_EXPR: 15,
   SPECIAL_PREFIX: 17,
-  DO_EXPR: 17,
+  // DO_EXPR: 17,
   IF_EXPR: 18,
   NEW_OBJ: 18,
   DOT: 19,
@@ -35,70 +44,90 @@ const PREC = {
   TYPED_EXPR: 22,
   PAREN_EXPR: 21,
   DOTDOT_SLICE: 22,
-}
+};
 
 module.exports = grammar({
   name: 'fsharp',
 
-  // The external scanner (scanner.cc) allows us to inject "dummy" tokens into the grammar.
-  // These tokens are used to track the indentation-based scoping used in F#
-  externals: $ => [
-    $._virtual_open_section, // Signal the external scanner that a new indentation scope should be opened. Add the indetation size to the stack.
-    $._virtual_end_section, // end an indentation scope, popping the indentation off the stack.
-    $._virtual_end_decl, // end an indentation scope with equal alignment, popping the indentation off the stack.
-    $.block_comment_content
+  extras: $ => [
+    $.block_comment,
+    $.line_comment,
+    $.xml_doc,
+    /[ \s\f\uFEFF\u2060\u200B]|\\\r?n/,
   ],
 
-  extras: $ => [
-    /[ \s\f\uFEFF\u2060\u200B]|\\\r?n/,
+  // The external scanner (scanner.c) allows us to inject "dummy" tokens into the grammar.
+  // These tokens are used to track the indentation-based scoping used in F#
+  externals: $ => [
+    $._newline, // we distinguish new scoped based on newlines.
+    $._indent, // starts a new indentation-based scope.
+    $._dedent, // signals that the current indentation scope has ended.
+    $._then,
+    $._else,
+    $._elif,
+    $._triple_quoted_content,
+    $.block_comment_content,
+    $.line_comment,
+
+    $._error_sentinel, // unused token to detect parser errors in external parser.
   ],
 
   conflicts: $ => [
     [$.long_identifier, $._identifier_or_op],
     [$.type_argument, $.static_type_argument],
-    [$.symbolic_op, $.infix_op],
-    [$.union_type_case, $.long_identifier],
+    [$.file],
+    [$.rules],
   ],
 
-  words: $ => $.identifier,
+  word: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expressions, $._expression_or_range, $._infix_expression_inner, $._seq_expressions, $._seq_inline],
+  inline: $ => [
+    $._module_elem,
+    $._infix_or_prefix_op,
+    $._base_call,
+    $._expression_or_range,
+    $._object_expression_inner,
+    $._record_type_defn_inner,
+    $._union_type_defn_inner,
+    $._then_expression,
+  ],
 
-  supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._type_defn_body ],
+  supertypes: $ => [$._module_elem, $._pattern, $._expression, $._type_defn_body],
 
   rules: {
     //
     // Top-level rules (BEGIN)
     //
     file: $ =>
-      choice(
-        $.named_module,
-        $.namespace,
-        repeat1($._module_elem),
+      seq(
+        repeat($.compiler_directive_decl),
+        choice(
+          $.named_module,
+          repeat1($.namespace),
+          repeat($._module_elem),
+        ),
       ),
 
     namespace: $ =>
       seq(
-        "namespace",
+        token.immediate('namespace'),
         choice(
-          "global",
-          field("name", $.long_identifier),
+          'global',
+          field('name', seq(optional('rec'), $.long_identifier)),
         ),
         repeat($._module_elem),
       ),
 
     named_module: $ =>
       seq(
-        "module",
+        'module',
         optional($.access_modifier),
-        field("name", $.long_identifier),
-        repeat($._module_elem)
+        field('name', $.long_identifier),
+        repeat($._module_elem),
       ),
 
     _module_elem: $ =>
       choice(
-        $.block_comment,
-        $.line_comment,
         $.value_declaration,
         $.module_defn,
         $.module_abbrev,
@@ -106,50 +135,38 @@ module.exports = grammar({
         $.compiler_directive_decl,
         $.fsi_directive_decl,
         $.type_definition,
+        $._expression,
         // $.exception_defn
       ),
 
     module_abbrev: $ =>
       seq(
-        "module",
+        'module',
         $.identifier,
-        "=",
-        $._virtual_open_section,
-        $.long_identifier,
-        $._virtual_end_section,
+        '=',
+        scoped($.long_identifier, $._indent, $._dedent),
       ),
 
     module_defn: $ =>
       prec.left(
         seq(
           optional($.attributes),
-          "module",
+          'module',
           optional($.access_modifier),
           $.identifier,
-          "=",
-          $._virtual_open_section,
-          repeat1($._module_elem),
-          $._virtual_end_section,
-       )),
+          '=',
+          scoped(repeat1($._module_elem), $._indent, $._dedent),
+        )),
 
-    compiler_directive_decl: $ =>
-      seq(
-        "#nowarn",
-        repeat($.string),
-      ),
-
+    compiler_directive_decl: $ => seq('#nowarn', $.string),
 
     fsi_directive_decl: $ =>
       choice(
-        seq("#r", repeat($.string)),
-        seq("#load", repeat($.string)),
+        seq('#r', $.string),
+        seq('#load', $.string),
       ),
 
-    import_decl: $ =>
-      seq(
-        "open",
-        $.long_identifier,
-      ),
+    import_decl: $ => seq('open', $.long_identifier),
 
     //
     // Attributes (BEGIN)
@@ -157,33 +174,33 @@ module.exports = grammar({
     attributes: $ => prec.left(repeat1($.attribute_set)),
     attribute_set: $ =>
       seq(
-        "[<",
+        '[<',
         $.attribute,
-        repeat(seq(";", $.attribute)),
-        ">]"
+        prec(PREC.SEQ_EXPR + 1, repeat(seq($._newline, $.attribute))),
+        '>]',
       ),
     attribute: $ => seq(
-      optional(seq($.attribute_target, ":")),
-      $.object_construction
+      optional(seq($.attribute_target, ':')),
+      $.object_construction,
     ),
-    attribute_target: $ => choice(
-      "assembly",
-      "module",
-      "return",
-      "field",
-      "property",
-      "param",
-      "type",
-      "constructor",
-      "event"
+    attribute_target: _ => choice(
+      'assembly',
+      'module',
+      'return',
+      'field',
+      'property',
+      'param',
+      'type',
+      'constructor',
+      'event',
     ),
 
     object_construction: $ =>
-      prec.left(
-      seq(
-        $.type,
-        optional($._expressions),
-      )),
+      prec.left(PREC.SEQ_EXPR + 1,
+        seq(
+          $.type,
+          optional($._expression),
+        )),
 
     //
     // Attributes (END)
@@ -191,28 +208,31 @@ module.exports = grammar({
 
 
     value_declaration: $ =>
-      choice(
-        prec(PREC.LET_DECL, $.function_or_value_defn),
-        prec(PREC.DO_DECL, $.do)
+      seq(
+        optional($.attributes),
+        choice(
+          prec(PREC.LET_DECL, $.function_or_value_defn),
+          prec(PREC.DO_DECL, $.do),
+        ),
       ),
 
-    do: $ => prec(PREC.DO_EXPR,
+    do: $ => prec(PREC.DO_EXPR + 1,
       seq(
-        "do",
-        $._virtual_open_section,
-        $._expressions,
-        $._virtual_end_section,
-    )),
+        'do',
+        $._expression_block,
+      )),
 
-    _function_or_value_defns : $ =>
-      seq($._function_or_value_defn_body, repeat1(seq("and", $._function_or_value_defn_body))),
+    _function_or_value_defns: $ =>
+      prec.right(
+        seq($._function_or_value_defn_body, repeat(seq('and', $._function_or_value_defn_body))),
+      ),
 
     function_or_value_defn: $ =>
       seq(
-        choice("let", "let!"),
+        choice('let', 'let!'),
         choice(
           $._function_or_value_defn_body,
-          seq("rec", $._function_or_value_defns)
+          seq('rec', $._function_or_value_defns),
         ),
       ),
 
@@ -222,32 +242,29 @@ module.exports = grammar({
           $.function_declaration_left,
           $.value_declaration_left,
         ),
-        "=",
-        $._virtual_open_section,
-        field("body", $._expressions),
-        $._virtual_end_section,
+        optional(seq(':', $.type)),
+        '=',
+        field('body', $._expression_block),
       ),
 
     function_declaration_left: $ =>
-      prec.left(2,seq(
-        optional("inline"),
+      prec.left(3, seq(
+        optional('inline'),
         optional($.access_modifier),
-        $._identifier_or_op,
+        prec(100, $._identifier_or_op),
         optional($.type_arguments),
         $.argument_patterns,
-        optional(seq(":", $.type))
       )),
 
     value_declaration_left: $ =>
-      prec.left(2,seq(
-        optional("mutable"),
+      prec.left(2, seq(
+        optional('mutable'),
         optional($.access_modifier),
         $._pattern,
         optional($.type_arguments),
-        optional(seq(":", $.type))
       )),
 
-    access_modifier: $ => choice("private", "internal", "public"),
+    access_modifier: _ => prec(100, token(prec(1000, choice('private', 'internal', 'public')))),
     //
     // Top-level rules (END)
     //
@@ -255,76 +272,96 @@ module.exports = grammar({
     //
     // Pattern rules (BEGIN)
     _pattern: $ =>
-        choice(
-          alias("null", $.null_pattern),
-          alias("_", $.wildcard_pattern),
-          alias($.const, $.const_pattern),
-          $.identifier_pattern,
-          $.as_pattern,
-          $.disjunct_pattern,
-          $.conjunct_pattern,
-          $.cons_pattern,
-          $.repeat_pattern,
-          $.paren_pattern,
-          $.list_pattern,
-          $.array_pattern,
-          $.record_pattern,
-          $.typed_pattern,
-          $.attribute_pattern,
-          // :? atomic-type
-          // :? atomic-type as ident
+      choice(
+        alias('null', $.null_pattern),
+        alias('_', $.wildcard_pattern),
+        alias($.const, $.const_pattern),
+        $.as_pattern,
+        $.disjunct_pattern,
+        $.conjunct_pattern,
+        $.cons_pattern,
+        $.repeat_pattern,
+        $.paren_pattern,
+        $.list_pattern,
+        $.array_pattern,
+        $.record_pattern,
+        $.typed_pattern,
+        $.attribute_pattern,
+        $.type_check_pattern,
+        $.optional_pattern,
+        $.identifier_pattern,
+      ),
+
+    optional_pattern: $ => prec.right(
+      seq(
+        '?',
+        $._pattern,
+      ),
+    ),
+
+    type_check_pattern: $ =>
+      prec.right(
+        seq(
+          ':?',
+          $.atomic_type,
+          optional(seq('as', $.identifier)),
+        ),
       ),
 
     attribute_pattern: $ => prec.left(seq($.attributes, $._pattern)),
 
-    paren_pattern: $ => seq("(", $._virtual_open_section, $._pattern, $._virtual_end_section, ")"),
+    paren_pattern: $ => seq('(', $._pattern, ')'),
 
     repeat_pattern: $ =>
       prec.right(
-      seq(
-        $._pattern, ",",
-        repeat(prec.right(seq($._virtual_end_decl, $._pattern, ","))),
-        $._pattern
-      )),
+        seq(
+          $._pattern,
+          repeat1(prec.right(seq(',', $._pattern))),
+        )),
 
-    identifier_pattern: $ =>
-      prec.left(
-        seq($.long_identifier, optional($._pattern_param), optional($._pattern)),
-      ),
+    as_pattern: $ => prec.left(0, seq($._pattern, 'as', $.identifier)),
+    cons_pattern: $ => prec.left(0, seq($._pattern, '::', $._pattern)),
+    disjunct_pattern: $ => prec.left(0, seq($._pattern, '|', $._pattern)),
+    conjunct_pattern: $ => prec.left(0, seq($._pattern, '&', $._pattern)),
+    typed_pattern: $ => prec.left(3, seq($._pattern, ':', $.type)),
 
-    as_pattern: $ => prec.left(0,seq($._pattern, "as", $.identifier)),
-    cons_pattern: $ => prec.left(0,seq($._pattern, "::", $._pattern)),
-    disjunct_pattern: $ => prec.left(0,seq($._pattern, "|", $._pattern)),
-    conjunct_pattern: $ => prec.left(0,seq($._pattern, "&", $._pattern)),
-    typed_pattern: $ => prec.left(3,seq($._pattern, ":", $.type)),
-
-    argument_patterns: $ => repeat1($._atomic_pattern),
+    argument_patterns: $ =>
+      // argument patterns are generally no different from normal patterns.
+      // however, any time an argument pattern is a valid node, (i.e. inside a beginning fun decl)
+      // it is always the correct node to construct.
+      prec.left(1000, repeat1($._atomic_pattern)),
 
     field_pattern: $ => prec(1, seq($.long_identifier, '=', $._pattern)),
 
     _atomic_pattern: $ =>
-      choice(
-        "null",
-        "_",
-        $.const,
-        $.long_identifier,
-        $.list_pattern,
-        $.record_pattern,
-        $.array_pattern,
-        seq("(", $._virtual_open_section, $._pattern, $._virtual_end_section, ")"),
-        // :? atomic_type
-      ),
+      prec(1000,
+        choice(
+          'null',
+          '_',
+          $.const,
+          $.long_identifier,
+          $.list_pattern,
+          $.record_pattern,
+          $.array_pattern,
+          seq('(', $._pattern, ')'),
+          // :? atomic_type
+        )),
 
     list_pattern: $ => choice(
       seq('[', ']'),
-      seq('[', $._pattern, repeat(seq(";", $._pattern)), ']')),
+      seq('[', $._pattern, repeat(seq(';', $._pattern)), ']')),
     array_pattern: $ => choice(
       seq('[|', '|]'),
-      seq('[|', $._pattern, repeat(seq(";", $._pattern)), '|]')),
+      seq('[|', $._pattern, repeat(seq(';', $._pattern)), '|]')),
     record_pattern: $ =>
       prec.left(
         seq(
-        '{', $.field_pattern, repeat(seq(";", $.field_pattern)))),
+          '{', $.field_pattern, repeat(seq(';', $.field_pattern)))),
+
+    identifier_pattern: $ =>
+      prec.left(-1,
+        seq($.long_identifier, optional($._pattern_param), optional($._pattern)),
+      ),
 
     _pattern_param: $ =>
       prec(2,
@@ -345,10 +382,10 @@ module.exports = grammar({
           //   repeat(seq($._seperator, $._pattern_param)),
           //   ")",
           // ),
-          // seq("<@", $._expression_inner, "@>"),
-          // seq("<@@", $._expression_inner, "@@>"),
-          "null",
-        )
+          // seq("<@", $._expression, "@>"),
+          // seq("<@@", $._expression, "@@>"),
+          'null',
+        ),
       ),
     //
     // Pattern rules (END)
@@ -357,39 +394,17 @@ module.exports = grammar({
     //
     // Expressions (BEGIN)
     //
-    //
 
-    _seq_infix: $ =>
-      prec.right(
+    _expression_block: $ =>
       seq(
-        $._expression_inner,
-        repeat1(
-          seq(
-            $._virtual_end_decl,
-            $.infix_op,
-            $._expressions,
-          ),
-        ),
-      )),
-
-    _seq_expressions: $ =>
-      seq(
-        $._expression_inner,
-        repeat(seq($._virtual_end_decl, $._expressions)),
+        $._indent,
+        $._expression,
+        $._dedent,
       ),
 
-    _expressions: $ =>
-      prec.left(PREC.SEQ_EXPR,
-        choice(
-          alias($._seq_infix, $.infix_expression),
-          $._seq_expressions,
-        ),
-      ),
-
-    _expression_inner: $ =>
+    _expression: $ =>
       choice(
-        $.line_comment,
-        $.block_comment,
+        'null',
         $.const,
         $.paren_expression,
         $.begin_end_expression,
@@ -405,393 +420,398 @@ module.exports = grammar({
         $.ce_expression,
         $.prefixed_expression,
         $.brace_expression,
-        // [ comp_or_range_expr ]
-        // [| comp_or_range_expr |]
-        "null",
+        $.anon_record_expression,
         $.typecast_expression,
         $.declaration_expression,
         $.do_expression,
         $.fun_expression,
         $.function_expression,
+        $.sequential_expression,
         $.if_expression,
         $.while_expression,
         $.for_expression,
         $.match_expression,
         $.try_expression,
         $.literal_expression,
-        $.call_expression,
+        // $.call_expression,
         $.tuple_expression,
         $.application_expression,
-        $.return_expression,
-        $.yield_expression,
         // (static-typars : (member-sig) expr)
-      ),
-
-    application_expression: $ =>
-      prec.right(PREC.APP_EXPR,
-        seq(
-          $._expression_inner,
-          repeat1($._expression_inner),
-        )
-      ),
-
-    call_expression: $ =>
-      prec.right(PREC.PAREN_APP+100,
-        seq(
-          $._expression_inner,
-          imm("("),
-          optional($._expressions),
-          ")",
-        )
       ),
 
     tuple_expression: $ =>
       prec.left(PREC.TUPLE_EXPR,
-      seq(
-        $._expression_inner,
-        repeat1(prec.left(PREC.TUPLE_EXPR, seq(",", $._expression_inner))),
-      )
+        seq(
+          $._expression,
+          ',',
+          $._expression,
+        ),
       ),
 
     brace_expression: $ =>
+      prec(PREC.CE_EXPR + 1,
+        seq(
+          '{',
+          scoped(
+            choice(
+              $.field_initializers,
+              $.with_field_expression,
+              $.object_expression,
+            ),
+            $._indent,
+            $._dedent),
+          '}',
+        )),
+
+    anon_record_expression: $ =>
       prec(PREC.PAREN_EXPR,
-      seq(
-        "{",
-          choice(
-            $.with_field_expression,
-            $.field_expression,
-            $.object_expression,
-          ),
-        "}",
-      )),
+        seq(
+          '{|',
+          scoped(
+            $.field_initializers,
+            $._indent,
+            $._dedent),
+          '|}',
+        )),
 
     with_field_expression: $ =>
       seq(
-        $._expressions,
-        "with",
-        $._virtual_open_section,
-        $.field_initializers,
-        $._virtual_end_section,
+        $._expression,
+        'with',
+        scoped($.field_initializers, $._indent, $._dedent),
       ),
 
-    field_expression: $ => $.field_initializers,
+    _object_expression_inner: $ =>
+      seq(
+        $._object_members,
+        repeat($.interface_implementation),
+      ),
 
     object_expression: $ =>
       prec(PREC.NEW_EXPR,
-      seq(
-        "new",
-        $._base_call,
-        $._virtual_open_section,
-        $._object_members,
-        $._interface_implementations,
-        $._virtual_end_section,
-      )),
+        seq(
+          'new',
+          $._base_call,
+          $._object_expression_inner,
+        )),
 
     _base_call: $ =>
-      choice(
+      seq(
         $.object_construction,
-        seq($.object_construction, "as", $.identifier),
+        optional(seq('as', $.identifier)),
       ),
 
     prefixed_expression: $ =>
-      prec.left(PREC.PREFIX_EXPR,
       seq(
-        choice("lazy", "assert", "upcast", "downcast", "%", "%%", $.prefix_op),
-        $._expression_inner,
-      )),
-
-    return_expression: $ =>
-      prec.left(PREC.SPECIAL_PREFIX,
-      seq(
-        choice("return", "return!"),
-        $._expression_inner,
-      )),
-
-    yield_expression: $ =>
-      prec.left(PREC.SPECIAL_PREFIX,
-      seq(
-        choice("yield", "yield!"),
-        $._expression_inner,
-      )),
-
-    ce_expression: $ =>
-      prec(PREC.CE_EXPR,
-      seq(
-        $._expression_inner,
-        "{",
-          $._virtual_open_section,
-          $._comp_or_range_expression,
-          $._virtual_end_section,
-        "}",
-      )),
-
-    infix_expression: $ =>
-      prec.right(PREC.SPECIAL_INFIX,
-      seq(
-        $._expression_inner,
-        $.infix_op,
-        $._expression_inner,
-      )),
+        choice('return', 'return!', 'yield', 'yield!', 'lazy', 'assert', 'upcast', 'downcast', $.prefix_op),
+        prec.right(PREC.PREFIX_EXPR, $._expression),
+      ),
 
     literal_expression: $ =>
       prec(PREC.PAREN_EXPR,
-      choice(
-        seq("<@", $._expression_inner, "@>"),
-        seq("<@@", $._expression_inner, "@@>"),
-      )),
+        choice(
+          seq('<@', $._expression, '@>'),
+          seq('<@@', $._expression, '@@>'),
+        )),
 
     typecast_expression: $ =>
       prec(PREC.SPECIAL_INFIX,
-      seq(
-        $._expression_inner,
-        choice(
-          ":",
-          ":>",
-          ":?",
-          ":?>"
-        ),
-        $.type
-      )),
-
-    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq("begin", $._expressions, "end")),
-
-    paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._virtual_open_section, $._expressions, $._virtual_end_section, ")")),
+        seq(
+          $._expression,
+          choice(
+            ':',
+            ':>',
+            ':?',
+            ':?>',
+          ),
+          $.type,
+        )),
 
     for_expression: $ =>
-      prec.left(
-      seq(
-        "for",
-        choice(
-            seq($._pattern, "in", $._expression_or_range),
-            seq($.identifier, "=", $._expression_inner, choice("to","downto"), $._expression_inner),
-        ),
-        "do",
-          $._virtual_open_section,
-          $._expressions,
-          $._virtual_end_section,
-        optional("done"),
-      )),
+      prec(PREC.DO_EXPR + 1,
+        seq(
+          'for',
+          choice(
+            seq($._pattern, 'in', $._expression_or_range),
+            seq($.identifier, '=', $._expression, choice('to', 'downto'), $._expression),
+          ),
+          'do',
+          $._expression_block,
+          optional('done'),
+        )),
 
     while_expression: $ =>
-      prec.left(
-      seq(
-        "while",
-          $._expression_inner,
-        "do",
-          $._virtual_open_section,
-          $._expressions,
-          $._virtual_end_section,
-        optional("done"),
-      )),
+      prec(PREC.DO_EXPR + 1,
+        seq(
+          'while',
+          $._expression,
+          'do',
+          $._expression_block,
+          optional('done'),
+        )),
 
     _else_expression: $ =>
-      prec(PREC.ELSE_EXPR,
       seq(
-        "else",
-        $._virtual_open_section,
-        field("else_branch", $._expressions),
-        $._virtual_end_section,
-      )),
+        alias($._else, 'else'),
+        field('else', $._expression_block),
+      ),
+
+    _then_expression: $ =>
+      seq(
+        alias($._then, 'then'),
+        $._indent,
+        field('then', $._expression),
+      ),
 
     elif_expression: $ =>
-      prec(PREC.ELSE_EXPR,
       seq(
-        "elif",
-        field("guard", $._expression_inner),
-        "then",
-        $._virtual_open_section,
-        field("then", $._expressions),
-        $._virtual_end_section,
-      )),
+        alias($._elif, 'elif'),
+        field('guard', $._expression),
+        $._then_expression,
+      ),
 
-    if_expression: $ =>
+    _if_then_else_expression: $ =>
       prec.left(PREC.IF_EXPR,
-      seq(
-        "if",
-        field("guard", $._expression_inner),
-        "then",
-        field("then", $._expressions),
-        repeat($.elif_expression),
-        optional($._else_expression),
-      )),
+        seq(
+          'if',
+          field('guard', $._expression),
+          $._then_expression,
+          repeat($.elif_expression),
+          $._else_expression,
+        )),
+
+    _if_then_expression: $ =>
+      prec.left(PREC.IF_EXPR,
+        seq(
+          'if',
+          field('guard', $._expression),
+          $._then_expression,
+          $._dedent
+        )),
+
+    if_expression: $ => choice($._if_then_expression, $._if_then_else_expression),
 
     fun_expression: $ =>
       prec.right(PREC.FUN_EXPR,
-      seq(
-        "fun",
-        $.argument_patterns,
-        "->",
-        $._virtual_open_section,
-        $._expressions,
-        $._virtual_end_section,
-      )),
+        seq(
+          'fun',
+          $.argument_patterns,
+          '->',
+          $._expression_block,
+        )),
 
     try_expression: $ =>
       prec(PREC.MATCH_EXPR,
-      seq(
-        "try",
-        $._virtual_open_section,
-        $._expressions,
-        $._virtual_end_section,
-        choice(
-          seq("with", $.rules),
-          seq("finally", $._virtual_open_section, $._expressions, $._virtual_end_section),
-        ),
-      )),
+        seq(
+          'try',
+          $._expression_block,
+          optional($._newline),
+          choice(
+            seq('with', $.rules),
+            seq('finally', $._expression_block)
+          ),
+        )),
 
     match_expression: $ =>
-      prec(PREC.MATCH_EXPR,
       seq(
-        choice("match", "match!"),
-        $._expression_inner,
-        "with",
+        choice('match', 'match!'),
+        $._expression,
+        optional($._newline),
+        'with',
         $.rules,
-      )),
+      ),
 
     function_expression: $ =>
       prec(PREC.MATCH_EXPR,
-      seq(
-        "function",
-        $.rules,
-      )),
+        seq(
+          'function',
+          $.rules,
+        )),
 
     object_instantiation_expression: $ =>
       prec(PREC.NEW_OBJ,
-      seq(
-        "new",
-        $.type,
-        imm("("),
-        $._expression_inner,
-        ")"
-      )),
+        seq(
+          'new',
+          $.type,
+          $._expression,
+        )),
 
     mutate_expression: $ =>
       prec.right(PREC.LARROW,
-      seq(
-        field("assignee", $._expression_inner),
-        "<-",
-        field("value", $._expression_inner),
-      )),
+        seq(
+          field('assignee', $._expression),
+          '<-',
+          field('value', $._expression),
+        )),
 
     index_expression: $ =>
       prec(PREC.INDEX_EXPR,
-      seq(
-        $._expression_inner,
-        optional(imm(".")),
-        imm("["),
-        $._virtual_open_section,
-        choice(
-          field("index", $._expressions),
-          $.slice_ranges,
-        ),
-        $._virtual_end_section,
-        "]",
-      )),
+        seq(
+          $._expression,
+          '.[',
+          choice(
+            field('index', $._expression),
+            $.slice_ranges,
+          ),
+          ']',
+        )),
 
     dot_expression: $ =>
       prec.right(PREC.DOT,
-      seq(
-        field("base", $._expression_inner),
-        imm("."),
-        field("field", $.long_identifier_or_op),
-      )),
+        seq(
+          field('base', $._expression),
+          '.',
+          field('field', $.long_identifier_or_op),
+        )),
 
     typed_expression: $ =>
       prec(PREC.PAREN_EXPR,
-      seq(
-        $._expression_inner,
-        imm("<"),
-        optional($.types),
-        ">",
-      )),
+        seq(
+          $._expression,
+          token.immediate(prec(PREC.PAREN_EXPR, '<')),
+          optional($.types),
+          prec(PREC.PAREN_EXPR, '>'),
+        )),
 
     declaration_expression: $ =>
-      prec.right(PREC.LET_EXPR,
       seq(
         choice(
-          seq(choice("use", "use!"), $.identifier, "=", $._virtual_open_section, $._expressions, $._virtual_end_section),
+          seq(choice('use', 'use!'), $.identifier, '=', $._expression_block),
           $.function_or_value_defn,
         ),
-        $._virtual_open_section,
-        field("in", $._expressions),
-        $._virtual_end_section,
-      )),
+        field('in', $._expression)
+      ),
 
     do_expression: $ =>
       prec(PREC.DO_EXPR,
-      seq(
-        choice("do", "do!"),
-        $._virtual_open_section,
-        $._expressions,
-        $._virtual_end_section,
-      )),
+        seq(
+          choice('do', 'do!'),
+          $._expression_block,
+        )),
 
     _list_elements: $ =>
-      prec.right(PREC.COMMA+100,
+      prec.right(PREC.COMMA + 100,
         seq(
-          $._virtual_open_section,
-          $._expression_inner,
-          repeat(prec.right(PREC.COMMA+100, seq($._virtual_end_decl, $._expression_inner))),
-          $._virtual_end_section,
+          optional($._newline),
+          $._expression,
+          repeat(prec.right(PREC.COMMA + 100,
+            seq(
+              alias($._newline, ';'),
+              $._expression,
+            ),
+          )),
         ),
       ),
 
     _list_element: $ =>
-      choice(
-        $._list_elements,
-        $._comp_or_range_expression,
+      seq(
+        $._indent,
+        choice(
+          $._list_elements,
+          $._comp_or_range_expression,
+          $.slice_ranges,
+        ),
+        $._dedent,
       ),
 
     list_expression: $ =>
       seq(
-        "[",
+        '[',
         optional($._list_element),
-        "]",
+        ']',
       ),
 
     array_expression: $ =>
       seq(
-        "[|",
+        '[|',
         optional($._list_element),
-        "|]",
+        '|]',
       ),
 
     range_expression: $ =>
       prec.left(PREC.DOTDOT,
-      seq(
-        $._expressions,
-        "..",
-        $._expressions,
-        optional(seq(
-          "..",
-          $._expressions,
-        )))),
+        seq(
+          $._expression,
+          '..',
+          $._expression,
+          optional(seq(
+            '..',
+            $._expression,
+          )))),
 
     _expression_or_range: $ =>
       choice(
-        $._expression_inner,
+        $._expression,
         $.range_expression,
       ),
 
     rule: $ =>
       prec.right(
-      seq(
-        $._pattern,
-        "->",
-        $._virtual_open_section,
-        $._expressions,
-        $._virtual_end_section,
-      )),
+        seq(
+          $._pattern,
+          optional(seq('when', $._expression)),
+          '->',
+          $._expression_block,
+        )),
 
     rules: $ =>
-      prec.right(PREC.MATCH_EXPR,
       seq(
-      $._virtual_open_section,
-        optional("|"),
-        $.rule,
-        repeat(seq("|", $.rule)),
-        $._virtual_end_section,
+        optional('|'), $.rule,
+        repeat(seq(optional($._newline), '|', $.rule)),
+      ),
+
+    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq('begin', $._expression, 'end')),
+
+    paren_expression: $ => prec(PREC.PAREN_EXPR,
+      seq(
+        '(',
+        $._expression_block,
+        ')',
       )),
+
+    application_expression: $ =>
+      prec.left(PREC.APP_EXPR,
+        seq(
+          $._expression,
+          choice(
+            prec(PREC.APP_EXPR, $._expression),
+            prec(PREC.PAREN_APP + 100, seq(token.immediate(prec(10000, '(')), optional($._expression_block), ')'),
+            )
+          )
+        )),
+
+    infix_expression: $ =>
+      prec.left(PREC.SPECIAL_INFIX,
+        seq(
+          $._expression,
+          $.infix_op,
+          $._expression,
+        )),
+
+
+    ce_expression: $ =>
+      prec.left(PREC.CE_EXPR,
+        seq(
+          prec(-1, $._expression),
+          '{',
+          scoped($._comp_or_range_expression, $._indent, $._dedent),
+          '}',
+        )),
+
+    sequential_expression: $ =>
+      prec.right(PREC.SEQ_EXPR,
+        seq(
+          $._expression,
+          repeat1(
+            prec.right(PREC.SEQ_EXPR,
+              seq(
+                alias($._newline, ';'),
+                $._expression,
+              ),
+            ),
+          ),
+        ),
+      ),
 
     //
     // Expressions (END)
@@ -803,7 +823,7 @@ module.exports = grammar({
 
     _comp_or_range_expression: $ =>
       choice(
-        $._expressions,
+        $._expression,
         $.short_comp_expression,
         // $.range_expression, TODO
       ),
@@ -821,7 +841,7 @@ module.exports = grammar({
     //     $.while_expressions,
     //     $.for_ce_expressions,
     //     $.sequential_ce_expressions,
-    //     $._expressions,
+    //     $._expression,
     //   ),
 
     // for_ce_expressions: $ =>
@@ -829,8 +849,8 @@ module.exports = grammar({
     //   seq(
     //     "for",
     //     choice(
-    //         seq($._pattern, "in", $._expressions_or_range),
-    //         seq($.identifier, "=", $._expressions, "to", $._expression),
+    //         seq($._pattern, "in", $._expression_or_range),
+    //         seq($.identifier, "=", $._expression, "to", $._expression),
     //     ),
     //     "do",
     //       $._virtual_open_section,
@@ -856,7 +876,7 @@ module.exports = grammar({
     //   prec(PREC.MATCH_EXPR,
     //   seq(
     //     "match",
-    //     $._expressions,
+    //     $._expression,
     //     "with",
     //     $.comp_rules,
     //   )),
@@ -882,7 +902,7 @@ module.exports = grammar({
     //   seq(
     //     "elif",
     //     $._virtual_open_section,
-    //     field("guard", $._expressions),
+    //     field("guard", $._expression),
     //     $._virtual_end_section,
     //     "then",
     //     $._virtual_open_section,
@@ -895,7 +915,7 @@ module.exports = grammar({
     //   seq(
     //     "if",
     //     $._virtual_open_section,
-    //     field("guard", $._expressions),
+    //     field("guard", $._expression),
     //     $._virtual_end_section,
     //     "then",
     //     field("then", $._comp_expressions),
@@ -907,20 +927,20 @@ module.exports = grammar({
     //   prec.left(PREC.PREFIX_EXPR,
     //   seq(
     //     choice("return!", "return"),
-    //     $._expressions,
+    //     $._expression,
     //   )),
     //
     // yield_ce_expressions: $ =>
     //   prec.left(PREC.PREFIX_EXPR,
     //   seq(
     //     choice("yield!", "yield"),
-    //     $._expressions,
+    //     $._expression,
     //   )),
     //
     // do_ce_expressions: $ =>
     //   seq(
     //     choice("do!", "do"),
-    //     $._expressions,
+    //     $._expression,
     //     $._comp_expressions,
     //   ),
     //
@@ -930,7 +950,7 @@ module.exports = grammar({
     //     $._pattern,
     //     "=",
     //     $._virtual_open_section,
-    //     $._expressions,
+    //     $._expression,
     //     $._virtual_end_section,
     //     $._comp_expressions,
     //   ),
@@ -941,19 +961,19 @@ module.exports = grammar({
     //     $._pattern,
     //     "=",
     //     $._virtual_open_section,
-    //     $._expressions,
+    //     $._expression,
     //     $._virtual_end_section,
     //     $._comp_expressions,
     //   ),
 
     short_comp_expression: $ =>
       seq(
-        "for",
+        'for',
         $._pattern,
-        "in",
+        'in',
         $._expression_or_range,
-        "->",
-        $._expressions,
+        '->',
+        $._expression,
       ),
 
     // comp_rule: $ =>
@@ -972,22 +992,22 @@ module.exports = grammar({
     //   )),
 
     slice_ranges: $ =>
-      seq($.slice_range, repeat(seq(",", $.slice_range))),
+      seq($.slice_range, repeat(seq(',', $.slice_range))),
 
     _slice_range_special: $ =>
       prec.left(PREC.DOTDOT_SLICE,
         choice(
-          seq($._expressions, ".."),
-          seq("..", $._expressions),
-          seq($._expressions, "..", $._expressions),
-        )
+          seq(field('from', $._expression), token(prec(PREC.DOTDOT, '..'))),
+          seq(token(prec(PREC.DOTDOT + 100000, '..')), field('to', $._expression)),
+          seq(field('from', $._expression), token(prec(PREC.DOTDOT, '..')), field('to', $._expression)),
+        ),
       ),
 
     slice_range: $ =>
       choice(
         $._slice_range_special,
-        $._expressions,
-        "*",
+        $._expression,
+        '*',
       ),
 
     //
@@ -999,23 +1019,34 @@ module.exports = grammar({
     //
     type: $ =>
       prec(4, choice(
-        $.long_identifier,
-        prec.right(seq($.long_identifier, "<", optional($.type_attributes), ">")),
-        seq("(", $.type, ")"),
-        prec.right(seq($.type, "->", $.type)),
-        prec.right(seq($.type, repeat1(prec.right(seq("*", $.type))))),
-        prec.left(4, seq($.type, $.long_identifier)),
-        seq($.type, "[", repeat(","), "]"), // TODO: FIXME
-        seq($.type, $.type_argument_defn),
+        $._simple_type,
+        $._generic_type,
+        $._paren_type,
+        $._function_type,
+        $._compound_type,
+        $._postfix_type,
+        $._list_type,
+        $._static_type,
         $.type_argument,
-        prec.right(seq($.type_argument, ":>", $.type)),
-        prec.right(seq(imm("#"), $.type)),
+        $._constrained_type,
+        $._flexible_type,
       )),
+
+    _simple_type: $ => $.long_identifier,
+    _generic_type: $ => prec.right(5, seq($.long_identifier, '<', optional($.type_attributes), '>')),
+    _paren_type: $ => seq('(', $.type, ')'),
+    _function_type: $ => prec.right(seq($.type, '->', $.type)),
+    _compound_type: $ => prec.right(seq($.type, repeat1(prec.right(seq('*', $.type))))),
+    _postfix_type: $ => prec.left(4, seq($.type, $.long_identifier)),
+    _list_type: $ => seq($.type, '[]'),
+    _static_type: $ => prec(10, seq($.type, $.type_arguments)),
+    _constrained_type: $ => prec.right(seq($.type_argument, ':>', $.type)),
+    _flexible_type: $ => prec.right(seq(token.immediate('#'), $.type)),
 
     types: $ =>
       seq(
         $.type,
-        repeat1(prec.left(PREC.COMMA, seq(",", $.type))),
+        repeat(prec.left(PREC.COMMA, seq(',', $.type))),
       ),
 
     type_attribute: $ =>
@@ -1024,137 +1055,147 @@ module.exports = grammar({
         // measure
         // static-parameter
       ),
-    type_attributes: $ => seq($.type_attribute, repeat(prec.left(PREC.COMMA, seq(",", $.type_attribute)))),
+
+    type_attributes: $ => seq($.type_attribute, repeat(prec.left(PREC.COMMA, seq(',', $.type_attribute)))),
 
     atomic_type: $ =>
-      choice(
-        seq("#", $.type),
-        $.type_argument,
-        seq("(", $.type, ")"),
-        $.long_identifier,
-        seq($.long_identifier, "<", $.type_attributes, ">"),
-      ),
+      prec.right(
+        choice(
+          seq('#', $.type),
+          $.type_argument,
+          seq('(', $.type, ')'),
+          $.long_identifier,
+          seq($.long_identifier, '<', $.type_attributes, '>'),
+        )),
 
     constraint: $ =>
       choice(
-        seq($.type_argument, ":>", $.type),
-        seq($.type_argument, ":", "null"),
-        seq($.static_type_argument, ":", "(", $.trait_member_constraint, ")"),
-        seq($.type_argument, ":", "(", "new", ":", "unit", "->", "'T", ")"),
-        seq($.type_argument, ":", "struct"),
-        seq($.type_argument, ":", "not", "struct"),
-        seq($.type_argument, ":", "enum", "<", $.type, ">"),
-        seq($.type_argument, ":", "unmanaged"),
-        seq($.type_argument, ":", "equality"),
-        seq($.type_argument, ":", "comparison"),
-        seq($.type_argument, ":", "delegate", "<", $.type, ",", $.type, ">"),
+        seq($.type_argument, ':>', $.type),
+        seq($.type_argument, ':', 'null'),
+        seq($.static_type_argument, ':', '(', $.trait_member_constraint, ')'),
+        seq($.type_argument, ':', '(', 'new', ':', 'unit', '->', '\'T', ')'),
+        seq($.type_argument, ':', 'struct'),
+        seq($.type_argument, ':', 'not', 'struct'),
+        seq($.type_argument, ':', 'enum', '<', $.type, '>'),
+        seq($.type_argument, ':', 'unmanaged'),
+        seq($.type_argument, ':', 'equality'),
+        seq($.type_argument, ':', 'comparison'),
+        seq($.type_argument, ':', 'delegate', '<', $.type, ',', $.type, '>'),
       ),
 
     type_argument_constraints: $ =>
       seq(
-        "when",
+        'when',
         $.constraint,
-        repeat(seq("and", $.constraint))
+        repeat(seq('and', $.constraint)),
       ),
 
     type_argument: $ =>
       choice(
-        "_",
-        seq("'", $.identifier),
-        seq("^", $.identifier),
+        '_',
+        seq('\'', $.identifier),
+        seq('^', $.identifier),
       ),
 
     type_argument_defn: $ =>
       seq(
         optional($.attributes),
-        $.type_argument
+        $.type_argument,
       ),
 
     static_type_argument: $ =>
       choice(
-        seq(choice("^", "'"), $.identifier),
-        seq(choice("^", "'"), $.identifier, repeat(seq("or", choice("^", "'"), $.identifier)))
+        seq(choice('^', '\''), $.identifier),
+        seq(choice('^', '\''), $.identifier, repeat(seq('or', choice('^', '\''), $.identifier))),
       ),
 
     type_arguments: $ =>
       seq(
-        "<",
+        '<',
         $.type_argument_defn,
-        repeat(prec.left(PREC.COMMA, seq(",", $.type_argument_defn))),
+        repeat(prec.left(PREC.COMMA, seq(',', $.type_argument_defn))),
         optional($.type_argument_constraints),
-        ">"
+        '>',
       ),
 
     trait_member_constraint: $ =>
       seq(
-        optional("static"),
-        "member",
+        optional('static'),
+        'member',
         $.identifier,
         ':',
-        $.type
+        $.type,
       ),
 
     member_signature: $ =>
       seq(
         $.identifier,
         optional($.type_arguments),
-        ":",
-        $.type,
+        ':',
+        $.curried_spec,
         optional(
           choice(
-            seq("with", "get"),
-            seq("with", "set"),
-            seq("with", "get", ",", "set"),
-            seq("with", "set", ",", "get"),
-          )
-        )
+            seq('with', 'get'),
+            seq('with', 'set'),
+            seq('with', 'get', ',', 'set'),
+            seq('with', 'set', ',', 'get'),
+          ),
+        ),
+      ),
+
+    curried_spec: $ =>
+      seq(
+        repeat(seq($.arguments_spec, '->')),
+        $.type
       ),
 
     argument_spec: $ =>
-      seq(
-        optional($.attributes),
-        optional($.argument_name_spec),
-        $.type,
-      ),
+      prec.left(
+        seq(
+          optional($.attributes),
+          optional($.argument_name_spec),
+          $.type,
+        )),
+
     arguments_spec: $ =>
       seq(
         $.argument_spec,
-        repeat(seq("*", $.argument_spec))
+        repeat(seq('*', $.argument_spec)),
       ),
 
     argument_name_spec: $ =>
       seq(
-        optional("?"),
-        $.identifier,
-        ":"
+        optional('?'),
+        field('name', $.identifier),
+        ':',
       ),
 
     interface_spec: $ =>
       seq(
-        "interface",
-        $.type
+        'interface',
+        $.type,
       ),
 
     static_parameter: $ =>
       choice(
         $.static_parameter_value,
-        seq("id", "=", $.static_parameter_value)
+        seq('id', '=', $.static_parameter_value),
       ),
 
     static_parameter_value: $ =>
       choice(
         $.const,
-        seq($.const, $._expressions)
+        seq($.const, $._expression),
       ),
 
     type_definition: $ =>
       prec.left(seq(
         optional($.attributes),
-        "type",
+        'type',
         $._type_defn_body,
         repeat(seq(
           optional($.attributes),
-          "and",
+          'and',
           $._type_defn_body,
         )))),
 
@@ -1177,9 +1218,9 @@ module.exports = grammar({
         optional($.attributes),
         optional($.access_modifier),
         choice(
-            seq($.identifier, optional($.type_arguments)),
-            seq(optional($.type_argument), $.identifier) // Covers `type 'a option = Option<'a>`
-         ),
+          seq(field('type_name', $.identifier), optional($.type_arguments)),
+          seq(optional($.type_argument), field('type_name', $.identifier)), // Covers `type 'a option = Option<'a>`
+        ),
       ),
 
     type_extension: $ =>
@@ -1191,26 +1232,22 @@ module.exports = grammar({
     delegate_type_defn: $ =>
       seq(
         $.type_name,
-        "=",
-        $._virtual_open_section,
-        $.delegate_signature,
-        $._virtual_end_section,
+        '=',
+        scoped($.delegate_signature, $._indent, $._dedent),
       ),
 
     delegate_signature: $ =>
       seq(
-        "delegate",
-        "of",
+        'delegate',
+        'of',
         $.type,
       ),
 
     type_abbrev_defn: $ =>
       seq(
         $.type_name,
-        "=",
-        $._virtual_open_section,
-        $.type,
-        $._virtual_end_section,
+        '=',
+        scoped($.type, $._indent, $._dedent),
       ),
 
     // class_type_defn: $ =>
@@ -1252,292 +1289,288 @@ module.exports = grammar({
 
     _class_type_body: $ =>
       seq(
-        $._virtual_open_section,
         $._class_type_body_inner,
-        repeat(seq($._virtual_end_decl,$._class_type_body_inner)),
-        $._virtual_end_section,
+        repeat(seq($._newline, $._class_type_body_inner)),
+      ),
+
+    _record_type_defn_inner: $ =>
+      seq(
+        '{',
+        scoped($.record_fields, $._indent, $._dedent),
+        '}',
+        optional($.type_extension_elements),
       ),
 
     record_type_defn: $ =>
       prec.left(
-      seq(
-        $.type_name,
-        "=",
-        $._virtual_open_section,
-        "{",
-        $._virtual_open_section,
-        $.record_fields,
-        $._virtual_end_section,
-        "}",
-        optional($.type_extension_elements),
-        $._virtual_end_section,
-      )),
+        seq(
+          $.type_name,
+          '=',
+          scoped($._record_type_defn_inner, $._indent, $._dedent),
+        )),
 
     record_fields: $ =>
       seq(
         $.record_field,
-        repeat(seq($._virtual_end_decl, $.record_field)),
-        optional(";"),
+        repeat(
+          seq(
+            $._newline,
+            $.record_field),
+        ),
       ),
 
     record_field: $ =>
       seq(
         optional($.attributes),
-        optional("mutable"),
+        optional('mutable'),
         optional($.access_modifier),
         $.identifier,
-        ":",
-        $.type
+        ':',
+        $.type,
       ),
 
     enum_type_defn: $ =>
       seq(
         $.type_name,
-        "=",
-        $._virtual_open_section,
-        $.enum_type_cases,
-        $._virtual_end_section,
+        '=',
+        scoped($.enum_type_cases, $._indent, $._dedent),
       ),
 
     enum_type_cases: $ =>
-      seq(
-        optional("|"),
-        $.enum_type_case,
-        repeat(seq($._virtual_end_decl, "|", $.enum_type_case))
+      choice(
+        seq(optional('|'), $.enum_type_case),
+        seq(
+          seq('|', $.enum_type_case),
+          repeat1(seq('|', $.enum_type_case)),
+        ),
       ),
 
     enum_type_case: $ =>
       seq(
         $.identifier,
-        "=",
-        $.const
+        '=',
+        $.const,
+      ),
+
+    _union_type_defn_inner: $ =>
+      seq(
+        $.union_type_cases,
+        optional($.type_extension_elements),
       ),
 
     union_type_defn: $ =>
       prec.left(
-      seq(
-        $.type_name,
-        "=",
-        $._virtual_open_section,
-        $.union_type_cases,
-        optional($.type_extension_elements),
-        $._virtual_end_section,
-      )),
+        seq(
+          $.type_name,
+          '=',
+          scoped($._union_type_defn_inner, $._indent, $._dedent),
+        )),
 
     union_type_cases: $ =>
       seq(
-        optional("|"),
+        optional('|'),
         $.union_type_case,
-        repeat(seq("|", $.union_type_case))
+        repeat(seq('|', $.union_type_case)),
       ),
 
     union_type_case: $ =>
       prec(8,
-      seq(
-        optional($.attributes),
-        choice(
-          $.identifier,
-          seq($.identifier, "of", $.union_type_fields),
-          seq($.identifier, ":", $.type),
-        ))),
+        seq(
+          optional($.attributes),
+          choice(
+            $.identifier,
+            seq($.identifier, 'of', $.union_type_fields),
+            seq($.identifier, ':', $.type),
+          ))),
 
     union_type_fields: $ =>
       seq(
         $.union_type_field,
-        repeat(seq("*", $.union_type_field)),
+        repeat(seq('*', $.union_type_field)),
       ),
 
     union_type_field: $ =>
       prec.left(choice(
         $.type,
-        seq($.identifier, ":", $.type)
+        seq($.identifier, ':', $.type),
       )),
 
     anon_type_defn: $ =>
-      seq(
-        $.type_name,
-        $.primary_constr_args,
-        "=",
-        $._virtual_open_section,
-        $._class_type_body,
-        $._virtual_end_section,
-      ),
+      prec.left(
+        seq(
+          $.type_name,
+          optional($.primary_constr_args),
+          '=',
+          scoped($._class_type_body, $._indent, $._dedent),
+        )),
 
     primary_constr_args: $ =>
-      seq(
-        optional($.attributes),
-        optional($.access_modifier),
-        "(",
-        optional(seq(
+      field('constructor',
+        seq(
+          optional($.attributes),
+          optional($.access_modifier),
+          '(',
+          optional(seq(
             $.simple_pattern,
-            repeat(prec.left(PREC.COMMA, seq(",", $.simple_pattern))))),
-        ")"
-      ),
+            repeat(prec.left(PREC.COMMA, seq(',', $.simple_pattern))))),
+          ')',
+        )),
 
     simple_pattern: $ =>
       choice(
         $.identifier,
-        seq($.simple_pattern, ":", $.type)
+        seq($.simple_pattern, ':', $.type),
       ),
 
     _class_function_or_value_defn: $ =>
       seq(
         optional($.attributes),
-        optional("static"),
+        optional('static'),
         choice(
           $.function_or_value_defn,
-          seq("do", $._virtual_open_section, $._expressions, $._virtual_end_section),
-        )
+          seq('do', $._expression_block),
+        ),
       ),
 
     type_extension_elements: $ =>
       seq(
         choice(
           seq(
-            "with",
-            $._virtual_open_section,
-            $._type_defn_elements,
-            $._virtual_end_section,
+            'with',
+            scoped($._type_defn_elements, $._indent, $._dedent),
           ),
           $._type_defn_elements,
-        )
+        ),
       ),
 
     _type_defn_elements: $ =>
       choice(
         $._member_defns,
-        $._interface_implementations,
-        // $.interface_signature
+        prec.left(repeat1($.interface_implementation)),
+        // $._interface_signature
       ),
 
-    _interface_implementations: $ => prec.right(repeat1($.interface_implementation)),
     interface_implementation: $ =>
       prec.left(
-      seq(
-        "interface",
-        $.type,
-        optional($._object_members),
-      )),
+        seq(
+          'interface',
+          $.type,
+          optional($._object_members),
+        )),
 
     _member_defns: $ =>
       prec.left(
-      seq(
-        $.member_defn,
-        repeat(seq($._virtual_end_decl, $.member_defn)),
-      )),
+        seq(
+          $.member_defn,
+          repeat($.member_defn),
+        )),
 
     _object_members: $ =>
       seq(
-        "with",
-        $._virtual_open_section,
-        $._member_defns,
-        $._virtual_end_section,
+        'with',
+        scoped($._member_defns, $._indent, $._dedent),
       ),
 
     member_defn: $ =>
-      seq(
-        optional($.attributes),
-        choice(
-          seq(optional("static"), "member", optional($.access_modifier), $.method_or_prop_defn),
-          seq("abstract", optional("member"), optional($.access_modifier), $.member_signature),
-          seq("override", optional($.access_modifier), $.method_or_prop_defn),
-          seq("default", optional($.access_modifier), $.method_or_prop_defn),
-          seq(optional("static"), "val", optional("mutable"), optional($.access_modifier), $.identifier, ":", $.type),
-          $.additional_constr_defn,
-        ),
-      ),
+      prec(PREC.APP_EXPR + 100000,
+        seq(
+          optional($.attributes),
+          choice(
+            seq(optional('static'), optional($.access_modifier), 'member', $.method_or_prop_defn),
+            seq('abstract', optional($.access_modifier), optional('member'), $.member_signature),
+            seq('override', optional($.access_modifier), $.method_or_prop_defn),
+            seq('default', optional($.access_modifier), $.method_or_prop_defn),
+            seq(optional('static'), 'val', optional('mutable'), optional($.access_modifier), $.identifier, ':', $.type),
+            $.additional_constr_defn,
+          ),
+        )),
 
     property_or_ident: $ =>
       choice(
-        seq(field("instance", $.identifier), ".", $.identifier),
+        seq(field('instance', $.identifier), '.', field('method', $.identifier)),
         $.identifier,
       ),
 
     _method_defn: $ =>
       choice(
-          seq($.property_or_ident, $._pattern, "=", $._virtual_open_section, $._expressions, $._virtual_end_section),
+        seq($.property_or_ident, optional($.type_arguments), field('args', repeat1($._pattern)), '=', $._expression_block),
       ),
 
     _property_defn: $ =>
       seq(
         $.property_or_ident,
-        "=",
-        $._virtual_open_section,
-        $._expressions,
-        $._virtual_end_section,
+        '=',
+        $._expression_block,
         optional(
           seq(
-            "with",
+            'with',
             choice(
-              "get",
-              "set",
-              seq("get", ",", "set"),
-              seq("set", ",", "get"),
-            )
-          )
+              'get',
+              'set',
+              seq('get', ',', 'set'),
+              seq('set', ',', 'get'),
+            ),
+          ),
         ),
       ),
 
     method_or_prop_defn: $ =>
       prec(3,
         choice(
-          seq($.property_or_ident, "with", $._virtual_open_section, $._function_or_value_defns, $._virtual_end_section),
+          seq($.property_or_ident, 'with', scoped($._function_or_value_defns, $._indent, $._dedent)),
           $._method_defn,
           $._property_defn,
-        )
+        ),
       ),
 
     additional_constr_defn: $ =>
       seq(
-        // optional($.attributes),
         optional($.access_modifier),
-        "new",
+        'new',
         $._pattern,
-        $.as_defn,
-        "=",
-        // $.additional_constr_expr
+        '=',
+        $._expression_block,
       ),
 
-    additional_constr_expr: $ =>
-      choice(
-        seq($.additional_constr_expr, ";", $.additional_constr_expr),
-        seq($.additional_constr_expr, "then", $._expressions),
-        seq("if", $._expressions, "then", $.additional_constr_expr, "else", $.additional_constr_expr),
-        seq("let", $._function_or_value_defn_body, "in", $.additional_constr_expr), // TODO: "in" is optional?
-        $.additional_constr_init_expr
-      ),
-
-    additional_constr_init_expr: $ =>
-      choice(
-        seq("{", $.class_inherits_decl, $.field_initializers, "}"),
-        seq("new", $.type, $._expressions)
-      ),
+    // additional_constr_expr: $ =>
+    //   prec.left(
+    //     choice(
+    //       // seq($.additional_constr_expr, ';', $.additional_constr_expr),
+    //       // seq($.additional_constr_expr, 'then', $._expression),
+    //       // seq('if', $._expression, 'then', $.additional_constr_expr, 'else', $.additional_constr_expr),
+    //       // seq('let', $._function_or_value_defn_body, 'in', $.additional_constr_expr), // TODO: "in" is optional?
+    //       $.additional_constr_init_expr,
+    //     )),
+    //
+    // additional_constr_init_expr: $ =>
+    //   choice(
+    //     // seq('{', $.class_inherits_decl, $.field_initializers, '}'),
+    //     $._expression,
+    //   ),
 
     class_inherits_decl: $ =>
       prec.left(
         seq(
-          "inherit",
+          'inherit',
           $.type,
-          $._virtual_open_section,
-          optional($._expressions),
-          $._virtual_end_section,
-        )
+          optional($._expression_block),
+        ),
       ),
 
-    as_defn: $ => seq("as", $.identifier),
-
-    field_initializer: $ => prec.right(seq($.long_identifier, "=",
-      $._virtual_open_section,
-      $._expressions,
-      $._virtual_end_section,
-    )),
+    field_initializer: $ =>
+      prec(PREC.SPECIAL_INFIX + 1,
+        seq(
+          field('field', $.long_identifier),
+          token(prec(10000000, '=')),
+          field('value', $._expression)),
+      ),
 
     field_initializers: $ =>
-      prec.left(PREC.COMMA+100,
-      seq(
-        $.field_initializer,
-        repeat(prec.left(PREC.COMMA+100, seq($._virtual_end_decl, $.field_initializer)))
-      )),
+      prec(10000000,
+        seq(
+          $.field_initializer,
+          repeat(seq($._newline, $.field_initializer))
+        )),
 
     //
     // Type rules (END)
@@ -1546,21 +1579,21 @@ module.exports = grammar({
     //
     // Constants (BEGIN)
     //
-    _escape_char: $ => imm(/\\["\'ntbrafv]/),
-    _non_escape_char: $ => imm(/\\[^"\'ntbrafv]/),
+    _escape_char: _ => token.immediate(prec(100, /\\["\'ntbrafv]/)),
+    _non_escape_char: _ => token.immediate(prec(100, /\\[^"\'ntbrafv]/)),
     // using \u0008 to model \b
-    _simple_char_char: $ => imm(/[^\n\t\r\u0008\a\f\v'\\]/),
-    _hex_digit_imm: $ => imm(/[0-9a-fA-F]/),
-    _digit_char_imm: $ => imm(/[0-9]/),
+    _simple_char_char: _ => token.immediate(/[^\n\t\r\u0008\a\f\v'\\]/),
+    _hex_digit_imm: _ => token.immediate(/[0-9a-fA-F]/),
+    _digit_char_imm: _ => token.immediate(/[0-9]/),
     _unicodegraph_short: $ => seq(
-      imm('\\u'),
+      token.immediate('\\u'),
       $._hex_digit_imm,
       $._hex_digit_imm,
       $._hex_digit_imm,
       $._hex_digit_imm,
     ),
     _unicodegraph_long: $ => seq(
-      imm('\\U'),
+      token.immediate('\\U'),
       $._hex_digit_imm,
       $._hex_digit_imm,
       $._hex_digit_imm,
@@ -1570,17 +1603,17 @@ module.exports = grammar({
       $._hex_digit_imm,
       $._hex_digit_imm,
     ),
-    _trigraph: $ => seq(imm('\\'), $._digit_char_imm, $._digit_char_imm, $._digit_char_imm),
+    _trigraph: $ => seq(token.immediate('\\'), $._digit_char_imm, $._digit_char_imm, $._digit_char_imm),
 
     _char_char: $ => choice(
       $._simple_char_char,
       $._escape_char,
       $._trigraph,
-      $._unicodegraph_short
+      $._unicodegraph_short,
     ),
 
     // note: \n is allowed in strings
-    _simple_string_char: $ => /[^\t\r\u0008\a\f\v\\"]/,
+    _simple_string_char: _ => token.immediate(prec(1, /[^\t\r\u0008\a\f\v\\"]/)),
     _string_char: $ => choice(
       $._simple_string_char,
       $._escape_char,
@@ -1592,153 +1625,205 @@ module.exports = grammar({
 
     _string_elem: $ => choice(
       $._string_char,
-      seq('\\', $._string_elem)
+      seq('\\', $._string_elem),
     ),
-    char: $ => seq("'", $._char_char, imm("'")),
-    string: $ => seq('"', repeat($._string_char), imm('"')),
+    char: $ => seq('\'', $._char_char, token.immediate('\'')),
+
+    format_string_eval: $ =>
+      seq(token.immediate(prec(1000, '{')), $._expression, '}'),
+
+    format_string: $ =>
+      seq(
+        token(prec(100, '$"')),
+        repeat(choice($.format_string_eval, $._string_char)),
+        '"',
+      ),
+
+    string: $ =>
+      choice(
+        seq('"', repeat($._string_char), '"'),
+        $.format_string,
+      ),
     _verbatim_string_char: $ => choice(
       $._simple_string_char,
       $._non_escape_char,
       '\\',
     ),
-    verbatim_string: $ => seq('@"', repeat($._verbatim_string_char), imm('"')),
-    bytechar: $ => seq("'", $._char_char, imm("'B")),
-    bytearray: $ => seq('"', repeat($._string_char), imm('"B')),
-    verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
-    _simple_or_escape_char: $ => choice($._escape_char, imm(/[^'\\]/)),
-    triple_quoted_string: $ => seq('"""', repeat($._simple_or_escape_char), imm('"""')),
-    _newline: $ => /\r?\n/,
+    verbatim_string: $ => seq('@"', repeat($._verbatim_string_char), token.immediate('"')),
+    bytechar: $ => seq('\'', $._char_char, token.immediate('\'B')),
+    bytearray: $ => seq('"', repeat($._string_char), token.immediate('"B')),
+    verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), token.immediate('"B')),
 
-    unit: $ => seq("(", optional(seq($._virtual_open_section, $._virtual_end_section)), ")"),
+    format_triple_quoted_string: $ =>
+      seq(
+        token(prec(100, '$"""')),
+        // repeat(choice($.format_string_eval, $._string_char)),
+        $._triple_quoted_content,
+        '"""',
+      ),
+
+    triple_quoted_string: $ =>
+      choice(
+        seq(
+          '"""',
+          $._triple_quoted_content,
+          '"""'),
+        $.format_triple_quoted_string,
+      ),
+
+    bool: _ => token(choice('true', 'false')),
+
+    unit: _ => '()',
 
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,
       $.nativeint, $.unativeint, $.decimal,
       $.uint64, $.ieee32, $.ieee64, $.bignum, $.char, $.string,
       $.verbatim_string, $.triple_quoted_string, $.bytearray,
-      $.verbatim_bytearray, $.bytechar, "false", "true", $.unit),
+      $.verbatim_bytearray, $.bytechar, $.bool, $.unit),
 
     // Identifiers:
     long_identifier_or_op: $ => prec.right(
       alias(
         choice(
           $.long_identifier,
-          seq($.long_identifier, ".", $._identifier_or_op),
-          $._identifier_or_op
+          seq($.long_identifier, '.', $._identifier_or_op),
+          $._identifier_or_op,
         ),
-        $.long_identifier)
+        $.long_identifier),
     ),
 
-    long_identifier : $ =>
-      prec.right(seq($.identifier, repeat(seq(".", $.identifier)))),
+    long_identifier: $ =>
+      prec.right(seq($.identifier, repeat(seq('.', $.identifier)))),
 
     _identifier_or_op: $ => choice(
       $.identifier,
-      seq('(', $.op_name, ')'),
-      "(*)"
+      token(prec(1000,
+        seq(
+          '(',
+          choice(
+            '?',
+            /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
+            '..',
+            '.. ..',
+          ),
+          ')'))),
+      seq('(', $.active_pattern_op_name, ')'),
+      token.immediate('(*)'),
     ),
 
-    op_name: $ => choice(
-      $.symbolic_op,
-      $.range_op_name,
-      $.active_pattern_op_name
-    ),
-    range_op_name: $ => choice(
-      "..",
-      ".. .."
-    ),
     active_pattern_op_name: $ => choice(
       // full pattern
-      seq("|", $.identifier, repeat1(seq("|", $.identifier)), "|"),
+      seq('|', $.identifier, repeat1(seq('|', $.identifier)), '|'),
       // partial pattern
-      seq("|", $.identifier, repeat(seq("|", $.identifier)), "|", "_", "|"),
+      seq('|', $.identifier, repeat(seq('|', $.identifier)), '|', '_', '|'),
     ),
 
-    _infix_or_prefix_op: $ =>
+    _infix_or_prefix_op: _ =>
       choice(
-        "+",
-        "-",
-        "+.",
-        "-.",
-        "%",
-        "&",
-        "&&",
+        '+',
+        '-',
+        '+.',
+        '-.',
+        '%',
+        '&',
+        '&&',
       ),
 
     prefix_op: $ =>
       prec.left(
-      choice(
-        $._infix_or_prefix_op,
-        repeat1("~"),
-        $.symbolic_op,
-      )),
+        choice(
+          $._infix_or_prefix_op,
+          repeat1('~'),
+          /[!][!%&*+-./<>@^|~?]+[!%&*+-./<=>@^|~?]*/,
+        )),
 
     infix_op: $ =>
       prec(PREC.INFIX_OP,
-      choice(
-        $._infix_or_prefix_op,
-        $.symbolic_op,
-        "||",
-        "=",
-        "!=",
-        ":=",
-        "::",
-        "$",
-        "or",
-        "?",
-      )),
-
-    // Symbolic Operators
-    _quote_op_left: $ => choice("<@", "<@@"),
-    _quote_op_right: $ => choice("@>", "@@>"),
-    symbolic_op: $ => choice(
-      "?",
-      "?<-",
-      /[!%&*+-./<=>@^|~][!%&*+-./<=>@^|~?]*/,
-      $._quote_op_left,
-      $._quote_op_right),
+        choice(
+          $._infix_or_prefix_op,
+          /[-+<>|&^*/%][!%&*+-./<=>@^|~?]*/,
+          '||',
+          '=',
+          '!=',
+          ':=',
+          '::',
+          '$',
+          'or',
+          '?',
+          '<@',
+          '<@@',
+          '@>',
+          '@@>',
+          '?',
+          '?<-',
+        )),
 
     // Numbers
-    _octaldigit_imm: $ => imm(/[0-7]/),
-    _bitdigit_imm:   $ => imm(/[0-1]/),
-    int:             $ => seq(/[0-9]/, repeat($._digit_char_imm)),
+    _octaldigit_imm: _ => token.immediate(/[0-7]/),
+    _bitdigit_imm: _ => token.immediate(/[0-1]/),
+    int: $ => seq(/[0-9]/, repeat($._digit_char_imm)),
     xint: $ => choice(
       seq(/0[xX]/, repeat1($._hex_digit_imm)),
       seq(/0[oO]/, repeat1($._octaldigit_imm)),
       seq(/0[bB]/, repeat1($._bitdigit_imm)),
     ),
 
-    sbyte:      $ => seq(choice($.int, $.xint), imm('y')),
-    byte:       $ => seq(choice($.int, $.xint), imm('uy')),
-    int16:      $ => seq(choice($.int, $.xint), imm('s')),
-    uint16:     $ => seq(choice($.int, $.xint), imm('us')),
-    int32:      $ => seq(choice($.int, $.xint), imm('l')),
-    uint32:     $ => seq(choice($.int, $.xint), imm(choice('ul', 'u'))),
-    nativeint:  $ => seq(choice($.int, $.xint), imm('n')),
-    unativeint: $ => seq(choice($.int, $.xint), imm('un')),
-    int64:      $ => seq(choice($.int, $.xint), imm('L')),
-    uint64:     $ => seq(choice($.int, $.xint), imm(choice('UL', 'uL'))),
+    sbyte: $ => seq(choice($.int, $.xint), token.immediate('y')),
+    byte: $ => seq(choice($.int, $.xint), token.immediate('uy')),
+    int16: $ => seq(choice($.int, $.xint), token.immediate('s')),
+    uint16: $ => seq(choice($.int, $.xint), token.immediate('us')),
+    int32: $ => seq(choice($.int, $.xint), token.immediate('l')),
+    uint32: $ => seq(choice($.int, $.xint), token.immediate(choice('ul', 'u'))),
+    nativeint: $ => seq(choice($.int, $.xint), token.immediate('n')),
+    unativeint: $ => seq(choice($.int, $.xint), token.immediate('un')),
+    int64: $ => seq(choice($.int, $.xint), token.immediate('L')),
+    uint64: $ => seq(choice($.int, $.xint), token.immediate(choice('UL', 'uL'))),
 
-    ieee32: $ => choice(seq($.float, imm("f")), seq($.xint, imm("lf"))),
-    ieee64: $ => seq($.xint, imm("LF")),
+    ieee32: $ => choice(seq($.float, token.immediate('f')), seq($.xint, token.immediate('lf'))),
+    ieee64: $ => seq($.xint, token.immediate('LF')),
 
-    bignum:     $ => seq($.int, imm(/[QRZING]/)),
-    decimal:    $ => seq(choice($.float,$.int), imm(/[Mm]/)),
+    bignum: $ => seq($.int, token.immediate(/[QRZING]/)),
+    decimal: $ => seq(choice($.float, $.int), token.immediate(/[Mm]/)),
 
-    float: $ => token(choice(
-      seq(/[0-9]+/, imm(/\.[0-9]*/)),
-      seq(/[0-9]+/, optional(imm(/\.[0-9]*/)), imm(/[eE]/), optional(imm(/[+-]/)), imm(/[0-9]+/)))),
+    float: $ =>
+      alias(
+        choice(
+          seq(
+            $.int,
+            token.immediate('.'),
+            optional($.int)
+          ),
+          seq(
+            $.int,
+            optional(seq(token.immediate('.'), $.int)),
+            token.immediate(/[eE][+-]?/),
+            $.int
+          ),
+        ), 'float'),
+
     //
     // Constants (END)
     //
-
-    block_comment: $ => seq("(*", $.block_comment_content, "*)"),
-    line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
-
-    identifier: $ => choice(
-      /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
-      /``([^`\n\r\t])+``/ //TODO: Not quite the spec
+    //
+    xml_doc: $ => seq(
+      '///',
+      alias(token.immediate(/[^\/][^\n\r]*/), $.xml_doc_content)
     ),
-  }
+    block_comment: $ => seq('(*', $.block_comment_content, token.immediate('*)')),
+    line_comment: _ => /\/\/[^\/][^\n\r]*/,
+
+    identifier: _ =>
+      token(
+        choice(
+          /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
+          /``([^`\n\r\t])+``/,
+        ),
+      ),
+  },
 
 });
+
+function scoped(rule, indent, dedent) {
+  return field('block', seq(indent, rule, dedent));
+}
