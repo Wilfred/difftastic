@@ -4,12 +4,115 @@
 [
   (line_comment)
   (block_comment)
-  (block_comment_content)
-] @comment
+] @comment @spell
 
+(xml_doc) @comment.documentation @spell
+
+((identifier) @variable
+ (#set! "priority" 90))
+
+((identifier_pattern (long_identifier (identifier) @character.special))
+ (#match? @character.special "^\_.*")
+ (#set! "priority" 90))
+
+(const) @constant
 
 ;; ----------------------------------------------------------------------------
 ;; Punctuation
+
+(wildcard_pattern) @character.special
+
+(type_definition (_ (type_name (identifier) @type.definition)))
+
+(type) @type
+
+(member_signature
+  .
+  (identifier) @function.member
+  (curried_spec
+    (arguments_spec
+      "*"* @operator
+      (argument_spec
+        (argument_name_spec
+          "?"* @character.special
+          name: (_) @variable.parameter)
+        (_) @type))))
+
+[
+  (union_type_case)
+  (rules
+    (rule
+      (identifier_pattern
+        (long_identifier)
+        .
+        (long_identifier) @variable)))
+] @type
+
+(fsi_directive_decl . (string) @module)
+
+(import_decl . (_) @module)
+(named_module
+  name: (_) @module)
+(namespace
+  name: (_) @module)
+(module_defn
+  .
+  (_) @module)
+
+(field_initializer
+  field: (_) @property)
+
+(record_fields
+  (record_field
+    .
+    (identifier) @property))
+
+(dot_expression
+  base: (_) @variable
+  field: (_) @variable.member)
+
+(value_declaration_left . (_) @variable)
+
+(function_declaration_left
+  . (_) @function
+  [
+    (argument_patterns)
+    (argument_patterns (long_identifier (identifier)))
+  ] @variable.parameter)
+
+(member_defn
+  (method_or_prop_defn
+    (property_or_ident
+      instance: (identifier) @variable.parameter.builtin
+      method: (identifier) @variable.member)
+    args: _ @variable.parameter))
+
+(application_expression) @function.call
+
+(compiler_directive_decl
+  .
+  (_) @keyword.directive.define) @keyword.directive
+
+[
+  (string)
+  (triple_quoted_string)
+] @spell @string
+
+[
+  (int)
+  (int16)
+  (int32)
+  (int64)
+] @number
+
+[
+  (float)
+  (decimal)
+] @number.float
+
+(bool) @boolean
+
+(attribute) @attribute
 
 [
   "("
@@ -20,30 +123,34 @@
   "]"
   "[|"
   "|]"
+  "{|"
+  "|}"
   "[<"
   ">]"
 ] @punctuation.bracket
 
+(format_string_eval
+  [
+    "{"
+    "}"
+  ] @punctuation.special)
+
 [
-  "," 
+  ","
   ";"
 ] @punctuation.delimiter
 
 [
-  "|" 
+  "|"
   "="
   ">"
   "<"
   "-"
   "~"
+  "->"
   (infix_op)
   (prefix_op)
-  (symbolic_op)
 ] @operator
-
-
-
-(attribute) @attribute
 
 [
   "if"
@@ -58,139 +165,99 @@
   "&&"
   "||"
   "then"
-] @keyword.control.conditional
+] @keyword.conditional
+
+[
+  "and"
+  "or"
+  "not"
+  "upcast"
+  "downcast"
+] @keyword.operator
 
 [
   "return"
   "return!"
-] @keyword.control.return
+  "yield"
+  "yield!"
+] @keyword.return
 
 [
   "for"
   "while"
-] @keyword.control.return
+  "downto"
+  "to"
+] @keyword.repeat
 
 
 [
   "open"
   "#r"
   "#load"
-] @keyword.control.import
+] @keyword.import
 
 [
   "abstract"
   "delegate"
   "static"
   "inline"
-  "internal"
   "mutable"
   "override"
-  "private"
-  "public"
   "rec"
-] @keyword.storage.modifier
+  "global"
+  (access_modifier)
+] @keyword.modifier
+
+[
+  "let"
+  "let!"
+  "use"
+  "use!"
+  "member"
+] @keyword.function
 
 [
   "enum"
-  "let"
-  "let!"
-  "member"
-  "module"
-  "namespace"
   "type"
-] @keyword.storage
+  "inherit"
+  "interface"
+] @keyword.type
+
+[
+  "try"
+  "with"
+  "finally"
+] @keyword.exception
 
 [
   "as"
   "assert"
   "begin"
+  "end"
+  "done"
   "default"
+  "in"
   "do"
   "do!"
-  "done"
-  "downcast"
-  "downto"
-  "end"
   "event"
   "field"
-  "finally"
   "fun"
   "function"
   "get"
-  "global"
-  "inherit"
-  "interface"
+  "set"
   "lazy"
   "new"
-  "not"
   "null"
   "of"
   "param"
   "property"
-  "set"
   "struct"
-  "try"
-  "upcast"
-  "use"
-  "use!"
   "val"
-  "with"
-  "yield"
-  "yield!"
+  "module"
+  "namespace"
 ] @keyword
 
-[
- "true"
- "false"
- "unit"
- ] @constant.builtin
-
-[
- (type)
- (const)
-] @constant
-
-[
- (union_type_case)
- (rules (rule (identifier_pattern)))
-] @type.enum
-
-(fsi_directive_decl (string) @namespace)
-
-[
-  (import_decl (long_identifier))
-  (named_module (long_identifier))  
-  (namespace (long_identifier))  
-  (named_module 
-    name: (long_identifier) )
-  (namespace 
-    name: (long_identifier) )
-] @namespace
-
-
-(dot_expression
-  base: (long_identifier_or_op) @variable.other.member
-  field: (long_identifier_or_op) @function)
-
-[
- ;;(value_declaration_left (identifier_pattern) ) 
- (function_declaration_left (identifier) ) 
- (call_expression (long_identifier_or_op (long_identifier)))
- ;;(application_expression (long_identifier_or_op (long_identifier)))
-] @function
-
-[
-  (string)
-  (triple_quoted_string)
-] @string
-
-[
-  (int)
-  (int16)
-  (int32)
-  (int64)
-  (float)
-  (decimal)
-] @constant.numeric
-
-
+(long_identifier
+  (identifier)* @module
+  .
+  (identifier))

@@ -1,0 +1,72 @@
+================================================================================
+basic comparison
+================================================================================
+
+do
+  1 < 2
+  1 <= 2
+  2 > 1
+  2 <> 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (sequential_expression
+        (infix_expression
+          (const (int))
+          (infix_op)
+          (const (int)))
+        (sequential_expression
+          (infix_expression
+            (const (int))
+            (infix_op)
+            (const (int)))
+          (sequential_expression
+            (infix_expression
+              (const (int))
+              (infix_op)
+              (const (int)))
+            (infix_expression
+              (const (int))
+              (infix_op)
+              (const (int)))))))))
+
+
+================================================================================
+prefix operator
+================================================================================
+
+do
+  !!"str"
+  ~"str"
+  !*"str"
+  ~~"str"
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (sequential_expression
+        (prefixed_expression
+          (prefix_op)
+          (const
+            (string)))
+        (sequential_expression
+          (prefixed_expression
+            (prefix_op)
+            (const
+              (string)))
+          (sequential_expression
+            (prefixed_expression
+              (prefix_op)
+              (const
+                (string)))
+            (prefixed_expression
+              (prefix_op)
+              (prefixed_expression
+                (prefix_op)
+                (const
+                  (string))))))))))

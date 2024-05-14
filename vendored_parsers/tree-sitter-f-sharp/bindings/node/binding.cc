@@ -1,28 +1,20 @@
-#include "tree_sitter/parser.h"
-#include <node.h>
-#include "nan.h"
+#include <napi.h>
 
-using namespace v8;
+typedef struct TSLanguage TSLanguage;
 
-extern "C" TSLanguage * tree_sitter_fsharp();
+extern "C" TSLanguage *tree_sitter_fsharp();
 
-namespace {
+// "tree-sitter", "language" hashed with BLAKE2
+const napi_type_tag LANGUAGE_TYPE_TAG = {
+  0x8AF2E5212AD58ABF, 0xD5006CAD83ABBA16
+};
 
-NAN_METHOD(New) {}
-
-void Init(Local<Object> exports, Local<Object> module) {
-  Local<FunctionTemplate> tpl = Nan::New<FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("Language").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  Local<Function> constructor = Nan::GetFunction(tpl).ToLocalChecked();
-  Local<Object> instance = constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
-  Nan::SetInternalFieldPointer(instance, 0, tree_sitter_fsharp());
-
-  Nan::Set(instance, Nan::New("name").ToLocalChecked(), Nan::New("fsharp").ToLocalChecked());
-  Nan::Set(module, Nan::New("exports").ToLocalChecked(), instance);
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    exports["name"] = Napi::String::New(env, "fsharp");
+    auto language = Napi::External<TSLanguage>::New(env, tree_sitter_fsharp());
+    language.TypeTag(&LANGUAGE_TYPE_TAG);
+    exports["language"] = language;
+    return exports;
 }
 
-NODE_MODULE(tree_sitter_fsharp_binding, Init)
-
-}  // namespace
+NODE_API_MODULE(tree_sitter_fsharp_binding, Init)

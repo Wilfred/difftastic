@@ -111,25 +111,45 @@ let x = 4
 basic global namespace
 ================================================================================
 
-namespace global test
+namespace global
 
 let x = 4
 
 --------------------------------------------------------------------------------
 
 (file
-  (namespace
-    (ERROR
-      (UNEXPECTED 'e')
-      (UNEXPECTED '\n'))
-    (value_declaration
-      (function_or_value_defn
-        (value_declaration_left
-          (identifier_pattern
-            (long_identifier
-              (identifier))))
-        (const
-          (int))))))
+    (namespace
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (int))))))
+
+================================================================================
+basic recursive namespace
+================================================================================
+
+namespace rec test
+
+let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+    (namespace
+      (long_identifier
+        (identifier))
+      (value_declaration
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (int))))))
 
 ================================================================================
 basic long namespace

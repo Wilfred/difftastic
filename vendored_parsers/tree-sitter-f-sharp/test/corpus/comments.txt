@@ -69,7 +69,8 @@ let x = 1
 --------------------------------------------------------------------------------
 
 (file
-  (line_comment)
+  (xml_doc
+    (xml_doc_content))
   (value_declaration
     (function_or_value_defn
       (value_declaration_left
@@ -79,7 +80,7 @@ let x = 1
       (const (int)))))
 
 ================================================================================
-coment in simple string
+comment in simple string
 ================================================================================
 
 let x = "//comment in string"
@@ -97,7 +98,7 @@ let x = "//comment in string"
         (string)))))
 
 ================================================================================
-coment in triple-quoted string
+comment in triple-quoted string
 ================================================================================
 
 let x = """
@@ -117,7 +118,7 @@ let x = """
         (triple_quoted_string)))))
 
 ================================================================================
-coment in verbatim string
+comment in verbatim string
 ================================================================================
 
 let x = @"//comment in string"
@@ -133,3 +134,116 @@ let x = @"//comment in string"
             (identifier))))
       (const
         (verbatim_string)))))
+
+================================================================================
+xml docstring
+================================================================================
+
+/// <summary>
+/// super important function
+/// </summary>
+let f x = x + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (xml_doc
+    (xml_doc_content))
+  (xml_doc
+    (xml_doc_content))
+  (xml_doc
+    (xml_doc_content))
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (infix_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (infix_op)
+        (const
+          (int))))))
+
+================================================================================
+json payload in multi-line string
+================================================================================
+
+namespace test
+
+module Json =
+  [<Literal>]
+  let MyPayload =
+    """
+    {
+      "prop1": []
+      "prop2": {
+        "prop3": true,
+        "prop4": 1,
+      },
+    }
+    """
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (attributes
+          (attribute_set
+            (attribute
+              (object_construction
+                (type
+                  (long_identifier
+                    (identifier)))))))
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const
+            (triple_quoted_string)))))))
+
+================================================================================
+json payload in multi-line format string
+================================================================================
+
+namespace test
+
+module Json =
+  let myPayloadBuilder x =
+    $"""
+    {
+      "prop1": []
+      "prop2": {
+        "prop3": {x},
+        "prop4": 1,
+      },
+    }
+    """
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (triple_quoted_string
+              (format_triple_quoted_string))))))))
