@@ -1,0 +1,13 @@
+===
+basic module abbreviation
+===
+
+module local = Mod.local
+
+---
+
+(file
+  (module_abbrev
+    (identifier)
+    (long_identifier (identifier) (identifier))))
+

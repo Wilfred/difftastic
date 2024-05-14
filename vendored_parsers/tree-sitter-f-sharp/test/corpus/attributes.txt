@@ -1,0 +1,131 @@
+================================================================================
+top-level module attribute
+================================================================================
+
+[<AutoOpen>]
+module test =
+ let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (attributes
+      (attribute_set
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))))
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const (int))))))
+
+================================================================================
+top-level module attributes repeated
+================================================================================
+
+[<A;B;C>]
+module test =
+ let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (attributes
+      (attribute_set
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))))
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+top-level module attributes separate
+================================================================================
+
+[<A>]
+[<B;C>]
+module test =
+ let x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_defn
+    (attributes
+      (attribute_set
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier))))))
+      (attribute_set
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))
+        (attribute
+          (object_construction
+            (type
+              (long_identifier
+                (identifier)))))))
+    (identifier)
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
+
+================================================================================
+top-level class attribute
+================================================================================
+
+[<Route("test")>]
+type A() =
+ do ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (attributes
+      (attribute_set
+        (attribute
+          (object_construction
+            (type (long_identifier (identifier)))
+            (paren_expression
+              (const (string)))))))
+    (anon_type_defn
+      (type_name (identifier))
+      (primary_constr_args)
+      (const (unit)))))
