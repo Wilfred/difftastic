@@ -8,7 +8,7 @@ Bits may be missing and/or inaccurate :)
 * Decide about inline use (e.g. add some \_bare\_\* constructs? stop using?)
   ([#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41))
 
-### v0.0.13 - 2024-03-XX
+### v0.0.13 - 2024-05-15
 
 * Features and Fixes
   * Increase API number from 13 to 14
