@@ -9,6 +9,7 @@ use std::{
 
 use bumpalo::Bump;
 use hashbrown::hash_map::RawEntryMut;
+use smallvec::{smallvec, SmallVec};
 use strsim::normalized_levenshtein;
 
 use self::Edge::*;
@@ -51,13 +52,13 @@ use crate::{
 /// ```
 #[derive(Debug, Clone)]
 pub(crate) struct Vertex<'s, 'b> {
-    pub(crate) neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
+    pub(crate) neighbours: RefCell<Option<&'b [(Edge, &'b Vertex<'s, 'b>)]>>,
     pub(crate) predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
     pub(crate) lhs_syntax: Option<&'s Syntax<'s>>,
     pub(crate) rhs_syntax: Option<&'s Syntax<'s>>,
-    parents: Stack<EnteredDelimiter<'s>>,
+    parents: Stack<'b, EnteredDelimiter<'s, 'b>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
 }
@@ -115,12 +116,12 @@ impl<'s, 'b> Hash for Vertex<'s, 'b> {
 
 /// Tracks entering syntax List nodes.
 #[derive(Clone, PartialEq)]
-enum EnteredDelimiter<'s> {
+enum EnteredDelimiter<'s, 'b> {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
     ///
     /// Assumes that at least one stack is non-empty.
-    PopEither((Stack<&'s Syntax<'s>>, Stack<&'s Syntax<'s>>)),
+    PopEither((Stack<'b, &'s Syntax<'s>>, Stack<'b, &'s Syntax<'s>>)),
     /// If we've entered the LHS and RHS together, we must pop both
     /// sides together too. Otherwise we'd consider the following case to have no changes.
     ///
@@ -131,7 +132,7 @@ enum EnteredDelimiter<'s> {
     PopBoth((&'s Syntax<'s>, &'s Syntax<'s>)),
 }
 
-impl<'s> fmt::Debug for EnteredDelimiter<'s> {
+impl<'s, 'b> fmt::Debug for EnteredDelimiter<'s, 'b> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
@@ -141,27 +142,32 @@ impl<'s> fmt::Debug for EnteredDelimiter<'s> {
                     rhs_delims.size()
                 )
             }
-            EnteredDelimiter::PopBoth(_) => "PopBoth".to_string(),
+            EnteredDelimiter::PopBoth(_) => "PopBoth".to_owned(),
         };
         f.write_str(&desc)
     }
 }
 
-fn push_both_delimiters<'s>(
-    entered: &Stack<EnteredDelimiter<'s>>,
+fn push_both_delimiters<'s, 'b>(
+    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
     lhs_delim: &'s Syntax<'s>,
     rhs_delim: &'s Syntax<'s>,
-) -> Stack<EnteredDelimiter<'s>> {
-    entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)))
+    alloc: &'b Bump,
+) -> Stack<'b, EnteredDelimiter<'s, 'b>> {
+    entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)), alloc)
 }
 
 fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
     matches!(entered.peek(), Some(EnteredDelimiter::PopEither(_)))
 }
 
-fn try_pop_both<'s>(
-    entered: &Stack<EnteredDelimiter<'s>>,
-) -> Option<(&'s Syntax<'s>, &'s Syntax<'s>, Stack<EnteredDelimiter<'s>>)> {
+fn try_pop_both<'s, 'b>(
+    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+) -> Option<(
+    &'s Syntax<'s>,
+    &'s Syntax<'s>,
+    Stack<'b, EnteredDelimiter<'s, 'b>>,
+)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
             Some((lhs_delim, rhs_delim, entered.pop().unwrap()))
@@ -170,9 +176,10 @@ fn try_pop_both<'s>(
     }
 }
 
-fn try_pop_lhs<'s>(
-    entered: &Stack<EnteredDelimiter<'s>>,
-) -> Option<(&'s Syntax<'s>, Stack<EnteredDelimiter<'s>>)> {
+fn try_pop_lhs<'s, 'b>(
+    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+    alloc: &'b Bump,
+) -> Option<(&'s Syntax<'s>, Stack<'b, EnteredDelimiter<'s, 'b>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
             Some(lhs_delim) => {
@@ -180,10 +187,10 @@ fn try_pop_lhs<'s>(
                 let new_lhs_delims = lhs_delims.pop().unwrap();
 
                 if !new_lhs_delims.is_empty() || !rhs_delims.is_empty() {
-                    entered = entered.push(EnteredDelimiter::PopEither((
-                        new_lhs_delims,
-                        rhs_delims.clone(),
-                    )));
+                    entered = entered.push(
+                        EnteredDelimiter::PopEither((new_lhs_delims, rhs_delims.clone())),
+                        alloc,
+                    );
                 }
 
                 Some((lhs_delim, entered))
@@ -194,9 +201,10 @@ fn try_pop_lhs<'s>(
     }
 }
 
-fn try_pop_rhs<'s>(
-    entered: &Stack<EnteredDelimiter<'s>>,
-) -> Option<(&'s Syntax<'s>, Stack<EnteredDelimiter<'s>>)> {
+fn try_pop_rhs<'s, 'b>(
+    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+    alloc: &'b Bump,
+) -> Option<(&'s Syntax<'s>, Stack<'b, EnteredDelimiter<'s, 'b>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
             Some(rhs_delim) => {
@@ -204,10 +212,10 @@ fn try_pop_rhs<'s>(
                 let new_rhs_delims = rhs_delims.pop().unwrap();
 
                 if !lhs_delims.is_empty() || !new_rhs_delims.is_empty() {
-                    entered = entered.push(EnteredDelimiter::PopEither((
-                        lhs_delims.clone(),
-                        new_rhs_delims,
-                    )));
+                    entered = entered.push(
+                        EnteredDelimiter::PopEither((lhs_delims.clone(), new_rhs_delims)),
+                        alloc,
+                    );
                 }
 
                 Some((rhs_delim, entered))
@@ -218,33 +226,37 @@ fn try_pop_rhs<'s>(
     }
 }
 
-fn push_lhs_delimiter<'s>(
-    entered: &Stack<EnteredDelimiter<'s>>,
+fn push_lhs_delimiter<'s, 'b>(
+    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
     delimiter: &'s Syntax<'s>,
-) -> Stack<EnteredDelimiter<'s>> {
+    alloc: &'b Bump,
+) -> Stack<'b, EnteredDelimiter<'s, 'b>> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
-            EnteredDelimiter::PopEither((lhs_delims.push(delimiter), rhs_delims.clone())),
+            EnteredDelimiter::PopEither((lhs_delims.push(delimiter, alloc), rhs_delims.clone())),
+            alloc,
         ),
-        _ => entered.push(EnteredDelimiter::PopEither((
-            Stack::new().push(delimiter),
-            Stack::new(),
-        ))),
+        _ => entered.push(
+            EnteredDelimiter::PopEither((Stack::new().push(delimiter, alloc), Stack::new())),
+            alloc,
+        ),
     }
 }
 
-fn push_rhs_delimiter<'s>(
-    entered: &Stack<EnteredDelimiter<'s>>,
+fn push_rhs_delimiter<'s, 'b>(
+    entered: &Stack<'b, EnteredDelimiter<'s, 'b>>,
     delimiter: &'s Syntax<'s>,
-) -> Stack<EnteredDelimiter<'s>> {
+    alloc: &'b Bump,
+) -> Stack<'b, EnteredDelimiter<'s, 'b>> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
-            EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter))),
+            EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter, alloc))),
+            alloc,
         ),
-        _ => entered.push(EnteredDelimiter::PopEither((
-            Stack::new(),
-            Stack::new().push(delimiter),
-        ))),
+        _ => entered.push(
+            EnteredDelimiter::PopEither((Stack::new(), Stack::new().push(delimiter, alloc))),
+            alloc,
+        ),
     }
 }
 
@@ -330,7 +342,7 @@ impl Edge {
                 // Replacement edges have a cost between 500 and 600,
                 // so they can be up to 100 less than two novel nodes.
                 // If we have replacements either side of a node
-                // (e.g. see comma_and_comment_before.js), then that's
+                // (e.g. see comma_and_comment_1.js), then that's
                 // potentially a cost difference of 200.
                 base + if probably_punctuation { 200 } else { 0 }
             }
@@ -354,7 +366,7 @@ impl Edge {
 fn allocate_if_new<'s, 'b>(
     v: Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+    seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
 ) -> &'b Vertex<'s, 'b> {
     // We use the entry API so that we only need to do a single lookup
     // for access and insert.
@@ -388,12 +400,11 @@ fn allocate_if_new<'s, 'b>(
             let allocated = alloc.alloc(v);
 
             // We know that this vec will never have more than 2
-            // nodes, and this code is very hot, so reserve.
+            // nodes, and this code is very hot, so use a smallvec.
             //
             // We still use a vec to enable experiments with the value
             // of how many possible parenthesis nestings to explore.
-            let mut existing: Vec<&'b Vertex<'s, 'b>> = Vec::with_capacity(2);
-            existing.push(allocated);
+            let existing: SmallVec<[&'b Vertex<'s, 'b>; 2]> = smallvec![&*allocated];
 
             vacant.insert(allocated, existing);
             allocated
@@ -414,18 +425,19 @@ fn looks_like_punctuation(node: &Syntax) -> bool {
 
 /// Pop as many parents of `lhs_node` and `rhs_node` as
 /// possible. Return the new syntax nodes and parents.
-fn pop_all_parents<'s>(
+fn pop_all_parents<'s, 'b>(
     lhs_node: Option<&'s Syntax<'s>>,
     rhs_node: Option<&'s Syntax<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
-    parents: &Stack<EnteredDelimiter<'s>>,
+    parents: &Stack<'b, EnteredDelimiter<'s, 'b>>,
+    alloc: &'b Bump,
 ) -> (
     Option<&'s Syntax<'s>>,
     Option<&'s Syntax<'s>>,
     Option<SyntaxId>,
     Option<SyntaxId>,
-    Stack<EnteredDelimiter<'s>>,
+    Stack<'b, EnteredDelimiter<'s, 'b>>,
 ) {
     let mut lhs_node = lhs_node;
     let mut rhs_node = rhs_node;
@@ -435,7 +447,7 @@ fn pop_all_parents<'s>(
 
     loop {
         if lhs_node.is_none() {
-            if let Some((lhs_parent, parents_next)) = try_pop_lhs(&parents) {
+            if let Some((lhs_parent, parents_next)) = try_pop_lhs(&parents, alloc) {
                 // Move to next after LHS parent.
 
                 // Continue from sibling of parent.
@@ -447,7 +459,7 @@ fn pop_all_parents<'s>(
         }
 
         if rhs_node.is_none() {
-            if let Some((rhs_parent, parents_next)) = try_pop_rhs(&parents) {
+            if let Some((rhs_parent, parents_next)) = try_pop_rhs(&parents, alloc) {
                 // Move to next after RHS parent.
 
                 // Continue from sibling of parent.
@@ -484,7 +496,7 @@ fn pop_all_parents<'s>(
 pub(crate) fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut DftHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+    seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
 ) {
     if v.neighbours.borrow().is_some() {
         return;
@@ -508,6 +520,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                 v.lhs_parent_id,
                 v.rhs_parent_id,
                 &v.parents,
+                alloc,
             );
 
             neighbours.push((
@@ -552,7 +565,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                 let rhs_next = rhs_children.first().copied();
 
                 // TODO: be consistent between parents_next and next_parents.
-                let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax);
+                let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax, alloc);
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
@@ -567,6 +580,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         Some(lhs_syntax.id()),
                         Some(rhs_syntax.id()),
                         &parents_next,
+                        alloc,
                     );
 
                 neighbours.push((
@@ -619,6 +633,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.lhs_parent_id,
                         v.rhs_parent_id,
                         &v.parents,
+                        alloc,
                     );
                 neighbours.push((
                     edge,
@@ -651,6 +666,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.lhs_parent_id,
                         v.rhs_parent_id,
                         &v.parents,
+                        alloc,
                     );
 
                 neighbours.push((
@@ -674,7 +690,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
             Syntax::List { children, .. } => {
                 let lhs_next = children.first().copied();
 
-                let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
+                let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax, alloc);
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
@@ -683,6 +699,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         Some(lhs_syntax.id()),
                         v.rhs_parent_id,
                         &parents_next,
+                        alloc,
                     );
 
                 neighbours.push((
@@ -716,6 +733,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.lhs_parent_id,
                         v.rhs_parent_id,
                         &v.parents,
+                        alloc,
                     );
 
                 neighbours.push((
@@ -738,7 +756,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
                 let rhs_next = children.first().copied();
-                let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
+                let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax, alloc);
 
                 let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
                     pop_all_parents(
@@ -747,6 +765,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.lhs_parent_id,
                         Some(rhs_syntax.id()),
                         &parents_next,
+                        alloc,
                     );
 
                 neighbours.push((
@@ -773,7 +792,8 @@ pub(crate) fn set_neighbours<'s, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(neighbours));
+    v.neighbours
+        .replace(Some(alloc.alloc_slice_copy(neighbours.as_slice())));
 }
 
 pub(crate) fn populate_change_map<'s, 'b>(

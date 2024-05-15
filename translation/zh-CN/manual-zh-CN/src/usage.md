@@ -4,14 +4,19 @@
 
 ### 比较文件
 
-```
-$ difft sample_files/before.js sample_files/after.js
+```bash
+$ difft FIRST-FILE SECOND-FILE
+
+$ difft sample_files/simple_1.js sample_files/simple_2.js
 ```
 
 ### 比较文件夹
 
-```
-$ difft sample_files/dir_before/ sample_files/dir_after/
+```bash
+$ difft FIRST-DIRECTORY SECOND-DIRECTORY
+
+# For example:
+$ difft sample_files/dir_1/ sample_files/dir_2/
 ```
 
 Difftastic 会递归地浏览这两个文件夹，对同名的文件进行差异分析。
@@ -22,8 +27,10 @@ Difftastic 会递归地浏览这两个文件夹，对同名的文件进行差异
 
 您可以通过指定 `-` 作为文件路径从标准输入（stdin）读取文件。
 
-```
-$ cat sample_files/before.js | difft - sample_files/after.js
+```bash
+$ difft - SECOND-FILE
+
+$ cat sample_files/simple_1.js | difft - sample_files/simple_2.js
 ```
 
 ### 带冲突标记的文件
@@ -32,7 +39,9 @@ $ cat sample_files/before.js | difft - sample_files/after.js
 
 如果你有一个带 `<<<<<<<` 冲突标记的文件，可以将它作为一个参数传入 Difftastic。Difftastic 会构建和比较文件的两个状态。
 
-```
+```bash
+$ difft FILE-WITH-CONFLICTS
+
 $ difft sample_files/conflicts.el
 ```
 
@@ -40,10 +49,12 @@ $ difft sample_files/conflicts.el
 
 Difftastic 根据文件的扩展名、文件名和第一行的内容猜测文件所用的语言。
 
-你可以通过 `--language` 选项覆盖语言检测。如果输入的文件有所设定的后缀， Difftastic 将会处理它们，并且忽略其他语言。
+你可以通过 `--override` 选项覆盖语言检测。如果输入的文件有所设定的后缀， Difftastic 将会处理它们，并且忽略其他语言。
 
-```
-$ difft --language cpp before.c after.c
+```bash
+$ difft --override=GLOB:NAME FIRST-FILE SECOND-FILE
+
+$ difft --override=*.h:c sample_files/preprocesor_1.h sample_files/preprocesor_2.h
 ```
 
 ## 选项

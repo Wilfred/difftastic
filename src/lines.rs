@@ -75,7 +75,7 @@ mod tests {
     }
 
     #[test]
-    fn test_is_all_whiteapce() {
+    fn test_is_all_whitespace() {
         assert!(is_all_whitespace(" \n\t"));
     }
 }

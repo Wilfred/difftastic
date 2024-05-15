@@ -10,16 +10,17 @@ jobs:
       fail-fast: false
       matrix:
         job:
+          # Operating systems available: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
           - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
-          - { target: x86_64-apple-darwin, os: macos-latest }
+          # mac-latest (currently mac-14) is an ARM device, so use macos-12 to get Intel.
+          # Update annoucement: https://github.blog/changelog/2024-04-01-macos-14-sonoma-is-generally-available-and-the-latest-macos-runner-image/
+          - { target: x86_64-apple-darwin, os: macos-12 }
           - { target: x86_64-pc-windows-msvc, os: windows-latest }
 
           - { target: aarch64-unknown-linux-gnu, os: ubuntu-20.04, use-cross: true }
 
-          # TODO: Support cross-compiling on macOS on CI, see
-          # https://github.com/cross-rs/cross-toolchains#apple-targets
-          #
-          # - { target: aarch64-apple-darwin, os: macos-latest, use-cross: true }
+          # mac-14 is an M1 ARM device.
+          - { target: aarch64-apple-darwin, os: macos-14 }
 
           # musl binaries produced by GitHub actions segfault when run, see
           # https://github.com/Wilfred/difftastic/issues/563

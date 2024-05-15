@@ -375,7 +375,7 @@ B
 **Difftastic**：如果发生任何解析错误，Difftastic 将退回到基于文本的差异，以避免差异不完整的语法树。发生这种情况时，文件头会报告错误计数。
 
 ```
-$ difft sample_files/syntax_error_before.js sample_files/syntax_error_after.js
+$ difft sample_files/syntax_error_1.js sample_files/syntax_error_2.js
 sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
 ...
 ```

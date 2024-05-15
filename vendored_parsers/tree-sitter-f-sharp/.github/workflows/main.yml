@@ -1,0 +1,53 @@
+name: Build/release
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: "develop"
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm test
+      
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout develop branch
+        uses: actions/checkout@v3
+        with:
+          ref: "develop"
+      - name: Fetch main branch
+        run: |
+          git fetch origin main
+          git branch -t main origin/main
+      - name: "remove src/parser.c from .gitignore"
+        run: sed -i '/src\/parser.c/d' .gitignore
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: "compile main branch" 
+        run: |
+          npm install
+          npm run build
+      - name: Merge into main branch and publish
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add .
+          tree=$(git write-tree)
+          commit=$(git commit-tree -p main -p develop -m "release" $tree)
+          git update-ref refs/heads/main $commit
+          git push origin main

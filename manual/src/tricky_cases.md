@@ -437,7 +437,7 @@ parse errors occur, to avoid diffing incomplete syntax trees. When
 this occurs, the file header reports the error count.
 
 ```
-$ difft sample_files/syntax_error_before.js sample_files/syntax_error_after.js
+$ difft sample_files/syntax_error_1.js sample_files/syntax_error_2.js
 sample_files/syntax_error_after.js --- Text (2 errors, exceeded DFT_PARSE_ERROR_LIMIT)
 ...
 ```

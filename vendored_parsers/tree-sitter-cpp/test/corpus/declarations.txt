@@ -563,6 +563,8 @@ class C : C::D, public E {};
 class F : [[deprecated]] public G {};
 class H : public virtual I {};
 class J : virtual protected I {};
+class K : virtual I {};
+class L : protected I {};
 
 --------------------------------------------------------------------------------
 
@@ -602,6 +604,18 @@ class J : virtual protected I {};
     (type_identifier)
     (base_class_clause
       (virtual)
+      (access_specifier)
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
+      (virtual)
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
       (access_specifier)
       (type_identifier))
     (field_declaration_list)))
@@ -1621,7 +1635,7 @@ class Foo {
 (translation_unit
   (enum_specifier
     (type_identifier)
-    (type_identifier)
+    (primitive_type)
     (enumerator_list))
   (enum_specifier
     (type_identifier)
@@ -1656,7 +1670,7 @@ class Foo {
     (type_identifier))
   (enum_specifier
     (type_identifier)
-    (type_identifier)
+    (primitive_type)
     (enumerator_list))
   (class_specifier
     (type_identifier)
@@ -2091,3 +2105,243 @@ struct A {
                   (type_qualifier)
                   (abstract_reference_declarator))))
             (identifier)))))))
+
+================================================================================
+Pointers in qualified identifiers and field expressions
+================================================================================
+
+class MyClass {
+  public:
+    int memberFunction(int value) {
+        return value * 2;
+    }
+};
+
+int main() {
+    void (MyClass::*member_function_ptr)(int);
+    MyClass obj;
+
+    member_function_ptr = &MyClass::memberFunction;
+
+    (obj.*member_function_ptr)(42); // 84
+
+    this->Base::f();
+
+    return 0;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (access_specifier)
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list
+            (parameter_declaration
+              (primitive_type)
+              (identifier))))
+        (compound_statement
+          (return_statement
+            (binary_expression
+              (identifier)
+              (number_literal)))))))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (function_declarator
+          (parenthesized_declarator
+            (qualified_identifier
+              (namespace_identifier)
+              (pointer_type_declarator
+                (type_identifier))))
+          (parameter_list
+            (parameter_declaration
+              (primitive_type)))))
+      (declaration
+        (type_identifier)
+        (identifier))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (pointer_expression
+            (qualified_identifier
+              (namespace_identifier)
+              (identifier)))))
+      (expression_statement
+        (call_expression
+          (parenthesized_expression
+            (field_expression
+              (identifier)
+              (field_identifier)))
+          (argument_list
+            (number_literal))))
+      (comment)
+      (expression_statement
+        (call_expression
+          (field_expression
+            (this)
+            (qualified_identifier
+              (namespace_identifier)
+              (field_identifier)))
+          (argument_list)))
+      (return_statement
+        (number_literal)))))
+
+================================================================================
+Unnamed default parameter
+================================================================================
+
+class Foo {
+    void foo(Bar& = defaultBar);
+};
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list
+            (optional_parameter_declaration
+              (type_identifier)
+              (abstract_reference_declarator)
+              (identifier))))))))
+
+================================================================================
+Alignas specifier and alignof expression
+================================================================================
+
+struct sse_t {
+    alignas(16) float sse_data[4];
+};
+
+struct data {
+    char x;
+    alignas(128) char cacheline[128]; // over-aligned array of char,
+                                      // not array of over-aligned chars
+};
+
+int main(void) {
+    printf("sizeof(data) = %zu (1 byte + 127 bytes padding + 128-byte array)\n",
+           sizeof(struct data));
+
+    printf("alignment of sse_t is %zu\n", alignof(struct sse_t));
+
+    alignas(2048) struct data d; // this instance of data is aligned even stricter
+    (void)d; // suppresses "maybe unused" warning
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (alignas_specifier
+          (number_literal))
+        (primitive_type)
+        (array_declarator
+          (field_identifier)
+          (number_literal)))))
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (field_identifier))
+      (field_declaration
+        (alignas_specifier
+          (number_literal))
+        (primitive_type)
+        (array_declarator
+          (field_identifier)
+          (number_literal)))
+      (comment)
+      (comment)))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)
+              (escape_sequence))
+            (sizeof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier)))))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (string_content)
+              (escape_sequence))
+            (alignof_expression
+              (type_descriptor
+                (struct_specifier
+                  (type_identifier)))))))
+      (declaration
+        (alignas_specifier
+          (number_literal))
+        (struct_specifier
+          (type_identifier))
+        (identifier))
+      (comment)
+      (expression_statement
+        (cast_expression
+          (type_descriptor
+            (primitive_type))
+          (identifier)))
+      (comment))))
+
+================================================================================
+Attribute specifier after noexcept
+================================================================================
+
+inline constexpr MyEnum operator|(MyEnum bit0, MyEnum bit1) noexcept
+    __attribute__((always_inline)) {}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (storage_class_specifier)
+    (type_qualifier)
+    (type_identifier)
+    (function_declarator
+      (operator_name)
+      (parameter_list
+        (parameter_declaration
+          (type_identifier)
+          (identifier))
+        (parameter_declaration
+          (type_identifier)
+          (identifier)))
+      (noexcept)
+      (attribute_specifier
+        (argument_list
+          (identifier))))
+    (compound_statement)))

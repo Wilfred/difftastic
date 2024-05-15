@@ -106,7 +106,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-cmake",
             src_dir: "vendored_parsers/tree-sitter-cmake-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-commonlisp",
@@ -124,6 +124,11 @@ fn main() {
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
+            name: "tree-sitter-devicetree",
+            src_dir: "vendored_parsers/tree-sitter-devicetree-src",
+            extra_files: vec![],
+        },
+        TreeSitterParser {
             name: "tree-sitter-elisp",
             src_dir: "vendored_parsers/tree-sitter-elisp-src",
             extra_files: vec![],
@@ -136,7 +141,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-elm",
             src_dir: "vendored_parsers/tree-sitter-elm-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-elvish",
@@ -147,6 +152,11 @@ fn main() {
             name: "tree-sitter-erlang",
             src_dir: "vendored_parsers/tree-sitter-erlang-src",
             extra_files: vec![],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-f-sharp",
+            src_dir: "vendored_parsers/tree-sitter-f-sharp-src",
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-gleam",
@@ -221,7 +231,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-lua",
             src_dir: "vendored_parsers/tree-sitter-lua-src",
-            extra_files: vec!["scanner.cc"],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-make",

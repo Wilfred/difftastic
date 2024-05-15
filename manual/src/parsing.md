@@ -12,7 +12,7 @@ the parse tree that tree-sitter produces using the `--dump-ts`
 flag.
 
 ```
-$ difft --dump-ts sample_files/javascript_simple_before.js | head
+$ difft --dump-ts sample_files/javascript_simple_1.js | head
 program (0, 0) - (7, 0)
   comment (0, 0) - (0, 8) "// hello"
   expression_statement (1, 0) - (1, 6)

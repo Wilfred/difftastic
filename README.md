@@ -41,7 +41,7 @@ standalone files and git.
 ## Languages
 
 Difftastic supports over 30 programming languages, see [the
-manual](https://difftastic.wilfred.me.uk/) for the full list.
+manual](https://difftastic.wilfred.me.uk/languages_supported.html) for the full list.
 
 If a file has an unrecognised extension, difftastic uses a
 textual diff with word highlighting.
@@ -113,7 +113,7 @@ $ difft file_with_conflicts.js
 
 No. AST merging is a hard problem that difftastic does not address.
 
-AST diffing is a also lossy process from the perspective of a text
+AST diffing is a lossy process from the perspective of a text
 diff. Difftastic will ignore whitespace that isn't syntactically
 significant, but merging requires tracking whitespace.
 

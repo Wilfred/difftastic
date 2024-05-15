@@ -42,6 +42,10 @@ Object-like macro definitions
                + y
 #define SEVEN 7/* seven has an
                 * annoying comment */
+#define EIGHT(x) do { \
+        x = x + 1;  \
+        x = x / 2;  \
+    } while (x > 0);
 
 --------------------------------------------------------------------------------
 
@@ -72,7 +76,12 @@ Object-like macro definitions
   (preproc_def
     name: (identifier)
     value: (preproc_arg)
-    (comment)))
+    (comment))
+  (preproc_function_def
+    name: (identifier)
+    parameters: (preproc_params
+      (identifier))
+    value: (preproc_arg)))
 
 ================================================================================
 Function-like macro definitions
@@ -215,6 +224,54 @@ int b;
         (declaration
           (primitive_type)
           (identifier))))))
+
+================================================================================
+Mixing #elif and #elifdef
+================================================================================
+
+#ifndef DEFINE1
+int i;
+#elif  defined(DEFINE2)
+int j;
+#endif
+
+#if defined DEFINE3
+int a;
+#elifdef DEFINE4
+int b;
+#else
+int c;
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_ifdef
+    name: (identifier)
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    alternative: (preproc_elif
+      condition: (preproc_defined
+        (identifier))
+      (declaration
+        type: (primitive_type)
+        declarator: (identifier))))
+  (preproc_if
+    condition: (preproc_defined
+      (identifier))
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    alternative: (preproc_elifdef
+      name: (identifier)
+      (declaration
+        type: (primitive_type)
+        declarator: (identifier))
+      alternative: (preproc_else
+        (declaration
+          type: (primitive_type)
+          declarator: (identifier))))))
 
 ================================================================================
 General if blocks

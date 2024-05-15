@@ -1,17 +1,29 @@
+/**
+ * @file CSS grammar for tree-sitter
+ * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
+ * @author Amaan Qureshi <amaanq12@gmail.com>
+ * @license MIT
+ */
+
+/* eslint-disable arrow-parens */
+/* eslint-disable camelcase */
+/* eslint-disable-next-line spaced-comment */
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 module.exports = grammar({
   name: 'css',
 
   extras: $ => [
     /\s/,
     $.comment,
+    $.js_comment,
   ],
 
   externals: $ => [
     $._descendant_operator,
-  ],
-
-  conflicts: $ => [
-    [$._selector, $.declaration],
+    $._pseudo_class_selector_colon,
+    $.__error_recovery,
   ],
 
   inline: $ => [
@@ -31,7 +43,7 @@ module.exports = grammar({
       $.namespace_statement,
       $.keyframes_statement,
       $.supports_statement,
-      $.at_rule
+      $.at_rule,
     ),
 
     // Statements
@@ -40,32 +52,32 @@ module.exports = grammar({
       '@import',
       $._value,
       sep(',', $._query),
-      ';'
+      ';',
     ),
 
     media_statement: $ => seq(
       '@media',
       sep1(',', $._query),
-      $.block
+      $.block,
     ),
 
     charset_statement: $ => seq(
       '@charset',
       $._value,
-      ';'
+      ';',
     ),
 
     namespace_statement: $ => seq(
       '@namespace',
       optional(alias($.identifier, $.namespace_name)),
       choice($.string_value, $.call_expression),
-      ';'
+      ';',
     ),
 
     keyframes_statement: $ => seq(
       choice(
         '@keyframes',
-        alias(/@[-a-z]+keyframes/, $.at_keyword)
+        alias(/@[-a-z]+keyframes/, $.at_keyword),
       ),
       alias($.identifier, $.keyframes_name),
       $.keyframe_block_list,
@@ -74,42 +86,49 @@ module.exports = grammar({
     keyframe_block_list: $ => seq(
       '{',
       repeat($.keyframe_block),
-      '}'
+      '}',
     ),
 
     keyframe_block: $ => seq(
       choice($.from, $.to, $.integer_value),
-      $.block
+      $.block,
     ),
 
-    from: $ => 'from',
-    to: $ => 'to',
+    from: _ => 'from',
+    to: _ => 'to',
 
     supports_statement: $ => seq(
       '@supports',
       $._query,
-      $.block
+      $.block,
     ),
+
+    postcss_statement: $ => prec(-1, seq(
+      $.at_keyword,
+      repeat($._value),
+      ';',
+    )),
 
     at_rule: $ => seq(
       $.at_keyword,
       sep(',', $._query),
-      choice(';', $.block)
+      choice(';', $.block),
     ),
 
     // Rule sets
 
     rule_set: $ => seq(
       $.selectors,
-      $.block
+      $.block,
     ),
 
     selectors: $ => sep1(',', $._selector),
 
-    block: $ => seq('{',
+    block: $ => seq(
+      '{',
       repeat($._block_item),
       optional(alias($.last_declaration, $.declaration)),
-      '}'
+      '}',
     ),
 
     _block_item: $ => choice(
@@ -121,7 +140,8 @@ module.exports = grammar({
       $.namespace_statement,
       $.keyframes_statement,
       $.supports_statement,
-      $.at_rule
+      $.postcss_statement,
+      $.at_rule,
     ),
 
     // Selectors
@@ -139,12 +159,13 @@ module.exports = grammar({
       $.child_selector,
       $.descendant_selector,
       $.sibling_selector,
-      $.adjacent_sibling_selector
+      $.adjacent_sibling_selector,
+      $.namespace_selector,
     ),
 
-    nesting_selector: $ => '&',
+    nesting_selector: _ => '&',
 
-    universal_selector: $ => '*',
+    universal_selector: _ => '*',
 
     class_selector: $ => prec(1, seq(
       optional($._selector),
@@ -154,33 +175,33 @@ module.exports = grammar({
 
     pseudo_class_selector: $ => seq(
       optional($._selector),
-      ':',
+      alias($._pseudo_class_selector_colon, ':'),
       alias($.identifier, $.class_name),
-      optional(alias($.pseudo_class_arguments, $.arguments))
+      optional(alias($.pseudo_class_arguments, $.arguments)),
     ),
 
     pseudo_element_selector: $ => seq(
       optional($._selector),
       '::',
       alias($.identifier, $.tag_name),
-      optional(alias($.pseudo_element_arguments, $.arguments))
+      optional(alias($.pseudo_element_arguments, $.arguments)),
     ),
 
     id_selector: $ => seq(
       optional($._selector),
       '#',
-      alias($.identifier, $.id_name)
+      alias($.identifier, $.id_name),
     ),
 
     attribute_selector: $ => seq(
       optional($._selector),
       '[',
-      alias($.identifier, $.attribute_name),
+      alias(choice($.identifier, $.namespace_selector), $.attribute_name),
       optional(seq(
         choice('=', '~=', '^=', '|=', '*=', '$='),
-        $._value
+        $._value,
       )),
-      ']'
+      ']',
     ),
 
     child_selector: $ => prec.left(seq($._selector, '>', $._selector)),
@@ -191,16 +212,18 @@ module.exports = grammar({
 
     adjacent_sibling_selector: $ => prec.left(seq($._selector, '+', $._selector)),
 
+    namespace_selector: $ => prec.left(seq($._selector, '|', $._selector)),
+
     pseudo_class_arguments: $ => seq(
       token.immediate('('),
       sep(',', choice($._selector, repeat1($._value))),
-      ')'
+      ')',
     ),
 
     pseudo_element_arguments: $ => seq(
       token.immediate('('),
       sep(',', choice($._selector, repeat1($._value))),
-      ')'
+      ')',
     ),
 
     // Declarations
@@ -211,10 +234,10 @@ module.exports = grammar({
       $._value,
       repeat(seq(
         optional(','),
-        $._value
+        $._value,
       )),
       optional($.important),
-      ';'
+      ';',
     ),
 
     last_declaration: $ => prec(1, seq(
@@ -223,12 +246,12 @@ module.exports = grammar({
       $._value,
       repeat(seq(
         optional(','),
-        $._value
+        $._value,
       )),
-      optional($.important)
+      optional($.important),
     )),
 
-    important: $ => '!important',
+    important: _ => '!important',
 
     // Media queries
 
@@ -238,7 +261,7 @@ module.exports = grammar({
       $.binary_query,
       $.unary_query,
       $.selector_query,
-      $.parenthesized_query
+      $.parenthesized_query,
     ),
 
     feature_query: $ => seq(
@@ -246,31 +269,31 @@ module.exports = grammar({
       alias($.identifier, $.feature_name),
       ':',
       repeat1($._value),
-      ')'
+      ')',
     ),
 
     parenthesized_query: $ => seq(
       '(',
       $._query,
-      ')'
+      ')',
     ),
 
     binary_query: $ => prec.left(seq(
       $._query,
       choice('and', 'or'),
-      $._query
+      $._query,
     )),
 
     unary_query: $ => prec(1, seq(
       choice('not', 'only'),
-      $._query
+      $._query,
     )),
 
     selector_query: $ => seq(
       'selector',
       '(',
       $._selector,
-      ')'
+      ')',
     ),
 
     // Property Values
@@ -282,30 +305,32 @@ module.exports = grammar({
       $.integer_value,
       $.float_value,
       $.string_value,
+      $.grid_value,
       $.binary_expression,
       $.parenthesized_value,
-      $.call_expression
+      $.call_expression,
+      $.important,
     )),
 
     parenthesized_value: $ => seq(
       '(',
       $._value,
-      ')'
+      ')',
     ),
 
-    color_value: $ => seq('#', token.immediate(/[0-9a-fA-F]{3,8}/)),
+    color_value: _ => seq('#', token.immediate(/[0-9a-fA-F]{3,8}/)),
 
-    string_value: $ => token(choice(
-      seq("'", /([^'\n]|\\(.|\n))*/, "'"),
-      seq('"', /([^"\n]|\\(.|\n))*/, '"')
-    )),
+    string_value: _ => choice(
+      seq('\'', /([^'\n]|\\(.|\n))*/, '\''),
+      seq('"', /([^"\n]|\\(.|\n))*/, '"'),
+    ),
 
     integer_value: $ => seq(
       token(seq(
         optional(choice('+', '-')),
-        /\d+/
+        /\d+/,
       )),
-      optional($.unit)
+      optional($.unit),
     ),
 
     float_value: $ => seq(
@@ -315,59 +340,87 @@ module.exports = grammar({
         choice(
           seq('.', /\d+/),
           seq(/[eE]/, optional('-'), /\d+/),
-          seq('.', /\d+/, /[eE]/, optional('-'), /\d+/)
-        )
+          seq('.', /\d+/, /[eE]/, optional('-'), /\d+/),
+        ),
       )),
-      optional($.unit)
+      optional($.unit),
     ),
 
-    unit: $ => token.immediate(/[a-zA-Z%]+/),
+    unit: _ => token.immediate(/[a-zA-Z%]+/),
+
+    grid_value: $ => seq(
+      '[',
+      sep1(',', $._value),
+      ']',
+    ),
 
     call_expression: $ => seq(
       alias($.identifier, $.function_name),
-      $.arguments
+      $.arguments,
     ),
 
     binary_expression: $ => prec.left(seq(
       $._value,
       choice('+', '-', '*', '/'),
-      $._value
+      $._value,
     )),
 
     arguments: $ => seq(
       token.immediate('('),
       sep(choice(',', ';'), repeat1($._value)),
-      ')'
+      ')',
     ),
 
-    identifier: $ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*/,
+    identifier: _ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*/,
 
-    at_keyword: $ => /@[a-zA-Z-_]+/,
+    at_keyword: _ => /@[a-zA-Z-_]+/,
 
-    comment: $ => token(seq(
+    js_comment: _ => token(prec(-1, seq('//', /.*/))),
+
+    comment: _ => token(seq(
       '/*',
       /[^*]*\*+([^/*][^*]*\*+)*/,
-      '/'
+      '/',
     )),
 
-    plain_value: $ => token(seq(
+    plain_value: _ => token(seq(
       repeat(choice(
         /[-_]/,
-        /\/[^\*\s,;!{}()\[\]]/ // Slash not followed by a '*' (which would be a comment)
+        /\/[^\*\s,;!{}()\[\]]/, // Slash not followed by a '*' (which would be a comment)
       )),
       /[a-zA-Z]/,
       repeat(choice(
-        /[^/\s,;!{}()\[\]]/,   // Not a slash, not a delimiter character
-        /\/[^\*\s,;!{}()\[\]]/ // Slash not followed by a '*' (which would be a comment)
-      ))
-    ))
-  }
-})
+        /[^/\s,;!{}()\[\]]/, // Not a slash, not a delimiter character
+        /\/[^\*\s,;!{}()\[\]]/, // Slash not followed by a '*' (which would be a comment)
+      )),
+    )),
+  },
+});
 
-function sep (separator, rule) {
-  return optional(sep1(separator, rule))
+/**
+ * Creates a rule to optionally match one or more of the rules separated by `separator`
+ *
+ * @param {RuleOrLiteral} separator
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {ChoiceRule}
+ *
+ */
+function sep(separator, rule) {
+  return optional(sep1(separator, rule));
 }
 
-function sep1 (separator, rule) {
-  return seq(rule, repeat(seq(separator, rule)))
+/**
+ * Creates a rule to match one or more of the rules separated by `separator`
+ *
+ * @param {RuleOrLiteral} separator
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function sep1(separator, rule) {
+  return seq(rule, repeat(seq(separator, rule)));
 }

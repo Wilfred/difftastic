@@ -1,10 +1,51 @@
-## 0.58 (unreleased)
+## 0.59 (unreleased)
+
+### Parsing
+
+Added support for device tree and F#.
+
+Difftastic now uses tree-sitter comment highlighing as a hint that
+nodes should be treated as atoms. This ensures comments are treated
+more consistently across languages. This fixes cases in Elm where
+comment differences were ignored, and may improve other languages too.
+
+## 0.58 (released 11th May 2024)
+
+### Parsing
+
+Difftastic now preserves tree-sitter parse tree structure on parse
+error nodes. This reverts the flattening behaviour introduced in
+0.38. Preserving structure tends to produce better diffs, although it
+increases the risk that difftastic will show fewer changes in the
+presence of parse errors.
+
+Since difftastic is now conservative with parse errors
+(DFT_PARSE_ERROR_LIMIT is 0 by default), this seems like a better
+tradeoff.
+
+Updated C, C++, CMake, CSS, Elm, Go, Lua and Python parsers.
 
 ### Diffing
 
 `--strip-cr` now defaults to `on`, so comparing a file with CRLF
 endings with a file with unix line endings will not show spurious
 changes.
+
+### Documentation
+
+Difftastic now has a man page, see the `difft.1` file.
+
+### Performance
+
+Fixed a memory leak and improved performance in some cases.
+
+### Command Line Interface
+
+Fixed a crash when difftastic could not detect the terminal width,
+such as inside eshell.
+
+Difftastic now also considers $COLUMNS when detecting the terminal
+width.
 
 ## 0.57 (released 1st April 2024)
 

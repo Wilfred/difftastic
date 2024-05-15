@@ -2,18 +2,25 @@ name: Lint
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+    paths:
+      - grammar.js
   pull_request:
-    branches:
-      - "**"
+    paths:
+      - grammar.js
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version: ${{vars.NODE_VERSION}}
       - name: Install modules
-        run: npm install
+        run: npm ci --legacy-peer-deps
       - name: Run ESLint
         run: npm run lint

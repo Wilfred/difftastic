@@ -71,11 +71,13 @@ extern "C" {
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_css() -> ts::Language;
     fn tree_sitter_dart() -> ts::Language;
+    fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_elm() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_erlang() -> ts::Language;
+    fn tree_sitter_fsharp() -> ts::Language;
     fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
@@ -289,9 +291,14 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_css() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["integer_value", "float_value", "color_value"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec![
+                    "integer_value",
+                    "float_value",
+                    "color_value",
+                    "string_value",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
@@ -310,6 +317,22 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/dart.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        DeviceTree => {
+            let language = unsafe { tree_sitter_devicetree() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["byte_string_literal", "string_literal"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("<", ">"), ("{", "}"), ("(", ")")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/devicetree.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -384,6 +407,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/erlang.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        FSharp => {
+            let language = unsafe { tree_sitter_fsharp() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: ["string", "triple_quoted_string"].into(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/f-sharp.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -502,7 +539,6 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: vec![
                     "doctype",
                     "quoted_attribute_value",
-                    "comment",
                     "raw_text",
                     "tag_name",
                     "text",
@@ -951,10 +987,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_scala() };
             TreeSitterConfig {
                 language,
-                // TODO: probably all comments should be treated as atoms
-                atom_nodes: vec!["string", "template_string", "comment", "block_comment"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
@@ -968,9 +1001,7 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_scheme() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["block_comment", "comment", "string"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
@@ -1297,7 +1328,7 @@ fn tree_highlights(
             type_capture_ids.push(idx as u32);
         }
 
-        if name == "comment" {
+        if name == "comment" || name.starts_with("comment.") {
             comment_capture_ids.push(idx as u32);
         }
     }
@@ -1608,12 +1639,14 @@ fn syntax_from_cursor<'a>(
 
     if node.is_error() {
         *error_count += 1;
+    }
 
-        // Treat error nodes as atoms, even if they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
-    } else if config.atom_nodes.contains(node.kind()) {
+    if config.atom_nodes.contains(node.kind()) || highlights.comment_ids.contains(&node.id()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
+        //
+        // Also, if this node is highlighted as a comment, treat it as
+        // an atom unconditionally.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
     } else if node.child_count() > 0 {
         Some(list_from_cursor(

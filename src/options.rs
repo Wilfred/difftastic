@@ -21,7 +21,7 @@ use crate::{
 
 pub(crate) const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
-// files (the highest is slow_before/after.rs at 1.3M nodes), but
+// files (the highest is slow_1.rs/slow_2.rs at 1.3M nodes), but
 // small enough to terminate in ~5 seconds like the test file in #306.
 pub(crate) const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
 pub(crate) const DEFAULT_PARSE_ERROR_LIMIT: usize = 0;
@@ -44,11 +44,13 @@ pub(crate) struct DisplayOptions {
     pub(crate) display_mode: DisplayMode,
     pub(crate) print_unchanged: bool,
     pub(crate) tab_width: usize,
-    pub(crate) display_width: usize,
+    pub(crate) terminal_width: usize,
     pub(crate) num_context_lines: u32,
     pub(crate) syntax_highlight: bool,
     pub(crate) sort_paths: bool,
 }
+
+pub(crate) const DEFAULT_TERMINAL_WIDTH: usize = 80;
 
 impl Default for DisplayOptions {
     fn default() -> Self {
@@ -58,7 +60,7 @@ impl Default for DisplayOptions {
             display_mode: DisplayMode::SideBySide,
             print_unchanged: true,
             tab_width: 8,
-            display_width: 80,
+            terminal_width: DEFAULT_TERMINAL_WIDTH,
             num_context_lines: 3,
             syntax_highlight: true,
             sort_paths: false,
@@ -635,7 +637,7 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {
-            path: path.to_string(),
+            path: path.to_owned(),
             ignore_comments,
             language_overrides,
         };
@@ -643,17 +645,17 @@ pub(crate) fn parse_args() -> Mode {
 
     if let Some(path) = matches.value_of("dump-ts") {
         return Mode::DumpTreeSitter {
-            path: path.to_string(),
+            path: path.to_owned(),
             language_overrides,
         };
     }
 
-    let display_width = if let Some(arg_width) = matches.value_of("width") {
+    let terminal_width = if let Some(arg_width) = matches.value_of("width") {
         arg_width
             .parse::<usize>()
             .expect("Already validated by clap")
     } else {
-        detect_display_width()
+        detect_terminal_width()
     };
 
     let display_mode = match matches.value_of("display").expect("display has a default") {
@@ -801,7 +803,7 @@ pub(crate) fn parse_args() -> Mode {
                 print_unchanged,
                 tab_width,
                 display_mode,
-                display_width,
+                terminal_width,
                 num_context_lines,
                 syntax_highlight,
                 sort_paths,
@@ -838,7 +840,7 @@ pub(crate) fn parse_args() -> Mode {
         print_unchanged,
         tab_width,
         display_mode,
-        display_width,
+        terminal_width,
         num_context_lines,
         syntax_highlight,
         sort_paths,
@@ -858,14 +860,29 @@ pub(crate) fn parse_args() -> Mode {
     }
 }
 
-/// Choose the display width: try to autodetect, or fall back to a
-/// sensible default.
-fn detect_display_width() -> usize {
+/// Try to work out the width of the terminal we're on, or fall back
+/// to a sensible default value.
+fn detect_terminal_width() -> usize {
     if let Ok((columns, _rows)) = crossterm::terminal::size() {
-        return columns.into();
+        if columns > 0 {
+            return columns.into();
+        }
     }
 
-    80
+    // If crossterm couldn't detect the terminal width, use the
+    // shell variable COLUMNS if it's set. This helps with terminals like eshell.
+    //
+    // https://github.com/Wilfred/difftastic/issues/707
+    // https://stackoverflow.com/a/48016366
+    if let Ok(columns_env_val) = std::env::var("COLUMNS") {
+        if let Ok(columns) = columns_env_val.parse::<usize>() {
+            if columns > 0 {
+                return columns;
+            }
+        }
+    }
+
+    DEFAULT_TERMINAL_WIDTH
 }
 
 pub(crate) fn should_use_color(color_output: ColorOutput) -> bool {
@@ -893,6 +910,6 @@ mod tests {
     #[test]
     fn test_detect_display_width() {
         // Basic smoke test.
-        assert!(detect_display_width() > 10);
+        assert!(detect_terminal_width() > 10);
     }
 }

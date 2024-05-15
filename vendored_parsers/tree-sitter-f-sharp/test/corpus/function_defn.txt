@@ -1,0 +1,259 @@
+================================================================================
+basic constant function
+================================================================================
+
+let functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic constant function inline
+================================================================================
+
+let inline functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic private constant function
+================================================================================
+
+let private functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (access_modifier)
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+private rec function
+================================================================================
+
+let rec private functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (access_modifier)
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (const
+        (int)))))
+
+================================================================================
+mutual rec function
+================================================================================
+
+let rec private f1 x = f2 x
+and f2 y = y + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (access_modifier)
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier))))
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (infix_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (infix_op)
+        (const
+          (int))))))
+
+================================================================================
+basic private constant function inline
+================================================================================
+
+let inline private functionName x = 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (access_modifier)
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      body: (const
+        (int)))))
+
+================================================================================
+basic function with srt constraint (old-style, with ^)
+================================================================================
+
+let inline double<^a when ^a:(member Double: unit -> ^a)> (x: ^a) = x.Double()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))
+          (type_argument_constraints
+            (constraint
+              (static_type_argument
+                (identifier))
+              (trait_member_constraint
+                (identifier)
+                (type
+                  (type
+                    (long_identifier
+                      (identifier)))
+                  (type
+                    (type_argument
+                      (identifier))))))))
+        (argument_patterns
+          (typed_pattern
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (type
+              (type_argument
+                (identifier))))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)
+            (identifier)))))))
+
+================================================================================
+basic function with srt constraint (new-style, with ')
+================================================================================
+
+let inline double<'a when 'a:(member Double: unit -> 'a)> (x: 'a) = x.Double()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))
+          (type_argument_constraints
+            (constraint
+              (static_type_argument
+                (identifier))
+              (trait_member_constraint
+                (identifier)
+                (type
+                  (type
+                    (long_identifier
+                      (identifier)))
+                  (type
+                    (type_argument
+                      (identifier))))))))
+        (argument_patterns
+          (typed_pattern
+            (identifier_pattern
+              (long_identifier
+                (identifier)))
+            (type
+              (type_argument
+                (identifier))))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)
+            (identifier)))))))
+
+================================================================================
+function decl should be preferred over value decl
+================================================================================
+
+namespace Test
+
+module Program =
+  [<EntryPoint>]
+  let main args =
+    ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (namespace
+    (long_identifier
+      (identifier))
+    (module_defn
+      (identifier)
+      (value_declaration
+        (attributes
+          (attribute_set
+            (attribute
+              (object_construction
+                (type
+                  (long_identifier
+                    (identifier)))))))
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (unit)))))))

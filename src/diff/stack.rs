@@ -1,9 +1,9 @@
-use std::rc::Rc;
+use bumpalo::Bump;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
-struct Node<T> {
+struct Node<'b, T> {
     val: T,
-    next: Option<Rc<Node<T>>>,
+    next: Option<&'b Node<'b, T>>,
 }
 
 /// A persistent stack.
@@ -11,30 +11,28 @@ struct Node<T> {
 /// This is similar to `Stack` from the rpds crate, but it's faster
 /// and uses less memory.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
-pub(crate) struct Stack<T> {
-    head: Option<Rc<Node<T>>>,
+pub(crate) struct Stack<'b, T> {
+    head: Option<&'b Node<'b, T>>,
 }
 
-impl<T> Stack<T> {
+impl<'b, T> Stack<'b, T> {
     pub(crate) fn new() -> Self {
         Self { head: None }
     }
 
     pub(crate) fn peek(&self) -> Option<&T> {
-        self.head.as_deref().map(|n| &n.val)
+        self.head.map(|n| &n.val)
     }
 
-    pub(crate) fn pop(&self) -> Option<Stack<T>> {
-        self.head.as_deref().map(|n| Self {
-            head: n.next.clone(),
-        })
+    pub(crate) fn pop(&self) -> Option<Stack<'b, T>> {
+        self.head.map(|n| Self { head: n.next })
     }
 
-    pub(crate) fn push(&self, v: T) -> Stack<T> {
+    pub(crate) fn push(&self, v: T, alloc: &'b Bump) -> Stack<'b, T> {
         Self {
-            head: Some(Rc::new(Node {
+            head: Some(alloc.alloc(Node {
                 val: v,
-                next: self.head.clone(),
+                next: self.head,
             })),
         }
     }

@@ -88,6 +88,10 @@
         "named": true
       },
       {
+        "type": "type_instantiation_expression",
+        "named": true
+      },
+      {
         "type": "unary_expression",
         "named": true
       }
@@ -173,10 +177,6 @@
       },
       {
         "type": "type_identifier",
-        "named": true
-      },
-      {
-        "type": "union_type",
         "named": true
       }
     ]
@@ -1192,10 +1192,6 @@
           {
             "type": "type_identifier",
             "named": true
-          },
-          {
-            "type": "union_type",
-            "named": true
           }
         ]
       },
@@ -1429,15 +1425,11 @@
       "required": false,
       "types": [
         {
-          "type": "constraint_elem",
+          "type": "method_elem",
           "named": true
         },
         {
-          "type": "method_spec",
-          "named": true
-        },
-        {
-          "type": "struct_elem",
+          "type": "type_elem",
           "named": true
         }
       ]
@@ -1624,7 +1616,7 @@
     }
   },
   {
-    "type": "method_spec",
+    "type": "method_elem",
     "named": true,
     "fields": {
       "name": {
@@ -2067,36 +2059,6 @@
     }
   },
   {
-    "type": "struct_elem",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "struct_term",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "struct_term",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "struct_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "struct_type",
     "named": true,
     "fields": {},
@@ -2146,7 +2108,7 @@
       "required": true,
       "types": [
         {
-          "type": "_type",
+          "type": "type_elem",
           "named": true
         }
       ]
@@ -2209,6 +2171,21 @@
     }
   },
   {
+    "type": "type_constraint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_conversion_expression",
     "named": true,
     "fields": {
@@ -2254,6 +2231,73 @@
     }
   },
   {
+    "type": "type_elem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_instantiation_expression",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_parameter_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_constraint",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "type_parameter_list",
     "named": true,
     "fields": {},
@@ -2262,7 +2306,7 @@
       "required": true,
       "types": [
         {
-          "type": "parameter_declaration",
+          "type": "type_parameter_declaration",
           "named": true
         }
       ]
@@ -2402,21 +2446,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "union_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_type",
-          "named": true
-        }
-      ]
     }
   },
   {

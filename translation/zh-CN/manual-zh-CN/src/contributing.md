@@ -72,20 +72,20 @@ $ DFT_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
 如果你有一个特别慢的文件，你可以使用 [cargo-flamegraph](https://github.com/flamegraph-rs/flamegraph) 来查看是哪些函数慢的。
 
 ```
-$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
+$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_1.rs sample_files/slow_2.rs
 ```
 
 内存的使用情况也是值得关注，因为图的遍历错误会导致巨大的内存消耗。
 
 ```
-$ /usr/bin/time -v ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+$ /usr/bin/time -v ./target/release/difft sample_files/slow_1.rs sample_files/slow_2.rs
 ```
 
 如果定时测量有噪音，Linux的`perf`工具将报告 执行的指令，这也是更加稳定的。
 
 ```
-$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
-$ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
+$ perf stat ./target/release/difft sample_files/slow_1.rs sample_files/slow_2.rs
+$ perf stat ./target/release/difft sample_files/typing_1.ml sample_files/typing_2.ml
 ```
 
 还有很多剖析技术在[The Rust性能手册](https://nnethercote.github.io/perf-book/)中讨论了。

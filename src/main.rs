@@ -19,6 +19,10 @@
 // implementation does not consider the mutable fields, so it is still
 // correct.
 #![allow(clippy::mutable_key_type)]
+// .to_owned() is more explicit on string references.
+#![warn(clippy::str_to_string)]
+// .to_string() on a String is clearer as .clone().
+#![warn(clippy::string_to_string)]
 // Debugging features shouldn't be in checked-in code.
 #![warn(clippy::todo)]
 #![warn(clippy::dbg_macro)]
@@ -163,7 +167,7 @@ fn main() {
                     LanguageOverride::Language(lang) => language_name(lang),
                     LanguageOverride::PlainText => "Text",
                 }
-                .to_string();
+                .to_owned();
                 if use_color {
                     name = name.bold().to_string();
                 }
@@ -175,7 +179,7 @@ fn main() {
             }
 
             for language in Language::iter() {
-                let mut name = language_name(language).to_string();
+                let mut name = language_name(language).to_owned();
                 if use_color {
                     name = name.bold().to_string();
                 }
@@ -475,7 +479,7 @@ fn check_only_text(
     let has_changes = lhs_src != rhs_src;
 
     DiffResult {
-        display_path: display_path.to_string(),
+        display_path: display_path.to_owned(),
         extra_info,
         file_format: file_format.clone(),
         lhs_src: FileContent::Text(lhs_src.into()),
@@ -518,7 +522,7 @@ fn diff_file_content(
         // rather than doing any more work.
         return DiffResult {
             extra_info,
-            display_path: display_path.to_string(),
+            display_path: display_path.to_owned(),
             file_format,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
@@ -559,7 +563,7 @@ fn diff_file_content(
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
                                     extra_info,
-                                    display_path: display_path.to_string(),
+                                    display_path: display_path.to_owned(),
                                     file_format: FileFormat::SupportedLanguage(language),
                                     lhs_src: FileContent::Text(lhs_src.to_owned()),
                                     rhs_src: FileContent::Text(rhs_src.to_owned()),
@@ -700,7 +704,7 @@ fn diff_file_content(
 
     DiffResult {
         extra_info,
-        display_path: display_path.to_string(),
+        display_path: display_path.to_owned(),
         file_format,
         lhs_src: FileContent::Text(lhs_src.to_owned()),
         rhs_src: FileContent::Text(rhs_src.to_owned()),

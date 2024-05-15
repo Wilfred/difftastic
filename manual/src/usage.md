@@ -4,14 +4,20 @@
 
 ### Diffing Files
 
-```
-$ difft sample_files/before.js sample_files/after.js
+```bash
+$ difft FIRST-FILE SECOND-FILE
+
+# For example:
+$ difft sample_files/simple_1.js sample_files/simple_2.js
 ```
 
 ### Diffing Directories
 
-```
-$ difft sample_files/dir_before/ sample_files/dir_after/
+```bash
+$ difft FIRST-DIRECTORY SECOND-DIRECTORY
+
+# For example:
+$ difft sample_files/dir_1/ sample_files/dir_2/
 ```
 
 Difftastic will recursively walk the two directories, diffing files
@@ -24,8 +30,11 @@ contain many unchanged files.
 
 You can read a file from stdin by specifying `-` as the file path.
 
-```
-$ cat sample_files/before.js | difft - sample_files/after.js
+```bash
+$ difft - SECOND-FILE
+
+# For example:
+$ cat sample_files/simple_1.js | difft - sample_files/simple_2.js
 ```
 
 ### Files With Conflicts
@@ -36,23 +45,32 @@ If you have a file with `<<<<<<<` conflict markers, you can pass it as
 a single argument to difftastic. Difftastic will construct the two
 file states and diff those.
 
-```
+```bash
+$ difft FILE-WITH-CONFLICTS
+
+# For example:
 $ difft sample_files/conflicts.el
 ```
-
 
 ## Language Detection
 
 Difftastic guesses the language used based on the file extension, file
-name, and the contents of the first lines.
-
-You can override the language detection by passing the `--language`
-option. Difftastic will treat input files as if they had that
-extension, and ignore other language detection heuristics.
-
+name, and the contents of the first lines. To see the languages
+available, and the associated file names, use the `--list-languages`
+option.
 
 ```
-$ difft --language cpp before.c after.c
+$ difft --list-languages
+```
+
+You can override language detection for specific file globs using the
+`--override` option.
+
+```bash
+$ difft --override=GLOB:NAME FIRST-FILE SECOND-FILE
+
+# For example, treating .h files as C rather than C++:
+$ difft --override=*.h:c sample_files/preprocesor_1.h sample_files/preprocesor_2.h
 ```
 
 ## Options

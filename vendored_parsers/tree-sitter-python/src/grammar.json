@@ -1979,6 +1979,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "]"
         }
@@ -5999,17 +6011,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[Ll]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[jJ]"
-                  }
-                ]
+                "type": "PATTERN",
+                "value": "[jJ]"
               },
               {
                 "type": "BLANK"
@@ -6260,6 +6263,10 @@
     {
       "type": "STRING",
       "value": "}"
+    },
+    {
+      "type": "STRING",
+      "value": "except"
     }
   ],
   "inline": [
@@ -6277,26 +6284,5 @@
     "primary_expression",
     "pattern",
     "parameter"
-  ],
-  "PREC": {
-    "lambda": -2,
-    "typed_parameter": -1,
-    "conditional": -1,
-    "parenthesized_expression": 1,
-    "parenthesized_list_splat": 1,
-    "or": 10,
-    "and": 11,
-    "not": 12,
-    "compare": 13,
-    "bitwise_or": 14,
-    "bitwise_and": 15,
-    "xor": 16,
-    "shift": 17,
-    "plus": 18,
-    "times": 19,
-    "unary": 20,
-    "power": 21,
-    "call": 22
-  }
+  ]
 }
-
