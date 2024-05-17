@@ -118,6 +118,7 @@ extern "C" {
     fn tree_sitter_toml() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
+    fn tree_sitter_typst() -> ts::Language;
     fn tree_sitter_vhdl() -> ts::Language;
     fn tree_sitter_xml() -> ts::Language;
     fn tree_sitter_yaml() -> ts::Language;
@@ -1128,6 +1129,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                         include_str!("../../vendored_parsers/highlights/javascript.scm"),
                         include_str!("../../vendored_parsers/highlights/typescript.scm"),
                     ),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Typst => {
+            let language = unsafe { tree_sitter_typst() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/typst.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
