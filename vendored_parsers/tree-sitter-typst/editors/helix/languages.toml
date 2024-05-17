@@ -1,0 +1,19 @@
+[[language]]
+name = "typst"
+scope = "source.typst"
+file-types = ["typst", "typ"]
+indent = { tab-width = 2, unit = "  " }
+comment-token = "//"
+injection-regex = "typ(st)?"
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'$' = '$'
+'"' = '"'
+
+[[grammar]]
+name = "typst"
+source.git = "https://github.com/uben0/tree-sitter-typst"
+source.rev = "master"
