@@ -78,6 +78,7 @@ extern "C" {
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_erlang() -> ts::Language;
     fn tree_sitter_fsharp() -> ts::Language;
+    fn tree_sitter_foam() -> ts::Language;
     fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_hare() -> ts::Language;
@@ -424,6 +425,37 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 )
                 .unwrap(),
                 sub_languages: vec![],
+            }
+        }
+        Foam => {
+            let language = unsafe { tree_sitter_foam() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec![
+                    "identifier",
+                    "number_literal",
+                    "string_literal"
+                ].into_iter().collect(),
+                delimiter_tokens: vec![
+                    ("(", ")"),
+                    ("{", "}"),
+                    ("[…", "]"),
+                    ("#{", "#}")
+                ],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/foam.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![
+                    TreeSitterSubLanguage {
+                        query: ts::Query::new(
+                            language,
+                            "(code (code_body) @content)"
+                        ).unwrap(),
+                        parse_as: CPlusPlus,
+                    },
+                ],
             }
         }
         Gleam => {

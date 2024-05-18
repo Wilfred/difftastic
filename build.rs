@@ -154,6 +154,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-foam",
+            src_dir: "vendored_parsers/tree-sitter-foam-src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-f-sharp",
             src_dir: "vendored_parsers/tree-sitter-f-sharp-src",
             extra_files: vec!["scanner.c"],
