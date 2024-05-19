@@ -267,12 +267,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "Emakefile",
         ],
         FSharp => &["*.fs", "*.fsx", "*.fsi"],
-        Foam => &[
-            "*Dict",
-            "*Properties",
-            "fvSolution",
-            "fvSchemes",
-        ],
+        Foam => &["*Dict", "*Properties", "fvSolution", "fvSchemes"],
         Gleam => &["*.gleam"],
         Go => &["*.go"],
         Hack => &["*.hack", "*.hck", "*.hhi"],
