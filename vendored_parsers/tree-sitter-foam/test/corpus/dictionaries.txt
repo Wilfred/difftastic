@@ -1,0 +1,229 @@
+================================================================================
+Base dictionaries with
+================================================================================
+
+dict
+{
+}
+
+dict
+{
+    entry1 0.0;
+    entry2 "spaced string";
+}
+
+dict
+{
+    // Some entry
+    entry1
+    {
+        param 1.0;
+    }
+
+    // wall BD
+    ".*Wall"
+    {
+        param 5.0;
+    }
+
+    $entry1;
+
+    entry2 0.0;
+}
+
+--------------------------------------------------------------------------------
+
+(foam
+  (dict
+    (identifier))
+  (dict
+    (identifier)
+    (dict_core
+      (key_value
+        (identifier)
+        (number_literal))
+      (key_value
+        (identifier)
+        (string_literal))))
+  (dict
+    (identifier)
+    (comment)
+    (dict_core
+      (dict
+        (identifier)
+        (dict_core
+          (key_value
+            (identifier)
+            (number_literal))))
+      (comment)
+      (dict
+        (string_literal)
+        (dict_core
+          (key_value
+            (identifier)
+            (number_literal))))
+      (macro
+        (identifier))
+      (key_value
+        (identifier)
+        (number_literal)))))
+
+================================================================================
+Dictionary with comment after identifier
+================================================================================
+
+dict // description
+{
+    key val;
+}
+
+--------------------------------------------------------------------------------
+
+(foam
+  (dict
+    (identifier)
+    (comment)
+    (dict_core
+      (key_value
+        (identifier)
+        (identifier)))))
+
+================================================================================
+Dictionaries as parts of keyword values
+================================================================================
+
+default CrankNicolson ocCoeff
+{
+    type scale;
+    scale linearRamp;
+    duration 1.0;
+    value 0.9;
+};
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (identifier)
+    (dict
+      (identifier)
+      (dict_core
+        (key_value
+          (identifier)
+          (identifier))
+        (key_value
+          (identifier)
+          (identifier))
+        (key_value
+          (identifier)
+          (number_literal))
+        (key_value
+          (identifier)
+          (number_literal))))))
+
+================================================================================
+Lists of dictionaries with list-like keywords
+================================================================================
+
+boundary
+(
+    inlet
+    {
+        type            patch;
+        edgeLabels      List<label> 3 (2 5 346);
+    }
+    outlet
+    {
+        type            patch;
+    }
+);
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (list
+      (identifier)
+      (dict_headless
+        (key_value
+          (identifier)
+          (identifier))
+        (key_value
+          (identifier)
+          (identifier)
+          (number_literal)
+          (list
+            (number_literal)
+            (number_literal)
+            (number_literal))))
+      (identifier)
+      (dict_headless
+        (key_value
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Lists of headless dictionaries
+================================================================================
+
+boundary
+(
+    {
+        type            patch;
+        edgeLabels      List<label> 3 (2 5 346);
+    }
+    {
+        type            patch;
+    }
+);
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (list
+      (dict_headless
+        (key_value
+          (identifier)
+          (identifier))
+        (key_value
+          (identifier)
+          (identifier)
+          (number_literal)
+          (list
+            (number_literal)
+            (number_literal)
+            (number_literal))))
+      (dict_headless
+        (key_value
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Dictionaries with list-like keys
+================================================================================
+
+(gas and liquid)
+{
+    type            constant;
+    sigma           0.07;
+}
+
+--------------------------------------------------------------------------------
+
+(foam
+  (dict
+    (list
+      (identifier)
+      (identifier)
+      (identifier))
+    (dict_core
+      (key_value
+        (identifier)
+        (identifier))
+      (key_value
+        (identifier)
+        (number_literal)))))
