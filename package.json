@@ -1,0 +1,41 @@
+{
+  "name": "tree-sitter-foam",
+  "version": "0.4.0",
+  "description": "Tree sitter grammer for OpenFOAM dictionaries",
+  "main": "bindings/node",
+  "homepage": "https://github.com/FoamScience/tree-sitter-foam#readme",
+  "bugs": {
+    "url": "https://github.com/FoamScience/tree-sitter-foam/issues",
+    "email": "elwardifadeli@gmail.com"
+  },
+  "scripts": {
+    "test": "echo \"No test specified\""
+  },
+  "keywords": [
+    "OpenFOAM",
+    "TreeSitter"
+  ],
+  "author": "Mohammed Elwardi Fadeli",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.17.0",
+    "node-gyp": "^9.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-cli": "^0.20.8",
+    "web-tree-sitter": "github:wenkokke/web-tree-sitter#dev"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.foam",
+      "file-types": [
+        "foam",
+        "OpenFOAM"
+      ],
+      "content-regex": "FoamFile",
+      "injection-regex": "^(foam|OpenFOAM)$"
+    }
+  ]
+}

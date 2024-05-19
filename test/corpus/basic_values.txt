@@ -1,0 +1,257 @@
+================================================================================
+Comments
+================================================================================
+
+// Comment 1
+/*
+    Comment 2
+*/
+
+--------------------------------------------------------------------------------
+
+(foam
+  (comment)
+  (comment))
+
+================================================================================
+Key-value pair with missing value
+================================================================================
+
+number ;
+p;
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier))
+  (key_value
+    (identifier)))
+
+================================================================================
+Dimensions
+================================================================================
+
+dimensions [1 -1 2 0 0 0];
+dimensions [m^2 s^-2];
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (dimensions
+      (number_literal)
+      (number_literal)
+      (number_literal)
+      (number_literal)
+      (number_literal)
+      (number_literal)))
+  (key_value
+    (identifier)
+    (dimensions
+      (identifier)
+      (identifier))))
+
+================================================================================
+Succession of basic values
+================================================================================
+
+scheme gauss something 1.0;
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (identifier)
+    (identifier)
+    (number_literal)))
+
+================================================================================
+Literal strings with spaces/escapes
+================================================================================
+
+key "Cool string with spaces";
+key "Cool string\\n with spaces";
+".*Wall" 1.0;
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (string_literal))
+  (key_value
+    (identifier)
+    (string_literal
+      (escape_sequence)))
+  (key_value
+    (string_literal)
+    (number_literal)))
+
+================================================================================
+Floating-point numbers
+================================================================================
+
+number 5;
+number .5;
+number -1.25;
+number 5.0e13;
+number -5.0E-13;
+
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (number_literal))
+  (key_value
+    (identifier)
+    (number_literal))
+  (key_value
+    (identifier)
+    (number_literal))
+  (key_value
+    (identifier)
+    (number_literal))
+  (key_value
+    (identifier)
+    (number_literal)))
+
+================================================================================
+Identifiers as keywords and values
+================================================================================
+
+scheme Gauss1;
+div(phi,U1) K;
+laplacian((1|A(U+v)*D-mT),p) Gauss linear corrected;
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (identifier))
+  (key_value
+    (identifier)
+    (identifier))
+  (key_value
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)))
+
+================================================================================
+Boolean values
+================================================================================
+
+option1 off;
+option2 on;
+option3 true;
+option4 false;
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (boolean))
+  (key_value
+    (identifier)
+    (boolean))
+  (key_value
+    (identifier)
+    (boolean))
+  (key_value
+    (identifier)
+    (boolean)))
+
+================================================================================
+Macros
+================================================================================
+
+var         $PO;
+var         $../../some/file/path;
+div(phi,U0) $..DK;
+div(phi,U1) $.. DK;
+div(phi,U2) $..DK Gauss;
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (macro
+      (identifier)))
+  (key_value
+    (identifier)
+    (macro
+      (prev_scope)
+      (identifier)))
+  (key_value
+    (identifier)
+    (macro
+      (prev_scope)
+      (identifier)))
+  (key_value
+    (identifier)
+    (macro
+      (prev_scope)
+      (identifier)))
+  (key_value
+    (identifier)
+    (macro
+      (prev_scope)
+      (identifier))
+    (identifier)))
+
+================================================================================
+Cpp code blocks
+================================================================================
+
+emptyCode #{  #};
+
+code
+#{
+    /*
+       This will not fail if #{ shows up here outside a string literal
+       #} also works as expected
+    */
+    #include<vector>
+    #include "someFile.H"
+
+    {
+        os << vector(-::sin($angle), 0, ::cos($angle));
+        os << "#{ example #}";
+    }
+#};
+
+codeInclude #{ #include "vector.H" #};
+
+code
+#{
+    pointField points(30);
+    points[0]  = point(0.5, 0, -0.5);
+#};
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (code))
+  (key_value
+    (identifier)
+    (code
+      (comment)
+      (code_body)))
+  (key_value
+    (identifier)
+    (code
+      (code_body)))
+  (key_value
+    (identifier)
+    (code
+      (code_body))))
