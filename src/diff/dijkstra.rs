@@ -25,6 +25,7 @@ fn shortest_vertex_path<'s, 'b>(
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
+    id_map: &DftHashMap<NonZeroU32, &'s Syntax<'s>>,
 ) -> Result<Vec<&'b Vertex<'s, 'b>>, ExceededGraphLimit> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
@@ -43,7 +44,7 @@ fn shortest_vertex_path<'s, 'b>(
                     break current;
                 }
 
-                set_neighbours(current, vertex_arena, &mut seen);
+                set_neighbours(current, vertex_arena, &mut seen, id_map);
                 for neighbour in *current.neighbours.borrow().as_ref().unwrap() {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
@@ -119,9 +120,10 @@ fn shortest_path<'s, 'b>(
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
+    id_map: &DftHashMap<NonZeroU32, &'s Syntax<'s>>,
 ) -> Result<Vec<(Edge, &'b Vertex<'s, 'b>)>, ExceededGraphLimit> {
     let start: &'b Vertex<'s, 'b> = vertex_arena.alloc(start);
-    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit, id_map)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
@@ -227,7 +229,7 @@ pub(crate) fn mark_syntax<'a>(
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let vertex_arena = Bump::new();
 
-    let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+    let route = shortest_path(start, &vertex_arena, size_hint, graph_limit, id_map)?;
 
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
@@ -289,9 +291,11 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
+        let id_map = build_id_map(&[lhs], &[rhs]);
+
         let start = Vertex::new(Some(lhs), Some(rhs));
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -331,9 +335,11 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let id_map = build_id_map(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -373,9 +379,11 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let id_map = build_id_map(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -419,9 +427,11 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let id_map = build_id_map(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -460,9 +470,11 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let id_map = build_id_map(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -492,9 +504,11 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let id_map = build_id_map(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -532,9 +546,11 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
+        let id_map = build_id_map(&lhs, &rhs);
+
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let vertex_arena = Bump::new();
-        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(

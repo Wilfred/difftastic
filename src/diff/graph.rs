@@ -497,6 +497,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
     v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
     seen: &mut DftHashMap<&Vertex<'s, 'b>, SmallVec<[&'b Vertex<'s, 'b>; 2]>>,
+    id_map: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
 ) {
     if v.neighbours.borrow().is_some() {
         return;
