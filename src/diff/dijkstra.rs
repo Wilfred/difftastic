@@ -8,10 +8,12 @@ use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 
 use crate::{
-    diff::changes::ChangeMap,
-    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
+    diff::{
+        changes::ChangeMap,
+        graph::{populate_change_map, set_neighbours, Edge, Vertex},
+    },
     hash::DftHashMap,
-    parse::syntax::Syntax,
+    parse::syntax::{Syntax, SyntaxId},
 };
 
 #[derive(Debug)]
@@ -187,12 +189,20 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
 }
 
 pub(crate) fn mark_syntax<'a>(
-    lhs_syntax: Option<&'a Syntax<'a>>,
-    rhs_syntax: Option<&'a Syntax<'a>>,
+    lhs_syntax_id: Option<SyntaxId>,
+    rhs_syntax_id: Option<SyntaxId>,
     change_map: &mut ChangeMap<'a>,
     graph_limit: usize,
     id_map: &DftHashMap<NonZeroU32, &'a Syntax<'a>>,
 ) -> Result<(), ExceededGraphLimit> {
+    let lhs_syntax = lhs_syntax_id
+        .and_then(|syntax_id| id_map.get(&syntax_id))
+        .copied();
+
+    let rhs_syntax = rhs_syntax_id
+        .and_then(|syntax_id| id_map.get(&syntax_id))
+        .copied();
+
     let lhs_node_count = node_count(lhs_syntax) as usize;
     let rhs_node_count = node_count(rhs_syntax) as usize;
     info!(
@@ -549,8 +559,8 @@ mod tests {
 
         let mut change_map = ChangeMap::default();
         mark_syntax(
-            Some(lhs),
-            Some(rhs),
+            Some(lhs.id()),
+            Some(rhs.id()),
             &mut change_map,
             DEFAULT_GRAPH_LIMIT,
             &id_map,
@@ -572,8 +582,8 @@ mod tests {
 
         let mut change_map = ChangeMap::default();
         mark_syntax(
-            Some(lhs),
-            Some(rhs),
+            Some(lhs.id()),
+            Some(rhs.id()),
             &mut change_map,
             DEFAULT_GRAPH_LIMIT,
             &id_map,

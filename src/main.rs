@@ -592,8 +592,8 @@ fn diff_file_content(
                                 init_next_prev(&rhs_section_nodes);
 
                                 match mark_syntax(
-                                    lhs_section_nodes.first().copied(),
-                                    rhs_section_nodes.first().copied(),
+                                    lhs_section_nodes.first().map(|n| n.id()),
+                                    rhs_section_nodes.first().map(|n| n.id()),
                                     &mut change_map,
                                     diff_options.graph_limit,
                                     &id_map,
