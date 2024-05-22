@@ -808,6 +808,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
 pub(crate) fn populate_change_map<'s, 'b>(
     route: &[(Edge, &'b Vertex<'s, 'b>)],
     change_map: &mut ChangeMap<'s>,
+    id_map: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
 ) {
     for (e, v) in route {
         match e {

@@ -256,7 +256,7 @@ pub(crate) fn mark_syntax<'a>(
             .collect_vec()
     );
 
-    populate_change_map(&route, change_map);
+    populate_change_map(&route, change_map, id_map);
     Ok(())
 }
 
