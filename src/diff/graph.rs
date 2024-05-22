@@ -432,6 +432,7 @@ fn pop_all_parents<'s, 'b>(
     rhs_parent_id: Option<SyntaxId>,
     parents: &Stack<'b, EnteredDelimiter<'s, 'b>>,
     alloc: &'b Bump,
+    id_map: &DftHashMap<SyntaxId, &'s Syntax<'s>>,
 ) -> (
     Option<&'s Syntax<'s>>,
     Option<&'s Syntax<'s>>,
@@ -522,6 +523,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                 v.rhs_parent_id,
                 &v.parents,
                 alloc,
+                id_map,
             );
 
             neighbours.push((
@@ -582,6 +584,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         Some(rhs_syntax.id()),
                         &parents_next,
                         alloc,
+                        id_map,
                     );
 
                 neighbours.push((
@@ -635,6 +638,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.rhs_parent_id,
                         &v.parents,
                         alloc,
+                        id_map,
                     );
                 neighbours.push((
                     edge,
@@ -668,6 +672,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.rhs_parent_id,
                         &v.parents,
                         alloc,
+                        id_map,
                     );
 
                 neighbours.push((
@@ -701,6 +706,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.rhs_parent_id,
                         &parents_next,
                         alloc,
+                        id_map,
                     );
 
                 neighbours.push((
@@ -735,6 +741,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         v.rhs_parent_id,
                         &v.parents,
                         alloc,
+                        id_map,
                     );
 
                 neighbours.push((
@@ -767,6 +774,7 @@ pub(crate) fn set_neighbours<'s, 'b>(
                         Some(rhs_syntax.id()),
                         &parents_next,
                         alloc,
+                        id_map,
                     );
 
                 neighbours.push((
