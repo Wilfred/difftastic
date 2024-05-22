@@ -367,7 +367,7 @@ pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a S
 pub(crate) fn build_id_map<'a>(
     lhs_roots: &[&'a Syntax<'a>],
     rhs_roots: &[&'a Syntax<'a>],
-) -> DftHashMap<NonZeroU32, &'a Syntax<'a>> {
+) -> DftHashMap<SyntaxId, &'a Syntax<'a>> {
     let mut id_map = DftHashMap::default();
     build_id_map_(lhs_roots, &mut id_map);
     build_id_map_(rhs_roots, &mut id_map);
@@ -375,10 +375,7 @@ pub(crate) fn build_id_map<'a>(
     id_map
 }
 
-fn build_id_map_<'a>(
-    nodes: &[&'a Syntax<'a>],
-    id_map: &mut DftHashMap<NonZeroU32, &'a Syntax<'a>>,
-) {
+fn build_id_map_<'a>(nodes: &[&'a Syntax<'a>], id_map: &mut DftHashMap<SyntaxId, &'a Syntax<'a>>) {
     for node in nodes {
         id_map.insert(node.id(), *node);
 
