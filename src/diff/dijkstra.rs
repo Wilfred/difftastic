@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::{cmp::Reverse, env, num::NonZeroU32};
 
 use bumpalo::Bump;
 use itertools::Itertools;
@@ -191,6 +191,7 @@ pub(crate) fn mark_syntax<'a>(
     rhs_syntax: Option<&'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
     graph_limit: usize,
+    id_map: &DftHashMap<NonZeroU32, &'a Syntax<'a>>,
 ) -> Result<(), ExceededGraphLimit> {
     let lhs_node_count = node_count(lhs_syntax) as usize;
     let rhs_node_count = node_count(rhs_syntax) as usize;
@@ -255,9 +256,9 @@ mod tests {
 
     use super::*;
     use crate::{
-        diff::changes::ChangeKind,
-        diff::graph::Edge::*,
+        diff::{changes::ChangeKind, graph::Edge::*},
         options::DEFAULT_GRAPH_LIMIT,
+        parse::syntax::build_id_map,
         syntax::{init_all_info, AtomKind},
     };
 
@@ -544,8 +545,17 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
+        let id_map = build_id_map(&[lhs], &[rhs]);
+
         let mut change_map = ChangeMap::default();
-        mark_syntax(Some(lhs), Some(rhs), &mut change_map, DEFAULT_GRAPH_LIMIT).unwrap();
+        mark_syntax(
+            Some(lhs),
+            Some(rhs),
+            &mut change_map,
+            DEFAULT_GRAPH_LIMIT,
+            &id_map,
+        )
+        .unwrap();
 
         assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
         assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
@@ -558,8 +568,17 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
+        let id_map = build_id_map(&[lhs], &[rhs]);
+
         let mut change_map = ChangeMap::default();
-        mark_syntax(Some(lhs), Some(rhs), &mut change_map, DEFAULT_GRAPH_LIMIT).unwrap();
+        mark_syntax(
+            Some(lhs),
+            Some(rhs),
+            &mut change_map,
+            DEFAULT_GRAPH_LIMIT,
+            &id_map,
+        )
+        .unwrap();
         assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
         assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
     }

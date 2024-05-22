@@ -50,6 +50,7 @@ use log::info;
 use mimalloc::MiMalloc;
 use options::FilePermissions;
 use options::USAGE;
+use parse::syntax::build_id_map;
 
 use crate::conflicts::apply_conflict_markers;
 use crate::conflicts::START_LHS_MARKER;
@@ -575,6 +576,8 @@ fn diff_file_content(
                                 };
                             }
 
+                            let id_map = build_id_map(&lhs, &rhs);
+
                             let mut change_map = ChangeMap::default();
                             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                                 vec![(lhs.clone(), rhs.clone())]
@@ -593,6 +596,7 @@ fn diff_file_content(
                                     rhs_section_nodes.first().copied(),
                                     &mut change_map,
                                     diff_options.graph_limit,
+                                    &id_map,
                                 ) {
                                     Ok(()) => {}
                                     Err(ExceededGraphLimit {}) => {
