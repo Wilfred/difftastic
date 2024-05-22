@@ -5,9 +5,9 @@
 [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)
 has been tested using a variety of methods.
 
-_Note_: The description below is somewhat out-of-date.  Once the
-currently used methods stabilize a bit, the following content may get
-updated.
+_Note_: Current serious testing is done via the code and instructions
+in the [ts-clojure](https://github.com/sogaiu/ts-clojure) repository.
+The description below is left for historical purposes.
 
 ## The Details
 
