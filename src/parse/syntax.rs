@@ -364,6 +364,30 @@ pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a S
     init_next_prev(rhs_roots);
 }
 
+pub(crate) fn build_id_map<'a>(
+    lhs_roots: &[&'a Syntax<'a>],
+    rhs_roots: &[&'a Syntax<'a>],
+) -> DftHashMap<NonZeroU32, &'a Syntax<'a>> {
+    let mut id_map = DftHashMap::default();
+    build_id_map_(lhs_roots, &mut id_map);
+    build_id_map_(rhs_roots, &mut id_map);
+
+    id_map
+}
+
+fn build_id_map_<'a>(
+    nodes: &[&'a Syntax<'a>],
+    id_map: &mut DftHashMap<NonZeroU32, &'a Syntax<'a>>,
+) {
+    for node in nodes {
+        id_map.insert(node.id(), *node);
+
+        if let List { children, .. } = node {
+            build_id_map_(children, id_map);
+        }
+    }
+}
+
 fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
     init_info_on_side(lhs_roots, &mut id);
