@@ -21,10 +21,10 @@ use crate::{
 /// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will
 /// infinitely loop on unchanged nodes, which both point to the other.
-impl<'a> fmt::Debug for ChangeKind<'a> {
+impl fmt::Debug for ChangeKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
-            Unchanged(node) => format!("Unchanged(ID: {})", node.id()),
+            Unchanged(node) => format!("Unchanged(ID: {})", node),
             ReplacedComment(lhs_node, rhs_node) | ReplacedString(lhs_node, rhs_node) => {
                 let change_kind = if let ReplacedComment(_, _) = self {
                     "ReplacedComment"
@@ -34,9 +34,7 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
                 format!(
                     "{}(lhs ID: {}, rhs ID: {})",
-                    change_kind,
-                    lhs_node.id(),
-                    rhs_node.id()
+                    change_kind, lhs_node, rhs_node
                 )
             }
             Novel => "Novel".to_owned(),
@@ -46,6 +44,8 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 }
 
 pub(crate) type SyntaxId = NonZeroU32;
+
+pub(crate) type SyntaxIdMap<'a> = DftHashMap<SyntaxId, &'a Syntax<'a>>;
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub(crate) struct SyntaxInfo<'a> {
@@ -367,7 +367,7 @@ pub(crate) fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a S
 pub(crate) fn build_id_map<'a>(
     lhs_roots: &[&'a Syntax<'a>],
     rhs_roots: &[&'a Syntax<'a>],
-) -> DftHashMap<SyntaxId, &'a Syntax<'a>> {
+) -> SyntaxIdMap<'a> {
     let mut id_map = DftHashMap::default();
     build_id_map_(lhs_roots, &mut id_map);
     build_id_map_(rhs_roots, &mut id_map);
@@ -375,7 +375,7 @@ pub(crate) fn build_id_map<'a>(
     id_map
 }
 
-fn build_id_map_<'a>(nodes: &[&'a Syntax<'a>], id_map: &mut DftHashMap<SyntaxId, &'a Syntax<'a>>) {
+fn build_id_map_<'a>(nodes: &[&'a Syntax<'a>], id_map: &mut SyntaxIdMap<'a>) {
     for node in nodes {
         id_map.insert(node.id(), *node);
 
@@ -791,6 +791,7 @@ impl MatchedPos {
         highlight: TokenKind,
         pos: &[SingleLineSpan],
         is_close_delim: bool,
+        id_map: &SyntaxIdMap<'_>,
     ) -> Vec<Self> {
         // Don't create a MatchedPos for empty positions at the start
         // or end. We still want empty positions in the middle of
@@ -799,7 +800,10 @@ impl MatchedPos {
         let pos = filter_empty_ends(pos);
 
         match ck {
-            ReplacedComment(this, opposite) | ReplacedString(this, opposite) => {
+            ReplacedComment(this_id, opposite_id) | ReplacedString(this_id, opposite_id) => {
+                let this = id_map[&this_id];
+                let opposite = id_map[&opposite_id];
+
                 let this_content = match this {
                     List { .. } => unreachable!(),
                     Atom { content, .. } => content,
@@ -811,7 +815,8 @@ impl MatchedPos {
                     } => (content, position),
                 };
 
-                let kind = if let ReplacedString(this, _) = ck {
+                let kind = if let ReplacedString(this_id, _) = ck {
+                    let this = id_map[&this_id];
                     match this {
                         Atom {
                             kind: AtomKind::String(StringKind::Text),
@@ -825,7 +830,8 @@ impl MatchedPos {
 
                 split_atom_words(this_content, &pos, opposite_content, opposite_pos, kind)
             }
-            Unchanged(opposite) => {
+            Unchanged(opposite_id) => {
+                let opposite = id_map[&opposite_id];
                 let opposite_pos = match opposite {
                     List {
                         open_position,
@@ -893,21 +899,23 @@ impl MatchedPos {
 /// Walk `nodes` and return a vec of all the changed positions.
 pub(crate) fn change_positions<'a>(
     nodes: &[&'a Syntax<'a>],
-    change_map: &ChangeMap<'a>,
+    id_map: &SyntaxIdMap<'a>,
+    change_map: &ChangeMap,
 ) -> Vec<MatchedPos> {
     let mut positions = Vec::new();
-    change_positions_(nodes, change_map, &mut positions);
+    change_positions_(nodes, id_map, change_map, &mut positions);
     positions
 }
 
 fn change_positions_<'a>(
     nodes: &[&'a Syntax<'a>],
-    change_map: &ChangeMap<'a>,
+    id_map: &SyntaxIdMap<'a>,
+    change_map: &ChangeMap,
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
         let change = change_map
-            .get(node)
+            .get(node.id())
             .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
         match node {
@@ -922,15 +930,17 @@ fn change_positions_<'a>(
                     TokenKind::Delimiter,
                     open_position,
                     false,
+                    id_map,
                 ));
 
-                change_positions_(children, change_map, positions);
+                change_positions_(children, id_map, change_map, positions);
 
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
                     close_position,
                     true,
+                    id_map,
                 ));
             }
             Atom { position, kind, .. } => {
@@ -939,6 +949,7 @@ fn change_positions_<'a>(
                     TokenKind::Atom(*kind),
                     position,
                     false,
+                    id_map,
                 ));
             }
         }

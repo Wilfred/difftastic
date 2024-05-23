@@ -193,7 +193,7 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
 pub(crate) fn mark_syntax<'a>(
     lhs_syntax_id: Option<SyntaxId>,
     rhs_syntax_id: Option<SyntaxId>,
-    change_map: &mut ChangeMap<'a>,
+    change_map: &mut ChangeMap,
     graph_limit: usize,
     id_map: &DftHashMap<NonZeroU32, &'a Syntax<'a>>,
 ) -> Result<(), ExceededGraphLimit> {
@@ -226,7 +226,7 @@ pub(crate) fn mark_syntax<'a>(
     // than graph_limit nodes.
     let size_hint = std::cmp::min(lhs_node_count * rhs_node_count, graph_limit);
 
-    let start = Vertex::new(lhs_syntax, rhs_syntax);
+    let start = Vertex::new(lhs_syntax.map(|n| n.id()), rhs_syntax.map(|n| n.id()));
     let vertex_arena = Bump::new();
 
     let route = shortest_path(start, &vertex_arena, size_hint, graph_limit, id_map)?;
@@ -245,9 +245,9 @@ pub(crate) fn mark_syntax<'a>(
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
                     v.lhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                        .map_or_else(|| "None".into(), |id| Syntax::dbg_content(id_map[&id])),
                     v.rhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                        .map_or_else(|| "None".into(), |id| Syntax::dbg_content(id_map[&id])),
                     edge.cost(),
                     edge,
                 )
@@ -293,7 +293,7 @@ mod tests {
 
         let id_map = build_id_map(&[lhs], &[rhs]);
 
-        let start = Vertex::new(Some(lhs), Some(rhs));
+        let start = Vertex::new(Some(lhs.id()), Some(rhs.id()));
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -337,7 +337,10 @@ mod tests {
 
         let id_map = build_id_map(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(
+            lhs.get(0).copied().map(|n| n.id()),
+            rhs.get(0).copied().map(|n| n.id()),
+        );
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -381,7 +384,10 @@ mod tests {
 
         let id_map = build_id_map(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(
+            lhs.get(0).copied().map(|n| n.id()),
+            rhs.get(0).copied().map(|n| n.id()),
+        );
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -429,7 +435,10 @@ mod tests {
 
         let id_map = build_id_map(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(
+            lhs.get(0).copied().map(|n| n.id()),
+            rhs.get(0).copied().map(|n| n.id()),
+        );
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -472,7 +481,10 @@ mod tests {
 
         let id_map = build_id_map(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(
+            lhs.get(0).copied().map(|n| n.id()),
+            rhs.get(0).copied().map(|n| n.id()),
+        );
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -506,7 +518,10 @@ mod tests {
 
         let id_map = build_id_map(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(
+            lhs.get(0).copied().map(|n| n.id()),
+            rhs.get(0).copied().map(|n| n.id()),
+        );
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -548,7 +563,10 @@ mod tests {
 
         let id_map = build_id_map(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(
+            lhs.get(0).copied().map(|n| n.id()),
+            rhs.get(0).copied().map(|n| n.id()),
+        );
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT, &id_map).unwrap();
 
@@ -583,8 +601,14 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
-        assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
+        assert_eq!(
+            change_map.get(lhs.id()),
+            Some(ChangeKind::Unchanged(rhs.id()))
+        );
+        assert_eq!(
+            change_map.get(rhs.id()),
+            Some(ChangeKind::Unchanged(lhs.id()))
+        );
     }
 
     #[test]
@@ -605,7 +629,7 @@ mod tests {
             &id_map,
         )
         .unwrap();
-        assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
-        assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
+        assert_eq!(change_map.get(lhs.id()), Some(ChangeKind::Novel));
+        assert_eq!(change_map.get(rhs.id()), Some(ChangeKind::Novel));
     }
 }

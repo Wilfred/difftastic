@@ -6,7 +6,7 @@ use std::hash::Hash;
 
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::myers_diff;
-use crate::parse::syntax::Syntax;
+use crate::parse::syntax::{Syntax, SyntaxIdMap};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
@@ -16,15 +16,17 @@ const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 pub(crate) fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    change_map: &mut ChangeMap<'a>,
+    id_map: &SyntaxIdMap<'a>,
+    change_map: &mut ChangeMap,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
+    let (_, lhs_nodes, rhs_nodes) =
+        shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, id_map, change_map);
 
     let mut nodes_to_diff = vec![];
     for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
         let (_, lhs_nodes, rhs_nodes) =
-            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, change_map);
-        nodes_to_diff.extend(split_unchanged(&lhs_nodes, &rhs_nodes, change_map));
+            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, id_map, change_map);
+        nodes_to_diff.extend(split_unchanged(&lhs_nodes, &rhs_nodes, id_map, change_map));
     }
 
     nodes_to_diff
@@ -40,7 +42,8 @@ enum ChangeState {
 fn split_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    change_map: &mut ChangeMap<'a>,
+    id_map: &SyntaxIdMap<'a>,
+    change_map: &mut ChangeMap,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let size_threshold = if let Ok(env_threshold) = std::env::var("DFT_TINY_THRESHOLD") {
         env_threshold
@@ -61,8 +64,14 @@ fn split_unchanged<'a>(
                 for (lhs_section_node, rhs_section_node) in
                     lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
                 {
-                    change_map.insert(lhs_section_node, ChangeKind::Unchanged(rhs_section_node));
-                    change_map.insert(rhs_section_node, ChangeKind::Unchanged(lhs_section_node));
+                    change_map.insert(
+                        lhs_section_node.id(),
+                        ChangeKind::Unchanged(rhs_section_node.id()),
+                    );
+                    change_map.insert(
+                        rhs_section_node.id(),
+                        ChangeKind::Unchanged(lhs_section_node.id()),
+                    );
                 }
             }
             ChangeState::UnchangedNode => {
@@ -70,8 +79,18 @@ fn split_unchanged<'a>(
                 for (lhs_section_node, rhs_section_node) in
                     lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
                 {
-                    insert_deep_unchanged(lhs_section_node, rhs_section_node, change_map);
-                    insert_deep_unchanged(rhs_section_node, lhs_section_node, change_map);
+                    insert_deep_unchanged(
+                        lhs_section_node.id(),
+                        rhs_section_node.id(),
+                        id_map,
+                        change_map,
+                    );
+                    insert_deep_unchanged(
+                        rhs_section_node.id(),
+                        lhs_section_node.id(),
+                        id_map,
+                        change_map,
+                    );
                 }
             }
             ChangeState::PossiblyChanged => {
@@ -373,7 +392,8 @@ fn as_singleton_list_children<'a>(
 fn shrink_unchanged_delimiters<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    change_map: &mut ChangeMap<'a>,
+    id_map: &SyntaxIdMap<'a>,
+    change_map: &mut ChangeMap,
 ) -> (bool, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     if let (
         [Syntax::List {
@@ -392,10 +412,10 @@ fn shrink_unchanged_delimiters<'a>(
     {
         if lhs_open == rhs_open && lhs_close == rhs_close {
             let (changed_later, lhs_shrunk_nodes, rhs_shrunk_nodes) =
-                shrink_unchanged_at_ends(lhs_children, rhs_children, change_map);
+                shrink_unchanged_at_ends(lhs_children, rhs_children, id_map, change_map);
             if changed_later {
-                change_map.insert(lhs_nodes[0], ChangeKind::Unchanged(rhs_nodes[0]));
-                change_map.insert(rhs_nodes[0], ChangeKind::Unchanged(lhs_nodes[0]));
+                change_map.insert(lhs_nodes[0].id(), ChangeKind::Unchanged(rhs_nodes[0].id()));
+                change_map.insert(rhs_nodes[0].id(), ChangeKind::Unchanged(lhs_nodes[0].id()));
 
                 return (true, lhs_shrunk_nodes, rhs_shrunk_nodes);
             }
@@ -413,7 +433,8 @@ fn shrink_unchanged_delimiters<'a>(
 fn shrink_unchanged_at_ends<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    change_map: &mut ChangeMap<'a>,
+    id_map: &SyntaxIdMap<'a>,
+    change_map: &mut ChangeMap,
 ) -> (bool, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     let mut lhs_nodes = lhs_nodes;
     let mut rhs_nodes = rhs_nodes;
@@ -425,8 +446,8 @@ fn shrink_unchanged_at_ends<'a>(
         // file. There's no risk we split unrelated regions with a
         // trivial unchanged node in the middle.
         if lhs_node.content_id() == rhs_node.content_id() {
-            insert_deep_unchanged(lhs_node, rhs_node, change_map);
-            insert_deep_unchanged(rhs_node, lhs_node, change_map);
+            insert_deep_unchanged(lhs_node.id(), rhs_node.id(), id_map, change_map);
+            insert_deep_unchanged(rhs_node.id(), lhs_node.id(), id_map, change_map);
 
             changed = true;
             lhs_nodes = &lhs_nodes[1..];
@@ -438,8 +459,8 @@ fn shrink_unchanged_at_ends<'a>(
 
     while let (Some(lhs_node), Some(rhs_node)) = (lhs_nodes.last(), rhs_nodes.last()) {
         if lhs_node.content_id() == rhs_node.content_id() {
-            insert_deep_unchanged(lhs_node, rhs_node, change_map);
-            insert_deep_unchanged(rhs_node, lhs_node, change_map);
+            insert_deep_unchanged(lhs_node.id(), rhs_node.id(), id_map, change_map);
+            insert_deep_unchanged(rhs_node.id(), lhs_node.id(), id_map, change_map);
 
             changed = true;
             lhs_nodes = &lhs_nodes[..lhs_nodes.len() - 1];
@@ -451,7 +472,7 @@ fn shrink_unchanged_at_ends<'a>(
 
     if lhs_nodes.len() == 1 && rhs_nodes.len() == 1 {
         let (changed_later, lhs_nodes, rhs_nodes) =
-            shrink_unchanged_delimiters(lhs_nodes, rhs_nodes, change_map);
+            shrink_unchanged_delimiters(lhs_nodes, rhs_nodes, id_map, change_map);
         (changed || changed_later, lhs_nodes, rhs_nodes)
     } else {
         (changed, Vec::from(lhs_nodes), Vec::from(rhs_nodes))
@@ -464,8 +485,11 @@ mod tests {
 
     use super::*;
     use crate::{
-        parse::guess_language,
-        parse::tree_sitter_parser::{from_language, parse},
+        parse::{
+            guess_language,
+            syntax::build_id_map,
+            tree_sitter_parser::{from_language, parse},
+        },
         syntax::init_all_info,
     };
 
@@ -478,9 +502,11 @@ mod tests {
         let rhs_nodes = parse(&arena, "unchanged X", &config, false);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
+        let id_map = build_id_map(&lhs_nodes, &rhs_nodes);
+
         let mut change_map = ChangeMap::default();
         let (_, lhs_after_skip, rhs_after_skip) =
-            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
+            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &id_map, &mut change_map);
 
         assert_eq!(
             change_map.get(lhs_nodes[0]),

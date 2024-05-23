@@ -582,7 +582,7 @@ fn diff_file_content(
                             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                                 vec![(lhs.clone(), rhs.clone())]
                             } else {
-                                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
+                                unchanged::mark_unchanged(&lhs, &rhs, &id_map, &mut change_map)
                             };
 
                             let mut exceeded_graph_limit = false;
@@ -617,11 +617,13 @@ fn diff_file_content(
                                     rhs_positions,
                                 )
                             } else {
-                                fix_all_sliders(language, &lhs, &mut change_map);
-                                fix_all_sliders(language, &rhs, &mut change_map);
+                                fix_all_sliders(language, &lhs, &id_map, &mut change_map);
+                                fix_all_sliders(language, &rhs, &id_map, &mut change_map);
 
-                                let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
-                                let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
+                                let mut lhs_positions =
+                                    syntax::change_positions(&lhs, &id_map, &change_map);
+                                let mut rhs_positions =
+                                    syntax::change_positions(&rhs, &id_map, &change_map);
 
                                 if diff_options.ignore_comments {
                                     let lhs_comments =
