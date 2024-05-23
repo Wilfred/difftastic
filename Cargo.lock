@@ -128,6 +128,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "compact_arena"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5242c6ffe360608bbe43daef80990a7824c8b588e8db617f4e13054df3e6ef08"
+
+[[package]]
 name = "const_format"
 version = "0.2.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -217,6 +223,7 @@ dependencies = [
  "bumpalo",
  "cc",
  "clap",
+ "compact_arena",
  "const_format",
  "crossterm",
  "glob",
