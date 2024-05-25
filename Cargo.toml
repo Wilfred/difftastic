@@ -44,8 +44,11 @@ typed-arena = "2.0.2"
 rustc-hash = "1.1.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
-# tree-sitter 0.20.10 requires rust 1.65, although it could be lower.
-# https://github.com/tree-sitter/tree-sitter/issues/2669
+# tree-sitter 0.22.5 uses std::os::fd::AsRawFd, which was added in Rust 1.66.
+# https://github.com/tree-sitter/tree-sitter/commit/a7a47d561d4e64eaf226f93c4d68076afa67fdda
+#
+# tree-sitter 0.22.0 has some API changes which we need to update
+# difftastic for.
 tree-sitter = "0.20.10"
 libc = "0.2.108"
 log = "0.4.14"
