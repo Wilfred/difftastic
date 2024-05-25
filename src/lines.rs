@@ -8,14 +8,6 @@ pub(crate) fn format_line_num(line_num: LineNumber) -> String {
     format!("{} ", line_num.display())
 }
 
-/// A position in a single line of a string.
-#[derive(Debug, PartialEq, Clone, Copy)]
-struct LinePosition {
-    /// Both zero-indexed.
-    pub(crate) line: LineNumber,
-    column: usize,
-}
-
 /// Return the length of `s` in bytes.
 ///
 /// This is a trivial wrapper to make it clear when we want bytes not
