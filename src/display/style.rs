@@ -11,7 +11,7 @@ use crate::parse::syntax::StringKind;
 use crate::{
     constants::Side,
     hash::DftHashMap,
-    lines::byte_len,
+    lines::{byte_len, lines_raw},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     summary::FileFormat,
@@ -401,7 +401,7 @@ pub(crate) fn apply_colors(
     positions: &[MatchedPos],
 ) -> Vec<String> {
     let styles = color_positions(side, background, syntax_highlight, file_format, positions);
-    let lines = s.lines().collect::<Vec<_>>();
+    let lines = lines_raw(s).collect::<Vec<_>>();
     style_lines(&lines, &styles)
 }
 
