@@ -254,7 +254,9 @@ fn match_blanks_before(
 
     let mut res = vec![];
     loop {
-        if lhs_lines[current_lhs.as_usize()] == "" && rhs_lines[current_rhs.as_usize()] == "" {
+        if lhs_lines[current_lhs.as_usize() - 1] == ""
+            && rhs_lines[current_rhs.as_usize() - 1] == ""
+        {
             res.push((Some(current_lhs), Some(current_rhs)));
 
             if current_lhs.0 == 0 || current_rhs.0 == 0 {

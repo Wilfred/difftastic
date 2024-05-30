@@ -97,7 +97,7 @@ pub(crate) fn print(
                         Side::Left,
                         display_options,
                     ),
-                    lhs_colored_lines[lhs_line.as_usize()]
+                    lhs_colored_lines[lhs_line.as_usize() - 1]
                 );
             }
         }
@@ -112,7 +112,7 @@ pub(crate) fn print(
                         Side::Left,
                         display_options,
                     ),
-                    lhs_colored_lines[lhs_line.as_usize()]
+                    lhs_colored_lines[lhs_line.as_usize() - 1]
                 );
             }
         }
@@ -126,7 +126,7 @@ pub(crate) fn print(
                         Side::Right,
                         display_options,
                     ),
-                    rhs_colored_lines[rhs_line.as_usize()]
+                    rhs_colored_lines[rhs_line.as_usize() - 1]
                 );
             }
         }
@@ -141,7 +141,7 @@ pub(crate) fn print(
                         Side::Right,
                         display_options,
                     ),
-                    rhs_colored_lines[rhs_line.as_usize()]
+                    rhs_colored_lines[rhs_line.as_usize() - 1]
                 );
             }
         }
