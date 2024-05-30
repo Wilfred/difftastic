@@ -1,0 +1,34 @@
+name: Build & Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build-and-test-on-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: node_modules/.bin/tree-sitter test
+      - uses: docker-practice/actions-setup-docker@master
+      - run: node_modules/.bin/tree-sitter build-wasm
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wasm-file
+          path: tree-sitter-foam.wasm
+  build-and-test-on-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: mv -force test/corpus_windows/* test/corpus/
+      - run: node_modules/.bin/tree-sitter test
