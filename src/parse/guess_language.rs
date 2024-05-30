@@ -61,6 +61,7 @@ pub(crate) enum Language {
     Pascal,
     Perl,
     Php,
+    Prisma,
     Python,
     Qml,
     R,
@@ -154,6 +155,7 @@ pub(crate) fn language_name(language: Language) -> &'static str {
         Pascal => "Pascal",
         Perl => "Perl",
         Php => "PHP",
+        Prisma => "Prisma",
         Python => "Python",
         Qml => "QML",
         R => "R",
@@ -339,6 +341,7 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Php => &[
             "*.php", "*.phtml", "*.php3", "*.php4", "*.php5", "*.php7", "*.phps",
         ],
+        Prisma => &["*.prisma"],
         Python => &["*.py", "*.py3", "*.pyi", "*.bzl", "TARGETS", "BUCK", "DEPS"],
         Qml => &["*.qml"],
         R => &["*.R", "*.r", "*.rd", "*.rsx", ".Rprofile", "expr-dist"],
