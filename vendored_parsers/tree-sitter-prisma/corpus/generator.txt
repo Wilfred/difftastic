@@ -1,0 +1,21 @@
+========================
+Simple Generator definition
+========================
+
+generator photon {
+  provider = "nexus-prisma"
+}
+
+---
+
+(program
+  (generator_declaration
+    (identifier)
+    (statement_block
+      (assignment_expression
+        (variable)
+        (string)
+      )
+    )
+  )
+)

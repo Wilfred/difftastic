@@ -1,0 +1,52 @@
+==================
+Comment block
+==================
+
+// Hello world
+// This is a comment
+/// This comment do shows up in AST
+
+---
+
+(program
+  (developer_comment)
+  (developer_comment)
+  (comment)
+)
+
+=====================
+Comment in datasource
+=====================
+
+// comment for the developer
+datasource pg { // this should be fine
+  provider = "postgresql//postgresql" /// This comment is for documentation
+  url = env.POSTGRES_URL /// This one as well
+  // enabled = true
+}
+
+---
+
+(program
+  (developer_comment)
+  (datasource_declaration
+    (identifier)
+    (statement_block
+      (developer_comment)
+      (assignment_expression
+        (variable)
+        (string)
+      )
+      (comment)
+      (assignment_expression
+        (variable)
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+      )
+      (comment)
+      (developer_comment)
+    )
+  )
+)
