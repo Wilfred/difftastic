@@ -1,0 +1,1 @@
+../tree-sitter-prisma/queries/highlights.scm
