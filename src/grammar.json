@@ -2633,7 +2633,7 @@
                     "type": "IMMEDIATE_TOKEN",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[A-Z]+"
+                      "value": "[A-Z][A-Z0-9]*"
                     }
                   },
                   "named": true,
