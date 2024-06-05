@@ -334,7 +334,7 @@ module.exports = grammar({
             )
           ),
           seq(
-            alias(token.immediate(/[A-Z]+/), $.sigil_name),
+            alias(token.immediate(/[A-Z][A-Z0-9]*/), $.sigil_name),
             choice(
               $._quoted_double,
               $._quoted_single,

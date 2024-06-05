@@ -194,10 +194,18 @@ upper sigil / multiple characters
 =====================================
 
 ~MAT"1 2"
+~I18N"text"
+~A1B2"text"
 
 ---
 
 (source
+  (sigil
+    (sigil_name)
+    (quoted_content))
+  (sigil
+    (sigil_name)
+    (quoted_content))
   (sigil
     (sigil_name)
     (quoted_content)))
