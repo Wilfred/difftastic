@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/clojure_1.clj
+---
+[1m[93msample_files/clojure_2.clj[39m[0m[2m --- Clojure[0m
+[2m3 [0m(defn example                                        [2m3 [0m(defn example
+[2m4 [0m  [x]                                                [2m4 [0m  [x]
+[2m5 [0m  [95m"Does stuff."[0m                                      [2m5 [0m  [95m"Does stuff."[0m
+[91;1m6 [0m  [91;1m([0m[91mprintln[0m [91m"hello!"[0m[91;1m)[0m                                 [2m. [0m
+[2m7 [0m  {[1m:more[0m (inc x)                                     [92;1m6 [0m  [92;1m([0m[92m->[0m {[1m:more[0m (inc x)
+[2m8 [0m   [1m:less[0m (dec x)})                                   [2m7 [0m       [1m:less[0m (dec x)}
+[2m  [0m                                                     [92;1m8 [0m      [92;1m([0m[92massoc[0m [92;1m:twice[0m [92;1m([0m[92m+[0m [92mx[0m [92mx[0m[92;1m)[0m[92;1m)[0m[92;1m)[0m)

@@ -1,0 +1,7 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/apex_1.cls
+---
+[1m[93msample_files/apex_2.cls[39m[0m[2m --- Apex[0m
+No syntactic changes.

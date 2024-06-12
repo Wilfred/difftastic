@@ -1,0 +1,7 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/all_changed_1.js
+---
+[1m[93msample_files/all_changed_2.js[39m[0m[2m --- JavaScript[0m
+[91;1m1 [0m[91ma[0m                           [92;1m1 [0m[92mb[0m

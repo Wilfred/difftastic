@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/small_1.js
+---
+[1m[93msample_files/small_2.js[39m[0m[2m --- JavaScript[0m
+[2m 7 [0m});                                                             [2m 7 [0m});
+[2m 8 [0m                                                                [2m 8 [0m
+[2m 9 [0mdescribe([95m"Authentication"[0m, () [1m=>[0m {                              [2m 9 [0mdescribe([95m"Authentication"[0m, () [1m=>[0m {
+[91;1m10 [0m  test([91m"Editing pages"[0m, done [1m=>[0m {                               [92;1m10 [0m  test([92m"/edit GET"[0m, done [1m=>[0m {
+[2m11 [0m    request(app)                                                [2m11 [0m    request(app)
+[2m12 [0m      .get([95m"/edit/Foo"[0m)                                         [2m12 [0m      .get([95m"/edit/Foo"[0m)
+[2m13 [0m      .then(res [1m=>[0m {                                            [2m13 [0m      .then(res [1m=>[0m {

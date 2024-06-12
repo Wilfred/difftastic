@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/dart_1.dart
+---
+[1m[93msample_files/dart_2.dart[39m[0m[2m --- Dart[0m
+[2m1 [0m[1mvoid[0m test() {               [2m1 [0m[1mvoid[0m test() {
+[91;1m2 [0m    [91;1mif[0m [91;1m([0m[91mx[0m[91;1m)[0m [91;1m{[0m                [2m. [0m
+[91;1m3 [0m        [1mObject[0m()[91m.[0ma()[91m.[0mb();   [92;1m2 [0m    [1mObject[0m()[92;1m..[0ma()[92;1m..[0mb();
+[91;1m4 [0m    [91;1m}[0m                       [2m. [0m
+[2m5 [0m                            [2m3 [0m
+[91;1m6 [0m    expect(a.b[91;1m([0mc.d()[91;1m)[0m.x);   [92;1m4 [0m    expect(a.b[92m.[0mc.d()[92m![0m.x);
+[2m7 [0m}                           [2m5 [0m}

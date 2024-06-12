@@ -1,0 +1,19 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/elixir_1.ex
+---
+[1m[93msample_files/elixir_2.ex[39m[0m[2m --- Elixir[0m
+[2m 1 [0m[1mdefmodule[0m ExampleComponent do      [2m 1 [0m[1mdefmodule[0m ExampleComponent do
+[91;1m 2 [0m  [1mdefp[0m [91mgreet[0m do                    [92;1m 2 [0m  [1mdefp[0m [92mgreet_str[0m do
+[91;1m 3 [0m    [91m"[0m[91mHello[0m[91m [0m[91mworld[0m[91m"[0m                  [92;1m 3 [0m    [92m"[0m[92mHello[0m[92m [0m[92mworld[0m[92;1;4m![0m[92m"[0m
+[2m 4 [0m  end                              [2m 4 [0m  end
+[2m 5 [0m                                   [2m 5 [0m
+[2m 6 [0m  [1mdef[0m greet_component(assigns) do  [2m 6 [0m  [1mdef[0m greet_component(assigns) do
+[91;1m 7 [0m    [91m~[0m[91mH[0m[91m"[0m[91m"[0m[91m"[0m                          [92;1m 7 [0m    [92m~[0m[92mH[0m[92m"[0m[92m"[0m[92m"[0m
+[91;1m 8 [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m<[0m[91mp[0m[91m [0m[91mclass[0m[91m=[0m[91m"[0m[91mtitle[0m[91m"[0m[91m>[0m              [92;1m 8 [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m<[0m[92mp[0m[92m [0m[92mclass[0m[92m=[0m[92m"[0m[92mtitle[0m [92;1;4mnew[0m[92;1;4m-[0m[92;1;4mclass[0m[92m"[0m[92m>[0m
+[91;1m 9 [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m<[0m[91m%[0m[91m=[0m[91m [0m[91;1;4mgreet[0m[91m([0m[91m)[0m[91m [0m[91m%[0m[91m>[0m               [92;1m 9 [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m<[0m[92;1;4mb[0m[92;1;4m>[0m[92;1;4m<[0m[92m%[0m[92m=[0m[92m [0m[92;1;4mgreet_str[0m[92m([0m[92m)[0m[92m [0m[92m%[0m[92;1;4m>[0m[92;1;4m<[0m[92;1;4m/[0m[92;1;4mb[0m[92m>[0m
+[91;1m10 [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m<[0m[91m/[0m[91mp[0m[91m>[0m                           [92;1m10 [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m<[0m[92m/[0m[92mp[0m[92m>[0m
+[91;1m11 [0m[91m [0m[91m [0m[91m [0m[91m [0m[91m"[0m[91m"[0m[91m"[0m                            [92;1m11 [0m[92m [0m[92m [0m[92m [0m[92m [0m[92m"[0m[92m"[0m[92m"[0m
+[2m12 [0m  end                              [2m12 [0m  end
+[2m13 [0mend                                [2m13 [0mend

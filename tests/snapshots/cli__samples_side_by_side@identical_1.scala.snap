@@ -1,0 +1,7 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/identical_1.scala
+---
+[1m[93msample_files/identical_2.scala[39m[0m[2m --- Scala[0m
+No changes.

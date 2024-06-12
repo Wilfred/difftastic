@@ -1,0 +1,10 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/xml_1.xml
+---
+[1m[93msample_files/xml_2.xml[39m[0m[2m --- XML[0m
+[2m1 [0m<[1mroot[0m>                      [2m1 [0m<[1mroot[0m>
+[91;1m2 [0m<[1mb[0m>[91mfoo[0m[91m [0m[91mbar[0m[91m [0m[91mbaz[0m</[1mb[0m>          [92;1m2 [0m<[1mb[0m>[92mfoo[0m[92m [0m[92mbar[0m[92m [0m[92mbaz[0m [92;1;4mx[0m</[1mb[0m>
+[2m. [0m                            [92;1m3 [0m[92m<[0m[92;1mstuff[0m[92m/>[0m
+[2m3 [0m</[1mroot[0m>                     [2m4 [0m</[1mroot[0m>

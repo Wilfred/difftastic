@@ -1,0 +1,31 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/todomvc_1.gleam
+---
+[1m[93msample_files/todomvc_2.gleam[39m[0m[2m --- 1/3 --- Gleam[0m
+[2m16 [0m  [1mlet[0m db = start_database_connection_pool()                                  [2m16 [0m  [1mlet[0m db = start_database_connection_pool()
+[2m17 [0m  [1mlet[0m web = routes.stack(application_secret, db)                             [2m17 [0m  [1mlet[0m web = routes.stack(application_secret, db)
+[2m18 [0m                                                                             [2m18 [0m
+[2m.. [0m                                                                             [92;1m19 [0m  [92;1mlet[0m [92mlog_string[0m [92m=[0m
+[2m19 [0m  string.concat([[95m"Listening on localhost:"[0m, int.to_string(port), [95m" ✨"[0m])     [2m20 [0m    string.concat([[95m"Listening on localhost:"[0m, int.to_string(port), [95m" ✨"[0m])
+[91;1m20 [0m  [91;1m|>[0m log.info                                                                [92;1m21 [0m  log.info[92;1m([0m[92mlog_string[0m[92;1m)[0m
+[2m21 [0m                                                                             [2m22 [0m
+[2m22 [0m  [1massert[0m [1mOk[0m([94;3m_[0m) = elli.become(web, on_port: port)                             [2m23 [0m  [1massert[0m [1mOk[0m([94;3m_[0m) = elli.become(web, on_port: port)
+[2m23 [0m}                                                                            [2m24 [0m}
+
+[1msample_files/todomvc_2.gleam[0m[2m --- 2/3 --- Gleam[0m
+[2m29 [0m    [1m|>[0m result.lazy_unwrap([1mfn[0m() {                                             [2m30 [0m    [1m|>[0m result.lazy_unwrap([1mfn[0m() {
+[2m30 [0m      pgo.[1mConfig[0m(                                                            [2m31 [0m      pgo.[1mConfig[0m(
+[2m31 [0m        ..pgo.default_config(),                                              [2m32 [0m        ..pgo.default_config(),
+[91;1m32 [0m        host: [91m"localhost"[0m,                                                   [92;1m33 [0m        host: [92m"0.0.0.0"[0m,
+[2m33 [0m        database: [95m"gleam_todomvc_dev"[0m,                                       [2m34 [0m        database: [95m"gleam_todomvc_dev"[0m,
+[2m34 [0m        user: [95m"postgres"[0m,                                                    [2m35 [0m        user: [95m"postgres"[0m,
+[2m35 [0m        password: option.[1mSome[0m([95m"postgres"[0m),                                   [2m36 [0m        password: option.[1mSome[0m([95m"postgres"[0m),
+
+[1msample_files/todomvc_2.gleam[0m[2m --- 3/3 --- Gleam[0m
+[2m47 [0m[1mfn[0m load_port() -> [1mInt[0m {                                                      [2m48 [0m[1mfn[0m load_port() -> [1mInt[0m {
+[2m48 [0m  os.get_env([95m"PORT"[0m)                                                         [2m49 [0m  os.get_env([95m"PORT"[0m)
+[2m49 [0m  [1m|>[0m result.then(int.parse)                                                  [2m50 [0m  [1m|>[0m result.then(int.parse)
+[91;1m50 [0m  [1m|>[0m result.unwrap([91m3000[0m)                                                     [92;1m51 [0m  [1m|>[0m result.unwrap([92m8080[0m)
+[2m51 [0m}                                                                            [2m52 [0m}

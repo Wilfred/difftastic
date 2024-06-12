@@ -1,0 +1,12 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/ruby_1.rb
+---
+[1m[93msample_files/ruby_2.rb[39m[0m[2m --- 1/2 --- Ruby[0m
+[91;1m1 [0m[92;1m1 [0m[91;3m# Hello world[0m
+[91;1m2 [0m[2m. [0m[91mgem[0m [91m"jekyll"[0m[91m,[0m [91m"~> #{Jekyll::VERSION}"[0m
+
+[1msample_files/ruby_2.rb[0m[2m --- 2/2 --- Ruby[0m
+[91;1m1 [0m[92;1m1 [0m[92;1mVALID_FILENAME_CHARS[0m [92;1m=[0m [92m'foo'[0m
+[91;1m2 [0m[2m. [0m

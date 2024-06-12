@@ -1,0 +1,32 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/toml_1.toml
+---
+[1m[93msample_files/toml_2.toml[39m[0m[2m --- 1/2 --- TOML[0m
+[2m 1 [0m[94;3m# This is a TOML document[0m                   [2m 1 [0m[94;3m# This is a TOML document[0m
+[2m 2 [0m                                            [2m 2 [0m
+[91;1m 3 [0m[1mtitle[0m [1m=[0m [91m"[0m[91mTOML[0m[91m [0m[91mExample[0m[91m"[0m                      [92;1m 3 [0m[1mtitle[0m [1m=[0m [92m"[0m[92mTOML[0m[92m [0m[92mExample[0m [92;1;4mChanged[0m[92m"[0m
+[2m 4 [0m                                            [2m 4 [0m
+[2m 5 [0m[[1mowner[0m]                                     [2m 5 [0m[[1mowner[0m]
+[2m 6 [0m[1mname[0m [1m=[0m [95m"Tom Preston-Werner"[0m                 [2m 6 [0m[1mname[0m [1m=[0m [95m"Tom Preston-Werner"[0m
+[91;1m 7 [0m[1mdob[0m [1m=[0m [91;1;4m1979[0m[91m-[0m[91;1;4m05[0m[91m-[0m[91;1;4m27[0m[91mT[0m[91m07[0m[91m:[0m[91m32[0m[91m:[0m[91m00[0m[91m-[0m[91m08[0m[91m:[0m[91m00[0m             [92;1m 7 [0m[1mdob[0m [1m=[0m [92;1;4m2000[0m[92m-[0m[92;1;4m01[0m[92m-[0m[92;1;4m31[0m[92mT[0m[92m07[0m[92m:[0m[92m32[0m[92m:[0m[92m00[0m[92m-[0m[92m08[0m[92m:[0m[92m00[0m
+[2m 8 [0m                                            [2m 8 [0m
+[2m 9 [0m[[1mdatabase[0m]                                  [2m 9 [0m[[1mdatabase[0m]
+[2m10 [0m[1menabled[0m [1m=[0m [1mtrue[0m                              [2m10 [0m[1menabled[0m [1m=[0m [1mtrue[0m
+[91;1m11 [0m[1mports[0m [1m=[0m [ 8000, [91m8001[0m[91m,[0m 8002 ]                [2m11 [0m[1mports[0m [1m=[0m [ 8000, 8002 ]
+[2m12 [0m[1mdata[0m [1m=[0m [ [[95m"delta"[0m, [95m"phi"[0m], [3.14] ]         [2m12 [0m[1mdata[0m [1m=[0m [ [[95m"delta"[0m, [95m"phi"[0m], [3.14] ]
+[2m13 [0m[1mtemp_targets[0m [1m=[0m { [1mcpu[0m [1m=[0m 79.5, [1mcase[0m [1m=[0m 72.0 }  [2m13 [0m[1mtemp_targets[0m [1m=[0m { [1mcpu[0m [1m=[0m 79.5, [1mcase[0m [1m=[0m 72.0 }
+[2m14 [0m                                            [2m14 [0m
+
+[1msample_files/toml_2.toml[0m[2m --- 2/2 --- TOML[0m
+[2m26 [0m[2m26 [0m[95mRoses are red[0m
+[2m27 [0m[2m27 [0m[95mViolets are blue"""[0m
+[91;1m28 [0m[2m   [0m
+[91;1m29 [0m[2m   [0m[91;1mstr2[0m [91;1m=[0m [91m"""\[0m
+[91;1m30 [0m[2m   [0m[91m  The quick brown \[0m
+[91;1m31 [0m[2m   [0m[91m  fox jumps over \[0m
+[91;1m32 [0m[2m   [0m[91m  the lazy dog.\[0m
+[91;1m33 [0m[2m   [0m[91m  """[0m
+[91;1m34 [0m[2m   [0m
+[91;1m35 [0m[2m   [0m[91;1mpath[0m [91;1m=[0m [91m'C:\Users\nodejs\templates'[0m

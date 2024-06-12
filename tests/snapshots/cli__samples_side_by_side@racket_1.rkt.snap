@@ -1,0 +1,23 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/racket_1.rkt
+---
+[1m[93msample_files/racket_2.rkt[39m[0m[2m --- Racket[0m
+[91;1m 1 [0m#lang [91mracket/base[0m                                 [92;1m 1 [0m#lang [92mracket[0m
+[2m 2 [0m                                                  [2m 2 [0m
+[2m 3 [0m([1mdefine[0m (append lst1 lst2)                        [2m 3 [0m([1mdefine[0m (append lst1 lst2)
+[91;1m 4 [0m  ([91;1mcond[0m [91;1m[[0m(null? lst1) lst2[91;1m][0m                       [92;1m 4 [0m  ([92;1mif[0m (null? lst1)
+[2m . [0m                                                  [2m 5 [0m      lst2
+[91;1m 5 [0m        [91;1m[[0m[91;1melse[0m (cons (car lst1)                    [2m 6 [0m      (cons (car lst1)
+[91;1m 6 [0m                    (append (cdr lst1) lst2))[91;1m][0m))  [2m 7 [0m            (append (cdr lst1) lst2))))
+[2m 7 [0m                                                  [2m 8 [0m
+[2m 8 [0m(append '(a b c) '(d e))                          [92;1m 9 [0m(append '(a b c) '(d e [92mf[0m))
+[2m 9 [0m                                                  [2m10 [0m
+[91;1m10 [0m[91m"[0m[91mHello[0m[91m,[0m[91m [0m[91mworld[0m[91m![0m[91m"[0m                                   [92;1m11 [0m[92m"[0m[92mHello[0m[92m,[0m[92m [0m[92mworld[0m[92m![0m[92;1;4m\[0m[92;1;4mn[0m[92m"[0m
+[2m11 [0m#(1 2 3)                                          [92;1m12 [0m#([92m0[0m 1 2 3 [92m4[0m)
+[91;1m12 [0m[91;1m#\"[0m                                               [92;1m13 [0m[92;1m#\space[0m
+[2m13 [0m                                                  [2m14 [0m
+[91;1m14 [0m[91m#[0m[91m<[0m[91m<[0m[91;1;4mEND[0m                                            [92;1m15 [0m[92m#[0m[92m<[0m[92m<[0m[92;1;4mE[0m
+[91;1m15 [0m[91mabc[0m                                               [92;1m16 [0m[92mabc[0m
+[91;1m16 [0m[91;1;4mEND[0m                                               [92;1m17 [0m[92;1;4mE[0m

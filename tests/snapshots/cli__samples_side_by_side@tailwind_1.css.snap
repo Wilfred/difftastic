@@ -1,0 +1,11 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/tailwind_1.css
+---
+[1m[93msample_files/tailwind_2.css[39m[0m[2m --- CSS[0m
+[2m2 [0m  [94;3m/* This isn't valid vanilla CSS, and tree-sitter-css produces an ERROR[0m   [2m2 [0m  [94;3m/* This isn't valid vanilla CSS, and tree-sitter-css produces an ERROR[0m
+[2m3 [0m[94;3m     node with children. Ensure the whole ERROR is treated as an[0m           [2m3 [0m[94;3m     node with children. Ensure the whole ERROR is treated as an[0m
+[2m4 [0m[94;3m     atom. */[0m                                                              [2m4 [0m[94;3m     atom. */[0m
+[91;1m5 [0m  [1m@apply[0m rounded-md [91mbg-gray-600[0m;                                           [92;1m5 [0m  [1m@apply[0m rounded-md [92mbg-hss-dark-gray[0m;
+[2m6 [0m}                                                                          [2m6 [0m}

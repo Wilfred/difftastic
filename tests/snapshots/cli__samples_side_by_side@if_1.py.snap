@@ -1,0 +1,9 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/if_1.py
+---
+[1m[93msample_files/if_2.py[39m[0m[2m --- Python[0m
+[2m1 [0m[1mif[0m x:                       [2m1 [0m[1mif[0m x:
+[2m2 [0m    foo                     [2m2 [0m    foo
+[91;1m3 [0m    [91mbar[0m                     [92;1m3 [0m[92mbar[0m
