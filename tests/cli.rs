@@ -50,6 +50,16 @@ fn inline() {
 }
 
 #[test]
+fn inline_many_newlines() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("sample_files/many_newlines_1.txt")
+        .arg("sample_files/many_newlines_2.txt");
+    cmd.assert().success();
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 
