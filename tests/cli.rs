@@ -50,6 +50,46 @@ fn inline() {
 }
 
 #[test]
+fn inline_big_text_hunk() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("sample_files/big_text_hunk_1.txt")
+        .arg("sample_files/big_text_hunk_2.txt");
+    cmd.assert().success();
+}
+
+#[test]
+fn side_by_side_big_text_hunk() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=side-by-side")
+        .arg("sample_files/big_text_hunk_1.txt")
+        .arg("sample_files/big_text_hunk_2.txt");
+    cmd.assert().success();
+}
+
+#[test]
+fn inline_many_newlines() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=inline")
+        .arg("sample_files/many_newlines_1.txt")
+        .arg("sample_files/many_newlines_2.txt");
+    cmd.assert().success();
+}
+
+#[test]
+fn side_by_side_many_newlines() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("--display=side-by-side")
+        .arg("sample_files/many_newlines_1.txt")
+        .arg("sample_files/many_newlines_2.txt");
+    cmd.assert().success();
+}
+
+#[test]
 fn binary_changed() {
     let mut cmd = get_base_command();
 

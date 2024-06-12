@@ -156,6 +156,9 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 // individual words.
                 if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
                     for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
+                        if lhs_pos.start_col == lhs_pos.end_col {
+                            continue; // Omit last blank line
+                        }
                         mps.push(MatchedPos {
                             kind: MatchKind::NovelWord {
                                 highlight: TokenKind::Atom(AtomKind::Normal),

@@ -23,7 +23,7 @@ sample_files/bad_combine_1.rs sample_files/bad_combine_2.rs
 f5051bf7d2b8afa3a677388cbd458891  -
 
 sample_files/big_text_hunk_1.txt sample_files/big_text_hunk_2.txt
-fd0c8912c094097f82c6b29ae66fb912  -
+fc26d41a5ff771670e04033b177973d2  -
 
 sample_files/change_outer_1.el sample_files/change_outer_2.el
 2b9334a4cc72da63bba28eff958f0038  -
