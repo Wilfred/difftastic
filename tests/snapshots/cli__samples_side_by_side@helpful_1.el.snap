@@ -1,0 +1,37 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/helpful_1.el
+---
+[1m[93msample_files/helpful_2.el[39m[0m[2m --- 1/3 --- Emacs Lisp[0m
+[2m13 [0m[2m13 [0m          (start-line (line-number-at-pos))
+[2m14 [0m[2m14 [0m          (start-column (current-column))
+[2m15 [0m[2m15 [0m          (primitive-p (helpful--primitive-p helpful--sym helpful--callable-p))
+[2m.. [0m[92;1m16 [0m          [92;1m([0m[92mcanonical-sym[0m [92;1m([0m[92mhelpful--canonical-symbol[0m [92mhelpful--sym[0m [92mhelpful--callable-p[0m[92;1m)[0m[92;1m)[0m
+[2m16 [0m[2m17 [0m          (look-for-src ([1mor[0m (not primitive-p)
+[2m17 [0m[2m18 [0m                            find-function-C-source-directory))
+[2m18 [0m[2m19 [0m          ((buf pos opened)
+
+[1msample_files/helpful_2.el[0m[2m --- 2/3 --- Emacs Lisp[0m
+[2m217 [0m[2m218 [0m
+[2m218 [0m[2m219 [0m    (insert
+[2m219 [0m[2m220 [0m     (helpful--heading
+[2m... [0m[92;1m221 [0m      [92;1m([0m[92;1mif[0m [92;1m([0m[92meq[0m [92mhelpful--sym[0m [92mcanonical-sym[0m[92;1m)[0m
+[2m... [0m[2m222 [0m          [95m"Source Code"[0m
+[2m... [0m[92;1m223 [0m        [92m"Alias Source Code"[0m[92;1m)[0m)
+[2m220 [0m[2m224 [0m     ([1mcond[0m
+[2m221 [0m[2m225 [0m      (source-path
+[2m222 [0m[2m226 [0m       (concat
+
+[1msample_files/helpful_2.el[0m[2m --- 3/3 --- Emacs Lisp[0m
+[2m251 [0m        ([1mt[0m                                                                  [2m255 [0m        ([1mt[0m
+[2m252 [0m         (helpful--syntax-highlight                                         [2m256 [0m         (helpful--syntax-highlight
+[2m253 [0m          (concat                                                           [2m257 [0m          (concat
+[2m... [0m                                                                            [92;1m258 [0m           [92;1m([0m[92;1mif[0m [92;1m([0m[92meq[0m [92mhelpful--sym[0m [92mcanonical-sym[0m[92;1m)[0m
+[91;1m254 [0m           [91m"[0m[91m;[0m[91m;[0m[91m [0m[91;1;4mSource[0m[91m [0m[91;1;4mfile[0m[91m [0m[91;1;4mis[0m[91m [0m[91;1;4munknown[0m[91m,[0m[91m [0m[91mshowing[0m[91m [0m[91mraw[0m[91m [0m[91mfunction[0m[91m [0m[91mobject[0m[91m.[0m[91m\[0m[91mn[0m[91m"[0m      [92;1m259 [0m               [92m"[0m[92m;[0m[92m;[0m[92m [0m[92;1;4mCould[0m[92m [0m[92;1;4mnot[0m[92m [0m[92;1;4mfind[0m[92m [0m[92;1;4msource[0m [92;1;4mcode[0m[92m,[0m[92m [0m[92mshowing[0m[92m [0m[92mraw[0m[92m [0m[92mfunction[0m[92m [0m[92mobject[0m[92m.[0m
+[91;1m[2m... [0m[0m                                                                            [92;1m[2m... [0m[0m[92m\[0m[92mn[0m[92m"[0m
+[2m... [0m                                                                            [92;1m260 [0m             [92m";; Could not find alias source code, showing raw function obj[0m
+[2m... [0m                                                                            [92;1m[2m... [0m[0m[92mect.\n"[0m[92;1m)[0m
+[2m255 [0m           (helpful--pretty-print source)))))))                             [2m261 [0m           (helpful--pretty-print source)))))))
+[2m256 [0m                                                                            [2m262 [0m
+[2m257 [0m    (helpful--insert-section-break)                                         [2m263 [0m    (helpful--insert-section-break)

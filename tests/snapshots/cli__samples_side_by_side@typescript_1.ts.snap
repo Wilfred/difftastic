@@ -1,0 +1,11 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/typescript_1.ts
+---
+[1m[93msample_files/typescript_2.ts[39m[0m[2m --- TypeScript[0m
+[2m1 [0m[2m1 [0m[1mtype[0m [1mSymbol[0m [1m=[0m {
+[2m2 [0m[2m2 [0m  kind: [95m"symbol"[0m;
+[2m. [0m[92;1m3 [0m  [92mname[0m[92m:[0m [92;1mstring[0m[92m;[0m
+[2m3 [0m[2m4 [0m  items: [1mstring[0m[];
+[2m4 [0m[2m5 [0m};

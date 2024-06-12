@@ -1,0 +1,33 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/nix_1.nix
+---
+[1m[93msample_files/nix_2.nix[39m[0m[2m --- Nix[0m
+[2m 2 [0m                                                                             [2m 2 [0m
+[2m 3 [0mrustPlatform.buildRustPackage [1mrec[0m {                                          [2m 3 [0mrustPlatform.buildRustPackage [1mrec[0m {
+[2m 4 [0m  pname = [95m"difftastic"[0m;                                                      [2m 4 [0m  pname = [95m"difftastic"[0m;
+[91;1m 5 [0m  version = [91m"[0m[91m0[0m[91m.[0m[91;1;4m12[0m[91m.[0m[91m0[0m[91m"[0m;                                                        [92;1m 5 [0m  version = [92m"[0m[92m0[0m[92m.[0m[92;1;4m24[0m[92m.[0m[92m0[0m[92m"[0m;
+[2m 6 [0m                                                                             [2m 6 [0m
+[2m 7 [0m  src = fetchFromGitHub {                                                    [2m 7 [0m  src = fetchFromGitHub {
+[2m 8 [0m    owner = [95m"wilfred"[0m;                                                       [2m 8 [0m    owner = [95m"wilfred"[0m;
+[2m 9 [0m    repo = pname;                                                            [2m 9 [0m    repo = pname;
+[2m10 [0m    rev = version;                                                           [2m10 [0m    rev = version;
+[91;1m11 [0m    sha256 = [91m"sha256-A6Z3g6fbYBynyN4OhRrZNO0ZghvT3XnIahdUQ8SE8tU="[0m;          [92;1m11 [0m    sha256 = [92m"sha256-Yp0WwzGo8nuRZuiHdUPxPM1SYBeeVA3SMDfHnQmqUqY="[0m;
+[2m12 [0m  };                                                                         [2m12 [0m  };
+[2m13 [0m                                                                             [2m13 [0m
+[91;1m14 [0m  cargoSha256 = [91m"sha256-6/JwrPymtpj/CXqx3Pe43v+MJTNONArU2WEo/zgJhT4="[0m;       [92;1m14 [0m  cargoSha256 = [92m"sha256-m80PT2UQYhA5KEh7ax/fhh6vuse0DXhbFsh2x4pwkWY="[0m;
+[91;1m15 [0m                                                                             [2m.. [0m
+[91;1m16 [0m  [91mpostPatch[0m [91m=[0m [91m''[0m                                                             [2m.. [0m
+[91;1m17 [0m[91m    pushd vendor[0m                                                             [2m.. [0m
+[91;1m18 [0m[91m    for grammar in */; do[0m                                                    [2m.. [0m
+[91;1m19 [0m[91m      if [ -d "${tree-sitter.grammars}/$grammar" ]; then[0m                     [2m.. [0m
+[91;1m20 [0m[91m        rm -r "$grammar"[0m                                                     [2m.. [0m
+[91;1m21 [0m[91m        ln -s "${tree-sitter.grammars}/$grammar"[0m                             [2m.. [0m
+[91;1m22 [0m[91m      fi[0m                                                                     [2m.. [0m
+[91;1m23 [0m[91m    done[0m                                                                     [2m.. [0m
+[91;1m24 [0m[91m    popd[0m                                                                     [2m.. [0m
+[91;1m25 [0m[91m  ''[0m[91m;[0m                                                                        [2m.. [0m
+[2m26 [0m                                                                             [2m15 [0m
+[2m27 [0m  meta = [1mwith[0m lib; {                                                         [2m16 [0m  meta = [1mwith[0m lib; {
+[2m28 [0m    description = [95m"A syntax-aware diff"[0m;                                     [2m17 [0m    description = [95m"A syntax-aware diff"[0m;
