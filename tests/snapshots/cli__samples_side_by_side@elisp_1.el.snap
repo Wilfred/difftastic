@@ -1,0 +1,24 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/elisp_1.el
+---
+[1m[93msample_files/elisp_2.el[39m[0m[2m --- 1/2 --- Emacs Lisp[0m
+[2m3 [0m[94;3m;; Copyright (C) 2013 Wilfred Hughes[0m                                          [2m3 [0m[94;3m;; Copyright (C) 2013 Wilfred Hughes[0m
+[2m4 [0m                                                                              [2m4 [0m
+[2m5 [0m[94;3m;; Author: Wilfred Hughes <me@wilfred.me.uk>[0m                                  [2m5 [0m[94;3m;; Author: Wilfred Hughes <me@wilfred.me.uk>[0m
+[91;1m6 [0m[91;3m;[0m[91;3m;[0m[91;3m [0m[91;3mVersion[0m[91;3m:[0m[91;3m [0m[91;3m0[0m[91;3m.[0m[91;1;3;4m5[0m                                                               [92;1m6 [0m[92;3m;[0m[92;3m;[0m[92;3m [0m[92;3mVersion[0m[92;3m:[0m[92;3m [0m[92;3m0[0m[92;3m.[0m[92;1;3;4m6[0m
+[2m7 [0m[94;3m;; Keywords: hash table, hash map, hash[0m                                       [2m7 [0m[94;3m;; Keywords: hash table, hash map, hash[0m
+[2m8 [0m                                                                              [2m8 [0m
+[2m9 [0m[94;3m;; This program is free software; you can redistribute it and/or modify[0m       [2m9 [0m[94;3m;; This program is free software; you can redistribute it and/or modify[0m
+
+[1msample_files/elisp_2.el[0m[2m --- 2/2 --- Emacs Lisp[0m
+[2m40 [0m[2m40 [0m([1mdefun[0m ht-from-alist (alist)
+[2m41 [0m[2m41 [0m  [94;3m"Create a hash table with initial values according to ALIST."[0m
+[2m42 [0m[2m42 [0m  ([1mlet[0m ((h (ht-create)))
+[2m.. [0m[92;1m43 [0m    [92;3m;; the first key-value pair in an alist gets precedence, so we[0m
+[2m.. [0m[92;1m44 [0m    [92;3m;; start from the end of the list:[0m
+[2m43 [0m[92;1m45 [0m    (dolist (pair [92;1m([0m[92mreverse[0m alist[92;1m)[0m h)
+[2m44 [0m[2m46 [0m      ([1mlet[0m ((key (car pair))
+[2m45 [0m[2m47 [0m            (value (cdr pair)))
+[2m46 [0m[2m48 [0m        (ht-set h key value)))))
