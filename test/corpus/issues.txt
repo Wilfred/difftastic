@@ -481,11 +481,11 @@ Let
     (text
       (word)
       (superscript
-        (word))
+        (letter))
       (operator)
       (word)
       (superscript
-        (word)))
+        (letter)))
     (text_mode
       (curly_group
         (text
@@ -497,11 +497,12 @@ Let
     (text
       (word)
       (superscript
-        (word))
+        (letter))
       (operator)
       (word)
       (superscript
-        (word)))
+        (letter))
+      (word))
     (end
       (curly_group_text
         (text
@@ -756,6 +757,21 @@ r \big|_0^a
       (command_name))
     (operator)
     (subscript
-      (word))
+      (letter))
     (superscript
-      (word))))
+      (letter))))
+
+================================================================================
+tree-sitter-latex (Issue #107) | subscript
+================================================================================
+
+10^10
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word)
+    (superscript
+      (letter))
+    (word)))

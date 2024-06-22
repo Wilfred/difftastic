@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add missing citation commands: `\citeA`, `\citeR`, `\citeS`, `\citeyearR` ([#94](https://github.com/latex-lsp/tree-sitter-latex/issues/94))
 - Let `\declaretheorem` accept multiple environment names ([texlab/#1075](https://github.com/latex-lsp/texlab/issues/1075))
+- Fix parsing wrong superscripts like `10^10` ([#107](https://github.com/latex-lsp/tree-sitter-latex/issues/107))
 
 ## [0.4.0] - 2024-04-01
 

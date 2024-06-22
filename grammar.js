@@ -393,16 +393,18 @@ module.exports = grammar({
 
     operator: $ => choice('+', '-', '*', '/', '<', '>', '!', '|', ':', "'"),
 
+    letter: $ => /[^\\%\{\}\$\#_\^]/,
+
     subscript: $ =>
       seq(
         '_',
-        field('subscript', choice($.curly_group, $.word, $.generic_command)),
+        field('subscript', choice($.curly_group, $.letter, $.command_name)),
       ),
 
     superscript: $ =>
       seq(
         '^',
-        field('superscript', choice($.curly_group, $.word, $.generic_command)),
+        field('superscript', choice($.curly_group, $.letter, $.command_name)),
       ),
 
     //--- Key / Value
