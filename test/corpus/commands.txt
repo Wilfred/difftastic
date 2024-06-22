@@ -174,3 +174,56 @@ Text commands
       (text
         (word)
         (word)))))
+
+================================================================================
+Hyperlinks
+================================================================================
+
+\url{https://github.com/latex-lsp/tree-sitter-latex}
+
+\href{https://github.com/latex-lsp/tree-sitter-latex}{tree-sitter-latex}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (hyperlink
+    (curly_group_text
+      (text
+        (word)
+        (operator)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word))))
+  (hyperlink
+    (curly_group_text
+      (text
+        (word)
+        (operator)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)))
+    (curly_group
+      (text
+        (word)
+        (operator)
+        (word)
+        (operator)
+        (word)))))
