@@ -323,6 +323,8 @@ module.exports = grammar({
     curly_group_path_list: $ =>
       seq('{', sepBy(field('path', $.path), ','), '}'),
 
+    curly_group_uri: $ => seq('{', field('uri', $.uri), '}'),
+
     curly_group_command_name: $ =>
       seq('{', field('command', $.command_name), '}'),
 
@@ -380,6 +382,8 @@ module.exports = grammar({
     placeholder: $ => /#\d/,
 
     path: $ => /[^\*\"\[\]:;,\|\{\}<>]+/,
+
+    uri: $ => /[^\[\]\{\}]+/,
 
     argc: $ => /\d/,
 
@@ -1120,7 +1124,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', choice('\\url', '\\href')),
-          field('url', $.curly_group_text),
+          field('uri', $.curly_group_uri),
           field('label', optional($.curly_group)),
         ),
       ),

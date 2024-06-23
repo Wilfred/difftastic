@@ -183,47 +183,38 @@ Hyperlinks
 
 \href{https://github.com/latex-lsp/tree-sitter-latex}{tree-sitter-latex}
 
+\href{https://github.com/latex-lsp/tree-sitter-latex/issues?q=hyperlink}
+                                                          {search ``hyperlink''}
+
+\href{file:///path/to/file_containing spaces, and also commas}{file URI}
+
 --------------------------------------------------------------------------------
 
 (source_file
   (hyperlink
-    (curly_group_text
-      (text
-        (word)
-        (operator)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word))))
+    (curly_group_uri
+      (uri)))
   (hyperlink
-    (curly_group_text
-      (text
-        (word)
-        (operator)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)
-        (operator)
-        (word)))
+    (curly_group_uri
+      (uri))
     (curly_group
       (text
         (word)
         (operator)
         (word)
         (operator)
+        (word))))
+  (hyperlink
+    (curly_group_uri
+      (uri))
+    (curly_group
+      (text
+        (word)
+        (word))))
+  (hyperlink
+    (curly_group_uri
+      (uri))
+    (curly_group
+      (text
+        (word)
         (word)))))
