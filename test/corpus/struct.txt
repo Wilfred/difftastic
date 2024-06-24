@@ -9,6 +9,8 @@ struct Whatever {
     d: Int as int256 = 10;
 }
 
+struct NoTrailingSemicolon { works: Bool }
+
 ---
 
 (source_file
@@ -32,4 +34,13 @@ struct Whatever {
         type: (type_identifier)
         tlb: (tlb_serialization
           type: (identifier))
-        value: (integer)))))
+        value: (integer))
+    ))
+  (struct
+    name: (type_identifier)
+    body: (struct_body
+      (field
+        name: (identifier)
+        type: (type_identifier))
+    ))
+)

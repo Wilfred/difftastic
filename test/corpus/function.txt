@@ -1,5 +1,5 @@
 ============================================
-static_function
+function
 ============================================
 
 fun empty();
@@ -25,26 +25,26 @@ get mutates extends virtual override inline abstract fun allAttr();
 ---
 
 (source_file
-  (static_function
+  (global_function
     name: (identifier)
     parameters: (parameter_list))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list)
     result: (type_identifier))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list
       (parameter
         name: (identifier)
         type: (type_identifier))))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list
@@ -52,14 +52,14 @@ get mutates extends virtual override inline abstract fun allAttr();
         name: (identifier)
         type: (type_identifier)))
     result: (type_identifier))
-  (static_function
+  (global_function
     name: (identifier)
     parameters: (parameter_list)
     result: (type_identifier)
     body: (function_body
       (return_statement
         (integer))))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list
@@ -70,7 +70,7 @@ get mutates extends virtual override inline abstract fun allAttr();
     body: (function_body
       (return_statement
         (self))))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list
@@ -84,7 +84,7 @@ get mutates extends virtual override inline abstract fun allAttr();
         right: (binary_expression
           left: (self)
           right: (self)))))
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list))

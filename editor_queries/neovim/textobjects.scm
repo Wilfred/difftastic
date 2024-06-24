@@ -1,11 +1,11 @@
 ; See: https://github.com/nvim-treesitter/nvim-treesitter-textobjects#built-in-textobjects
 ; function.inner & outer
 ; ----------------------
-; static
-(static_function
+; global
+(global_function
   body: (_)) @function.outer
 
-(static_function
+(global_function
   body: (function_body
     .
     "{"
@@ -77,10 +77,10 @@
   (#make-range! "function.inner" @_start @_end))
 
 ; contract/trait function
-(function
+(storage_function
   body: (_)) @function.outer
 
-(function
+(storage_function
   body: (function_body
     .
     "{"
@@ -381,7 +381,15 @@
   name: (_) @assignment.lhs
   value: (_) @assignment.inner @assignment.rhs) @assignment.outer
 
-(constant
+(storage_variable
+  name: (_) @assignment.lhs
+  value: (_) @assignment.inner @assignment.rhs) @assignment.outer
+
+(global_constant
+  name: (_) @assignment.lhs
+  value: (_) @assignment.inner @assignment.rhs) @assignment.outer
+
+(storage_constant
   name: (_) @assignment.lhs
   value: (_) @assignment.inner @assignment.rhs) @assignment.outer
 

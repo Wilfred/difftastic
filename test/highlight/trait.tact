@@ -20,7 +20,7 @@ trait Filled with Deployable, Ownable, {
 
   const a: Int;
   // <- keyword
-  //    ^ property
+  //    ^ constant
   //     ^ punctuation.delimiter
   //       ^ type.builtin
   //          ^ punctuation.delimiter
@@ -52,7 +52,7 @@ trait Filled with Deployable, Ownable, {
     //            ^ operator
     //              ^ variable.builtin
     //                  ^ punctuation.delimiter
-    //                   ^ property
+    //                   ^ constant
     //                     ^ operator
     //                       ^ variable.parameter
     //                           ^ punctuation.delimiter

@@ -20,16 +20,11 @@
 ; variable.other.member
 ; ---------------------
 
-(field
+(storage_variable
   name: (identifier) @variable.other.member)
 
-(contract_body
-  (constant
-    name: (identifier) @variable.other.member))
-
-(trait_body
-  (constant
-    name: (identifier) @variable.other.member))
+(field
+  name: (identifier) @variable.other.member)
 
 (field_access_expression
   name: (identifier) @variable.other.member)
@@ -126,13 +121,16 @@
 ; string.special.path
 ; -------------------
 
-(import_statement
+(import
   library: (string) @string.special.path)
 
 ; constant
 ; --------
 
-(constant
+(global_constant
+  name: (identifier) @constant)
+
+(storage_constant
   name: (identifier) @constant)
 
 ; constant.character.escape
@@ -258,7 +256,7 @@
 (native_function
   name: (identifier) @function)
 
-(static_function
+(global_function
   name: (identifier) @function)
 
 (static_call_expression
@@ -276,7 +274,7 @@
 (external_function
   "external" @function.method)
 
-(function
+(storage_function
   name: (identifier) @function.method)
 
 ; function.method
@@ -300,9 +298,17 @@
     "checkSignature" "checkDataSignature" "sha256"
     "min" "max" "abs" "pow" "pow2" "log" "log2"
     "throw" "dump" "dumpStack" "getConfigParam"
-    "nativeThrowWhen" "nativeThrowUnless" "nativeReserve"
+    "nativeThrowIf" "nativeThrowUnless" "nativeReserve"
     "nativeRandomize" "nativeRandomizeLt" "nativePrepareRandom" "nativeRandom" "nativeRandomInterval")
   (#is-not? local))
+
+; attribute
+; ---------
+
+[
+  "@name"
+  "@interface"
+] @attribute
 
 ; comment.block
 ; -------------
@@ -314,11 +320,3 @@
 
 ((comment) @comment.line
   (#match? @comment.line "^//"))
-
-; attribute
-; ---------
-
-[
-  "@name"
-  "@interface"
-] @attribute

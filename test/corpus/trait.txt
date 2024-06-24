@@ -25,13 +25,13 @@ trait Filled with Deployable, Ownable, {
       (identifier)
       (identifier))
     body: (trait_body
-      (constant
+      (storage_constant
         name: (identifier)
         type: (type_identifier))
-      (field
+      (storage_variable
         name: (identifier)
         type: (type_identifier))
-      (function
+      (storage_function
         attributes: (function_attributes)
         name: (identifier)
         parameters: (parameter_list
@@ -41,7 +41,7 @@ trait Filled with Deployable, Ownable, {
         result: (type_identifier)
         body: (function_body
           (return_statement (integer))))
-      (function
+      (storage_function
         attributes: (function_attributes)
         name: (identifier)
         parameters: (parameter_list)

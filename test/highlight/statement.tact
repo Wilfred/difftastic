@@ -143,6 +143,14 @@ extends fun c(self: SomeMessage): Int {
     //                  ^ punctuation.bracket
     //                   ^ punctuation.bracket
 
+    foreach (_, _ in self.m) {}
+    //               ^ variable.parameter
+    //                   ^ punctuation.delimiter
+    //                    ^ property
+
+    foreach (_, _ in smth.m) {}
+    //               ^ variable
+
     0  ;
     // <- number
     // ^ punctuation.delimiter

@@ -3,7 +3,7 @@
 ; function.inside & around
 ; ------------------------
 
-(static_function
+(global_function
   body: (_) @function.inside) @function.around
 
 (init_function
@@ -18,7 +18,7 @@
 (external_function
   body: (_) @function.inside) @function.around
 
-(function
+(storage_function
   body: (_) @function.inside) @function.around
 
 ; class.inside & around

@@ -28,7 +28,7 @@
   [
     (native_function
       name: (identifier) @name)
-    (static_function
+    (global_function
       name: (identifier) @name)
   ] @definition.function
   (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
@@ -60,27 +60,9 @@
     (receive_function "receive" @name)
     (bounced_function "bounced" @name)
     (external_function "external" @name)
+    (storage_function
+      name: (identifier) @name)
   ] @definition.method
-  (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
-  (#select-adjacent! @doc @definition.method)
-)
-
-(
-  (comment)* @doc
-  .
-  (contract_body
-    (function
-      name: (identifier) @name) @definition.method)
-  (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
-  (#select-adjacent! @doc @definition.method)
-)
-
-(
-  (comment)* @doc
-  .
-  (trait_body
-    (function
-      name: (identifier) @name) @definition.method)
   (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
   (#select-adjacent! @doc @definition.method)
 )
@@ -92,8 +74,12 @@
 (
   (comment)* @doc
   .
-  (constant
-    name: (identifier) @name) @definition.constant
+  [
+    (global_constant
+      name: (identifier) @name)
+    (storage_constant
+      name: (identifier) @name)
+  ] @definition.constant
   (#strip! @doc "^[\\s\\*/]+|^[\\s\\*/]$")
   (#select-adjacent! @doc @definition.constant)
 )

@@ -102,7 +102,7 @@
 ; string.special
 ; --------------
 
-(import_statement
+(import
   library: (string) @string.special)
 
 (escape_sequence) @string.special
@@ -110,9 +110,12 @@
 ; constant
 ; --------
 
-(constant
+(global_constant
   name: (identifier) @constant)
 
+(storage_constant
+    name: (identifier) @constant)
+  
 ; constant.builtin
 ; ----------------
 
@@ -137,15 +140,10 @@
 (field_access_expression
   name: (identifier) @property)
 
-(trait_body
-  (constant
-    name: (identifier) @property))
-
-(contract_body
-  (constant
-    name: (identifier) @property))
-
 (field
+  name: (identifier) @property)
+
+(storage_variable
   name: (identifier) @property)
 
 ; number
@@ -176,13 +174,13 @@
 ; function
 ; --------
 
-(function
+(storage_function
   name: (identifier) @function)
 
 (native_function
   name: (identifier) @function)
 
-(static_function
+(global_function
   name: (identifier) @function)
 
 (static_call_expression
@@ -211,13 +209,8 @@
 (static_call_expression
   name: (identifier) @function.builtin
   (#match? @function.builtin
-     "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|dumpStack|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|pow2|throw|nativeThrowWhen|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
+     "^(log|log2|send|sender|require|now|myBalance|myAddress|newAddress|contractAddress|contractAddressExt|emit|cell|ton|dump|dumpStack|beginString|beginComment|beginTailString|beginStringFromBuilder|beginCell|emptyCell|randomInt|random|checkSignature|checkDataSignature|sha256|min|max|abs|pow|pow2|throw|nativeThrowIf|nativeThrowUnless|getConfigParam|nativeRandomize|nativeRandomizeLt|nativePrepareRandom|nativeRandom|nativeRandomInterval|nativeReserve)$")
   (#is-not? local))
-
-; comment
-; -------
-
-(comment) @comment
 
 ; attribute
 ; ---------
@@ -226,3 +219,8 @@
   "@name"
   "@interface"
 ] @attribute
+
+; comment
+; -------
+
+(comment) @comment

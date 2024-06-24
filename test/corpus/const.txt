@@ -4,20 +4,33 @@ const
 
 override virtual abstract const theAnswer: Int = 42;
 const gasConsumption: String = "0.01";
-const gasConsumption: String;
+const gasConsumption2: String;
+
+contract Foo {
+    const whatever: Int = 5;
+}
 
 ---
 
 (source_file
-  (constant
+  (global_constant
     attributes: (constant_attributes)
     name: (identifier)
     type: (type_identifier)
     value: (integer))
-  (constant
+  (global_constant
     name: (identifier)
     type: (type_identifier)
     value: (string))
-  (constant
+  (global_constant
     name: (identifier)
-    type: (type_identifier)))
+    type: (type_identifier))
+  (contract
+    name: (identifier)
+    body: (contract_body
+      (storage_constant
+        name: (identifier)
+        type: (type_identifier)
+        value: (integer))
+    ))
+)

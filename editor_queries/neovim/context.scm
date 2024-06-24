@@ -19,7 +19,7 @@
 
 ; functions
 ; ---------
-(static_function
+(global_function
   body: (_
     (_) @context.end)) @context
 
@@ -39,7 +39,7 @@
   body: (_
     (_) @context.end)) @context
 
-(function
+(storage_function
   body: (_
     (_) @context.end)) @context
 

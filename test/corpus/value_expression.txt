@@ -56,7 +56,7 @@ extends fun c(self: Int, ) {
 ---
 
 (source_file
-  (static_function
+  (global_function
     attributes: (function_attributes)
     name: (identifier)
     parameters: (parameter_list

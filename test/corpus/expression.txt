@@ -42,7 +42,7 @@ fun c() {
 ---
 
 (source_file
-  (static_function
+  (global_function
     name: (identifier)
     parameters: (parameter_list)
     body: (function_body

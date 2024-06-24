@@ -59,7 +59,7 @@ fun fun() {
     // <- function.builtin
     nativeThrowUnless();
     // <- function.builtin
-    nativeThrowWhen();
+    nativeThrowIf();
     // <- function.builtin
     newAddress();
     // <- function.builtin

@@ -7,5 +7,5 @@ import "@stdlib/deploy";
 ---
 
 (source_file
-  (import_statement
+  (import
     library: (string)))

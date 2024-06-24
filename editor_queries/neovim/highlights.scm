@@ -110,7 +110,7 @@
 
 ; string.special.path
 ; -------------------
-(import_statement
+(import
   library: (string) @string.special.path)
 
 ; boolean
@@ -119,7 +119,10 @@
 
 ; constant
 ; --------
-(constant
+(global_constant
+  name: (identifier) @constant)
+
+(storage_constant
   name: (identifier) @constant)
 
 ; constant.builtin
@@ -144,15 +147,10 @@
 (field_access_expression
   name: (identifier) @variable.member)
 
-(trait_body
-  (constant
-    name: (identifier) @variable.member))
-
-(contract_body
-  (constant
-    name: (identifier) @variable.member))
-
 (field
+  name: (identifier) @variable.member)
+
+(storage_variable
   name: (identifier) @variable.member)
 
 ; number
@@ -250,7 +248,7 @@
 (native_function
   name: (identifier) @function)
 
-(static_function
+(global_function
   name: (identifier) @function)
 
 (func_identifier) @function
@@ -269,7 +267,7 @@
 (external_function
   "external" @function.method)
 
-(function
+(storage_function
   name: (identifier) @function.method)
 
 ; function.call
@@ -291,15 +289,8 @@
     "contractAddress" "contractAddressExt" "emit" "cell" "ton" "dump" "dumpStack" "beginString"
     "beginComment" "beginTailString" "beginStringFromBuilder" "beginCell" "emptyCell" "randomInt"
     "random" "checkSignature" "checkDataSignature" "sha256" "min" "max" "abs" "pow" "pow2" "throw"
-    "nativeThrowWhen" "nativeThrowUnless" "getConfigParam" "nativeRandomize" "nativeRandomizeLt"
+    "nativeThrowIf" "nativeThrowUnless" "getConfigParam" "nativeRandomize" "nativeRandomizeLt"
     "nativePrepareRandom" "nativeRandom" "nativeRandomInterval" "nativeReserve"))
-
-; comment
-; -------
-(comment) @comment @spell
-
-((comment) @comment.documentation
-  (#lua-match? @comment.documentation "^/[*][*][^*].*[*]/$"))
 
 ; attribute
 ; ---------
@@ -307,3 +298,10 @@
   "@name"
   "@interface"
 ] @attribute
+
+; comment
+; -------
+(comment) @comment @spell
+
+((comment) @comment.documentation
+  (#lua-match? @comment.documentation "^/[*][*][^*].*[*]/$"))

@@ -34,3 +34,8 @@ jobs:
           test-python: false # default
           test-go: false     # default
           test-swift: false  # default
+
+      - name: Check correspondence to Ohm parser
+        run: |
+          git clone https://github.com/tact-lang/tact.git
+          npm run parse -- -q tact/src/grammar/test/*.tact
