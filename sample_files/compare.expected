@@ -283,6 +283,9 @@ sample_files/todomvc_1.gleam sample_files/todomvc_2.gleam
 sample_files/toml_1.toml sample_files/toml_2.toml
 c331bdb54c00b0a5b5a622dbd250042a  -
 
+sample_files/trailing_commas_1.js sample_files/trailing_commas_2.js
+9ca72e199466c75f85d00f4d521e85ff  -
+
 sample_files/trailling_newline_1.yaml sample_files/trailling_newline_2.yaml
 8e37febfec957288576f9c2020cfc4f2  -
 
