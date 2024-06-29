@@ -40,6 +40,7 @@ impl fmt::Debug for ChangeKind<'_> {
                 )
             }
             Novel => "Novel".to_owned(),
+            IgnoredPunctuation => "Ignorable".to_owned(),
         };
         f.write_str(&desc)
     }
@@ -939,6 +940,7 @@ impl MatchedPos {
 
                 mps
             }
+            IgnoredPunctuation => vec![],
         }
     }
 }

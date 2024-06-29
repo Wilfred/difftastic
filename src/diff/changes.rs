@@ -9,6 +9,12 @@ pub(crate) enum ChangeKind<'a> {
     /// the delimiters match, but there may still be some differences
     /// in the children between LHS and RHS.
     Unchanged(&'a Syntax<'a>),
+    /// Used for trailing punctuation that we might ignore.
+    ///
+    /// E.g. we can ignore the last comma in `[1,2,]` when diffing
+    /// against `[1,2]`. However, we do want to highlight the comma
+    /// when diffing `[1,2,]` with `[1,]`.
+    IgnoredPunctuation,
     ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
     ReplacedString(&'a Syntax<'a>, &'a Syntax<'a>),
     Novel,

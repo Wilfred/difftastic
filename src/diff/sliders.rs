@@ -35,9 +35,10 @@
 
 use line_numbers::SingleLineSpan;
 
-use crate::diff::changes::ChangeKind::*;
+use crate::diff::changes::ChangeKind::{self, *};
 use crate::diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeMap};
 use crate::parse::guess_language;
+use crate::parse::syntax::AtomKind;
 use crate::parse::syntax::Syntax::{self, *};
 
 pub(crate) fn fix_all_sliders<'a>(
@@ -50,6 +51,37 @@ pub(crate) fn fix_all_sliders<'a>(
     fix_all_sliders_one_step(nodes, change_map);
 
     fix_all_nested_sliders(language, nodes, change_map);
+
+    drop_ignored_punctuation(nodes, change_map);
+}
+
+/// In lists whose contents end with an ignorable piece of
+/// punctuation, ensure that punctuation isn't treated as novel.
+///
+/// This improves diff results on reformatting, where `foo(x)` and
+/// `foo(x,)` should be considered the same.
+fn drop_ignored_punctuation<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
+    let mut has_novel = false;
+    for (i, node) in nodes.iter().enumerate() {
+        let is_last = i == nodes.len() - 1;
+
+        match node {
+            List { children, .. } => {
+                drop_ignored_punctuation(children, change_map);
+            }
+            Atom { kind, .. } => {
+                if matches!(kind, AtomKind::CanIgnore) && is_last && !has_novel {
+                    change_map.insert(node, ChangeKind::IgnoredPunctuation);
+                }
+            }
+        }
+
+        if let Some(c) = change_map.get(node) {
+            if matches!(c, Novel) {
+                has_novel = true;
+            }
+        }
+    }
 }
 
 /// Should nested slider correction prefer the inner or outer
@@ -139,7 +171,7 @@ fn fix_nested_slider_prefer_outer<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
                     }
                 }
             }
-            ReplacedComment(_, _) | ReplacedString(_, _) | Novel => {}
+            ReplacedComment(_, _) | ReplacedString(_, _) | Novel | IgnoredPunctuation => {}
         }
 
         for child in children {
@@ -159,6 +191,7 @@ fn fix_nested_slider_prefer_inner<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
         {
             Unchanged(_) => {}
             ReplacedComment(_, _) | ReplacedString(_, _) => {}
+            IgnoredPunctuation => {}
             Novel => {
                 let mut found_unchanged = vec![];
                 unchanged_descendants(children, &mut found_unchanged, change_map);
@@ -197,6 +230,7 @@ fn unchanged_descendants<'a>(
                     unchanged_descendants(children, found, change_map);
                 }
             }
+            IgnoredPunctuation => {}
         }
     }
 }
@@ -391,6 +425,7 @@ fn novel_regions_after_unchanged<'a>(
 
                 region = None;
             }
+            IgnoredPunctuation => {}
         }
     }
 
@@ -434,6 +469,7 @@ fn novel_regions_before_unchanged<'a>(
             ReplacedComment(_, _) | ReplacedString(_, _) => {
                 region = None;
             }
+            IgnoredPunctuation => {}
         }
     }
 
