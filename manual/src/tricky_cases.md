@@ -167,7 +167,7 @@ language-agnostic way is difficult, so difftastic has a small list of
 punctuation characters that always get lower priority than other
 atoms.
 
-## Insignificant Punctuation
+## Autoformatter Punctuation
 
 In some cases, reformatting code can change the trailing punctuation
 without changing the meaning of the code. We don't want to show a diff
@@ -214,6 +214,9 @@ Desired result: <code>[2,<span style="background-color: PaleGreen; color: #000">
 If the diffing logic effectively sees `[2]` and `[2,3]` because we've
 discarded the punctuation, we don't get the desired result here.
 
+**Difftastic**: Difftastic solves this problem by considering trailing
+punctuation during diffing, and then post-processing known syntactic
+elements that aren't significant.
 
 ## Sliders (Flat)
 
@@ -396,28 +399,6 @@ handle a small change in a 20 line string literal.
 It's tempting to split strings on spaces and diff that, but users
 still want to know when whitespace changes inside strings. `" "` and
 `"  "` are not the same.
-
-## Autoformatter Punctuation
-
-```
-// Before
-foo("looooong", "also looooong");
-
-// After
-foo(
-  "looooong",
-  "novel",
-  "also looooong",
-);
-```
-
-Autoformatters (e.g. [prettier](https://prettier.io/)) will sometimes
-add or remove punctuation when formatting. Commas and parentheses are
-the most common.
-
-Syntactic diffing can ignore whitespace changes, but it has to assume
-punctuation is meaningful. This can lead to punctuation changes being
-highlighted, which may be quite far from the relevant content change.
 
 ## Unordered Data Types
 

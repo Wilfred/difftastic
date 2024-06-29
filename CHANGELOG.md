@@ -1,5 +1,12 @@
 ## 0.69 (unreleased)
 
+## Diffing
+
+Difftastic now understands when trailing punctuation isn't
+significant, so `foo(1,)` and `foo(1)` are treated as "no syntactic
+changes". This is supported for Go, Java, JavaScript, Python, Rust,
+Swift and TypeScript.
+
 ### Parsing
 
 Added support for Assembly.
