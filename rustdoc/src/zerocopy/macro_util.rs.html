@@ -1,0 +1,1342 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/zerocopy-0.7.32/src/macro_util.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macro_util.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../zerocopy/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2022 The Fuchsia Authors
+//
+// Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
+// &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
+// license &lt;LICENSE-MIT or https://opensource.org/licenses/MIT&gt;, at your option.
+// This file may not be copied, modified, or distributed except according to
+// those terms.
+
+</span><span class="doccomment">//! Utilities used by macros and by `zerocopy-derive`.
+//!
+//! These are defined here `zerocopy` rather than in code generated by macros or
+//! by `zerocopy-derive` so that they can be compiled once rather than
+//! recompiled for every invocation (e.g., if they were defined in generated
+//! code, then deriving `AsBytes` and `FromBytes` on three different types would
+//! result in the code in question being emitted and compiled six different
+//! times).
+
+</span><span class="attribute">#![allow(missing_debug_implementations)]
+
+</span><span class="kw">use </span>core::{marker::PhantomData, mem::ManuallyDrop};
+
+<span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove this
+// `cfg` when `size_of_val_raw` is stabilized.
+</span><span class="attribute">#[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+</span><span class="kw">use </span>core::ptr::{<span class="self">self</span>, NonNull};
+
+<span class="doccomment">/// A compile-time check that should be one particular value.
+</span><span class="kw">pub trait </span>ShouldBe&lt;<span class="kw">const </span>VALUE: bool&gt; {}
+
+<span class="doccomment">/// A struct for checking whether `T` contains padding.
+</span><span class="kw">pub struct </span>HasPadding&lt;T: <span class="question-mark">?</span>Sized, <span class="kw">const </span>VALUE: bool&gt;(PhantomData&lt;T&gt;);
+
+<span class="kw">impl</span>&lt;T: <span class="question-mark">?</span>Sized, <span class="kw">const </span>VALUE: bool&gt; ShouldBe&lt;VALUE&gt; <span class="kw">for </span>HasPadding&lt;T, VALUE&gt; {}
+
+<span class="doccomment">/// A type whose size is equal to `align_of::&lt;T&gt;()`.
+</span><span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>AlignOf&lt;T&gt; {
+    <span class="comment">// This field ensures that:
+    // - The size is always at least 1 (the minimum possible alignment).
+    // - If the alignment is greater than 1, Rust has to round up to the next
+    //   multiple of it in order to make sure that `Align`&#39;s size is a multiple
+    //   of that alignment. Without this field, its size could be 0, which is a
+    //   valid multiple of any alignment.
+    </span>_u: u8,
+    _a: [T; <span class="number">0</span>],
+}
+
+<span class="kw">impl</span>&lt;T&gt; AlignOf&lt;T&gt; {
+    <span class="attribute">#[inline(never)] </span><span class="comment">// Make `missing_inline_in_public_items` happy.
+    </span><span class="kw">pub fn </span>into_t(<span class="self">self</span>) -&gt; T {
+        <span class="macro">unreachable!</span>()
+    }
+}
+
+<span class="doccomment">/// A type whose size is equal to `max(align_of::&lt;T&gt;(), align_of::&lt;U&gt;())`.
+</span><span class="attribute">#[repr(C)]
+</span><span class="kw">pub union </span>MaxAlignsOf&lt;T, U&gt; {
+    _t: ManuallyDrop&lt;AlignOf&lt;T&gt;&gt;,
+    _u: ManuallyDrop&lt;AlignOf&lt;U&gt;&gt;,
+}
+
+<span class="kw">impl</span>&lt;T, U&gt; MaxAlignsOf&lt;T, U&gt; {
+    <span class="attribute">#[inline(never)] </span><span class="comment">// Make `missing_inline_in_public_items` happy.
+    </span><span class="kw">pub fn </span>new(_t: T, _u: U) -&gt; MaxAlignsOf&lt;T, U&gt; {
+        <span class="macro">unreachable!</span>()
+    }
+}
+
+<span class="kw">const </span>_64K: usize = <span class="number">1 </span>&lt;&lt; <span class="number">16</span>;
+
+<span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove this
+// `cfg` when `size_of_val_raw` is stabilized.
+</span><span class="attribute">#[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+#[repr(C, align(<span class="number">65536</span>))]
+</span><span class="kw">struct </span>Aligned64kAllocation([u8; _64K]);
+
+<span class="doccomment">/// A pointer to an aligned allocation of size 2^16.
+///
+/// # Safety
+///
+/// `ALIGNED_64K_ALLOCATION` is guaranteed to point to the entirety of an
+/// allocation with size and alignment 2^16, and to have valid provenance.
+</span><span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove this
+// `cfg` when `size_of_val_raw` is stabilized.
+</span><span class="attribute">#[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+</span><span class="kw">pub const </span>ALIGNED_64K_ALLOCATION: NonNull&lt;[u8]&gt; = {
+    <span class="kw">const </span>REF: <span class="kw-2">&amp;</span>Aligned64kAllocation = <span class="kw-2">&amp;</span>Aligned64kAllocation([<span class="number">0</span>; _64K]);
+    <span class="kw">let </span>ptr: <span class="kw-2">*const </span>Aligned64kAllocation = REF;
+    <span class="kw">let </span>ptr: <span class="kw-2">*const </span>[u8] = ptr::slice_from_raw_parts(ptr.cast(), _64K);
+    <span class="comment">// SAFETY:
+    // - `ptr` is derived from a Rust reference, which is guaranteed to be
+    //   non-null.
+    // - `ptr` is derived from an `&amp;Aligned64kAllocation`, which has size and
+    //   alignment `_64K` as promised. Its length is initialized to `_64K`,
+    //   which means that it refers to the entire allocation.
+    // - `ptr` is derived from a Rust reference, which is guaranteed to have
+    //   valid provenance.
+    //
+    // TODO(#429): Once `NonNull::new_unchecked` docs document that it preserves
+    // provenance, cite those docs.
+    // TODO: Replace this `as` with `ptr.cast_mut()` once our MSRV &gt;= 1.65
+    </span><span class="attribute">#[allow(clippy::as_conversions)]
+    </span><span class="kw">unsafe </span>{
+        NonNull::new_unchecked(ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>)
+    }
+};
+
+<span class="doccomment">/// Computes the offset of the base of the field `$trailing_field_name` within
+/// the type `$ty`.
+///
+/// `trailing_field_offset!` produces code which is valid in a `const` context.
+</span><span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove this
+// `cfg` when `size_of_val_raw` is stabilized.
+</span><span class="attribute">#[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+#[doc(hidden)] </span><span class="comment">// `#[macro_export]` bypasses this module&#39;s `#[doc(hidden)]`.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>trailing_field_offset {
+    (<span class="macro-nonterminal">$ty</span>:ty, <span class="macro-nonterminal">$trailing_field_name</span>:tt) =&gt; {{
+        <span class="kw">let </span>min_size = {
+            <span class="kw">let </span>zero_elems: <span class="kw-2">*const </span>[()] =
+                <span class="macro-nonterminal">$crate::macro_util::core_reexport::ptr::slice_from_raw_parts</span>(
+                    <span class="macro-nonterminal">$crate::macro_util::core_reexport::ptr::NonNull</span>::&lt;()&gt;::dangling()
+                        .as_ptr()
+                        .cast_const(),
+                    <span class="number">0</span>,
+                );
+            <span class="comment">// SAFETY:
+            // - If `$ty` is `Sized`, `size_of_val_raw` is always safe to call.
+            // - Otherwise:
+            //   - If `$ty` is not a slice DST, this pointer conversion will
+            //     fail due to &quot;mismatched vtable kinds&quot;, and compilation will
+            //     fail.
+            //   - If `$ty` is a slice DST, the safety requirement is that &quot;the
+            //     length of the slice tail must be an initialized integer, and
+            //     the size of the entire value (dynamic tail length +
+            //     statically sized prefix) must fit in isize.&quot; The length is
+            //     initialized to 0 above, and Rust guarantees that no type&#39;s
+            //     minimum size may overflow `isize`. [1]
+            //
+            // [1] TODO(#429),
+            // TODO(https://github.com/rust-lang/unsafe-code-guidelines/issues/465#issuecomment-1782206516):
+            // Citation for this?
+            </span><span class="kw">unsafe </span>{
+                <span class="attribute">#[allow(clippy::as_conversions)]
+                </span><span class="macro-nonterminal">$crate::macro_util::core_reexport::mem::size_of_val_raw</span>(zero_elems <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ty</span>)
+            }
+        };
+
+        <span class="macro">assert!</span>(min_size &lt;= _64K);
+
+        <span class="attribute">#[allow(clippy::as_conversions)]
+        </span><span class="kw">let </span>ptr = ALIGNED_64K_ALLOCATION.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span><span class="macro-nonterminal">$ty</span>;
+
+        <span class="comment">// SAFETY:
+        // - Thanks to the preceding `assert!`, we know that the value with zero
+        //   elements fits in `_64K` bytes, and thus in the allocation addressed
+        //   by `ALIGNED_64K_ALLOCATION`. The offset of the trailing field is
+        //   guaranteed to be no larger than this size, so this field projection
+        //   is guaranteed to remain in-bounds of its allocation.
+        // - Because the minimum size is no larger than `_64K` bytes, and
+        //   because an object&#39;s size must always be a multiple of its alignment
+        //   [1], we know that `$ty`&#39;s alignment is no larger than `_64K`. The
+        //   allocation addressed by `ALIGNED_64K_ALLOCATION` is guaranteed to
+        //   be aligned to `_64K`, so `ptr` is guaranteed to satisfy `$ty`&#39;s
+        //   alignment.
+        //
+        //   Note that, as of [2], this requirement is technically unnecessary
+        //   for Rust versions &gt;= 1.75.0, but no harm in guaranteeing it anyway
+        //   until we bump our MSRV.
+        //
+        // [1] Per https://doc.rust-lang.org/reference/type-layout.html:
+        //
+        //   The size of a value is always a multiple of its alignment.
+        //
+        // [2] https://github.com/rust-lang/reference/pull/1387
+        </span><span class="kw">let </span>field = <span class="kw">unsafe </span>{
+            <span class="macro-nonterminal">$</span><span class="macro">crate::macro_util::core_reexport::ptr::addr_of!</span>((<span class="kw-2">*</span><span class="macro-nonterminal">ptr</span>).<span class="macro-nonterminal">$trailing_field_name</span>)
+        };
+        <span class="comment">// SAFETY:
+        // - Both `ptr` and `field` are derived from the same allocated object.
+        // - By the preceding safety comment, `field` is in bounds of that
+        //   allocated object.
+        // - The distance, in bytes, between `ptr` and `field` is required to be
+        //   a multiple of the size of `u8`, which is trivially true because
+        //   `u8`&#39;s size is 1.
+        // - The distance, in bytes, cannot overflow `isize`. This is guaranteed
+        //   because no allocated object can have a size larger than can fit in
+        //   `isize`. [1]
+        // - The distance being in-bounds cannot rely on wrapping around the
+        //   address space. This is guaranteed because the same is guaranteed of
+        //   allocated objects. [1]
+        //
+        // [1] TODO(#429), TODO(https://github.com/rust-lang/rust/pull/116675):
+        //     Once these are guaranteed in the Reference, cite it.
+        </span><span class="kw">let </span>offset = <span class="kw">unsafe </span>{ field.cast::&lt;u8&gt;().offset_from(ptr.cast::&lt;u8&gt;()) };
+        <span class="comment">// Guaranteed not to be lossy: `field` comes after `ptr`, so the offset
+        // from `ptr` to `field` is guaranteed to be positive.
+        </span><span class="macro">assert!</span>(offset &gt;= <span class="number">0</span>);
+        <span class="prelude-val">Some</span>(
+            <span class="attribute">#[allow(clippy::as_conversions)]
+            </span>{
+                offset <span class="kw">as </span>usize
+            },
+        )
+    }};
+}
+
+<span class="doccomment">/// Computes alignment of `$ty: ?Sized`.
+///
+/// `align_of!` produces code which is valid in a `const` context.
+</span><span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove this
+// `cfg` when `size_of_val_raw` is stabilized.
+</span><span class="attribute">#[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+#[doc(hidden)] </span><span class="comment">// `#[macro_export]` bypasses this module&#39;s `#[doc(hidden)]`.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>align_of {
+    (<span class="macro-nonterminal">$ty</span>:ty) =&gt; {{
+        <span class="comment">// SAFETY: `OffsetOfTrailingIsAlignment` is `repr(C)`, and its layout is
+        // guaranteed [1] to begin with the single-byte layout for `_byte`,
+        // followed by the padding needed to align `_trailing`, then the layout
+        // for `_trailing`, and finally any trailing padding bytes needed to
+        // correctly-align the entire struct.
+        //
+        // This macro computes the alignment of `$ty` by counting the number of
+        // bytes preceeding `_trailing`. For instance, if the alignment of `$ty`
+        // is `1`, then no padding is required align `_trailing` and it will be
+        // located immediately after `_byte` at offset 1. If the alignment of
+        // `$ty` is 2, then a single padding byte is required before
+        // `_trailing`, and `_trailing` will be located at offset 2.
+
+        // This correspondence between offset and alignment holds for all valid
+        // Rust alignments, and we confirm this exhaustively (or, at least up to
+        // the maximum alignment supported by `trailing_field_offset!`) in
+        // `test_align_of_dst`.
+        //
+        // [1]: https://doc.rust-lang.org/nomicon/other-reprs.html#reprc
+
+        </span><span class="attribute">#[repr(C)]
+        </span><span class="kw">struct </span>OffsetOfTrailingIsAlignment {
+            _byte: u8,
+            _trailing: <span class="macro-nonterminal">$ty</span>,
+        }
+
+        <span class="macro">trailing_field_offset!</span>(OffsetOfTrailingIsAlignment, _trailing)
+    }};
+}
+
+<span class="doccomment">/// Does the struct type `$t` have padding?
+///
+/// `$ts` is the list of the type of every field in `$t`. `$t` must be a
+/// struct type, or else `struct_has_padding!`&#39;s result may be meaningless.
+///
+/// Note that `struct_has_padding!`&#39;s results are independent of `repr` since
+/// they only consider the size of the type and the sizes of the fields.
+/// Whatever the repr, the size of the type already takes into account any
+/// padding that the compiler has decided to add. Structs with well-defined
+/// representations (such as `repr(C)`) can use this macro to check for padding.
+/// Note that while this may yield some consistent value for some `repr(Rust)`
+/// structs, it is not guaranteed across platforms or compilations.
+</span><span class="attribute">#[doc(hidden)] </span><span class="comment">// `#[macro_export]` bypasses this module&#39;s `#[doc(hidden)]`.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>struct_has_padding {
+    (<span class="macro-nonterminal">$t</span>:ty, $(<span class="macro-nonterminal">$ts</span>:ty),<span class="kw-2">*</span>) =&gt; {
+        core::mem::size_of::&lt;<span class="macro-nonterminal">$t</span>&gt;() &gt; <span class="number">0 </span>$(+ core::mem::size_of::&lt;<span class="macro-nonterminal">$ts</span>&gt;())*
+    };
+}
+
+<span class="doccomment">/// Does the union type `$t` have padding?
+///
+/// `$ts` is the list of the type of every field in `$t`. `$t` must be a
+/// union type, or else `union_has_padding!`&#39;s result may be meaningless.
+///
+/// Note that `union_has_padding!`&#39;s results are independent of `repr` since
+/// they only consider the size of the type and the sizes of the fields.
+/// Whatever the repr, the size of the type already takes into account any
+/// padding that the compiler has decided to add. Unions with well-defined
+/// representations (such as `repr(C)`) can use this macro to check for padding.
+/// Note that while this may yield some consistent value for some `repr(Rust)`
+/// unions, it is not guaranteed across platforms or compilations.
+</span><span class="attribute">#[doc(hidden)] </span><span class="comment">// `#[macro_export]` bypasses this module&#39;s `#[doc(hidden)]`.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>union_has_padding {
+    (<span class="macro-nonterminal">$t</span>:ty, $(<span class="macro-nonterminal">$ts</span>:ty),<span class="kw-2">*</span>) =&gt; {
+        <span class="bool-val">false </span>$(|| core::mem::size_of::&lt;<span class="macro-nonterminal">$t</span>&gt;() != core::mem::size_of::&lt;<span class="macro-nonterminal">$ts</span>&gt;())*
+    };
+}
+
+<span class="doccomment">/// Does `t` have alignment greater than or equal to `u`?  If not, this macro
+/// produces a compile error. It must be invoked in a dead codepath. This is
+/// used in `transmute_ref!` and `transmute_mut!`.
+</span><span class="attribute">#[doc(hidden)] </span><span class="comment">// `#[macro_export]` bypasses this module&#39;s `#[doc(hidden)]`.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>assert_align_gt_eq {
+    (<span class="macro-nonterminal">$t</span>:ident, <span class="macro-nonterminal">$u</span>: ident) =&gt; {{
+        <span class="comment">// The comments here should be read in the context of this macro&#39;s
+        // invocations in `transmute_ref!` and `transmute_mut!`.
+        </span><span class="kw">if </span><span class="bool-val">false </span>{
+            <span class="comment">// The type wildcard in this bound is inferred to be `T` because
+            // `align_of.into_t()` is assigned to `t` (which has type `T`).
+            </span><span class="kw">let </span>align_of: <span class="macro-nonterminal">$crate::macro_util::AlignOf</span>&lt;<span class="kw">_</span>&gt; = <span class="macro">unreachable!</span>();
+            <span class="macro-nonterminal">$t </span>= align_of.into_t();
+            <span class="comment">// `max_aligns` is inferred to have type `MaxAlignsOf&lt;T, U&gt;` because
+            // of the inferred types of `t` and `u`.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>max_aligns = <span class="macro-nonterminal">$crate::macro_util::MaxAlignsOf::new</span>(<span class="macro-nonterminal">$t</span>, <span class="macro-nonterminal">$u</span>);
+
+            <span class="comment">// This transmute will only compile successfully if
+            // `align_of::&lt;T&gt;() == max(align_of::&lt;T&gt;(), align_of::&lt;U&gt;())` - in
+            // other words, if `align_of::&lt;T&gt;() &gt;= align_of::&lt;U&gt;()`.
+            //
+            // SAFETY: This code is never run.
+            </span>max_aligns = <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$crate::macro_util::core_reexport::mem::transmute</span>(align_of) };
+        } <span class="kw">else </span>{
+            <span class="kw">loop </span>{}
+        }
+    }};
+}
+
+<span class="doccomment">/// Do `t` and `u` have the same size?  If not, this macro produces a compile
+/// error. It must be invoked in a dead codepath. This is used in
+/// `transmute_ref!` and `transmute_mut!`.
+</span><span class="attribute">#[doc(hidden)] </span><span class="comment">// `#[macro_export]` bypasses this module&#39;s `#[doc(hidden)]`.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>assert_size_eq {
+    (<span class="macro-nonterminal">$t</span>:ident, <span class="macro-nonterminal">$u</span>: ident) =&gt; {{
+        <span class="comment">// The comments here should be read in the context of this macro&#39;s
+        // invocations in `transmute_ref!` and `transmute_mut!`.
+        </span><span class="kw">if </span><span class="bool-val">false </span>{
+            <span class="comment">// SAFETY: This code is never run.
+            </span><span class="macro-nonterminal">$u </span>= <span class="kw">unsafe </span>{
+                <span class="comment">// Clippy: It&#39;s okay to transmute a type to itself.
+                </span><span class="attribute">#[allow(clippy::useless_transmute)]
+                </span><span class="macro-nonterminal">$crate::macro_util::core_reexport::mem::transmute</span>(<span class="macro-nonterminal">$t</span>)
+            };
+        } <span class="kw">else </span>{
+            <span class="kw">loop </span>{}
+        }
+    }};
+}
+
+<span class="doccomment">/// Transmutes a reference of one type to a reference of another type.
+///
+/// # Safety
+///
+/// The caller must guarantee that:
+/// - `Src: AsBytes`
+/// - `Dst: FromBytes`
+/// - `size_of::&lt;Src&gt;() == size_of::&lt;Dst&gt;()`
+/// - `align_of::&lt;Src&gt;() &gt;= align_of::&lt;Dst&gt;()`
+</span><span class="attribute">#[inline(always)]
+</span><span class="kw">pub const unsafe fn </span>transmute_ref&lt;<span class="lifetime">&#39;dst</span>, <span class="lifetime">&#39;src</span>: <span class="lifetime">&#39;dst</span>, Src: <span class="lifetime">&#39;src</span>, Dst: <span class="lifetime">&#39;dst</span>&gt;(
+    src: <span class="kw-2">&amp;</span><span class="lifetime">&#39;src </span>Src,
+) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;dst </span>Dst {
+    <span class="kw">let </span>src: <span class="kw-2">*const </span>Src = src;
+    <span class="kw">let </span>dst = src.cast::&lt;Dst&gt;();
+    <span class="comment">// SAFETY:
+    // - We know that it is sound to view the target type of the input reference
+    //   (`Src`) as the target type of the output reference (`Dst`) because the
+    //   caller has guaranteed that `Src: AsBytes`, `Dst: FromBytes`, and
+    //   `size_of::&lt;Src&gt;() == size_of::&lt;Dst&gt;()`.
+    // - We know that there are no `UnsafeCell`s, and thus we don&#39;t have to
+    //   worry about `UnsafeCell` overlap, because `Src: AsBytes` and `Dst:
+    //   FromBytes` both forbid `UnsafeCell`s.
+    // - The caller has guaranteed that alignment is not increased.
+    // - We know that the returned lifetime will not outlive the input lifetime
+    //   thanks to the lifetime bounds on this function.
+    </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>dst }
+}
+
+<span class="doccomment">/// Transmutes a mutable reference of one type to a mutable reference of another
+/// type.
+///
+/// # Safety
+///
+/// The caller must guarantee that:
+/// - `Src: FromBytes + AsBytes`
+/// - `Dst: FromBytes + AsBytes`
+/// - `size_of::&lt;Src&gt;() == size_of::&lt;Dst&gt;()`
+/// - `align_of::&lt;Src&gt;() &gt;= align_of::&lt;Dst&gt;()`
+</span><span class="attribute">#[inline(always)]
+</span><span class="kw">pub unsafe fn </span>transmute_mut&lt;<span class="lifetime">&#39;dst</span>, <span class="lifetime">&#39;src</span>: <span class="lifetime">&#39;dst</span>, Src: <span class="lifetime">&#39;src</span>, Dst: <span class="lifetime">&#39;dst</span>&gt;(
+    src: <span class="kw-2">&amp;</span><span class="lifetime">&#39;src </span><span class="kw-2">mut </span>Src,
+) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;dst </span><span class="kw-2">mut </span>Dst {
+    <span class="kw">let </span>src: <span class="kw-2">*mut </span>Src = src;
+    <span class="kw">let </span>dst = src.cast::&lt;Dst&gt;();
+    <span class="comment">// SAFETY:
+    // - We know that it is sound to view the target type of the input reference
+    //   (`Src`) as the target type of the output reference (`Dst`) and
+    //   vice-versa because the caller has guaranteed that `Src: FromBytes +
+    //   AsBytes`, `Dst: FromBytes + AsBytes`, and `size_of::&lt;Src&gt;() ==
+    //   size_of::&lt;Dst&gt;()`.
+    // - We know that there are no `UnsafeCell`s, and thus we don&#39;t have to
+    //   worry about `UnsafeCell` overlap, because `Src: FromBytes + AsBytes`
+    //   and `Dst: FromBytes + AsBytes` forbid `UnsafeCell`s.
+    // - The caller has guaranteed that alignment is not increased.
+    // - We know that the returned lifetime will not outlive the input lifetime
+    //   thanks to the lifetime bounds on this function.
+    </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span>dst }
+}
+
+<span class="comment">// NOTE: We can&#39;t change this to a `pub use core as core_reexport` until [1] is
+// fixed or we update to a semver-breaking version (as of this writing, 0.8.0)
+// on the `main` branch.
+//
+// [1] https://github.com/obi1kenobi/cargo-semver-checks/issues/573
+</span><span class="kw">pub mod </span>core_reexport {
+    <span class="kw">pub use </span>core::<span class="kw-2">*</span>;
+
+    <span class="kw">pub mod </span>mem {
+        <span class="kw">pub use </span>core::mem::<span class="kw-2">*</span>;
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>core::mem;
+
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::util::testutil::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_align_of() {
+        <span class="macro">macro_rules! </span>test {
+            (<span class="macro-nonterminal">$ty</span>:ty) =&gt; {
+                <span class="macro">assert_eq!</span>(mem::size_of::&lt;AlignOf&lt;<span class="macro-nonterminal">$ty</span>&gt;&gt;(), mem::align_of::&lt;<span class="macro-nonterminal">$ty</span>&gt;());
+            };
+        }
+
+        <span class="macro">test!</span>(());
+        <span class="macro">test!</span>(u8);
+        <span class="macro">test!</span>(AU64);
+        <span class="macro">test!</span>([AU64; <span class="number">2</span>]);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_max_aligns_of() {
+        <span class="macro">macro_rules! </span>test {
+            (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$u</span>:ty) =&gt; {
+                <span class="macro">assert_eq!</span>(
+                    mem::size_of::&lt;MaxAlignsOf&lt;<span class="macro-nonterminal">$t</span>, <span class="macro-nonterminal">$u</span>&gt;&gt;(),
+                    core::cmp::max(mem::align_of::&lt;<span class="macro-nonterminal">$t</span>&gt;(), mem::align_of::&lt;<span class="macro-nonterminal">$u</span>&gt;())
+                );
+            };
+        }
+
+        <span class="macro">test!</span>(u8, u8);
+        <span class="macro">test!</span>(u8, AU64);
+        <span class="macro">test!</span>(AU64, u8);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_typed_align_check() {
+        <span class="comment">// Test that the type-based alignment check used in
+        // `assert_align_gt_eq!` behaves as expected.
+
+        </span><span class="macro">macro_rules! </span>assert_t_align_gteq_u_align {
+            (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$u</span>:ty, <span class="macro-nonterminal">$gteq</span>:expr) =&gt; {
+                <span class="macro">assert_eq!</span>(
+                    mem::size_of::&lt;MaxAlignsOf&lt;<span class="macro-nonterminal">$t</span>, <span class="macro-nonterminal">$u</span>&gt;&gt;() == mem::size_of::&lt;AlignOf&lt;<span class="macro-nonterminal">$t</span>&gt;&gt;(),
+                    <span class="macro-nonterminal">$gteq
+                </span>);
+            };
+        }
+
+        <span class="macro">assert_t_align_gteq_u_align!</span>(u8, u8, <span class="bool-val">true</span>);
+        <span class="macro">assert_t_align_gteq_u_align!</span>(AU64, AU64, <span class="bool-val">true</span>);
+        <span class="macro">assert_t_align_gteq_u_align!</span>(AU64, u8, <span class="bool-val">true</span>);
+        <span class="macro">assert_t_align_gteq_u_align!</span>(u8, AU64, <span class="bool-val">false</span>);
+    }
+
+    <span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove
+    // this `cfg` when `size_of_val_raw` is stabilized.
+    </span><span class="attribute">#[allow(clippy::decimal_literal_representation)]
+    #[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+    #[test]
+    </span><span class="kw">fn </span>test_trailing_field_offset() {
+        <span class="macro">assert_eq!</span>(mem::align_of::&lt;Aligned64kAllocation&gt;(), _64K);
+
+        <span class="macro">macro_rules! </span>test {
+            (<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>:meta] </span>($(<span class="macro-nonterminal">$ts</span>:ty),* ; <span class="macro-nonterminal">$trailing_field_ty</span>:ty) =&gt; <span class="macro-nonterminal">$expect</span>:expr) =&gt; {{
+                <span class="attribute">#[<span class="macro-nonterminal">$cfg</span>]
+                </span><span class="kw">struct </span>Test($(<span class="macro-nonterminal">$ts</span>,)* <span class="macro-nonterminal">$trailing_field_ty</span>);
+                <span class="macro">assert_eq!</span>(<span class="macro">test!</span>(@offset $(<span class="macro-nonterminal">$ts</span>),* ; <span class="macro-nonterminal">$trailing_field_ty</span>), <span class="macro-nonterminal">$expect</span>);
+            }};
+            (<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>:meta] </span>$(<span class="attribute">#[<span class="macro-nonterminal">$cfgs</span>:meta]</span>)* ($(<span class="macro-nonterminal">$ts</span>:ty),* ; <span class="macro-nonterminal">$trailing_field_ty</span>:ty) =&gt; <span class="macro-nonterminal">$expect</span>:expr) =&gt; {
+                <span class="macro">test!</span>(<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>] </span>($(<span class="macro-nonterminal">$ts</span>),* ; <span class="macro-nonterminal">$trailing_field_ty</span>) =&gt; <span class="macro-nonterminal">$expect</span>);
+                <span class="macro">test!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$cfgs</span>]</span>)* ($(<span class="macro-nonterminal">$ts</span>),* ; <span class="macro-nonterminal">$trailing_field_ty</span>) =&gt; <span class="macro-nonterminal">$expect</span>);
+            };
+            (@offset ; <span class="macro-nonterminal">$_trailing</span>:ty) =&gt; { <span class="macro">trailing_field_offset!</span>(Test, <span class="number">0</span>) };
+            (@offset <span class="macro-nonterminal">$_t</span>:ty ; <span class="macro-nonterminal">$_trailing</span>:ty) =&gt; { <span class="macro">trailing_field_offset!</span>(Test, <span class="number">1</span>) };
+        }
+
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(transparent)] #[repr(packed)]</span>(; u8) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(transparent)] #[repr(packed)]</span>(; [u8]) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(packed)] </span>(u8; u8) =&gt; <span class="prelude-val">Some</span>(<span class="number">1</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(; AU64) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(; [AU64]) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(u8; AU64) =&gt; <span class="prelude-val">Some</span>(<span class="number">8</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(u8; [AU64]) =&gt; <span class="prelude-val">Some</span>(<span class="number">8</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(; Nested&lt;u8, AU64&gt;) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(; Nested&lt;u8, [AU64]&gt;) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(u8; Nested&lt;u8, AU64&gt;) =&gt; <span class="prelude-val">Some</span>(<span class="number">8</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(u8; Nested&lt;u8, [AU64]&gt;) =&gt; <span class="prelude-val">Some</span>(<span class="number">8</span>));
+
+        <span class="comment">// Test that `packed(N)` limits the offset of the trailing field.
+        </span><span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(        <span class="number">1</span>))] </span>(u8; elain::Align&lt;        <span class="number">2</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">1</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(        <span class="number">2</span>))] </span>(u8; elain::Align&lt;        <span class="number">4</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">2</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(        <span class="number">4</span>))] </span>(u8; elain::Align&lt;        <span class="number">8</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">4</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(        <span class="number">8</span>))] </span>(u8; elain::Align&lt;       <span class="number">16</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">8</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(       <span class="number">16</span>))] </span>(u8; elain::Align&lt;       <span class="number">32</span>&gt;) =&gt; <span class="prelude-val">Some</span>(       <span class="number">16</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(       <span class="number">32</span>))] </span>(u8; elain::Align&lt;       <span class="number">64</span>&gt;) =&gt; <span class="prelude-val">Some</span>(       <span class="number">32</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(       <span class="number">64</span>))] </span>(u8; elain::Align&lt;      <span class="number">128</span>&gt;) =&gt; <span class="prelude-val">Some</span>(       <span class="number">64</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(      <span class="number">128</span>))] </span>(u8; elain::Align&lt;      <span class="number">256</span>&gt;) =&gt; <span class="prelude-val">Some</span>(      <span class="number">128</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(      <span class="number">256</span>))] </span>(u8; elain::Align&lt;      <span class="number">512</span>&gt;) =&gt; <span class="prelude-val">Some</span>(      <span class="number">256</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(      <span class="number">512</span>))] </span>(u8; elain::Align&lt;     <span class="number">1024</span>&gt;) =&gt; <span class="prelude-val">Some</span>(      <span class="number">512</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(     <span class="number">1024</span>))] </span>(u8; elain::Align&lt;     <span class="number">2048</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">1024</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(     <span class="number">2048</span>))] </span>(u8; elain::Align&lt;     <span class="number">4096</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">2048</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(     <span class="number">4096</span>))] </span>(u8; elain::Align&lt;     <span class="number">8192</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">4096</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(     <span class="number">8192</span>))] </span>(u8; elain::Align&lt;    <span class="number">16384</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">8192</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(    <span class="number">16384</span>))] </span>(u8; elain::Align&lt;    <span class="number">32768</span>&gt;) =&gt; <span class="prelude-val">Some</span>(    <span class="number">16384</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(    <span class="number">32768</span>))] </span>(u8; elain::Align&lt;    <span class="number">65536</span>&gt;) =&gt; <span class="prelude-val">Some</span>(    <span class="number">32768</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, packed(    <span class="number">65536</span>))] </span>(u8; elain::Align&lt;   <span class="number">131072</span>&gt;) =&gt; <span class="prelude-val">Some</span>(    <span class="number">65536</span>));
+        <span class="comment">/* Alignments above 65536 are not yet supported.
+        test!(#[repr(C, packed(   131072))] (u8; elain::Align&lt;   262144&gt;) =&gt; Some(   131072));
+        test!(#[repr(C, packed(   262144))] (u8; elain::Align&lt;   524288&gt;) =&gt; Some(   262144));
+        test!(#[repr(C, packed(   524288))] (u8; elain::Align&lt;  1048576&gt;) =&gt; Some(   524288));
+        test!(#[repr(C, packed(  1048576))] (u8; elain::Align&lt;  2097152&gt;) =&gt; Some(  1048576));
+        test!(#[repr(C, packed(  2097152))] (u8; elain::Align&lt;  4194304&gt;) =&gt; Some(  2097152));
+        test!(#[repr(C, packed(  4194304))] (u8; elain::Align&lt;  8388608&gt;) =&gt; Some(  4194304));
+        test!(#[repr(C, packed(  8388608))] (u8; elain::Align&lt; 16777216&gt;) =&gt; Some(  8388608));
+        test!(#[repr(C, packed( 16777216))] (u8; elain::Align&lt; 33554432&gt;) =&gt; Some( 16777216));
+        test!(#[repr(C, packed( 33554432))] (u8; elain::Align&lt; 67108864&gt;) =&gt; Some( 33554432));
+        test!(#[repr(C, packed( 67108864))] (u8; elain::Align&lt; 33554432&gt;) =&gt; Some( 67108864));
+        test!(#[repr(C, packed( 33554432))] (u8; elain::Align&lt;134217728&gt;) =&gt; Some( 33554432));
+        test!(#[repr(C, packed(134217728))] (u8; elain::Align&lt;268435456&gt;) =&gt; Some(134217728));
+        test!(#[repr(C, packed(268435456))] (u8; elain::Align&lt;268435456&gt;) =&gt; Some(268435456));
+        */
+
+        // Test that `align(N)` does not limit the offset of the trailing field.
+        </span><span class="macro">test!</span>(<span class="attribute">#[repr(C, align(        <span class="number">1</span>))] </span>(u8; elain::Align&lt;        <span class="number">2</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">2</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(        <span class="number">2</span>))] </span>(u8; elain::Align&lt;        <span class="number">4</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">4</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(        <span class="number">4</span>))] </span>(u8; elain::Align&lt;        <span class="number">8</span>&gt;) =&gt; <span class="prelude-val">Some</span>(        <span class="number">8</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(        <span class="number">8</span>))] </span>(u8; elain::Align&lt;       <span class="number">16</span>&gt;) =&gt; <span class="prelude-val">Some</span>(       <span class="number">16</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(       <span class="number">16</span>))] </span>(u8; elain::Align&lt;       <span class="number">32</span>&gt;) =&gt; <span class="prelude-val">Some</span>(       <span class="number">32</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(       <span class="number">32</span>))] </span>(u8; elain::Align&lt;       <span class="number">64</span>&gt;) =&gt; <span class="prelude-val">Some</span>(       <span class="number">64</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(       <span class="number">64</span>))] </span>(u8; elain::Align&lt;      <span class="number">128</span>&gt;) =&gt; <span class="prelude-val">Some</span>(      <span class="number">128</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(      <span class="number">128</span>))] </span>(u8; elain::Align&lt;      <span class="number">256</span>&gt;) =&gt; <span class="prelude-val">Some</span>(      <span class="number">256</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(      <span class="number">256</span>))] </span>(u8; elain::Align&lt;      <span class="number">512</span>&gt;) =&gt; <span class="prelude-val">Some</span>(      <span class="number">512</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(      <span class="number">512</span>))] </span>(u8; elain::Align&lt;     <span class="number">1024</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">1024</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(     <span class="number">1024</span>))] </span>(u8; elain::Align&lt;     <span class="number">2048</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">2048</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(     <span class="number">2048</span>))] </span>(u8; elain::Align&lt;     <span class="number">4096</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">4096</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(     <span class="number">4096</span>))] </span>(u8; elain::Align&lt;     <span class="number">8192</span>&gt;) =&gt; <span class="prelude-val">Some</span>(     <span class="number">8192</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(     <span class="number">8192</span>))] </span>(u8; elain::Align&lt;    <span class="number">16384</span>&gt;) =&gt; <span class="prelude-val">Some</span>(    <span class="number">16384</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(    <span class="number">16384</span>))] </span>(u8; elain::Align&lt;    <span class="number">32768</span>&gt;) =&gt; <span class="prelude-val">Some</span>(    <span class="number">32768</span>));
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C, align(    <span class="number">32768</span>))] </span>(u8; elain::Align&lt;    <span class="number">65536</span>&gt;) =&gt; <span class="prelude-val">Some</span>(    <span class="number">65536</span>));
+        <span class="comment">/* Alignments above 65536 are not yet supported.
+        test!(#[repr(C, align(    65536))] (u8; elain::Align&lt;   131072&gt;) =&gt; Some(   131072));
+        test!(#[repr(C, align(   131072))] (u8; elain::Align&lt;   262144&gt;) =&gt; Some(   262144));
+        test!(#[repr(C, align(   262144))] (u8; elain::Align&lt;   524288&gt;) =&gt; Some(   524288));
+        test!(#[repr(C, align(   524288))] (u8; elain::Align&lt;  1048576&gt;) =&gt; Some(  1048576));
+        test!(#[repr(C, align(  1048576))] (u8; elain::Align&lt;  2097152&gt;) =&gt; Some(  2097152));
+        test!(#[repr(C, align(  2097152))] (u8; elain::Align&lt;  4194304&gt;) =&gt; Some(  4194304));
+        test!(#[repr(C, align(  4194304))] (u8; elain::Align&lt;  8388608&gt;) =&gt; Some(  8388608));
+        test!(#[repr(C, align(  8388608))] (u8; elain::Align&lt; 16777216&gt;) =&gt; Some( 16777216));
+        test!(#[repr(C, align( 16777216))] (u8; elain::Align&lt; 33554432&gt;) =&gt; Some( 33554432));
+        test!(#[repr(C, align( 33554432))] (u8; elain::Align&lt; 67108864&gt;) =&gt; Some( 67108864));
+        test!(#[repr(C, align( 67108864))] (u8; elain::Align&lt; 33554432&gt;) =&gt; Some( 33554432));
+        test!(#[repr(C, align( 33554432))] (u8; elain::Align&lt;134217728&gt;) =&gt; Some(134217728));
+        test!(#[repr(C, align(134217728))] (u8; elain::Align&lt;268435456&gt;) =&gt; Some(268435456));
+        */
+    </span>}
+
+    <span class="comment">// TODO(#29), TODO(https://github.com/rust-lang/rust/issues/69835): Remove
+    // this `cfg` when `size_of_val_raw` is stabilized.
+    </span><span class="attribute">#[allow(clippy::decimal_literal_representation)]
+    #[cfg(__INTERNAL_USE_ONLY_NIGHLTY_FEATURES_IN_TESTS)]
+    #[test]
+    </span><span class="kw">fn </span>test_align_of_dst() {
+        <span class="comment">// Test that `align_of!` correctly computes the alignment of DSTs.
+        </span><span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">1</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">1</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">2</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">2</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">4</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">4</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">8</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">8</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">16</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">16</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">32</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">32</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">64</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">64</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">128</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">128</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">256</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">256</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">512</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">512</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">1024</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">1024</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">2048</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">2048</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">4096</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">4096</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">8192</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">8192</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">16384</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">16384</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">32768</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">32768</span>));
+        <span class="macro">assert_eq!</span>(<span class="macro">align_of!</span>([elain::Align&lt;<span class="number">65536</span>&gt;]), <span class="prelude-val">Some</span>(<span class="number">65536</span>));
+        <span class="comment">/* Alignments above 65536 are not yet supported.
+        assert_eq!(align_of!([elain::Align&lt;131072&gt;]), Some(131072));
+        assert_eq!(align_of!([elain::Align&lt;262144&gt;]), Some(262144));
+        assert_eq!(align_of!([elain::Align&lt;524288&gt;]), Some(524288));
+        assert_eq!(align_of!([elain::Align&lt;1048576&gt;]), Some(1048576));
+        assert_eq!(align_of!([elain::Align&lt;2097152&gt;]), Some(2097152));
+        assert_eq!(align_of!([elain::Align&lt;4194304&gt;]), Some(4194304));
+        assert_eq!(align_of!([elain::Align&lt;8388608&gt;]), Some(8388608));
+        assert_eq!(align_of!([elain::Align&lt;16777216&gt;]), Some(16777216));
+        assert_eq!(align_of!([elain::Align&lt;33554432&gt;]), Some(33554432));
+        assert_eq!(align_of!([elain::Align&lt;67108864&gt;]), Some(67108864));
+        assert_eq!(align_of!([elain::Align&lt;33554432&gt;]), Some(33554432));
+        assert_eq!(align_of!([elain::Align&lt;134217728&gt;]), Some(134217728));
+        assert_eq!(align_of!([elain::Align&lt;268435456&gt;]), Some(268435456));
+        */
+    </span>}
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_struct_has_padding() {
+        <span class="comment">// Test that, for each provided repr, `struct_has_padding!` reports the
+        // expected value.
+        </span><span class="macro">macro_rules! </span>test {
+            (<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>:meta] </span>($(<span class="macro-nonterminal">$ts</span>:ty),<span class="kw-2">*</span>) =&gt; <span class="macro-nonterminal">$expect</span>:expr) =&gt; {{
+                <span class="attribute">#[<span class="macro-nonterminal">$cfg</span>]
+                </span><span class="kw">struct </span>Test($(<span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>);
+                <span class="macro">assert_eq!</span>(<span class="macro">struct_has_padding!</span>(Test, $(<span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>), <span class="macro-nonterminal">$expect</span>);
+            }};
+            (<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>:meta] </span>$(<span class="attribute">#[<span class="macro-nonterminal">$cfgs</span>:meta]</span>)* ($(<span class="macro-nonterminal">$ts</span>:ty),<span class="kw-2">*</span>) =&gt; <span class="macro-nonterminal">$expect</span>:expr) =&gt; {
+                <span class="macro">test!</span>(<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>] </span>($(<span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>) =&gt; <span class="macro-nonterminal">$expect</span>);
+                <span class="macro">test!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$cfgs</span>]</span>)* ($(<span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>) =&gt; <span class="macro-nonterminal">$expect</span>);
+            };
+        }
+
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(transparent)] #[repr(packed)] </span>() =&gt; <span class="bool-val">false</span>);
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(transparent)] #[repr(packed)] </span>(u8) =&gt; <span class="bool-val">false</span>);
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(transparent)] #[repr(packed)] </span>(u8, ()) =&gt; <span class="bool-val">false</span>);
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(packed)] </span>(u8, u8) =&gt; <span class="bool-val">false</span>);
+
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] </span>(u8, AU64) =&gt; <span class="bool-val">true</span>);
+        <span class="comment">// Rust won&#39;t let you put `#[repr(packed)]` on a type which contains a
+        // `#[repr(align(n &gt; 1))]` type (`AU64`), so we have to use `u64` here.
+        // It&#39;s not ideal, but it definitely has align &gt; 1 on /some/ of our CI
+        // targets, and this isn&#39;t a particularly complex macro we&#39;re testing
+        // anyway.
+        </span><span class="macro">test!</span>(<span class="attribute">#[repr(packed)] </span>(u8, u64) =&gt; <span class="bool-val">false</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_union_has_padding() {
+        <span class="comment">// Test that, for each provided repr, `union_has_padding!` reports the
+        // expected value.
+        </span><span class="macro">macro_rules! </span>test {
+            (<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>:meta] </span>{$(<span class="macro-nonterminal">$fs</span>:ident: <span class="macro-nonterminal">$ts</span>:ty),<span class="kw-2">*</span>} =&gt; <span class="macro-nonterminal">$expect</span>:expr) =&gt; {{
+                <span class="attribute">#[<span class="macro-nonterminal">$cfg</span>]
+                #[allow(unused)] </span><span class="comment">// fields are never read
+                </span><span class="kw">union </span>Test{ $(<span class="macro-nonterminal">$fs</span>: <span class="macro-nonterminal">$ts</span>),* }
+                <span class="macro">assert_eq!</span>(<span class="macro">union_has_padding!</span>(Test, $(<span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>), <span class="macro-nonterminal">$expect</span>);
+            }};
+            (<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>:meta] </span>$(<span class="attribute">#[<span class="macro-nonterminal">$cfgs</span>:meta]</span>)* {$(<span class="macro-nonterminal">$fs</span>:ident: <span class="macro-nonterminal">$ts</span>:ty),<span class="kw-2">*</span>} =&gt; <span class="macro-nonterminal">$expect</span>:expr) =&gt; {
+                <span class="macro">test!</span>(<span class="attribute">#[<span class="macro-nonterminal">$cfg</span>] </span>{$(<span class="macro-nonterminal">$fs</span>: <span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>} =&gt; <span class="macro-nonterminal">$expect</span>);
+                <span class="macro">test!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$cfgs</span>]</span>)* {$(<span class="macro-nonterminal">$fs</span>: <span class="macro-nonterminal">$ts</span>),<span class="kw-2">*</span>} =&gt; <span class="macro-nonterminal">$expect</span>);
+            };
+        }
+
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(packed)] </span>{a: u8} =&gt; <span class="bool-val">false</span>);
+        <span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(packed)] </span>{a: u8, b: u8} =&gt; <span class="bool-val">false</span>);
+
+        <span class="comment">// Rust won&#39;t let you put `#[repr(packed)]` on a type which contains a
+        // `#[repr(align(n &gt; 1))]` type (`AU64`), so we have to use `u64` here.
+        // It&#39;s not ideal, but it definitely has align &gt; 1 on /some/ of our CI
+        // targets, and this isn&#39;t a particularly complex macro we&#39;re testing
+        // anyway.
+        </span><span class="macro">test!</span>(<span class="attribute">#[repr(C)] #[repr(packed)] </span>{a: u8, b: u64} =&gt; <span class="bool-val">true</span>);
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="zerocopy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

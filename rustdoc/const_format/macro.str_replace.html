@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Replaces all the instances of `$pattern` in `$input` (a `&amp;&#x27;static str` constant) with `$replace_with` (a `&amp;&#x27;static str` constant)."><meta name="keywords" content="rust, rustlang, rust-lang, str_replace"><title>str_replace in const_format - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../const_format/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../const_format/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In const_format</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../const_format/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Macro <a href="index.html">const_format</a>::<wbr><a class="macro" href="#">str_replace</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/const_format/macros/str_methods.rs.html#67-81">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><div class="example-wrap"><pre class="rust macro"><code><span class="macro">macro_rules! </span>str_replace {
+    (<span class="macro-nonterminal">$input</span>:expr, <span class="macro-nonterminal">$pattern</span>:expr, <span class="macro-nonterminal">$replace_with</span>:expr $(,)<span class="kw-2">*</span>) =&gt; { ... };
+}</code></pre></div>
+</div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Replaces all the instances of <code>$pattern</code> in <code>$input</code>
+(a <code>&amp;'static str</code> constant) with <code>$replace_with</code> (a <code>&amp;'static str</code> constant).</p>
+<h2 id="signature"><a href="#signature">Signature</a></h2>
+<p>This macro acts like a function of this signature:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>str_replace(
+    input: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    pattern: <span class="kw">impl </span>Pattern,
+    replace_with: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str</code></pre></div>
+<p>and is evaluated at compile-time.</p>
+<p>Where <code>pattern</code> can be any of these types:</p>
+<ul>
+<li>
+<p><code>&amp;'static str</code></p>
+</li>
+<li>
+<p><code>char</code></p>
+</li>
+<li>
+<p><code>u8</code>: required to be ascii (<code>0</code> up to <code>127</code> inclusive).</p>
+</li>
+</ul>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>const_format::str_replace;
+
+<span class="comment">// Passing a string pattern
+</span><span class="macro">assert_eq!</span>(
+    <span class="macro">str_replace!</span>(<span class="string">&quot;The incredible shrinking man.&quot;</span>, <span class="string">&quot;i&quot;</span>, <span class="string">&quot;eee&quot;</span>),
+    <span class="string">&quot;The eeencredeeeble shreeenkeeeng man.&quot;</span>,
+);
+
+<span class="comment">// Passing a char pattern
+</span><span class="macro">assert_eq!</span>(
+    <span class="macro">str_replace!</span>(<span class="string">&quot;The incredible shrinking man.&quot;</span>, <span class="string">&#39; &#39;</span>, <span class="string">&quot;---&quot;</span>),
+    <span class="string">&quot;The---incredible---shrinking---man.&quot;</span>,
+);
+
+<span class="comment">// Passing an ascii u8 pattern.
+</span><span class="macro">assert_eq!</span>(
+    <span class="macro">str_replace!</span>(<span class="string">&quot;The incredible shrinking man.&quot;</span>, <span class="string">b&#39;i&#39;</span>, <span class="string">&quot;eee&quot;</span>),
+    <span class="string">&quot;The eeencredeeeble shreeenkeeeng man.&quot;</span>,
+);
+
+<span class="comment">// Removing all instances of the pattern
+</span><span class="macro">assert_eq!</span>(
+    <span class="macro">str_replace!</span>(<span class="string">&quot;remove haire&quot;</span>, <span class="string">&quot;re&quot;</span>, <span class="string">&quot;&quot;</span>),
+    <span class="string">&quot;move hai&quot;</span>,
+);
+
+<span class="comment">// This shows that all the arguments can be `const`s, they don&#39;t have to be literals.
+</span>{
+    <span class="kw">const </span>IN: <span class="kw-2">&amp;</span>str = <span class="string">&quot;Foo Boo Patoo&quot;</span>;
+    <span class="kw">const </span>REPLACING: <span class="kw-2">&amp;</span>str = <span class="string">&quot;oo&quot;</span>;
+    <span class="kw">const </span>REPLACE_WITH: <span class="kw-2">&amp;</span>str = <span class="string">&quot;uh&quot;</span>;
+    <span class="macro">assert_eq!</span>(<span class="macro">str_replace!</span>(IN, REPLACING, REPLACE_WITH), <span class="string">&quot;Fuh Buh Patuh&quot;</span>);
+}</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="const_format" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

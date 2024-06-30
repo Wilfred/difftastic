@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/zerocopy-0.7.32/src/post_monomorphization_compile_fail_tests.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>post_monomorphization_compile_fail_tests.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../zerocopy/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2018 The Fuchsia Authors
+//
+// Licensed under the 2-Clause BSD License &lt;LICENSE-BSD or
+// https://opensource.org/license/bsd-2-clause&gt;, Apache License, Version 2.0
+// &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
+// license &lt;LICENSE-MIT or https://opensource.org/licenses/MIT&gt;, at your option.
+// This file may not be copied, modified, or distributed except according to
+// those terms.
+
+</span><span class="doccomment">//! Code that should fail to compile during the post-monomorphization compiler
+//! pass.
+//!
+//! Due to [a limitation with the `trybuild` crate][trybuild-issue], we cannot
+//! use our UI testing framework to test compilation failures that are
+//! encountered after monomorphization has complated. This module has one item
+//! for each such test we would prefer to have as a UI test, with the code in
+//! question appearing as a rustdoc example which is marked with `compile_fail`.
+//! This has the effect of causing doctests to fail if any of these examples
+//! compile successfully.
+//!
+//! This is very much a hack and not a complete replacement for UI tests - most
+//! notably because this only provides a single &quot;compile vs fail&quot; bit of
+//! information, but does not allow us to depend upon the specific error that
+//! causes compilation to fail.
+//!
+//! [trybuild-issue]: https://github.com/dtolnay/trybuild/issues/241
+
+</span><span class="comment">// Miri doesn&#39;t detect post-monimorphization failures as compile-time failures,
+// but instead as runtime failures.
+</span><span class="attribute">#![cfg(not(miri))]
+
+</span><span class="doccomment">/// ```compile_fail
+/// use core::cell::{Ref, RefCell};
+///
+/// let refcell = RefCell::new([0u8, 1, 2, 3]);
+/// let core_ref = refcell.borrow();
+/// let core_ref = Ref::map(core_ref, |bytes| &amp;bytes[..]);
+///
+/// // `zc_ref` now stores `core_ref` internally.
+/// let zc_ref = zerocopy::Ref::&lt;_, u32&gt;::new(core_ref).unwrap();
+///
+/// // This causes `core_ref` to get dropped and synthesizes a Rust
+/// // reference to the memory `core_ref` was pointing at.
+/// let rust_ref = zc_ref.into_ref();
+///
+/// // UB!!! This mutates `rust_ref`&#39;s referent while it&#39;s alive.
+/// *refcell.borrow_mut() = [0, 0, 0, 0];
+///
+/// println!(&quot;{}&quot;, rust_ref);
+/// ```
+</span><span class="attribute">#[allow(unused)]
+</span><span class="kw">const </span>REFCELL_REF_INTO_REF: () = ();
+
+<span class="doccomment">/// ```compile_fail
+/// use core::cell::{RefCell, RefMut};
+///
+/// let refcell = RefCell::new([0u8, 1, 2, 3]);
+/// let core_ref_mut = refcell.borrow_mut();
+/// let core_ref_mut = RefMut::map(core_ref_mut, |bytes| &amp;mut bytes[..]);
+///
+/// // `zc_ref` now stores `core_ref_mut` internally.
+/// let zc_ref = zerocopy::Ref::&lt;_, u32&gt;::new(core_ref_mut).unwrap();
+///
+/// // This causes `core_ref_mut` to get dropped and synthesizes a Rust
+/// // reference to the memory `core_ref` was pointing at.
+/// let rust_ref_mut = zc_ref.into_mut();
+///
+/// // UB!!! This mutates `rust_ref_mut`&#39;s referent while it&#39;s alive.
+/// *refcell.borrow_mut() = [0, 0, 0, 0];
+///
+/// println!(&quot;{}&quot;, rust_ref_mut);
+/// ```
+</span><span class="attribute">#[allow(unused)]
+</span><span class="kw">const </span>REFCELL_REFMUT_INTO_MUT: () = ();
+
+<span class="doccomment">/// ```compile_fail
+/// use core::cell::{Ref, RefCell};
+///
+/// let refcell = RefCell::new([0u8, 1, 2, 3]);
+/// let core_ref = refcell.borrow();
+/// let core_ref = Ref::map(core_ref, |bytes| &amp;bytes[..]);
+///
+/// // `zc_ref` now stores `core_ref` internally.
+/// let zc_ref = zerocopy::Ref::&lt;_, [u16]&gt;::new_slice(core_ref).unwrap();
+///
+/// // This causes `core_ref` to get dropped and synthesizes a Rust
+/// // reference to the memory `core_ref` was pointing at.
+/// let rust_ref = zc_ref.into_slice();
+///
+/// // UB!!! This mutates `rust_ref`&#39;s referent while it&#39;s alive.
+/// *refcell.borrow_mut() = [0, 0, 0, 0];
+///
+/// println!(&quot;{:?}&quot;, rust_ref);
+/// ```
+</span><span class="attribute">#[allow(unused)]
+</span><span class="kw">const </span>REFCELL_REFMUT_INTO_SLICE: () = ();
+
+<span class="doccomment">/// ```compile_fail
+/// use core::cell::{RefCell, RefMut};
+///
+/// let refcell = RefCell::new([0u8, 1, 2, 3]);
+/// let core_ref_mut = refcell.borrow_mut();
+/// let core_ref_mut = RefMut::map(core_ref_mut, |bytes| &amp;mut bytes[..]);
+///
+/// // `zc_ref` now stores `core_ref_mut` internally.
+/// let zc_ref = zerocopy::Ref::&lt;_, [u16]&gt;::new_slice(core_ref_mut).unwrap();
+///
+/// // This causes `core_ref_mut` to get dropped and synthesizes a Rust
+/// // reference to the memory `core_ref` was pointing at.
+/// let rust_ref_mut = zc_ref.into_mut_slice();
+///
+/// // UB!!! This mutates `rust_ref_mut`&#39;s referent while it&#39;s alive.
+/// *refcell.borrow_mut() = [0, 0, 0, 0];
+///
+/// println!(&quot;{:?}&quot;, rust_ref_mut);
+/// ```
+</span><span class="attribute">#[allow(unused)]
+</span><span class="kw">const </span>REFCELL_REFMUT_INTO_MUT_SLICE: () = ();
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="zerocopy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

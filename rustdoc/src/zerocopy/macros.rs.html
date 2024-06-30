@@ -1,0 +1,836 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/zerocopy-0.7.32/src/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../zerocopy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../zerocopy/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2023 The Fuchsia Authors
+//
+// Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
+// &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
+// license &lt;LICENSE-MIT or https://opensource.org/licenses/MIT&gt;, at your option.
+// This file may not be copied, modified, or distributed except according to
+// those terms.
+
+</span><span class="doccomment">/// Documents multiple unsafe blocks with a single safety comment.
+///
+/// Invoked as:
+///
+/// ```rust,ignore
+/// safety_comment! {
+///     // Non-doc comments come first.
+///     /// SAFETY:
+///     /// Safety comment starts on its own line.
+///     macro_1!(args);
+///     macro_2! { args };
+///     /// SAFETY:
+///     /// Subsequent safety comments are allowed but not required.
+///     macro_3! { args };
+/// }
+/// ```
+///
+/// The macro invocations are emitted, each decorated with the following
+/// attribute: `#[allow(clippy::undocumented_unsafe_blocks)]`.
+</span><span class="macro">macro_rules! </span>safety_comment {
+    (<span class="attribute">#[doc = <span class="string">r&quot; SAFETY:&quot;</span>] </span>$($(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)* <span class="macro-nonterminal">$</span><span class="kw">macro</span>:<span class="macro">ident!</span><span class="macro-nonterminal">$args</span>:tt;)<span class="kw-2">*</span>) =&gt; {
+        <span class="attribute">#[allow(clippy::undocumented_unsafe_blocks, unused_attributes)]
+        </span><span class="kw">const _</span>: () = { $($(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>]</span>)* <span class="macro-nonterminal">$</span><span class="macro">macro!</span><span class="macro-nonterminal">$args</span>;)* };
+    }
+}
+
+<span class="doccomment">/// Unsafely implements trait(s) for a type.
+///
+/// # Safety
+///
+/// The trait impl must be sound.
+///
+/// When implementing `TryFromBytes`:
+/// - If no `is_bit_valid` impl is provided, then it must be valid for
+///   `is_bit_valid` to unconditionally return `true`. In other words, it must
+///   be the case that any initialized sequence of bytes constitutes a valid
+///   instance of `$ty`.
+/// - If an `is_bit_valid` impl is provided, then:
+///   - Regardless of whether the provided closure takes a `Ptr&lt;$repr&gt;` or
+///     `&amp;$repr` argument, it must be the case that, given `t: *mut $ty` and
+///     `let r = t as *mut $repr`, `r` refers to an object of equal or lesser
+///     size than the object referred to by `t`.
+///   - If the provided closure takes a `&amp;$repr` argument, then given a `Ptr&lt;&#39;a,
+///     $ty&gt;` which satisfies the preconditions of
+///     `TryFromBytes::&lt;$ty&gt;::is_bit_valid`, it must be guaranteed that the
+///     memory referenced by that `Ptr` always contains a valid `$repr`.
+///   - The alignment of `$repr` is less than or equal to the alignment of
+///     `$ty`.
+///   - The impl of `is_bit_valid` must only return `true` for its argument
+///     `Ptr&lt;$repr&gt;` if the original `Ptr&lt;$ty&gt;` refers to a valid `$ty`.
+</span><span class="macro">macro_rules! </span>unsafe_impl {
+    <span class="comment">// Implement `$trait` for `$ty` with no bounds.
+    </span>($(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)* <span class="macro-nonterminal">$ty</span>:ty: <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span>$(; |<span class="macro-nonterminal">$candidate</span>:ident: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$repr</span>:ty| <span class="macro-nonterminal">$is_bit_valid</span>:expr)<span class="question-mark">?</span>) =&gt; {
+        $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>]</span>)*
+        <span class="kw">unsafe impl </span><span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty </span>{
+            <span class="macro">unsafe_impl!</span>(@method <span class="macro-nonterminal">$</span><span class="kw">trait </span>$(; |<span class="macro-nonterminal">$candidate</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$repr</span>| <span class="macro-nonterminal">$is_bit_valid</span>)<span class="question-mark">?</span>);
+        }
+    };
+    <span class="comment">// Implement all `$traits` for `$ty` with no bounds.
+    </span>(<span class="macro-nonterminal">$ty</span>:ty: $(<span class="macro-nonterminal">$traits</span>:ident),<span class="kw-2">*</span>) =&gt; {
+        $( <span class="macro">unsafe_impl!</span>(<span class="macro-nonterminal">$ty</span>: <span class="macro-nonterminal">$traits</span>); )*
+    };
+    <span class="comment">// This arm is identical to the following one, except it contains a
+    // preceding `const`. If we attempt to handle these with a single arm, there
+    // is an inherent ambiguity between `const` (the keyword) and `const` (the
+    // ident match for `$tyvar:ident`).
+    //
+    // To explain how this works, consider the following invocation:
+    //
+    //   unsafe_impl!(const N: usize, T: ?Sized + Copy =&gt; Clone for Foo&lt;T&gt;);
+    //
+    // In this invocation, here are the assignments to meta-variables:
+    //
+    //   |---------------|------------|
+    //   | Meta-variable | Assignment |
+    //   |---------------|------------|
+    //   | $constname    |  N         |
+    //   | $constty      |  usize     |
+    //   | $tyvar        |  T         |
+    //   | $optbound     |  Sized     |
+    //   | $bound        |  Copy      |
+    //   | $trait        |  Clone     |
+    //   | $ty           |  Foo&lt;T&gt;    |
+    //   |---------------|------------|
+    //
+    // The following arm has the same behavior with the exception of the lack of
+    // support for a leading `const` parameter.
+    </span>(
+        $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)*
+        <span class="kw">const </span><span class="macro-nonterminal">$constname</span>:ident : <span class="macro-nonterminal">$constty</span>:ident $(,)<span class="question-mark">?
+        </span>$(<span class="macro-nonterminal">$tyvar</span>:ident $(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound</span>:ident $(+)<span class="question-mark">?</span>)* $(<span class="macro-nonterminal">$bound</span>:ident $(+)<span class="question-mark">?</span>)* )<span class="question-mark">?</span>),*
+        =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty $(; |<span class="macro-nonterminal">$candidate</span>:ident $(: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$ref_repr</span>:ty)<span class="question-mark">? </span>$(: Ptr&lt;<span class="macro-nonterminal">$ptr_repr</span>:ty&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$is_bit_valid</span>:expr)<span class="question-mark">?
+    </span>) =&gt; {
+        <span class="macro">unsafe_impl!</span>(
+            @inner
+            $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>]</span>)*
+            @<span class="kw">const </span><span class="macro-nonterminal">$constname</span>: <span class="macro-nonterminal">$constty</span>,
+            $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* + $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>,)*
+            =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty </span>$(; |<span class="macro-nonterminal">$candidate </span>$(: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$ref_repr</span>)<span class="question-mark">? </span>$(: Ptr&lt;<span class="macro-nonterminal">$ptr_repr</span>&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$is_bit_valid</span>)<span class="question-mark">?
+        </span>);
+    };
+    (
+        $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)*
+        $(<span class="macro-nonterminal">$tyvar</span>:ident $(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound</span>:ident $(+)<span class="question-mark">?</span>)* $(<span class="macro-nonterminal">$bound</span>:ident $(+)<span class="question-mark">?</span>)* )<span class="question-mark">?</span>),*
+        =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty $(; |<span class="macro-nonterminal">$candidate</span>:ident $(: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$ref_repr</span>:ty)<span class="question-mark">? </span>$(: Ptr&lt;<span class="macro-nonterminal">$ptr_repr</span>:ty&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$is_bit_valid</span>:expr)<span class="question-mark">?
+    </span>) =&gt; {
+        <span class="macro">unsafe_impl!</span>(
+            @inner
+            $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>]</span>)*
+            $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* + $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>,)*
+            =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty </span>$(; |<span class="macro-nonterminal">$candidate </span>$(: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$ref_repr</span>)<span class="question-mark">? </span>$(: Ptr&lt;<span class="macro-nonterminal">$ptr_repr</span>&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$is_bit_valid</span>)<span class="question-mark">?
+        </span>);
+    };
+    (
+        @inner
+        $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)*
+        $(@<span class="kw">const </span><span class="macro-nonterminal">$constname</span>:ident : <span class="macro-nonterminal">$constty</span>:ident,)*
+        $(<span class="macro-nonterminal">$tyvar</span>:ident $(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound</span>:ident +)* + $(<span class="macro-nonterminal">$bound</span>:ident +)* )<span class="question-mark">?</span>,)*
+        =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty $(; |<span class="macro-nonterminal">$candidate</span>:ident $(: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$ref_repr</span>:ty)<span class="question-mark">? </span>$(: Ptr&lt;<span class="macro-nonterminal">$ptr_repr</span>:ty&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$is_bit_valid</span>:expr)<span class="question-mark">?
+    </span>) =&gt; {
+        $(<span class="attribute">#[<span class="macro-nonterminal">$attr</span>]</span>)*
+        <span class="kw">unsafe impl</span>&lt;$(<span class="kw">const </span><span class="macro-nonterminal">$constname</span>: <span class="macro-nonterminal">$constty</span>,)* $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty </span>{
+            <span class="macro">unsafe_impl!</span>(@method <span class="macro-nonterminal">$</span><span class="kw">trait </span>$(; |<span class="macro-nonterminal">$candidate</span>: $(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$ref_repr</span>)<span class="question-mark">? </span>$(Ptr&lt;<span class="macro-nonterminal">$ptr_repr</span>&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$is_bit_valid</span>)<span class="question-mark">?</span>);
+        }
+    };
+
+    (@method TryFromBytes ; |<span class="macro-nonterminal">$candidate</span>:ident: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$repr</span>:ty| <span class="macro-nonterminal">$is_bit_valid</span>:expr) =&gt; {
+        <span class="attribute">#[inline]
+        </span><span class="kw">unsafe fn </span>is_bit_valid(candidate: Ptr&lt;<span class="lifetime">&#39;_</span>, <span class="self">Self</span>&gt;) -&gt; bool {
+            <span class="comment">// SAFETY:
+            // - The argument to `cast_unsized` is `|p| p as *mut _` as required
+            //   by that method&#39;s safety precondition.
+            // - The caller has promised that the cast results in an object of
+            //   equal or lesser size.
+            // - The caller has promised that `$repr`&#39;s alignment is less than
+            //   or equal to `Self`&#39;s alignment.
+            </span><span class="attribute">#[allow(clippy::as_conversions)]
+            </span><span class="kw">let </span>candidate = <span class="kw">unsafe </span>{ candidate.cast_unsized::&lt;<span class="macro-nonterminal">$repr</span>, <span class="kw">_</span>&gt;(|p| p <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) };
+            <span class="comment">// SAFETY:
+            // - The caller has promised that the referenced memory region will
+            //   contain a valid `$repr` for `&#39;a`.
+            // - The memory may not be referenced by any mutable references.
+            //   This is a precondition of `is_bit_valid`.
+            // - The memory may not be mutated even via `UnsafeCell`s. This is a
+            //   precondition of `is_bit_valid`.
+            // - There must not exist any references to the same memory region
+            //   which contain `UnsafeCell`s at byte ranges which are not
+            //   identical to the byte ranges at which `T` contains
+            //   `UnsafeCell`s. This is a precondition of `is_bit_valid`.
+            </span><span class="kw">let </span><span class="macro-nonterminal">$candidate</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$repr </span>= <span class="kw">unsafe </span>{ candidate.as_ref() };
+            <span class="macro-nonterminal">$is_bit_valid
+        </span>}
+    };
+    (@method TryFromBytes ; |<span class="macro-nonterminal">$candidate</span>:ident: Ptr&lt;<span class="macro-nonterminal">$repr</span>:ty&gt;| <span class="macro-nonterminal">$is_bit_valid</span>:expr) =&gt; {
+        <span class="attribute">#[inline]
+        </span><span class="kw">unsafe fn </span>is_bit_valid(candidate: Ptr&lt;<span class="lifetime">&#39;_</span>, <span class="self">Self</span>&gt;) -&gt; bool {
+            <span class="comment">// SAFETY:
+            // - The argument to `cast_unsized` is `|p| p as *mut _` as required
+            //   by that method&#39;s safety precondition.
+            // - The caller has promised that the cast results in an object of
+            //   equal or lesser size.
+            // - The caller has promised that `$repr`&#39;s alignment is less than
+            //   or equal to `Self`&#39;s alignment.
+            </span><span class="attribute">#[allow(clippy::as_conversions)]
+            </span><span class="kw">let </span><span class="macro-nonterminal">$candidate </span>= <span class="kw">unsafe </span>{ candidate.cast_unsized::&lt;<span class="macro-nonterminal">$repr</span>, <span class="kw">_</span>&gt;(|p| p <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) };
+            <span class="macro-nonterminal">$is_bit_valid
+        </span>}
+    };
+    (@method TryFromBytes) =&gt; { <span class="attribute">#[inline(always)] </span><span class="kw">unsafe fn </span>is_bit_valid(<span class="kw">_</span>: Ptr&lt;<span class="lifetime">&#39;_</span>, <span class="self">Self</span>&gt;) -&gt; bool { <span class="bool-val">true </span>} };
+    (@method <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>) =&gt; {
+        <span class="attribute">#[allow(clippy::missing_inline_in_public_items)]
+        </span><span class="kw">fn </span>only_derive_is_allowed_to_implement_this_trait() {}
+    };
+    (@method <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>; |<span class="macro-nonterminal">$_candidate</span>:ident $(: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$_ref_repr</span>:ty)<span class="question-mark">? </span>$(: NonNull&lt;<span class="macro-nonterminal">$_ptr_repr</span>:ty&gt;)<span class="question-mark">?</span>| <span class="macro-nonterminal">$_is_bit_valid</span>:expr) =&gt; {
+        <span class="macro">compile_error!</span>(<span class="string">&quot;Can&#39;t provide `is_bit_valid` impl for trait other than `TryFromBytes`&quot;</span>);
+    };
+}
+
+<span class="doccomment">/// Implements a trait for a type, bounding on each memeber of the power set of
+/// a set of type variables. This is useful for implementing traits for tuples
+/// or `fn` types.
+///
+/// The last argument is the name of a macro which will be called in every
+/// `impl` block, and is expected to expand to the name of the type for which to
+/// implement the trait.
+///
+/// For example, the invocation:
+/// ```ignore
+/// unsafe_impl_for_power_set!(A, B =&gt; Foo for type!(...))
+/// ```
+/// ...expands to:
+/// ```ignore
+/// unsafe impl       Foo for type!()     { ... }
+/// unsafe impl&lt;B&gt;    Foo for type!(B)    { ... }
+/// unsafe impl&lt;A, B&gt; Foo for type!(A, B) { ... }
+/// ```
+</span><span class="macro">macro_rules! </span>unsafe_impl_for_power_set {
+    (<span class="macro-nonterminal">$first</span>:ident $(, <span class="macro-nonterminal">$rest</span>:ident)* $(-&gt; <span class="macro-nonterminal">$ret</span>:ident)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$</span><span class="kw">macro</span>:<span class="macro">ident!</span>(...)) =&gt; {
+        <span class="macro">unsafe_impl_for_power_set!</span>($(<span class="macro-nonterminal">$rest</span>),* $(-&gt; <span class="macro-nonterminal">$ret</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$</span><span class="macro">macro!</span>(...));
+        <span class="macro">unsafe_impl_for_power_set!</span>(@<span class="kw">impl </span><span class="macro-nonterminal">$first </span>$(, <span class="macro-nonterminal">$rest</span>)* $(-&gt; <span class="macro-nonterminal">$ret</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$</span><span class="macro">macro!</span>(...));
+    };
+    ($(-&gt; <span class="macro-nonterminal">$ret</span>:ident)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$</span><span class="kw">macro</span>:<span class="macro">ident!</span>(...)) =&gt; {
+        <span class="macro">unsafe_impl_for_power_set!</span>(@<span class="kw">impl </span>$(-&gt; <span class="macro-nonterminal">$ret</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$</span><span class="macro">macro!</span>(...));
+    };
+    (@<span class="kw">impl </span>$(<span class="macro-nonterminal">$vars</span>:ident),* $(-&gt; <span class="macro-nonterminal">$ret</span>:ident)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$</span><span class="kw">macro</span>:<span class="macro">ident!</span>(...)) =&gt; {
+        <span class="kw">unsafe impl</span>&lt;$(<span class="macro-nonterminal">$vars</span>,)* $(<span class="macro-nonterminal">$ret</span>)<span class="question-mark">?</span>&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$</span><span class="macro">macro!</span>($(<span class="macro-nonterminal">$vars</span>),* $(-&gt; <span class="macro-nonterminal">$ret</span>)<span class="question-mark">?</span>) {
+            <span class="attribute">#[allow(clippy::missing_inline_in_public_items)]
+            </span><span class="kw">fn </span>only_derive_is_allowed_to_implement_this_trait() {}
+        }
+    };
+}
+
+<span class="doccomment">/// Expands to an `Option&lt;extern &quot;C&quot; fn&gt;` type with the given argument types and
+/// return type. Designed for use with `unsafe_impl_for_power_set`.
+</span><span class="macro">macro_rules! </span>opt_extern_c_fn {
+    ($(<span class="macro-nonterminal">$args</span>:ident),* -&gt; <span class="macro-nonterminal">$ret</span>:ident) =&gt; { <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>($(<span class="macro-nonterminal">$args</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$ret</span>&gt; };
+}
+
+<span class="doccomment">/// Expands to a `Option&lt;fn&gt;` type with the given argument types and return
+/// type. Designed for use with `unsafe_impl_for_power_set`.
+</span><span class="macro">macro_rules! </span>opt_fn {
+    ($(<span class="macro-nonterminal">$args</span>:ident),* -&gt; <span class="macro-nonterminal">$ret</span>:ident) =&gt; { <span class="prelude-ty">Option</span>&lt;<span class="kw">fn</span>($(<span class="macro-nonterminal">$args</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$ret</span>&gt; };
+}
+
+<span class="doccomment">/// Implements trait(s) for a type or verifies the given implementation by
+/// referencing an existing (derived) implementation.
+///
+/// This macro exists so that we can provide zerocopy-derive as an optional
+/// dependency and still get the benefit of using its derives to validate that
+/// our trait impls are sound.
+///
+/// When compiling without `--cfg &#39;feature = &quot;derive&quot;` and without `--cfg test`,
+/// `impl_or_verify!` emits the provided trait impl. When compiling with either
+/// of those cfgs, it is expected that the type in question is deriving the
+/// traits instead. In this case, `impl_or_verify!` emits code which validates
+/// that the given trait impl is at least as restrictive as the the impl emitted
+/// by the custom derive. This has the effect of confirming that the impl which
+/// is emitted when the `derive` feature is disabled is actually sound (on the
+/// assumption that the impl emitted by the custom derive is sound).
+///
+/// The caller is still required to provide a safety comment (e.g. using the
+/// `safety_comment!` macro) . The reason for this restriction is that, while
+/// `impl_or_verify!` can guarantee that the provided impl is sound when it is
+/// compiled with the appropriate cfgs, there is no way to guarantee that it is
+/// ever compiled with those cfgs. In particular, it would be possible to
+/// accidentally place an `impl_or_verify!` call in a context that is only ever
+/// compiled when the `derive` feature is disabled. If that were to happen,
+/// there would be nothing to prevent an unsound trait impl from being emitted.
+/// Requiring a safety comment reduces the likelihood of emitting an unsound
+/// impl in this case, and also provides useful documentation for readers of the
+/// code.
+///
+/// ## Example
+///
+/// ```rust,ignore
+/// // Note that these derives are gated by `feature = &quot;derive&quot;`
+/// #[cfg_attr(any(feature = &quot;derive&quot;, test), derive(FromZeroes, FromBytes, AsBytes, Unaligned))]
+/// #[repr(transparent)]
+/// struct Wrapper&lt;T&gt;(T);
+///
+/// safety_comment! {
+///     /// SAFETY:
+///     /// `Wrapper&lt;T&gt;` is `repr(transparent)`, so it is sound to implement any
+///     /// zerocopy trait if `T` implements that trait.
+///     impl_or_verify!(T: FromZeroes =&gt; FromZeroes for Wrapper&lt;T&gt;);
+///     impl_or_verify!(T: FromBytes =&gt; FromBytes for Wrapper&lt;T&gt;);
+///     impl_or_verify!(T: AsBytes =&gt; AsBytes for Wrapper&lt;T&gt;);
+///     impl_or_verify!(T: Unaligned =&gt; Unaligned for Wrapper&lt;T&gt;);
+/// }
+/// ```
+</span><span class="macro">macro_rules! </span>impl_or_verify {
+    <span class="comment">// The following two match arms follow the same pattern as their
+    // counterparts in `unsafe_impl!`; see the documentation on those arms for
+    // more details.
+    </span>(
+        <span class="kw">const </span><span class="macro-nonterminal">$constname</span>:ident : <span class="macro-nonterminal">$constty</span>:ident $(,)<span class="question-mark">?
+        </span>$(<span class="macro-nonterminal">$tyvar</span>:ident $(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound</span>:ident $(+)<span class="question-mark">?</span>)* $(<span class="macro-nonterminal">$bound</span>:ident $(+)<span class="question-mark">?</span>)* )<span class="question-mark">?</span>),*
+        =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty
+    ) =&gt; {
+        <span class="macro">impl_or_verify!</span>(@<span class="kw">impl </span>{ <span class="macro">unsafe_impl!</span>(
+            <span class="kw">const </span><span class="macro-nonterminal">$constname</span>: <span class="macro-nonterminal">$constty</span>, $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>),* =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty
+        </span>); });
+        <span class="macro">impl_or_verify!</span>(@verify <span class="macro-nonterminal">$</span><span class="kw">trait</span>, {
+            <span class="kw">impl</span>&lt;<span class="kw">const </span><span class="macro-nonterminal">$constname</span>: <span class="macro-nonterminal">$constty</span>, $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span>&gt; Subtrait <span class="kw">for </span><span class="macro-nonterminal">$ty </span>{}
+        });
+    };
+    (
+        $(<span class="macro-nonterminal">$tyvar</span>:ident $(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound</span>:ident $(+)<span class="question-mark">?</span>)* $(<span class="macro-nonterminal">$bound</span>:ident $(+)<span class="question-mark">?</span>)* )<span class="question-mark">?</span>),*
+        =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty
+    ) =&gt; {
+        <span class="macro">impl_or_verify!</span>(@<span class="kw">impl </span>{ <span class="macro">unsafe_impl!</span>(
+            $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>),* =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty
+        </span>); });
+        <span class="macro">impl_or_verify!</span>(@verify <span class="macro-nonterminal">$</span><span class="kw">trait</span>, {
+            <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span>&gt; Subtrait <span class="kw">for </span><span class="macro-nonterminal">$ty </span>{}
+        });
+    };
+    (
+        $(<span class="macro-nonterminal">$tyvar</span>:ident $(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound</span>:ident $(+)<span class="question-mark">?</span>)* $(<span class="macro-nonterminal">$bound</span>:ident $(+)<span class="question-mark">?</span>)* )<span class="question-mark">?</span>),*
+        =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident </span><span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty
+    ) =&gt; {
+        <span class="macro">unsafe_impl!</span>(
+            @inner
+            $(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* + $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>,)*
+            =&gt; <span class="macro-nonterminal">$</span><span class="kw">trait for </span><span class="macro-nonterminal">$ty
+        </span>);
+    };
+    (@<span class="kw">impl </span><span class="macro-nonterminal">$impl_block</span>:tt) =&gt; {
+        <span class="attribute">#[cfg(not(any(feature = <span class="string">&quot;derive&quot;</span>, test)))]
+        </span><span class="kw">const _</span>: () = { <span class="macro-nonterminal">$impl_block </span>};
+    };
+    (@verify <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$impl_block</span>:tt) =&gt; {
+        <span class="attribute">#[cfg(any(feature = <span class="string">&quot;derive&quot;</span>, test))]
+        </span><span class="kw">const _</span>: () = {
+            <span class="kw">trait </span>Subtrait: <span class="macro-nonterminal">$</span><span class="kw">trait </span>{}
+            <span class="macro-nonterminal">$impl_block
+        </span>};
+    };
+}
+
+<span class="doccomment">/// Implements `KnownLayout` for a sized type.
+</span><span class="macro">macro_rules! </span>impl_known_layout {
+    ($(<span class="kw">const </span><span class="macro-nonterminal">$constvar</span>:ident : <span class="macro-nonterminal">$constty</span>:ty, <span class="macro-nonterminal">$tyvar</span>:ident $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>:ident)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$ty</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; {
+        $(<span class="macro">impl_known_layout!</span>(@inner <span class="kw">const </span><span class="macro-nonterminal">$constvar</span>: <span class="macro-nonterminal">$constty</span>, <span class="macro-nonterminal">$tyvar </span>$(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$ty</span>);)*
+    };
+    ($(<span class="macro-nonterminal">$tyvar</span>:ident $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>:ident)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$ty</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; {
+        $(<span class="macro">impl_known_layout!</span>(@inner , <span class="macro-nonterminal">$tyvar </span>$(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$ty</span>);)*
+    };
+    ($(<span class="macro-nonterminal">$ty</span>:ty),<span class="kw-2">*</span>) =&gt; { $(<span class="macro">impl_known_layout!</span>(@inner , =&gt; <span class="macro-nonterminal">$ty</span>);)* };
+    (@inner $(<span class="kw">const </span><span class="macro-nonterminal">$constvar</span>:ident : <span class="macro-nonterminal">$constty</span>:ty)<span class="question-mark">? </span>, $(<span class="macro-nonterminal">$tyvar</span>:ident $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>:ident)<span class="question-mark">?</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$ty</span>:ty) =&gt; {
+        <span class="kw">const _</span>: () = {
+            <span class="kw">use </span>core::ptr::NonNull;
+
+            <span class="comment">// SAFETY: Delegates safety to `DstLayout::for_type`.
+            </span><span class="kw">unsafe impl</span>&lt;$(<span class="kw">const </span><span class="macro-nonterminal">$constvar </span>: <span class="macro-nonterminal">$constty</span>,)<span class="question-mark">? </span>$(<span class="macro-nonterminal">$tyvar </span>$(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>&gt; KnownLayout <span class="kw">for </span><span class="macro-nonterminal">$ty </span>{
+                <span class="attribute">#[allow(clippy::missing_inline_in_public_items)]
+                </span><span class="kw">fn </span>only_derive_is_allowed_to_implement_this_trait() <span class="kw">where </span><span class="self">Self</span>: Sized {}
+
+                <span class="kw">const </span>LAYOUT: DstLayout = DstLayout::for_type::&lt;<span class="macro-nonterminal">$ty</span>&gt;();
+
+                <span class="comment">// SAFETY: `.cast` preserves address and provenance.
+                //
+                // TODO(#429): Add documentation to `.cast` that promises that
+                // it preserves provenance.
+                </span><span class="attribute">#[inline(always)]
+                </span><span class="kw">fn </span>raw_from_ptr_len(bytes: NonNull&lt;u8&gt;, _elems: usize) -&gt; NonNull&lt;<span class="self">Self</span>&gt; {
+                    bytes.cast::&lt;<span class="self">Self</span>&gt;()
+                }
+            }
+        };
+    };
+}
+
+<span class="doccomment">/// Implements `KnownLayout` for a type in terms of the implementation of
+/// another type with the same representation.
+///
+/// # Safety
+///
+/// - `$ty` and `$repr` must have the same:
+///   - Fixed prefix size
+///   - Alignment
+///   - (For DSTs) trailing slice element size
+/// - It must be valid to perform an `as` cast from `*mut $repr` to `*mut $ty`,
+///   and this operation must preserve referent size (ie, `size_of_val_raw`).
+</span><span class="macro">macro_rules! </span>unsafe_impl_known_layout {
+    ($(<span class="macro-nonterminal">$tyvar</span>:ident: <span class="question-mark">?</span>Sized + KnownLayout =&gt;)<span class="question-mark">? </span><span class="attribute">#[repr(<span class="macro-nonterminal">$repr</span>:ty)] </span><span class="macro-nonterminal">$ty</span>:ty) =&gt; {
+        <span class="kw">const _</span>: () = {
+            <span class="kw">use </span>core::ptr::NonNull;
+
+            <span class="kw">unsafe impl</span>&lt;$(<span class="macro-nonterminal">$tyvar</span>: <span class="question-mark">?</span>Sized + KnownLayout)<span class="question-mark">?</span>&gt; KnownLayout <span class="kw">for </span><span class="macro-nonterminal">$ty </span>{
+                <span class="attribute">#[allow(clippy::missing_inline_in_public_items)]
+                </span><span class="kw">fn </span>only_derive_is_allowed_to_implement_this_trait() {}
+
+                <span class="kw">const </span>LAYOUT: DstLayout = &lt;<span class="macro-nonterminal">$repr </span><span class="kw">as </span>KnownLayout&gt;::LAYOUT;
+
+                <span class="comment">// SAFETY: All operations preserve address and provenance.
+                // Caller has promised that the `as` cast preserves size.
+                //
+                // TODO(#429): Add documentation to `NonNull::new_unchecked`
+                // that it preserves provenance.
+                </span><span class="attribute">#[inline(always)]
+                #[allow(unused_qualifications)] </span><span class="comment">// for `core::ptr::NonNull`
+                </span><span class="kw">fn </span>raw_from_ptr_len(bytes: NonNull&lt;u8&gt;, elems: usize) -&gt; NonNull&lt;<span class="self">Self</span>&gt; {
+                    <span class="attribute">#[allow(clippy::as_conversions)]
+                    </span><span class="kw">let </span>ptr = &lt;<span class="macro-nonterminal">$repr</span>&gt;::raw_from_ptr_len(bytes, elems).as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>;
+                    <span class="comment">// SAFETY: `ptr` was converted from `bytes`, which is non-null.
+                    </span><span class="kw">unsafe </span>{ NonNull::new_unchecked(ptr) }
+                }
+            }
+        };
+    };
+}
+
+<span class="doccomment">/// Uses `align_of` to confirm that a type or set of types have alignment 1.
+///
+/// Note that `align_of&lt;T&gt;` requires `T: Sized`, so this macro doesn&#39;t work for
+/// unsized types.
+</span><span class="macro">macro_rules! </span>assert_unaligned {
+    (<span class="macro-nonterminal">$ty</span>:ty) =&gt; {
+        <span class="comment">// We only compile this assertion under `cfg(test)` to avoid taking an
+        // extra non-dev dependency (and making this crate more expensive to
+        // compile for our dependents).
+        </span><span class="attribute">#[cfg(test)]
+        </span><span class="macro">static_assertions::const_assert_eq!</span>(core::mem::align_of::&lt;<span class="macro-nonterminal">$ty</span>&gt;(), <span class="number">1</span>);
+    };
+    ($(<span class="macro-nonterminal">$ty</span>:ty),<span class="kw-2">*</span>) =&gt; {
+        $(<span class="macro">assert_unaligned!</span>(<span class="macro-nonterminal">$ty</span>);)*
+    };
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="zerocopy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

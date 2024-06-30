@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Node",""],["Stack","A persistent stack."]]};

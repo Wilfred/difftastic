@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"mimalloc":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.65.0/core/alloc/global/trait.GlobalAlloc.html\" title=\"trait core::alloc::global::GlobalAlloc\">GlobalAlloc</a> for <a class=\"struct\" href=\"mimalloc/struct.MiMalloc.html\" title=\"struct mimalloc::MiMalloc\">MiMalloc</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

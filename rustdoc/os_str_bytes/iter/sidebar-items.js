@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["RawSplit","The iterator returned by [`RawOsStr::split`]."]],"type":[["Split","A temporary type alias providing backward compatibility."]]};

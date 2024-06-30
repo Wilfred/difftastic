@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="`tree_magic_mini` is a Rust crate that determines the MIME type a given file or byte stream."><meta name="keywords" content="rust, rustlang, rust-lang, tree_magic_mini"><title>tree_magic_mini - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../tree_magic_mini/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../tree_magic_mini/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate tree_magic_mini</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 3.1.4</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../tree_magic_mini/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">tree_magic_mini</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/tree_magic_mini/lib.rs.html#1-431">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p><code>tree_magic_mini</code> is a Rust crate that determines the MIME type a given file or byte stream.</p>
+<p>This is a fork of the <a href="https://crates.io/crates/tree_magic">tree_magic</a>
+crate by Allison Hancock. It includes the following changes:</p>
+<ul>
+<li>Updated dependencies.</li>
+<li>Reduced copying and memory allocation, for a slight increase in speed and
+decrease in memory use.</li>
+<li>Reduced API surface. Some previously public APIs are now internal.</li>
+<li>Removed the optional <code>cli</code> feature and <code>tmagic</code> binary.</li>
+</ul>
+<h2 id="about-tree_magic"><a href="#about-tree_magic">About tree_magic</a></h2>
+<p><code>tree_magic</code> is designed to be more efficient and to have less false positives compared
+to the old approach used by <code>libmagic</code>, or old-fashioned file extension comparisons.</p>
+<p>Instead, this loads all known MIME types into a tree based on subclasses. Then, instead
+of checking against <em>every</em> file type, <code>tree_magic</code> will traverse down the tree and
+only check the files that make sense to check.</p>
+<h2 id="features"><a href="#features">Features</a></h2>
+<ul>
+<li>Very fast perfomance (~150ns to check one file against one type,
+between 5,000ns and 100,000ns to find a MIME type.)</li>
+<li>Check if a file <em>is</em> a certain type.</li>
+<li>Handles aliases (ex: <code>application/zip</code> vs <code>application/x-zip-compressed</code>)</li>
+<li>Can delegate different file types to different “checkers”, reducing false positives
+by choosing a different method of attack.</li>
+</ul>
+<h3 id="licensing-and-the-mime-database"><a href="#licensing-and-the-mime-database">Licensing and the MIME database</a></h3>
+<p>By default, <code>tree_magic_mini</code> will attempt to load the shared MIME info
+database from the standard locations at runtime.</p>
+<p>If you won’t have the database files available, or would like to include them
+in your binary for simplicity, you can optionally embed the database
+information if you enable the <code>tree_magic_db</code> feature.</p>
+<p><strong>As the magic database files themselves are licensed under the GPL, you must
+make sure your project uses a compatible license if you enable this behaviour.</strong></p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// Load a GIF file
+</span><span class="kw">let </span>input: <span class="kw-2">&amp;</span>[u8] = <span class="macro">include_bytes!</span>(<span class="string">&quot;../tests/image/gif&quot;</span>);
+
+<span class="comment">// Find the MIME type of the GIF
+</span><span class="kw">let </span>result = tree_magic_mini::from_u8(input);
+<span class="macro">assert_eq!</span>(result, <span class="string">&quot;image/gif&quot;</span>);
+
+<span class="comment">// Check if the MIME and the file are a match
+</span><span class="kw">let </span>result = tree_magic_mini::match_u8(<span class="string">&quot;image/gif&quot;</span>, input);
+<span class="macro">assert_eq!</span>(result, <span class="bool-val">true</span>);</code></pre></div>
+</div></details><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.from_file.html" title="tree_magic_mini::from_file fn">from_file</a></div><div class="item-right docblock-short">Gets the MIME type of a file.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.from_filepath.html" title="tree_magic_mini::from_filepath fn">from_filepath</a></div><div class="item-right docblock-short">Gets the MIME type of a file.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.from_u8.html" title="tree_magic_mini::from_u8 fn">from_u8</a></div><div class="item-right docblock-short">Gets the type of a file from a byte stream.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.match_file.html" title="tree_magic_mini::match_file fn">match_file</a></div><div class="item-right docblock-short">Check if the given file matches the given MIME type.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.match_filepath.html" title="tree_magic_mini::match_filepath fn">match_filepath</a></div><div class="item-right docblock-short">Check if the file at the given path matches the given MIME type.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.match_u8.html" title="tree_magic_mini::match_u8 fn">match_u8</a></div><div class="item-right docblock-short">Checks if the given bytestream matches the given MIME type.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="tree_magic_mini" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>
