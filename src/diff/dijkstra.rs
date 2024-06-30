@@ -320,7 +320,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
@@ -362,7 +362,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
@@ -408,7 +408,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
@@ -449,7 +449,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
@@ -481,7 +481,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
@@ -521,7 +521,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
+        let start = Vertex::new(lhs.first().copied(), rhs.first().copied());
         let vertex_arena = Bump::new();
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
