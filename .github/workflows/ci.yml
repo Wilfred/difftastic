@@ -42,16 +42,24 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: scala/scala
-          ref: v2.13.10
+          ref: v2.13.14
           path: scala_scala
 
-      - name: checkout lampepfl/dotty
+      - name: checkout scala/scala3
         if: ${{ runner.os == 'Linux' }}
         uses: actions/checkout@v4
         with:
-          repository: lampepfl/dotty
-          ref: 3.3.0
+          repository: scala/scala3
+          ref: 3.5.0-RC2
           path: dotty
+
+      - name: checkout lichess-org/lila
+        if: ${{ runner.os == 'Linux' }}
+        uses: actions/checkout@v4
+        with:
+          repository: lichess-org/lila
+          ref: 83e61b9ef617164fe1d3a5112fcc611d0e5a7ea9
+          path: lila
 
       - name: checkout nvim-treesitter/nvim-treesitter
         if: ${{ runner.os == 'Linux' }}
@@ -93,6 +101,7 @@ jobs:
         env:
           SCALA_SCALA_DIR: scala_scala
           DOTTY_DIR: dotty
+          LILA_DIR: lila
         run: script/smoke_test.sh
 
       - name: copy nvim-treesitter queries
