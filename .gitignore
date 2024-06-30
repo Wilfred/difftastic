@@ -5,5 +5,6 @@ flamegraph.svg
 .idea
 
 sample_files/compare.result
+tests/snapshots/*.snap.new
 
 notes.md

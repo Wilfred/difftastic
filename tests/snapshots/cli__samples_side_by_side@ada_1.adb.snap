@@ -1,0 +1,14 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/ada_1.adb
+---
+[1m[93msample_files/ada_2.adb[39m[0m[2m --- Ada[0m
+[91;1m1 [0m [1mwith[0m Ada.Text_IO; [91;1muse[0m [91mAda[0m[91m.[0m[91mText_IO[0m[91m;[0m [1mprocedure[0m Hello [1mis[0m [1mbegin[0m Put_Line ([91m"[0m[91mHello[0m [2m1 [0m[1mwith[0m Ada.Text_IO;
+[91;1m[2m. [0m[0m[91m [0m[91;1;4mWORLD[0m[91m![0m[91m"[0m); [1mend[0m Hello;                                                         [2m[2m. [0m[0m
+[2m. [0m                                                                              [92;1m2 [0m
+[2m. [0m                                                                              [2m3 [0m[1mprocedure[0m Hello [1mis[0m
+[2m. [0m                                                                              [92;1m4 [0m  [92;1mpackage[0m [92mTIO[0m [92mrenames[0m [92mAda[0m[92m.[0m[92mText_IO[0m[92m;[0m
+[2m. [0m                                                                              [2m5 [0m[1mbegin[0m
+[2m. [0m                                                                              [92;1m6 [0m  [92mTIO[0m[92m.[0mPut_Line ([92m"[0m[92mHello[0m[92m [0m[92;1;4mWorld[0m[92m![0m[92m"[0m);
+[2m. [0m                                                                              [2m7 [0m[1mend[0m Hello;

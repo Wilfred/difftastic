@@ -1,0 +1,9 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/swift_1.swift
+---
+[1m[93msample_files/swift_2.swift[39m[0m[2m --- Swift[0m
+[2m1 [0m[1mfunc[0m f(_ x: [1mInt[0m) [1m->[0m [1mInt[0m {                                                     [2m1 [0m[1mfunc[0m f(_ x: [1mInt[0m) [1m->[0m [1mInt[0m {
+[91;1m2 [0m  x [1m*[0m [91m2[0m                                                                       [92;1m2 [0m  x [1m*[0m [92m3[0m
+[2m3 [0m}                                                                             [2m3 [0m}

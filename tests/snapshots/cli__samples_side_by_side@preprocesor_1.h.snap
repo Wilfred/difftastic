@@ -1,0 +1,10 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/preprocesor_1.h
+---
+[1m[93msample_files/preprocesor_2.h[39m[0m[2m --- C++[0m
+[2m1 [0m[2m1 [0m[1m#include[0m [95m"foo.h"[0m
+[2m. [0m[92;1m2 [0m[92;1m#include[0m [92m"novel.h"[0m
+[2m2 [0m[2m3 [0m
+[2m3 [0m[2m4 [0m[1mstruct[0m [1mBar[0m {};

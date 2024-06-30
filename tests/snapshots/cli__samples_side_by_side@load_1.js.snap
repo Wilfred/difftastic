@@ -1,0 +1,194 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/load_1.js
+---
+[1m[93msample_files/load_2.js[39m[0m[2m --- 1/4 --- JavaScript[0m
+[2m12 [0m                                                                             [2m12 [0m
+[2m13 [0m[1mvar[0m total [1m=[0m 0;                                                               [2m13 [0m[1mvar[0m total [1m=[0m 0;
+[2m14 [0m                                                                             [2m14 [0m
+[2m.. [0m                                                                             [92;1m15 [0m[92;1mfunction[0m [92mcreateResource[0m[92;1m([0m[92mresourcePath[0m[92m,[0m [92mlocalPath[0m[92;1m)[0m [92;1m{[0m
+[2m15 [0m[1mvar[0m [1mMIME_TYPES[0m [1m=[0m {                                                           [2m16 [0m  [1mvar[0m [1mMIME_TYPES[0m [1m=[0m {
+[2m16 [0m  [95m".css"[0m: [95m"text/css"[0m,                                                        [2m17 [0m    [95m".css"[0m: [95m"text/css"[0m,
+[2m17 [0m  [95m".html"[0m: [95m"text/html"[0m,                                                      [2m18 [0m    [95m".html"[0m: [95m"text/html"[0m,
+[2m18 [0m  [95m".js"[0m: [95m"application/javascript"[0m,                                           [2m19 [0m    [95m".js"[0m: [95m"application/javascript"[0m,
+[2m19 [0m  [95m""[0m: [95m"text/x-markdown"[0m,                                                     [2m20 [0m    [95m""[0m: [95m"text/x-markdown"[0m,
+[2m20 [0m};                                                                           [2m21 [0m  };
+[91;1m21 [0m                                                                             [2m.. [0m
+[91;1m22 [0m[91;3m// Write localPath to the database.[0m                                          [2m.. [0m
+[91;1m23 [0m[91;3m//[0m                                                                           [2m.. [0m
+[91;1m24 [0m[91;3m// If no resourcePath is provided, convert "node_modules/foo/bar.js" to[0m      [2m.. [0m
+[91;1m25 [0m[91;3m// "foo/bar.js".[0m                                                             [2m.. [0m
+[91;1m26 [0m[91;1mfunction[0m [91mcreateNodeModuleResource[0m[91;1m([0m[91mlocalPath[0m[91m,[0m [91mresourcePath[0m[91;1m)[0m [91;1m{[0m                 [2m.. [0m
+[91;1m27 [0m  [91;1mif[0m [91;1m([0m[91mresourcePath[0m [91;1m==[0m [91;1mnull[0m[91;1m)[0m [91;1m{[0m                                                [2m.. [0m
+[91;1m28 [0m    [91mresourcePath[0m [91;1m=[0m [91mpath[0m[91m.[0m[91mrelative[0m[91;1m([0m[91m"node_modules"[0m[91m,[0m [91mlocalPath[0m[91;1m)[0m[91m;[0m                 [2m.. [0m
+[91;1m29 [0m  [91;1m}[0m                                                                          [2m.. [0m
+[2m30 [0m                                                                             [2m22 [0m
+[2m31 [0m  [1mreturn[0m [1mfunction[0m (cb) {                                                     [2m23 [0m  [1mreturn[0m [1mfunction[0m (cb) {
+[2m32 [0m    total[1m++[0m;                                                                 [2m24 [0m    total[1m++[0m;
+
+[1msample_files/load_2.js[0m[2m --- 2/4 --- JavaScript[0m
+[2m40 [0m      bootstrapPath: localPath,                                              [2m32 [0m      bootstrapPath: localPath,
+[2m41 [0m    }).save(cb);                                                             [2m33 [0m    }).save(cb);
+[2m42 [0m  };                                                                         [2m34 [0m  };
+[91;1m43 [0m[91;1m}[0m                                                                            [92;1m35 [0m[92;1m}[0m
+[91;1m44 [0m                                                                             [2m.. [0m
+[91;1m45 [0m[91;1mfunction[0m [91mcreateResource[0m[91;1m([0m[91mresourcePath[0m[91m,[0m [91mlocalPath[0m[91;1m)[0m [91;1m{[0m                           [2m.. [0m
+[91;1m46 [0m  [91;1mreturn[0m [91;1mfunction[0m [91;1m([0m[91mcb[0m[91;1m)[0m [91;1m{[0m                                                     [2m.. [0m
+[91;1m47 [0m    [91mtotal[0m[91;1m++[0m[91m;[0m                                                                 [2m.. [0m
+[91;1m48 [0m    [91;1mnew[0m [91mmodels[0m[91m.[0m[91mResource[0m[91;1m([0m[91;1m{[0m                                                    [2m.. [0m
+[91;1m49 [0m      [91mpath[0m[91m:[0m [91mresourcePath[0m[91m,[0m                                                    [2m.. [0m
+[91;1m50 [0m      [91mmimeType[0m[91m:[0m [91;1mMIME_TYPES[0m[91;1m[[0m[91mpath[0m[91m.[0m[91mextname[0m[91;1m([0m[91mlocalPath[0m[91;1m)[0m[91;1m][0m[91m,[0m                         [2m.. [0m
+[91;1m51 [0m      [91mcontent[0m[91m:[0m [91mfs[0m[91m.[0m[91mreadFileSync[0m[91;1m([0m[91mlocalPath[0m[91m,[0m [91;1m{[0m                                  [2m.. [0m
+[91;1m52 [0m        [91mencoding[0m[91m:[0m [91m"utf8"[0m[91m,[0m                                                    [2m.. [0m
+[91;1m53 [0m      [91;1m}[0m[91;1m)[0m[91m,[0m                                                                    [2m.. [0m
+[91;1m54 [0m      [91mcreated[0m[91m:[0m [91;1mDate[0m[91m.[0m[91mnow[0m[91;1m([0m[91;1m)[0m[91m,[0m                                                   [2m.. [0m
+[91;1m55 [0m      [91mbootstrapPath[0m[91m:[0m [91mlocalPath[0m[91m,[0m                                              [2m.. [0m
+[91;1m56 [0m    [91;1m}[0m[91;1m)[0m[91m.[0m[91msave[0m[91;1m([0m[91mcb[0m[91;1m)[0m[91m;[0m                                                             [2m.. [0m
+[91;1m57 [0m  [91;1m}[0m[91m;[0m                                                                         [2m.. [0m
+[91;1m58 [0m[91;1m}[0m                                                                            [2m.. [0m
+[2m59 [0m                                                                             [2m36 [0m
+[2m60 [0m[1mfunction[0m createBinaryResource(opts) {                                        [2m37 [0m[1mfunction[0m createBinaryResource(opts) {
+[2m61 [0m  [1mreturn[0m [1mfunction[0m (cb) {                                                     [2m38 [0m  [1mreturn[0m [1mfunction[0m (cb) {
+
+[1msample_files/load_2.js[0m[2m --- 3/4 --- JavaScript[0m
+[2m 92 [0m          }),                                                               [2m 69 [0m          }),
+[2m 93 [0m                                                                            [2m 70 [0m
+[2m 94 [0m          [94;3m// Base codemirror[0m                                                [2m 71 [0m          [94;3m// Base codemirror[0m
+[91;1m 95 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m 72 [0m          [92mcreateResource[0m(
+[2m .. [0m                                                                            [92;1m 73 [0m            [92m"codemirror/lib/codemirror.css"[0m[92m,[0m
+[2m 96 [0m            [95m"node_modules/codemirror/lib/codemirror.css"[0m                    [2m 74 [0m            [95m"node_modules/codemirror/lib/codemirror.css"[0m
+[2m 97 [0m          ),                                                                [2m 75 [0m          ),
+[91;1m 98 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/codemirror/lib/codemirror.[0m [92;1m 76 [0m          [92mcreateResource[0m(
+[91;1m[2m .. [0m[0m[95mjs"[0m),                                                                       [92;1m[2m .. [0m[0m
+[2m .. [0m                                                                            [92;1m 77 [0m            [92m"codemirror/lib/codemirror.js"[0m[92m,[0m
+[2m .. [0m                                                                            [2m 78 [0m            [95m"node_modules/codemirror/lib/codemirror.js"[0m
+[2m .. [0m                                                                            [2m 79 [0m          ),
+[2m 99 [0m                                                                            [2m 80 [0m
+[2m100 [0m          [94;3m// Editor conveniences[0m                                            [2m 81 [0m          [94;3m// Editor conveniences[0m
+[91;1m101 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m 82 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m 83 [0m            [92m"codemirror/addon/edit/closebrackets.js"[0m[92m,[0m
+[2m102 [0m            [95m"node_modules/codemirror/addon/edit/closebrackets.js"[0m           [2m 84 [0m            [95m"node_modules/codemirror/addon/edit/closebrackets.js"[0m
+[2m103 [0m          ),                                                                [2m 85 [0m          ),
+[91;1m104 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m 86 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m 87 [0m            [92m"codemirror/addon/edit/matchbrackets.js"[0m[92m,[0m
+[2m105 [0m            [95m"node_modules/codemirror/addon/edit/matchbrackets.js"[0m           [2m 88 [0m            [95m"node_modules/codemirror/addon/edit/matchbrackets.js"[0m
+[2m106 [0m          ),                                                                [2m 89 [0m          ),
+[91;1m107 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m 90 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m 91 [0m            [92m"codemirror/addon/selection/active-line.js"[0m[92m,[0m
+[2m108 [0m            [95m"node_modules/codemirror/addon/selection/active-line.js"[0m        [2m 92 [0m            [95m"node_modules/codemirror/addon/selection/active-line.js"[0m
+[2m109 [0m          ),                                                                [2m 93 [0m          ),
+[2m110 [0m                                                                            [2m 94 [0m
+[2m111 [0m          [94;3m// Linting in editor.[0m                                             [2m 95 [0m          [94;3m// Linting in editor.[0m
+[91;1m112 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m 96 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m 97 [0m            [92m"codemirror/addon/lint/lint.css"[0m[92m,[0m
+[2m113 [0m            [95m"node_modules/codemirror/addon/lint/lint.css"[0m                   [2m 98 [0m            [95m"node_modules/codemirror/addon/lint/lint.css"[0m
+[2m114 [0m          ),                                                                [2m 99 [0m          ),
+[91;1m115 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m100 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m101 [0m            [92m"codemirror/addon/lint/lint.js"[0m[92m,[0m
+[2m116 [0m            [95m"node_modules/codemirror/addon/lint/lint.js"[0m                    [2m102 [0m            [95m"node_modules/codemirror/addon/lint/lint.js"[0m
+[2m117 [0m          ),                                                                [2m103 [0m          ),
+[91;1m118 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m104 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m105 [0m            [92m"codemirror/addon/lint/javascript-lint.js"[0m[92m,[0m
+[2m119 [0m            [95m"node_modules/codemirror/addon/lint/javascript-lint.js"[0m         [2m106 [0m            [95m"node_modules/codemirror/addon/lint/javascript-lint.js"[0m
+[2m120 [0m          ),                                                                [2m107 [0m          ),
+[2m121 [0m                                                                            [2m108 [0m
+[2m122 [0m          [94;3m// Basic, dumb completion (dabbrev style).[0m                        [2m109 [0m          [94;3m// Basic, dumb completion (dabbrev style).[0m
+[91;1m123 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m110 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m111 [0m            [92m"codemirror/addon/hint/show-hint.css"[0m[92m,[0m
+[2m124 [0m            [95m"node_modules/codemirror/addon/hint/show-hint.css"[0m              [2m112 [0m            [95m"node_modules/codemirror/addon/hint/show-hint.css"[0m
+[2m125 [0m          ),                                                                [2m113 [0m          ),
+[91;1m126 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m114 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m115 [0m            [92m"codemirror/addon/hint/show-hint.js"[0m[92m,[0m
+[2m127 [0m            [95m"node_modules/codemirror/addon/hint/show-hint.js"[0m               [2m116 [0m            [95m"node_modules/codemirror/addon/hint/show-hint.js"[0m
+[2m128 [0m          ),                                                                [2m117 [0m          ),
+[91;1m129 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m118 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m119 [0m            [92m"codemirror/addon/hint/anyword-hint.js"[0m[92m,[0m
+[2m130 [0m            [95m"node_modules/codemirror/addon/hint/anyword-hint.js"[0m            [2m120 [0m            [95m"node_modules/codemirror/addon/hint/anyword-hint.js"[0m
+[2m131 [0m          ),                                                                [2m121 [0m          ),
+[91;1m132 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m122 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m123 [0m            [92m"codemirror/addon/hint/css-hint.js"[0m[92m,[0m
+[2m133 [0m            [95m"node_modules/codemirror/addon/hint/css-hint.js"[0m                [2m124 [0m            [95m"node_modules/codemirror/addon/hint/css-hint.js"[0m
+[2m134 [0m          ),                                                                [2m125 [0m          ),
+[91;1m135 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m126 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m127 [0m            [92m"codemirror/addon/hint/html-hint.js"[0m[92m,[0m
+[2m136 [0m            [95m"node_modules/codemirror/addon/hint/html-hint.js"[0m               [2m128 [0m            [95m"node_modules/codemirror/addon/hint/html-hint.js"[0m
+[2m137 [0m          ),                                                                [2m129 [0m          ),
+[91;1m138 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m130 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m131 [0m            [92m"codemirror/addon/hint/xml-hint.js"[0m[92m,[0m
+[2m139 [0m            [95m"node_modules/codemirror/addon/hint/xml-hint.js"[0m                [2m132 [0m            [95m"node_modules/codemirror/addon/hint/xml-hint.js"[0m
+[2m140 [0m          ),                                                                [2m133 [0m          ),
+[2m141 [0m                                                                            [2m134 [0m
+[2m142 [0m          [94;3m// Syntax highlighting[0m                                            [2m135 [0m          [94;3m// Syntax highlighting[0m
+[91;1m143 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m136 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m137 [0m            [92m"codemirror/mode/javascript/javascript.js"[0m[92m,[0m
+[2m144 [0m            [95m"node_modules/codemirror/mode/javascript/javascript.js"[0m         [2m138 [0m            [95m"node_modules/codemirror/mode/javascript/javascript.js"[0m
+[2m145 [0m          ),                                                                [2m139 [0m          ),
+[91;1m146 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/codemirror/mode/meta.js"[0m), [92;1m140 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m141 [0m            [92m"codemirror/mode/meta.js"[0m[92m,[0m
+[2m... [0m                                                                            [2m142 [0m            [95m"node_modules/codemirror/mode/meta.js"[0m
+[2m... [0m                                                                            [2m143 [0m          ),
+[91;1m147 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m144 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m145 [0m            [92m"codemirror/mode/markdown/markdown.js"[0m[92m,[0m
+[2m148 [0m            [95m"node_modules/codemirror/mode/markdown/markdown.js"[0m             [2m146 [0m            [95m"node_modules/codemirror/mode/markdown/markdown.js"[0m
+[2m149 [0m          ),                                                                [2m147 [0m          ),
+[91;1m150 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/codemirror/mode/xml/xml.js[0m [92;1m148 [0m          [92mcreateResource[0m(
+[91;1m[2m... [0m[0m[95m"[0m),                                                                         [92;1m[2m... [0m[0m
+[2m... [0m                                                                            [92;1m149 [0m            [92m"codemirror/mode/xml/xml.js"[0m[92m,[0m
+[2m... [0m                                                                            [2m150 [0m            [95m"node_modules/codemirror/mode/xml/xml.js"[0m
+[2m... [0m                                                                            [2m151 [0m          ),
+[91;1m151 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/codemirror/mode/css/css.js[0m [92;1m152 [0m          [92mcreateResource[0m(
+[91;1m[2m... [0m[0m[95m"[0m),                                                                         [92;1m[2m... [0m[0m
+[2m... [0m                                                                            [92;1m153 [0m            [92m"codemirror/mode/css/css.js"[0m[92m,[0m
+[2m... [0m                                                                            [2m154 [0m            [95m"node_modules/codemirror/mode/css/css.js"[0m
+[2m... [0m                                                                            [2m155 [0m          ),
+[2m152 [0m                                                                            [2m156 [0m
+[91;1m153 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/requirejs/require.js"[0m),    [92;1m157 [0m          [92mcreateResource[0m(
+[2m... [0m                                                                            [92;1m158 [0m            [92m"requirejs/require.js"[0m[92m,[0m
+[2m... [0m                                                                            [2m159 [0m            [95m"node_modules/requirejs/require.js"[0m
+[2m... [0m                                                                            [2m160 [0m          ),
+[2m154 [0m                                                                            [2m161 [0m
+[91;1m155 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m162 [0m          [92mcreateResource[0m([95m"backbone.js"[0m[92m,[0m [92m"node_modules/backbone/backbone.js"[0m
+[91;1m[2m... [0m[0m                                                                            [92;1m[2m... [0m[0m),
+[91;1m156 [0m            [91m"node_modules/backbone/backbone.js"[0m[91m,[0m                            [2m... [0m
+[2m157 [0m            [95m"backbone.js"[0m                                                   [2m... [0m
+[2m158 [0m          ),                                                                [2m... [0m
+[2m159 [0m                                                                            [2m163 [0m
+[91;1m160 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m164 [0m          [92mcreateResource[0m(
+[91;1m161 [0m            [91m"node_modules/underscore/underscore.js"[0m[91m,[0m                        [2m... [0m
+[2m162 [0m            [95m"underscore.js"[0m                                                 [92;1m165 [0m            [95m"underscore.js"[0m[92m,[0m
+[2m... [0m                                                                            [92;1m166 [0m            [92m"node_modules/underscore/underscore.js"[0m
+[2m163 [0m          ),                                                                [2m167 [0m          ),
+[2m164 [0m                                                                            [2m168 [0m
+[91;1m165 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m169 [0m          [92mcreateResource[0m([95m"jquery.js"[0m[92m,[0m [92m"node_modules/jquery/dist/jquery.js"[0m)
+[91;1m[2m... [0m[0m                                                                            [92;1m[2m... [0m[0m,
+[91;1m166 [0m            [91m"node_modules/jquery/dist/jquery.js"[0m[91m,[0m                           [2m... [0m
+[2m167 [0m            [95m"jquery.js"[0m                                                     [2m... [0m
+[2m168 [0m          ),                                                                [2m... [0m
+[2m169 [0m                                                                            [2m170 [0m
+[91;1m170 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m171 [0m          [92mcreateResource[0m(
+[91;1m171 [0m            [91m"node_modules/marked/lib/marked.js"[0m[91m,[0m                            [2m... [0m
+[2m172 [0m            [95m"marked/marked.js"[0m                                              [92;1m172 [0m            [95m"marked/marked.js"[0m[92m,[0m
+[2m... [0m                                                                            [92;1m173 [0m            [92m"node_modules/marked/lib/marked.js"[0m
+[2m173 [0m          ),                                                                [2m174 [0m          ),
+[2m174 [0m                                                                            [2m175 [0m
+[91;1m175 [0m          [91mcreateNodeModuleResource[0m(                                         [92;1m176 [0m          [92mcreateResource[0m(
+[91;1m176 [0m            [91m"node_modules/handlebars/dist/handlebars.js"[0m[91m,[0m                   [2m... [0m
+[2m177 [0m            [95m"handlebars/handlebars.js"[0m                                      [92;1m177 [0m            [95m"handlebars/handlebars.js"[0m[92m,[0m
+[2m... [0m                                                                            [92;1m178 [0m            [92m"node_modules/handlebars/dist/handlebars.js"[0m
+[2m178 [0m          ),                                                                [2m179 [0m          ),
+[2m179 [0m                                                                            [2m180 [0m
+[2m180 [0m          [94;3m// Notifications[0m                                                  [2m181 [0m          [94;3m// Notifications[0m
+
+[1msample_files/load_2.js[0m[2m --- 4/4 --- JavaScript[0m
+[2m192 [0m            localPath: [95m"icons/Error-48.png"[0m,                                [2m193 [0m            localPath: [95m"icons/Error-48.png"[0m,
+[2m193 [0m          }),                                                               [2m194 [0m          }),
+[2m194 [0m                                                                            [2m195 [0m
+[2m... [0m                                                                            [92;1m196 [0m          [92;3m// TODO: it would be nice to have more systematic naming[0m
+[2m... [0m                                                                            [92;1m197 [0m          [92;3m// of our paths, based on the node_modules path.[0m
+[91;1m195 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/mocha/mocha.js"[0m),          [92;1m198 [0m          [92mcreateResource[0m([92m"mocha/mocha.js"[0m[92m,[0m [95m"node_modules/mocha/mocha.js"[0m),
+[91;1m196 [0m          [91mcreateNodeModuleResource[0m([95m"node_modules/mocha/mocha.css"[0m),         [92;1m199 [0m          [92mcreateResource[0m([92m"mocha/mocha.css"[0m[92m,[0m [95m"node_modules/mocha/mocha.css"[0m)
+[91;1m[2m... [0m[0m                                                                            [92;1m[2m... [0m[0m,
+[2m197 [0m                                                                            [2m200 [0m
+[2m198 [0m          createResource([95m"metawiki/index.html"[0m, [95m"src/frontend/index.html"[0m), [2m201 [0m          createResource([95m"metawiki/index.html"[0m, [95m"src/frontend/index.html"[0m),
+[2m199 [0m                                                                            [2m202 [0m

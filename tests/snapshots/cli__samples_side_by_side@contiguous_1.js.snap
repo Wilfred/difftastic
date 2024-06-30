@@ -1,0 +1,13 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/contiguous_1.js
+---
+[1m[93msample_files/contiguous_2.js[39m[0m[2m --- JavaScript[0m
+[2m1 [0m[92;1m1 [0m[92;3m// There are multiple possible diffs here, but we want to prefer[0m
+[2m. [0m[92;1m2 [0m[92;3m// showing A and B on the same line.[0m
+[2m2 [0m[2m3 [0m[1mvar[0m x [1m=[0m [
+[2m3 [0m[2m4 [0m  [95m"A"[0m, [95m"B"[0m,
+[2m. [0m[92;1m5 [0m  [92m"A"[0m[92m,[0m [92m"B"[0m[92m,[0m
+[2m4 [0m[2m6 [0m  [95m"C"[0m, [95m"D"[0m,
+[2m5 [0m[2m7 [0m];
