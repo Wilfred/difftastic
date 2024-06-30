@@ -286,6 +286,7 @@ impl Highlight {
                 AtomKind::Comment => Self::Comment,
                 AtomKind::Type => Self::Type,
                 AtomKind::Normal => Self::Normal,
+                AtomKind::CanIgnore => Self::Normal,
                 AtomKind::TreeSitterError => Self::TreeSitterError,
             },
         }

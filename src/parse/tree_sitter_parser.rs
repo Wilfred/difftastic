@@ -1745,6 +1745,26 @@ fn syntax_from_cursor<'a>(
     }
 }
 
+fn should_ignore_last_child(
+    config: &TreeSitterConfig,
+    node: &ts::Node<'_>,
+    children: &[&Syntax<'_>],
+) -> bool {
+    for (node_kind, token_str) in &config.ignore_trailing_tokens {
+        if node.kind() != *node_kind {
+            continue;
+        }
+
+        if let Some(Syntax::Atom { content, .. }) = children.last() {
+            if content == token_str {
+                return true;
+            }
+        }
+    }
+
+    false
+}
+
 /// Convert the tree-sitter node at `cursor` to a difftastic list
 /// node.
 fn list_from_cursor<'a>(
@@ -1850,6 +1870,20 @@ fn list_from_cursor<'a>(
         node_i += 1;
     }
     cursor.goto_parent();
+
+    if should_ignore_last_child(config, &root_node, &between_delim) {
+        if let Some(last_child) = between_delim.pop() {
+            if let Syntax::Atom {
+                position, content, ..
+            } = last_child
+            {
+                let position = position.clone();
+                let new_last_child =
+                    Syntax::new_atom(arena, position, content.clone(), AtomKind::CanIgnore);
+                between_delim.push(new_last_child);
+            }
+        }
+    }
 
     let inner_list = Syntax::new_list(
         arena,
