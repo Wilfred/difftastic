@@ -3,8 +3,9 @@
 # This is an integration test to generally check the quality of parsing.
 
 SCALA_SCALA_LIBRARY_EXPECTED=100
-SCALA_SCALA_COMPILER_EXPECTED=97
-DOTTY_COMPILER_EXPECTED=85
+SCALA_SCALA_COMPILER_EXPECTED=96
+DOTTY_COMPILER_EXPECTED=83
+LILA_MODULES_EXPECTED=84
 SYNTAX_COMPLEXITY_CEILING=1400
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then
@@ -77,6 +78,7 @@ check_complexity () {
 run_tree_sitter "$SCALA_SCALA_DIR/src/library/"  $SCALA_SCALA_LIBRARY_EXPECTED   scala2-library
 run_tree_sitter "$SCALA_SCALA_DIR/src/compiler/" $SCALA_SCALA_COMPILER_EXPECTED  scala2-compiler
 run_tree_sitter "$DOTTY_DIR/compiler/"           $DOTTY_COMPILER_EXPECTED        dotty-compiler
+run_tree_sitter "$LILA_DIR/modules/"             $LILA_MODULES_EXPECTED          lila-modules
 
 check_complexity $SYNTAX_COMPLEXITY_CEILING
 
