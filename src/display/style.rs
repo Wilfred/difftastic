@@ -359,7 +359,7 @@ pub(crate) fn color_positions(
                                 style = style.bold();
                             }
                             AtomKind::TreeSitterError => style = style.purple(),
-                            AtomKind::Normal => {}
+                            AtomKind::Normal | AtomKind::CanIgnore => {}
                         }
                     }
                 }

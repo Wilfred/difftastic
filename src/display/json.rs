@@ -267,6 +267,7 @@ impl Highlight {
                 AtomKind::Comment => Highlight::Comment,
                 AtomKind::Type => Highlight::Type,
                 AtomKind::Normal => Highlight::Normal,
+                AtomKind::CanIgnore => Highlight::Normal,
                 AtomKind::TreeSitterError => Highlight::TreeSitterError,
             },
         }

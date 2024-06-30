@@ -47,6 +47,7 @@ pub(crate) fn insert_deep_unchanged<'a>(
             },
         ) => {
             for (child, opposite_child) in node_children.iter().zip(opposite_children) {
+                // TODO: one side may now be CanIgnore
                 insert_deep_unchanged(child, opposite_child, change_map);
             }
         }

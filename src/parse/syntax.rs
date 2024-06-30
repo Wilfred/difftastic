@@ -433,8 +433,14 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
                 // Recurse first, so children all have their content_id set.
                 set_content_id(children, existing);
 
-                let children_content_ids: Vec<_> =
-                    children.iter().map(|c| c.info().content_id.get()).collect();
+                let children_content_ids: Vec<_> = children
+                    .iter()
+                    .filter(|c| match c {
+                        List { .. } => true,
+                        Atom { kind, .. } => *kind != AtomKind::CanIgnore,
+                    })
+                    .map(|c| c.info().content_id.get())
+                    .collect();
 
                 (
                     Some(open_content.clone()),
@@ -620,6 +626,11 @@ pub(crate) enum AtomKind {
     Comment,
     Keyword,
     TreeSitterError,
+    /// Trailing commas can be ignored in some positions, such as the
+    /// last comma in `[1, 2,]` in JS. However, it's not obligatory,
+    /// and it's useful when diffing `[1,]` against `[1, 2]` to be
+    /// able to match up the commas.
+    CanIgnore,
 }
 
 /// Unlike atoms, tokens can be delimiters like `{`.
