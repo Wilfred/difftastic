@@ -355,7 +355,7 @@ still want to know when whitespace changes inside strings. `" "` and
 // Before
 foo("looooong", "also looooong");
 
-// Before
+// After
 foo(
   "looooong",
   "novel",
