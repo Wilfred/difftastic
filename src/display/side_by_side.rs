@@ -515,14 +515,16 @@ pub(crate) fn print(
                     None => vec![" ".repeat(source_dims.content_width)],
                 };
                 let rhs_line = match rhs_line_num {
-                    Some(rhs_line_num) => split_and_apply(
-                        rhs_lines[rhs_line_num.as_usize()],
-                        source_dims.content_width,
-                        display_options.tab_width,
-                        rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
-                        Side::Right,
-                    ),
-                    None => vec!["".into()],
+                    Some(rhs_line_num) if rhs_line_num.as_usize() < rhs_lines.len() => {
+                        split_and_apply(
+                            rhs_lines[rhs_line_num.as_usize()],
+                            source_dims.content_width,
+                            display_options.tab_width,
+                            rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
+                            Side::Right,
+                        )
+                    }
+                    _ => vec!["".into()],
                 };
 
                 for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
