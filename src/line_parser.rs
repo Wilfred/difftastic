@@ -152,7 +152,22 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 // have a very large number of words, don't diff
                 // individual words.
                 if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
-                    for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
+                    // If the last line is empty, `lhs_lines` will have one line less
+                    // than other sources, such as `LinePositions::from`.
+                    // This is a workaround for the off-by-one error caused by this disagreement
+                    // between `str::lines` and other sources used to calculate ranges.
+                    let lp_from_region = {
+                        let mut lp_from_region =
+                            lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len());
+                        if let Some(last) = lp_from_region.last() {
+                            if last.start_col == 0 && last.end_col == 0 {
+                                lp_from_region.pop();
+                            }
+                        }
+                        lp_from_region
+                    };
+
+                    for lhs_pos in lp_from_region {
                         mps.push(MatchedPos {
                             kind: MatchKind::NovelWord {
                                 highlight: TokenKind::Atom(AtomKind::Normal),
