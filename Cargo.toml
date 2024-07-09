@@ -41,7 +41,7 @@ regex = "1.10.4"
 clap = { version = "3.2.25", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.11.0"
 typed-arena = "2.0.2"
-rustc-hash = "1.1.0"
+rustc-hash = "2.0.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
 # tree-sitter 0.22.5 uses std::os::fd::AsRawFd, which was added in Rust 1.66.
