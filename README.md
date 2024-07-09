@@ -117,6 +117,22 @@ AST diffing is a lossy process from the perspective of a text
 diff. Difftastic will ignore whitespace that isn't syntactically
 significant, but merging requires tracking whitespace.
 
+### Can difftastic ignore reordering?
+
+No. Difftastic always considers order to be important, so diffing
+e.g. `set(1, 2)` and `set(2, 1)` will show changes.
+
+If you're diffing JSON, consider sorting the keys before passing them
+to difftastic.
+
+```
+$ difft <(jq --sort-keys < file_1.json) <(jq --sort-keys < file_2.json)
+```
+
+See also [Tricky Cases: Unordered Data
+Types](https://difftastic.wilfred.me.uk/tricky_cases.html#unordered-data-types)
+in the manual.
+
 ### Can I use difftastic to check for syntactic changes without diffing?
 
 Yes. Difftastic can check if the two files have the same AST, without
