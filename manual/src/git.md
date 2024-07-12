@@ -43,7 +43,7 @@ Add the following to your `~/.gitconfig` to use difftastic as a
         prompt = false
 
 [difftool "difftastic"]
-        cmd = difft "$LOCAL" "$REMOTE"
+        cmd = REAL_PATH="$MERGED" difft "$LOCAL" "$REMOTE"
 
 [pager]
         difftool = true
