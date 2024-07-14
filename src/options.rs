@@ -8,6 +8,7 @@ use std::{
 };
 
 use clap::{crate_authors, crate_description, Arg, Command};
+use clap_complete::{generate, Shell};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
 use itertools::Itertools;
@@ -291,6 +292,13 @@ When multiple overrides are specified, the first matching override wins."))
                 .env("DFT_PARSE_ERROR_LIMIT")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
+        )
+        .arg(
+            Arg::new("completion").long("completion")
+                 .takes_value(true)
+                 .value_name("SHELL")
+                 .value_parser(clap::value_parser!(Shell))
+                 .help("Generate completion for a given shell")
         )
         .arg(
             Arg::new("paths")
@@ -603,7 +611,11 @@ fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(LanguageOverride, Ve
 /// Parse CLI arguments passed to the binary.
 pub(crate) fn parse_args() -> Mode {
     let matches = app().get_matches();
-
+    if let Some(shell) = matches.get_one::<Shell>("completion") {
+        generate(*shell, &mut app(), "difft", &mut std::io::stdout());
+        // TODO: What should the exit code be? Should it be defined in src/exit_codes.rs
+        std::process::exit(0);
+    }
     let color_output = match matches.value_of("color").expect("color has a default") {
         "always" => ColorOutput::Always,
         "never" => ColorOutput::Never,
