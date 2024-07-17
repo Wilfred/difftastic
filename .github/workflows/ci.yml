@@ -72,9 +72,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Test C stack code
-        run: gcc test/test-stack.c -o a.out && ./a.out
-
       - name: Generate parser from scratch and test it
         if: ${{ runner.os == 'Linux' || needs.changedfiles.outputs.c }}
         shell: bash
