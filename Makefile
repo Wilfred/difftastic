@@ -1,4 +1,4 @@
-VERSION := 0.3.0
+VERSION := 0.4.0
 
 LANGUAGE_NAME := tree-sitter-latex
 
