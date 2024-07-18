@@ -521,7 +521,5 @@ build/
 /bindings/c/*.h
 /bindings/c/tree-sitter-*.pc
 
-src/
-!src/scanner.c
-!src/grammar.json
-!src/node-types.json
+src/parser.c
+src/tree_sitter/
