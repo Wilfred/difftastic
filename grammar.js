@@ -46,7 +46,11 @@ module.exports = grammar({
     $._trivia_raw_env_verbatim,
     $._trivia_raw_env_listing,
     $._trivia_raw_env_minted,
+    $._trivia_raw_env_asy,
+    $._trivia_raw_env_asydef,
     $._trivia_raw_env_pycode,
+    $._trivia_raw_env_luacode,
+    $._trivia_raw_env_luacode_star,
     $._trivia_raw_env_sagesilent,
     $._trivia_raw_env_sageblock,
   ],
@@ -81,7 +85,10 @@ module.exports = grammar({
         $.verbatim_environment,
         $.listing_environment,
         $.minted_environment,
+        $.asy_environment,
+        $.asydef_environment,
         $.pycode_environment,
+        $.luacode_environment,
         $.sagesilent_environment,
         $.sageblock_environment,
         $.generic_environment,
@@ -492,10 +499,44 @@ module.exports = grammar({
     }),
 
     ...specialEnvironment({
+      rule: 'asy_environment',
+      name: 'asy',
+      content: $ => field('code', alias($._trivia_raw_env_asy, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'asydef_environment',
+      name: 'asydef',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_asydef, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
       rule: 'pycode_environment',
       name: 'pycode',
       content: $ =>
         field('code', alias($._trivia_raw_env_pycode, $.source_code)),
+      options: undefined,
+    }),
+
+    luacode_environment: $ =>
+      choice($._luacode_environment, $._luacode_environment_star),
+
+    ...specialEnvironment({
+      rule: '_luacode_environment',
+      name: 'luacode',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_luacode, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: '_luacode_environment_star',
+      name: 'luacode*',
+      content: $ =>
+        field('code', alias($._trivia_raw_env_luacode_star, $.source_code)),
       options: undefined,
     }),
 

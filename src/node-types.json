@@ -260,6 +260,78 @@
     }
   },
   {
+    "type": "asy_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "asydef_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "author",
     "named": true,
     "fields": {},
@@ -655,6 +727,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -780,6 +860,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -1001,6 +1085,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -1126,6 +1218,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -1754,6 +1850,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -1883,6 +1987,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -2327,6 +2435,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -2456,6 +2572,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -2625,6 +2745,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -2746,6 +2874,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -2963,6 +3095,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -3092,6 +3232,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -3635,6 +3779,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -3764,6 +3916,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -4206,6 +4362,42 @@
     }
   },
   {
+    "type": "luacode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "math_delimiter",
     "named": true,
     "fields": {
@@ -4343,6 +4535,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -4472,6 +4672,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -4611,6 +4815,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -4732,6 +4944,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -5162,6 +5378,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -5287,6 +5511,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -5428,6 +5656,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -5557,6 +5793,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -5822,6 +6062,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -5950,6 +6198,10 @@
           "named": true
         },
         {
+          "type": "luacode_environment",
+          "named": true
+        },
+        {
           "type": "math_delimiter",
           "named": true
         },
@@ -6054,6 +6306,14 @@
         },
         {
           "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
           "named": true
         },
         {
@@ -6186,6 +6446,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -6339,6 +6603,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -6464,6 +6736,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -6617,6 +6893,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -6742,6 +7026,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
@@ -6883,6 +7171,14 @@
           "named": true
         },
         {
+          "type": "asy_environment",
+          "named": true
+        },
+        {
+          "type": "asydef_environment",
+          "named": true
+        },
+        {
           "type": "author_declaration",
           "named": true
         },
@@ -7008,6 +7304,10 @@
         },
         {
           "type": "listing_environment",
+          "named": true
+        },
+        {
+          "type": "luacode_environment",
           "named": true
         },
         {
