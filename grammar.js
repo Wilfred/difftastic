@@ -375,6 +375,7 @@ module.exports = grammar({
               $.operator,
               $.word,
               $.placeholder,
+              $.delimiter,
               $.block_comment,
               $._command,
               $.superscript,
@@ -384,9 +385,11 @@ module.exports = grammar({
         ),
       ),
 
-    word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#_\^\-\+\/\*]+/,
+    word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#&_\^\-\+\/\*]+/,
 
     placeholder: $ => /#\d/,
+
+    delimiter: $ => /&/,
 
     path: $ => /[^\*\"\[\]:;,\|\{\}<>]+/,
 

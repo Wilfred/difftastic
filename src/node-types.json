@@ -7514,6 +7514,10 @@
             "named": true
           },
           {
+            "type": "delimiter",
+            "named": true
+          },
+          {
             "type": "environment_definition",
             "named": true
           },
@@ -9260,6 +9264,10 @@
   },
   {
     "type": "comment",
+    "named": true
+  },
+  {
+    "type": "delimiter",
     "named": true
   },
   {

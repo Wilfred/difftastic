@@ -477,7 +477,7 @@ Let
           (word))))
     (text
       (word)
-      (word))
+      (delimiter))
     (text
       (word)
       (superscript
@@ -493,7 +493,7 @@ Let
           (word))))
     (text
       (word)
-      (word))
+      (delimiter))
     (text
       (word)
       (superscript

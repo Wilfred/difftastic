@@ -1643,6 +1643,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "delimiter"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "block_comment"
               },
               {
@@ -1664,11 +1668,15 @@
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\\s\\\\%\\{\\},\\$\\[\\]\\(\\)=\\#_\\^\\-\\+\\/\\*]+"
+      "value": "[^\\s\\\\%\\{\\},\\$\\[\\]\\(\\)=\\#&_\\^\\-\\+\\/\\*]+"
     },
     "placeholder": {
       "type": "PATTERN",
       "value": "#\\d"
+    },
+    "delimiter": {
+      "type": "PATTERN",
+      "value": "&"
     },
     "path": {
       "type": "PATTERN",
