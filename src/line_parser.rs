@@ -152,7 +152,9 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 // have a very large number of words, don't diff
                 // individual words.
                 if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
-                    for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
+                    for lhs_pos in
+                        lhs_lp.from_region(lhs_offset, lhs_offset + line_len_in_bytes(&lhs_part))
+                    {
                         mps.push(MatchedPos {
                             kind: MatchKind::NovelWord {
                                 highlight: TokenKind::Atom(AtomKind::Normal),
@@ -281,6 +283,14 @@ mod tests {
         let positions = change_positions("foo", "");
 
         assert_eq!(positions.len(), 1);
+        assert!(positions[0].kind.is_novel());
+    }
+
+    #[test]
+    fn test_positions_max_words() {
+        let positions = change_positions(&"foo\n".repeat(MAX_WORDS_IN_LINE + 1), "bar\n");
+
+        assert_eq!(positions.len(), MAX_WORDS_IN_LINE + 1);
         assert!(positions[0].kind.is_novel());
     }
 }
