@@ -19,6 +19,9 @@ sample_files/b2_math_1.h sample_files/b2_math_2.h
 sample_files/bad_combine_1.rs sample_files/bad_combine_2.rs
 f5051bf7d2b8afa3a677388cbd458891  -
 
+sample_files/big_text_hunk_1.txt sample_files/big_text_hunk_2.txt
+fd0c8912c094097f82c6b29ae66fb912  -
+
 sample_files/change_outer_1.el sample_files/change_outer_2.el
 2b9334a4cc72da63bba28eff958f0038  -
 
@@ -140,7 +143,7 @@ sample_files/makefile_1.mk sample_files/makefile_2.mk
 d0572210b5121ce68ac0ce45e43b922b  -
 
 sample_files/many_newlines_1.txt sample_files/many_newlines_2.txt
-615de4b145b7b161e4fb285728280ed1  -
+52ca05855e520876479e6f608c5e7831  -
 
 sample_files/metadata_1.clj sample_files/metadata_2.clj
 4b58ce366467c8cca46db53508e81323  -
@@ -293,5 +296,5 @@ sample_files/yaml_1.yaml sample_files/yaml_2.yaml
 f068239fc7bade0e6de96d81136c1ac5  -
 
 sample_files/zig_1.zig sample_files/zig_2.zig
-4516796003b81f35bfa57d84bb7c0cbe  -
+e36d1ea126b8b68e3344434bb63f205e  -
 

@@ -1,5 +1,10 @@
 ## 0.59 (unreleased)
 
+### Diffing
+
+Fixed crash on some textual files where a single change contained more than
+1,000 words.
+
 ### Parsing
 
 Added support for device tree and F#.

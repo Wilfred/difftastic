@@ -7,6 +7,7 @@ use line_numbers::SingleLineSpan;
 use owo_colors::{OwoColorize, Style};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
+use crate::lines::split_on_newlines;
 use crate::parse::syntax::StringKind;
 use crate::{
     constants::Side,
@@ -401,7 +402,7 @@ pub(crate) fn apply_colors(
     positions: &[MatchedPos],
 ) -> Vec<String> {
     let styles = color_positions(side, background, syntax_highlight, file_format, positions);
-    let lines = s.lines().collect::<Vec<_>>();
+    let lines = split_on_newlines(s).collect::<Vec<_>>();
     style_lines(&lines, &styles)
 }
 

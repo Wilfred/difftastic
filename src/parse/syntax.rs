@@ -9,6 +9,7 @@ use line_numbers::SingleLineSpan;
 use typed_arena::Arena;
 
 use self::Syntax::*;
+use crate::lines::split_on_newlines;
 use crate::words::split_words_and_numbers;
 use crate::{
     diff::changes::ChangeKind,
@@ -408,9 +409,8 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut DftHashMap<ContentKey, u32>)
                 ..
             } => {
                 let is_comment = *highlight == AtomKind::Comment;
-                let clean_content = if is_comment && content.lines().count() > 1 {
-                    content
-                        .lines()
+                let clean_content = if is_comment && split_on_newlines(content).count() > 1 {
+                    split_on_newlines(content)
                         .map(|l| l.trim_start())
                         .collect::<Vec<_>>()
                         .join("\n")
