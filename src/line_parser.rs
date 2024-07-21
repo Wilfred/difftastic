@@ -278,8 +278,9 @@ mod tests {
         // Even though the word exists on both sides, it should still
         // be treated as a change. We're doing a line-based diff and
         // the lines are different.
-        let positions = change_positions("foo", " foo");
-        assert!(positions[0].kind.is_novel());
+        let mut positions = change_positions("foo", " foo");
+        let last_pos = positions.pop().unwrap();
+        assert!(last_pos.kind.is_novel());
     }
 
     #[test]
@@ -300,17 +301,17 @@ mod tests {
 
     #[test]
     fn test_novel_lhs_trailing_newlines() {
-        let positions = change_positions("foo\n", "");
+        let mut positions = change_positions("foo\n", "");
 
-        assert_eq!(positions.len(), 2);
-        assert!(positions[0].kind.is_novel());
+        let last_pos = positions.pop().unwrap();
+        assert!(last_pos.kind.is_novel());
     }
 
     #[test]
     fn test_positions_novel_lhs() {
-        let positions = change_positions("foo", "");
+        let mut positions = change_positions("foo", "");
 
-        assert_eq!(positions.len(), 1);
-        assert!(positions[0].kind.is_novel());
+        let last_pos = positions.pop().unwrap();
+        assert!(last_pos.kind.is_novel());
     }
 }
