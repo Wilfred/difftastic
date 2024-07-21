@@ -32,9 +32,15 @@
 use line_numbers::SingleLineSpan;
 
 use crate::{
-    diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
-    parse::guess_language,
-    parse::syntax::Syntax::{self, *},
+    diff::changes::{
+        insert_deep_novel, insert_deep_unchanged,
+        ChangeKind::{self, *},
+        ChangeMap,
+    },
+    parse::{
+        guess_language,
+        syntax::Syntax::{self, *},
+    },
 };
 
 pub(crate) fn fix_all_sliders<'a>(
@@ -47,6 +53,75 @@ pub(crate) fn fix_all_sliders<'a>(
     fix_all_sliders_one_step(nodes, change_map);
 
     fix_all_nested_sliders(language, nodes, change_map);
+
+    fix_invisible_delims(nodes, change_map);
+}
+
+fn fix_invisible_delims<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
+    for node in nodes {
+        match node {
+            List {
+                open_content,
+                children,
+                close_content,
+                ..
+            } => {
+                if let Some(change_kind) = change_map.get(node) {
+                    if open_content == ""
+                        && close_content == ""
+                        && matches!(change_kind, ChangeKind::Novel)
+                    {
+                        let mut all_children_unchanged = true;
+                        for child in children {
+                            let Some(child_change) = change_map.get(child) else {
+                                continue;
+                            };
+
+                            if !matches!(child_change, ChangeKind::Unchanged(_)) {
+                                all_children_unchanged = false;
+                                break;
+                            }
+                        }
+
+                        if all_children_unchanged {
+                            if let Some(parent) = node.parent() {
+                                let List {
+                                    children: siblings, ..
+                                } = parent
+                                else {
+                                    unreachable!()
+                                };
+
+                                let child = siblings.first().unwrap();
+                                change_unchanged_to_novel(child, change_map);
+
+                                if siblings.len() > 1 {
+                                    change_unchanged_to_novel(
+                                        siblings[siblings.len() - 2],
+                                        change_map,
+                                    );
+                                }
+                            }
+                        }
+                    }
+                    fix_invisible_delims(children, change_map);
+                }
+            }
+            Atom { .. } => {}
+        }
+    }
+}
+
+fn change_unchanged_to_novel<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
+    let Some(change) = change_map.get(node) else {
+        return;
+    };
+    let Unchanged(opposite_node) = change else {
+        return;
+    };
+
+    change_map.insert(node, ChangeKind::Novel);
+    change_map.insert(opposite_node, ChangeKind::Novel);
 }
 
 /// Should nester slider correction prefer the inner or outer
