@@ -535,7 +535,7 @@ fn is_git_tmpfile(path: &Path) -> bool {
 fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> String {
     match (lhs_path, rhs_path) {
         (FileArgument::NamedPath(lhs), FileArgument::NamedPath(rhs)) => {
-            if let Ok(path) = env::var("REAL_PATH") {
+            if let Ok(path) = env::var("MERGED") {
                 if !path.is_empty() {
                     return path;
                 }
