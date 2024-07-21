@@ -92,7 +92,11 @@ fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&s
     let mut parts: Vec<(&str, usize)> = vec![];
     let mut s = s;
 
-    while width_respecting_tabs(s, tab_width) > max_width {
+    // Optimisation: width_respecting_tabs() walks the whole string,
+    // which is slow when we have files with massive lines. `s.len()`
+    // is always lower than width_respecting_tabs(s), so check that
+    // first.
+    while s.len() > max_width || width_respecting_tabs(s, tab_width) > max_width {
         let offset = byte_offset_for_width(s, max_width, tab_width);
 
         let part = substring_by_byte(s, 0, offset);
