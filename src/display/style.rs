@@ -93,10 +93,18 @@ fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&s
     let mut s = s;
 
     // Optimisation: width_respecting_tabs() walks the whole string,
-    // which is slow when we have files with massive lines. `s.len()`
-    // is always lower than width_respecting_tabs(s), so check that
-    // first.
-    while s.len() > max_width || width_respecting_tabs(s, tab_width) > max_width {
+    // which is slow when we have files with massive lines.
+    //
+    // A single character (grapheme) in UTF-8 can be 1, 2, 3 or 4
+    // bytes. A character's display width can be 0 (control
+    // characters), 1 (the typical case), 2 (e.g. fullwidth characters
+    // in Chinese, Japanese and Korean) or 4 (the default width for
+    // tabs in difftastic).
+    //
+    // Ignoring control characters, this means an n-byte UTF-8 string
+    // has a display width of at least n/4 characters. Check that case
+    // first, because it's a cheap conservative calculation.
+    while s.len() / 4 > max_width || width_respecting_tabs(s, tab_width) > max_width {
         let offset = byte_offset_for_width(s, max_width, tab_width);
 
         let part = substring_by_byte(s, 0, offset);
