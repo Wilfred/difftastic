@@ -322,6 +322,9 @@ module.exports = grammar({
 
     curly_group_text: $ => seq('{', field('text', $.text), '}'),
 
+    curly_group_spec: $ =>
+      seq('{', repeat(choice($._text_content, '=')), '}'),
+
     curly_group_text_list: $ =>
       seq('{', sepBy(field('text', $.text), ','), '}'),
 
@@ -871,6 +874,9 @@ module.exports = grammar({
       ),
 
     new_command_definition: $ =>
+      choice($._new_command_definition, $._newer_command_definition),
+
+    _new_command_definition: $ =>
       seq(
         field(
           'command',
@@ -879,21 +885,15 @@ module.exports = grammar({
             '\\newcommand*',
             '\\renewcommand',
             '\\renewcommand*',
+            '\\providecommand',
+            '\\providecommand*',
             '\\DeclareRobustCommand',
             '\\DeclareRobustCommand*',
             '\\DeclareMathOperator',
             '\\DeclareMathOperator*',
-            '\\NewDocumentCommand',
-            '\\RenewDocumentCommand',
-            '\\ProvideDocumentCommand',
-            '\\DeclareDocumentCommand',
-            '\\NewExpandableDocumentCommand',
-            '\\RenewExpandableDocumentCommand',
-            '\\ProvideExpandableDocumentCommand',
-            '\\DeclareExpandableDocumentCommand',
           ),
         ),
-        field('declaration', $.curly_group_command_name),
+        field('declaration', choice($.curly_group_command_name, $.command_name)),
         optional(
           seq(
             field('argc', $.brack_group_argc),
@@ -901,6 +901,28 @@ module.exports = grammar({
           ),
         ),
         field('implementation', $.curly_group),
+      ),
+
+    _newer_command_definition: $ =>
+      prec.right(
+        seq(
+          field(
+            'command',
+            choice(
+              '\\NewDocumentCommand',
+              '\\RenewDocumentCommand',
+              '\\ProvideDocumentCommand',
+              '\\DeclareDocumentCommand',
+              '\\NewExpandableDocumentCommand',
+              '\\RenewExpandableDocumentCommand',
+              '\\ProvideExpandableDocumentCommand',
+              '\\DeclareExpandableDocumentCommand',
+            ),
+          ),
+          field('declaration', choice($.curly_group_command_name, $.command_name)),
+          field('spec', $.curly_group_spec),
+          field('implementation', $.curly_group),
+        ),
       ),
 
     old_command_definition: $ =>
@@ -950,12 +972,28 @@ module.exports = grammar({
       ),
 
     environment_definition: $ =>
+      choice($._environment_definition, $._newer_environment_definition),
+
+    _environment_definition: $ =>
       seq(
         field(
           'command',
           choice(
             '\\newenvironment',
             '\\renewenvironment',
+          ),
+        ),
+        field('name', $.curly_group_text),
+        field('argc', optional($.brack_group_argc)),
+        field('begin', $.curly_group_impl),
+        field('end', $.curly_group_impl),
+      ),
+
+    _newer_environment_definition: $ =>
+      seq(
+        field(
+          'command',
+          choice(
             '\\NewDocumentEnvironment',
             '\\RenewDocumentEnvironment',
             '\\ProvideDocumentEnvironment',
@@ -963,7 +1001,7 @@ module.exports = grammar({
           ),
         ),
         field('name', $.curly_group_text),
-        field('argc', optional($.brack_group_argc)),
+        field('spec', $.curly_group_spec),
         field('begin', $.curly_group_impl),
         field('end', $.curly_group_impl),
       ),

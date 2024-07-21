@@ -135,6 +135,67 @@ Command definition with default arg
         (placeholder)))))
 
 ================================================================================
+Command definition without curly braces
+================================================================================
+
+\newcommand\foo[1]{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (command_name)
+    (brack_group_argc
+      (argc))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Command definition (xparse)
+================================================================================
+
+\NewDocumentCommand{\foo}{m}{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_spec
+      (text
+        (word)))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Command definition with optional argument (xparse)
+================================================================================
+
+\NewDocumentCommand{\foo}{o{default} m}{#1 #2}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_spec
+      (text
+        (word))
+      (curly_group
+        (text
+          (word)))
+      (text
+        (word)))
+    (curly_group
+      (text
+        (placeholder)
+        (placeholder)))))
+
+================================================================================
 Author command
 ================================================================================
 

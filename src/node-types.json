@@ -2371,6 +2371,185 @@
     }
   },
   {
+    "type": "curly_group_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "acronym_definition",
+          "named": true
+        },
+        {
+          "type": "acronym_reference",
+          "named": true
+        },
+        {
+          "type": "author_declaration",
+          "named": true
+        },
+        {
+          "type": "biblatex_include",
+          "named": true
+        },
+        {
+          "type": "bibstyle_include",
+          "named": true
+        },
+        {
+          "type": "bibtex_include",
+          "named": true
+        },
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "caption",
+          "named": true
+        },
+        {
+          "type": "citation",
+          "named": true
+        },
+        {
+          "type": "class_include",
+          "named": true
+        },
+        {
+          "type": "color_definition",
+          "named": true
+        },
+        {
+          "type": "color_reference",
+          "named": true
+        },
+        {
+          "type": "color_set_definition",
+          "named": true
+        },
+        {
+          "type": "curly_group",
+          "named": true
+        },
+        {
+          "type": "displayed_equation",
+          "named": true
+        },
+        {
+          "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_definition",
+          "named": true
+        },
+        {
+          "type": "glossary_entry_reference",
+          "named": true
+        },
+        {
+          "type": "graphics_include",
+          "named": true
+        },
+        {
+          "type": "hyperlink",
+          "named": true
+        },
+        {
+          "type": "import_include",
+          "named": true
+        },
+        {
+          "type": "inkscape_include",
+          "named": true
+        },
+        {
+          "type": "inline_formula",
+          "named": true
+        },
+        {
+          "type": "label_definition",
+          "named": true
+        },
+        {
+          "type": "label_number",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "label_reference_range",
+          "named": true
+        },
+        {
+          "type": "latex_include",
+          "named": true
+        },
+        {
+          "type": "let_command_definition",
+          "named": true
+        },
+        {
+          "type": "math_delimiter",
+          "named": true
+        },
+        {
+          "type": "new_command_definition",
+          "named": true
+        },
+        {
+          "type": "old_command_definition",
+          "named": true
+        },
+        {
+          "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
+          "type": "svg_include",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
+          "named": true
+        },
+        {
+          "type": "theorem_definition",
+          "named": true
+        },
+        {
+          "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "title_declaration",
+          "named": true
+        },
+        {
+          "type": "verbatim_include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "curly_group_text",
     "named": true,
     "fields": {
@@ -3025,6 +3204,16 @@
         "types": [
           {
             "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_spec",
             "named": true
           }
         ]
@@ -5136,6 +5325,14 @@
             "named": false
           },
           {
+            "type": "\\providecommand",
+            "named": false
+          },
+          {
+            "type": "\\providecommand*",
+            "named": false
+          },
+          {
             "type": "\\renewcommand",
             "named": false
           },
@@ -5149,6 +5346,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
           {
             "type": "curly_group_command_name",
             "named": true
@@ -5171,6 +5372,16 @@
         "types": [
           {
             "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_spec",
             "named": true
           }
         ]
@@ -9100,6 +9311,14 @@
   },
   {
     "type": "\\pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\providecommand",
+    "named": false
+  },
+  {
+    "type": "\\providecommand*",
     "named": false
   },
   {
