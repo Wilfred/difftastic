@@ -43,7 +43,7 @@ Add the following to your `~/.gitconfig` to use difftastic as a
         prompt = false
 
 [difftool "difftastic"]
-        cmd = MERGED="$MERGED" difft "$LOCAL" "$REMOTE"
+        cmd = export MERGED && difft "$LOCAL" "$REMOTE"
 
 [pager]
         difftool = true
