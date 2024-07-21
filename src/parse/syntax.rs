@@ -875,7 +875,37 @@ pub(crate) fn change_positions<'a>(
     change_map: &ChangeMap<'a>,
 ) -> Vec<MatchedPos> {
     let mut positions = Vec::new();
-    change_positions_(nodes, change_map, &mut positions);
+    let mut seen_unchanged = false;
+
+    change_positions_(nodes, change_map, &mut positions, &mut seen_unchanged);
+
+    // If there are no unchanged items, insert a dummy item at the
+    // beginning of both files with a width of zero. This gives
+    // display something to use when aligning.
+    if !seen_unchanged {
+        let lhs_pos = SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 0,
+        };
+        let rhs_pos = SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 0,
+        };
+        positions.insert(
+            0,
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: vec![lhs_pos],
+                    opposite_pos: vec![rhs_pos],
+                },
+                pos: lhs_pos,
+            },
+        );
+    }
+
     positions
 }
 
@@ -883,11 +913,16 @@ fn change_positions_<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
     positions: &mut Vec<MatchedPos>,
+    seen_unchanged: &mut bool,
 ) {
     for node in nodes {
         let change = change_map
             .get(node)
             .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
+
+        if matches!(change, ChangeKind::Unchanged(_)) {
+            *seen_unchanged = true;
+        }
 
         match node {
             List {
@@ -903,7 +938,7 @@ fn change_positions_<'a>(
                     false,
                 ));
 
-                change_positions_(children, change_map, positions);
+                change_positions_(children, change_map, positions, seen_unchanged);
 
                 positions.extend(MatchedPos::new(
                     change,

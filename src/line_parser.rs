@@ -1,7 +1,7 @@
 //! A fallback "parser" for plain text.
 
 use lazy_static::lazy_static;
-use line_numbers::LinePositions;
+use line_numbers::{LinePositions, SingleLineSpan};
 use regex::Regex;
 
 use crate::words::split_words;
@@ -118,9 +118,12 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
     let mut rhs_offset = 0;
 
     let mut mps = vec![];
+
+    let mut seen_unchanged = false;
     for (kind, lhs_lines, rhs_lines) in changed_parts(lhs_src, rhs_src) {
         match kind {
             TextChangeKind::Unchanged => {
+                seen_unchanged = true;
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
                     let lhs_pos =
                         lhs_lp.from_region(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
@@ -208,6 +211,33 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 }
             }
         }
+    }
+
+    // If there are no unchanged items, insert a dummy item at the
+    // beginning of both files with a width of zero. This gives
+    // display something to use when aligning.
+    if !seen_unchanged {
+        let lhs_pos = SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 0,
+        };
+        let rhs_pos = SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 0,
+        };
+        mps.insert(
+            0,
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: vec![lhs_pos],
+                    opposite_pos: vec![rhs_pos],
+                },
+                pos: lhs_pos,
+            },
+        );
     }
 
     mps

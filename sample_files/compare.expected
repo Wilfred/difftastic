@@ -10,6 +10,9 @@ sample_files/added_line_1.txt sample_files/added_line_2.txt
 sample_files/align_footer_1.txt sample_files/align_footer_2.txt
 d640bd2de31e56a39f0efb92aff0f379  -
 
+sample_files/all_changed_1.js sample_files/all_changed_2.js
+40eb536d8b626e27ae227a090fb05f25  -
+
 sample_files/apex_1.cls sample_files/apex_2.cls
 8e477350907734ac4d5201752523dff3  -
 
@@ -134,7 +137,7 @@ sample_files/load_1.js sample_files/load_2.js
 22365043359164f717d495336d86b996  -
 
 sample_files/long_line_1.txt sample_files/long_line_2.txt
-40e22d364bb714421eec24b8ef808f01  -
+7fc50bd547f0c20fda89a1931e5eb61e  -
 
 sample_files/lua_1.lua sample_files/lua_2.lua
 8318115b642361955346cc620bc3ad86  -
@@ -227,7 +230,7 @@ sample_files/simple_1.scss sample_files/simple_2.scss
 265261e79df78abfc09392d72a0273d8  -
 
 sample_files/simple_1.txt sample_files/simple_2.txt
-416d05b8a02e41cb70b78d28cd3153d9  -
+6fd97a544afd0a3be7eebba75f82f696  -
 
 sample_files/slider_1.rs sample_files/slider_2.rs
 d10128f3d9ffc4a8670f417a9371bacc  -

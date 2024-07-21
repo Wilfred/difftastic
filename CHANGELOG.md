@@ -1,5 +1,10 @@
 ## 0.60 (unreleased)
 
+### Display
+
+Fixed an issue where files with no common content would show duplicate
+hunks.
+
 ## 0.59 (released 20th July 2024)
 
 ### Diffing
