@@ -11,14 +11,16 @@ use owo_colors::{OwoColorize, Style};
 
 use crate::{
     constants::Side,
-    display::context::all_matched_lines_filled,
-    display::hunks::{matched_lines_indexes_for_hunk, Hunk},
-    display::style::{
-        self, apply_colors, apply_line_number_color, color_positions, novel_style, replace_tabs,
-        split_and_apply, BackgroundColor,
+    display::{
+        context::all_matched_lines_filled,
+        hunks::{matched_lines_indexes_for_hunk, Hunk},
+        style::{
+            self, apply_colors, apply_line_number_color, color_positions, novel_style,
+            replace_tabs, split_and_apply, BackgroundColor,
+        },
     },
     hash::DftHashMap,
-    lines::format_line_num,
+    lines::{format_line_num, split_on_newlines},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
     summary::FileFormat,
@@ -338,8 +340,12 @@ pub(crate) fn print(
         )
     } else {
         (
-            lhs_src.lines().map(|s| format!("{}\n", s)).collect(),
-            rhs_src.lines().map(|s| format!("{}\n", s)).collect(),
+            split_on_newlines(lhs_src)
+                .map(|s| format!("{}\n", s))
+                .collect(),
+            split_on_newlines(rhs_src)
+                .map(|s| format!("{}\n", s))
+                .collect(),
         )
     };
 
@@ -401,8 +407,21 @@ pub(crate) fn print(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
-    let lhs_lines = lhs_src.lines().collect::<Vec<_>>();
-    let rhs_lines = rhs_src.lines().collect::<Vec<_>>();
+    let mut lhs_lines = split_on_newlines(lhs_src).collect::<Vec<_>>();
+    let mut rhs_lines = split_on_newlines(rhs_src).collect::<Vec<_>>();
+
+    // If "foo" is one line, is "foo\n" two lines? Generally we want
+    // to care about newlines when deciding whether content differs.
+    //
+    // Ending a file with a trailing newline is extremely common
+    // though. If both files have a trailing newline, consider "foo\n"
+    // to be "foo" so we don't end up displaying a blank line on both
+    // sides.
+    if lhs_lines.last() == Some(&"") && rhs_lines.last() == Some(&"") {
+        lhs_lines.pop();
+        rhs_lines.pop();
+    }
+
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
 

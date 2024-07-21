@@ -32,6 +32,21 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
+/// Split `s` on \n or \r\n. Always returns a non-empty vec. Each line
+/// in the vec does not include the trailing newline.
+///
+/// This differs from `str::lines`, which considers `""` to be zero
+/// lines and `"foo\n"` to be one line.
+pub(crate) fn split_on_newlines(s: &str) -> impl Iterator<Item = &str> {
+    s.split('\n').map(|l| {
+        if let Some(l) = l.strip_suffix('\r') {
+            l
+        } else {
+            l
+        }
+    })
+}
+
 pub(crate) fn is_all_whitespace(s: &str) -> bool {
     s.chars().all(|c| c.is_whitespace())
 }
@@ -64,6 +79,40 @@ mod tests {
     fn str_max_line_extra_trailing_newline() {
         let line: String = "foo\nbar\n\n".into();
         assert_eq!(line.max_line().0, 1);
+    }
+
+    #[test]
+    fn test_split_line_empty() {
+        assert_eq!(split_on_newlines("").collect::<Vec<_>>(), vec![""]);
+    }
+
+    #[test]
+    fn test_split_line_single() {
+        assert_eq!(split_on_newlines("foo").collect::<Vec<_>>(), vec!["foo"]);
+    }
+
+    #[test]
+    fn test_split_line_with_newline() {
+        assert_eq!(
+            split_on_newlines("foo\nbar").collect::<Vec<_>>(),
+            vec!["foo", "bar"]
+        );
+    }
+
+    #[test]
+    fn test_split_line_with_crlf() {
+        assert_eq!(
+            split_on_newlines("foo\r\nbar").collect::<Vec<_>>(),
+            vec!["foo", "bar"]
+        );
+    }
+
+    #[test]
+    fn test_split_line_with_trailing_newline() {
+        assert_eq!(
+            split_on_newlines("foo\nbar\n").collect::<Vec<_>>(),
+            vec!["foo", "bar", ""]
+        );
     }
 
     #[test]

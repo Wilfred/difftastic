@@ -4,7 +4,7 @@ description = "A structural diff that understands syntax."
 repository = "https://github.com/wilfred/difftastic"
 homepage = "http://difftastic.wilfred.me.uk/"
 license = "MIT"
-version = "0.59.0"
+version = "0.60.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
@@ -94,7 +94,7 @@ pretty_assertions = "1.3.0"
 [build-dependencies]
 # TODO: enable parallel mode once MSRV hits 1.61, see discussion in
 # https://github.com/rust-lang/cc-rs/pull/849
-cc = "1.0.83"
+cc = "1.1.5"
 rayon = "1.7.0"
 version_check = "0.9.4"
 

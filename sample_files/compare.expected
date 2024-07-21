@@ -10,6 +10,9 @@ sample_files/added_line_1.txt sample_files/added_line_2.txt
 sample_files/align_footer_1.txt sample_files/align_footer_2.txt
 d640bd2de31e56a39f0efb92aff0f379  -
 
+sample_files/all_changed_1.js sample_files/all_changed_2.js
+40eb536d8b626e27ae227a090fb05f25  -
+
 sample_files/apex_1.cls sample_files/apex_2.cls
 8e477350907734ac4d5201752523dff3  -
 
@@ -18,6 +21,9 @@ sample_files/b2_math_1.h sample_files/b2_math_2.h
 
 sample_files/bad_combine_1.rs sample_files/bad_combine_2.rs
 f5051bf7d2b8afa3a677388cbd458891  -
+
+sample_files/big_text_hunk_1.txt sample_files/big_text_hunk_2.txt
+fd0c8912c094097f82c6b29ae66fb912  -
 
 sample_files/change_outer_1.el sample_files/change_outer_2.el
 2b9334a4cc72da63bba28eff958f0038  -
@@ -131,7 +137,7 @@ sample_files/load_1.js sample_files/load_2.js
 22365043359164f717d495336d86b996  -
 
 sample_files/long_line_1.txt sample_files/long_line_2.txt
-40e22d364bb714421eec24b8ef808f01  -
+7fc50bd547f0c20fda89a1931e5eb61e  -
 
 sample_files/lua_1.lua sample_files/lua_2.lua
 8318115b642361955346cc620bc3ad86  -
@@ -140,7 +146,7 @@ sample_files/makefile_1.mk sample_files/makefile_2.mk
 d0572210b5121ce68ac0ce45e43b922b  -
 
 sample_files/many_newlines_1.txt sample_files/many_newlines_2.txt
-615de4b145b7b161e4fb285728280ed1  -
+52ca05855e520876479e6f608c5e7831  -
 
 sample_files/metadata_1.clj sample_files/metadata_2.clj
 4b58ce366467c8cca46db53508e81323  -
@@ -224,7 +230,7 @@ sample_files/simple_1.scss sample_files/simple_2.scss
 265261e79df78abfc09392d72a0273d8  -
 
 sample_files/simple_1.txt sample_files/simple_2.txt
-416d05b8a02e41cb70b78d28cd3153d9  -
+6fd97a544afd0a3be7eebba75f82f696  -
 
 sample_files/slider_1.rs sample_files/slider_2.rs
 d10128f3d9ffc4a8670f417a9371bacc  -
@@ -293,5 +299,5 @@ sample_files/yaml_1.yaml sample_files/yaml_2.yaml
 f068239fc7bade0e6de96d81136c1ac5  -
 
 sample_files/zig_1.zig sample_files/zig_2.zig
-4516796003b81f35bfa57d84bb7c0cbe  -
+e36d1ea126b8b68e3344434bb63f205e  -
 

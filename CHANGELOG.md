@@ -1,4 +1,19 @@
-## 0.59 (unreleased)
+## 0.60 (unreleased)
+
+### Display
+
+Fixed an issue where files with no common content would show duplicate
+hunks.
+
+Fixed a performance issue when files had extremely long lines
+(e.g. 100,000+ characters).
+
+## 0.59 (released 20th July 2024)
+
+### Diffing
+
+Fixed crash on some textual files where a single change contained more than
+1,000 words.
 
 ### Parsing
 

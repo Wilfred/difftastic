@@ -5,7 +5,7 @@ If you have a file that's particularly slow, you can use
 which functions are slow.
 
 ```
-$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft sample_files/slow_1.rs sample_files/slow_2.rs
+$ CARGO_PROFILE_RELEASE_DEBUG=true cargo flamegraph --bin difft -- sample_files/slow_1.rs sample_files/slow_2.rs
 ```
 
 It's also worth looking at memory usage, as graph traversal bugs can

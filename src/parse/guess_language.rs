@@ -179,6 +179,8 @@ pub(crate) fn language_name(language: Language) -> &'static str {
 
 use Language::*;
 
+use crate::lines::split_on_newlines;
+
 /// File globs that identify languages based on the file path.
 pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
     let glob_strs: &'static [&'static str] = match language {
@@ -420,7 +422,7 @@ fn looks_like_hacklang(path: &Path, src: &str) -> bool {
 fn looks_like_objc(path: &Path, src: &str) -> bool {
     if let Some(extension) = path.extension() {
         if extension == "h" {
-            return src.lines().take(100).any(|line| {
+            return split_on_newlines(src).take(100).any(|line| {
                 ["#import", "@interface", "@protocol"]
                     .iter()
                     .any(|keyword| line.starts_with(keyword))
@@ -497,7 +499,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
 
     // Emacs allows the mode header to occur on the second line if the
     // first line is a shebang.
-    for line in src.lines().take(2) {
+    for line in split_on_newlines(src).take(2) {
         let mode_name: String = match (MODE_RE.captures(line), SHORTHAND_RE.captures(line)) {
             (Some(cap), _) | (_, Some(cap)) => cap[1].into(),
             _ => "".into(),
@@ -559,7 +561,7 @@ fn from_shebang(src: &str) -> Option<Language> {
     lazy_static! {
         static ref RE: Regex = Regex::new(r"#! *(?:/usr/bin/env )?([^ ]+)").unwrap();
     }
-    if let Some(first_line) = src.lines().next() {
+    if let Some(first_line) = split_on_newlines(src).next() {
         if let Some(cap) = RE.captures(first_line) {
             let interpreter_path = Path::new(&cap[1]);
             if let Some(name) = interpreter_path.file_name() {
