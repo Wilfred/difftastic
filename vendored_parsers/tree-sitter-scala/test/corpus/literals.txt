@@ -1,0 +1,297 @@
+================================================================================
+Simple strings
+================================================================================
+
+val oneLineString = "I'm just on one line"
+
+val multiLineString = """
+  a
+  $thisIsntInterpolated
+  ${thisEither}
+"""
+
+val multiLineString2 = """""""
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (string))
+  (val_definition
+    (identifier)
+    (string))
+  (val_definition
+    (identifier)
+    (string)))
+
+================================================================================
+Interpolated strings
+================================================================================
+
+val string1 = s"a $b ${c}"
+
+val string2 = f"hi $name%s"
+
+val string3 = raw"Not a new line \n${ha}"
+
+val string4 = s"""
+works even in multiline strings, ${name}
+"""
+
+val string5 = s"$works${without}$spaces"
+
+val string6 = s"$a$b"
+
+val string7 = s"$$ $a"
+
+val string8 = s"$"$a"
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier))
+        (interpolation
+          (block
+            (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (block
+            (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (block
+            (identifier))))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier))
+        (interpolation
+          (block
+            (identifier)))
+        (interpolation
+          (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+        (interpolated_string
+          (interpolation
+            (identifier))
+          (interpolation
+            (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier)))))
+  (val_definition
+    (identifier)
+    (interpolated_string_expression
+      (identifier)
+      (interpolated_string
+        (interpolation
+          (identifier))))))
+
+
+================================================================================
+Integer literals
+================================================================================
+
+val i1 = 0
+val i2 = 1234
+val i3 = -0xF2
+val i4 = 0XA0
+val l1 = -0l
+val l2 = 1234L
+val l3 = 0xF23l
+val l4 = 0XA03L
+val l5 = 150_000_000
+val l6 = 0xFF_FF_FF
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal))
+  (val_definition
+    (identifier)
+    (integer_literal)))
+
+================================================================================
+Floating point literals
+================================================================================
+
+val f1 = 3.14
+val f2 = -3f
+val f2 = 3E-1
+val d1 = .314D
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (floating_point_literal))
+  (val_definition
+    (identifier)
+    (floating_point_literal))
+  (val_definition
+    (identifier)
+    (floating_point_literal))
+  (val_definition
+    (identifier)
+    (floating_point_literal)))
+
+================================================================================
+Boolean literals
+================================================================================
+
+val myBool = true
+
+def foo(a: Boolean = false) = a && true
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (boolean_literal))
+  (function_definition
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)
+        (boolean_literal)))
+    (infix_expression
+      (identifier)
+      (operator_identifier)
+      (boolean_literal))))
+
+================================================================================
+Character literals
+================================================================================
+
+val myChar = 'c'
+
+val otherChar = '\u0041'
+
+val otherChar2 = '\uu0041'
+
+val anotherChar = '\n'
+
+def foo(a: Char = 'c') = a + 'd'
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (character_literal))
+  (val_definition
+    (identifier)
+    (character_literal))
+  (val_definition
+    (identifier)
+    (character_literal))
+  (val_definition
+    (identifier)
+    (character_literal))
+  (function_definition
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)
+        (character_literal)))
+    (infix_expression
+      (identifier)
+      (operator_identifier)
+      (character_literal))))
+
+================================================================================
+Null
+================================================================================
+
+lazy val nullObject: String = null
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (modifiers)
+    (identifier)
+    (type_identifier)
+    (null_literal)))
+
+================================================================================
+Tuple literals
+================================================================================
+
+val x = (
+  1,
+  2,
+  3,
+)
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (tuple_expression
+      (integer_literal)
+      (integer_literal)
+      (integer_literal))))

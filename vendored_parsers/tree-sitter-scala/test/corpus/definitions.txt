@@ -1,0 +1,1783 @@
+================================================================================
+Identifiers
+================================================================================
+
+  def m = ???
+  def unary_! = true
+  def a_-> = ???
+  def __symtem = ???
+  def empty_? = ???
+  def ひらがな = ???
+  def a_^ = ???
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (operator_identifier))
+  (function_definition
+    (identifier)
+    (boolean_literal))
+  (function_definition
+    (identifier)
+    (operator_identifier))
+  (function_definition
+    (identifier)
+    (operator_identifier))
+  (function_definition
+    (identifier)
+    (operator_identifier))
+  (function_definition
+    (identifier)
+    (operator_identifier))
+  (function_definition
+    (identifier)
+    (operator_identifier)))
+
+================================================================================
+$ in identifier names
+================================================================================
+
+class $A$B$ {
+  val b$, c$ : Int
+  val d$ : String
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+================================================================================
+Operator identifiers
+================================================================================
+
+type ::[+Ab] = scala.collection.immutable.::[Ab]
+val :: = scala.collection.immutable.::
+
+val +: = scala.collection.+:
+val :+ = scala.collection.:+
+
+def → = ???
+
+val test = id.##
+
+val x = y
+/////////
+// avoid matching slashes as operator
+/////////
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (covariant_type_parameter
+        (identifier)))
+    (generic_type
+      (stable_type_identifier
+        (stable_identifier
+          (stable_identifier
+            (identifier)
+            (identifier))
+          (identifier))
+        (type_identifier))
+      (type_arguments
+        (type_identifier))))
+  (val_definition
+    (operator_identifier)
+    (field_expression
+      (field_expression
+        (field_expression
+          (identifier)
+          (identifier))
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (operator_identifier)
+    (field_expression
+      (field_expression
+        (identifier)
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (operator_identifier)
+    (field_expression
+      (field_expression
+        (identifier)
+        (identifier))
+      (operator_identifier)))
+  (function_definition
+    (operator_identifier)
+    (operator_identifier))
+  (val_definition
+    (identifier)
+    (field_expression
+      (identifier)
+      (operator_identifier)))
+  (val_definition
+    (identifier)
+    (identifier))
+  (comment)
+  (comment)
+  (comment))
+
+================================================================================
+Package
+================================================================================
+
+package a.b
+package c {
+  object A
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (package_clause
+    (package_identifier
+      (identifier)
+      (identifier)))
+  (package_clause
+    (package_identifier
+      (identifier))
+    (template_body
+      (object_definition
+        (identifier)))))
+
+================================================================================
+Package with comma
+================================================================================
+
+package a.b;
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (package_clause
+    (package_identifier
+      (identifier)
+      (identifier))))
+
+================================================================================
+Package (Scala 3 syntax)
+================================================================================
+
+package a.b
+package c:
+  object A
+
+package d:
+  object A
+end d
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (package_clause
+    (package_identifier
+      (identifier)
+      (identifier)))
+  (package_clause
+    (package_identifier
+      (identifier))
+    (template_body
+      (object_definition
+        (identifier))))
+  (package_clause
+    (package_identifier
+      (identifier))
+    (template_body
+      (object_definition
+        (identifier)))))
+
+================================================================================
+Package object
+================================================================================
+
+package object d extends A {
+  val hello: String = "there"
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (package_object
+    (identifier)
+    (extends_clause
+      (type_identifier))
+    (template_body
+      (val_definition
+        (identifier)
+        (type_identifier)
+        (string)))))
+
+================================================================================
+Imports
+================================================================================
+
+import PartialFunction.condOpt
+import a.b, c.e
+import reflect.io.{Directory, File, Path}
+import a.{
+  b,
+}
+import Opts.+
+import a.{ :: }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (identifier)
+      (identifier)
+      (identifier)))
+  (import_declaration
+    (identifier)
+    (namespace_selectors
+      (identifier)))
+  (import_declaration
+    (identifier)
+    (operator_identifier))
+  (import_declaration
+    (identifier)
+    (namespace_selectors
+      (operator_identifier))))
+
+================================================================================
+Imports: Wildcard
+================================================================================
+
+import tools.nsc.classpath._
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (namespace_wildcard)))
+
+================================================================================
+Imports: Wildcard (Scala 3 syntax)
+================================================================================
+
+import tools.nsc.classpath.*
+import a.b.*, b.c, c.*
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (namespace_wildcard))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (namespace_wildcard)
+    (identifier)
+    (identifier)
+    (identifier)
+    (namespace_wildcard)))
+
+================================================================================
+Imports: Wildcard and wildcard givens (Scala 3 syntax)
+================================================================================
+
+import tools.nsc.classpath.{*, given}
+import tools.given
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (namespace_wildcard)
+      (namespace_wildcard)))
+  (import_declaration
+    (identifier)
+    (namespace_wildcard)))
+
+================================================================================
+Imports: Givens by type (Scala 3 syntax)
+================================================================================
+
+import tools.nsc.classpath.{given Test, given Test2, Test3}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (type_identifier)
+      (type_identifier)
+      (identifier))))
+
+================================================================================
+Imports: Rename (Scala 3 Syntax)
+================================================================================
+
+import lang.System.{lineSeparator as EOL}
+import lang.System.lineSeparator as EOL
+import lang.System.lineSeparator as _
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (as_renamed_identifier
+        (identifier)
+        (identifier))))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (as_renamed_identifier
+      (identifier)
+      (identifier)))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (as_renamed_identifier
+      (identifier)
+      (wildcard))))
+
+================================================================================
+Imports: Rename
+================================================================================
+
+import lang.System.{lineSeparator => EOL}
+import lang.System.{lineSeparator => _}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (import_declaration
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (arrow_renamed_identifier
+        (identifier)
+        (identifier))))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (arrow_renamed_identifier
+        (identifier)
+        (wildcard)))))
+
+================================================================================
+Object definitions
+================================================================================
+
+// o1
+object O1 {
+}
+
+case object O2 {
+}
+
+object O3 extends A {
+}
+
+object O4 extends {
+  val a: A = b
+}
+
+object O5 {
+  ;;
+  ;
+  ;
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (comment)
+  (object_definition
+    (identifier)
+    (template_body))
+  (object_definition
+    (identifier)
+    (template_body))
+  (object_definition
+    (identifier)
+    (extends_clause
+      (type_identifier))
+    (template_body))
+  (object_definition
+    (identifier)
+    (extends_clause
+      (structural_type
+        (val_definition
+          (identifier)
+          (type_identifier)
+          (identifier)))))
+  (object_definition
+    (identifier)
+    (template_body)))
+
+================================================================================
+Object definitions
+================================================================================
+case object A extends B derives C, D {}
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (extends_clause
+      (type_identifier))
+    (derives_clause
+      (type_identifier)
+      (type_identifier))
+    (template_body)))
+
+================================================================================
+Class definitions
+================================================================================
+
+class C[
+  T,
+  U,
+](a: => A, b: B, c: C*) {
+}
+
+class A
+()
+()
+{}
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (identifier))
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (lazy_parameter_type
+          (type_identifier)))
+      (class_parameter
+        (identifier)
+        (type_identifier))
+      (class_parameter
+        (identifier)
+        (repeated_parameter_type
+          (type_identifier))))
+    (template_body))
+  (class_definition
+    (identifier)
+    (class_parameters)
+    (class_parameters)
+    (template_body)))
+
+================================================================================
+Class definitions (Scala 3)
+================================================================================
+final case class C() 
+  extends A 
+  derives B, C.D
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (modifiers)
+    (identifier)
+    (class_parameters)
+    (extends_clause
+      (type_identifier))
+    (derives_clause
+      (type_identifier)
+      (stable_type_identifier
+        (identifier)
+        (type_identifier)))))
+
+================================================================================
+Subclass definitions
+================================================================================
+
+class A extends B.C[D, E] {
+}
+
+class A(b: B) extends C(b || ok) {
+}
+
+object C {
+    class A
+        extends B[T]
+        with C[T]
+}
+
+class D(c: String) extends E(c) with F
+
+class MyClass extends Potato() with Tomato
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (extends_clause
+      (generic_type
+        (stable_type_identifier
+          (identifier)
+          (type_identifier))
+        (type_arguments
+          (type_identifier)
+          (type_identifier))))
+    (template_body))
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (extends_clause
+      (type_identifier)
+      (arguments
+        (infix_expression
+          (identifier)
+          (operator_identifier)
+          (identifier))))
+    (template_body))
+  (object_definition
+    (identifier)
+    (template_body
+      (class_definition
+        (identifier)
+        (extends_clause
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))))))
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (extends_clause
+      (type_identifier)
+      (arguments
+        (identifier))
+      (type_identifier)))
+  (class_definition
+    (identifier)
+    (extends_clause
+      (type_identifier)
+      (arguments)
+      (type_identifier))))
+
+================================================================================
+Subclass definitions (Scala 3 syntax)
+================================================================================
+
+class A extends B, C:
+ 1
+end A
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (extends_clause
+      (type_identifier)
+      (type_identifier))
+    (template_body
+      (integer_literal))))
+
+================================================================================
+Class definitions with parameters
+================================================================================
+
+class Point(
+  val x: Int,
+  val y: Int,
+)(implicit coord: Coord)
+
+// TODO: The last argument should become class_parameters
+class A @Inject()(x: Int, y: Int)
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier))
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier))))
+  (comment)
+  (class_definition
+    (identifier)
+    (annotation
+      (type_identifier)
+      (arguments)
+      (arguments
+        (ascription_expression
+          (identifier)
+          (type_identifier))
+        (ascription_expression
+          (identifier)
+          (type_identifier))))))
+
+================================================================================
+Class definitions with parameters (Scala 3 syntax)
+================================================================================
+
+class Point(val x: Int, val y: Int)(using coord: Coord)
+
+// TODO: The last argument should become class_parameters
+class A @ann (x: Int, y: Int)
+
+// TODO: The last argument should become class_parameters
+class A @ann(1) (x: Int, y: Int)
+
+// TODO: The last argument should become class_parameters
+class A @ann(1)(1) (x: Int, y: Int)
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier))
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier))))
+  (comment)
+  (class_definition
+    (identifier)
+    (annotation
+      (type_identifier)
+      (arguments
+        (ascription_expression
+          (identifier)
+          (type_identifier))
+        (ascription_expression
+          (identifier)
+          (type_identifier)))))
+  (comment)
+  (class_definition
+    (identifier)
+    (annotation
+      (type_identifier)
+      (arguments
+        (integer_literal))
+      (arguments
+        (ascription_expression
+          (identifier)
+          (type_identifier))
+        (ascription_expression
+          (identifier)
+          (type_identifier)))))
+  (comment)
+  (class_definition
+    (identifier)
+    (annotation
+      (type_identifier)
+      (arguments
+        (integer_literal))
+      (arguments
+        (integer_literal))
+      (arguments
+        (ascription_expression
+          (identifier)
+          (type_identifier))
+        (ascription_expression
+          (identifier)
+          (type_identifier))))))
+
+================================================================================
+Modifiers
+================================================================================
+
+implicit final sealed class Point {
+  private override def getX() = 1
+}
+
+private[a] class D[T] private (x: T) {
+  private[a] def b: Byte
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (modifiers)
+    (identifier)
+    (template_body
+      (function_definition
+        (modifiers
+          (access_modifier))
+        (identifier)
+        (parameters)
+        (integer_literal))))
+  (class_definition
+    (modifiers
+      (access_modifier
+        (access_qualifier
+          (identifier))))
+    (identifier)
+    (type_parameters
+      (identifier))
+    (access_modifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (template_body
+      (function_declaration
+        (modifiers
+          (access_modifier
+            (access_qualifier
+              (identifier))))
+        (identifier)
+        (type_identifier)))))
+
+================================================================================
+Trait definitions
+================================================================================
+
+trait A extends B
+
+trait A extends B with C derives D
+
+trait T[U] {
+}
+
+trait T[U] extends V.W[U] {
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (trait_definition
+    (identifier)
+    (extends_clause
+      (type_identifier)))
+  (trait_definition
+    (identifier)
+    (extends_clause
+      (type_identifier)
+      (type_identifier))
+    (derives_clause
+      (type_identifier)))
+  (trait_definition
+    (identifier)
+    (type_parameters
+      (identifier))
+    (template_body))
+  (trait_definition
+    (identifier)
+    (type_parameters
+      (identifier))
+    (extends_clause
+      (generic_type
+        (stable_type_identifier
+          (identifier)
+          (type_identifier))
+        (type_arguments
+          (type_identifier))))
+    (template_body)))
+
+================================================================================
+Value declarations
+================================================================================
+
+class A {
+  val b, c : Int
+  val d : String
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+================================================================================
+Value declarations (Scala 3 syntax)
+================================================================================
+
+class A:
+ // Comments that should not
+  // influence indentation
+  val b, c : Int
+  val d : String
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (comment)
+      (comment)
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+================================================================================
+Value definitions
+================================================================================
+
+class A {
+  val b = 1
+  val c : String = "d"
+  val a, b, c: T3 = triple
+  var a, b, c = triple
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_definition
+        (identifier)
+        (integer_literal))
+      (val_definition
+        (identifier)
+        (type_identifier)
+        (string))
+      (val_definition
+        (identifiers
+          (identifier)
+          (identifier)
+          (identifier))
+        (type_identifier)
+        (identifier))
+      (var_definition
+        (identifiers
+          (identifier)
+          (identifier)
+          (identifier))
+        (identifier)))))
+
+================================================================================
+Variable declarations
+================================================================================
+
+class A {
+  var b, c : Int
+  var d : String
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (var_declaration
+        (identifier)
+        (type_identifier)))))
+
+================================================================================
+Variable definitions
+================================================================================
+
+class A {
+  var b : Int = 1
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (integer_literal)))))
+
+================================================================================
+Variable definitions (Scala 3 syntax)
+================================================================================
+
+class A:
+  var b: Int = 1
+  var c: Int =
+    val d = 2
+    d
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (integer_literal))
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (indented_block
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (identifier))))))
+
+================================================================================
+Type definitions
+================================================================================
+
+class A {
+  type B = C
+  type D[E] = F
+  type Abs
+  type Beta[B]
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (type_definition
+        (type_identifier)
+        (type_identifier))
+      (type_definition
+        (type_identifier)
+        (type_parameters
+          (identifier))
+        (type_identifier))
+      (type_definition
+        (type_identifier))
+      (type_definition
+        (type_identifier)
+        (type_parameters
+          (identifier))))))
+
+================================================================================
+Function declarations
+================================================================================
+
+class A {
+  def b(c: D) : E
+  def <*[B](that: IO[B]): IO[A]
+  def c
+    (a: A): B
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_declaration
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier))
+      (function_declaration
+        (operator_identifier)
+        (type_parameters
+          (identifier))
+        (parameters
+          (parameter
+            (identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier))))
+      (function_declaration
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)))))
+
+================================================================================
+Function definitions
+================================================================================
+
+class A {
+  def b(
+    c: D,
+    e: F,
+  ) = 1
+
+  def l: Int =
+    1
+
+  def m = ()
+
+  def n(using a: A)
+    (using B <:< B, C =:= C) = ()
+
+  def o()
+    : Int = 42
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier))
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (integer_literal))
+      (function_definition
+        (identifier)
+        (type_identifier)
+        (indented_block
+          (integer_literal)))
+      (function_definition
+        (identifier)
+        (unit))
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (parameters
+          (infix_type
+            (type_identifier)
+            (operator_identifier)
+            (type_identifier))
+          (infix_type
+            (type_identifier)
+            (operator_identifier)
+            (type_identifier)))
+        (unit))
+      (function_definition
+        (identifier)
+        (parameters)
+        (type_identifier)
+        (integer_literal)))))
+
+================================================================================
+Function definitions (Scala 3 syntax)
+================================================================================
+
+class A:
+  def foo(c: C): Int =
+    val x = 1
+    val y = 2
+    x + y
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (indented_block
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (identifier)))))))
+
+================================================================================
+Extension methods (Scala 3 syntax)
+================================================================================
+
+object A:
+  extension (c: C)
+    def foo: Int = 1
+  
+  extension [A1](d: D) def foo = "foo"
+
+trait B:
+  extension (x: Int) def bar: String
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (extension_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (function_definition
+          (identifier)
+          (type_identifier)
+          (integer_literal)))
+      (extension_definition
+        (type_parameters
+          (identifier))
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (function_definition
+          (identifier)
+          (string)))))
+  (trait_definition
+    (identifier)
+    (template_body
+      (extension_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (function_declaration
+          (identifier)
+          (type_identifier))))))
+
+================================================================================
+Given instance definitions (Scala 3 syntax)
+================================================================================
+
+object A:
+  given a: A = x
+
+  given intFoo: CanFoo[Int] with
+    def foo(x: Int): Int = 0
+
+  given CanFoo[Int] with
+    def foo(x: Int): Int = 0
+
+  private given listFoo[A1](using ev: CanFoo[A1]): CanFoo[List[A1]] with
+    def foo(xs: List[A1]): Int = 0
+
+  given foo(using ev: Foo)
+    : Foo = ev
+
+  given Context = ctx
+
+  given Context[T] = ctx
+
+  given Foo[Int] =
+    case n => "123"
+
+  given (using a: Int): Int = a
+
+  given [A: Foo]: Foo[List[A]] with
+    def x = ()
+
+  given [A](using Foo[A]): Foo[List[A]] with
+    def x = ()
+
+  trait B:
+    given c: Context[T]
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (given_definition
+        (identifier)
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (parameters
+              (parameter
+                (identifier)
+                (type_identifier)))
+            (type_identifier)
+            (integer_literal))))
+      (given_definition
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (parameters
+              (parameter
+                (identifier)
+                (type_identifier)))
+            (type_identifier)
+            (integer_literal))))
+      (given_definition
+        (modifiers
+          (access_modifier))
+        (identifier)
+        (type_parameters
+          (identifier))
+        (parameters
+          (parameter
+            (identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (parameters
+              (parameter
+                (identifier)
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_identifier)))))
+            (type_identifier)
+            (integer_literal))))
+      (given_definition
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (identifier))
+      (given_definition
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (indented_cases
+          (case_clause
+            (identifier)
+            (string))))
+      (given_definition
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (type_identifier)
+        (identifier))
+      (given_definition
+        (type_parameters
+          (identifier)
+          (context_bound
+            (type_identifier)))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (unit))))
+      (given_definition
+        (type_parameters
+          (identifier))
+        (parameters
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier))))
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))
+        (with_template_body
+          (function_definition
+            (identifier)
+            (unit))))
+      (trait_definition
+        (identifier)
+        (template_body
+          (given_definition
+            (identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))))))))
+
+================================================================================
+Top-level Definitions (Scala 3 syntax)
+================================================================================
+
+class A:
+  def a() =
+    ()
+
+def a() = 1
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters)
+        (indented_block
+          (unit)))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (integer_literal)))
+
+================================================================================
+Initialization expressions
+================================================================================
+
+class A(val x: Int, val y: Int) {
+  assert(x != 0)
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier))
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (template_body
+      (call_expression
+        (identifier)
+        (arguments
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (integer_literal)))))))
+
+================================================================================
+Optional parameters
+================================================================================
+
+def mkLines(header: String, indented: Boolean = false, repeated: Long = 0L): String = {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier))
+      (parameter
+        (identifier)
+        (type_identifier)
+        (boolean_literal))
+      (parameter
+        (identifier)
+        (type_identifier)
+        (integer_literal)))
+    (type_identifier)
+    (block)))
+
+================================================================================
+Enums (Scala 3)
+================================================================================
+
+@A
+enum Hello[Y] extends java.Enumeration derives Codec, Eq {
+  @A("") @B case World, You
+  @A case Test[A](bla: Int, yo: String) extends Hello[A]
+  case T extends Hello[String](25)
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (enum_definition
+    (annotation
+      (type_identifier))
+    (identifier)
+    (type_parameters
+      (identifier))
+    (extends_clause
+      (stable_type_identifier
+        (identifier)
+        (type_identifier)))
+    (derives_clause
+      (type_identifier)
+      (type_identifier))
+    (enum_body
+      (enum_case_definitions
+        (annotation
+          (type_identifier)
+          (arguments
+            (string)))
+        (annotation
+          (type_identifier))
+        (simple_enum_case
+          (identifier))
+        (simple_enum_case
+          (identifier)))
+      (enum_case_definitions
+        (annotation
+          (type_identifier))
+        (full_enum_case
+          (identifier)
+          (type_parameters
+            (identifier))
+          (class_parameters
+            (class_parameter
+              (identifier)
+              (type_identifier))
+            (class_parameter
+              (identifier)
+              (type_identifier)))
+          (extends_clause
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier))))))
+      (enum_case_definitions
+        (simple_enum_case
+          (identifier)
+          (extends_clause
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))
+            (arguments
+              (integer_literal))))))))
+
+================================================================================
+Self types
+================================================================================
+
+trait A {
+  self => 
+  def f: Int
+}
+
+trait A { self =>
+  def f: Int
+}
+
+class B {
+  self: Something[A] => 
+
+  case class Hello(a: Int)
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (trait_definition
+    (identifier)
+    (template_body
+      (self_type
+        (identifier))
+      (function_declaration
+        (identifier)
+        (type_identifier))))
+  (trait_definition
+    (identifier)
+    (template_body
+      (self_type
+        (identifier))
+      (function_declaration
+        (identifier)
+        (type_identifier))))
+  (class_definition
+    (identifier)
+    (template_body
+      (self_type
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier))))
+      (class_definition
+        (identifier)
+        (class_parameters
+          (class_parameter
+            (identifier)
+            (type_identifier)))))))
+
+================================================================================
+Inline methods and parameters (Scala 3)
+================================================================================
+
+inline def mkLines(inline header: String, indented: Boolean = false): String = {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (function_definition
+    (modifiers
+      (inline_modifier))
+    (identifier)
+    (parameters
+      (parameter
+        (inline_modifier)
+        (identifier)
+        (type_identifier))
+      (parameter
+        (identifier)
+        (type_identifier)
+        (boolean_literal)))
+    (type_identifier)
+    (block)))
+
+================================================================================
+Inline val (Scala 3)
+================================================================================
+
+inline def test() =
+  inline val x = true
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (function_definition
+    (modifiers
+      (inline_modifier))
+    (identifier)
+    (parameters)
+    (indented_block
+      (val_definition
+        (modifiers
+          (inline_modifier))
+        (identifier)
+        (boolean_literal)))))
+
+================================================================================
+Inline given (Scala 3)
+================================================================================
+
+inline given Test = 
+  new Test
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (given_definition
+    (modifiers
+      (inline_modifier))
+    (type_identifier)
+    (indented_block
+      (instance_expression
+        (type_identifier)))))
+
+================================================================================
+Infix methods (Scala 3)
+================================================================================
+
+object Test:
+  inline infix private def hello = 25
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (modifiers
+          (inline_modifier)
+          (infix_modifier)
+          (access_modifier))
+        (identifier)
+        (integer_literal)))))
+
+================================================================================
+Open classes (Scala 3)
+================================================================================
+
+open class Test(a: Int):
+  def test = 25
+end Test
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (modifiers
+      (open_modifier))
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (template_body
+      (function_definition
+        (identifier)
+        (integer_literal)))))
+
+================================================================================
+Traits (Scala 3)
+================================================================================
+
+transparent trait Kind:
+  this: A =>
+  def test = 1
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (trait_definition
+    (modifiers
+      (transparent_modifier))
+    (identifier)
+    (template_body
+      (self_type
+        (identifier)
+        (type_identifier))
+      (function_definition
+        (identifier)
+        (integer_literal)))))
+
+================================================================================
+Exports (Scala 3)
+================================================================================
+
+export scanUnit.scan
+export printUnit.{status as _, *}
+export printUnit.Test as Hello
+export printUnit.Test as _
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (export_declaration
+    (identifier)
+    (identifier))
+  (export_declaration
+    (identifier)
+    (namespace_selectors
+      (as_renamed_identifier
+        (identifier)
+        (wildcard))
+      (namespace_wildcard)))
+  (export_declaration
+    (identifier)
+    (as_renamed_identifier
+      (identifier)
+      (identifier)))
+  (export_declaration
+    (identifier)
+    (as_renamed_identifier
+      (identifier)
+      (wildcard))))
