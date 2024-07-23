@@ -1710,6 +1710,10 @@
             "named": false
           },
           {
+            "type": "\\mathcolor",
+            "named": false
+          },
+          {
             "type": "\\pagecolor",
             "named": false
           },
@@ -1719,12 +1723,42 @@
           }
         ]
       },
+      "model": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_text",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
             "named": true
           }
         ]
@@ -9219,6 +9253,10 @@
   },
   {
     "type": "\\let",
+    "named": false
+  },
+  {
+    "type": "\\mathcolor",
     "named": false
   },
   {

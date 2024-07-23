@@ -1188,12 +1188,21 @@ module.exports = grammar({
       ),
 
     color_reference: $ =>
-      seq(
-        field(
-          'command',
-          choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor'),
+      prec.right(
+        seq(
+          field(
+            'command',
+            choice('\\color', '\\pagecolor', '\\textcolor', '\\mathcolor','\\colorbox'),
+          ),
+          choice(
+            field('name', $.curly_group_text),
+            seq(
+              field('model', $.brack_group_text),
+              field('spec', $.curly_group),
+            ),
+          ),
+          optional(field('text', $.curly_group)),
         ),
-        field('name', $.curly_group_text),
       ),
 
     tikz_library_import: $ =>

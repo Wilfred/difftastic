@@ -6513,42 +6513,92 @@
       ]
     },
     "color_reference": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "command",
-          "content": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\color"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\pagecolor"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\textcolor"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\mathcolor"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\colorbox"
+                }
+              ]
+            }
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "\\color"
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "curly_group_text"
+                }
               },
               {
-                "type": "STRING",
-                "value": "\\colorbox"
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "FIELD",
+                    "name": "model",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "brack_group_text"
+                    }
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "spec",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "curly_group"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "text",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "curly_group"
+                }
               },
               {
-                "type": "STRING",
-                "value": "\\textcolor"
-              },
-              {
-                "type": "STRING",
-                "value": "\\pagecolor"
+                "type": "BLANK"
               }
             ]
           }
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "curly_group_text"
-          }
-        }
-      ]
+        ]
+      }
     },
     "tikz_library_import": {
       "type": "SEQ",
