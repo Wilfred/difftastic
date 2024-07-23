@@ -3895,6 +3895,14 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "aligned"
+                },
+                {
+                  "type": "STRING",
+                  "value": "aligned*"
+                },
+                {
+                  "type": "STRING",
                   "value": "array"
                 },
                 {
@@ -3919,11 +3927,27 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "alignedat"
+                },
+                {
+                  "type": "STRING",
+                  "value": "alignedat*"
+                },
+                {
+                  "type": "STRING",
                   "value": "gather"
                 },
                 {
                   "type": "STRING",
                   "value": "gather*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "gathered"
+                },
+                {
+                  "type": "STRING",
+                  "value": "gathered*"
                 },
                 {
                   "type": "STRING",
