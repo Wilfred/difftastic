@@ -1,8 +1,16 @@
-#include "stack.h"
+#include "tree_sitter/alloc.h"
+#include "tree_sitter/array.h"
 #include "tree_sitter/parser.h"
-#include <stdio.h>
-#include <string.h>
+
 #include <wctype.h>
+
+// #define DEBUG
+
+#ifdef DEBUG
+#define LOG(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define LOG(...)
+#endif
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
@@ -18,32 +26,86 @@ enum TokenType {
   CATCH,
   FINALLY,
   EXTENDS,
+  DERIVES,
   WITH,
 };
 
+typedef struct {
+  Array(int16_t) indents;
+  int16_t last_indentation_size;
+  int16_t last_newline_count;
+  int16_t last_column;
+} Scanner;
+
 void *tree_sitter_scala_external_scanner_create() {
-  return createStack();
+  Scanner *scanner = ts_calloc(1, sizeof(Scanner));
+  array_init(&scanner->indents);
+  scanner->last_indentation_size = -1;
+  scanner->last_column = -1;
+  return scanner;
 }
 
-void tree_sitter_scala_external_scanner_destroy(void *p) {
-  free(p);
+void tree_sitter_scala_external_scanner_destroy(void *payload) {
+  Scanner *scanner = payload;
+  array_delete(&scanner->indents);
+  ts_free(scanner);
 }
 
-void tree_sitter_scala_external_scanner_reset(void *p) {
-  resetStack(p);
+unsigned tree_sitter_scala_external_scanner_serialize(void *payload, char *buffer) {
+  Scanner *scanner = (Scanner*)payload;
+
+  if ((scanner->indents.size + 3) * sizeof(int16_t) > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+    return 0;
+  }
+
+  size_t size = 0;
+  *(int16_t *)&buffer[size] = scanner->last_indentation_size;
+  size += sizeof(int16_t);
+  *(int16_t *)&buffer[size] = scanner->last_newline_count;
+  size += sizeof(int16_t);
+  *(int16_t *)&buffer[size] = scanner->last_column;
+  size += sizeof(int16_t);
+
+  for (unsigned i = 0; i < scanner->indents.size; i++) {
+    *(int16_t *)&buffer[size] = scanner->indents.contents[i];
+    size += sizeof(int16_t);
+  }
+
+  return size;
 }
 
-unsigned tree_sitter_scala_external_scanner_serialize(void *p, char *buffer) {
-  return serialiseStack(p, buffer);
+void tree_sitter_scala_external_scanner_deserialize(void *payload, const char *buffer,
+                                                    unsigned length) {
+  Scanner *scanner = (Scanner*)payload;
+  array_clear(&scanner->indents);
+  scanner->last_indentation_size = -1;
+  scanner->last_column = -1;
+  scanner->last_newline_count = 0;
+
+  if (length == 0) {
+    return;
+  }
+
+  size_t size = 0;
+
+  scanner->last_indentation_size = *(int16_t *)&buffer[size];
+  size += sizeof(int16_t);
+  scanner->last_newline_count = *(int16_t *)&buffer[size];
+  size += sizeof(int16_t);
+  scanner->last_column = *(int16_t *)&buffer[size];
+  size += sizeof(int16_t);
+
+  while (size < length) {
+    array_push(&scanner->indents, *(int16_t *)&buffer[size]);
+    size += sizeof(int16_t);
+  }
+
+  assert(size == length);
 }
 
-void tree_sitter_scala_external_scanner_deserialize(void *p, const char *b,
-                                                    unsigned n) {
-  deserialiseStack(p, b, n);
-}
+static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_interpolation) {
   unsigned closing_quote_count = 0;
@@ -63,24 +125,26 @@ static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_inte
       if (is_multiline && has_interpolation) {
         lexer->result_symbol =  INTERPOLATED_MULTILINE_STRING_MIDDLE;
         return true;
-      } else if (has_interpolation){
+      }
+      if (has_interpolation) {
         lexer->result_symbol = INTERPOLATED_STRING_MIDDLE;
         return true;
-      } else {
-        advance(lexer);
       }
+      advance(lexer);
     } else {
       closing_quote_count = 0;
       if (lexer->lookahead == '\\') {
         advance(lexer);
-        if (lexer->lookahead != 0) advance(lexer);
+        if (!lexer->eof(lexer)) {
+          advance(lexer);
+        }
       } else if (lexer->lookahead == '\n') {
         if (is_multiline) {
           advance(lexer);
         } else {
           return false;
         }
-      } else if (lexer->lookahead == 0) {
+      } else if (lexer->eof(lexer)) {
         return false;
       } else {
         advance(lexer);
@@ -101,54 +165,84 @@ static bool detect_comment_start(TSLexer *lexer) {
   return false;
 }
 
+static bool scan_word(TSLexer *lexer, const char* const word) {
+  for (uint8_t i = 0; word[i] != '\0'; i++) {
+    if (lexer->lookahead != word[i]) {
+      return false;
+    }
+    advance(lexer);
+  }
+  return !iswalnum(lexer->lookahead);
+}
+
+static inline void debug_indents(Scanner *scanner) {
+  LOG("    indents(%d): ", scanner->indents.size);
+  for (unsigned i = 0; i < scanner->indents.size; i++) {
+    LOG("%d ", scanner->indents.contents[i]);
+  }
+  LOG("\n");
+}
+
 bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
-  ScannerStack *stack = (ScannerStack *)payload;
-  int prev = peekStack(stack);
-  int newline_count = 0;
-  int indentation_size = 0;
-  LOG("scanner was called at column: %d\n", lexer->get_column(lexer));
+  Scanner *scanner = (Scanner *)payload;
+  int16_t prev = scanner->indents.size > 0 ? *array_back(&scanner->indents) : -1;
+  int16_t newline_count = 0;
+  int16_t indentation_size = 0;
 
   while (iswspace(lexer->lookahead)) {
     if (lexer->lookahead == '\n') {
       newline_count++;
       indentation_size = 0;
     }
-    else
+    else {
       indentation_size++;
+    }
     skip(lexer);
   }
 
   // Before advancing the lexer, check if we can double outdent
-  if (valid_symbols[OUTDENT] &&
-      (lexer->lookahead == 0 ||
+  if (
+      valid_symbols[OUTDENT] &&
       (
-        (prev != -1) &&
-        lexer->lookahead == ')' ||
-        lexer->lookahead == ']' ||
-        lexer->lookahead == '}' 
-      ) || (
-        stack->last_indentation_size != -1 &&
-        prev != -1 &&
-        stack->last_indentation_size < prev))) {
-    popStack(stack);
+        lexer->lookahead == 0 ||
+        (
+          prev != -1 &&
+          (
+            lexer->lookahead == ')' ||
+            lexer->lookahead == ']' ||
+            lexer->lookahead == '}'
+          )
+        ) ||
+        (
+          scanner->last_indentation_size != -1 &&
+          prev != -1 &&
+          scanner->last_indentation_size < prev
+        )
+      )
+  ) {
+    if (scanner->indents.size > 0) {
+        array_pop(&scanner->indents);
+    }
     LOG("    pop\n");
     LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
     return true;
   }
-  stack->last_indentation_size = -1;
+  scanner->last_indentation_size = -1;
 
-  printStack(stack, "    before");
-
-  if (valid_symbols[INDENT] &&
+  if (
+      valid_symbols[INDENT] &&
       newline_count > 0 &&
-      (isEmptyStack(stack) ||
-        indentation_size > peekStack(stack))) {
+      (
+        scanner->indents.size == 0 ||
+        indentation_size > *array_back(&scanner->indents)
+      )
+  ) {
     if (detect_comment_start(lexer)) {
       return false;
     }
-    pushStack(stack, indentation_size);
+    array_push(&scanner->indents, indentation_size);
     lexer->result_symbol = INDENT;
     LOG("    INDENT\n");
     return true;
@@ -157,11 +251,17 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   // This saves the indentation_size and newline_count so it can be used
   // in subsequent calls for multiple outdent or autosemicolon.
   if (valid_symbols[OUTDENT] &&
-      (lexer->lookahead == 0 || (
+      (lexer->lookahead == 0 ||
+      (
         newline_count > 0 &&
         prev != -1 &&
-        indentation_size < prev))) {
-    popStack(stack);
+        indentation_size < prev
+      )
+      )
+  ) {
+    if (scanner->indents.size > 0) {
+      array_pop(&scanner->indents);
+    }
     LOG("    pop\n");
     LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
@@ -169,28 +269,26 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     if (detect_comment_start(lexer)) {
       return false;
     }
-    stack->last_indentation_size = indentation_size;
-    stack->last_newline_count = newline_count;
+    scanner->last_indentation_size = indentation_size;
+    scanner->last_newline_count = newline_count;
     if (lexer->eof(lexer)) {
-      stack->last_column = -1;
+      scanner->last_column = -1;
     } else {
-      stack->last_column = lexer->get_column(lexer);
+      scanner->last_column = (int16_t)lexer->get_column(lexer);
     }
     return true;
   }
 
   // Recover newline_count from the outdent reset
-  if (stack->last_newline_count > 0 &&
-    ((lexer->eof(lexer) && stack->last_column == -1)
-      || lexer->get_column(lexer) == stack->last_column)) {
-    newline_count += stack->last_newline_count;
+  bool is_eof = lexer->eof(lexer);
+  if (
+      scanner->last_newline_count > 0 &&
+      (is_eof && scanner->last_column == -1) ||
+      (!is_eof && lexer->get_column(lexer) == (uint32_t)scanner->last_column)
+  ) {
+    newline_count += scanner->last_newline_count;
   }
-  stack->last_newline_count = 0;
-
-  printStack(stack, "    after");
-
-  LOG("    indentation_size: %d, newline_count: %d, column: %d, indent_is_valid: %d, dedent_is_valid: %d\n", indentation_size,
-      newline_count, lexer->get_column(lexer), valid_symbols[INDENT], valid_symbols[OUTDENT]);
+  scanner->last_newline_count = 0;
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
     // AUTOMATIC_SEMICOLON should not be issued in the middle of expressions
@@ -203,14 +301,17 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     // a
     //  .b
     //  .c
-    if (lexer->lookahead == '.') return false;
+    if (lexer->lookahead == '.') {
+      return false;
+    }
 
     // Single-line and multi-line comments
     if (lexer->lookahead == '/') {
       advance(lexer);
       if (lexer->lookahead == '/') {
         return false;
-      } else if (lexer->lookahead == '*') {
+      }
+      if (lexer->lookahead == '*') {
         advance(lexer);
         while (!lexer->eof(lexer)) {
           if (lexer->lookahead == '*') {
@@ -229,7 +330,7 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
           }
           skip(lexer);
         }
-        // If some code is present at the same line after comment end, 
+        // If some code is present at the same line after comment end,
         // we should still produce AUTOMATIC_SEMICOLON, e.g. in
         // val a = 1
         // /* comment */ val b = 2
@@ -238,108 +339,50 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     }
 
     if (valid_symbols[ELSE]) {
-      if (lexer->lookahead != 'e') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'l') return true;
-      advance(lexer);
-      if (lexer->lookahead != 's') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'e') return true;
-      advance(lexer);
-      if (iswalpha(lexer->lookahead)) return true;
-      return false;
+      return !scan_word(lexer, "else");
     }
 
     if (valid_symbols[CATCH]) {
-      if (lexer->lookahead != 'c' && lexer->lookahead != 'f') return true;
-      advance(lexer);
-      if (lexer->lookahead == 'a') {
-        advance(lexer);
-        if (lexer->lookahead != 't') return true;
-        advance(lexer);
-        if (lexer->lookahead != 'c') return true;
-        advance(lexer);
-        if (lexer->lookahead != 'h') return true;
-        advance(lexer);
-        if (iswalpha(lexer->lookahead)) return true;
+      if (scan_word(lexer, "catch")) {
         return false;
-      } else if (lexer->lookahead == 'i') {
-        advance(lexer);
-        if (lexer->lookahead != 'n') return true;
-        advance(lexer);
-        if (lexer->lookahead != 'a') return true;
-        advance(lexer);
-        if (lexer->lookahead != 'l') return true;
-        advance(lexer);
-        if (lexer->lookahead != 'l') return true;
-        advance(lexer);
-        if (lexer->lookahead != 'y') return true;
-        advance(lexer);
-        if (iswalpha(lexer->lookahead)) return true;
-        return false;
-      } else {
-        return true;
       }
     }
 
     if (valid_symbols[FINALLY]) {
-      if (lexer->lookahead != 'f') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'i') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'n') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'a') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'l') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'l') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'y') return true;
-      advance(lexer);
-      if (iswalpha(lexer->lookahead)) return true;
-      return false;
+      if  (scan_word(lexer, "finally")) {
+        return false;
+      }
     }
 
     if (valid_symbols[EXTENDS]) {
-      if (lexer->lookahead != 'e') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'x') return true;
-      advance(lexer);
-      if (lexer->lookahead != 't') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'e') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'n') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'd') return true;
-      advance(lexer);
-      if (lexer->lookahead != 's') return true;
-      advance(lexer);
-      if (iswalpha(lexer->lookahead)) return true;
-      return false;
+      if (scan_word(lexer, "extends")) {
+        return false;
+      }
     }
 
     if (valid_symbols[WITH]) {
-      if (lexer->lookahead != 'w') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'i') return true;
-      advance(lexer);
-      if (lexer->lookahead != 't') return true;
-      advance(lexer);
-      if (lexer->lookahead != 'h') return true;
-      advance(lexer);
-      if (iswalpha(lexer->lookahead)) return true;
-      return false;
+      if (scan_word(lexer, "with")) {
+        return false;
+      }
     }
 
-    if (newline_count > 1) return true;
+    if (valid_symbols[DERIVES]) {
+      if (scan_word(lexer, "derives")) {
+        return false;
+      }
+    }
+
+    if (newline_count > 1) {
+      return true;
+    }
 
     return true;
   }
 
   while (iswspace(lexer->lookahead)) {
-    if (lexer->lookahead == '\n') newline_count++;
+    if (lexer->lookahead == '\n') {
+      newline_count++;
+    }
     skip(lexer);
   }
 

@@ -1,0 +1,87 @@
+================================
+Classes
+================================
+
+@deprecated("Use D", "1.0") class C {}
+
+---
+
+(compilation_unit
+  (class_definition
+    (annotation (type_identifier) (arguments (string) (string)))
+    (identifier)
+    (template_body)))
+
+================================
+Declarations and definitions
+================================
+
+class A(x: String) {
+  @transient @volatile var y: Int
+  @transient @volatile val z = x
+
+  @throws(Error)
+  @deprecated(message = "Don't use this", since = "1.0")
+  def foo() {}
+}
+
+---
+
+(compilation_unit
+  (class_definition (identifier)
+    (class_parameters (class_parameter (identifier) (type_identifier)))
+    (template_body
+      (var_declaration
+        (annotation (type_identifier))
+        (annotation (type_identifier))
+        (identifier) (type_identifier))
+      (val_definition
+        (annotation (type_identifier))
+        (annotation (type_identifier))
+        (identifier) (identifier))
+      (function_definition
+        (annotation (type_identifier) (arguments (identifier)))
+        (annotation (type_identifier)
+          (arguments
+            (assignment_expression (identifier) (string))
+            (assignment_expression (identifier) (string))))
+        (identifier) (parameters) (block)))))
+
+================================
+Parameters
+================================
+
+class A(@one x: String) {
+  def foo(@another x: Int) {}
+}
+
+---
+
+(compilation_unit
+  (class_definition (identifier)
+    (class_parameters
+      (class_parameter
+        (annotation (type_identifier)) (identifier) (type_identifier)))
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters (parameter
+                      (annotation (type_identifier))
+                      (identifier) (type_identifier)))
+        (block)))))
+
+================================
+Types
+================================
+
+trait Function0[@specialized(Unit, Int, Double) T] {
+  def apply: T
+}
+
+---
+
+(compilation_unit
+  (trait_definition (identifier)
+    (type_parameters
+      (annotation (type_identifier) (arguments (identifier) (identifier) (identifier))) (identifier))
+    (template_body (function_declaration (identifier) (type_identifier)))))

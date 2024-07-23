@@ -42,6 +42,7 @@ module.exports = grammar({
     "catch",
     "finally",
     "extends",
+    "derives",
     "with",
   ],
 
@@ -70,6 +71,7 @@ module.exports = grammar({
     [$.if_expression],
     [$.match_expression],
     [$._function_constructor, $._type_identifier],
+    [$._given_constructor, $._type_identifier],
     [$.instance_expression],
     // In case of: 'extension'  _indent  '{'  'case'  operator_identifier  'if'  operator_identifier  •  '=>'  …
     // we treat `operator_identifier` as `simple_expression`
@@ -90,6 +92,11 @@ module.exports = grammar({
     [$.class_parameters],
     // 'for'  operator_identifier  ':'  _annotated_type  •  ':'  …
     [$._type, $.compound_type],
+    [$.lambda_expression, $.modifiers],
+    // 'if'  parenthesized_expression  •  '{'  …
+    [$._if_condition, $._simple_expression],
+    // _postfix_expression_choice  ':'  '('  wildcard  •  ':'  …
+    [$.binding, $._simple_type],
   ],
 
   word: $ => $._alpha_identifier,
@@ -97,7 +104,10 @@ module.exports = grammar({
   rules: {
     // TopStats          ::=  TopStat {semi TopStat}
     compilation_unit: $ =>
-      optional(trailingSep1($._semicolon, $._top_level_definition)),
+      seq(
+        optional($._shebang),
+        optional(trailingSep1($._semicolon, $._top_level_definition)),
+      ),
 
     _top_level_definition: $ =>
       choice(
@@ -295,7 +305,7 @@ module.exports = grammar({
         $._class_constructor,
         field("extend", optional($.extends_clause)),
         field("derive", optional($.derives_clause)),
-        optional($._definition_body),
+        field("body", optional($._definition_body)),
       ),
 
     _definition_body: $ =>
@@ -323,9 +333,7 @@ module.exports = grammar({
           repeat($.annotation),
           optional($.modifiers),
           "trait",
-          $._class_constructor,
-          field("extend", optional($.extends_clause)),
-          field("body", optional($._definition_body)),
+          $._class_definition,
         ),
       ),
 
@@ -343,6 +351,7 @@ module.exports = grammar({
           $.covariant_type_parameter,
           $.contravariant_type_parameter,
           $._type_parameter, // invariant type parameter
+          $.type_lambda,
         ),
       ),
 
@@ -548,6 +557,7 @@ module.exports = grammar({
             "parameters",
             repeat(seq(optional($._automatic_semicolon), $.parameters)),
           ),
+          optional($._automatic_semicolon),
         ),
       ),
 
@@ -565,7 +575,11 @@ module.exports = grammar({
           field("parameters", repeat($.parameters)),
           field(
             "body",
-            choice($._extension_template_body, $.function_definition),
+            choice(
+              $._extension_template_body,
+              $.function_definition,
+              $.function_declaration,
+            ),
           ),
         ),
       ),
@@ -580,15 +594,28 @@ module.exports = grammar({
           repeat($.annotation),
           optional($.modifiers),
           "given",
-          optional(seq($._function_constructor, ":")),
+          optional($._given_constructor),
           choice(
             field("return_type", $._structural_instance),
             seq(
               field("return_type", $._annotated_type),
-              "=",
-              field("body", $.expression),
+              optional(seq("=", field("body", $._indentable_expression))),
             ),
           ),
+        ),
+      ),
+
+    _given_constructor: $ =>
+      prec.right(
+        seq(
+          field("name", optional($._identifier)),
+          field("type_parameters", optional($.type_parameters)),
+          field(
+            "parameters",
+            repeat(seq(optional($._automatic_semicolon), $.parameters)),
+          ),
+          optional($._automatic_semicolon),
+          ":",
         ),
       ),
 
@@ -638,18 +665,20 @@ module.exports = grammar({
     modifiers: $ =>
       prec.left(
         repeat1(
-          choice(
-            "abstract",
-            "final",
-            "sealed",
-            "implicit",
-            "lazy",
-            "override",
-            $.access_modifier,
-            $.inline_modifier,
-            $.infix_modifier,
-            $.open_modifier,
-            $.transparent_modifier,
+          prec.left(
+            choice(
+              "abstract",
+              "final",
+              "sealed",
+              "implicit",
+              "lazy",
+              "override",
+              $.access_modifier,
+              $.inline_modifier,
+              $.infix_modifier,
+              $.open_modifier,
+              $.transparent_modifier,
+            ),
           ),
         ),
       ),
@@ -679,7 +708,14 @@ module.exports = grammar({
       ),
 
     derives_clause: $ =>
-      prec.left(seq("derives", commaSep1(field("type", $._type_identifier)))),
+      prec.left(
+        seq(
+          "derives",
+          commaSep1(
+            field("type", choice($._type_identifier, $.stable_type_identifier)),
+          ),
+        ),
+      ),
 
     class_parameters: $ =>
       prec(
@@ -752,14 +788,14 @@ module.exports = grammar({
         seq(
           sep1(
             $._semicolon,
-            choice($.expression, $._definition, $._end_marker),
+            choice($.expression, $._definition, $._end_marker, ";"),
           ),
           optional($._semicolon),
         ),
       ),
 
     _indentable_expression: $ =>
-      choice($.indented_block, $.indented_cases, $.expression),
+      prec.right(choice($.indented_block, $.indented_cases, $.expression)),
 
     block: $ => seq("{", optional($._block), "}"),
 
@@ -787,6 +823,7 @@ module.exports = grammar({
         $._annotated_type,
         $.literal_type,
         $._structural_type,
+        $.type_lambda,
       ),
 
     _annotated_type: $ => prec.right(choice($.annotated_type, $._simple_type)),
@@ -928,6 +965,15 @@ module.exports = grammar({
 
     _type_identifier: $ => alias($._identifier, $.type_identifier),
 
+    type_lambda: $ =>
+      seq(
+        "[",
+        trailingCommaSep1($._type_parameter),
+        "]",
+        "=>>",
+        field("return_type", $._type),
+      ),
+
     // ---------------------------------------------------------------
     // Patterns
 
@@ -942,6 +988,7 @@ module.exports = grammar({
         $.infix_pattern,
         $.alternative_pattern,
         $.typed_pattern,
+        $.given_pattern,
         $.quote_expression,
         $.literal,
         $.wildcard,
@@ -983,6 +1030,8 @@ module.exports = grammar({
         seq(field("pattern", $._pattern), ":", field("type", $._type)),
       ),
 
+    given_pattern: $ => seq("given", field("type", $._type)),
+
     // TODO: Flatten this.
     alternative_pattern: $ => prec.left(-1, seq($._pattern, "|", $._pattern)),
 
@@ -1007,6 +1056,7 @@ module.exports = grammar({
         $.while_expression,
         $.do_while_expression,
         $.for_expression,
+        $.macro_body,
         $._simple_expression,
       ),
 
@@ -1051,27 +1101,48 @@ module.exports = grammar({
     lambda_expression: $ =>
       prec.right(
         seq(
-          field("parameters", choice($.bindings, $._identifier, $.wildcard)),
-          "=>",
+          field(
+            "parameters",
+            choice(
+              $.bindings,
+              seq(optional("implicit"), $._identifier),
+              $.wildcard,
+            ),
+          ),
+          choice("=>", "?=>"),
           $._indentable_expression,
         ),
       ),
 
+    /*
+     *  ::=  [‘inline’] ‘if’ ‘(’ Expr ‘)’ {nl} Expr [[semi] ‘else’ Expr]
+     *    |  [‘inline’] ‘if’  Expr ‘then’ Expr [[semi] ‘else’ Expr]
+     */
     if_expression: $ =>
-      prec.right(
-        PREC.control,
-        seq(
-          optional($.inline_modifier),
-          "if",
-          field(
-            "condition",
-            choice(
-              $.parenthesized_expression,
-              seq($._indentable_expression, "then"),
-            ),
+      seq(
+        optional($.inline_modifier),
+        "if",
+        field("condition", $._if_condition),
+        field("consequence", $._indentable_expression),
+        optional(
+          seq(
+            optional(";"),
+            "else",
+            field("alternative", $._indentable_expression),
           ),
-          field("consequence", $._indentable_expression),
-          optional(seq("else", field("alternative", $._indentable_expression))),
+        ),
+      ),
+
+    // NOTE(susliko): _if_condition and its magic dynamic precedence were introduced as a fix to
+    // https://github.com/tree-sitter/tree-sitter-scala/issues/263 and
+    // https://github.com/tree-sitter/tree-sitter-scala/issues/342
+    // Neither do I understand why this works, nor have I found a better solution
+    _if_condition: $ =>
+      prec.dynamic(
+        4,
+        choice(
+          $.parenthesized_expression,
+          seq($._indentable_expression, "then"),
         ),
       ),
 
@@ -1079,14 +1150,11 @@ module.exports = grammar({
      *   MatchClause       ::=  'match' <<< CaseClauses >>>
      */
     match_expression: $ =>
-      prec.left(
-        PREC.postfix,
-        seq(
-          optional($.inline_modifier),
-          field("value", $.expression),
-          "match",
-          field("body", choice($.case_block, $.indented_cases)),
-        ),
+      seq(
+        optional($.inline_modifier),
+        field("value", $.expression),
+        "match",
+        field("body", choice($.case_block, $.indented_cases)),
       ),
 
     try_expression: $ =>
@@ -1113,11 +1181,14 @@ module.exports = grammar({
 
     finally_clause: $ => prec.right(seq("finally", $._indentable_expression)),
 
+    /*
+     * Binding           ::=  (id | ‘_’) [‘:’ Type]
+     */
     binding: $ =>
       prec.dynamic(
         PREC.binding,
         seq(
-          field("name", $._identifier),
+          choice(field("name", $._identifier), $.wildcard),
           optional(seq(":", field("type", $._param_type))),
         ),
       ),
@@ -1287,6 +1358,15 @@ module.exports = grammar({
         ),
       ),
 
+    macro_body: $ =>
+      prec.left(
+        PREC.macro,
+        seq(
+          "macro",
+          choice($.infix_expression, $.prefix_expression, $._simple_expression),
+        ),
+      ),
+
     /**
      * PrefixExpr        ::=  [PrefixOperator] SimpleExpr
      */
@@ -1369,6 +1449,26 @@ module.exports = grammar({
     _alpha_identifier: $ =>
       /[\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F\$][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9\$_\p{Ll}]*(_[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]+)?/,
 
+    /**
+     * Despite what the lexical syntax suggests, the alphaid rule doesn't apply
+     * to identifiers that aren't in blocks in interpolated strings (e.g. $foo).
+     * A more accurate description is given in
+     * https://www.scala-lang.org/files/archive/spec/2.13/01-lexical-syntax.html
+     * where it states (regarding dollar sign escapes in interpolated strings) that
+     * """
+     * The simpler form consists of a ‘$’-sign followed by an identifier starting
+     * with a letter and followed only by letters, digits, and underscore characters
+     * """
+     * where "letters" does not include the $ character.
+     *
+     * This rule is similar to the _alpha_identifier rule, with the differences
+     * being that the $ character is excluded, along with the _(operator_chars)
+     * suffix and can be approximated as
+     * /[A-Za-z_][A-Z_a-z0-9]/;
+     */
+    _interpolation_identifier: $ =>
+      /[\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9_\p{Ll}]*/,
+
     _backquoted_id: $ => /`[^\n`]+`/,
 
     _identifier: $ => choice($.identifier, $.operator_identifier),
@@ -1384,8 +1484,11 @@ module.exports = grammar({
     operator_identifier: $ =>
       token(
         choice(
-          // single opchar
-          /[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+          // opchar minus colon, equal, at
+          // Technically speaking, Sm (Math symbols https://www.compart.com/en/unicode/category/Sm)
+          // should be allowed as a single-characeter opchar, however, it includes `=`,
+          // so we should to avoid that to prevent bad parsing of `=` as infix term or type.
+          /[\-!#%&*+\/\\<>?\u005e\u007c~\u00ac\u00b1\u00d7\u00f7\u2190-\u2194\p{So}]/,
           seq(
             // opchar minus slash
             /[\-!#%&*+\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
@@ -1452,12 +1555,7 @@ module.exports = grammar({
             choice(
               seq(
                 "\\",
-                choice(
-                  /[^xu]/,
-                  /u[0-9a-fA-F]{4}/,
-                  /u{[0-9a-fA-F]+}/,
-                  /x[0-9a-fA-F]{2}/,
-                ),
+                choice(/[^xu]/, /uu?[0-9a-fA-F]{4}/, /x[0-9a-fA-F]{2}/),
               ),
               /[^\\'\n]/,
             ),
@@ -1473,18 +1571,34 @@ module.exports = grammar({
 
     _interpolated_multiline_string_start: $ => '"""',
 
-    interpolation: $ => seq("$", choice($.identifier, $.block)),
+    _dollar_escape: $ => seq("$", choice("$", '"')),
+
+    _aliased_interpolation_identifier: $ =>
+      alias($._interpolation_identifier, $.identifier),
+
+    interpolation: $ =>
+      seq("$", choice($._aliased_interpolation_identifier, $.block)),
 
     interpolated_string: $ =>
       choice(
         seq(
           $._interpolated_string_start,
-          repeat(seq($._interpolated_string_middle, $.interpolation)),
+          repeat(
+            seq(
+              $._interpolated_string_middle,
+              choice($._dollar_escape, $.interpolation),
+            ),
+          ),
           $._interpolated_string_end,
         ),
         seq(
           $._interpolated_multiline_string_start,
-          repeat(seq($._interpolated_multiline_string_middle, $.interpolation)),
+          repeat(
+            seq(
+              $._interpolated_multiline_string_middle,
+              choice($._dollar_escape, $.interpolation),
+            ),
+          ),
           $._interpolated_multiline_string_end,
         ),
       ),
@@ -1600,6 +1714,8 @@ module.exports = grammar({
         ),
         repeat1($.guard),
       ),
+
+    _shebang: $ => alias(token(seq("#!", /.*/)), $.comment),
 
     comment: $ => seq(token("//"), choice($.using_directive, $._comment_text)),
     _comment_text: $ => token(prec(PREC.comment, /.*/)),
