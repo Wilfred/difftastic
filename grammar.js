@@ -104,10 +104,7 @@ module.exports = grammar({
           $.block_comment,
           $._command,
           $.text,
-          $.displayed_equation,
-          $.inline_formula,
-          $.math_delimiter,
-          $.text_mode,
+          $._math_content,
           '(',
           ')',
         ),
@@ -433,6 +430,14 @@ module.exports = grammar({
 
     //--- Math
 
+    _math_content: $ =>
+      choice(
+        $.displayed_equation,
+        $.inline_formula,
+        $.math_delimiter,
+        $.text_mode,
+      ),
+
     displayed_equation: $ =>
       prec.left(
         seq(choice('$$', '\\['), repeat($._root_content), choice('$$', '\\]')),
@@ -441,6 +446,32 @@ module.exports = grammar({
     inline_formula: $ =>
       prec.left(
         seq(choice('$', '\\('), repeat($._root_content), choice('$', '\\)')),
+      ),
+
+    _math_delimiter_part: $ =>
+      choice($.word, $.command_name, '[', ']', '(', ')', '|'),
+
+    math_delimiter: $ =>
+      prec.left(
+        seq(
+          field(
+            'left_command',
+            choice('\\left', '\\bigl', '\\Bigl', '\\biggl', '\\Biggl'),
+          ),
+          field('left_delimiter', $._math_delimiter_part),
+          repeat($._root_content),
+          field(
+            'right_command',
+            choice('\\right', '\\bigr', '\\Bigr', '\\biggr', '\\Biggr'),
+          ),
+          field('right_delimiter', $._math_delimiter_part),
+        ),
+      ),
+
+    text_mode: $ =>
+      seq(
+        field('command', choice('\\text', '\\intertext', '\\shortintertext')),
+        field('content', $.curly_group),
       ),
 
     //--- Environments
@@ -942,26 +973,6 @@ module.exports = grammar({
         field('implementation', $.command_name),
       ),
 
-    _math_delimiter_part: $ =>
-      choice($.word, $.command_name, '[', ']', '(', ')', '|'),
-
-    math_delimiter: $ =>
-      prec.left(
-        seq(
-          field(
-            'left_command',
-            choice('\\left', '\\bigl', '\\Bigl', '\\biggl', '\\Biggl'),
-          ),
-          field('left_delimiter', $._math_delimiter_part),
-          repeat($._root_content),
-          field(
-            'right_command',
-            choice('\\right', '\\bigr', '\\Bigr', '\\biggr', '\\Biggr'),
-          ),
-          field('right_delimiter', $._math_delimiter_part),
-        ),
-      ),
-
     paired_delimiter_definition: $ =>
       prec.right(
         seq(
@@ -1192,7 +1203,7 @@ module.exports = grammar({
         seq(
           field(
             'command',
-            choice('\\color', '\\pagecolor', '\\textcolor', '\\mathcolor','\\colorbox'),
+            choice('\\color', '\\pagecolor', '\\textcolor', '\\mathcolor', '\\colorbox'),
           ),
           choice(
             field('name', $.curly_group_text),
@@ -1209,12 +1220,6 @@ module.exports = grammar({
       seq(
         field('command', choice('\\usepgflibrary', '\\usetikzlibrary')),
         field('paths', $.curly_group_path_list),
-      ),
-
-    text_mode: $ =>
-      seq(
-        field('command', choice('\\text', '\\intertext', '\\shortintertext')),
-        field('content', $.curly_group),
       ),
 
     hyperlink: $ =>
