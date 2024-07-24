@@ -76,3 +76,39 @@ jobs:
       - name: Run the fuzzer
         uses: tree-sitter/fuzz-action@v4
         if: steps.scanner-check.outputs.changed == 'true'
+  size:
+    name: Check grammar size
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
+    steps:
+      - name: Checkout old version
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: old
+      - name: Checkout new version
+        uses: actions/checkout@v4
+        with:
+          path: new
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v1
+      - name: Generate parser.c for old version
+        run: tree-sitter generate --no-bindings
+        working-directory: old
+      - name: Generate parser.c for new version
+        run: tree-sitter generate --no-bindings
+        working-directory: new
+      - name: Check LARGE_STATE_COUNT
+        run: |
+          old_size=$(cat old/src/parser.c | grep '#define LARGE_STATE_COUNT' | sed 's/#define LARGE_STATE_COUNT //g')
+          new_size=$(cat new/src/parser.c | grep '#define LARGE_STATE_COUNT' | sed 's/#define LARGE_STATE_COUNT //g')
+
+          echo "Checking LARGE_STATE_COUNT"
+          echo "Old: $old_size"
+          echo "New: $new_size"
+          max_size=$(echo "$old_size" "1.2" | awk '{print $1 * $2}' | cut -d "." -f 1)
+
+          if (( $new_size > $max_size )); then
+              echo "LARGE_STATE_COUNT increased by more than 20%"
+              exit 1
+          fi
