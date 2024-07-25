@@ -67,7 +67,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "anonymous_function",
@@ -3448,7 +3448,7 @@
       },
       "pattern": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "as",
@@ -3653,7 +3653,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "anonymous_function",
