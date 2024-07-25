@@ -139,9 +139,12 @@ module.exports = grammar({
         ")"
       ),
     constant_record_argument: ($) =>
-      seq(
-        optional(seq(field("label", $.label), ":")),
-        field("value", $._constant_value)
+      choice(
+        seq(
+          optional(seq(field("label", $.label), ":")),
+          field("value", $._constant_value)
+        ),
+        seq(field("label", $.label), ":")
       ),
     // This rule exists to parse remote function references which are generally
     // indistinguishable from field accesses and so share an AST node.
@@ -510,7 +513,10 @@ module.exports = grammar({
       ),
     record_update_arguments: ($) => series_of($.record_update_argument, ","),
     record_update_argument: ($) =>
-      seq(field("label", $.label), ":", field("value", $._expression)),
+      choice(
+        seq(field("label", $.label), ":", field("value", $._expression)),
+        seq(field("label", $.label), ":")
+      ),
     // As with other AST nodes in this section, `_maybe_record_expression`,
     // `_maybe_tuple_expression`, and `_maybe_function_expresssion` have no
     // corollaries in the Gleam parser. These anonymous AST node denote any
@@ -578,9 +584,12 @@ module.exports = grammar({
     // record arguments, hence the ambiguous name.
     arguments: ($) => seq("(", optional(series_of($.argument, ",")), ")"),
     argument: ($) =>
-      seq(
-        optional(seq(field("label", $.label), ":")),
-        field("value", choice($.hole, $._expression))
+      choice(
+        seq(
+          optional(seq(field("label", $.label), ":")),
+          field("value", choice($.hole, $._expression))
+        ),
+        seq(field("label", $.label), ":")
       ),
     hole: ($) => $._discard_name,
     function_call: ($) =>
@@ -624,9 +633,12 @@ module.exports = grammar({
         ")"
       ),
     record_pattern_argument: ($) =>
-      seq(
-        optional(seq(field("label", $.label), ":")),
-        field("pattern", $._pattern)
+      choice(
+        seq(
+          optional(seq(field("label", $.label), ":")),
+          field("pattern", $._pattern)
+        ),
+        seq(field("label", $.label), ":")
       ),
     pattern_spread: ($) => seq("..", optional(",")),
     tuple_pattern: ($) =>
