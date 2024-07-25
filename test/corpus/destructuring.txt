@@ -48,3 +48,31 @@ pub fn main() {
                 (argument
                   (string
                     (quoted_content)))))))))))
+
+================================================================================
+Pattern with label shorthand
+================================================================================
+
+pub fn main() {
+  let Wibble(arg1:, arg2:) = todo as "a"
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function
+    (visibility_modifier)
+    (identifier)
+    (function_parameters)
+    (function_body
+      (let
+        (record_pattern
+          (constructor_name)
+          (record_pattern_arguments
+            (record_pattern_argument
+              (label))
+            (record_pattern_argument
+              (label))))
+        (todo
+          (string
+            (quoted_content)))))))

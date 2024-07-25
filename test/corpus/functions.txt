@@ -1070,3 +1070,20 @@ io.println("// hello world!\n")
         value: (string
           (quoted_content)
           (escape_sequence))))))
+
+================================================================================
+Call with label shorthand
+================================================================================
+
+wibble(arg1:, arg2:)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_call
+    (identifier)
+    (arguments
+      (argument
+        (label))
+      (argument
+        (label)))))

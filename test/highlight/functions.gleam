@@ -114,3 +114,10 @@ fn let_assert_test() {
   // <- keyword
   //  ^ keyword
 }
+
+fn punned_call_arg_test() {
+  wibble(arg:, arg2:)
+  // ^ function
+  //      ^ property
+  //            ^ property
+}

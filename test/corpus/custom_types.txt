@@ -247,3 +247,26 @@ pub opaque type Animal(name, cuteness) {
             label: (label)
             value: (type
               name: (type_identifier))))))))
+
+================================================================================
+Record update with shorthand labels
+================================================================================
+
+Wibble(..wibble, arg:, arg:, arg: todo as "no shorthand")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (record_update
+    (constructor_name)
+    (identifier)
+    (record_update_arguments
+      (record_update_argument
+        (label))
+      (record_update_argument
+        (label))
+      (record_update_argument
+        (label)
+        (todo
+          (string
+            (quoted_content)))))))

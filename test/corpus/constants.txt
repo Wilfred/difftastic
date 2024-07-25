@@ -444,3 +444,22 @@ const a = -100.001e-1_230
   (constant
     (identifier)
     (float)))
+
+================================================================================
+Constant with shorthand labels
+================================================================================
+
+const b = Wibble(arg:, arg:)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constant
+    (identifier)
+    (record
+      (constructor_name)
+      (arguments
+        (argument
+          (label))
+        (argument
+          (label))))))
