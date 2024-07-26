@@ -84,7 +84,7 @@ jobs:
       - name: Checkout old version
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: master
           path: old
       - name: Checkout new version
         uses: actions/checkout@v4
