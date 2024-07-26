@@ -1,5 +1,10 @@
 ## 0.60 (unreleased)
 
+### Diffing
+
+Fixed a crash (introduced in 0.59) when the final changed hunk
+included the last line of the file.
+
 ### Display
 
 Fixed an issue where files with no common content would show duplicate
