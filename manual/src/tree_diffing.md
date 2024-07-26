@@ -52,7 +52,7 @@ Algorithm: A* search
 Output: Merged s-expression file
 
 Tristan Hume wrote a tree diffing algorithm during his 2017 internship
-and Jane Street. The source code is not available, but [he has a blog
+at Jane Street. The source code is not available, but [he has a blog
 post](https://thume.ca/2017/06/17/tree-diffing/) discussing the design
 in depth.
 
