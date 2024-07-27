@@ -83,7 +83,7 @@ module.exports = grammar({
     source_file: ($) =>
       seq(
         optional(choice($._bom, $.shebang)),
-        choice($.module_def, repeat($._declaration))
+        choice($.module_def, repeat($._declaration)),
       ),
 
     _bom: (_$) => "\uFEFF", // kind of like a special form of whitespace
@@ -104,7 +104,7 @@ module.exports = grammar({
     _token_string_token: ($) =>
       choice(
         seq("{", optional($._token_string_tokens), "}"),
-        $._token_no_braces
+        $._token_no_braces,
       ),
 
     _token_no_braces: ($) =>
@@ -167,7 +167,7 @@ module.exports = grammar({
         "~=",
         "@",
         "=>",
-        "#"
+        "#",
       ),
 
     keyword: ($) =>
@@ -249,7 +249,7 @@ module.exports = grammar({
         $.null,
         $._builtin_type,
         $.void,
-        $.type_ctor
+        $.type_ctor,
       ),
 
     //
@@ -384,7 +384,7 @@ module.exports = grammar({
         optional(seq($.deprecated_attribute, repeat($.at_attribute))),
         $.module,
         $.module_fqn,
-        ";"
+        ";",
       ),
 
     module_fqn: ($) => seq($.identifier, repeat(seq(".", $.identifier))),
@@ -401,14 +401,14 @@ module.exports = grammar({
     _import_list: ($) =>
       choice(
         seq($.imported, optional(seq(",", $._import_list))),
-        seq($.imported, ":", commaSep1($.import_bind))
+        seq($.imported, ":", commaSep1($.import_bind)),
       ),
 
     // libdparse calls this single_import
     imported: ($) =>
       choice(
         $.module_fqn,
-        seq(field("alias", $.identifier), "=", $.module_fqn)
+        seq(field("alias", $.identifier), "=", $.module_fqn),
       ),
 
     import_bind: ($) => seq($.identifier, optional(seq("=", $.identifier))),
@@ -428,7 +428,7 @@ module.exports = grammar({
       choice(
         seq($._declaration2),
         seq(repeat1($._attribute), $._declaration2),
-        seq(repeat1($._attribute), "{", repeat($._declaration), "}")
+        seq(repeat1($._attribute), "{", repeat($._declaration), "}"),
       ),
 
     _declaration2: ($) =>
@@ -464,8 +464,8 @@ module.exports = grammar({
           $.auto_declaration,
           $.static_foreach_declaration,
           $.alias_reassign, // only valid really inside a template declaration
-          ";" // NB: this is deprecated, and is really an empty statement
-        )
+          ";", // NB: this is deprecated, and is really an empty statement
+        ),
       ),
 
     //
@@ -476,7 +476,7 @@ module.exports = grammar({
         repeat($.storage_class),
         $.type,
         commaSep1(choice($.declarator, $.bitfield_declarator)),
-        ";"
+        ";",
       ),
 
     _declarator_identifier_list: ($) => prec.right(commaSep1($.identifier)),
@@ -485,16 +485,16 @@ module.exports = grammar({
       prec.right(
         seq(
           $.identifier,
-          optional(seq(optional($.template_parameters), "=", $._initializer))
-        )
+          optional(seq(optional($.template_parameters), "=", $._initializer)),
+        ),
       ),
 
     bitfield_declarator: ($) =>
       prec.right(
         choice(
           seq(":", $._expr),
-          seq($.identifier, ":", $._expr, optional(seq("=", $._initializer)))
-        )
+          seq($.identifier, ":", $._expr, optional(seq("=", $._initializer))),
+        ),
       ),
 
     manifest_constant: ($) =>
@@ -504,13 +504,13 @@ module.exports = grammar({
         repeat($.storage_class),
         optional($.type),
         commaSep1($.manifest_declarator),
-        ";"
+        ";",
       ),
 
     manifest_declarator: ($) =>
       choice(
         seq($.identifier, "=", $._initializer),
-        seq($.identifier, $.template_parameters, "=", $._initializer)
+        seq($.identifier, $.template_parameters, "=", $._initializer),
       ),
 
     //
@@ -533,7 +533,7 @@ module.exports = grammar({
         $.scope,
         $.gshared,
         $.ref,
-        $._function_attribute_kwd
+        $._function_attribute_kwd,
       ),
 
     //
@@ -548,7 +548,7 @@ module.exports = grammar({
     //
     auto_declaration: ($) =>
       prec.right(
-        seq(repeat1($.storage_class), commaSep1($._auto_assignment), ";")
+        seq(repeat1($.storage_class), commaSep1($._auto_assignment), ";"),
       ),
 
     _auto_assignment: ($) =>
@@ -556,7 +556,7 @@ module.exports = grammar({
         field("variable", $.identifier),
         optional($.template_parameters),
         "=",
-        field("value", $._initializer)
+        field("value", $._initializer),
       ),
 
     //
@@ -571,7 +571,7 @@ module.exports = grammar({
           repeat($.storage_class),
           $.type,
           $._declarator_identifier_list,
-          ";"
+          ";",
         ),
         seq(
           $.alias,
@@ -581,8 +581,8 @@ module.exports = grammar({
           optional($.template_parameters),
           $.parameters,
           repeat($.member_function_attribute),
-          ";"
-        )
+          ";",
+        ),
       ),
 
     alias_initializer: ($) =>
@@ -592,14 +592,14 @@ module.exports = grammar({
           optional($.template_parameters),
           "=",
           repeat($.storage_class),
-          $.type
+          $.type,
         ),
         seq(
           $.identifier,
           optional($.template_parameters),
           "=",
           repeat($.storage_class),
-          $.function_literal
+          $.function_literal,
         ),
         seq(
           $.identifier,
@@ -608,8 +608,8 @@ module.exports = grammar({
           repeat($.storage_class),
           $.type,
           $.parameters,
-          repeat($.member_function_attribute)
-        )
+          repeat($.member_function_attribute),
+        ),
       ),
 
     //
@@ -633,9 +633,9 @@ module.exports = grammar({
             $.type,
             $.parameters,
             repeat($.member_function_attribute),
-            ";"
-          )
-        )
+            ";",
+          ),
+        ),
       ),
 
     /**************************************************
@@ -661,8 +661,8 @@ module.exports = grammar({
           seq($.type_ctor, "(", $.type, ")"),
           $.vector_type,
           $.traits_expression,
-          $.mixin_expression
-        )
+          $.mixin_expression,
+        ),
       ),
 
     // dparse says the type is optional, but that seems nonsensical.
@@ -693,7 +693,7 @@ module.exports = grammar({
         $.ireal, // deprecated
         $.cfloat, // deprecated
         $.cdouble, // deprecated
-        $.creal // deprecated
+        $.creal, // deprecated
       ),
 
     // we call out void specially because it is not always a basic type
@@ -708,8 +708,8 @@ module.exports = grammar({
           seq("[", $.expression, "..", $.expression, "]"),
           seq("[", $.type, "]"),
           seq($.delegate, $.parameters, repeat($.member_function_attribute)),
-          seq($.function, $.parameters, repeat($._function_attribute))
-        )
+          seq($.function, $.parameters, repeat($._function_attribute)),
+        ),
       ),
 
     _identifier_or_template_instance: ($) =>
@@ -730,8 +730,8 @@ module.exports = grammar({
           seq($.identifier, "[", $.expression, "]"),
           seq($.identifier, "[", $.expression, "]", ".", $._qualified_id),
           seq($.template_instance),
-          seq($.template_instance, ".", $._qualified_id)
-        )
+          seq($.template_instance, ".", $._qualified_id),
+        ),
       ),
 
     //
@@ -780,8 +780,8 @@ module.exports = grammar({
           $.at_attribute,
           $._function_attribute_kwd,
           $.ref,
-          $.return
-        )
+          $.return,
+        ),
       ),
 
     at_attribute: ($) =>
@@ -791,8 +791,8 @@ module.exports = grammar({
           seq("@", $.identifier, $.arguments),
           seq("@", $.template_instance),
           seq("@", $.template_instance, $.arguments),
-          seq("@", "(", $._argument_list, ")")
-        )
+          seq("@", "(", $._argument_list, ")"),
+        ),
       ),
 
     _function_attribute_kwd: ($) => choice($.nothrow, $.pure),
@@ -814,18 +814,25 @@ module.exports = grammar({
               "C",
               "++",
               ",",
-              optional(alias($._argument_list, $.namespace_list))
+              optional(alias($._argument_list, $.namespace_list)),
             ),
             seq("C", "++", ",", $.class),
-            seq("C", "++", ",", $.struct)
+            seq("C", "++", ",", $.struct),
           ),
-          ")"
-        )
+          ")",
+        ),
       ),
 
     _argument_list: ($) => prec.right(commaSep1Comma($.expression)),
 
     arguments: ($) => seq("(", optional($._argument_list), ")"),
+
+    named_argument: ($) =>
+      choice($.expression, seq($.identifier, ":", $.expression)),
+
+    _named_argument_list: ($) => prec.right(commaSep1Comma($.named_argument)),
+
+    named_arguments: ($) => seq("(", optional($._named_argument_list), ")"),
 
     //
     // 3.6 PRAGMAS
@@ -834,19 +841,19 @@ module.exports = grammar({
       choice(
         seq($.pragma_expression, ";"),
         seq($.pragma_expression, $._declaration),
-        seq($.pragma_expression, "{", repeat($._declaration), "}")
+        seq($.pragma_expression, "{", repeat($._declaration), "}"),
       ),
 
     pragma_statement: ($) =>
       choice(
         seq($.pragma_expression, $._statement), // covers block_statement as well
-        seq($.pragma_expression, ";")
+        seq($.pragma_expression, ";"),
       ),
 
     pragma_expression: ($) =>
       choice(
         seq($.pragma, "(", $.identifier, ")"),
-        seq($.pragma, "(", $.identifier, ",", $._argument_list, ")")
+        seq($.pragma, "(", $.identifier, ",", $._argument_list, ")"),
       ),
 
     //
@@ -874,8 +881,8 @@ module.exports = grammar({
           $.ternary_expression,
           $.binary_expression,
           $.ternary_expression,
-          $._unary_expr
-        )
+          $._unary_expr,
+        ),
       ),
 
     ternary_expression: ($) =>
@@ -886,13 +893,16 @@ module.exports = grammar({
           "?",
           field("consequence", $.expression_list),
           ":",
-          field("alternative", $._expr)
-        )
+          field("alternative", $._expr),
+        ),
       ),
 
     call_expression: ($) =>
       prec.left(
-        choice(seq($._unary_expr, $.arguments), seq($.type, $.arguments))
+        choice(
+          seq($._unary_expr, $.named_arguments),
+          seq($.type, $.named_arguments),
+        ),
       ),
 
     primary_expression: ($) =>
@@ -903,7 +913,7 @@ module.exports = grammar({
         seq($.void, ".", $.identifier),
         seq("(", $.expression_list, ")"),
         seq($.type_ctor, "(", $.type, ")", ".", $.identifier),
-        seq($.vector_type, ".", $.identifier)
+        seq($.vector_type, ".", $.identifier),
       ),
 
     _primary_expr: ($) =>
@@ -929,7 +939,7 @@ module.exports = grammar({
         $.int_literal,
         $.float_literal,
         $.char_literal,
-        $.string_literal
+        $.string_literal,
       ),
 
     // also covers slicing (we renamed from slice,
@@ -937,7 +947,7 @@ module.exports = grammar({
     index_expression: ($) =>
       choice(
         seq($._unary_expr, "[", "]"),
-        seq($._unary_expr, "[", commaSep1Comma($.index), "]")
+        seq($._unary_expr, "[", commaSep1Comma($.index), "]"),
       ),
 
     index: ($) => seq($.expression, optional(seq("..", $.expression))),
@@ -961,10 +971,10 @@ module.exports = grammar({
             "<<=",
             ">>=",
             ">>>=",
-            "^^="
+            "^^=",
           ),
-          $._expr
-        )
+          $._expr,
+        ),
       ),
 
     binary_expression: ($) =>
@@ -980,7 +990,7 @@ module.exports = grammar({
         $.add_expression,
         $.mul_expression,
         $.shift_expression,
-        $.power_expression
+        $.power_expression,
       ),
 
     logical_or_expression: ($) =>
@@ -1004,13 +1014,13 @@ module.exports = grammar({
     rel_expression: ($) =>
       prec.left(
         "compare",
-        binaryOp($._expr, choice("<=", "<", ">", ">="), $._expr)
+        binaryOp($._expr, choice("<=", "<", ">", ">="), $._expr),
       ),
 
     identity_expression: ($) =>
       prec.left(
         "compare",
-        seq($._expr, choice($.not_is, $.not_in, $.in, $.is), $._expr)
+        seq($._expr, choice($.not_is, $.not_in, $.in, $.is), $._expr),
       ),
 
     add_expression: ($) =>
@@ -1033,8 +1043,8 @@ module.exports = grammar({
         "unary",
         seq(
           field("operator", choice("~", "+", "-", "!", "*", "&", "++", "--")),
-          $._unary_expr
-        )
+          $._unary_expr,
+        ),
       ),
 
     _unary_expr: ($) =>
@@ -1049,14 +1059,14 @@ module.exports = grammar({
         $.call_expression,
         $.index_expression,
         $.postfix_expression,
-        $.property_expression
+        $.property_expression,
       ),
 
     property_expression: ($) =>
       choice(
         seq("(", $.type, ")", ".", $._identifier_or_template_instance),
         prec.left(seq($._unary_expr, ".", $._identifier_or_template_instance)),
-        prec.left(seq($._unary_expr, ".", $.new_expression))
+        prec.left(seq($._unary_expr, ".", $.new_expression)),
       ),
 
     cast_expression: ($) =>
@@ -1064,8 +1074,8 @@ module.exports = grammar({
         choice(
           seq($.cast, "(", ")", field("operand", $._unary_expr)),
           seq($.cast, "(", $.type, ")", field("operand", $._unary_expr)),
-          seq($.cast, "(", $.cast_qualifier, ")", $._unary_expr)
-        )
+          seq($.cast, "(", $.cast_qualifier, ")", $._unary_expr),
+        ),
       ),
 
     // these are only allowed in specific combinations
@@ -1078,7 +1088,7 @@ module.exports = grammar({
         seq($.inout, $.shared),
         $.shared,
         seq($.shared, $.const),
-        seq($.shared, $.inout)
+        seq($.shared, $.inout),
       ),
 
     delete_expression: ($) => prec.left(seq($.delete, $._unary_expr)),
@@ -1094,7 +1104,7 @@ module.exports = grammar({
       seq(
         $.expression,
         optional(seq(",", commaSep1($.expression))),
-        optional(",")
+        optional(","),
       ),
 
     //
@@ -1118,9 +1128,9 @@ module.exports = grammar({
             $.class,
             optional($.arguments),
             optional($._base_class_list),
-            $.aggregate_body
-          )
-        )
+            $.aggregate_body,
+          ),
+        ),
       ),
 
     typeid_expression: ($) =>
@@ -1137,11 +1147,11 @@ module.exports = grammar({
             seq(
               choice("==", ":"),
               $.type_specialization,
-              optional(seq(",", $._template_parameter_list))
-            )
+              optional(seq(",", $._template_parameter_list)),
+            ),
           ),
-          ")"
-        )
+          ")",
+        ),
       ),
 
     type_specialization: ($) =>
@@ -1163,7 +1173,7 @@ module.exports = grammar({
         $.return,
         $.parameters_,
         $.module,
-        $.package
+        $.package,
       ),
 
     // string literal stuff
@@ -1178,8 +1188,8 @@ module.exports = grammar({
       choice(
         seq(
           optional(seq(field("key", $.expression), ":")),
-          field("value", $._non_void_initializer)
-        )
+          field("value", $._non_void_initializer),
+        ),
       ),
 
     //
@@ -1193,7 +1203,7 @@ module.exports = grammar({
             optional(seq(optional($.auto), $.ref)),
             optional($.type),
             optional($._parameter_with_attributes),
-            $._specified_function_body
+            $._specified_function_body,
           ),
           seq(
             $.function,
@@ -1201,14 +1211,14 @@ module.exports = grammar({
             optional($.type),
             $._parameter_with_attributes,
             "=>",
-            $._expr
+            $._expr,
           ),
           seq(
             $.delegate,
             optional(seq(optional($.auto), $.ref)),
             optional($.type),
             optional($._parameter_with_member_attributes),
-            $._specified_function_body
+            $._specified_function_body,
           ),
           seq(
             $.delegate,
@@ -1216,22 +1226,22 @@ module.exports = grammar({
             optional($.type),
             $._parameter_with_member_attributes,
             "=>",
-            $._expr
+            $._expr,
           ),
           seq(
             optional(seq(optional($.auto), $.ref)),
             $._parameter_with_member_attributes,
-            $._specified_function_body
+            $._specified_function_body,
           ),
           seq(
             optional(seq(optional($.auto), $.ref)),
             $._parameter_with_member_attributes,
             "=>",
-            $._expr
+            $._expr,
           ),
           $._specified_function_body,
-          seq($.identifier, "=>", $._expr)
-        )
+          seq($.identifier, "=>", $._expr),
+        ),
       ),
 
     _parameter_with_attributes: ($) =>
@@ -1252,7 +1262,7 @@ module.exports = grammar({
         "__TIME__",
         "__TIMESTAMP__",
         "__VENDOR__",
-        "__VERSION__"
+        "__VERSION__",
       ),
 
     //
@@ -1298,7 +1308,7 @@ module.exports = grammar({
         $.static_assert,
         $.static_foreach_statement,
         $.version_specification,
-        $.debug_specification
+        $.debug_specification,
       ),
 
     labeled_statement: ($) => prec.left(seq($.label, $.body)),
@@ -1311,7 +1321,7 @@ module.exports = grammar({
         "{",
         optional($._declarations_and_statements),
         optional($.label),
-        "}"
+        "}",
       ),
 
     expression_statement: ($) => seq($.expression_list, ";"),
@@ -1322,8 +1332,8 @@ module.exports = grammar({
           $.if,
           $.if_condition,
           $.consequence,
-          optional(seq($.else, $.alternative))
-        )
+          optional(seq($.else, $.alternative)),
+        ),
       ),
 
     if_condition: ($) =>
@@ -1334,9 +1344,9 @@ module.exports = grammar({
           seq($.auto, $.identifier, "=", $.expression),
           seq($.scope, $.identifier, "=", $.expression),
           seq(repeat1($.type_ctor), $.identifier, "=", $.expression),
-          seq($.type, $.identifier, "=", $.expression) // type constructors already bound to type
+          seq($.type, $.identifier, "=", $.expression), // type constructors already bound to type
         ),
-        ")"
+        ")",
       ),
 
     while_statement: ($) => seq($.while, $.if_condition, $.body),
@@ -1355,14 +1365,14 @@ module.exports = grammar({
         optional($._for2),
         optional(seq(";", optional($._for3))),
         ")",
-        $.body
+        $.body,
       ),
 
     _for1: ($) =>
       choice(
         field("init", $._declaration2),
         field("init", $._statement_no_case_no_default),
-        ";"
+        ";",
       ),
     _for2: ($) => field("test", $.expression),
     _for3: ($) => field("step", $.expression_list),
@@ -1382,7 +1392,7 @@ module.exports = grammar({
           ";",
           $.expression,
           ")",
-          $.body
+          $.body,
         ),
         seq(
           $._foreach,
@@ -1393,15 +1403,15 @@ module.exports = grammar({
           "..",
           $.expression,
           ")",
-          $.body
-        )
+          $.body,
+        ),
       ),
 
     foreach_type: ($) =>
       seq(
         repeat(choice($.ref, $.alias, $.enum, $.scope, $.type_ctor)),
         optional($.type),
-        $.identifier
+        $.identifier,
       ),
 
     //
@@ -1418,7 +1428,7 @@ module.exports = grammar({
             $.expression_list,
             optional(","),
             ":",
-            repeat(choice($._declaration, $._statement_no_case_no_default))
+            repeat(choice($._declaration, $._statement_no_case_no_default)),
           ),
           seq(
             $.case,
@@ -1428,14 +1438,14 @@ module.exports = grammar({
             $.case,
             $.expression,
             ":",
-            repeat(choice($._declaration, $._statement_no_case_no_default))
+            repeat(choice($._declaration, $._statement_no_case_no_default)),
           ),
           seq(
             $.default,
             ":",
-            repeat(choice($._declaration, $._statement_no_case_no_default))
-          )
-        )
+            repeat(choice($._declaration, $._statement_no_case_no_default)),
+          ),
+        ),
       ),
 
     final_switch_statement: ($) => seq($.final, $.switch_statement),
@@ -1451,7 +1461,7 @@ module.exports = grammar({
         seq($.goto, $.identifier, ";"),
         seq($.goto, $.default, ";"),
         seq($.goto, $.case, ";"),
-        seq($.goto, $.case, $.expression, ";")
+        seq($.goto, $.case, $.expression, ";"),
       ),
 
     with_statement: ($) =>
@@ -1462,8 +1472,8 @@ module.exports = grammar({
         seq(
           $.synchronized,
           optional(seq("(", $.expression, ")")),
-          $.scope_statement
-        )
+          $.scope_statement,
+        ),
       ),
 
     //
@@ -1475,8 +1485,8 @@ module.exports = grammar({
           $.try,
           $.body,
           repeat($.catch_statement),
-          optional($.finally_statement)
-        )
+          optional($.finally_statement),
+        ),
       ),
 
     catch_statement: ($) =>
@@ -1499,7 +1509,7 @@ module.exports = grammar({
         repeat($._function_attribute),
         "{",
         optional($.asm_inline),
-        "}"
+        "}",
       ),
 
     asm_inline: ($) => repeat1($._token_no_braces),
@@ -1525,15 +1535,15 @@ module.exports = grammar({
           $.identifier,
           $.template_parameters,
           optional($.constraint),
-          ";"
+          ";",
         ),
         seq(
           $.struct,
           $.identifier,
           $.template_parameters,
           optional($.constraint),
-          $.aggregate_body
-        )
+          $.aggregate_body,
+        ),
       ),
 
     // AnonStructDeclaration inlined above
@@ -1548,15 +1558,15 @@ module.exports = grammar({
           $.identifier,
           $.template_parameters,
           optional($.constraint),
-          ";"
+          ";",
         ),
         seq(
           $.union,
           $.identifier,
           $.template_parameters,
           optional($.constraint),
-          $.aggregate_body
-        )
+          $.aggregate_body,
+        ),
       ),
 
     // AnonUnionDeclaration inlined above
@@ -1586,7 +1596,7 @@ module.exports = grammar({
         $.this,
         ")",
         repeat($.member_function_attribute),
-        $.function_body
+        $.function_body,
       ),
 
     //
@@ -1596,7 +1606,7 @@ module.exports = grammar({
       choice(
         seq($.invariant, "(", ")", $.block_statement),
         seq($.invariant, $.block_statement),
-        seq($.invariant, "(", $.assert_arguments, ")", ";")
+        seq($.invariant, "(", $.assert_arguments, ")", ";"),
       ),
 
     /**************************************************
@@ -1615,7 +1625,7 @@ module.exports = grammar({
           $.identifier,
           $.template_parameters,
           optional($.constraint),
-          $.aggregate_body
+          $.aggregate_body,
         ),
         seq(
           $.class,
@@ -1625,7 +1635,7 @@ module.exports = grammar({
           ":",
           $._base_class_list,
           optional($.constraint),
-          $.aggregate_body
+          $.aggregate_body,
         ),
         seq(
           $.class,
@@ -1634,8 +1644,8 @@ module.exports = grammar({
           ":",
           $._base_class_list,
           $.constraint,
-          $.aggregate_body
-        )
+          $.aggregate_body,
+        ),
       ),
 
     _base_class_list: ($) => commaSep1($.base_class),
@@ -1653,7 +1663,7 @@ module.exports = grammar({
           $.this,
           $.parameters,
           repeat($.member_function_attribute),
-          $.function_body
+          $.function_body,
         ),
         seq(
           $.this,
@@ -1661,7 +1671,7 @@ module.exports = grammar({
           $.parameters,
           repeat($.member_function_attribute),
           optional($.constraint),
-          $.function_body
+          $.function_body,
         ),
         seq(
           optional($.shared),
@@ -1670,8 +1680,8 @@ module.exports = grammar({
           "(",
           ")",
           repeat($.member_function_attribute),
-          $.function_body
-        )
+          $.function_body,
+        ),
       ),
 
     destructor: ($) =>
@@ -1682,7 +1692,7 @@ module.exports = grammar({
         "(",
         ")",
         repeat($.member_function_attribute),
-        $.function_body
+        $.function_body,
       ),
 
     //
@@ -1705,7 +1715,7 @@ module.exports = grammar({
           $.identifier,
           ":",
           $._base_class_list,
-          $.aggregate_body
+          $.aggregate_body,
         ),
         seq($.interface, $.identifier, $.template_parameters, $.aggregate_body),
         seq(
@@ -1714,7 +1724,7 @@ module.exports = grammar({
           $.template_parameters,
           ":",
           $._base_class_list,
-          $.aggregate_body
+          $.aggregate_body,
         ),
         seq(
           $.interface,
@@ -1723,14 +1733,14 @@ module.exports = grammar({
           ":",
           $._base_class_list,
           $.constraint,
-          $.aggregate_body
+          $.aggregate_body,
         ),
         seq(
           $.interface,
           $.identifier,
           $.template_parameters,
           $.constraint,
-          $.aggregate_body
+          $.aggregate_body,
         ),
         seq(
           $.interface,
@@ -1739,8 +1749,8 @@ module.exports = grammar({
           $.constraint,
           ":",
           $._base_class_list,
-          $.aggregate_body
-        )
+          $.aggregate_body,
+        ),
       ),
 
     /**************************************************
@@ -1754,7 +1764,7 @@ module.exports = grammar({
         seq($.enum, $.identifier, ";"),
         seq($.enum, $.identifier, $._enum_body),
         seq($.enum, $.identifier, ":", $.type, ";"),
-        seq($.enum, $.identifier, ":", $.type, $._enum_body)
+        seq($.enum, $.identifier, ":", $.type, $._enum_body),
       ),
 
     _enum_body: ($) => seq("{", commaSep1Comma($.enum_member), "}"),
@@ -1766,7 +1776,7 @@ module.exports = grammar({
       seq(
         repeat($._enum_member_attribute),
         $.identifier,
-        optional(seq("=", $._expr))
+        optional(seq("=", $._expr)),
       ),
 
     anonymous_enum_declaration: ($) =>
@@ -1775,7 +1785,7 @@ module.exports = grammar({
         optional(seq(":", $.type)),
         "{",
         commaSep1Comma(choice($.anonymous_enum_member, $.enum_member)),
-        "}"
+        "}",
       ),
 
     anonymous_enum_member: ($) => seq($.type, $.identifier, "=", $._expr),
@@ -1794,7 +1804,7 @@ module.exports = grammar({
             $.identifier,
             $.parameters,
             repeat($.member_function_attribute),
-            $.function_body
+            $.function_body,
           ),
           seq(
             $.type,
@@ -1803,14 +1813,14 @@ module.exports = grammar({
             $.parameters,
             repeat($.member_function_attribute),
             optional($.constraint),
-            $.function_body
+            $.function_body,
           ),
           seq(
             repeat1($.storage_class),
             $.identifier,
             $.parameters,
             repeat($.member_function_attribute),
-            $.function_body
+            $.function_body,
           ),
           seq(
             repeat1($.storage_class),
@@ -1819,9 +1829,9 @@ module.exports = grammar({
             $.parameters,
             repeat($.member_function_attribute),
             optional($.constraint),
-            $.function_body
-          )
-        )
+            $.function_body,
+          ),
+        ),
       ),
 
     //
@@ -1839,11 +1849,11 @@ module.exports = grammar({
             ",",
             $._variadic_arguments_attributes,
             $.ellipses,
-            ")"
+            ")",
           ),
           seq("(", $.ellipses, ")"),
-          seq("(", $._variadic_arguments_attributes, $.ellipses, ")")
-        )
+          seq("(", $._variadic_arguments_attributes, $.ellipses, ")"),
+        ),
       ),
 
     _parameters: ($) =>
@@ -1858,11 +1868,11 @@ module.exports = grammar({
             ",",
             $._variadic_arguments_attributes,
             $.ellipses,
-            ")"
+            ")",
           ),
           seq("(", $.ellipses, ")"),
-          seq("(", $._variadic_arguments_attributes, $.ellipses, ")")
-        )
+          seq("(", $._variadic_arguments_attributes, $.ellipses, ")"),
+        ),
       ),
 
     parameter: ($) => prec.right($._parameter),
@@ -1877,7 +1887,7 @@ module.exports = grammar({
             $.type,
             "=",
             $._expr,
-            optional($.ellipses)
+            optional($.ellipses),
           ),
           seq(repeat($.parameter_attribute), $.type, $.identifier),
           seq(repeat($.parameter_attribute), $.type, $.identifier, $.ellipses),
@@ -1887,9 +1897,9 @@ module.exports = grammar({
             $.identifier,
             "=",
             $._expr,
-            optional($.ellipses)
-          )
-        )
+            optional($.ellipses),
+          ),
+        ),
       ),
 
     parameter_attribute: ($) =>
@@ -1903,7 +1913,7 @@ module.exports = grammar({
         $.ref,
         $.scope,
         $.auto,
-        $.return
+        $.return,
       ),
 
     ellipses: (_$) => "...",
@@ -1928,7 +1938,7 @@ module.exports = grammar({
         $.return,
         $.scope,
         $.shared,
-        $._function_attribute
+        $._function_attribute,
       ),
 
     //
@@ -1939,7 +1949,7 @@ module.exports = grammar({
         seq(optional($._in_out_contract_expressions), "=>", $._expr, ";"),
         seq(repeat($._function_contract), optional($.do), $.block_statement),
         seq(repeat($._function_contract), ";"),
-        seq(repeat($._function_contract), $._in_out_statement)
+        seq(repeat($._function_contract), $._in_out_statement),
       ),
 
     _specified_function_body: ($) =>
@@ -1985,7 +1995,7 @@ module.exports = grammar({
         optional($.constraint),
         "{",
         repeat($._declaration),
-        "}"
+        "}",
       ),
 
     //
@@ -2000,9 +2010,9 @@ module.exports = grammar({
           "!",
           choice(
             seq("(", optional($._template_argument_list), ")"),
-            $._template_single_arg
-          )
-        )
+            $._template_single_arg,
+          ),
+        ),
       ),
 
     template_argument: ($) => choice($.type, $._expr),
@@ -2022,7 +2032,7 @@ module.exports = grammar({
         $.false,
         $.null,
         $.this,
-        $.special_keyword
+        $.special_keyword,
       ),
 
     template_parameter: ($) =>
@@ -2031,8 +2041,8 @@ module.exports = grammar({
           $._template_type_parameter,
           $._template_value_parameter,
           $._template_alias_parameter,
-          $._template_sequence_parameter
-        )
+          $._template_sequence_parameter,
+        ),
       ),
 
     template_parameters: ($) =>
@@ -2047,8 +2057,8 @@ module.exports = grammar({
           optional($.this),
           $.identifier,
           optional(seq(":", $.type)),
-          optional(seq("=", $.type))
-        )
+          optional(seq("=", $.type)),
+        ),
       ),
 
     _template_value_parameter: ($) =>
@@ -2057,8 +2067,8 @@ module.exports = grammar({
           $.type,
           $.identifier,
           optional(seq(":", $._expr)),
-          optional(seq("=", $._expr))
-        )
+          optional(seq("=", $._expr)),
+        ),
       ),
 
     _template_sequence_parameter: ($) => seq($.identifier, "..."),
@@ -2073,8 +2083,8 @@ module.exports = grammar({
           optional($.type),
           $.identifier,
           optional(seq(":", choice($.type, $._expr))),
-          optional(seq("=", choice($.type, $._expr)))
-        )
+          optional(seq("=", choice($.type, $._expr))),
+        ),
       ),
 
     //
@@ -2097,7 +2107,7 @@ module.exports = grammar({
         sep1($._identifier_or_template_instance, "."),
         optional($.template_arguments),
         optional($.identifier),
-        ";"
+        ";",
       ),
 
     /**************************************************
@@ -2120,7 +2130,7 @@ module.exports = grammar({
             $.else,
             "{",
             repeat($._declaration),
-            "}"
+            "}",
           ),
           seq($.condition, "{", repeat($._declaration), "}"),
           seq(
@@ -2130,7 +2140,7 @@ module.exports = grammar({
             "}",
             $.else,
             ":",
-            repeat($._declaration)
+            repeat($._declaration),
           ),
           seq(
             $.condition,
@@ -2138,7 +2148,7 @@ module.exports = grammar({
             repeat($._declaration),
             "}",
             $.else,
-            $._declaration
+            $._declaration,
           ),
           seq(
             $.condition,
@@ -2148,15 +2158,15 @@ module.exports = grammar({
             $.else,
             "{",
             repeat($._declaration),
-            "}"
+            "}",
           ),
-          seq($.condition, ":", repeat1($._declaration))
-        )
+          seq($.condition, ":", repeat1($._declaration)),
+        ),
       ),
 
     conditional_statement: ($) =>
       prec.right(
-        seq($.condition, $.consequence, optional(seq($.else, $.alternative)))
+        seq($.condition, $.consequence, optional(seq($.else, $.alternative))),
       ),
 
     condition: ($) =>
@@ -2168,8 +2178,8 @@ module.exports = grammar({
           $.version,
           "(",
           choice($.int_literal, $.identifier, $.unittest, $.assert),
-          ")"
-        )
+          ")",
+        ),
       ),
 
     version_specification: ($) =>
@@ -2179,8 +2189,8 @@ module.exports = grammar({
       prec.right(
         seq(
           $.debug,
-          optional(seq("(", choice($.int_literal, $.identifier), ")"))
-        )
+          optional(seq("(", choice($.int_literal, $.identifier), ")")),
+        ),
       ),
 
     debug_specification: ($) =>
@@ -2202,7 +2212,7 @@ module.exports = grammar({
           ")",
           "{",
           repeat($._declaration),
-          "}"
+          "}",
         ),
         seq(
           $.static,
@@ -2212,7 +2222,7 @@ module.exports = grammar({
           ";",
           $.expression,
           ")",
-          $._declaration
+          $._declaration,
         ),
         seq(
           $.static,
@@ -2226,7 +2236,7 @@ module.exports = grammar({
           ")",
           "{",
           repeat($._declaration),
-          "}"
+          "}",
         ),
         seq(
           $.static,
@@ -2238,8 +2248,8 @@ module.exports = grammar({
           "..",
           $.expression,
           ")",
-          $._declaration
-        )
+          $._declaration,
+        ),
       ),
 
     static_assert: ($) => seq($.static, $.assert_expression, ";"),
@@ -2255,7 +2265,7 @@ module.exports = grammar({
         "(",
         $.identifier,
         optional(seq(",", $._template_argument_list)),
-        ")"
+        ")",
       ),
 
     /**************************************************

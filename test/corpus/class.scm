@@ -21,9 +21,10 @@ if (isTrue(T))
         (call_expression
           (type
             (identifier))
-          (arguments
-            (expression
-              (identifier))))))
+          (named_arguments
+            (named_argument
+              (expression
+                (identifier)))))))
     (base_class
       (identifier))
     (aggregate_body)))

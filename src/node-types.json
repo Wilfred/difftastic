@@ -2463,10 +2463,6 @@
       "required": true,
       "types": [
         {
-          "type": "arguments",
-          "named": true
-        },
-        {
           "type": "array_literal",
           "named": true
         },
@@ -2528,6 +2524,10 @@
         },
         {
           "type": "mixin_expression",
+          "named": true
+        },
+        {
+          "type": "named_arguments",
           "named": true
         },
         {
@@ -8132,6 +8132,40 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "named_argument",
           "named": true
         }
       ]

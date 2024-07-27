@@ -170,14 +170,15 @@ unittest {
           (call_expression
             (type
               (identifier))
-            (arguments
-              (expression
-                (function_literal
-                  (block_statement
-                    (return_statement
-                      (return)
-                      (expression
-                        (int_literal)))))))))))))
+            (named_arguments
+              (named_argument
+                (expression
+                  (function_literal
+                    (block_statement
+                      (return_statement
+                        (return)
+                        (expression
+                          (int_literal))))))))))))))
 
 ================================================================================
 Function literal anonymous parameter
@@ -198,16 +199,17 @@ unittest {
           (call_expression
             (type
               (identifier))
-            (arguments
-              (expression
-                (function_literal
-                  (type
-                    (int))
-                  (block_statement
-                    (return_statement
-                      (return)
-                      (expression
-                        (int_literal)))))))))))))
+            (named_arguments
+              (named_argument
+                (expression
+                  (function_literal
+                    (type
+                      (int))
+                    (block_statement
+                      (return_statement
+                        (return)
+                        (expression
+                          (int_literal))))))))))))))
 
 ================================================================================
 Function literal named parameter
@@ -228,17 +230,18 @@ unittest {
           (call_expression
             (type
               (identifier))
-            (arguments
-              (expression
-                (function_literal
-                  (type
-                    (bool))
-                  (identifier)
-                  (block_statement
-                    (return_statement
-                      (return)
-                      (expression
-                        (int_literal)))))))))))))
+            (named_arguments
+              (named_argument
+                (expression
+                  (function_literal
+                    (type
+                      (bool))
+                    (identifier)
+                    (block_statement
+                      (return_statement
+                        (return)
+                        (expression
+                          (int_literal))))))))))))))
 
 ================================================================================
 Function literal auto ref
@@ -583,6 +586,92 @@ enum x() {}
 
 (source_file
   (ERROR
-	(enum)
-	(identifier)
-	(template_parameters)))
+    (enum)
+    (identifier)
+    (template_parameters)))
+
+================================================================================
+Function call named parameters
+================================================================================
+
+unittest {
+	f(dryrun: false);
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (unittest_declaration
+    (unittest)
+    (block_statement
+      (expression_statement
+        (expression_list
+          (call_expression
+            (type
+              (identifier))
+            (named_arguments
+              (named_argument
+                (identifier)
+                (expression
+                  (false))))))))))
+
+================================================================================
+Function call multiple named parameters
+================================================================================
+
+unittest {
+	f(dryrun: false, second: 123);
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (unittest_declaration
+    (unittest)
+    (block_statement
+      (expression_statement
+        (expression_list
+          (call_expression
+            (type
+              (identifier))
+            (named_arguments
+              (named_argument
+                (identifier)
+                (expression
+                  (false)))
+              (named_argument
+                (identifier)
+                (expression
+                  (int_literal))))))))))
+
+================================================================================
+Function call multiple named and unnamed parameters
+================================================================================
+
+unittest {
+	f(dryrun: false, "alpha", second: 123, 'L');
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (unittest_declaration
+    (unittest)
+    (block_statement
+      (expression_statement
+        (expression_list
+          (call_expression
+            (type
+              (identifier))
+            (named_arguments
+              (named_argument
+                (identifier)
+                (expression
+                  (false)))
+              (named_argument
+                (expression
+                  (string_literal)))
+              (named_argument
+                (identifier)
+                (expression
+                  (int_literal)))
+              (named_argument
+                (expression
+                  (char_literal))))))))))
