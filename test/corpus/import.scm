@@ -147,3 +147,19 @@ static import garrett = garrett.damore : what = where, when = then;
     (import_bind
       (identifier)
       (identifier))))
+
+================================================================================
+Import expression
+================================================================================
+auto x = import("something.png");
+--------------------------------------------------------------------------------
+
+(source_file
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (import_expression
+      (import)
+      (expression
+        (string_literal)))))
