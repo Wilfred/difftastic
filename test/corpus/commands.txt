@@ -196,6 +196,21 @@ Command definition with optional argument (xparse)
         (placeholder)))))
 
 ================================================================================
+Command copy (of command defined in grammar which requires a following node)
+================================================================================
+
+\NewCommandCopy{\foo}{\ref}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_command_name
+      (command_name))))
+
+================================================================================
 Author command
 ================================================================================
 

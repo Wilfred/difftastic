@@ -3184,7 +3184,7 @@
       },
       "begin": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "curly_group_impl",
@@ -3201,7 +3201,15 @@
             "named": false
           },
           {
+            "type": "\\DeclareEnvironmentCopy",
+            "named": false
+          },
+          {
             "type": "\\NewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\NewEnvironmentCopy",
             "named": false
           },
           {
@@ -3210,6 +3218,10 @@
           },
           {
             "type": "\\RenewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\RenewEnvironmentCopy",
             "named": false
           },
           {
@@ -3224,7 +3236,7 @@
       },
       "end": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "curly_group_impl",
@@ -3233,7 +3245,7 @@
         ]
       },
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -5303,6 +5315,10 @@
         "required": true,
         "types": [
           {
+            "type": "\\DeclareCommandCopy",
+            "named": false
+          },
+          {
             "type": "\\DeclareDocumentCommand",
             "named": false
           },
@@ -5327,6 +5343,10 @@
             "named": false
           },
           {
+            "type": "\\NewCommandCopy",
+            "named": false
+          },
+          {
             "type": "\\NewDocumentCommand",
             "named": false
           },
@@ -5340,6 +5360,10 @@
           },
           {
             "type": "\\ProvideExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\RenewCommandCopy",
             "named": false
           },
           {
@@ -5406,6 +5430,10 @@
         "types": [
           {
             "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "curly_group_command_name",
             "named": true
           }
         ]
@@ -8500,11 +8528,19 @@
     "named": false
   },
   {
+    "type": "\\DeclareCommandCopy",
+    "named": false
+  },
+  {
     "type": "\\DeclareDocumentCommand",
     "named": false
   },
   {
     "type": "\\DeclareDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\DeclareEnvironmentCopy",
     "named": false
   },
   {
@@ -8672,11 +8708,19 @@
     "named": false
   },
   {
+    "type": "\\NewCommandCopy",
+    "named": false
+  },
+  {
     "type": "\\NewDocumentCommand",
     "named": false
   },
   {
     "type": "\\NewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\NewEnvironmentCopy",
     "named": false
   },
   {
@@ -8712,11 +8756,19 @@
     "named": false
   },
   {
+    "type": "\\RenewCommandCopy",
+    "named": false
+  },
+  {
     "type": "\\RenewDocumentCommand",
     "named": false
   },
   {
     "type": "\\RenewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\RenewEnvironmentCopy",
     "named": false
   },
   {

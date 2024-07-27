@@ -911,7 +911,7 @@ module.exports = grammar({
       ),
 
     new_command_definition: $ =>
-      choice($._new_command_definition, $._newer_command_definition),
+      choice($._new_command_definition, $._newer_command_definition, $._new_command_copy),
 
     _new_command_definition: $ =>
       seq(
@@ -941,25 +941,37 @@ module.exports = grammar({
       ),
 
     _newer_command_definition: $ =>
-      prec.right(
-        seq(
-          field(
-            'command',
-            choice(
-              '\\NewDocumentCommand',
-              '\\RenewDocumentCommand',
-              '\\ProvideDocumentCommand',
-              '\\DeclareDocumentCommand',
-              '\\NewExpandableDocumentCommand',
-              '\\RenewExpandableDocumentCommand',
-              '\\ProvideExpandableDocumentCommand',
-              '\\DeclareExpandableDocumentCommand',
-            ),
+      seq(
+        field(
+          'command',
+          choice(
+            '\\NewDocumentCommand',
+            '\\RenewDocumentCommand',
+            '\\ProvideDocumentCommand',
+            '\\DeclareDocumentCommand',
+            '\\NewExpandableDocumentCommand',
+            '\\RenewExpandableDocumentCommand',
+            '\\ProvideExpandableDocumentCommand',
+            '\\DeclareExpandableDocumentCommand',
           ),
-          field('declaration', choice($.curly_group_command_name, $.command_name)),
-          field('spec', $.curly_group_spec),
-          field('implementation', $.curly_group),
         ),
+        field('declaration', choice($.curly_group_command_name, $.command_name)),
+        field('spec', $.curly_group_spec),
+        field('implementation', $.curly_group),
+      ),
+
+    _new_command_copy: $ =>
+      seq(
+        field(
+          'command',
+          choice(
+            '\\NewCommandCopy',
+            '\\RenewCommandCopy',
+            '\\DeclareCommandCopy',
+          ),
+        ),
+        field('declaration', choice($.curly_group_command_name, $.command_name)),
+        field('implementation', $.curly_group_command_name),
       ),
 
     old_command_definition: $ =>
@@ -989,7 +1001,7 @@ module.exports = grammar({
       ),
 
     environment_definition: $ =>
-      choice($._environment_definition, $._newer_environment_definition),
+      choice($._environment_definition, $._newer_environment_definition, $._new_environment_copy),
 
     _environment_definition: $ =>
       seq(
@@ -1021,6 +1033,20 @@ module.exports = grammar({
         field('spec', $.curly_group_spec),
         field('begin', $.curly_group_impl),
         field('end', $.curly_group_impl),
+      ),
+
+    _new_environment_copy: $ =>
+      seq(
+        field(
+          'command',
+          choice(
+            '\\NewEnvironmentCopy',
+            '\\RenewEnvironmentCopy',
+            '\\DeclareEnvironmentCopy',
+          ),
+        ),
+        field('name', $.curly_group_text),
+        field('name', $.curly_group_text),
       ),
 
     glossary_entry_definition: $ =>

@@ -5309,6 +5309,10 @@
         {
           "type": "SYMBOL",
           "name": "_newer_command_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_new_command_copy"
         }
       ]
     },
@@ -5429,87 +5433,134 @@
       ]
     },
     "_newer_command_definition": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "command",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\NewDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\RenewDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\ProvideDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\DeclareDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\NewExpandableDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\RenewExpandableDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\ProvideExpandableDocumentCommand"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\DeclareExpandableDocumentCommand"
-                }
-              ]
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "declaration",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "curly_group_command_name"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "command_name"
-                }
-              ]
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "spec",
-            "content": {
-              "type": "SYMBOL",
-              "name": "curly_group_spec"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "implementation",
-            "content": {
-              "type": "SYMBOL",
-              "name": "curly_group"
-            }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\NewDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\ProvideDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\NewExpandableDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewExpandableDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\ProvideExpandableDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareExpandableDocumentCommand"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "FIELD",
+          "name": "declaration",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "curly_group_command_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "command_name"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "spec",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_spec"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "implementation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group"
+          }
+        }
+      ]
+    },
+    "_new_command_copy": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\NewCommandCopy"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewCommandCopy"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareCommandCopy"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "declaration",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "curly_group_command_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "command_name"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "implementation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_command_name"
+          }
+        }
+      ]
     },
     "old_command_definition": {
       "type": "SEQ",
@@ -5683,6 +5734,10 @@
         {
           "type": "SYMBOL",
           "name": "_newer_environment_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_new_environment_copy"
         }
       ]
     },
@@ -5806,6 +5861,48 @@
           "content": {
             "type": "SYMBOL",
             "name": "curly_group_impl"
+          }
+        }
+      ]
+    },
+    "_new_environment_copy": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\NewEnvironmentCopy"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewEnvironmentCopy"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareEnvironmentCopy"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_text"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_text"
           }
         }
       ]
