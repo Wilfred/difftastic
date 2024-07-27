@@ -1,7 +1,7 @@
 /*
  * Scanner (lexer) for D code for use by Tree-Sitter.
  *
- * Copyright 2022 Garrett D'Amore
+ * Copyright 2024 Garrett D'Amore
  *
  * Distributed under the MIT License.
  * (See accompanying file LICENSE.txt or https://opensource.org/licenses/MIT)
