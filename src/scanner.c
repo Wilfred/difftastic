@@ -218,7 +218,7 @@ match_dq_string(TSLexer *lexer)
 }
 
 static bool
-match_raw_string(TSLexer *lexer, int quote, int token)
+match_raw_string(TSLexer *lexer, int quote)
 {
 	int c = lexer->lookahead;
 	assert(c == quote);
@@ -226,7 +226,7 @@ match_raw_string(TSLexer *lexer, int quote, int token)
 	while ((c = lexer->lookahead) != 0) {
 		if (c == quote) {
 			lexer->advance(lexer, false);
-			lexer->result_symbol = token;
+			lexer->result_symbol = L_STRING;
 			match_string_suffix(lexer);
 			return (true);
 		}
@@ -235,6 +235,33 @@ match_raw_string(TSLexer *lexer, int quote, int token)
 	// unterminated
 	return (false);
 }
+
+static bool
+match_hex_string(TSLexer *lexer)
+{
+	int c = lexer->lookahead;
+	assert(c == '"');
+
+	lexer->advance(lexer, false);
+
+	while ((c = lexer->lookahead) != 0) {
+
+		if (c == '"') {
+			// end of string!
+			lexer->result_symbol = L_STRING;
+			lexer->advance(lexer, false);
+			match_string_suffix(lexer);
+			return (true);
+		}
+		if (!iswxdigit(c) && !iswspace(c)) {
+		    return (false);
+		}
+		lexer->advance(lexer, false);
+	}
+	// unterminated
+	return (false);
+}
+
 
 static bool
 match_delimited_string(TSLexer *lexer, int start, int end)
@@ -831,7 +858,15 @@ tree_sitter_d_external_scanner_scan(
 	if ((c == 'r') && (valid[L_STRING])) {
 		lexer->advance(lexer, false);
 		if (lexer->lookahead == '"') {
-			return (match_raw_string(lexer, '"', L_STRING));
+			return (match_raw_string(lexer, '"'));
+		}
+		return (false);
+	}
+
+	if ((c == 'x') && (valid[L_STRING])) {
+		lexer->advance(lexer, false);
+		if (lexer->lookahead == '"') {
+			return (match_hex_string(lexer));
 		}
 		return (false);
 	}
@@ -862,7 +897,7 @@ tree_sitter_d_external_scanner_scan(
 
 	if (c == '`') { // raw string, also unambiguous
 		return (valid[L_STRING]
-		        ? match_raw_string(lexer, '`', L_STRING)
+		        ? match_raw_string(lexer, '`')
 		        : false);
 	}
 
