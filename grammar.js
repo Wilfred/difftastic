@@ -309,7 +309,6 @@ module.exports = grammar({
         seq(
           $._enum_itemdeclaration,
           repeat($._flat_content),
-          optional(prec.right(choice())),
         ),
       ),
 

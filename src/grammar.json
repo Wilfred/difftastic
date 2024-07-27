@@ -1066,22 +1066,6 @@
               "type": "SYMBOL",
               "name": "_flat_content"
             }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "PREC_RIGHT",
-                "value": 0,
-                "content": {
-                  "type": "CHOICE",
-                  "members": []
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
           }
         ]
       }
