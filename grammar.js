@@ -1176,8 +1176,30 @@ module.exports = grammar({
         $.package,
       ),
 
+    raw_string: ($) =>
+      choice(
+        seq(
+          "`",
+          field("content", token.immediate(prec(1, /[^`]*/))),
+          token.immediate(/`[cdw]?/),
+        ),
+        seq(
+          'r"',
+          field("content", token.immediate(prec(1, /[^"]*/))),
+          token.immediate(/"[cdw]?/),
+        ),
+      ),
+
+    hex_string: ($) =>
+      seq(
+        'x"',
+        field("content", token.immediate(prec(1, /[0-9A-Fa-f\s]*/))),
+        token.immediate(/"[cdw]?/),
+      ),
+
     // string literal stuff
-    string_literal: ($) => choice($._string, $.token_string),
+    string_literal: ($) =>
+      choice($._string, $.raw_string, $.hex_string, $.token_string),
 
     // NB: array_literals are a super set of associative array literals,
     // and grammatically the two are not distinguishable.

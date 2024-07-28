@@ -5689,6 +5689,11 @@
     }
   },
   {
+    "type": "hex_string",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "identity_expression",
     "named": true,
     "fields": {},
@@ -9657,6 +9662,11 @@
     }
   },
   {
+    "type": "raw_string",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "rel_expression",
     "named": true,
     "fields": {
@@ -11007,6 +11017,14 @@
       "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "hex_string",
+          "named": true
+        },
+        {
+          "type": "raw_string",
+          "named": true
+        },
         {
           "type": "token_string",
           "named": true
@@ -13584,6 +13602,10 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "abstract",
     "named": true
   },
@@ -13912,6 +13934,10 @@
     "named": false
   },
   {
+    "type": "r\"",
+    "named": false
+  },
+  {
     "type": "real",
     "named": true
   },
@@ -14046,6 +14072,10 @@
   {
     "type": "with",
     "named": true
+  },
+  {
+    "type": "x\"",
+    "named": false
   },
   {
     "type": "{",

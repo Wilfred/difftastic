@@ -435,15 +435,6 @@ auto s1 = "abc";
 auto s2 = "a\"bc";
 auto s3 = "a\u1234b\\";
 
-// backquoted string
-auto s4 = `abc def
-`;
-
-// raw string
-auto s5 = r"
-this is some text
-";
-
 // some strings with suffixes
 auto s6 = "abc"w;
 auto s7 = "abc"c;
@@ -479,13 +470,6 @@ auto s10 = r"🥂"w;
       (auto))
     (identifier)
     (string_literal))
-  (comment)
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal))
-  (comment)
   (auto_declaration
     (storage_class
       (auto))
@@ -500,17 +484,14 @@ auto s10 = r"🥂"w;
     (storage_class
       (auto))
     (identifier)
-    (string_literal))
+    (string_literal
+      (raw_string)))
   (auto_declaration
     (storage_class
       (auto))
     (identifier)
-    (string_literal))
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal)))
+    (string_literal
+      (raw_string))))
 
 ================================================================================
 Token Strings

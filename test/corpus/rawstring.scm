@@ -1,8 +1,10 @@
 ================================================================================
-Hex String
+Backquoted String
 ================================================================================
-auto hex = x"001234 abcdef";
---------------------------------------------------------------------------------
+
+auto s4 = `abc def
+`;
+---
 
 (source_file
   (auto_declaration
@@ -10,28 +12,14 @@ auto hex = x"001234 abcdef";
       (auto))
     (identifier)
     (string_literal
-      (hex_string))))
+      (raw_string))))
 
 ================================================================================
-Hex String No Whitespace
+Empty Backquoted String
 ================================================================================
-auto hex = x"001234abcdef";
---------------------------------------------------------------------------------
 
-(source_file
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal
-      (hex_string))))
-
-================================================================================
-MultiLine Hex String
-================================================================================
-auto hex = x"001234
-             abcdef";
---------------------------------------------------------------------------------
+auto s4 = ``;
+---
 
 (source_file
   (auto_declaration
@@ -39,14 +27,14 @@ auto hex = x"001234
       (auto))
     (identifier)
     (string_literal
-      (hex_string))))
+      (raw_string))))
 
 ================================================================================
-MultiLine Hex String with Suffix (D2.108)
+Backquoted String With Suffix
 ================================================================================
-auto hex = x"001234
-             abcdef"w;
---------------------------------------------------------------------------------
+
+auto s4 = `abc def`c;
+---
 
 (source_file
   (auto_declaration
@@ -54,12 +42,53 @@ auto hex = x"001234
       (auto))
     (identifier)
     (string_literal
-      (hex_string))))
+      (raw_string))))
 
 ================================================================================
-Invalid Hex String
-:error
+Raw String
 ================================================================================
-auto hex = x"001234 junk
-             abcdef"w;
---------------------------------------------------------------------------------
+
+auto s5 = r"
+this is some text
+";
+---
+
+(source_file
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (string_literal
+      (raw_string))))
+
+================================================================================
+Raw String Suffix w
+================================================================================
+
+auto s = r"something"w;
+---
+
+(source_file
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (string_literal
+      (raw_string))))
+
+================================================================================
+Raw String Suffix Invalid (whitespace)
+================================================================================
+
+auto s = r"something" w;
+---
+
+(source_file
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (string_literal
+      (raw_string))
+    (ERROR
+      (identifier))))
