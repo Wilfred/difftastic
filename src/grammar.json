@@ -48,6 +48,15 @@
       "type": "STRING",
       "value": "﻿"
     },
+    "htmlentity": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\\\&[a-zA-Z_]+;"
+        }
+      ]
+    },
     "escape_sequence": {
       "type": "CHOICE",
       "members": [
@@ -112,21 +121,8 @@
           "value": "\\\\U[0-9A-Fa-f]{8}"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\\&"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "STRING",
-              "value": ";"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "htmlentity"
         }
       ]
     },
@@ -6125,6 +6121,32 @@
         {
           "type": "SYMBOL",
           "name": "token_string"
+        }
+      ]
+    },
+    "char_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "'[^\\\\']'"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "'"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "escape_sequence"
+            },
+            {
+              "type": "STRING",
+              "value": "'"
+            }
+          ]
         }
       ]
     },
@@ -12243,10 +12265,6 @@
     {
       "type": "SYMBOL",
       "name": "float_literal"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "char_literal"
     },
     {
       "type": "SYMBOL",

@@ -18,7 +18,6 @@ module.exports = grammar({
     $.shebang,
     $.int_literal,
     $.float_literal,
-    $.char_literal,
     $._string,
     $.not_in,
     $.not_is,
@@ -88,6 +87,8 @@ module.exports = grammar({
 
     _bom: (_$) => "\uFEFF", // kind of like a special form of whitespace
 
+    htmlentity: ($) => seq(/\\&[a-zA-Z_]+;/),
+
     escape_sequence: ($) =>
       choice(
         "\\'",
@@ -105,7 +106,7 @@ module.exports = grammar({
         /\\[0-7]{1,3}/,
         /\\u[0-9A-Fa-f]{4}/,
         /\\U[0-9A-Fa-f]{8}/,
-        seq("\\&", $.identifier, ";"),
+        $.htmlentity,
       ),
 
     //
@@ -1233,6 +1234,8 @@ module.exports = grammar({
         $.quoted_string,
         $.token_string,
       ),
+
+    char_literal: ($) => choice(/'[^\\']'/, seq("'", $.escape_sequence, "'")),
 
     // NB: array_literals are a super set of associative array literals,
     // and grammatically the two are not distinguishable.

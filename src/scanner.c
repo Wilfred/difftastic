@@ -26,7 +26,6 @@ enum TokenType {
 	SHEBANG,   // #!
 	L_INT,
 	L_FLOAT,
-	L_CHAR,   // 'c', or '\x12', or similar
 	L_STRING, // string literal (all forms)
 	NOT_IN,
 	NOT_IS,
@@ -36,136 +35,6 @@ static bool
 is_eol(int c)
 {
 	return ((c == '\n') || (c == '\r') || (c == 0x2028) || (c == 0x2029));
-}
-
-// This just looks for a valid escape sequence.
-// If it passes, it advances just past the escape and returns true.
-// Do not use this unless you are certainly in escape context.
-// The current lookahead should be \.  If this returns true
-// the the lexer will be pointing at the next character after
-// the escape sequence.
-static bool
-match_escape(TSLexer *lexer)
-{
-	assert(lexer->lookahead == '\\');
-
-	// now we parsing an escape
-	lexer->advance(lexer, false);
-	switch (lexer->lookahead) {
-	case '\'':
-	case '"':
-	case '?':
-	case '\\':
-	case 'a':
-	case 'b':
-	case 'f':
-	case 'n':
-	case 'r':
-	case 't':
-	case 'v':
-		lexer->advance(lexer, false);
-		return (true);
-	case 'x':
-		for (int i = 0; i < 2; i++) { // expect two hex digits
-			lexer->advance(lexer, false);
-			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !iswxdigit(lexer->lookahead)) {
-				return (false);
-			}
-		}
-		lexer->advance(lexer, false);
-		return (true);
-
-	case 'u':
-		for (int i = 0; i < 4; i++) {
-			lexer->advance(lexer, false);
-			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !iswxdigit(lexer->lookahead)) {
-				return (false);
-			}
-		}
-		lexer->advance(lexer, false);
-		return (true);
-
-	case 'U':
-		for (int i = 0; i < 8; i++) {
-			lexer->advance(lexer, false);
-			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !iswxdigit(lexer->lookahead)) {
-				return (false);
-			}
-		}
-		lexer->advance(lexer, false);
-		return (true);
-
-	case '0': // octal
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-		for (int i = 0; i < 3; i++) {
-			lexer->advance(lexer, false);
-			if (lexer->lookahead < '0' || lexer->lookahead > '7')
-				break;
-		}
-		return (true);
-
-	case '&': // HTML entity - we don't validate the names
-		for (int i = 0; i < 64; i++) { // no names longer than this
-			lexer->advance(lexer, false);
-			if (lexer->lookahead == ';') {
-				if (i < 2) {
-					// need at least 2 characters in an
-					// entity name
-					return (false);
-				}
-				break;
-			}
-			if (!(lexer->lookahead >= 0 && lexer->lookahead <= 127) ||
-			    !iswalnum(lexer->lookahead)) {
-				return (false);
-			}
-		}
-		lexer->advance(lexer, true);
-		return (true);
-
-	case '`':
-	default:
-		return (false);
-	}
-}
-
-static bool
-match_char_literal(TSLexer *lexer)
-{
-	assert(lexer->lookahead == '\'');
-	lexer->advance(lexer, false);
-	if (lexer->lookahead == '\'') {
-		// syntax error
-		return (false);
-	}
-	if (lexer->lookahead != '\\') {
-		// simple unescaped character
-		lexer->advance(lexer, false);
-		if (lexer->lookahead != '\'') {
-			return (false); // closing single quote missing
-		}
-		lexer->advance(lexer, false); // to get the closer
-		lexer->mark_end(lexer);
-		lexer->result_symbol = L_CHAR;
-		return (true);
-	}
-
-	if ((!match_escape(lexer)) || (lexer->lookahead != '\'')) {
-		return (false);
-	}
-	lexer->advance(lexer, false);
-	lexer->mark_end(lexer);
-	lexer->result_symbol = L_CHAR;
-	return (true); // missing closing quote
 }
 
 // this looks for the optional suffix closer on various
@@ -770,10 +639,6 @@ tree_sitter_d_external_scanner_scan(
 	// as tokens without fighting precedence rules.
 	if (c == '!') {
 		return (match_not_in_is(lexer, valid));
-	}
-
-	if (c == '\'') {
-		return (valid[L_CHAR] ? match_char_literal(lexer) : false);
 	}
 
 	if ((c == 'q') && (valid[L_STRING])) {
