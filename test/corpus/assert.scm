@@ -48,7 +48,8 @@ void f() {
                 (expression
                   (int_literal))
                 (expression
-                  (string_literal))))))))))
+                  (string_literal
+                    (quoted_string)))))))))))
 
 ================================================================================
 Static Assert Expression Multiple arguments
@@ -75,4 +76,5 @@ void f() {
               (expression
                 (int_literal))
               (expression
-                (string_literal)))))))))
+                (string_literal
+                  (quoted_string))))))))))

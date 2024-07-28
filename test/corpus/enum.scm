@@ -193,7 +193,8 @@ enum
 (source_file
   (at_attribute
     (expression
-      (string_literal)))
+      (string_literal
+        (quoted_string))))
   (anonymous_enum_declaration
     (enum)
     (enum_member
@@ -201,15 +202,18 @@ enum
     (enum_member
       (at_attribute
         (expression
-          (string_literal)))
+          (string_literal
+            (quoted_string))))
       (identifier))
     (enum_member
       (at_attribute
         (expression
-          (string_literal)))
+          (string_literal
+            (quoted_string))))
       (at_attribute
         (expression
-          (string_literal)))
+          (string_literal
+            (quoted_string))))
       (identifier))
     (enum_member
       (at_attribute
@@ -224,7 +228,8 @@ enum
     (enum_member
       (at_attribute
         (expression
-          (string_literal)))
+          (string_literal
+            (quoted_string))))
       (at_attribute
         (identifier))
       (identifier))
@@ -233,5 +238,6 @@ enum
         (identifier))
       (at_attribute
         (expression
-          (string_literal)))
+          (string_literal
+            (quoted_string))))
       (identifier))))

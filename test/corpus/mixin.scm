@@ -12,8 +12,10 @@ mixin(x, "=", 1, ";");
       (expression
         (identifier))
       (expression
-        (string_literal))
+        (string_literal
+          (quoted_string)))
       (expression
         (int_literal))
       (expression
-        (string_literal)))))
+        (string_literal
+          (quoted_string))))))

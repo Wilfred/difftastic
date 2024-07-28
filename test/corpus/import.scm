@@ -162,4 +162,5 @@ auto x = import("something.png");
     (import_expression
       (import)
       (expression
-        (string_literal)))))
+        (string_literal
+          (quoted_string))))))

@@ -88,6 +88,26 @@ module.exports = grammar({
 
     _bom: (_$) => "\uFEFF", // kind of like a special form of whitespace
 
+    escape_sequence: ($) =>
+      choice(
+        "\\'",
+        '\\"',
+        "\\?",
+        "\\\\",
+        "\\a",
+        "\\b",
+        "\\f",
+        "\\n",
+        "\\r",
+        "\\t",
+        "\\v",
+        /\\x[0-9A-Fa-f][0-9A-Fa-f]/,
+        /\\[0-7]{1,3}/,
+        /\\u[0-9A-Fa-f]{4}/,
+        /\\U[0-9A-Fa-f]{8}/,
+        seq("\\&", $.identifier, ";"),
+      ),
+
     //
     // Identifier
     //
@@ -1197,9 +1217,22 @@ module.exports = grammar({
         token.immediate(/"[cdw]?/),
       ),
 
+    quoted_string: ($) =>
+      seq(
+        '"',
+        field("content", repeat(choice(/[^"\\]+/, $.escape_sequence))),
+        token.immediate(/"[cdw]?/),
+      ),
+
     // string literal stuff
     string_literal: ($) =>
-      choice($._string, $.raw_string, $.hex_string, $.token_string),
+      choice(
+        $._string,
+        $.raw_string,
+        $.hex_string,
+        $.quoted_string,
+        $.token_string,
+      ),
 
     // NB: array_literals are a super set of associative array literals,
     // and grammatically the two are not distinguishable.

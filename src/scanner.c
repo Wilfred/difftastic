@@ -188,36 +188,6 @@ match_string_suffix(TSLexer *lexer)
 }
 
 static bool
-match_dq_string(TSLexer *lexer)
-{
-	int c = lexer->lookahead;
-	assert(c == '"');
-
-	lexer->advance(lexer, false);
-
-	while ((c = lexer->lookahead) != 0) {
-
-		if (c == '\\') {
-			if (!match_escape(lexer)) {
-				return (false);
-			}
-			continue;
-		}
-
-		if (c == '"') {
-			// end of string!
-			lexer->result_symbol = L_STRING;
-			lexer->advance(lexer, false);
-			match_string_suffix(lexer);
-			return (true);
-		}
-		lexer->advance(lexer, false);
-	}
-	// unterminated
-	return (false);
-}
-
-static bool
 match_delimited_string(TSLexer *lexer, int start, int end)
 {
 	int  c;
@@ -804,9 +774,6 @@ tree_sitter_d_external_scanner_scan(
 
 	if (c == '\'') {
 		return (valid[L_CHAR] ? match_char_literal(lexer) : false);
-	}
-	if (c == '"') { // double quoted string, always unambiguous
-		return (valid[L_STRING] ? match_dq_string(lexer) : false);
 	}
 
 	if ((c == 'q') && (valid[L_STRING])) {

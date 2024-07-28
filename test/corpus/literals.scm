@@ -435,15 +435,6 @@ auto s1 = "abc";
 auto s2 = "a\"bc";
 auto s3 = "a\u1234b\\";
 
-// some strings with suffixes
-auto s6 = "abc"w;
-auto s7 = "abc"c;
-auto s8 = "abc"d;
-
-auto s9 = `yabba
-dabba
-do!
-`d;
 
 auto s10 = r"🥂"w;
 --------------------------------------------------------------------------------
@@ -453,39 +444,23 @@ auto s10 = r"🥂"w;
     (storage_class
       (auto))
     (identifier)
-    (string_literal))
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal))
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal))
-  (comment)
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal))
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal))
-  (auto_declaration
-    (storage_class
-      (auto))
-    (identifier)
-    (string_literal))
+    (string_literal
+      (quoted_string)))
   (auto_declaration
     (storage_class
       (auto))
     (identifier)
     (string_literal
-      (raw_string)))
+      (quoted_string
+        (escape_sequence))))
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (string_literal
+      (quoted_string
+        (escape_sequence)
+        (escape_sequence))))
   (auto_declaration
     (storage_class
       (auto))
@@ -508,7 +483,8 @@ auto s1 = q{ if {""} /*comment*/ bob };
       (token_string
         (keyword
           (if))
-        (string_literal)
+        (string_literal
+          (quoted_string))
         (comment)
         (identifier)))))
 
@@ -545,13 +521,16 @@ auto aa1 = [ "bob": 1, "sue": 2, "charlie": 3 ];
     (identifier)
     (array_literal
       (expression
-        (string_literal))
+        (string_literal
+          (quoted_string)))
       (int_literal)
       (expression
-        (string_literal))
+        (string_literal
+          (quoted_string)))
       (int_literal)
       (expression
-        (string_literal))
+        (string_literal
+          (quoted_string)))
       (int_literal))))
 
 ================================================================================

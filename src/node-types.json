@@ -4510,6 +4510,21 @@
     }
   },
   {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expression",
     "named": true,
     "fields": {},
@@ -9662,6 +9677,22 @@
     }
   },
   {
+    "type": "quoted_string",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "escape_sequence",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "raw_string",
     "named": true,
     "fields": {}
@@ -11019,6 +11050,10 @@
       "types": [
         {
           "type": "hex_string",
+          "named": true
+        },
+        {
+          "type": "quoted_string",
           "named": true
         },
         {
@@ -13354,6 +13389,10 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -13535,6 +13574,54 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\\"",
+    "named": false
+  },
+  {
+    "type": "\\&",
+    "named": false
+  },
+  {
+    "type": "\\'",
+    "named": false
+  },
+  {
+    "type": "\\?",
+    "named": false
+  },
+  {
+    "type": "\\\\",
+    "named": false
+  },
+  {
+    "type": "\\a",
+    "named": false
+  },
+  {
+    "type": "\\b",
+    "named": false
+  },
+  {
+    "type": "\\f",
+    "named": false
+  },
+  {
+    "type": "\\n",
+    "named": false
+  },
+  {
+    "type": "\\r",
+    "named": false
+  },
+  {
+    "type": "\\t",
+    "named": false
+  },
+  {
+    "type": "\\v",
     "named": false
   },
   {

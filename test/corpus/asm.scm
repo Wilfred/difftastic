@@ -94,5 +94,6 @@ int f() {
           (asm)
           (asm_inline
             (identifier)
-            (string_literal))
+            (string_literal
+              (quoted_string)))
           (comment))))))
