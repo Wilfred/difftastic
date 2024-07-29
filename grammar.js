@@ -1201,12 +1201,12 @@ module.exports = grammar({
       choice(
         seq(
           "`",
-          field("content", token.immediate(prec(1, /[^`]*/))),
+          token.immediate(prec(1, /[^`]*/)),
           token.immediate(/`[cdw]?/),
         ),
         seq(
           'r"',
-          field("content", token.immediate(prec(1, /[^"]*/))),
+          token.immediate(prec(1, /[^"]*/)),
           token.immediate(/"[cdw]?/),
         ),
       ),
@@ -1214,14 +1214,14 @@ module.exports = grammar({
     hex_string: ($) =>
       seq(
         'x"',
-        field("content", token.immediate(prec(1, /[0-9A-Fa-f\s]*/))),
+        token.immediate(prec(1, /[0-9A-Fa-f\s]*/)),
         token.immediate(/"[cdw]?/),
       ),
 
     quoted_string: ($) =>
       seq(
         '"',
-        field("content", repeat(choice(/[^"\\]+/, $.escape_sequence))),
+        repeat(choice(/[^"\\]+/, $.escape_sequence)),
         token.immediate(/"[cdw]?/),
       ),
 

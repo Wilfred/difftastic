@@ -25,7 +25,7 @@
 (float_literal) @value.number
 (char_literal) @value.number ; not sure what is best for this
 (special_keyword) @value.symbols
-(htmlenttity) @value.entity
+(htmlentity) @value.entity
 (escape_sequence) @value.entity
 
 [
@@ -254,7 +254,7 @@
 (version_specification (version) (int_literal) @invalid) ; deprecated in 2.101
 (version_condition (identifier) @value.symbol)
 
-(module_fqn) @cdata ; this is a crummy workaround since we don't have anything for imports
+(module_fqn) @processing ; this is a crummy workaround since we don't have anything for imports
 (module_declaration (module_fqn)) @definition.package
 (class_declaration (identifier) @identifier.type.class)
 (struct_declaration (identifier) @identifier.type.struct)
