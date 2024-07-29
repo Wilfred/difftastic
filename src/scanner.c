@@ -10,10 +10,10 @@
 #include "tree_sitter/parser.h"
 #include <assert.h>
 #include <ctype.h>
-#include <wctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wctype.h>
 
 // NB: It is very important that two things are true.
 // First, this must match the externals in the grammar.js.
@@ -23,7 +23,6 @@ enum TokenType {
 	END_FILE,
 	COMMENT,
 	DIRECTIVE, // # <to end of line>
-	SHEBANG,   // #!
 	L_INT,
 	L_FLOAT,
 	L_STRING, // string literal (all forms)
@@ -178,34 +177,35 @@ match_eof(TSLexer *lexer)
 }
 
 static bool
-match_hash_or_shebang(TSLexer *lexer, const bool *valid)
+match_directive(TSLexer *lexer, const bool *valid)
 {
 	int c = lexer->lookahead;
 	assert(c == '#');
-	if (valid[SHEBANG] || valid[DIRECTIVE]) {
-		lexer->advance(lexer, false);
-		c = lexer->lookahead;
-		if (valid[SHEBANG] && c == '!') {
-			lexer->result_symbol = SHEBANG;
-		} else if (valid[DIRECTIVE]) {
-			lexer->result_symbol = DIRECTIVE;
-		} else {
-			return (false);
-		}
-		while ((!is_eol(c)) && (c)) {
-			lexer->advance(lexer, false);
-			c = lexer->lookahead;
-		}
-		// consume the newline
-		lexer->advance(lexer, false);
-		lexer->mark_end(lexer);
-		return (true);
-	} else {
-		// not sure there are any parse contexts where this is invalid
-		// actually!
-		assert(0);
+	if (!valid[DIRECTIVE]) {
 		return (false);
 	}
+	lexer->advance(lexer, false);
+	c = lexer->lookahead;
+	if (c == '!') {
+		return (false);
+	}
+	while ((iswspace(c) || is_eol(c)) && (c)) {
+		if (is_eol(c)) {
+			return (false);
+		}
+		lexer->advance(lexer, false);
+		c = lexer->lookahead;
+	}
+
+	while ((!is_eol(c)) && (c)) {
+		lexer->advance(lexer, false);
+		c = lexer->lookahead;
+	}
+	// consume the newline
+	lexer->advance(lexer, false);
+	lexer->mark_end(lexer);
+	lexer->result_symbol = DIRECTIVE;
+	return (true);
 }
 
 static bool
@@ -615,12 +615,22 @@ bool
 tree_sitter_d_external_scanner_scan(
     void *arg, TSLexer *lexer, const bool *valid)
 {
-	int c = lexer->lookahead;
+	int  c             = lexer->lookahead;
+	bool start_of_line = lexer->get_column(lexer) == 0;
 	// consume whitespace -- we also skip newlines here
 	while ((iswspace(c) || is_eol(c)) && (c)) {
+		if (is_eol(c)) {
+			start_of_line = true;
+		}
 		lexer->advance(lexer, true);
 		c = lexer->lookahead;
 	}
+
+	if (c == '#' && start_of_line) {
+		return (match_directive(lexer, valid));
+	}
+
+	start_of_line = false;
 
 	if (lexer->eof(lexer)) { // in case we had ending whitespace
 		return (false);
@@ -663,10 +673,6 @@ tree_sitter_d_external_scanner_scan(
 			// non-nesting deliimted string
 			return (match_delimited_string(lexer, 0, c));
 		}
-	}
-
-	if (c == '#') {
-		return (match_hash_or_shebang(lexer, valid));
 	}
 
 	if (c == '/') {

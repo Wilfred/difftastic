@@ -45,8 +45,27 @@
       ]
     },
     "_bom": {
-      "type": "STRING",
-      "value": "﻿"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "﻿"
+      }
+    },
+    "shebang": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "#!"
+          }
+        },
+        {
+          "type": "PATTERN",
+          "value": ".+\\n"
+        }
+      ]
     },
     "htmlentity": {
       "type": "SEQ",
@@ -12523,10 +12542,6 @@
     {
       "type": "SYMBOL",
       "name": "directive"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "shebang"
     },
     {
       "type": "SYMBOL",

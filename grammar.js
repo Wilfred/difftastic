@@ -15,7 +15,6 @@ module.exports = grammar({
     $.end_file,
     $.comment,
     $.directive,
-    $.shebang,
     $.int_literal,
     $.float_literal,
     $._string,
@@ -85,7 +84,8 @@ module.exports = grammar({
         choice($.module_def, repeat($._declaration)),
       ),
 
-    _bom: (_$) => "\uFEFF", // kind of like a special form of whitespace
+    _bom: (_$) => token.immediate("\uFEFF"), // kind of like a special form of whitespace
+    shebang: ($) => seq(token.immediate("#!"), /.+\n/),
 
     htmlentity: ($) => seq(/\\&[a-zA-Z_]+;/),
 

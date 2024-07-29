@@ -10435,6 +10435,11 @@
     }
   },
   {
+    "type": "shebang",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "shift_expression",
     "named": true,
     "fields": {
@@ -13660,6 +13665,10 @@
     "named": false
   },
   {
+    "type": "#!",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -14345,10 +14354,6 @@
   },
   {
     "type": "shared",
-    "named": true
-  },
-  {
-    "type": "shebang",
     "named": true
   },
   {
