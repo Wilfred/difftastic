@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-d",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "d grammar for tree-sitter",
   "main": "bindings/node",
   "types": "bindings/node",

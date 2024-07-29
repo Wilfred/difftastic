@@ -23,8 +23,10 @@
 (string_literal) @string
 (int_literal) @value.number
 (float_literal) @value.number
-(char_literal) @value.entity ; not sure what is best for this
+(char_literal) @value.number ; not sure what is best for this
 (special_keyword) @value.symbols
+(htmlenttity) @value.entity
+(escape_sequence) @value.entity
 
 [
 	"("

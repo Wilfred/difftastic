@@ -42,6 +42,7 @@
 
 (call_expression (identifier) @function)
 (call_expression (type (identifier) @function))
+(named_argument (identifier) @variable.parameter)
 
 [
     (abstract)
