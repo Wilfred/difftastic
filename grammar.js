@@ -299,6 +299,14 @@ module.exports = grammar({
     cfloat: (_$) => token("cfloat"),
     cdouble: (_$) => token("cdouble"),
     creal: (_$) => token("creal"),
+    // builtin aliased types
+    size_t: (_$) => token("size_t"),
+    ptrdiff_t: (_$) => token("ptrdiff_t"),
+    string: (_$) => token("string"),
+    cstring: (_$) => token("cstring"),
+    dstring: (_$) => token("dstring"),
+    wstring: (_$) => token("wstring"),
+    noreturn: (_$) => token("noreturn"),
 
     //
     // builtin constants
@@ -715,6 +723,13 @@ module.exports = grammar({
         $.cfloat, // deprecated
         $.cdouble, // deprecated
         $.creal, // deprecated
+        $.size_t,
+        $.ptrdiff_t,
+        $.string,
+        $.cstring,
+        $.dstring,
+        $.wstring,
+        $.noreturn,
       ),
 
     // we call out void specially because it is not always a basic type

@@ -150,7 +150,14 @@
 	(real)
 	(double)
 	(float)
-]  @value.entity @identifier.type.core ; remove value.entity when stylesheets know about core identifiers.
+	(size_t)
+	(ptrdiff_t)
+	(string)
+	(cstring)
+	(dstring)
+	(wstring)
+	(noreturn)
+] @identifier.type.core
 
 [
 	(class)
@@ -260,16 +267,12 @@
 (struct_declaration (identifier) @identifier.type.struct)
 (interface_declaration (identifier) @identifier.type.protocol)
 (at_attribute) @identifier.property
-; builtin type aliases
-; we are using value.entity because no stylesheets do anything useful with identifier.type.core.
-(type (identifier) @_type (#match? @_type "^(string|dstring|wstring|size_t|ptrdiff_t|noreturn)$")) @value.entity @identifier.type.core
 ; conventional naming
 (type (identifier) @_type (#match? @_type "^[A-Z]")) @identifier.type.class
 (type (identifier) @_type (#not-match? @_type "^[A-Z]")) @identifier.type
 (enum_declaration (enum) . (identifier) @identifier.type.enum)
 (auto_declaration (storage_class (auto)) . (identifier) @identifier.variable)
 (manifest_declarator . (identifier) @identifier.constant)
-((identifier) @_type (#match? @_type "^(string|dstring|wstring|size_t|ptrdiff_t|noreturn)$")) @value.entity @identifier.type.core
 (identifier) @identifier ; catch all
 (declarator . (identifier) @identifier.variable)
 (declarator "=" (void) @value.null)

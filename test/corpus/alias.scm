@@ -347,17 +347,18 @@ Alias this
 ================================================================================
 struct S { int n; alias this = n; }
 --------------------------------------------------------------------------------
+
 (source_file
   (struct_declaration
-	(struct)
-	(identifier)
-	(aggregate_body
-	  (variable_declaration
-		(type
-		  (int))
-		(declarator
-		  (identifier)))
-	  (alias_declaration
-		(alias)
-		(this)
-		(identifier)))))
+    (struct)
+    (identifier)
+    (aggregate_body
+      (variable_declaration
+        (type
+          (int))
+        (declarator
+          (identifier)))
+      (alias_declaration
+        (alias)
+        (this)
+        (identifier)))))

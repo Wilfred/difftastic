@@ -1784,11 +1784,19 @@
           "named": true
         },
         {
+          "type": "cstring",
+          "named": true
+        },
+        {
           "type": "dchar",
           "named": true
         },
         {
           "type": "double",
+          "named": true
+        },
+        {
+          "type": "dstring",
           "named": true
         },
         {
@@ -1828,11 +1836,27 @@
           "named": true
         },
         {
+          "type": "noreturn",
+          "named": true
+        },
+        {
+          "type": "ptrdiff_t",
+          "named": true
+        },
+        {
           "type": "real",
           "named": true
         },
         {
           "type": "short",
+          "named": true
+        },
+        {
+          "type": "size_t",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -1885,6 +1909,10 @@
         },
         {
           "type": "wchar",
+          "named": true
+        },
+        {
+          "type": "wstring",
           "named": true
         }
       ]
@@ -6563,6 +6591,10 @@
           "named": true
         },
         {
+          "type": "cstring",
+          "named": true
+        },
+        {
           "type": "dchar",
           "named": true
         },
@@ -6592,6 +6624,10 @@
         },
         {
           "type": "double",
+          "named": true
+        },
+        {
+          "type": "dstring",
           "named": true
         },
         {
@@ -6711,6 +6747,10 @@
           "named": true
         },
         {
+          "type": "noreturn",
+          "named": true
+        },
+        {
           "type": "nothrow",
           "named": true
         },
@@ -6747,6 +6787,10 @@
           "named": true
         },
         {
+          "type": "ptrdiff_t",
+          "named": true
+        },
+        {
           "type": "public",
           "named": true
         },
@@ -6775,11 +6819,19 @@
           "named": true
         },
         {
+          "type": "size_t",
+          "named": true
+        },
+        {
           "type": "special_keyword",
           "named": true
         },
         {
           "type": "static",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -6884,6 +6936,10 @@
         },
         {
           "type": "with",
+          "named": true
+        },
+        {
+          "type": "wstring",
           "named": true
         }
       ]
@@ -9459,11 +9515,19 @@
           "named": true
         },
         {
+          "type": "cstring",
+          "named": true
+        },
+        {
           "type": "dchar",
           "named": true
         },
         {
           "type": "double",
+          "named": true
+        },
+        {
+          "type": "dstring",
           "named": true
         },
         {
@@ -9499,11 +9563,27 @@
           "named": true
         },
         {
+          "type": "noreturn",
+          "named": true
+        },
+        {
+          "type": "ptrdiff_t",
+          "named": true
+        },
+        {
           "type": "real",
           "named": true
         },
         {
           "type": "short",
+          "named": true
+        },
+        {
+          "type": "size_t",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -9548,6 +9628,10 @@
         },
         {
           "type": "wchar",
+          "named": true
+        },
+        {
+          "type": "wstring",
           "named": true
         }
       ]
@@ -11366,11 +11450,19 @@
           "named": true
         },
         {
+          "type": "cstring",
+          "named": true
+        },
+        {
           "type": "dchar",
           "named": true
         },
         {
           "type": "double",
+          "named": true
+        },
+        {
+          "type": "dstring",
           "named": true
         },
         {
@@ -11414,7 +11506,15 @@
           "named": true
         },
         {
+          "type": "noreturn",
+          "named": true
+        },
+        {
           "type": "null",
+          "named": true
+        },
+        {
+          "type": "ptrdiff_t",
           "named": true
         },
         {
@@ -11426,7 +11526,15 @@
           "named": true
         },
         {
+          "type": "size_t",
+          "named": true
+        },
+        {
           "type": "special_keyword",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -11471,6 +11579,10 @@
         },
         {
           "type": "wchar",
+          "named": true
+        },
+        {
+          "type": "wstring",
           "named": true
         }
       ]
@@ -12539,6 +12651,10 @@
           "named": true
         },
         {
+          "type": "cstring",
+          "named": true
+        },
+        {
           "type": "dchar",
           "named": true
         },
@@ -12548,6 +12664,10 @@
         },
         {
           "type": "double",
+          "named": true
+        },
+        {
+          "type": "dstring",
           "named": true
         },
         {
@@ -12595,11 +12715,19 @@
           "named": true
         },
         {
+          "type": "noreturn",
+          "named": true
+        },
+        {
           "type": "nothrow",
           "named": true
         },
         {
           "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "ptrdiff_t",
           "named": true
         },
         {
@@ -12612,6 +12740,14 @@
         },
         {
           "type": "short",
+          "named": true
+        },
+        {
+          "type": "size_t",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -12664,6 +12800,10 @@
         },
         {
           "type": "wchar",
+          "named": true
+        },
+        {
+          "type": "wstring",
           "named": true
         }
       ]
@@ -13796,6 +13936,10 @@
     "named": true
   },
   {
+    "type": "cstring",
+    "named": true
+  },
+  {
     "type": "dchar",
     "named": true
   },
@@ -13829,6 +13973,10 @@
   },
   {
     "type": "double",
+    "named": true
+  },
+  {
+    "type": "dstring",
     "named": true
   },
   {
@@ -13980,6 +14128,10 @@
     "named": true
   },
   {
+    "type": "noreturn",
+    "named": true
+  },
+  {
     "type": "not_in",
     "named": true
   },
@@ -14021,6 +14173,10 @@
   },
   {
     "type": "protected",
+    "named": true
+  },
+  {
+    "type": "ptrdiff_t",
     "named": true
   },
   {
@@ -14068,7 +14224,15 @@
     "named": true
   },
   {
+    "type": "size_t",
+    "named": true
+  },
+  {
     "type": "static",
+    "named": true
+  },
+  {
+    "type": "string",
     "named": true
   },
   {
@@ -14173,6 +14337,10 @@
   },
   {
     "type": "with",
+    "named": true
+  },
+  {
+    "type": "wstring",
     "named": true
   },
   {

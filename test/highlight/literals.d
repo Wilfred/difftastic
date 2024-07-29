@@ -1,30 +1,30 @@
 
 int i = 1234;
-// <- type
+// <- type.builtin
 //  ^ variable
 //    ^ operator
 //       ^ number
 
 string s = "abcd";
-// <- type
+// <- type.builtin
 //     ^ variable
 //       ^ operator
 //          ^ string
 
 string qs = q{one two};
-// <- type
+// <- type.builtin
 //     ^ variable
 //        ^ operator
 //           ^ string
 
 float f = 1.2e24;
-// <- type
+// <- type.builtin
 //    ^ variable
 //      ^ operator
 //          ^ number
 
 wchar esc = '\x1b';
-// <- type
+// <- type.builtin
 //    ^ variable
 //        ^ operator
 //           ^ number

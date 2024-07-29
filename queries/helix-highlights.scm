@@ -207,6 +207,13 @@
     (real)
     (double)
     (float)
+    (size_t)
+    (ptrdiff_t)
+    (string)
+    (cstring)
+    (dstring)
+    (wstring)
+    (noreturn)
 ] @type.builtin
 
 [

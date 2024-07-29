@@ -1,8 +1,8 @@
 int fun(void) {
-// <- type
+// <- type.builtin
 //  ^ function
 //     ^ punctuation.bracket
-//       ^ type
+//       ^ type.builtin
 //          ^ punctuation.bracket
 //            ^ punctuation.bracket
 

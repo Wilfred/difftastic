@@ -221,7 +221,7 @@ void f() {
           (foreach_type
             (scope)
             (type
-              (identifier))
+              (string))
             (identifier))
           (foreach_type
             (scope)
