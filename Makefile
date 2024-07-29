@@ -107,7 +107,7 @@ clean:
 test:
 	$(TS) test
 
-version: pyproject_version cargo_version pkgconfig_version
+version: pyproject_version cargo_version pkgconfig_version package_json_version
 
 pyproject_version:
 	sed -e 's|^version = ".*"|version = "$(VERSION)"|' < pyproject.toml > pyproject.toml.new
@@ -120,5 +120,9 @@ cargo_version:
 pkgconfig_version:
 	sed -e 's|^Version: .*|Version: $(VERSION)|' < $(LANGUAGE_NAME).pc > $(LANGUAGE_NAME).pc.new
 	mv $(LANGUAGE_NAME).pc.new $(LANGUAGE_NAME).pc
+
+package_json_version:
+	sed -e 's|^  "version": .*|  "version": "$(VERSION)"|' < package.json > package.json.new
+	mv package.json.new package.json
 
 .PHONY: all install uninstall clean test version pyproject_version cargo_version
