@@ -6160,6 +6160,203 @@
         }
       ]
     },
+    "interpolation_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "interpolated_raw_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "i`"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^`$]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\$[^(`]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolation_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "`"
+            },
+            {
+              "type": "STRING",
+              "value": "$`"
+            }
+          ]
+        }
+      ]
+    },
+    "interpolated_escape": {
+      "type": "STRING",
+      "value": "\\$"
+    },
+    "interpolated_quoted_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "i\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\"$\\\\]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\$[^(]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolated_escape"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolation_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\""
+            },
+            {
+              "type": "STRING",
+              "value": "$\""
+            }
+          ]
+        }
+      ]
+    },
+    "interpolated_token_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "iq{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_i_token_string_tokens"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_i_token_string_tokens": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_token_string_token"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "interpolation_expression"
+          }
+        ]
+      }
+    },
+    "_i_token_string_token": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_i_token_string_tokens"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_token_no_braces"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "interpolation_expression"
+            }
+          ]
+        }
+      ]
+    },
     "string_literal": {
       "type": "CHOICE",
       "members": [
@@ -6182,6 +6379,18 @@
         {
           "type": "SYMBOL",
           "name": "token_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interpolated_raw_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interpolated_quoted_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interpolated_token_string"
         }
       ]
     },

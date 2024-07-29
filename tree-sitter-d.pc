@@ -1,0 +1,11 @@
+prefix=/usr/local
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: tree-sitter-d
+Description: D grammar for tree-sitter
+URL: https://github.com/gdamore/tree-sitter-d
+Version: 0.6.0
+Requires: 
+Libs: -L${libdir}  -ltree-sitter-d
+Cflags: -I${includedir}
