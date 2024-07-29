@@ -20,7 +20,6 @@
 (super)
 ] @keyword.self
 
-(string_literal) @string
 (int_literal) @value.number
 (float_literal) @value.number
 (char_literal) @value.number ; not sure what is best for this
@@ -278,3 +277,7 @@
 (declarator "=" (void) @value.null)
 
 ((enum_member  . (identifier) @identifier.property) (#set! role enum-member))
+
+(interpolation_expression "$(" @bracket)
+(interpolation_expression) @string-template.value
+(string_literal) @string
