@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-d"
 description = "D grammar for tree-sitter"
-version = "0.5.0"
+version = "0.5.1"
 keywords = ["incremental", "parsing", "tree-sitter", "d"]
 classifiers = [
   "Intended Audience :: Developers",
