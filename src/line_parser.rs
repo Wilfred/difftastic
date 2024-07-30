@@ -199,12 +199,14 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                 // individual words.
                 if lhs_words.len() > MAX_WORDS_IN_LINE || rhs_words.len() > MAX_WORDS_IN_LINE {
                     for lhs_pos in lhs_lp.from_region(lhs_offset, lhs_offset + lhs_part.len()) {
-                        mps.push(MatchedPos {
-                            kind: MatchKind::NovelWord {
-                                highlight: TokenKind::Atom(AtomKind::Normal),
-                            },
-                            pos: lhs_pos,
-                        });
+                        if lhs_pos.start_col != lhs_pos.end_col {
+                            mps.push(MatchedPos {
+                                kind: MatchKind::NovelWord {
+                                    highlight: TokenKind::Atom(AtomKind::Normal),
+                                },
+                                pos: lhs_pos,
+                            });
+                        }
                     }
 
                     lhs_offset += lhs_part.len();
