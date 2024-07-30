@@ -3,6 +3,7 @@
 use lazy_static::lazy_static;
 use line_numbers::{LinePositions, SingleLineSpan};
 use regex::Regex;
+use std::hash::Hash;
 
 use crate::words::split_words;
 use crate::{
@@ -73,24 +74,66 @@ fn merge_novel<'a>(
     res
 }
 
+#[derive(Debug, Clone)]
+struct StringIgnoringNewline<'a>(&'a str);
+
+impl PartialEq for StringIgnoringNewline<'_> {
+    fn eq(&self, other: &Self) -> bool {
+        let mut s = self.0;
+        if s.ends_with('\n') {
+            s = &s[..s.len() - 1];
+        }
+
+        let mut other_s = other.0;
+        if other_s.ends_with('\n') {
+            other_s = &other_s[..other_s.len() - 1];
+        }
+
+        s == other_s
+    }
+}
+
+impl Eq for StringIgnoringNewline<'_> {}
+
+impl Hash for StringIgnoringNewline<'_> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        let mut s = self.0;
+        if s.ends_with('\n') {
+            s = &s[..s.len() - 1];
+        }
+
+        s.hash(state);
+    }
+}
+
 fn changed_parts<'a>(
     src: &'a str,
     opposite_src: &'a str,
 ) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
-    let src_lines = split_lines_keep_newline(src);
-    let opposite_src_lines = split_lines_keep_newline(opposite_src);
+    let src_lines = split_lines_keep_newline(src)
+        .into_iter()
+        .map(StringIgnoringNewline)
+        .collect::<Vec<_>>();
+    let opposite_src_lines = split_lines_keep_newline(opposite_src)
+        .into_iter()
+        .map(StringIgnoringNewline)
+        .collect::<Vec<_>>();
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
     for diff_res in myers_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
             myers_diff::DiffResult::Left(line) => {
-                res.push((TextChangeKind::Novel, vec![line], vec![]));
+                res.push((TextChangeKind::Novel, vec![line.0], vec![]));
             }
             myers_diff::DiffResult::Both(line, opposite_line) => {
-                res.push((TextChangeKind::Unchanged, vec![line], vec![opposite_line]));
+                res.push((
+                    TextChangeKind::Unchanged,
+                    vec![line.0],
+                    vec![opposite_line.0],
+                ));
             }
             myers_diff::DiffResult::Right(opposite_line) => {
-                res.push((TextChangeKind::Novel, vec![], vec![opposite_line]));
+                res.push((TextChangeKind::Novel, vec![], vec![opposite_line.0]));
             }
         }
     }
