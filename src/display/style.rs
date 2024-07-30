@@ -393,7 +393,7 @@ pub(crate) fn color_positions(
                     style = style.italic();
                 }
             }
-            MatchKind::NovelLinePart { highlight, .. } => {
+            MatchKind::UnchangedPartOfNovelItem { highlight, .. } => {
                 style = novel_style(style, side, background);
                 if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();

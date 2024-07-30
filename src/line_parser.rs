@@ -192,7 +192,7 @@ pub(crate) fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> 
                                     rhs_lp.from_region(rhs_offset, rhs_offset + rhs_word.len());
 
                                 mps.push(MatchedPos {
-                                    kind: MatchKind::NovelLinePart {
+                                    kind: MatchKind::UnchangedPartOfNovelItem {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                         self_pos: lhs_pos[0],
                                         opposite_pos: rhs_pos,

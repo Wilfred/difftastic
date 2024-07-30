@@ -598,15 +598,33 @@ pub(crate) enum MatchKind {
     },
     /// A novel token in an AST diff.
     Novel { highlight: TokenKind },
-    /// When doing a textual line-based diff, the part of a novel line
-    /// that exists on both sides.
-    NovelLinePart {
+    /// When we have a novel item, we often want to highlight novel
+    /// words more prominently. UnchangedPartOfNovelItem represents
+    /// the parts that don't get this special highlighting.
+    ///
+    /// For example, line-based diffs we want to highlight `a` and `b`
+    /// differently to `foo` here.
+    ///
+    /// foo a
+    /// foo b
+    ///
+    /// Whereas for syntactic diffs, we want to do the same thing for
+    /// strings and comments.
+    ///
+    /// "foo a"
+    /// "foo b"
+    ///
+    /// The whole string is a distinct value, but the `a` and `b` are
+    /// the most interesting parts.
+    UnchangedPartOfNovelItem {
         highlight: TokenKind,
         self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
     },
-    /// When doing a textual line-based diff, the part of a novel line
-    /// that is actually novel. E.g. the newly added word on a line.
+    /// The novel part of the novel item. For line-based diffs, this
+    /// is the words that are unique to this line.
+    ///
+    /// See the discussion in `UnchangedPartOfNovelItem`.
     NovelWord { highlight: TokenKind },
     /// A syntactic token that was ignored by the AST diff (e.g. when
     /// ignoring comments for diffing).
@@ -617,7 +635,9 @@ impl MatchKind {
     pub(crate) fn is_novel(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }
+            MatchKind::Novel { .. }
+                | MatchKind::NovelWord { .. }
+                | MatchKind::UnchangedPartOfNovelItem { .. }
         )
     }
 }
@@ -700,7 +720,7 @@ fn split_atom_words(
                 );
 
                 mps.push(MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(kind),
                         self_pos: word_pos,
                         opposite_pos: opposite_word_pos,
@@ -1184,7 +1204,7 @@ mod tests {
             res,
             vec![
                 MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: SingleLineSpan {
                             line: 0.into(),
@@ -1204,7 +1224,7 @@ mod tests {
                     }
                 },
                 MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: SingleLineSpan {
                             line: 0.into(),
@@ -1224,7 +1244,7 @@ mod tests {
                     }
                 },
                 MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: SingleLineSpan {
                             line: 0.into(),
@@ -1244,7 +1264,7 @@ mod tests {
                     }
                 },
                 MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: SingleLineSpan {
                             line: 0.into(),
@@ -1264,7 +1284,7 @@ mod tests {
                     }
                 },
                 MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::UnchangedPartOfNovelItem {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: SingleLineSpan {
                             line: 0.into(),

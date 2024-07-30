@@ -255,7 +255,7 @@ impl Highlight {
             MatchKind::UnchangedToken { highlight, .. } => highlight,
             MatchKind::Novel { highlight, .. } => highlight,
             MatchKind::NovelWord { highlight, .. } => highlight,
-            MatchKind::NovelLinePart { highlight, .. } => highlight,
+            MatchKind::UnchangedPartOfNovelItem { highlight, .. } => highlight,
         };
 
         match highlight {
