@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Finder","A forward substring searcher that uses the Two-Way algorithm."],["FinderRev","A reverse substring searcher that uses the Two-Way algorithm."]]};

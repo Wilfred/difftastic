@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":[["cstr","A macro for `CStr` literals."]],"mod":[["fd","Export the `*Fd` types and traits that are used in rustix’s public API."],["ffi","Utilities related to FFI bindings."],["io","I/O operations."],["termios","Terminal I/O stream operations."]]};

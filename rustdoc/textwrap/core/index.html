@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Building blocks for advanced wrapping functionality."><meta name="keywords" content="rust, rustlang, rust-lang, core"><title>textwrap::core - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../textwrap/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../textwrap/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Module core</a></h2><div class="sidebar-elems"><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../textwrap/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Module <a href="../index.html">textwrap</a>::<wbr><a class="mod" href="#">core</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/textwrap/core.rs.html#1-461">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Building blocks for advanced wrapping functionality.</p>
+<p>The functions and structs in this module can be used to implement
+advanced wrapping functionality when <a href="../fn.wrap.html"><code>wrap()</code></a>
+<a href="../fn.fill.html"><code>fill()</code></a> don’t do what you want.</p>
+<p>In general, you want to follow these steps when wrapping
+something:</p>
+<ol>
+<li>
+<p>Split your input into <a href="trait.Fragment.html" title="Fragment"><code>Fragment</code></a>s. These are abstract blocks
+of text or content which can be wrapped into lines. See
+<a href="../enum.WordSeparator.html"><code>WordSeparator</code></a> for
+how to do this for text.</p>
+</li>
+<li>
+<p>Potentially split your fragments into smaller pieces. This
+allows you to implement things like hyphenation. If you use the
+<code>Word</code> type, you can use <a href="../word_splitters/enum.WordSplitter.html"><code>WordSplitter</code></a>
+enum for this.</p>
+</li>
+<li>
+<p>Potentially break apart fragments that are still too large to
+fit on a single line. This is implemented in <a href="fn.break_words.html" title="break_words"><code>break_words</code></a>.</p>
+</li>
+<li>
+<p>Finally take your fragments and put them into lines. There are
+two algorithms for this in the
+<a href="../wrap_algorithms/index.html"><code>wrap_algorithms</code></a> module:
+<a href="crate::wrap_algorithms::wrap_optimal_fit"><code>wrap_optimal_fit</code></a>
+and <a href="../wrap_algorithms/fn.wrap_first_fit.html"><code>wrap_first_fit</code></a>.
+The former produces better line breaks, the latter is faster.</p>
+</li>
+<li>
+<p>Iterate through the slices returned by the wrapping functions
+and construct your lines of output.</p>
+</li>
+</ol>
+<p>Please <a href="https://github.com/mgeisler/textwrap/">open an issue</a> if
+the functionality here is not sufficient or if you have ideas for
+improving it. We would love to hear from you!</p>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Word.html" title="textwrap::core::Word struct">Word</a></div><div class="item-right docblock-short">A piece of wrappable text, including any trailing whitespace.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Fragment.html" title="textwrap::core::Fragment trait">Fragment</a></div><div class="item-right docblock-short">A (text) fragment denotes the unit which we wrap into lines.</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.break_words.html" title="textwrap::core::break_words fn">break_words</a></div><div class="item-right docblock-short">Forcibly break words wider than <code>line_width</code> into smaller words.</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.display_width.html" title="textwrap::core::display_width fn">display_width</a></div><div class="item-right docblock-short">Compute the display width of <code>text</code> while skipping over ANSI
+escape sequences.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="textwrap" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

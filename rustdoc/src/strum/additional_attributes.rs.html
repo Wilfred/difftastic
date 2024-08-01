@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/strum-0.25.0/src/additional_attributes.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>additional_attributes.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../strum/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../strum/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../strum/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+</pre><pre class="rust"><code><span class="doccomment">//! # Documentation for Additional Attributes
+//!
+//! ## Attributes on Enums
+//!
+//! Strum supports several custom attributes to modify the generated code. At the enum level, the following attributes are supported:
+//!
+//! - `#[strum(serialize_all = &quot;case_style&quot;)]` attribute can be used to change the case used when serializing to and deserializing
+//!   from strings. This feature is enabled by [withoutboats/heck](https://github.com/withoutboats/heck) and supported case styles are:
+//!
+//!   - `camelCase`
+//!   - `PascalCase`
+//!   - `kebab-case`
+//!   - `snake_case`
+//!   - `SCREAMING_SNAKE_CASE`
+//!   - `SCREAMING-KEBAB-CASE`
+//!   - `lowercase`
+//!   - `UPPERCASE`
+//!   - `title_case`
+//!   - `mixed_case`
+//!   - `Train-Case`
+//!
+//!   ```rust
+//!   use strum_macros;
+//!   
+//!   #[derive(Debug, Eq, PartialEq, strum_macros::Display)]
+//!   #[strum(serialize_all = &quot;snake_case&quot;)]
+//!   enum Brightness {
+//!       DarkBlack,
+//!       Dim {
+//!           glow: usize,
+//!       },
+//!       #[strum(serialize = &quot;bright&quot;)]
+//!       BrightWhite,
+//!   }
+//!   
+//!   assert_eq!(
+//!       String::from(&quot;dark_black&quot;),
+//!       Brightness::DarkBlack.to_string().as_ref()
+//!   );
+//!   assert_eq!(
+//!       String::from(&quot;dim&quot;),
+//!       Brightness::Dim { glow: 0 }.to_string().as_ref()
+//!   );
+//!   assert_eq!(
+//!       String::from(&quot;bright&quot;),
+//!       Brightness::BrightWhite.to_string().as_ref()
+//!   );
+//!   ```
+//!
+//! - You can also apply the `#[strum(ascii_case_insensitive)]` attribute to the enum,
+//!   and this has the same effect of applying it to every variant.
+//!
+//! ## Attributes on Variants
+//!
+//! Custom attributes are applied to a variant by adding `#[strum(parameter=&quot;value&quot;)]` to the variant.
+//!
+//! - `serialize=&quot;...&quot;`: Changes the text that `FromStr()` looks for when parsing a string. This attribute can
+//!    be applied multiple times to an element and the enum variant will be parsed if any of them match.
+//!
+//! - `to_string=&quot;...&quot;`: Similar to `serialize`. This value will be included when using `FromStr()`. More importantly,
+//!    this specifies what text to use when calling `variant.to_string()` with the `Display` derivation, or when calling `variant.as_ref()` with `AsRefStr`.
+//!
+//! - `default`: Applied to a single variant of an enum. The variant must be a Tuple-like
+//!    variant with a single piece of data that can be create from a `&amp;str` i.e. `T: From&lt;&amp;str&gt;`.
+//!    The generated code will now return the variant with the input string captured as shown below
+//!    instead of failing.
+//!
+//!     ```text
+//!     // Replaces this:
+//!     _ =&gt; Err(strum::ParseError::VariantNotFound)
+//!     // With this in generated code:
+//!     default =&gt; Ok(Variant(default.into()))
+//!     ```
+//!     The plugin will fail if the data doesn&#39;t implement From&lt;&amp;str&gt;. You can only have one `default`
+//!     on your enum.
+//!
+//! - `disabled`: removes variant from generated code.
+//!
+//! - `ascii_case_insensitive`: makes the comparison to this variant case insensitive (ASCII only).
+//!   If the whole enum is marked `ascii_case_insensitive`, you can specify `ascii_case_insensitive = false`
+//!   to disable case insensitivity on this v ariant.
+//!
+//! - `message=&quot;..&quot;`: Adds a message to enum variant. This is used in conjunction with the `EnumMessage`
+//!    trait to associate a message with a variant. If `detailed_message` is not provided,
+//!    then `message` will also be returned when `get_detailed_message` is called.
+//!
+//! - `detailed_message=&quot;..&quot;`: Adds a more detailed message to a variant. If this value is omitted, then
+//!    `message` will be used in it&#39;s place.
+//!
+//! - Structured documentation, as in `/// ...`: If using `EnumMessage`, is accessible via get_documentation().
+//!
+//! - `props(key=&quot;value&quot;)`: Enables associating additional information with a given variant.
+</span></code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="strum" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

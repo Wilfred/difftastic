@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tree_magic_mini-3.1.4/src/basetype/check.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>check.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../tree_magic_mini/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../tree_magic_mini/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../tree_magic_mini/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{read_bytes, Mime};
+<span class="kw">use </span>fnv::FnvHashMap;
+<span class="kw">use </span>std::fs::File;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BaseType;
+
+<span class="kw">impl </span><span class="kw">crate</span>::Checker <span class="kw">for </span>BaseType {
+    <span class="kw">fn </span>match_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;</span>[u8], mimetype: <span class="kw-2">&amp;</span>str) -&gt; bool {
+        <span class="kw">if </span>mimetype == <span class="string">&quot;application/octet-stream&quot; </span>|| mimetype == <span class="string">&quot;all/allfiles&quot; </span>{
+            <span class="comment">// Both of these are the case if we have a bytestream at all
+            </span><span class="kw">return </span><span class="bool-val">true</span>;
+        }
+        <span class="kw">if </span>mimetype == <span class="string">&quot;text/plain&quot; </span>{
+            is_text_plain_from_u8(bytes)
+        } <span class="kw">else </span>{
+            <span class="comment">// ...how did we get bytes for this?
+            </span><span class="bool-val">false
+        </span>}
+    }
+
+    <span class="kw">fn </span>match_file(<span class="kw-2">&amp;</span><span class="self">self</span>, file: <span class="kw-2">&amp;</span>File, mimetype: <span class="kw-2">&amp;</span>str) -&gt; bool {
+        <span class="comment">// Being bad with error handling here,
+        // but if you can&#39;t open it it&#39;s probably not a file.
+        </span><span class="kw">let </span><span class="prelude-val">Ok</span>(meta) = file.metadata() <span class="kw">else </span>{
+            <span class="kw">return </span><span class="bool-val">false</span>;
+        };
+
+        <span class="kw">match </span>mimetype {
+            <span class="string">&quot;all/all&quot; </span>=&gt; <span class="bool-val">true</span>,
+            <span class="string">&quot;all/allfiles&quot; </span>| <span class="string">&quot;application/octet-stream&quot; </span>=&gt; meta.is_file(),
+            <span class="string">&quot;inode/directory&quot; </span>=&gt; meta.is_dir(),
+            <span class="string">&quot;text/plain&quot; </span>=&gt; is_text_plain_from_file(file),
+            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+        }
+    }
+
+    <span class="kw">fn </span>get_supported(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Mime&gt; {
+        <span class="kw">super</span>::init::get_supported()
+    }
+
+    <span class="kw">fn </span>get_subclasses(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;(Mime, Mime)&gt; {
+        <span class="kw">super</span>::init::get_subclasses()
+    }
+
+    <span class="kw">fn </span>get_aliaslist(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; FnvHashMap&lt;Mime, Mime&gt; {
+        <span class="kw">super</span>::init::get_aliaslist()
+    }
+}
+
+<span class="doccomment">/// If there are any null bytes, return False. Otherwise return True.
+</span><span class="kw">fn </span>is_text_plain_from_u8(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; bool {
+    memchr::memchr(<span class="number">0</span>, bytes).is_none()
+}
+
+<span class="comment">// TODO: Hoist the main logic here somewhere else. This&#39;ll get redundant fast!
+</span><span class="kw">fn </span>is_text_plain_from_file(file: <span class="kw-2">&amp;</span>File) -&gt; bool {
+    <span class="kw">let </span><span class="prelude-val">Ok</span>(bytes) = read_bytes(file, <span class="number">512</span>) <span class="kw">else </span>{
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    };
+    is_text_plain_from_u8(<span class="kw-2">&amp;</span>bytes)
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="tree_magic_mini" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

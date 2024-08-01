@@ -1,0 +1,482 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/crossterm-0.27.0/src/terminal/sys/unix.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>unix.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../crossterm/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+</pre><pre class="rust"><code><span class="doccomment">//! UNIX related logic for terminal manipulation.
+
+</span><span class="kw">use </span><span class="kw">crate</span>::terminal::{
+    sys::file_descriptor::{tty_fd, FileDesc},
+    WindowSize,
+};
+<span class="kw">use </span>libc::{
+    cfmakeraw, ioctl, tcgetattr, tcsetattr, termios <span class="kw">as </span>Termios, winsize, STDOUT_FILENO, TCSANOW,
+    TIOCGWINSZ,
+};
+<span class="kw">use </span>parking_lot::Mutex;
+<span class="kw">use </span>std::fs::File;
+
+<span class="kw">use </span>std::os::unix::io::{IntoRawFd, RawFd};
+
+<span class="kw">use </span>std::{io, mem, process};
+
+<span class="comment">// Some(Termios) -&gt; we&#39;re in the raw mode and this is the previous mode
+// None -&gt; we&#39;re not in the raw mode
+</span><span class="kw">static </span>TERMINAL_MODE_PRIOR_RAW_MODE: Mutex&lt;<span class="prelude-ty">Option</span>&lt;Termios&gt;&gt; = parking_lot::const_mutex(<span class="prelude-val">None</span>);
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_raw_mode_enabled() -&gt; bool {
+    TERMINAL_MODE_PRIOR_RAW_MODE.lock().is_some()
+}
+
+<span class="kw">impl </span>From&lt;winsize&gt; <span class="kw">for </span>WindowSize {
+    <span class="kw">fn </span>from(size: winsize) -&gt; WindowSize {
+        WindowSize {
+            columns: size.ws_col,
+            rows: size.ws_row,
+            width: size.ws_xpixel,
+            height: size.ws_ypixel,
+        }
+    }
+}
+
+<span class="attribute">#[allow(clippy::useless_conversion)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>window_size() -&gt; io::Result&lt;WindowSize&gt; {
+    <span class="comment">// http://rosettacode.org/wiki/Terminal_control/Dimensions#Library:_BSD_libc
+    </span><span class="kw">let </span><span class="kw-2">mut </span>size = winsize {
+        ws_row: <span class="number">0</span>,
+        ws_col: <span class="number">0</span>,
+        ws_xpixel: <span class="number">0</span>,
+        ws_ypixel: <span class="number">0</span>,
+    };
+
+    <span class="kw">let </span>file = File::open(<span class="string">&quot;/dev/tty&quot;</span>).map(|file| (FileDesc::new(file.into_raw_fd(), <span class="bool-val">true</span>)));
+    <span class="kw">let </span>fd = <span class="kw">if let </span><span class="prelude-val">Ok</span>(file) = <span class="kw-2">&amp;</span>file {
+        file.raw_fd()
+    } <span class="kw">else </span>{
+        <span class="comment">// Fallback to libc::STDOUT_FILENO if /dev/tty is missing
+        </span>STDOUT_FILENO
+    };
+
+    <span class="kw">if </span>wrap_with_result(<span class="kw">unsafe </span>{ ioctl(fd, TIOCGWINSZ.into(), <span class="kw-2">&amp;mut </span>size) }).is_ok() {
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(size.into());
+    }
+
+    <span class="prelude-val">Err</span>(std::io::Error::last_os_error().into())
+}
+
+<span class="attribute">#[allow(clippy::useless_conversion)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>size() -&gt; io::Result&lt;(u16, u16)&gt; {
+    <span class="kw">if let </span><span class="prelude-val">Ok</span>(window_size) = window_size() {
+        <span class="kw">return </span><span class="prelude-val">Ok</span>((window_size.columns, window_size.rows));
+    }
+
+    tput_size().ok_or_else(|| std::io::Error::last_os_error().into())
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>enable_raw_mode() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>original_mode = TERMINAL_MODE_PRIOR_RAW_MODE.lock();
+
+    <span class="kw">if </span>original_mode.is_some() {
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+    }
+
+    <span class="kw">let </span>tty = tty_fd()<span class="question-mark">?</span>;
+    <span class="kw">let </span>fd = tty.raw_fd();
+    <span class="kw">let </span><span class="kw-2">mut </span>ios = get_terminal_attr(fd)<span class="question-mark">?</span>;
+    <span class="kw">let </span>original_mode_ios = ios;
+
+    raw_terminal_attr(<span class="kw-2">&amp;mut </span>ios);
+    set_terminal_attr(fd, <span class="kw-2">&amp;</span>ios)<span class="question-mark">?</span>;
+
+    <span class="comment">// Keep it last - set the original mode only if we were able to switch to the raw mode
+    </span><span class="kw-2">*</span>original_mode = <span class="prelude-val">Some</span>(original_mode_ios);
+
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Reset the raw mode.
+///
+/// More precisely, reset the whole termios mode to what it was before the first call
+/// to [enable_raw_mode]. If you don&#39;t mess with termios outside of crossterm, it&#39;s
+/// effectively disabling the raw mode and doing nothing else.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>disable_raw_mode() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>original_mode = TERMINAL_MODE_PRIOR_RAW_MODE.lock();
+
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(original_mode_ios) = original_mode.as_ref() {
+        <span class="kw">let </span>tty = tty_fd()<span class="question-mark">?</span>;
+        set_terminal_attr(tty.raw_fd(), original_mode_ios)<span class="question-mark">?</span>;
+        <span class="comment">// Keep it last - remove the original mode only if we were able to switch back
+        </span><span class="kw-2">*</span>original_mode = <span class="prelude-val">None</span>;
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Queries the terminal&#39;s support for progressive keyboard enhancement.
+///
+/// On unix systems, this function will block and possibly time out while
+/// [`crossterm::event::read`](crate::event::read) or [`crossterm::event::poll`](crate::event::poll) are being called.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;events&quot;</span>)]
+</span><span class="kw">pub fn </span>supports_keyboard_enhancement() -&gt; io::Result&lt;bool&gt; {
+    <span class="kw">if </span>is_raw_mode_enabled() {
+        read_supports_keyboard_enhancement_raw()
+    } <span class="kw">else </span>{
+        read_supports_keyboard_enhancement_flags()
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;events&quot;</span>)]
+</span><span class="kw">fn </span>read_supports_keyboard_enhancement_flags() -&gt; io::Result&lt;bool&gt; {
+    enable_raw_mode()<span class="question-mark">?</span>;
+    <span class="kw">let </span>flags = read_supports_keyboard_enhancement_raw();
+    disable_raw_mode()<span class="question-mark">?</span>;
+    flags
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;events&quot;</span>)]
+</span><span class="kw">fn </span>read_supports_keyboard_enhancement_raw() -&gt; io::Result&lt;bool&gt; {
+    <span class="kw">use </span><span class="kw">crate</span>::event::{
+        filter::{KeyboardEnhancementFlagsFilter, PrimaryDeviceAttributesFilter},
+        poll_internal, read_internal, InternalEvent,
+    };
+    <span class="kw">use </span>std::io::Write;
+    <span class="kw">use </span>std::time::Duration;
+
+    <span class="comment">// This is the recommended method for testing support for the keyboard enhancement protocol.
+    // We send a query for the flags supported by the terminal and then the primary device attributes
+    // query. If we receive the primary device attributes response but not the keyboard enhancement
+    // flags, none of the flags are supported.
+    //
+    // See &lt;https://sw.kovidgoyal.net/kitty/keyboard-protocol/#detection-of-support-for-this-protocol&gt;
+
+    // ESC [ ? u        Query progressive keyboard enhancement flags (kitty protocol).
+    // ESC [ c          Query primary device attributes.
+    </span><span class="kw">const </span>QUERY: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;\x1B[?u\x1B[c&quot;</span>;
+
+    <span class="kw">let </span>result = File::open(<span class="string">&quot;/dev/tty&quot;</span>).and_then(|<span class="kw-2">mut </span>file| {
+        file.write_all(QUERY)<span class="question-mark">?</span>;
+        file.flush()
+    });
+    <span class="kw">if </span>result.is_err() {
+        <span class="kw">let </span><span class="kw-2">mut </span>stdout = io::stdout();
+        stdout.write_all(QUERY)<span class="question-mark">?</span>;
+        stdout.flush()<span class="question-mark">?</span>;
+    }
+
+    <span class="kw">loop </span>{
+        <span class="kw">match </span>poll_internal(
+            <span class="prelude-val">Some</span>(Duration::from_millis(<span class="number">2000</span>)),
+            <span class="kw-2">&amp;</span>KeyboardEnhancementFlagsFilter,
+        ) {
+            <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) =&gt; {
+                <span class="kw">match </span>read_internal(<span class="kw-2">&amp;</span>KeyboardEnhancementFlagsFilter) {
+                    <span class="prelude-val">Ok</span>(InternalEvent::KeyboardEnhancementFlags(_current_flags)) =&gt; {
+                        <span class="comment">// Flush the PrimaryDeviceAttributes out of the event queue.
+                        </span>read_internal(<span class="kw-2">&amp;</span>PrimaryDeviceAttributesFilter).ok();
+                        <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="bool-val">true</span>);
+                    }
+                    <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
+                }
+            }
+            <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(io::Error::new(
+                    io::ErrorKind::Other,
+                    <span class="string">&quot;The keyboard enhancement status could not be read within a normal duration&quot;</span>,
+                ));
+            }
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {}
+        }
+    }
+}
+
+<span class="doccomment">/// execute tput with the given argument and parse
+/// the output as a u16.
+///
+/// The arg should be &quot;cols&quot; or &quot;lines&quot;
+</span><span class="kw">fn </span>tput_value(arg: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
+    <span class="kw">let </span>output = process::Command::new(<span class="string">&quot;tput&quot;</span>).arg(arg).output().ok()<span class="question-mark">?</span>;
+    <span class="kw">let </span>value = output
+        .stdout
+        .into_iter()
+        .filter_map(|b| char::from(b).to_digit(<span class="number">10</span>))
+        .fold(<span class="number">0</span>, |v, n| v * <span class="number">10 </span>+ n <span class="kw">as </span>u16);
+
+    <span class="kw">if </span>value &gt; <span class="number">0 </span>{
+        <span class="prelude-val">Some</span>(value)
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
+}
+
+<span class="doccomment">/// Returns the size of the screen as determined by tput.
+///
+/// This alternate way of computing the size is useful
+/// when in a subshell.
+</span><span class="kw">fn </span>tput_size() -&gt; <span class="prelude-ty">Option</span>&lt;(u16, u16)&gt; {
+    <span class="kw">match </span>(tput_value(<span class="string">&quot;cols&quot;</span>), tput_value(<span class="string">&quot;lines&quot;</span>)) {
+        (<span class="prelude-val">Some</span>(w), <span class="prelude-val">Some</span>(h)) =&gt; <span class="prelude-val">Some</span>((w, h)),
+        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+    }
+}
+
+<span class="comment">// Transform the given mode into an raw mode (non-canonical) mode.
+</span><span class="kw">fn </span>raw_terminal_attr(termios: <span class="kw-2">&amp;mut </span>Termios) {
+    <span class="kw">unsafe </span>{ cfmakeraw(termios) }
+}
+
+<span class="kw">fn </span>get_terminal_attr(fd: RawFd) -&gt; io::Result&lt;Termios&gt; {
+    <span class="kw">unsafe </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>termios = mem::zeroed();
+        wrap_with_result(tcgetattr(fd, <span class="kw-2">&amp;mut </span>termios))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(termios)
+    }
+}
+
+<span class="kw">fn </span>set_terminal_attr(fd: RawFd, termios: <span class="kw-2">&amp;</span>Termios) -&gt; io::Result&lt;()&gt; {
+    wrap_with_result(<span class="kw">unsafe </span>{ tcsetattr(fd, TCSANOW, termios) })
+}
+
+<span class="kw">fn </span>wrap_with_result(result: i32) -&gt; io::Result&lt;()&gt; {
+    <span class="kw">if </span>result == -<span class="number">1 </span>{
+        <span class="prelude-val">Err</span>(io::Error::last_os_error())
+    } <span class="kw">else </span>{
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="crossterm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

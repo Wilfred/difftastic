@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Finder","A forward substring searcher using the Shift-Or algorithm."]]};

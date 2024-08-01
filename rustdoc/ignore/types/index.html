@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The types module provides a way of associating globs on file names to file types."><meta name="keywords" content="rust, rustlang, rust-lang, types"><title>ignore::types - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../ignore/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../ignore/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Module types</a></h2><div class="sidebar-elems"><section><div class="block"><ul><li><a href="#structs">Structs</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../ignore/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Module <a href="../index.html">ignore</a>::<wbr><a class="mod" href="#">types</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/ignore/types.rs.html#1-591">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The types module provides a way of associating globs on file names to file
+types.</p>
+<p>This can be used to match specific types of files. For example, among
+the default file types provided, the Rust file type is defined to be <code>*.rs</code>
+with name <code>rust</code>. Similarly, the C file type is defined to be <code>*.{c,h}</code> with
+name <code>c</code>.</p>
+<p>Note that the set of default types may change over time.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<p>This shows how to create and use a simple file type matcher using the default
+file types defined in this crate.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>ignore::types::TypesBuilder;
+
+<span class="kw">let </span><span class="kw-2">mut </span>builder = TypesBuilder::new();
+builder.add_defaults();
+builder.select(<span class="string">&quot;rust&quot;</span>);
+<span class="kw">let </span>matcher = builder.build().unwrap();
+
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;foo.rs&quot;</span>, <span class="bool-val">false</span>).is_whitelist());
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;foo.c&quot;</span>, <span class="bool-val">false</span>).is_ignore());</code></pre></div>
+<h2 id="example-negation"><a href="#example-negation">Example: negation</a></h2>
+<p>This is like the previous example, but shows how negating a file type works.
+That is, this will let us match file paths that <em>don’t</em> correspond to a
+particular file type.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>ignore::types::TypesBuilder;
+
+<span class="kw">let </span><span class="kw-2">mut </span>builder = TypesBuilder::new();
+builder.add_defaults();
+builder.negate(<span class="string">&quot;c&quot;</span>);
+<span class="kw">let </span>matcher = builder.build().unwrap();
+
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;foo.rs&quot;</span>, <span class="bool-val">false</span>).is_none());
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;foo.c&quot;</span>, <span class="bool-val">false</span>).is_ignore());</code></pre></div>
+<h2 id="example-custom-file-type-definitions"><a href="#example-custom-file-type-definitions">Example: custom file type definitions</a></h2>
+<p>This shows how to extend this library default file type definitions with
+your own.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>ignore::types::TypesBuilder;
+
+<span class="kw">let </span><span class="kw-2">mut </span>builder = TypesBuilder::new();
+builder.add_defaults();
+builder.add(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;*.foo&quot;</span>);
+<span class="comment">// Another way of adding a file type definition.
+// This is useful when accepting input from an end user.
+</span>builder.add_def(<span class="string">&quot;bar:*.bar&quot;</span>);
+<span class="comment">// Note: we only select `foo`, not `bar`.
+</span>builder.select(<span class="string">&quot;foo&quot;</span>);
+<span class="kw">let </span>matcher = builder.build().unwrap();
+
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;x.foo&quot;</span>, <span class="bool-val">false</span>).is_whitelist());
+<span class="comment">// This is ignored because we only selected the `foo` file type.
+</span><span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;x.bar&quot;</span>, <span class="bool-val">false</span>).is_ignore());</code></pre></div>
+<p>We can also add file type definitions based on other definitions.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>ignore::types::TypesBuilder;
+
+<span class="kw">let </span><span class="kw-2">mut </span>builder = TypesBuilder::new();
+builder.add_defaults();
+builder.add(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;*.foo&quot;</span>);
+builder.add_def(<span class="string">&quot;bar:include:foo,cpp&quot;</span>);
+builder.select(<span class="string">&quot;bar&quot;</span>);
+<span class="kw">let </span>matcher = builder.build().unwrap();
+
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;x.foo&quot;</span>, <span class="bool-val">false</span>).is_whitelist());
+<span class="macro">assert!</span>(matcher.matched(<span class="string">&quot;y.cpp&quot;</span>, <span class="bool-val">false</span>).is_whitelist());</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.FileTypeDef.html" title="ignore::types::FileTypeDef struct">FileTypeDef</a></div><div class="item-right docblock-short">A single file type definition.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Glob.html" title="ignore::types::Glob struct">Glob</a></div><div class="item-right docblock-short">Glob represents a single glob in a set of file type definitions.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Types.html" title="ignore::types::Types struct">Types</a></div><div class="item-right docblock-short">Types is a file type matcher.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.TypesBuilder.html" title="ignore::types::TypesBuilder struct">TypesBuilder</a></div><div class="item-right docblock-short">TypesBuilder builds a type matcher from a set of file type definitions and
+a set of file type selections.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ignore" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>
