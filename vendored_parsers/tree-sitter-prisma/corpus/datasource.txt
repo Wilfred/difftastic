@@ -1,0 +1,55 @@
+==================
+Datasource block
+==================
+
+datasource pg {
+  provider = "postgresql"
+  url      = env.POSTGRES_URL
+  foo      = bar.baz.xyz
+  enabled  = true
+  hello    = env("WORLD")
+}
+
+---
+
+(program
+  (datasource_declaration
+    (identifier)
+    (statement_block
+      (assignment_expression
+        (variable)
+        (string)
+      )
+      (assignment_expression
+        (variable)
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+      )
+      (assignment_expression
+        (variable)
+        (member_expression
+          (member_expression
+            (identifier)
+            (property_identifier)
+          )
+          (property_identifier)
+        )
+      )
+      (assignment_expression
+        (variable)
+        (true)
+      )
+      (assignment_expression
+        (variable)
+        (call_expression
+          (identifier)
+          (arguments
+            (string)
+          )
+        )
+      )
+    )
+  )
+)

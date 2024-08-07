@@ -73,6 +73,7 @@ extern "C" {
     fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_devicetree() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
+    fn tree_sitter_prisma() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_elm() -> ts::Language;
     fn tree_sitter_elvish() -> ts::Language;
@@ -876,6 +877,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/php.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Prisma => {
+            let language = unsafe { tree_sitter_prisma() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/prisma.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
