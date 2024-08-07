@@ -139,6 +139,15 @@ $ ./sample_files/compare_all.sh
 $ cp sample_files/compare.result sample_files/compare.expected
 ```
 
+Run the CLI test and [update the snapshots][insta] as well.
+
+```
+$ cargo insta test
+$ cargo insta accept
+```
+
+[insta]: https://insta.rs/docs/quickstart/#reviewing-snapshots
+
 ## Maintenance
 
 To update a parser that is already imported, use `git subtree pull`.

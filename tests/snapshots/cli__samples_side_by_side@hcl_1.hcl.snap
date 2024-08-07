@@ -1,0 +1,71 @@
+---
+source: tests/cli.rs
+expression: stdout
+input_file: sample_files/hcl_1.hcl
+---
+[1m[93msample_files/hcl_2.hcl[39m[0m[2m --- 1/4 --- HCL[0m
+[2m10 [0m  [1mesc2[0m   = "$${} %%{}"                                                       [2m10 [0m  [1mesc2[0m   = "$${} %%{}"
+[2m11 [0m  [1mnum1[0m   = 2                                                                 [2m11 [0m  [1mnum1[0m   = 2
+[2m12 [0m  [1mnum2[0m   = 2.112                                                             [2m12 [0m  [1mnum2[0m   = 2.112
+[91;1m13 [0m  [1mnum3[0m   = [91m2.112e-12[0m                                                         [92;1m13 [0m  [1mnum3[0m   = [92m"Hello, World"[0m
+[2m14 [0m  [1mnum4[0m   = 2.112e+12                                                         [2m14 [0m  [1mnum4[0m   = 2.112e+12
+[2m15 [0m  [1mnum5[0m   = 2.112E+12                                                         [2m15 [0m  [1mnum5[0m   = 2.112E+12
+[2m16 [0m  [1mnum6[0m   = 2.112E-12                                                         [2m16 [0m  [1mnum6[0m   = 2.112E-12
+[2m17 [0m  [1mnum7[0m   = 0x21FF                                                            [2m17 [0m  [1mnum7[0m   = 0x21FF
+[2m.. [0m                                                                             [92;1m18 [0m  [92;1mstrx[0m   [92m=[0m [92m"Hello, Hcl"[0m
+[2m18 [0m}                                                                            [2m19 [0m}
+[2m19 [0m                                                                             [2m20 [0m
+[2m20 [0m[1mresource[0m "example" "comments" {                                              [2m21 [0m[1mresource[0m "example" "comments" {
+[91;1m21 [0m  [91;3m/[0m[91;3m/[0m[91;3m [0m[91;3mcomment[0m                                                                 [92;1m22 [0m  [92;3m/[0m[92;3m/[0m[92;3m [0m[92;3mcomment[0m[92;1;3;4m,[0m [92;1;3;4mWorld[0m[92;1;3;4m![0m
+[91;1m22 [0m  [91;3m# comment[0m                                                                  [2m.. [0m
+[2m23 [0m  [94;3m/*[0m                                                                         [2m23 [0m  [94;3m/*[0m
+[2m24 [0m[94;3m      comment[0m                                                                [2m24 [0m[94;3m      comment[0m
+[2m25 [0m[94;3m  */[0m                                                                         [2m25 [0m[94;3m  */[0m
+
+[1msample_files/hcl_2.hcl[0m[2m --- 2/4 --- HCL[0m
+[2m34 [0m  [1mfor1[0m   = { [1mfor[0m [1mi[0m, [1mv[0m [1min[0m ["a", "a", "b"] : [1mv[0m => [1mi[0m... }                       [2m34 [0m  [1mfor1[0m   = { [1mfor[0m [1mi[0m, [1mv[0m [1min[0m ["a", "a", "b"] : [1mv[0m => [1mi[0m... }
+[2m35 [0m  [1mfor2[0m   = [ [1mfor[0m [1mk[0m, [1mv[0m [1min[0m [1mx[0m : [95m"[0m${[1mk[0m}[95m-[0m${[1mv[0m}[95m"[0m ]                                   [2m35 [0m  [1mfor2[0m   = [ [1mfor[0m [1mk[0m, [1mv[0m [1min[0m [1mx[0m : [95m"[0m${[1mk[0m}[95m-[0m${[1mv[0m}[95m"[0m ]
+[2m36 [0m  [1mfor3[0m   = { [1mfor[0m [1mk[0m, [1mv[0m [1min[0m [1mx[0m: [1mk[0m => [1mv[0m }                                         [2m36 [0m  [1mfor3[0m   = { [1mfor[0m [1mk[0m, [1mv[0m [1min[0m [1mx[0m: [1mk[0m => [1mv[0m }
+[91;1m37 [0m  [91;1mfor4[0m   [91m=[0m [91;1m[[0m [91;1mfor[0m [91;1mv[0m [91;1min[0m [91;1mx[0m [91m:[0m [91;1mv[0m [91;1m][0m                                                [2m.. [0m
+[91;1m38 [0m  [1mfor5[0m   = { [1mfor[0m [1mv[0m [1min[0m [91;1mx[0m : [1mv[0m => [1mv[0m }                                           [92;1m37 [0m  [1mfor5[0m   = { [1mfor[0m [1mv[0m [1min[0m [92;1my[0m : [1mv[0m => [1mv[0m [92;1m+[0m [92m1[0m }
+[2m39 [0m  [1mfor6[0m   = [ [1mfor[0m [1mv[0m [1min[0m [1mx[0m : [1mv[0m [1mif[0m [1mv[0m [1m<[0m 3 ]                                       [2m38 [0m  [1mfor6[0m   = [ [1mfor[0m [1mv[0m [1min[0m [1mx[0m : [1mv[0m [1mif[0m [1mv[0m [1m<[0m 3 ]
+[2m40 [0m}                                                                            [2m39 [0m}
+[2m41 [0m                                                                             [2m40 [0m
+[2m42 [0m[1mresource[0m "example" "function_expressions" {                                  [2m41 [0m[1mresource[0m "example" "function_expressions" {
+[2m43 [0m  [1mfunc1[0m  = [1mis_number[0m("123")                                                  [2m42 [0m  [1mfunc1[0m  = [1mis_number[0m("123")
+[91;1m44 [0m  [91;1mfunc2[0m  [91m=[0m [91;1mmultiline[0m[91;1m([0m                                                        [2m.. [0m
+[91;1m45 [0m    [91;1marg1[0m[91m,[0m                                                                    [2m.. [0m
+[91;1m46 [0m    [91;1marg2[0m[91m,[0m                                                                    [2m.. [0m
+[91;1m47 [0m    [91;1marg3[0m[91m...[0m                                                                  [2m.. [0m
+[91;1m48 [0m  [91;1m)[0m                                                                          [2m.. [0m
+[2m49 [0m  [1mfunc3[0m = [1mwithobject[0m({                                                       [2m43 [0m  [1mfunc3[0m = [1mwithobject[0m({
+[2m50 [0m    "foo" : 2,                                                               [2m44 [0m    "foo" : 2,
+[2m51 [0m    "bar" : [1mbaz[0m,                                                             [2m45 [0m    "bar" : [1mbaz[0m,
+
+[1msample_files/hcl_2.hcl[0m[2m --- 3/4 --- HCL[0m
+[2m55 [0m}                                                                            [2m49 [0m}
+[2m56 [0m                                                                             [2m50 [0m
+[2m57 [0m[1mresource[0m "example" "binary_expressions" {                                    [2m51 [0m[1mresource[0m "example" "binary_expressions" {
+[91;1m58 [0m  [1mcond1[0m  = (1 [1m==[0m 2) ? 1 : [91m"foobar"[0m                                           [92;1m52 [0m  [1mcond1[0m  = (1 [1m==[0m 2) ? 1 : [92m"Hello, HCL"[0m
+[2m59 [0m  [1mbin1[0m   = ((1[1m+[0m2)[1m%[0m3)[1m*[0m4                                                       [2m53 [0m  [1mbin1[0m   = ((1[1m+[0m2)[1m%[0m3)[1m*[0m4
+[2m60 [0m}                                                                            [2m54 [0m}
+[2m61 [0m                                                                             [2m55 [0m
+
+[1msample_files/hcl_2.hcl[0m[2m --- 4/4 --- HCL[0m
+[2m78 [0m    %{~endif~}                                                               [2m72 [0m    %{~endif~}
+[2m79 [0m    EOF                                                                      [2m73 [0m    EOF
+[2m80 [0m                                                                             [2m74 [0m
+[91;1m81 [0m  [1mtpl6[0m = [91m<<-EOF[0m                                                              [92;1m75 [0m  [1mtpl6[0m = [92m<<-EOF[0m
+[91;1m82 [0m[91m    %{ for a in f(b) ~}[0m                                                      [92;1m76 [0m[92m    %{ for a in f(x) ~}[0m
+[91;1m83 [0m[91m      %{~if a~} "true" %{~else~} "false" %{~endif~}[0m                          [92;1m77 [0m[92m      %{~if a~} "true" %{~else~} "false" %{~endif~}[0m
+[91;1m84 [0m[91m    %{ endfor ~}[0m                                                             [92;1m78 [0m[92m    %{ endfor ~}[0m
+[91;1m85 [0m[91m    EOF[0m                                                                      [92;1m79 [0m[92m    EOF[0m
+[2m.. [0m                                                                             [92;1m80 [0m
+[2m.. [0m                                                                             [92;1m81 [0m  [92;1mtpl7[0m [92m=[0m [92m<<-EOF[0m
+[2m.. [0m                                                                             [92;1m82 [0m[92m    %{ for a in f(b) ~}[0m
+[2m.. [0m                                                                             [92;1m83 [0m[92m      "true"[0m
+[2m.. [0m                                                                             [92;1m84 [0m[92m    %{ endfor ~}[0m
+[2m.. [0m                                                                             [92;1m85 [0m[92m    EOF[0m
+[2m86 [0m}                                                                            [2m86 [0m}
+[2m87 [0m                                                                             [2m87 [0m
+[2m88 [0m[1mresource[0m "example" "nested_blocks" {                                         [2m88 [0m[1mresource[0m "example" "nested_blocks" {
