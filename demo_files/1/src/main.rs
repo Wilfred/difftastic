@@ -339,7 +339,7 @@ fn diff_file_content(
 /// incrementally.
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
-/// paths with the all the modified files.
+/// paths with all the modified files.
 fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
