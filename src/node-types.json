@@ -4353,6 +4353,10 @@
         "required": true,
         "types": [
           {
+            "type": "\\Cpageref",
+            "named": false
+          },
+          {
             "type": "\\Cref",
             "named": false
           },
@@ -4365,7 +4369,23 @@
             "named": false
           },
           {
+            "type": "\\autopageref",
+            "named": false
+          },
+          {
+            "type": "\\autopageref*",
+            "named": false
+          },
+          {
             "type": "\\autoref",
+            "named": false
+          },
+          {
+            "type": "\\autoref*",
+            "named": false
+          },
+          {
+            "type": "\\cpageref",
             "named": false
           },
           {
@@ -4385,7 +4405,15 @@
             "named": false
           },
           {
+            "type": "\\labelcpageref*",
+            "named": false
+          },
+          {
             "type": "\\labelcref",
+            "named": false
+          },
+          {
+            "type": "\\labelcref*",
             "named": false
           },
           {
@@ -4414,6 +4442,10 @@
           },
           {
             "type": "\\pageref",
+            "named": false
+          },
+          {
+            "type": "\\pageref*",
             "named": false
           },
           {
@@ -4447,11 +4479,19 @@
         "required": true,
         "types": [
           {
+            "type": "\\Cpagerefrange",
+            "named": false
+          },
+          {
             "type": "\\Crefrange",
             "named": false
           },
           {
             "type": "\\Crefrange*",
+            "named": false
+          },
+          {
+            "type": "\\cpagerefrange",
             "named": false
           },
           {
@@ -8512,6 +8552,14 @@
     "named": false
   },
   {
+    "type": "\\Cpageref",
+    "named": false
+  },
+  {
+    "type": "\\Cpagerefrange",
+    "named": false
+  },
+  {
     "type": "\\Cref",
     "named": false
   },
@@ -8912,7 +8960,19 @@
     "named": false
   },
   {
+    "type": "\\autopageref",
+    "named": false
+  },
+  {
+    "type": "\\autopageref*",
+    "named": false
+  },
+  {
     "type": "\\autoref",
+    "named": false
+  },
+  {
+    "type": "\\autoref*",
     "named": false
   },
   {
@@ -9057,6 +9117,14 @@
   },
   {
     "type": "\\colorbox",
+    "named": false
+  },
+  {
+    "type": "\\cpageref",
+    "named": false
+  },
+  {
+    "type": "\\cpagerefrange",
     "named": false
   },
   {
@@ -9288,7 +9356,15 @@
     "named": false
   },
   {
+    "type": "\\labelcpageref*",
+    "named": false
+  },
+  {
     "type": "\\labelcref",
+    "named": false
+  },
+  {
+    "type": "\\labelcref*",
     "named": false
   },
   {
@@ -9373,6 +9449,10 @@
   },
   {
     "type": "\\pageref",
+    "named": false
+  },
+  {
+    "type": "\\pageref*",
     "named": false
   },
   {

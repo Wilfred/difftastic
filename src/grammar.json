@@ -5145,7 +5145,23 @@
               },
               {
                 "type": "STRING",
+                "value": "\\autoref*"
+              },
+              {
+                "type": "STRING",
                 "value": "\\pageref"
+              },
+              {
+                "type": "STRING",
+                "value": "\\pageref*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\autopageref"
+              },
+              {
+                "type": "STRING",
+                "value": "\\autopageref*"
               },
               {
                 "type": "STRING",
@@ -5153,15 +5169,23 @@
               },
               {
                 "type": "STRING",
-                "value": "\\Cref"
-              },
-              {
-                "type": "STRING",
                 "value": "\\cref*"
               },
               {
                 "type": "STRING",
+                "value": "\\Cref"
+              },
+              {
+                "type": "STRING",
                 "value": "\\Cref*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\cpageref"
+              },
+              {
+                "type": "STRING",
+                "value": "\\Cpageref"
               },
               {
                 "type": "STRING",
@@ -5193,7 +5217,15 @@
               },
               {
                 "type": "STRING",
+                "value": "\\labelcref*"
+              },
+              {
+                "type": "STRING",
                 "value": "\\labelcpageref"
+              },
+              {
+                "type": "STRING",
+                "value": "\\labelcpageref*"
               }
             ]
           }
@@ -5232,6 +5264,14 @@
               {
                 "type": "STRING",
                 "value": "\\Crefrange*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\cpagerefrange"
+              },
+              {
+                "type": "STRING",
+                "value": "\\Cpagerefrange"
               }
             ]
           }
