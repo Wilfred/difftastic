@@ -386,7 +386,7 @@ module.exports = grammar({
 
     word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#&_\^\-\+\/\*]+/,
 
-    placeholder: $ => /#\d/,
+    placeholder: $ => /#+\d/,
 
     delimiter: $ => /&/,
 

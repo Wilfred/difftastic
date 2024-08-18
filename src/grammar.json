@@ -1673,7 +1673,7 @@
     },
     "placeholder": {
       "type": "PATTERN",
-      "value": "#\\d"
+      "value": "#+\\d"
     },
     "delimiter": {
       "type": "PATTERN",

@@ -196,6 +196,35 @@ Command definition with optional argument (xparse)
         (placeholder)))))
 
 ================================================================================
+Nested command definition with arguments
+================================================================================
+\NewDocumentCommand{\foo}{m}{
+    \DeclareDocumentCommand{\bar}{m}{#1, ##1}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_spec
+      (text
+        (word)))
+    (curly_group
+      (new_command_definition
+        (curly_group_command_name
+          (command_name))
+        (curly_group_spec
+          (text
+            (word)))
+        (curly_group
+          (text
+            (placeholder))
+          (text
+            (placeholder)))))))
+
+================================================================================
 Command copy (of command defined in grammar which requires a following node)
 ================================================================================
 
