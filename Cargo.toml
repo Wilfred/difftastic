@@ -28,6 +28,7 @@ include = [
         "/vendored_parsers/*-src/**/*.cc",
         "/LICENSE",
         "/README.md",
+        "/difft.1",
 ]
 
 [package.metadata.binstall]
