@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-tact",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A tree-sitter grammar for the Tact programming language",
   "author": "Novus Nota (https://github.com/novusnota)",
   "license": "MIT",

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-tact"
 description = "Tact grammar for tree-sitter"
-version = "1.4.0"
+version = "1.4.1"
 keywords = ["incremental", "parsing", "tree-sitter", "tact"]
 classifiers = [
   "Intended Audience :: Developers",
