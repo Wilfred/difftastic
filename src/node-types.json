@@ -109,7 +109,15 @@
         "required": true,
         "types": [
           {
-            "type": "lvalue",
+            "type": "field_access_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "self",
             "named": true
           }
         ]
@@ -147,7 +155,15 @@
         "required": true,
         "types": [
           {
-            "type": "lvalue",
+            "type": "field_access_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "self",
             "named": true
           }
         ]
@@ -818,7 +834,19 @@
         "required": true,
         "types": [
           {
-            "type": "lvalue",
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "value_expression",
             "named": true
           }
         ]
@@ -1302,25 +1330,6 @@
     }
   },
   {
-    "type": "lvalue",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "map_type",
     "named": true,
     "fields": {
@@ -1659,21 +1668,9 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "bounced_type",
-            "named": true
-          },
-          {
-            "type": "map_type",
-            "named": true
-          },
           {
             "type": "type_identifier",
             "named": true

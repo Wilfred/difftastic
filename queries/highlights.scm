@@ -135,8 +135,6 @@
 (instance_argument
   name: (identifier) @property)
 
-(lvalue (_) (_) @property)
-
 (field_access_expression
   name: (identifier) @property)
 

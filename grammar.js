@@ -112,10 +112,7 @@ module.exports = grammar({
 
   /* Each inner array represents a set of rules that's involved in an LR(1) conflict
  that is intended to exist in the grammar and be resolved by Tree-sitter at runtime using GLR algorithm */
-  conflicts: ($) => [
-    [$.constant_attributes, $.function_attributes],
-    [$._lvalue, $.value_expression],
-  ],
+  conflicts: ($) => [[$.constant_attributes, $.function_attributes]],
 
   /* Mapping of grammar rule names to rule builder functions */
   rules: {
@@ -141,7 +138,12 @@ module.exports = grammar({
 
     /* Built-in declarations */
 
-    primitive: ($) => seq("primitive", field("type", $._type), ";"),
+    primitive: ($) =>
+      seq(
+        "primitive",
+        field("type", alias($._type_identifier, $.type_identifier)),
+        ";",
+      ),
 
     /* Constants */
 
@@ -224,21 +226,22 @@ module.exports = grammar({
 
     message_value: ($) => seq("(", $.integer, ")"),
 
-    struct_body: ($) =>
-      seq("{", semicolonSepWithTrailing(alias($._field, $.field)), "}"),
+    struct_body: ($) => seq("{", semicolonSepWithTrailing($.field), "}"),
 
     /* Fields (of messages, structs, contracts, traits) */
 
-    _field: ($) =>
+    field: ($) => seq(field("name", $.identifier), $._field_after_id),
+
+    storage_variable: ($) =>
+      seq(field("name", $.identifier), $._field_after_id, ";"),
+
+    _field_after_id: ($) =>
       seq(
-        field("name", $.identifier),
         ":",
         field("type", $._type),
         field("tlb", optional($.tlb_serialization)),
         optional(seq("=", field("value", $._expression))),
       ),
-
-    storage_variable: ($) => seq($._field, ";"),
 
     /* Contracts, Traits */
 
@@ -385,7 +388,7 @@ module.exports = grammar({
       prec.right(
         "assign_stmt",
         seq(
-          field("left", alias($._lvalue, $.lvalue)),
+          field("left", $._path_expression),
           "=",
           field("right", $._expression),
         ),
@@ -395,7 +398,7 @@ module.exports = grammar({
       prec.right(
         "assign_stmt",
         seq(
-          field("left", alias($._lvalue, $.lvalue)),
+          field("left", $._path_expression),
           field(
             "operator",
             choice("+=", "-=", "*=", "/=", "%=", "&=", "|=", "^="),
@@ -468,20 +471,13 @@ module.exports = grammar({
         ",",
         field("value", $.identifier),
         "in",
-        field("map", alias($._lvalue, $.lvalue)),
+        field("map", $._expression),
         ")",
         field("body", $.block_statement),
       ),
 
-    _lvalue: ($) =>
-      prec.right(
-        choice(
-          $.identifier,
-          seq($.identifier, ".", $._lvalue),
-          $.self,
-          seq($.self, ".", $._lvalue),
-        ),
-      ),
+    _path_expression: ($) =>
+      choice($.self, $.identifier, $.field_access_expression),
 
     /* Expressions */
 
@@ -708,11 +704,9 @@ module.exports = grammar({
 
     /* Identifiers */
 
-    func_identifier: ($) =>
-      seq($._func_identifier_letter, repeat($._func_identifier_part)),
-
-    _func_identifier_part: ($) => choice($._func_identifier_letter, /[0-9]/),
-    _func_identifier_letter: (_) => choice(/[a-zA-Z_'?!&]/, /::/),
+    func_identifier: ($) => choice($._func_plain_id, $._func_quoted_id),
+    _func_quoted_id: (_) => /[\.\~]?\`[^\n\`]+\`/,
+    _func_plain_id: (_) => /[\.\~]?[^\s\(\)\[\]\,\.\;\~]+/,
 
     identifier: (_) => /[a-zA-Z_][a-zA-Z0-9_]*/,
 

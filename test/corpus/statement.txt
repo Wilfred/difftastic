@@ -69,13 +69,12 @@ extends fun c(self: SomeMessage, ): Int {
           type: (type_identifier)
           value: (integer))
         (assignment_statement
-            left: (lvalue
-              (identifier))
+            left: (identifier)
             right: (integer)))
       (assignment_statement
-        left: (lvalue
-          (self)
-          (identifier))
+        left: (field_access_expression
+          object: (self)
+          name: (identifier))
         right: (string))
       (expression_statement
         (method_call_expression
@@ -87,8 +86,7 @@ extends fun c(self: SomeMessage, ): Int {
           name: (identifier)
           arguments: (argument_list)))
       (augmented_assignment_statement
-        left: (lvalue
-          (identifier))
+        left: (identifier)
         right: (integer))
       (if_statement
         condition: (boolean)
@@ -124,17 +122,14 @@ extends fun c(self: SomeMessage, ): Int {
       (foreach_statement
         key: (identifier)
         value: (identifier)
-        map: (lvalue
-          (identifier)
-        )
+        map: (identifier)
         body: (block_statement))
       (foreach_statement
         key: (identifier)
         value: (identifier)
-        map: (lvalue
-          (self)
-          (identifier)
-        )
+        map: (field_access_expression
+          object: (self)
+          name: (identifier))
         body: (block_statement))
       (expression_statement
         (integer))

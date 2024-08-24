@@ -79,8 +79,7 @@ get mutates extends virtual override inline abstract fun allAttr();
         type: (type_identifier)))
     body: (function_body
       (assignment_statement
-        left: (lvalue
-          (self))
+        left: (self)
         right: (binary_expression
           left: (self)
           right: (self)))))

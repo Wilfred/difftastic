@@ -29,8 +29,6 @@
 (field_access_expression
   name: (identifier) @variable.other.member)
 
-(lvalue (_) (_) @variable.other.member)
-
 (instance_argument
   name: (identifier) @variable.other.member)
 

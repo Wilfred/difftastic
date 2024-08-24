@@ -77,5 +77,5 @@
 (value_expression
   (identifier) @local.reference)
 
-(lvalue
-  (identifier) @local.reference)
+(field_access_expression
+  name: (identifier) @local.reference)
