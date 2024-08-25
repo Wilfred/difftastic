@@ -115,6 +115,7 @@ extern "C" {
     fn tree_sitter_solidity() -> ts::Language;
     fn tree_sitter_sql() -> ts::Language;
     fn tree_sitter_swift() -> ts::Language;
+    fn tree_sitter_tact() -> ts::Language;
     fn tree_sitter_toml() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
@@ -1078,6 +1079,20 @@ pub(crate) fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/swift.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Tact => {
+            let language = unsafe { tree_sitter_tact() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("<", ">")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/tact.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

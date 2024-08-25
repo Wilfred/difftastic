@@ -29,7 +29,7 @@ sample_files/change_outer_1.el sample_files/change_outer_2.el
 2b9334a4cc72da63bba28eff958f0038  -
 
 sample_files/chinese_1.po sample_files/chinese_2.po
-bc93dffd067b6da1916388557b7ffbaf  -
+6092be4601bed143674c944483e656a7  -
 
 sample_files/clojure_1.clj sample_files/clojure_2.clj
 453785e11dbee818ea0e8cac78c8be47  -
@@ -261,6 +261,9 @@ sample_files/tab_1.c sample_files/tab_2.c
 
 sample_files/tab_1.txt sample_files/tab_2.txt
 a17e978720fe4c1b25614402910cc695  -
+
+sample_files/tact_1.tact sample_files/tact_2.tact
+9bec3d72e558297ee7ad18fa83d1e565  -
 
 sample_files/tailwind_1.css sample_files/tailwind_2.css
 95129d12808d15e32ea726eba1832d4d  -
