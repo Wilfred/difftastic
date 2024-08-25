@@ -1,0 +1,17 @@
+============================================
+primitive
+============================================
+
+primitive Bool;
+primitive Int;
+primitive Cont;
+
+---
+
+(source_file
+  (primitive
+    type: (type_identifier))
+  (primitive
+    type: (type_identifier))
+  (primitive
+    type: (type_identifier)))

@@ -1,0 +1,41 @@
+name: CI on PRs to main
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - binding.gyp
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Parser tests
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/setup-action/cli@v1
+      - uses: tree-sitter/parser-test-action@v2
+        with:
+          generate: true
+          test-parser: true
+          test-rust: ${{runner.os != 'Windows'}}
+          test-node: ${{runner.os != 'Windows'}}
+          test-python: false # default
+          test-go: false     # default
+          test-swift: false  # default
+
+      - name: Check correspondence to Ohm parser
+        run: |
+          git clone https://github.com/tact-lang/tact.git
+          npm run parse -- -q tact/src/grammar/test/*.tact

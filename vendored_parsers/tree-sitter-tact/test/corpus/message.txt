@@ -1,0 +1,20 @@
+============================================
+message
+============================================
+
+message Empty {}
+
+message(0x42) WithValue {}
+
+---
+
+(source_file
+  (message
+    name: (type_identifier)
+    body: (message_body))
+  (message
+    value: (message_value
+      (integer))
+    name: (type_identifier)
+    body: (message_body))
+)
