@@ -375,6 +375,10 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Xml => &[
             "*.ant",
             "*.csproj",
+            // https://documentation.mjml.io/
+            // tecnicly its not html but github made it xml too
+            // https://github.com/github-linguist/linguist/blob/39fd5e93de98de3434cb3e857c5b1972c418f8c5/lib/linguist/languages.yml#L7963
+            "*.mjml",
             "*.plist",
             "*.resx",
             "*.svg",
