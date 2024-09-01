@@ -466,7 +466,8 @@ module.exports = grammar({
         binaryExpr(prec.left, 6, "*", $._case_clause_guard_expression),
         binaryExpr(prec.left, 6, "*.", $._case_clause_guard_expression),
         binaryExpr(prec.left, 6, "/", $._case_clause_guard_expression),
-        binaryExpr(prec.left, 6, "/.", $._case_clause_guard_expression)
+        binaryExpr(prec.left, 6, "/.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 6, "%", $._case_clause_guard_expression)
       ),
     _case_clause_guard_unit: ($) =>
       choice(
