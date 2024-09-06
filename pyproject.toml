@@ -22,7 +22,7 @@ readme = "README.md"
 Homepage = "https://github.com/tree-sitter/tree-sitter-elixir"
 
 [project.optional-dependencies]
-core = ["tree-sitter~=0.21"]
+core = ["tree-sitter~=0.23"]
 
 [tool.cibuildwheel]
 build = "cp38-*"
