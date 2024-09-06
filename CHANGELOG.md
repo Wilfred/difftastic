@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v0.3.0](https://github.com/elixir-lang/tree-sitter-elixir/tree/v0.2.0) (2024-09-05)
+
+### Changed
+
+* The Rust crate to depend on tree-sitter-language rather than tree-sitter ([#70](https://github.com/elixir-lang/tree-sitter-elixir/pull/70))
+
 ## [v0.2.0](https://github.com/elixir-lang/tree-sitter-elixir/tree/v0.2.0) (2024-04-08)
 
 ### Changed
