@@ -24,8 +24,8 @@
     "url": "https://github.com/elixir-lang/tree-sitter-elixir.git"
   },
   "scripts": {
-    "build": "npx tree-sitter-cli generate --no-bindings",
-    "test": "npx tree-sitter-cli test",
+    "build": "tree-sitter generate --no-bindings",
+    "test": "tree-sitter test",
     "format": "prettier --trailing-comma es5 --write grammar.js && clang-format -i src/scanner.c",
     "format-check": "prettier --trailing-comma es5 --check grammar.js && cat src/scanner.c | clang-format src/scanner.c | diff src/scanner.c -",
     "install": "node-gyp-build",
