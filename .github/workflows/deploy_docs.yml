@@ -22,7 +22,7 @@ jobs:
     if: needs.pre_deploy.outputs.should_skip != 'true'
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install jq
         run: sudo apt-get install -y jq
@@ -31,9 +31,9 @@ jobs:
       - run: cargo doc
 
       - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
+        uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: '0.4.34'
+          mdbook-version: '0.4.40'
 
       - name: Build manual
         run: mdbook build
@@ -53,7 +53,7 @@ jobs:
         run: cp -r homepage/* manual/book/
 
       - name: Deploy to GitHub pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
         with:
           branch: gh-pages
           folder: manual/book
