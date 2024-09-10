@@ -1103,7 +1103,7 @@ mod tests {
         }
     }
 
-    /// Ignore the syntax highighting kind when comparing
+    /// Ignore the syntax highlighting kind when comparing
     /// atoms. Sometimes changing delimiter wrapping can change
     /// whether a parser thinks that a node is e.g. a type.
     #[test]
