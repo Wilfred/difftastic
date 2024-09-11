@@ -4573,6 +4573,10 @@
         "required": true,
         "types": [
           {
+            "type": "\\glet",
+            "named": false
+          },
+          {
             "type": "\\let",
             "named": false
           }
@@ -5500,6 +5504,18 @@
         "types": [
           {
             "type": "\\def",
+            "named": false
+          },
+          {
+            "type": "\\edef",
+            "named": false
+          },
+          {
+            "type": "\\gdef",
+            "named": false
+          },
+          {
+            "type": "\\xdef",
             "named": false
           }
         ]
@@ -9168,6 +9184,10 @@
     "named": false
   },
   {
+    "type": "\\edef",
+    "named": false
+  },
+  {
     "type": "\\end",
     "named": false
   },
@@ -9205,6 +9225,14 @@
   },
   {
     "type": "\\fvolcite",
+    "named": false
+  },
+  {
+    "type": "\\gdef",
+    "named": false
+  },
+  {
+    "type": "\\glet",
     "named": false
   },
   {
@@ -9629,6 +9657,10 @@
   },
   {
     "type": "\\vref",
+    "named": false
+  },
+  {
+    "type": "\\xdef",
     "named": false
   },
   {

@@ -989,11 +989,14 @@ module.exports = grammar({
       ),
 
     old_command_definition: $ =>
-      seq(field('command', '\\def'), field('declaration', $.command_name)),
+      seq(
+        field('command', choice('\\def', '\\gdef', '\\edef', '\\xdef')),
+        field('declaration', $.command_name)
+      ),
 
     let_command_definition: $ =>
       seq(
-        field('command', '\\let'),
+        field('command', choice('\\let', '\\glet')),
         field('declaration', $.command_name),
         optional('='),
         field('implementation', $.command_name),

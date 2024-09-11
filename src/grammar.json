@@ -5593,8 +5593,25 @@
           "type": "FIELD",
           "name": "command",
           "content": {
-            "type": "STRING",
-            "value": "\\def"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\def"
+              },
+              {
+                "type": "STRING",
+                "value": "\\gdef"
+              },
+              {
+                "type": "STRING",
+                "value": "\\edef"
+              },
+              {
+                "type": "STRING",
+                "value": "\\xdef"
+              }
+            ]
           }
         },
         {
@@ -5614,8 +5631,17 @@
           "type": "FIELD",
           "name": "command",
           "content": {
-            "type": "STRING",
-            "value": "\\let"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\let"
+              },
+              {
+                "type": "STRING",
+                "value": "\\glet"
+              }
+            ]
           }
         },
         {
