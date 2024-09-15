@@ -1,0 +1,104 @@
+/* Comment */
+// <- comment
+FoamFile
+// <- type
+{
+// <- punctuation
+    version     2.0;
+    // <- function
+    //           ^ float
+    //             ^ punctuation
+    format      ascii;
+    // <- function
+    class       vectorField;
+    // <- function
+    object      kinematicCloudPositions;
+    // <- function
+}
+// <- punctuation
+
+internalField uniform 0.0;
+// <- function
+//              ^ attribute
+//                       ^ punctuation
+
+"(list|.*Wall)" (word 1 mor(2,phi(U)));
+// <- string
+//              ^ punctuation
+//                    ^ float
+
+dict
+// <- type
+{
+    class       vectorField;
+    div(phi,U1) K;
+    // <- function
+    laplacian((1|A(U+v)*D-mT),p) Gauss linear corrected;
+    // <- function
+}
+
+(this and that)
+// <- punctuation
+//     ^ attribute
+//            ^ punctuation
+{
+    dimensions [1 -1 2 0 0 0];
+    // <- function
+    //         ^ punctuation
+    //             ^ float
+    //                      ^ punctuation
+    dimensions [m^2 s^-2];
+    // <- function
+    //         ^ punctuation
+    //              ^ float
+    //                  ^ punctuation
+    enable true;
+    //      ^ boolean
+    variable $:dict.div(phi,U1);
+    //       ^ conditional
+    //        ^ conditional
+    env ${FOAM_TUTORIALS};
+}
+
+code
+#{
+    /* Comment #{#} */
+    /* Another comment */
+    pointField points(30);
+    points[0]  = point(0.5, 0, -0.5);
+#};
+
+#include "Windowsy path\\nto file.cfg"
+// <- conditional
+//   ^ conditional
+//           ^ string
+//                      ^ escape
+#   includeFunc writeObjects(d = gas)
+// <- conditional
+//   ^ conditional
+#includeFunc fieldAverage(U.particles, U.air, alpha.particles, p)
+// <- conditional
+//   ^ conditional
+
+#if #calc "${angle} < 75"
+// <- conditional
+//   ^ conditional
+//           ^ string
+    default  Gauss linear corrected;
+#else
+// <- conditional
+// ^ conditional
+    default  Gauss linear limited corrected 0.5;
+    // <- function
+    //                                       ^ float
+#endif
+// <- conditional
+// ^ conditional
+
+#ifeq ${FOAM_APPLICATION} simpleFoam
+// <- conditional
+// ^ conditional
+    default         steadyState;
+#endif
+// <- conditional
+// ^ conditional

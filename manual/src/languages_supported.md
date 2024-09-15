@@ -25,6 +25,7 @@ with `difft --list-languages`.
 | Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                   |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                       |
 | F#              | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp)                       |
+| Foam            | [FoamScience/tree-sitter-foam](https://github.com/FoamScience/tree-sitter-foam)                 |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                 |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                     |
 | Hack            | [slackhq/tree-sitter-hack](https://github.com/slackhq/tree-sitter-hack)                         |

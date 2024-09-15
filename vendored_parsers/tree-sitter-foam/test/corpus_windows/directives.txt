@@ -1,0 +1,135 @@
+================================================================================
+Include directives
+================================================================================
+
+#include "Windowsy path to file.cfg"
+#   includeFunc writeObjects(d = gas)
+#includeFunc fieldAverage(U.particles, U.air, alpha.particles, p)
+
+--------------------------------------------------------------------------------
+
+(foam
+  (preproc_call
+    (identifier)
+    (string_literal))
+  (preproc_call
+    (identifier)
+    (identifier))
+  (preproc_call
+    (identifier)
+    (identifier)))
+
+================================================================================
+Calc/neg directives
+================================================================================
+
+var  #calc "$Lx+$MP";
+var  #neg $Lx;
+internalField   uniform (#neg $UMean 0 0);
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (preproc_call
+      (identifier)
+      (string_literal)))
+  (key_value
+    (identifier)
+    (preproc_call
+      (identifier)
+      (macro
+        (identifier))))
+  (key_value
+    (identifier)
+    (identifier)
+    (list
+      (preproc_call
+        (identifier)
+        (macro
+          (identifier)))
+      (number_literal)
+      (number_literal))))
+
+================================================================================
+Conditional directives
+================================================================================
+
+#if #calc "${angle} < 75"
+    default  Gauss linear corrected;
+#else
+    default  Gauss linear limited corrected 0.5;
+#endif
+
+#ifeq ${FOAM_APPLICATION} simpleFoam
+    default         steadyState;
+#else
+    default         Euler;
+#endif
+
+--------------------------------------------------------------------------------
+
+(foam
+  (preproc_call
+    (identifier)
+    (preproc_call
+      (identifier)
+      (string_literal)))
+  (key_value
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier))
+  (preproc_call)
+  (key_value
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (number_literal))
+  (preproc_call)
+  (preproc_call
+    (macro
+      (identifier))
+    (identifier))
+  (key_value
+    (identifier)
+    (identifier))
+  (preproc_call)
+  (key_value
+    (identifier)
+    (identifier))
+  (preproc_call))
+
+================================================================================
+CodeStream directives
+================================================================================
+
+lift  #codeStream
+{
+    codeInclude #{ #include "vector.H" #};
+    code
+    #{
+        pointField points(30);
+        points[0]  = point(0.5, 0, -0.5);
+    #};
+};
+
+--------------------------------------------------------------------------------
+
+(foam
+  (key_value
+    (identifier)
+    (preproc_call
+      (identifier)
+      (dict_headless
+        (key_value
+          (identifier)
+          (code
+            (code_body)))
+        (key_value
+          (identifier)
+          (code
+            (code_body)))))))
