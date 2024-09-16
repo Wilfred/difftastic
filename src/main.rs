@@ -373,6 +373,18 @@ fn diff_file(
         rhs_src.retain(|c| c != '\r');
     }
 
+    // If "foo" is one line, is "foo\n" two lines? Generally we want
+    // to care about newlines when deciding whether content differs.
+    //
+    // Ending a file with a trailing newline is extremely common
+    // though. If both files have a trailing newline, consider "foo\n"
+    // to be "foo" so we don't end up displaying a blank line on both
+    // sides.
+    if lhs_src.ends_with('\n') && rhs_src.ends_with('\n') {
+        lhs_src.pop();
+        rhs_src.pop();
+    }
+
     let mut extra_info = renamed;
     if let (Some(lhs_perms), Some(rhs_perms)) = (lhs_permissions, rhs_permissions) {
         if lhs_perms != rhs_perms {
@@ -721,7 +733,7 @@ fn diff_file_content(
 /// incrementally.
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
-/// paths with the all the modified files.
+/// paths with all the modified files.
 fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,

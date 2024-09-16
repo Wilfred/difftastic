@@ -32,7 +32,7 @@ Languages: [~10 programming
 languages](https://github.com/GumTreeDiff/gumtree/wiki/Languages)  
 Parser: Several, including [srcML](https://www.srcml.org/)  
 Algorithm: Top-down, then bottom-up  
-Ouput: HTML, Swing GUI, or text
+Output: HTML, Swing GUI, or text
 
 [GumTree](https://github.com/GumTreeDiff/gumtree) can parse several
 programming languages and then performs a tree-based diff, outputting
@@ -52,7 +52,7 @@ Algorithm: A* search
 Output: Merged s-expression file
 
 Tristan Hume wrote a tree diffing algorithm during his 2017 internship
-and Jane Street. The source code is not available, but [he has a blog
+at Jane Street. The source code is not available, but [he has a blog
 post](https://thume.ca/2017/06/17/tree-diffing/) discussing the design
 in depth.
 
@@ -116,5 +116,3 @@ Output: CLI colours
 [Semantically meaningful S-expression diff: Tree-diff for lisp source
 code](https://archive.fosdem.org/2021/schedule/event/sexpressiondiff/)
 was presented at FOSDEM 2021.
-
-

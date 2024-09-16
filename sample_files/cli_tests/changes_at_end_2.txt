@@ -1,0 +1,30 @@
+                    TOKEN_INTEGER@125..127 "77"
+                  TOKEN_DOLLAR@127..128 "$"
+                  NODE_INFIX_OPERATION@128..155
+                    NODE_APPLICATION@128..140
+                      NODE_APPLICATION@128..137
+                        NODE_APPLICATION@128..133
+                          NODE_NUMBER@128..129
+                            TOKEN_INTEGER@128..129 "7"
+                          NODE_PATH@129..133
+                            TOKEN_PATH@129..133 "/d6/"
+                        TOKEN_WHITESPACE@133..135 "\u{c}\u{c}"
+                        NODE_IDENTIFIER@135..137
+                          TOKEN_IDENTIFIER@135..137 "o2"
+                      NODE_PATH@137..140
+                        TOKEN_PATH@137..140 "/Aa"
+                    TOKEN_WHITESPACE@140..142 "\u{c}\u{c}"
+                    TOKEN_DOLLAR@142..143 "$"
+                    NODE_INFIX_OPERATION@143..155
+                      NODE_IDENTIFIER@143..144
+                        TOKEN_IDENTIFIER@143..144 "d"
+                      TOKEN_PLUS@144..145 "+"
+                      NODE_APPLICATION@145..155
+                        NODE_APPLICATION@145..152
+                          NODE_PATH@145..148
+                            TOKEN_PATH@145..148 "/6/"
+                          TOKEN_WHITESPACE@148..150 "\u{c}\u{c}"
+                          NODE_IDENTIFIER@150..152
+                            TOKEN_IDENTIFIER@150..152 "o2"
+                        NODE_PATH@152..155
+                          TOKEN_PATH@152..155 "/Aa"

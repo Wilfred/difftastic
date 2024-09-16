@@ -407,20 +407,8 @@ pub(crate) fn print(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
-    let mut lhs_lines = split_on_newlines(lhs_src).collect::<Vec<_>>();
-    let mut rhs_lines = split_on_newlines(rhs_src).collect::<Vec<_>>();
-
-    // If "foo" is one line, is "foo\n" two lines? Generally we want
-    // to care about newlines when deciding whether content differs.
-    //
-    // Ending a file with a trailing newline is extremely common
-    // though. If both files have a trailing newline, consider "foo\n"
-    // to be "foo" so we don't end up displaying a blank line on both
-    // sides.
-    if lhs_lines.last() == Some(&"") && rhs_lines.last() == Some(&"") {
-        lhs_lines.pop();
-        rhs_lines.pop();
-    }
+    let lhs_lines = split_on_newlines(lhs_src).collect::<Vec<_>>();
+    let rhs_lines = split_on_newlines(rhs_src).collect::<Vec<_>>();
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];

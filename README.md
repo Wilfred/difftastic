@@ -148,6 +148,15 @@ $ difft --check-only --exit-code before.js after.js
 This will set the exit code to 0 if there are no syntactic changes, or
 1 if there are changes found.
 
+### Why aren't colours appearing in my terminal?
+
+Difftastic uses ANSI bright colours by default, but some terminal
+themes show bright colours as grey. Solarized is a popular theme that
+does this.
+
+If you're a Solarized user, use `export DFT_BACKGROUND=light` to
+disable bright colours, or try a different terminal colour scheme.
+
 ### How does it work?
 
 Difftastic treats structural diffing as a graph problem, and uses

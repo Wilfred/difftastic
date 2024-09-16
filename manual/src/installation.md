@@ -41,6 +41,13 @@ $ sudo pkg install difftastic
 ```
 
 If you're a Windows user, you can install
+[difftastic](https://scoop.sh/#/apps?q=difftastic)
+with `scoop`.
+```
+$ scoop install difftastic
+```
+
+If you're a Windows user, you can install
 [difftastic](https://community.chocolatey.org/packages/difftastic)
 with `choco`.
 ```

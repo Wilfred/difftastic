@@ -143,7 +143,7 @@ fn matched_lines_from_unchanged(
     for mp in mps {
         let opposite_line = match &mp.kind {
             MatchKind::UnchangedToken { opposite_pos, .. }
-            | MatchKind::NovelLinePart { opposite_pos, .. } => {
+            | MatchKind::UnchangedPartOfNovelItem { opposite_pos, .. } => {
                 if let Some(highest_opposite_side) = highest_opposite_line {
                     opposite_pos
                         .iter()
@@ -344,7 +344,7 @@ pub(crate) fn opposite_positions(
                     opposite_lines.insert(opposite_span.line);
                 }
             }
-            MatchKind::NovelLinePart {
+            MatchKind::UnchangedPartOfNovelItem {
                 opposite_pos,
                 self_pos,
                 ..
@@ -837,7 +837,7 @@ mod tests {
     fn test_all_lines() {
         let mps = [
             MatchedPos {
-                kind: MatchKind::NovelLinePart {
+                kind: MatchKind::UnchangedPartOfNovelItem {
                     highlight: TokenKind::Delimiter,
                     self_pos: SingleLineSpan {
                         line: 0.into(),

@@ -1,5 +1,11 @@
 ; CREDITS @stumash (stuart.mashaal@gmail.com)
 
+(field_expression field: (identifier) @property)
+(field_expression value: (identifier) @type
+ (#match? @type "^[A-Z]"))
+
+(type_identifier) @type
+
 (class_definition
   name: (identifier) @type)
 
@@ -20,7 +26,7 @@
 
 ;; variables
 
-(class_parameter 
+(class_parameter
   name: (identifier) @parameter)
 
 (self_type (identifier) @parameter)
@@ -32,8 +38,6 @@
 
 (type_definition
   name: (type_identifier) @type.definition)
-
-(type_identifier) @type
 
 ;; val/var definitions/declarations
 
@@ -49,33 +53,25 @@
 (var_declaration
   name: (identifier) @variable)
 
-; method definition
-
-(function_declaration
-      name: (identifier) @method)
-
-(function_definition
-      name: (identifier) @method)
-
 ; imports/exports
 
 (import_declaration
   path: (identifier) @namespace)
 ((stable_identifier (identifier) @namespace))
 
-;; ((import_declaration
-;;   path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
-;; ((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
+((import_declaration
+  path: (identifier) @type) (#match? @type "^[A-Z]"))
+((stable_identifier (identifier) @type) (#match? @type "^[A-Z]"))
 
 (export_declaration
   path: (identifier) @namespace)
 ((stable_identifier (identifier) @namespace))
 
 ((export_declaration
-  path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
-;; ((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
+  path: (identifier) @type) (#match? @type "^[A-Z]"))
+((stable_identifier (identifier) @type) (#match? @type "^[A-Z]"))
 
-;; ((namespace_selectors (identifier) @type) (#lua-match? @type "^[A-Z]"))
+((namespace_selectors (identifier) @type) (#match? @type "^[A-Z]"))
 
 ; method invocation
 
@@ -89,9 +85,9 @@
   function: (field_expression
     field: (identifier) @method.call))
 
-;; ((call_expression
-;;    function: (identifier) @constructor)
-;;  (#lua-match? @constructor "^[A-Z]"))
+((call_expression
+   function: (identifier) @constructor)
+ (#match? @constructor "^[A-Z]"))
 
 (generic_function
   function: (identifier) @function.call)
@@ -110,11 +106,15 @@
 (binding
   name: (identifier) @parameter)
 
-; expressions
+; method definition
 
-(field_expression field: (identifier) @property)
-;; (field_expression value: (identifier) @type
-;;  (#lua-match? @type "^[A-Z]"))
+(function_declaration
+      name: (identifier) @method)
+
+(function_definition
+      name: (identifier) @method)
+
+; expressions
 
 (infix_expression operator: (identifier) @operator)
 (infix_expression operator: (operator_identifier) @operator)
@@ -235,24 +235,26 @@
 
 "return" @keyword.return
 
-(comment) @comment @spell
-(block_comment) @comment @spell
+(comment) @spell @comment
+(block_comment) @spell @comment
 
 ;; `case` is a conditional keyword in case_block
 
 (case_block
   (case_clause ("case") @conditional))
+(indented_cases
+  (case_clause ("case") @conditional))
 
 (operator_identifier) @operator
 
-;; ((identifier) @type (#lua-match? @type "^[A-Z]"))
-;; ((identifier) @variable.builtin
-;;  (#lua-match? @variable.builtin "^this$"))
+((identifier) @type (#match? @type "^[A-Z]"))
+((identifier) @variable.builtin
+ (#match? @variable.builtin "^this$"))
 
-;; (
-;;   (identifier) @function.builtin
-;;   (#lua-match? @function.builtin "^super$")
-;; )
+(
+  (identifier) @function.builtin
+  (#match? @function.builtin "^super$")
+)
 
 ;; Scala CLI using directives
 (using_directive_key) @parameter

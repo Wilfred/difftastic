@@ -23,7 +23,7 @@ sample_files/bad_combine_1.rs sample_files/bad_combine_2.rs
 f5051bf7d2b8afa3a677388cbd458891  -
 
 sample_files/big_text_hunk_1.txt sample_files/big_text_hunk_2.txt
-fd0c8912c094097f82c6b29ae66fb912  -
+fc26d41a5ff771670e04033b177973d2  -
 
 sample_files/change_outer_1.el sample_files/change_outer_2.el
 2b9334a4cc72da63bba28eff958f0038  -
@@ -218,7 +218,7 @@ sample_files/ruby_1.rb sample_files/ruby_2.rb
 d4d591902030355656f5c18c78f965a6  -
 
 sample_files/scala_1.scala sample_files/scala_2.scala
-f19e0f0ab3cabb1b5c863b78a5a6b2d2  -
+446702806bab430dc50aad493d53f64f  -
 
 sample_files/scheme_1.scm sample_files/scheme_2.scm
 09f8683219a8491c22d9a2fa1ce98c16  -

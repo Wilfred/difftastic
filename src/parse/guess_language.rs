@@ -367,7 +367,9 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
             "Cargo.lock",
             "Gopkg.lock",
             "Pipfile",
+            "pdm.lock",
             "poetry.lock",
+            "uv.lock",
         ],
         TypeScript => &["*.ts"],
         TypeScriptTsx => &["*.tsx"],
@@ -375,6 +377,9 @@ pub(crate) fn language_globs(language: Language) -> Vec<glob::Pattern> {
         Xml => &[
             "*.ant",
             "*.csproj",
+            // Following GitHub, treat MJML as XML.
+            // https://documentation.mjml.io/
+            "*.mjml",
             "*.plist",
             "*.resx",
             "*.svg",

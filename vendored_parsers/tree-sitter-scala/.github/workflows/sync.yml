@@ -6,13 +6,13 @@ on:
 
 jobs:
   check-and-sync:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       all: ${{ steps.changes.outputs.all}}
       c: ${{ steps.changes.outputs.c }}
     steps:
       - name: checkout tree-sitter-scala
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 10
 
@@ -27,14 +27,18 @@ jobs:
           npm run format
 
       - name: Check for changes
-        uses: tj-actions/verify-changed-files@v13
+        uses: tj-actions/verify-changed-files@v19
         id: verify-changed-files
         with:
           files: |
+            bindings/c/tree-sitter-scala.h
+            bindings/c/tree-sitter-scala.pc.in
             grammar.js
             src/grammar.json
             src/node-types.json
             src/parser.c
+            src/tree_sitter/alloc.h
+            src/tree_sitter/array.h
             src/tree_sitter/parser.h
 
       - name: Commit changes if necessary

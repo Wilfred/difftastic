@@ -117,6 +117,16 @@ fn check_only_text_file() {
 }
 
 #[test]
+fn text_changes_at_end_doesnt_crash() {
+    let mut cmd = get_base_command();
+
+    cmd.arg("sample_files/cli_tests/changes_at_end_1.txt")
+        .arg("sample_files/cli_tests/changes_at_end_2.txt");
+
+    cmd.assert().success();
+}
+
+#[test]
 fn makefile_text_as_atom() {
     let mut cmd = get_base_command();
 

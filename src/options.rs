@@ -260,7 +260,7 @@ When multiple overrides are specified, the first matching override wins."))
         )
         .arg(
             Arg::new("list-languages").long("list-languages")
-                .help("Print the all the languages supported by difftastic, along with their extensions.")
+                .help("Print all the languages supported by difftastic, along with their extensions.")
         )
         .arg(
             Arg::new("byte-limit").long("byte-limit")
