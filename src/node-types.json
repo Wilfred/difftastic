@@ -5752,11 +5752,6 @@
     "fields": {}
   },
   {
-    "type": "htmlentity",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "identity_expression",
     "named": true,
     "fields": {},
@@ -13865,50 +13860,6 @@
     "named": false
   },
   {
-    "type": "\\\"",
-    "named": false
-  },
-  {
-    "type": "\\'",
-    "named": false
-  },
-  {
-    "type": "\\?",
-    "named": false
-  },
-  {
-    "type": "\\\\",
-    "named": false
-  },
-  {
-    "type": "\\a",
-    "named": false
-  },
-  {
-    "type": "\\b",
-    "named": false
-  },
-  {
-    "type": "\\f",
-    "named": false
-  },
-  {
-    "type": "\\n",
-    "named": false
-  },
-  {
-    "type": "\\r",
-    "named": false
-  },
-  {
-    "type": "\\t",
-    "named": false
-  },
-  {
-    "type": "\\v",
-    "named": false
-  },
-  {
     "type": "]",
     "named": false
   },
@@ -14174,6 +14125,10 @@
   },
   {
     "type": "gshared",
+    "named": true
+  },
+  {
+    "type": "htmlentity",
     "named": true
   },
   {

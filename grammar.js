@@ -87,25 +87,15 @@ module.exports = grammar({
     _bom: (_$) => token.immediate("\uFEFF"), // kind of like a special form of whitespace
     shebang: ($) => seq(token.immediate("#!"), /.+\n/),
 
-    htmlentity: ($) => seq(/\\&[a-zA-Z_]+;/),
+    htmlentity: ($) => token.immediate(seq(/\\&[a-zA-Z_]+;/)),
 
     escape_sequence: ($) =>
       choice(
-        "\\'",
-        '\\"',
-        "\\?",
-        "\\\\",
-        "\\a",
-        "\\b",
-        "\\f",
-        "\\n",
-        "\\r",
-        "\\t",
-        "\\v",
-        /\\x[0-9A-Fa-f][0-9A-Fa-f]/,
-        /\\[0-7]{1,3}/,
-        /\\u[0-9A-Fa-f]{4}/,
-        /\\U[0-9A-Fa-f]{8}/,
+        token.immediate(/\\['"?\\abfnrtv]/),
+        token.immediate(/\\x[0-9A-Fa-f][0-9A-Fa-f]/),
+        token.immediate(/\\[0-7]{1,3}/),
+        token.immediate(/\\u[0-9A-Fa-f]{4}/),
+        token.immediate(/\\U[0-9A-Fa-f]{8}/),
         $.htmlentity,
       ),
 

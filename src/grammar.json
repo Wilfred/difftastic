@@ -68,76 +68,54 @@
       ]
     },
     "htmlentity": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "\\\\&[a-zA-Z_]+;"
-        }
-      ]
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\\\\&[a-zA-Z_]+;"
+          }
+        ]
+      }
     },
     "escape_sequence": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\'"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\['\"?\\\\abfnrtv]"
+          }
         },
         {
-          "type": "STRING",
-          "value": "\\\""
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\x[0-9A-Fa-f][0-9A-Fa-f]"
+          }
         },
         {
-          "type": "STRING",
-          "value": "\\?"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\[0-7]{1,3}"
+          }
         },
         {
-          "type": "STRING",
-          "value": "\\\\"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\u[0-9A-Fa-f]{4}"
+          }
         },
         {
-          "type": "STRING",
-          "value": "\\a"
-        },
-        {
-          "type": "STRING",
-          "value": "\\b"
-        },
-        {
-          "type": "STRING",
-          "value": "\\f"
-        },
-        {
-          "type": "STRING",
-          "value": "\\n"
-        },
-        {
-          "type": "STRING",
-          "value": "\\r"
-        },
-        {
-          "type": "STRING",
-          "value": "\\t"
-        },
-        {
-          "type": "STRING",
-          "value": "\\v"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\\\x[0-9A-Fa-f][0-9A-Fa-f]"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\\\[0-7]{1,3}"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\\\u[0-9A-Fa-f]{4}"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\\\U[0-9A-Fa-f]{8}"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\U[0-9A-Fa-f]{8}"
+          }
         },
         {
           "type": "SYMBOL",
