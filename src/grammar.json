@@ -123,6 +123,14 @@
         }
       ]
     },
+    "not_in": {
+      "type": "STRING",
+      "value": "!in"
+    },
+    "not_is": {
+      "type": "STRING",
+      "value": "!is"
+    },
     "identifier": {
       "type": "PATTERN",
       "value": "[_\\p{XID_Start}][\\p{XID_Continue}]*"
@@ -431,6 +439,14 @@
         {
           "type": "STRING",
           "value": "#"
+        },
+        {
+          "type": "STRING",
+          "value": "!in"
+        },
+        {
+          "type": "STRING",
+          "value": "!is"
         }
       ]
     },
@@ -12532,14 +12548,6 @@
     {
       "type": "SYMBOL",
       "name": "_string"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "not_in"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "not_is"
     }
   ],
   "inline": [

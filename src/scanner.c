@@ -26,8 +26,6 @@ enum TokenType {
 	L_INT,
 	L_FLOAT,
 	L_STRING, // string literal (all forms)
-	NOT_IN,
-	NOT_IS,
 };
 
 static bool
@@ -543,51 +541,6 @@ match_number(TSLexer *lexer, const bool *valid)
 	return (match_number_suffix(lexer, valid, has_dot || in_exp));
 }
 
-static bool
-match_not_in_is(TSLexer *lexer, const bool *valid)
-{
-	int c;
-	int token;
-	if (!valid[NOT_IN] && !valid[NOT_IS]) {
-		return (false);
-	}
-	assert(lexer->lookahead == '!');
-	lexer->advance(lexer, false);
-	// eat intervening whitespace... usually there isn't any
-	while ((c = lexer->lookahead) != 0) {
-		if (!iswspace(c) && !is_eol(c)) {
-			break;
-		}
-		lexer->advance(lexer, false);
-	}
-
-	if (lexer->lookahead != 'i') {
-		return (false);
-	}
-	lexer->advance(lexer, false);
-	switch (lexer->lookahead) {
-	case 'n':
-		token = NOT_IN;
-		break;
-	case 's':
-		token = NOT_IS;
-		break;
-	default:
-		return (false);
-	}
-	if (!valid[token]) {
-		return (false);
-	}
-	lexer->advance(lexer, false);
-	c = lexer->lookahead;
-	if (iswalnum(c) || ((c > 0x7F) && (!is_eol(c)))) {
-		return (false);
-	}
-	lexer->result_symbol = token;
-	lexer->mark_end(lexer);
-	return (true);
-}
-
 void *
 tree_sitter_d_external_scanner_create()
 {
@@ -643,12 +596,6 @@ tree_sitter_d_external_scanner_scan(
 
 	if (c == '.' || isdigit(c)) {
 		return (match_number(lexer, valid));
-	}
-
-	// we have to treat !in and !is specially to recognize them
-	// as tokens without fighting precedence rules.
-	if (c == '!') {
-		return (match_not_in_is(lexer, valid));
 	}
 
 	if ((c == 'q') && (valid[L_STRING])) {

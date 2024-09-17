@@ -8409,6 +8409,16 @@
     }
   },
   {
+    "type": "not_in",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "not_is",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "or_expression",
     "named": true,
     "fields": {
@@ -13652,6 +13662,14 @@
     "named": false
   },
   {
+    "type": "!in",
+    "named": false
+  },
+  {
+    "type": "!is",
+    "named": false
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -14225,14 +14243,6 @@
   },
   {
     "type": "noreturn",
-    "named": true
-  },
-  {
-    "type": "not_in",
-    "named": true
-  },
-  {
-    "type": "not_is",
     "named": true
   },
   {

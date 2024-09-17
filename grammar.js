@@ -18,8 +18,6 @@ module.exports = grammar({
     $.int_literal,
     $.float_literal,
     $._string,
-    $.not_in,
-    $.not_is,
   ],
 
   extras: ($) => [
@@ -98,6 +96,9 @@ module.exports = grammar({
         token.immediate(/\\U[0-9A-Fa-f]{8}/),
         $.htmlentity,
       ),
+
+    not_in: (_) => "!in",
+    not_is: (_) => "!is",
 
     //
     // Identifier
@@ -179,6 +180,8 @@ module.exports = grammar({
         "@",
         "=>",
         "#",
+        "!in",
+        "!is",
       ),
 
     keyword: ($) =>
