@@ -92,7 +92,7 @@ module.exports = grammar({
         token.immediate(/\\[0-7]{1,3}/),
         token.immediate(/\\u[0-9A-Fa-f]{4}/),
         token.immediate(/\\U[0-9A-Fa-f]{8}/),
-        token.immediate(seq(/\\&[a-zA-Z_]+;/)),
+        token.immediate(/\\&[a-zA-Z_]+;/),
       ),
 
     not_in: (_) => "!in",

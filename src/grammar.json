@@ -99,13 +99,8 @@
         {
           "type": "IMMEDIATE_TOKEN",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "\\\\&[a-zA-Z_]+;"
-              }
-            ]
+            "type": "PATTERN",
+            "value": "\\\\&[a-zA-Z_]+;"
           }
         }
       ]
