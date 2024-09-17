@@ -4,7 +4,9 @@ Line comment
 
 // solo
 ---
-(source_file (comment))
+
+(source_file
+  (comment))
 
 ==================
 Multiple line comments
@@ -16,7 +18,12 @@ Multiple line comments
 // here three
 
 ---
-(source_file (comment) (comment) (directive) (comment))
+
+(source_file
+  (comment)
+  (comment)
+  (directive)
+  (comment))
 
 ==================
 Block comment
@@ -24,7 +31,10 @@ Block comment
 /* one */
 # line
 ---
-(source_file (comment) (directive) )
+
+(source_file
+  (comment)
+  (directive))
 
 ==================
 Nesting comment
@@ -34,4 +44,23 @@ Nesting comment
 # line
 /+ nested /+ something +/ here +/
 ---
-(source_file (comment) (comment) (directive) (comment))
+
+(source_file
+  (comment)
+  (comment)
+  (directive)
+  (comment))
+
+==================
+Embedded comment in string
+==================
+enum x = "this // is /* not */ a // comment";
+---
+
+(source_file
+  (manifest_constant
+    (enum)
+    (manifest_declarator
+      (identifier)
+      (string_literal
+        (quoted_string)))))
