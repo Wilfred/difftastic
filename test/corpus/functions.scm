@@ -676,3 +676,23 @@ unittest {
               (named_argument
                 (expression
                   (char_literal))))))))))
+
+================================================================================
+Function declaration attributes
+================================================================================
+
+void foo() pure @property;
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (void))
+    (identifier)
+    (parameters)
+    (member_function_attribute
+      (pure))
+    (member_function_attribute
+      (at_attribute
+        (identifier)))
+    (function_body)))
