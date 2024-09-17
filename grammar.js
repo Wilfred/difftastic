@@ -1223,10 +1223,12 @@ module.exports = grammar({
         token.immediate(/"[cdw]?/),
       ),
 
+    _unescaped_string_content: ($) => token.immediate(/[^"\\]+/),
+
     quoted_string: ($) =>
       seq(
         '"',
-        repeat(choice(/[^"\\]+/, $.escape_sequence)),
+        repeat(choice($._unescaped_string_content, $.escape_sequence)),
         token.immediate(/"[cdw]?/),
       ),
 

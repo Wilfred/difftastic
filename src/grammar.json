@@ -6132,6 +6132,13 @@
         }
       ]
     },
+    "_unescaped_string_content": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\"\\\\]+"
+      }
+    },
     "quoted_string": {
       "type": "SEQ",
       "members": [
@@ -6145,8 +6152,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "PATTERN",
-                "value": "[^\"\\\\]+"
+                "type": "SYMBOL",
+                "name": "_unescaped_string_content"
               },
               {
                 "type": "SYMBOL",
