@@ -4555,17 +4555,7 @@
   {
     "type": "escape_sequence",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "htmlentity",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "expression",
@@ -14134,10 +14124,6 @@
   },
   {
     "type": "gshared",
-    "named": true
-  },
-  {
-    "type": "htmlentity",
     "named": true
   },
   {

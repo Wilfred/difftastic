@@ -58,18 +58,6 @@
         "value": "#![^\\n]*\\n"
       }
     },
-    "htmlentity": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "\\\\&[a-zA-Z_]+;"
-          }
-        ]
-      }
-    },
     "escape_sequence": {
       "type": "CHOICE",
       "members": [
@@ -109,8 +97,16 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "htmlentity"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\\\\&[a-zA-Z_]+;"
+              }
+            ]
+          }
         }
       ]
     },

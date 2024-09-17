@@ -58,8 +58,7 @@ auto s3 = "a\&trademark;over";
     (identifier)
     (string_literal
       (quoted_string
-        (escape_sequence
-          (htmlentity))))))
+        (escape_sequence)))))
 
 ================================================================================
 Quoted String with Suffix
@@ -107,5 +106,4 @@ auto s10 = "alpha\&nbsp;beta"w;
     (identifier)
     (string_literal
       (quoted_string
-        (escape_sequence
-          (htmlentity))))))
+        (escape_sequence)))))
