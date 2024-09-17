@@ -52,20 +52,11 @@
       }
     },
     "shebang": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "#!"
-          }
-        },
-        {
-          "type": "PATTERN",
-          "value": ".+\\n"
-        }
-      ]
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "#![^\\n]*\\n"
+      }
     },
     "htmlentity": {
       "type": "IMMEDIATE_TOKEN",
