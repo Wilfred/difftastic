@@ -416,7 +416,8 @@ module.exports = grammar({
     // prefer the static to be more tightly bound to the import, but for
     // syntax tree analysis it probably does not matter much.
     //
-    import_declaration: ($) => seq($.import, $._import_list, ";"),
+    import_declaration: ($) =>
+      seq(repeat($._attribute), $.import, $._import_list, ";"),
 
     _import_list: ($) =>
       choice(
@@ -436,7 +437,8 @@ module.exports = grammar({
     //
     // Mixin Declaration
     //
-    mixin_declaration: ($) => seq($.mixin_expression, ";"),
+    mixin_declaration: ($) =>
+      seq(repeat($._attribute), $.mixin_expression, ";"),
 
     /**************************************************
      *
@@ -447,7 +449,7 @@ module.exports = grammar({
     _declaration: ($) =>
       choice(
         seq($._declaration2),
-        seq(repeat1($._attribute), $._declaration2),
+        // seq(repeat1($._attribute), $._declaration2),
         seq(repeat1($._attribute), "{", repeat($._declaration), "}"),
       ),
 
@@ -493,6 +495,7 @@ module.exports = grammar({
     //
     variable_declaration: ($) =>
       seq(
+        repeat($._attribute),
         repeat($.storage_class),
         $.type,
         commaSep1(choice($.declarator, $.bitfield_declarator)),
@@ -519,6 +522,7 @@ module.exports = grammar({
 
     manifest_constant: ($) =>
       seq(
+        repeat($._attribute),
         repeat($.storage_class),
         $.enum,
         repeat($.storage_class),
@@ -568,7 +572,12 @@ module.exports = grammar({
     //
     auto_declaration: ($) =>
       prec.right(
-        seq(repeat1($.storage_class), commaSep1($._auto_assignment), ";"),
+        seq(
+          repeat($._attribute),
+          repeat1($.storage_class),
+          commaSep1($._auto_assignment),
+          ";",
+        ),
       ),
 
     _auto_assignment: ($) =>
@@ -583,25 +592,28 @@ module.exports = grammar({
     // Alias Declaration
     //
     alias_declaration: ($) =>
-      choice(
-        seq($.alias, $.this, "=", $.identifier, ";"),
-        seq($.alias, commaSep1($.alias_initializer), ";"),
-        seq(
-          $.alias,
-          repeat($.storage_class),
-          $.type,
-          $._declarator_identifier_list,
-          ";",
-        ),
-        seq(
-          $.alias,
-          repeat($.storage_class),
-          $.type,
-          $.identifier,
-          optional($.template_parameters),
-          $.parameters,
-          repeat($.member_function_attribute),
-          ";",
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.alias, $.this, "=", $.identifier, ";"),
+          seq($.alias, commaSep1($.alias_initializer), ";"),
+          seq(
+            $.alias,
+            repeat($.storage_class),
+            $.type,
+            $._declarator_identifier_list,
+            ";",
+          ),
+          seq(
+            $.alias,
+            repeat($.storage_class),
+            $.type,
+            $.identifier,
+            optional($.template_parameters),
+            $.parameters,
+            repeat($.member_function_attribute),
+            ";",
+          ),
         ),
       ),
 
@@ -641,19 +653,22 @@ module.exports = grammar({
     // Alias Reassignment (only in template declarations)
     //
     alias_reassign: ($) =>
-      prec.dynamic(
-        -1,
-        choice(
-          seq($.identifier, "=", repeat($.storage_class), $.type, ";"),
-          seq($.identifier, "=", $.function_literal, ";"),
-          seq(
-            $.identifier,
-            "=",
-            repeat($.storage_class),
-            $.type,
-            $.parameters,
-            repeat($.member_function_attribute),
-            ";",
+      seq(
+        repeat($._attribute),
+        prec.dynamic(
+          -1,
+          choice(
+            seq($.identifier, "=", repeat($.storage_class), $.type, ";"),
+            seq($.identifier, "=", $.function_literal, ";"),
+            seq(
+              $.identifier,
+              "=",
+              repeat($.storage_class),
+              $.type,
+              $.parameters,
+              repeat($.member_function_attribute),
+              ";",
+            ),
           ),
         ),
       ),
@@ -773,7 +788,7 @@ module.exports = grammar({
     // 3.5 ATTRIBUTES
     //
 
-    attribute_declaration: ($) => seq($._attribute, ":"),
+    attribute_declaration: ($) => seq(repeat1($._attribute), ":"),
 
     align_attribute: ($) =>
       prec.right(seq($.align, optional(seq("(", $.expression, ")")))),
@@ -865,10 +880,13 @@ module.exports = grammar({
     // 3.6 PRAGMAS
     //
     pragma_declaration: ($) =>
-      choice(
-        seq($.pragma_expression, ";"),
-        seq($.pragma_expression, $._declaration),
-        seq($.pragma_expression, "{", repeat($._declaration), "}"),
+      seq(
+        repeat($._attribute), // how is this useful for pragma?
+        choice(
+          seq($.pragma_expression, ";"),
+          seq($.pragma_expression, $._declaration),
+          seq($.pragma_expression, "{", repeat($._declaration), "}"),
+        ),
       ),
 
     pragma_statement: ($) =>
@@ -1631,46 +1649,52 @@ module.exports = grammar({
      */
 
     struct_declaration: ($) =>
-      choice(
-        seq($.struct, $.aggregate_body), // anonymous struct
-        seq($.struct, $.identifier, ";"),
-        seq($.struct, $.identifier, $.aggregate_body),
-        seq(
-          $.struct,
-          $.identifier,
-          $.template_parameters,
-          optional($.constraint),
-          ";",
-        ),
-        seq(
-          $.struct,
-          $.identifier,
-          $.template_parameters,
-          optional($.constraint),
-          $.aggregate_body,
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.struct, $.aggregate_body), // anonymous struct
+          seq($.struct, $.identifier, ";"),
+          seq($.struct, $.identifier, $.aggregate_body),
+          seq(
+            $.struct,
+            $.identifier,
+            $.template_parameters,
+            optional($.constraint),
+            ";",
+          ),
+          seq(
+            $.struct,
+            $.identifier,
+            $.template_parameters,
+            optional($.constraint),
+            $.aggregate_body,
+          ),
         ),
       ),
 
     // AnonStructDeclaration inlined above
 
     union_declaration: ($) =>
-      choice(
-        seq($.union, $.aggregate_body), // anonymous union
-        seq($.union, $.identifier, ";"),
-        seq($.union, $.identifier, $.aggregate_body),
-        seq(
-          $.union,
-          $.identifier,
-          $.template_parameters,
-          optional($.constraint),
-          ";",
-        ),
-        seq(
-          $.union,
-          $.identifier,
-          $.template_parameters,
-          optional($.constraint),
-          $.aggregate_body,
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.union, $.aggregate_body), // anonymous union
+          seq($.union, $.identifier, ";"),
+          seq($.union, $.identifier, $.aggregate_body),
+          seq(
+            $.union,
+            $.identifier,
+            $.template_parameters,
+            optional($.constraint),
+            ";",
+          ),
+          seq(
+            $.union,
+            $.identifier,
+            $.template_parameters,
+            optional($.constraint),
+            $.aggregate_body,
+          ),
         ),
       ),
 
@@ -1696,6 +1720,7 @@ module.exports = grammar({
     //
     postblit: ($) =>
       seq(
+        repeat($._attribute),
         $.this,
         "(",
         $.this,
@@ -1708,10 +1733,13 @@ module.exports = grammar({
     // Invariant
     //
     invariant_declaration: ($) =>
-      choice(
-        seq($.invariant, "(", ")", $.block_statement),
-        seq($.invariant, $.block_statement),
-        seq($.invariant, "(", $.assert_arguments, ")", ";"),
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.invariant, "(", ")", $.block_statement),
+          seq($.invariant, $.block_statement),
+          seq($.invariant, "(", $.assert_arguments, ")", ";"),
+        ),
       ),
 
     /**************************************************
@@ -1721,35 +1749,38 @@ module.exports = grammar({
      */
 
     class_declaration: ($) =>
-      choice(
-        seq($.class, $.identifier, optional($.template_parameters), ";"),
-        seq($.class, $.identifier, $.aggregate_body),
-        seq($.class, $.identifier, ":", $._base_class_list, $.aggregate_body),
-        seq(
-          $.class,
-          $.identifier,
-          $.template_parameters,
-          optional($.constraint),
-          $.aggregate_body,
-        ),
-        seq(
-          $.class,
-          $.identifier,
-          $.template_parameters,
-          optional($.constraint),
-          ":",
-          $._base_class_list,
-          optional($.constraint),
-          $.aggregate_body,
-        ),
-        seq(
-          $.class,
-          $.identifier,
-          $.template_parameters,
-          ":",
-          $._base_class_list,
-          $.constraint,
-          $.aggregate_body,
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.class, $.identifier, optional($.template_parameters), ";"),
+          seq($.class, $.identifier, $.aggregate_body),
+          seq($.class, $.identifier, ":", $._base_class_list, $.aggregate_body),
+          seq(
+            $.class,
+            $.identifier,
+            $.template_parameters,
+            optional($.constraint),
+            $.aggregate_body,
+          ),
+          seq(
+            $.class,
+            $.identifier,
+            $.template_parameters,
+            optional($.constraint),
+            ":",
+            $._base_class_list,
+            optional($.constraint),
+            $.aggregate_body,
+          ),
+          seq(
+            $.class,
+            $.identifier,
+            $.template_parameters,
+            ":",
+            $._base_class_list,
+            $.constraint,
+            $.aggregate_body,
+          ),
         ),
       ),
 
@@ -1763,34 +1794,38 @@ module.exports = grammar({
     // instead of separate expansions.
     //
     constructor: ($) =>
-      choice(
-        seq(
-          $.this,
-          $.parameters,
-          repeat($.member_function_attribute),
-          $.function_body,
-        ),
-        seq(
-          $.this,
-          $.template_parameters,
-          $.parameters,
-          repeat($.member_function_attribute),
-          optional($.constraint),
-          $.function_body,
-        ),
-        seq(
-          optional($.shared),
-          $.static,
-          $.this,
-          "(",
-          ")",
-          repeat($.member_function_attribute),
-          $.function_body,
+      seq(
+        repeat($._attribute),
+        choice(
+          seq(
+            $.this,
+            $.parameters,
+            repeat($.member_function_attribute),
+            $.function_body,
+          ),
+          seq(
+            $.this,
+            $.template_parameters,
+            $.parameters,
+            repeat($.member_function_attribute),
+            optional($.constraint),
+            $.function_body,
+          ),
+          seq(
+            optional($.shared),
+            $.static,
+            $.this,
+            "(",
+            ")",
+            repeat($.member_function_attribute),
+            $.function_body,
+          ),
         ),
       ),
 
     destructor: ($) =>
       seq(
+        repeat($._attribute),
         optional(seq(optional($.shared), $.static)),
         "~",
         $.this,
@@ -1803,7 +1838,8 @@ module.exports = grammar({
     //
     // Alias This
     //
-    alias_this: ($) => seq($.alias, $.identifier, $.this, ";"),
+    alias_this: ($) =>
+      seq(repeat($._attribute), $.alias, $.identifier, $.this, ";"),
 
     /**************************************************
      *
@@ -1812,49 +1848,57 @@ module.exports = grammar({
      */
 
     interface_declaration: ($) =>
-      choice(
-        seq($.interface, $.identifier, ";"),
-        seq($.interface, $.identifier, $.aggregate_body),
-        seq(
-          $.interface,
-          $.identifier,
-          ":",
-          $._base_class_list,
-          $.aggregate_body,
-        ),
-        seq($.interface, $.identifier, $.template_parameters, $.aggregate_body),
-        seq(
-          $.interface,
-          $.identifier,
-          $.template_parameters,
-          ":",
-          $._base_class_list,
-          $.aggregate_body,
-        ),
-        seq(
-          $.interface,
-          $.identifier,
-          $.template_parameters,
-          ":",
-          $._base_class_list,
-          $.constraint,
-          $.aggregate_body,
-        ),
-        seq(
-          $.interface,
-          $.identifier,
-          $.template_parameters,
-          $.constraint,
-          $.aggregate_body,
-        ),
-        seq(
-          $.interface,
-          $.identifier,
-          $.template_parameters,
-          $.constraint,
-          ":",
-          $._base_class_list,
-          $.aggregate_body,
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.interface, $.identifier, ";"),
+          seq($.interface, $.identifier, $.aggregate_body),
+          seq(
+            $.interface,
+            $.identifier,
+            ":",
+            $._base_class_list,
+            $.aggregate_body,
+          ),
+          seq(
+            $.interface,
+            $.identifier,
+            $.template_parameters,
+            $.aggregate_body,
+          ),
+          seq(
+            $.interface,
+            $.identifier,
+            $.template_parameters,
+            ":",
+            $._base_class_list,
+            $.aggregate_body,
+          ),
+          seq(
+            $.interface,
+            $.identifier,
+            $.template_parameters,
+            ":",
+            $._base_class_list,
+            $.constraint,
+            $.aggregate_body,
+          ),
+          seq(
+            $.interface,
+            $.identifier,
+            $.template_parameters,
+            $.constraint,
+            $.aggregate_body,
+          ),
+          seq(
+            $.interface,
+            $.identifier,
+            $.template_parameters,
+            $.constraint,
+            ":",
+            $._base_class_list,
+            $.aggregate_body,
+          ),
         ),
       ),
 
@@ -1865,11 +1909,14 @@ module.exports = grammar({
      */
 
     enum_declaration: ($) =>
-      choice(
-        seq($.enum, $.identifier, ";"),
-        seq($.enum, $.identifier, $._enum_body),
-        seq($.enum, $.identifier, ":", $.type, ";"),
-        seq($.enum, $.identifier, ":", $.type, $._enum_body),
+      seq(
+        repeat($._attribute),
+        choice(
+          seq($.enum, $.identifier, ";"),
+          seq($.enum, $.identifier, $._enum_body),
+          seq($.enum, $.identifier, ":", $.type, ";"),
+          seq($.enum, $.identifier, ":", $.type, $._enum_body),
+        ),
       ),
 
     _enum_body: ($) => seq("{", commaSep1Comma($.enum_member), "}"),
@@ -1886,6 +1933,7 @@ module.exports = grammar({
 
     anonymous_enum_declaration: ($) =>
       seq(
+        repeat($._attribute),
         $.enum,
         optional(seq(":", $.type)),
         "{",
@@ -1902,39 +1950,42 @@ module.exports = grammar({
      */
 
     function_declaration: ($) =>
-      prec.right(
-        choice(
-          seq(
-            $.type,
-            $.identifier,
-            $.parameters,
-            repeat($.member_function_attribute),
-            $.function_body,
-          ),
-          seq(
-            $.type,
-            $.identifier,
-            $.template_parameters,
-            $.parameters,
-            repeat($.member_function_attribute),
-            optional($.constraint),
-            $.function_body,
-          ),
-          seq(
-            repeat1($.storage_class),
-            $.identifier,
-            $.parameters,
-            repeat($.member_function_attribute),
-            $.function_body,
-          ),
-          seq(
-            repeat1($.storage_class),
-            $.identifier,
-            $.template_parameters,
-            $.parameters,
-            repeat($.member_function_attribute),
-            optional($.constraint),
-            $.function_body,
+      seq(
+        repeat($._attribute),
+        prec.right(
+          choice(
+            seq(
+              $.type,
+              $.identifier,
+              $.parameters,
+              repeat($.member_function_attribute),
+              $.function_body,
+            ),
+            seq(
+              $.type,
+              $.identifier,
+              $.template_parameters,
+              $.parameters,
+              repeat($.member_function_attribute),
+              optional($.constraint),
+              $.function_body,
+            ),
+            seq(
+              repeat1($.storage_class),
+              $.identifier,
+              $.parameters,
+              repeat($.member_function_attribute),
+              $.function_body,
+            ),
+            seq(
+              repeat1($.storage_class),
+              $.identifier,
+              $.template_parameters,
+              $.parameters,
+              repeat($.member_function_attribute),
+              optional($.constraint),
+              $.function_body,
+            ),
           ),
         ),
       ),
@@ -2094,6 +2145,7 @@ module.exports = grammar({
     //
     template_declaration: ($) =>
       seq(
+        repeat($._attribute),
         $.template,
         $.identifier,
         $.template_parameters,
@@ -2203,10 +2255,12 @@ module.exports = grammar({
      *
      */
 
-    mixin_template_declaration: ($) => seq($.mixin, $.template_declaration),
+    mixin_template_declaration: ($) =>
+      seq(repeat($._attribute), $.mixin, $.template_declaration),
 
     template_mixin: ($) =>
       seq(
+        repeat($._attribute),
         $.mixin,
         optional(seq(optional($.typeof_expression), ".")),
         sep1($._identifier_or_template_instance, "."),
@@ -2224,48 +2278,57 @@ module.exports = grammar({
     // Note: this syntax with colons is one of the more hare-brained schemes.
     // It makes one want to take the colon and punch someone in the nose with it.
     conditional_declaration: ($) =>
-      prec.right(
-        choice(
-          seq($.condition, $._declaration),
-          seq($.condition, $._declaration, $.else, ":", repeat($._declaration)),
-          seq($.condition, $._declaration, $.else, $._declaration),
-          seq(
-            $.condition,
-            $._declaration,
-            $.else,
-            "{",
-            repeat($._declaration),
-            "}",
+      seq(
+        repeat($._attribute),
+        prec.right(
+          choice(
+            seq($.condition, $._declaration),
+            seq(
+              $.condition,
+              $._declaration,
+              $.else,
+              ":",
+              repeat($._declaration),
+            ),
+            seq($.condition, $._declaration, $.else, $._declaration),
+            seq(
+              $.condition,
+              $._declaration,
+              $.else,
+              "{",
+              repeat($._declaration),
+              "}",
+            ),
+            seq($.condition, "{", repeat($._declaration), "}"),
+            seq(
+              $.condition,
+              "{",
+              repeat($._declaration),
+              "}",
+              $.else,
+              ":",
+              repeat($._declaration),
+            ),
+            seq(
+              $.condition,
+              "{",
+              repeat($._declaration),
+              "}",
+              $.else,
+              $._declaration,
+            ),
+            seq(
+              $.condition,
+              "{",
+              repeat($._declaration),
+              "}",
+              $.else,
+              "{",
+              repeat($._declaration),
+              "}",
+            ),
+            seq($.condition, ":", repeat1($._declaration)),
           ),
-          seq($.condition, "{", repeat($._declaration), "}"),
-          seq(
-            $.condition,
-            "{",
-            repeat($._declaration),
-            "}",
-            $.else,
-            ":",
-            repeat($._declaration),
-          ),
-          seq(
-            $.condition,
-            "{",
-            repeat($._declaration),
-            "}",
-            $.else,
-            $._declaration,
-          ),
-          seq(
-            $.condition,
-            "{",
-            repeat($._declaration),
-            "}",
-            $.else,
-            "{",
-            repeat($._declaration),
-            "}",
-          ),
-          seq($.condition, ":", repeat1($._declaration)),
         ),
       ),
 
@@ -2378,7 +2441,8 @@ module.exports = grammar({
      * 3.18 UNIT TESTS
      *
      */
-    unittest_declaration: ($) => seq($.unittest, $.block_statement),
+    unittest_declaration: ($) =>
+      seq(repeat($._attribute), $.unittest, $.block_statement),
   },
 
   // It is unfortunate, but many constructs in D require look-ahead
@@ -2389,7 +2453,6 @@ module.exports = grammar({
     [$.parameter_attribute, $.variadic_arguments_attribute],
     [$.parameter_attribute, $.type],
     [$.block_statement, $.aggregate_initializer],
-    [$.storage_class, $.synchronized_statement],
     [$.storage_class, $.linkage_attribute],
     [$.deprecated_attribute, $.storage_class],
     [$.type_ctor, $.variadic_arguments_attribute],

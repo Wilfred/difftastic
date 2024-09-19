@@ -191,11 +191,11 @@ enum
 --------------------------------------------------------------------------------
 
 (source_file
-  (at_attribute
-    (expression
-      (string_literal
-        (quoted_string))))
   (anonymous_enum_declaration
+    (at_attribute
+      (expression
+        (string_literal
+          (quoted_string))))
     (enum)
     (enum_member
       (identifier))

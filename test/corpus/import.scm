@@ -133,8 +133,8 @@ static import garrett = garrett.damore : what = where, when = then;
 --------------------------------------------------------------------------------
 
 (source_file
-  (static)
   (import_declaration
+    (static)
     (import)
     (imported
       (identifier)

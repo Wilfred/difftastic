@@ -513,8 +513,9 @@ void test()
     (parameters)
     (function_body
       (block_statement
-        (auto)
         (function_declaration
+          (storage_class
+            (auto))
           (storage_class
             (ref))
           (identifier)

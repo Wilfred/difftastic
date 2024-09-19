@@ -424,6 +424,10 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "alias",
           "named": true
         },
@@ -432,7 +436,43 @@
           "named": true
         },
         {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
           "named": true
         },
         {
@@ -440,11 +480,67 @@
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         },
         {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "storage_class",
+          "named": true
+        },
+        {
+          "type": "synchronized",
           "named": true
         },
         {
@@ -457,6 +553,10 @@
         },
         {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -510,7 +610,43 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
           "type": "function_literal",
+          "named": true
+        },
+        {
+          "type": "gshared",
           "named": true
         },
         {
@@ -518,7 +654,27 @@
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
           "type": "member_function_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -526,11 +682,55 @@
           "named": true
         },
         {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "storage_class",
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -545,7 +745,43 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "alias",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
           "named": true
         },
         {
@@ -553,7 +789,71 @@
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -749,7 +1049,27 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
           "type": "anonymous_enum_member",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
           "named": true
         },
         {
@@ -761,7 +1081,87 @@
           "named": true
         },
         {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -1737,11 +2137,111 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "storage_class",
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_parameters",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -3339,7 +3839,23 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "aggregate_body",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
           "named": true
         },
         {
@@ -3355,11 +3871,95 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_parameters",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -3695,7 +4295,39 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
           "type": "constraint",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
           "named": true
         },
         {
@@ -3703,11 +4335,67 @@
           "named": true
         },
         {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
           "type": "member_function_attribute",
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
           "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
           "named": true
         },
         {
@@ -3719,11 +4407,19 @@
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_parameters",
           "named": true
         },
         {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -4128,11 +4824,99 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
           "type": "function_body",
           "named": true
         },
         {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
           "type": "member_function_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
           "named": true
         },
         {
@@ -4144,7 +4928,15 @@
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -4209,6 +5001,26 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
           "type": "enum",
           "named": true
         },
@@ -4217,11 +5029,91 @@
           "named": true
         },
         {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -5444,7 +6336,39 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
           "type": "constraint",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
           "named": true
         },
         {
@@ -5452,7 +6376,15 @@
           "named": true
         },
         {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
           "named": true
         },
         {
@@ -5460,11 +6392,67 @@
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         },
         {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "storage_class",
+          "named": true
+        },
+        {
+          "type": "synchronized",
           "named": true
         },
         {
@@ -5473,6 +6461,10 @@
         },
         {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -6147,6 +7139,42 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "import",
           "named": true
         },
@@ -6156,6 +7184,70 @@
         },
         {
           "type": "imported",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -6411,7 +7503,23 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "aggregate_body",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
           "named": true
         },
         {
@@ -6423,6 +7531,26 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -6431,7 +7559,71 @@
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_parameters",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -6538,7 +7730,23 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
           "type": "assert_arguments",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
           "named": true
         },
         {
@@ -6546,7 +7754,91 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "invariant",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -7423,7 +8715,47 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
           "type": "enum",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
           "named": true
         },
         {
@@ -7431,11 +8763,71 @@
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "storage_class",
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -7815,11 +9207,111 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
           "type": "mixin_expression",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -7853,11 +9345,111 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
           "type": "mixin",
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_declaration",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -8862,7 +10454,47 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
           "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
           "named": true
         },
         {
@@ -8870,7 +10502,67 @@
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "this",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -11278,7 +12970,23 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "aggregate_body",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
           "named": true
         },
         {
@@ -11286,7 +12994,83 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
           "named": true
         },
         {
@@ -11294,7 +13078,15 @@
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_parameters",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
@@ -11962,11 +13754,107 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
           "type": "mixin",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
           "named": true
         },
         {
@@ -11975,6 +13863,10 @@
         },
         {
           "type": "template_instance",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         },
         {
@@ -13251,7 +15143,23 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "aggregate_body",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
           "named": true
         },
         {
@@ -13259,11 +15167,95 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "template_parameters",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         },
         {
@@ -13282,7 +15274,107 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
           "type": "block_statement",
+          "named": true
+        },
+        {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
+          "type": "synchronized",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         },
         {
@@ -13301,6 +15393,22 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
           "type": "bitfield_declarator",
           "named": true
         },
@@ -13309,11 +15417,95 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "storage_class",
           "named": true
         },
         {
+          "type": "synchronized",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
           "named": true
         }
       ]
