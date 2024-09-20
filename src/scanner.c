@@ -20,12 +20,13 @@
 // Second, symbols and keywords must appear with least
 // specific matches in front of more specific matches.
 enum TokenType {
-	END_FILE,
 	COMMENT,
 	DIRECTIVE, // # <to end of line>
 	L_INT,
 	L_FLOAT,
 	L_STRING, // string literal (all forms)
+	L_AFTER_EOF,
+	L_ERROR,
 };
 
 static bool
@@ -139,39 +140,6 @@ match_heredoc_string(TSLexer *lexer)
 		}
 	}
 	return (false);
-}
-
-// NB: this scans ahead aggressively, so it cannot
-// be used if other symbols start with underscore.
-// As of right now, only __EOF__ needs special lexer support.
-static bool
-match_eof(TSLexer *lexer)
-{
-	const char *want = "__EOF__";
-	int         i    = 0;
-	int         l    = strlen(want);
-	int         c;
-
-	if ((c = lexer->lookahead) != '\x1a') { // 0x1A is always EOF
-		for (i = 0; i < l; i++) {
-			if (lexer->lookahead != want[i]) {
-				return (false);
-			}
-			lexer->advance(lexer, false);
-			c = lexer->lookahead;
-		}
-		if (iswalnum(c) || (c == '_') || (c > 0x7f && !is_eol(c))) {
-			return (false);
-		}
-	}
-	// eat entire file
-	while (lexer->lookahead != 0) {
-		lexer->advance(lexer, false);
-	}
-
-	lexer->mark_end(lexer);
-	lexer->result_symbol = END_FILE;
-	return (true);
 }
 
 static bool
@@ -570,6 +538,16 @@ tree_sitter_d_external_scanner_scan(
 {
 	int  c             = lexer->lookahead;
 	bool start_of_line = lexer->get_column(lexer) == 0;
+
+	if (valid[L_AFTER_EOF] && !valid[L_ERROR]) {
+	   while (lexer->lookahead != 0) {
+			lexer->advance(lexer, true);
+		}
+		lexer->mark_end(lexer);
+		lexer->result_symbol = L_AFTER_EOF;
+		return (true);
+	}
+
 	// consume whitespace -- we also skip newlines here
 	while ((iswspace(c) || is_eol(c)) && (c)) {
 		if (is_eol(c)) {
@@ -587,11 +565,6 @@ tree_sitter_d_external_scanner_scan(
 
 	if (lexer->eof(lexer)) { // in case we had ending whitespace
 		return (false);
-	}
-
-	// either possibly __EOF__ or the special EOF character
-	if ((c == '_') || (c == '\x1A')) {
-		return (match_eof(lexer));
 	}
 
 	if (c == '.' || isdigit(c)) {

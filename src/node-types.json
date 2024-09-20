@@ -12364,6 +12364,10 @@
           "named": true
         },
         {
+          "type": "end_file",
+          "named": true
+        },
+        {
           "type": "enum_declaration",
           "named": true
         },

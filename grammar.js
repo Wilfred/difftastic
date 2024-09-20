@@ -12,20 +12,16 @@ module.exports = grammar({
   name: "d",
 
   externals: ($) => [
-    $.end_file,
     $.comment,
     $.directive,
     $.int_literal,
     $.float_literal,
     $._string,
+    $._after_eof,
+    $.error_sentinel,
   ],
 
-  extras: ($) => [
-    /[ \t\r\n\u2028\u2029]/,
-    $.comment,
-    $.directive,
-    $.end_file, // forces stop of parse
-  ],
+  extras: ($) => [/[ \t\r\n\u2028\u2029]/, $.comment, $.directive],
 
   inline: ($) => [
     $._identifier_or_template_instance,
@@ -80,6 +76,7 @@ module.exports = grammar({
       seq(
         optional(choice($._bom, $.shebang)),
         choice($.module_def, repeat($._declaration)),
+        optional(seq($.end_file, $._after_eof)),
       ),
 
     _bom: (_$) => token.immediate("\uFEFF"), // kind of like a special form of whitespace
@@ -97,6 +94,8 @@ module.exports = grammar({
 
     not_in: (_) => "!in",
     not_is: (_) => "!is",
+
+    end_file: (_) => token(seq(prec(100, choice(/\x1a/, /__EOF__/)))),
 
     //
     // Identifier

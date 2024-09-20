@@ -41,6 +41,27 @@
               }
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "end_file"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_after_eof"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -112,6 +133,31 @@
     "not_is": {
       "type": "STRING",
       "value": "!is"
+    },
+    "end_file": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PREC",
+            "value": 100,
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "\\x1a"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "__EOF__"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "identifier": {
       "type": "PATTERN",
@@ -12493,10 +12539,6 @@
     {
       "type": "SYMBOL",
       "name": "directive"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "end_file"
     }
   ],
   "conflicts": [
@@ -12734,10 +12776,6 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "end_file"
-    },
-    {
-      "type": "SYMBOL",
       "name": "comment"
     },
     {
@@ -12755,6 +12793,14 @@
     {
       "type": "SYMBOL",
       "name": "_string"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_after_eof"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "error_sentinel"
     }
   ],
   "inline": [
