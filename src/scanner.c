@@ -20,7 +20,6 @@
 // Second, symbols and keywords must appear with least
 // specific matches in front of more specific matches.
 enum TokenType {
-	COMMENT,
 	DIRECTIVE, // # <to end of line>
 	L_INT,
 	L_FLOAT,
@@ -172,99 +171,6 @@ match_directive(TSLexer *lexer, const bool *valid)
 	lexer->mark_end(lexer);
 	lexer->result_symbol = DIRECTIVE;
 	return (true);
-}
-
-static bool
-match_line_comment(TSLexer *lexer, const bool *valid)
-{
-	int c = lexer->lookahead;
-	assert(c == '/');
-	if (!valid[COMMENT]) {
-		return (false);
-	}
-	while ((!is_eol(c)) && (c)) {
-		lexer->advance(lexer, false);
-		c = lexer->lookahead;
-	}
-	lexer->mark_end(lexer);
-	lexer->result_symbol = COMMENT;
-	return (true);
-}
-
-static bool
-match_block_comment(TSLexer *lexer, const bool *valid)
-{
-	int c = lexer->lookahead;
-	assert(c == '*');
-
-	if (!valid[COMMENT]) {
-		return (false);
-	}
-	int state = 0;
-	while (c != 0) {
-		lexer->advance(lexer, false);
-		c = lexer->lookahead;
-		switch (state) {
-		case 0:
-			if (c == '*') {
-				state = 1;
-			}
-			break;
-		case 1:
-			if (c == '/') {
-				// closing comment, hurrah!
-				lexer->advance(lexer, false);
-				lexer->mark_end(lexer);
-				lexer->result_symbol = COMMENT;
-				return (true);
-			} else if (c != '*') {
-				state = 0;
-			}
-			break;
-		}
-	}
-
-	return (false); // unterminated
-}
-
-static bool
-match_nest_comment(TSLexer *lexer, const bool *valid)
-{
-	int c    = lexer->lookahead;
-	int nest = 1;
-	int prev = 0;
-	assert(c == '+');
-
-	if (!valid[COMMENT]) {
-		return (false);
-	}
-
-	while (!lexer->eof(lexer)) {
-		lexer->advance(lexer, false);
-		c = lexer->lookahead;
-		switch (prev) {
-		case '/':
-			if (c == '+') {
-				nest++;
-				c = 0;
-			}
-			break;
-		case '+':
-			if (c == '/') {
-				nest--;
-				if (nest == 0) {
-					// outtermost closing comment, hurrah!
-					lexer->advance(lexer, false);
-					lexer->mark_end(lexer);
-					lexer->result_symbol = COMMENT;
-					return (true);
-				}
-				c = 0;
-			}
-		}
-		prev = c;
-	}
-	return (false);
 }
 
 static bool
@@ -593,22 +499,6 @@ tree_sitter_d_external_scanner_scan(
 			// non-nesting deliimted string
 			return (match_delimited_string(lexer, 0, c));
 		}
-	}
-
-	if (c == '/') {
-		// can be one of three comment forms, or /, or /=
-		lexer->advance(lexer, false);
-		c = lexer->lookahead;
-		if (c == '/') {
-			return (match_line_comment(lexer, valid));
-		}
-		if (c == '*') {
-			return (match_block_comment(lexer, valid));
-		}
-		if (c == '+') {
-			return (match_nest_comment(lexer, valid));
-		}
-		return (false);
 	}
 
 	return (false);

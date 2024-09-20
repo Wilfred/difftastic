@@ -12,7 +12,6 @@ module.exports = grammar({
   name: "d",
 
   externals: ($) => [
-    $.comment,
     $.directive,
     $.int_literal,
     $.float_literal,
@@ -96,6 +95,60 @@ module.exports = grammar({
     not_is: (_) => "!is",
 
     end_file: (_) => token(seq(prec(100, choice(/\x1a/, /__EOF__/)))),
+
+    comment: (_) =>
+      token(
+        choice(
+          seq("//", /(\\+(.|\r?\n)|[^\\\n])*/),
+          seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"),
+          // nesting comments, we "only" support 5 levels of nesting
+          seq(
+            "/+",
+            repeat(
+              choice(
+                /[^+]/,
+                /\+[^\/]/,
+                seq(
+                  "/+",
+                  repeat(
+                    choice(
+                      /[^+]/,
+                      /\+[^\/]/,
+                      seq(
+                        "/+",
+                        repeat(
+                          choice(
+                            /[^+]/,
+                            /\+[^\/]/,
+                            seq(
+                              "/+",
+                              repeat(
+                                choice(
+                                  /[^+]/,
+                                  /\+[^\/]/,
+                                  seq(
+                                    "/+",
+                                    repeat(choice(/[^+]/, /\+[^\/]/)),
+                                    "+/",
+                                  ),
+                                ),
+                              ),
+                              "+/",
+                            ),
+                          ),
+                        ),
+                        "+/",
+                      ),
+                    ),
+                  ),
+                  "+/",
+                ),
+              ),
+            ),
+            "+/",
+          ),
+        ),
+      ),
 
     //
     // Identifier
@@ -1237,12 +1290,12 @@ module.exports = grammar({
         token.immediate(/"[cdw]?/),
       ),
 
-    _unescaped_string_content: ($) => token.immediate(/[^"\\]+/),
+    // _unescaped_string_content: (_) => token.immediate(/[^"\\]+/),
 
     quoted_string: ($) =>
       seq(
         '"',
-        repeat(choice($._unescaped_string_content, $.escape_sequence)),
+        repeat(choice(token.immediate(prec(1, /[^"\\]+/)), $.escape_sequence)),
         token.immediate(/"[cdw]?/),
       ),
 

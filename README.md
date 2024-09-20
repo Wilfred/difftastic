@@ -15,7 +15,8 @@ As of this writing, I believe it fully supports D 2.108.
 
 I believe this is the most accurate and complete machine readable grammar for D,
 as of this writing. In fact it might be the only one that can claim full, or
-nearly full, conformance to D 2.108.
+nearly full, conformance to D 2.108, except that a limit of 5 levels of nesting
+is provided for nesting comments (`/+ nested /+ comment +/ +/`).
 
 We have a large body of code at Weka, and that corpus was used to test and verify
 this parser. As of this writing, it passes cleanly, and I am not aware of any

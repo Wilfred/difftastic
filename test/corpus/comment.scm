@@ -52,12 +52,33 @@ Nesting comment
   (comment))
 
 ==================
-Embedded comment in string
+Embedded comments in string
 ==================
 enum x = "this // is /* not */ a // comment";
+enum y = "// is /* not */ a // comment";
+enum z = "/// is /* not */ a // comment";
+enum w = "/+ is /* not */ a // comment+/";
 ---
 
 (source_file
+  (manifest_constant
+    (enum)
+    (manifest_declarator
+      (identifier)
+      (string_literal
+        (quoted_string))))
+  (manifest_constant
+    (enum)
+    (manifest_declarator
+      (identifier)
+      (string_literal
+        (quoted_string))))
+  (manifest_constant
+    (enum)
+    (manifest_declarator
+      (identifier)
+      (string_literal
+        (quoted_string))))
   (manifest_constant
     (enum)
     (manifest_declarator
