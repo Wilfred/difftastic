@@ -18,4 +18,8 @@ int fun(void) {
 //  ^function
 //       ^type.builtin
 
+    func!int();
+//  ^function
+//       ^type.builtin
+
 }

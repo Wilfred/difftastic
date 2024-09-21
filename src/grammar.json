@@ -126,20 +126,6 @@
         "value": "\\\\&[a-zA-Z_]+;"
       }
     },
-    "not_in": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "!in"
-      }
-    },
-    "not_is": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "!is"
-      }
-    },
     "end_file": {
       "type": "TOKEN",
       "content": {
@@ -13029,6 +13015,14 @@
     {
       "type": "SYMBOL",
       "name": "_string"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "not_in"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "not_is"
     },
     {
       "type": "SYMBOL",

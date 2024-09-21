@@ -16,6 +16,8 @@ module.exports = grammar({
     $.int_literal,
     $.float_literal,
     $._string,
+    $.not_in,
+    $.not_is,
     $._after_eof,
     $.error_sentinel,
   ],
@@ -91,9 +93,6 @@ module.exports = grammar({
       ),
 
     htmlentity: ($) => token.immediate(/\\&[a-zA-Z_]+;/),
-
-    not_in: (_) => token("!in"),
-    not_is: (_) => token("!is"),
 
     end_file: (_) => token(seq(prec(100, choice(/\x1a/, /__EOF__/)))),
 
