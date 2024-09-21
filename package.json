@@ -52,6 +52,9 @@
       ],
       "injections": [
         "queries/injections.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
       ]
     }
   ]
