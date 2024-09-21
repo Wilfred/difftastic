@@ -3826,6 +3826,10 @@
         {
           "type": "escape_sequence",
           "named": true
+        },
+        {
+          "type": "htmlentity",
+          "named": true
         }
       ]
     }
@@ -7639,6 +7643,10 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "htmlentity",
           "named": true
         },
         {
@@ -11569,6 +11577,10 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "htmlentity",
           "named": true
         }
       ]
@@ -16320,6 +16332,10 @@
   },
   {
     "type": "gshared",
+    "named": true
+  },
+  {
+    "type": "htmlentity",
     "named": true
   },
   {

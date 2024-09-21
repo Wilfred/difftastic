@@ -58,7 +58,7 @@ auto c5 = '\&copy;';
       (auto))
     (identifier)
     (char_literal
-      (escape_sequence))))
+      (htmlentity))))
 
 ================================================================================
 Escaped character literals

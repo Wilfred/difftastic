@@ -24,6 +24,7 @@
 (float_literal) @value.number
 (char_literal) @value.number ; not sure what is best for this
 (special_keyword) @value.symbols
+(htmlentity) @value.entity
 (escape_sequence) @value.entity
 
 [

@@ -116,15 +116,15 @@
             "type": "PATTERN",
             "value": "\\\\U[0-9A-Fa-f]{8}"
           }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "\\\\&[a-zA-Z_]+;"
-          }
         }
       ]
+    },
+    "htmlentity": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\\&[a-zA-Z_]+;"
+      }
     },
     "not_in": {
       "type": "STRING",
@@ -6436,6 +6436,10 @@
               {
                 "type": "SYMBOL",
                 "name": "escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "htmlentity"
               }
             ]
           }
@@ -6535,6 +6539,10 @@
               {
                 "type": "SYMBOL",
                 "name": "escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "htmlentity"
               },
               {
                 "type": "SYMBOL",
@@ -6698,8 +6706,17 @@
               "value": "'"
             },
             {
-              "type": "SYMBOL",
-              "name": "escape_sequence"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "escape_sequence"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "htmlentity"
+                }
+              ]
             },
             {
               "type": "STRING",

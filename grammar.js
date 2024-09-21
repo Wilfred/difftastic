@@ -88,8 +88,9 @@ module.exports = grammar({
         token.immediate(/\\[0-7]{1,3}/),
         token.immediate(/\\u[0-9A-Fa-f]{4}/),
         token.immediate(/\\U[0-9A-Fa-f]{8}/),
-        token.immediate(/\\&[a-zA-Z_]+;/),
       ),
+
+    htmlentity: ($) => token.immediate(/\\&[a-zA-Z_]+;/),
 
     not_in: (_) => "!in",
     not_is: (_) => "!is",
@@ -1295,7 +1296,13 @@ module.exports = grammar({
     quoted_string: ($) =>
       seq(
         '"',
-        repeat(choice(token.immediate(prec(1, /[^"\\]+/)), $.escape_sequence)),
+        repeat(
+          choice(
+            token.immediate(prec(1, /[^"\\]+/)),
+            $.escape_sequence,
+            $.htmlentity,
+          ),
+        ),
         token.immediate(/"[cdw]?/),
       ),
 
@@ -1319,6 +1326,7 @@ module.exports = grammar({
             /[^"$\\]+/,
             /\$[^(]/,
             $.escape_sequence,
+            $.htmlentity,
             $.interpolated_escape,
             $.interpolation_expression,
           ),
@@ -1352,7 +1360,11 @@ module.exports = grammar({
         $.interpolated_token_string,
       ),
 
-    char_literal: ($) => choice(/'[^\\']'/, seq("'", $.escape_sequence, "'")),
+    char_literal: ($) =>
+      choice(
+        /'[^\\']'/,
+        seq("'", choice($.escape_sequence, $.htmlentity), "'"),
+      ),
 
     // NB: array_literals are a super set of associative array literals,
     // and grammatically the two are not distinguishable.
