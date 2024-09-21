@@ -92,8 +92,8 @@ module.exports = grammar({
 
     htmlentity: ($) => token.immediate(/\\&[a-zA-Z_]+;/),
 
-    not_in: (_) => "!in",
-    not_is: (_) => "!is",
+    not_in: (_) => token("!in"),
+    not_is: (_) => token("!is"),
 
     end_file: (_) => token(seq(prec(100, choice(/\x1a/, /__EOF__/)))),
 
@@ -999,6 +999,8 @@ module.exports = grammar({
       prec.left(
         choice(
           seq($._unary_expr, $.named_arguments),
+          prec(2, seq($._builtin_type, $.named_arguments)),
+          prec(1, seq($.identifier, $.named_arguments)),
           seq($.type, $.named_arguments),
         ),
       ),

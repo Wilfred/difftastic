@@ -2999,6 +2999,14 @@
           "named": true
         },
         {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "byte",
+          "named": true
+        },
+        {
           "type": "call_expression",
           "named": true
         },
@@ -3007,7 +3015,35 @@
           "named": true
         },
         {
+          "type": "cdouble",
+          "named": true
+        },
+        {
+          "type": "cent",
+          "named": true
+        },
+        {
+          "type": "cfloat",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
           "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "creal",
+          "named": true
+        },
+        {
+          "type": "cstring",
+          "named": true
+        },
+        {
+          "type": "dchar",
           "named": true
         },
         {
@@ -3019,7 +3055,19 @@
           "named": true
         },
         {
+          "type": "double",
+          "named": true
+        },
+        {
+          "type": "dstring",
+          "named": true
+        },
+        {
           "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
           "named": true
         },
         {
@@ -3035,6 +3083,14 @@
           "named": true
         },
         {
+          "type": "idouble",
+          "named": true
+        },
+        {
+          "type": "ifloat",
+          "named": true
+        },
+        {
           "type": "import_expression",
           "named": true
         },
@@ -3043,11 +3099,23 @@
           "named": true
         },
         {
+          "type": "int",
+          "named": true
+        },
+        {
           "type": "int_literal",
           "named": true
         },
         {
+          "type": "ireal",
+          "named": true
+        },
+        {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "long",
           "named": true
         },
         {
@@ -3060,6 +3128,10 @@
         },
         {
           "type": "new_expression",
+          "named": true
+        },
+        {
+          "type": "noreturn",
           "named": true
         },
         {
@@ -3079,7 +3151,27 @@
           "named": true
         },
         {
+          "type": "ptrdiff_t",
+          "named": true
+        },
+        {
+          "type": "real",
+          "named": true
+        },
+        {
+          "type": "short",
+          "named": true
+        },
+        {
+          "type": "size_t",
+          "named": true
+        },
+        {
           "type": "special_keyword",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -3123,7 +3215,35 @@
           "named": true
         },
         {
+          "type": "ubyte",
+          "named": true
+        },
+        {
+          "type": "ucent",
+          "named": true
+        },
+        {
+          "type": "uint",
+          "named": true
+        },
+        {
+          "type": "ulong",
+          "named": true
+        },
+        {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "ushort",
+          "named": true
+        },
+        {
+          "type": "wchar",
+          "named": true
+        },
+        {
+          "type": "wstring",
           "named": true
         }
       ]

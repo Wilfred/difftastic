@@ -168,8 +168,7 @@ unittest {
       (expression_statement
         (expression_list
           (call_expression
-            (type
-              (identifier))
+            (identifier)
             (named_arguments
               (named_argument
                 (expression
@@ -197,8 +196,7 @@ unittest {
       (expression_statement
         (expression_list
           (call_expression
-            (type
-              (identifier))
+            (identifier)
             (named_arguments
               (named_argument
                 (expression
@@ -228,8 +226,7 @@ unittest {
       (expression_statement
         (expression_list
           (call_expression
-            (type
-              (identifier))
+            (identifier)
             (named_arguments
               (named_argument
                 (expression
@@ -607,8 +604,7 @@ unittest {
       (expression_statement
         (expression_list
           (call_expression
-            (type
-              (identifier))
+            (identifier)
             (named_arguments
               (named_argument
                 (identifier)
@@ -631,8 +627,7 @@ unittest {
       (expression_statement
         (expression_list
           (call_expression
-            (type
-              (identifier))
+            (identifier)
             (named_arguments
               (named_argument
                 (identifier)
@@ -659,8 +654,7 @@ unittest {
       (expression_statement
         (expression_list
           (call_expression
-            (type
-              (identifier))
+            (identifier)
             (named_arguments
               (named_argument
                 (identifier)

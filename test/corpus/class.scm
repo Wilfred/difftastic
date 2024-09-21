@@ -19,8 +19,7 @@ if (isTrue(T))
       (if)
       (expression
         (call_expression
-          (type
-            (identifier))
+          (identifier)
           (named_arguments
             (named_argument
               (expression

@@ -43,7 +43,9 @@
 (function_declaration (identifier) @function)
 
 (call_expression (identifier) @function)
-(call_expression (type (identifier) @function))
+(call_expression (type (template_instance (identifier) @function)))
+(template_arguments (identifier) @variable.parameter)
+
 (named_argument (identifier) @variable.parameter)
 
 [

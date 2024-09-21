@@ -165,8 +165,7 @@ auto u1 = U(asInt: 0x3F800000);
       (auto))
     (identifier)
     (call_expression
-      (type
-        (identifier))
+      (identifier)
       (named_arguments
         (named_argument
           (identifier)
