@@ -1,5 +1,10 @@
 # Usage
 
+This page describes how to use the `difft` binary directly. See also
+the [Git](./git.html), [Mercurial](./mercurial.html) and
+[Fossil](./fossil.html) pages for instructions on how to configure
+them to use difftastic.
+
 ## File Arguments
 
 ### Diffing Files
@@ -52,38 +57,29 @@ $ difft FILE-WITH-CONFLICTS
 $ difft sample_files/conflicts.el
 ```
 
-## Language Detection
+## Configuration Options
 
-Difftastic guesses the language used based on the file extension, file
-name, and the contents of the first lines. To see the languages
-available, and the associated file names, use the `--list-languages`
-option.
+Every difftastic option can be set with a command line argument or an
+environment variable. For example, `DFT_BACKGROUND=light` is equivalent to
+`--background=light`.
+
+Environment variables are often useful when using VCS tools like git,
+because they invoke the `difft` binary directly.
+
+For a full list of configuration options, see `--help`.
 
 ```
-$ difft --list-languages
+$ difft --help
+...
+OPTIONS:
+        --background <BACKGROUND>
+            Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.
+
+            [env: DFT_BACKGROUND=]
+            [default: dark]
+            [possible values: dark, light]
+...
 ```
-
-You can override language detection for specific file globs using the
-`--override` option.
-
-```bash
-$ difft --override=GLOB:NAME FIRST-FILE SECOND-FILE
-
-# For example, treating .h files as C rather than C++:
-$ difft --override=*.h:c sample_files/preprocesor_1.h sample_files/preprocesor_2.h
-```
-
-## Options
-
-Difftastic includes a range of configuration CLI options, see `difft
---help` for the full list.
-
-Difftastic can also be configured with environment variables. These
-are also visible in `--help`.
-
-For example, `DFT_BACKGROUND=light` is equivalent to
-`--background=light`. This is useful when using VCS tools like git,
-where you are not invoking the `difft` binary directly.
 
 ## Exit Codes
 
