@@ -32,7 +32,7 @@ top-level definitions in the file being diffed.
 **Slider**: A diffing situation where there are multiple minimal diffs
 possible, due to adjacent content. It is possible to 'slide' to
 produce better results in this situation. See [the discussion in Tricky
-Cases](/tricky_cases.html#sliders-flat).
+Cases](./tricky_cases.html#sliders-flat).
 
 **Syntax node**: An item in difftastic's syntax tree structure. Either
 an atom or a list.
